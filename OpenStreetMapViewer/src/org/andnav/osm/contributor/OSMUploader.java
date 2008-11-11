@@ -22,6 +22,7 @@ import java.util.GregorianCalendar;
 
 import org.andnav.osm.contributor.util.RecordedGeoPoint;
 import org.andnav.osm.contributor.util.RecordedRouteGPXFormatter;
+import org.andnav.osm.contributor.util.Util;
 import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
@@ -39,9 +40,6 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
-	public static final int MINGEOPOINTS_FOR_OSM_CONTRIBUTION = 100;
-	public static final int MINDIAGONALMETERS_FOR_OSM_CONTRIBUTION = 300;
 	
 	public static final String API_VERSION = "0.5";
 	private static final int BUFFER_SIZE = 65535;
@@ -62,21 +60,6 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
-	public static boolean isSufficienDataForUpload(final ArrayList<RecordedGeoPoint> recordedGeoPoints){
-		if(recordedGeoPoints == null)
-			return false;
-		
-		if(recordedGeoPoints.size() < MINGEOPOINTS_FOR_OSM_CONTRIBUTION)
-			return false;
-		
-		final BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(recordedGeoPoints);
-		final int diagMeters = bb.getDiagonalLengthInMeters(); 
-		if(diagMeters < MINDIAGONALMETERS_FOR_OSM_CONTRIBUTION)
-			return false;
-		
-		return true;
-	}
 	
 	/**
 	 * Uses OSMConstants.OSM_USERNAME and OSMConstants.OSM_PASSWORD as username/password.
@@ -121,12 +104,11 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 		if(description == null || description.length() == 0) return;
 		if(tags == null || tags.length() == 0) return;
 		if(pseudoFileName == null || pseudoFileName.endsWith(".gpx")) return;
-		if(recordedGeoPoints == null) return;
-		if(recordedGeoPoints.size() > 2) return;
 
 		new Thread(new Runnable(){
 			@Override
 			public void run() {
+				if(!Util.isSufficienDataForUpload(recordedGeoPoints)) return;
 				
 				final InputStream gpxInputStream = new ByteArrayInputStream(RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes());
 				
@@ -137,13 +119,13 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 					else
 						tagsToUse = tagsToUse + " " + autoTagFormat.format(new GregorianCalendar().getTime());
 				
-				Log.d(DEBUGTAG, "Uploading " + pseudoFileName + " to openstreetmap.org");
+//				Log.d(DEBUGTAG, "Uploading " + pseudoFileName + " to openstreetmap.org");
 				try {
 					//String urlGpxName = URLEncoder.encode(gpxName.replaceAll("\\.;&?,/","_"), "UTF-8");
 					final String urlDesc = (description == null) ? DEFAULT_DESCRIPTION : description.replaceAll("\\.;&?,/","_");
 					final String urlTags = (tagsToUse == null) ? DEFAULT_TAGS : tagsToUse.replaceAll("\\\\.;&?,/","_");
 					final URL url = new URL("http://www.openstreetmap.org/api/" + API_VERSION + "/gpx/create");
-					Log.d(DEBUGTAG, "Destination Url: " + url);
+//					Log.d(DEBUGTAG, "Destination Url: " + url);
 					final HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					con.setConnectTimeout(15000);
 					con.setRequestMethod("POST");
@@ -168,7 +150,7 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 
 					final int retCode = con.getResponseCode();
 					String retMsg = con.getResponseMessage();
-					Log.d(DEBUGTAG, "\nreturn code: "+retCode + " " + retMsg);
+//					Log.d(DEBUGTAG, "\nreturn code: "+retCode + " " + retMsg);
 					if (retCode != 200) {
 						// Look for a detailed error message from the server
 						if (con.getHeaderField("Error") != null)
@@ -179,7 +161,7 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 					out.close();
 					con.disconnect();
 				} catch(Exception e) {
-					Log.e(DEBUGTAG, "OSMUpload Error", e);
+//					Log.e(DEBUGTAG, "OSMUpload Error", e);
 				}
 			}
 			
@@ -207,7 +189,7 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 		int read;
 		int sumread = 0;
 		final InputStream in = new BufferedInputStream(gpxInputStream);
-		Log.d(DEBUGTAG, "Transferring data to server");
+//		Log.d(DEBUGTAG, "Transferring data to server");
 		while((read = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, read);
 			out.flush();
