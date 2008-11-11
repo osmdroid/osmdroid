@@ -1,0 +1,1 @@
+Place upload.php and the data-folder to the server and protect the data folder with a password! (Otherwise malicious code can be executed!)
