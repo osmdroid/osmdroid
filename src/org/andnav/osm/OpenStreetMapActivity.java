@@ -102,11 +102,7 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 		getLocationManager().removeUpdates(mLocationListener);
 		
 		if(this.mDoGPSRecordingAndContributing){
-			try {
-				OSMUploader.uploadAsync(this.mRouteRecorder.getRecordedGeoPoints());
-			} catch (IOException e) {
-				Log.e(DEBUGTAG, "Error uploading route to openstreemaps.", e);
-			}
+			OSMUploader.uploadAsync(this.mRouteRecorder.getRecordedGeoPoints());
 		}
 	}
 
@@ -130,11 +126,7 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 			return;
 		
 		if(pContributdeCurrentRoute){
-			try {
-				OSMUploader.uploadAsync(this.mRouteRecorder.getRecordedGeoPoints());
-			} catch (IOException e) {
-				Log.e(DEBUGTAG, "Error uploading route to openstreemaps.", e);
-			}
+			OSMUploader.uploadAsync(this.mRouteRecorder.getRecordedGeoPoints());
 		}
 			
 		this.mRouteRecorder = null;

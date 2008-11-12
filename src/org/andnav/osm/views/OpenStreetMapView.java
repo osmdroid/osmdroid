@@ -198,43 +198,49 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	public double getLatitudeSpan() {
-		return this.getVisibleBoundingBoxE6().getLongitudeSpanE6() / 1E6;
+		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;
 	}
 
 	public int getLatitudeSpanE6() {
-		return this.getVisibleBoundingBoxE6().getLatitudeSpanE6();
+		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();
 	}
 
 	public double getLongitudeSpan() {
-		return this.getVisibleBoundingBoxE6().getLatitudeSpanE6() / 1E6;
+		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6() / 1E6;
 	}
 
 	public int getLongitudeSpanE6() {
-		return this.getVisibleBoundingBoxE6().getLatitudeSpanE6();
+		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();
 	}
 
+	public BoundingBoxE6 getDrawnBoundingBoxE6() {
+		return getBoundingBox(this.getWidth(), this.getHeight());
+	}
+	
 	public BoundingBoxE6 getVisibleBoundingBoxE6() {
-		/*
-		 * Get the center MapTile which is above this.mLatitudeE6 and
-		 * this.mLongitudeE6 .
-		 */
-		final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(this.mLatitudeE6,
-				this.mLongitudeE6, this.mZoomLevel, null);
-
-		final BoundingBoxE6 tmp = Util.getBoundingBoxFromMapTile(centerMapTileCoords,
-				this.mZoomLevel);
-
-		final int viewWidth = this.getWidth();
-		final int viewHeight = this.getHeight();
-
-		final int mLatitudeSpan_2 = (int) (1.0f * tmp.getLatitudeSpanE6() * viewHeight / this.mRendererInfo.MAPTILE_SIZEPX) / 2;
-		final int mLongitudeSpan_2 = (int) (1.0f * tmp.getLongitudeSpanE6() * viewWidth / this.mRendererInfo.MAPTILE_SIZEPX) / 2;
-
+//		final ViewParent parent = this.getParent();
+//		if(parent instanceof RotateView){
+//			final RotateView par = (RotateView)parent;
+//			return getBoundingBox(par.getMeasuredWidth(), par.getMeasuredHeight());
+//		}else{
+			return getBoundingBox(this.getWidth(), this.getHeight());
+//		}
+	}
+	
+	private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight){	
+		/* Get the center MapTile which is above this.mLatitudeE6 and this.mLongitudeE6 .*/
+		final int[] centerMapTileCoords = Util.getMapTileFromCoordinates(this.mLatitudeE6, this.mLongitudeE6, this.mZoomLevel, null);
+		
+		final BoundingBoxE6 tmp = Util.getBoundingBoxFromMapTile(centerMapTileCoords, this.mZoomLevel);
+		
+		final int mLatitudeSpan_2 = (int)(1.0f * tmp.getLatitudeSpanE6() * pViewHeight / this.mRendererInfo.MAPTILE_SIZEPX) / 2; 
+		final int mLongitudeSpan_2 = (int)(1.0f * tmp.getLongitudeSpanE6() * pViewWidth / this.mRendererInfo.MAPTILE_SIZEPX) / 2;
+		
 		final int north = this.mLatitudeE6 + mLatitudeSpan_2;
 		final int south = this.mLatitudeE6 - mLatitudeSpan_2;
 		final int west = this.mLongitudeE6 - mLongitudeSpan_2;
 		final int east = this.mLongitudeE6 + mLongitudeSpan_2;
-
+		
 		return new BoundingBoxE6(north, east, south, west);
 	}
 
@@ -602,7 +608,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(
 					centerMapTileCoords, tileSizePx, null);
 
-			bb = OpenStreetMapView.this.getVisibleBoundingBoxE6();
+			bb = OpenStreetMapView.this.getDrawnBoundingBoxE6();
 		}
 
 		/**
