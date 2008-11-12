@@ -68,7 +68,7 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 	 * @param gpxInputStream the InputStream containing the gpx-data.
 	 * @throws IOException
 	 */
-	public static void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints) throws IOException{
+	public static void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
 		uploadAsync( DEFAULT_DESCRIPTION, DEFAULT_TAGS, true, recordedGeoPoints);
 	}
 	
@@ -82,7 +82,7 @@ public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContrib
 	 * @param gpxInputStreaman the InputStream containing the gpx-data.
 	 * @throws IOException
 	 */	
-	public static void uploadAsync(final String description, final String tags, final boolean addDateTags, final ArrayList<RecordedGeoPoint> recordedGeoPoints) throws IOException{
+	public static void uploadAsync(final String description, final String tags, final boolean addDateTags, final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
 		uploadAsync(OSM_USERNAME, OSM_PASSWORD, description, tags, addDateTags, recordedGeoPoints, pseudoFileNameFormat.format(new GregorianCalendar().getTime()) + "_" + OSM_USERNAME + ".gpx");
 	}
 

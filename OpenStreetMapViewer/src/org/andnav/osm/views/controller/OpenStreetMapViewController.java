@@ -52,6 +52,10 @@ public class OpenStreetMapViewController {
 	// Methods
 	// ===========================================================
 	
+	public void zoomToSpan(BoundingBoxE6 bb) {
+		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
+	}
+	
 	public void zoomToSpan(final int reqLatSpan, final int reqLonSpan) {
 		if(reqLatSpan <= 0 || reqLonSpan <= 0 )
 			return;
@@ -70,7 +74,7 @@ public class OpenStreetMapViewController {
 		if(diffNeeded > 1){ // Zoom Out
 			this.mOsmv.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
 		}else if(diffNeeded < 0.5){ // Can Zoom in
-			this.mOsmv.setZoomLevel(curZoomLevel + MyMath.getNextSquareNumberAbove(1 / diffNeeded) + 1);
+			this.mOsmv.setZoomLevel(curZoomLevel + MyMath.getNextSquareNumberAbove(1 / diffNeeded) - 1);
 		}
 	}
 	

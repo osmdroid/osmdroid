@@ -25,7 +25,7 @@ public class GpxToPHPUploader {
 	
 	protected static final String UPLOADSCRIPT_URL = "http://www.PLACEYOURDOMAINHERE.com/anyfolder/gpxuploader/upload.php";
 
-	public void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints){
+	public static void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints){
 		new Thread(new Runnable(){
 			@Override
 			public void run() {
