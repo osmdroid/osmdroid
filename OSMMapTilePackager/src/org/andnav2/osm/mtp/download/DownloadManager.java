@@ -72,6 +72,7 @@ public class DownloadManager {
 	}
 	
 	public void waitFinished() throws InterruptedException {
+		waitEmpty();
 		this.mThreadPool.shutdown();
 		this.mThreadPool.awaitTermination(6, TimeUnit.HOURS);
 	}

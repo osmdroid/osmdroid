@@ -1,0 +1,8 @@
+Germany, Mapnik, MaxZoom=12, for AndNav2
+	-u http://b.tile.openstreetmap.org/%d/%d/%d.png -t D:\tmp\mapnik -d D:\tmp\de_mapnik_12.zip -zmax 12 -n 54.9174 -s 47.281101 -e 15.03805 -w 5.869443 -fa .andnav
+	
+France, Mapnik, MaxZoom=12, for AndNav2
+	-u http://b.tile.openstreetmap.org/%d/%d/%d.png -t D:\tmp\mapnik -d D:\tmp\fr_mapnik_12.zip -zmax 12 -n 51.091099 -s 41.366379 -e 9.543055 -w -4.790556 -fa .andnav
+	
+USA, Mapnik, MaxZoom=11, for AndNav2
+	-u http://b.tile.openstreetmap.org/%d/%d/%d.png -t D:\tmp\mapnik -d D:\tmp\de_mapnik_12.zip -zmax 12 -n 71.406647 -s 18.536892 -e -48.466812 -w -178.214203 -fa .andnav
