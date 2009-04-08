@@ -16,6 +16,8 @@ public class OSMMapTilePackager {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	
+	private static boolean FORCE = false;
 
 	// ===========================================================
 	// Fields
@@ -29,7 +31,8 @@ public class OSMMapTilePackager {
 		if(args == null || args.length == 0)
 			printUsageAndExit();		
 
-		/* PArsing will only start if this variable was set. */
+		/* Parsing will only start if this variable was set. */
+		FORCE = false;
 		String serverURL = null;
 		String destinationFile = null;
 		String tempFolder = null;
@@ -48,6 +51,14 @@ public class OSMMapTilePackager {
 						printUsageAndExit();
 					}else{
 						serverURL = args[i+1];
+					}
+				}else if(args[i].equals("-force")){
+					i--;
+					if(i >= args.length){
+						printUsageAndExit();
+					}else{
+						FORCE  = true;
+						
 					}
 				}else if(args[i].equals("-d")){
 					if(i >= args.length){
@@ -148,7 +159,7 @@ public class OSMMapTilePackager {
 			System.out.println(" done.");
 		}else{
 			System.out.println(" FAIL!");
-			abortIfUserIsNotSure("Reason: Actual files:" + actualFileCount + "    Expected: " + pExpectedFileCount + ".");
+			abortIfUserIsNotSure("Reason: Actual files:" + actualFileCount + "    Expected: " + pExpectedFileCount + ". Proceed?");
 		}	
 	}
 
@@ -254,6 +265,9 @@ public class OSMMapTilePackager {
 	}
 
 	private static void abortIfUserIsNotSure(final String message) {
+		if(FORCE)
+			return;
+		
 		System.out.println(message);
 		System.out.print("Are you sure? [Y/N] ?: ");
 		try{
