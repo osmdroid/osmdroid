@@ -88,7 +88,6 @@ public class BatchExecutorGUI extends JFrame {
 		this.mTxtBatchItems.setEnabled(true);
 	}
 
-
 	private void incrementProgress() {
 		synchronized (this) {
 			this.mProgress++;

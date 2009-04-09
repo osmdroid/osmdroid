@@ -17,6 +17,7 @@ public class OSMMapTilePackager {
 	// Constants
 	// ===========================================================
 	
+	private static final int THREADCOUNT_DEFAULT = 2;
 	private static boolean FORCE = false;
 
 	// ===========================================================
@@ -43,6 +44,7 @@ public class OSMMapTilePackager {
 		Double west = null;
 		Integer maxzoom = null;
 		int minzoom = 0;
+		int threadCount = THREADCOUNT_DEFAULT;
 
 		try{
 			for (int i = 0; i < args.length; i += 2) {
@@ -58,7 +60,6 @@ public class OSMMapTilePackager {
 						printUsageAndExit();
 					}else{
 						FORCE  = true;
-						
 					}
 				}else if(args[i].equals("-d")){
 					if(i >= args.length){
@@ -71,6 +72,12 @@ public class OSMMapTilePackager {
 						printUsageAndExit();
 					}else{
 						fileAppendix = args[i+1];
+					}
+				}else if(args[i].equals("-nthreads")){
+					if(i >= args.length){
+						printUsageAndExit();
+					}else{
+						threadCount = Integer.parseInt(args[i+1]);
 					}
 				}else if(args[i].equals("-zmin")){
 					if(i >= args.length){
@@ -126,15 +133,15 @@ public class OSMMapTilePackager {
 		if(north == null || south == null || east == null || west == null)
 			printUsageAndExit();
 
-		run(serverURL, destinationFile, tempFolder, fileAppendix, minzoom, maxzoom, north, south, east, west);
+		run(serverURL, destinationFile, tempFolder, threadCount, fileAppendix, minzoom, maxzoom, north, south, east, west);
 	}
 
-	private static void run(final String pServerURL, final String pDestinationFile, final String pTempFolder, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
+	private static void run(final String pServerURL, final String pDestinationFile, final String pTempFolder, final int pThreadCount, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
 		System.out.println("---------------------------");
 		final int expectedFileCount = runFileExpecter(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
 		
 		System.out.println("---------------------------");
-		runDownloading(pServerURL, pTempFolder, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
+		runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
 		
 		System.out.println("---------------------------");
 		runFileExistenceChecker(expectedFileCount, pTempFolder, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
@@ -166,14 +173,16 @@ public class OSMMapTilePackager {
 	private static void printUsageAndExit() {
 		System.out.println("Usage:\n" +
 				"-u\t[OSM-style tile URL: http://_URL_/%d/%d/%d.png]\n" +
+				"-t\t[Temporary Folder]\n" +
 				"-d\t[Destination-file: C:\\mappack.zip]\n" +
-				"-zmin\t[Minimum zoomLevel to download]\n" +
+				"-zmin\t[Minimum zoomLevel to download. Default: 0]\n" +
 				"-zmax\t[Maximum zoomLevel to download]\n" +
-				"-fa\t[Filename-Appendix]" +
+				"-fa\t[Filename-Appendix. Default: \"\"]" +
 				"-n\t[North Latitude]\n" +
 				"-s\t[South Latitude]\n" +
 				"-e\t[East Longitude]\n" +
-				"-w\t[West Longitude]\n"
+				"-w\t[West Longitude]\n" +
+				"-nthreads\t[Number of Download-Threads. Default: 2]\n"
 		);
 		System.exit(0);
 	}
@@ -209,7 +218,7 @@ public class OSMMapTilePackager {
 		System.out.println(" done.");
 	}
 
-	private static void runDownloading(final String pBaseURL, final String pTempFolder, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
+	private static void runDownloading(final String pBaseURL, final String pTempFolder, final int pThreadCount, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
 		final String pTempBaseURL = pTempFolder 
 		+ File.separator + "%d"
 		+ File.separator + "%d"
@@ -218,7 +227,7 @@ public class OSMMapTilePackager {
 		+ pFileAppendix
 		.replace(File.separator + File.separator, File.separator);
 
-		final DownloadManager dm = new DownloadManager(pBaseURL, pTempBaseURL);
+		final DownloadManager dm = new DownloadManager(pBaseURL, pTempBaseURL, pThreadCount);
 
 		/* For each zoomLevel. */
 		for(int z = pMinZoom; z <= pMaxZoom; z++){

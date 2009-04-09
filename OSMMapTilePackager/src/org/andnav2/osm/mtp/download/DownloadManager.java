@@ -27,9 +27,9 @@ public class DownloadManager {
 	// Fields
 	// ===========================================================
 	
-	final ExecutorService mThreadPool = Executors.newFixedThreadPool(10);
+	private final ExecutorService mThreadPool;
 	
-	final Queue<OSMTileInfo> mQueue = new LinkedBlockingQueue<OSMTileInfo>();
+	private final Queue<OSMTileInfo> mQueue = new LinkedBlockingQueue<OSMTileInfo>();
 
 	private String mBaseURL;
 	private String mDestinationURL;
@@ -38,9 +38,10 @@ public class DownloadManager {
 	// Constructors
 	// ===========================================================
 	
-	public DownloadManager(final String pBaseURL, final String pDestinationURL) {
+	public DownloadManager(final String pBaseURL, final String pDestinationURL, final int mThreads) {
 		this.mBaseURL = pBaseURL;
 		this.mDestinationURL = pDestinationURL;
+		this.mThreadPool = Executors.newFixedThreadPool(mThreads);
 	}
 
 	// ===========================================================
