@@ -1,8 +1,6 @@
 // Created by plusminus on 00:14:42 - 02.10.2008
 package org.andnav.osm;
 
-import java.io.IOException;
-
 import org.andnav.osm.contributor.OSMUploader;
 import org.andnav.osm.contributor.RouteRecorder;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
@@ -13,7 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 /**
  * Baseclass for Activities who want to contribute to the OpenStreetMap Project.

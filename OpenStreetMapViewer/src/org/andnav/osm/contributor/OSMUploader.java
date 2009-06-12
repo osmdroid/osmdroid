@@ -24,10 +24,7 @@ import org.andnav.osm.contributor.util.RecordedGeoPoint;
 import org.andnav.osm.contributor.util.RecordedRouteGPXFormatter;
 import org.andnav.osm.contributor.util.Util;
 import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
-import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
-
-import android.util.Log;
 
 
 /**
