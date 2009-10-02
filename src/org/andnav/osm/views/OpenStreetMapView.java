@@ -279,6 +279,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		this.postInvalidate();
 	}
 
+	public OpenStreetMapRendererInfo getRenderer() {
+		return this.mRendererInfo;
+	}
+	
 	public void setRenderer(final OpenStreetMapRendererInfo aRenderer) {
 		this.mRendererInfo = aRenderer;
 		this.setZoomLevel(this.mZoomLevel); // Invalidates the map and zooms to
@@ -708,20 +712,20 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			return out;
 		}
 
-		public Path toPixels(final List<GeoPoint> in, final Path reuse) {
+		public Path toPixels(final List<? extends GeoPoint> in, final Path reuse) {
 			return toPixels(in, reuse, true);
 		}
 
-		protected Path toPixels(final List<GeoPoint> in, final Path reuse, final boolean doGudermann)
+		protected Path toPixels(final List<? extends GeoPoint> in, final Path reuse, final boolean doGudermann)
 				throws IllegalArgumentException {
 			if (in.size() < 2)
 				throw new IllegalArgumentException("List of GeoPoints needs to be at least 2.");
 
 			final Path out = (reuse != null) ? reuse : new Path();
+			out.incReserve(in.size());
 
-			int i = 0;
+			boolean first = true;
 			for (GeoPoint gp : in) {
-				i++;
 				final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(gp
 						.getLatitudeE6(), gp.getLongitudeE6(), zoomLevel, null);
 
@@ -757,12 +761,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 						+ (int) (relativePositionInCenterMapTile[MAPTILE_LATITUDE_INDEX] * tileSizePx);
 
 				/* Add up the offset caused by touch. */
-				if (i == 0)
+				if (first)
 					out.moveTo(x + OpenStreetMapView.this.mTouchMapOffsetX, y
 							+ OpenStreetMapView.this.mTouchMapOffsetY);
 				else
 					out.lineTo(x + OpenStreetMapView.this.mTouchMapOffsetX, y
 							+ OpenStreetMapView.this.mTouchMapOffsetY);
+				first = false;
 			}
 
 			return out;
