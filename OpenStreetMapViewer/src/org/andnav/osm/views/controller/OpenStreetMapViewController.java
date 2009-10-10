@@ -10,7 +10,7 @@ import org.andnav.osm.views.util.constants.MathConstants;
 /**
  * 
  * @author Nicolas Gramlich
- *
+ * TODO use same interface as google maps controller
  */
 public class OpenStreetMapViewController {
 	// ===========================================================

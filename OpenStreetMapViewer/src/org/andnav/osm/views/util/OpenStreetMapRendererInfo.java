@@ -9,30 +9,31 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
  *
  */
 public enum OpenStreetMapRendererInfo {
-	OSMARENDER("http://tah.openstreetmap.org/Tiles/tile/", "OsmaRender", ".png", 17, 256),
-	MAPNIK("http://tile.openstreetmap.org/", "Mapnik", ".png", 18, 256),
-	CYCLEMAP("http://b.andy.sandbox.cloudmade.com/tiles/cycle/", "Cycle Map", ".png", 17, 256),
-	OPENARIELMAP("http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/", "OpenArialMap (Satellite)", ".jpg", 13, 256),
-	CLOUDMADESMALLTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/", "Cloudmade (Small tiles)", ".jpg", 13, 64),
-	CLOUDMADESTANDARDTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/", "Cloudmade (Standard tiles)", ".jpg", 18, 256);
+	OSMARENDER("http://tah.openstreetmap.org/Tiles/tile/", "OsmaRender", ".png", 17, 8),
+	MAPNIK("http://tile.openstreetmap.org/", "Mapnik", ".png", 18, 8),
+	CYCLEMAP("http://b.andy.sandbox.cloudmade.com/tiles/cycle/", "Cycle Map", ".png", 17, 8),
+	OPENARIELMAP("http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/", "OpenArialMap (Satellite)", ".jpg", 13, 8),
+	CLOUDMADESMALLTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/", "Cloudmade (Small tiles)", ".jpg", 13, 6),
+	CLOUDMADESTANDARDTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/", "Cloudmade (Standard tiles)", ".jpg", 18, 8);
 	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
 	public final String BASEURL, NAME, IMAGE_FILENAMEENDING;
-	public final int ZOOM_MAXLEVEL, MAPTILE_SIZEPX;
+	public final int ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;
 	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	private OpenStreetMapRendererInfo(final String aBaseUrl, final String aName, final String aImageFilenameEnding, final int aZoomMax, final int aTileSizePX){
+	private OpenStreetMapRendererInfo(final String aBaseUrl, final String aName, final String aImageFilenameEnding, final int aZoomMax, final int aTileZoom){
 		this.BASEURL = aBaseUrl;
 		this.NAME = aName;
 		this.ZOOM_MAXLEVEL = aZoomMax;
 		this.IMAGE_FILENAMEENDING = aImageFilenameEnding;
-		this.MAPTILE_SIZEPX = aTileSizePX;
+		this.MAPTILE_ZOOM = aTileZoom;
+		this.MAPTILE_SIZEPX = 1<<aTileZoom;
 	}
 	
 	public static OpenStreetMapRendererInfo getDefault() {

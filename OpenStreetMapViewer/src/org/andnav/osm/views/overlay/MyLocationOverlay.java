@@ -8,7 +8,6 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.TypeConverter;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.views.controller.OpenStreetMapViewController;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -116,10 +115,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	@Override
 	public void onLocationChanged(Location location) {
 		mLocation = location;
-		mMapView.getController().animateTo(TypeConverter.locationToGeoPoint(location),
-				OpenStreetMapViewController.AnimationType.HALFCOSINUSALDECELERATING,
-				OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT,
-				OpenStreetMapViewController.ANIMATION_DURATION_LONG);
+		mMapView.setMapCenter(location.getLatitude(), location.getLongitude());
 	}
 	
 	@Override
@@ -155,15 +151,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	}
 	
 	public boolean enableMyLocation() {
-		Criteria crit = new Criteria();
-		crit.setAccuracy(Criteria.ACCURACY_FINE);
-		
-		String provider = getLocationManager().getBestProvider(crit, true);
-		try {
-			getLocationManager().requestLocationUpdates(provider, 0, 0, this);
-		} catch(Exception e) {
-			disableMyLocation();
-			return mMyLocationEnabled = false;
+		if (!mMyLocationEnabled) {
+			Criteria crit = new Criteria();
+			crit.setAccuracy(Criteria.ACCURACY_FINE);
+			
+			String provider = getLocationManager().getBestProvider(crit, true);
+			try {
+				getLocationManager().requestLocationUpdates(provider, 0, 0, this);
+			} catch(Exception e) {
+				disableMyLocation();
+				return mMyLocationEnabled = false;
+			}
 		}
 		return mMyLocationEnabled = true;
 	}
