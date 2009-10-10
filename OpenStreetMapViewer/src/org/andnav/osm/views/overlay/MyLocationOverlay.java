@@ -16,12 +16,14 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Paint.Style;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.widget.Toast;
 
 /**
  * 
@@ -38,6 +40,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 	
 	protected final Paint mPaint = new Paint();
+	protected final Paint mCirclePaint = new Paint();
 	
 	protected final Bitmap DIRECTION_ARROW;
 	
@@ -63,6 +66,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
 		this.mCtx = ctx;
 		this.mMapView = mapView;
+		this.mCirclePaint.setARGB(0, 100, 100, 255);
+		this.mCirclePaint.setAntiAlias(true);
 		
 		this.DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
 		
@@ -103,7 +108,15 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			final Point screenCoords = new Point();
 			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), screenCoords);
+			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 			
+			this.mCirclePaint.setAlpha(50);
+			this.mCirclePaint.setStyle(Style.FILL);
+			c.drawCircle(screenCoords.x, screenCoords.y, radius, this.mCirclePaint);
+			
+			this.mCirclePaint.setAlpha(150);
+			this.mCirclePaint.setStyle(Style.STROKE);
+			c.drawCircle(screenCoords.x, screenCoords.y, radius, this.mCirclePaint);
 			
 			/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
 			this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
@@ -160,6 +173,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 				getLocationManager().requestLocationUpdates(provider, 0, 0, this);
 			} catch(Exception e) {
 				disableMyLocation();
+				Toast.makeText(this.mCtx, R.string.no_location_provider, Toast.LENGTH_LONG).show();
 				return mMyLocationEnabled = false;
 			}
 		}
