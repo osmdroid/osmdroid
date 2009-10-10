@@ -1,7 +1,6 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm;
 
-import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
@@ -11,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,7 +84,7 @@ public class OpenStreetMap extends Activity {
         
         this.setContentView(rl);
     
-    	mOsmv.setMapCenter(mPrefs.getInt("centerLat", 0), mPrefs.getInt("centerLon", 0));
+    	mOsmv.scrollTo(mPrefs.getInt("scrollX", 0), mPrefs.getInt("scrollY", 0));
     	mOsmv.setZoomLevel(mPrefs.getInt("zoomLevel", 2));
     	if(mPrefs.getBoolean("show_location", false))
     		this.mLocationOverlay.enableMyLocation();
@@ -94,10 +94,9 @@ public class OpenStreetMap extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	GeoPoint mapCenter = mOsmv.getMapCenter();
     	edit.putInt("renderer", mOsmv.getRenderer().ordinal());
-    	edit.putInt("centerLat", mapCenter.getLatitudeE6());
-    	edit.putInt("centerLon", mapCenter.getLongitudeE6());
+    	edit.putInt("scrollX", mOsmv.getScrollX());
+    	edit.putInt("scrollY", mOsmv.getScrollY());
     	edit.putInt("zoomLevel", mOsmv.getZoomLevel());
     	edit.putBoolean("show_location", mLocationOverlay.isMyLocationEnabled());
     	edit.commit();
@@ -109,10 +108,9 @@ public class OpenStreetMap extends Activity {
     	zoomController.setVisible(false);
     	
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	GeoPoint mapCenter = mOsmv.getMapCenter();
     	edit.putInt("renderer", mOsmv.getRenderer().ordinal());
-    	edit.putInt("centerLat", mapCenter.getLatitudeE6());
-    	edit.putInt("centerLon", mapCenter.getLongitudeE6());
+    	edit.putInt("scrollX", mOsmv.getScrollX());
+    	edit.putInt("scrollY", mOsmv.getScrollY());
     	edit.putInt("zoomLevel", mOsmv.getZoomLevel());
     	edit.putBoolean("show_location", mLocationOverlay.isMyLocationEnabled());
     	edit.commit();
@@ -161,6 +159,9 @@ public class OpenStreetMap extends Activity {
 		switch(item.getItemId()) {
 			case MENU_MY_LOCATION:
 	    		this.mLocationOverlay.enableMyLocation();
+	    		Location lastFix = this.mLocationOverlay.getLastFix();
+	    		if (lastFix != null)
+	    			this.mOsmv.setMapCenter(lastFix.getLatitude(), lastFix.getLongitude());
 				return true;
 			
 			case MENU_MAP_MODE:
@@ -206,16 +207,21 @@ public class OpenStreetMap extends Activity {
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
+	@Override
+	public boolean onTrackballEvent(MotionEvent event) {
+		return this.mOsmv.onTrackballEvent(event);
+	}
+	
     @Override
     public boolean onTouchEvent(MotionEvent event) {
     	if(event.getAction() == MotionEvent.ACTION_UP)
     		zoomController.setVisible(true);
     	return super.onTouchEvent(event);
     }
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
     
 	// ===========================================================
 	// Inner and Anonymous Classes

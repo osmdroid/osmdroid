@@ -2,6 +2,7 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.util.BoundingBoxE6;
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 /**
@@ -34,8 +35,8 @@ public class Util implements OpenStreetMapViewConstants{
 	// Methods
 	// ===========================================================
 	
-	public static int[] getMapTileFromCoordinates(final int aLat, final int aLon, final int zoom, final int[] reuse) {
-		return getMapTileFromCoordinates(aLat / 1E6, aLon / 1E6, zoom, reuse);
+	public static int[] getMapTileFromCoordinates(final int aLatE6, final int aLonE6, final int zoom, final int[] reuse) {
+		return getMapTileFromCoordinates(aLatE6 / 1E6, aLonE6 / 1E6, zoom, reuse);
 	}
 	
 	public static int[] getMapTileFromCoordinates(final double aLat, final double aLon, final int zoom, final int[] aUseAsReturnValue) {
@@ -47,6 +48,10 @@ public class Util implements OpenStreetMapViewConstants{
 		return out;
 	}
 	
+	public static BoundingBoxE6 getBoundingBoxFromCoords(final int left, final int top, final int right, final int bottom, final int zoom) {
+		return new BoundingBoxE6(tile2lat(top, zoom), tile2lon(right, zoom), tile2lat(bottom, zoom), tile2lon(left, zoom));
+	}
+	
 	// Conversion of a MapTile to a BoudingBox
 	
 	public static BoundingBoxE6 getBoundingBoxFromMapTile(final int[] aMapTile, final int zoom) {
@@ -55,11 +60,15 @@ public class Util implements OpenStreetMapViewConstants{
 		return new BoundingBoxE6(tile2lat(y, zoom), tile2lon(x + 1, zoom), tile2lat(y + 1, zoom), tile2lon(x, zoom));
 	}
 	
-	private static double tile2lon(int x, int aZoom) {
+	public static GeoPoint getGeoPointFromPos(int x, int y, int aZoom) {
+		return new GeoPoint((int)(tile2lat(y, aZoom)*1E6), (int)(tile2lon(x, aZoom)*1E6));
+	}
+	
+	public static double tile2lon(int x, int aZoom) {
 		return (x / Math.pow(2.0, aZoom) * 360.0) - 180;
 	}
 
-	private static double tile2lat(int y, int aZoom) {
+	public static double tile2lat(int y, int aZoom) {
 		final double n = Math.PI - ((2.0 * Math.PI * y) / Math.pow(2.0, aZoom));
 		return 180.0 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
 	}
