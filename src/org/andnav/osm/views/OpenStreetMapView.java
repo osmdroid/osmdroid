@@ -637,8 +637,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		private static final int EQUATORCIRCUMFENCE = 40075004;
 
 		public float metersToEquatorPixels(final float aMeters) {
-			return aMeters / EQUATORCIRCUMFENCE
-					* OpenStreetMapView.this.mRendererInfo.MAPTILE_SIZEPX;
+			return aMeters / EQUATORCIRCUMFENCE * getWorldSizePx();
 		}
 
 		/**

@@ -4,4 +4,5 @@
 <string name="my_location">Standort</string>
 <string name="about">Über</string>
 <string name="about_message">Diese Software benutzt Kartenmaterial von OpenStreetMap.org</string>
+<string name="no_location_provider">Aktivierung einer Quelle für Mein Standort in den Systemeinstellungen erforderlich</string>
 </resources>
