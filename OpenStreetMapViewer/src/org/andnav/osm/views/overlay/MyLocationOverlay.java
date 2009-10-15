@@ -7,6 +7,7 @@ import org.andnav.osm.R;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.TypeConverter;
 import org.andnav.osm.views.OpenStreetMapView;
+import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 
 import android.content.Context;
@@ -44,7 +45,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	protected final Bitmap DIRECTION_ARROW;
 	
-	protected OpenStreetMapView mMapView;
+	protected OpenStreetMapViewController mMapController;
 	private Context mCtx;
 	private LocationManager mLocationManager;
 	private boolean mMyLocationEnabled = false;
@@ -65,7 +66,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
 		this.mCtx = ctx;
-		this.mMapView = mapView;
+		this.mMapController = mapView.getController();
 		this.mCirclePaint.setARGB(0, 100, 100, 255);
 		this.mCirclePaint.setAntiAlias(true);
 		
@@ -128,7 +129,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	@Override
 	public void onLocationChanged(Location location) {
 		mLocation = location;
-		mMapView.setMapCenter(location.getLatitude(), location.getLongitude());
+		mMapController.animateTo(new GeoPoint(location));
 	}
 	
 	@Override

@@ -36,6 +36,7 @@ public class SampleLoader extends ListActivity {
 		list.add("OSMapView with ItemizedOverlay");
 		list.add("OSMapView with ItemizedOverlayWithFocus");
 		list.add("OSMapView with Minimap and ZoomControls");
+		list.add("OSM Tracker");
 		
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
 	}
@@ -64,6 +65,9 @@ public class SampleLoader extends ListActivity {
 				break;
 			case 4:
 				this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
+				break;
+			case 5:
+				this.startActivity(new Intent(this, SampleOSMTracking.class));
 				break;
 		}
 	}

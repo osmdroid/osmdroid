@@ -113,11 +113,11 @@ public class SampleWithMinimapItemizedoverlay extends Activity{
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()){
 			case MENU_ZOOMIN_ID:
-				this.mOsmv.zoomIn();
+				this.mOsmv.getController().zoomIn();
 				return true;
 				
 			case MENU_ZOOMOUT_ID:
-				this.mOsmv.zoomOut();
+				this.mOsmv.getController().zoomOut();
 				return true;
 		}
 		return false;
