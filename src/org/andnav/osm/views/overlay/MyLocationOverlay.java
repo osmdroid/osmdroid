@@ -24,6 +24,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -52,6 +53,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	
 	protected Location mLocation;
+	protected boolean mFollow = false;	// follow location updates
 	
 	private final Matrix directionRotater = new Matrix();
 	
@@ -99,9 +101,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 	
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
-		return;
+	public boolean onTouchEvent(MotionEvent event, OpenStreetMapView mapView) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE)
+			this.mFollow = false;
+		return super.onTouchEvent(event, mapView);
 	}
+	
+	@Override
+	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {}
 	
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
@@ -129,7 +136,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	@Override
 	public void onLocationChanged(Location location) {
 		mLocation = location;
-		mMapController.animateTo(new GeoPoint(location));
+		if (mFollow)
+			mMapController.animateTo(new GeoPoint(location));
 	}
 	
 	@Override
@@ -165,6 +173,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	}
 	
 	public boolean enableMyLocation() {
+		mFollow = true;
 		if (!mMyLocationEnabled) {
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_FINE);
