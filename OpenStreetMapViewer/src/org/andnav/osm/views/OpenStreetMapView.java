@@ -27,6 +27,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.animation.Animation;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
@@ -45,6 +46,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	// ===========================================================
 
 	protected int mZoomLevel = 0;								/** Current zoom level for map tiles */
+	protected int mPlannedZoomLevel = 0;
 	protected final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
 	protected final Paint mPaint = new Paint();
@@ -427,6 +429,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		postInvalidate();
 	}
 
+	@Override
+	protected void onAnimationEnd() {
+		setZoomLevel(mPlannedZoomLevel);
+		super.onAnimationEnd();
+	}
+	
 	@Override
 	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();

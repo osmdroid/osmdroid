@@ -8,6 +8,9 @@ import org.andnav.osm.views.util.Util;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 import android.graphics.Point;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 
 /**
  * 
@@ -30,6 +33,9 @@ public class OpenStreetMapViewController {
 	// ===========================================================
 	// Fields
 	// ===========================================================
+	
+	final Animation zoomInAnim = new ScaleAnimation(1.0f, 2.0f, 1.0f, 2.0f, 0, 0);
+	final Animation zoomOutAnim = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 120, 240);
 	
 	final OpenStreetMapView mOsmv;
 	private AbstractAnimationRunner mCurrentAnimationRunner;
@@ -195,28 +201,14 @@ public class OpenStreetMapViewController {
 //						null), this.mZoomLevel + 1);
 //		this.mTileProvider.preCacheTile(nextBelowMaptileUrlString);
 
-//		Animation zoomAnim = new ScaleAnimation(1.0f, 2.0f, 1.0f, 2.0f, getWidth()/2, getHeight()/2);
-//		zoomAnim.setInterpolator(new LinearInterpolator());
-//		zoomAnim.setDuration(2000);
-//		zoomAnim.setAnimationListener(new AnimationListener() {
-//
-//			@Override
-//			public void onAnimationEnd(Animation animation) {
-//				// TODO new redraw before zoom anim ends
-//				setZoomLevel(mZoomLevel + 1);
-//			}
-//
-//			@Override
-//			public void onAnimationRepeat(Animation animation) {}
-//
-//			@Override
-//			public void onAnimationStart(Animation animation) {}
-//			
-//		});
-//		if (getAnimation() == null || getAnimation().hasEnded())
-//			startAnimation(zoomAnim);
-		final int zoomlevel = mOsmv.getZoomLevel() + 1;
-		return mOsmv.setZoomLevel(zoomlevel) == zoomlevel;
+		mOsmv.mPlannedZoomLevel = mOsmv.mZoomLevel + 1;
+		zoomInAnim.setInterpolator(new LinearInterpolator());
+		zoomInAnim.setDuration(500);
+
+		if (mOsmv.getAnimation() == null || mOsmv.getAnimation().hasEnded())
+			mOsmv.startAnimation(zoomInAnim);
+		
+		return true;
 	}
 	
 	public boolean zoomInFixing(int xPixel, int yPixel) {
@@ -228,8 +220,14 @@ public class OpenStreetMapViewController {
 	 * Zoom out by one zoom level.
 	 */
 	public boolean zoomOut() {
-		final int zoomlevel = mOsmv.getZoomLevel() - 1;
-		return mOsmv.setZoomLevel(zoomlevel) == zoomlevel;
+		mOsmv.mPlannedZoomLevel = mOsmv.mZoomLevel - 1;
+		zoomOutAnim.setInterpolator(new LinearInterpolator());
+		zoomOutAnim.setDuration(500);
+
+		if (mOsmv.getAnimation() == null || mOsmv.getAnimation().hasEnded())
+			mOsmv.startAnimation(zoomOutAnim);
+		
+		return true;
 	}
 
 	public boolean zoomOutFixing(int xPixel, int yPixel) {
