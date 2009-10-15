@@ -5,6 +5,8 @@ import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.graphics.Point;
+
 /**
  * 
  * @author Nicolas Gramlich
@@ -46,6 +48,17 @@ public class Util implements OpenStreetMapViewConstants{
 		out[MAPTILE_LONGITUDE_INDEX] = (int) Math.floor((aLon + 180) / 360 * (1 << zoom));
 
 		return out;
+	}
+	
+	public static Point getPointFromCoordinates(final GeoPoint aGeoPoint, final int aZoom, Point aUseAsReturnValue) {
+		Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
+		
+		final double aLon = aGeoPoint.getLongitudeE6()*1E-6;
+		final double aLat = aGeoPoint.getLatitudeE6()*1E-6; 
+		p.x = (int) Math.floor((aLon + 180) / 360 * (1 << aZoom));
+		p.y = (int) Math.floor((1 - Math.log(Math.tan(aLat * Math.PI / 180) + 1 / Math.cos(aLat * Math.PI / 180)) / Math.PI) / 2 * (1 << aZoom));
+		
+		return p;
 	}
 	
 	public static BoundingBoxE6 getBoundingBoxFromCoords(final int left, final int top, final int right, final int bottom, final int zoom) {

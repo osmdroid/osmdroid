@@ -1,6 +1,7 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm;
 
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
@@ -17,7 +18,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.widget.RelativeLayout;
-import android.widget.ZoomButtonsController;
 import android.widget.RelativeLayout.LayoutParams;
 
 
@@ -43,7 +43,6 @@ public class OpenStreetMap extends Activity {
 	
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
-	private ZoomButtonsController zoomController;
 	private MyLocationOverlay mLocationOverlay;
 
 	// ===========================================================
@@ -59,33 +58,14 @@ public class OpenStreetMap extends Activity {
         
         this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt("renderer", OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
         this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv);
+        this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.getOverlays().add(this.mLocationOverlay);
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        
-        
-        /* ZoomControls */
-        {
-	        zoomController = new ZoomButtonsController(mOsmv);	        
-	        zoomController.setOnZoomListener(new ZoomButtonsController.OnZoomListener() {
-	        	@Override
-	        	public void onZoom(boolean zoomIn) {
-	        		if(zoomIn)
-						OpenStreetMap.this.mOsmv.zoomIn();
-	        		else
-						OpenStreetMap.this.mOsmv.zoomOut();	        			
-	        	}
-	        	@Override
-	        	public void onVisibilityChanged(boolean visible) {}
-	        });
-	        
-	        zoomController.setZoomInEnabled(true);
-	        zoomController.setZoomOutEnabled(true);
-        }
         
         this.setContentView(rl);
     
     	mOsmv.scrollTo(mPrefs.getInt("scrollX", 0), mPrefs.getInt("scrollY", 0));
-    	mOsmv.setZoomLevel(mPrefs.getInt("zoomLevel", 2));
+    	mOsmv.getController().setZoom(mPrefs.getInt("zoomLevel", 2));
     	if(mPrefs.getBoolean("show_location", false))
     		this.mLocationOverlay.enableMyLocation();
     }
@@ -105,7 +85,6 @@ public class OpenStreetMap extends Activity {
     @Override
     protected void onPause() {
     	this.mLocationOverlay.disableMyLocation();
-    	zoomController.setVisible(false);
     	
     	SharedPreferences.Editor edit = mPrefs.edit();
     	edit.putInt("renderer", mOsmv.getRenderer().ordinal());
@@ -137,7 +116,7 @@ public class OpenStreetMap extends Activity {
 
 			for (OpenStreetMapRendererInfo renderer : OpenStreetMapRendererInfo
 					.values()) {
-				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, renderer.NAME);
+				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, getString(renderer.NAME));
 			}
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
     	}
@@ -161,7 +140,7 @@ public class OpenStreetMap extends Activity {
 	    		this.mLocationOverlay.enableMyLocation();
 	    		Location lastFix = this.mLocationOverlay.getLastFix();
 	    		if (lastFix != null)
-	    			this.mOsmv.setMapCenter(lastFix.getLatitude(), lastFix.getLongitude());
+	    			this.mOsmv.setMapCenter(new GeoPoint(lastFix));
 				return true;
 			
 			case MENU_MAP_MODE:
@@ -214,8 +193,6 @@ public class OpenStreetMap extends Activity {
 	
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	if(event.getAction() == MotionEvent.ACTION_UP)
-    		zoomController.setVisible(true);
     	return super.onTouchEvent(event);
     }
 

@@ -59,6 +59,10 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants, OpenSt
 	// Methods
 	// ===========================================================
 
+	public boolean isTileAvailable(final String aTileURLString) {
+		return this.mTileCache.containsTile(aTileURLString);
+	}
+	
 	public Bitmap getMapTile(final String aTileURLString){
 		Bitmap ret = this.mTileCache.getMapTile(aTileURLString);
 		if(ret != null){

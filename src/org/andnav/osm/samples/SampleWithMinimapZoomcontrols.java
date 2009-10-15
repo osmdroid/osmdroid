@@ -58,7 +58,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
 	        ivZoomIn.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					SampleWithMinimapZoomcontrols.this.mOsmv.zoomIn();
+					SampleWithMinimapZoomcontrols.this.mOsmv.getController().zoomIn();
 				}
 	        });
 	        
@@ -76,7 +76,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
 	        ivZoomOut.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					SampleWithMinimapZoomcontrols.this.mOsmv.zoomOut();
+					SampleWithMinimapZoomcontrols.this.mOsmv.getController().zoomOut();
 				}
 	        });
         }

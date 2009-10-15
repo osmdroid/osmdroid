@@ -5,7 +5,7 @@ import org.andnav.osm.R;
 import org.andnav.osm.util.TypeConverter;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
-import org.andnav.osm.views.controller.OpenStreetMapViewController;
+import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
@@ -40,7 +40,8 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// Fields
 	// ===========================================================
 
-	private OpenStreetMapView mOsmv, mOsmvMinimap; 
+	private OpenStreetMapView mOsmv, mOsmvMinimap;
+	private OpenStreetMapViewController mOsmvController;
 	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay; 
 
 	// ===========================================================
@@ -55,6 +56,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
         final RelativeLayout rl = new RelativeLayout(this);
         
         this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmvController = this.mOsmv.getController();
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
         /* SingleLocation-Overlay */
@@ -78,7 +80,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	        ivZoomIn.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					SampleExtensive.this.mOsmv.zoomIn();
+					SampleExtensive.this.mOsmvController.zoomIn();
 				}
 	        });
 	        
@@ -96,7 +98,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	        ivZoomOut.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
-					SampleExtensive.this.mOsmv.zoomOut();
+					SampleExtensive.this.mOsmvController.zoomOut();
 				}
 	        });
         }
@@ -161,11 +163,11 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()){
 			case MENU_ZOOMIN_ID:
-				this.mOsmv.zoomIn();
+				this.mOsmvController.zoomIn();
 				return true;
 				
 			case MENU_ZOOMOUT_ID:
-				this.mOsmv.zoomOut();
+				this.mOsmvController.zoomOut();
 				return true;
 				
 			case MENU_RENDERER_ID:

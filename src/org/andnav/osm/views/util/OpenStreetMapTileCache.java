@@ -58,6 +58,10 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// Methods
 	// ===========================================================
 
+	public boolean containsTile(final String aTileURLString) {
+		return this.mCachedTiles.containsKey(aTileURLString);
+	}
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
