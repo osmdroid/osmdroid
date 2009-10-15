@@ -4,6 +4,8 @@ package org.andnav.osm.util;
 import org.andnav.osm.util.constants.GeoConstants;
 import org.andnav.osm.views.util.constants.MathConstants;
 
+import android.location.Location;
+
 /**
  * 
  * @author Nicolas Gramlich
@@ -29,7 +31,17 @@ public class GeoPoint implements MathConstants, GeoConstants{
 		this.mLatitudeE6 = aLatitudeE6;
 		this.mLongitudeE6 = aLongitudeE6;
 	}
+
+	public GeoPoint(final double aLatitude, final double aLongitude) {
+		this.mLatitudeE6 = (int)(aLatitude * 1E6);
+		this.mLongitudeE6 = (int)(aLongitude * 1E6);
+	}
 	
+	public GeoPoint(Location aLocation) {
+		this(aLocation.getLatitude(), aLocation.getLongitude());
+	}
+
+
 	protected static GeoPoint fromDoubleString(final String s, final char spacer) {
 		final int spacerPos = s.indexOf(spacer);
 		return new GeoPoint((int) (Double.parseDouble(s.substring(0,
