@@ -2,6 +2,7 @@ package org.andnav.osm.views.overlay;
 
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
+import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileDownloader;
 import org.andnav.osm.views.util.OpenStreetMapTileFilesystemProvider;
@@ -11,6 +12,7 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
@@ -53,13 +55,11 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		 * Do some calculations and drag attributes to local variables to save
 		 * some performance.
 		 */
+		final OpenStreetMapViewProjection pj = osmv.getProjection();
 		final int zoomLevel = osmv.getZoomLevel();
 		final Rect viewPort = c.getClipBounds();
-		final int viewWidth_2 = viewPort.width()/2;
-		final int viewHeight_2 = viewPort.height()/2;
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
-		final int worldTiles_2 = 1 << (zoomLevel-1);	// TODO make compatible for zoomLevel == 0
 		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
 		
 		/*
@@ -74,6 +74,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 		final int mapTileUpperBound = 1 << zoomLevel;
 		final int[] mapTileCoords = new int[2];
+		Point tilePos = new Point();
 
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
@@ -85,18 +86,18 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = MyMath.mod(y, mapTileUpperBound);
 				mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = MyMath.mod(x, mapTileUpperBound);
 				/* Construct a URLString, which represents the MapTile. */
-				final String tileURLString = this.mRendererInfo.getTileURLString(mapTileCoords,
-						zoomLevel);
+				final String tileURLString = this.mRendererInfo.getTileURLString(mapTileCoords, zoomLevel);
 
 				/* Draw the MapTile 'i tileSizePx' above of the centerMapTile */
 				final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
-				final int tileLeft = viewWidth_2 + (x - worldTiles_2) * tileSizePx;
-				final int tileTop = viewHeight_2 + (y - worldTiles_2) * tileSizePx;
-				c.drawBitmap(currentMapTile, tileLeft, tileTop, this.mPaint);
+				if (currentMapTile != null) {
+					pj.toPixels(x, y, tilePos);
+					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, this.mPaint);
+				}
 
 				if (OpenStreetMapViewConstants.DEBUGMODE) {
-					c.drawLine(tileLeft, tileTop, tileLeft + tileSizePx, tileTop, this.mPaint);
-					c.drawLine(tileLeft, tileTop, tileLeft, tileTop + tileSizePx, this.mPaint);
+					c.drawLine(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y, this.mPaint);
+					c.drawLine(tilePos.x, tilePos.y, tilePos.x, tilePos.y + tileSizePx, this.mPaint);
 				}
 			}
 		}

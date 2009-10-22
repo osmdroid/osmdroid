@@ -64,8 +64,8 @@ public class OpenStreetMap extends Activity {
         
         this.setContentView(rl);
     
-    	mOsmv.scrollTo(mPrefs.getInt("scrollX", 0), mPrefs.getInt("scrollY", 0));
     	mOsmv.getController().setZoom(mPrefs.getInt("zoomLevel", 2));
+    	mOsmv.scrollTo(mPrefs.getInt("scrollX", 0), mPrefs.getInt("scrollY", 0));
     	if(mPrefs.getBoolean("show_location", false))
     		this.mLocationOverlay.enableMyLocation();
     }

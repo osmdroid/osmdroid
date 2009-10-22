@@ -3,14 +3,12 @@ package org.andnav.osm.views;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.views.OpenStreetMapView.Scaler;
 import org.andnav.osm.views.util.MyMath;
 import org.andnav.osm.views.util.Util;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 import android.graphics.Point;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.ScaleAnimation;
 
 /**
  * 
@@ -34,10 +32,8 @@ public class OpenStreetMapViewController {
 	// Fields
 	// ===========================================================
 	
-	final Animation zoomInAnim = new ScaleAnimation(1.0f, 2.0f, 1.0f, 2.0f, 0, 0);
-	final Animation zoomOutAnim = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 120, 240);
-	
-	final OpenStreetMapView mOsmv;
+	private int mZoomLevel;
+	private final OpenStreetMapView mOsmv;
 	private AbstractAnimationRunner mCurrentAnimationRunner;
 
 	// ===========================================================
@@ -188,6 +184,7 @@ public class OpenStreetMapViewController {
 	
 
 	public int setZoom(int zoomlevel) {
+		this.mZoomLevel = zoomlevel;
 		return mOsmv.setZoomLevel(zoomlevel);
 	}
 	
@@ -201,12 +198,15 @@ public class OpenStreetMapViewController {
 //						null), this.mZoomLevel + 1);
 //		this.mTileProvider.preCacheTile(nextBelowMaptileUrlString);
 
-		mOsmv.mPlannedZoomLevel = mOsmv.mZoomLevel + 1;
-		zoomInAnim.setInterpolator(new LinearInterpolator());
-		zoomInAnim.setDuration(500);
-
-		if (mOsmv.getAnimation() == null || mOsmv.getAnimation().hasEnded())
-			mOsmv.startAnimation(zoomInAnim);
+		mZoomLevel++;
+		final Scaler scaler = mOsmv.mScaler;
+		if (scaler.isFinished()) {
+			scaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
+			mOsmv.postInvalidate();
+		} else {
+			scaler.extendDuration(ANIMATION_DURATION_SHORT);
+			scaler.setFinalScale(scaler.getFinalScale() * 2.0f);
+		}
 		
 		return true;
 	}
@@ -220,12 +220,15 @@ public class OpenStreetMapViewController {
 	 * Zoom out by one zoom level.
 	 */
 	public boolean zoomOut() {
-		mOsmv.mPlannedZoomLevel = mOsmv.mZoomLevel - 1;
-		zoomOutAnim.setInterpolator(new LinearInterpolator());
-		zoomOutAnim.setDuration(500);
-
-		if (mOsmv.getAnimation() == null || mOsmv.getAnimation().hasEnded())
-			mOsmv.startAnimation(zoomOutAnim);
+		mZoomLevel--;
+		final Scaler scaler = mOsmv.mScaler;
+		if (scaler.isFinished()) {
+			scaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
+			mOsmv.postInvalidate();
+		} else {
+			scaler.extendDuration(ANIMATION_DURATION_SHORT);
+			scaler.setFinalScale(scaler.getFinalScale() * 0.5f);
+		}
 		
 		return true;
 	}
@@ -235,6 +238,10 @@ public class OpenStreetMapViewController {
 		return zoomOut();
 	}
 
+	void onScalingFinished() {
+		mOsmv.setZoomLevel(mZoomLevel);
+	}
+	
 	void onScrollingFinished() {
 		
 	}

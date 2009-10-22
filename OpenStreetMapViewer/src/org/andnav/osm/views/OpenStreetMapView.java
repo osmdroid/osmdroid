@@ -15,10 +15,14 @@ import org.andnav.osm.views.util.Util;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,7 +31,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.GestureDetector.OnGestureListener;
-import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
@@ -46,16 +52,20 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	// ===========================================================
 
 	protected int mZoomLevel = 0;								/** Current zoom level for map tiles */
-	protected int mPlannedZoomLevel = 0;
 	protected final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
+	protected Bitmap mBackBuffer;
+	protected Canvas mBackCanvas;
+	protected Matrix mTrans = new Matrix();
 	protected final Paint mPaint = new Paint();
+	private OpenStreetMapViewProjection mProjection;
 
 	private OpenStreetMapView mMiniMap, mMaxiMap;
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
 	final Scroller mScroller;							/** Handles map scrolling */
+	final Scaler mScaler;
 	private OpenStreetMapViewController mController;
 	private int mMiniMapOverriddenVisibility = NOT_SET;
 	private int mMiniMapZoomDiff = NOT_SET;
@@ -72,7 +82,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			final OpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider) {
 		super(context, attrs);
+		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
+		this.mScaler = new Scaler(context, new LinearInterpolator());
 		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
@@ -182,10 +194,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	public OpenStreetMapViewController getController() {
-		if (this.mController != null)
-			return this.mController;
-		else
-			return this.mController = new OpenStreetMapViewController(this);
+		return this.mController;
 	}
 
 	/**
@@ -245,7 +254,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 * @return
 	 */
 	public OpenStreetMapViewProjection getProjection() {
-		return new OpenStreetMapViewProjection();
+		return mProjection;
 	}
 
 	public void setMapCenter(final GeoPoint aCenter) {
@@ -293,8 +302,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 *            Renderer chosen.
 	 */
 	protected int setZoomLevel(final int aZoomLevel) {
+		final int minZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MINLEVEL;
 		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
-		final int newZoomLevel = Math.max(1, Math.min(maxZoomLevel, aZoomLevel));
+		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
+		final int curZoomLevel = this.mZoomLevel;
 
 		if (this.mMiniMap != null) {
 			if (this.mZoomLevel < this.mMiniMapZoomDiff) {
@@ -310,14 +321,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			}
 		}
 		
-		if(newZoomLevel > mZoomLevel)
-			scrollTo(getScrollX()<<(newZoomLevel-mZoomLevel), getScrollY()<<(newZoomLevel-mZoomLevel));
-		else if(newZoomLevel < mZoomLevel)
-			scrollTo(getScrollX()>>(mZoomLevel-newZoomLevel), getScrollY()>>(mZoomLevel-newZoomLevel));
 		this.mZoomLevel = newZoomLevel;
-
 		this.checkZoomButtons();
-		this.postInvalidate();
+
+		if(newZoomLevel > curZoomLevel)
+			scrollTo(getScrollX()<<(newZoomLevel-curZoomLevel), getScrollY()<<(newZoomLevel-curZoomLevel));
+		else if(newZoomLevel < curZoomLevel)
+			scrollTo(getScrollX()>>(curZoomLevel-newZoomLevel), getScrollY()>>(curZoomLevel-newZoomLevel));
+
+//		this.postInvalidate();
 		return this.mZoomLevel;
 	}
 
@@ -404,15 +416,25 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	@Override
 	public void computeScroll() {
 		if (mScroller.computeScrollOffset()) {
-			int oldX = getScrollX();
-			int oldY = getScrollY();
-			int x = mScroller.getCurrX();
-			int y = mScroller.getCurrY();
-			if (x != oldX || y != oldY)
-				scrollTo(x, y);
+//			int oldX = getScrollX();
+//			int oldY = getScrollY();
+//			int x = mScroller.getCurrX();
+//			int y = mScroller.getCurrY();
+//			if (x != oldX || y != oldY)
+			if (mScroller.isFinished())
+				mController.onScrollingFinished();
 			else
-				getController().onScrollingFinished();
+				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 			postInvalidate();	// Keep on drawing until the animation has finished.
+		}
+	}
+	
+	private void computeScale() {
+		if (mScaler.computeScale()) {
+			if (mScaler.isFinished())
+				mController.onScalingFinished();
+			else
+				postInvalidate();
 		}
 	}
 	
@@ -430,40 +452,63 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	@Override
-	protected void onAnimationEnd() {
-		setZoomLevel(mPlannedZoomLevel);
-		super.onAnimationEnd();
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
+		this.mBackCanvas = new Canvas(this.mBackBuffer);
+		super.onSizeChanged(w, h, oldw, oldh);
 	}
 	
 	@Override
 	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
+		computeScale();
+		mProjection = new OpenStreetMapViewProjection();
+
+		
+		final Matrix cmtx = c.getMatrix();
+		float[] mtx = new float[9]; cmtx.getValues(mtx);
+		if (-getScrollX() != mtx[2]) {
+			Log.i(DEBUGTAG, "Scroll does not fit matrix! (" + -getScrollX() + " != " + mtx[2] + ")");
+			return;
+		}
+
+		c.translate(getWidth()/2, getHeight()/2);
+		if (!mScaler.isFinished()) {
+			Matrix m = c.getMatrix();
+			m.preScale(mScaler.mCurrScale, mScaler.mCurrScale, getScrollX(), getScrollY());
+			c.setMatrix(m);
+		}
+
+		/* Draw background */
+		c.drawColor(Color.LTGRAY);
+				
 		/* Draw all Overlays. */
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			osmvo.onManagedDraw(c, this);
-
-		this.mPaint.setStyle(Style.STROKE);
+		
 		if (this.mMaxiMap != null) { // If this is a MiniMap
+			this.mPaint.setColor(Color.RED);
+			this.mPaint.setStyle(Style.STROKE);
 			final int viewWidth = this.getWidth();
 			final int viewHeight = this.getHeight();
-			c.drawRect(0, 0, viewWidth - 1, viewHeight - 1, this.mPaint);
+			c.drawRect(0, 0, viewWidth, viewHeight, this.mPaint);
 		}
 
 		final long endMs = System.currentTimeMillis();
 		Log.i(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
 	}
 
+	@Override
+	protected void onDetachedFromWindow() {
+		this.mZoomController.setVisible(false);
+		super.onDetachedFromWindow();
+	}
+
 	// ===========================================================
-	// Methods
+	// Package Methods
 	// ===========================================================
 
-	void checkZoomButtons() {
-		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
-		this.mZoomController.setZoomInEnabled(mZoomLevel < maxZoomLevel);
-		this.mZoomController.setZoomOutEnabled(mZoomLevel > 1);
-	}
-	
 	/**
 	 * Get the world size in pixels.
 	 */
@@ -476,6 +521,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 */
 	int getPixelZoomLevel() {
 		return this.mZoomLevel + this.mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
+	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
+	private void checkZoomButtons() {
+		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
+		this.mZoomController.setZoomInEnabled(mZoomLevel < maxZoomLevel);
+		this.mZoomController.setZoomOutEnabled(mZoomLevel > 0);
 	}
 	
 	private int[] getCenterMapTileCoords() {
@@ -522,17 +577,19 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 */
 	public class OpenStreetMapViewProjection {
 
-		final int viewWidth;
-		final int viewHeight;
-		final BoundingBoxE6 bb;
-		final int zoomLevel;
-		final int tileSizePx;
-		final int[] centerMapTileCoords;
-		final Point upperLeftCornerOfCenterMapTile;
+		private final int viewWidth_2 = getWidth() / 2;
+		private final int viewHeight_2 = getHeight() / 2;
+		private final int worldSize_2 = getWorldSizePx()/2;
+		private final int offsetX = - worldSize_2;
+		private final int offsetY = - worldSize_2;
+		
+		private final BoundingBoxE6 bb;
+		private final int zoomLevel;
+		private final int tileSizePx;
+		private final int[] centerMapTileCoords;
+		private final Point upperLeftCornerOfCenterMapTile;
 
 		public OpenStreetMapViewProjection() {
-			viewWidth = OpenStreetMapView.this.getWidth();
-			viewHeight = OpenStreetMapView.this.getHeight();
 
 			/*
 			 * Do some calculations and drag attributes to local variables to
@@ -568,8 +625,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 //			x -= OpenStreetMapView.this.mTouchMapOffsetX;
 //			y -= OpenStreetMapView.this.mTouchMapOffsetY;
 
-			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth, y
-					/ viewHeight);
+			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y
+					/ viewHeight_2);
 		}
 
 		private static final int EQUATORCIRCUMFENCE = 40075004;
@@ -605,53 +662,24 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 *         the GeoPoint passed.
 		 */
 		public Point toPixels(final GeoPoint in, final Point reuse) {
-			return toPixels(in, reuse, true);
-		}
-
-		protected Point toPixels(final GeoPoint in, final Point reuse, final boolean doGudermann) {
-
 			final Point out = (reuse != null) ? reuse : new Point();
 
-//			final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(
-//					in.getLatitudeE6(), in.getLongitudeE6(), zoomLevel, null);
-//
-//			/*
-//			 * Calculate the Latitude/Longitude on the left-upper ScreenCoords
-//			 * of the MapTile.
-//			 */
-//			final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords,
-//					zoomLevel);
-//
-//			final float[] relativePositionInCenterMapTile;
-//			if (doGudermann && zoomLevel < 7)
-//				relativePositionInCenterMapTile = bb
-//						.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-//								in.getLatitudeE6(), in.getLongitudeE6(), null);
-//			else
-//				relativePositionInCenterMapTile = bb
-//						.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(in
-//								.getLatitudeE6(), in.getLongitudeE6(), null);
-//
-//			final int tileDiffX = centerMapTileCoords[MAPTILE_LONGITUDE_INDEX]
-//					- underGeopointTileCoords[MAPTILE_LONGITUDE_INDEX];
-//			final int tileDiffY = centerMapTileCoords[MAPTILE_LATITUDE_INDEX]
-//					- underGeopointTileCoords[MAPTILE_LATITUDE_INDEX];
-//			final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-//					- (tileSizePx * tileDiffX);
-//			final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-//					- (tileSizePx * tileDiffY);
-//
-//			final int x = underGeopointTileScreenLeft
-//					+ (int) (relativePositionInCenterMapTile[MAPTILE_LONGITUDE_INDEX] * tileSizePx);
-//			final int y = underGeopointTileScreenTop
-//					+ (int) (relativePositionInCenterMapTile[MAPTILE_LATITUDE_INDEX] * tileSizePx);
-
-			/* Add up the offset caused by touch. */
-//			out.set(x + OpenStreetMapView.this.mTouchMapOffsetX, y
-//					+ OpenStreetMapView.this.mTouchMapOffsetY);
-			final int worldSize_2 = getWorldSizePx()/2;
 			final int[] coords = Util.getMapTileFromCoordinates(in.getLatitudeE6(), in.getLongitudeE6(), getPixelZoomLevel(), null);
-			out.set(coords[1] - worldSize_2 + viewWidth/2, coords[0] - worldSize_2 + viewHeight/2);
+			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
+			out.offset(offsetX, offsetY);
+			return out;
+		}
+		
+		public Point toPixels(final int[] tileCoords, final Point reuse) {
+			return toPixels(tileCoords[MAPTILE_LONGITUDE_INDEX], tileCoords[MAPTILE_LATITUDE_INDEX], reuse);
+		}
+
+		public Point toPixels(int tileX, int tileY, final Point reuse) {
+			final Point out = (reuse != null) ? reuse : new Point();
+
+			out.set(tileX * tileSizePx, tileY * tileSizePx);
+			out.offset(offsetX, offsetY);
+			
 			return out;
 		}
 
@@ -766,4 +794,159 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     	public void onVisibilityChanged(boolean visible) {}
     }
 
+	class Scaler {
+
+	    private float mStartScale;
+	    private float mFinalScale;
+	    private float mCurrScale;
+
+	    private long mStartTime;
+	    private int mDuration;
+	    private float mDurationReciprocal;
+	    private float mDeltaScale;
+	    private boolean mFinished;
+	    private Interpolator mInterpolator;
+
+	    /**
+	     * Create a Scaler with the specified interpolator.
+	     */
+	    public Scaler(Context context, Interpolator interpolator) {
+	        mFinished = true;
+	        mInterpolator = interpolator;
+	    }
+
+	    /**
+	     * 
+	     * Returns whether the scaler has finished scaling.
+	     * 
+	     * @return True if the scaler has finished scaling, false otherwise.
+	     */
+	    public final boolean isFinished() {
+	        return mFinished;
+	    }
+	    
+	    /**
+	     * Force the finished field to a particular value.
+	     *  
+	     * @param finished The new finished value.
+	     */
+	    public final void forceFinished(boolean finished) {
+	        mFinished = finished;
+	    }
+	    
+	    /**
+	     * Returns how long the scale event will take, in milliseconds.
+	     * 
+	     * @return The duration of the scale in milliseconds.
+	     */
+	    public final int getDuration() {
+	        return mDuration;
+	    }
+	    
+	    /**
+	     * Returns the current scale factor. 
+	     * 
+	     * @return The new scale factor.
+	     */
+	    public final float getCurrScale() {
+	        return mCurrScale;
+	    }
+	    
+	    /**
+	     * Returns the start scale factor. 
+	     * 
+	     * @return The start scale factor.
+	     */
+	    public final float getStartScale() {
+	        return mStartScale;
+	    }
+	    
+	    /**
+	     * Returns where the scale will end.
+	     * 
+	     * @return The final scale factor.
+	     */
+	    public final float getFinalScale() {
+	        return mFinalScale;
+	    }
+	    
+	    /**
+	     * Sets the final scale for this scaler.
+	     *
+	     * @param newScale The new scale factor.
+	     */
+	    public void setFinalScale(float newScale) {
+			mFinalScale = newScale;
+			mDeltaScale = mFinalScale - mStartScale;
+	        mFinished = false;
+	    }
+
+	    
+		/**
+	     * Call this when you want to know the new scale.  If it returns true,
+	     * the animation is not yet finished.
+	     */ 
+	    public boolean computeScale() {
+	        if (mFinished) {
+	        	mCurrScale = 1.0f;
+	            return false;
+	        }
+
+	        int timePassed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
+	    
+	        if (timePassed < mDuration) {
+                float x = (float)timePassed * mDurationReciprocal;
+    
+                x = mInterpolator.getInterpolation(x);
+    
+                mCurrScale = mStartScale + x * mDeltaScale;
+                if (mCurrScale == mFinalScale)
+                    mFinished = true;
+
+	        } else {
+	            mCurrScale = mFinalScale;
+	            mFinished = true;
+	        }
+	        return true;
+	    }
+
+	    /**
+	     * Start scaling by providing the starting scale and the final scale.
+	     * 
+	     * @param startX Starting horizontal scroll offset in pixels. Positive
+	     *        numbers will scroll the content to the left.
+	     * @param startY Starting vertical scroll offset in pixels. Positive numbers
+	     *        will scroll the content up.
+	     * @param dx Horizontal distance to travel. Positive numbers will scroll the
+	     *        content to the left.
+	     * @param dy Vertical distance to travel. Positive numbers will scroll the
+	     *        content up.
+	     * @param duration Duration of the scroll in milliseconds.
+	     */
+	    public void startScale(float startScale, float finalScale, int duration) {
+	        mFinished = false;
+	        mDuration = duration;
+	        mStartTime = AnimationUtils.currentAnimationTimeMillis();
+	        mStartScale = startScale;
+	        mFinalScale = finalScale;
+	        mDeltaScale = finalScale - startScale;
+	        mDurationReciprocal = 1.0f / (float) mDuration;
+	    }
+
+	    /**
+	     * Extend the scale animation. This allows a running animation to scale
+	     * further and longer, when used with {@link #setFinalScale(float)}.
+	     *
+	     * @param extend Additional time to scale in milliseconds.
+	     * @see #setFinalScale(float)
+	     */
+	    public void extendDuration(int extend) {
+	        int passed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
+	        mDuration = passed + extend;
+	        mDurationReciprocal = 1.0f / (float)mDuration;
+	        mFinished = false;
+	    }
+
+	}
+	
 }

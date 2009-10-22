@@ -73,7 +73,7 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants, OpenSt
 				Log.i(DEBUGTAG, "Cache failed, trying from FS.");
 			try {
 				this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, this.mLoadCallbackHandler);
-				ret = this.mLoadingMapTile;
+//				ret = this.mLoadingMapTile;
 			} catch (Exception e) {
 				if(DEBUGMODE)
 					Log.d(DEBUGTAG, "Error(" + e.getClass().getSimpleName() + ") loading MapTile from Filesystem: " + OpenStreetMapTileNameFormatter.format(aTileURLString));
@@ -81,7 +81,7 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants, OpenSt
 			if(ret == null){ /* FS did not contain the MapTile, we need to download it asynchronous. */
 				if(DEBUGMODE)
 					Log.i(DEBUGTAG, "Requesting Maptile for download.");
-				ret = this.mLoadingMapTile;
+//				ret = this.mLoadingMapTile;
 							
 				this.mTileDownloader.requestMapTileAsync(aTileURLString, this.mLoadCallbackHandler);
 			}
