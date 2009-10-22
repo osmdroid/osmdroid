@@ -51,6 +51,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	private LocationManager mLocationManager;
 	private boolean mMyLocationEnabled = false;
 	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
+	private final Point mScreenCoords = new Point();
 	
 	protected Location mLocation;
 	protected boolean mFollow = false;	// follow location updates
@@ -112,24 +113,29 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
-		if(this.mLocation != null){
+		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			final Point screenCoords = new Point();
-			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), screenCoords);
+			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), mScreenCoords);
 			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 			
 			this.mCirclePaint.setAlpha(50);
 			this.mCirclePaint.setStyle(Style.FILL);
-			c.drawCircle(screenCoords.x, screenCoords.y, radius, this.mCirclePaint);
+			c.drawCircle(mScreenCoords.x, mScreenCoords.y, radius, this.mCirclePaint);
 			
 			this.mCirclePaint.setAlpha(150);
 			this.mCirclePaint.setStyle(Style.STROKE);
-			c.drawCircle(screenCoords.x, screenCoords.y, radius, this.mCirclePaint);
+			c.drawCircle(mScreenCoords.x, mScreenCoords.y, radius, this.mCirclePaint);
+			
+			float[] mtx = new float[9];
+			c.getMatrix().getValues(mtx);
 			
 			/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
+			Bitmap arrow = Bitmap.createBitmap(DIRECTION_ARROW, 0, 0, DIRECTION_ARROW_WIDTH, DIRECTION_ARROW_HEIGHT);
 			this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
-			Bitmap rotatedDirection = Bitmap.createBitmap(DIRECTION_ARROW, 0, 0, DIRECTION_ARROW_WIDTH, DIRECTION_ARROW_HEIGHT, this.directionRotater, false); 
-			c.drawBitmap(rotatedDirection, screenCoords.x - rotatedDirection.getWidth() / 2, screenCoords.y - rotatedDirection.getHeight() / 2, this.mPaint);
+			this.directionRotater.postTranslate(-arrow.getWidth() / 2, -arrow.getHeight() / 2);			
+			this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
+			this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
+			c.drawBitmap(arrow, this.directionRotater, this.mPaint);
 		}
 	}
 
