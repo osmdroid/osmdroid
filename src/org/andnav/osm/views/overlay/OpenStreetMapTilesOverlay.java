@@ -73,7 +73,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
 
 		final int mapTileUpperBound = 1 << zoomLevel;
-		final int[] mapTileCoords = new int[2];
+		final Point mapTileCoords = new Point();
 		Point tilePos = new Point();
 
 		/* Draw all the MapTiles (from the upper left to the lower right). */
@@ -83,16 +83,32 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				 * Add/substract the difference of the tile-position to the one
 				 * of the center.
 				 */
-				mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX] = MyMath.mod(y, mapTileUpperBound);
-				mapTileCoords[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX] = MyMath.mod(x, mapTileUpperBound);
+				mapTileCoords.y = MyMath.mod(y, mapTileUpperBound);
+				mapTileCoords.x = MyMath.mod(x, mapTileUpperBound);
 				/* Construct a URLString, which represents the MapTile. */
-				final String tileURLString = this.mRendererInfo.getTileURLString(mapTileCoords, zoomLevel);
+				String tileURLString = this.mRendererInfo.getTileURLString(mapTileCoords, zoomLevel);
 
+				pj.toPixels(x, y, tilePos);
+				if (this.mTileProvider.isTileAvailable(tileURLString)) {
 				/* Draw the MapTile 'i tileSizePx' above of the centerMapTile */
-				final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
-				if (currentMapTile != null) {
-					pj.toPixels(x, y, tilePos);
+					final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
 					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, this.mPaint);
+				} else {
+					this.mTileProvider.getMapTile(tileURLString);
+					if (zoomLevel > 0) {
+						Point tc = new Point(mapTileCoords.x, mapTileCoords.y);
+						tc.x /= 2;
+						tc.y /= 2;
+						tileURLString = this.mRendererInfo.getTileURLString(tc, zoomLevel - 1);
+						final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
+						if (currentMapTile != null) {
+							mapTileCoords.x %= 2;
+							mapTileCoords.y %= 2;
+							final Rect src = new Rect(mapTileCoords.x*tileSizePx/2, mapTileCoords.y* tileSizePx/2, (mapTileCoords.x+1)*tileSizePx/2, (mapTileCoords.y+1)* tileSizePx/2); 
+							final Rect dst = new Rect(tilePos.x, tilePos.y, tilePos.x+tileSizePx, tilePos.y+tileSizePx);
+							c.drawBitmap(currentMapTile, src, dst, mPaint);
+						}
+					}
 				}
 
 				if (OpenStreetMapViewConstants.DEBUGMODE) {
