@@ -447,11 +447,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 	
 	@Override
-	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-		postInvalidate();
-	}
-
-	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
 		this.mBackCanvas = new Canvas(this.mBackBuffer);
@@ -462,16 +457,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
-		computeScale();
 		mProjection = new OpenStreetMapViewProjection();
-
-		
-		final Matrix cmtx = c.getMatrix();
-		float[] mtx = new float[9]; cmtx.getValues(mtx);
-		if (-getScrollX() != mtx[2]) {
-			Log.i(DEBUGTAG, "Scroll does not fit matrix! (" + -getScrollX() + " != " + mtx[2] + ")");
-			return;
-		}
 
 		c.translate(getWidth()/2, getHeight()/2);
 		if (!mScaler.isFinished()) {
@@ -482,6 +468,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 		/* Draw background */
 		c.drawColor(Color.LTGRAY);
+//		This is to slow:
+//		final Rect r = c.getClipBounds();
+//		mPaint.setColor(Color.GRAY);
+//		mPaint.setPathEffect(new DashPathEffect(new float[] {1, 1}, 0));
+//		for (int x = r.left; x < r.right; x += 20)
+//			c.drawLine(x, r.top, x, r.bottom, mPaint);
+//		for (int y = r.top; y < r.bottom; y += 20)
+//			c.drawLine(r.left, y, r.right, y, mPaint);
 				
 		/* Draw all Overlays. */
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
@@ -497,6 +491,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 		final long endMs = System.currentTimeMillis();
 		Log.i(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
+		computeScale();
 	}
 
 	@Override

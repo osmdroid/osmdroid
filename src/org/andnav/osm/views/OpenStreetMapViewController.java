@@ -60,6 +60,7 @@ public class OpenStreetMapViewController {
 		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
 	}
 	
+	// TODO rework zoomToSpan
 	public void zoomToSpan(final int reqLatSpan, final int reqLonSpan) {
 		if(reqLatSpan <= 0 || reqLonSpan <= 0 )
 			return;
