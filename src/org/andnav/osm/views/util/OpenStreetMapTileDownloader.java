@@ -39,7 +39,7 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 	protected HashSet<String> mPending = new HashSet<String>();
 	protected Context mCtx;
 	protected OpenStreetMapTileFilesystemProvider mMapTileFSProvider;
-	protected ExecutorService mThreadPool = Executors.newFixedThreadPool(5);
+	protected ExecutorService mThreadPool = Executors.newFixedThreadPool(4);
 
 	// ===========================================================
 	// Constructors
@@ -62,8 +62,12 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 	// Methods
 	// ===========================================================
 
-	/** Sets the Child-ImageView of this to the URL passed. */
-	public void getRemoteImageAsync(final String aURLString, final Handler callback) {
+	public void requestMapTileAsync(final String aURLString, final Handler callback) {
+		if(this.mPending.contains(aURLString))
+			return;
+
+		this.mPending.add(aURLString);
+
 		this.mThreadPool.execute(new Runnable(){
 			@Override
 			public void run() {
@@ -90,7 +94,6 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 
 					final Message successMessage = Message.obtain(callback, MAPTILEDOWNLOADER_SUCCESS_ID);
 					successMessage.sendToTarget();
-					OpenStreetMapTileDownloader.this.mPending.remove(aURLString);
 				} catch (Exception e) {
 					final Message failMessage = Message.obtain(callback, MAPTILEDOWNLOADER_FAIL_ID);
 					failMessage.sendToTarget();
@@ -99,21 +102,15 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 					/* TODO What to do when downloading tile caused an error?
 					 * Also remove it from the mPending?
 					 * Doing not blocks it for the whole existence of this TileDownloder.
+					 * -> we remove it and the application has to re-request it.
 					 */
 				} finally {
 					StreamUtils.closeStream(in);
 					StreamUtils.closeStream(out);
 				}
+				OpenStreetMapTileDownloader.this.mPending.remove(aURLString);
 			}
 		});
-	}
-
-	public void requestMapTileAsync(final String aURLString, final Handler callback) {
-		if(this.mPending.contains(aURLString))
-			return;
-
-		this.mPending.add(aURLString);
-		getRemoteImageAsync(aURLString, callback);
 	}
 
 	// ===========================================================

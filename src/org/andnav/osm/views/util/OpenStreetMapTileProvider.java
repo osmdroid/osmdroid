@@ -27,15 +27,13 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 	// Fields
 	// ===========================================================
 
-	protected final Bitmap mLoadingMapTile;
 	/** place holder if tile not available */
+	protected final Bitmap mLoadingMapTile;
 	// protected Context mCtx;
-	protected OpenStreetMapTileCache mTileCache;
 	/** cache provider */
-	protected OpenStreetMapTileFilesystemProvider mFSTileProvider;
+	protected OpenStreetMapTileCache mTileCache;
 	/** file system provider */
-	protected OpenStreetMapTileDownloader mTileDownloader;
-	/** online provider */
+	protected OpenStreetMapTileFilesystemProvider mFSTileProvider;
 	private Handler mLoadCallbackHandler = new LoadCallbackHandler();
 	private Handler mDownloadFinishedListenerHander;
 
@@ -51,8 +49,6 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 		this.mTileCache = new OpenStreetMapTileCache();
 		this.mFSTileProvider = new OpenStreetMapTileFilesystemProvider(ctx,
 				4 * 1024 * 1024, this.mTileCache); // 4MB FSCache
-		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx,
-				this.mFSTileProvider);
 		this.mDownloadFinishedListenerHander = aDownloadFinishedListener;
 	}
 
@@ -73,42 +69,23 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 	}
 
 	public Bitmap getMapTile(final String aTileURLString) {
-		Bitmap ret = this.mTileCache.getMapTile(aTileURLString);
-		if (ret != null) {
+		if (this.mTileCache.containsTile(aTileURLString)) {							// cache
 			if (DEBUGMODE)
 				Log.i(DEBUGTAG, "MapTileCache succeded for: " + aTileURLString);
-		} else {
+			return this.mTileCache.getMapTile(aTileURLString);
+			
+		} else { //  if(this.mFSTileProvider.containsTile(aTileURLString)) {				// file system
 			if (DEBUGMODE)
 				Log.i(DEBUGTAG, "Cache failed, trying from FS.");
-			try {
-				this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString,
-						this.mLoadCallbackHandler);
-				// ret = this.mLoadingMapTile;
-			} catch (Exception e) {
-				if (DEBUGMODE)
-					Log.d(DEBUGTAG, "Error("
-							+ e.getClass().getSimpleName()
-							+ ") loading MapTile from Filesystem: "
-							+ OpenStreetMapTileNameFormatter
-									.format(aTileURLString));
-			}
-			if (ret == null) { /*
-								 * FS did not contain the MapTile, we need to
-								 * download it asynchronous.
-								 */
-				if (DEBUGMODE)
-					Log.i(DEBUGTAG, "Requesting Maptile for download.");
-				// ret = this.mLoadingMapTile;
-
-				this.mTileDownloader.requestMapTileAsync(aTileURLString,
-						this.mLoadCallbackHandler);
-			}
+			this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, this.mLoadCallbackHandler);
 		}
-		return ret;
+		return null;
 	}
 
 	public void preCacheTile(String aTileURLString) {
-		getMapTile(aTileURLString);
+		if (!this.mTileCache.containsTile(aTileURLString)) {
+			this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, this.mLoadCallbackHandler);
+		}
 	}
 
 	// ===========================================================
