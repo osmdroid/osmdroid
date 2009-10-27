@@ -50,5 +50,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+<service android:name=".services.OpenStreetMapTileProviderService" android:process=":remote" android:label="OpenStreetMapTileProviderService"><intent-filter><action android:name="org.andnav.osm.services.IOpenStreetMapTileProviderService"></action>
+</intent-filter>
+</service>
 </application>
+
+
 </manifest> 

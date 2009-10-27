@@ -1,11 +1,10 @@
 package org.andnav.osm.views.overlay;
 
+import org.andnav.osm.services.OpenStreetMapTileProviderService;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapTileDownloader;
-import org.andnav.osm.views.util.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
@@ -128,8 +127,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		@Override
 		public void handleMessage(final Message msg) {
 			switch (msg.what) {
-				case OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID:
-				case OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID:
+				case OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID:
 					mOsmv.invalidate();
 					break;
 			}

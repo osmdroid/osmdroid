@@ -2,14 +2,20 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.R;
+import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.services.IOpenStreetMapTileProviderService;
+import org.andnav.osm.services.OpenStreetMapTileProviderService;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -17,7 +23,7 @@ import android.util.Log;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
+public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetMapConstants,
 		OpenStreetMapViewConstants {
 	// ===========================================================
 	// Constants
@@ -32,10 +38,9 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 	// protected Context mCtx;
 	/** cache provider */
 	protected OpenStreetMapTileCache mTileCache;
-	/** file system provider */
-	protected OpenStreetMapTileFilesystemProvider mFSTileProvider;
-	private Handler mLoadCallbackHandler = new LoadCallbackHandler();
-	private Handler mDownloadFinishedListenerHander;
+
+	private IOpenStreetMapTileProviderService mTileService;
+	private Handler mDownloadFinishedHandler;
 
 	// ===========================================================
 	// Constructors
@@ -47,9 +52,11 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 		this.mLoadingMapTile = BitmapFactory.decodeResource(ctx.getResources(),
 				R.drawable.maptile_loading);
 		this.mTileCache = new OpenStreetMapTileCache();
-		this.mFSTileProvider = new OpenStreetMapTileFilesystemProvider(ctx,
-				4 * 1024 * 1024, this.mTileCache); // 4MB FSCache
-		this.mDownloadFinishedListenerHander = aDownloadFinishedListener;
+		
+		if(!ctx.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE))
+			Log.e(DEBUGTAG, "Could not bind to " + IOpenStreetMapTileProviderService.class.getName());
+		
+		this.mDownloadFinishedHandler = aDownloadFinishedListener;
 	}
 
 	// ===========================================================
@@ -60,6 +67,17 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
+	public void onServiceConnected(android.content.ComponentName name, android.os.IBinder service) {
+		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
+		Log.d("Service", "connected");
+	};
+	
+	@Override
+	public void onServiceDisconnected(ComponentName name) {
+		mTileService = null;
+		Log.d("Service", "disconnected");
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -69,56 +87,55 @@ public class OpenStreetMapTileProvider implements OpenStreetMapConstants,
 	}
 
 	public Bitmap getMapTile(final String aTileURLString) {
-		if (this.mTileCache.containsTile(aTileURLString)) {							// cache
+		if (this.mTileCache.containsTile(aTileURLString)) {							// from cache
 			if (DEBUGMODE)
 				Log.i(DEBUGTAG, "MapTileCache succeded for: " + aTileURLString);
 			return this.mTileCache.getMapTile(aTileURLString);
 			
-		} else { //  if(this.mFSTileProvider.containsTile(aTileURLString)) {				// file system
+		} else {																	// from service
 			if (DEBUGMODE)
 				Log.i(DEBUGTAG, "Cache failed, trying from FS.");
-			this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, this.mLoadCallbackHandler);
+			try {
+				this.mTileService.getMapTile(aTileURLString, this.mServiceCallback);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}
 
 	public void preCacheTile(String aTileURLString) {
 		if (!this.mTileCache.containsTile(aTileURLString)) {
-			this.mFSTileProvider.loadMapTileToMemCacheAsync(aTileURLString, this.mLoadCallbackHandler);
+			try {
+				this.mTileService.getMapTile(aTileURLString, this.mServiceCallback);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	private class LoadCallbackHandler extends Handler {
+	
+	private IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
+		
 		@Override
-		public void handleMessage(final Message msg) {
-			final int what = msg.what;
-			switch (what) {
-			case OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID:
-				OpenStreetMapTileProvider.this.mDownloadFinishedListenerHander
-						.sendEmptyMessage(OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_SUCCESS_ID);
-				if (DEBUGMODE)
-					Log.i(DEBUGTAG, "MapTile download success.");
-				break;
-			case OpenStreetMapTileDownloader.MAPTILEDOWNLOADER_FAIL_ID:
-				if (DEBUGMODE)
-					Log.e(DEBUGTAG, "MapTile download error.");
-				break;
-
-			case OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID:
-				OpenStreetMapTileProvider.this.mDownloadFinishedListenerHander
-						.sendEmptyMessage(OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_SUCCESS_ID);
-				if (DEBUGMODE)
-					Log.i(DEBUGTAG, "MapTile fs->cache success.");
-				break;
-			case OpenStreetMapTileFilesystemProvider.MAPTILEFSLOADER_FAIL_ID:
-				if (DEBUGMODE)
-					Log.e(DEBUGTAG, "MapTile download error.");
-				break;
-			}
+		public void mapTileLoaded(String aTileURLString, Bitmap aTile) throws RemoteException {
+			mTileCache.putTile(aTileURLString, aTile);
+			mDownloadFinishedHandler
+					.sendEmptyMessage(OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID);
+			if (DEBUGMODE)
+				Log.i(DEBUGTAG, "MapTile download success.");
 		}
-	}
+		
+		@Override
+		public void mapTileFailed(String aTileURLString) throws RemoteException {
+			if (DEBUGMODE)
+				Log.e(DEBUGTAG, "MapTile download error.");
+		}
+	};
 
 }
