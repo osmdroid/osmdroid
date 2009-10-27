@@ -3,9 +3,7 @@ package org.andnav.osm.views.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -63,6 +61,9 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 
 	protected HashSet<String> mPending = new HashSet<String>();
 
+	/** online provider */
+	protected OpenStreetMapTileDownloader mTileDownloader;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -79,6 +80,8 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 		this.mCurrentFSCacheByteSize = this.mDatabase.getCurrentFSCacheByteSize();
 		this.mCache = aCache;
 
+		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx, this);
+
 		if(DEBUGMODE)
 			Log.i(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
 	}
@@ -91,46 +94,50 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 		return this.mCurrentFSCacheByteSize;
 	}
 
-	public void loadMapTileToMemCacheAsync(final String aTileURLString, final Handler callback) throws FileNotFoundException{
+	public boolean containsTile(final String aTileURLString) {
+		final String formattedTileURLString = OpenStreetMapTileNameFormatter.format(aTileURLString);
+		
+		final long startMs = System.currentTimeMillis();
+		boolean hasTile = this.mDatabase.hasTile(formattedTileURLString);
+		Log.i("Tile", "DB lookup: " + (System.currentTimeMillis() - startMs) + "ms");
+		return hasTile;
+	}
+	
+	public void loadMapTileToMemCacheAsync(final String aTileURLString, final Handler callback) {
 		if(this.mPending.contains(aTileURLString))
 			return;
-
-		final String formattedTileURLString = OpenStreetMapTileNameFormatter.format(aTileURLString);
-		final InputStream in = new BufferedInputStream(OpenStreetMapTileFilesystemProvider.this.mCtx.openFileInput(formattedTileURLString), 8192);
-
+		
 		this.mPending.add(aTileURLString);
 
 		this.mThreadPool.execute(new Runnable(){
 			@Override
 			public void run() {
-				OutputStream out = null;
+				final String formattedTileURLString = OpenStreetMapTileNameFormatter.format(aTileURLString);
+				OpenStreetMapTileFilesystemProvider.this.mDatabase.incrementUse(formattedTileURLString);
+				InputStream in = null;
 				try {
-					// File exists, otherwise a FileNotFoundException would have been thrown
-					OpenStreetMapTileFilesystemProvider.this.mDatabase.incrementUse(formattedTileURLString);
+					in = getInput(formattedTileURLString);
+					final Bitmap bmp = BitmapFactory.decodeStream(in);
+					if (bmp != null) {
+						OpenStreetMapTileFilesystemProvider.this.mCache.putTile(aTileURLString, bmp);
 
-					final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-					out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-					StreamUtils.copy(in, out);
-					out.flush();
-					
-					final byte[] data = dataStream.toByteArray();
-					final Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length); // , BITMAPLOADOPTIONS);
+						final Message successMessage = Message.obtain(callback, MAPTILEFSLOADER_SUCCESS_ID);
+						successMessage.sendToTarget();
 
-					OpenStreetMapTileFilesystemProvider.this.mCache.putTile(aTileURLString, bmp);
-
-					final Message successMessage = Message.obtain(callback, MAPTILEFSLOADER_SUCCESS_ID);
-					successMessage.sendToTarget();
-
-					if(DEBUGMODE)
-						Log.d(DEBUGTAG, "Loaded: " + aTileURLString + " to MemCache.");
-				} catch (IOException e) {
-					final Message failMessage = Message.obtain(callback, MAPTILEFSLOADER_FAIL_ID);
-					failMessage.sendToTarget();
-					if(DEBUGMODE)
-						Log.e(DEBUGTAG, "Error Loading MapTile from FS. Exception: " + e.getClass().getSimpleName(), e);
+						if (DEBUGMODE)
+							Log.d(DEBUGTAG, "Loaded: " + aTileURLString + " to MemCache.");
+					} else {
+						final Message failMessage = Message.obtain(callback, MAPTILEFSLOADER_FAIL_ID);
+						failMessage.sendToTarget();
+						if (DEBUGMODE)
+							Log.e(DEBUGTAG, "Error Loading MapTile from FS.");
+					}
+				} catch (FileNotFoundException e) {
+//					if (DEBUGMODE)
+						Log.i(DEBUGTAG, "FS failed, request for download.");
+					OpenStreetMapTileFilesystemProvider.this.mTileDownloader.requestMapTileAsync(aTileURLString, callback);
 				} finally {
 					StreamUtils.closeStream(in);
-					StreamUtils.closeStream(out);
 				}
 
 				OpenStreetMapTileFilesystemProvider.this.mPending.remove(aTileURLString);
@@ -141,10 +148,8 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 	public void saveFile(final String aURLString, final byte[] someData) throws IOException{
 		final String filename = OpenStreetMapTileNameFormatter.format(aURLString);
 
-		final FileOutputStream fos = this.mCtx.openFileOutput(filename, Context.MODE_WORLD_READABLE);
-		final BufferedOutputStream bos = new BufferedOutputStream(fos, StreamUtils.IO_BUFFER_SIZE);
-		bos.write(someData);					
-
+		final OutputStream bos = getOutput(aURLString);
+		bos.write(someData);
 		bos.flush();
 		bos.close();
 
@@ -192,6 +197,15 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 	// Methods
 	// ===========================================================
 
+	private InputStream getInput(String aFormattedTileURLString) throws FileNotFoundException {
+		return new BufferedInputStream(OpenStreetMapTileFilesystemProvider.this.mCtx.openFileInput(aFormattedTileURLString), StreamUtils.IO_BUFFER_SIZE);
+	}
+	
+	private OutputStream getOutput(String aTileURLString) throws FileNotFoundException {
+		final String formattedTileURLString = OpenStreetMapTileNameFormatter.format(aTileURLString);		
+		return new BufferedOutputStream(this.mCtx.openFileOutput(formattedTileURLString, Context.MODE_WORLD_READABLE), StreamUtils.IO_BUFFER_SIZE);		
+	}
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -215,7 +229,7 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 		+ " PRIMARY KEY(" + T_FSCACHE_NAME + ")" 
 		+ ");";
 
-		public static final String T_FSCACHE_SELECT_LEAST_USED = "SELECT " + T_FSCACHE_NAME  + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " WHERE "  + T_FSCACHE_USAGECOUNT + " = (SELECT MIN(" + T_FSCACHE_USAGECOUNT + ") FROM "  + T_FSCACHE + ")";
+//		public static final String T_FSCACHE_SELECT_LEAST_USED = "SELECT " + T_FSCACHE_NAME  + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " WHERE "  + T_FSCACHE_USAGECOUNT + " = (SELECT MIN(" + T_FSCACHE_USAGECOUNT + ") FROM "  + T_FSCACHE + ")";
 		public static final String T_FSCACHE_SELECT_OLDEST = "SELECT " + T_FSCACHE_NAME + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " ORDER BY " + T_FSCACHE_TIMESTAMP + " ASC";
 	}
 
@@ -237,6 +251,13 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 			this.mDatabase = new AndNavDatabaseHelper(context).getWritableDatabase();
 		}
 
+		public boolean hasTile(final String aFormattedTileURLString) {
+			final Cursor c = this.mDatabase.rawQuery("SELECT * FROM " + T_FSCACHE + " WHERE " + T_FSCACHE_NAME + " = '" + aFormattedTileURLString + "'", null);
+			final boolean existed = c.getCount() > 0;
+			c.close();
+			return existed;
+		}
+		
 		public void incrementUse(final String aFormattedTileURLString) {
 			final Cursor c = this.mDatabase.rawQuery("UPDATE " + T_FSCACHE + " SET " + T_FSCACHE_USAGECOUNT + " = " + T_FSCACHE_USAGECOUNT + " + 1 , " + T_FSCACHE_TIMESTAMP + " = '" + getNowAsIso8601() + "' WHERE " + T_FSCACHE_NAME + " = '" + aFormattedTileURLString + "'", null);
 			c.close();

@@ -2,7 +2,8 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.R;
-import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+
+import android.graphics.Point;
 
 /**
  * 
@@ -48,13 +49,13 @@ public enum OpenStreetMapRendererInfo {
 	// Methods
 	// ===========================================================
 	
-	public String getTileURLString(final int[] tileID, final int zoomLevel){
+	public String getTileURLString(final Point tileID, final int zoomLevel){
 		return new StringBuilder().append(this.BASEURL)
 		.append(zoomLevel)
 		.append("/")
-		.append(tileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])
+		.append(tileID.x)
 		.append("/")
-		.append(tileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])
+		.append(tileID.y)
 		.append(this.IMAGE_FILENAMEENDING)
 		.toString();
 	}
