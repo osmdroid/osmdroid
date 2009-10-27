@@ -1,5 +1,5 @@
 // Created by plusminus on 08:19:56 - 26.09.2008
-package org.andnav.osm.views.util;
+package org.andnav.osm.services.util;
 
 
 /**

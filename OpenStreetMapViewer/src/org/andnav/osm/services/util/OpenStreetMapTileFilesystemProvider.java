@@ -1,5 +1,5 @@
 // Created by plusminus on 21:46:41 - 25.09.2008
-package org.andnav.osm.views.util;
+package org.andnav.osm.services.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.andnav.osm.exceptions.EmptyCacheException;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
+import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.ContentValues;
@@ -25,8 +25,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.Message;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -34,19 +33,12 @@ import android.util.Log;
  * @author Nicolas Gramlich
  *
  */
-public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstants, OpenStreetMapViewConstants{
+public class OpenStreetMapTileFilesystemProvider {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	public static final int MAPTILEFSLOADER_SUCCESS_ID = 1000;
-	public static final int MAPTILEFSLOADER_FAIL_ID = MAPTILEFSLOADER_SUCCESS_ID + 1;
-	
-//	public static final Options BITMAPLOADOPTIONS = new Options(){
-//		{
-//			inPreferredConfig = Config.RGB_565;
-//		}
-//	};
+	private final static String DEBUGTAG = "OSM_FS_PROVIDER";
 
 	// ===========================================================
 	// Fields
@@ -57,7 +49,6 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 	protected final int mMaxFSCacheByteSize;
 	protected int mCurrentFSCacheByteSize;
 	protected ExecutorService mThreadPool = Executors.newFixedThreadPool(2);
-	protected final OpenStreetMapTileCache mCache;
 
 	protected HashSet<String> mPending = new HashSet<String>();
 
@@ -73,16 +64,15 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 	 * @param aMaxFSCacheByteSize the size of the cached MapTiles will not exceed this size.
 	 * @param aCache to load fs-tiles to.
 	 */
-	public OpenStreetMapTileFilesystemProvider(final Context ctx, final int aMaxFSCacheByteSize, final OpenStreetMapTileCache aCache) {
+	public OpenStreetMapTileFilesystemProvider(final Context ctx, final int aMaxFSCacheByteSize) {
 		this.mCtx = ctx;
 		this.mMaxFSCacheByteSize = aMaxFSCacheByteSize;
 		this.mDatabase = new OpenStreetMapTileFilesystemProviderDataBase(ctx);
 		this.mCurrentFSCacheByteSize = this.mDatabase.getCurrentFSCacheByteSize();
-		this.mCache = aCache;
 
 		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx, this);
 
-		if(DEBUGMODE)
+		if(Log.isLoggable(DEBUGTAG, Log.INFO))
 			Log.i(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
 	}
 
@@ -103,7 +93,7 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 		return hasTile;
 	}
 	
-	public void loadMapTileToMemCacheAsync(final String aTileURLString, final Handler callback) {
+	public void loadMapTileAsync(final String aTileURLString, final IOpenStreetMapTileProviderCallback callback) {
 		if(this.mPending.contains(aTileURLString))
 			return;
 		
@@ -119,23 +109,22 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 					in = getInput(formattedTileURLString);
 					final Bitmap bmp = BitmapFactory.decodeStream(in);
 					if (bmp != null) {
-						OpenStreetMapTileFilesystemProvider.this.mCache.putTile(aTileURLString, bmp);
+						callback.mapTileLoaded(aTileURLString, bmp);
 
-						final Message successMessage = Message.obtain(callback, MAPTILEFSLOADER_SUCCESS_ID);
-						successMessage.sendToTarget();
-
-						if (DEBUGMODE)
-							Log.d(DEBUGTAG, "Loaded: " + aTileURLString + " to MemCache.");
+						if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
+							Log.d(DEBUGTAG, "Loaded: " + aTileURLString);
 					} else {
-						final Message failMessage = Message.obtain(callback, MAPTILEFSLOADER_FAIL_ID);
-						failMessage.sendToTarget();
-						if (DEBUGMODE)
+						callback.mapTileFailed(aTileURLString);
+						if (Log.isLoggable(DEBUGTAG, Log.DEBUG))	// only log in debug mode, though it's an error message
 							Log.e(DEBUGTAG, "Error Loading MapTile from FS.");
 					}
 				} catch (FileNotFoundException e) {
-//					if (DEBUGMODE)
+					if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
 						Log.i(DEBUGTAG, "FS failed, request for download.");
-					OpenStreetMapTileFilesystemProvider.this.mTileDownloader.requestMapTileAsync(aTileURLString, callback);
+					mTileDownloader.requestMapTileAsync(aTileURLString, callback);
+				} catch (RemoteException e) {
+					if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
+						Log.e(DEBUGTAG, "Service failed", e);
 				} finally {
 					StreamUtils.closeStream(in);
 				}
@@ -157,19 +146,19 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 			final int bytesGrown = this.mDatabase.addTileOrIncrement(filename, someData.length);
 			this.mCurrentFSCacheByteSize += bytesGrown;
 
-			if(DEBUGMODE)
+			if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
 				Log.i(DEBUGTAG, "FSCache Size is now: " + this.mCurrentFSCacheByteSize + " Bytes");
 
 			/* If Cache is full... */
 			try {
 
 				if(this.mCurrentFSCacheByteSize > this.mMaxFSCacheByteSize){
-					if(DEBUGMODE)
+					if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
 						Log.d(DEBUGTAG, "Freeing FS cache...");
 					this.mCurrentFSCacheByteSize -= this.mDatabase.deleteOldest((int)(this.mMaxFSCacheByteSize * 0.05f)); // Free 5% of cache
 				}
 			} catch (EmptyCacheException e) {
-				if(DEBUGMODE)
+				if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
 					Log.e(DEBUGTAG, "Cache empty", e);
 			}
 		}
@@ -184,7 +173,7 @@ public class OpenStreetMapTileFilesystemProvider implements OpenStreetMapConstan
 			this.mDatabase.deleteOldest(Integer.MAX_VALUE); // Delete all
 			this.mCurrentFSCacheByteSize = 0;
 		} catch (EmptyCacheException e) {
-			if(DEBUGMODE)
+			if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
 				Log.e(DEBUGTAG, "Cache empty", e);
 		}
 	}

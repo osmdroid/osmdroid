@@ -1,9 +1,10 @@
 // Created by plusminus on 21:31:36 - 25.09.2008
-package org.andnav.osm.views.util;
+package org.andnav.osm.services.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
@@ -11,26 +12,26 @@ import java.util.HashSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
-import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
+import android.graphics.BitmapFactory;
+import android.os.RemoteException;
 import android.util.Log;
 
 /**
- * 
+ * The OpenStreetMapTileDownloader loads tiles from a server and passes them to
+ * a OpenStreetMapTileFilesystemProvider.
  * @author Nicolas Gramlich
+ * @author Manuel Stahl
  *
  */
-public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, OpenStreetMapViewConstants {
+public class OpenStreetMapTileDownloader {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	public static final int MAPTILEDOWNLOADER_SUCCESS_ID = 0;
-	public static final int MAPTILEDOWNLOADER_FAIL_ID = MAPTILEDOWNLOADER_SUCCESS_ID + 1;
+	private static final String DEBUGTAG = "OSM_DOWNLOADER";
 
 	// ===========================================================
 	// Fields
@@ -62,11 +63,11 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 	// Methods
 	// ===========================================================
 
-	public void requestMapTileAsync(final String aURLString, final Handler callback) {
-		if(this.mPending.contains(aURLString))
+	public void requestMapTileAsync(final String aTileURLString, final IOpenStreetMapTileProviderCallback callback) {
+		if(this.mPending.contains(aTileURLString))
 			return;
 
-		this.mPending.add(aURLString);
+		this.mPending.add(aTileURLString);
 
 		this.mThreadPool.execute(new Runnable(){
 			@Override
@@ -75,11 +76,11 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 				OutputStream out = null;
 
 				try {
-					if(DEBUGMODE)
-						Log.i(DEBUGTAG, "Downloading Maptile from url: " + aURLString);
+					if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
+						Log.d(DEBUGTAG, "Downloading Maptile from url: " + aTileURLString);
 
 
-					in = new BufferedInputStream(new URL(aURLString).openStream(), StreamUtils.IO_BUFFER_SIZE);
+					in = new BufferedInputStream(new URL(aTileURLString).openStream(), StreamUtils.IO_BUFFER_SIZE);
 
 					final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 					out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
@@ -88,27 +89,31 @@ public class OpenStreetMapTileDownloader implements OpenStreetMapConstants, Open
 
 					final byte[] data = dataStream.toByteArray();
 
-					OpenStreetMapTileDownloader.this.mMapTileFSProvider.saveFile(aURLString, data);
-					if(DEBUGMODE)
-						Log.i(DEBUGTAG, "Maptile saved to: " + aURLString);
+					OpenStreetMapTileDownloader.this.mMapTileFSProvider.saveFile(aTileURLString, data);
+					if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
+						Log.d(DEBUGTAG, "Maptile saved to: " + aTileURLString);
 
-					final Message successMessage = Message.obtain(callback, MAPTILEDOWNLOADER_SUCCESS_ID);
-					successMessage.sendToTarget();
-				} catch (Exception e) {
-					final Message failMessage = Message.obtain(callback, MAPTILEDOWNLOADER_FAIL_ID);
-					failMessage.sendToTarget();
-					if(DEBUGMODE)
+					callback.mapTileLoaded(aTileURLString, BitmapFactory.decodeByteArray(data, 0, data.length));
+				} catch (IOException e) {
+					try {
+						callback.mapTileFailed(aTileURLString);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					if(Log.isLoggable(DEBUGTAG, Log.ERROR))
 						Log.e(DEBUGTAG, "Error Downloading MapTile. Exception: " + e.getClass().getSimpleName(), e);
 					/* TODO What to do when downloading tile caused an error?
 					 * Also remove it from the mPending?
 					 * Doing not blocks it for the whole existence of this TileDownloder.
 					 * -> we remove it and the application has to re-request it.
 					 */
+				} catch (RemoteException re) {
 				} finally {
 					StreamUtils.closeStream(in);
 					StreamUtils.closeStream(out);
 				}
-				OpenStreetMapTileDownloader.this.mPending.remove(aURLString);
+				OpenStreetMapTileDownloader.this.mPending.remove(aTileURLString);
 			}
 		});
 	}
