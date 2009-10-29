@@ -215,7 +215,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	public double getLongitudeSpan() {
-		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6() / 1E6;
+		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;
 	}
 
 	public int getLongitudeSpanE6() {
