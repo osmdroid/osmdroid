@@ -2,6 +2,7 @@
 package org.andnav.osm;
 
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
@@ -26,7 +27,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * @author Manuel Stahl
  *
  */
-public class OpenStreetMap extends Activity {
+public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -52,11 +53,11 @@ public class OpenStreetMap extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    	mPrefs = getPreferences(MODE_PRIVATE);
+    	mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt("renderer", OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
+        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
         this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv);
         this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.getOverlays().add(this.mLocationOverlay);
@@ -64,9 +65,9 @@ public class OpenStreetMap extends Activity {
         
         this.setContentView(rl);
     
-    	mOsmv.getController().setZoom(mPrefs.getInt("zoomLevel", 2));
-    	mOsmv.scrollTo(mPrefs.getInt("scrollX", 0), mPrefs.getInt("scrollY", 0));
-    	if(mPrefs.getBoolean("show_location", false))
+    	mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
+    	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
+    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
     }
     
@@ -74,11 +75,11 @@ public class OpenStreetMap extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	edit.putInt("renderer", mOsmv.getRenderer().ordinal());
-    	edit.putInt("scrollX", mOsmv.getScrollX());
-    	edit.putInt("scrollY", mOsmv.getScrollY());
-    	edit.putInt("zoomLevel", mOsmv.getZoomLevel());
-    	edit.putBoolean("show_location", mLocationOverlay.isMyLocationEnabled());
+    	edit.putInt(PREFS_RENDERER, mOsmv.getRenderer().ordinal());
+    	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
+    	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
+    	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
+    	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
     	edit.commit();
     }
         
@@ -87,11 +88,11 @@ public class OpenStreetMap extends Activity {
     	this.mLocationOverlay.disableMyLocation();
     	
     	SharedPreferences.Editor edit = mPrefs.edit();
-    	edit.putInt("renderer", mOsmv.getRenderer().ordinal());
-    	edit.putInt("scrollX", mOsmv.getScrollX());
-    	edit.putInt("scrollY", mOsmv.getScrollY());
-    	edit.putInt("zoomLevel", mOsmv.getZoomLevel());
-    	edit.putBoolean("show_location", mLocationOverlay.isMyLocationEnabled());
+    	edit.putInt(PREFS_RENDERER, mOsmv.getRenderer().ordinal());
+    	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
+    	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
+    	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
+    	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
     	edit.commit();
     	super.onPause();
     }
@@ -99,8 +100,8 @@ public class OpenStreetMap extends Activity {
     @Override
     protected void onResume() {
     	super.onResume();
-    	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt("renderer", OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
-    	if(mPrefs.getBoolean("show_location", false))
+    	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
+    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
     }
  
