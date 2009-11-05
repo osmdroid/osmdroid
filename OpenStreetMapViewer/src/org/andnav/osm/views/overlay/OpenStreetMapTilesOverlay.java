@@ -1,6 +1,7 @@
 package org.andnav.osm.views.overlay;
 
 import org.andnav.osm.services.OpenStreetMapTileProviderService;
+import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
@@ -60,6 +61,8 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
 		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(0, 0, 0, 0);
+		tile.rendererID = this.mRendererInfo.ordinal();	// TODO get from service
 		
 		/*
 		 * Calculate the amount of tiles needed for each side around the center 
@@ -72,38 +75,33 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
 
 		final int mapTileUpperBound = 1 << zoomLevel;
-		final Point mapTileCoords = new Point();
+//		final Point mapTileCoords = new Point();
 		Point tilePos = new Point();
 
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
-				/*
-				 * Add/substract the difference of the tile-position to the one
-				 * of the center.
-				 */
-				mapTileCoords.y = MyMath.mod(y, mapTileUpperBound);
-				mapTileCoords.x = MyMath.mod(x, mapTileUpperBound);
 				/* Construct a URLString, which represents the MapTile. */
-				String tileURLString = this.mRendererInfo.getTileURLString(mapTileCoords, zoomLevel);
+				tile.zoomLevel = zoomLevel;
+				tile.y = MyMath.mod(y, mapTileUpperBound);
+				tile.x = MyMath.mod(x, mapTileUpperBound);
 
 				pj.toPixels(x, y, tilePos);
-				if (this.mTileProvider.isTileAvailable(tileURLString)) {
+				if (this.mTileProvider.isTileAvailable(tile)) {
 				/* Draw the MapTile 'i tileSizePx' above of the centerMapTile */
-					final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
+					final Bitmap currentMapTile = this.mTileProvider.getMapTile(tile);
 					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, this.mPaint);
 				} else {
-					this.mTileProvider.getMapTile(tileURLString);
+					this.mTileProvider.preCacheTile(tile);
 					if (zoomLevel > 0) {
-						Point tc = new Point(mapTileCoords.x, mapTileCoords.y);
-						tc.x /= 2;
-						tc.y /= 2;
-						tileURLString = this.mRendererInfo.getTileURLString(tc, zoomLevel - 1);
-						final Bitmap currentMapTile = this.mTileProvider.getMapTile(tileURLString);
+						int offX = tile.x % 2;
+						int offY = tile.y % 2;
+						tile.zoomLevel = zoomLevel - 1;
+						tile.x >>= 1;
+						tile.y >>= 1;
+						final Bitmap currentMapTile = this.mTileProvider.getMapTile(tile);
 						if (currentMapTile != null) {
-							mapTileCoords.x %= 2;
-							mapTileCoords.y %= 2;
-							final Rect src = new Rect(mapTileCoords.x*tileSizePx/2, mapTileCoords.y* tileSizePx/2, (mapTileCoords.x+1)*tileSizePx/2, (mapTileCoords.y+1)* tileSizePx/2); 
+							final Rect src = new Rect(offX*tileSizePx/2, offY* tileSizePx/2, (offX+1)*tileSizePx/2, (offY+1)* tileSizePx/2); 
 							final Rect dst = new Rect(tilePos.x, tilePos.y, tilePos.x+tileSizePx, tilePos.y+tileSizePx);
 							c.drawBitmap(currentMapTile, src, dst, mPaint);
 						}

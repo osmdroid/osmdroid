@@ -20,6 +20,8 @@ import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 
 interface IOpenStreetMapTileProviderService {
 
-	void getMapTile(in String aTileURLString, in IOpenStreetMapTileProviderCallback callback);
+	String[] getTileProviders();
+
+	void getMapTile(in int rendererID, in int zoomLevel, in int tileX, in int tileY, in IOpenStreetMapTileProviderCallback callback);
 
 }

@@ -69,6 +69,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
     	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
+   		this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
+    	
     }
     
     @Override
@@ -80,6 +82,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
     	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
     	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
+    	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
     	edit.commit();
     }
         
@@ -93,6 +96,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
     	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
     	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
+    	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
     	edit.commit();
     	super.onPause();
     }
@@ -138,6 +142,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()) {
 			case MENU_MY_LOCATION:
+				this.mLocationOverlay.followLocation(true);
 	    		this.mLocationOverlay.enableMyLocation();
 	    		Location lastFix = this.mLocationOverlay.getLastFix();
 	    		if (lastFix != null)
@@ -194,6 +199,9 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE)
+			this.mLocationOverlay.followLocation(false);
+
     	return super.onTouchEvent(event);
     }
 
