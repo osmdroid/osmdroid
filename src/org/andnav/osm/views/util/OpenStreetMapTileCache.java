@@ -3,6 +3,7 @@ package org.andnav.osm.views.util;
 
 import java.util.HashMap;
 
+import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.graphics.Bitmap;
@@ -42,12 +43,12 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// Getter & Setter
 	// ===========================================================
 	
-	public synchronized Bitmap getMapTile(final String aTileURLString) {
-		return this.mCachedTiles.get(aTileURLString);
+	public synchronized Bitmap getMapTile(final OpenStreetMapTile aTile) {
+		return this.mCachedTiles.get(aTile.toString());
 	}
 
-	public synchronized void putTile(final String aTileURLString, final Bitmap aTile) {
-		this.mCachedTiles.put(aTileURLString, aTile);
+	public synchronized void putTile(final OpenStreetMapTile aTile, final Bitmap aImage) {
+		this.mCachedTiles.put(aTile.toString(), aImage);
 	}
 
 	// ===========================================================
@@ -58,8 +59,8 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// Methods
 	// ===========================================================
 
-	public boolean containsTile(final String aTileURLString) {
-		return this.mCachedTiles.containsKey(aTileURLString);
+	public boolean containsTile(final OpenStreetMapTile aTile) {
+		return this.mCachedTiles.containsKey(aTile.toString());
 	}
 	
 	// ===========================================================

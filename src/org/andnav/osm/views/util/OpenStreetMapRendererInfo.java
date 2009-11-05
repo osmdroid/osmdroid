@@ -2,8 +2,7 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.R;
-
-import android.graphics.Point;
+import org.andnav.osm.services.util.OpenStreetMapTile;
 
 /**
  * 
@@ -49,14 +48,7 @@ public enum OpenStreetMapRendererInfo {
 	// Methods
 	// ===========================================================
 	
-	public String getTileURLString(final Point tileID, final int zoomLevel){
-		return new StringBuilder().append(this.BASEURL)
-		.append(zoomLevel)
-		.append("/")
-		.append(tileID.x)
-		.append("/")
-		.append(tileID.y)
-		.append(this.IMAGE_FILENAMEENDING)
-		.toString();
+	public String getTileURLString(final OpenStreetMapTile aTile) {
+		return String.format("%s%d/%d/%d%s", this.BASEURL, aTile.zoomLevel, aTile.x, aTile.y, this.IMAGE_FILENAMEENDING);
 	}
 }

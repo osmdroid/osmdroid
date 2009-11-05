@@ -24,7 +24,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.widget.Toast;
 
 /**
@@ -97,16 +96,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		return mMyLocationEnabled;
 	}
 	
+	public boolean isLocationFollowEnabled() {
+		return mFollow;
+	}
+	
+	public void followLocation(boolean enable) {
+		mFollow = enable;
+	}
+	
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent event, OpenStreetMapView mapView) {
-		if (event.getAction() == MotionEvent.ACTION_MOVE)
-			this.mFollow = false;
-		return super.onTouchEvent(event, mapView);
-	}
 	
 	@Override
 	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {}
@@ -179,7 +179,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	}
 	
 	public boolean enableMyLocation() {
-		mFollow = true;
 		if (!mMyLocationEnabled) {
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_FINE);
