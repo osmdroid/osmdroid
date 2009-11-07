@@ -72,19 +72,6 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
    		this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
     	
     }
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-    	super.onSaveInstanceState(outState);
-    	SharedPreferences.Editor edit = mPrefs.edit();
-    	edit.putInt(PREFS_RENDERER, mOsmv.getRenderer().ordinal());
-    	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
-    	edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
-    	edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
-    	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-    	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
-    	edit.commit();
-    }
         
     @Override
     protected void onPause() {
