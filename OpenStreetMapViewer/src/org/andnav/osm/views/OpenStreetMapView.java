@@ -9,6 +9,7 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.Util;
@@ -329,7 +330,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		else if(newZoomLevel < curZoomLevel)
 			scrollTo(getScrollX()>>(curZoomLevel-newZoomLevel), getScrollY()>>(curZoomLevel-newZoomLevel));
 
-//		this.postInvalidate();
+		// TODO snap for all snappables
+		Point snapPoint = new Point();
+		mProjection = new OpenStreetMapViewProjection();
+		for (OpenStreetMapViewOverlay osmvo : this.mOverlays) {
+			if (osmvo instanceof Snappable &&
+					((Snappable)osmvo).onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+				scrollTo(snapPoint.x, snapPoint.y);
+			}
+		}
 		return this.mZoomLevel;
 	}
 
