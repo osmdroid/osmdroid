@@ -47,6 +47,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	// ===========================================================
 
 	final static OpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererInfo.MAPNIK;
+   	final static String BUNDLE_RENDERER = "org.andnav.osm.views.OpenStreetMapView.RENDERER";
+	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
+	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
+	final static String BUNDLE_ZOOM_LEVEL = "org.andnav.osm.views.OpenStreetMapView.ZOOM";
 
 	// ===========================================================
 	// Fields
@@ -363,6 +367,19 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		return (int)(Util.tile2lon(getScrollX() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
 	}
 
+	public void onSaveInstanceState(android.os.Bundle state) {
+    	state.putInt(BUNDLE_RENDERER, getRenderer().ordinal());
+    	state.putInt(BUNDLE_SCROLL_X, getScrollX());
+    	state.putInt(BUNDLE_SCROLL_Y, getScrollY());
+    	state.putInt(BUNDLE_ZOOM_LEVEL, getZoomLevel());
+	}
+	
+	public void onRestoreInstanceState(android.os.Bundle state) {
+		setRenderer(OpenStreetMapRendererInfo.values()[state.getInt(BUNDLE_RENDERER, 0)]);
+    	setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
+    	scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
+	}
+	
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
