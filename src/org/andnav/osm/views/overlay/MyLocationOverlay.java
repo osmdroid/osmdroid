@@ -9,6 +9,7 @@ import org.andnav.osm.util.TypeConverter;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -31,7 +32,7 @@ import android.widget.Toast;
  * @author Manuel Stahl
  *
  */
-public class MyLocationOverlay extends OpenStreetMapViewOverlay implements LocationListener {
+public class MyLocationOverlay extends OpenStreetMapViewOverlay implements LocationListener, Snappable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -43,6 +44,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	protected final Paint mPaint = new Paint();
 	protected final Paint mCirclePaint = new Paint();
 	
+	protected final Bitmap PERSON_ICON;
 	protected final Bitmap DIRECTION_ARROW;
 	
 	protected OpenStreetMapViewController mMapController;
@@ -57,10 +59,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	private final Matrix directionRotater = new Matrix();
 	
+	/** Coordinates the feet of the person are located. */
+	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24,39);
+
 	private final float DIRECTION_ARROW_CENTER_X;
 	private final float DIRECTION_ARROW_CENTER_Y;
-	private final int DIRECTION_ARROW_WIDTH;
-	private final int DIRECTION_ARROW_HEIGHT;
 
 	// ===========================================================
 	// Constructors
@@ -72,12 +75,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		this.mCirclePaint.setARGB(0, 100, 100, 255);
 		this.mCirclePaint.setAntiAlias(true);
 		
+		this.PERSON_ICON = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.person);
 		this.DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
 		
 		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;
-		this.DIRECTION_ARROW_HEIGHT = this.DIRECTION_ARROW.getHeight();
-		this.DIRECTION_ARROW_WIDTH = this.DIRECTION_ARROW.getWidth();
 	}
 
 	// ===========================================================
@@ -129,13 +131,19 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 			float[] mtx = new float[9];
 			c.getMatrix().getValues(mtx);
 			
-			/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
-			Bitmap arrow = Bitmap.createBitmap(DIRECTION_ARROW, 0, 0, DIRECTION_ARROW_WIDTH, DIRECTION_ARROW_HEIGHT);
-			this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
-			this.directionRotater.postTranslate(-arrow.getWidth() / 2, -arrow.getHeight() / 2);			
-			this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
-			this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
-			c.drawBitmap(arrow, this.directionRotater, this.mPaint);
+			if (mLocation.hasSpeed() && mLocation.getSpeed() > 1) {
+				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
+				this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
+				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);			
+				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
+				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
+			} else {
+				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
+				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
+				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
+			}
 		}
 	}
 
@@ -167,6 +175,21 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 				}
 			});
 			t.run();
+		}
+	}
+	
+	@Override
+	public boolean onSnapToItem(int x, int y, Point snapPoint, OpenStreetMapView mapView) {
+		if(this.mLocation != null) {
+			final OpenStreetMapViewProjection pj = mapView.getProjection();
+			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), mScreenCoords);
+			snapPoint.x = mScreenCoords.x;
+			snapPoint.y = mScreenCoords.y;
+			
+			boolean snap = (x - mScreenCoords.x)*(x - mScreenCoords.x) + (y - mScreenCoords.y)*(y - mScreenCoords.y) < 64;
+			return snap;
+		} else {
+			return false;
 		}
 	}
 	
