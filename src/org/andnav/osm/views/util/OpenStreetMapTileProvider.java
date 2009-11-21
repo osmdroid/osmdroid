@@ -70,6 +70,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 	public void onServiceConnected(android.content.ComponentName name, android.os.IBinder service) {
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
+		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID);
 		Log.d("Service", "connected");
 	};
 	
