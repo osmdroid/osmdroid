@@ -99,11 +99,13 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 						tile.zoomLevel = zoomLevel - 1;
 						tile.x >>= 1;
 						tile.y >>= 1;
-						final Bitmap currentMapTile = this.mTileProvider.getMapTile(tile);
-						if (currentMapTile != null) {
-							final Rect src = new Rect(offX*tileSizePx/2, offY* tileSizePx/2, (offX+1)*tileSizePx/2, (offY+1)* tileSizePx/2); 
-							final Rect dst = new Rect(tilePos.x, tilePos.y, tilePos.x+tileSizePx, tilePos.y+tileSizePx);
-							c.drawBitmap(currentMapTile, src, dst, mPaint);
+						if (this.mTileProvider.isTileAvailable(tile)) {
+							final Bitmap currentMapTile = this.mTileProvider.getMapTile(tile);
+							if (currentMapTile != null) {
+								final Rect src = new Rect(offX*tileSizePx/2, offY* tileSizePx/2, (offX+1)*tileSizePx/2, (offY+1)* tileSizePx/2); 
+								final Rect dst = new Rect(tilePos.x, tilePos.y, tilePos.x+tileSizePx, tilePos.y+tileSizePx);
+								c.drawBitmap(currentMapTile, src, dst, mPaint);
+							}
 						}
 					}
 				}
