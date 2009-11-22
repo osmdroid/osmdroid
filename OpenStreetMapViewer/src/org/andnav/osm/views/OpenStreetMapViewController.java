@@ -5,7 +5,7 @@ import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView.Scaler;
 import org.andnav.osm.views.util.MyMath;
-import org.andnav.osm.views.util.Util;
+import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 import android.graphics.Point;
@@ -89,7 +89,7 @@ public class OpenStreetMapViewController {
 	public void animateTo(final GeoPoint point) {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
-		final Point p = Util.getPointFromCoordinates(point, this.mOsmv.getPixelZoomLevel(), null);
+		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx()/2;
 		mOsmv.mScroller.startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y, ANIMATION_DURATION_DEFAULT);
 		mOsmv.postInvalidate();
@@ -163,7 +163,7 @@ public class OpenStreetMapViewController {
 	 * Set the map view to the given center. There will be no animation.
 	 */
 	public void setCenter(final GeoPoint point) {
-		final Point p = Util.getPointFromCoordinates(point, this.mOsmv.getPixelZoomLevel(), null);
+		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx()/2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
@@ -194,7 +194,7 @@ public class OpenStreetMapViewController {
 	 */
 	public boolean zoomIn() {
 
-//		final String nextBelowMaptileUrlString = this.mRendererInfo.getTileURLString(Util
+//		final String nextBelowMaptileUrlString = this.mRendererInfo.getTileURLString(Mercator
 //				.getMapTileFromCoordinates(this.mLatitudeE6, this.mLongitudeE6, this.mZoomLevel + 1,
 //						null), this.mZoomLevel + 1);
 //		this.mTileProvider.preCacheTile(nextBelowMaptileUrlString);

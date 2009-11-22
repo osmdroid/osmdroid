@@ -81,7 +81,7 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 		if(this.mLocation != null){
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			final Point screenCoords = new Point();
-			pj.toPixels(this.mLocation, screenCoords);
+			pj.toMapPixels(this.mLocation, screenCoords);
 			
 			
 			/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */

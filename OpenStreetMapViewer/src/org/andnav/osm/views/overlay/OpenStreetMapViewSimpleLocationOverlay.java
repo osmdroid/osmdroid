@@ -65,7 +65,7 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 		if(this.mLocation != null){
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			final Point screenCoords = new Point();
-			pj.toPixels(this.mLocation, screenCoords);
+			pj.toMapPixels(this.mLocation, screenCoords);
 	
 			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y - PERSON_HOTSPOT.y, this.mPaint);
 		}

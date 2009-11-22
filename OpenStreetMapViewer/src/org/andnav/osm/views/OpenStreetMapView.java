@@ -12,7 +12,7 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
-import org.andnav.osm.views.util.Util;
+import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.Context;
@@ -249,7 +249,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		final int west = world_2 + getScrollX() - getWidth()/2;
 		final int east = world_2 + getScrollX() + getWidth()/2;
 		
-		return Util.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
+		return Mercator.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
 	}
 
 	/**
@@ -281,7 +281,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		else if (this.mMaxiMap != null)
 			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
 
-		final int[] coords = Util.getMapTileFromCoordinates(aLatitudeE6, aLongitudeE6, getPixelZoomLevel(), null);
+		final int[] coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6, getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx()/2;
 		if (getAnimation() == null || getAnimation().hasEnded()) {
 			mScroller.startScroll(getScrollX(), getScrollY(),
@@ -360,11 +360,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	public int getMapCenterLatitudeE6() {
-		return (int)(Util.tile2lat(getScrollY() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
+		return (int)(Mercator.tile2lat(getScrollY() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
 	}
 
 	public int getMapCenterLongitudeE6() {
-		return (int)(Util.tile2lon(getScrollX() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
+		return (int)(Mercator.tile2lon(getScrollX() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
 	}
 
 	public void onSaveInstanceState(android.os.Bundle state) {
@@ -642,10 +642,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 * @return GeoPoint under x/y.
 		 */
 		public GeoPoint fromPixels(float x, float y) {
-			/* Subtract the offset caused by touch. */
-//			x -= OpenStreetMapView.this.mTouchMapOffsetX;
-//			y -= OpenStreetMapView.this.mTouchMapOffsetY;
-
 			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y
 					/ viewHeight_2);
 		}
@@ -682,10 +678,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 * @return the Point containing the approximated ScreenCoordinates of
 		 *         the GeoPoint passed.
 		 */
-		public Point toPixels(final GeoPoint in, final Point reuse) {
+		public Point toMapPixels(final GeoPoint in, final Point reuse) {
 			final Point out = (reuse != null) ? reuse : new Point();
 
-			final int[] coords = Util.getMapTileFromCoordinates(in.getLatitudeE6(), in.getLongitudeE6(), getPixelZoomLevel(), null);
+			final int[] coords = Mercator.projectGeoPoint(in.getLatitudeE6(), in.getLongitudeE6(), getPixelZoomLevel(), null);
 			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
 			out.offset(offsetX, offsetY);
 			return out;
@@ -718,14 +714,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 			boolean first = true;
 			for (GeoPoint gp : in) {
-				final int[] underGeopointTileCoords = Util.getMapTileFromCoordinates(gp
+				final int[] underGeopointTileCoords = Mercator.projectGeoPoint(gp
 						.getLatitudeE6(), gp.getLongitudeE6(), zoomLevel, null);
 
 				/*
 				 * Calculate the Latitude/Longitude on the left-upper
 				 * ScreenCoords of the MapTile.
 				 */
-				final BoundingBoxE6 bb = Util.getBoundingBoxFromMapTile(underGeopointTileCoords,
+				final BoundingBoxE6 bb = Mercator.getBoundingBoxFromMapTile(underGeopointTileCoords,
 						zoomLevel);
 
 				final float[] relativePositionInCenterMapTile;
