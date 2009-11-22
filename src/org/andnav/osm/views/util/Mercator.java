@@ -1,106 +1,134 @@
-// Created by plusminus on 18:58:15 - 25.09.2008
+// Created by plusminus on 17:53:07 - 25.09.2008
 package org.andnav.osm.views.util;
 
-import org.andnav.osm.views.util.constants.MathConstants;
+import org.andnav.osm.util.BoundingBoxE6;
+import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.graphics.Point;
 
 /**
- * http://wiki.openstreetmap.org/index.php/Mercator
+ * http://wiki.openstreetmap.org/index.php/Mercator 
  * @author Nicolas Gramlich
- * This class provides a way to convert from latitude and longitude to a simple Mercator projection.
+ *
  */
-public class Mercator implements MathConstants {
+public class Mercator implements OpenStreetMapViewConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-//	private static final double R_MAJOR = 6378137.0;
-//	private static final double R_MINOR = 6356752.3142;
-//	private static final double RATIO = R_MINOR / R_MAJOR;
-//	
-//		
-//	private static final double ECCENT = Math.sqrt(1.0 - (RATIO * RATIO));
-//	private static final double COM = 0.5 * ECCENT;
-
-
-
+	final static double DEG2RAD = Math.PI / 180;
+	
+	// ===========================================================
+	// Fields
+	// ===========================================================
 
 	// ===========================================================
-	// Static Methods
+	// Constructors
+	// ===========================================================
+
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
+
+	// ===========================================================
+	// Methods from SuperClass/Interfaces
+	// ===========================================================
+
+	// ===========================================================
+	// Methods
 	// ===========================================================
 	
 	/**
-	 * Converts a Mercator-projected y-coordinate (projected latitude) to the real Latitude. This is only a approximation. 
+	 * Mercator projection of GeoPoint at given zoom level 
+	 * @param aLat latitude in degrees [-89000000 to 89000000]
+	 * @param aLon longitude in degrees [-180000000 to 180000000]
+	 * @param zoom zoom level
+	 * @param aUseAsReturnValue
+	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static double y2lat(final double a) { return 180/Math.PI * (2 * Math.atan(Math.exp(a*Math.PI/180)) - Math.PI/2); }
+	public static int[] projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom, final int[] reuse) {
+		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, reuse);
+	}
 	
 	/**
-	 * Converts a real Latitude to the Mercator-projected y-coordinate (projected latitude) . This is only a approximation. 
+	 * Mercator projection of GeoPoint at given zoom level 
+	 * @param aLat latitude in degrees [-89 to 89]
+	 * @param aLon longitude in degrees [-180 to 180]
+	 * @param zoom zoom level
+	 * @param aUseAsReturnValue
+	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static double lat2y(final double a) { return 180/Math.PI * Math.log(Math.tan(Math.PI/4+a*(Math.PI/180)/2)); }
+	public static int[] projectGeoPoint(final double aLat, final double aLon, final int aZoom, final int[] aUseAsReturnValue) {
+		final int[] out = (aUseAsReturnValue != null) ? aUseAsReturnValue : new int[2];
+
+		out[MAPTILE_LONGITUDE_INDEX] = (int) Math.floor((aLon + 180) / 360 * (1 << aZoom));
+		out[MAPTILE_LATITUDE_INDEX] = (int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1 / Math.cos(aLat * DEG2RAD)) / Math.PI) / 2 * (1 << aZoom));
+
+		return out;
+	}
 	
 	/**
-	 * Converts a Mercator-projected x-coordinate (projected longitude) to the real longitude. This is only a approximation. 
+	 * Mercator projection of GeoPoint at given zoom level 
+	 * @param aGeoPoint
+	 * @param zoom zoom level
+	 * @param aUseAsReturnValue
+	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static double x2lon(final double x){ return x * RAD2DEG; }
+	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom, Point aUseAsReturnValue) {
+		Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
+		
+		final double aLon = aGeoPoint.getLongitudeE6()*1E-6;
+		final double aLat = aGeoPoint.getLatitudeE6()*1E-6; 
+		p.x = (int) Math.floor((aLon + 180) / 360 * (1 << aZoom));
+		p.y = (int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1 / Math.cos(aLat * DEG2RAD)) / Math.PI) / 2 * (1 << aZoom));
+		
+		return p;
+	}
 	
 	/**
-	 * Converts a real longitude to the Mercator-projected x-coordinate (projected longitude). This is only a approximation. 
+	 * Get bounding box from reverse Mercator projection.
+	 * @param left
+	 * @param top
+	 * @param right
+	 * @param bottom
+	 * @param zoom
+	 * @return
 	 */
-	public static double lon2x(final double lon) { return DEG2RAD * lon; }
+	public static BoundingBoxE6 getBoundingBoxFromCoords(final int left, final int top, final int right, final int bottom, final int zoom) {
+		return new BoundingBoxE6(tile2lat(top, zoom), tile2lon(right, zoom), tile2lat(bottom, zoom), tile2lon(left, zoom));
+	}
 	
-//	public static double[] fromMercatorProjection(final int x, final int y){
-//		return new double[] {projectedToRealLat(y / 1E6), projectedToRealLon(x / 1E6)};
-//	}
-//	
-//	public static double[] fromMercatorProjection(final double x, final double y){
-//		return new double[] {projectedToRealLat(y), projectedToRealLon(x)};
-//	}
-//
-//	private static double projectedToRealLon(final double x){
-//		return x * RAD2DEG / R_MAJOR;
-//	}
-//
-//	private static double projectedToRealLat(final double y){
-//		final double ts = Math.exp(-y / R_MAJOR);
-//		double phi = PI_2 - 2 * Math.atan(ts);
-//		double dphi = 1.0;
-//		int i = 0;
-//		while((Math.abs(dphi) > 0.000000001) && (i < 15)) {
-//			final double con = ECCENT * Math.sin(phi);
-//			dphi = PI_2 - 2 * Math.atan(ts * Math.pow((1.0 - con) / (1.0 + con), COM)) - phi;
-//			phi += dphi;
-//			i++;
-//		}
-//		return RAD2DEG * phi;
-//	}
-//
-//	public static double[] toMercatorProjection(final double aLatitude, final double aLongitude) {
-//		return new double[] {realToProjectedLat(aLatitude), realToProjectedLon(aLongitude)};
-//	}
-//	
-//	public static double[] toMercatorProjection(final int aLatitudeE6, final int aLongitudeE6) {
-//		return new double[] {realToProjectedLat(aLatitudeE6 / 1E6), realToProjectedLon(aLongitudeE6 / 1E6)};
-//	}
-//
-//	private static double realToProjectedLon(final double lon) {
-//		return R_MAJOR * DEG2RAD * lon;
-//	}
-//
-//	private static double realToProjectedLat(double lat) {
-//		if (lat > 89.5) {
-//			lat = 89.5;
-//		}
-//		if (lat < -89.5) {
-//			lat = -89.5;
-//		}
-//		
-//		final double phi = DEG2RAD * lat;
-//		final double sinphi = Math.sin(phi);
-//		double con = ECCENT * sinphi;
-//		con = Math.pow(((1.0 - con) / (1.0 + con)), COM);
-//		final double ts = Math.tan(0.5 * (PI_2 - phi)) / con;
-//		final double y = 0 - R_MAJOR * Math.log(ts);
-//		return y;
-//	}
+	/**
+	 * Get bounding box from reverse Mercator projection.
+	 * @param aMapTile
+	 * @param aZoom
+	 * @return
+	 */
+	public static BoundingBoxE6 getBoundingBoxFromMapTile(final int[] aMapTile, final int aZoom) {
+		final int y = aMapTile[MAPTILE_LATITUDE_INDEX];
+		final int x = aMapTile[MAPTILE_LONGITUDE_INDEX];
+		return new BoundingBoxE6(tile2lat(y, aZoom), tile2lon(x + 1, aZoom), tile2lat(y + 1, aZoom), tile2lon(x, aZoom));
+	}
+	
+	/**
+	 * Reverse Mercator projection of Point at given zoom level
+	 * 
+	 */
+	public static GeoPoint projectPoint(int x, int y, int aZoom) {
+		return new GeoPoint((int)(tile2lat(y, aZoom)*1E6), (int)(tile2lon(x, aZoom)*1E6));
+	}
+	
+	public static double tile2lon(int x, int aZoom) {
+		return (x / (1 << aZoom) * 360.0) - 180;
+	}
+
+	public static double tile2lat(int y, int aZoom) {
+		final double n = Math.PI - ((2.0 * Math.PI * y) / (1 << aZoom));
+		return 180.0 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+	}
+
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
 }

@@ -86,7 +86,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for(int i = this.mItemList.size() - 1; i >= 0; i--){
 			T item = this.mItemList.get(i); 
-			pj.toPixels(item.mGeoPoint, curScreenCoords);
+			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
 			
 			onDrawItem(c, i, curScreenCoords);
 		}		
@@ -118,7 +118,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		
 		for(int i = 0; i < this.mItemList.size(); i++){
 			final T mItem = this.mItemList.get(i);
-			pj.toPixels(mItem.mGeoPoint, mCurScreenCoords);
+			pj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords);
 			
 			final int left = mCurScreenCoords.x - this.mMarkerHotSpot.x;
 			final int right = left + markerWidth;
