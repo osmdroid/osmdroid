@@ -52,7 +52,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	private LocationManager mLocationManager;
 	private boolean mMyLocationEnabled = false;
 	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-	private final Point mScreenCoords = new Point();
+	private final Point mMapCoords = new Point();
 	
 	protected Location mLocation;
 	protected boolean mFollow = false;	// follow location updates
@@ -117,16 +117,16 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), mScreenCoords);
+			pj.toMapPixels(TypeConverter.locationToGeoPoint(mLocation), mMapCoords);
 			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 			
 			this.mCirclePaint.setAlpha(50);
 			this.mCirclePaint.setStyle(Style.FILL);
-			c.drawCircle(mScreenCoords.x, mScreenCoords.y, radius, this.mCirclePaint);
+			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
 			
 			this.mCirclePaint.setAlpha(150);
 			this.mCirclePaint.setStyle(Style.STROKE);
-			c.drawCircle(mScreenCoords.x, mScreenCoords.y, radius, this.mCirclePaint);
+			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
 			
 			float[] mtx = new float[9];
 			c.getMatrix().getValues(mtx);
@@ -136,12 +136,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 				this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);			
 				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
-				this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
+				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
 			} else {
 				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
 				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
-				this.directionRotater.postTranslate(mScreenCoords.x, mScreenCoords.y);
+				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
 			}
 		}
@@ -182,11 +182,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public boolean onSnapToItem(int x, int y, Point snapPoint, OpenStreetMapView mapView) {
 		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = mapView.getProjection();
-			pj.toPixels(TypeConverter.locationToGeoPoint(mLocation), mScreenCoords);
-			snapPoint.x = mScreenCoords.x;
-			snapPoint.y = mScreenCoords.y;
+			pj.toMapPixels(TypeConverter.locationToGeoPoint(mLocation), mMapCoords);
+			snapPoint.x = mMapCoords.x;
+			snapPoint.y = mMapCoords.y;
 			
-			boolean snap = (x - mScreenCoords.x)*(x - mScreenCoords.x) + (y - mScreenCoords.y)*(y - mScreenCoords.y) < 64;
+			boolean snap = (x - mMapCoords.x)*(x - mMapCoords.x) + (y - mMapCoords.y)*(y - mMapCoords.y) < 64;
 			return snap;
 		} else {
 			return false;
