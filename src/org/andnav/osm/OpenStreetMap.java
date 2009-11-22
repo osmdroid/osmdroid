@@ -158,7 +158,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(OpenStreetMap.this)
             .setIcon(R.drawable.icon)
-            .setTitle(R.string.about)
+            .setTitle(R.string.app_name)
             .setMessage(R.string.about_message)
             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {}
