@@ -1,6 +1,5 @@
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.services.OpenStreetMapTileProviderService;
 import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -127,7 +126,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		@Override
 		public void handleMessage(final Message msg) {
 			switch (msg.what) {
-				case OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID:
+				case OpenStreetMapTile.MAPTILE_SUCCESS_ID:
 					mOsmv.invalidate();
 					break;
 			}

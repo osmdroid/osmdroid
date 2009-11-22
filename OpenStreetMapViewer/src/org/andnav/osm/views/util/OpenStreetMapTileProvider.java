@@ -4,7 +4,6 @@ package org.andnav.osm.views.util;
 import org.andnav.osm.R;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
-import org.andnav.osm.services.OpenStreetMapTileProviderService;
 import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
@@ -70,7 +69,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 	public void onServiceConnected(android.content.ComponentName name, android.os.IBinder service) {
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
-		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID);
+		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 		Log.d("Service", "connected");
 	};
 	
@@ -130,7 +129,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 		public void mapTileLoaded(int rendererID, int zoomLevel, int tileX, int tileY, Bitmap aTile) throws RemoteException {
 			mTileCache.putTile(new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY), aTile);
 			mDownloadFinishedHandler
-					.sendEmptyMessage(OpenStreetMapTileProviderService.MAPTILE_SUCCESS_ID);
+					.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 			if (DEBUGMODE)
 				Log.i(DEBUGTAG, "MapTile download success.");
 		}

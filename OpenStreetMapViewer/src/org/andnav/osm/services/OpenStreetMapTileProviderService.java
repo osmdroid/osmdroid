@@ -16,9 +16,6 @@ import android.os.RemoteException;
  */
 public class OpenStreetMapTileProviderService extends Service {
 
-	public static final int MAPTILE_SUCCESS_ID = 0;
-	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
-	
 	private OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 	
 	@Override

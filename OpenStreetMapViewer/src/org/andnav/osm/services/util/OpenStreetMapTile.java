@@ -8,6 +8,9 @@ public class OpenStreetMapTile {
 	public int y;
 	
 	public int zoomLevel;
+
+	public static final int MAPTILE_SUCCESS_ID = 0;
+	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
 	
 	public OpenStreetMapTile(int rendererID, int zoomLevel, int tileX, int tileY) {
 		this.rendererID = rendererID;
