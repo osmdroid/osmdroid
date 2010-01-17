@@ -1,8 +1,6 @@
 // Created by plusminus on 17:58:57 - 25.09.2008
 package org.andnav.osm.views.util;
 
-import java.util.HashMap;
-
 import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
@@ -13,7 +11,7 @@ import android.graphics.Bitmap;
  * @author Nicolas Gramlich
  *
  */
-public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
+public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -22,13 +20,13 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// Fields
 	// ===========================================================
 	
-	protected HashMap<String, Bitmap> mCachedTiles;
+	protected LRUMapTileCache mCachedTiles;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapTileCache(){
+	public OpenStreetMapTileCache() {
 		this(CACHE_MAPTILECOUNT_DEFAULT);
 	}
 	
@@ -44,11 +42,11 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// ===========================================================
 	
 	public synchronized Bitmap getMapTile(final OpenStreetMapTile aTile) {
-		return this.mCachedTiles.get(aTile.toString());
+		return this.mCachedTiles.get(aTile);
 	}
 
 	public synchronized void putTile(final OpenStreetMapTile aTile, final Bitmap aImage) {
-		this.mCachedTiles.put(aTile.toString(), aImage);
+		this.mCachedTiles.put(aTile, aImage);
 	}
 
 	// ===========================================================
@@ -60,7 +58,7 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants{
 	// ===========================================================
 
 	public boolean containsTile(final OpenStreetMapTile aTile) {
-		return this.mCachedTiles.containsKey(aTile.toString());
+		return this.mCachedTiles.containsKey(aTile);
 	}
 	
 	// ===========================================================
