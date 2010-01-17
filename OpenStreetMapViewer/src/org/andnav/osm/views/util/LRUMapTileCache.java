@@ -4,6 +4,8 @@ package org.andnav.osm.views.util;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import org.andnav.osm.services.util.OpenStreetMapTile;
+
 import android.graphics.Bitmap;
 
 /**
@@ -13,7 +15,7 @@ import android.graphics.Bitmap;
  * @author Nicolas Gramlich
  *
  */
-public class LRUMapTileCache extends HashMap<String, Bitmap> {
+public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 
 	// ===========================================================
 	// Constants
@@ -28,7 +30,7 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 	/** Maximum cache size. */
 	private final int maxCacheSize;
 	/** LRU list. */
-	private final LinkedList<String> list;
+	private final LinkedList<OpenStreetMapTile> list;
 
 	// ===========================================================
 	// Constructors
@@ -41,8 +43,8 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 	 */
 	public LRUMapTileCache(final int maxCacheSize) {
 		super(maxCacheSize);
-		this.maxCacheSize = Math.max(0, maxCacheSize);
-		this.list = new LinkedList<String>();
+		this.maxCacheSize = Math.max(1, maxCacheSize);
+		this.list = new LinkedList<OpenStreetMapTile>();
 	}
 
 	// ===========================================================
@@ -73,10 +75,7 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 	 *         indicate that the cache previously associated <code>null</code>
 	 *         with the specified key
 	 */
-	public synchronized Bitmap put(final String key, final Bitmap value) {
-		if (maxCacheSize == 0){
-			return null;
-		}
+	public synchronized Bitmap put(final OpenStreetMapTile key, final Bitmap value) {
 
 		// if the key isn't in the cache and the cache is full...
 		if (!super.containsKey(key) && !list.isEmpty() && list.size() + 1 > maxCacheSize) {
@@ -96,7 +95,7 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 	 * @return the value to which the cache maps the specified key, or
 	 *         <code>null</code> if the map contains no mapping for this key
 	 */
-	public synchronized Bitmap get(final String key) {
+	public synchronized Bitmap get(final OpenStreetMapTile key) {
 		final Bitmap value = super.get(key);
 		if (value != null) {
 			updateKey(key);
@@ -104,7 +103,7 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 		return value;
 	}
 
-	public synchronized Bitmap remove(final String key) {
+	public synchronized Bitmap remove(final OpenStreetMapTile key) {
 		list.remove(key);
 		return super.remove(key);
 	}
@@ -115,7 +114,7 @@ public class LRUMapTileCache extends HashMap<String, Bitmap> {
 	 * 
 	 * @param key of the value to move to the top of the list
 	 */
-	private void updateKey(final String key) {
+	private void updateKey(final OpenStreetMapTile key) {
 		list.remove(key);
 		list.addFirst(key);
 	}

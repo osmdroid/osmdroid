@@ -24,4 +24,22 @@ public class OpenStreetMapTile {
 		return rendererID + "/" + zoomLevel + "/" + x + "/" + y;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof OpenStreetMapTile) {
+			OpenStreetMapTile t = (OpenStreetMapTile) o;
+			return zoomLevel == t.zoomLevel && x == t.x && y == t.y && rendererID == t.rendererID;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		int code = rendererID;
+		code = code * 37 + zoomLevel;
+		code = code * 37 + x;
+		code = code * 37 + y;
+		return code;
+	}
+	
 }
