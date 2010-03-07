@@ -120,7 +120,7 @@ public class Mercator implements OpenStreetMapViewConstants {
 	}
 	
 	public static double tile2lon(int x, int aZoom) {
-		return (x / (1 << aZoom) * 360.0) - 180;
+		return ((double)x / (1 << aZoom) * 360.0) - 180;
 	}
 
 	public static double tile2lat(int y, int aZoom) {
