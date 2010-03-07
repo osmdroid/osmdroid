@@ -127,7 +127,9 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 		
 		@Override
 		public void mapTileLoaded(int rendererID, int zoomLevel, int tileX, int tileY, Bitmap aTile) throws RemoteException {
-			mTileCache.putTile(new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY), aTile);
+			if (aTile != null) {
+                mTileCache.putTile(new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY), aTile);
+            }
 			mDownloadFinishedHandler
 					.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 			if (DEBUGMODE)

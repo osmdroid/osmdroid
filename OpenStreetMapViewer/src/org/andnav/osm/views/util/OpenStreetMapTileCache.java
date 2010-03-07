@@ -46,7 +46,9 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	}
 
 	public synchronized void putTile(final OpenStreetMapTile aTile, final Bitmap aImage) {
-		this.mCachedTiles.put(aTile, aImage);
+	    if (aImage != null) {
+            this.mCachedTiles.put(aTile, aImage);
+        }
 	}
 
 	// ===========================================================
