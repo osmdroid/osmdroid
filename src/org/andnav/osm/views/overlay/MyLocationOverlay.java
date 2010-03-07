@@ -199,6 +199,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 
 	public void disableMyLocation() {
 		getLocationManager().removeUpdates(this);
+		mMyLocationEnabled = false;
 	}
 	
 	public boolean enableMyLocation() {
