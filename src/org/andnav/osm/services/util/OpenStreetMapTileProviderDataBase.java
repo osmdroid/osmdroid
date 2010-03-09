@@ -68,7 +68,6 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 	// Fields
 	// ===========================================================
 
-	protected final Context mCtx;
 	protected final SQLiteDatabase mDatabase;
 	protected final SimpleDateFormat DATE_FORMAT_ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
@@ -77,7 +76,6 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 	// ===========================================================
 
 	public OpenStreetMapTileProviderDataBase(final Context context) {
-		this.mCtx = context;
 		this.mDatabase = new AndNavDatabaseHelper(context).getWritableDatabase();
 	}
 

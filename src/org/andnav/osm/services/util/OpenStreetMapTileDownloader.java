@@ -14,7 +14,6 @@ import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
@@ -38,15 +37,13 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// Fields
 	// ===========================================================
 
-	protected final Context mCtx;
 	protected final OpenStreetMapTileFilesystemProvider mMapTileFSProvider;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileDownloader(final Context ctx, final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
-		this.mCtx = ctx;
+	public OpenStreetMapTileDownloader(final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
 		this.mMapTileFSProvider = aMapTileFSProvider;
 		mThreadPool = Executors.newFixedThreadPool(4);
 	}
