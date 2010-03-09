@@ -19,6 +19,8 @@ import android.util.Log;
  */
 class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 
+    final static String DEBUGTAG = "OSM_DATABASE";
+
 	private static final String DATABASE_NAME = "osmaptilefscache_db";
 	private static final int DATABASE_VERSION = 3;
 
@@ -208,7 +210,7 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 				db.execSQL(T_RENDERER_CREATE_COMMAND);
 				db.execSQL(T_FSCACHE_CREATE_COMMAND);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.e(DEBUGTAG, "Error creating database", e);
 			}
 		}
 
