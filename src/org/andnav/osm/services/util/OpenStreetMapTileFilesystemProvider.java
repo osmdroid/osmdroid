@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 
 import org.andnav.osm.exceptions.EmptyCacheException;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.content.Context;
@@ -27,7 +28,7 @@ import android.util.Log;
  * @author Nicolas Gramlich
  *
  */
-public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileProvider {
+public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileProvider implements OpenStreetMapServiceConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -64,9 +65,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx, this);
 
-//		File f = new File("/sdcard/andnav2");
-//		f.mkdirs();
-		
 		if(Log.isLoggable(DEBUGTAG, Log.INFO))
 			Log.i(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
 	}
@@ -125,6 +123,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
+	@Override
 	protected Runnable getTileLoader(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aCallback) {
 		return new TileLoader(aTile, aCallback);
 	};
@@ -135,8 +134,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	private String buildPath(final OpenStreetMapTile tile) {
 		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.rendererID];
-		return "/sdcard/andnav2/tiles/" + renderer.name() + "/" + tile.zoomLevel + "/"
-					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + ".andnav"; 
+		return TILE_PATH_BASE + renderer.name() + "/" + tile.zoomLevel + "/"
+					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
 	}
 	
 	private InputStream getInput(final OpenStreetMapTile tile) throws FileNotFoundException {
