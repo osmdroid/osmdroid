@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.concurrent.Executors;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.content.Context;
@@ -25,7 +26,7 @@ import android.util.Log;
  * @author Manuel Stahl
  *
  */
-public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider {
+public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider implements OpenStreetMapServiceConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -57,6 +58,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
+	@Override
 	protected Runnable getTileLoader(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aCallback) {
 		return new TileLoader(aTile, aCallback);
 	};
@@ -88,9 +90,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			String tileURLString = buildURL(mTile);
 			
 			try {
-				if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
+				if(DEBUGMODE)
 					Log.d(DEBUGTAG, "Downloading Maptile from url: " + tileURLString);
-
 
 				in = new BufferedInputStream(new URL(tileURLString).openStream(), StreamUtils.IO_BUFFER_SIZE);
 
@@ -102,25 +103,27 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				final byte[] data = dataStream.toByteArray();
 
 				OpenStreetMapTileDownloader.this.mMapTileFSProvider.saveFile(mTile, data);
-				if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
-					Log.d(DEBUGTAG, "Maptile saved to: " + tileURLString);
+				if(DEBUGMODE)
+					Log.d(DEBUGTAG, "Maptile saved: " + mTile);
 
 				mCallback.mapTileLoaded(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, BitmapFactory.decodeByteArray(data, 0, data.length));
 			} catch (IOException e) {
 				try {
 					mCallback.mapTileFailed(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y);
 				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					Log.e(DEBUGTAG, "Service failed", e1);
 				}
-				if(Log.isLoggable(DEBUGTAG, Log.ERROR))
-					Log.e(DEBUGTAG, "Error Downloading MapTile. Exception: " + e.getClass().getSimpleName(), e);
+				if(DEBUGMODE)
+					Log.e(DEBUGTAG, "Error Downloading MapTile: " + mTile + " : " + e);
 				/* TODO What to do when downloading tile caused an error?
 				 * Also remove it from the mPending?
 				 * Doing not blocks it for the whole existence of this TileDownloder.
 				 * -> we remove it and the application has to re-request it.
 				 */
 			} catch (RemoteException re) {
+				Log.e(DEBUGTAG, "Service failed", re);
+			} catch(final Throwable t) {
+				Log.e(DEBUGTAG, "Error Downloading MapTile: " + mTile + " : " + t);
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);

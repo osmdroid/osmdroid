@@ -101,8 +101,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 			try {
 				this.mTileService.getMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, this.mServiceCallback);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 			}
 		}
 		return null;
@@ -113,8 +112,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 			try {
 				this.mTileService.getMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, this.mServiceCallback);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 			}
 		}
 	}

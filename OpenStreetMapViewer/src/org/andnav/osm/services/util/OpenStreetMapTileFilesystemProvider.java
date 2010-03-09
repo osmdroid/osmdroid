@@ -65,8 +65,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx, this);
 
-		if(Log.isLoggable(DEBUGTAG, Log.INFO))
-			Log.i(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
+		if(DEBUGMODE)
+			Log.d(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
 	}
 
 	// ===========================================================
@@ -87,20 +87,20 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 			final int bytesGrown = this.mDatabase.addTileOrIncrement(tile, someData.length);
 			this.mCurrentFSCacheByteSize += bytesGrown;
 
-			if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
-				Log.i(DEBUGTAG, "FSCache Size is now: " + this.mCurrentFSCacheByteSize + " Bytes");
+			if(DEBUGMODE)
+				Log.d(DEBUGTAG, "FSCache Size is now: " + this.mCurrentFSCacheByteSize + " Bytes");
 
 			/* If Cache is full... */
 			try {
 
 				if(this.mCurrentFSCacheByteSize > this.mMaxFSCacheByteSize){
-					if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
+					if(DEBUGMODE)
 						Log.d(DEBUGTAG, "Freeing FS cache...");
 					this.mCurrentFSCacheByteSize -= this.mDatabase.deleteOldest((int)(this.mMaxFSCacheByteSize * 0.05f)); // Free 5% of cache
 				}
 			} catch (EmptyCacheException e) {
-				if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
-					Log.e(DEBUGTAG, "Cache empty", e);
+				if(DEBUGMODE)
+					Log.d(DEBUGTAG, "Cache empty", e);
 			}
 		}
 	}
@@ -114,8 +114,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 			this.mDatabase.deleteOldest(Integer.MAX_VALUE); // Delete all
 			this.mCurrentFSCacheByteSize = 0;
 		} catch (EmptyCacheException e) {
-			if(Log.isLoggable(DEBUGTAG, Log.DEBUG))
-				Log.e(DEBUGTAG, "Cache empty", e);
+			if(DEBUGMODE)
+				Log.d(DEBUGTAG, "Cache empty", e);
 		}
 	}
 
@@ -168,24 +168,30 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 			InputStream in = null;
 			try {
 				in = getInput(mTile);
-				final Bitmap bmp = BitmapFactory.decodeStream(in);
+				Bitmap bmp = null;
+				try {
+					bmp = BitmapFactory.decodeStream(in);
+				} catch (final OutOfMemoryError e) {
+					// XXX this is the error that occurs frequently and we want to prevent
+					//     see issue #9
+					Log.e(DEBUGTAG, "OutOfMemoryError loading MapTile from FS: " + mTile);
+				}
 				if (bmp != null) {
 					mCallback.mapTileLoaded(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, bmp);
 
-					if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
+					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Loaded: " + mTile.toString());
 				} else {
 					mCallback.mapTileFailed(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y);
-					if (Log.isLoggable(DEBUGTAG, Log.DEBUG))	// only log in debug mode, though it's an error message
+					if (DEBUGMODE)	// only log in debug mode, though it's an error message
 						Log.e(DEBUGTAG, "Error Loading MapTile from FS.");
 				}
 			} catch (FileNotFoundException e) {
-				if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
-					Log.i(DEBUGTAG, "FS failed, request for download.");
+				if (DEBUGMODE)
+					Log.d(DEBUGTAG, "FS failed, request for download.");
 				mTileDownloader.loadMapTileAsync(mTile, mCallback);
 			} catch (RemoteException e) {
-				if (Log.isLoggable(DEBUGTAG, Log.DEBUG))
-					Log.e(DEBUGTAG, "Service failed", e);
+				Log.e(DEBUGTAG, "Service failed", e);
 			} finally {
 				StreamUtils.closeStream(in);
 				finished();

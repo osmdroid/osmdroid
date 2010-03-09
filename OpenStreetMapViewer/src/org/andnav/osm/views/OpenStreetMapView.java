@@ -10,9 +10,9 @@ import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
+import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
-import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.Context;
@@ -516,7 +516,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		}
 
 		final long endMs = System.currentTimeMillis();
-		Log.i(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
+		if (DEBUGMODE)
+			Log.d(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
 		computeScale();
 	}
 
