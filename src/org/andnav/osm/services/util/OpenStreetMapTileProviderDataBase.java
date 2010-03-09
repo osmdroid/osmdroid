@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * The OpenStreetMapTileProviderDataBase contains a table with info for the available renderers and one for
+ * The OpenStreetMapTileProviderDataBase contains a table with info for
  * the available tiles in the file system cache.
  */
 class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
@@ -22,7 +22,7 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
     final static String DEBUGTAG = "OSM_DATABASE";
 
 	private static final String DATABASE_NAME = "osmaptilefscache_db";
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 4;
 
 	private static final String T_FSCACHE = "t_fscache";	
 	private static final String T_FSCACHE_RENDERER_ID = "rendererID";
@@ -33,14 +33,9 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 	private static final String T_FSCACHE_TIMESTAMP = "timestamp";
 	private static final String T_FSCACHE_USAGECOUNT = "countused";
 	private static final String T_FSCACHE_FILESIZE = "filesize";
-	
+
+	// TODO remove this after some time
 	private static final String T_RENDERER = "t_renderer";
-	private static final String T_RENDERER_ID		= "id";
-	private static final String T_RENDERER_NAME		= "name";
-	private static final String T_RENDERER_BASE_URL	= "base_url";
-	private static final String T_RENDERER_ZOOM_MIN	= "zoom_min";
-	private static final String T_RENDERER_ZOOM_MAX	= "zoom_max";
-	private static final String T_RENDERER_TILE_SIZE_LOG = "tile_size_log";
 	
 	private static final String T_FSCACHE_CREATE_COMMAND = "CREATE TABLE IF NOT EXISTS " + T_FSCACHE
 	+ " (" 
@@ -57,16 +52,6 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 						+ T_FSCACHE_TILE_Y + ")"
 	+ ");";
 	
-	private static final String T_RENDERER_CREATE_COMMAND = "CREATE TABLE IF NOT EXISTS " + T_RENDERER
-	+ " ("
-	+ T_RENDERER_ID + " INTEGER PRIMARY KEY autoincrement,"
-	+ T_RENDERER_NAME + " VARCHAR(255),"
-	+ T_RENDERER_BASE_URL + " VARCHAR(255),"
-	+ T_RENDERER_ZOOM_MIN + " INTEGER NOT NULL,"
-	+ T_RENDERER_ZOOM_MAX + " INTEGER NOT NULL,"
-	+ T_RENDERER_TILE_SIZE_LOG + " INTEGER NOT NULL"
-	+ ");";
-
 	private static final String SQL_ARG = "=?";
 	private static final String AND = " AND ";
 
@@ -76,8 +61,8 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 												+ T_FSCACHE_TILE_Y + SQL_ARG;
 
 	
-//	private static final String T_FSCACHE_SELECT_LEAST_USED = "SELECT " + T_FSCACHE_NAME  + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " WHERE "  + T_FSCACHE_USAGECOUNT + " = (SELECT MIN(" + T_FSCACHE_USAGECOUNT + ") FROM "  + T_FSCACHE + ")";
-//	private static final String T_FSCACHE_SELECT_OLDEST = "SELECT " + T_FSCACHE_NAME + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " ORDER BY " + T_FSCACHE_TIMESTAMP + " ASC";
+    //	private static final String T_FSCACHE_SELECT_LEAST_USED = "SELECT " + T_FSCACHE_NAME  + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " WHERE "  + T_FSCACHE_USAGECOUNT + " = (SELECT MIN(" + T_FSCACHE_USAGECOUNT + ") FROM "  + T_FSCACHE + ")";
+    //	private static final String T_FSCACHE_SELECT_OLDEST = "SELECT " + T_FSCACHE_NAME + "," + T_FSCACHE_FILESIZE + " FROM " + T_FSCACHE + " ORDER BY " + T_FSCACHE_TIMESTAMP + " ASC";
 	
 	// ===========================================================
 	// Fields
@@ -135,6 +120,9 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 	}
 
 	int deleteOldest(final int pSizeNeeded) throws EmptyCacheException {
+	    
+	    // TODO fix this so that it does what it's supposed to
+	    
 //		final Cursor c = this.mDatabase.rawQuery(T_FSCACHE_SELECT_OLDEST, null);
 //		final ArrayList<String> deleteFromDB = new ArrayList<String>();
 //		int sizeGained = 0;
@@ -207,7 +195,6 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			try {
-				db.execSQL(T_RENDERER_CREATE_COMMAND);
 				db.execSQL(T_FSCACHE_CREATE_COMMAND);
 			} catch (Exception e) {
 				Log.e(DEBUGTAG, "Error creating database", e);
@@ -219,6 +206,7 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 			if(DEBUGMODE)
 				Log.w(OpenStreetMapTileFilesystemProvider.DEBUGTAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
 
+			db.execSQL("DROP TABLE IF EXISTS " + T_RENDERER);
 			db.execSQL("DROP TABLE IF EXISTS " + T_FSCACHE);
 
 			onCreate(db);
