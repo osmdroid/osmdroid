@@ -1,7 +1,6 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
 package org.andnav.osm.views.util;
 
-import org.andnav.osm.R;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
 import org.andnav.osm.services.util.OpenStreetMapTile;
@@ -13,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.util.Log;
@@ -33,9 +31,6 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// Fields
 	// ===========================================================
 
-	/** place holder if tile not available */
-	protected final Bitmap mLoadingMapTile;
-	// protected Context mCtx;
 	/** cache provider */
 	protected OpenStreetMapTileCache mTileCache;
 
@@ -48,9 +43,6 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 	public OpenStreetMapTileProvider(final Context ctx,
 			final Handler aDownloadFinishedListener) {
-		// this.mCtx = ctx;
-		this.mLoadingMapTile = BitmapFactory.decodeResource(ctx.getResources(),
-				R.drawable.maptile_loading);
 		this.mTileCache = new OpenStreetMapTileCache();
 		
 		if(!ctx.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE))
