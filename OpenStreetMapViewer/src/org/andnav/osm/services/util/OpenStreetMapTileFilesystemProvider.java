@@ -39,7 +39,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Fields
 	// ===========================================================
 
-	protected final Context mCtx;
 	protected final OpenStreetMapTileProviderDataBase mDatabase;
 	protected final int mMaxFSCacheByteSize;
 	protected int mCurrentFSCacheByteSize;
@@ -57,13 +56,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * @param aCache to load fs-tiles to.
 	 */
 	public OpenStreetMapTileFilesystemProvider(final Context ctx, final int aMaxFSCacheByteSize) {
-		this.mCtx = ctx;
 		this.mMaxFSCacheByteSize = aMaxFSCacheByteSize;
 		this.mDatabase = new OpenStreetMapTileProviderDataBase(ctx);
 		this.mCurrentFSCacheByteSize = this.mDatabase.getCurrentFSCacheByteSize();
 		this.mThreadPool = Executors.newFixedThreadPool(2);
 
-		this.mTileDownloader = new OpenStreetMapTileDownloader(ctx, this);
+		this.mTileDownloader = new OpenStreetMapTileDownloader(this);
 
 		if(DEBUGMODE)
 			Log.d(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
@@ -140,7 +138,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	
 	private InputStream getInput(final OpenStreetMapTile tile) throws FileNotFoundException {
 		return new BufferedInputStream(new FileInputStream(buildPath(tile)), StreamUtils.IO_BUFFER_SIZE);
-//		return new BufferedInputStream(this.mCtx.openFileInput(path), StreamUtils.IO_BUFFER_SIZE);
 	}
 	
 	private OutputStream getOutput(final OpenStreetMapTile tile) throws IOException {
