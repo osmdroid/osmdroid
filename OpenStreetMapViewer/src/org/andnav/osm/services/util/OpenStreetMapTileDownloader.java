@@ -15,6 +15,7 @@ import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 import android.util.Log;
@@ -106,7 +107,14 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				if(DEBUGMODE)
 					Log.d(DEBUGTAG, "Maptile saved: " + mTile);
 
-				mCallback.mapTileLoaded(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, BitmapFactory.decodeByteArray(data, 0, data.length));
+				Bitmap bitmap = null;
+				try {
+					bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+				}catch(OutOfMemoryError e) {
+					// it's downloaded, so success, but we just can't return it immediately
+					Log.e(DEBUGTAG, "OutOfMemoryError creating bitmap from downloaded MapTile: " + mTile);
+				}
+				mCallback.mapTileLoaded(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, bitmap);
 			} catch (IOException e) {
 				try {
 					mCallback.mapTileFailed(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y);
@@ -114,16 +122,12 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 					Log.e(DEBUGTAG, "Service failed", e1);
 				}
 				if(DEBUGMODE)
-					Log.e(DEBUGTAG, "Error Downloading MapTile: " + mTile + " : " + e);
-				/* TODO What to do when downloading tile caused an error?
-				 * Also remove it from the mPending?
-				 * Doing not blocks it for the whole existence of this TileDownloder.
-				 * -> we remove it and the application has to re-request it.
-				 */
+					Log.e(DEBUGTAG, "Error downloading MapTile: " + mTile + " : " + e);
 			} catch (RemoteException re) {
-				Log.e(DEBUGTAG, "Service failed", re);
+				Log.e(DEBUGTAG, "Service failed downloading MapTile: " + mTile, re);
 			} catch(final Throwable t) {
-				Log.e(DEBUGTAG, "Error Downloading MapTile: " + mTile + " : " + t);
+				// don't expect to get this
+				Log.e(DEBUGTAG, "Error downloading MapTile: " + mTile, t);
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);
