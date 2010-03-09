@@ -67,16 +67,10 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     
     	mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
     	mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
-    	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
-    		this.mLocationOverlay.enableMyLocation();
-   		this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
-    	
     }
         
     @Override
     protected void onPause() {
-    	this.mLocationOverlay.disableMyLocation();
-    	
     	SharedPreferences.Editor edit = mPrefs.edit();
     	edit.putInt(PREFS_RENDERER, mOsmv.getRenderer().ordinal());
     	edit.putInt(PREFS_SCROLL_X, mOsmv.getScrollX());
@@ -85,6 +79,9 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     	edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
     	edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
     	edit.commit();
+
+    	this.mLocationOverlay.disableMyLocation();
+    	
     	super.onPause();
     }
     
@@ -94,6 +91,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     	mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
     	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
+    	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
     }
  
     @Override
