@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import org.andnav.osm.R;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.TypeConverter;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
@@ -91,7 +90,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	}
 	
 	public GeoPoint getMyLocation() {
-		return TypeConverter.locationToGeoPoint(mLocation);
+		return new GeoPoint(mLocation);
 	}
 
 	public boolean isMyLocationEnabled() {
@@ -117,7 +116,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			pj.toMapPixels(TypeConverter.locationToGeoPoint(mLocation), mMapCoords);
+			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 			
 			this.mCirclePaint.setAlpha(50);
@@ -182,7 +181,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public boolean onSnapToItem(int x, int y, Point snapPoint, OpenStreetMapView mapView) {
 		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = mapView.getProjection();
-			pj.toMapPixels(TypeConverter.locationToGeoPoint(mLocation), mMapCoords);
+			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
 			

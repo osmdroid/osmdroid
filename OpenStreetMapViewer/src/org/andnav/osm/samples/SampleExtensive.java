@@ -2,7 +2,7 @@ package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
 import org.andnav.osm.R;
-import org.andnav.osm.util.TypeConverter;
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
@@ -132,7 +132,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
     
 	@Override
 	public void onLocationChanged(final Location pLoc) {
-		this.mMyLocationOverlay.setLocation(TypeConverter.locationToGeoPoint(pLoc));
+		this.mMyLocationOverlay.setLocation(new GeoPoint(pLoc));
 	}
 
 	@Override
