@@ -18,13 +18,12 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Paint.Style;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.util.Log;
 
 /**
  * 
@@ -32,9 +31,18 @@ import android.widget.Toast;
  *
  */
 public class MyLocationOverlay extends OpenStreetMapViewOverlay implements LocationListener, Snappable {
+
+	public static final String DEBUGTAG = "OPENSTREETMAP";
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	/**
+	 * The time we wait after the last gps location before displaying
+	 *  a non-gps location.
+	 */
+	private static final long GPS_WAIT_TIME = 20000; // 20 seconds
 
 	// ===========================================================
 	// Fields
@@ -47,14 +55,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	protected final Bitmap DIRECTION_ARROW;
 	
 	protected OpenStreetMapViewController mMapController;
-	private Context mCtx;
-	private LocationManager mLocationManager;
+	private final LocationManager mLocationManager;
 	private boolean mMyLocationEnabled = false;
 	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
 	
 	protected Location mLocation;
 	protected boolean mFollow = false;	// follow location updates
+	private long mLastGps = 0; // last time we got a location from the gps provider
 	
 	private final Matrix directionRotater = new Matrix();
 	
@@ -69,7 +77,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 	
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
-		this.mCtx = ctx;
+		this.mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 		this.mMapController = mapView.getController();
 		this.mCirclePaint.setARGB(0, 100, 100, 255);
 		this.mCirclePaint.setAntiAlias(true);
@@ -147,7 +155,19 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	}
 
 	@Override
-	public void onLocationChanged(Location location) {
+	public void onLocationChanged(final Location location) {
+
+		// ignore temporary non-gps fix
+		final long now = System.currentTimeMillis();
+		if (LocationManager.GPS_PROVIDER.equals(location.getProvider())) {
+			mLastGps = now;
+		} else {
+			if (now < mLastGps + GPS_WAIT_TIME) {
+				Log.d(DEBUGTAG, "Ignore temporary non-gps location");
+				return;
+			}
+		}
+
 		mLocation = location;
 		if (mFollow)
 			mMapController.animateTo(new GeoPoint(location));
@@ -197,22 +217,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 
 	public void disableMyLocation() {
-		getLocationManager().removeUpdates(this);
+		mLocationManager.removeUpdates(this);
 		mMyLocationEnabled = false;
 	}
 	
 	public boolean enableMyLocation() {
 		if (!mMyLocationEnabled) {
-			Criteria crit = new Criteria();
-			crit.setAccuracy(Criteria.ACCURACY_FINE);
-			
-			String provider = getLocationManager().getBestProvider(crit, true);
-			try {
-				getLocationManager().requestLocationUpdates(provider, 0, 0, this);
-			} catch(Exception e) {
-				disableMyLocation();
-				Toast.makeText(this.mCtx, R.string.no_location_provider, Toast.LENGTH_LONG).show();
-				return mMyLocationEnabled = false;
+			for (final String provider : mLocationManager.getAllProviders()) {
+				mLocationManager.requestLocationUpdates(provider, 0, 0, this);
 			}
 		}
 		return mMyLocationEnabled = true;
@@ -226,12 +238,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 			mRunOnFirstFix.addLast(runnable);
 			return false;
 		}
-	}
-	
-	private LocationManager getLocationManager() {
-		if(this.mLocationManager == null)
-			this.mLocationManager = (LocationManager) mCtx.getSystemService(Context.LOCATION_SERVICE);
-		return this.mLocationManager; 
 	}
 	
 	// ===========================================================
