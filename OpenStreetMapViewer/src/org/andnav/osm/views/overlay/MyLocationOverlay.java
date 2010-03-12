@@ -24,6 +24,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  * 
@@ -212,6 +213,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		}
 	}
 	
+	@Override
+	public boolean onTouchEvent(MotionEvent event, OpenStreetMapView mapView) {
+		if (event.getAction() == MotionEvent.ACTION_MOVE)
+			mFollow = false;
+
+		return super.onTouchEvent(event, mapView);
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
