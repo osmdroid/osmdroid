@@ -1,27 +1,18 @@
-/*
- * Copyright (C) 2007 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.andnav.osm.services;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 
 interface IOpenStreetMapTileProviderService {
 
-	String[] getTileProviders();
-
-	void getMapTile(in int rendererID, in int zoomLevel, in int tileX, in int tileY, in IOpenStreetMapTileProviderCallback callback);
+/**
+ * Initiate a request for a map tile.
+ * When the request has completed it will call callback.mapTileRequestComplete.
+ * @param rendererID
+ * @param zoomLevel
+ * @param tileX
+ * @param tileY
+ * @param callback the callback to notify when the request completes 
+ */
+void requestMapTile(in int rendererID, in int zoomLevel, in int tileX, in int tileY, in IOpenStreetMapTileProviderCallback callback);
 
 }

@@ -1,25 +1,17 @@
 // Created by plusminus on 21:46:41 - 25.09.2008
 package org.andnav.osm.services.util;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.Executors;
 
 import org.andnav.osm.exceptions.EmptyCacheException;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
-import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -28,7 +20,7 @@ import android.util.Log;
  * @author Nicolas Gramlich
  *
  */
-public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileProvider implements OpenStreetMapServiceConstants {
+public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileProvider {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -56,10 +48,10 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * @param aCache to load fs-tiles to.
 	 */
 	public OpenStreetMapTileFilesystemProvider(final Context ctx, final int aMaxFSCacheByteSize) {
+		super(2);
 		this.mMaxFSCacheByteSize = aMaxFSCacheByteSize;
 		this.mDatabase = new OpenStreetMapTileProviderDataBase(ctx);
 		this.mCurrentFSCacheByteSize = this.mDatabase.getCurrentFSCacheByteSize();
-		this.mThreadPool = Executors.newFixedThreadPool(2);
 
 		this.mTileDownloader = new OpenStreetMapTileDownloader(this);
 
@@ -136,15 +128,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
 	}
 	
-	private InputStream getInput(final OpenStreetMapTile tile) throws FileNotFoundException {
-		return new BufferedInputStream(new FileInputStream(buildPath(tile)), StreamUtils.IO_BUFFER_SIZE);
-	}
-	
 	private OutputStream getOutput(final OpenStreetMapTile tile) throws IOException {
 		File file = new File(buildPath(tile));
 		if (!file.exists()) {
 			file.getParentFile().mkdirs();
-			file.createNewFile();
+			file.createNewFile(); // XXX why ???
 		}
 		return new BufferedOutputStream(new FileOutputStream(file, false), StreamUtils.IO_BUFFER_SIZE);		
 	}
@@ -162,35 +150,23 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		@Override
 		public void run() {
 			OpenStreetMapTileFilesystemProvider.this.mDatabase.incrementUse(mTile);
-			InputStream in = null;
 			try {
-				in = getInput(mTile);
-				Bitmap bmp = null;
-				try {
-					bmp = BitmapFactory.decodeStream(in);
-				} catch (final OutOfMemoryError e) {
-					// XXX this is the error that occurs frequently and we want to prevent
-					//     see issue #9
-					Log.e(DEBUGTAG, "OutOfMemoryError loading MapTile from FS: " + mTile);
-				}
-				if (bmp != null) {
-					mCallback.mapTileLoaded(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, bmp);
-
+				final String tilePath = buildPath(mTile);
+				final File tileFile = new File(tilePath);
+				if (tileFile.exists()) {
 					if (DEBUGMODE)
-						Log.d(DEBUGTAG, "Loaded: " + mTile.toString());
+						Log.d(DEBUGTAG, "Loaded tile: " + mTile);
+					mCallback.mapTileRequestCompleted(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, tilePath);
 				} else {
-					mCallback.mapTileFailed(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y);
-					if (DEBUGMODE)	// only log in debug mode, though it's an error message
-						Log.e(DEBUGTAG, "Error Loading MapTile from FS.");
+					if (DEBUGMODE)
+						Log.d(DEBUGTAG, "Tile not exist, request for download: " + mTile);
+					mTileDownloader.loadMapTileAsync(mTile, mCallback);
 				}
-			} catch (FileNotFoundException e) {
-				if (DEBUGMODE)
-					Log.d(DEBUGTAG, "FS failed, request for download.");
-				mTileDownloader.loadMapTileAsync(mTile, mCallback);
+			} catch (NullPointerException e) {
+				Log.e(DEBUGTAG, "Service failed", e);
 			} catch (RemoteException e) {
 				Log.e(DEBUGTAG, "Service failed", e);
 			} finally {
-				StreamUtils.closeStream(in);
 				finished();
 			}
 		}

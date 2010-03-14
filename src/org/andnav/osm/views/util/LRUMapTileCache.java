@@ -30,7 +30,7 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	/** Maximum cache size. */
 	private final int maxCacheSize;
 	/** LRU list. */
-	private final LinkedList<OpenStreetMapTile> list;
+	private final LinkedList<Object> list;
 
 	// ===========================================================
 	// Constructors
@@ -44,7 +44,7 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	public LRUMapTileCache(final int maxCacheSize) {
 		super(maxCacheSize);
 		this.maxCacheSize = Math.max(1, maxCacheSize);
-		this.list = new LinkedList<OpenStreetMapTile>();
+		this.list = new LinkedList<Object>();
 	}
 
 	// ===========================================================
@@ -58,6 +58,7 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	/**
 	 * Overrides clear() to also clear the LRU list.
 	 */
+	@Override
 	public synchronized void clear() {
 		super.clear();
 		list.clear();
@@ -75,12 +76,14 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	 *         indicate that the cache previously associated <code>null</code>
 	 *         with the specified key
 	 */
+	@Override
 	public synchronized Bitmap put(final OpenStreetMapTile key, final Bitmap value) {
 
 		// if the key isn't in the cache and the cache is full...
 		if (!super.containsKey(key) && !list.isEmpty() && list.size() + 1 > maxCacheSize) {
 			final Object deadKey = list.removeLast();
-			super.remove(deadKey);
+			Bitmap bm = super.remove(deadKey);
+			bm.recycle();
 		}
 
 		updateKey(key);
@@ -95,7 +98,8 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	 * @return the value to which the cache maps the specified key, or
 	 *         <code>null</code> if the map contains no mapping for this key
 	 */
-	public synchronized Bitmap get(final OpenStreetMapTile key) {
+	@Override
+	public synchronized Bitmap get(final Object key) {
 		final Bitmap value = super.get(key);
 		if (value != null) {
 			updateKey(key);
@@ -103,10 +107,15 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 		return value;
 	}
 
-	public synchronized Bitmap remove(final OpenStreetMapTile key) {
+	@Override
+	public synchronized Bitmap remove(final Object key) {
 		list.remove(key);
 		return super.remove(key);
 	}
+
+	// ===========================================================
+	// Methods
+	// ===========================================================
 
 	/**
 	 * Moves the specified value to the top of the LRU list (the bottom of the
@@ -114,14 +123,10 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 	 * 
 	 * @param key of the value to move to the top of the list
 	 */
-	private void updateKey(final OpenStreetMapTile key) {
+	private void updateKey(final Object key) {
 		list.remove(key);
 		list.addFirst(key);
 	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
 
 	// ===========================================================
 	// Inner and Anonymous Classes
