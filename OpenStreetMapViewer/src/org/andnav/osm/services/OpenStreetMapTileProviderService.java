@@ -2,7 +2,6 @@ package org.andnav.osm.services;
 
 import org.andnav.osm.services.util.OpenStreetMapTile;
 import org.andnav.osm.services.util.OpenStreetMapTileFilesystemProvider;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.app.Service;
 import android.content.Intent;
@@ -35,15 +34,7 @@ public class OpenStreetMapTileProviderService extends Service {
 	 */
 	private final IOpenStreetMapTileProviderService.Stub mBinder = new IOpenStreetMapTileProviderService.Stub() {
 		@Override
-		public String[] getTileProviders() throws RemoteException {
-			int i = 0;
-			String[] providers = new String[OpenStreetMapRendererInfo.values().length];
-			for (OpenStreetMapRendererInfo info: OpenStreetMapRendererInfo.values())
-				providers[i++] = info.name();
-			return providers;
-		}
-		@Override
-		public void getMapTile(int rendererID, int zoomLevel, int tileX,
+		public void requestMapTile(int rendererID, int zoomLevel, int tileX,
 				int tileY, IOpenStreetMapTileProviderCallback callback)
 				throws RemoteException {
 

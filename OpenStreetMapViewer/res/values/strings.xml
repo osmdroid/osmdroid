@@ -9,5 +9,4 @@
 <string name="my_location">My location</string>
 <string name="about">About</string>
 <string name="about_message">This software uses map data provided by &lt;b&gt;OpenStreetMap.org&lt;/b&gt;</string>
-<string name="no_location_provider">You must enable a location provider in the system settings</string>
 </resources>
