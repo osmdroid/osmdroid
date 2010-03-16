@@ -8,12 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.util.Stack;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
-import android.os.RemoteException;
 import android.util.Log;
 
 /**
@@ -35,14 +33,13 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private final OpenStreetMapTileFilesystemProvider mMapTileFSProvider;
-	private final Stack<OpenStreetMapTile> mTileStack = new Stack<OpenStreetMapTile>();
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public OpenStreetMapTileDownloader(final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
-		super(4);
+		super(NUMBER_OF_TILE_DOWNLOAD_THREADS);
 		this.mMapTileFSProvider = aMapTileFSProvider;
 	}
 
@@ -55,8 +52,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	@Override
-	protected Runnable getTileLoader(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aCallback) {
-		return new TileLoader(aTile, aCallback);
+	protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aCallback) {
+		return new TileLoader(aCallback);
 	};
 	
 	// ===========================================================
@@ -74,32 +71,17 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
-		public TileLoader(final OpenStreetMapTile aTile, final IOpenStreetMapTileProviderCallback aCallback) {
-			super(aTile, aCallback);
-			mTileStack.push(aTile);
+		public TileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
+			super(aCallback);
 		}
 
 		@Override
-		public void run() {
+		public String loadTile(final OpenStreetMapTile aTile) {
 
-			// do nothing if the stack is empty
-			if (mTileStack.empty()) {
-				return;
-			}
-			
-			/**
-			 * We will run this thread with the most recently added tile,
-			 * which is not necessarily the one we started with.
-			 */
-			String initialTile = mTile.toString();
-			mTile = mTileStack.pop();
-			if(DEBUGMODE)
-				Log.d(DEBUGTAG, "Started with " + initialTile + " - running with " + mTile);
-			
 			InputStream in = null;
 			OutputStream out = null;
 
-			String tileURLString = buildURL(mTile);
+			String tileURLString = buildURL(aTile);
 			
 			try {
 				if(DEBUGMODE)
@@ -116,37 +98,31 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				
 				// sanity check - don't save an empty file
 				if (data.length == 0) {
-					Log.i(DEBUGTAG, "Empty maptile not saved: " + mTile);
+					Log.i(DEBUGTAG, "Empty maptile not saved: " + aTile);
 				} else {
-					mMapTileFSProvider.saveFile(mTile, data);
+					mMapTileFSProvider.saveFile(aTile, data);
 					if(DEBUGMODE)
-						Log.d(DEBUGTAG, "Maptile saved " + data.length + " bytes : " + mTile);
+						Log.d(DEBUGTAG, "Maptile saved " + data.length + " bytes : " + aTile);
 				}
 			} catch (IOException e) {
 				if(DEBUGMODE)
-					Log.e(DEBUGTAG, "Error downloading MapTile: " + mTile + " : " + e);
+					Log.e(DEBUGTAG, "Error downloading MapTile: " + aTile + " : " + e);
 			} catch(final Throwable e) {
-				Log.e(DEBUGTAG, "Error downloading MapTile: " + mTile, e);
+				Log.e(DEBUGTAG, "Error downloading MapTile: " + aTile, e);
 			} finally {
-				/* Tell the callback we've finished.
-				 * Don't immediately send the tile back.
-				 * If we're moving, and the internet is a bit patchy, then by the time
-				 * the download has finished we don't need this tile any more.
-				 * If we still do need it then the file system provider will get it 
-				 * again next time it's needed.
-				 * That should be immediately because the view is redrawn when it
-				 * receives this completion event.
-				 */
-				try {
-					mCallback.mapTileRequestCompleted(mTile.rendererID, mTile.zoomLevel, mTile.x, mTile.y, null);
-				} catch (RemoteException e) {
-					Log.e(DEBUGTAG, "Service failed", e);
-				}
-
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);
-				finished();
 			}
+
+			/* Don't immediately send the tile back.
+			 * If we're moving, and the internet is a bit patchy, then by the time
+			 * the download has finished we don't need this tile any more.
+			 * If we still do need it then the file system provider will get it 
+			 * again next time it's needed.
+			 * That should be immediately because the view is redrawn when it
+			 * receives this completion event.
+			 */
+			return null;
 		}
 	};
 

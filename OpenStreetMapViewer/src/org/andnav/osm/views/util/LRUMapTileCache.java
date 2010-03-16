@@ -83,7 +83,9 @@ public class LRUMapTileCache extends HashMap<OpenStreetMapTile, Bitmap> {
 		if (!super.containsKey(key) && !list.isEmpty() && list.size() + 1 > maxCacheSize) {
 			final Object deadKey = list.removeLast();
 			Bitmap bm = super.remove(deadKey);
-			bm.recycle();
+			if (bm != null) {
+				bm.recycle();
+			}
 		}
 
 		updateKey(key);

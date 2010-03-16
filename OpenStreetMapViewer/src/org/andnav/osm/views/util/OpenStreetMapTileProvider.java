@@ -16,6 +16,7 @@ import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -62,14 +63,14 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
-	public void onServiceConnected(android.content.ComponentName name, android.os.IBinder service) {
+	public void onServiceConnected(final ComponentName name, final IBinder service) {
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
 		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 		Log.d("Service", "connected");
 	};
 	
 	@Override
-	public void onServiceDisconnected(ComponentName name) {
+	public void onServiceDisconnected(final ComponentName name) {
 		mTileService = null;
 		Log.d("Service", "disconnected");
 	}
@@ -93,13 +94,13 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 		if (this.mTileCache.containsTile(aTile)) {							// from cache
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "MapTileCache succeeded for: " + aTile);
-			return this.mTileCache.getMapTile(aTile);			
+			return mTileCache.getMapTile(aTile);			
 		} else {															// from service
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 			try {
-				this.mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, this.mServiceCallback);
-			} catch (RemoteException e) {
+				mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, mServiceCallback);
+			} catch (Throwable e) {
 				Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 			}
 			return null;
