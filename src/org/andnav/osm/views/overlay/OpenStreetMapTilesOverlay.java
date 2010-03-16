@@ -1,12 +1,12 @@
 package org.andnav.osm.views.overlay;
 
 import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
-import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,6 +15,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
@@ -50,6 +51,10 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	
 	@Override
 	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
+
+		if(DEBUGMODE)
+			Log.v(DEBUGTAG, "onDraw");
+
 		/*
 		 * Do some calculations and drag attributes to local variables to save
 		 * some performance.
@@ -86,17 +91,27 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				tile.x = MyMath.mod(x, mapTileUpperBound);
 
 				pj.toPixels(x, y, tilePos);
-				final Bitmap currentMapTile = this.mTileProvider.getMapTile(tile);
+				final Bitmap currentMapTile = mTileProvider.getMapTile(tile);
 				if (currentMapTile != null) {
-					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, this.mPaint);
+					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, mPaint);
 				}
 
-				if (OpenStreetMapViewConstants.DEBUGMODE) {
-					c.drawLine(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y, this.mPaint);
-					c.drawLine(tilePos.x, tilePos.y, tilePos.x, tilePos.y + tileSizePx, this.mPaint);
+				if (DEBUGMODE) {
+					c.drawText(tile.toString(), tilePos.x + 1, tilePos.y + mPaint.getTextSize(), mPaint);
+					c.drawLine(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y, mPaint);
+					c.drawLine(tilePos.x, tilePos.y, tilePos.x, tilePos.y + tileSizePx, mPaint);
 				}
 			}
 		}
+
+		// draw a cross at center in debug mode
+		if (DEBUGMODE) {
+			final GeoPoint center = osmv.getMapCenter();
+			final Point centerPoint = pj.toMapPixels(center, null);
+			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mPaint);
+			c.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mPaint);
+		}
+
 	}
 
 	@Override
