@@ -71,6 +71,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	@Override
+	protected String debugtag() {
+		return DEBUGTAG;
+	}
+
+	@Override
 	protected Runnable getTileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
 		return new TileLoader(aCallback);
 	};
@@ -85,17 +90,24 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
 	}
 	
-	private OutputStream getOutput(final OpenStreetMapTile tile) throws IOException {
+	/**
+	 * Get the file location for the tile.
+	 * @param tile
+	 * @return 
+	 * @throws CantContinueException if the directory containing the file doesn't exist
+	 * and can't be created
+	 */
+	File getOutputFile(final OpenStreetMapTile tile) throws CantContinueException {
 		final File file = new File(buildPath(tile));
-		if (!file.exists()) {
-			file.getParentFile().mkdirs();
-			file.createNewFile(); // XXX why ???
+		final File parent = file.getParentFile();
+		if (!parent.exists() && !parent.mkdirs()) {
+			throw new CantContinueException();
 		}
-		return new BufferedOutputStream(new FileOutputStream(file, false), StreamUtils.IO_BUFFER_SIZE);		
+		return file;
 	}
 	
-	public void saveFile(final OpenStreetMapTile tile, final byte[] someData) throws IOException{
-		final OutputStream bos = getOutput(tile);
+	void saveFile(final OpenStreetMapTile tile, final File outputFile, final byte[] someData) throws IOException{
+		final OutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile, false), StreamUtils.IO_BUFFER_SIZE);		
 		bos.write(someData);
 		bos.flush();
 		bos.close();
@@ -147,22 +159,21 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		}
 
 		@Override
-		public String loadTile(final OpenStreetMapTile aTile) {
+		public String loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 			mDatabase.incrementUse(aTile);
+			final File tileFile = getOutputFile(aTile);
 			try {
-				final String tilePath = buildPath(aTile);
-				final File tileFile = new File(tilePath);
 				if (tileFile.exists()) {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Loaded tile: " + aTile);
-					return tilePath;
+					return tileFile.getPath();
 				} else {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Tile not exist, request for download: " + aTile);
 					mTileDownloader.loadMapTileAsync(aTile, mCallback);
 					return null;
 				}
-			} catch (Throwable e) {
+			} catch (final Throwable e) {
 				Log.e(DEBUGTAG, "Error loading tile", e);
 				return null;
 			}

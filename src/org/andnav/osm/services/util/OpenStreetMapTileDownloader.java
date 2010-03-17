@@ -4,10 +4,12 @@ package org.andnav.osm.services.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.UnknownHostException;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
@@ -52,6 +54,11 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	@Override
+	protected String debugtag() {
+		return DEBUGTAG;
+	}
+
+	@Override
 	protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aCallback) {
 		return new TileLoader(aCallback);
 	};
@@ -76,12 +83,13 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 		}
 
 		@Override
-		public String loadTile(final OpenStreetMapTile aTile) {
+		public String loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 
 			InputStream in = null;
 			OutputStream out = null;
 
-			String tileURLString = buildURL(aTile);
+			final File outputFile = mMapTileFSProvider.getOutputFile(aTile);
+			final String tileURLString = buildURL(aTile);
 			
 			try {
 				if(DEBUGMODE)
@@ -100,13 +108,16 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				if (data.length == 0) {
 					Log.i(DEBUGTAG, "Empty maptile not saved: " + aTile);
 				} else {
-					mMapTileFSProvider.saveFile(aTile, data);
+					mMapTileFSProvider.saveFile(aTile, outputFile, data);
 					if(DEBUGMODE)
 						Log.d(DEBUGTAG, "Maptile saved " + data.length + " bytes : " + aTile);
 				}
-			} catch (IOException e) {
-				if(DEBUGMODE)
-					Log.e(DEBUGTAG, "Error downloading MapTile: " + aTile + " : " + e);
+			} catch (final UnknownHostException e) {
+				// no network connection so empty the queue
+				Log.w(DEBUGTAG, "UnknownHostException downloading MapTile: " + aTile + " : " + e);
+				throw new CantContinueException();
+			} catch (final IOException e) {
+				Log.w(DEBUGTAG, "IOException downloading MapTile: " + aTile + " : " + e);
 			} catch(final Throwable e) {
 				Log.e(DEBUGTAG, "Error downloading MapTile: " + aTile, e);
 			} finally {
