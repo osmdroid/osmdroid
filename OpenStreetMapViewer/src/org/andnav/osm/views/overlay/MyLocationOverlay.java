@@ -55,13 +55,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	protected final Bitmap PERSON_ICON;
 	protected final Bitmap DIRECTION_ARROW;
 	
-	protected OpenStreetMapViewController mMapController;
+	private final OpenStreetMapView mMapView;
+	private final OpenStreetMapViewController mMapController;
 	private final LocationManager mLocationManager;
 	private boolean mMyLocationEnabled = false;
 	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
 	
-	protected Location mLocation;
+	private Location mLocation;
 	protected boolean mFollow = false;	// follow location updates
 	private long mLastGps = 0; // last time we got a location from the gps provider
 	
@@ -78,16 +79,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 	
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
-		this.mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
-		this.mMapController = mapView.getController();
-		this.mCirclePaint.setARGB(0, 100, 100, 255);
-		this.mCirclePaint.setAntiAlias(true);
-		
-		this.PERSON_ICON = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.person);
-		this.DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
-		
-		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
-		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;
+		mMapView = mapView;
+		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
+		mMapController = mapView.getController();
+		mCirclePaint.setARGB(0, 100, 100, 255);
+		mCirclePaint.setAntiAlias(true);
+
+		PERSON_ICON = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.person);
+		DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
+
+		DIRECTION_ARROW_CENTER_X = DIRECTION_ARROW.getWidth() / 2 - 0.5f;
+		DIRECTION_ARROW_CENTER_Y = DIRECTION_ARROW.getHeight() / 2 - 0.5f;
 	}
 
 	// ===========================================================
@@ -98,8 +100,15 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		return mLocation;
 	}
 	
+	/**
+	 * Return a GeoPoint of the last known location, or null if not known.
+	 */
 	public GeoPoint getMyLocation() {
-		return new GeoPoint(mLocation);
+		if (mLocation == null) {
+			return null;
+		} else {
+			return new GeoPoint(mLocation);
+		}
 	}
 
 	public boolean isMyLocationEnabled() {
@@ -170,8 +179,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		}
 
 		mLocation = location;
-		if (mFollow)
+		if (mFollow) {
 			mMapController.animateTo(new GeoPoint(location));
+		} else {
+			mMapView.invalidate(); // redraw the my location icon
+		}
 	}
 	
 	@Override
