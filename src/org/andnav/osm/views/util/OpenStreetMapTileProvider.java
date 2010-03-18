@@ -112,29 +112,30 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// ===========================================================
 	
 	private IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
-		
+
 		@Override
 		public void mapTileRequestCompleted(int rendererID, int zoomLevel, int tileX, int tileY, String aTilePath) throws RemoteException {
-		    if (aTilePath != null) {
-    			try {
-    				final Bitmap tile = BitmapFactory.decodeFile(aTilePath);
-    				if (tile != null) {
-    					mTileCache.putTile(new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY), tile);
-    				} else {
-    					// if we couldn't load it then it's invalid - delete it
-    					try {
-    						new File(aTilePath).delete();
-    					} catch(Throwable e) {
-    						Log.e(DEBUGTAG, "Error deleting invalid file", e);
-    					}
-    				}
-    			} catch(OutOfMemoryError e) {
-    				Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache");
-    			}
-		    }
+			final OpenStreetMapTile tile = new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY);
+			if (aTilePath != null) {
+				try {
+					final Bitmap bitmap = BitmapFactory.decodeFile(aTilePath);
+					if (bitmap != null) {
+						mTileCache.putTile(tile, bitmap);
+					} else {
+						// if we couldn't load it then it's invalid - delete it
+						try {
+							new File(aTilePath).delete();
+						} catch (Throwable e) {
+							Log.e(DEBUGTAG, "Error deleting invalid file: " + aTilePath, e);
+						}
+					}
+				} catch (OutOfMemoryError e) {
+					Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + tile);
+				}
+			}
 			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 			if (DEBUGMODE)
-				Log.d(DEBUGTAG, "MapTile request complete.");
+				Log.d(DEBUGTAG, "MapTile request complete: " + tile);
 		}
 	};
 
