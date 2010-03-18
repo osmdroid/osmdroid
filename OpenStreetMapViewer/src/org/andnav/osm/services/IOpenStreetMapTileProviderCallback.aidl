@@ -1,7 +1,5 @@
 package org.andnav.osm.services;
 
-import android.graphics.Bitmap;
-
 interface IOpenStreetMapTileProviderCallback {
 
 /**
