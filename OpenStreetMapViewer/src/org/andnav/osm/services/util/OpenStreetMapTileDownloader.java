@@ -41,7 +41,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	public OpenStreetMapTileDownloader(final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
-		super(NUMBER_OF_TILE_DOWNLOAD_THREADS);
+		super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 		this.mMapTileFSProvider = aMapTileFSProvider;
 	}
 
