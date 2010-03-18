@@ -34,16 +34,16 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants, OpenStreetMapC
 	
 	public BoundingBoxE6(final int northE6, final int eastE6, final int southE6, final int westE6){
 		this.mLatNorthE6 = northE6;
+		this.mLonEastE6 = eastE6;
 		this.mLatSouthE6 = southE6;
 		this.mLonWestE6 = westE6;
-		this.mLonEastE6 = eastE6;
 	}
 	
 	public BoundingBoxE6(final double north, final double east, final double south, final double west){
 		this.mLatNorthE6 = (int)(north * 1E6);
+		this.mLonEastE6 = (int)(east * 1E6);
 		this.mLatSouthE6 = (int)(south * 1E6);
 		this.mLonWestE6 = (int)(west * 1E6);
-		this.mLonEastE6 = (int)(east * 1E6);
 	}
 
 	// ===========================================================
@@ -161,6 +161,10 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants, OpenStreetMapC
 			.toString();
 	}
 
+	// ===========================================================
+	// Methods
+	// ===========================================================
+
 	public static BoundingBoxE6 fromGeoPoints(final ArrayList<? extends GeoPoint> partialPolyLine) {
 		int minLat = Integer.MAX_VALUE;
 		int minLon = Integer.MAX_VALUE;
@@ -176,12 +180,8 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants, OpenStreetMapC
 			maxLon = Math.max(maxLon, longitudeE6);
 		}
 		
-		return new BoundingBoxE6(minLat, maxLon, maxLat, minLon);
+		return new BoundingBoxE6(minLat, minLon, maxLat, maxLon);
 	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
 
 	// ===========================================================
 	// Inner and Anonymous Classes
