@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import org.andnav.osm.R;
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.util.NetworkLocationIgnorer;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
@@ -39,12 +40,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// Constants
 	// ===========================================================
 
-	/**
-	 * The time we wait after the last gps location before displaying
-	 *  a non-gps location.
-	 */
-	private static final long GPS_WAIT_TIME = 20000; // 20 seconds
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -64,7 +59,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	private Location mLocation;
 	protected boolean mFollow = false;	// follow location updates
-	private long mLastGps = 0; // last time we got a location from the gps provider
+	private NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
 	
 	private final Matrix directionRotater = new Matrix();
 	
@@ -168,14 +163,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	public void onLocationChanged(final Location location) {
 
 		// ignore temporary non-gps fix
-		final long now = System.currentTimeMillis();
-		if (LocationManager.GPS_PROVIDER.equals(location.getProvider())) {
-			mLastGps = now;
-		} else {
-			if (now < mLastGps + GPS_WAIT_TIME) {
-				Log.d(DEBUGTAG, "Ignore temporary non-gps location");
-				return;
-			}
+		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis())) {
+			Log.d(DEBUGTAG, "Ignore temporary non-gps location");
+			return;
 		}
 
 		mLocation = location;
