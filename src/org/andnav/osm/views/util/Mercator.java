@@ -75,8 +75,8 @@ public class Mercator implements OpenStreetMapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom, Point aUseAsReturnValue) {
-		Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
+	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom, final Point aUseAsReturnValue) {
+		final Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
 		
 		final double aLon = aGeoPoint.getLongitudeE6()*1E-6;
 		final double aLat = aGeoPoint.getLatitudeE6()*1E-6; 
