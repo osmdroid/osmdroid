@@ -65,14 +65,18 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 	public void onServiceConnected(final ComponentName name, final IBinder service) {
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
-		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
-		Log.d("Service", "connected");
+		try {
+			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
+		} catch(Exception e) {
+			Log.e(DEBUGTAG, "Error sending success message on connect", e);
+		}
+		Log.d(DEBUGTAG, "connected");
 	};
 	
 	@Override
 	public void onServiceDisconnected(final ComponentName name) {
 		mTileService = null;
-		Log.d("Service", "disconnected");
+		Log.d(DEBUGTAG, "disconnected");
 	}
 	
 	// ===========================================================
@@ -96,12 +100,17 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 				Log.d(DEBUGTAG, "MapTileCache succeeded for: " + aTile);
 			return mTileCache.getMapTile(aTile);			
 		} else {															// from service
-			if (DEBUGMODE)
-				Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
-			try {
-				mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, mServiceCallback);
-			} catch (Throwable e) {
-				Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
+			if (mTileService == null) {
+				if (DEBUGMODE)
+					Log.d(DEBUGTAG, "Cache failed, can't get from FS because no tile service: " + aTile);
+			} else {
+				if (DEBUGMODE)
+					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
+				try {
+					mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, mServiceCallback);
+				} catch (Throwable e) {
+					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
+				}
 			}
 			return null;
 		}
@@ -111,7 +120,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	private IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
+	IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
 
 		@Override
 		public void mapTileRequestCompleted(int rendererID, int zoomLevel, int tileX, int tileY, String aTilePath) throws RemoteException {
