@@ -95,7 +95,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
 	}
-	
+
 	/**
 	 * XML Constructor (uses default Renderer)
 	 */
@@ -105,7 +105,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 	/**
 	 * Standard Constructor for {@link OpenStreetMapView}.
-	 * 
+	 *
 	 * @param context
 	 * @param aRendererInfo
 	 *            pass a {@link OpenStreetMapRendererInfo} you like.
@@ -115,7 +115,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 * @param aRendererInfo
 	 *            pass a {@link OpenStreetMapRendererInfo} you like.
@@ -141,7 +141,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 * I.e. it zoomes it to x levels less than itself and centers it the same
 	 * coords.<br />
 	 * Its pretty usefull when the MiniMap uses the same TileProvider.
-	 * 
+	 *
 	 * @see OpenStreetMapView.OpenStreetMapView(
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
@@ -175,7 +175,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	 * never. Use {@link View}.GONE , {@link View}.VISIBLE, {@link View}
 	 * .INVISIBLE. Use {@link OpenStreetMapViewConstants}.NOT_SET to reset this
 	 * feature.
-	 * 
+	 *
 	 * @param aVisiblity
 	 */
 	public void setOverrideMiniMapVisiblity(final int aVisiblity) {
@@ -230,7 +230,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	public BoundingBoxE6 getDrawnBoundingBoxE6() {
 		return getBoundingBox(this.getWidth(), this.getHeight());
 	}
-	
+
 	public BoundingBoxE6 getVisibleBoundingBoxE6() {
 //		final ViewParent parent = this.getParent();
 //		if(parent instanceof RotateView){
@@ -240,7 +240,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			return getBoundingBox(this.getWidth(), this.getHeight());
 //		}
 	}
-	
+
 	private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight){
 		final int mapTileZoom = mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
 		final int world_2 = (1 << mZoomLevel + mapTileZoom - 1);
@@ -248,14 +248,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		final int south = world_2 + getScrollY() + getHeight()/2;
 		final int west = world_2 + getScrollX() - getWidth()/2;
 		final int east = world_2 + getScrollX() + getWidth()/2;
-		
+
 		return Mercator.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
 	}
 
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise
 	 * it may produce strange results.
-	 * 
+	 *
 	 * @return
 	 */
 	public OpenStreetMapViewProjection getProjection() {
@@ -294,7 +294,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	public OpenStreetMapRendererInfo getRenderer() {
 		return this.mMapOverlay.getRendererInfo();
 	}
-	
+
 	public void setRenderer(final OpenStreetMapRendererInfo aRenderer) {
 		this.mMapOverlay.setRendererInfo(aRenderer);
 		this.checkZoomButtons();
@@ -325,7 +325,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 					this.mMiniMap.setZoomLevel(this.mZoomLevel - this.mMiniMapZoomDiff);
 			}
 		}
-		
+
 		this.mZoomLevel = newZoomLevel;
 		this.checkZoomButtons();
 
@@ -373,13 +373,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
     	state.putInt(BUNDLE_SCROLL_Y, getScrollY());
     	state.putInt(BUNDLE_ZOOM_LEVEL, getZoomLevel());
 	}
-	
+
 	public void onRestoreInstanceState(android.os.Bundle state) {
 		setRenderer(OpenStreetMapRendererInfo.values()[state.getInt(BUNDLE_RENDERER, 0)]);
     	setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
     	scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
 	}
-	
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -423,9 +423,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 				return true;
 
 		scrollBy((int)(event.getX() * 25), (int)(event.getY() * 25));
-			
+
 		return super.onTrackballEvent(event);
-	}	
+	}
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
@@ -438,7 +438,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 		return super.onTouchEvent(event);
 	}
-	
+
 	@Override
 	public void computeScroll() {
 		if (mScroller.computeScrollOffset()) {
@@ -454,7 +454,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			postInvalidate();	// Keep on drawing until the animation has finished.
 		}
 	}
-	
+
 	private void computeScale() {
 		if (mScaler.computeScale()) {
 			if (mScaler.isFinished())
@@ -463,7 +463,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 				postInvalidate();
 		}
 	}
-	
+
 	@Override
 	public void scrollTo(int x, int y) {
 		final int worldSize = getWorldSizePx();
@@ -471,14 +471,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		y %= worldSize;
 		super.scrollTo(x, y);
 	}
-	
+
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
 		this.mBackCanvas = new Canvas(this.mBackBuffer);
 		super.onSizeChanged(w, h, oldw, oldh);
 	}
-	
+
 	@Override
 	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
@@ -502,11 +502,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 //			c.drawLine(x, r.top, x, r.bottom, mPaint);
 //		for (int y = r.top; y < r.bottom; y += 20)
 //			c.drawLine(r.left, y, r.right, y, mPaint);
-				
+
 		/* Draw all Overlays. */
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			osmvo.onManagedDraw(c, this);
-		
+
 		if (this.mMaxiMap != null) { // If this is a MiniMap
 			this.mPaint.setColor(Color.RED);
 			this.mPaint.setStyle(Style.STROKE);
@@ -537,7 +537,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	int getWorldSizePx() {
 		return (1 << getPixelZoomLevel());
 	}
-	
+
 	/**
 	 * Get the equivalent zoom level on pixel scale
 	 */
@@ -554,7 +554,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		this.mZoomController.setZoomInEnabled(mZoomLevel < maxZoomLevel);
 		this.mZoomController.setZoomOutEnabled(mZoomLevel > 0);
 	}
-	
+
 	private int[] getCenterMapTileCoords() {
 		final int mapTileZoom = this.mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
 		final int worldTiles_2 = 1 << (mZoomLevel-1);
@@ -562,7 +562,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		return new int[] {  (getScrollY() >> mapTileZoom) + worldTiles_2,
 							(getScrollX() >> mapTileZoom) + worldTiles_2 };
 	}
-	
+
 	/**
 	 * @param centerMapTileCoords
 	 * @param tileSizePx
@@ -573,7 +573,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			final int tileSizePx, final Point reuse) {
 		final Point out = (reuse != null) ? reuse : new Point();
 
-		final int worldTiles_2 = 1 << (mZoomLevel-1);		
+		final int worldTiles_2 = 1 << (mZoomLevel-1);
 		final int centerMapTileScreenLeft = (centerMapTileCoords[MAPTILE_LONGITUDE_INDEX] - worldTiles_2) * tileSizePx - tileSizePx/2;
 		final int centerMapTileScreenTop = (centerMapTileCoords[MAPTILE_LATITUDE_INDEX] - worldTiles_2) * tileSizePx - tileSizePx/2;
 
@@ -585,7 +585,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		this.mEnableZoomController = on;
 		this.checkZoomButtons();
 	}
-	
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -593,7 +593,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	/**
 	 * This class may return valid results until the underlying
 	 * {@link OpenStreetMapView} gets modified in any way (i.e. new center).
-	 * 
+	 *
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -604,7 +604,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		private final int worldSize_2 = getWorldSizePx()/2;
 		private final int offsetX = - worldSize_2;
 		private final int offsetY = - worldSize_2;
-		
+
 		private final BoundingBoxE6 bb;
 		private final int zoomLevel;
 		private final int tileSizePx;
@@ -637,7 +637,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 * 
+		 *
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -645,6 +645,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		public GeoPoint fromPixels(float x, float y) {
 			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y
 					/ viewHeight_2);
+		}
+
+		public Point fromMapPixels(int x, int y, Point reuse) {
+            final Point out = (reuse != null) ? reuse : new Point();
+			out.set(x - getWidth() / 2, y - getHeight() / 2);
+			out.offset(getScrollX(), getScrollY());
+			return out;
 		}
 
 		private static final int EQUATORCIRCUMFENCE = 40075004;
@@ -661,7 +668,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 * The Error on ZoomLevels higher than 7, the error is below
 		 * <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 * 
+		 *
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -670,7 +677,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 * 
+		 *
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -687,7 +694,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			out.offset(offsetX, offsetY);
 			return out;
 		}
-		
+
 		public Point toPixels(final int[] tileCoords, final Point reuse) {
 			return toPixels(tileCoords[MAPTILE_LONGITUDE_INDEX], tileCoords[MAPTILE_LATITUDE_INDEX], reuse);
 		}
@@ -697,7 +704,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 			out.set(tileX * tileSizePx, tileY * tileSizePx);
 			out.offset(offsetX, offsetY);
-			
+
 			return out;
 		}
 
@@ -799,14 +806,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		}
 
 	}
-	
+
 	private class OpenStreetMapViewZoomListener implements OnZoomListener {
     	@Override
     	public void onZoom(boolean zoomIn) {
     		if(zoomIn)
 				getController().zoomIn();
     		else
-				getController().zoomOut();	        			
+				getController().zoomOut();
     	}
     	@Override
     	public void onVisibilityChanged(boolean visible) {}
@@ -834,60 +841,60 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	    }
 
 	    /**
-	     * 
+	     *
 	     * Returns whether the scaler has finished scaling.
-	     * 
+	     *
 	     * @return True if the scaler has finished scaling, false otherwise.
 	     */
 	    public final boolean isFinished() {
 	        return mFinished;
 	    }
-	    
+
 	    /**
 	     * Force the finished field to a particular value.
-	     *  
+	     *
 	     * @param finished The new finished value.
 	     */
 	    public final void forceFinished(boolean finished) {
 	        mFinished = finished;
 	    }
-	    
+
 	    /**
 	     * Returns how long the scale event will take, in milliseconds.
-	     * 
+	     *
 	     * @return The duration of the scale in milliseconds.
 	     */
 	    public final int getDuration() {
 	        return mDuration;
 	    }
-	    
+
 	    /**
-	     * Returns the current scale factor. 
-	     * 
+	     * Returns the current scale factor.
+	     *
 	     * @return The new scale factor.
 	     */
 	    public final float getCurrScale() {
 	        return mCurrScale;
 	    }
-	    
+
 	    /**
-	     * Returns the start scale factor. 
-	     * 
+	     * Returns the start scale factor.
+	     *
 	     * @return The start scale factor.
 	     */
 	    public final float getStartScale() {
 	        return mStartScale;
 	    }
-	    
+
 	    /**
 	     * Returns where the scale will end.
-	     * 
+	     *
 	     * @return The final scale factor.
 	     */
 	    public final float getFinalScale() {
 	        return mFinalScale;
 	    }
-	    
+
 	    /**
 	     * Sets the final scale for this scaler.
 	     *
@@ -899,11 +906,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	        mFinished = false;
 	    }
 
-	    
+
 		/**
 	     * Call this when you want to know the new scale.  If it returns true,
 	     * the animation is not yet finished.
-	     */ 
+	     */
 	    public boolean computeScale() {
 	        if (mFinished) {
 	        	mCurrScale = 1.0f;
@@ -911,12 +918,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	        }
 
 	        int timePassed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
-	    
+
 	        if (timePassed < mDuration) {
                 float x = (float)timePassed * mDurationReciprocal;
-    
+
                 x = mInterpolator.getInterpolation(x);
-    
+
                 mCurrScale = mStartScale + x * mDeltaScale;
                 if (mCurrScale == mFinalScale)
                     mFinished = true;
@@ -930,7 +937,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 	    /**
 	     * Start scaling by providing the starting scale and the final scale.
-	     * 
+	     *
 	     * @param startX Starting horizontal scroll offset in pixels. Positive
 	     *        numbers will scroll the content to the left.
 	     * @param startY Starting vertical scroll offset in pixels. Positive numbers
@@ -966,5 +973,5 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	    }
 
 	}
-	
+
 }
