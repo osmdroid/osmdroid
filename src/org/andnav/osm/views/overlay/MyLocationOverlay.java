@@ -143,6 +143,15 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 			float[] mtx = new float[9];
 			c.getMatrix().getValues(mtx);
 			
+			if (DEBUGMODE) {
+				float tx = (-mtx[Matrix.MTRANS_X]+20)/mtx[Matrix.MSCALE_X];
+				float ty = (-mtx[Matrix.MTRANS_Y]+90)/mtx[Matrix.MSCALE_Y];
+				c.drawText("Lat: " + mLocation.getLatitude(),  tx, ty +  5, this.mPaint);
+				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
+				c.drawText("Alt: " + mLocation.getAltitude(),  tx, ty + 35, this.mPaint);
+				c.drawText("Acc: " + mLocation.getAccuracy(),  tx, ty + 50, this.mPaint);
+			}
+			
 			if (mLocation.hasSpeed() && mLocation.getSpeed() > 1) {
 				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
 				this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
@@ -161,6 +170,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 
 	@Override
 	public void onLocationChanged(final Location location) {
+		if (DEBUGMODE) {
+			Log.i(DEBUGTAG, "Location: " + location.toString());
+		}
 
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis())) {
