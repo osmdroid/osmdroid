@@ -23,6 +23,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
@@ -610,6 +611,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		private final int tileSizePx;
 		private final int[] centerMapTileCoords;
 		private final Point upperLeftCornerOfCenterMapTile;
+		
+		private final int[] reuseInt2 = new int[2];
 
 		public OpenStreetMapViewProjection() {
 
@@ -695,6 +698,67 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 			return out;
 		}
 
+		/**
+		 * Performs only the first computationally heavy part of the projection, needToCall toMapPixelsTranslated to get final position. 
+		 * @param latituteE6
+		 * 			 the latitute of the point
+		 * @param longitudeE6
+		 * 			 the longitude of the point
+		 * @param reuse
+		 *            just pass null if you do not have a Point to be
+		 *            'recycled'.
+		 * @return intermediate value to be stored and passed to toMapPixelsTranslated on paint.
+		 */
+		public Point toMapPixelsProjected(final int latituteE6, final int longitudeE6, final Point reuse) {
+			final Point out = (reuse != null) ? reuse : new Point();
+		
+			//26 is the biggest zoomlevel we can project
+			final int[] coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28, this.reuseInt2);
+			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
+			return out;			
+		}
+		
+		/**
+		 * Performs the second computationally light part of the projection. 
+		 * @param in
+		 * 			 the Point calculated by the toMapPixelsProjected
+		 * @param reuse
+		 *            just pass null if you do not have a Point to be
+		 *            'recycled'.
+		 * @return the Point containing the approximated ScreenCoordinates of
+		 *         the initial GeoPoint passed to the toMapPixelsProjected.
+		 */
+		public Point toMapPixelsTranslated(final Point in, final Point reuse) {
+			final Point out = (reuse != null) ? reuse : new Point();
+		
+			//26 is the biggest zoomlevel we can project
+			int zoomDifference = 28 - getPixelZoomLevel(); 
+			out.set((in.x >> zoomDifference) + offsetX , (in.y >> zoomDifference) + offsetY );
+			return out;		
+		}
+				
+				
+		/**
+		 * Translates a rectangle from screen coordinates to intermediate coordinates.
+		 * @param in the rectangle in screen coordinates
+		 * @return a rectangle in intermediate coords.
+		 */
+		public Rect fromPixelsToProjected(final Rect in)
+		{
+			Rect result = new Rect();
+					
+			//26 is the biggest zoomlevel we can project
+			int zoomDifference = 28 - getPixelZoomLevel();
+					
+			int x0 = (in.left - offsetX) << zoomDifference;
+			int x1 = (in.right - offsetX) << zoomDifference;			
+			int y0 = (in.bottom - offsetX) << zoomDifference;
+			int y1 = (in.top - offsetX) << zoomDifference;
+					
+			result.set(Math.min(x0,x1), Math.min(y0,y1), Math.max(x0,x1), Math.max(y0,y1));
+			return result;
+		}
+		
 		public Point toPixels(final int[] tileCoords, final Point reuse) {
 			return toPixels(tileCoords[MAPTILE_LONGITUDE_INDEX], tileCoords[MAPTILE_LATITUDE_INDEX], reuse);
 		}
