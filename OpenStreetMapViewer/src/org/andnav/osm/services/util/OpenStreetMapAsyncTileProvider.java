@@ -1,9 +1,9 @@
 package org.andnav.osm.services.util;
 
-import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.NoSuchElementException;
+import java.util.Stack;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
@@ -17,12 +17,14 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 	private final int mThreadPoolSize;
 	private final int mPendingQueueSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
+	private final HashMap<OpenStreetMapTile, Object> mWorking;
 	private final LinkedHashMap<OpenStreetMapTile, Object> mPending;
-    private static final Object PRESENT = new Object();
+	private static final Object PRESENT = new Object();
 	
 	public OpenStreetMapAsyncTileProvider(final int aThreadPoolSize, final int aPendingQueueSize) {
 		mThreadPoolSize = aThreadPoolSize;
 		mPendingQueueSize = aPendingQueueSize;
+		mWorking = new HashMap<OpenStreetMapTile, Object>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, Object>(aPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -67,7 +69,6 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 
 	protected abstract class TileLoader implements Runnable {
 		final IOpenStreetMapTileProviderCallback mCallback;
-		private Iterator<OpenStreetMapTile> mIterator;
 
 		public TileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
 			mCallback = aCallback;
@@ -82,33 +83,47 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 		protected abstract String loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
 		private OpenStreetMapTile nextTile() {
-			while(true) {
-				if (mIterator == null) {
-					mIterator = mPending.keySet().iterator();
+			
+			synchronized (mPending) {
+				// get the most recently accessed tile
+				// need to get the iterator in reverse order
+				final Stack<OpenStreetMapTile> stack = new Stack<OpenStreetMapTile>();
+				final Iterator<OpenStreetMapTile> iterator = mPending.keySet().iterator();
+				while (iterator.hasNext()) {
+					stack.push(iterator.next());
 				}
-				if (!mIterator.hasNext()) {
-					return null;
-				}
-				try {
-					synchronized (mPending) {
-						final OpenStreetMapTile tile = mIterator.next();
-						try {
-							mIterator.remove();
-						} catch(ConcurrentModificationException e) {
-							// couldn't remove this request
-							// never mind, we'll process it again
-						}
-						catch(NoSuchElementException e) {
-							// we shouldn't get this, but just in case
-							return null;
-						}
+				while (!stack.empty()) {
+					final OpenStreetMapTile tile = stack.pop();
+					if (!mWorking.containsKey(tile)) {
+						mWorking.put(tile, PRESENT);
 						return tile;
 					}
-				} catch(ConcurrentModificationException e) {
-					// get a new iterator and try again
-					mIterator = null;
+				}
+				return null;
+			}
+		}
+		
+		private void finishTileLoad(final OpenStreetMapTile aTile, final String aTilePath) {
+
+			mPending.remove(aTile);
+			mWorking.remove(aTile);
+
+			if (aTilePath != null) {
+				try {
+					mCallback.mapTileRequestCompleted(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, aTilePath);
+				} catch (final DeadObjectException e) {
+					// our caller has died so there's not much point carrying on
+					Log.e(debugtag(), "Caller has died");
+					clearQueue();
+				} catch (final RemoteException e) {
+					Log.e(debugtag(), "Service failed", e);
 				}
 			}
+		}
+
+		private void clearQueue() {
+			mPending.clear();
+			mWorking.clear();
 		}
 		
 		@Override
@@ -123,26 +138,16 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 					path = loadTile(tile);
 				} catch (final CantContinueException e) {
 					Log.i(debugtag(), "Tile loader can't continue");
-					mPending.clear();
+					clearQueue();
 				} catch (final Throwable e) {
 					Log.e(debugtag(), "Error downloading tile: " + tile, e);
 				} finally {
 					// Tell the callback we've finished.
-					try {
-						mCallback.mapTileRequestCompleted(tile.rendererID, tile.zoomLevel, tile.x, tile.y, path);
-					} catch (DeadObjectException e) {
-						// our caller has died so there's not much point
-						// carrying on
-						Log.e(debugtag(), "Caller has died");
-						break;
-					} catch (RemoteException e) {
-						Log.e(debugtag(), "Service failed", e);
-					}
+					finishTileLoad(tile, path);
 				}
 			}
 			if (DEBUGMODE)
 				Log.d(debugtag(), "No more tiles");
-			mPending.clear();
 		}
 	}
 	
