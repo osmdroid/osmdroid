@@ -16,8 +16,8 @@ public enum OpenStreetMapRendererInfo {
 	OPENARIELMAP("http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/", R.string.openareal_sat, ".jpg", 0, 13, 8, CodeScheme.X_Y),
 	TRAILS("http://topo.geofabrik.de/trails/", R.string.trails, ".png", 4, 17, 8, CodeScheme.X_Y),
 	RELIEF("http://topo.geofabrik.de/relief/", R.string.relief, ".png", 8, 17, 8, CodeScheme.X_Y),
-	CLOUDMADESMALLTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/", R.string.cloudmade_small, ".jpg", 0, 13, 6, CodeScheme.X_Y),
-	CLOUDMADESTANDARDTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/", R.string.cloudmade_standard, ".jpg", 0, 18, 8, CodeScheme.X_Y);
+	CLOUDMADESMALLTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/", R.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.X_Y),
+	CLOUDMADESTANDARDTILES("http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/", R.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.X_Y);
 	
 	// ===========================================================
 	// Fields
