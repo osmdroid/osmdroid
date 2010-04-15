@@ -1,6 +1,7 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm;
 
+import org.andnav.osm.samples.SampleLoader;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -11,6 +12,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
@@ -34,7 +36,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
-	private static final int MENU_ABOUT = MENU_MAP_MODE + 1;
+	private static final int MENU_SAMPLES = MENU_MAP_MODE + 1;
+	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 	
 	private static final int DIALOG_ABOUT_ID = 1;
 
@@ -111,6 +114,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
     	}
     	
+    	pMenu.add(0, MENU_SAMPLES, Menu.NONE, R.string.samples).setIcon(android.R.drawable.ic_menu_gallery);
+    	
     	pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(android.R.drawable.ic_menu_info_details);
     	
     	return true;
@@ -138,6 +143,10 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 				this.mOsmv.invalidate();
 				return true;
 				
+			case MENU_SAMPLES:
+				startActivity(new Intent(this, SampleLoader.class));
+				return true;
+								
 			case MENU_ABOUT:
 				showDialog(DIALOG_ABOUT_ID);
 				return true;
