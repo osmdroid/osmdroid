@@ -59,8 +59,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	}
 
 	@Override
-	protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aCallback) {
-		return new TileLoader(aCallback);
+	protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aTileProviderCallback) {
+		return new TileLoader(aTileProviderCallback);
 	};
 	
 	// ===========================================================
@@ -78,12 +78,12 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
-		public TileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
-			super(aCallback);
+		public TileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
+			super(aTileProviderCallback);
 		}
 
 		@Override
-		public String loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
+		public void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback pTileLoaderCallback) throws CantContinueException {
 
 			InputStream in = null;
 			OutputStream out = null;
@@ -133,7 +133,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			 * That should be immediately because the view is redrawn when it
 			 * receives this completion event.
 			 */
-			return null;
+			pTileLoaderCallback.tileLoaded(aTile, null, true);
 		}
 	};
 

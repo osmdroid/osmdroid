@@ -76,8 +76,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	}
 
 	@Override
-	protected Runnable getTileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
-		return new TileLoader(aCallback);
+	protected Runnable getTileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
+		return new TileLoader(aTileProviderCallback);
 	};
 	
 	// ===========================================================
@@ -154,28 +154,29 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
-		public TileLoader(final IOpenStreetMapTileProviderCallback aCallback) {
-			super(aCallback);
+		public TileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
+			super(aTileProviderCallback);
 		}
 
 		@Override
-		public String loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
+		public void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback pTileLoaderCallback) throws CantContinueException {
 			mDatabase.incrementUse(aTile);
 			final File tileFile = getOutputFile(aTile);
 			try {
 				if (tileFile.exists()) {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Loaded tile: " + aTile);
-					return tileFile.getPath();
+					pTileLoaderCallback.tileLoaded(aTile, tileFile.getPath(), true);
 				} else {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Tile not exist, request for download: " + aTile);
-					mTileDownloader.loadMapTileAsync(aTile, mCallback);
-					return null;
+					mTileDownloader.loadMapTileAsync(aTile, mTileProviderCallback);
+					// don't refresh the screen because there's nothing new
+					pTileLoaderCallback.tileLoaded(aTile, null, false);
 				}
 			} catch (final Throwable e) {
 				Log.e(DEBUGTAG, "Error loading tile", e);
-				return null;
+				pTileLoaderCallback.tileLoaded(aTile, null, false);
 			}
 		}
 	}

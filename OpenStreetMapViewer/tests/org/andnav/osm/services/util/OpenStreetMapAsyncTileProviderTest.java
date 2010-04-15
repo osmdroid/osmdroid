@@ -17,8 +17,9 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 
 	/**
 	 * Test that the tiles are loaded in most recently accessed order.
+	 * @throws InterruptedException 
 	 */
-	public void test_order() {
+	public void test_order() throws InterruptedException {
 		
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(1, 10) {
 			@Override
@@ -26,12 +27,12 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 				return "OpenStreetMapAsyncTileProviderTest";
 			}
 			@Override
-			protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback pCallback) {
-				return new TileLoader(pCallback) {
+			protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aTileProviderCallback) {
+				return new TileLoader(aTileProviderCallback) {
 					@Override
-					protected String loadTile(OpenStreetMapTile pTile) throws CantContinueException {
+					protected void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback aTileLoaderCallback) throws CantContinueException {
 						try {Thread.sleep(1000);} catch (InterruptedException e) {}
-						return pTile.toString();
+						aTileLoaderCallback.tileLoaded(aTile, aTile.toString(), true);
 					}
 				};
 			}
@@ -39,7 +40,7 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 
 		final ArrayList<OpenStreetMapTile> tiles = new ArrayList<OpenStreetMapTile>();
 
-		final IOpenStreetMapTileProviderCallback callback = new IOpenStreetMapTileProviderCallback() {
+		final IOpenStreetMapTileProviderCallback tileProviderCallback = new IOpenStreetMapTileProviderCallback() {
 			@Override
 			public void mapTileRequestCompleted(int pRendererID, int pZoomLevel, int pTileX, int pTileY, String pTilePath) throws RemoteException {
 				tiles.add(new OpenStreetMapTile(pRendererID, pZoomLevel, pTileX, pTileY));
@@ -55,12 +56,14 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 		final OpenStreetMapTile tile3 = new OpenStreetMapTile(3, 3, 3, 3);
 
 		// request the three tiles
-		target.loadMapTileAsync(tile1, callback);
-		target.loadMapTileAsync(tile2, callback);
-		target.loadMapTileAsync(tile3, callback);
+		target.loadMapTileAsync(tile1, tileProviderCallback);
+		Thread.sleep(100); // give the thread time to run
+		target.loadMapTileAsync(tile2, tileProviderCallback);
+		Thread.sleep(100); // give the thread time to run
+		target.loadMapTileAsync(tile3, tileProviderCallback);
 		
 		// wait 4 seconds (because it takes 1 second for each tile + an extra second)
-		try {Thread.sleep(4000);} catch (InterruptedException e) {}
+		Thread.sleep(4000);
 		
 		// the tiles should have been loaded in the order 1, 3, 2
 		// because 1 was loaded immediately, 2 was next, 

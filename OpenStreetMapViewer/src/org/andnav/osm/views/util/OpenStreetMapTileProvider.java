@@ -124,7 +124,10 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 		@Override
 		public void mapTileRequestCompleted(int rendererID, int zoomLevel, int tileX, int tileY, String aTilePath) throws RemoteException {
+
 			final OpenStreetMapTile tile = new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY);
+			
+			// if the tile path has been returned, add the tile to the cache
 			if (aTilePath != null) {
 				try {
 					final Bitmap bitmap = BitmapFactory.decodeFile(aTilePath);
@@ -142,7 +145,10 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 					Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + tile);
 				}
 			}
+			
+			// tell our caller we've finished and it should update its view
 			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
+
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "MapTile request complete: " + tile);
 		}
