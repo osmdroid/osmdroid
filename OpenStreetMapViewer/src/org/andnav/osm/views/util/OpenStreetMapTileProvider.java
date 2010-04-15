@@ -123,9 +123,9 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
 
 		@Override
-		public void mapTileRequestCompleted(int rendererID, int zoomLevel, int tileX, int tileY, String aTilePath) throws RemoteException {
+		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
 
-			final OpenStreetMapTile tile = new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY);
+			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererID, aZoomLevel, aTileX, aTileY);
 			
 			// if the tile path has been returned, add the tile to the cache
 			if (aTilePath != null) {
@@ -141,8 +141,10 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 							Log.e(DEBUGTAG, "Error deleting invalid file: " + aTilePath, e);
 						}
 					}
-				} catch (OutOfMemoryError e) {
+				} catch (final OutOfMemoryError e) {
 					Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + tile);
+					mTileCache.clear();
+					System.gc();
 				}
 			}
 			

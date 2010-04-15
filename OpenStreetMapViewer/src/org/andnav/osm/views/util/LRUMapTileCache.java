@@ -27,6 +27,17 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 	}
 
 	@Override
+	public void clear() {
+		// remove them all individually so that they get recycled
+		for(final OpenStreetMapTile key : keySet()) {
+			remove(key);
+		}
+
+		// and then clear
+		super.clear();
+	}
+
+	@Override
 	protected boolean removeEldestEntry(Entry<OpenStreetMapTile, Bitmap> pEldest) {
 		return size() > mCapacity;
 	}
