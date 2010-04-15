@@ -10,16 +10,22 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 
 	private static final long serialVersionUID = -541142277575493335L;
 
-	private final int mCapacity;
+	private int mCapacity;
 	
-	public LRUMapTileCache(final int pCapacity) {
-		super(pCapacity + 2, 0.1f, true);
-		mCapacity = pCapacity;
+	public LRUMapTileCache(final int aCapacity) {
+		super(aCapacity + 2, 0.1f, true);
+		mCapacity = aCapacity;
+	}
+
+	public void ensureCapacity(final int aCapacity) {
+		if (aCapacity > mCapacity) {
+			mCapacity = aCapacity;
+		}
 	}
 
 	@Override
-	public Bitmap remove(Object pKey) {
-		final Bitmap bm = super.remove(pKey);
+	public Bitmap remove(final Object aKey) {
+		final Bitmap bm = super.remove(aKey);
 		if (bm != null) {
 			bm.recycle();
 		}
@@ -38,7 +44,7 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 	}
 
 	@Override
-	protected boolean removeEldestEntry(Entry<OpenStreetMapTile, Bitmap> pEldest) {
+	protected boolean removeEldestEntry(final Entry<OpenStreetMapTile, Bitmap> aEldest) {
 		return size() > mCapacity;
 	}
 

@@ -41,6 +41,10 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	// Getter & Setter
 	// ===========================================================
 	
+	public void ensureCapacity(final int aCapacity) {
+		mCachedTiles.ensureCapacity(aCapacity);
+	}
+	
 	public synchronized Bitmap getMapTile(final OpenStreetMapTile aTile) {
 		return this.mCachedTiles.get(aTile);
 	}
@@ -66,7 +70,7 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	public void clear() {
 		this.mCachedTiles.clear();
 	}
-	
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

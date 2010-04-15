@@ -91,6 +91,9 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// ===========================================================
 
 
+	public void ensureCapacity(final int aCapacity) {
+		mTileCache.ensureCapacity(aCapacity);
+	}
 	
 	private boolean bindToService()
 	{
@@ -106,7 +109,6 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 		
 		return success;
 	}
-	
 
 	/***
 	 * Disconnects from the tile downloader service.
@@ -127,7 +129,6 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 		this.mServiceBound = false;
 		this.mTileService = null;
 	}
-	
 	
 	/**
 	 * Get the tile from the cache.

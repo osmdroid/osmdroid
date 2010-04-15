@@ -48,6 +48,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	
 	public void setRendererInfo(final OpenStreetMapRendererInfo aRendererInfo) {
 		this.mRendererInfo = aRendererInfo;
+		// XXX perhaps we should set the cache capacity back to default here
 	}
 
 	public void setAlpha(int a) {
@@ -84,9 +85,13 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
 
 		final int mapTileUpperBound = 1 << zoomLevel;
-//		final Point mapTileCoords = new Point();
-		Point tilePos = new Point();
+		final Point tilePos = new Point();
 
+		// make sure the cache is big enough for all the tiles
+		final int numNeeded = (tileNeededToBottomOfCenter - tileNeededToTopOfCenter + 1)
+							* (tileNeededToRightOfCenter - tileNeededToLeftOfCenter + 1);
+		mTileProvider.ensureCapacity(numNeeded);
+		
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
@@ -108,7 +113,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				}
 			}
 		}
-
+		
 		// draw a cross at center in debug mode
 		if (DEBUGMODE) {
 			final GeoPoint center = osmv.getMapCenter();
