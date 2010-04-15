@@ -1,7 +1,6 @@
 package org.andnav.osm.services.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.andnav.osm.exceptions.EmptyCacheException;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
@@ -178,7 +177,10 @@ class OpenStreetMapTileProviderDataBase implements OpenStreetMapViewConstants {
 	 * Date and time in ISO8601 format.
 	 */
 	private String getNowAsIso8601() {
-		return DATE_FORMAT_ISO8601.format(new Date(System.currentTimeMillis()));
+		return "0";
+		// TODO put this back if it's ever used
+		// it wastes a lot of cpu when it's not used
+		// return DATE_FORMAT_ISO8601.format(new Date(System.currentTimeMillis()));
 	} 
 
 	// ===========================================================
