@@ -42,7 +42,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 		// sanity check
 		if (activeCount == 0 && !mPending.isEmpty()) {
 			Log.w(debugtag(), "Unexpected - no active threads but pending queue not empty");
-			mPending.clear();
+			clearQueue();
 		}
 
 		// this will put the tile in the queue, or move it to the front of the
@@ -55,6 +55,11 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 			final Thread t = new Thread(mThreadPool, getTileLoader(aCallback));
 			t.start();
 		}
+	}
+	
+	private void clearQueue() {
+		mPending.clear();
+		mWorking.clear();
 	}
 	
 	/**
@@ -148,11 +153,6 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 			}
 		}
 
-		private void clearQueue() {
-			mPending.clear();
-			mWorking.clear();
-		}
-		
 		@Override
 		final public void run() {
 
