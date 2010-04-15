@@ -63,6 +63,15 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 	}
 	
 	/**
+	 * Stops all workers, the service is shutting down.
+	 */
+	public void stopWorkers()
+	{
+		this.clearQueue();
+		this.mThreadPool.interrupt();
+	}
+	
+	/**
 	 * The debug tag.
 	 * Because the tag of the abstract class is not so interesting.
 	 * @return

@@ -38,8 +38,15 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	/** cache provider */
 	protected OpenStreetMapTileCache mTileCache;
 
+	
+	/**
+	 * Service is bound, but maybe not still connected.
+	 */
+	private boolean mServiceBound;
 	private IOpenStreetMapTileProviderService mTileService;
 	private Handler mDownloadFinishedHandler;
+
+	private Context mContext;
 
 	// ===========================================================
 	// Constructors
@@ -47,10 +54,10 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 
 	public OpenStreetMapTileProvider(final Context ctx,
 			final Handler aDownloadFinishedListener) {
+		this.mContext = ctx;
 		this.mTileCache = new OpenStreetMapTileCache();
 		
-		if(!ctx.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE))
-			Log.e(DEBUGTAG, "Could not bind to " + IOpenStreetMapTileProviderService.class.getName());
+		this.bindToService();
 		
 		this.mDownloadFinishedHandler = aDownloadFinishedListener;
 	}
@@ -75,7 +82,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	
 	@Override
 	public void onServiceDisconnected(final ComponentName name) {
-		mTileService = null;
+		this.onDisconnect();
 		Log.d(DEBUGTAG, "disconnected");
 	}
 	
@@ -83,6 +90,45 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	// Methods
 	// ===========================================================
 
+
+	
+	private boolean bindToService()
+	{
+		if (this.mServiceBound)
+			return true;
+		
+		boolean success = this.mContext.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE);
+		
+		if (!success)
+			Log.e(DEBUGTAG, "Could not bind to " + IOpenStreetMapTileProviderService.class.getName());
+		
+		this.mServiceBound = success;
+		
+		return success;
+	}
+	
+
+	/***
+	 * Disconnects from the tile downloader service.
+	 */
+	public void disconnectService()
+	{
+		if (this.mServiceBound)
+		{
+			if (DEBUGMODE)
+				Log.d(DEBUGTAG, "Unbinding service");		
+			this.mContext.unbindService(this);
+			this.onDisconnect();
+		}
+	}
+
+	private void onDisconnect()
+	{
+		this.mServiceBound = false;
+		this.mTileService = null;
+	}
+	
+	
 	/**
 	 * Get the tile from the cache.
 	 * If it's in the cache then it will be returned.
@@ -95,15 +141,12 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 	 * @return the tile bitmap if found in the cache, null otherwise
 	 */
 	public Bitmap getMapTile(final OpenStreetMapTile aTile) {
-		if (this.mTileCache.containsTile(aTile)) {							// from cache
+		if (this.mTileCache.containsTile(aTile)) { 							// from cache
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "MapTileCache succeeded for: " + aTile);
-			return mTileCache.getMapTile(aTile);			
-		} else {															// from service
-			if (mTileService == null) {
-				if (DEBUGMODE)
-					Log.d(DEBUGTAG, "Cache failed, can't get from FS because no tile service: " + aTile);
-			} else {
+			return mTileCache.getMapTile(aTile);
+		} else { 															// from service
+			if (mTileService != null) {
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
@@ -111,7 +154,17 @@ public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetM
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}
+			} else {
+				// try to reconnect, but the connection will take time.
+				if (!this.bindToService()) {
+					if (DEBUGMODE)
+						Log.d(DEBUGTAG, "Cache failed, can't get from FS because no tile service: " + aTile);
+				} else {
+					if (DEBUGMODE)
+						Log.d(DEBUGTAG, "Cache failed, tile service still not woken up: " + aTile);
+				}
 			}
+
 			return null;
 		}
 	}

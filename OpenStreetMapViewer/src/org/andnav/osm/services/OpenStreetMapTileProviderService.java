@@ -45,6 +45,7 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	public void onDestroy() {
 		if(DEBUGMODE)
 			Log.d(DEBUGTAG, "onDestroy");
+		mFileSystemProvider.stopWorkers();
 		super.onDestroy();
 	}
 

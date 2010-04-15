@@ -80,6 +80,17 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		return new TileLoader(aTileProviderCallback);
 	};
 	
+	
+	/**
+	 * Stops all workers, the service is shutting down.
+	 */
+	@Override
+	public void stopWorkers()
+	{
+		super.stopWorkers();
+		this.mTileDownloader.stopWorkers();
+	}
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
