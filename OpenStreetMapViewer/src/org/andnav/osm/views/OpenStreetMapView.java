@@ -1,6 +1,7 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.andnav.osm.views;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ import android.graphics.Rect;
 import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -52,6 +54,39 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
 	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
 	final static String BUNDLE_ZOOM_LEVEL = "org.andnav.osm.views.OpenStreetMapView.ZOOM";
+
+	private static final int MULTI_NONE = 0;
+	private static final int MULTI_ACTIVE = 1;
+	private static final int MULTI_HANDLED = 2;
+
+	private float mPointerDownDistance; /* distance for a ACTION_POINTER_DOWN MotionEvent */
+	private int mMultiMode = MULTI_NONE;  /* if we are in after an ACTION_POINTER_DOWN */
+	
+	// get API level 5 MotionEvent constants by reflection
+	// TODO can remove this stuff if we upgrade to API level 5
+	private static int ACTION_MASK = 255;
+	private static int ACTION_POINTER_DOWN = 5;
+	private static int ACTION_POINTER_UP = 6;
+	private static Method MotionEvent_getX;
+	private static Method MotionEvent_getY;
+	static {
+		final MotionEvent me = MotionEvent.obtain(0, 0, 0, 0f, 0f, 0);
+		try {
+			ACTION_MASK = MotionEvent.class.getField("ACTION_MASK").getInt(me);
+		} catch (final Exception e) {}
+		try {
+			ACTION_POINTER_DOWN = MotionEvent.class.getField("ACTION_POINTER_DOWN").getInt(me);
+		} catch (final Exception e) {}
+		try {
+			ACTION_POINTER_UP = MotionEvent.class.getField("ACTION_POINTER_UP").getInt(me);
+		} catch (final Exception e) {}
+		try {
+			MotionEvent_getX = MotionEvent.class.getMethod("getX", new Class[] { int.class });
+		} catch (final Exception e) {}
+		try {
+			MotionEvent_getY = MotionEvent.class.getMethod("getY", new Class[] { int.class });
+		} catch (final Exception e) {}
+	}
 
 	// ===========================================================
 	// Fields
@@ -430,6 +465,45 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
+
+		/*
+		 * handle multi touch events:
+		 * 1. mask out the action with the ACTION_MASK 
+		 * 2. measure the spreading 
+		 * 3. on ACTION_POINTER_DOWN remember the spreading in the 
+		 *    pointerDownDistance and set multiDown mode to ACTIVE
+		 * 4. on first move changing the spreading by a 
+		 *    factor of 2 or a factor of 0.5 increase or 
+		 *    decrease the zoom level
+		 *    switch off multiDown mode and set it to HANDLED
+		 * 5. on ACTION_POINTER_UP also switch off the multiDown mode
+		 * 6. in any of these cases: claim the event handled and 
+		 *    return true
+		 */
+		final int action = event.getAction() & ACTION_MASK;
+
+		if (action == ACTION_POINTER_DOWN) {
+			mPointerDownDistance = spreading(event);
+			mMultiMode = MULTI_ACTIVE;
+			return true;
+		} else if (action == ACTION_POINTER_UP) {
+			mMultiMode = MULTI_NONE;
+			return true;
+		} else if (mMultiMode != MULTI_NONE) {
+			if (mMultiMode == MULTI_ACTIVE && action == MotionEvent.ACTION_MOVE) {
+				final float pointerUpDistance = spreading(event);
+
+				if (pointerUpDistance > 2 * mPointerDownDistance) {
+					mMultiMode = MULTI_HANDLED;
+					setZoomLevel(mZoomLevel + 1);
+				} else if (pointerUpDistance < 0.5 * mPointerDownDistance) {
+					setZoomLevel(mZoomLevel - 1);
+					mMultiMode = MULTI_HANDLED;
+				}
+			}
+			return true;
+		}
+		
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this))
 				return true;
@@ -456,6 +530,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		}
 	}
 
+	private float spreading(final MotionEvent event) {
+		// TODO can do this directly if we upgrade to API level 5
+		try {
+			final int[] zero = new int[] { 0 }; 
+			final int[] one = new int[] { 1 }; 
+			final float x0 = Float.valueOf(MotionEvent_getX.invoke(event, zero).toString());
+			final float x1 = Float.valueOf(MotionEvent_getX.invoke(event, one).toString());
+			final float y0 = Float.valueOf(MotionEvent_getY.invoke(event, zero).toString());
+			final float y1 = Float.valueOf(MotionEvent_getY.invoke(event, one).toString());
+			final float x = x0 - x1;
+			final float y = y0 - y1;
+			return FloatMath.sqrt(x * x + y * y);
+		} catch(final Exception e) {
+			return 1;
+		}
+	}
+
 	private void computeScale() {
 		if (mScaler.computeScale()) {
 			if (mScaler.isFinished())
@@ -475,6 +566,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		if(this.mBackBuffer != null) {
+			this.mBackBuffer.recycle();
+			this.mBackBuffer = null;
+		}
 		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
 		this.mBackCanvas = new Canvas(this.mBackBuffer);
 		super.onSizeChanged(w, h, oldw, oldh);

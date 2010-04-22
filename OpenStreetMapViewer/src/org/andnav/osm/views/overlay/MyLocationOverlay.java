@@ -171,7 +171,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	@Override
 	public void onLocationChanged(final Location location) {
 		if (DEBUGMODE) {
-			Log.i(DEBUGTAG, "Location: " + location.toString());
+			Log.d(DEBUGTAG, "onLocationChanged(" + location + ")");
 		}
 
 		// ignore temporary non-gps fix
