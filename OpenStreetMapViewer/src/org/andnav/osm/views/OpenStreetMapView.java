@@ -391,6 +391,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapConstants,
 		return this.mZoomLevel;
 	}
 
+	/*
+	 * Returns the maximum zoom level for the point currently at the center.
+	 * @return The maximum zoom level for the map's current center.
+	 */
+	public int getMaxZoomLevel() {
+		return getRenderer().ZOOM_MAXLEVEL;
+	}
+
 	public GeoPoint getMapCenter() {
 		return new GeoPoint(getMapCenterLatitudeE6(), getMapCenterLongitudeE6());
 	}

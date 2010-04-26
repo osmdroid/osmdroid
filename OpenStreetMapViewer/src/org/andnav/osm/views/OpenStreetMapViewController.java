@@ -193,12 +193,7 @@ public class OpenStreetMapViewController {
 	 * Zoom in by one zoom level.
 	 */
 	public boolean zoomIn() {
-
-//		final String nextBelowMaptileUrlString = this.mRendererInfo.getTileURLString(Mercator
-//				.getMapTileFromCoordinates(this.mLatitudeE6, this.mLongitudeE6, this.mZoomLevel + 1,
-//						null), this.mZoomLevel + 1);
-//		this.mTileProvider.preCacheTile(nextBelowMaptileUrlString);
-
+		// TODO return false if we can't zoom any more
 		mZoomLevel++;
 		final Scaler scaler = mOsmv.mScaler;
 		if (scaler.isFinished()) {
@@ -221,6 +216,7 @@ public class OpenStreetMapViewController {
 	 * Zoom out by one zoom level.
 	 */
 	public boolean zoomOut() {
+		// TODO return false if we can't zoom any more
 		mZoomLevel--;
 		final Scaler scaler = mOsmv.mScaler;
 		if (scaler.isFinished()) {
