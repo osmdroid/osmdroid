@@ -193,7 +193,12 @@ public class OpenStreetMapViewController {
 	 * Zoom in by one zoom level.
 	 */
 	public boolean zoomIn() {
-		// TODO return false if we can't zoom any more
+		
+		if (mZoomLevel >= mOsmv.getMaxZoomLevel()) {
+			mZoomLevel = mOsmv.getMaxZoomLevel();
+			return false;
+		}
+		
 		mZoomLevel++;
 		final Scaler scaler = mOsmv.mScaler;
 		if (scaler.isFinished()) {
@@ -216,7 +221,12 @@ public class OpenStreetMapViewController {
 	 * Zoom out by one zoom level.
 	 */
 	public boolean zoomOut() {
-		// TODO return false if we can't zoom any more
+		
+		if (mZoomLevel <= 0) {
+			mZoomLevel = 0;
+			return false;
+		}
+		
 		mZoomLevel--;
 		final Scaler scaler = mOsmv.mScaler;
 		if (scaler.isFinished()) {
