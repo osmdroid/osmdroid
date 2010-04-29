@@ -1,12 +1,15 @@
 package org.andnav.osm.views.util;
 
+import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
 
 import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.util.constants.OpenStreetMapConstants;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
-public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
+public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> implements OpenStreetMapConstants {
 
 	private static final long serialVersionUID = -541142277575493335L;
 
@@ -35,8 +38,12 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 	@Override
 	public void clear() {
 		// remove them all individually so that they get recycled
-		for(final OpenStreetMapTile key : keySet()) {
-			remove(key);
+		try {
+			for (final OpenStreetMapTile key : keySet()) {
+				remove(key);
+			}
+		} catch (final ConcurrentModificationException ignore) {
+			Log.i(DEBUGTAG, "ConcurrentModificationException clearing tile cache");
 		}
 
 		// and then clear
