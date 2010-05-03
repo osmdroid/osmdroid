@@ -23,9 +23,9 @@ public interface OpenStreetMapServiceConstants {
 	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 8;
 	public static final int NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
 
-	public static final int TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 50;
-	public static final int TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 50;
-
+	public static final int TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
+	public static final int TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
+	
 	// ===========================================================
 	// Methods
 	// ===========================================================
