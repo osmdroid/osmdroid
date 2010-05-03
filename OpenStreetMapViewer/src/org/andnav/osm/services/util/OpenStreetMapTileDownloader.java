@@ -116,6 +116,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				// no network connection so empty the queue
 				Log.w(DEBUGTAG, "UnknownHostException downloading MapTile: " + aTile + " : " + e);
 				throw new CantContinueException();
+			} catch(final FileNotFoundException e){
+				Log.w(DEBUGTAG, "Url not found: " + aTile+ " : " + e);
 			} catch (final IOException e) {
 				Log.w(DEBUGTAG, "IOException downloading MapTile: " + aTile + " : " + e);
 			} catch(final Throwable e) {
