@@ -4,6 +4,8 @@ import android.os.Environment;
 
 /**
  * 
+ * This class contains constants used by the service.
+ * 
  * @author Neil Boyd
  *
  */

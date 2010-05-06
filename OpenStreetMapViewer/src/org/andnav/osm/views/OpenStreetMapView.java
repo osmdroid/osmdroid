@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
@@ -42,8 +41,7 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
 
-public class OpenStreetMapView extends View implements OpenStreetMapConstants,
-		OpenStreetMapViewConstants {
+public class OpenStreetMapView extends View implements OpenStreetMapViewConstants {
 
 	// ===========================================================
 	// Constants

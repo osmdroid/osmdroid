@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 
 
 public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapViewOverlayItem> extends OpenStreetMapViewItemizedOverlay<T> {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

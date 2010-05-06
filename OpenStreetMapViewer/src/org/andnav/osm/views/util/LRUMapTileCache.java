@@ -4,12 +4,12 @@ import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
 
 import org.andnav.osm.services.util.OpenStreetMapTile;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
+import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.graphics.Bitmap;
 import android.util.Log;
 
-public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> implements OpenStreetMapConstants {
+public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> implements OpenStreetMapViewConstants {
 
 	private static final long serialVersionUID = -541142277575493335L;
 

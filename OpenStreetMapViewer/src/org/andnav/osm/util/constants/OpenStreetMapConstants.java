@@ -3,6 +3,8 @@ package org.andnav.osm.util.constants;
 
 /**
  * 
+ * This class contains constants used by the sample applications.
+ * 
  * @author Nicolas Gramlich
  *
  */

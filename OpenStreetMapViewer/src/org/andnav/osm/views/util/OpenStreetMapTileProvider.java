@@ -6,7 +6,6 @@ import java.io.File;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
 import org.andnav.osm.services.util.OpenStreetMapTile;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.ComponentName;
@@ -25,8 +24,8 @@ import android.util.Log;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapTileProvider implements ServiceConnection, OpenStreetMapConstants,
-		OpenStreetMapViewConstants {
+public class OpenStreetMapTileProvider implements ServiceConnection,  OpenStreetMapViewConstants {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

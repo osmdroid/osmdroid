@@ -3,6 +3,8 @@ package org.andnav.osm.views.util.constants;
 
 /**
  * 
+ * This class contains constants used by the map view.
+ * 
  * @author Nicolas Gramlich
  *
  */
@@ -13,6 +15,10 @@ public interface OpenStreetMapViewConstants {
 	
 	// FIXME set DEBUGMODE to false
 	public static final boolean DEBUGMODE = true;
+	
+	public static final String DEBUGTAG = "OPENSTREETMAP_VIEW";
+
+	public static final int NOT_SET = Integer.MIN_VALUE;
 	
 	public static final int CACHE_MAPTILECOUNT_DEFAULT = 40;
 	

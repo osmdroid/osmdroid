@@ -1,7 +1,6 @@
 // Created by plusminus on 20:32:01 - 27.09.2008
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
@@ -17,8 +16,8 @@ import android.view.MotionEvent;
  * 
  * @author Nicolas Gramlich
  */
-public abstract class OpenStreetMapViewOverlay implements
-		OpenStreetMapConstants, OpenStreetMapViewConstants {
+public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConstants {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

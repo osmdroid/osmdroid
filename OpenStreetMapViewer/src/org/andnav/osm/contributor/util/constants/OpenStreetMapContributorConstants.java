@@ -3,6 +3,8 @@ package org.andnav.osm.contributor.util.constants;
 
 /**
  * 
+ * This class contains constants used by the contributor package.
+ * 
  * @author Nicolas Gramlich
  *
  */

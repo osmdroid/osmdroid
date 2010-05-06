@@ -23,6 +23,7 @@ import android.view.MotionEvent;
  * @param <T>
  */
 public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlayItem> extends OpenStreetMapViewOverlay {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

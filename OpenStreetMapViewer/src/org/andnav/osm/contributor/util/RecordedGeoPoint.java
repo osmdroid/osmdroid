@@ -8,7 +8,8 @@ import org.andnav.osm.util.constants.OpenStreetMapConstants;
  * Extends the {@link GeoPoint} with a timeStamp.
  * @author Nicolas Gramlich
  */
-public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapConstants{
+public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapConstants {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
