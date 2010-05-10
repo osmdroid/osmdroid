@@ -434,8 +434,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	public boolean onSingleTapUp(MotionEvent e) {
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
-			if (osmvo.onSingleTapUp(e, this))
+			if (osmvo.onSingleTapUp(e, this)) {
+				postInvalidate();
 				return true;
+			}
 
 		return false;
 	}
