@@ -25,8 +25,7 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(
-				this.getBaseContext(), FS_CACHE_SIZE);
+		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(getBaseContext());
 	}
 	
 	@Override

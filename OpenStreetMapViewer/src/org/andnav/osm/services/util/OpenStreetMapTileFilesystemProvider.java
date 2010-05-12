@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.andnav.osm.exceptions.EmptyCacheException;
 import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
@@ -30,10 +29,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Fields
 	// ===========================================================
 
-	protected final OpenStreetMapTileProviderDataBase mDatabase;
-	protected final int mMaxFSCacheByteSize;
-	protected int mCurrentFSCacheByteSize;
-
 	/** online provider */
 	protected OpenStreetMapTileDownloader mTileDownloader;
 
@@ -43,29 +38,17 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	/**
 	 * @param ctx
-	 * @param aMaxFSCacheByteSize the size of the cached MapTiles will not exceed this size.
 	 * @param aCache to load fs-tiles to.
 	 */
-	public OpenStreetMapTileFilesystemProvider(final Context ctx, final int aMaxFSCacheByteSize) {
+	public OpenStreetMapTileFilesystemProvider(final Context ctx) {
 		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
-		this.mMaxFSCacheByteSize = aMaxFSCacheByteSize;
-		this.mDatabase = new OpenStreetMapTileProviderDataBase(ctx);
-		this.mCurrentFSCacheByteSize = this.mDatabase.getCurrentFSCacheByteSize();
-
 		this.mTileDownloader = new OpenStreetMapTileDownloader(this);
-
-		if(DEBUGMODE)
-			Log.d(DEBUGTAG, "Currently used cache-size is: " + this.mCurrentFSCacheByteSize + " of " + this.mMaxFSCacheByteSize + " Bytes");
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 	
-	public int getCurrentFSCacheByteSize() {
-		return this.mCurrentFSCacheByteSize;
-	}
-
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -122,41 +105,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		bos.write(someData);
 		bos.flush();
 		bos.close();
-
-		synchronized (this) {
-			final int bytesGrown = this.mDatabase.addTileOrIncrement(tile, someData.length);
-			this.mCurrentFSCacheByteSize += bytesGrown;
-
-			if(DEBUGMODE)
-				Log.d(DEBUGTAG, "FSCache Size is now: " + this.mCurrentFSCacheByteSize + " Bytes");
-
-			/* If Cache is full... */
-			try {
-
-				if(this.mCurrentFSCacheByteSize > this.mMaxFSCacheByteSize){
-					if(DEBUGMODE)
-						Log.d(DEBUGTAG, "Freeing FS cache...");
-					this.mCurrentFSCacheByteSize -= this.mDatabase.deleteOldest((int)(this.mMaxFSCacheByteSize * 0.05f)); // Free 5% of cache
-				}
-			} catch (EmptyCacheException e) {
-				if(DEBUGMODE)
-					Log.d(DEBUGTAG, "Cache empty", e);
-			}
-		}
-	}
-
-	public void clearCurrentFSCache(){
-		cutCurrentFSCacheBy(Integer.MAX_VALUE); // Delete all
-	}
-	
-	public void cutCurrentFSCacheBy(final int bytesToCut){
-		try {
-			this.mDatabase.deleteOldest(Integer.MAX_VALUE); // Delete all
-			this.mCurrentFSCacheByteSize = 0;
-		} catch (EmptyCacheException e) {
-			if(DEBUGMODE)
-				Log.d(DEBUGTAG, "Cache empty", e);
-		}
 	}
 
 	// ===========================================================
@@ -171,7 +119,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		@Override
 		public void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback pTileLoaderCallback) throws CantContinueException {
-			mDatabase.incrementUse(aTile);
 			final File tileFile = getOutputFile(aTile);
 			try {
 				if (tileFile.exists()) {
