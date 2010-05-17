@@ -1,7 +1,7 @@
 // Created by plusminus on 17:58:57 - 25.09.2008
 package org.andnav.osm.views.util;
 
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.graphics.Bitmap;

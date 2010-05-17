@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 import android.content.Context;
 import android.graphics.Bitmap;

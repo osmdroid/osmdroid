@@ -3,9 +3,9 @@ package org.andnav.osm.views.util;
 
 import java.io.File;
 
-import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.services.IOpenStreetMapTileProviderServiceCallback;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.ComponentName;
@@ -70,13 +70,21 @@ public class OpenStreetMapTileProvider implements ServiceConnection,  OpenStreet
 	// ===========================================================
 
 	public void onServiceConnected(final ComponentName name, final IBinder service) {
+		Log.d(DEBUGTAG, "onServiceConnected(" + name + ")");
+
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
+		
+		try {
+			mTileService.setCallback(mServiceCallback);
+		} catch (RemoteException e) {
+			Log.e(DEBUGTAG, "Error setting callback", e);
+		}
+		
 		try {
 			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 		} catch(Exception e) {
 			Log.e(DEBUGTAG, "Error sending success message on connect", e);
 		}
-		Log.d(DEBUGTAG, "connected");
 	};
 	
 	@Override
@@ -150,7 +158,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection,  OpenStreet
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
-					mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, mServiceCallback);
+					mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y);
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}
@@ -173,7 +181,7 @@ public class OpenStreetMapTileProvider implements ServiceConnection,  OpenStreet
 	// Inner and Anonymous Classes
 	// ===========================================================
 	
-	IOpenStreetMapTileProviderCallback mServiceCallback = new IOpenStreetMapTileProviderCallback.Stub() {
+	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 
 		@Override
 		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {

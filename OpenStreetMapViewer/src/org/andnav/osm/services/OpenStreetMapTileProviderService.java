@@ -1,8 +1,9 @@
 package org.andnav.osm.services;
 
-import org.andnav.osm.services.util.OpenStreetMapTile;
-import org.andnav.osm.services.util.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
+import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 
 import android.app.Service;
 import android.content.Intent;
@@ -16,16 +17,17 @@ import android.util.Log;
  * and stores them in a file system cache.
  * @author Manuel Stahl
  */
-public class OpenStreetMapTileProviderService extends Service implements OpenStreetMapServiceConstants {
+public class OpenStreetMapTileProviderService extends Service implements OpenStreetMapServiceConstants, IOpenStreetMapTileProviderCallback {
 
 	private static final String DEBUGTAG = "OSM_TILE_PROVIDER_SERVICE";
 
 	private OpenStreetMapTileFilesystemProvider mFileSystemProvider;
+	private IOpenStreetMapTileProviderServiceCallback mCallback;
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(getBaseContext());
+		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
 	}
 	
 	@Override
@@ -76,17 +78,27 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 		return super.onUnbind(pIntent);
 	}
 
+	@Override
+	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
+		try {
+			mCallback.mapTileRequestCompleted(pTile.rendererID, pTile.zoomLevel, pTile.x, pTile.y, pTilePath);
+		} catch (final RemoteException e) {
+			Log.e(DEBUGTAG, "Error invoking callback", e);
+		}
+	}
+
 	/**
 	 * The IRemoteInterface is defined through IDL
 	 */
 	private final IOpenStreetMapTileProviderService.Stub mBinder = new IOpenStreetMapTileProviderService.Stub() {
 		@Override
-		public void requestMapTile(int rendererID, int zoomLevel, int tileX,
-				int tileY, IOpenStreetMapTileProviderCallback callback)
-				throws RemoteException {
-
+		public void setCallback(final IOpenStreetMapTileProviderServiceCallback pCallback) throws RemoteException {
+			mCallback = pCallback;
+		}
+		@Override
+		public void requestMapTile(int rendererID, int zoomLevel, int tileX, int tileY) throws RemoteException {
 			OpenStreetMapTile tile = new OpenStreetMapTile(rendererID, zoomLevel, tileX, tileY);
-			mFileSystemProvider.loadMapTileAsync(tile, callback);
+			mFileSystemProvider.loadMapTileAsync(tile);
 		}
 	};
 

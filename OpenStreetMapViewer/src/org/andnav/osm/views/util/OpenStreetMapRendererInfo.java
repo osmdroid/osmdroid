@@ -4,7 +4,7 @@ package org.andnav.osm.views.util;
 import java.util.Random;
 
 import org.andnav.osm.R;
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 /**
  * The OpenStreetMapRendererInfo stores information about available tile servers.
