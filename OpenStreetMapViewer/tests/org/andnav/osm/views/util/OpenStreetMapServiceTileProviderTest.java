@@ -22,15 +22,15 @@ import android.test.IsolatedContext;
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapTileProviderTest extends AndroidTestCase {
+public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
 
-	OpenStreetMapTileProvider mProvider;
+	OpenStreetMapServiceTileProvider mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
 		final Context context = new IsolatedContext(null, getContext());
-		mProvider = new OpenStreetMapTileProvider(context, new Handler());
+		mProvider = new OpenStreetMapServiceTileProvider(context, new Handler());
 		
 		super.setUp();
 	}

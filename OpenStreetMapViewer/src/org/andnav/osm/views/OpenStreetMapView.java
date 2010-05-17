@@ -628,7 +628,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	@Override
 	protected void onDetachedFromWindow() {
 		this.mZoomController.setVisible(false);
-		this.mMapOverlay.disconnectService();
+		this.mMapOverlay.detach();
 		super.onDetachedFromWindow();
 	}
 
