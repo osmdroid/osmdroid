@@ -1,7 +1,5 @@
 package org.andnav.osm.views.util;
 
-import java.io.File;
-
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
 import org.andnav.osm.services.IOpenStreetMapTileProviderServiceCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
@@ -11,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -131,40 +128,12 @@ public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider 
 		mServiceBound = false;
 		mTileService = null;
 	}
-	
-	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 
+	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 		@Override
 		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
-
 			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererID, aZoomLevel, aTileX, aTileY);
-			
-			// if the tile path has been returned, add the tile to the cache
-			if (aTilePath != null) {
-				try {
-					final Bitmap bitmap = BitmapFactory.decodeFile(aTilePath);
-					if (bitmap != null) {
-						mTileCache.putTile(tile, bitmap);
-					} else {
-						// if we couldn't load it then it's invalid - delete it
-						try {
-							new File(aTilePath).delete();
-						} catch (Throwable e) {
-							Log.e(DEBUGTAG, "Error deleting invalid file: " + aTilePath, e);
-						}
-					}
-				} catch (final OutOfMemoryError e) {
-					Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + tile);
-					mTileCache.clear();
-					System.gc();
-				}
-			}
-			
-			// tell our caller we've finished and it should update its view
-			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
-
-			if (DEBUGMODE)
-				Log.d(DEBUGTAG, "MapTile request complete: " + tile);
+			OpenStreetMapServiceTileProvider.this.mapTileRequestCompleted(tile, aTilePath);
 		}
 	};
 

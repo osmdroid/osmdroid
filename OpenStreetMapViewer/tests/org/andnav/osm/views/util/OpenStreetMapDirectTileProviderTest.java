@@ -22,15 +22,15 @@ import android.test.IsolatedContext;
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
+public class OpenStreetMapDirectTileProviderTest extends AndroidTestCase {
 
-	OpenStreetMapServiceTileProvider mProvider;
+	OpenStreetMapDirectTileProvider mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
 		final Context context = new IsolatedContext(null, getContext());
-		mProvider = new OpenStreetMapServiceTileProvider(context, new Handler());
+		mProvider = new OpenStreetMapDirectTileProvider(context, new Handler());
 		
 		super.setUp();
 	}
@@ -55,7 +55,7 @@ public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
 
-		mProvider.mServiceCallback.mapTileRequestCompleted(tile.rendererID, tile.zoomLevel, tile.x, tile.y, path);
+		mProvider.mapTileRequestCompleted(tile, path);
 
 		// do the test
 		final Bitmap bitmap2 = mProvider.getMapTile(tile);
