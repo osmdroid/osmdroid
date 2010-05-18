@@ -15,7 +15,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	private final int mPendingQueueSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
-	private final LinkedHashMap<OpenStreetMapTile, Object> mPending;
+	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
 	private static final Object PRESENT = new Object();
 	
 	protected final IOpenStreetMapTileProviderCallback mCallback;
@@ -46,6 +46,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		// this will put the tile in the queue, or move it to the front of the
 		// queue if it's already present
+		// FIXME it sometimes puts duplicates in the list
 		mPending.put(aTile, PRESENT);
 
 		if (DEBUGMODE)
