@@ -6,7 +6,6 @@ import java.nio.ByteBuffer;
 
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,7 +15,6 @@ import android.graphics.Bitmap.Config;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
-import android.test.IsolatedContext;
 
 /**
  * @author Neil Boyd
@@ -29,8 +27,7 @@ public class OpenStreetMapDirectTileProviderTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		final Context context = new IsolatedContext(null, getContext());
-		mProvider = new OpenStreetMapDirectTileProvider(context, new Handler());
+		mProvider = new OpenStreetMapDirectTileProvider(new Handler());
 		
 		super.setUp();
 	}

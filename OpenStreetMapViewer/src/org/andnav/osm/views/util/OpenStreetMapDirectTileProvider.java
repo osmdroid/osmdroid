@@ -4,7 +4,6 @@ import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
@@ -13,9 +12,8 @@ public class OpenStreetMapDirectTileProvider extends OpenStreetMapTileProvider i
 
 	private final OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 
-	public OpenStreetMapDirectTileProvider(final Context pContext,
-			final Handler pDownloadFinishedListener) {
-		super(pContext, pDownloadFinishedListener);
+	public OpenStreetMapDirectTileProvider(final Handler pDownloadFinishedListener) {
+		super(pDownloadFinishedListener);
 		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
 	}
 

@@ -3,10 +3,13 @@ package org.andnav.osm.views.util;
 
 import java.io.File;
 
+import org.andnav.osm.services.IOpenStreetMapTileProviderService;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -19,41 +22,33 @@ import android.util.Log;
  */
 public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewConstants {
 	
-	// ===========================================================
-	// Constants
-	// ===========================================================
+	protected final OpenStreetMapTileCache mTileCache;
+	protected final Handler mDownloadFinishedHandler;
 
-	// ===========================================================
-	// Fields
-	// ===========================================================
-
-	protected Context mContext;
-	protected OpenStreetMapTileCache mTileCache;
-	protected Handler mDownloadFinishedHandler;
-
-	// ===========================================================
-	// Constructors
-	// ===========================================================
-
-	public OpenStreetMapTileProvider(final Context pContext,
-			final Handler pDownloadFinishedListener) {
-		mContext = pContext;
+	public OpenStreetMapTileProvider(final Handler pDownloadFinishedListener) {
 		mTileCache = new OpenStreetMapTileCache();
 		mDownloadFinishedHandler = pDownloadFinishedListener;
 	}
 
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from SuperClass/Interfaces
-	// ===========================================================
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
+	/**
+	 * Get a tile provider.
+	 * If a tile provider service exists then it will use the service,
+	 * otherwise it'll use a direct tile provider that doesn't use a service
+	 * @param pContext
+	 * @param pDownloadFinishedListener
+	 * @return
+	 */
+	public static OpenStreetMapTileProvider getInstance(final Context pContext,
+			final Handler pDownloadFinishedListener) {
+		final Intent intent = new Intent(IOpenStreetMapTileProviderService.class.getName());
+		final ResolveInfo ri = pContext.getPackageManager().resolveService(intent, 0);
+		if (ri == null) {
+			return new OpenStreetMapDirectTileProvider(pDownloadFinishedListener);
+		} else {
+			return new OpenStreetMapServiceTileProvider(pContext, pDownloadFinishedListener);
+		}
+	}
+	
 	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 
 		// if the tile path has been returned, add the tile to the cache
@@ -91,9 +86,5 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 	public abstract Bitmap getMapTile(OpenStreetMapTile pTile);
 
 	public abstract void detach();
-	
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
 	
 }

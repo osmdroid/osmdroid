@@ -16,6 +16,8 @@ import android.util.Log;
 
 public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider implements ServiceConnection {
 
+	private final Context mContext;
+
 	private IOpenStreetMapTileProviderService mTileService;
 
 	/**
@@ -24,7 +26,8 @@ public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider 
 	private boolean mServiceBound;
 
 	public OpenStreetMapServiceTileProvider(final Context pContext, final Handler pDownloadFinishedListener) {
-		super(pContext, pDownloadFinishedListener);
+		super(pDownloadFinishedListener);
+		mContext = pContext;
 		bindToService();
 	}
 
