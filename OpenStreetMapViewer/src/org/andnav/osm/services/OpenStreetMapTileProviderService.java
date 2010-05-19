@@ -81,7 +81,7 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	@Override
 	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 		try {
-			mCallback.mapTileRequestCompleted(pTile.rendererID, pTile.zoomLevel, pTile.x, pTile.y, pTilePath);
+			mCallback.mapTileRequestCompleted(pTile.getRendererId(), pTile.getZoomLevel(), pTile.getX(), pTile.getY(), pTilePath);
 		} catch (final RemoteException e) {
 			Log.e(DEBUGTAG, "Error invoking callback", e);
 		}

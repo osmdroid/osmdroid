@@ -69,7 +69,7 @@ public enum OpenStreetMapRendererInfo {
 			return String.format("%s%s%s", baseurl, quadTree(aTile), this.IMAGE_FILENAMEENDING);
 		case X_Y:
 		default:
-			return String.format("%s%d/%d/%d%s", baseurl, aTile.zoomLevel, aTile.x, aTile.y, this.IMAGE_FILENAMEENDING);
+			return String.format("%s%d/%d/%d%s", baseurl, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), this.IMAGE_FILENAMEENDING);
 		}		
 	}
 	
@@ -80,12 +80,12 @@ public enum OpenStreetMapRendererInfo {
 	 */
 	private String quadTree(final OpenStreetMapTile aTile) {
 		final StringBuilder quadKey = new StringBuilder();
-		for (int i = aTile.zoomLevel; i > 0; i--) {
+		for (int i = aTile.getZoomLevel(); i > 0; i--) {
 			int digit = 0;
 			int mask = 1 << (i - 1);
-			if ((aTile.x & mask) != 0)
+			if ((aTile.getX() & mask) != 0)
 				digit += 1;
-			if ((aTile.y & mask) != 0)
+			if ((aTile.getY() & mask) != 0)
 				digit += 2;
 			quadKey.append("" + digit);
 		}

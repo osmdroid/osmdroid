@@ -77,7 +77,7 @@ public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider 
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
-					mTileService.requestMapTile(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y);
+					mTileService.requestMapTile(aTile.getRendererId(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}

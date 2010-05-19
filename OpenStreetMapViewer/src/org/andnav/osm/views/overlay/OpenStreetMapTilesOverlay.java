@@ -71,8 +71,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
 		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
-		final OpenStreetMapTile tile = new OpenStreetMapTile(0, 0, 0, 0);
-		tile.rendererID = this.mRendererInfo.ordinal();	// TODO get from service
+		final int rendererId = this.mRendererInfo.ordinal();	// TODO get from service
 		
 		/*
 		 * Calculate the amount of tiles needed for each side around the center 
@@ -96,9 +95,9 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
 				/* Construct a URLString, which represents the MapTile. */
-				tile.zoomLevel = zoomLevel;
-				tile.y = MyMath.mod(y, mapTileUpperBound);
-				tile.x = MyMath.mod(x, mapTileUpperBound);
+				final int tileY = MyMath.mod(y, mapTileUpperBound);
+				final int tileX = MyMath.mod(x, mapTileUpperBound);
+				final OpenStreetMapTile tile = new OpenStreetMapTile(rendererId, zoomLevel, tileX, tileY);
 
 				pj.toPixels(x, y, tilePos);
 				final Bitmap currentMapTile = mTileProvider.getMapTile(tile);

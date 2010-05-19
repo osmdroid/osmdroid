@@ -77,9 +77,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	private String buildPath(final OpenStreetMapTile tile) {
-		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.rendererID];
-		return TILE_PATH_BASE + renderer.name() + "/" + tile.zoomLevel + "/"
-					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
+		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
+		return TILE_PATH_BASE + renderer.name() + "/" + tile.getZoomLevel() + "/"
+					+ tile.getX() + "/" + tile.getY() + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
 	}
 	
 	/**

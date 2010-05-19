@@ -12,7 +12,6 @@ import android.util.Log;
 public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
 
 	private final int mThreadPoolSize;
-	private final int mPendingQueueSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
@@ -23,13 +22,12 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	public OpenStreetMapAsyncTileProvider(final IOpenStreetMapTileProviderCallback pCallback, final int aThreadPoolSize, final int aPendingQueueSize) {
 		mCallback = pCallback;
 		mThreadPoolSize = aThreadPoolSize;
-		mPendingQueueSize = aPendingQueueSize;
 		mWorking = new HashMap<OpenStreetMapTile, Object>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, Object>(aPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
 			@Override
 			protected boolean removeEldestEntry(Entry<OpenStreetMapTile, Object> pEldest) {
-				return size() > mPendingQueueSize;
+				return size() > aPendingQueueSize;
 			}
 		};
 	}
@@ -48,6 +46,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		// queue if it's already present
 		// FIXME it sometimes puts duplicates in the list
 		mPending.put(aTile, PRESENT);
+		duplicateCheck(mPending, aTile);
 
 		if (DEBUGMODE)
 			Log.d(debugtag(), activeCount + " active threads");
@@ -56,7 +55,29 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			t.start();
 		}
 	}
-	
+
+	/**
+	 * Check for duplicates in the LinkedHashMap.
+	 * @param pPending the LinkedHashMap to check
+	 * @param pTile the entry we're expecting to be duplicated
+	 */
+	// FIXME remove this method when we're sure it's not an issue any more
+	private void duplicateCheck(final LinkedHashMap<OpenStreetMapTile, Object> pPending, final OpenStreetMapTile pTile) {
+		int count = 0;
+		try {
+		for (final OpenStreetMapTile tile : pPending.keySet()) {
+			if (tile.equals(pTile)) {
+				count++;
+			}
+		}
+		} catch(final ConcurrentModificationException e) {
+			Log.e(debugtag(), "ConcurrentModificationException in duplicateCheck");
+		}
+		if (count > 1) {
+			Log.e(debugtag(), "Tile is duplicated " + count + " times: " + pTile);
+		}
+	}
+
 	private void clearQueue() {
 		mPending.clear();
 		mWorking.clear();
@@ -116,7 +137,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 						}
 					} catch (final ConcurrentModificationException e) {
 						if (DEBUGMODE)
-							Log.d(debugtag(), "ConcurrentModificationException break: " + (result != null));
+							Log.w(debugtag(), "ConcurrentModificationException break: " + (result != null));
 
 						// if we've got a result return it, otherwise try again
 						if (result != null) {

@@ -55,7 +55,7 @@ public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
 
-		mProvider.mServiceCallback.mapTileRequestCompleted(tile.rendererID, tile.zoomLevel, tile.x, tile.y, path);
+		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRendererId(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
 
 		// do the test
 		final Bitmap bitmap2 = mProvider.getMapTile(tile);

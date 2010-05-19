@@ -24,6 +24,7 @@ import android.util.Log;
  *
  */
 public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -68,7 +69,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private String buildURL(final OpenStreetMapTile tile) {
-		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.rendererID];
+		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
 		return renderer.getTileURLString(tile);
 	}
 
