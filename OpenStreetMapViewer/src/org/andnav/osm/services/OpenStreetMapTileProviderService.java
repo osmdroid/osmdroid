@@ -1,6 +1,6 @@
 package org.andnav.osm.services;
 
-import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
+import org.andnav.osm.services.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
