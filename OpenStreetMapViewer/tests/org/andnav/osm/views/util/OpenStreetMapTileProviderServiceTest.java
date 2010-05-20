@@ -22,7 +22,7 @@ import android.test.IsolatedContext;
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
+public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 
 	OpenStreetMapTileProviderService mProvider;
 

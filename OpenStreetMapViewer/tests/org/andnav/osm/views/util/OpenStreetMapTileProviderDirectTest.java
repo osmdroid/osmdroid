@@ -20,7 +20,7 @@ import android.test.AndroidTestCase;
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapDirectTileProviderTest extends AndroidTestCase {
+public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 
 	OpenStreetMapTileProviderDirect mProvider;
 
