@@ -43,9 +43,11 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 		final Intent intent = new Intent(IOpenStreetMapTileProviderService.class.getName());
 		final ResolveInfo ri = pContext.getPackageManager().resolveService(intent, 0);
 		if (ri == null) {
-			return new OpenStreetMapDirectTileProvider(pDownloadFinishedListener);
+			Log.i(DEBUGTAG, "Service not found - using direct tile provider");
+			return new OpenStreetMapTileProviderDirect(pDownloadFinishedListener);
 		} else {
-			return new OpenStreetMapServiceTileProvider(pContext, pDownloadFinishedListener);
+			Log.i(DEBUGTAG, "Using tile provider service");
+			return new OpenStreetMapTileProviderService(pContext, pDownloadFinishedListener);
 		}
 	}
 	

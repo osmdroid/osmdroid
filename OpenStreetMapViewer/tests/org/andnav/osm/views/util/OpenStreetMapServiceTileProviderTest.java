@@ -24,13 +24,13 @@ import android.test.IsolatedContext;
  */
 public class OpenStreetMapServiceTileProviderTest extends AndroidTestCase {
 
-	OpenStreetMapServiceTileProvider mProvider;
+	OpenStreetMapTileProviderService mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
 		final Context context = new IsolatedContext(null, getContext());
-		mProvider = new OpenStreetMapServiceTileProvider(context, new Handler());
+		mProvider = new OpenStreetMapTileProviderService(context, new Handler());
 		
 		super.setUp();
 	}

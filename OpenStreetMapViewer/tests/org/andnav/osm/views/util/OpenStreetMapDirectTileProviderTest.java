@@ -22,12 +22,12 @@ import android.test.AndroidTestCase;
  */
 public class OpenStreetMapDirectTileProviderTest extends AndroidTestCase {
 
-	OpenStreetMapDirectTileProvider mProvider;
+	OpenStreetMapTileProviderDirect mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
-		mProvider = new OpenStreetMapDirectTileProvider(new Handler());
+		mProvider = new OpenStreetMapTileProviderDirect(new Handler());
 		
 		super.setUp();
 	}

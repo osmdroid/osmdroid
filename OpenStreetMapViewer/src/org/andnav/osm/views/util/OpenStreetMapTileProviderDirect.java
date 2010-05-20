@@ -8,11 +8,11 @@ import android.graphics.Bitmap;
 import android.os.Handler;
 import android.util.Log;
 
-public class OpenStreetMapDirectTileProvider extends OpenStreetMapTileProvider implements IOpenStreetMapTileProviderCallback {
+public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider implements IOpenStreetMapTileProviderCallback {
 
 	private final OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 
-	public OpenStreetMapDirectTileProvider(final Handler pDownloadFinishedListener) {
+	public OpenStreetMapTileProviderDirect(final Handler pDownloadFinishedListener) {
 		super(pDownloadFinishedListener);
 		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
 	}

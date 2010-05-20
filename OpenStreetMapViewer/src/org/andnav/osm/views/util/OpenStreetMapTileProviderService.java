@@ -14,7 +14,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
-public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider implements ServiceConnection {
+public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider implements ServiceConnection {
 
 	private final Context mContext;
 
@@ -25,7 +25,7 @@ public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider 
 	 */
 	private boolean mServiceBound;
 
-	public OpenStreetMapServiceTileProvider(final Context pContext, final Handler pDownloadFinishedListener) {
+	public OpenStreetMapTileProviderService(final Context pContext, final Handler pDownloadFinishedListener) {
 		super(pDownloadFinishedListener);
 		mContext = pContext;
 		bindToService();
@@ -136,7 +136,7 @@ public class OpenStreetMapServiceTileProvider extends OpenStreetMapTileProvider 
 		@Override
 		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
 			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererID, aZoomLevel, aTileX, aTileY);
-			OpenStreetMapServiceTileProvider.this.mapTileRequestCompleted(tile, aTilePath);
+			OpenStreetMapTileProviderService.this.mapTileRequestCompleted(tile, aTilePath);
 		}
 	};
 
