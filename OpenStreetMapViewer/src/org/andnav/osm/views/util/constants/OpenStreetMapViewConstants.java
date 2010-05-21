@@ -13,8 +13,7 @@ public interface OpenStreetMapViewConstants {
 	// Final Fields
 	// ===========================================================
 	
-	// FIXME set DEBUGMODE to false
-	public static final boolean DEBUGMODE = true;
+	public static final boolean DEBUGMODE = false;
 	
 	public static final String DEBUGTAG = "OPENSTREETMAP_VIEW";
 

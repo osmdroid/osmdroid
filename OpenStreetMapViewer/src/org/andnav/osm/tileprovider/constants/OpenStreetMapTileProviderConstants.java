@@ -14,8 +14,7 @@ public interface OpenStreetMapTileProviderConstants {
 	// Final Fields
 	// ===========================================================
 	
-	// FIXME set DEBUGMODE to false
-	public static final boolean DEBUGMODE = true;
+	public static final boolean DEBUGMODE = false;
 	
 	public static final String TILE_PATH_BASE = Environment.getExternalStorageDirectory() + "/andnav2/tiles/";
 	public static final String TILE_PATH_EXTENSION = ".andnav";

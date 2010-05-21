@@ -44,37 +44,13 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		// this will put the tile in the queue, or move it to the front of the
 		// queue if it's already present
-		// FIXME it sometimes puts duplicates in the list
 		mPending.put(aTile, PRESENT);
-		duplicateCheck(mPending, aTile);
 
 		if (DEBUGMODE)
 			Log.d(debugtag(), activeCount + " active threads");
 		if (activeCount < mThreadPoolSize) {
 			final Thread t = new Thread(mThreadPool, getTileLoader());
 			t.start();
-		}
-	}
-
-	/**
-	 * Check for duplicates in the LinkedHashMap.
-	 * @param pPending the LinkedHashMap to check
-	 * @param pTile the entry we're expecting to be duplicated
-	 */
-	// FIXME remove this method when we're sure it's not an issue any more
-	private void duplicateCheck(final LinkedHashMap<OpenStreetMapTile, Object> pPending, final OpenStreetMapTile pTile) {
-		int count = 0;
-		try {
-		for (final OpenStreetMapTile tile : pPending.keySet()) {
-			if (tile.equals(pTile)) {
-				count++;
-			}
-		}
-		} catch(final ConcurrentModificationException e) {
-			Log.e(debugtag(), "ConcurrentModificationException in duplicateCheck");
-		}
-		if (count > 1) {
-			Log.e(debugtag(), "Tile is duplicated " + count + " times: " + pTile);
 		}
 	}
 

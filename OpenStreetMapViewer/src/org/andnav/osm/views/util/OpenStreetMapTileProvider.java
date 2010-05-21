@@ -48,6 +48,9 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 		} else {
 			Log.i(DEBUGTAG, "Using tile provider service");
 			return new OpenStreetMapTileProviderService(pContext, pDownloadFinishedListener);
+			// XXX Perhaps we should pass the Intent or the class name (action) into
+			//     this constructor since we do the same again in there.
+			//     That will also give the option of specifying something else.
 		}
 	}
 	

@@ -13,8 +13,7 @@ public interface OpenStreetMapServiceConstants {
 	// Final Fields
 	// ===========================================================
 	
-	// FIXME set DEBUGMODE to false
-	public static final boolean DEBUGMODE = true;
+	public static final boolean DEBUGMODE = false;
 	
 	// ===========================================================
 	// Methods
