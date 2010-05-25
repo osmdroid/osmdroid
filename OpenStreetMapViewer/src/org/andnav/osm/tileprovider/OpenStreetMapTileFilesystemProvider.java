@@ -1,5 +1,5 @@
 // Created by plusminus on 21:46:41 - 25.09.2008
-package org.andnav.osm.services.util;
+package org.andnav.osm.tileprovider;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -7,10 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
-import android.content.Context;
 import android.util.Log;
 
 /**
@@ -40,9 +38,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * @param ctx
 	 * @param aCache to load fs-tiles to.
 	 */
-	public OpenStreetMapTileFilesystemProvider(final Context ctx) {
-		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
-		this.mTileDownloader = new OpenStreetMapTileDownloader(this);
+	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback pCallback) {
+		super(pCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		this.mTileDownloader = new OpenStreetMapTileDownloader(pCallback, this);
 	}
 
 	// ===========================================================
@@ -59,8 +57,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	}
 
 	@Override
-	protected Runnable getTileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
-		return new TileLoader(aTileProviderCallback);
+	protected Runnable getTileLoader() {
+		return new TileLoader();
 	};
 	
 	
@@ -79,9 +77,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	private String buildPath(final OpenStreetMapTile tile) {
-		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.rendererID];
-		return TILE_PATH_BASE + renderer.name() + "/" + tile.zoomLevel + "/"
-					+ tile.x + "/" + tile.y + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
+		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
+		return TILE_PATH_BASE + renderer.name() + "/" + tile.getZoomLevel() + "/"
+					+ tile.getX() + "/" + tile.getY() + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
 	}
 	
 	/**
@@ -113,28 +111,24 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
-		public TileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
-			super(aTileProviderCallback);
-		}
-
 		@Override
-		public void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback pTileLoaderCallback) throws CantContinueException {
+		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 			final File tileFile = getOutputFile(aTile);
 			try {
 				if (tileFile.exists()) {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Loaded tile: " + aTile);
-					pTileLoaderCallback.tileLoaded(aTile, tileFile.getPath(), true);
+					tileLoaded(aTile, tileFile.getPath(), true);
 				} else {
 					if (DEBUGMODE)
 						Log.d(DEBUGTAG, "Tile not exist, request for download: " + aTile);
-					mTileDownloader.loadMapTileAsync(aTile, mTileProviderCallback);
+					mTileDownloader.loadMapTileAsync(aTile);
 					// don't refresh the screen because there's nothing new
-					pTileLoaderCallback.tileLoaded(aTile, null, false);
+					tileLoaded(aTile, null, false);
 				}
 			} catch (final Throwable e) {
 				Log.e(DEBUGTAG, "Error loading tile", e);
-				pTileLoaderCallback.tileLoaded(aTile, null, false);
+				tileLoaded(aTile, null, false);
 			}
 		}
 	}

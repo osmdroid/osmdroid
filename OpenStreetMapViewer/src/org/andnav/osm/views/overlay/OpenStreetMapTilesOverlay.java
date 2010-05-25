@@ -1,6 +1,6 @@
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -32,14 +32,14 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
 		if(aTileProvider == null)
-			mTileProvider = new OpenStreetMapTileProvider(mOsmv.getContext(), new SimpleInvalidationHandler());
+			mTileProvider = OpenStreetMapTileProvider.getInstance(mOsmv.getContext(), new SimpleInvalidationHandler());
 		else
 			this.mTileProvider = aTileProvider;
 	}
 	
-	public void disconnectService()
+	public void detach()
 	{
-		this.mTileProvider.disconnectService();		
+		this.mTileProvider.detach();		
 	}
 	
 	public OpenStreetMapRendererInfo getRendererInfo() {
@@ -71,8 +71,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
 		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
-		final OpenStreetMapTile tile = new OpenStreetMapTile(0, 0, 0, 0);
-		tile.rendererID = this.mRendererInfo.ordinal();	// TODO get from service
+		final int rendererId = this.mRendererInfo.ordinal();	// TODO get from service
 		
 		/*
 		 * Calculate the amount of tiles needed for each side around the center 
@@ -96,9 +95,9 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
 				/* Construct a URLString, which represents the MapTile. */
-				tile.zoomLevel = zoomLevel;
-				tile.y = MyMath.mod(y, mapTileUpperBound);
-				tile.x = MyMath.mod(x, mapTileUpperBound);
+				final int tileY = MyMath.mod(y, mapTileUpperBound);
+				final int tileX = MyMath.mod(x, mapTileUpperBound);
+				final OpenStreetMapTile tile = new OpenStreetMapTile(rendererId, zoomLevel, tileX, tileY);
 
 				pj.toPixels(x, y, tilePos);
 				final Bitmap currentMapTile = mTileProvider.getMapTile(tile);

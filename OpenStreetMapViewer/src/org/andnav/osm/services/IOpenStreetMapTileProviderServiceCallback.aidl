@@ -1,6 +1,6 @@
 package org.andnav.osm.services;
 
-interface IOpenStreetMapTileProviderCallback {
+interface IOpenStreetMapTileProviderServiceCallback {
 
 /**
  * The map tile request has completed.

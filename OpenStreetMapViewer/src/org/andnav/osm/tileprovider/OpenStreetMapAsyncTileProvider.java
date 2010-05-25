@@ -1,41 +1,38 @@
-package org.andnav.osm.services.util;
+package org.andnav.osm.tileprovider;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
-import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
-import org.andnav.osm.services.util.constants.OpenStreetMapServiceConstants;
+import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
-import android.os.DeadObjectException;
-import android.os.RemoteException;
 import android.util.Log;
 
-public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapServiceConstants {
+public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
 
 	private final int mThreadPoolSize;
-	private final int mPendingQueueSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
-	private final LinkedHashMap<OpenStreetMapTile, Object> mPending;
+	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
 	private static final Object PRESENT = new Object();
 	
-	public OpenStreetMapAsyncTileProvider(final int aThreadPoolSize, final int aPendingQueueSize) {
+	protected final IOpenStreetMapTileProviderCallback mCallback;
+	
+	public OpenStreetMapAsyncTileProvider(final IOpenStreetMapTileProviderCallback pCallback, final int aThreadPoolSize, final int aPendingQueueSize) {
+		mCallback = pCallback;
 		mThreadPoolSize = aThreadPoolSize;
-		mPendingQueueSize = aPendingQueueSize;
 		mWorking = new HashMap<OpenStreetMapTile, Object>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, Object>(aPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
 			@Override
 			protected boolean removeEldestEntry(Entry<OpenStreetMapTile, Object> pEldest) {
-				return size() > mPendingQueueSize;
+				return size() > aPendingQueueSize;
 			}
 		};
 	}
 	
-	public void loadMapTileAsync(final OpenStreetMapTile aTile,
-			final IOpenStreetMapTileProviderCallback aCallback) {
+	public void loadMapTileAsync(final OpenStreetMapTile aTile) {
 
 		final int activeCount = mThreadPool.activeCount();
 
@@ -52,11 +49,11 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 		if (DEBUGMODE)
 			Log.d(debugtag(), activeCount + " active threads");
 		if (activeCount < mThreadPoolSize) {
-			final Thread t = new Thread(mThreadPool, getTileLoader(aCallback));
+			final Thread t = new Thread(mThreadPool, getTileLoader());
 			t.start();
 		}
 	}
-	
+
 	private void clearQueue() {
 		mPending.clear();
 		mWorking.clear();
@@ -78,7 +75,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 	 */
 	protected abstract String debugtag();
 	
-	protected abstract Runnable getTileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback);
+	protected abstract Runnable getTileLoader();
 	
 	protected interface TileLoaderCallback {
 		/**
@@ -91,19 +88,12 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 	}
 
 	protected abstract class TileLoader implements Runnable, TileLoaderCallback {
-		final IOpenStreetMapTileProviderCallback mTileProviderCallback;
-
-		public TileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
-			mTileProviderCallback = aTileProviderCallback;
-		}
-		
 		/**
 		 * Load the requested tile.
 		 * @param aTile the tile to load
-		 * @param aTileLoaderCallback the callback to notify when the tile has loaded
 		 * @throws CantContinueException if it is not possible to continue with processing the queue
 		 */
-		protected abstract void loadTile(OpenStreetMapTile aTile, TileLoaderCallback aTileLoaderCallback) throws CantContinueException;
+		protected abstract void loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
 		private OpenStreetMapTile nextTile() {
 			
@@ -123,7 +113,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 						}
 					} catch (final ConcurrentModificationException e) {
 						if (DEBUGMODE)
-							Log.d(debugtag(), "ConcurrentModificationException break: " + (result != null));
+							Log.w(debugtag(), "ConcurrentModificationException break: " + (result != null));
 
 						// if we've got a result return it, otherwise try again
 						if (result != null) {
@@ -150,15 +140,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 			mWorking.remove(aTile);
 
 			if (aRefresh) {
-				try {
-					mTileProviderCallback.mapTileRequestCompleted(aTile.rendererID, aTile.zoomLevel, aTile.x, aTile.y, aTilePath);
-				} catch (final DeadObjectException e) {
-					// our caller has died so there's not much point carrying on
-					Log.e(debugtag(), "Caller has died");
-					clearQueue();
-				} catch (final RemoteException e) {
-					Log.e(debugtag(), "Service failed", e);
-				}
+				mCallback.mapTileRequestCompleted(aTile, aTilePath);
 			}
 		}
 
@@ -170,7 +152,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapSer
 				if (DEBUGMODE)
 					Log.d(debugtag(), "Next tile: " + tile);
 				try {
-					loadTile(tile, this);
+					loadTile(tile);
 				} catch (final CantContinueException e) {
 					Log.i(debugtag(), "Tile loader can't continue");
 					clearQueue();

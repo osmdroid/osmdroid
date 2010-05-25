@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
-import org.andnav.osm.services.util.OpenStreetMapTile;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,15 +22,15 @@ import android.test.IsolatedContext;
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapTileProviderTest extends AndroidTestCase {
+public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 
-	OpenStreetMapTileProvider mProvider;
+	OpenStreetMapTileProviderService mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
 		final Context context = new IsolatedContext(null, getContext());
-		mProvider = new OpenStreetMapTileProvider(context, new Handler());
+		mProvider = new OpenStreetMapTileProviderService(context, new Handler());
 		
 		super.setUp();
 	}
@@ -54,10 +54,12 @@ public class OpenStreetMapTileProviderTest extends AndroidTestCase {
 		canvas.drawText("test", 10, 20, new Paint());
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
-		mProvider.mServiceCallback.mapTileRequestCompleted(tile.rendererID, tile.zoomLevel, tile.x, tile.y, path);
+
+		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRendererId(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
 
 		// do the test
 		final Bitmap bitmap2 = mProvider.getMapTile(tile);
+		assertNotNull("Expect tile to be not null", bitmap2);
 
 		// compare a few things to see if it's the same bitmap
 		assertEquals("Compare config", bitmap1.getConfig(), bitmap2.getConfig());

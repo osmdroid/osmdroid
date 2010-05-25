@@ -1,5 +1,5 @@
 // Created by plusminus on 21:31:36 - 25.09.2008
-package org.andnav.osm.services.util;
+package org.andnav.osm.tileprovider;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-import org.andnav.osm.services.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
 import android.util.Log;
@@ -25,6 +24,7 @@ import android.util.Log;
  *
  */
 public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -41,8 +41,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileDownloader(final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
-		super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+	public OpenStreetMapTileDownloader(final IOpenStreetMapTileProviderCallback pCallback, final OpenStreetMapTileFilesystemProvider aMapTileFSProvider){
+		super(pCallback, NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 		this.mMapTileFSProvider = aMapTileFSProvider;
 	}
 
@@ -60,8 +60,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	}
 
 	@Override
-	protected Runnable getTileLoader(IOpenStreetMapTileProviderCallback aTileProviderCallback) {
-		return new TileLoader(aTileProviderCallback);
+	protected Runnable getTileLoader() {
+		return new TileLoader();
 	};
 	
 	// ===========================================================
@@ -69,7 +69,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private String buildURL(final OpenStreetMapTile tile) {
-		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.rendererID];
+		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
 		return renderer.getTileURLString(tile);
 	}
 
@@ -79,12 +79,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
-		public TileLoader(final IOpenStreetMapTileProviderCallback aTileProviderCallback) {
-			super(aTileProviderCallback);
-		}
-
 		@Override
-		public void loadTile(final OpenStreetMapTile aTile, final TileLoaderCallback pTileLoaderCallback) throws CantContinueException {
+		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 
 			InputStream in = null;
 			OutputStream out = null;
@@ -136,7 +132,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			 * That should be immediately because the view is redrawn when it
 			 * receives this completion event.
 			 */
-			pTileLoaderCallback.tileLoaded(aTile, null, true);
+			tileLoaded(aTile, null, true);
 		}
 	};
 

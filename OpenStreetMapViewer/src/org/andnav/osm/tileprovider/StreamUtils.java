@@ -1,5 +1,5 @@
 // Created by plusminus on 19:14:08 - 20.10.2008
-package org.andnav.osm.services.util;
+package org.andnav.osm.tileprovider;
 
 import java.io.Closeable;
 import java.io.IOException;
