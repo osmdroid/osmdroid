@@ -59,7 +59,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private float mPointerDownDistance; /* distance for a ACTION_POINTER_DOWN MotionEvent */
 	private int mMultiMode = MULTI_NONE;  /* if we are in after an ACTION_POINTER_DOWN */
-	
+
 	// get API level 5 MotionEvent constants by reflection
 	// TODO can remove this stuff if we upgrade to API level 5
 	private static int ACTION_MASK = 255;
@@ -475,19 +475,19 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public boolean onTouchEvent(final MotionEvent event) {
 
 	    Log.d(DEBUGTAG, "onTouchEvent(" + event + ")");
-	    
+
 		/*
 		 * handle multi touch events:
-		 * 1. mask out the action with the ACTION_MASK 
-		 * 2. measure the spreading 
-		 * 3. on ACTION_POINTER_DOWN remember the spreading in the 
+		 * 1. mask out the action with the ACTION_MASK
+		 * 2. measure the spreading
+		 * 3. on ACTION_POINTER_DOWN remember the spreading in the
 		 *    pointerDownDistance and set multiDown mode to ACTIVE
-		 * 4. on first move changing the spreading by a 
-		 *    factor of 2 or a factor of 0.5 increase or 
+		 * 4. on first move changing the spreading by a
+		 *    factor of 2 or a factor of 0.5 increase or
 		 *    decrease the zoom level
 		 *    switch off multiDown mode and set it to HANDLED
 		 * 5. on ACTION_POINTER_UP also switch off the multiDown mode
-		 * 6. in any of these cases: claim the event handled and 
+		 * 6. in any of these cases: claim the event handled and
 		 *    return true
 		 */
 		final int action = event.getAction() & ACTION_MASK;
@@ -513,7 +513,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			}
 			return true;
 		}
-		
+
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this))
 				return true;
@@ -715,7 +715,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		private final int tileSizePx;
 		private final int[] centerMapTileCoords;
 		private final Point upperLeftCornerOfCenterMapTile;
-		
+
 		private final int[] reuseInt2 = new int[2];
 
 		public OpenStreetMapViewProjection() {
@@ -755,8 +755,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 
 		public Point fromMapPixels(int x, int y, Point reuse) {
-            final Point out = (reuse != null) ? reuse : new Point();
-			out.set(x - getWidth() / 2, y - getHeight() / 2);
+			final Point out = (reuse != null) ? reuse : new Point();
+			out.set(x - viewWidth_2, y - viewHeight_2);
 			out.offset(getScrollX(), getScrollY());
 			return out;
 		}
@@ -803,7 +803,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 
 		/**
-		 * Performs only the first computationally heavy part of the projection, needToCall toMapPixelsTranslated to get final position. 
+		 * Performs only the first computationally heavy part of the projection, needToCall toMapPixelsTranslated to get final position.
 		 * @param latituteE6
 		 * 			 the latitute of the point
 		 * @param longitudeE6
@@ -815,15 +815,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		 */
 		public Point toMapPixelsProjected(final int latituteE6, final int longitudeE6, final Point reuse) {
 			final Point out = (reuse != null) ? reuse : new Point();
-		
+
 			//26 is the biggest zoomlevel we can project
 			final int[] coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28, this.reuseInt2);
 			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
-			return out;			
+			return out;
 		}
-		
+
 		/**
-		 * Performs the second computationally light part of the projection. 
+		 * Performs the second computationally light part of the projection.
 		 * @param in
 		 * 			 the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -834,14 +834,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		 */
 		public Point toMapPixelsTranslated(final Point in, final Point reuse) {
 			final Point out = (reuse != null) ? reuse : new Point();
-		
+
 			//26 is the biggest zoomlevel we can project
-			int zoomDifference = 28 - getPixelZoomLevel(); 
+			int zoomDifference = 28 - getPixelZoomLevel();
 			out.set((in.x >> zoomDifference) + offsetX , (in.y >> zoomDifference) + offsetY );
-			return out;		
+			return out;
 		}
-				
-				
+
+
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
 		 * @param in the rectangle in screen coordinates
@@ -850,19 +850,19 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		public Rect fromPixelsToProjected(final Rect in)
 		{
 			Rect result = new Rect();
-					
+
 			//26 is the biggest zoomlevel we can project
 			int zoomDifference = 28 - getPixelZoomLevel();
-					
+
 			int x0 = (in.left - offsetX) << zoomDifference;
-			int x1 = (in.right - offsetX) << zoomDifference;			
+			int x1 = (in.right - offsetX) << zoomDifference;
 			int y0 = (in.bottom - offsetX) << zoomDifference;
 			int y1 = (in.top - offsetX) << zoomDifference;
-					
+
 			result.set(Math.min(x0,x1), Math.min(y0,y1), Math.max(x0,x1), Math.max(y0,y1));
 			return result;
 		}
-		
+
 		public Point toPixels(final int[] tileCoords, final Point reuse) {
 			return toPixels(tileCoords[MAPTILE_LONGITUDE_INDEX], tileCoords[MAPTILE_LATITUDE_INDEX], reuse);
 		}
