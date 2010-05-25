@@ -3,7 +3,7 @@ package org.andnav.osm.views.util;
 
 import java.util.Random;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 /**
@@ -12,18 +12,18 @@ import org.andnav.osm.tileprovider.OpenStreetMapTile;
  *
  */
 public enum OpenStreetMapRendererInfo {
-	OSMARENDER(R.string.osmarender, ".png", 0, 17, 8, CodeScheme.X_Y,"http://tah.openstreetmap.org/Tiles/tile/"),
-	MAPNIK(R.string.mapnik, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.openstreetmap.org/"),
-	CYCLEMAP(R.string.cyclemap, ".png", 0, 17, 8, CodeScheme.X_Y,
+	OSMARENDER(ResourceProxy.string.osmarender, ".png", 0, 17, 8, CodeScheme.X_Y,"http://tah.openstreetmap.org/Tiles/tile/"),
+	MAPNIK(ResourceProxy.string.mapnik, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.openstreetmap.org/"),
+	CYCLEMAP(ResourceProxy.string.cyclemap, ".png", 0, 17, 8, CodeScheme.X_Y,
 			"http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
 			"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
 			"http://c.andy.sandbox.cloudmade.com/tiles/cycle/"),
-	OPENARIELMAP( R.string.openareal_sat, ".jpg", 0, 13, 8, CodeScheme.X_Y,"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/"),
-	BASE( R.string.base, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/base/"),
-	TOPO(R.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/topo/"),
-	HILLS(R.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y,"http://topo.geofabrik.de/hills/"),
-	CLOUDMADESMALLTILES(R.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/"),
-	CLOUDMADESTANDARDTILES(R.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/");
+	OPENARIELMAP(ResourceProxy.string.openareal_sat, ".jpg", 0, 13, 8, CodeScheme.X_Y,"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/"),
+	BASE(ResourceProxy.string.base, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/base/"),
+	TOPO(ResourceProxy.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/topo/"),
+	HILLS(ResourceProxy.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y,"http://topo.geofabrik.de/hills/"),
+	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/"),
+	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/");
 	
 	// ===========================================================
 	// Fields

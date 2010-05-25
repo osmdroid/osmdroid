@@ -7,6 +7,7 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
+import org.andnav.osm.views.util.OpenStreetMapTileProviderFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -32,7 +33,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
 		if(aTileProvider == null)
-			mTileProvider = OpenStreetMapTileProvider.getInstance(mOsmv.getContext(), new SimpleInvalidationHandler());
+			mTileProvider = OpenStreetMapTileProviderFactory.getInstance(mOsmv.getContext(), new SimpleInvalidationHandler());
 		else
 			this.mTileProvider = aTileProvider;
 	}

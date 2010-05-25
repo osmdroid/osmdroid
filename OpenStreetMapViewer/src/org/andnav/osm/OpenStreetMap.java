@@ -23,7 +23,6 @@ import android.view.SubMenu;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-
 /**
  * Default map view activity.
  * @author Manuel Stahl
@@ -48,6 +47,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
 	private MyLocationOverlay mLocationOverlay;
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -56,6 +56,9 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
+        
     	mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         
         final RelativeLayout rl = new RelativeLayout(this);
@@ -107,9 +110,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 					Menu.NONE, R.string.map_mode).setIcon(
 					android.R.drawable.ic_menu_mapmode);
 
-			for (OpenStreetMapRendererInfo renderer : OpenStreetMapRendererInfo
-					.values()) {
-				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, getString(renderer.NAME));
+			for (OpenStreetMapRendererInfo renderer : OpenStreetMapRendererInfo.values()) {
+				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, mResourceProxy.getString(renderer.NAME));
 			}
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
     	}
