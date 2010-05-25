@@ -1,9 +1,9 @@
 // Created by plusminus on 00:14:42 - 02.10.2008
 package org.andnav.osm;
 
+import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.contributor.OSMUploader;
 import org.andnav.osm.contributor.RouteRecorder;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 
 import android.app.Activity;
 import android.content.Context;

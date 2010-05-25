@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Android 1.6 jar"/>
 	<classpathentry kind="lib" path="lib/apache-mime4j-0.4.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.0-beta1.jar"/>

@@ -1,6 +1,7 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.views.util.Mercator;
 
 import android.graphics.Point;
 import android.test.AndroidTestCase;

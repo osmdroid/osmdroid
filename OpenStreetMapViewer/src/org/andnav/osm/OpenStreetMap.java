@@ -1,9 +1,9 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm;
 
+import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.samples.SampleLoader;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;

@@ -1,5 +1,5 @@
 // Created by plusminus on 23:11:31 - 22.09.2008
-package org.andnav.osm.util.constants;
+package org.andnav.osm.constants;
 
 /**
  * 

@@ -2,8 +2,8 @@ package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
 import org.andnav.osm.R;
+import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
