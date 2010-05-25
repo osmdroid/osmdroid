@@ -4,6 +4,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="lib/apache-mime4j-0.4.jar"/>
 	<classpathentry kind="lib" path="lib/httpmime-4.0-beta1.jar"/>
+	<classpathentry kind="lib" path="lib/osmdroid-android-1.00.jar" sourcepath="/osmdroid-android/src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="output" path="bin"/>

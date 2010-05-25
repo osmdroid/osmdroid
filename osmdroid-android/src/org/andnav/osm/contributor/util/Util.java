@@ -14,7 +14,8 @@ import org.andnav.osm.util.BoundingBoxE6;
  * @author Nicolas Gramlich
  *
  */
-public class Util implements OpenStreetMapContributorConstants{
+public class Util implements OpenStreetMapContributorConstants {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================

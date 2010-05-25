@@ -1,14 +1,14 @@
 // Created by plusminus on 12:29:23 - 21.09.2008
 package org.andnav.osm.contributor.util;
 
+import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 
 /**
  * Extends the {@link GeoPoint} with a timeStamp.
  * @author Nicolas Gramlich
  */
-public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapConstants {
+public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContributorConstants {
 	
 	// ===========================================================
 	// Constants

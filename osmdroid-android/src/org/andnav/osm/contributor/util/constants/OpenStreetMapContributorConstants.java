@@ -9,10 +9,13 @@ package org.andnav.osm.contributor.util.constants;
  *
  */
 public interface OpenStreetMapContributorConstants {
+	
 	// ===========================================================
 	// Final Fields
 	// ===========================================================
 
+	public static final int NOT_SET = Integer.MIN_VALUE;
+	
 	public static final String OSM_USERNAME = "PUT_YOUR_USERNAME_HERE";
 	public static final String OSM_PASSWORD = "PUT_YOUR_PASSWORD_HERE";
 	

@@ -20,7 +20,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.util.Log;
 
-
 public class GpxToPHPUploader {
 	
 	protected static final String UPLOADSCRIPT_URL = "http://www.PLACEYOURDOMAINHERE.com/anyfolder/gpxuploader/upload.php";

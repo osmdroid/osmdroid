@@ -7,7 +7,6 @@ package org.andnav.osm.contributor;
  * Original JAVA-Code ported for Android compatibility by Nicolas 'plusminus' Gramlich.
  */
 
-
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -24,8 +23,6 @@ import org.andnav.osm.contributor.util.RecordedGeoPoint;
 import org.andnav.osm.contributor.util.RecordedRouteGPXFormatter;
 import org.andnav.osm.contributor.util.Util;
 import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
-
 
 /**
  * Small java class that allows to upload gpx files to www.openstreetmap.org via its api call.
@@ -33,7 +30,8 @@ import org.andnav.osm.util.constants.OpenStreetMapConstants;
  * @author cdaller
  * @author Nicolas Gramlich
  */
-public class OSMUploader implements OpenStreetMapConstants, OpenStreetMapContributorConstants{
+public class OSMUploader implements OpenStreetMapContributorConstants{
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
