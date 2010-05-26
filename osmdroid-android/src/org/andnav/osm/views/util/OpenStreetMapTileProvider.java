@@ -5,11 +5,12 @@ import java.io.File;
 
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
-import android.util.Log;
 
 /**
  * 
@@ -17,6 +18,8 @@ import android.util.Log;
  * 
  */
 public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewConstants {
+	
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProvider.class);
 	
 	protected final OpenStreetMapTileCache mTileCache;
 	protected final Handler mDownloadFinishedHandler;
@@ -39,11 +42,11 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 					try {
 						new File(pTilePath).delete();
 					} catch (Throwable e) {
-						Log.e(DEBUGTAG, "Error deleting invalid file: " + pTilePath, e);
+						logger.error(DEBUGTAG, "Error deleting invalid file: " + pTilePath, e);
 					}
 				}
 			} catch (final OutOfMemoryError e) {
-				Log.e(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + pTile);
+				logger.error(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + pTile);
 				mTileCache.clear();
 				System.gc();
 			}
@@ -53,7 +56,7 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 
 		if (DEBUGMODE)
-			Log.d(DEBUGTAG, "MapTile request complete: " + pTile);
+			logger.debug(DEBUGTAG, "MapTile request complete: " + pTile);
 	}	
 	
 	public void ensureCapacity(final int aCapacity) {

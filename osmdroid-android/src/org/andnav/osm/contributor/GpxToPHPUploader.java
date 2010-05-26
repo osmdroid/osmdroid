@@ -17,10 +17,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.mime.MultipartEntity;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GpxToPHPUploader {
+	
+	private static final Logger logger = LoggerFactory.getLogger(GpxToPHPUploader.class);
 	
 	protected static final String UPLOADSCRIPT_URL = "http://www.PLACEYOURDOMAINHERE.com/anyfolder/gpxuploader/upload.php";
 
@@ -48,7 +50,7 @@ public class GpxToPHPUploader {
 					final int status = response.getStatusLine().getStatusCode();
 	
 					if (status != HttpStatus.SC_OK) {
-						Log.e("GPXUploader", "status != HttpStatus.SC_OK");
+						logger.error("GPXUploader", "status != HttpStatus.SC_OK");
 					} else {
 						final Reader r = new InputStreamReader(new BufferedInputStream(response.getEntity().getContent()));
 						// see above
@@ -58,7 +60,7 @@ public class GpxToPHPUploader {
 						while((read = r.read(buf)) != -1)
 							sb.append(buf, 0, read);
 	
-						Log.d("GPXUploader", "Response: " + sb.toString());
+						logger.debug("GPXUploader", "Response: " + sb.toString());
 					}
 				}catch (Exception e){
 //					Log.e(DEBUGTAG, "OSMUpload Error", e);

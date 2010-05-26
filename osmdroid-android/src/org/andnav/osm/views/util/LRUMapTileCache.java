@@ -5,12 +5,15 @@ import java.util.LinkedHashMap;
 
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
-import android.util.Log;
 
 public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> implements OpenStreetMapViewConstants {
 
+	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
+	
 	private static final long serialVersionUID = -541142277575493335L;
 
 	private int mCapacity;
@@ -43,7 +46,7 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> im
 				remove(key);
 			}
 		} catch (final ConcurrentModificationException ignore) {
-			Log.i(DEBUGTAG, "ConcurrentModificationException clearing tile cache");
+			logger.info(DEBUGTAG, "ConcurrentModificationException clearing tile cache");
 		}
 
 		// and then clear

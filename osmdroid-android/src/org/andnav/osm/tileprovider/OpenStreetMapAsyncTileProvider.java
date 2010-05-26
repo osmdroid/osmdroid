@@ -6,11 +6,13 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
-
-import android.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
 
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapAsyncTileProvider.class);
+	
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
@@ -38,7 +40,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		// sanity check
 		if (activeCount == 0 && !mPending.isEmpty()) {
-			Log.w(debugtag(), "Unexpected - no active threads but pending queue not empty");
+			logger.warn(debugtag(), "Unexpected - no active threads but pending queue not empty");
 			clearQueue();
 		}
 
@@ -47,7 +49,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		mPending.put(aTile, PRESENT);
 
 		if (DEBUGMODE)
-			Log.d(debugtag(), activeCount + " active threads");
+			logger.debug(debugtag(), activeCount + " active threads");
 		if (activeCount < mThreadPoolSize) {
 			final Thread t = new Thread(mThreadPool, getTileLoader());
 			t.start();
@@ -113,7 +115,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 						}
 					} catch (final ConcurrentModificationException e) {
 						if (DEBUGMODE)
-							Log.w(debugtag(), "ConcurrentModificationException break: " + (result != null));
+							logger.warn(debugtag(), "ConcurrentModificationException break: " + (result != null));
 
 						// if we've got a result return it, otherwise try again
 						if (result != null) {
@@ -150,18 +152,18 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			OpenStreetMapTile tile;
 			while ((tile = nextTile()) != null) {
 				if (DEBUGMODE)
-					Log.d(debugtag(), "Next tile: " + tile);
+					logger.debug(debugtag(), "Next tile: " + tile);
 				try {
 					loadTile(tile);
 				} catch (final CantContinueException e) {
-					Log.i(debugtag(), "Tile loader can't continue");
+					logger.info(debugtag(), "Tile loader can't continue");
 					clearQueue();
 				} catch (final Throwable e) {
-					Log.e(debugtag(), "Error downloading tile: " + tile, e);
+					logger.error(debugtag(), "Error downloading tile: " + tile, e);
 				}
 			}
 			if (DEBUGMODE)
-				Log.d(debugtag(), "No more tiles");
+				logger.debug(debugtag(), "No more tiles");
 		}
 	}
 	
