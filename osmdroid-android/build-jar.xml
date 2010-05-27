@@ -17,10 +17,24 @@
 		</manifest>
 		<jar destfile="osmdroid-android-${version.num}.jar" 
 			 basedir="bin" 
-			includes="**/*.class" 
-			manifest="MANIFEST.MF" 
-		    />
+			 includes="**/*.class" 
+			 manifest="MANIFEST.MF" 
+		     />
 		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
-	
+
+	<target name="javadoc">
+		<javadoc destdir="docs/api"
+		         use="true"
+		         windowtitle="osmdroid API">
+		    <packageset dir="src" defaultexcludes="yes" />
+            <classpath refid="osmdroid-android.classpath" />
+			<link href="http://developer.android.com/reference/" />
+		</javadoc>
+		<zip destfile="osmdroid-android-docs.zip" 
+  		     basedir="docs/api" 
+			 includes="**" 
+		     />
+	</target>
+
 </project>
