@@ -4,7 +4,7 @@
 	<!--
 		Can't make it depend on build because that's in a different build file.
 		So just run
-		ant build jar
+			ant build jar
 	-->
 	<target name="jar">
 		<property name="version.num" value="1.00" />
@@ -20,5 +20,7 @@
 			includes="**/*.class" 
 			manifest="MANIFEST.MF" 
 		    />
+		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
+	
 </project>
