@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 public interface ResourceProxy {
 
-	public interface string {
+	public static final class string {
 
 		public static final int osmarender = 1;
 
