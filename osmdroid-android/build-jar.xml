@@ -18,6 +18,7 @@
 		<jar destfile="osmdroid-android-${version.num}.jar" 
 			 basedir="bin" 
 			 includes="**/*.class" 
+			 excludes="**/*Test.class"
 			 manifest="MANIFEST.MF" 
 		     />
 		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
