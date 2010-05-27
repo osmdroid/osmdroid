@@ -33,6 +33,12 @@ public class Util implements OpenStreetMapContributorConstants {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 * This is a utility class with only static members.
+	 */
+	private Util() {
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

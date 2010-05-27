@@ -27,6 +27,12 @@ public class Mercator implements OpenStreetMapViewConstants {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 * This is a utility class with only static members.
+	 */
+	private Mercator() {
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

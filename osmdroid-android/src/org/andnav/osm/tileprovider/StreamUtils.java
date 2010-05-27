@@ -27,6 +27,12 @@ public class StreamUtils {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 * This is a utility class with only static members.
+	 */
+	private StreamUtils() {
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

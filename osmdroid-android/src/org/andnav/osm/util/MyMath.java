@@ -21,6 +21,12 @@ public class MyMath implements MathConstants {
 	// Constructors
 	// ===========================================================
 
+	/**
+	 * This is a utility class with only static members.
+	 */
+	private MyMath() {
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
