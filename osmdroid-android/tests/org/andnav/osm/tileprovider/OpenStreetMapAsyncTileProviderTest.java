@@ -1,15 +1,18 @@
 package org.andnav.osm.tileprovider;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * @author Neil Boyd
  *
  */
-public class OpenStreetMapAsyncTileProviderTest extends TestCase {
+public class OpenStreetMapAsyncTileProviderTest {
 
+	@Test
 	public void test_put_twice() {
 
 		final IOpenStreetMapTileProviderCallback tileProviderCallback = new IOpenStreetMapTileProviderCallback() {
@@ -48,6 +51,7 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 	 * Test that the tiles are loaded in most recently accessed order.
 	 * @throws InterruptedException 
 	 */
+	@Test
 	public void test_order() throws InterruptedException {
 		
 		final ArrayList<OpenStreetMapTile> tiles = new ArrayList<OpenStreetMapTile>();
@@ -105,6 +109,7 @@ public class OpenStreetMapAsyncTileProviderTest extends TestCase {
 	 * Test that adding the same tile more than once moves it up the queue.
 	 * @throws InterruptedException 
 	 */
+	@Test
 	public void test_jump_queue() throws InterruptedException {
 		
 		final ArrayList<OpenStreetMapTile> tiles = new ArrayList<OpenStreetMapTile>();

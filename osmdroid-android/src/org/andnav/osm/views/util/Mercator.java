@@ -3,9 +3,8 @@ package org.andnav.osm.views.util;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.util.Point;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
-
-import android.graphics.Point;
 
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator 
