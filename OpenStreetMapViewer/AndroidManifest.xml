@@ -63,7 +63,6 @@
 		<!--
 		If this service exists then the view will use it to get its tiles. 
 		If you remove this service then the view will use a tile provider directly.
-		-->
 		<service android:name=".services.OpenStreetMapTileProviderService" 
 				 android:process=":remote" 
 				 android:label="OpenStreetMapTileProviderService">
@@ -71,6 +70,7 @@
 				<action android:name="org.andnav.osm.services.IOpenStreetMapTileProviderService" />
 			</intent-filter>
 		</service>
+		-->
 
 	</application>
 
