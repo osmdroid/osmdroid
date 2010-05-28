@@ -63,7 +63,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
 
 		if(DEBUGMODE)
-			logger.trace(DEBUGTAG, "onDraw");
+			logger.trace("onDraw");
 
 		/*
 		 * Do some calculations and drag attributes to local variables to save

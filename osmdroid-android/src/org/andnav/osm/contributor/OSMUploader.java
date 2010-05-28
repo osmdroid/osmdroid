@@ -124,13 +124,13 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 					else
 						tagsToUse = tagsToUse + " " + autoTagFormat.format(new GregorianCalendar().getTime());
 				
-//				Log.d(DEBUGTAG, "Uploading " + pseudoFileName + " to openstreetmap.org");
+				// logger.debug("Uploading " + pseudoFileName + " to openstreetmap.org");
 				try {
 					//String urlGpxName = URLEncoder.encode(gpxName.replaceAll("\\.;&?,/","_"), "UTF-8");
 					final String urlDesc = (description == null) ? DEFAULT_DESCRIPTION : description.replaceAll("\\.;&?,/","_");
 					final String urlTags = (tagsToUse == null) ? DEFAULT_TAGS : tagsToUse.replaceAll("\\\\.;&?,/","_");
 					final URL url = new URL("http://www.openstreetmap.org/api/" + API_VERSION + "/gpx/create");
-//					Log.d(DEBUGTAG, "Destination Url: " + url);
+					// logger.debug("Destination Url: " + url);
 					final HttpURLConnection con = (HttpURLConnection) url.openConnection();
 					con.setConnectTimeout(15000);
 					con.setRequestMethod("POST");
@@ -142,7 +142,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 
 					con.connect();
 					DataOutputStream out  = new DataOutputStream(new BufferedOutputStream(con.getOutputStream()));
-					//            DataOutputStream out  = new DataOutputStream(System.out);
+					// DataOutputStream out  = new DataOutputStream(System.out);
 
 					writeContentDispositionFile(out, "file", gpxInputStream, pseudoFileName);
 					writeContentDisposition(out, "description", urlDesc);
@@ -155,7 +155,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 
 					final int retCode = con.getResponseCode();
 					String retMsg = con.getResponseMessage();
-//					Log.d(DEBUGTAG, "\nreturn code: "+retCode + " " + retMsg);
+					// logger.debug("\nreturn code: "+retCode + " " + retMsg);
 					if (retCode != 200) {
 						// Look for a detailed error message from the server
 						if (con.getHeaderField("Error") != null)
@@ -166,7 +166,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 					out.close();
 					con.disconnect();
 				} catch(Exception e) {
-//					Log.e(DEBUGTAG, "OSMUpload Error", e);
+					// logger.error("OSMUpload Error", e);
 				}
 			}
 			
@@ -194,7 +194,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 		int read;
 		int sumread = 0;
 		final InputStream in = new BufferedInputStream(gpxInputStream);
-//		Log.d(DEBUGTAG, "Transferring data to server");
+		// logger.debug("Transferring data to server");
 		while((read = in.read(buffer)) >= 0) {
 			out.write(buffer, 0, read);
 			out.flush();

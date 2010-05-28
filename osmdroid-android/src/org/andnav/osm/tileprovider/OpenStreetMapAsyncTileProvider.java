@@ -14,7 +14,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapAsyncTileProvider.class);
 	
 	private final int mThreadPoolSize;
-	private final ThreadGroup mThreadPool = new ThreadGroup(debugtag());
+	private final ThreadGroup mThreadPool = new ThreadGroup(threadGroupName());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
 	private static final Object PRESENT = new Object();
@@ -40,7 +40,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		// sanity check
 		if (activeCount == 0 && !mPending.isEmpty()) {
-			logger.warn(debugtag(), "Unexpected - no active threads but pending queue not empty");
+			logger.warn("Unexpected - no active threads but pending queue not empty");
 			clearQueue();
 		}
 
@@ -49,7 +49,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		mPending.put(aTile, PRESENT);
 
 		if (DEBUGMODE)
-			logger.debug(debugtag(), activeCount + " active threads");
+			logger.debug(activeCount + " active threads");
 		if (activeCount < mThreadPoolSize) {
 			final Thread t = new Thread(mThreadPool, getTileLoader());
 			t.start();
@@ -70,12 +70,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		this.mThreadPool.interrupt();
 	}
 	
-	/**
-	 * The debug tag.
-	 * Because the tag of the abstract class is not so interesting.
-	 * @return
-	 */
-	protected abstract String debugtag();
+	protected abstract String threadGroupName();
 	
 	protected abstract Runnable getTileLoader();
 	
@@ -115,7 +110,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 						}
 					} catch (final ConcurrentModificationException e) {
 						if (DEBUGMODE)
-							logger.warn(debugtag(), "ConcurrentModificationException break: " + (result != null));
+							logger.warn("ConcurrentModificationException break: " + (result != null));
 
 						// if we've got a result return it, otherwise try again
 						if (result != null) {
@@ -152,18 +147,18 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			OpenStreetMapTile tile;
 			while ((tile = nextTile()) != null) {
 				if (DEBUGMODE)
-					logger.debug(debugtag(), "Next tile: " + tile);
+					logger.debug("Next tile: " + tile);
 				try {
 					loadTile(tile);
 				} catch (final CantContinueException e) {
-					logger.info(debugtag(), "Tile loader can't continue");
+					logger.info("Tile loader can't continue");
 					clearQueue();
 				} catch (final Throwable e) {
-					logger.error(debugtag(), "Error downloading tile: " + tile, e);
+					logger.error("Error downloading tile: " + tile, e);
 				}
 			}
 			if (DEBUGMODE)
-				logger.debug(debugtag(), "No more tiles");
+				logger.debug("No more tiles");
 		}
 	}
 	

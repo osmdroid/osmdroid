@@ -31,8 +31,6 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileDownloader.class);
 	
-	private static final String DEBUGTAG = "OSM_DOWNLOADER";
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -57,8 +55,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	@Override
-	protected String debugtag() {
-		return DEBUGTAG;
+	protected String threadGroupName() {
+		return "downloader";
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			
 			try {
 				if(DEBUGMODE)
-					logger.debug(DEBUGTAG, "Downloading Maptile from url: " + tileURLString);
+					logger.debug("Downloading Maptile from url: " + tileURLString);
 
 				in = new BufferedInputStream(new URL(tileURLString).openStream(), StreamUtils.IO_BUFFER_SIZE);
 
@@ -105,22 +103,22 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				
 				// sanity check - don't save an empty file
 				if (data.length == 0) {
-					logger.info(DEBUGTAG, "Empty maptile not saved: " + aTile);
+					logger.info("Empty maptile not saved: " + aTile);
 				} else {
 					mMapTileFSProvider.saveFile(aTile, outputFile, data);
 					if(DEBUGMODE)
-						logger.debug(DEBUGTAG, "Maptile saved " + data.length + " bytes : " + aTile);
+						logger.debug("Maptile saved " + data.length + " bytes : " + aTile);
 				}
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
-				logger.warn(DEBUGTAG, "UnknownHostException downloading MapTile: " + aTile + " : " + e);
+				logger.warn("UnknownHostException downloading MapTile: " + aTile + " : " + e);
 				throw new CantContinueException();
 			} catch(final FileNotFoundException e){
-				logger.warn(DEBUGTAG, "Url not found: " + aTile+ " : " + e);
+				logger.warn("Url not found: " + aTile+ " : " + e);
 			} catch (final IOException e) {
-				logger.warn(DEBUGTAG, "IOException downloading MapTile: " + aTile + " : " + e);
+				logger.warn("IOException downloading MapTile: " + aTile + " : " + e);
 			} catch(final Throwable e) {
-				logger.error(DEBUGTAG, "Error downloading MapTile: " + aTile, e);
+				logger.error("Error downloading MapTile: " + aTile, e);
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);

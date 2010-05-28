@@ -69,7 +69,7 @@ public class GpxToPHPUploader {
 						logger.debug("GPXUploader", "Response: " + sb.toString());
 					}
 				}catch (Exception e){
-//					Log.e(DEBUGTAG, "OSMUpload Error", e);
+					// logger.error("OSMUpload Error", e);
 				}
 			}
 		}).start();

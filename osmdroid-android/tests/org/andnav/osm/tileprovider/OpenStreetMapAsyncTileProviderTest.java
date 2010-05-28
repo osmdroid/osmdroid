@@ -23,7 +23,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 		
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(tileProviderCallback, 1, 10) {
 			@Override
-			protected String debugtag() {
+			protected String threadGroupName() {
 				return "OpenStreetMapAsyncTileProviderTest";
 			}
 			@Override
@@ -65,7 +65,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 		
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(tileProviderCallback, 1, 10) {
 			@Override
-			protected String debugtag() {
+			protected String threadGroupName() {
 				return "OpenStreetMapAsyncTileProviderTest";
 			}
 			@Override
@@ -123,7 +123,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 		
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(tileProviderCallback, 1, 10) {
 			@Override
-			protected String debugtag() {
+			protected String threadGroupName() {
 				return "OpenStreetMapAsyncTileProviderTest";
 			}
 			@Override

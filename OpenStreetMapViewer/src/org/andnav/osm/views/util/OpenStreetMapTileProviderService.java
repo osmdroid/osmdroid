@@ -16,6 +16,8 @@ import android.util.Log;
 
 public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider implements ServiceConnection {
 
+	public static final String DEBUGTAG = "OpenStreetMapTileProviderService";
+
 	private final Context mContext;
 
 	private IOpenStreetMapTileProviderService mTileService;

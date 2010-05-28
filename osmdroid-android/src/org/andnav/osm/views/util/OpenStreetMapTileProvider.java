@@ -42,11 +42,11 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 					try {
 						new File(pTilePath).delete();
 					} catch (Throwable e) {
-						logger.error(DEBUGTAG, "Error deleting invalid file: " + pTilePath, e);
+						logger.error("Error deleting invalid file: " + pTilePath, e);
 					}
 				}
 			} catch (final OutOfMemoryError e) {
-				logger.error(DEBUGTAG, "OutOfMemoryError putting tile in cache: " + pTile);
+				logger.error("OutOfMemoryError putting tile in cache: " + pTile);
 				mTileCache.clear();
 				System.gc();
 			}
@@ -56,7 +56,7 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 
 		if (DEBUGMODE)
-			logger.debug(DEBUGTAG, "MapTile request complete: " + pTile);
+			logger.debug("MapTile request complete: " + pTile);
 	}	
 	
 	public void ensureCapacity(final int aCapacity) {

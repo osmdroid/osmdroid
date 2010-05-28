@@ -17,6 +17,8 @@ import android.util.Log;
  */
 public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConstants {
 	
+	public static final String DEBUGTAG = "OpenStreetMapTileProviderFactory";
+
 	/**
 	 * Get a tile provider.
 	 * If a tile provider service exists then it will use the service,

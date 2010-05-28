@@ -477,7 +477,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 
-	    logger.debug(DEBUGTAG, "onTouchEvent(" + event + ")");
+	    logger.debug("onTouchEvent(" + event + ")");
 
 		/*
 		 * handle multi touch events:
@@ -624,7 +624,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE)
-			logger.debug(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
+			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
 		computeScale();
 	}
 

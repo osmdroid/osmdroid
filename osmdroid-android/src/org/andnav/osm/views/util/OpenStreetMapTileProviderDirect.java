@@ -28,11 +28,11 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 	public Bitmap getMapTile(final OpenStreetMapTile pTile) {
 		if (mTileCache.containsTile(pTile)) {
 			if (DEBUGMODE)
-				logger.debug(DEBUGTAG, "MapTileCache succeeded for: " + pTile);
+				logger.debug("MapTileCache succeeded for: " + pTile);
 			return mTileCache.getMapTile(pTile);
 		} else {
 			if (DEBUGMODE)
-				logger.debug(DEBUGTAG, "Cache failed, trying from FS: " + pTile);
+				logger.debug("Cache failed, trying from FS: " + pTile);
 			mFileSystemProvider.loadMapTileAsync(pTile);
 			return null;
 		}

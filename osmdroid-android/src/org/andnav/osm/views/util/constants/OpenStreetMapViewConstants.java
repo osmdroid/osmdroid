@@ -15,8 +15,6 @@ public interface OpenStreetMapViewConstants {
 	
 	public static final boolean DEBUGMODE = false;
 	
-	public static final String DEBUGTAG = "OPENSTREETMAP_VIEW";
-
 	public static final int NOT_SET = Integer.MIN_VALUE;
 	
 	public static final int CACHE_MAPTILECOUNT_DEFAULT = 40;

@@ -46,7 +46,7 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> im
 				remove(key);
 			}
 		} catch (final ConcurrentModificationException ignore) {
-			logger.info(DEBUGTAG, "ConcurrentModificationException clearing tile cache");
+			logger.info("ConcurrentModificationException clearing tile cache");
 		}
 
 		// and then clear
