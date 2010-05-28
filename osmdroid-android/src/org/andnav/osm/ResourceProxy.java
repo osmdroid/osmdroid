@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 public interface ResourceProxy {
 
-	public static final class string {
+	public static final class renderer {
 
 		public static final int osmarender = 1;
 
@@ -23,6 +23,12 @@ public interface ResourceProxy {
 		public static final int cloudmade_small = 8;
 
 		public static final int cloudmade_standard = 9;
+
+	}
+
+	public static final class string {
+
+		public static final int nothing_yet = 1;
 
 	}
 
