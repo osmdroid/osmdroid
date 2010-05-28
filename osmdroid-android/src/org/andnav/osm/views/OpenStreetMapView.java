@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
@@ -115,6 +117,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
+	private ResourceProxy mResourceProxy = new DefaultResourceProxyImpl();
 
 	// ===========================================================
 	// Constructors
@@ -152,7 +155,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	/**
-	 * Standard Constructor (uses default Renderer).
+	 * Standard Constructor (uses default renderer).
 	 *
 	 * @param context
 	 */
@@ -419,6 +422,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	public int getMapCenterLongitudeE6() {
 		return (int)(Mercator.tile2lon(getScrollX() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
+	}
+	
+	public void setResourceProxy(final ResourceProxy pResourceProxy) {
+		mResourceProxy = pResourceProxy;
+		for(OpenStreetMapViewOverlay overlay : mOverlays) {
+			overlay.setResourceProxy(pResourceProxy);
+		}
 	}
 
 	public void onSaveInstanceState(android.os.Bundle state) {

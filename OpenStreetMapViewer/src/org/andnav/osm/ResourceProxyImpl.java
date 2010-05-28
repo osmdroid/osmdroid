@@ -19,15 +19,15 @@ public class ResourceProxyImpl implements ResourceProxy {
 	@Override
 	public String getString(int pResId) {
 		switch(pResId) {
-		case renderer.osmarender : return mContext.getString(R.string.osmarender);
-		case renderer.mapnik : return mContext.getString(R.string.mapnik);
-		case renderer.cyclemap : return mContext.getString(R.string.cyclemap);
-		case renderer.openareal_sat : return mContext.getString(R.string.openareal_sat);
-		case renderer.base : return mContext.getString(R.string.base);
-		case renderer.topo : return mContext.getString(R.string.topo);
-		case renderer.hills : return mContext.getString(R.string.hills);
-		case renderer.cloudmade_small : return mContext.getString(R.string.cloudmade_small);
-		case renderer.cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
+		case string.osmarender : return mContext.getString(R.string.osmarender);
+		case string.mapnik : return mContext.getString(R.string.mapnik);
+		case string.cyclemap : return mContext.getString(R.string.cyclemap);
+		case string.openareal_sat : return mContext.getString(R.string.openareal_sat);
+		case string.base : return mContext.getString(R.string.base);
+		case string.topo : return mContext.getString(R.string.topo);
+		case string.hills : return mContext.getString(R.string.hills);
+		case string.cloudmade_small : return mContext.getString(R.string.cloudmade_small);
+		case string.cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
 		default : throw new IllegalArgumentException();
 		}
 	}
