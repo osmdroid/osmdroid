@@ -48,7 +48,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity{
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmv = new OpenStreetMapView(this);
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
         

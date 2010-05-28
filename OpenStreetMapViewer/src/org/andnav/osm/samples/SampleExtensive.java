@@ -60,7 +60,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmv = new OpenStreetMapView(this);
         this.mOsmvController = this.mOsmv.getController();
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         

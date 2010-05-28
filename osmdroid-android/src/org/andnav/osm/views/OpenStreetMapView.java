@@ -134,14 +134,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	/**
-	 * XML Constructor (uses default Renderer)
+	 * Constructor used by XML layout resource (uses default renderer).
 	 */
 	public OpenStreetMapView(Context context, AttributeSet attrs) {
 		this(context, attrs, DEFAULTRENDERER, null);
 	}
 
 	/**
-	 * Standard Constructor for {@link OpenStreetMapView}.
+	 * Standard Constructor.
 	 *
 	 * @param context
 	 * @param aRendererInfo
@@ -149,6 +149,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 */
 	public OpenStreetMapView(final Context context, final OpenStreetMapRendererInfo aRendererInfo) {
 		this(context, null, aRendererInfo, null);
+	}
+
+	/**
+	 * Standard Constructor (uses default Renderer).
+	 *
+	 * @param context
+	 */
+	public OpenStreetMapView(final Context context) {
+		this(context, null, DEFAULTRENDERER, null);
 	}
 
 	/**

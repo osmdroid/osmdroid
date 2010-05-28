@@ -34,7 +34,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 			}
 		};
 		
-		mOpenStreetMapView = new OpenStreetMapView(context, OpenStreetMapView.DEFAULTRENDERER);
+		mOpenStreetMapView = new OpenStreetMapView(context);
 		final Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Config.RGB_565);
 		final Canvas canvas = new Canvas(bitmap);
 		mOpenStreetMapView.onDraw(canvas);
