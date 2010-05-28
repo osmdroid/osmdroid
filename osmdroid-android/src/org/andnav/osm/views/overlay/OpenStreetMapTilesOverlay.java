@@ -7,7 +7,9 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
-import org.andnav.osm.views.util.OpenStreetMapTileProviderFactory;
+import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,10 +18,11 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);
+	
 	protected OpenStreetMapView mOsmv;
 	protected OpenStreetMapRendererInfo mRendererInfo;
 
@@ -33,7 +36,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
 		if(aTileProvider == null)
-			mTileProvider = OpenStreetMapTileProviderFactory.getInstance(mOsmv.getContext(), new SimpleInvalidationHandler());
+			mTileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler());
 		else
 			this.mTileProvider = aTileProvider;
 	}
@@ -60,7 +63,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
 
 		if(DEBUGMODE)
-			Log.v(DEBUGTAG, "onDraw");
+			logger.trace(DEBUGTAG, "onDraw");
 
 		/*
 		 * Do some calculations and drag attributes to local variables to save

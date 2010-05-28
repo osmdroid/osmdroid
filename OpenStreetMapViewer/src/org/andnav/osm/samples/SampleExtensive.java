@@ -2,6 +2,8 @@ package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
 import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -43,6 +45,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	private OpenStreetMapView mOsmv, mOsmvMinimap;
 	private OpenStreetMapViewController mOsmvController;
 	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay; 
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -52,6 +55,8 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false); // Pass true here to actually contribute to OSM!
+        
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
         final RelativeLayout rl = new RelativeLayout(this);
         
@@ -149,7 +154,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
     	final SubMenu subMenu = pMenu.addSubMenu(0, MENU_RENDERER_ID, Menu.NONE, "Choose Renderer");
     	{
 	    	for(int i = 0; i < OpenStreetMapRendererInfo.values().length; i ++)
-	    		subMenu.add(0, 1000 + i, Menu.NONE, OpenStreetMapRendererInfo.values()[i].NAME);
+	    		subMenu.add(0, 1000 + i, Menu.NONE, mResourceProxy.getString(OpenStreetMapRendererInfo.values()[i].NAME));
     	}
     	
     	pMenu.add(0, MENU_ANIMATION_ID, Menu.NONE, "Run Animation");

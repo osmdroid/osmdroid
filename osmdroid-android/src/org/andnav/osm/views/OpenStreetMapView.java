@@ -14,6 +14,8 @@ import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,7 +30,6 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -47,6 +48,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// Constants
 	// ===========================================================
 
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapView.class);
+	
 	final static OpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererInfo.MAPNIK;
    	final static String BUNDLE_RENDERER = "org.andnav.osm.views.OpenStreetMapView.RENDERER";
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
@@ -474,7 +477,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 
-	    Log.d(DEBUGTAG, "onTouchEvent(" + event + ")");
+	    logger.debug(DEBUGTAG, "onTouchEvent(" + event + ")");
 
 		/*
 		 * handle multi touch events:
@@ -621,7 +624,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE)
-			Log.d(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
+			logger.debug(DEBUGTAG, "Rendering overall: " + (endMs - startMs) + "ms");
 		computeScale();
 	}
 
