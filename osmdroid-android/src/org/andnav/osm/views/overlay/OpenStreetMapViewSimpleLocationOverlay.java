@@ -1,6 +1,7 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.andnav.osm.views.overlay;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -38,7 +39,11 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
+	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx) {
+		this(ctx, new DefaultResourceProxyImpl());
+	}
+
+	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 	}

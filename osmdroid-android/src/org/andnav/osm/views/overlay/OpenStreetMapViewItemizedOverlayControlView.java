@@ -1,6 +1,7 @@
 // Created by plusminus on 22:59:38 - 12.09.2008
 package org.andnav.osm.views.overlay;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 
 import android.content.Context;
@@ -30,6 +31,10 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// Constructors
 	// ===========================================================
 	
+	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs) {
+		this(context, attrs, new DefaultResourceProxyImpl());
+	}
+
 	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs, final ResourceProxy pResourceProxy) {
 		super(context, attrs);
 		

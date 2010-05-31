@@ -3,6 +3,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.LinkedList;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.NetworkLocationIgnorer;
@@ -72,6 +73,10 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// Constructors
 	// ===========================================================
 	
+	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
+		this(ctx, mapView, new DefaultResourceProxyImpl());
+	}
+
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		mMapView = mapView;

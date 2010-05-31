@@ -1,6 +1,7 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.andnav.osm.views.overlay;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -45,6 +46,10 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// Constructors
 	// ===========================================================
 	
+	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx){
+		this(ctx, new DefaultResourceProxyImpl());
+	}
+
 	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
 		super(pResourceProxy);
 		this.DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);

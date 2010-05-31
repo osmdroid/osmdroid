@@ -2,6 +2,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.ArrayList;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -59,7 +60,12 @@ public class OpenStreetMapViewPathOverlay  extends OpenStreetMapViewOverlay
 	// ===========================================================
 	
 	
-	public OpenStreetMapViewPathOverlay(final ResourceProxy pResourceProxy, final int color)
+	public OpenStreetMapViewPathOverlay(final int color)
+	{
+		this(color, new DefaultResourceProxyImpl());
+	}
+	
+	public OpenStreetMapViewPathOverlay(final int color, final ResourceProxy pResourceProxy)
 	{
 		super(pResourceProxy);
 		this.mPaint.setColor(color);

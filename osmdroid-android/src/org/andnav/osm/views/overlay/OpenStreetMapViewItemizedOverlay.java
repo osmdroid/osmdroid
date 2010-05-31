@@ -3,6 +3,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.List;
 
+import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
@@ -43,6 +44,13 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// ===========================================================
 	// Constructors
 	// ===========================================================
+
+	public OpenStreetMapViewItemizedOverlay(
+			final Context ctx, 
+			final List<T> aList, 
+			final OnItemTapListener<T> aOnItemTapListener) {
+        this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl());
+	}
 
 	public OpenStreetMapViewItemizedOverlay(
 			final Context ctx, 
