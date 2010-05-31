@@ -3,7 +3,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.List;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 
 import android.content.Context;
@@ -54,16 +54,30 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList, final OnItemTapListener<T> aOnItemTapListener) {
-		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener);
+	public OpenStreetMapViewItemizedOverlayWithFocus(
+			final Context ctx, 
+			final List<T> aList, 
+			final OnItemTapListener<T> aOnItemTapListener, 
+			final ResourceProxy pResourceProxy) {
+		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
 	}
 	
-	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList, final Drawable pMarker, final Point pMarkerHotspot, final Drawable pMarkerFocusedBase, final Point pMarkerFocusedHotSpot, final int pFocusedBackgroundColor, final OnItemTapListener<T> aOnItemTapListener) {
-		super(ctx, aList, pMarkerFocusedBase, pMarkerHotspot, aOnItemTapListener);
+	public OpenStreetMapViewItemizedOverlayWithFocus(
+			final Context ctx, 
+			final List<T> aList, 
+			final Drawable pMarker, 
+			final Point pMarkerHotspot, 
+			final Drawable pMarkerFocusedBase, 
+			final Point pMarkerFocusedHotSpot, 
+			final int pFocusedBackgroundColor, 
+			final OnItemTapListener<T> aOnItemTapListener, 
+			final ResourceProxy pResourceProxy) {
+
+		super(ctx, aList, pMarkerFocusedBase, pMarkerHotspot, aOnItemTapListener, pResourceProxy);
 		
-		UNKNOWN = ctx.getString(R.string.unknown);
+		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 		
-		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase : ctx.getResources().getDrawable(R.drawable.marker_default_focused_base);
+		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase : mResourceProxy.getDrawable(ResourceProxy.drawable.marker_default_focused_base);
 		
 		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot : DEFAULTMARKER_FOCUSED_HOTSPOT;
 		

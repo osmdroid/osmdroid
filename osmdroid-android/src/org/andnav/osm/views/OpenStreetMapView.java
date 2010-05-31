@@ -130,7 +130,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider);
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider, mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -426,9 +426,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	
 	public void setResourceProxy(final ResourceProxy pResourceProxy) {
 		mResourceProxy = pResourceProxy;
-		for(OpenStreetMapViewOverlay overlay : mOverlays) {
-			overlay.setResourceProxy(pResourceProxy);
-		}
 	}
 
 	public void onSaveInstanceState(android.os.Bundle state) {

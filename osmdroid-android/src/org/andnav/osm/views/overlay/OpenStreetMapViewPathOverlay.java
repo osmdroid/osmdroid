@@ -2,9 +2,10 @@ package org.andnav.osm.views.overlay;
 
 import java.util.ArrayList;
 
+import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.util.GeoPoint;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -58,8 +59,9 @@ public class OpenStreetMapViewPathOverlay  extends OpenStreetMapViewOverlay
 	// ===========================================================
 	
 	
-	public OpenStreetMapViewPathOverlay(int color)
+	public OpenStreetMapViewPathOverlay(final ResourceProxy pResourceProxy, final int color)
 	{
+		super(pResourceProxy);
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(2.0f);
 		

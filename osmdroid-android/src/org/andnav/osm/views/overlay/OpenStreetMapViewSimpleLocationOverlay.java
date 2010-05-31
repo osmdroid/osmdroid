@@ -1,14 +1,13 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
@@ -39,8 +38,9 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx){
-		this.PERSON_ICON = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.person);
+	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
+		super(pResourceProxy);
+		this.PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 	}
 
 	// ===========================================================

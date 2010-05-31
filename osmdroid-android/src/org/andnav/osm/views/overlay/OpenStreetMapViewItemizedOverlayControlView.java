@@ -1,7 +1,7 @@
 // Created by plusminus on 22:59:38 - 12.09.2008
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout{
+public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -29,20 +30,20 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout{
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapViewItemizedOverlayControlView(Context context, AttributeSet attrs) {
+	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs, final ResourceProxy pResourceProxy) {
 		super(context, attrs);
 		
 		this.mPreviousButton = new ImageButton(context);
-		this.mPreviousButton.setImageDrawable(context.getResources().getDrawable(R.drawable.previous));
+		this.mPreviousButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.previous));
 		
 		this.mNextButton = new ImageButton(context);
-		this.mNextButton.setImageDrawable(context.getResources().getDrawable(R.drawable.next));
+		this.mNextButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.next));
 		
 		this.mCenterToButton = new ImageButton(context);
-		this.mCenterToButton.setImageDrawable(context.getResources().getDrawable(R.drawable.center));
+		this.mCenterToButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.center));
 		
 		this.mNavToButton = new ImageButton(context);
-		this.mNavToButton.setImageDrawable(context.getResources().getDrawable(R.drawable.navto_small));
+		this.mNavToButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.navto_small));
 		
 		this.addView(mPreviousButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		this.addView(mCenterToButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));

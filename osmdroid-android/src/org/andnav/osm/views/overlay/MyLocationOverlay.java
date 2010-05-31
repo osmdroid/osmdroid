@@ -3,7 +3,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.LinkedList;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.NetworkLocationIgnorer;
 import org.andnav.osm.views.OpenStreetMapView;
@@ -13,7 +13,6 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -73,15 +72,16 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// Constructors
 	// ===========================================================
 	
-	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
+	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView, final ResourceProxy pResourceProxy) {
+		super(pResourceProxy);
 		mMapView = mapView;
 		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
 
-		PERSON_ICON = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.person);
-		DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
+		PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
+		DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
 		DIRECTION_ARROW_CENTER_X = DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		DIRECTION_ARROW_CENTER_Y = DIRECTION_ARROW.getHeight() / 2 - 0.5f;

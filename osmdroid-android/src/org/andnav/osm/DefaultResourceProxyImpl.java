@@ -1,13 +1,9 @@
 package org.andnav.osm;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 public class DefaultResourceProxyImpl implements ResourceProxy {
-
-	@Override
-	public Drawable getDrawable(int pResId) {
-		throw new IllegalArgumentException();
-	}
 
 	@Override
 	public String getString(int pResId) {
@@ -21,7 +17,21 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		case string.hills : return "Hills";
 		case string.cloudmade_small : return "Cloudmade (small tiles)";
 		case string.cloudmade_standard : return "Cloudmade (Standard tiles)";
+		case string.unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}
 	}
+
+	@Override
+	public Bitmap getBitmap(int pResId) {
+		// TODO get bitmaps from the jar
+		throw new IllegalArgumentException();
+	}
+
+	@Override
+	public Drawable getDrawable(int pResId) {
+		// TODO implementation
+		throw new IllegalArgumentException();
+	}
+
 }

@@ -1,5 +1,6 @@
 package org.andnav.osm.views.overlay;
 
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.MyMath;
@@ -30,9 +31,12 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	protected final OpenStreetMapTileProvider mTileProvider;
 	protected final Paint mPaint = new Paint();
 
-	public OpenStreetMapTilesOverlay(final OpenStreetMapView aOsmv,
+	public OpenStreetMapTilesOverlay(
+			final OpenStreetMapView aOsmv,
 			final OpenStreetMapRendererInfo aRendererInfo,
-			final OpenStreetMapTileProvider aTileProvider) {
+			final OpenStreetMapTileProvider aTileProvider,
+			final ResourceProxy pResourceProxy) {
+		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
 		if(aTileProvider == null)

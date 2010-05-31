@@ -1,7 +1,8 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm.samples;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
@@ -19,7 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
  * @author Nicolas Gramlich
  *
  */
-public class SampleWithMinimapZoomcontrols extends Activity{
+public class SampleWithMinimapZoomcontrols extends Activity {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -29,6 +31,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
 	// ===========================================================
 	
 	private OpenStreetMapView mOsmv, mOsmvMinimap; 
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -37,6 +40,8 @@ public class SampleWithMinimapZoomcontrols extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
         final RelativeLayout rl = new RelativeLayout(this);
         
@@ -48,7 +53,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
         {
 	        /* Create a ImageView with a zoomIn-Icon. */
 	        final ImageView ivZoomIn = new ImageView(this);
-	        ivZoomIn.setImageResource(R.drawable.zoom_in);
+	        ivZoomIn.setImageBitmap(mResourceProxy.getBitmap(ResourceProxy.bitmap.zoom_in));
 	        /* Create RelativeLayoutParams, that position in in the top right corner. */
 	        final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 	        zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -65,7 +70,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
 	        
 	        /* Create a ImageView with a zoomOut-Icon. */
 	        final ImageView ivZoomOut = new ImageView(this);
-	        ivZoomOut.setImageResource(R.drawable.zoom_out);
+	        ivZoomIn.setImageBitmap(mResourceProxy.getBitmap(ResourceProxy.bitmap.zoom_out));
 	        
 	        /* Create RelativeLayoutParams, that position in in the top left corner. */
 	        final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

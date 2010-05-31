@@ -1,6 +1,8 @@
 package org.andnav.osm;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 public class ResourceProxyImpl implements ResourceProxy {
@@ -9,11 +11,6 @@ public class ResourceProxyImpl implements ResourceProxy {
 	
 	public ResourceProxyImpl(final Context pContext) {
 		mContext = pContext;
-	}
-
-	@Override
-	public Drawable getDrawable(int pResId) {
-		throw new IllegalArgumentException();
 	}
 
 	@Override
@@ -28,6 +25,31 @@ public class ResourceProxyImpl implements ResourceProxy {
 		case string.hills : return mContext.getString(R.string.hills);
 		case string.cloudmade_small : return mContext.getString(R.string.cloudmade_small);
 		case string.cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
+		case string.unknown : return mContext.getString(R.string.unknown);
+		default : throw new IllegalArgumentException();
+		}
+	}
+
+	@Override
+	public Bitmap getBitmap(int pResId) {
+		switch(pResId) {
+		case bitmap.zoom_in : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.zoom_in);
+		case bitmap.zoom_out : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.zoom_out);
+		case bitmap.person : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.person);
+		case bitmap.direction_arrow : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.direction_arrow);
+		case bitmap.previous : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.previous);
+		case bitmap.next : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.next);
+		case bitmap.center : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.center);
+		case bitmap.navto_small : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.navto_small);
+		default : throw new IllegalArgumentException();
+		}
+	}
+
+	@Override
+	public Drawable getDrawable(int pResId) {
+		switch(pResId) {
+		case drawable.marker_default : return mContext.getResources().getDrawable(R.drawable.marker_default);
+		case drawable.marker_default_focused_base : return mContext.getResources().getDrawable(R.drawable.marker_default_focused_base);
 		default : throw new IllegalArgumentException();
 		}
 	}

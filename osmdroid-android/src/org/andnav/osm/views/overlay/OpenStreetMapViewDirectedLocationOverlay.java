@@ -1,14 +1,13 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.andnav.osm.views.overlay;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -46,8 +45,9 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// Constructors
 	// ===========================================================
 	
-	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx){
-		this.DIRECTION_ARROW = BitmapFactory.decodeResource(ctx.getResources(), R.drawable.direction_arrow);
+	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
+		super(pResourceProxy);
+		this.DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 		
 		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;

@@ -3,7 +3,7 @@ package org.andnav.osm.views.overlay;
 
 import java.util.List;
 
-import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 
@@ -44,15 +44,28 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewItemizedOverlay(final Context ctx, final List<T> aList, final OnItemTapListener<T> aOnItemTapListener) {
-        this(ctx, aList, null, null, aOnItemTapListener);
+	public OpenStreetMapViewItemizedOverlay(
+			final Context ctx, 
+			final List<T> aList, 
+			final OnItemTapListener<T> aOnItemTapListener, 
+			final ResourceProxy pResourceProxy) {
+        this(ctx, aList, null, null, aOnItemTapListener, pResourceProxy);
 	}
 
-	public OpenStreetMapViewItemizedOverlay(final Context ctx, final List<T> aList, final Drawable pMarker, final Point pMarkerHotspot, final OnItemTapListener<T> aOnItemTapListener) {
+	public OpenStreetMapViewItemizedOverlay(
+			final Context ctx, 
+			final List<T> aList, 
+			final Drawable pMarker, 
+			final Point pMarkerHotspot, 
+			final OnItemTapListener<T> aOnItemTapListener, 
+			final ResourceProxy pResourceProxy) {
+		
+		super(pResourceProxy);
+		
 		assert(ctx != null);
 		assert(aList != null);
 
-		this.mMarker = (pMarker != null) ? pMarker : ctx.getResources().getDrawable(R.drawable.marker_default);
+		this.mMarker = (pMarker != null) ? pMarker : mResourceProxy.getDrawable(ResourceProxy.drawable.marker_default);
 
 		this.mMarkerHotSpot = (pMarkerHotspot != null) ? pMarkerHotspot : DEFAULTMARKER_HOTSPOT;
 
