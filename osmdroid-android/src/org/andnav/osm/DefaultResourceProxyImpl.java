@@ -1,36 +1,54 @@
 package org.andnav.osm;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 public class DefaultResourceProxyImpl implements ResourceProxy {
 
 	@Override
-	public String getString(int pResId) {
+	public String getString(string pResId) {
 		switch(pResId) {
-		case string.osmarender : return "OsmaRender";
-		case string.mapnik : return "Mapnik";
-		case string.cyclemap : return "Cycle Map";
-		case string.openareal_sat : return "OpenArialMap";
-		case string.base : return "OSM base layer";
-		case string.topo : return "Topographic";
-		case string.hills : return "Hills";
-		case string.cloudmade_small : return "Cloudmade (small tiles)";
-		case string.cloudmade_standard : return "Cloudmade (Standard tiles)";
-		case string.unknown : return "Unknown";
+		case osmarender : return "OsmaRender";
+		case mapnik : return "Mapnik";
+		case cyclemap : return "Cycle Map";
+		case openareal_sat : return "OpenArialMap";
+		case base : return "OSM base layer";
+		case topo : return "Topographic";
+		case hills : return "Hills";
+		case cloudmade_small : return "Cloudmade (small tiles)";
+		case cloudmade_standard : return "Cloudmade (Standard tiles)";
+		case unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}
 	}
 
 	@Override
-	public Bitmap getBitmap(int pResId) {
-		// TODO get bitmaps from the jar
-		throw new IllegalArgumentException();
+	public Bitmap getBitmap(bitmap pResId) {
+		InputStream is = null;
+		try {
+			is = getClass().getResourceAsStream(pResId.name() + ".png");
+			if (is == null) {
+				throw new IllegalArgumentException();
+			}
+			return BitmapFactory.decodeStream(is);
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (final IOException ignore) {
+				}
+			}
+		}
 	}
 
 	@Override
-	public Drawable getDrawable(int pResId) {
-		// TODO implementation
+	public Drawable getDrawable(drawable pResId) {
+		// FIXME implementation
+		// have a look at the Android source
 		throw new IllegalArgumentException();
 	}
 

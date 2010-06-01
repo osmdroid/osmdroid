@@ -15,12 +15,16 @@
 			<attribute name="Implementation-Version" value="${version.num}" />
 			<attribute name="Built-Date" value="${TODAY}" />
 		</manifest>
-		<jar destfile="osmdroid-android-${version.num}.jar" 
-			 basedir="bin" 
-			 includes="**/*.class" 
-			 excludes="**/*Test.class"
-			 manifest="MANIFEST.MF" 
-		     />
+		<copy todir="bin/org/andnav/osm">
+		    <fileset dir="assets" />
+		</copy>
+		<jar destfile="osmdroid-android-${version.num}.jar" manifest="MANIFEST.MF">
+			<fileset dir="bin">
+				 <include name="**/*.class" /> 
+				 <include name="**/*.png" /> 
+				 <exclude name="**/*Test.class" />
+		    </fileset>
+		</jar>
 		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
 

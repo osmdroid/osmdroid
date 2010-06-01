@@ -1,6 +1,7 @@
 package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
+import org.andnav.osm.R;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.constants.OpenStreetMapConstants;
@@ -74,7 +75,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
         {
 	        /* Create a ImageView with a zoomIn-Icon. */
 	        final ImageView ivZoomIn = new ImageView(this);
-	        ivZoomIn.setImageBitmap(mResourceProxy.getBitmap(ResourceProxy.bitmap.zoom_in));
+	        ivZoomIn.setImageResource(R.drawable.zoom_in);
 	        /* Create RelativeLayoutParams, that position in in the top right corner. */
 	        final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 	        zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -91,7 +92,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	        
 	        /* Create a ImageView with a zoomOut-Icon. */
 	        final ImageView ivZoomOut = new ImageView(this);
-	        ivZoomOut.setImageBitmap(mResourceProxy.getBitmap(ResourceProxy.bitmap.zoom_out));
+	        ivZoomOut.setImageResource(R.drawable.zoom_out);
 	        
 	        /* Create RelativeLayoutParams, that position in in the top left corner. */
 	        final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

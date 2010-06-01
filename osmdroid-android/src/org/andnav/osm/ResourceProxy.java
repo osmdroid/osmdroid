@@ -5,47 +5,50 @@ import android.graphics.drawable.Drawable;
 
 public interface ResourceProxy {
 
-	public static final class string {
+	public static enum string {
 
 		// renderers
-		public static final int osmarender = 1;
-		public static final int mapnik = 2;
-		public static final int cyclemap = 3;
-		public static final int openareal_sat = 4;
-		public static final int base = 5;
-		public static final int topo = 6;
-		public static final int hills = 7;
-		public static final int cloudmade_small = 8;
-		public static final int cloudmade_standard = 9;
+		osmarender,
+		mapnik,
+		cyclemap,
+		openareal_sat,
+		base,
+		topo,
+		hills,
+		cloudmade_small,
+		cloudmade_standard,
 		
 		// other stuff
-		public static final int unknown = 10;
+		unknown,
 
 	}
 
-	public static final class bitmap {
+	public static enum bitmap {
 
-		public static final int zoom_in = 1;
-		public static final int zoom_out = 2;
-		public static final int person = 3;
-		public static final int direction_arrow = 4;
-		public static final int previous = 5;
-		public static final int next = 6;
-		public static final int center = 7;
-		public static final int navto_small = 8;
+		/**
+		 * For testing - the image doesn't exist.
+		 */
+		unknown,
+
+		center,
+		direction_arrow,
+		navto_small,
+		next,
+		previous,
+		person,
 		
 	}
 
-	public static final class drawable {
+	public static enum drawable {
 
-		public static final int marker_default = 1;
-		public static final int marker_default_focused_base = 2;
+		marker_default,
+		marker_default_focused_base,
 		
 	}
 
-	String getString(int pResId);
+	String getString(string pResId);
 
-	Bitmap getBitmap(int pResId);
+	Bitmap getBitmap(bitmap pResId);
 
-	Drawable getDrawable(int pResId);
+	Drawable getDrawable(drawable pResId);
 }

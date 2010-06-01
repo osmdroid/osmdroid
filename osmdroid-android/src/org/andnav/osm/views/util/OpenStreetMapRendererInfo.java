@@ -31,15 +31,16 @@ public enum OpenStreetMapRendererInfo {
 	
 	public enum CodeScheme { X_Y, QUAD_TREE };
 	
+	public final ResourceProxy.string NAME;
 	public final String BASEURLS[], IMAGE_FILENAMEENDING;
-	public final int NAME, ZOOM_MINLEVEL, ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;
+	public final int ZOOM_MINLEVEL, ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;
 	public final CodeScheme CODE_SCHEME;
 	private final Random random;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
-	private OpenStreetMapRendererInfo(final int aName,
+	private OpenStreetMapRendererInfo(final ResourceProxy.string aName,
 			final String aImageFilenameEnding, final int aZoomMin,
 			final int aZoomMax, final int aTileZoom, final CodeScheme aCodeScheme,final String ...aBaseUrl) {
 		this.BASEURLS = aBaseUrl;
