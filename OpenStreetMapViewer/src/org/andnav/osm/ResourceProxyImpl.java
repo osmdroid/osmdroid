@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
-public class ResourceProxyImpl implements ResourceProxy {
+public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 
 	private final Context mContext;
 	
@@ -26,7 +26,7 @@ public class ResourceProxyImpl implements ResourceProxy {
 		case cloudmade_small : return mContext.getString(R.string.cloudmade_small);
 		case cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
 		case unknown : return mContext.getString(R.string.unknown);
-		default : throw new IllegalArgumentException();
+		default : return super.getString(pResId);
 		}
 	}
 
@@ -39,7 +39,7 @@ public class ResourceProxyImpl implements ResourceProxy {
 		case next : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.next);
 		case person : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.person);
 		case previous : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.previous);
-		default : throw new IllegalArgumentException();
+		default : return super.getBitmap(pResId);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class ResourceProxyImpl implements ResourceProxy {
 		switch(pResId) {
 		case marker_default : return mContext.getResources().getDrawable(R.drawable.marker_default);
 		case marker_default_focused_base : return mContext.getResources().getDrawable(R.drawable.marker_default_focused_base);
-		default : throw new IllegalArgumentException();
+		default : return super.getDrawable(pResId);
 		}
 	}
 }
