@@ -13,6 +13,7 @@ import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -35,8 +36,9 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
 			final OpenStreetMapRendererInfo aRendererInfo,
-			final OpenStreetMapTileProvider aTileProvider) {
-		this(aOsmv, aRendererInfo, aTileProvider, new DefaultResourceProxyImpl());
+			final OpenStreetMapTileProvider aTileProvider,
+			final Context aContext) {
+		this(aOsmv, aRendererInfo, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 	
 	public OpenStreetMapTilesOverlay(

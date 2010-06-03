@@ -3,12 +3,33 @@ package org.andnav.osm;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class DefaultResourceProxyImpl implements ResourceProxy {
 
+	private DisplayMetrics mDisplayMetrics;
+
+	/**
+	 * Constructor.
+	 * @param pContext Used to get the display metrics that are used for scaling the bitmaps
+	 *                 returned by {@link getBitmap}.
+	 *                 Can be null, in which case the bitmaps are not scaled. 
+	 */
+	public DefaultResourceProxyImpl(final Context pContext) {
+		if (pContext != null) {
+			mDisplayMetrics = new DisplayMetrics();
+			final WindowManager wm = (WindowManager) pContext.getSystemService(Context.WINDOW_SERVICE);
+			if (wm != null) {
+				wm.getDefaultDisplay().getMetrics(mDisplayMetrics);
+			}
+		}
+	}
+	
 	@Override
 	public String getString(string pResId) {
 		switch(pResId) {
@@ -34,7 +55,14 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 			if (is == null) {
 				throw new IllegalArgumentException();
 			}
-			return BitmapFactory.decodeStream(is);
+			if (mDisplayMetrics != null) {
+				final BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inDensity = (int) (mDisplayMetrics.densityDpi / mDisplayMetrics.density);
+				options.inTargetDensity = mDisplayMetrics.densityDpi;
+				return BitmapFactory.decodeStream(is, null, options);
+			} else {
+				return BitmapFactory.decodeStream(is);
+			}
 		} finally {
 			if (is != null) {
 				try {

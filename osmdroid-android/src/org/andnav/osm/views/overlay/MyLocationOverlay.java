@@ -74,7 +74,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	// ===========================================================
 	
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
-		this(ctx, mapView, new DefaultResourceProxyImpl());
+		this(ctx, mapView, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView, final ResourceProxy pResourceProxy) {

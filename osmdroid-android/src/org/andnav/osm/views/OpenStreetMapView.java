@@ -117,7 +117,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
-	private ResourceProxy mResourceProxy = new DefaultResourceProxyImpl();
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -127,6 +127,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			final OpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider) {
 		super(context, attrs);
+		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());

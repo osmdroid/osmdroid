@@ -10,6 +10,7 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 	private final Context mContext;
 	
 	public ResourceProxyImpl(final Context pContext) {
+		super(pContext);
 		mContext = pContext;
 	}
 

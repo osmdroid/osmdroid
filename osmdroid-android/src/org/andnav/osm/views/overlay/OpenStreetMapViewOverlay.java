@@ -6,6 +6,7 @@ import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -34,8 +35,8 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewOverlay() {
-		mResourceProxy = new DefaultResourceProxyImpl();
+	public OpenStreetMapViewOverlay(final Context ctx) {
+		mResourceProxy = new DefaultResourceProxyImpl(ctx);
 	}
 	
 	public OpenStreetMapViewOverlay(final ResourceProxy pResourceProxy) {

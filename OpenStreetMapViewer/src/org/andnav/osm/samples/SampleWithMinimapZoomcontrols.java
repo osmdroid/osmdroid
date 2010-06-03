@@ -2,8 +2,6 @@
 package org.andnav.osm.samples;
 
 import org.andnav.osm.R;
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 
@@ -31,7 +29,6 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// ===========================================================
 	
 	private OpenStreetMapView mOsmv, mOsmvMinimap; 
-	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -40,8 +37,6 @@ public class SampleWithMinimapZoomcontrols extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
         final RelativeLayout rl = new RelativeLayout(this);
         

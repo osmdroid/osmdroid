@@ -56,7 +56,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         mResourceProxy = new ResourceProxyImpl(getApplicationContext());
         
     	mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

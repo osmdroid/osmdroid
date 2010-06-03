@@ -32,7 +32,7 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// ===========================================================
 	
 	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs) {
-		this(context, attrs, new DefaultResourceProxyImpl());
+		this(context, attrs, new DefaultResourceProxyImpl(context));
 	}
 
 	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs, final ResourceProxy pResourceProxy) {

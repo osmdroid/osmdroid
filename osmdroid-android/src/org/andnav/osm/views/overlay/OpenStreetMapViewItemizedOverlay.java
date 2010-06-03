@@ -49,7 +49,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final Context ctx, 
 			final List<T> aList, 
 			final OnItemTapListener<T> aOnItemTapListener) {
-        this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl());
+        this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewItemizedOverlay(

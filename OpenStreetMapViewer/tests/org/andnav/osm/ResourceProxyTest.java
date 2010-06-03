@@ -27,7 +27,7 @@ public class ResourceProxyTest extends AndroidTestCase {
 		final ResourceProxy contextResourceProxy = new ResourceProxyImpl(getContext());
 		final Bitmap contextBitmap = contextResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 
-		final ResourceProxy defaultResourceProxy = new DefaultResourceProxyImpl();
+		final ResourceProxy defaultResourceProxy = new DefaultResourceProxyImpl(getContext());
 		final Bitmap defaultBitmap = defaultResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 
 		// compare a few things to see if they're the same bitmap

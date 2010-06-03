@@ -40,7 +40,7 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// ===========================================================
 	
 	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx) {
-		this(ctx, new DefaultResourceProxyImpl());
+		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy) {

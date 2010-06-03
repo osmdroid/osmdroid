@@ -47,7 +47,7 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// ===========================================================
 	
 	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx){
-		this(ctx, new DefaultResourceProxyImpl());
+		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
