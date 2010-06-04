@@ -73,7 +73,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		assert(ctx != null);
 		assert(aList != null);
 
-		this.mMarker = (pMarker != null) ? pMarker : mResourceProxy.getDrawable(ResourceProxy.drawable.marker_default);
+		this.mMarker = (pMarker != null) ? pMarker : mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default);
 
 		this.mMarkerHotSpot = (pMarkerHotspot != null) ? pMarkerHotspot : DEFAULTMARKER_HOTSPOT;
 

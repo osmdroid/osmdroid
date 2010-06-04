@@ -85,7 +85,7 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 		
 		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 		
-		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase : mResourceProxy.getDrawable(ResourceProxy.drawable.marker_default_focused_base);
+		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase : mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base);
 		
 		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot : DEFAULTMARKER_FOCUSED_HOTSPOT;
 		

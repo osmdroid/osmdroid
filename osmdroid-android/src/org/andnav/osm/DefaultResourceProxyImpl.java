@@ -6,6 +6,7 @@ import java.io.InputStream;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -31,7 +32,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	}
 	
 	@Override
-	public String getString(string pResId) {
+	public String getString(final string pResId) {
 		switch(pResId) {
 		case osmarender : return "OsmaRender";
 		case mapnik : return "Mapnik";
@@ -48,7 +49,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	}
 
 	@Override
-	public Bitmap getBitmap(bitmap pResId) {
+	public Bitmap getBitmap(final bitmap pResId) {
 		InputStream is = null;
 		try {
 			is = getClass().getResourceAsStream(pResId.name() + ".png");
@@ -74,10 +75,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	}
 
 	@Override
-	public Drawable getDrawable(drawable pResId) {
-		// FIXME implementation
-		// have a look at the Android source
-		throw new IllegalArgumentException();
+	public Drawable getDrawable(final bitmap pResId) {
+		return new BitmapDrawable(getBitmap(pResId));
 	}
 
 }

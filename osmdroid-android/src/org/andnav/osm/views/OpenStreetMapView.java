@@ -595,8 +595,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		if(this.mBackBuffer != null) {
+			// XXX this doesn't seem to help - createBitmap can still get OOME 
 			this.mBackBuffer.recycle();
 			this.mBackBuffer = null;
+			// XXX perhaps adding a gc here will help
 		}
 		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
 		this.mBackCanvas = new Canvas(this.mBackBuffer);

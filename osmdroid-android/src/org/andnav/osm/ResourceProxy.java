@@ -32,6 +32,8 @@ public interface ResourceProxy {
 
 		center,
 		direction_arrow,
+		marker_default,
+		marker_default_focused_base,
 		navto_small,
 		next,
 		previous,
@@ -39,16 +41,14 @@ public interface ResourceProxy {
 		
 	}
 
-	public static enum drawable {
-
-		marker_default,
-		marker_default_focused_base,
-		
-	}
-
 	String getString(string pResId);
 
 	Bitmap getBitmap(bitmap pResId);
 
-	Drawable getDrawable(drawable pResId);
+	/**
+	 * Get a bitmap as a {@link Drawable}
+	 * @param pResId
+	 * @return
+	 */
+	Drawable getDrawable(bitmap pResId);
 }

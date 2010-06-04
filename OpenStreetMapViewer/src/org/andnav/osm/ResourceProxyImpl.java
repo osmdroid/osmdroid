@@ -36,6 +36,8 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 		switch(pResId) {
 		case center : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.center);
 		case direction_arrow : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.direction_arrow);
+		case marker_default : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.marker_default);
+		case marker_default_focused_base : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.marker_default_focused_base);
 		case navto_small : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.navto_small);
 		case next : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.next);
 		case person : return BitmapFactory.decodeResource(mContext.getResources(), R.drawable.person);
@@ -45,10 +47,16 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 	}
 
 	@Override
-	public Drawable getDrawable(drawable pResId) {
+	public Drawable getDrawable(bitmap pResId) {
 		switch(pResId) {
+		case center : return mContext.getResources().getDrawable(R.drawable.center);
+		case direction_arrow : return mContext.getResources().getDrawable(R.drawable.direction_arrow);
 		case marker_default : return mContext.getResources().getDrawable(R.drawable.marker_default);
 		case marker_default_focused_base : return mContext.getResources().getDrawable(R.drawable.marker_default_focused_base);
+		case navto_small : return mContext.getResources().getDrawable(R.drawable.navto_small);
+		case next : return mContext.getResources().getDrawable(R.drawable.next);
+		case person : return mContext.getResources().getDrawable(R.drawable.person);
+		case previous : return mContext.getResources().getDrawable(R.drawable.previous);
 		default : return super.getDrawable(pResId);
 		}
 	}
