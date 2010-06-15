@@ -58,7 +58,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 			}
 			if (mDisplayMetrics != null) {
 				final BitmapFactory.Options options = new BitmapFactory.Options();
-				options.inDensity = (int) (mDisplayMetrics.densityDpi / mDisplayMetrics.density);
+				options.inDensity = DisplayMetrics.DENSITY_DEFAULT;
 				options.inTargetDensity = mDisplayMetrics.densityDpi;
 				return BitmapFactory.decodeStream(is, null, options);
 			} else {
