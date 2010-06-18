@@ -1,9 +1,9 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm;
 
+import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.samples.SampleLoader;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-
 
 /**
  * Default map view activity.
@@ -48,6 +47,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	private SharedPreferences mPrefs;
 	private OpenStreetMapView mOsmv;
 	private MyLocationOverlay mLocationOverlay;
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -56,12 +56,16 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
+        
     	mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         
         final RelativeLayout rl = new RelativeLayout(this);
         
         this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.values()[mPrefs.getInt(PREFS_RENDERER, OpenStreetMapRendererInfo.MAPNIK.ordinal())]);
-        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv);
+        this.mOsmv.setResourceProxy(mResourceProxy);
+        this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv, mResourceProxy);
         this.mOsmv.setBuiltInZoomControls(true);
         this.mOsmv.getOverlays().add(this.mLocationOverlay);
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
@@ -107,9 +111,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 					Menu.NONE, R.string.map_mode).setIcon(
 					android.R.drawable.ic_menu_mapmode);
 
-			for (OpenStreetMapRendererInfo renderer : OpenStreetMapRendererInfo
-					.values()) {
-				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, getString(renderer.NAME));
+			for (OpenStreetMapRendererInfo renderer : OpenStreetMapRendererInfo.values()) {
+				mapMenu.add(MENU_MAP_MODE, id++, Menu.NONE, mResourceProxy.getString(renderer.NAME));
 			}
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
     	}

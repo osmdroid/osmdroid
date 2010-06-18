@@ -3,6 +3,8 @@ package org.andnav.osm.samples;
 
 import java.util.ArrayList;
 
+import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
@@ -24,7 +26,8 @@ import android.widget.RelativeLayout.LayoutParams;
  * @author Nicolas Gramlich
  *
  */
-public class SampleWithMinimapItemizedoverlayWithFocus extends Activity{
+public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -38,6 +41,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity{
 	
 	private OpenStreetMapView mOsmv, mOsmvMinimap; 
 	private OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem> mMyLocationOverlay; 
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -47,9 +51,11 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
+        
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmv = new OpenStreetMapView(this);
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
         
@@ -62,14 +68,14 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity{
 	        items.add(new OpenStreetMapViewOverlayItem("Washington", "This SampleDescription is a pretty long one. Almost as long as a the great wall in china.", new GeoPoint(38895000, -77036667))); // Washington 
 	        items.add(new OpenStreetMapViewOverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200))); // San Francisco
 	        
-	        /* OnTapListener for the Markers, shows a simpel Toast. */
+	        /* OnTapListener for the Markers, shows a simple Toast. */
 	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem>(this, items, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
 				@Override
 				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
 					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 					return true; // We 'handled' this event.
 				}
-	        });
+	        }, mResourceProxy);
 	        this.mMyLocationOverlay.setFocusItemsOnTap(true);
 	        this.mMyLocationOverlay.setFocusedItem(0);
 	        

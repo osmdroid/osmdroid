@@ -2,8 +2,10 @@ package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
 import org.andnav.osm.R;
+import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.ResourceProxyImpl;
+import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.constants.OpenStreetMapConstants;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
@@ -43,6 +45,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	private OpenStreetMapView mOsmv, mOsmvMinimap;
 	private OpenStreetMapViewController mOsmvController;
 	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay; 
+	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -53,16 +56,18 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false); // Pass true here to actually contribute to OSM!
         
+        mResourceProxy = new ResourceProxyImpl(getApplicationContext());
+        
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmv = new OpenStreetMapView(this);
         this.mOsmvController = this.mOsmv.getController();
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
         /* SingleLocation-Overlay */
         {
 	        /* Create a static Overlay showing a single location. (Gets updated in onLocationChanged(Location loc)! */
-	        this.mMyLocationOverlay = new OpenStreetMapViewSimpleLocationOverlay(this);
+	        this.mMyLocationOverlay = new OpenStreetMapViewSimpleLocationOverlay(this, mResourceProxy);
 	        this.mOsmv.getOverlays().add(mMyLocationOverlay);
         }
         
@@ -149,7 +154,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
     	final SubMenu subMenu = pMenu.addSubMenu(0, MENU_RENDERER_ID, Menu.NONE, "Choose Renderer");
     	{
 	    	for(int i = 0; i < OpenStreetMapRendererInfo.values().length; i ++)
-	    		subMenu.add(0, 1000 + i, Menu.NONE, OpenStreetMapRendererInfo.values()[i].NAME);
+	    		subMenu.add(0, 1000 + i, Menu.NONE, mResourceProxy.getString(OpenStreetMapRendererInfo.values()[i].NAME));
     	}
     	
     	pMenu.add(0, MENU_ANIMATION_ID, Menu.NONE, "Run Animation");

@@ -13,13 +13,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-
 /**
  * 
  * @author Nicolas Gramlich
  *
  */
-public class SampleWithMinimapZoomcontrols extends Activity{
+public class SampleWithMinimapZoomcontrols extends Activity {
+	
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -40,7 +40,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
         
         final RelativeLayout rl = new RelativeLayout(this);
         
-        this.mOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);
+        this.mOsmv = new OpenStreetMapView(this);
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
         
         
@@ -65,7 +65,7 @@ public class SampleWithMinimapZoomcontrols extends Activity{
 	        
 	        /* Create a ImageView with a zoomOut-Icon. */
 	        final ImageView ivZoomOut = new ImageView(this);
-	        ivZoomOut.setImageResource(R.drawable.zoom_out);
+	        ivZoomIn.setImageResource(R.drawable.zoom_out);
 	        
 	        /* Create RelativeLayoutParams, that position in in the top left corner. */
 	        final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

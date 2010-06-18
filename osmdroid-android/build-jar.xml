@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse.ant.import?>
+<project>
+	<!--
+		Can't make it depend on build because that's in a different build file.
+		So just run
+			ant build jar
+	-->
+	<target name="jar">
+		<property name="version.num" value="1.00" />
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<manifest file="MANIFEST.MF">
+			<attribute name="Implementation-Version" value="${version.num}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+		</manifest>
+		<copy todir="bin/org/andnav/osm">
+		    <fileset dir="assets" />
+		</copy>
+		<jar destfile="osmdroid-android-${version.num}.jar" manifest="MANIFEST.MF">
+			<fileset dir="bin">
+				 <include name="**/*.class" /> 
+				 <include name="**/*.png" /> 
+				 <exclude name="**/*Test.class" />
+		    </fileset>
+		</jar>
+		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="docs/api"
+		         use="true"
+		         windowtitle="osmdroid API">
+		    <packageset dir="src" defaultexcludes="yes" />
+            <classpath refid="osmdroid-android.classpath" />
+			<link href="http://developer.android.com/reference/" />
+		</javadoc>
+		<zip destfile="osmdroid-android-docs.zip" 
+  		     basedir="docs/api" 
+			 includes="**" 
+		     />
+	</target>
+
+</project>
