@@ -412,7 +412,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public int getMaxZoomLevel() {
 		return getRenderer().ZOOM_MAXLEVEL;
 	}
-
+	
+	public boolean canZoomIn() {
+		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
+		return mZoomLevel < maxZoomLevel;
+	}
+	
+	public boolean canZoomOut() {
+		return mZoomLevel > 0;
+	}
+	
 	public GeoPoint getMapCenter() {
 		return new GeoPoint(getMapCenterLatitudeE6(), getMapCenterLongitudeE6());
 	}
@@ -677,9 +686,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	private void checkZoomButtons() {
-		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
-		this.mZoomController.setZoomInEnabled(mZoomLevel < maxZoomLevel);
-		this.mZoomController.setZoomOutEnabled(mZoomLevel > 0);
+		this.mZoomController.setZoomInEnabled(canZoomIn());
+		this.mZoomController.setZoomOutEnabled(canZoomOut());
 	}
 
 	private int[] getCenterMapTileCoords() {

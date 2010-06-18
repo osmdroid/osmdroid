@@ -31,7 +31,6 @@ public class OpenStreetMapViewController {
 	// Fields
 	// ===========================================================
 	
-	private int mZoomLevel;
 	private final OpenStreetMapView mOsmv;
 	private AbstractAnimationRunner mCurrentAnimationRunner;
 
@@ -184,7 +183,6 @@ public class OpenStreetMapViewController {
 	
 
 	public int setZoom(int zoomlevel) {
-		this.mZoomLevel = zoomlevel;
 		return mOsmv.setZoomLevel(zoomlevel);
 	}
 	
@@ -192,23 +190,20 @@ public class OpenStreetMapViewController {
 	 * Zoom in by one zoom level.
 	 */
 	public boolean zoomIn() {
-		
-		if (mZoomLevel >= mOsmv.getMaxZoomLevel()) {
-			mZoomLevel = mOsmv.getMaxZoomLevel();
+
+		if (mOsmv.canZoomIn()) {
+			final Scaler scaler = mOsmv.mScaler;
+			if (scaler.isFinished()) {
+				scaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
+				mOsmv.postInvalidate();
+			} else {
+				scaler.extendDuration(ANIMATION_DURATION_SHORT);
+				scaler.setFinalScale(scaler.getFinalScale() * 2.0f);
+			}
+			return true;
+		} else {
 			return false;
 		}
-		
-		mZoomLevel++;
-		final Scaler scaler = mOsmv.mScaler;
-		if (scaler.isFinished()) {
-			scaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
-			mOsmv.postInvalidate();
-		} else {
-			scaler.extendDuration(ANIMATION_DURATION_SHORT);
-			scaler.setFinalScale(scaler.getFinalScale() * 2.0f);
-		}
-		
-		return true;
 	}
 	
 	public boolean zoomInFixing(int xPixel, int yPixel) {
@@ -220,23 +215,20 @@ public class OpenStreetMapViewController {
 	 * Zoom out by one zoom level.
 	 */
 	public boolean zoomOut() {
-		
-		if (mZoomLevel <= 0) {
-			mZoomLevel = 0;
+
+		if (mOsmv.canZoomOut()) {
+			final Scaler scaler = mOsmv.mScaler;
+			if (scaler.isFinished()) {
+				scaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
+				mOsmv.postInvalidate();
+			} else {
+				scaler.extendDuration(ANIMATION_DURATION_SHORT);
+				scaler.setFinalScale(scaler.getFinalScale() * 0.5f);
+			}
+			return true;
+		} else {
 			return false;
 		}
-		
-		mZoomLevel--;
-		final Scaler scaler = mOsmv.mScaler;
-		if (scaler.isFinished()) {
-			scaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
-			mOsmv.postInvalidate();
-		} else {
-			scaler.extendDuration(ANIMATION_DURATION_SHORT);
-			scaler.setFinalScale(scaler.getFinalScale() * 0.5f);
-		}
-		
-		return true;
 	}
 
 	public boolean zoomOutFixing(int xPixel, int yPixel) {
@@ -244,12 +236,12 @@ public class OpenStreetMapViewController {
 		return zoomOut();
 	}
 
+	// TODO what is this method supposed to do?
 	void onScalingFinished() {
-		mOsmv.setZoomLevel(mZoomLevel);
 	}
 	
+	// TODO what is this method supposed to do?
 	void onScrollingFinished() {
-		
 	}
 	
 	// ===========================================================
