@@ -34,6 +34,11 @@ public class OpenStreetMapViewController {
 	private final OpenStreetMapView mOsmv;
 	private AbstractAnimationRunner mCurrentAnimationRunner;
 
+	/**
+	 * The zoom level to set in view when the zoom animation has finished.
+	 */
+	private int mTargetZoomLevel;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -192,6 +197,7 @@ public class OpenStreetMapViewController {
 	public boolean zoomIn() {
 
 		if (mOsmv.canZoomIn()) {
+			mTargetZoomLevel = mOsmv.getZoomLevel() + 1;
 			final Scaler scaler = mOsmv.mScaler;
 			if (scaler.isFinished()) {
 				scaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
@@ -217,6 +223,7 @@ public class OpenStreetMapViewController {
 	public boolean zoomOut() {
 
 		if (mOsmv.canZoomOut()) {
+			mTargetZoomLevel = mOsmv.getZoomLevel() - 1;
 			final Scaler scaler = mOsmv.mScaler;
 			if (scaler.isFinished()) {
 				scaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
@@ -236,11 +243,10 @@ public class OpenStreetMapViewController {
 		return zoomOut();
 	}
 
-	// TODO what is this method supposed to do?
 	void onScalingFinished() {
+		mOsmv.setZoomLevel(mTargetZoomLevel);
 	}
 	
-	// TODO what is this method supposed to do?
 	void onScrollingFinished() {
 	}
 	
