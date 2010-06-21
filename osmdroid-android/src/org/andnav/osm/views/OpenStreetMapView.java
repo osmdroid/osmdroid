@@ -96,6 +96,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	/** Current zoom level for map tiles */
 	private int mZoomLevel = 0;
 	
+	/** The zoom level to set in view when the zoom animation has finished */
+	private int mTargetZoomLevel;
+
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
 	private final Paint mPaint = new Paint();
@@ -105,8 +108,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
-	final Scroller mScroller;							/** Handles map scrolling */
-	final Scaler mScaler;
+	private final Scroller mScroller;							/** Handles map scrolling */
+	private final Scaler mScaler;
 	private OpenStreetMapViewController mController;
 	private int mMiniMapOverriddenVisibility = NOT_SET;
 	private int mMiniMapZoomDiff = NOT_SET;
@@ -258,6 +261,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		return this.mOverlays;
 	}
 
+	public Scroller getScroller() {
+		return mScroller;
+	}
+	
 	public double getLatitudeSpan() {
 		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;
 	}
@@ -378,7 +385,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			scrollTo(getScrollX()>>(curZoomLevel-newZoomLevel), getScrollY()>>(curZoomLevel-newZoomLevel));
 
 		// TODO snap for all snappables
-		Point snapPoint = new Point();
+		final Point snapPoint = new Point();
 		mProjection = new OpenStreetMapViewProjection();
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays) {
 			if (osmvo instanceof Snappable &&
@@ -415,6 +422,48 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		return mZoomLevel > 0;
 	}
 	
+	/**
+	 * Zoom in by one zoom level.
+	 */
+	boolean zoomIn() {
+
+		if (canZoomIn()) {
+			if (mScaler.isFinished()) {
+				mTargetZoomLevel = mZoomLevel + 1;
+				mScaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
+				postInvalidate();
+			} else {
+				mTargetZoomLevel++;
+				mScaler.extendDuration(ANIMATION_DURATION_SHORT);
+				mScaler.setFinalScale(mScaler.getFinalScale() * 2.0f);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Zoom out by one zoom level.
+	 */
+	boolean zoomOut() {
+
+		if (canZoomOut()) {
+			if (mScaler.isFinished()) {
+				mTargetZoomLevel = mZoomLevel - 1;
+				mScaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
+				postInvalidate();
+			} else {
+				mTargetZoomLevel--;
+				mScaler.extendDuration(ANIMATION_DURATION_SHORT);
+				mScaler.setFinalScale(mScaler.getFinalScale() * 0.5f);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public GeoPoint getMapCenter() {
 		return new GeoPoint(getMapCenterLatitudeE6(), getMapCenterLongitudeE6());
 	}
@@ -527,9 +576,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 				if (pointerUpDistance > 2 * mPointerDownDistance) {
 					mMultiMode = MULTI_HANDLED;
-					setZoomLevel(mZoomLevel + 1);
+					zoomIn();
 				} else if (pointerUpDistance < 0.5 * mPointerDownDistance) {
-					setZoomLevel(mZoomLevel - 1);
+					zoomOut();
 					mMultiMode = MULTI_HANDLED;
 				}
 			}
@@ -555,7 +604,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 //			int y = mScroller.getCurrY();
 //			if (x != oldX || y != oldY)
 			if (mScroller.isFinished())
-				mController.onScrollingFinished();
+				setZoomLevel(mTargetZoomLevel);
 			else
 				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 			postInvalidate();	// Keep on drawing until the animation has finished.
@@ -580,7 +629,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private void computeScale() {
 		if (mScaler.computeScale()) {
 			if (mScaler.isFinished())
-				mController.onScalingFinished();
+				setZoomLevel(mTargetZoomLevel);
 			else
 				postInvalidate();
 		}
@@ -997,7 +1046,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
     	public void onVisibilityChanged(boolean visible) {}
     }
 
-	class Scaler {
+	private class Scaler {
 
 	    private float mStartScale;
 	    private float mFinalScale;

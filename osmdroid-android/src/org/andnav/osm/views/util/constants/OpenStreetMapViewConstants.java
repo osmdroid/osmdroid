@@ -22,6 +22,14 @@ public interface OpenStreetMapViewConstants {
 	public static final int MAPTILE_LATITUDE_INDEX = 0;
 	public static final int MAPTILE_LONGITUDE_INDEX = 1;
 
+	public static final int ANIMATION_SMOOTHNESS_LOW = 4;
+	public static final int ANIMATION_SMOOTHNESS_DEFAULT = 10;
+	public static final int ANIMATION_SMOOTHNESS_HIGH = 20;		
+
+	public static final int ANIMATION_DURATION_SHORT = 500;
+	public static final int ANIMATION_DURATION_DEFAULT = 1000;
+	public static final int ANIMATION_DURATION_LONG = 2000;
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
