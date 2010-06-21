@@ -139,7 +139,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	    		this.mLocationOverlay.enableMyLocation();
 	    		Location lastFix = this.mLocationOverlay.getLastFix();
 	    		if (lastFix != null)
-	    			this.mOsmv.setMapCenter(new GeoPoint(lastFix));
+	    			this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
 				return true;
 			
 			case MENU_MAP_MODE:

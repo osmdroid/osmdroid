@@ -95,13 +95,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// Fields
 	// ===========================================================
 
-	protected int mZoomLevel = 0;								/** Current zoom level for map tiles */
-	protected final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
+	/** Current zoom level for map tiles */
+	private int mZoomLevel = 0;
+	
+	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
-	protected Bitmap mBackBuffer;
-	protected Canvas mBackCanvas;
-	protected Matrix mTrans = new Matrix();
-	protected final Paint mPaint = new Paint();
+	private Bitmap mBackBuffer;
+	private Canvas mBackCanvas;
+	private Matrix mTrans = new Matrix();
+	private final Paint mPaint = new Paint();
 	private OpenStreetMapViewProjection mProjection;
 
 	private OpenStreetMapView mMiniMap, mMaxiMap;
@@ -244,7 +246,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mMiniMapOverriddenVisibility = aVisiblity;
 	}
 
-	protected void setMaxiMap(final OpenStreetMapView aOsmvMaxiMap) {
+	private void setMaxiMap(final OpenStreetMapView aOsmvMaxiMap) {
 		this.mMaxiMap = aOsmvMaxiMap;
 	}
 
@@ -312,19 +314,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		return mProjection;
 	}
 
-	public void setMapCenter(final GeoPoint aCenter) {
+	void setMapCenter(final GeoPoint aCenter) {
 		this.setMapCenter(aCenter.getLatitudeE6(), aCenter.getLongitudeE6());
 	}
-//
-//	public void setMapCenter(final double aLatitude, final double aLongitude) {
-//		this.setMapCenter((int) (aLatitude * 1E6), (int) (aLongitude * 1E6));
-//	}
-//
-	public void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
+
+	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		this.setMapCenter(aLatitudeE6, aLongitudeE6, true);
 	}
 
-	protected void setMapCenter(final int aLatitudeE6, final int aLongitudeE6,
+	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6,
 			final boolean doPassFurther) {
 		if (doPassFurther && this.mMiniMap != null)
 			this.mMiniMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
@@ -356,7 +354,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *            between 0 (equator) and 18/19(closest), depending on the
 	 *            Renderer chosen.
 	 */
-	protected int setZoomLevel(final int aZoomLevel) {
+	int setZoomLevel(final int aZoomLevel) {
 		final int minZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MINLEVEL;
 		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
