@@ -3,6 +3,9 @@ package org.andnav.osm;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +16,8 @@ import android.view.WindowManager;
 
 public class DefaultResourceProxyImpl implements ResourceProxy {
 
+	private static final Logger logger = LoggerFactory.getLogger(DefaultResourceProxyImpl.class);
+	
 	private DisplayMetrics mDisplayMetrics;
 
 	/**
@@ -29,6 +34,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 				wm.getDefaultDisplay().getMetrics(mDisplayMetrics);
 			}
 		}
+	    logger.debug("mDisplayMetrics=" + mDisplayMetrics);
 	}
 	
 	@Override
