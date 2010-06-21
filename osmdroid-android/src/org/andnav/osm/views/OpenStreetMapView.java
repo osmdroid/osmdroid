@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -28,7 +27,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Bitmap.Config;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.FloatMath;
@@ -100,9 +98,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
-	private Bitmap mBackBuffer;
-	private Canvas mBackCanvas;
-	private Matrix mTrans = new Matrix();
 	private final Paint mPaint = new Paint();
 	private OpenStreetMapViewProjection mProjection;
 
@@ -597,19 +592,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		x %= worldSize;
 		y %= worldSize;
 		super.scrollTo(x, y);
-	}
-
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		if(this.mBackBuffer != null) {
-			// XXX this doesn't seem to help - createBitmap can still get OOME 
-			this.mBackBuffer.recycle();
-			this.mBackBuffer = null;
-			// XXX perhaps adding a gc here will help
-		}
-		this.mBackBuffer = Bitmap.createBitmap(w, h, Config.ARGB_8888);
-		this.mBackCanvas = new Canvas(this.mBackBuffer);
-		super.onSizeChanged(w, h, oldw, oldh);
 	}
 
 	@Override
