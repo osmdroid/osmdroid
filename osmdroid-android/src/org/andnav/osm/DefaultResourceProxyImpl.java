@@ -12,7 +12,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 public class DefaultResourceProxyImpl implements ResourceProxy {
 
@@ -28,13 +27,9 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	 */
 	public DefaultResourceProxyImpl(final Context pContext) {
 		if (pContext != null) {
-			mDisplayMetrics = new DisplayMetrics();
-			final WindowManager wm = (WindowManager) pContext.getSystemService(Context.WINDOW_SERVICE);
-			if (wm != null) {
-				wm.getDefaultDisplay().getMetrics(mDisplayMetrics);
-			}
+			mDisplayMetrics = pContext.getResources().getDisplayMetrics();
+			logger.debug("mDisplayMetrics=" + mDisplayMetrics);
 		}
-	    logger.debug("mDisplayMetrics=" + mDisplayMetrics);
 	}
 	
 	@Override
