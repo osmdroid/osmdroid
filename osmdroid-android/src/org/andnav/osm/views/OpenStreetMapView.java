@@ -1145,17 +1145,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	@Override
-	public boolean setPositionAndScale(final Object obj, final PositionAndScale newObjPosAndScale, final PointInfo touchPoint) {
+	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale, final PointInfo aTouchPoint) {
 		
 		// Get new relative scale
-		float newRelativeScale = newObjPosAndScale.getScale();
+		float newRelativeScale = aNewObjPosAndScale.getScale();
 
 		// Update map scale
 		float scaleDiff = (float) (Math.log(newRelativeScale) * ZOOM_LOG_BASE_INV);
 		int targetZoom = this.mBaseZoomLevel-1 + (int) Math.round(scaleDiff);
 		if (targetZoom > this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL) {
 			newRelativeScale = mRelativeScale;
-			//return false;
 		}
 		if (targetZoom < 0) {
 			newRelativeScale = mRelativeScale;
