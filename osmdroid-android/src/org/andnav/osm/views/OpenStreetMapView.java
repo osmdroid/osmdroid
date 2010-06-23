@@ -81,7 +81,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
-	private final Scroller mScroller;							/** Handles map scrolling */
+	
+	/** Handles map scrolling */
+	private final Scroller mScroller;							
 	private final Scaler mScaler;
 	private OpenStreetMapViewController mController;
 	private int mMiniMapOverriddenVisibility = NOT_SET;
@@ -336,7 +338,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	
 	private void resetMTZoom() {
 		mRelativeScale = 1.0f; // reset MT scale
-		this.mBaseZoomLevel = this.mZoomLevel+1; // reset MT base zoom		
+		this.mBaseZoomLevel = this.mZoomLevel + 1; // reset MT base zoom		
 	}
 
 	private int setZoomLevelMT(final int aZoomLevel) {
@@ -530,18 +532,30 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	    logger.debug("onTouchEvent(" + event + ")");
 
-	    for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this))
-				return true;
-	    
-	    if (mMultiTouchController.onTouchEvent(event)) { // if true it's not MT
-			if (mGestureDetector.onTouchEvent(event)) {
+			{
+			    logger.debug("overlay handled onTouchEvent");
 				return true;
 			}
-		} else
+		
+		if (mGestureDetector.onTouchEvent(event)) {
+		    logger.debug("mGestureDetector handled onTouchEvent");
 			return true;
+		}
 
-	    return super.onTouchEvent(event);
+		if (mMultiTouchController.onTouchEvent(event)) {
+		    logger.debug("mMultiTouchController handled onTouchEvent");
+			return true;
+		}
+
+		boolean r = super.onTouchEvent(event);
+		if (r) {
+			logger.debug("super handled onTouchEvent");
+		} else {
+			logger.debug("no-one handled onTouchEvent");
+		}
+		return r;
 	}
 
 	@Override
@@ -965,169 +979,169 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	private class OpenStreetMapViewZoomListener implements OnZoomListener {
-    	@Override
-    	public void onZoom(boolean zoomIn) {
-    		if(zoomIn)
+		@Override
+		public void onZoom(boolean zoomIn) {
+			if(zoomIn)
 				getController().zoomIn();
-    		else
+			else
 				getController().zoomOut();
-    	}
-    	@Override
-    	public void onVisibilityChanged(boolean visible) {}
-    }
+		}
+		@Override
+		public void onVisibilityChanged(boolean visible) {}
+	}
 
 	private class Scaler {
 
-	    private float mStartScale;
-	    private float mFinalScale;
-	    private float mCurrScale;
+		private float mStartScale;
+		private float mFinalScale;
+		private float mCurrScale;
 
-	    private long mStartTime;
-	    private int mDuration;
-	    private float mDurationReciprocal;
-	    private float mDeltaScale;
-	    private boolean mFinished;
-	    private Interpolator mInterpolator;
+		private long mStartTime;
+		private int mDuration;
+		private float mDurationReciprocal;
+		private float mDeltaScale;
+		private boolean mFinished;
+		private Interpolator mInterpolator;
 
-	    /**
-	     * Create a Scaler with the specified interpolator.
-	     */
-	    public Scaler(Context context, Interpolator interpolator) {
-	        mFinished = true;
-	        mInterpolator = interpolator;
-	    }
+		/**
+		 * Create a Scaler with the specified interpolator.
+		 */
+		public Scaler(Context context, Interpolator interpolator) {
+			mFinished = true;
+			mInterpolator = interpolator;
+		}
 
-	    /**
-	     *
-	     * Returns whether the scaler has finished scaling.
-	     *
-	     * @return True if the scaler has finished scaling, false otherwise.
-	     */
-	    public final boolean isFinished() {
-	        return mFinished;
-	    }
+		/**
+		 *
+		 * Returns whether the scaler has finished scaling.
+		 *
+		 * @return True if the scaler has finished scaling, false otherwise.
+		 */
+		public final boolean isFinished() {
+			return mFinished;
+		}
 
-	    /**
-	     * Force the finished field to a particular value.
-	     *
-	     * @param finished The new finished value.
-	     */
-	    public final void forceFinished(boolean finished) {
-	        mFinished = finished;
-	    }
+		/**
+		 * Force the finished field to a particular value.
+		 *
+		 * @param finished The new finished value.
+		 */
+		public final void forceFinished(boolean finished) {
+			mFinished = finished;
+		}
 
-	    /**
-	     * Returns how long the scale event will take, in milliseconds.
-	     *
-	     * @return The duration of the scale in milliseconds.
-	     */
-	    public final int getDuration() {
-	        return mDuration;
-	    }
+		/**
+		 * Returns how long the scale event will take, in milliseconds.
+		 *
+		 * @return The duration of the scale in milliseconds.
+		 */
+		public final int getDuration() {
+			return mDuration;
+		}
 
-	    /**
-	     * Returns the current scale factor.
-	     *
-	     * @return The new scale factor.
-	     */
-	    public final float getCurrScale() {
-	        return mCurrScale;
-	    }
+		/**
+		 * Returns the current scale factor.
+		 *
+		 * @return The new scale factor.
+		 */
+		public final float getCurrScale() {
+			return mCurrScale;
+		}
 
-	    /**
-	     * Returns the start scale factor.
-	     *
-	     * @return The start scale factor.
-	     */
-	    public final float getStartScale() {
-	        return mStartScale;
-	    }
+		/**
+		 * Returns the start scale factor.
+		 *
+		 * @return The start scale factor.
+		 */
+		public final float getStartScale() {
+			return mStartScale;
+		}
 
-	    /**
-	     * Returns where the scale will end.
-	     *
-	     * @return The final scale factor.
-	     */
-	    public final float getFinalScale() {
-	        return mFinalScale;
-	    }
+		/**
+		 * Returns where the scale will end.
+		 *
+		 * @return The final scale factor.
+		 */
+		public final float getFinalScale() {
+			return mFinalScale;
+		}
 
-	    /**
-	     * Sets the final scale for this scaler.
-	     *
-	     * @param newScale The new scale factor.
-	     */
-	    public void setFinalScale(float newScale) {
+		/**
+		 * Sets the final scale for this scaler.
+		 *
+		 * @param newScale The new scale factor.
+		 */
+		public void setFinalScale(float newScale) {
 			mFinalScale = newScale;
 			mDeltaScale = mFinalScale - mStartScale;
-	        mFinished = false;
-	    }
+			mFinished = false;
+		}
 
 
 		/**
-	     * Call this when you want to know the new scale.  If it returns true,
-	     * the animation is not yet finished.
-	     */
-	    public boolean computeScale() {
-	        if (mFinished) {
-	        	mCurrScale = 1.0f;
-	            return false;
-	        }
+		 * Call this when you want to know the new scale.  If it returns true,
+		 * the animation is not yet finished.
+		 */
+		public boolean computeScale() {
+			if (mFinished) {
+				mCurrScale = 1.0f;
+				return false;
+			}
 
-	        int timePassed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
+			int timePassed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
 
-	        if (timePassed < mDuration) {
-                float x = (float)timePassed * mDurationReciprocal;
+			if (timePassed < mDuration) {
+				float x = (float)timePassed * mDurationReciprocal;
 
-                x = mInterpolator.getInterpolation(x);
+				x = mInterpolator.getInterpolation(x);
 
-                mCurrScale = mStartScale + x * mDeltaScale;
-                if (mCurrScale == mFinalScale)
-                    mFinished = true;
+				mCurrScale = mStartScale + x * mDeltaScale;
+				if (mCurrScale == mFinalScale)
+					mFinished = true;
 
-	        } else {
-	            mCurrScale = mFinalScale;
-	            mFinished = true;
-	        }
-	        return true;
-	    }
+			} else {
+				mCurrScale = mFinalScale;
+				mFinished = true;
+			}
+			return true;
+		}
 
-	    /**
-	     * Start scaling by providing the starting scale and the final scale.
-	     *
-	     * @param startX Starting horizontal scroll offset in pixels. Positive
-	     *        numbers will scroll the content to the left.
-	     * @param startY Starting vertical scroll offset in pixels. Positive numbers
-	     *        will scroll the content up.
-	     * @param dx Horizontal distance to travel. Positive numbers will scroll the
-	     *        content to the left.
-	     * @param dy Vertical distance to travel. Positive numbers will scroll the
-	     *        content up.
-	     * @param duration Duration of the scroll in milliseconds.
-	     */
-	    public void startScale(float startScale, float finalScale, int duration) {
-	        mFinished = false;
-	        mDuration = duration;
-	        mStartTime = AnimationUtils.currentAnimationTimeMillis();
-	        mStartScale = startScale;
-	        mFinalScale = finalScale;
-	        mDeltaScale = finalScale - startScale;
-	        mDurationReciprocal = 1.0f / (float) mDuration;
-	    }
+		/**
+		 * Start scaling by providing the starting scale and the final scale.
+		 *
+		 * @param startX Starting horizontal scroll offset in pixels. Positive
+		 *        numbers will scroll the content to the left.
+		 * @param startY Starting vertical scroll offset in pixels. Positive numbers
+		 *        will scroll the content up.
+		 * @param dx Horizontal distance to travel. Positive numbers will scroll the
+		 *        content to the left.
+		 * @param dy Vertical distance to travel. Positive numbers will scroll the
+		 *        content up.
+		 * @param duration Duration of the scroll in milliseconds.
+		 */
+		public void startScale(float startScale, float finalScale, int duration) {
+			mFinished = false;
+			mDuration = duration;
+			mStartTime = AnimationUtils.currentAnimationTimeMillis();
+			mStartScale = startScale;
+			mFinalScale = finalScale;
+			mDeltaScale = finalScale - startScale;
+			mDurationReciprocal = 1.0f / (float) mDuration;
+		}
 
-	    /**
-	     * Extend the scale animation. This allows a running animation to scale
-	     * further and longer, when used with {@link #setFinalScale(float)}.
-	     *
-	     * @param extend Additional time to scale in milliseconds.
-	     * @see #setFinalScale(float)
-	     */
-	    public void extendDuration(int extend) {
-	        int passed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
-	        mDuration = passed + extend;
-	        mDurationReciprocal = 1.0f / (float)mDuration;
-	        mFinished = false;
-	    }
+		/**
+		 * Extend the scale animation. This allows a running animation to scale
+		 * further and longer, when used with {@link #setFinalScale(float)}.
+		 *
+		 * @param extend Additional time to scale in milliseconds.
+		 * @see #setFinalScale(float)
+		 */
+		public void extendDuration(int extend) {
+			int passed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
+			mDuration = passed + extend;
+			mDurationReciprocal = 1.0f / (float)mDuration;
+			mFinished = false;
+		}
 
 	}
 
@@ -1157,7 +1171,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		// Update map scale
 		float scaleDiff = (float) (Math.log(newRelativeScale) * ZOOM_LOG_BASE_INV);
-		int targetZoom = this.mBaseZoomLevel-1 + (int) Math.round(scaleDiff);
+		int targetZoom = this.mBaseZoomLevel - 1 + (int) Math.round(scaleDiff);
 		if (targetZoom > this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL) {
 			newRelativeScale = mRelativeScale;
 		}
