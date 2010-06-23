@@ -114,7 +114,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
 		// Create MultiTouch controller.
-		mMultiTouchController = new MultiTouchController<Object>(this);
+		mMultiTouchController = new MultiTouchController<Object>(this, false);
 	}
 
 	/**
@@ -539,13 +539,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				return true;
 			}
 		
-		if (mGestureDetector.onTouchEvent(event)) {
-		    logger.debug("mGestureDetector handled onTouchEvent");
+		if (mMultiTouchController.onTouchEvent(event)) {
+		    logger.debug("mMultiTouchController handled onTouchEvent");
 			return true;
 		}
 
-		if (mMultiTouchController.onTouchEvent(event)) {
-		    logger.debug("mMultiTouchController handled onTouchEvent");
+		if (mGestureDetector.onTouchEvent(event)) {
+		    logger.debug("mGestureDetector handled onTouchEvent");
 			return true;
 		}
 
@@ -964,7 +964,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 			scrollBy((int)distanceX, (int)distanceY);
-			return false;
+			return true;
 		}
 
 		@Override
