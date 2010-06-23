@@ -18,6 +18,10 @@ import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.metalev.multitouch.controller.MultiTouchController;
+import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
+import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
+import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -42,7 +46,7 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
 
-public class OpenStreetMapView extends View implements OpenStreetMapViewConstants {
+public class OpenStreetMapView extends View implements OpenStreetMapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
@@ -55,6 +59,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
 	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
 	final static String BUNDLE_ZOOM_LEVEL = "org.andnav.osm.views.OpenStreetMapView.ZOOM";
+	
+	private MultiTouchController<Object> multiTouchController;
+	private static final double ZOOM_SENSITIVITY = 1.3;
+	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
+	private static final double MAX_LAT = 75;
+	private float relativeScale = 1.0f;
 
 	private static final int MULTI_NONE = 0;
 	private static final int MULTI_ACTIVE = 1;
@@ -95,6 +105,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	/** Current zoom level for map tiles */
 	private int mZoomLevel = 0;
+	private int baseZoomLevel = mZoomLevel;
 	
 	/** The zoom level to set in view when the zoom animation has finished */
 	private int mTargetZoomLevel;
@@ -135,6 +146,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
+		// Create MultiTouch controller.
+		multiTouchController = new MultiTouchController<Object>(this);
 	}
 
 	/**
@@ -357,6 +370,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *            Renderer chosen.
 	 */
 	int setZoomLevel(final int aZoomLevel) {
+		int z = setZoomLevelMT(aZoomLevel);
+		resetMTZoom();
+		return z;
+	}
+	
+	private void resetMTZoom() {
+		relativeScale=1.0f; // reset MT scale
+		this.baseZoomLevel=this.mZoomLevel+1; // reset MT base zoom		
+	}
+
+	private int setZoomLevelMT(final int aZoomLevel) {
 		final int minZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MINLEVEL;
 		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
@@ -395,7 +419,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 		return this.mZoomLevel;
 	}
-
+	
 	/**
 	 * Get the current ZoomLevel for the map tiles.
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest),
@@ -561,38 +585,43 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		 * 6. in any of these cases: claim the event handled and
 		 *    return true
 		 */
-		final int action = event.getAction() & ACTION_MASK;
+//		final int action = event.getAction() & ACTION_MASK;
+//
+//		if (action == ACTION_POINTER_DOWN) {
+//			mPointerDownDistance = spreading(event);
+//			mMultiMode = MULTI_ACTIVE;
+//			return true;
+//		} else if (action == ACTION_POINTER_UP) {
+//			mMultiMode = MULTI_NONE;
+//			return true;
+//		} else if (mMultiMode != MULTI_NONE) {
+//			if (mMultiMode == MULTI_ACTIVE && action == MotionEvent.ACTION_MOVE) {
+//				final float pointerUpDistance = spreading(event);
+//
+//				if (pointerUpDistance > 2 * mPointerDownDistance) {
+//					mMultiMode = MULTI_HANDLED;
+//					zoomIn();
+//				} else if (pointerUpDistance < 0.5 * mPointerDownDistance) {
+//					zoomOut();
+//					mMultiMode = MULTI_HANDLED;
+//				}
+//			}
+//			return true;
+//		}
 
-		if (action == ACTION_POINTER_DOWN) {
-			mPointerDownDistance = spreading(event);
-			mMultiMode = MULTI_ACTIVE;
-			return true;
-		} else if (action == ACTION_POINTER_UP) {
-			mMultiMode = MULTI_NONE;
-			return true;
-		} else if (mMultiMode != MULTI_NONE) {
-			if (mMultiMode == MULTI_ACTIVE && action == MotionEvent.ACTION_MOVE) {
-				final float pointerUpDistance = spreading(event);
+//		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
+//			if (osmvo.onTouchEvent(event, this)) {
+//				logger.debug("osmvo");
+//				return true;
+//			}
 
-				if (pointerUpDistance > 2 * mPointerDownDistance) {
-					mMultiMode = MULTI_HANDLED;
-					zoomIn();
-				} else if (pointerUpDistance < 0.5 * mPointerDownDistance) {
-					zoomOut();
-					mMultiMode = MULTI_HANDLED;
-				}
-			}
-			return true;
-		}
+	    if (multiTouchController.onTouchEvent(event)) { // if true it's not MT
+	    	if (this.mGestureDetector.onTouchEvent(event)) {
+	    		return true;
+	    	}
+	    } else return true;
 
-		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
-			if (osmvo.onTouchEvent(event, this))
-				return true;
-
-		if (this.mGestureDetector.onTouchEvent(event))
-			return true;
-
-		return super.onTouchEvent(event);
+	    return super.onTouchEvent(event);
 	}
 
 	@Override
@@ -1007,9 +1036,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-			final int worldSize = getWorldSizePx();
-			mScroller.fling(getScrollX(), getScrollY(), (int)-velocityX, (int)-velocityY, -worldSize, worldSize, -worldSize, worldSize);
-			return true;
+//			final int worldSize = getWorldSizePx();
+//			mScroller.fling(getScrollX(), getScrollY(), (int)-velocityX, (int)-velocityY, -worldSize, worldSize, -worldSize, worldSize);
+//			return true;
+			return false;
 		}
 
 		@Override
@@ -1020,7 +1050,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		@Override
 		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 			scrollBy((int)distanceX, (int)distanceY);
-			return true;
+			return false;
 		}
 
 		@Override
@@ -1201,4 +1231,83 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	}
 
+	@Override
+	public Object getDraggableObjectAtPoint(PointInfo pt) {
+		return this;
+	}
+
+	@Override
+	public void getPositionAndScale(Object obj,
+			PositionAndScale objPosAndScaleOut) {
+		objPosAndScaleOut.set(0, 0, true, relativeScale, false, 0, 0, false, 0);
+	}
+
+	@Override
+	public void selectObject(Object obj, PointInfo pt) {
+	}
+
+	@Override
+	public boolean setPositionAndScale(Object obj, PositionAndScale newObjPosAndScale, PointInfo touchPoint) {
+		
+		// Get new offsets and coords
+		float newXOff = newObjPosAndScale.getXOff();
+		float newYOff = newObjPosAndScale.getYOff();
+		float newRelativeScale = newObjPosAndScale.getScale();
+
+		double latSpan = this.getLatitudeSpan();
+		double lngSpan = this.getLongitudeSpan();
+		double pxToLat = latSpan / this.getHeight();
+		double pxToLng = lngSpan / this.getWidth();
+
+		// Calc new lat and long
+		double mLat = getMapCenterLatitudeE6()*1E-6;
+		double newLat = getMapCenterLatitudeE6()*1E-6 + newYOff * pxToLat;
+		double newLng = getMapCenterLongitudeE6()*1E-6 - newXOff * pxToLng;//baseLng - newXOff * pxToLng;
+				
+		// Update map scale
+		float scaleDiff = (float) (Math.log(newRelativeScale) * ZOOM_LOG_BASE_INV);
+		int targetZoom = this.baseZoomLevel-1 + (int) Math.round(scaleDiff); //baseZoom + (int) Math.round(scaleDiff);
+		if (targetZoom>this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL) {
+			newRelativeScale = relativeScale;
+			//return false;
+		}
+		if (targetZoom<0) {
+			newRelativeScale = relativeScale;
+		}
+		
+		// If off the top or bottom of the map, don't move or zoom
+		boolean dontMove = newLat > MAX_LAT || newLat < -MAX_LAT;
+
+		// Also, since we don't have fractional zoom, cancel moving the position if we're zooming.
+		// Otherwise, the user experience is weird :)
+		dontMove = dontMove || touchPoint.isMultiTouch();
+		
+		// Update offsets and coords
+		relativeScale = newRelativeScale;
+		if (!dontMove) {
+//			this.mTouchMapOffsetX = (int) newXOff;//xOff = newXOff;
+//			this.mTouchMapOffsetY = (int) newYOff;//yOff = newYOff;
+		}
+		// Move and zoom map
+		if (this.mZoomLevel == targetZoom) {//currZoom == targetZoom
+//			if (!dontMove) {
+				//mapController.setCenter(new GeoPoint((int) (newLat * 1e6), (int) (newLng * 1e6)));
+				//this.setMapCenter(new GeoPoint((int) (newLat * 1e6), (int) (newLng * 1e6)));
+				//this.setMapCenter(new GeoPoint((int) (newLat), (int) (newLng)));
+//				Log.v(OpenStreetMapConstants.DEBUGTAG, "newLat="+newLat+" newLng="+newLng);
+//				Log.v("MultitouchController","newLat * 1e6="+newLat*1e6+" newLng * 1e6="+newLng*1e6);
+//			}
+		} else {
+			if (this.mZoomLevel > targetZoom) { // currZoom > targetZoom
+				if (canZoomOut()) this.setZoomLevelMT(this.mZoomLevel - 1);
+				else return false; // zoom too low
+			}
+			if (this.mZoomLevel < targetZoom) { // currZoom < targetZoom
+				if (canZoomIn()) this.setZoomLevelMT(this.mZoomLevel + 1);
+				else return false; // zoom too high
+			}
+		}
+		invalidate();
+		return true;
+	}
 }
