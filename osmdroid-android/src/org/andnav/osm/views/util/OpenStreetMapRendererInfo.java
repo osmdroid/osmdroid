@@ -67,10 +67,10 @@ public enum OpenStreetMapRendererInfo {
 		final String baseurl = BASEURLS[random.nextInt()%BASEURLS.length];
 		switch (cs) {
 		case QUAD_TREE:
-			return String.format("%s%s%s", baseurl, quadTree(aTile), this.IMAGE_FILENAMEENDING);
+			return baseurl + quadTree(aTile) + IMAGE_FILENAMEENDING;
 		case X_Y:
 		default:
-			return String.format("%s%d/%d/%d%s", baseurl, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), this.IMAGE_FILENAMEENDING);
+			return baseurl + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY() + IMAGE_FILENAMEENDING;
 		}		
 	}
 	
