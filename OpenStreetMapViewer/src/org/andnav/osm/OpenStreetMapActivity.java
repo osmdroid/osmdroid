@@ -47,6 +47,7 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 	 * That means it automatically contributes to the OpenStreetMap Project in the background.
 	 * @param savedInstanceState
 	 */
+	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		onCreate(savedInstanceState, true);
 	}
@@ -140,6 +141,7 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 	 * @author plusminus
 	 */
 	private class SampleLocationListener implements LocationListener {
+		@Override
 		public void onLocationChanged(final Location loc) {
 			if (loc != null){
 				if(OpenStreetMapActivity.this.mDoGPSRecordingAndContributing)
@@ -151,11 +153,14 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 			}
 		}
 
+		@Override
 		public void onStatusChanged(String a, int i, Bundle b) {
 			OpenStreetMapActivity.this.mNumSatellites = b.getInt("satellites", NOT_SET); // TODO Check on an actual device
 		}
 		
+		@Override
 		public void onProviderEnabled(String a) { /* ignore  */ }
+		@Override
 		public void onProviderDisabled(String a) { /* ignore  */ }
 	}
 }

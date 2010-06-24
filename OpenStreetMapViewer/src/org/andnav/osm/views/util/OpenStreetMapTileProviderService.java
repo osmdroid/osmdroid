@@ -33,6 +33,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 		bindToService();
 	}
 
+	@Override
 	public void onServiceConnected(final ComponentName name, final IBinder service) {
 		Log.d(DEBUGTAG, "onServiceConnected(" + name + ")");
 
