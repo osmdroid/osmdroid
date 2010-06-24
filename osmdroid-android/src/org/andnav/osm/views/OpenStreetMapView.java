@@ -27,16 +27,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -94,7 +94,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private ResourceProxy mResourceProxy;
 
-	private final MultiTouchController<Object> mMultiTouchController;
+	private MultiTouchController<Object> mMultiTouchController;
 	private float mRelativeScale = 1.0f;
 
 	// ===========================================================
@@ -113,8 +113,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
-		// Create MultiTouch controller.
-		mMultiTouchController = new MultiTouchController<Object>(this, false);
 	}
 
 	/**
@@ -539,7 +537,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				return true;
 			}
 		
-		if (mMultiTouchController.onTouchEvent(event)) {
+		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 		    logger.debug("mMultiTouchController handled onTouchEvent");
 			return true;
 		}
@@ -691,6 +689,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public void setBuiltInZoomControls(boolean on) {
 		this.mEnableZoomController = on;
 		this.checkZoomButtons();
+	}
+
+	public void setMultiTouchControls(boolean on) {
+		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
 	// ===========================================================
