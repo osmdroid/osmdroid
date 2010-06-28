@@ -87,6 +87,13 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 		}
 	}
 
+	@Override
+	public String getCloudmadeKey() {
+		// FIXME implement - something like this:
+		// getPackageManager().getActivityInfo(className, flags)
+		return "key";
+	}
+
 	/**
 	 * The IRemoteInterface is defined through IDL
 	 */

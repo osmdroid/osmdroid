@@ -14,10 +14,12 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderDirect.class);
 	
 	private final OpenStreetMapTileFilesystemProvider mFileSystemProvider;
+	private final String mCloudmadeKey;
 
-	public OpenStreetMapTileProviderDirect(final Handler pDownloadFinishedListener) {
+	public OpenStreetMapTileProviderDirect(final Handler pDownloadFinishedListener, final String aCloudmadeKey) {
 		super(pDownloadFinishedListener);
 		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
+		mCloudmadeKey = aCloudmadeKey;
 	}
 
 	@Override
@@ -36,5 +38,10 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 			mFileSystemProvider.loadMapTileAsync(pTile);
 			return null;
 		}
+	}
+
+	@Override
+	public String getCloudmadeKey() {
+		return mCloudmadeKey;
 	}
 }

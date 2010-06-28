@@ -4,6 +4,8 @@ package org.andnav.osm.views.util;
 import java.util.Random;
 
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCloudmadeTokenCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 /**
@@ -12,37 +14,38 @@ import org.andnav.osm.tileprovider.OpenStreetMapTile;
  *
  */
 public enum OpenStreetMapRendererInfo {
-	OSMARENDER(ResourceProxy.string.osmarender, ".png", 0, 17, 8, CodeScheme.X_Y,"http://tah.openstreetmap.org/Tiles/tile/"),
-	MAPNIK(ResourceProxy.string.mapnik, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.openstreetmap.org/"),
+	OSMARENDER(ResourceProxy.string.osmarender, ".png", 0, 17, 8, CodeScheme.X_Y, "http://tah.openstreetmap.org/Tiles/tile/"),
+	MAPNIK(ResourceProxy.string.mapnik, ".png", 0, 18, 8, CodeScheme.X_Y, "http://tile.openstreetmap.org/"),
 	CYCLEMAP(ResourceProxy.string.cyclemap, ".png", 0, 17, 8, CodeScheme.X_Y,
 			"http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
 			"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
 			"http://c.andy.sandbox.cloudmade.com/tiles/cycle/"),
-	OPENARIELMAP(ResourceProxy.string.openareal_sat, ".jpg", 0, 13, 8, CodeScheme.X_Y,"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/"),
-	BASE(ResourceProxy.string.base, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/base/"),
-	TOPO(ResourceProxy.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y,"http://topo.openstreetmap.de/topo/"),
-	HILLS(ResourceProxy.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y,"http://topo.geofabrik.de/hills/"),
-	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/"),
-	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.X_Y,"http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/");
+	OPENARIELMAP(ResourceProxy.string.openareal_sat, ".jpg", 0, 13, 8, CodeScheme.X_Y, "http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/"),
+	BASE(ResourceProxy.string.base, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/base/"),
+	TOPO(ResourceProxy.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/topo/"),
+	HILLS(ResourceProxy.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y, "http://topo.geofabrik.de/hills/"),
+	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.CLOUDMADE, "http://tile.cloudmade.com/%s/2/64/%d/%d/%d%s?token=%s"),
+	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, "http://tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s");
 	
 	// ===========================================================
 	// Fields
 	// ===========================================================
 	
-	public enum CodeScheme { X_Y, QUAD_TREE };
+	public enum CodeScheme { X_Y, CLOUDMADE, QUAD_TREE };
 	
 	public final ResourceProxy.string NAME;
 	public final String BASEURLS[], IMAGE_FILENAMEENDING;
 	public final int ZOOM_MINLEVEL, ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;
 	public final CodeScheme CODE_SCHEME;
 	private final Random random;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	
 	private OpenStreetMapRendererInfo(final ResourceProxy.string aName,
 			final String aImageFilenameEnding, final int aZoomMin,
-			final int aZoomMax, final int aTileZoom, final CodeScheme aCodeScheme,final String ...aBaseUrl) {
+			final int aZoomMax, final int aTileZoom, final CodeScheme aCodeScheme, final String ...aBaseUrl) {
 		this.BASEURLS = aBaseUrl;
 		this.NAME = aName;
 		this.ZOOM_MINLEVEL = aZoomMin;
@@ -62,12 +65,19 @@ public enum OpenStreetMapRendererInfo {
 	// Methods
 	// ===========================================================
 	
-	public String getTileURLString(final OpenStreetMapTile aTile) {
+	public String getTileURLString(
+			final OpenStreetMapTile aTile, 
+			final IOpenStreetMapTileProviderCallback aCallback, 
+			final IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) {
 		final CodeScheme cs = this.CODE_SCHEME;
 		final String baseurl = BASEURLS[random.nextInt()%BASEURLS.length];
 		switch (cs) {
 		case QUAD_TREE:
 			return baseurl + quadTree(aTile) + IMAGE_FILENAMEENDING;
+		case CLOUDMADE:
+			final String key = aCallback.getCloudmadeKey();
+			final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
+			return String.format(baseurl, key, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), IMAGE_FILENAMEENDING, token);
 		case X_Y:
 		default:
 			return baseurl + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY() + IMAGE_FILENAMEENDING;

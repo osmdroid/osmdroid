@@ -29,16 +29,17 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 	 * @param pDownloadFinishedListener
 	 * @return
 	 */
-	public static OpenStreetMapTileProvider getInstance(final Context pContext,
-			final Handler pDownloadFinishedListener) {
+	public static OpenStreetMapTileProvider getInstance(final Context aContext,
+			final Handler aDownloadFinishedListener,
+			final String aCloudmadeKey) {
 		final Intent intent = new Intent(IOpenStreetMapTileProviderService.class.getName());
-		final ResolveInfo ri = pContext.getPackageManager().resolveService(intent, 0);
+		final ResolveInfo ri = aContext.getPackageManager().resolveService(intent, 0);
 		if (ri == null) {
 			Log.i(DEBUGTAG, "Service not found - using direct tile provider");
-			return new OpenStreetMapTileProviderDirect(pDownloadFinishedListener);
+			return new OpenStreetMapTileProviderDirect(aDownloadFinishedListener, aCloudmadeKey);
 		} else {
 			Log.i(DEBUGTAG, "Using tile provider service");
-			return new OpenStreetMapTileProviderService(pContext, pDownloadFinishedListener);
+			return new OpenStreetMapTileProviderService(aContext, aDownloadFinishedListener);
 			// XXX Perhaps we should pass the Intent or the class name (action) into
 			//     this constructor since we do the same again in there.
 			//     That will also give the option of specifying something else.

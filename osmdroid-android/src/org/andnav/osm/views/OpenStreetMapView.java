@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.tileprovider.util.CloudmadeUtil;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
@@ -109,7 +110,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider, mResourceProxy);
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -654,6 +655,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	// NB: this method will be called even if we don't use Cloudmade
+	//     because we only have the context in the constructor 
+	private String getCloudmadeKey(final Context aContext) {
+		return CloudmadeUtil.getCloudmadeKey(aContext);
+	}
 
 	private void checkZoomButtons() {
 		this.mZoomController.setZoomInEnabled(canZoomIn());

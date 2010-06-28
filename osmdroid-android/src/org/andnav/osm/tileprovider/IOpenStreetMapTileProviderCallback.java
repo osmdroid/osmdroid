@@ -9,4 +9,10 @@ public interface IOpenStreetMapTileProviderCallback {
 	 */
 	void mapTileRequestCompleted(OpenStreetMapTile pTile, String aTilePath);
 
+	/**
+	 * Get the API key for Cloudmade tiles.
+	 * See http://developers.cloudmade.com/projects/show/auth
+	 * @return
+	 */
+	String getCloudmadeKey();
 }

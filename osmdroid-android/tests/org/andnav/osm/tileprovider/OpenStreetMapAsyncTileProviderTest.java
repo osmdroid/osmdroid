@@ -19,6 +19,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			@Override
 			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 			}
+			@Override
+			public String getCloudmadeKey() {
+				return "key";
+			}
 		};
 		
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(tileProviderCallback, 1, 10) {
@@ -60,6 +64,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			@Override
 			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 				tiles.add(pTile);
+			}
+			@Override
+			public String getCloudmadeKey() {
+				return "key";
 			}
 		};
 		
@@ -118,6 +126,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			@Override
 			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 				tiles.add(pTile);
+			}
+			@Override
+			public String getCloudmadeKey() {
+				return "key";
 			}
 		};
 		

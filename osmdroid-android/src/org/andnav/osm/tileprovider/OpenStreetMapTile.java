@@ -1,5 +1,6 @@
 package org.andnav.osm.tileprovider;
 
+
 public class OpenStreetMapTile {
 	
 	public static final int MAPTILE_SUCCESS_ID = 0;
@@ -39,12 +40,12 @@ public class OpenStreetMapTile {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (o instanceof OpenStreetMapTile) {
-			OpenStreetMapTile t = (OpenStreetMapTile) o;
-			return zoomLevel == t.zoomLevel && x == t.x && y == t.y && rendererId == t.rendererId;
-		}
-		return false;
+	public boolean equals(Object obj) {
+		if (obj == null) return false;
+		if (obj == this) return true;
+		if (obj.getClass() != getClass()) return false;
+		final OpenStreetMapTile rhs = (OpenStreetMapTile)obj;
+		return zoomLevel == rhs.zoomLevel && x == rhs.x && y == rhs.y && rendererId == rhs.rendererId;
 	}
 	
 	@Override

@@ -37,20 +37,22 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 			final OpenStreetMapView aOsmv,
 			final OpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
-			final Context aContext) {
-		this(aOsmv, aRendererInfo, aTileProvider, new DefaultResourceProxyImpl(aContext));
+			final Context aContext,
+			final String aCloudmadeKey) {
+		this(aOsmv, aRendererInfo, aTileProvider, aCloudmadeKey, new DefaultResourceProxyImpl(aContext));
 	}
 	
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
 			final OpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
+			final String aCloudmadeKey,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
 		if(aTileProvider == null)
-			mTileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler());
+			mTileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler(), aCloudmadeKey);
 		else
 			this.mTileProvider = aTileProvider;
 	}
@@ -89,7 +91,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
 		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
-		final int rendererId = this.mRendererInfo.ordinal();	// TODO get from service
+		final int rendererId = this.mRendererInfo.ordinal();
 		
 		/*
 		 * Calculate the amount of tiles needed for each side around the center 

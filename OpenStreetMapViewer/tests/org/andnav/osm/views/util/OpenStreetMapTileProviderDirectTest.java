@@ -7,11 +7,11 @@ import java.nio.ByteBuffer;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
@@ -27,7 +27,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		mProvider = new OpenStreetMapTileProviderDirect(new Handler());
+		mProvider = new OpenStreetMapTileProviderDirect(new Handler(), "key");
 		
 		super.setUp();
 	}

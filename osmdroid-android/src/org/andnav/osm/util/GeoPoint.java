@@ -95,10 +95,11 @@ public class GeoPoint implements MathConstants, GeoConstants{
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(!(obj instanceof GeoPoint))
-			return false;
-		GeoPoint g = (GeoPoint)obj;
-		return g.mLatitudeE6 == this.mLatitudeE6 && g.mLongitudeE6 == this.mLongitudeE6;
+		if (obj == null) return false;
+		if (obj == this) return true;
+		if (obj.getClass() != getClass()) return false;
+		final GeoPoint rhs = (GeoPoint)obj;
+		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6;
 	}
 
 	// ===========================================================

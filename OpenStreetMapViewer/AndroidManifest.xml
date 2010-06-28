@@ -15,6 +15,9 @@
 		android:name="android.test.InstrumentationTestRunner" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
+	
+        <meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
+
 		<uses-library android:name="android.test.runner" />
 		<activity android:name="OpenStreetMap" android:icon="@drawable/icon"
 			android:label="Open Map">

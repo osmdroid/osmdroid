@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import org.andnav.osm.tileprovider.util.CloudmadeUtil;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * @author Manuel Stahl
  *
  */
-public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider {
+public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider implements IOpenStreetMapTileProviderCloudmadeTokenCallback {
 	
 	// ===========================================================
 	// Constants
@@ -36,6 +37,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private final OpenStreetMapTileFilesystemProvider mMapTileFSProvider;
+	private String mCloudmadeToken;
 
 	// ===========================================================
 	// Constructors
@@ -69,8 +71,8 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private String buildURL(final OpenStreetMapTile tile) {
-		OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
-		return renderer.getTileURLString(tile);
+		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
+		return renderer.getTileURLString(tile, mCallback, this);
 	}
 
 	// ===========================================================
@@ -134,6 +136,16 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			 */
 			tileLoaded(aTile, null, true);
 		}
+	}
+
+	@Override
+	public synchronized String getCloudmadeToken(final String aKey) {
+
+		if (mCloudmadeToken == null) {
+			mCloudmadeToken = CloudmadeUtil.getCloudmadeToken(aKey);
+		}
+
+		return mCloudmadeToken;
 	};
 
 }
