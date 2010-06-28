@@ -657,7 +657,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	// NB: this method will be called even if we don't use Cloudmade
-	//     because we only have the context in the constructor 
+	//     because we only have the context in the constructor
+	//     the alternative would be to only get it when needed, 
+	//     but that would mean keeping a handle on the context
 	private String getCloudmadeKey(final Context aContext) {
 		return CloudmadeUtil.getCloudmadeKey(aContext);
 	}

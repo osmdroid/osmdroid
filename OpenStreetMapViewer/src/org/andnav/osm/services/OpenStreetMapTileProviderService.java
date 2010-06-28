@@ -4,6 +4,7 @@ import org.andnav.osm.services.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
+import org.andnav.osm.tileprovider.util.CloudmadeUtil;
 
 import android.app.Service;
 import android.content.Intent;
@@ -89,9 +90,7 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 
 	@Override
 	public String getCloudmadeKey() {
-		// FIXME implement - something like this:
-		// getPackageManager().getActivityInfo(className, flags)
-		return "key";
+		return CloudmadeUtil.getCloudmadeKey(this);
 	}
 
 	/**
