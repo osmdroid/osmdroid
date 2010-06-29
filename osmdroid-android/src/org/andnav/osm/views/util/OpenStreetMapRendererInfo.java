@@ -24,8 +24,14 @@ public enum OpenStreetMapRendererInfo {
 	BASE(ResourceProxy.string.base, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/base/"),
 	TOPO(ResourceProxy.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/topo/"),
 	HILLS(ResourceProxy.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y, "http://topo.geofabrik.de/hills/"),
-	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.CLOUDMADE, "http://tile.cloudmade.com/%s/2/64/%d/%d/%d%s?token=%s"),
-	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, "http://tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s");
+	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.CLOUDMADE, 
+			"http://a.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s", 
+			"http://b.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s", 
+			"http://c.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s"),
+	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, 
+			"http://a.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s", 
+			"http://b.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s",
+			"http://c.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s");
 	
 	// ===========================================================
 	// Fields
