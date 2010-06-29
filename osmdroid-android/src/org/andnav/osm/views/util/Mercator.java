@@ -8,6 +8,7 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator 
+ * http://developers.cloudmade.com/projects/tiles/examples/convert-coordinates-to-tile-numbers
  * @author Nicolas Gramlich
  *
  */
