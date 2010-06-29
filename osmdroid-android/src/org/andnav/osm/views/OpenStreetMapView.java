@@ -71,7 +71,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private int mBaseZoomLevel = mZoomLevel;
 	
 	/** The zoom level to set in view when the zoom animation has finished */
-	private int mTargetZoomLevel;
+	private int mTargetZoomLevel = mZoomLevel;
 
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
@@ -102,7 +102,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// Constructors
 	// ===========================================================
 
-	private OpenStreetMapView(final Context context, AttributeSet attrs,
+	private OpenStreetMapView(
+			final Context context, 
+			final AttributeSet attrs,
 			final OpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider) {
 		super(context, attrs);
@@ -110,7 +112,18 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, aRendererInfo, aTileProvider, getCloudmadeKey(context), mResourceProxy);
+		
+		OpenStreetMapRendererInfo rendererInfo = DEFAULTRENDERER;
+		final String renderer = attrs.getAttributeValue(null, "renderer");
+		if (renderer != null) {
+			try {
+				rendererInfo = OpenStreetMapRendererInfo.valueOf(renderer);
+			} catch(final IllegalArgumentException e) {
+				logger.warn("Invalid renderer: " + renderer);
+			}
+		}
+		
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, rendererInfo, aTileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -119,7 +132,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	/**
 	 * Constructor used by XML layout resource (uses default renderer).
 	 */
-	public OpenStreetMapView(Context context, AttributeSet attrs) {
+	public OpenStreetMapView(Context context, AttributeSet attrs) {		
 		this(context, attrs, DEFAULTRENDERER, null);
 	}
 
@@ -140,7 +153,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * @param context
 	 */
 	public OpenStreetMapView(final Context context) {
-		this(context, null, DEFAULTRENDERER, null);
+		this(context, null, null, null);
 	}
 
 	/**
