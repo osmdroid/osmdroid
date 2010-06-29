@@ -105,25 +105,29 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private OpenStreetMapView(
 			final Context context, 
 			final AttributeSet attrs,
-			final OpenStreetMapRendererInfo aRendererInfo,
-			final OpenStreetMapTileProvider aTileProvider) {
+			OpenStreetMapRendererInfo rendererInfo,
+			final OpenStreetMapTileProvider tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());
-		
-		OpenStreetMapRendererInfo rendererInfo = DEFAULTRENDERER;
-		final String renderer = attrs.getAttributeValue(null, "renderer");
-		if (renderer != null) {
-			try {
-				rendererInfo = OpenStreetMapRendererInfo.valueOf(renderer);
-			} catch(final IllegalArgumentException e) {
-				logger.warn("Invalid renderer: " + renderer);
+
+		if (rendererInfo == null) {
+			final String renderer = attrs.getAttributeValue(null, "renderer");
+			if (renderer != null) {
+				try {
+					rendererInfo = OpenStreetMapRendererInfo.valueOf(renderer);
+				} catch(final IllegalArgumentException e) {
+					logger.warn("Invalid renderer: " + renderer);
+					rendererInfo = DEFAULTRENDERER;
+				}
+			} else {
+				rendererInfo = DEFAULTRENDERER;
 			}
 		}
 		
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, rendererInfo, aTileProvider, getCloudmadeKey(context), mResourceProxy);
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, rendererInfo, tileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
