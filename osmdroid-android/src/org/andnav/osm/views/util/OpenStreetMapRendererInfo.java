@@ -81,6 +81,7 @@ public enum OpenStreetMapRendererInfo {
 		case QUAD_TREE:
 			return baseurl + quadTree(aTile) + IMAGE_FILENAMEENDING;
 		case CLOUDMADE:
+			// TODO we really need some error (null) handling here
 			final String key = aCallback.getCloudmadeKey();
 			final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
 			return String.format(baseurl, key, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), IMAGE_FILENAMEENDING, token);
