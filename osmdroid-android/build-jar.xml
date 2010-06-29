@@ -6,8 +6,9 @@
 		So just run
 			ant build jar
 	-->
+	<property name="version.num" value="1.01" />
+
 	<target name="jar">
-		<property name="version.num" value="1.00" />
 		<tstamp>
 			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
@@ -16,30 +17,30 @@
 			<attribute name="Built-Date" value="${TODAY}" />
 		</manifest>
 		<copy todir="bin/org/andnav/osm">
-		    <fileset dir="assets" />
+			<fileset dir="assets" />
 		</copy>
 		<jar destfile="osmdroid-android-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
-				 <include name="**/*.class" /> 
-				 <include name="**/*.png" /> 
+				 <include name="**/*.class" />
+				 <include name="**/*.png" />
 				 <exclude name="**/*Test.class" />
-		    </fileset>
+			</fileset>
 		</jar>
 		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
 
 	<target name="javadoc">
 		<javadoc destdir="docs/api"
-		         use="true"
-		         windowtitle="osmdroid API">
-		    <packageset dir="src" defaultexcludes="yes" />
-            <classpath refid="osmdroid-android.classpath" />
+				 use="true"
+				 windowtitle="osmdroid API">
+			<packageset dir="src" defaultexcludes="yes" />
+			<classpath refid="osmdroid-android.classpath" />
 			<link href="http://developer.android.com/reference/" />
 		</javadoc>
-		<zip destfile="osmdroid-android-docs.zip" 
-  		     basedir="docs/api" 
-			 includes="**" 
-		     />
+		<zip destfile="osmdroid-android-docs-${version.num}.zip"
+			 basedir="docs/api"
+			 includes="**"
+			 />
 	</target>
 
 </project>
