@@ -332,6 +332,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	int setZoomLevel(final int aZoomLevel) {
 		int z = setZoomLevelMT(aZoomLevel);
 		resetMTZoom();
+		mTargetZoomLevel = z;
 		return z;
 	}
 	
@@ -386,7 +387,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *         depending on the Renderer chosen.
 	 */
 	public int getZoomLevel() {
-		return this.mZoomLevel;
+		// return the current zoom level, even if we're still animating towards it
+		return mTargetZoomLevel;
 	}
 
 	/*
