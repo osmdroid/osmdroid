@@ -76,7 +76,7 @@ public enum OpenStreetMapRendererInfo {
 			final IOpenStreetMapTileProviderCallback aCallback, 
 			final IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) {
 		final CodeScheme cs = this.CODE_SCHEME;
-		final String baseurl = BASEURLS[random.nextInt()%BASEURLS.length];
+		final String baseurl = BASEURLS[random.nextInt(BASEURLS.length)];
 		switch (cs) {
 		case QUAD_TREE:
 			return baseurl + quadTree(aTile) + IMAGE_FILENAMEENDING;
