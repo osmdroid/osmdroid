@@ -105,39 +105,45 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private OpenStreetMapView(
 			final Context context, 
 			final AttributeSet attrs,
-			OpenStreetMapRendererInfo rendererInfo,
+			final OpenStreetMapRendererInfo rendererInfo,
 			final OpenStreetMapTileProvider tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
 		this.mScaler = new Scaler(context, new LinearInterpolator());
-
-		if (rendererInfo == null) {
-			final String renderer = attrs.getAttributeValue(null, "renderer");
-			if (renderer != null) {
-				try {
-					rendererInfo = OpenStreetMapRendererInfo.valueOf(renderer);
-				} catch(final IllegalArgumentException e) {
-					logger.warn("Invalid renderer: " + renderer);
-					rendererInfo = DEFAULTRENDERER;
-				}
-			} else {
-				rendererInfo = DEFAULTRENDERER;
-			}
-		}
-		
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, rendererInfo, tileProvider, getCloudmadeKey(context), mResourceProxy);
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, getRendererInfo(rendererInfo, attrs), tileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
 	}
 
+	private OpenStreetMapRendererInfo getRendererInfo(final OpenStreetMapRendererInfo rendererInfo, final AttributeSet attrs) {
+		if (rendererInfo != null) {
+			logger.info("Using renderer specified in constructor: " + rendererInfo);
+			return rendererInfo;
+		}
+
+		final String renderer = attrs.getAttributeValue(null, "renderer");
+		if (renderer != null) {
+			try {
+				final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(renderer);
+				logger.info("Using renderer specified in layout attributes: " + r);
+				return r;
+			} catch (final IllegalArgumentException e) {
+				logger.warn("Invalid renderer specified in layout attributes: " + renderer);
+			}
+		}
+
+		logger.info("Using default renderer : " + DEFAULTRENDERER);
+		return DEFAULTRENDERER;
+	}
+	
 	/**
 	 * Constructor used by XML layout resource (uses default renderer).
 	 */
 	public OpenStreetMapView(Context context, AttributeSet attrs) {		
-		this(context, attrs, DEFAULTRENDERER, null);
+		this(context, attrs, null, null);
 	}
 
 	/**
@@ -184,9 +190,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	/**
 	 * This MapView takes control of the {@link OpenStreetMapView} passed as
 	 * parameter.<br />
-	 * I.e. it zoomes it to x levels less than itself and centers it the same
+	 * I.e. it zooms it to x levels less than itself and centers it the same
 	 * coords.<br />
-	 * Its pretty usefull when the MiniMap uses the same TileProvider.
+	 * Its pretty useful when the MiniMap uses the same TileProvider.
 	 *
 	 * @see OpenStreetMapView.OpenStreetMapView(
 	 * @param aOsmvMinimap
