@@ -26,6 +26,7 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 		case hills : return mContext.getString(R.string.hills);
 		case cloudmade_small : return mContext.getString(R.string.cloudmade_small);
 		case cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
+		case cloudmade_alternative : return mContext.getString(R.string.cloudmade_alternative);
 		case unknown : return mContext.getString(R.string.unknown);
 		default : return super.getString(pResId);
 		}

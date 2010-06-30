@@ -44,6 +44,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		case hills : return "Hills";
 		case cloudmade_small : return "Cloudmade (small tiles)";
 		case cloudmade_standard : return "Cloudmade (Standard tiles)";
+		case cloudmade_alternative : return "Cloudmade (Alternative tiles)";
 		case unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}

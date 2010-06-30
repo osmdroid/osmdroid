@@ -17,6 +17,7 @@ public interface ResourceProxy {
 		hills,
 		cloudmade_small,
 		cloudmade_standard,
+		cloudmade_alternative,
 		
 		// other stuff
 		unknown,

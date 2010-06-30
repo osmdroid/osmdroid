@@ -31,7 +31,11 @@ public enum OpenStreetMapRendererInfo {
 	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, 
 			"http://a.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s", 
 			"http://b.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s",
-			"http://c.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s");
+			"http://c.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s"),
+	CLOUDMADEALTERNATIVETILES(ResourceProxy.string.cloudmade_alternative, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, 
+			"http://a.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s", 
+			"http://b.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s",
+			"http://c.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s");
 	
 	// ===========================================================
 	// Fields

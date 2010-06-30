@@ -9,4 +9,5 @@
 	<string name="hills">Hills</string>
 	<string name="cloudmade_small">Cloudmade (small tiles)</string>
 	<string name="cloudmade_standard">Cloudmade (Standard tiles)</string>
+	<string name="cloudmade_alternative">Cloudmade (Alternative tiles)</string>
 </resources>
