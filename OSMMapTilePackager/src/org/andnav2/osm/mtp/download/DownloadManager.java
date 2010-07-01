@@ -132,7 +132,7 @@ public class DownloadManager {
 				
 				out.flush();
 			} catch (Exception e) {
-				System.err.println("Error (" + e.getClass().getSimpleName() + ") downloading: '" + this.mTileInfo + "' from URL: " + finalURL );
+				System.err.println("Error downloading: '" + this.mTileInfo + "' from URL: " + finalURL + " : " + e);
 				DownloadManager.this.add(this.mTileInfo);
 			} finally {
 				StreamUtils.closeStream(in);
