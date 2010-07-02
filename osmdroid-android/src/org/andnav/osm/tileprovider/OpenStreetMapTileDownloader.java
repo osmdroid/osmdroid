@@ -70,7 +70,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// Methods
 	// ===========================================================
 
-	private String buildURL(final OpenStreetMapTile tile) {
+	private String buildURL(final OpenStreetMapTile tile) throws CloudmadeException {
 		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
 		return renderer.getTileURLString(tile, mCallback, this);
 	}
@@ -88,9 +88,10 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			OutputStream out = null;
 
 			final File outputFile = mMapTileFSProvider.getOutputFile(aTile);
-			final String tileURLString = buildURL(aTile);
 			
 			try {
+				final String tileURLString = buildURL(aTile);
+
 				if(DEBUGMODE)
 					logger.debug("Downloading Maptile from url: " + tileURLString);
 
@@ -114,11 +115,13 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
 				logger.warn("UnknownHostException downloading MapTile: " + aTile + " : " + e);
-				throw new CantContinueException();
+				throw new CantContinueException(e);
 			} catch(final FileNotFoundException e){
 				logger.warn("Tile not found: " + aTile+ " : " + e);
 			} catch (final IOException e) {
 				logger.warn("IOException downloading MapTile: " + aTile + " : " + e);
+			} catch (final CloudmadeException e) {
+				logger.warn("CloudmadeException downloading MapTile: " + aTile + " : " + e);
 			} catch(final Throwable e) {
 				logger.error("Error downloading MapTile: " + aTile, e);
 			} finally {
@@ -139,7 +142,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	}
 
 	@Override
-	public synchronized String getCloudmadeToken(final String aKey) {
+	public synchronized String getCloudmadeToken(final String aKey) throws CloudmadeException {
 
 		if (mCloudmadeToken == null) {
 			mCloudmadeToken = CloudmadeUtil.getCloudmadeToken(aKey);

@@ -4,6 +4,7 @@ package org.andnav.osm.views.util;
 import java.util.Random;
 
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCloudmadeTokenCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
@@ -74,18 +75,25 @@ public enum OpenStreetMapRendererInfo {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
+	/**
+	 * Get the URL string for the tile
+	 * @param aTile
+	 * @param aCallback
+	 * @param aCloudmadeTokenCallback
+	 * @return
+	 * @throws CloudmadeException in the case of Cloudmade keys if there's an error authorizing 
+	 */
 	public String getTileURLString(
 			final OpenStreetMapTile aTile, 
 			final IOpenStreetMapTileProviderCallback aCallback, 
-			final IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) {
+			final IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException {
 		final CodeScheme cs = this.CODE_SCHEME;
 		final String baseurl = BASEURLS[random.nextInt(BASEURLS.length)];
 		switch (cs) {
 		case QUAD_TREE:
 			return baseurl + quadTree(aTile) + IMAGE_FILENAMEENDING;
 		case CLOUDMADE:
-			// TODO we really need some error (null) handling here
 			final String key = aCallback.getCloudmadeKey();
 			final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
 			return String.format(baseurl, key, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), IMAGE_FILENAMEENDING, token);

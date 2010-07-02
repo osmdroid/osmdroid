@@ -89,6 +89,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		 * Load the requested tile.
 		 * @param aTile the tile to load
 		 * @throws CantContinueException if it is not possible to continue with processing the queue
+		 * @throws CloudmadeException if there's an error authorizing for Cloudmade tiles
 		 */
 		protected abstract void loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
@@ -151,7 +152,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 				try {
 					loadTile(tile);
 				} catch (final CantContinueException e) {
-					logger.info("Tile loader can't continue");
+					logger.info("Tile loader can't continue", e);
 					clearQueue();
 				} catch (final Throwable e) {
 					logger.error("Error downloading tile: " + tile, e);
@@ -162,7 +163,15 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		}
 	}
 	
-	protected class CantContinueException extends Exception {
+	class CantContinueException extends Exception {
 		private static final long serialVersionUID = 146526524087765133L;
+
+		public CantContinueException(final String aDetailMessage) {
+			super(aDetailMessage);
+		}
+
+		public CantContinueException(final Throwable aThrowable) {
+			super(aThrowable);
+		}
 	}
 }

@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.andnav.osm.tileprovider.CloudmadeException;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -66,27 +66,27 @@ public class CloudmadeUtil {
 	 * Get the token from the Cloudmade server.
 	 * @param aKey the cloudmade key
 	 * @return the token returned from the server, or null if not found
+	 * @throws CloudmadeException 
 	 */
-	// XXX perhaps we should throw these errors rather than returning null
-	// XXX perhaps we should get userid differently
-	public static String getCloudmadeToken(final String aKey) {
+	public static String getCloudmadeToken(final String aKey) throws CloudmadeException {
 		final String url = "http://auth.cloudmade.com/token/" + aKey + "?userid=" + Settings.Secure.ANDROID_ID;
-		final HttpClient httpClient = new DefaultHttpClient();  
-		final HttpPost httpPost = new HttpPost(url);  
-	    try {  
-	        final HttpResponse response = httpClient.execute(httpPost);  
-	        logger.info("Response from Cloudmade auth: " + response.getStatusLine());
-	        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-	        	final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-	        	final String line = br.readLine();
-		        logger.info("First line from Cloudmade auth: " + line);
-	        	return line.trim();
-	        }
-	    } catch (final ClientProtocolException e) {  
-	        logger.error("Error authorizing with Cloudmade", e);
-	    } catch (final IOException e) {  
-	        logger.error("Error authorizing with Cloudmade", e);
-	    }  		
-	    return null;
+		final HttpClient httpClient = new DefaultHttpClient();
+		final HttpPost httpPost = new HttpPost(url);
+		try {
+			final HttpResponse response = httpClient.execute(httpPost);
+			logger.info("Response from Cloudmade auth: " + response.getStatusLine());
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+				final String line = br.readLine();
+				logger.info("First line from Cloudmade auth: " + line);
+				final String token = line.trim();
+				if (token.length() == 0) {
+					throw new CloudmadeException("No authorization token received from Cloudmade");
+				}
+			}
+		} catch (final IOException e) {
+			throw new CloudmadeException("No authorization token received from Cloudmade", e);
+		}
+		throw new CloudmadeException("No authorization token received from Cloudmade");
 	};
 }

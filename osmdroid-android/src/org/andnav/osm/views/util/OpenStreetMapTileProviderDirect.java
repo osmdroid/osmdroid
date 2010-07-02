@@ -1,5 +1,6 @@
 package org.andnav.osm.views.util;
 
+import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
@@ -41,7 +42,10 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 	}
 
 	@Override
-	public String getCloudmadeKey() {
+	public String getCloudmadeKey() throws CloudmadeException {
+		if (mCloudmadeKey == null || mCloudmadeKey.length() == 0) {
+			throw new CloudmadeException("Error getting Cloudmade key");
+		}
 		return mCloudmadeKey;
 	}
 }

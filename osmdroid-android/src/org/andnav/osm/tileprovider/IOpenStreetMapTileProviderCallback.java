@@ -12,7 +12,8 @@ public interface IOpenStreetMapTileProviderCallback {
 	/**
 	 * Get the API key for Cloudmade tiles.
 	 * See http://developers.cloudmade.com/projects/show/auth
+	 * @throws CloudmadeException if the key is not found
 	 * @return
 	 */
-	String getCloudmadeKey();
+	String getCloudmadeKey() throws CloudmadeException;
 }
