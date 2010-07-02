@@ -385,6 +385,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 
 		this.mZoomLevel = newZoomLevel;
+		this.mTargetZoomLevel = newZoomLevel;
 		this.checkZoomButtons();
 
 		if(newZoomLevel > curZoomLevel)
