@@ -36,24 +36,14 @@ public class CloudmadeUtil {
 	 */
 	public static String getCloudmadeKey(final Context aContext) {
 
-		final ApplicationInfo info = aContext.getApplicationInfo();
-
-		if (info.metaData != null) {
-			final String key = info.metaData.getString(CLOUDMADE_KEY);
-			if (key != null && key.trim().length() > 0) {
-				logger.info("Cloudmade key from info: " + key);
-				return key;
-			}
-		}
-
 		final PackageManager pm = aContext.getPackageManager();
 		try {
-			final ApplicationInfo info2 = pm.getApplicationInfo(info.packageName, PackageManager.GET_META_DATA);
-			if (info2.metaData != null) {
-				final String key = info2.metaData.getString(CLOUDMADE_KEY);
+			final ApplicationInfo info = pm.getApplicationInfo(aContext.getPackageName(), PackageManager.GET_META_DATA);
+			if (info.metaData != null) {
+				final String key = info.metaData.getString(CLOUDMADE_KEY);
 				if (key != null && key.trim().length() > 0) {
-					logger.info("Cloudmade key from package manager: " + key);
-					return key;
+					logger.info("Cloudmade key: " + key);
+					return key.trim();
 				}
 			}
 		} catch (final NameNotFoundException e) {}
