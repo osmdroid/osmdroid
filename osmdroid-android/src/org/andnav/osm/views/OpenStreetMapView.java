@@ -4,6 +4,9 @@ package org.andnav.osm.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.wigle.wigleandroid.ZoomButtonsController;
+import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
+
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
@@ -42,8 +45,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Scroller;
-import android.widget.ZoomButtonsController;
-import android.widget.ZoomButtonsController.OnZoomListener;
 
 public class OpenStreetMapView extends View implements OpenStreetMapViewConstants, MultiTouchObjectCanvas<Object> {
 
