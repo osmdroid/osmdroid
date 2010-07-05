@@ -69,7 +69,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	/** Current zoom level for map tiles */
 	private int mZoomLevel = 0;
-	private int mBaseZoomLevel = mZoomLevel;
 	
 	/** The zoom level to set in view when the zoom animation has finished */
 	private int mTargetZoomLevel = mZoomLevel;
@@ -91,13 +90,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private int mMiniMapOverriddenVisibility = NOT_SET;
 	private int mMiniMapZoomDiff = NOT_SET;
 
+	// XXX we can use android.widget.ZoomButtonsController if we upgrade the dependency to Android 1.6
 	private ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
 	private ResourceProxy mResourceProxy;
 
 	private MultiTouchController<Object> mMultiTouchController;
-	private float mRelativeScale = 1.0f;
+	private float mMultiTouchScale = 1.0f;
 
 	// ===========================================================
 	// Constructors
@@ -354,18 +354,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *            Renderer chosen.
 	 */
 	int setZoomLevel(final int aZoomLevel) {
-		int z = setZoomLevelMT(aZoomLevel);
-		resetMTZoom();
-		mTargetZoomLevel = z;
-		return z;
-	}
-	
-	private void resetMTZoom() {
-		mRelativeScale = 1.0f; // reset MT scale
-		this.mBaseZoomLevel = this.mZoomLevel + 1; // reset MT base zoom		
-	}
-
-	private int setZoomLevelMT(final int aZoomLevel) {
 		final int minZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MINLEVEL;
 		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
@@ -624,13 +612,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		mProjection = new OpenStreetMapViewProjection();
 
-		c.translate(getWidth()/2, getHeight()/2);
+		final Matrix m = c.getMatrix();
 		if (!mScaler.isFinished()) {
-			Matrix m = c.getMatrix();
 			m.preScale(mScaler.mCurrScale, mScaler.mCurrScale, getScrollX(), getScrollY());
-			c.setMatrix(m);
 		}
-
+		if (mMultiTouchScale != 1.0f) {
+			m.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
+		}
+		m.postTranslate(getWidth() / 2, getHeight() / 2);
+		c.setMatrix(m);
+		
 		/* Draw background */
 		c.drawColor(Color.LTGRAY);
 //		This is to slow:
@@ -1200,46 +1191,27 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	@Override
 	public void getPositionAndScale(final Object obj, final PositionAndScale objPosAndScaleOut) {
-		objPosAndScaleOut.set(0, 0, true, mRelativeScale, false, 0, 0, false, 0);
+		objPosAndScaleOut.set(0, 0, true, mMultiTouchScale, false, 0, 0, false, 0);
 	}
 
 	@Override
 	public void selectObject(final Object obj, final PointInfo pt) {
+		// if obj is null it means we released the pointers
+		// if scale is not 1 it means we pinched
+		if (obj == null && mMultiTouchScale != 1.0f) {
+			float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
+			int scaleDiffInt = (int) Math.round(scaleDiffFloat);
+			setZoomLevel(mZoomLevel + scaleDiffInt);
+		}
+		
+		// reset scale
+		mMultiTouchScale = 1.0f;
 	}
 
 	@Override
 	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale, final PointInfo aTouchPoint) {
-		
-		// Get new relative scale
-		float newRelativeScale = aNewObjPosAndScale.getScale();
-
-		// Update map scale
-		float scaleDiff = (float) (Math.log(newRelativeScale) * ZOOM_LOG_BASE_INV);
-		int targetZoom = this.mBaseZoomLevel - 1 + (int) Math.round(scaleDiff);
-		if (targetZoom > this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL) {
-			newRelativeScale = mRelativeScale;
-		}
-		if (targetZoom < 0) {
-			newRelativeScale = mRelativeScale;
-		}
-		
-		// Update relative scale
-		mRelativeScale = newRelativeScale;
-
-		// Move and zoom map
-		if (this.mZoomLevel > targetZoom) { // currZoom > targetZoom
-			if (canZoomOut())
-				this.setZoomLevelMT(this.mZoomLevel - 1);
-			else
-				return false; // zoom too low
-		}
-		if (this.mZoomLevel < targetZoom) { // currZoom < targetZoom
-			if (canZoomIn())
-				this.setZoomLevelMT(this.mZoomLevel + 1);
-			else
-				return false; // zoom too high
-		}
-		invalidate();
+		mMultiTouchScale = aNewObjPosAndScale.getScale();
+		invalidate(); // redraw
 		return true;
 	}
 }
