@@ -41,9 +41,9 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
 public class OpenStreetMapView extends View implements OpenStreetMapViewConstants, MultiTouchObjectCanvas<Object> {
@@ -67,12 +67,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// Fields
 	// ===========================================================
 
-	/** Current zoom level for map tiles */
+	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 	
-	/** The zoom level to set in view when the zoom animation has finished */
-	private int mTargetZoomLevel = mZoomLevel; // TODO I think this is still a bit buggy
-
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
 	private final Paint mPaint = new Paint();
@@ -85,7 +82,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	
 	/** Handles map scrolling */
 	private final Scroller mScroller;							
-	private final Scaler mScaler;
+
+	private final ScaleAnimation mZoomInAnimation;
+	private final ScaleAnimation mZoomOutAnimation;
+	private final MyAnimationListener mAnimationListener = new MyAnimationListener();
+
 	private OpenStreetMapViewController mController;
 	private int mMiniMapOverriddenVisibility = NOT_SET;
 	private int mMiniMapZoomDiff = NOT_SET;
@@ -112,11 +113,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
-		this.mScaler = new Scaler(context, new LinearInterpolator());
 		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, getRendererInfo(rendererInfo, attrs), tileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
+
+		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomInAnimation.setAnimationListener(mAnimationListener);
+		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 	}
 
 	private OpenStreetMapRendererInfo getRendererInfo(final OpenStreetMapRendererInfo rendererInfo, final AttributeSet attrs) {
@@ -374,7 +381,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 
 		this.mZoomLevel = newZoomLevel;
-		this.mTargetZoomLevel = newZoomLevel;
 		this.checkZoomButtons();
 
 		if(newZoomLevel > curZoomLevel)
@@ -400,8 +406,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *         depending on the Renderer chosen.
 	 */
 	public int getZoomLevel() {
-		// return the current zoom level, even if we're still animating towards it
-		return mTargetZoomLevel;
+		return mZoomLevel;
 	}
 
 	/*
@@ -413,12 +418,24 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 	
 	public boolean canZoomIn() {
-		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
-		return mZoomLevel < maxZoomLevel;
+		final int maxZoomLevel = getMaxZoomLevel();
+		if (mZoomLevel >= maxZoomLevel) {
+			return false;
+		}
+		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel >= maxZoomLevel) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean canZoomOut() {
-		return mZoomLevel > 0;
+		if (mZoomLevel <= 0) {
+			return false;
+		}
+		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel <= 0) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -427,15 +444,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	boolean zoomIn() {
 
 		if (canZoomIn()) {
-			if (mScaler.isFinished()) {
-				mTargetZoomLevel = mZoomLevel + 1;
-				mScaler.startScale(1.0f, 2.0f, ANIMATION_DURATION_SHORT);
-				postInvalidate();
-			} else {
-				mTargetZoomLevel++;
-				mScaler.extendDuration(ANIMATION_DURATION_SHORT);
-				mScaler.setFinalScale(mScaler.getFinalScale() * 2.0f);
-			}
+			mAnimationListener.targetZoomLevel = mZoomLevel + 1;
+			startAnimation(mZoomInAnimation);
 			return true;
 		} else {
 			return false;
@@ -448,15 +458,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	boolean zoomOut() {
 
 		if (canZoomOut()) {
-			if (mScaler.isFinished()) {
-				mTargetZoomLevel = mZoomLevel - 1;
-				mScaler.startScale(1.0f, 0.5f, ANIMATION_DURATION_SHORT);
-				postInvalidate();
-			} else {
-				mTargetZoomLevel--;
-				mScaler.extendDuration(ANIMATION_DURATION_SHORT);
-				mScaler.setFinalScale(mScaler.getFinalScale() * 0.5f);
-			}
+			mAnimationListener.targetZoomLevel = mZoomLevel - 1;
+			startAnimation(mZoomOutAnimation);
 			return true;
 		} else {
 			return false;
@@ -582,19 +585,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public void computeScroll() {
 		if (mScroller.computeScrollOffset()) {
 			if (mScroller.isFinished())
-				setZoomLevel(mTargetZoomLevel);
+				setZoomLevel(mZoomLevel);
 			else
 				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 			postInvalidate();	// Keep on drawing until the animation has finished.
-		}
-	}
-
-	private void computeScale() {
-		if (mScaler.computeScale()) {
-			if (mScaler.isFinished())
-				setZoomLevel(mTargetZoomLevel);
-			else
-				postInvalidate();
 		}
 	}
 
@@ -612,15 +606,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		mProjection = new OpenStreetMapViewProjection();
 
-		final Matrix m = c.getMatrix();
-		if (!mScaler.isFinished()) {
-			m.preScale(mScaler.mCurrScale, mScaler.mCurrScale, getScrollX(), getScrollY());
-		}
-		if (mMultiTouchScale != 1.0f) {
+		if (mMultiTouchScale == 1.0f) {
+			c.translate(getWidth() / 2, getHeight() / 2);
+		} else {
+			final Matrix m = c.getMatrix();
+			m.postTranslate(getWidth() / 2, getHeight() / 2);
 			m.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
+			c.setMatrix(m);
 		}
-		m.postTranslate(getWidth() / 2, getHeight() / 2);
-		c.setMatrix(m);
 		
 		/* Draw background */
 		c.drawColor(Color.LTGRAY);
@@ -648,7 +641,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE)
 			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
-		computeScale();
 	}
 
 	@Override
@@ -656,6 +648,43 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mZoomController.setVisible(false);
 		this.mMapOverlay.detach();
 		super.onDetachedFromWindow();
+	}
+
+	// ===========================================================
+	// Implementation of MultiTouchObjectCanvas
+	// ===========================================================
+
+	@Override
+	public Object getDraggableObjectAtPoint(final PointInfo pt) {
+		return this;
+	}
+
+	@Override
+	public void getPositionAndScale(final Object obj, final PositionAndScale objPosAndScaleOut) {
+		objPosAndScaleOut.set(0, 0, true, mMultiTouchScale, false, 0, 0, false, 0);
+	}
+
+	@Override
+	public void selectObject(final Object obj, final PointInfo pt) {
+		// if obj is null it means we released the pointers
+		// if scale is not 1 it means we pinched
+		if (obj == null && mMultiTouchScale != 1.0f) {
+			float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
+			int scaleDiffInt = (int) Math.round(scaleDiffFloat);
+			setZoomLevel(mZoomLevel + scaleDiffInt);
+			// XXX maybe zoom in/out instead of zooming direct to zoom level
+			//     - probably not a good idea because you'll repeat the animation
+		}
+		
+		// reset scale
+		mMultiTouchScale = 1.0f;
+	}
+
+	@Override
+	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale, final PointInfo aTouchPoint) {
+		mMultiTouchScale = aNewObjPosAndScale.getScale();
+		invalidate(); // redraw
+		return true;
 	}
 
 	// ===========================================================
@@ -1024,196 +1053,25 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		@Override
 		public void onVisibilityChanged(boolean visible) {}
 	}
+	
+	private class MyAnimationListener implements AnimationListener {
+		private int targetZoomLevel;
+		private boolean animating;
 
-	private class Scaler {
-
-		private float mStartScale;
-		private float mFinalScale;
-		private float mCurrScale;
-
-		private long mStartTime;
-		private int mDuration;
-		private float mDurationReciprocal;
-		private float mDeltaScale;
-		private boolean mFinished;
-		private Interpolator mInterpolator;
-
-		/**
-		 * Create a Scaler with the specified interpolator.
-		 */
-		public Scaler(Context context, Interpolator interpolator) {
-			mFinished = true;
-			mInterpolator = interpolator;
+		@Override
+		public void onAnimationEnd(Animation aAnimation) {
+			animating = false;
+			setZoomLevel(targetZoomLevel);
 		}
 
-		/**
-		 *
-		 * Returns whether the scaler has finished scaling.
-		 *
-		 * @return True if the scaler has finished scaling, false otherwise.
-		 */
-		public final boolean isFinished() {
-			return mFinished;
+		@Override
+		public void onAnimationRepeat(Animation aAnimation) {
 		}
 
-		/**
-		 * Force the finished field to a particular value.
-		 *
-		 * @param finished The new finished value.
-		 */
-		public final void forceFinished(boolean finished) {
-			mFinished = finished;
-		}
-
-		/**
-		 * Returns how long the scale event will take, in milliseconds.
-		 *
-		 * @return The duration of the scale in milliseconds.
-		 */
-		public final int getDuration() {
-			return mDuration;
-		}
-
-		/**
-		 * Returns the current scale factor.
-		 *
-		 * @return The new scale factor.
-		 */
-		public final float getCurrScale() {
-			return mCurrScale;
-		}
-
-		/**
-		 * Returns the start scale factor.
-		 *
-		 * @return The start scale factor.
-		 */
-		public final float getStartScale() {
-			return mStartScale;
-		}
-
-		/**
-		 * Returns where the scale will end.
-		 *
-		 * @return The final scale factor.
-		 */
-		public final float getFinalScale() {
-			return mFinalScale;
-		}
-
-		/**
-		 * Sets the final scale for this scaler.
-		 *
-		 * @param newScale The new scale factor.
-		 */
-		public void setFinalScale(float newScale) {
-			mFinalScale = newScale;
-			mDeltaScale = mFinalScale - mStartScale;
-			mFinished = false;
-		}
-
-
-		/**
-		 * Call this when you want to know the new scale.  If it returns true,
-		 * the animation is not yet finished.
-		 */
-		public boolean computeScale() {
-			if (mFinished) {
-				mCurrScale = 1.0f;
-				return false;
-			}
-
-			int timePassed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
-
-			if (timePassed < mDuration) {
-				float x = (float)timePassed * mDurationReciprocal;
-
-				x = mInterpolator.getInterpolation(x);
-
-				mCurrScale = mStartScale + x * mDeltaScale;
-				if (mCurrScale == mFinalScale)
-					mFinished = true;
-
-			} else {
-				mCurrScale = mFinalScale;
-				mFinished = true;
-			}
-			return true;
-		}
-
-		/**
-		 * Start scaling by providing the starting scale and the final scale.
-		 *
-		 * @param startX Starting horizontal scroll offset in pixels. Positive
-		 *        numbers will scroll the content to the left.
-		 * @param startY Starting vertical scroll offset in pixels. Positive numbers
-		 *        will scroll the content up.
-		 * @param dx Horizontal distance to travel. Positive numbers will scroll the
-		 *        content to the left.
-		 * @param dy Vertical distance to travel. Positive numbers will scroll the
-		 *        content up.
-		 * @param duration Duration of the scroll in milliseconds.
-		 */
-		public void startScale(float startScale, float finalScale, int duration) {
-			mFinished = false;
-			mDuration = duration;
-			mStartTime = AnimationUtils.currentAnimationTimeMillis();
-			mStartScale = startScale;
-			mFinalScale = finalScale;
-			mDeltaScale = finalScale - startScale;
-			mDurationReciprocal = 1.0f / (float) mDuration;
-		}
-
-		/**
-		 * Extend the scale animation. This allows a running animation to scale
-		 * further and longer, when used with {@link #setFinalScale(float)}.
-		 *
-		 * @param extend Additional time to scale in milliseconds.
-		 * @see #setFinalScale(float)
-		 */
-		public void extendDuration(int extend) {
-			int passed = (int)(AnimationUtils.currentAnimationTimeMillis() - mStartTime);
-			mDuration = passed + extend;
-			mDurationReciprocal = 1.0f / (float)mDuration;
-			mFinished = false;
-		}
-
-	}
-
-	// ===========================================================
-	// Implementation of MultiTouchObjectCanvas
-	// ===========================================================
-
-	@Override
-	public Object getDraggableObjectAtPoint(final PointInfo pt) {
-		return this;
-	}
-
-	@Override
-	public void getPositionAndScale(final Object obj, final PositionAndScale objPosAndScaleOut) {
-		objPosAndScaleOut.set(0, 0, true, mMultiTouchScale, false, 0, 0, false, 0);
-	}
-
-	@Override
-	public void selectObject(final Object obj, final PointInfo pt) {
-		// if obj is null it means we released the pointers
-		// if scale is not 1 it means we pinched
-		if (obj == null && mMultiTouchScale != 1.0f) {
-			float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
-			int scaleDiffInt = (int) Math.round(scaleDiffFloat);
-			setZoomLevel(mZoomLevel + scaleDiffInt);
-			// XXX maybe zoom in/out instead of zooming direct to zoom level
-			//     - probably not a good idea because you'll repeat the animation
+		@Override
+		public void onAnimationStart(Animation aAnimation) {
+			animating = true;
 		}
 		
-		// reset scale
-		mMultiTouchScale = 1.0f;
-	}
-
-	@Override
-	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale, final PointInfo aTouchPoint) {
-		mMultiTouchScale = aNewObjPosAndScale.getScale();
-		invalidate(); // redraw
-		return true;
 	}
 }
