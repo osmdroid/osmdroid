@@ -71,7 +71,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private int mZoomLevel = 0;
 	
 	/** The zoom level to set in view when the zoom animation has finished */
-	private int mTargetZoomLevel = mZoomLevel;
+	private int mTargetZoomLevel = mZoomLevel; // TODO I think this is still a bit buggy
 
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
@@ -1202,6 +1202,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
 			int scaleDiffInt = (int) Math.round(scaleDiffFloat);
 			setZoomLevel(mZoomLevel + scaleDiffInt);
+			// XXX maybe zoom in/out instead of zooming direct to zoom level
+			//     - probably not a good idea because you'll repeat the animation
 		}
 		
 		// reset scale
