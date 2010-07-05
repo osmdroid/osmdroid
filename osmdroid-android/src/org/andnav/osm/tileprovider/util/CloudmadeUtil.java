@@ -66,13 +66,14 @@ public class CloudmadeUtil {
 			final HttpResponse response = httpClient.execute(httpPost);
 			logger.info("Response from Cloudmade auth: " + response.getStatusLine());
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()), 8000);
 				final String line = br.readLine();
 				logger.info("First line from Cloudmade auth: " + line);
 				final String token = line.trim();
 				if (token.length() == 0) {
 					throw new CloudmadeException("No authorization token received from Cloudmade");
 				}
+				return token;
 			}
 		} catch (final IOException e) {
 			throw new CloudmadeException("No authorization token received from Cloudmade", e);
