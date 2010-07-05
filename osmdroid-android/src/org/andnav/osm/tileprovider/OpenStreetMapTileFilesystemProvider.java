@@ -93,7 +93,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	File getOutputFile(final OpenStreetMapTile tile) throws CantContinueException {
 		final File file = new File(buildPath(tile));
 		final File parent = file.getParentFile();
-		if (!parent.exists() && !parent.mkdirs()) {
+		// check exists twice because maybe mkdirs returned false because another thread created it
+		if (!parent.exists() && !parent.mkdirs() && !parent.exists()) {
 			throw new CantContinueException("Tile directory doesn't exist: " + parent);
 		}
 		return file;
