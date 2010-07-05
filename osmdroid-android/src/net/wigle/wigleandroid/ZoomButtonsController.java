@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-import org.andnav.osm.DefaultResourceProxyImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,7 @@ import android.view.View;
  */
 public class ZoomButtonsController {
 
-  private static final Logger logger = LoggerFactory.getLogger(DefaultResourceProxyImpl.class);
+  private static final Logger logger = LoggerFactory.getLogger(ZoomButtonsController.class);
 
   private static Class ZOOM_CLASS;
   private static Class LISTENER_CLASS;
