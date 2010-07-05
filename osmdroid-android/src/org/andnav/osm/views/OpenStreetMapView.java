@@ -556,30 +556,36 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 
-	    logger.debug("onTouchEvent(" + event + ")");
+		if (DEBUGMODE)
+			logger.debug("onTouchEvent(" + event + ")");
 
 		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this))
 			{
-			    logger.debug("overlay handled onTouchEvent");
+				if (DEBUGMODE)
+					logger.debug("overlay handled onTouchEvent");
 				return true;
 			}
 		
 		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
-		    logger.debug("mMultiTouchController handled onTouchEvent");
+			if (DEBUGMODE)
+				logger.debug("mMultiTouchController handled onTouchEvent");
 			return true;
 		}
 
 		if (mGestureDetector.onTouchEvent(event)) {
-		    logger.debug("mGestureDetector handled onTouchEvent");
+			if (DEBUGMODE)
+				logger.debug("mGestureDetector handled onTouchEvent");
 			return true;
 		}
 
 		boolean r = super.onTouchEvent(event);
 		if (r) {
-			logger.debug("super handled onTouchEvent");
+			if (DEBUGMODE)
+				logger.debug("super handled onTouchEvent");
 		} else {
-			logger.debug("no-one handled onTouchEvent");
+			if (DEBUGMODE)
+				logger.debug("no-one handled onTouchEvent");
 		}
 		return r;
 	}
