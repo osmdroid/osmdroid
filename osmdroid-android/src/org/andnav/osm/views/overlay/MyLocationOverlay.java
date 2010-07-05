@@ -24,7 +24,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -64,8 +63,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 	
 	private final Matrix directionRotater = new Matrix();
 	
-	private final float mDensity;
-
 	/** Coordinates the feet of the person are located. */
 	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24,39);
 
@@ -87,9 +84,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
-
-		final DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
-		mDensity = dm.density;
 
 		PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 		DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
@@ -167,12 +161,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Locat
 				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
 				this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);			
-				this.directionRotater.postScale(mDensity/mtx[Matrix.MSCALE_X], mDensity/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
 			} else {
 				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
-				this.directionRotater.postScale(mDensity/mtx[Matrix.MSCALE_X], mDensity/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
 			}
