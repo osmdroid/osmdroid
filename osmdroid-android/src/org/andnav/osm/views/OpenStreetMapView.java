@@ -132,14 +132,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			return rendererInfo;
 		}
 
-		final String renderer = attrs.getAttributeValue(null, "renderer");
-		if (renderer != null) {
-			try {
-				final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(renderer);
-				logger.info("Using renderer specified in layout attributes: " + r);
-				return r;
-			} catch (final IllegalArgumentException e) {
-				logger.warn("Invalid renderer specified in layout attributes: " + renderer);
+		if (attrs != null) {
+			final String renderer = attrs.getAttributeValue(null, "renderer");
+			if (renderer != null) {
+				try {
+					final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(renderer);
+					logger.info("Using renderer specified in layout attributes: " + r);
+					return r;
+				} catch (final IllegalArgumentException e) {
+					logger.warn("Invalid renderer specified in layout attributes: " + renderer);
+				}
 			}
 		}
 
