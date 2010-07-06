@@ -406,7 +406,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *         depending on the Renderer chosen.
 	 */
 	public int getZoomLevel() {
-		return mZoomLevel;
+		return getZoomLevel(true);
+	}
+
+	/**
+	 * Get the current ZoomLevel for the map tiles.
+	 * @param aPending if true and we're animating then return the zoom level
+	 *        that we're animating towards, otherwise return the current
+	 *        zoom level
+	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest),
+	 *         depending on the Renderer chosen.
+	 */
+	public int getZoomLevel(final boolean aPending) {
+		if (aPending && mAnimationListener.animating) {
+			return mAnimationListener.targetZoomLevel;
+		} else {
+			return mZoomLevel;
+		}
 	}
 
 	/*
@@ -444,9 +460,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	boolean zoomIn() {
 
 		if (canZoomIn()) {
-			mAnimationListener.targetZoomLevel = mZoomLevel + 1;
-			startAnimation(mZoomInAnimation);
-			return true;
+			if (mAnimationListener.animating) {
+				// TODO extend zoom (and return true)
+				return false;
+			} else {
+				mAnimationListener.targetZoomLevel = mZoomLevel + 1;
+				startAnimation(mZoomInAnimation);
+				return true;
+			}
 		} else {
 			return false;
 		}
@@ -458,9 +479,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	boolean zoomOut() {
 
 		if (canZoomOut()) {
-			mAnimationListener.targetZoomLevel = mZoomLevel - 1;
-			startAnimation(mZoomOutAnimation);
-			return true;
+			if (mAnimationListener.animating) {
+				// TODO extend zoom (and return true)
+				return false;
+			} else {
+				mAnimationListener.targetZoomLevel = mZoomLevel - 1;
+				startAnimation(mZoomOutAnimation);
+				return true;
+			}
 		} else {
 			return false;
 		}

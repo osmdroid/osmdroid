@@ -86,7 +86,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		 * some performance.
 		 */
 		final OpenStreetMapViewProjection pj = osmv.getProjection();
-		final int zoomLevel = osmv.getZoomLevel();
+		final int zoomLevel = osmv.getZoomLevel(false);
 		final Rect viewPort = c.getClipBounds();
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
