@@ -844,8 +844,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		 * @return GeoPoint under x/y.
 		 */
 		public GeoPoint fromPixels(float x, float y) {
-			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y
-					/ viewHeight_2);
+			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / getWidth(), y / getHeight());
 		}
 
 		public Point fromMapPixels(int x, int y, Point reuse) {
