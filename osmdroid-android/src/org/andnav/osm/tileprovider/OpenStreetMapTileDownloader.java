@@ -142,10 +142,15 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	}
 
 	@Override
-	public synchronized String getCloudmadeToken(final String aKey) throws CloudmadeException {
+	public String getCloudmadeToken(final String aKey) throws CloudmadeException {
 
 		if (mCloudmadeToken == null) {
-			mCloudmadeToken = CloudmadeUtil.getCloudmadeToken(aKey);
+			synchronized (this) {
+				// check again inside the synchronised block
+				if (mCloudmadeToken == null) {
+					mCloudmadeToken = CloudmadeUtil.getCloudmadeToken(aKey);
+				}
+			}
 		}
 
 		return mCloudmadeToken;
