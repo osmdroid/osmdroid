@@ -25,35 +25,32 @@ public enum OpenStreetMapRendererInfo {
 	BASE(ResourceProxy.string.base, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/base/"),
 	TOPO(ResourceProxy.string.topo, ".png", 4, 17, 8, CodeScheme.X_Y, "http://topo.openstreetmap.de/topo/"),
 	HILLS(ResourceProxy.string.hills, ".png", 8, 17, 8, CodeScheme.X_Y, "http://topo.geofabrik.de/hills/"),
-	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.CLOUDMADE, 
-			"http://a.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s", 
-			"http://b.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s", 
-			"http://c.tile.cloudmade.com/%s/1/64/%d/%d/%d%s?token=%s"),
-	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, 
-			"http://a.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s", 
-			"http://b.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s",
-			"http://c.tile.cloudmade.com/%s/1/256/%d/%d/%d%s?token=%s"),
-	CLOUDMADEALTERNATIVETILES(ResourceProxy.string.cloudmade_alternative, ".png", 0, 18, 8, CodeScheme.CLOUDMADE, 
-			"http://a.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s", 
-			"http://b.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s",
-			"http://c.tile.cloudmade.com/%s/2/256/%d/%d/%d%s?token=%s");
-	
+	CLOUDMADESMALLTILES(ResourceProxy.string.cloudmade_small, ".png", 0, 13, 6, CodeScheme.CLOUDMADE,
+			"http://a.tile.cloudmade.com/%s/%d/64/%d/%d/%d%s?token=%s",
+			"http://b.tile.cloudmade.com/%s/%d/64/%d/%d/%d%s?token=%s",
+			"http://c.tile.cloudmade.com/%s/%d/64/%d/%d/%d%s?token=%s"),
+	CLOUDMADESTANDARDTILES(ResourceProxy.string.cloudmade_standard, ".png", 0, 18, 8, CodeScheme.CLOUDMADE,
+			"http://a.tile.cloudmade.com/%s/%d/256/%d/%d/%d%s?token=%s",
+			"http://b.tile.cloudmade.com/%s/%d/256/%d/%d/%d%s?token=%s",
+			"http://c.tile.cloudmade.com/%s/%d/256/%d/%d/%d%s?token=%s");
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	public enum CodeScheme { X_Y, CLOUDMADE, QUAD_TREE };
-	
+
 	public final ResourceProxy.string NAME;
 	public final String BASEURLS[], IMAGE_FILENAMEENDING;
 	public final int ZOOM_MINLEVEL, ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;
 	public final CodeScheme CODE_SCHEME;
 	private final Random random;
-	
+	private int cloudmadeStyle = 1;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	private OpenStreetMapRendererInfo(final ResourceProxy.string aName,
 			final String aImageFilenameEnding, final int aZoomMin,
 			final int aZoomMax, final int aTileZoom, final CodeScheme aCodeScheme, final String ...aBaseUrl) {
@@ -67,14 +64,22 @@ public enum OpenStreetMapRendererInfo {
 		this.CODE_SCHEME = aCodeScheme;
 		this.random = new Random();
 	}
-	
+
 	public static OpenStreetMapRendererInfo getDefault() {
 		return MAPNIK;
 	}
-	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	/**
+	 * Set the Cloudmade style. The default style is 1.
+	 * For more styles see {@link http://maps.cloudmade.com/editor}
+	 */
+	public void setCloudmadeStyle(final int aStyle) {
+		cloudmadeStyle = aStyle;
+	}
 
 	/**
 	 * Get the URL string for the tile
@@ -82,11 +87,11 @@ public enum OpenStreetMapRendererInfo {
 	 * @param aCallback
 	 * @param aCloudmadeTokenCallback
 	 * @return
-	 * @throws CloudmadeException in the case of Cloudmade keys if there's an error authorizing 
+	 * @throws CloudmadeException in the case of Cloudmade keys if there's an error authorizing
 	 */
 	public String getTileURLString(
-			final OpenStreetMapTile aTile, 
-			final IOpenStreetMapTileProviderCallback aCallback, 
+			final OpenStreetMapTile aTile,
+			final IOpenStreetMapTileProviderCallback aCallback,
 			final IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException {
 		final CodeScheme cs = this.CODE_SCHEME;
 		final String baseurl = BASEURLS[random.nextInt(BASEURLS.length)];
@@ -96,13 +101,13 @@ public enum OpenStreetMapRendererInfo {
 		case CLOUDMADE:
 			final String key = aCallback.getCloudmadeKey();
 			final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
-			return String.format(baseurl, key, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), IMAGE_FILENAMEENDING, token);
+			return String.format(baseurl, key, cloudmadeStyle, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), IMAGE_FILENAMEENDING, token);
 		case X_Y:
 		default:
 			return baseurl + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY() + IMAGE_FILENAMEENDING;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Converts TMS tile coordinates to QuadTree
 	 * @param aTile The tile coordinates to convert
@@ -122,5 +127,5 @@ public enum OpenStreetMapRendererInfo {
 
 		return quadKey.toString();
 	}
-	
+
 }

@@ -17,6 +17,7 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererInfo.CodeScheme;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.metalev.multitouch.controller.MultiTouchController;
@@ -126,33 +127,52 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 	}
 
-	private OpenStreetMapRendererInfo getRendererInfo(final OpenStreetMapRendererInfo rendererInfo, final AttributeSet attrs) {
+	private OpenStreetMapRendererInfo getRendererInfo(
+			final OpenStreetMapRendererInfo rendererInfo,
+			final AttributeSet attrs) {
+
+		OpenStreetMapRendererInfo renderer = DEFAULTRENDERER;
+
 		if (rendererInfo != null) {
 			logger.info("Using renderer specified in constructor: " + rendererInfo);
-			return rendererInfo;
-		}
-
-		if (attrs != null) {
-			final String renderer = attrs.getAttributeValue(null, "renderer");
-			if (renderer != null) {
-				try {
-					final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(renderer);
-					logger.info("Using renderer specified in layout attributes: " + r);
-					return r;
-				} catch (final IllegalArgumentException e) {
-					logger.warn("Invalid renderer specified in layout attributes: " + renderer);
+			renderer = rendererInfo;
+		} else {
+			if (attrs != null) {
+				final String rendererAttr = attrs.getAttributeValue(null, "renderer");
+				if (renderer != null) {
+					try {
+						final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(rendererAttr);
+						logger.info("Using renderer specified in layout attributes: " + r);
+						renderer = r;
+					} catch (final IllegalArgumentException e) {
+						logger.warn("Invalid renderer specified in layout attributes: " + renderer);
+					}
 				}
 			}
 		}
 
-		logger.info("Using default renderer : " + DEFAULTRENDERER);
-		return DEFAULTRENDERER;
+		if (renderer.CODE_SCHEME == CodeScheme.CLOUDMADE && attrs != null) {
+			final String style = attrs.getAttributeValue(null, "cloudmadeStyle");
+			if (style != null) {
+				try {
+					final int s = Integer.valueOf(style);
+					logger.info("Using Cloudmade style specified in layout attributes: " + s);
+					renderer.setCloudmadeStyle(s);
+				} catch (final NumberFormatException e) {
+					logger.warn("Invalid Cloudmade style specified in layout attributes: " + style);
+				}
+			}
+			logger.info("Using default Cloudmade style : 1");
+		}
+
+		logger.info("Using renderer : " + DEFAULTRENDERER);
+		return renderer;
 	}
-	
+
 	/**
 	 * Constructor used by XML layout resource (uses default renderer).
 	 */
-	public OpenStreetMapView(Context context, AttributeSet attrs) {		
+	public OpenStreetMapView(Context context, AttributeSet attrs) {
 		this(context, attrs, null, null);
 	}
 
