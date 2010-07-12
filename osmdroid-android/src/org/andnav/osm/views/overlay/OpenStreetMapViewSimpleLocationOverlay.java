@@ -52,10 +52,14 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// Getter & Setter
 	// ===========================================================
 	
-	public void setLocation(final GeoPoint mp){
+	public void setLocation(final GeoPoint mp) {
 		this.mLocation = mp;
 	}
 
+	public GeoPoint getMyLocation() {
+		return this.mLocation;
+	}
+	
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
