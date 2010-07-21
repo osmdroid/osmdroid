@@ -10,32 +10,32 @@ import org.slf4j.LoggerFactory;
 public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapAsyncTileProvider.class);
-	
+
 	/** max threads */
 	private final int mThreadPoolSize;
 	/** max pending */
 	private final int mPendingQueueSize;
 	/** my group of workers */
 	private final ThreadGroup mThreadPool = new ThreadGroup(threadGroupName());
-	/** these guys are beeing loaded right now  */
+	/** these guys are being loaded right now  */
 	private final HashSet<OpenStreetMapTile> mWorking;
 	/** The guys we're still working on.  Left package for testing */
 	final TreeSet<PendingEntry> mPending;
-	
+
 	protected final IOpenStreetMapTileProviderCallback mCallback;
-	
+
 	public OpenStreetMapAsyncTileProvider(final IOpenStreetMapTileProviderCallback pCallback, final int aThreadPoolSize, final int aPendingQueueSize) {
 		mCallback = pCallback;
 		mThreadPoolSize = aThreadPoolSize;
 		mPendingQueueSize = aPendingQueueSize;
 		mPending = new TreeSet<PendingEntry>();
-		mWorking = new HashSet<OpenStreetMapTile>();		
+		mWorking = new HashSet<OpenStreetMapTile>();
 	}
-	
+
 	public void loadMapTileAsync(final OpenStreetMapTile aTile) {
 
 		final int activeCount = mThreadPool.activeCount();
-		
+
 		// we're already loading this guy
 		synchronized (mWorking) {
 			if( mWorking.contains(aTile) ) {
@@ -49,7 +49,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			PendingEntry ent = new PendingEntry(aTile);
 			mPending.remove(ent);
 			mPending.add(ent);
-			
+
 			if( mPending.size() > mPendingQueueSize ) {
 				mPending.remove(mPending.last());
 			}
@@ -68,10 +68,10 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			mWorking.clear();
 		}
 		synchronized (mPending) {
-			mPending.clear();	
+			mPending.clear();
 		}
 	}
-	
+
 	/**
 	 * Stops all workers, the service is shutting down.
 	 */
@@ -80,11 +80,11 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		this.clearQueue();
 		this.mThreadPool.interrupt();
 	}
-	
+
 	protected abstract String threadGroupName();
-	
+
 	protected abstract Runnable getTileLoader();
-	
+
 	protected interface TileLoaderCallback {
 		/**
 		 * A tile has loaded.
@@ -100,7 +100,6 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		 * Load the requested tile.
 		 * @param aTile the tile to load
 		 * @throws CantContinueException if it is not possible to continue with processing the queue
-		 * @throws CloudmadeException if there's an error authorizing for Cloudmade tiles
 		 */
 		protected abstract void loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
@@ -151,7 +150,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 				logger.debug("No more tiles");
 		}
 	}
-	
+
 	class CantContinueException extends Exception {
 		private static final long serialVersionUID = 146526524087765133L;
 
@@ -163,17 +162,17 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			super(aThrowable);
 		}
 	}
-	
+
 	private static class PendingEntry implements Comparable<PendingEntry> {
-		
+
 		private final long insertTime;
 		private final OpenStreetMapTile tile;
-	
+
 		public PendingEntry(OpenStreetMapTile tile) {
 			this.insertTime = System.currentTimeMillis();
 			this.tile = tile;
 		}
-		
+
 		@Override
 		public int compareTo(PendingEntry entry) {
 			if( tile.equals(entry.tile) )
