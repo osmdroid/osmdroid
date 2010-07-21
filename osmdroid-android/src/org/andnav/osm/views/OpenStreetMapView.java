@@ -54,13 +54,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapView.class);
-	
+
 	final static OpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererInfo.MAPNIK;
    	final static String BUNDLE_RENDERER = "org.andnav.osm.views.OpenStreetMapView.RENDERER";
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
 	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
 	final static String BUNDLE_ZOOM_LEVEL = "org.andnav.osm.views.OpenStreetMapView.ZOOM";
-	
+
 	private static final double ZOOM_SENSITIVITY = 1.3;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
 
@@ -70,7 +70,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
-	
+
 	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
 	private final Paint mPaint = new Paint();
@@ -80,9 +80,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
-	
+
 	/** Handles map scrolling */
-	private final Scroller mScroller;							
+	private final Scroller mScroller;
 
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
@@ -106,7 +106,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	private OpenStreetMapView(
-			final Context context, 
+			final Context context,
 			final AttributeSet attrs,
 			final OpenStreetMapRendererInfo rendererInfo,
 			final OpenStreetMapTileProvider tileProvider) {
@@ -139,7 +139,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		} else {
 			if (attrs != null) {
 				final String rendererAttr = attrs.getAttributeValue(null, "renderer");
-				if (renderer != null) {
+				if (rendererAttr != null) {
 					try {
 						final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(rendererAttr);
 						logger.info("Using renderer specified in layout attributes: " + r);
@@ -296,7 +296,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public Scroller getScroller() {
 		return mScroller;
 	}
-	
+
 	public double getLatitudeSpan() {
 		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;
 	}
@@ -421,7 +421,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 		return this.mZoomLevel;
 	}
-	
+
 	/**
 	 * Get the current ZoomLevel for the map tiles.
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest),
@@ -454,7 +454,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public int getMaxZoomLevel() {
 		return getRenderer().ZOOM_MAXLEVEL;
 	}
-	
+
 	public boolean canZoomIn() {
 		final int maxZoomLevel = getMaxZoomLevel();
 		if (mZoomLevel >= maxZoomLevel) {
@@ -465,7 +465,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 		return true;
 	}
-	
+
 	public boolean canZoomOut() {
 		if (mZoomLevel <= 0) {
 			return false;
@@ -475,7 +475,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Zoom in by one zoom level.
 	 */
@@ -494,7 +494,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Zoom out by one zoom level.
 	 */
@@ -525,7 +525,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	public int getMapCenterLongitudeE6() {
 		return (int)(Mercator.tile2lon(getScrollX() + getWorldSizePx()/2, getPixelZoomLevel()) * 1E6);
 	}
-	
+
 	public void setResourceProxy(final ResourceProxy pResourceProxy) {
 		mResourceProxy = pResourceProxy;
 	}
@@ -605,7 +605,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 					logger.debug("overlay handled onTouchEvent");
 				return true;
 			}
-		
+
 		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 			if (DEBUGMODE)
 				logger.debug("mMultiTouchController handled onTouchEvent");
@@ -662,7 +662,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			m.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
 			c.setMatrix(m);
 		}
-		
+
 		/* Draw background */
 		c.drawColor(Color.LTGRAY);
 //		This is to slow:
@@ -723,7 +723,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			// XXX maybe zoom in/out instead of zooming direct to zoom level
 			//     - probably not a good idea because you'll repeat the animation
 		}
-		
+
 		// reset scale
 		mMultiTouchScale = 1.0f;
 	}
@@ -759,7 +759,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	// NB: this method will be called even if we don't use Cloudmade
 	//     because we only have the context in the constructor
-	//     the alternative would be to only get it when needed, 
+	//     the alternative would be to only get it when needed,
 	//     but that would mean keeping a handle on the context
 	private String getCloudmadeKey(final Context aContext) {
 		return CloudmadeUtil.getCloudmadeKey(aContext);
@@ -1100,7 +1100,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		@Override
 		public void onVisibilityChanged(boolean visible) {}
 	}
-	
+
 	private class MyAnimationListener implements AnimationListener {
 		private int targetZoomLevel;
 		private boolean animating;
@@ -1119,6 +1119,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		public void onAnimationStart(Animation aAnimation) {
 			animating = true;
 		}
-		
+
 	}
 }
