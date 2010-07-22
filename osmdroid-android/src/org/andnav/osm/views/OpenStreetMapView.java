@@ -487,6 +487,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				return false;
 			} else {
 				mAnimationListener.targetZoomLevel = mZoomLevel + 1;
+				mAnimationListener.animating = true;
 				startAnimation(mZoomInAnimation);
 				return true;
 			}
@@ -506,6 +507,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				return false;
 			} else {
 				mAnimationListener.targetZoomLevel = mZoomLevel - 1;
+				mAnimationListener.animating = true;
 				startAnimation(mZoomOutAnimation);
 				return true;
 			}
