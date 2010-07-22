@@ -1063,10 +1063,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		@Override
 		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-//			final int worldSize = getWorldSizePx();
-//			mScroller.fling(getScrollX(), getScrollY(), (int)-velocityX, (int)-velocityY, -worldSize, worldSize, -worldSize, worldSize);
-//			return true;
-			return false;
+			final int worldSize = getWorldSizePx();
+			mScroller.fling(getScrollX(), getScrollY(), (int)-velocityX, (int)-velocityY, -worldSize, worldSize, -worldSize, worldSize);
+			return true;
 		}
 
 		@Override
