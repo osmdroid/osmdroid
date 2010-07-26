@@ -119,6 +119,10 @@ public class DownloadManager {
 			OutputStream out = null;
 			
 			init(DownloadManager.this.getNext());
+
+			if (mDestinationFile.exists()) {
+				return; // TODO issue 70 - make this an option
+			}
 			
 			final String finalURL = String.format(DownloadManager.this.mBaseURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y);
 
@@ -133,7 +137,7 @@ public class DownloadManager {
 				out.flush();
 			} catch (Exception e) {
 				System.err.println("Error downloading: '" + this.mTileInfo + "' from URL: " + finalURL + " : " + e);
-				DownloadManager.this.add(this.mTileInfo);
+				DownloadManager.this.add(this.mTileInfo); // try again later
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);
