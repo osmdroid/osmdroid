@@ -127,7 +127,7 @@ public class OSMMapTilePackager {
             printUsageAndExit();
         }
 
-        if(serverURL == null || tempFolder == null || destinationFile == null)
+        if(serverURL == null || tempFolder == null)
             printUsageAndExit();
 
         if(north == null || south == null || east == null || west == null)
@@ -146,8 +146,10 @@ public class OSMMapTilePackager {
         System.out.println("---------------------------");
         runFileExistenceChecker(expectedFileCount, pTempFolder, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
 
-        System.out.println("---------------------------");
-        runZipToFile(pTempFolder, pDestinationFile);
+        if (pDestinationFile != null) {
+            System.out.println("---------------------------");
+            runZipToFile(pTempFolder, pDestinationFile);
+        }
 
         System.out.println("---------------------------");
         runCleanup(pTempFolder);
