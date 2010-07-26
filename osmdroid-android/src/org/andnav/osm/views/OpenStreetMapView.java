@@ -79,7 +79,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private OpenStreetMapView mMiniMap, mMaxiMap;
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
-	private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
+	// private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
+	private final GestureDetector mGestureDetector;
 
 	/** Handles map scrolling */
 	private final Scroller mScroller;
@@ -125,6 +126,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
 		mZoomInAnimation.setAnimationListener(mAnimationListener);
 		mZoomOutAnimation.setAnimationListener(mAnimationListener);
+
+		mGestureDetector = new GestureDetector(context, new OpenStreetMapViewGestureDetectorListener());
+		mGestureDetector.setOnDoubleTapListener(new OpenStreetMapViewDoubleClickListener());
 	}
 
 	private OpenStreetMapRendererInfo getRendererInfo(
@@ -496,6 +500,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 	}
 
+	boolean zoomInFixing(final GeoPoint point) {
+		setMapCenter(point); // TODO should fix on point, not center on it
+		return zoomIn();
+	}
+
 	/**
 	 * Zoom out by one zoom level.
 	 */
@@ -514,6 +523,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		} else {
 			return false;
 		}
+	}
+
+	boolean zoomOutFixing(final GeoPoint point) {
+		setMapCenter(point); // TODO should fix on point, not center on it
+		return zoomOut();
 	}
 
 	public GeoPoint getMapCenter() {
@@ -1088,6 +1102,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			return OpenStreetMapView.this.onSingleTapUp(e);
 		}
 
+	}
+
+	private class OpenStreetMapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
+		@Override
+		public boolean onDoubleTap(final MotionEvent e) {
+			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
+			OpenStreetMapView.this.zoomInFixing(center);
+			return true;
+		}
+		@Override
+		public boolean onDoubleTapEvent(final MotionEvent e) {
+			return false;
+		}
+		@Override
+		public boolean onSingleTapConfirmed(final MotionEvent e) {
+			return false;
+		}
 	}
 
 	private class OpenStreetMapViewZoomListener implements OnZoomListener {
