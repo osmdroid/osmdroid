@@ -79,7 +79,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private OpenStreetMapView mMiniMap, mMaxiMap;
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
-	// private final GestureDetector mGestureDetector = new GestureDetector(new OpenStreetMapViewGestureDetectorListener());
 	private final GestureDetector mGestureDetector;
 
 	/** Handles map scrolling */
@@ -1108,8 +1107,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
 			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
-			OpenStreetMapView.this.zoomInFixing(center);
-			return true;
+			return zoomInFixing(center);
 		}
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
