@@ -11,7 +11,7 @@
 	<target name="version">
 		<typedef resource="com/googlecode/svntask/svntask.xml">
 			<classpath>
-				<fileset dir="lib">
+				<fileset dir="ext">
 					<include name="svnkit.jar" />
 					<include name="svntask.jar" />
 				</fileset>
