@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
  * @author Neil Boyd
  *
  */
-public class ResourceProxyTest {
+public class DefaultResourceProxyTest {
 
 	@Test
 	public void test_getString() {

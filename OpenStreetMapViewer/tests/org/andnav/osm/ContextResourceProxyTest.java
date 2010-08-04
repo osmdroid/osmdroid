@@ -9,7 +9,7 @@ import android.test.AndroidTestCase;
  * @author Neil Boyd
  *
  */
-public class ResourceProxyTest extends AndroidTestCase {
+public class ContextResourceProxyTest extends AndroidTestCase {
 
 	public void test_getString() {
 		final ResourceProxy rp = new ResourceProxyImpl(getContext());
