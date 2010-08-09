@@ -149,10 +149,10 @@ public class OSMMapTilePackager {
         if (pDestinationFile != null) {
             System.out.println("---------------------------");
             runZipToFile(pTempFolder, pDestinationFile);
-        }
 
-        System.out.println("---------------------------");
-        runCleanup(pTempFolder);
+	        System.out.println("---------------------------");
+	        runCleanup(pTempFolder);
+        }
 
         System.out.println("---------------------------");
     }
