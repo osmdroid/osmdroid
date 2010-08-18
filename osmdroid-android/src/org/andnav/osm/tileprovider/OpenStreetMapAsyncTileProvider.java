@@ -12,15 +12,15 @@ import org.slf4j.LoggerFactory;
 public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapAsyncTileProvider.class);
-	
+
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(threadGroupName());
 	private final HashMap<OpenStreetMapTile, Object> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
 	private static final Object PRESENT = new Object();
-	
+
 	protected final IOpenStreetMapTileProviderCallback mCallback;
-	
+
 	public OpenStreetMapAsyncTileProvider(final IOpenStreetMapTileProviderCallback pCallback, final int aThreadPoolSize, final int aPendingQueueSize) {
 		mCallback = pCallback;
 		mThreadPoolSize = aThreadPoolSize;
@@ -33,7 +33,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			}
 		};
 	}
-	
+
 	public void loadMapTileAsync(final OpenStreetMapTile aTile) {
 
 		final int activeCount = mThreadPool.activeCount();
@@ -60,7 +60,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		mPending.clear();
 		mWorking.clear();
 	}
-	
+
 	/**
 	 * Stops all workers, the service is shutting down.
 	 */
@@ -69,11 +69,11 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		this.clearQueue();
 		this.mThreadPool.interrupt();
 	}
-	
+
 	protected abstract String threadGroupName();
-	
+
 	protected abstract Runnable getTileLoader();
-	
+
 	protected interface TileLoaderCallback {
 		/**
 		 * A tile has loaded.
@@ -94,14 +94,14 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		protected abstract void loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
 		private OpenStreetMapTile nextTile() {
-			
+
 			synchronized (mPending) {
 				OpenStreetMapTile result = null;
 
 				// get the most recently accessed tile
 				// - the last item in the iterator that's not already being processed
 				Iterator<OpenStreetMapTile> iterator = mPending.keySet().iterator();
-				
+
 				// TODO this iterates the whole list, make this faster...
 				while (iterator.hasNext()) {
 					try {
@@ -119,15 +119,21 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 						} else {
 							iterator = mPending.keySet().iterator();
 						}
+					} catch(final Throwable e) {
+						// we occassionally get NPE here - see issue 78
+						// not exactly sure why, but catch anything and exit
+						//  - don't try and recover
+						logger.warn("Unexpected error", e);
+						break;
 					}
 				}
-				
+
 				if (result != null)
 				{
-					mWorking.put(result, PRESENT);					
+					mWorking.put(result, PRESENT);
 				}
-				
-				return result;					
+
+				return result;
 			}
 		}
 
@@ -162,7 +168,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 				logger.debug("No more tiles");
 		}
 	}
-	
+
 	class CantContinueException extends Exception {
 		private static final long serialVersionUID = 146526524087765133L;
 
