@@ -46,7 +46,13 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		// this will put the tile in the queue, or move it to the front of the
 		// queue if it's already present
-		mPending.put(aTile, PRESENT);
+		try {
+			mPending.put(aTile, PRESENT);
+		} catch(final Throwable e) {
+			// we occasionally get NPE here - see issue 78
+			// not exactly sure why, but catch anything and ignore it
+			logger.warn("Unexpected error", e);
+		}
 
 		if (DEBUGMODE)
 			logger.debug(activeCount + " active threads");
@@ -120,7 +126,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 							iterator = mPending.keySet().iterator();
 						}
 					} catch(final Throwable e) {
-						// we occassionally get NPE here - see issue 78
+						// we occasionally get NPE here - see issue 78
 						// not exactly sure why, but catch anything and exit
 						//  - don't try and recover
 						logger.warn("Unexpected error", e);
