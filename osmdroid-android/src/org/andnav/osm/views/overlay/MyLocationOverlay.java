@@ -443,7 +443,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		outerPaint.setStrokeWidth(2.0f);
 		outerPaint.setAlpha(200);
 
-		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
+		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
 		final int center = picBorderWidthAndHeight / 2;
 
 		final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
@@ -463,21 +463,29 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	private void createCompassRosePicture() {
-		// Paint design of north triangle (it's common to paint north in blue color)
+		// Paint design of north triangle (it's common to paint north in red color)
 		final Paint northPaint = new Paint();
-		northPaint.setColor(0xFF0000A0);
+		northPaint.setColor(0xFFA00000);
 		northPaint.setAntiAlias(true);
 		northPaint.setStyle(Style.FILL);
 		northPaint.setAlpha(220);
 
-		// Paint design of south triangle (red)
+		// Paint design of south triangle (black)
 		final Paint southPaint = new Paint();
-		southPaint.setColor(0xFFA00000);
+		southPaint.setColor(Color.BLACK);
 		southPaint.setAntiAlias(true);
 		southPaint.setStyle(Style.FILL);
 		southPaint.setAlpha(220);
 
-		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
+		// Create a little white dot in the middle of the compass rose
+		final Paint centerPaint = new Paint();
+		centerPaint.setColor(Color.WHITE);
+		centerPaint.setAntiAlias(true);
+		centerPaint.setStyle(Style.FILL);
+		centerPaint.setAlpha(220);
+
+		// final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
+		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
 		final int center = picBorderWidthAndHeight / 2;
 
 		final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
@@ -499,6 +507,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		pathSouth.lineTo(center, center + (mCompassRadius - 3) * mScale);
 		pathSouth.close();
 		canvas.drawPath(pathSouth, southPaint);
+
+		// Draw a little white dot in the middle
+		canvas.drawCircle(center, center, 2, centerPaint);
 
 		mCompassRose.endRecording();
 	}
