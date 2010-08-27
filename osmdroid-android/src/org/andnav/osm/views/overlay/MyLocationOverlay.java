@@ -2,6 +2,7 @@
 package org.andnav.osm.views.overlay;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
@@ -22,7 +23,6 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Picture;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -58,7 +58,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	protected final Bitmap PERSON_ICON;
 	protected final Bitmap DIRECTION_ARROW;
 
-	private final OpenStreetMapView mMapView;
+	protected final OpenStreetMapView mMapView;
+
 	private final OpenStreetMapViewController mMapController;
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
@@ -83,15 +84,24 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 	// Compass values
 	private boolean mCompassEnabled = false;
+	private final boolean mOrientationSensorAvailable;
 
 	protected final Picture mCompassFrame = new Picture();
 	protected final Picture mCompassRose = new Picture();
+	private final Matrix mCompassMatrix = new Matrix();
 
-	private float mAzimuth = 0.0f;
+	// actual compass value. Note: this one is only changed when an actual compass value
+	// is being read, so a check >= 0 is valid
+	private float mAzimuth = -1.0f;
 
 	private float mCompassCenterX = 35.0f;
 	private float mCompassCenterY = 35.0f;
 	private float mCompassRadius = 20.0f;
+
+	private final float COMPASS_FRAME_CENTER_X;
+	private final float COMPASS_FRAME_CENTER_Y;
+	private final float COMPASS_ROSE_CENTER_X;
+	private final float COMPASS_ROSE_CENTER_Y;
 
 	private float mScale = 1.0f;
 
@@ -122,6 +132,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 		createCompassFramePicture();
 		createCompassRosePicture();
+
+		COMPASS_FRAME_CENTER_X = mCompassFrame.getWidth() / 2 - 0.5f;
+		COMPASS_FRAME_CENTER_Y = mCompassFrame.getHeight() / 2 - 0.5f;
+		COMPASS_ROSE_CENTER_X = mCompassRose.getWidth() / 2 - 0.5f;
+		COMPASS_ROSE_CENTER_Y = mCompassRose.getHeight() / 2 - 0.5f;
+
+		final List<Sensor> mOrientationSensors = mSensorManager.getSensorList(Sensor.TYPE_ORIENTATION);
+		mOrientationSensorAvailable = !mOrientationSensors.isEmpty();
 	}
 
 	// ===========================================================
@@ -226,9 +244,25 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 				c.drawText("Acc: " + mLocation.getAccuracy(),  tx, ty + 50, this.mPaint);
 			}
 
-			if (mLocation.hasSpeed() && mLocation.getSpeed() > 1) {
+			float bearing = -1.0f;
+			// XXX surely the last condition makes the second and third redundant ???
+			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER)
+					&& mOrientationSensorAvailable
+					&& mCompassEnabled
+					&& mAzimuth >= 0.0f) {
+				// if GPS and compass is available, use compass value
+				bearing = mAzimuth;
+			} else if (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {
+				// use bearing if available and if we're actually moving
+				// XXX do we really need to test for speed > 1, or maybe better
+				// some number other than 1
+				bearing = this.mLocation.getBearing();
+			}
+
+			if (bearing >= 0.0f) {
 				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
-				this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
+				// this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
+				this.directionRotater.setRotate(bearing, DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
@@ -241,30 +275,26 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			}
 		}
 
-		if (mCompassEnabled) { // && (mAzimuth >= 0.0f)
+		// XXX surely the second condition makes the first redundant ???
+		if (mCompassEnabled && mAzimuth >= 0.0f) {
+			final float centerX = mCompassCenterX * mScale;
+			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
 
-			float[] matrix = new float[9];
-			c.getMatrix().getValues(matrix);
-
-			final float tx = (-matrix[Matrix.MTRANS_X])/matrix[Matrix.MSCALE_X];
-			final float ty = (-matrix[Matrix.MTRANS_Y])/matrix[Matrix.MSCALE_Y];
-
-			final float centerX = tx + (mCompassCenterX * mScale);
-			final float centerY = ty + (mCompassCenterY * mScale) + (c.getHeight() - mMapView.getHeight());
-
-			final int left = (int) centerX - mCompassFrame.getWidth() / 2;
-			final int top = (int) centerY - mCompassFrame.getHeight() / 2;
-
-			final Rect drawingTarget = new Rect(left, top, left + mCompassFrame.getWidth(), top + mCompassFrame.getHeight());
-
-			c.drawPicture(mCompassFrame, drawingTarget);
+			this.mCompassMatrix.setTranslate(-COMPASS_FRAME_CENTER_X, -COMPASS_FRAME_CENTER_Y);
+			this.mCompassMatrix.postTranslate(centerX, centerY);
 
 			c.save();
-			c.rotate(-mAzimuth, centerX, centerY);
-			c.drawPicture(mCompassRose, drawingTarget);
+			c.setMatrix(mCompassMatrix);
+			c.drawPicture(mCompassFrame);
+
+			this.mCompassMatrix.setRotate(-mAzimuth, COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
+			this.mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
+			this.mCompassMatrix.postTranslate(centerX, centerY);
+
+			c.setMatrix(mCompassMatrix);
+			c.drawPicture(mCompassRose);
 			c.restore();
 		}
-
 	}
 
 	@Override
@@ -336,12 +366,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-
+		// This is not interesting for us at the moment
 	}
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		if ((mCompassEnabled) && (event.sensor.getType() == Sensor.TYPE_ORIENTATION))
+		// It's not necessary to check for mCompassEnabled here, because the event will
+		// only fire, if the sensor has been enabled ...
+		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
 		{
 			if (event.values != null)
 			{
@@ -375,17 +407,24 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		return mMyLocationEnabled = true;
 	}
 
-	public void enableCompass() {
-		if (!mCompassEnabled) {
-			final Sensor sensorOrientation = this.mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-			mSensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
+	public boolean enableCompass() {
+		if (mOrientationSensorAvailable) {
+			if (!mCompassEnabled) {
+				final Sensor sensorOrientation = this.mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+				mSensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
+			}
+			return mCompassEnabled = true;
+		} else {
+			return mCompassEnabled = false;
 		}
-		mCompassEnabled = true;
 	}
 
 	public void disableCompass() {
-		mSensorManager.unregisterListener(this);
-		mCompassEnabled = false;
+		if (mCompassEnabled) {
+			mSensorManager.unregisterListener(this);
+			mCompassEnabled = false;
+		}
+		// XXX shouldn't we put mAzimuth back to -1 here ???
 	}
 
 	public boolean runOnFirstFix(Runnable runnable) {
