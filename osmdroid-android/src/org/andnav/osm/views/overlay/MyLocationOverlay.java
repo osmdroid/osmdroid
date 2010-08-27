@@ -369,9 +369,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	 */
 	public boolean enableMyLocation() {
 		if (!mMyLocationEnabled) {
-			for (final String provider : mLocationManager.getAllProviders()) {
-				mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
-			}
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
 		}
 		return mMyLocationEnabled = true;
 	}
