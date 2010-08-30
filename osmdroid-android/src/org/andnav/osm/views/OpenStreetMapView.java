@@ -238,9 +238,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mMiniMap = aOsmvMinimap;
 		aOsmvMinimap.setMaxiMap(this);
 
-		// TODO Synchronize the Views.
-//		this.setMapCenter(this.mLatitudeE6, this.mLongitudeE6);
-//		this.setZoomLevel(this.getZoomLevel());
+		// make sure that the zoom level of the minimap is set correctly. this is done when
+		// setting the zoom level of the main map
+		this.setZoomLevel(this.getZoomLevel());
+
+		// Set identical map renderer
+		this.mMiniMap.setRenderer(this.getRenderer());
+
+		// Note the "false" parameter at the end - do NOT pass it further to other maps here
+		// this.mMiniMap.setMapCenter(this.getMapCenterLatitudeE6(), this.getMapCenterLongitudeE6(), false);
+		this.mMiniMap.getController().setCenter(this.getMapCenter());
 	}
 
 	public boolean hasMiniMap() {
@@ -357,12 +364,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			final boolean doPassFurther) {
 		if (doPassFurther && this.mMiniMap != null)
 			this.mMiniMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
-		else if (this.mMaxiMap != null)
+		else if (doPassFurther && this.mMaxiMap != null)
 			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
 
 		final int[] coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6, getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx()/2;
 		if (getAnimation() == null || getAnimation().hasEnded()) {
+			logger.debug("StartScroll");
 			mScroller.startScroll(getScrollX(), getScrollY(),
 					coords[MAPTILE_LONGITUDE_INDEX] - worldSize_2 - getScrollX(),
 					coords[MAPTILE_LATITUDE_INDEX] - worldSize_2 - getScrollY(), 500);
@@ -376,6 +384,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	public void setRenderer(final OpenStreetMapRendererInfo aRenderer) {
 		this.mMapOverlay.setRendererInfo(aRenderer);
+		if (this.mMiniMap != null)
+			this.mMiniMap.setRenderer(aRenderer);
 		this.checkZoomButtons();
 		postInvalidate();
 	}
