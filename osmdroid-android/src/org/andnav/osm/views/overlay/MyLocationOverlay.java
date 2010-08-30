@@ -245,11 +245,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			}
 
 			float bearing = -1.0f;
-			// XXX surely the last condition makes the second and third redundant ???
-			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER)
-					&& mOrientationSensorAvailable
-					&& mCompassEnabled
-					&& mAzimuth >= 0.0f) {
+			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && mAzimuth >= 0.0f) {
 				// if GPS and compass is available, use compass value
 				bearing = mAzimuth;
 			} else if (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {
@@ -261,7 +257,6 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 			if (bearing >= 0.0f) {
 				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
-				// this.directionRotater.setRotate(this.mLocation.getBearing(), DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.setRotate(bearing, DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
@@ -275,8 +270,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			}
 		}
 
-		// XXX surely the second condition makes the first redundant ???
-		if (mCompassEnabled && mAzimuth >= 0.0f) {
+		if (mAzimuth >= 0.0f) {
 			final float centerX = mCompassCenterX * mScale;
 			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
 
@@ -423,8 +417,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		if (mCompassEnabled) {
 			mSensorManager.unregisterListener(this);
 			mCompassEnabled = false;
+			// Reset azimuth value
+			mAzimuth = -1.0f;
 		}
-		// XXX shouldn't we put mAzimuth back to -1 here ???
 	}
 
 	public boolean runOnFirstFix(Runnable runnable) {
