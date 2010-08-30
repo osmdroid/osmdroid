@@ -1,9 +1,9 @@
 package org.andnav.osm.tileprovider;
 
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(threadGroupName());
-	private final HashMap<OpenStreetMapTile, Object> mWorking;
+	private final ConcurrentHashMap<OpenStreetMapTile, Object> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, Object> mPending;
 	private static final Object PRESENT = new Object();
 
@@ -24,7 +24,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	public OpenStreetMapAsyncTileProvider(final IOpenStreetMapTileProviderCallback pCallback, final int aThreadPoolSize, final int aPendingQueueSize) {
 		mCallback = pCallback;
 		mThreadPoolSize = aThreadPoolSize;
-		mWorking = new HashMap<OpenStreetMapTile, Object>();
+		mWorking = new ConcurrentHashMap<OpenStreetMapTile, Object>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, Object>(aPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
 			@Override
@@ -38,20 +38,22 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		final int activeCount = mThreadPool.activeCount();
 
-		// sanity check
-		if (activeCount == 0 && !mPending.isEmpty()) {
-			logger.warn("Unexpected - no active threads but pending queue not empty");
-			clearQueue();
-		}
+		synchronized ( mPending ) {
+  		// sanity check
+  		if (activeCount == 0 && !mPending.isEmpty()) {
+  			logger.warn("Unexpected - no active threads but pending queue not empty");
+  			clearQueue();
+  		}
 
-		// this will put the tile in the queue, or move it to the front of the
-		// queue if it's already present
-		try {
-			mPending.put(aTile, PRESENT);
-		} catch(final Throwable e) {
-			// we occasionally get NPE here - see issue 78
-			// not exactly sure why, but catch anything and ignore it
-			logger.warn("Unexpected error", e);
+  		// this will put the tile in the queue, or move it to the front of the
+  		// queue if it's already present
+  		try {
+  			mPending.put(aTile, PRESENT);
+  		} catch(final Throwable e) {
+  			// we occasionally get NPE here - see issue 78
+  			// not exactly sure why, but catch anything and ignore it
+  			logger.warn("Unexpected error", e);
+  		}
 		}
 
 		if (DEBUGMODE)
@@ -63,8 +65,10 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	}
 
 	private void clearQueue() {
-		mPending.clear();
-		mWorking.clear();
+	  synchronized( mPending ) {
+	    mPending.clear();
+	  }
+    mWorking.clear();
 	}
 
 	/**
@@ -145,8 +149,9 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		@Override
 		public void tileLoaded(final OpenStreetMapTile aTile, final String aTilePath, final boolean aRefresh) {
-
-			mPending.remove(aTile);
+		  synchronized ( mPending ) {
+		    mPending.remove(aTile);
+		  }
 			mWorking.remove(aTile);
 
 			if (aRefresh) {

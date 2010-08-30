@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
  * @author Nicolas Gramlich
  *
  */
-public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
+public final class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -41,7 +41,7 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	// Getter & Setter
 	// ===========================================================
 	
-	public void ensureCapacity(final int aCapacity) {
+	public synchronized void ensureCapacity(final int aCapacity) {
 		mCachedTiles.ensureCapacity(aCapacity);
 	}
 	
@@ -63,11 +63,11 @@ public class OpenStreetMapTileCache implements OpenStreetMapViewConstants {
 	// Methods
 	// ===========================================================
 
-	public boolean containsTile(final OpenStreetMapTile aTile) {
+	public synchronized boolean containsTile(final OpenStreetMapTile aTile) {
 		return this.mCachedTiles.containsKey(aTile);
 	}
 
-	public void clear() {
+	public synchronized void clear() {
 		this.mCachedTiles.clear();
 	}
 
