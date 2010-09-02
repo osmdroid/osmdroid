@@ -6,7 +6,7 @@
 		So just run
 			ant build jar
 	-->
-	<property name="version.num" value="1.04" />
+	<property name="version.num" value="1.05" />
 
 	<target name="version">
 		<typedef resource="com/googlecode/svntask/svntask.xml">
