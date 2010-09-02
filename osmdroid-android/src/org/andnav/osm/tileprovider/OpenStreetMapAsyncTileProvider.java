@@ -38,22 +38,16 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		final int activeCount = mThreadPool.activeCount();
 
-		synchronized ( mPending ) {
-  		// sanity check
-  		if (activeCount == 0 && !mPending.isEmpty()) {
-  			logger.warn("Unexpected - no active threads but pending queue not empty");
-  			clearQueue();
-  		}
+		synchronized (mPending) {
+			// sanity check
+			if (activeCount == 0 && !mPending.isEmpty()) {
+				logger.warn("Unexpected - no active threads but pending queue not empty");
+				clearQueue();
+			}
 
-  		// this will put the tile in the queue, or move it to the front of the
-  		// queue if it's already present
-  		try {
-  			mPending.put(aTile, PRESENT);
-  		} catch(final Throwable e) {
-  			// we occasionally get NPE here - see issue 78
-  			// not exactly sure why, but catch anything and ignore it
-  			logger.warn("Unexpected error", e);
-  		}
+			// this will put the tile in the queue, or move it to the front of
+			// the queue if it's already present
+			mPending.put(aTile, PRESENT);
 		}
 
 		if (DEBUGMODE)
@@ -65,10 +59,10 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	}
 
 	private void clearQueue() {
-	  synchronized( mPending ) {
-	    mPending.clear();
-	  }
-    mWorking.clear();
+		synchronized (mPending) {
+			mPending.clear();
+		}
+		mWorking.clear();
 	}
 
 	/**
@@ -129,12 +123,6 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 						} else {
 							iterator = mPending.keySet().iterator();
 						}
-					} catch(final Throwable e) {
-						// we occasionally get NPE here - see issue 78
-						// not exactly sure why, but catch anything and exit
-						//  - don't try and recover
-						logger.warn("Unexpected error", e);
-						break;
 					}
 				}
 
@@ -149,9 +137,9 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 		@Override
 		public void tileLoaded(final OpenStreetMapTile aTile, final String aTilePath, final boolean aRefresh) {
-		  synchronized ( mPending ) {
-		    mPending.remove(aTile);
-		  }
+			synchronized (mPending) {
+				mPending.remove(aTile);
+			}
 			mWorking.remove(aTile);
 
 			if (aRefresh) {

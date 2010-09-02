@@ -7,7 +7,7 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import android.graphics.Bitmap;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
@@ -19,17 +19,17 @@ public final class OpenStreetMapTileCache implements OpenStreetMapViewConstants 
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	protected LRUMapTileCache mCachedTiles;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public OpenStreetMapTileCache() {
 		this(CACHE_MAPTILECOUNT_DEFAULT);
 	}
-	
+
 	/**
 	 * @param aMaximumCacheSize Maximum amount of MapTiles to be hold within.
 	 */
@@ -40,19 +40,19 @@ public final class OpenStreetMapTileCache implements OpenStreetMapViewConstants 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public synchronized void ensureCapacity(final int aCapacity) {
 		mCachedTiles.ensureCapacity(aCapacity);
 	}
-	
+
 	public synchronized Bitmap getMapTile(final OpenStreetMapTile aTile) {
 		return this.mCachedTiles.get(aTile);
 	}
 
 	public synchronized void putTile(final OpenStreetMapTile aTile, final Bitmap aImage) {
-	    if (aImage != null) {
-            this.mCachedTiles.put(aTile, aImage);
-        }
+		if (aImage != null) {
+			this.mCachedTiles.put(aTile, aImage);
+		}
 	}
 
 	// ===========================================================
