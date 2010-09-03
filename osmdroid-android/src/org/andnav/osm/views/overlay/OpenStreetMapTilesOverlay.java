@@ -25,7 +25,7 @@ import android.os.Message;
 public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);
-	
+
 	protected OpenStreetMapView mOsmv;
 	protected OpenStreetMapRendererInfo mRendererInfo;
 
@@ -41,7 +41,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 			final String aCloudmadeKey) {
 		this(aOsmv, aRendererInfo, aTileProvider, aCloudmadeKey, new DefaultResourceProxyImpl(aContext));
 	}
-	
+
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
 			final OpenStreetMapRendererInfo aRendererInfo,
@@ -56,16 +56,16 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		else
 			this.mTileProvider = aTileProvider;
 	}
-	
+
 	public void detach()
 	{
-		this.mTileProvider.detach();		
+		this.mTileProvider.detach();
 	}
-	
+
 	public OpenStreetMapRendererInfo getRendererInfo() {
 		return mRendererInfo;
 	}
-	
+
 	public void setRendererInfo(final OpenStreetMapRendererInfo aRendererInfo) {
 		this.mRendererInfo = aRendererInfo;
 		// XXX perhaps we should set the cache capacity back to default here
@@ -74,7 +74,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	public void setAlpha(int a) {
 		this.mPaint.setAlpha(a);
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
 
@@ -90,11 +90,11 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final Rect viewPort = c.getClipBounds();
 		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
 		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
-		final int worldSize_2 = 1 << (zoomLevel + this.mRendererInfo.MAPTILE_ZOOM - 1);
+		final int worldSize_2 = 1 << (zoomLevel + tileZoom - 1);
 		final int rendererId = this.mRendererInfo.ordinal();
-		
+
 		/*
-		 * Calculate the amount of tiles needed for each side around the center 
+		 * Calculate the amount of tiles needed for each side around the center
 		 * one.
 		 */
 		viewPort.offset(worldSize_2, worldSize_2);
@@ -110,7 +110,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int numNeeded = (tileNeededToBottomOfCenter - tileNeededToTopOfCenter + 1)
 							* (tileNeededToRightOfCenter - tileNeededToLeftOfCenter + 1);
 		mTileProvider.ensureCapacity(numNeeded);
-		
+
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
@@ -132,7 +132,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				}
 			}
 		}
-		
+
 		// draw a cross at center in debug mode
 		if (DEBUGMODE) {
 			final GeoPoint center = osmv.getMapCenter();
