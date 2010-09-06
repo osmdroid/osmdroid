@@ -8,11 +8,11 @@ import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
@@ -31,21 +31,21 @@ public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 
 		final Context context = new IsolatedContext(null, getContext());
 		mProvider = new OpenStreetMapTileProviderService(context, new Handler());
-		
+
 		super.setUp();
 	}
 
 	public void test_getMapTile_not_found() {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(1, 2, 3, 4);
-		
+		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+
 		final Bitmap bitmap = mProvider.getMapTile(tile);
-		
+
 		assertNull("Expect tile to be null", bitmap);
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(1, 2, 3, 4);
-		
+		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
 		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);
@@ -55,7 +55,7 @@ public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
 
-		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRendererId(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
+		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRendererName(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
 
 		// do the test
 		final Bitmap bitmap2 = mProvider.getMapTile(tile);

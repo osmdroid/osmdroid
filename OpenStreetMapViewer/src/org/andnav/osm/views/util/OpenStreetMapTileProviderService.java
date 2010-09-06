@@ -38,26 +38,26 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 		Log.d(DEBUGTAG, "onServiceConnected(" + name + ")");
 
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
-		
+
 		try {
 			mTileService.setCallback(mServiceCallback);
 		} catch (RemoteException e) {
 			Log.e(DEBUGTAG, "Error setting callback", e);
 		}
-		
+
 		try {
 			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 		} catch(Exception e) {
 			Log.e(DEBUGTAG, "Error sending success message on connect", e);
 		}
 	};
-	
+
 	@Override
 	public void onServiceDisconnected(final ComponentName name) {
 		onDisconnect();
 		Log.d(DEBUGTAG, "disconnected");
 	}
-	
+
 	/**
 	 * Get the tile from the cache.
 	 * If it's in the cache then it will be returned.
@@ -80,7 +80,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
-					mTileService.requestMapTile(aTile.getRendererId(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
+					mTileService.requestMapTile(aTile.getRendererName(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}
@@ -108,7 +108,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 		if (mServiceBound)
 		{
 			if (DEBUGMODE)
-				Log.d(DEBUGTAG, "Unbinding service");		
+				Log.d(DEBUGTAG, "Unbinding service");
 			mContext.unbindService(this);
 			onDisconnect();
 		}
@@ -118,14 +118,14 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	{
 		if (mServiceBound)
 			return true;
-		
+
 		boolean success = mContext.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE);
-		
+
 		if (!success)
 			Log.e(DEBUGTAG, "Could not bind to " + IOpenStreetMapTileProviderService.class.getName());
-		
+
 		mServiceBound = success;
-		
+
 		return success;
 	}
 
@@ -137,8 +137,8 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 
 	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 		@Override
-		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
-			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererID, aZoomLevel, aTileX, aTileY);
+		public void mapTileRequestCompleted(final String aRendererName, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
+			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererName, aZoomLevel, aTileX, aTileY);
 			OpenStreetMapTileProviderService.this.mapTileRequestCompleted(tile, aTilePath);
 		}
 	};

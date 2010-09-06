@@ -15,9 +15,10 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.Mercator;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo.CodeScheme;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory.CodeScheme;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.metalev.multitouch.controller.MultiTouchController;
@@ -55,7 +56,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapView.class);
 
-	final static OpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererInfo.MAPNIK;
+	final static IOpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererFactory.getDefaultRenderer();
    	final static String BUNDLE_RENDERER = "org.andnav.osm.views.OpenStreetMapView.RENDERER";
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
 	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
@@ -108,7 +109,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private OpenStreetMapView(
 			final Context context,
 			final AttributeSet attrs,
-			final OpenStreetMapRendererInfo rendererInfo,
+			final IOpenStreetMapRendererInfo rendererInfo,
 			final OpenStreetMapTileProvider tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
@@ -130,11 +131,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mGestureDetector.setOnDoubleTapListener(new OpenStreetMapViewDoubleClickListener());
 	}
 
-	private OpenStreetMapRendererInfo getRendererInfo(
-			final OpenStreetMapRendererInfo rendererInfo,
+	private IOpenStreetMapRendererInfo getRendererInfo(
+			final IOpenStreetMapRendererInfo rendererInfo,
 			final AttributeSet attrs) {
 
-		OpenStreetMapRendererInfo renderer = DEFAULTRENDERER;
+		IOpenStreetMapRendererInfo renderer = DEFAULTRENDERER;
 
 		if (rendererInfo != null) {
 			logger.info("Using renderer specified in constructor: " + rendererInfo);
@@ -144,7 +145,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				final String rendererAttr = attrs.getAttributeValue(null, "renderer");
 				if (rendererAttr != null) {
 					try {
-						final OpenStreetMapRendererInfo r = OpenStreetMapRendererInfo.valueOf(rendererAttr);
+						final IOpenStreetMapRendererInfo r = OpenStreetMapRendererFactory.getRenderer(rendererAttr);
 						logger.info("Using renderer specified in layout attributes: " + r);
 						renderer = r;
 					} catch (final IllegalArgumentException e) {
@@ -154,7 +155,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			}
 		}
 
-		if (renderer.CODE_SCHEME == CodeScheme.CLOUDMADE && attrs != null) {
+		if (renderer.codeScheme() == CodeScheme.CLOUDMADE && attrs != null) {
 			final String style = attrs.getAttributeValue(null, "cloudmadeStyle");
 			if (style != null) {
 				try {
@@ -184,9 +185,9 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *
 	 * @param context
 	 * @param aRendererInfo
-	 *            pass a {@link OpenStreetMapRendererInfo} you like.
+	 *            pass a {@link IOpenStreetMapRendererInfo} you like.
 	 */
-	public OpenStreetMapView(final Context context, final OpenStreetMapRendererInfo aRendererInfo) {
+	public OpenStreetMapView(final Context context, final IOpenStreetMapRendererInfo aRendererInfo) {
 		this(context, null, aRendererInfo, null);
 	}
 
@@ -203,15 +204,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *
 	 * @param context
 	 * @param aRendererInfo
-	 *            pass a {@link OpenStreetMapRendererInfo} you like.
+	 *            pass a {@link IOpenStreetMapRendererInfo} you like.
 	 * @param osmv
 	 *            another {@link OpenStreetMapView}, to share the TileProvider
 	 *            with.<br/>
 	 *            May significantly improve the render speed, when using the
-	 *            same {@link OpenStreetMapRendererInfo}.
+	 *            same {@link IOpenStreetMapRendererInfo}.
 	 */
 	public OpenStreetMapView(final Context context,
-			final OpenStreetMapRendererInfo aRendererInfo,
+			final IOpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapView aMapToShareTheTileProviderWith) {
 		this(context, null, aRendererInfo, /* TODO aMapToShareTheTileProviderWith.mTileProvider */ null);
 	}
@@ -332,7 +333,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight){
-		final int mapTileZoom = mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
+		final int mapTileZoom = mMapOverlay.getRendererInfo().maptileZoom();
 		final int world_2 = (1 << mZoomLevel + mapTileZoom - 1);
 		final int north = world_2 + getScrollY() - getHeight()/2;
 		final int south = world_2 + getScrollY() + getHeight()/2;
@@ -378,11 +379,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 	}
 
-	public OpenStreetMapRendererInfo getRenderer() {
+	public IOpenStreetMapRendererInfo getRenderer() {
 		return this.mMapOverlay.getRendererInfo();
 	}
 
-	public void setRenderer(final OpenStreetMapRendererInfo aRenderer) {
+	public void setRenderer(final IOpenStreetMapRendererInfo aRenderer) {
 		this.mMapOverlay.setRendererInfo(aRenderer);
 		if (this.mMiniMap != null)
 			this.mMiniMap.setRenderer(aRenderer);
@@ -396,8 +397,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *            Renderer chosen.
 	 */
 	int setZoomLevel(final int aZoomLevel) {
-		final int minZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MINLEVEL;
-		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().ZOOM_MAXLEVEL;
+		final int minZoomLevel = this.mMapOverlay.getRendererInfo().zoomMinLevel();
+		final int maxZoomLevel = this.mMapOverlay.getRendererInfo().zoomMaxLevel();
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
 		final int curZoomLevel = this.mZoomLevel;
 
@@ -465,7 +466,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	public int getMaxZoomLevel() {
-		return getRenderer().ZOOM_MAXLEVEL;
+		return getRenderer().zoomMaxLevel();
 	}
 
 	public boolean canZoomIn() {
@@ -556,14 +557,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	public void onSaveInstanceState(android.os.Bundle state) {
-    	state.putInt(BUNDLE_RENDERER, getRenderer().ordinal());
+    	state.putString(BUNDLE_RENDERER, getRenderer().name());
     	state.putInt(BUNDLE_SCROLL_X, getScrollX());
     	state.putInt(BUNDLE_SCROLL_Y, getScrollY());
     	state.putInt(BUNDLE_ZOOM_LEVEL, getZoomLevel());
 	}
 
 	public void onRestoreInstanceState(android.os.Bundle state) {
-		setRenderer(OpenStreetMapRendererInfo.values()[state.getInt(BUNDLE_RENDERER, 0)]);
+		setRenderer(OpenStreetMapRendererFactory.getRenderer(state.getString(BUNDLE_RENDERER), true));
     	setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
     	scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
 	}
@@ -775,7 +776,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * Get the equivalent zoom level on pixel scale
 	 */
 	int getPixelZoomLevel() {
-		return this.mZoomLevel + this.mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
+		return this.mZoomLevel + this.mMapOverlay.getRendererInfo().maptileZoom();
 	}
 
 	// ===========================================================
@@ -796,7 +797,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	private int[] getCenterMapTileCoords() {
-		final int mapTileZoom = this.mMapOverlay.getRendererInfo().MAPTILE_ZOOM;
+		final int mapTileZoom = this.mMapOverlay.getRendererInfo().maptileZoom();
 		final int worldTiles_2 = 1 << (mZoomLevel-1);
 		// convert to tile coordinate and make positive
 		return new int[] {  (getScrollY() >> mapTileZoom) + worldTiles_2,
@@ -868,7 +869,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 															// make it only
 															// 'valid' for a
 															// short time.
-			tileSizePx = getRenderer().MAPTILE_SIZEPX;
+			tileSizePx = getRenderer().maptileSizePx();
 
 			/*
 			 * Get the center MapTile which is above this.mLatitudeE6 and

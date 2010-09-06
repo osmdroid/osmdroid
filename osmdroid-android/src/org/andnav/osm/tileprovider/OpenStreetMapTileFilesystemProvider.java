@@ -7,23 +7,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
 public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileProvider {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileFilesystemProvider.class);
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -47,7 +48,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -61,8 +62,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	protected Runnable getTileLoader() {
 		return new TileLoader();
 	};
-	
-	
+
+
 	/**
 	 * Stops all workers, the service is shutting down.
 	 */
@@ -72,21 +73,21 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		super.stopWorkers();
 		this.mTileDownloader.stopWorkers();
 	}
-	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
 	private String buildPath(final OpenStreetMapTile tile) {
-		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
+		final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(tile.getRendererName());
 		return TILE_PATH_BASE + renderer.name() + "/" + tile.getZoomLevel() + "/"
-					+ tile.getX() + "/" + tile.getY() + renderer.IMAGE_FILENAMEENDING + TILE_PATH_EXTENSION; 
+					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding() + TILE_PATH_EXTENSION;
 	}
-	
+
 	/**
 	 * Get the file location for the tile.
 	 * @param tile
-	 * @return 
+	 * @return
 	 * @throws CantContinueException if the directory containing the file doesn't exist
 	 * and can't be created
 	 */
@@ -99,9 +100,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		}
 		return file;
 	}
-	
+
 	void saveFile(final OpenStreetMapTile tile, final File outputFile, final byte[] someData) throws IOException{
-		final OutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile, false), StreamUtils.IO_BUFFER_SIZE);		
+		final OutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile, false), StreamUtils.IO_BUFFER_SIZE);
 		bos.write(someData);
 		bos.flush();
 		bos.close();

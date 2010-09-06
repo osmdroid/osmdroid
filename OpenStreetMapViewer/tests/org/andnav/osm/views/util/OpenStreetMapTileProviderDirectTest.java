@@ -28,21 +28,21 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	protected void setUp() throws Exception {
 
 		mProvider = new OpenStreetMapTileProviderDirect(new Handler(), "key");
-		
+
 		super.setUp();
 	}
 
 	public void test_getMapTile_not_found() {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(1, 2, 3, 4);
-		
+		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+
 		final Bitmap bitmap = mProvider.getMapTile(tile);
-		
+
 		assertNull("Expect tile to be null", bitmap);
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(1, 2, 3, 4);
-		
+		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
 		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);

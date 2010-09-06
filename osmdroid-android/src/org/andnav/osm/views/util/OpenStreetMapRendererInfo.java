@@ -8,13 +8,14 @@ import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCloudmadeTokenCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory.CodeScheme;
 
 /**
  * The OpenStreetMapRendererInfo stores information about available tile servers.
  * @author Nicolas Gramlich
  *
  */
-public enum OpenStreetMapRendererInfo {
+enum OpenStreetMapRendererInfo {
 	OSMARENDER(ResourceProxy.string.osmarender, ".png", 0, 17, 8, CodeScheme.X_Y, "http://tah.openstreetmap.org/Tiles/tile/"),
 	MAPNIK(ResourceProxy.string.mapnik, ".png", 0, 18, 8, CodeScheme.X_Y, "http://tile.openstreetmap.org/"),
 	CYCLEMAP(ResourceProxy.string.cyclemap, ".png", 0, 17, 8, CodeScheme.X_Y,
@@ -37,8 +38,6 @@ public enum OpenStreetMapRendererInfo {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	public enum CodeScheme { X_Y, CLOUDMADE, QUAD_TREE };
 
 	public final ResourceProxy.string NAME;
 	public final String BASEURLS[], IMAGE_FILENAMEENDING;
