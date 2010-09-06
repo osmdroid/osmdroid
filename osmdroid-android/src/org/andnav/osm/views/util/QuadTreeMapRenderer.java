@@ -20,8 +20,7 @@ class QuadTreeMapRenderer extends OpenStreetMapRendererBase {
 			IOpenStreetMapTileProviderCallback aMCallback,
 			IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback)
 			throws CloudmadeException {
-		final String baseurl = mBaseUrls[random.nextInt(mBaseUrls.length)];
-		return baseurl + quadTree(aTile) + mImageFilenameEnding;
+		return getBaseUrl() + quadTree(aTile) + mImageFilenameEnding;
 	}
 
 	/**

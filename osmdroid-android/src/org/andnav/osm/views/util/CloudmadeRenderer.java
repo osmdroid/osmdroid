@@ -20,10 +20,9 @@ class CloudmadeRenderer extends OpenStreetMapRendererBase {
 			IOpenStreetMapTileProviderCallback aCallback,
 			IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback)
 			throws CloudmadeException {
-		final String baseurl = mBaseUrls[random.nextInt(mBaseUrls.length)];
 		final String key = aCallback.getCloudmadeKey();
 		final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
-		return String.format(baseurl, key, cloudmadeStyle, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), mImageFilenameEnding, token);
+		return String.format(getBaseUrl(), key, cloudmadeStyle, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), mImageFilenameEnding, token);
 	}
 
 }

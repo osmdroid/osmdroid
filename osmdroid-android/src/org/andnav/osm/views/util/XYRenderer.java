@@ -20,8 +20,7 @@ class XYRenderer extends OpenStreetMapRendererBase {
 			IOpenStreetMapTileProviderCallback aMCallback,
 			IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback)
 			throws CloudmadeException {
-		final String baseurl = mBaseUrls[random.nextInt(mBaseUrls.length)];
-		return baseurl + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY() + mImageFilenameEnding;
+		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY() + mImageFilenameEnding;
 	}
 
 }

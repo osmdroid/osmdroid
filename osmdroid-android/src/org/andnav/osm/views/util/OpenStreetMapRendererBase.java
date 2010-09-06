@@ -17,7 +17,7 @@ abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
 	private final int mZoomMinLevel;
 	private final int mZoomMaxLevel;
 	protected final String mImageFilenameEnding;
-	protected final String mBaseUrls[];
+	private final String mBaseUrls[];
 	int cloudmadeStyle = 1;
 	protected final Random random = new Random();
 
@@ -72,8 +72,15 @@ abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
 	}
 
 	@Override
-	public String getImageFilenameEnding() {
+	public String imageFilenameEnding() {
 		return mImageFilenameEnding;
+	}
+
+	/**
+	 * Get the base url, which will be a random one if there are more than one.
+	 */
+	protected String getBaseUrl() {
+		return mBaseUrls[random.nextInt(mBaseUrls.length)];
 	}
 
 }

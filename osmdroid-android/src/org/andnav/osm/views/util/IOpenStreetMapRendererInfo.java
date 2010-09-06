@@ -15,7 +15,7 @@ public interface IOpenStreetMapRendererInfo {
 	int maptileZoom();
 	int zoomMinLevel();
 	int zoomMaxLevel();
-	String getImageFilenameEnding();
+	String imageFilenameEnding();
 	String getTileURLString(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aMCallback, IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException;
 
 }
