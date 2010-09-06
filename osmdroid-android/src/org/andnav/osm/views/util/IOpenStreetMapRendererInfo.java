@@ -12,7 +12,7 @@ public interface IOpenStreetMapRendererInfo {
 
 	int ordinal();
 	String name();
-	ResourceProxy.string resourceId();
+	String localizedName(ResourceProxy proxy);
 	int maptileSizePx();
 	int maptileZoom();
 	int zoomMinLevel();

@@ -1,5 +1,6 @@
 package org.andnav.osm.views.util;
 
+import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxy.string;
 import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
@@ -8,10 +9,18 @@ import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
 class QuadTreeMapRenderer extends OpenStreetMapRendererBase {
 
+	private final ResourceProxy.string mResourceId;
+
 	QuadTreeMapRenderer(String aName, string aResourceId, int aZoomMinLevel,
 			int aZoomMaxLevel, int aMaptileZoom, String aImageFilenameEnding,
 			String ...aBaseUrl) {
-		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aMaptileZoom, aImageFilenameEnding, aBaseUrl);
+		super(aName, aZoomMinLevel, aZoomMaxLevel, aMaptileZoom, aImageFilenameEnding, aBaseUrl);
+		mResourceId = aResourceId;
+	}
+
+	@Override
+	public String localizedName(ResourceProxy proxy) {
+		return proxy.getString(mResourceId);
 	}
 
 	@Override

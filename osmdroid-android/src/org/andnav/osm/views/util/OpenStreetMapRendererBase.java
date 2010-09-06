@@ -3,8 +3,6 @@ package org.andnav.osm.views.util;
 import java.io.File;
 import java.util.Random;
 
-import org.andnav.osm.ResourceProxy;
-import org.andnav.osm.ResourceProxy.string;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
+public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapRendererBase.class);
 
@@ -21,23 +19,21 @@ abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
 
 	private final int mOrdinal;
 	private final String mName;
-	private final ResourceProxy.string mResourceId;
 	private final int mMaptileSizePx;
 	private final int mMaptileZoom;
 	private final int mZoomMinLevel;
 	private final int mZoomMaxLevel;
 	protected final String mImageFilenameEnding;
 	private final String mBaseUrls[];
-	int cloudmadeStyle = 1;
+	protected int cloudmadeStyle = 1;
 	protected final Random random = new Random();
 
-	OpenStreetMapRendererBase(String aName, ResourceProxy.string aResourceId,
+	public OpenStreetMapRendererBase(String aName,
 			int aZoomMinLevel, int aZoomMaxLevel,
 			int aMaptileZoom,
 			String aImageFilenameEnding, final String ...aBaseUrl) {
 		mOrdinal = globalOrdinal++;
 		mName = aName;
-		mResourceId = aResourceId;
 		mZoomMinLevel = aZoomMinLevel;
 		mZoomMaxLevel = aZoomMaxLevel;
 		mMaptileZoom = aMaptileZoom;
@@ -54,11 +50,6 @@ abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo {
 	@Override
 	public String name() {
 		return mName;
-	}
-
-	@Override
-	public string resourceId() {
-		return mResourceId;
 	}
 
 	@Override
