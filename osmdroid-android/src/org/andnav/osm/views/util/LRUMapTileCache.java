@@ -4,20 +4,19 @@ import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
 
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
-import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
 
-public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> implements OpenStreetMapViewConstants {
+public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 
 	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
-	
+
 	private static final long serialVersionUID = -541142277575493335L;
 
 	private int mCapacity;
-	
+
 	public LRUMapTileCache(final int aCapacity) {
 		super(aCapacity + 2, 0.1f, true);
 		mCapacity = aCapacity;
