@@ -1,8 +1,6 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
 package org.andnav.osm.views.util;
 
-import java.io.File;
-
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
@@ -36,13 +34,6 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 		final Drawable drawable = renderer.getDrawable(pTilePath);
 		if (drawable != null) {
 			mTileCache.putTile(pTile, drawable);
-		} else {
-			// if we couldn't load it then it's invalid - delete it
-			try {
-				new File(pTilePath).delete();
-			} catch (Throwable e) {
-				logger.error("Error deleting invalid file: " + pTilePath, e);
-			}
 		}
 
 		// tell our caller we've finished and it should update its view
