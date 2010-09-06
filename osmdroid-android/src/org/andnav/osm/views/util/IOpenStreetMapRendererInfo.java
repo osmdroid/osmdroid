@@ -6,6 +6,8 @@ import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCloudmadeTokenCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
+import android.graphics.drawable.Drawable;
+
 public interface IOpenStreetMapRendererInfo {
 
 	int ordinal();
@@ -17,5 +19,6 @@ public interface IOpenStreetMapRendererInfo {
 	int zoomMaxLevel();
 	String imageFilenameEnding();
 	String getTileURLString(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aMCallback, IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException;
+	Drawable getDrawable(String aFilePath);
 
 }

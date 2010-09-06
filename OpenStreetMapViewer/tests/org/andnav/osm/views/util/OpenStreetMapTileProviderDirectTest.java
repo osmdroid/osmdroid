@@ -12,6 +12,8 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
@@ -35,13 +37,13 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	public void test_getMapTile_not_found() {
 		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
 
-		final Bitmap bitmap = mProvider.getMapTile(tile);
+		final Drawable drawable = mProvider.getMapTile(tile);
 
-		assertNull("Expect tile to be null", bitmap);
+		assertNull("Expect tile to be null", drawable);
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+		final OpenStreetMapTile tile = new OpenStreetMapTile("MAPNIK", 2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
@@ -55,7 +57,10 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		mProvider.mapTileRequestCompleted(tile, path);
 
 		// do the test
-		final Bitmap bitmap2 = mProvider.getMapTile(tile);
+		final Drawable drawable = mProvider.getMapTile(tile);
+		assertNotNull("Expect tile to be not null", drawable);
+		assertTrue("Expect instance of BitmapDrawable", drawable instanceof BitmapDrawable);
+		final Bitmap bitmap2 = ((BitmapDrawable)drawable).getBitmap();
 		assertNotNull("Expect tile to be not null", bitmap2);
 
 		// compare a few things to see if it's the same bitmap

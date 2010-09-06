@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
-public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
+public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Drawable> {
 
 	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
 
@@ -29,12 +31,15 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 	}
 
 	@Override
-	public Bitmap remove(final Object aKey) {
-		final Bitmap bm = super.remove(aKey);
-		if (bm != null) {
-			bm.recycle();
+	public Drawable remove(final Object aKey) {
+		final Drawable drawable = super.remove(aKey);
+		if (drawable instanceof BitmapDrawable) {
+			final Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+			if (bitmap != null) {
+				bitmap.recycle();
+			}
 		}
-		return bm;
+		return drawable;
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Bitmap> {
 	}
 
 	@Override
-	protected boolean removeEldestEntry(final Entry<OpenStreetMapTile, Bitmap> aEldest) {
+	protected boolean removeEldestEntry(final Entry<OpenStreetMapTile, Drawable> aEldest) {
 		return size() > mCapacity;
 	}
 

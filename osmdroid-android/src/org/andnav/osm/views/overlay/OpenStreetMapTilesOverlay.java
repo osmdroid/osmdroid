@@ -14,11 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 
@@ -120,9 +120,10 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				final OpenStreetMapTile tile = new OpenStreetMapTile(name, zoomLevel, tileX, tileY);
 
 				pj.toPixels(x, y, tilePos);
-				final Bitmap currentMapTile = mTileProvider.getMapTile(tile);
+				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
 				if (currentMapTile != null) {
-					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, mPaint);
+					currentMapTile.setBounds(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y + tileSizePx);
+					currentMapTile.draw(c);
 				}
 
 				if (DEBUGMODE) {

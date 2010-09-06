@@ -4,7 +4,7 @@ package org.andnav.osm.views.util;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 /**
  *
@@ -45,13 +45,13 @@ public final class OpenStreetMapTileCache implements OpenStreetMapViewConstants 
 		mCachedTiles.ensureCapacity(aCapacity);
 	}
 
-	public synchronized Bitmap getMapTile(final OpenStreetMapTile aTile) {
+	public synchronized Drawable getMapTile(final OpenStreetMapTile aTile) {
 		return this.mCachedTiles.get(aTile);
 	}
 
-	public synchronized void putTile(final OpenStreetMapTile aTile, final Bitmap aImage) {
-		if (aImage != null) {
-			this.mCachedTiles.put(aTile, aImage);
+	public synchronized void putTile(final OpenStreetMapTile aTile, final Drawable aDrawable) {
+		if (aDrawable != null) {
+			this.mCachedTiles.put(aTile, aDrawable);
 		}
 	}
 

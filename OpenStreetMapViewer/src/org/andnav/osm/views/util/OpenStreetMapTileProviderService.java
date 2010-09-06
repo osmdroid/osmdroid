@@ -8,7 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -70,7 +70,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	 * @return the tile bitmap if found in the cache, null otherwise
 	 */
 	@Override
-	public Bitmap getMapTile(final OpenStreetMapTile aTile) {
+	public Drawable getMapTile(final OpenStreetMapTile aTile) {
 		if (mTileCache.containsTile(aTile)) { 							// from cache
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "MapTileCache succeeded for: " + aTile);
