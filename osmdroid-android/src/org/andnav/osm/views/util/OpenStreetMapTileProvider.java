@@ -30,10 +30,12 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 
 		// if the tile path has been returned, add the tile to the cache
 		// let the renderer convert the file to a drawable
-		final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(pTile.getRendererName());
-		final Drawable drawable = renderer.getDrawable(pTilePath);
-		if (drawable != null) {
-			mTileCache.putTile(pTile, drawable);
+		if (pTilePath != null) {
+			final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(pTile.getRendererName());
+			final Drawable drawable = renderer.getDrawable(pTilePath);
+			if (drawable != null) {
+				mTileCache.putTile(pTile, drawable);
+			}
 		}
 
 		// tell our caller we've finished and it should update its view
