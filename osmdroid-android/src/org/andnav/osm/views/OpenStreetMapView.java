@@ -18,7 +18,6 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory.CodeScheme;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.metalev.multitouch.controller.MultiTouchController;
@@ -56,7 +55,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapView.class);
 
-	final static IOpenStreetMapRendererInfo DEFAULTRENDERER = OpenStreetMapRendererFactory.getDefaultRenderer();
    	final static String BUNDLE_RENDERER = "org.andnav.osm.views.OpenStreetMapView.RENDERER";
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
 	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
@@ -115,7 +113,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, getRendererInfo(rendererInfo, attrs), tileProvider, getCloudmadeKey(context), mResourceProxy);
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, OpenStreetMapRendererFactory.getRenderer(rendererInfo, attrs), tileProvider, getCloudmadeKey(context), mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -129,48 +127,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		mGestureDetector = new GestureDetector(context, new OpenStreetMapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new OpenStreetMapViewDoubleClickListener());
-	}
-
-	private IOpenStreetMapRendererInfo getRendererInfo(
-			final IOpenStreetMapRendererInfo rendererInfo,
-			final AttributeSet attrs) {
-
-		IOpenStreetMapRendererInfo renderer = DEFAULTRENDERER;
-
-		if (rendererInfo != null) {
-			logger.info("Using renderer specified in constructor: " + rendererInfo);
-			renderer = rendererInfo;
-		} else {
-			if (attrs != null) {
-				final String rendererAttr = attrs.getAttributeValue(null, "renderer");
-				if (rendererAttr != null) {
-					try {
-						final IOpenStreetMapRendererInfo r = OpenStreetMapRendererFactory.getRenderer(rendererAttr);
-						logger.info("Using renderer specified in layout attributes: " + r);
-						renderer = r;
-					} catch (final IllegalArgumentException e) {
-						logger.warn("Invalid renderer specified in layout attributes: " + renderer);
-					}
-				}
-			}
-		}
-
-		if (renderer.codeScheme() == CodeScheme.CLOUDMADE && attrs != null) {
-			final String style = attrs.getAttributeValue(null, "cloudmadeStyle");
-			if (style != null) {
-				try {
-					final int s = Integer.valueOf(style);
-					logger.info("Using Cloudmade style specified in layout attributes: " + s);
-					renderer.setCloudmadeStyle(s);
-				} catch (final NumberFormatException e) {
-					logger.warn("Invalid Cloudmade style specified in layout attributes: " + style);
-				}
-			}
-			logger.info("Using default Cloudmade style : 1");
-		}
-
-		logger.info("Using renderer : " + DEFAULTRENDERER);
-		return renderer;
 	}
 
 	/**
