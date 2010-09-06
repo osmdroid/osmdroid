@@ -38,7 +38,7 @@ public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_not_found() {
-		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 3, 4);
 
 		final Drawable drawable = mProvider.getMapTile(tile);
 
@@ -46,7 +46,7 @@ public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile("MAPNIK", 2, 3, 4);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
@@ -57,7 +57,7 @@ public class OpenStreetMapTileProviderServiceTest extends AndroidTestCase {
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
 
-		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRendererName(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
+		mProvider.mServiceCallback.mapTileRequestCompleted(tile.getRenderer().name(), tile.getZoomLevel(), tile.getX(), tile.getY(), path);
 
 		// do the test
 		final Drawable drawable = mProvider.getMapTile(tile);

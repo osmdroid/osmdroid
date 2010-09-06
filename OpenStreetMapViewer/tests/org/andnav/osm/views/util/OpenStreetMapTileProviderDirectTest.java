@@ -35,7 +35,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_not_found() {
-		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 2, 3, 4);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 3, 4);
 
 		final Drawable drawable = mProvider.getMapTile(tile);
 
@@ -43,7 +43,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile("MAPNIK", 2, 3, 4);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";

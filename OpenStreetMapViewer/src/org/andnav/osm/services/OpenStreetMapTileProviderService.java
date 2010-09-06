@@ -5,6 +5,8 @@ import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Service;
 import android.content.Intent;
@@ -82,7 +84,7 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	@Override
 	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 		try {
-			mCallback.mapTileRequestCompleted(pTile.getRendererName(), pTile.getZoomLevel(), pTile.getX(), pTile.getY(), pTilePath);
+			mCallback.mapTileRequestCompleted(pTile.getRenderer().name(), pTile.getZoomLevel(), pTile.getX(), pTile.getY(), pTilePath);
 		} catch (final RemoteException e) {
 			Log.e(DEBUGTAG, "Error invoking callback", e);
 		}
@@ -103,7 +105,8 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 		}
 		@Override
 		public void requestMapTile(String rendererName, int zoomLevel, int tileX, int tileY) throws RemoteException {
-			OpenStreetMapTile tile = new OpenStreetMapTile(rendererName, zoomLevel, tileX, tileY);
+			final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
+			OpenStreetMapTile tile = new OpenStreetMapTile(renderer, zoomLevel, tileX, tileY);
 			mFileSystemProvider.loadMapTileAsync(tile);
 		}
 	};

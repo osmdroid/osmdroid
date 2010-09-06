@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +78,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	private String buildPath(final OpenStreetMapTile tile) {
-		final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(tile.getRendererName());
+		final IOpenStreetMapRendererInfo renderer = tile.getRenderer();
 		return TILE_PATH_BASE + renderer.name() + "/" + tile.getZoomLevel() + "/"
 					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding() + TILE_PATH_EXTENSION;
 	}

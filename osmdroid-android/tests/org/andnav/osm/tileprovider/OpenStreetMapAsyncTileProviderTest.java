@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.junit.Test;
 
 /**
@@ -41,7 +42,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 			}
 		};
 
-		final OpenStreetMapTile tile = new OpenStreetMapTile("one", 1, 1, 1);
+		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 1, 1, 1);
 
 		// request the same tile twice
 		target.loadMapTileAsync(tile);
@@ -88,9 +89,9 @@ public class OpenStreetMapAsyncTileProviderTest {
 			}
 		};
 
-		final OpenStreetMapTile tile1 = new OpenStreetMapTile("one", 1, 1, 1);
-		final OpenStreetMapTile tile2 = new OpenStreetMapTile("two", 2, 2, 2);
-		final OpenStreetMapTile tile3 = new OpenStreetMapTile("three", 3, 3, 3);
+		final OpenStreetMapTile tile1 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 1, 1, 1);
+		final OpenStreetMapTile tile2 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 2, 2);
+		final OpenStreetMapTile tile3 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 3, 3, 3);
 
 		// request the three tiles
 		target.loadMapTileAsync(tile1);
@@ -150,9 +151,9 @@ public class OpenStreetMapAsyncTileProviderTest {
 			}
 		};
 
-		final OpenStreetMapTile tile1 = new OpenStreetMapTile("one", 1, 1, 1);
-		final OpenStreetMapTile tile2 = new OpenStreetMapTile("two", 2, 2, 2);
-		final OpenStreetMapTile tile3 = new OpenStreetMapTile("three", 3, 3, 3);
+		final OpenStreetMapTile tile1 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 1, 1, 1);
+		final OpenStreetMapTile tile2 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 2, 2);
+		final OpenStreetMapTile tile3 = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 3, 3, 3);
 
 		// request tile1, tile2, tile3, then tile2 again
 		target.loadMapTileAsync(tile1);

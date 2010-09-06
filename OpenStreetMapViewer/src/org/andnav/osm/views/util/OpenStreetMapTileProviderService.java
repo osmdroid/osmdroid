@@ -80,7 +80,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
-					mTileService.requestMapTile(aTile.getRendererName(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
+					mTileService.requestMapTile(aTile.getRenderer().name(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}
@@ -138,7 +138,8 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 		@Override
 		public void mapTileRequestCompleted(final String aRendererName, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
-			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererName, aZoomLevel, aTileX, aTileY);
+			final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(aRendererName);
+			final OpenStreetMapTile tile = new OpenStreetMapTile(renderer, aZoomLevel, aTileX, aTileY);
 			OpenStreetMapTileProviderService.this.mapTileRequestCompleted(tile, aTilePath);
 		}
 	};

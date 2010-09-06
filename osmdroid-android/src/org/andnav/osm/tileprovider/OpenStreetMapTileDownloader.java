@@ -13,8 +13,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
-import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
-import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,8 +70,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// ===========================================================
 
 	private String buildURL(final OpenStreetMapTile tile) throws CloudmadeException {
-		final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(tile.getRendererName());
-		return renderer.getTileURLString(tile, mCallback, this);
+		return tile.getRenderer().getTileURLString(tile, mCallback, this);
 	}
 
 	// ===========================================================
