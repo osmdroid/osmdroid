@@ -155,7 +155,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 		final SubMenu subMenu = pMenu.addSubMenu(0, MENU_RENDERER_ID, Menu.NONE, "Choose Renderer");
 		{
 			for(IOpenStreetMapRendererInfo renderer : OpenStreetMapRendererFactory.getRenderers()) {
-				subMenu.add(0, 1000 + renderer.ordinal(), Menu.NONE, mResourceProxy.getString(renderer.resourceId()));
+				subMenu.add(0, 1000 + renderer.ordinal(), Menu.NONE, renderer.localizedName(mResourceProxy));
 			}
 		}
 

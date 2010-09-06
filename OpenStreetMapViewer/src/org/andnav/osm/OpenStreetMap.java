@@ -113,7 +113,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 					android.R.drawable.ic_menu_mapmode);
 
 			for(IOpenStreetMapRendererInfo renderer : OpenStreetMapRendererFactory.getRenderers()) {
-				mapMenu.add(MENU_MAP_MODE, 1000 + renderer.ordinal(), Menu.NONE, mResourceProxy.getString(renderer.resourceId()));
+				mapMenu.add(MENU_MAP_MODE, 1000 + renderer.ordinal(), Menu.NONE, renderer.localizedName(mResourceProxy));
 			}
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
 		}
