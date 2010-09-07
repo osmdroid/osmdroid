@@ -19,7 +19,7 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 
 	private final int mOrdinal;
 	private final String mName;
-	private final int mMaptileSizePx;
+	protected final int mMaptileSizePx;
 	private final int mMaptileZoom;
 	private final int mZoomMinLevel;
 	private final int mZoomMaxLevel;

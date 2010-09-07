@@ -31,7 +31,7 @@ class CloudmadeRenderer extends OpenStreetMapRendererBase {
 			throws CloudmadeException {
 		final String key = aCallback.getCloudmadeKey();
 		final String token = aCloudmadeTokenCallback.getCloudmadeToken(key);
-		return String.format(getBaseUrl(), key, cloudmadeStyle, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), mImageFilenameEnding, token);
+		return String.format(getBaseUrl(), key, cloudmadeStyle, mMaptileSizePx, aTile.getZoomLevel(), aTile.getX(), aTile.getY(), mImageFilenameEnding, token);
 	}
 
 }
