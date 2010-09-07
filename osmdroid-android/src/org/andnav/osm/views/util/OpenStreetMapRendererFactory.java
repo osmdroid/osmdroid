@@ -1,8 +1,5 @@
 package org.andnav.osm.views.util;
 
-import java.util.Collection;
-import java.util.HashMap;
-
 import org.andnav.osm.ResourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +10,6 @@ public class OpenStreetMapRendererFactory {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapRendererFactory.class);
 
-	private static HashMap<String, IOpenStreetMapRendererInfo> mRenderers = new HashMap<String, IOpenStreetMapRendererInfo>();
-
 	/**
 	 * Get the renderer with the specified name.
 	 *
@@ -23,43 +18,28 @@ public class OpenStreetMapRendererFactory {
 	 * @throws IllegalArgumentException if renderer not found
 	 */
 	public static IOpenStreetMapRendererInfo getRenderer(String aName) throws IllegalArgumentException {
-		final IOpenStreetMapRendererInfo renderer = mRenderers.get(aName);
-		if (renderer == null) {
-			throw new IllegalArgumentException("No such renderer: " + aName);
+		for (IOpenStreetMapRendererInfo renderer : mRenderers) {
+			if (renderer.name().equals(aName)) {
+				return renderer;
+			}
 		}
-		return renderer;
-	}
-
-	/**
-	 * Get the renderer with the specified name.
-	 *
-	 * @param aRendererId
-	 * @param aDefaultIfNotFound
-	 * @return the renderer. If not found and aDefaultIfNotFound is true then return the default renderer,
-	 *  otherwise return null.
-	 */
-	public static IOpenStreetMapRendererInfo getRenderer(final String aName, final boolean aDefaultIfNotFound) {
-		final IOpenStreetMapRendererInfo renderer = mRenderers.get(aName);
-		if (renderer == null && aDefaultIfNotFound) {
-			return DEFAULT_RENDERER;
-		} else {
-			return renderer;
-		}
+		throw new IllegalArgumentException("No such renderer: " + aName);
 	}
 
 	/**
 	 * Get the renderer at the specified position.
 	 *
 	 * @param aOrdinal
-	 * @return the renderer, or null if not found
+	 * @return the renderer
+	 * @throws IllegalArgumentException if renderer not found
 	 */
-	public static IOpenStreetMapRendererInfo getRenderer(int aOrdinal) {
-		for (IOpenStreetMapRendererInfo renderer : mRenderers.values()) {
+	public static IOpenStreetMapRendererInfo getRenderer(int aOrdinal) throws IllegalArgumentException {
+		for (IOpenStreetMapRendererInfo renderer : mRenderers) {
 			if (renderer.ordinal() == aOrdinal) {
 				return renderer;
 			}
 		}
-		return null;
+		throw new IllegalArgumentException("No renderer at position: " + aOrdinal);
 	}
 
 	/**
@@ -111,14 +91,8 @@ public class OpenStreetMapRendererFactory {
 		return renderer;
 	}
 
-	/**
-	 * Get all renders in no particular order.
-	 * TODO perhaps it should be sorted by the order they were added (ordinal).
-	 * Or maybe we should leave that to the GUI because it may want them sorted
-	 * in a different order, eg alphabetical according to the locale.
-	 */
-	public static Collection<IOpenStreetMapRendererInfo> getRenderers() {
-		return mRenderers.values();
+	public static IOpenStreetMapRendererInfo[] getRenderers() {
+		return mRenderers;
 	}
 
 	public static final IOpenStreetMapRendererInfo OSMARENDER =
@@ -168,17 +142,15 @@ public class OpenStreetMapRendererFactory {
 	// FIXME the whole point of this implementation is that the list of renderers should be extensible,
 	//       so that means making it possible to have a bigger or smaller list of renderers
 	//   - there's a number of ways of doing that
-
-	// static initialisation
-	static {
-		mRenderers.put(OSMARENDER.name(), OSMARENDER);
-		mRenderers.put(MAPNIK.name(), MAPNIK);
-		mRenderers.put(CYCLEMAP.name(), CYCLEMAP);
-		mRenderers.put(OPENARIELMAP.name(), OPENARIELMAP);
-		mRenderers.put(BASE.name(), BASE);
-		mRenderers.put(TOPO.name(), TOPO);
-		mRenderers.put(HILLS.name(), HILLS);
-		mRenderers.put(CLOUDMADESTANDARDTILES.name(), CLOUDMADESTANDARDTILES);
-		mRenderers.put(CLOUDMADESMALLTILES.name(), CLOUDMADESMALLTILES);
-	}
+	private static IOpenStreetMapRendererInfo[] mRenderers = new IOpenStreetMapRendererInfo[] {
+		OSMARENDER,
+		MAPNIK,
+		CYCLEMAP,
+		OPENARIELMAP,
+		BASE,
+		TOPO,
+		HILLS,
+		CLOUDMADESTANDARDTILES,
+		CLOUDMADESMALLTILES
+	};
 }

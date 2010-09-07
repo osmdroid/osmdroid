@@ -36,6 +36,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -512,17 +513,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mResourceProxy = pResourceProxy;
 	}
 
-	public void onSaveInstanceState(android.os.Bundle state) {
+	public void onSaveInstanceState(Bundle state) {
     	state.putString(BUNDLE_RENDERER, getRenderer().name());
     	state.putInt(BUNDLE_SCROLL_X, getScrollX());
     	state.putInt(BUNDLE_SCROLL_Y, getScrollY());
     	state.putInt(BUNDLE_ZOOM_LEVEL, getZoomLevel());
 	}
 
-	public void onRestoreInstanceState(android.os.Bundle state) {
-		setRenderer(OpenStreetMapRendererFactory.getRenderer(state.getString(BUNDLE_RENDERER), true));
-    	setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
-    	scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
+	public void onRestoreInstanceState(Bundle state) {
+
+		final String rendererName = state.containsKey(BUNDLE_RENDERER) ?
+				state.getString(BUNDLE_RENDERER) :
+					OpenStreetMapRendererFactory.DEFAULT_RENDERER.name();
+		final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
+		setRenderer(renderer);
+
+		setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
+		scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
 	}
 
 	// ===========================================================

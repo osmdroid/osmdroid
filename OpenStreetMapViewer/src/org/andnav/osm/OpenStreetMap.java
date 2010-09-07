@@ -97,7 +97,9 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     @Override
     protected void onResume() {
     	super.onResume();
-    	mOsmv.setRenderer(OpenStreetMapRendererFactory.getRenderer(mPrefs.getString(PREFS_RENDERER, null), true));
+    	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.DEFAULT_RENDERER.name());
+    	final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
+    	mOsmv.setRenderer(renderer);
     	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
     		this.mLocationOverlay.enableMyLocation();
     	this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
