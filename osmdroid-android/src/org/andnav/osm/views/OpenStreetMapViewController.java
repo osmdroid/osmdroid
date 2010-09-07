@@ -324,6 +324,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// Constructors
 		// ===========================================================
 
+		@SuppressWarnings("unused")
 		public AbstractAnimationRunner(OpenStreetMapViewController openStreetMapViewController, final int aTargetLatitudeE6, final int aTargetLongitudeE6){
 			this(aTargetLatitudeE6, aTargetLongitudeE6, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT, OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT);
 		}
@@ -370,6 +371,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// Constructors
 		// ===========================================================
 
+		@SuppressWarnings("unused")
 		public LinearAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6){
 			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT, ANIMATION_DURATION_DEFAULT);
 		}
@@ -426,6 +428,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// Constructors
 		// ===========================================================
 
+		@SuppressWarnings("unused")
 		public ExponentialDeceleratingAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6){
 			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT, ANIMATION_DURATION_DEFAULT);
 		}
@@ -479,6 +482,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// Constructors
 		// ===========================================================
 
+		@SuppressWarnings("unused")
 		public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final float aStart, final float aRange, final float aYOffset){
 			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT, ANIMATION_DURATION_DEFAULT, aStart, aRange, aYOffset);
 		}
