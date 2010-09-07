@@ -3,6 +3,7 @@ package org.andnav.osm.tileprovider;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
