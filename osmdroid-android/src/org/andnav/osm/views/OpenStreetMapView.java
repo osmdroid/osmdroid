@@ -139,10 +139,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	/**
 	 * Standard Constructor.
-	 *
-	 * @param context
-	 * @param aRendererInfo
-	 *            pass a {@link IOpenStreetMapRendererInfo} you like.
 	 */
 	public OpenStreetMapView(final Context context, final IOpenStreetMapRendererInfo aRendererInfo) {
 		this(context, null, aRendererInfo, null);
@@ -150,11 +146,19 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	/**
 	 * Standard Constructor (uses default renderer).
-	 *
-	 * @param context
 	 */
 	public OpenStreetMapView(final Context context) {
 		this(context, null, null, null);
+	}
+
+	/**
+	 * Standard Constructor.
+	 */
+	public OpenStreetMapView(
+			final Context context,
+			final IOpenStreetMapRendererInfo aRendererInfo,
+			final OpenStreetMapTileProvider aTileProvider) {
+		this(context, null, aRendererInfo, aTileProvider);
 	}
 
 	/**
