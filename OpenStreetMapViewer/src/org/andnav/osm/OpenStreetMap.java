@@ -98,6 +98,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
     protected void onResume() {
     	super.onResume();
     	final String rendererName = mPrefs.getString(PREFS_RENDERER, OpenStreetMapRendererFactory.DEFAULT_RENDERER.name());
+    	// TODO this will go wrong if you use a renderer that the factory doesn't know about
     	final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(rendererName);
     	mOsmv.setRenderer(renderer);
     	if(mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))

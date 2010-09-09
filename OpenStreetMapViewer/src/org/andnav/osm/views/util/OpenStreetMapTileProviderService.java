@@ -138,6 +138,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 		@Override
 		public void mapTileRequestCompleted(final String aRendererName, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
+	    	// TODO this will go wrong if you use a renderer that the factory doesn't know about
 			final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(aRendererName);
 			final OpenStreetMapTile tile = new OpenStreetMapTile(renderer, aZoomLevel, aTileX, aTileY);
 			OpenStreetMapTileProviderService.this.mapTileRequestCompleted(tile, aTilePath);
