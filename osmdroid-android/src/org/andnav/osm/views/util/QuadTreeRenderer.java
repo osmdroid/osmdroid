@@ -7,11 +7,11 @@ import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCloudmadeTokenCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
-class QuadTreeMapRenderer extends OpenStreetMapRendererBase {
+class QuadTreeRenderer extends OpenStreetMapRendererBase {
 
 	private final ResourceProxy.string mResourceId;
 
-	QuadTreeMapRenderer(String aName, string aResourceId, int aZoomMinLevel,
+	QuadTreeRenderer(String aName, string aResourceId, int aZoomMinLevel,
 			int aZoomMaxLevel, int aMaptileZoom, String aImageFilenameEnding,
 			String ...aBaseUrl) {
 		super(aName, aZoomMinLevel, aZoomMaxLevel, aMaptileZoom, aImageFilenameEnding, aBaseUrl);
