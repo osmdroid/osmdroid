@@ -2,6 +2,7 @@ package org.andnav.osm.views.util;
 
 import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.slf4j.Logger;

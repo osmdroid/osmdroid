@@ -65,7 +65,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 
 	        /* Create a ImageView with a zoomOut-Icon. */
 	        final ImageView ivZoomOut = new ImageView(this);
-	        ivZoomIn.setImageResource(R.drawable.zoom_out);
+	        ivZoomOut.setImageResource(R.drawable.zoom_out);
 
 	        /* Create RelativeLayoutParams, that position in in the top left corner. */
 	        final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
