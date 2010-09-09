@@ -13,7 +13,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +24,13 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider implements IOpenStreetMapTileProviderCloudmadeTokenCallback {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileDownloader.class);
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -65,20 +64,19 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	protected Runnable getTileLoader() {
 		return new TileLoader();
 	};
-	
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
 	private String buildURL(final OpenStreetMapTile tile) throws CloudmadeException {
-		final OpenStreetMapRendererInfo renderer = OpenStreetMapRendererInfo.values()[tile.getRendererId()];
-		return renderer.getTileURLString(tile, mCallback, this);
+		return tile.getRenderer().getTileURLString(tile, mCallback, this);
 	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
 		@Override
@@ -88,7 +86,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			OutputStream out = null;
 
 			final File outputFile = mMapTileFSProvider.getOutputFile(aTile);
-			
+
 			try {
 				final String tileURLString = buildURL(aTile);
 
@@ -103,7 +101,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 				out.flush();
 
 				final byte[] data = dataStream.toByteArray();
-				
+
 				// sanity check - don't save an empty file
 				if (data.length == 0) {
 					logger.info("Empty maptile not saved: " + aTile);
@@ -132,7 +130,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			/* Don't immediately send the tile back.
 			 * If we're moving, and the internet is a bit patchy, then by the time
 			 * the download has finished we don't need this tile any more.
-			 * If we still do need it then the file system provider will get it 
+			 * If we still do need it then the file system provider will get it
 			 * again next time it's needed.
 			 * That should be immediately because the view is redrawn when it
 			 * receives this completion event.

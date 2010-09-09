@@ -7,13 +7,13 @@ import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
 public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider implements IOpenStreetMapTileProviderCallback {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderDirect.class);
-	
+
 	private final OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 	private final String mCloudmadeKey;
 
@@ -28,7 +28,7 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 	}
 
 	@Override
-	public Bitmap getMapTile(final OpenStreetMapTile pTile) {
+	public Drawable getMapTile(final OpenStreetMapTile pTile) {
 		if (mTileCache.containsTile(pTile)) {
 			if (DEBUGMODE)
 				logger.debug("MapTileCache succeeded for: " + pTile);

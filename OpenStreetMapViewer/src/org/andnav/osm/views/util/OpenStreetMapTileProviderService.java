@@ -8,7 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -38,26 +38,26 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 		Log.d(DEBUGTAG, "onServiceConnected(" + name + ")");
 
 		mTileService = IOpenStreetMapTileProviderService.Stub.asInterface(service);
-		
+
 		try {
 			mTileService.setCallback(mServiceCallback);
 		} catch (RemoteException e) {
 			Log.e(DEBUGTAG, "Error setting callback", e);
 		}
-		
+
 		try {
 			mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
 		} catch(Exception e) {
 			Log.e(DEBUGTAG, "Error sending success message on connect", e);
 		}
 	};
-	
+
 	@Override
 	public void onServiceDisconnected(final ComponentName name) {
 		onDisconnect();
 		Log.d(DEBUGTAG, "disconnected");
 	}
-	
+
 	/**
 	 * Get the tile from the cache.
 	 * If it's in the cache then it will be returned.
@@ -70,7 +70,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	 * @return the tile bitmap if found in the cache, null otherwise
 	 */
 	@Override
-	public Bitmap getMapTile(final OpenStreetMapTile aTile) {
+	public Drawable getMapTile(final OpenStreetMapTile aTile) {
 		if (mTileCache.containsTile(aTile)) { 							// from cache
 			if (DEBUGMODE)
 				Log.d(DEBUGTAG, "MapTileCache succeeded for: " + aTile);
@@ -80,7 +80,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 				if (DEBUGMODE)
 					Log.d(DEBUGTAG, "Cache failed, trying from FS: " + aTile);
 				try {
-					mTileService.requestMapTile(aTile.getRendererId(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
+					mTileService.requestMapTile(aTile.getRenderer().name(), aTile.getZoomLevel(), aTile.getX(), aTile.getY());
 				} catch (Throwable e) {
 					Log.e(DEBUGTAG, "Error getting map tile from tile service: " + aTile, e);
 				}
@@ -108,7 +108,7 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 		if (mServiceBound)
 		{
 			if (DEBUGMODE)
-				Log.d(DEBUGTAG, "Unbinding service");		
+				Log.d(DEBUGTAG, "Unbinding service");
 			mContext.unbindService(this);
 			onDisconnect();
 		}
@@ -118,14 +118,14 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 	{
 		if (mServiceBound)
 			return true;
-		
+
 		boolean success = mContext.bindService(new Intent(IOpenStreetMapTileProviderService.class.getName()), this, Context.BIND_AUTO_CREATE);
-		
+
 		if (!success)
 			Log.e(DEBUGTAG, "Could not bind to " + IOpenStreetMapTileProviderService.class.getName());
-		
+
 		mServiceBound = success;
-		
+
 		return success;
 	}
 
@@ -137,8 +137,10 @@ public class OpenStreetMapTileProviderService extends OpenStreetMapTileProvider 
 
 	IOpenStreetMapTileProviderServiceCallback mServiceCallback = new IOpenStreetMapTileProviderServiceCallback.Stub() {
 		@Override
-		public void mapTileRequestCompleted(final int aRendererID, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
-			final OpenStreetMapTile tile = new OpenStreetMapTile(aRendererID, aZoomLevel, aTileX, aTileY);
+		public void mapTileRequestCompleted(final String aRendererName, final int aZoomLevel, final int aTileX, final int aTileY, final String aTilePath) throws RemoteException {
+	    	// TODO this will go wrong if you use a renderer that the factory doesn't know about
+			final IOpenStreetMapRendererInfo renderer = OpenStreetMapRendererFactory.getRenderer(aRendererName);
+			final OpenStreetMapTile tile = new OpenStreetMapTile(renderer, aZoomLevel, aTileX, aTileY);
 			OpenStreetMapTileProviderService.this.mapTileRequestCompleted(tile, aTilePath);
 		}
 	};

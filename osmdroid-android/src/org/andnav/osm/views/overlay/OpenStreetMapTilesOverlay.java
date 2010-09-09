@@ -7,18 +7,18 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.util.MyMath;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 
@@ -27,7 +27,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);
 
 	protected OpenStreetMapView mOsmv;
-	protected OpenStreetMapRendererInfo mRendererInfo;
+	protected IOpenStreetMapRendererInfo mRendererInfo;
 
 	/** Current renderer */
 	protected final OpenStreetMapTileProvider mTileProvider;
@@ -35,7 +35,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
-			final OpenStreetMapRendererInfo aRendererInfo,
+			final IOpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
 			final Context aContext,
 			final String aCloudmadeKey) {
@@ -44,7 +44,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
-			final OpenStreetMapRendererInfo aRendererInfo,
+			final IOpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
 			final String aCloudmadeKey,
 			final ResourceProxy pResourceProxy) {
@@ -62,11 +62,11 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mTileProvider.detach();
 	}
 
-	public OpenStreetMapRendererInfo getRendererInfo() {
+	public IOpenStreetMapRendererInfo getRendererInfo() {
 		return mRendererInfo;
 	}
 
-	public void setRendererInfo(final OpenStreetMapRendererInfo aRendererInfo) {
+	public void setRendererInfo(final IOpenStreetMapRendererInfo aRendererInfo) {
 		this.mRendererInfo = aRendererInfo;
 		// XXX perhaps we should set the cache capacity back to default here
 	}
@@ -88,10 +88,10 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final OpenStreetMapViewProjection pj = osmv.getProjection();
 		final int zoomLevel = osmv.getZoomLevel(false);
 		final Rect viewPort = c.getClipBounds();
-		final int tileSizePx = this.mRendererInfo.MAPTILE_SIZEPX;
-		final int tileZoom = this.mRendererInfo.MAPTILE_ZOOM;
+		final int tileSizePx = this.mRendererInfo.maptileSizePx();
+		final int tileZoom = this.mRendererInfo.maptileZoom();
 		final int worldSize_2 = 1 << (zoomLevel + tileZoom - 1);
-		final int rendererId = this.mRendererInfo.ordinal();
+		final String name = this.mRendererInfo.name();
 
 		/*
 		 * Calculate the amount of tiles needed for each side around the center
@@ -117,12 +117,13 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				/* Construct a URLString, which represents the MapTile. */
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
-				final OpenStreetMapTile tile = new OpenStreetMapTile(rendererId, zoomLevel, tileX, tileY);
+				final OpenStreetMapTile tile = new OpenStreetMapTile(this.mRendererInfo, zoomLevel, tileX, tileY);
 
 				pj.toPixels(x, y, tilePos);
-				final Bitmap currentMapTile = mTileProvider.getMapTile(tile);
+				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
 				if (currentMapTile != null) {
-					c.drawBitmap(currentMapTile, tilePos.x, tilePos.y, mPaint);
+					currentMapTile.setBounds(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y + tileSizePx);
+					currentMapTile.draw(c);
 				}
 
 				if (DEBUGMODE) {

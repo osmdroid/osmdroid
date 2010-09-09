@@ -9,7 +9,8 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
-import org.andnav.osm.views.util.OpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
@@ -31,7 +32,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
 	private static final int MENU_RENDERER_ID = MENU_ZOOMOUT_ID + 1;
@@ -44,33 +45,33 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 
 	private OpenStreetMapView mOsmv, mOsmvMinimap;
 	private OpenStreetMapViewController mOsmvController;
-	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay; 
+	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, false); // Pass true here to actually contribute to OSM!
-        
+
         mResourceProxy = new ResourceProxyImpl(getApplicationContext());
-        
+
         final RelativeLayout rl = new RelativeLayout(this);
-        
+
         this.mOsmv = new OpenStreetMapView(this);
         this.mOsmvController = this.mOsmv.getController();
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        
+
         /* SingleLocation-Overlay */
         {
 	        /* Create a static Overlay showing a single location. (Gets updated in onLocationChanged(Location loc)! */
 	        this.mMyLocationOverlay = new OpenStreetMapViewSimpleLocationOverlay(this, mResourceProxy);
 	        this.mOsmv.getOverlays().add(mMyLocationOverlay);
         }
-        
+
         /* ZoomControls */
         {
 	        /* Create a ImageView with a zoomIn-Icon. */
@@ -81,25 +82,25 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	        zoominParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 	        zoominParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 	        rl.addView(ivZoomIn, zoominParams);
-	        
+
 	        ivZoomIn.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
 					SampleExtensive.this.mOsmvController.zoomIn();
 				}
 	        });
-	        
-	        
+
+
 	        /* Create a ImageView with a zoomOut-Icon. */
 	        final ImageView ivZoomOut = new ImageView(this);
 	        ivZoomOut.setImageResource(R.drawable.zoom_out);
-	        
+
 	        /* Create RelativeLayoutParams, that position in in the top left corner. */
 	        final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 	        zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 	        zoomoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 	        rl.addView(ivZoomOut, zoomoutParams);
-	        
+
 	        ivZoomOut.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v) {
@@ -107,15 +108,15 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 				}
 	        });
         }
-        
+
         /* MiniMap */
         {
 	        /* Create another OpenStreetMapView, that will act as the MiniMap for the 'MainMap'. They will share the TileProvider. */
-	        mOsmvMinimap = new OpenStreetMapView(this, OpenStreetMapRendererInfo.CLOUDMADESTANDARDTILES, this.mOsmv);
+	        mOsmvMinimap = new OpenStreetMapView(this, OpenStreetMapRendererFactory.CLOUDMADESTANDARDTILES, this.mOsmv);
 	        final int aZoomDiff = 3; // Use OpenStreetMapViewConstants.NOT_SET to disable autozooming of this minimap
 	        this.mOsmv.setMiniMap(mOsmvMinimap, aZoomDiff);
-	        
-	        
+
+
 	        /* Create RelativeLayout.LayoutParams that position the MiniMap on the top-right corner of the RelativeLayout. */
 	        RelativeLayout.LayoutParams minimapParams = new RelativeLayout.LayoutParams(90, 90);
 	        minimapParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -123,7 +124,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	        minimapParams.setMargins(5,5,5,5);
 	        rl.addView(mOsmvMinimap, minimapParams);
         }
-        
+
         this.setContentView(rl);
     }
 
@@ -134,7 +135,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-    
+
 	@Override
 	public void onLocationChanged(final Location pLoc) {
 		this.mMyLocationOverlay.setLocation(new GeoPoint(pLoc));
@@ -142,43 +143,44 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 
 	@Override
 	public void onLocationLost() {
-		// We'll do nothing here. 
+		// We'll do nothing here.
 	}
-	
-    
-    @Override
+
+
+	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
-    	pMenu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
-    	pMenu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
-    	
-    	final SubMenu subMenu = pMenu.addSubMenu(0, MENU_RENDERER_ID, Menu.NONE, "Choose Renderer");
-    	{
-	    	for(int i = 0; i < OpenStreetMapRendererInfo.values().length; i ++)
-	    		subMenu.add(0, 1000 + i, Menu.NONE, mResourceProxy.getString(OpenStreetMapRendererInfo.values()[i].NAME));
-    	}
-    	
-    	pMenu.add(0, MENU_ANIMATION_ID, Menu.NONE, "Run Animation");
-    	pMenu.add(0, MENU_MINIMAP_ID, Menu.NONE, "Toggle Minimap");
-    	
-    	return true;
+		pMenu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
+		pMenu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+
+		final SubMenu subMenu = pMenu.addSubMenu(0, MENU_RENDERER_ID, Menu.NONE, "Choose Renderer");
+		{
+			for(IOpenStreetMapRendererInfo renderer : OpenStreetMapRendererFactory.getRenderers()) {
+				subMenu.add(0, 1000 + renderer.ordinal(), Menu.NONE, renderer.localizedName(mResourceProxy));
+			}
+		}
+
+		pMenu.add(0, MENU_ANIMATION_ID, Menu.NONE, "Run Animation");
+		pMenu.add(0, MENU_MINIMAP_ID, Menu.NONE, "Toggle Minimap");
+
+		return true;
 	}
-    
-	
+
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()){
 			case MENU_ZOOMIN_ID:
 				this.mOsmvController.zoomIn();
 				return true;
-				
+
 			case MENU_ZOOMOUT_ID:
 				this.mOsmvController.zoomOut();
 				return true;
-				
+
 			case MENU_RENDERER_ID:
 				this.mOsmv.invalidate();
 				return true;
-				
+
 			case MENU_MINIMAP_ID:
 				switch(this.mOsmv.getOverrideMiniMapVisiblity()){
 					case View.VISIBLE:
@@ -189,9 +191,9 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 					case View.GONE:
 						this.mOsmv.setOverrideMiniMapVisiblity(View.VISIBLE);
 						break;
-				}					
+				}
 				return true;
-				
+
 			case MENU_ANIMATION_ID:
 				this.mOsmv.getController().animateTo(52370816, 9735936, OpenStreetMapViewController.AnimationType.MIDDLEPEAKSPEED, OpenStreetMapViewController.ANIMATION_SMOOTHNESS_HIGH, OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT); // Hannover
 				// Stop the Animation after 500ms  (just to show that it works)
@@ -202,9 +204,9 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 //					}
 //				}, 500);
 				return true;
-				
-			default: 
-				this.mOsmv.setRenderer(OpenStreetMapRendererInfo.values()[item.getItemId() - 1000]);
+
+			default:
+				this.mOsmv.setRenderer(OpenStreetMapRendererFactory.getRenderer(item.getItemId() - 1000));
 		}
 		return false;
 	}
