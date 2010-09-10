@@ -33,14 +33,18 @@ public class GeoPoint implements MathConstants, GeoConstants{
 	}
 
 	public GeoPoint(final double aLatitude, final double aLongitude) {
-		this.mLatitudeE6 = (int)(aLatitude * 1E6);
-		this.mLongitudeE6 = (int)(aLongitude * 1E6);
+		this.mLatitudeE6 = (int) (aLatitude * 1E6);
+		this.mLongitudeE6 = (int) (aLongitude * 1E6);
 	}
 
-	public GeoPoint(Location aLocation) {
+	public GeoPoint(final Location aLocation) {
 		this(aLocation.getLatitude(), aLocation.getLongitude());
 	}
 
+	public GeoPoint(final GeoPoint aGeopoint) {
+		this.mLatitudeE6 = aGeopoint.mLatitudeE6;
+		this.mLongitudeE6 = aGeopoint.mLongitudeE6;
+	}
 
 	protected static GeoPoint fromDoubleString(final String s, final char spacer) {
 		final int spacerPos = s.indexOf(spacer);
