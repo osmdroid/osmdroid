@@ -6,7 +6,7 @@
 	<uses-sdk android:minSdkVersion="3" />
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/> 
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -15,7 +15,8 @@
 		android:name="android.test.InstrumentationTestRunner" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
-	
+
+		<!-- all applications based on this code should get their own CloudMade key -->
         <meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
 
 		<uses-library android:name="android.test.runner" />
@@ -62,12 +63,12 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		
+
 		<!--
-		If this service exists then the view will use it to get its tiles. 
+		If this service exists then the view will use it to get its tiles.
 		If you remove this service then the view will use a tile provider directly.
-		<service android:name=".services.OpenStreetMapTileProviderService" 
-				 android:process=":remote" 
+		<service android:name=".services.OpenStreetMapTileProviderService"
+				 android:process=":remote"
 				 android:label="OpenStreetMapTileProviderService">
 			<intent-filter>
 				<action android:name="org.andnav.osm.services.IOpenStreetMapTileProviderService" />
@@ -77,4 +78,4 @@
 
 	</application>
 
-</manifest> 
+</manifest>
