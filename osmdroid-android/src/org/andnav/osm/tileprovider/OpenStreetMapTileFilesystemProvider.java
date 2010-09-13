@@ -116,12 +116,31 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		@Override
 		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 			final File tileFile = getOutputFile(aTile);
+
+			// XXX need a policy for deciding which file to use, eg:
+			// always prefer local file,
+			// always prefer zip,
+			// prefer local file, but if old use zip
+			// prefer local file, but if old use most recent of local and zip
+			// ... etc ...
+
 			try {
 				if (tileFile.exists()) {
 					if (DEBUGMODE)
 						logger.debug("Loaded tile: " + aTile);
 					tileLoaded(aTile, tileFile.getPath(), true);
+
+					// XXX this is the point where we should check the modification time
+					// see issue 40
+					// can probably just call
+					// mTileDownloader.loadMapTileAsync(aTile);
+					// if the tile is older than X
+
 				} else {
+
+					// XXX this is the point where we should check the zip tile packs
+					// see issue 79
+
 					if (DEBUGMODE)
 						logger.debug("Tile not exist, request for download: " + aTile);
 					mTileDownloader.loadMapTileAsync(aTile);
