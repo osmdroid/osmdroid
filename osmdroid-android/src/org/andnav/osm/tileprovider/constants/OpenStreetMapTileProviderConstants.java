@@ -3,9 +3,9 @@ package org.andnav.osm.tileprovider.constants;
 import android.os.Environment;
 
 /**
- * 
+ *
  * This class contains constants used by the service.
- * 
+ *
  * @author Neil Boyd
  *
  */
@@ -13,9 +13,9 @@ public interface OpenStreetMapTileProviderConstants {
 	// ===========================================================
 	// Final Fields
 	// ===========================================================
-	
+
 	public static final boolean DEBUGMODE = false;
-	
+
 	public static final String TILE_PATH_BASE = Environment.getExternalStorageDirectory() + "/andnav2/tiles/";
 	public static final String TILE_PATH_EXTENSION = ".andnav";
 
@@ -24,7 +24,10 @@ public interface OpenStreetMapTileProviderConstants {
 
 	public static final int TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
 	public static final int TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
-	
+
+	/** 30 days */
+	public static final int TILE_EXPIRY_TIME_MILLISECONDS = 1000 * 60 * 60 * 24 * 30;
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

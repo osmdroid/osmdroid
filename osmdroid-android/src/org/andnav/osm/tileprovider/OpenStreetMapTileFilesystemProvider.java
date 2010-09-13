@@ -165,7 +165,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 			final File tileFile = getOutputFile(aTile);
 
-			// XXX need a policy for deciding which file to use, eg:
+			// TODO need a policy for deciding which file to use, eg:
 			// always prefer local file,
 			// always prefer zip,
 			// prefer local file, but if old use zip
@@ -178,11 +178,13 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 						logger.debug("Loaded tile: " + aTile);
 					tileLoaded(aTile, tileFile.getPath(), true);
 
-					// XXX this is the point where we should check the modification time
-					// see issue 40
-					// can probably just call
-					// mTileDownloader.loadMapTileAsync(aTile);
-					// if the tile is older than X
+					// check for old tile
+					final long now = System.currentTimeMillis();
+					final long lastModified = tileFile.lastModified();
+					if (now - lastModified > TILE_EXPIRY_TIME_MILLISECONDS) {
+						logger.info("Tile has expired, requesting new download: " + aTile);
+						mTileDownloader.loadMapTileAsync(aTile);
+					}
 
 				} else {
 
@@ -192,11 +194,13 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					final InputStream fileFromZip = fileFromZip(aTile);
 					if (fileFromZip == null) {
 						if (DEBUGMODE)
-							logger.debug("Tile not exist, request for download: " + aTile);
+							logger.debug("Request for download: " + aTile);
 						mTileDownloader.loadMapTileAsync(aTile);
 						// don't refresh the screen because there's nothing new
 						tileLoaded(aTile, (String)null, false);
 					} else {
+						if (DEBUGMODE)
+							logger.debug("Use tile from zip: " + aTile);
 						tileLoaded(aTile, fileFromZip, true);
 					}
 				}
