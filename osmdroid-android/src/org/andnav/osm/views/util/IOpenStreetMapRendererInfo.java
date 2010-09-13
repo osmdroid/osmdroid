@@ -1,5 +1,7 @@
 package org.andnav.osm.views.util;
 
+import java.io.InputStream;
+
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
@@ -20,5 +22,6 @@ public interface IOpenStreetMapRendererInfo {
 	String imageFilenameEnding();
 	String getTileURLString(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aMCallback, IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException;
 	Drawable getDrawable(String aFilePath);
+	Drawable getDrawable(InputStream aTileInputStream);
 
 }

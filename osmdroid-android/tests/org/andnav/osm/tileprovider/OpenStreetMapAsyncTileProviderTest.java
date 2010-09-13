@@ -2,6 +2,7 @@ package org.andnav.osm.tileprovider;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
@@ -18,7 +19,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		final IOpenStreetMapTileProviderCallback tileProviderCallback = new IOpenStreetMapTileProviderCallback() {
 			@Override
-			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final String aTilePath) {
+			}
+			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final InputStream aTileInputStream) {
 			}
 			@Override
 			public String getCloudmadeKey() {
@@ -63,8 +67,12 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		final IOpenStreetMapTileProviderCallback tileProviderCallback = new IOpenStreetMapTileProviderCallback() {
 			@Override
-			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
-				tiles.add(pTile);
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final String aTilePath) {
+				tiles.add(aTile);
+			}
+			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final InputStream aTileInputStream) {
+				tiles.add(aTile);
 			}
 			@Override
 			public String getCloudmadeKey() {
@@ -125,8 +133,12 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		final IOpenStreetMapTileProviderCallback tileProviderCallback = new IOpenStreetMapTileProviderCallback() {
 			@Override
-			public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
-				tiles.add(pTile);
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final String aTilePath) {
+				tiles.add(aTile);
+			}
+			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final InputStream aTileInputStream) {
+				tiles.add(aTile);
 			}
 			@Override
 			public String getCloudmadeKey() {

@@ -1,5 +1,6 @@
 package org.andnav.osm.tileprovider;
 
+import java.io.InputStream;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -87,6 +88,14 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		 * @param aRefresh whether to redraw the screen so that new tiles will be used
 		 */
 		void tileLoaded(OpenStreetMapTile aTile, String aTilePath, boolean aRefresh);
+
+		/**
+		 * A tile has loaded.
+		 * @param aTile the tile that has loaded
+		 * @param aTileInputStream the input stream of the file. May be null.
+		 * @param aRefresh whether to redraw the screen so that new tiles will be used
+		 */
+		void tileLoaded(OpenStreetMapTile aTile, InputStream aTileInputStream, boolean aRefresh);
 	}
 
 	protected abstract class TileLoader implements Runnable, TileLoaderCallback {
@@ -145,6 +154,18 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 			if (aRefresh) {
 				mCallback.mapTileRequestCompleted(aTile, aTilePath);
+			}
+		}
+
+		@Override
+		public void tileLoaded(final OpenStreetMapTile aTile, final InputStream aTileInputStream, final boolean aRefresh) {
+			synchronized (mPending) {
+				mPending.remove(aTile);
+			}
+			mWorking.remove(aTile);
+
+			if (aRefresh) {
+				mCallback.mapTileRequestCompleted(aTile, aTileInputStream);
 			}
 		}
 

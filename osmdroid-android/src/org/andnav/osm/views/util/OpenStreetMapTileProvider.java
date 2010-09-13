@@ -1,6 +1,8 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
 package org.andnav.osm.views.util;
 
+import java.io.InputStream;
+
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
@@ -34,6 +36,30 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 			final Drawable drawable = pTile.getRenderer().getDrawable(pTilePath);
 			if (drawable != null) {
 				mTileCache.putTile(pTile, drawable);
+			}
+		}
+
+		// tell our caller we've finished and it should update its view
+		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
+
+		if (DEBUGMODE)
+			logger.debug("MapTile request complete: " + pTile);
+	}
+
+	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final InputStream pTileInputStream) {
+
+		// if the tile stream has been returned, add the tile to the cache
+		// let the renderer convert the file to a drawable
+		if (pTileInputStream != null) {
+			try {
+				final Drawable drawable = pTile.getRenderer().getDrawable(pTileInputStream);
+				if (drawable != null) {
+					mTileCache.putTile(pTile, drawable);
+				}
+			} finally {
+				try {
+					pTileInputStream.close();
+				} catch(final Exception ignore) {}
 			}
 		}
 

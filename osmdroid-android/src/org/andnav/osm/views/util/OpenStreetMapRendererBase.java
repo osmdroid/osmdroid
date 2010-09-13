@@ -1,6 +1,7 @@
 package org.andnav.osm.views.util;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Random;
 
 import org.slf4j.Logger;
@@ -94,6 +95,21 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 			}
 		} catch (final OutOfMemoryError e) {
 			logger.error("OutOfMemoryError loading bitmap: " + aFilePath);
+			System.gc();
+		}
+		return null;
+	}
+
+	@Override
+	public Drawable getDrawable(final InputStream aFileInputStream) {
+		try {
+			// default implementation will load the file as a bitmap and create a BitmapDrawable from it
+			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream);
+			if (bitmap != null) {
+				return new BitmapDrawable(bitmap);
+			}
+		} catch (final OutOfMemoryError e) {
+			logger.error("OutOfMemoryError loading bitmap");
 			System.gc();
 		}
 		return null;

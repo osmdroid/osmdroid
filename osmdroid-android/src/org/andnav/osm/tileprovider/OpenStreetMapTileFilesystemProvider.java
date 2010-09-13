@@ -3,9 +3,14 @@ package org.andnav.osm.tileprovider;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
@@ -29,7 +34,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	/** online provider */
-	protected OpenStreetMapTileDownloader mTileDownloader;
+	protected final OpenStreetMapTileDownloader mTileDownloader;
+
+	private final ArrayList<ZipFile> mZipFiles = new ArrayList<ZipFile>();
 
 	// ===========================================================
 	// Constructors
@@ -42,6 +49,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback pCallback) {
 		super(pCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 		this.mTileDownloader = new OpenStreetMapTileDownloader(pCallback, this);
+		findZipFiles();
 	}
 
 	// ===========================================================
@@ -77,9 +85,13 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Methods
 	// ===========================================================
 
+	private String buildFullPath(final OpenStreetMapTile tile) {
+		return TILE_PATH_BASE + buildPath(tile);
+	}
+
 	private String buildPath(final OpenStreetMapTile tile) {
 		final IOpenStreetMapRendererInfo renderer = tile.getRenderer();
-		return TILE_PATH_BASE + renderer.name() + "/" + tile.getZoomLevel() + "/"
+		return renderer.name() + "/" + tile.getZoomLevel() + "/"
 					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding() + TILE_PATH_EXTENSION;
 	}
 
@@ -91,7 +103,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * and can't be created
 	 */
 	File getOutputFile(final OpenStreetMapTile tile) throws CantContinueException {
-		final File file = new File(buildPath(tile));
+		final File file = new File(buildFullPath(tile));
 		final File parent = file.getParentFile();
 		// check exists twice because maybe mkdirs returned false because another thread created it
 		if (!parent.exists() && !parent.mkdirs() && !parent.exists()) {
@@ -105,6 +117,42 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		bos.write(someData);
 		bos.flush();
 		bos.close();
+	}
+
+	private void findZipFiles() {
+		final File baseFolder = new File(TILE_PATH_BASE);
+
+		final File[] z = baseFolder.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(final File aFile) {
+				return aFile.isFile() && aFile.getName().endsWith(".zip");
+			}
+		});
+
+		for(final File file : z) {
+			try {
+				mZipFiles.add(new ZipFile(file));
+			} catch(final Throwable e) {
+				logger.warn("Error opening zip file: " + file, e);
+			}
+		}
+	}
+
+	private synchronized InputStream fileFromZip(final OpenStreetMapTile aTile) {
+		final String path = buildPath(aTile);
+		for(final ZipFile zipFile : mZipFiles) {
+			try {
+				final ZipEntry entry = zipFile.getEntry(path);
+				if (entry != null) {
+					final InputStream in = zipFile.getInputStream(entry);
+					return in;
+				}
+			} catch(final Throwable e) {
+				logger.warn("Error getting zip stream: " + aTile, e);
+			}
+		}
+
+		return null;
 	}
 
 	// ===========================================================
@@ -138,18 +186,23 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 				} else {
 
-					// XXX this is the point where we should check the zip tile packs
-					// see issue 79
-
 					if (DEBUGMODE)
-						logger.debug("Tile not exist, request for download: " + aTile);
-					mTileDownloader.loadMapTileAsync(aTile);
-					// don't refresh the screen because there's nothing new
-					tileLoaded(aTile, null, false);
+						logger.debug("Tile doesn't exist: " + aTile);
+
+					final InputStream fileFromZip = fileFromZip(aTile);
+					if (fileFromZip == null) {
+						if (DEBUGMODE)
+							logger.debug("Tile not exist, request for download: " + aTile);
+						mTileDownloader.loadMapTileAsync(aTile);
+						// don't refresh the screen because there's nothing new
+						tileLoaded(aTile, (String)null, false);
+					} else {
+						tileLoaded(aTile, fileFromZip, true);
+					}
 				}
 			} catch (final Throwable e) {
 				logger.error("Error loading tile", e);
-				tileLoaded(aTile, null, false);
+				tileLoaded(aTile, (String)null, false);
 			}
 		}
 	}

@@ -1,5 +1,7 @@
 package org.andnav.osm.services;
 
+import java.io.InputStream;
+
 import org.andnav.osm.services.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
@@ -88,6 +90,12 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 		} catch (final RemoteException e) {
 			Log.e(DEBUGTAG, "Error invoking callback", e);
 		}
+	}
+
+	@Override
+	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final InputStream pTileInputStream) {
+		// TODO implementation
+		throw new IllegalStateException("Not implemented");
 	}
 
 	@Override
