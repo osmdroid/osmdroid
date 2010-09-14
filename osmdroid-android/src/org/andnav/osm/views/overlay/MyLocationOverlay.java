@@ -12,6 +12,8 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -32,7 +34,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
@@ -42,7 +43,7 @@ import android.view.MotionEvent;
  */
 public class MyLocationOverlay extends OpenStreetMapViewOverlay implements SensorEventListener, LocationListener, Snappable {
 
-	public static final String DEBUGTAG = "OPENSTREETMAP";
+	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
 	// ===========================================================
 	// Constants
@@ -294,12 +295,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	@Override
 	public void onLocationChanged(final Location location) {
 		if (DEBUGMODE) {
-			Log.d(DEBUGTAG, "onLocationChanged(" + location + ")");
+			logger.debug("onLocationChanged(" + location + ")");
 		}
 
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis())) {
-			Log.d(DEBUGTAG, "Ignore temporary non-gps location");
+			logger.debug("Ignore temporary non-gps location");
 			return;
 		}
 
@@ -344,6 +345,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			snapPoint.y = mMapCoords.y;
 
 			boolean snap = (x - mMapCoords.x)*(x - mMapCoords.x) + (y - mMapCoords.y)*(y - mMapCoords.y) < 64;
+			if (DEBUGMODE) {
+				logger.debug("snap=" + snap);
+			}
 			return snap;
 		} else {
 			return false;
