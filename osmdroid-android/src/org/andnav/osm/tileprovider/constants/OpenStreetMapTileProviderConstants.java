@@ -26,7 +26,7 @@ public interface OpenStreetMapTileProviderConstants {
 	public static final int TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
 
 	/** 30 days */
-	public static final int TILE_EXPIRY_TIME_MILLISECONDS = 1000 * 60 * 60 * 24 * 30;
+	public static final long TILE_EXPIRY_TIME_MILLISECONDS = 1000l * 60 * 60 * 24 * 30;
 
 	// ===========================================================
 	// Methods
