@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.andnav.osm.services.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
@@ -11,7 +12,9 @@ import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -32,7 +35,13 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
+		final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
+			@Override
+			public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
+				return registerReceiver(aReceiver, aFilter);
+			}
+		};
+		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this, registerReceiver);
 	}
 
 	@Override

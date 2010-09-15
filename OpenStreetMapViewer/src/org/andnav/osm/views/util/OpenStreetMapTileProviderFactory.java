@@ -2,11 +2,14 @@
 package org.andnav.osm.views.util;
 
 import org.andnav.osm.services.IOpenStreetMapTileProviderService;
+import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
 import android.util.Log;
@@ -36,7 +39,13 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 		final ResolveInfo ri = aContext.getPackageManager().resolveService(intent, 0);
 		if (ri == null) {
 			Log.i(DEBUGTAG, "Service not found - using direct tile provider");
-			return new OpenStreetMapTileProviderDirect(aDownloadFinishedListener, aCloudmadeKey);
+			final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
+				@Override
+				public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
+					return registerReceiver(aReceiver, aFilter);
+				}
+			};
+			return new OpenStreetMapTileProviderDirect(aDownloadFinishedListener, aCloudmadeKey, registerReceiver);
 		} else {
 			Log.i(DEBUGTAG, "Using tile provider service");
 			return new OpenStreetMapTileProviderService(aContext, aDownloadFinishedListener);

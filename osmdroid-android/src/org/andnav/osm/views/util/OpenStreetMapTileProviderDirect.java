@@ -2,6 +2,7 @@ package org.andnav.osm.views.util;
 
 import org.andnav.osm.tileprovider.CloudmadeException;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
+import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider;
 import org.slf4j.Logger;
@@ -17,9 +18,9 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider i
 	private final OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 	private final String mCloudmadeKey;
 
-	public OpenStreetMapTileProviderDirect(final Handler pDownloadFinishedListener, final String aCloudmadeKey) {
+	public OpenStreetMapTileProviderDirect(final Handler pDownloadFinishedListener, final String aCloudmadeKey, final IRegisterReceiver aRegisterReceiver) {
 		super(pDownloadFinishedListener);
-		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this);
+		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this, aRegisterReceiver);
 		mCloudmadeKey = aCloudmadeKey;
 	}
 

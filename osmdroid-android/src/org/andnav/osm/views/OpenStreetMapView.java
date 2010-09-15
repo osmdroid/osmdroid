@@ -9,6 +9,8 @@ import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.tileprovider.IRegisterReceiver;
+import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
@@ -19,6 +21,7 @@ import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
+import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -27,7 +30,10 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -37,6 +43,8 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -109,12 +117,24 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			final Context context,
 			final AttributeSet attrs,
 			final IOpenStreetMapRendererInfo rendererInfo,
-			final OpenStreetMapTileProvider tileProvider) {
+			OpenStreetMapTileProvider tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
 		this.mScroller = new Scroller(context);
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, OpenStreetMapRendererFactory.getRenderer(rendererInfo, attrs), tileProvider, getCloudmadeKey(context), mResourceProxy);
+
+		if(tileProvider == null) {
+			final String cloudmadeKey = getCloudmadeKey(context);
+			final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
+				@Override
+				public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
+					return context.registerReceiver(aReceiver, aFilter);
+				}
+			};
+			tileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler(), cloudmadeKey, registerReceiver);
+		}
+
+		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, OpenStreetMapRendererFactory.getRenderer(rendererInfo, attrs), tileProvider, mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -1128,5 +1148,17 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			animating = true;
 		}
 
+	}
+
+	private class SimpleInvalidationHandler extends Handler {
+
+		@Override
+		public void handleMessage(final Message msg) {
+			switch (msg.what) {
+				case OpenStreetMapTile.MAPTILE_SUCCESS_ID:
+					invalidate();
+					break;
+			}
+		}
 	}
 }

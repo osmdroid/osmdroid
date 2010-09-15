@@ -16,6 +16,14 @@ import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
+import android.telephony.TelephonyManager;
+
 /**
  *
  * @author Nicolas Gramlich
@@ -38,18 +46,26 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	private final ArrayList<ZipFile> mZipFiles = new ArrayList<ZipFile>();
 
+	/** whether we have a data connection */
+	private boolean mConnected = true;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	/**
-	 * @param ctx
-	 * @param aCache to load fs-tiles to.
+	 * @param aCallback
+	 * @param aRegisterReceiver
 	 */
-	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback pCallback) {
-		super(pCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
-		this.mTileDownloader = new OpenStreetMapTileDownloader(pCallback, this);
+	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
+		super(aCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		this.mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
 		findZipFiles();
+
+		final IntentFilter filter = new IntentFilter();
+		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		aRegisterReceiver.registerReceiver(new MyBroadcastReceiver(), filter);
 	}
 
 	// ===========================================================
@@ -182,8 +198,14 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					final long now = System.currentTimeMillis();
 					final long lastModified = tileFile.lastModified();
 					if (now - lastModified > TILE_EXPIRY_TIME_MILLISECONDS) {
-						logger.info("Tile has expired, requesting new download: " + aTile);
-						mTileDownloader.loadMapTileAsync(aTile);
+						if (mConnected) {
+							if (DEBUGMODE)
+								logger.debug("Tile has expired, requesting new download: " + aTile);
+							mTileDownloader.loadMapTileAsync(aTile);
+						} else {
+							if (DEBUGMODE)
+								logger.debug("Tile has expired - not connected - not downloading: " + aTile);
+						}
 					}
 
 				} else {
@@ -193,9 +215,16 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 					final InputStream fileFromZip = fileFromZip(aTile);
 					if (fileFromZip == null) {
-						if (DEBUGMODE)
-							logger.debug("Request for download: " + aTile);
-						mTileDownloader.loadMapTileAsync(aTile);
+
+						if (mConnected) {
+							if (DEBUGMODE)
+								logger.debug("Request for download: " + aTile);
+							mTileDownloader.loadMapTileAsync(aTile);
+						} else {
+							if (DEBUGMODE)
+								logger.debug("Not connected - not downloading: " + aTile);
+						}
+
 						// don't refresh the screen because there's nothing new
 						tileLoaded(aTile, (String)null, false);
 					} else {
@@ -210,4 +239,30 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 			}
 		}
 	}
+
+	private class MyBroadcastReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(final Context aContext, final Intent aIntent) {
+			if (DEBUGMODE)
+				logger.debug("onReceive action=" + aIntent.getAction());
+
+			final WifiManager wm = (WifiManager) aContext.getSystemService(Context.WIFI_SERVICE);
+			final int wifiState = wm.getWifiState();
+			if (DEBUGMODE)
+				logger.debug("wifi state=" + wifiState);
+
+			final TelephonyManager tm = (TelephonyManager) aContext.getSystemService(Context.TELEPHONY_SERVICE);
+			final int dataState = tm.getDataState();
+			if (DEBUGMODE)
+				logger.debug("telephone data state=" + dataState);
+
+			mConnected = wifiState == WifiManager.WIFI_STATE_ENABLED
+					|| dataState == TelephonyManager.DATA_CONNECTED;
+
+			if (DEBUGMODE)
+				logger.debug("mConnected=" + mConnected);
+		}
+	}
+
 }

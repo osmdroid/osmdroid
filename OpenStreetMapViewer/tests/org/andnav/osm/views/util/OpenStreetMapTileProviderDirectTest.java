@@ -4,8 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
+import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 
+import android.content.BroadcastReceiver;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
@@ -29,7 +33,13 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 
-		mProvider = new OpenStreetMapTileProviderDirect(new Handler(), "key");
+		IRegisterReceiver registerReceiver = new IRegisterReceiver() {
+			@Override
+			public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
+				return null;
+			}
+		};
+		mProvider = new OpenStreetMapTileProviderDirect(new Handler(), "key", registerReceiver);
 
 		super.setUp();
 	}

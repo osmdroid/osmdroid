@@ -9,7 +9,6 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapTileProvider;
-import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +18,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 
 public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
@@ -37,24 +34,19 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 			final OpenStreetMapView aOsmv,
 			final IOpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
-			final Context aContext,
-			final String aCloudmadeKey) {
-		this(aOsmv, aRendererInfo, aTileProvider, aCloudmadeKey, new DefaultResourceProxyImpl(aContext));
+			final Context aContext) {
+		this(aOsmv, aRendererInfo, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
 			final IOpenStreetMapRendererInfo aRendererInfo,
 			final OpenStreetMapTileProvider aTileProvider,
-			final String aCloudmadeKey,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mRendererInfo = aRendererInfo;
-		if(aTileProvider == null)
-			mTileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler(), aCloudmadeKey);
-		else
-			this.mTileProvider = aTileProvider;
+		this.mTileProvider = aTileProvider; // TODO check for null
 	}
 
 	public void detach()
@@ -91,7 +83,6 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		final int tileSizePx = this.mRendererInfo.maptileSizePx();
 		final int tileZoom = this.mRendererInfo.maptileZoom();
 		final int worldSize_2 = 1 << (zoomLevel + tileZoom - 1);
-		final String name = this.mRendererInfo.name();
 
 		/*
 		 * Calculate the amount of tiles needed for each side around the center
@@ -146,17 +137,5 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	@Override
 	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
-	}
-
-	private class SimpleInvalidationHandler extends Handler {
-
-		@Override
-		public void handleMessage(final Message msg) {
-			switch (msg.what) {
-				case OpenStreetMapTile.MAPTILE_SUCCESS_ID:
-					mOsmv.invalidate();
-					break;
-			}
-		}
 	}
 }
