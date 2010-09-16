@@ -80,25 +80,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 
 	protected abstract Runnable getTileLoader();
 
-	protected interface TileLoaderCallback {
-		/**
-		 * A tile has loaded.
-		 * @param aTile the tile that has loaded
-		 * @param aTilePath the path of the file. May be null.
-		 * @param aRefresh whether to redraw the screen so that new tiles will be used
-		 */
-		void tileLoaded(OpenStreetMapTile aTile, String aTilePath, boolean aRefresh);
-
-		/**
-		 * A tile has loaded.
-		 * @param aTile the tile that has loaded
-		 * @param aTileInputStream the input stream of the file. May be null.
-		 * @param aRefresh whether to redraw the screen so that new tiles will be used
-		 */
-		void tileLoaded(OpenStreetMapTile aTile, InputStream aTileInputStream, boolean aRefresh);
-	}
-
-	protected abstract class TileLoader implements Runnable, TileLoaderCallback {
+	protected abstract class TileLoader implements Runnable {
 		/**
 		 * Load the requested tile.
 		 * @param aTile the tile to load
@@ -145,28 +127,46 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			}
 		}
 
-		@Override
-		public void tileLoaded(final OpenStreetMapTile aTile, final String aTilePath, final boolean aRefresh) {
+		/**
+		 * A tile has loaded.
+		 * @param aTile the tile that has loaded
+		 * @param aTilePath the path of the file.
+		 */
+		public void tileLoaded(final OpenStreetMapTile aTile, final String aTilePath) {
 			synchronized (mPending) {
 				mPending.remove(aTile);
 			}
 			mWorking.remove(aTile);
 
-			if (aRefresh) {
-				mCallback.mapTileRequestCompleted(aTile, aTilePath);
-			}
+			mCallback.mapTileRequestCompleted(aTile, aTilePath);
 		}
 
-		@Override
-		public void tileLoaded(final OpenStreetMapTile aTile, final InputStream aTileInputStream, final boolean aRefresh) {
+		/**
+		 * A tile has loaded.
+		 * @param aTile the tile that has loaded
+		 * @param aTileInputStream the input stream of the file.
+		 */
+		public void tileLoaded(final OpenStreetMapTile aTile, final InputStream aTileInputStream) {
 			synchronized (mPending) {
 				mPending.remove(aTile);
 			}
 			mWorking.remove(aTile);
 
-			if (aRefresh) {
-				mCallback.mapTileRequestCompleted(aTile, aTileInputStream);
+			mCallback.mapTileRequestCompleted(aTile, aTileInputStream);
+		}
+
+		/**
+		 * A tile has loaded.
+		 * @param aTile the tile that has loaded
+		 * @param aRefresh whether to redraw the screen so that new tiles will be used
+		 */
+		public void tileLoaded(final OpenStreetMapTile aTile, final boolean aRefresh) {
+			synchronized (mPending) {
+				mPending.remove(aTile);
 			}
+			mWorking.remove(aTile);
+
+			mCallback.mapTileRequestCompleted(aTile);
 		}
 
 		@Override

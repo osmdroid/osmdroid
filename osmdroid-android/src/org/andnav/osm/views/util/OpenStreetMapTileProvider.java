@@ -30,13 +30,11 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 
 	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final String pTilePath) {
 
-		// if the tile path has been returned, add the tile to the cache
+		// add the tile to the cache
 		// let the renderer convert the file to a drawable
-		if (pTilePath != null) {
-			final Drawable drawable = pTile.getRenderer().getDrawable(pTilePath);
-			if (drawable != null) {
-				mTileCache.putTile(pTile, drawable);
-			}
+		final Drawable drawable = pTile.getRenderer().getDrawable(pTilePath);
+		if (drawable != null) {
+			mTileCache.putTile(pTile, drawable);
 		}
 
 		// tell our caller we've finished and it should update its view
@@ -48,20 +46,27 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 
 	public void mapTileRequestCompleted(final OpenStreetMapTile pTile, final InputStream pTileInputStream) {
 
-		// if the tile stream has been returned, add the tile to the cache
+		// add the tile to the cache
 		// let the renderer convert the file to a drawable
-		if (pTileInputStream != null) {
-			try {
-				final Drawable drawable = pTile.getRenderer().getDrawable(pTileInputStream);
-				if (drawable != null) {
-					mTileCache.putTile(pTile, drawable);
-				}
-			} finally {
-				try {
-					pTileInputStream.close();
-				} catch(final Exception ignore) {}
+		try {
+			final Drawable drawable = pTile.getRenderer().getDrawable(pTileInputStream);
+			if (drawable != null) {
+				mTileCache.putTile(pTile, drawable);
 			}
+		} finally {
+			try {
+				pTileInputStream.close();
+			} catch(final Exception ignore) {}
 		}
+
+		// tell our caller we've finished and it should update its view
+		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
+
+		if (DEBUGMODE)
+			logger.debug("MapTile request complete: " + pTile);
+	}
+
+	public void mapTileRequestCompleted(final OpenStreetMapTile pTile) {
 
 		// tell our caller we've finished and it should update its view
 		mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);

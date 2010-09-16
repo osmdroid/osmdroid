@@ -192,7 +192,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 				if (tileFile.exists()) {
 					if (DEBUGMODE)
 						logger.debug("Loaded tile: " + aTile);
-					tileLoaded(aTile, tileFile.getPath(), true);
+					tileLoaded(aTile, tileFile.getPath());
 
 					// check for old tile
 					final long now = System.currentTimeMillis();
@@ -226,16 +226,16 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 						}
 
 						// don't refresh the screen because there's nothing new
-						tileLoaded(aTile, (String)null, false);
+						tileLoaded(aTile, false);
 					} else {
 						if (DEBUGMODE)
 							logger.debug("Use tile from zip: " + aTile);
-						tileLoaded(aTile, fileFromZip, true);
+						tileLoaded(aTile, fileFromZip);
 					}
 				}
 			} catch (final Throwable e) {
 				logger.error("Error loading tile", e);
-				tileLoaded(aTile, (String)null, false);
+				tileLoaded(aTile, false);
 			}
 		}
 	}

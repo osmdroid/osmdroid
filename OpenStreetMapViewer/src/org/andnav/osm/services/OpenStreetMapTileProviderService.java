@@ -108,6 +108,12 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	}
 
 	@Override
+	public void mapTileRequestCompleted(final OpenStreetMapTile pTile) {
+		// TODO implementation
+		throw new IllegalStateException("Not implemented");
+	}
+
+	@Override
 	public String getCloudmadeKey() {
 		return CloudmadeUtil.getCloudmadeKey(this);
 	}

@@ -25,6 +25,9 @@ public class OpenStreetMapAsyncTileProviderTest {
 			public void mapTileRequestCompleted(final OpenStreetMapTile aTile, final InputStream aTileInputStream) {
 			}
 			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile) {
+			}
+			@Override
 			public String getCloudmadeKey() {
 				return "key";
 			}
@@ -75,6 +78,9 @@ public class OpenStreetMapAsyncTileProviderTest {
 				tiles.add(aTile);
 			}
 			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile) {
+			}
+			@Override
 			public String getCloudmadeKey() {
 				return "key";
 			}
@@ -91,7 +97,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 					@Override
 					protected void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 						try {Thread.sleep(1000);} catch (InterruptedException e) {}
-						tileLoaded(aTile, aTile.toString(), true);
+						tileLoaded(aTile, aTile.toString());
 					}
 				};
 			}
@@ -141,6 +147,9 @@ public class OpenStreetMapAsyncTileProviderTest {
 				tiles.add(aTile);
 			}
 			@Override
+			public void mapTileRequestCompleted(final OpenStreetMapTile aTile) {
+			}
+			@Override
 			public String getCloudmadeKey() {
 				return "key";
 			}
@@ -157,7 +166,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 					@Override
 					protected void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 						try {Thread.sleep(1000);} catch (InterruptedException e) {}
-						tileLoaded(aTile, aTile.toString(), true);
+						tileLoaded(aTile, aTile.toString());
 					}
 				};
 			}

@@ -135,7 +135,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 			 * That should be immediately because the view is redrawn when it
 			 * receives this completion event.
 			 */
-			tileLoaded(aTile, (String)null, true);
+			tileLoaded(aTile, true);
 		}
 	}
 
