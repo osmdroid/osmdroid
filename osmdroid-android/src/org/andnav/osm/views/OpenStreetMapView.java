@@ -369,6 +369,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		if (this.mMiniMap != null)
 			this.mMiniMap.setRenderer(aRenderer);
 		this.checkZoomButtons();
+		this.setZoomLevel(mZoomLevel); // revalidate zoom level
 		postInvalidate();
 	}
 
