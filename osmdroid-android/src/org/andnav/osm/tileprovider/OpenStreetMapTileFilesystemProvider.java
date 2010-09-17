@@ -248,12 +248,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 				logger.debug("onReceive action=" + aIntent.getAction());
 
 			final WifiManager wm = (WifiManager) aContext.getSystemService(Context.WIFI_SERVICE);
-			final int wifiState = wm.getWifiState();
+			final int wifiState = wm.getWifiState(); // TODO check for permission or catch error
 			if (DEBUGMODE)
 				logger.debug("wifi state=" + wifiState);
 
 			final TelephonyManager tm = (TelephonyManager) aContext.getSystemService(Context.TELEPHONY_SERVICE);
-			final int dataState = tm.getDataState();
+			final int dataState = tm.getDataState(); // TODO check for permission or catch error
 			if (DEBUGMODE)
 				logger.debug("telephone data state=" + dataState);
 
