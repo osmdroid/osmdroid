@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, OpenStreetMapViewer</string>
-    <string name="app_name">OpenStreetMap</string>
-    <string name="app_name_itemizedoverlay">OSMViewer ItemizedOverlay</string>
-    
-    <string name="unknown">Unknown</string>
-<string name="map_mode">Map mode</string>
-<string name="my_location">My location</string>
-<string name="samples">Samples</string>
-<string name="about">About</string>
-<string name="about_message">This software uses map data provided by &lt;b&gt;OpenStreetMap.org&lt;/b&gt;</string>
+	<string name="app_name">OpenStreetMap</string>
+
+	<string name="unknown">Unknown</string>
+	<string name="map_mode">Map mode</string>
+	<string name="my_location">My location</string>
+	<string name="offline">Offline mode</string>
+	<string name="samples">Samples</string>
+	<string name="about">About</string>
+	<string name="about_message">This software uses map data provided by &lt;b&gt;OpenStreetMap.org&lt;/b&gt;</string>
+
+	<string name="set_mode_offline">Set to offline mode</string>
+	<string name="set_mode_online">Set to online mode</string>
+
 </resources>

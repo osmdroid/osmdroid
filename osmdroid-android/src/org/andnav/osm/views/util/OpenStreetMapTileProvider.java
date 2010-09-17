@@ -22,6 +22,7 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 
 	protected final OpenStreetMapTileCache mTileCache;
 	protected final Handler mDownloadFinishedHandler;
+	protected boolean mUseDataConnection = true;
 
 	public OpenStreetMapTileProvider(final Handler pDownloadFinishedListener) {
 		mTileCache = new OpenStreetMapTileCache();
@@ -77,6 +78,23 @@ public abstract class OpenStreetMapTileProvider implements OpenStreetMapViewCons
 
 	public void ensureCapacity(final int aCapacity) {
 		mTileCache.ensureCapacity(aCapacity);
+	}
+
+	/**
+	 * Whether to use the network connection if it's available.
+	 */
+	public boolean useDataConnection() {
+		return mUseDataConnection;
+	}
+
+	/**
+	 * Set whether to use the network connection if it's available.
+	 * @param aMode
+	 * if true use the network connection if it's available.
+	 * if false don't use the network connection even if it's available.
+	 */
+	public void setUseDataConnection(boolean aMode) {
+		mUseDataConnection = aMode;
 	}
 
 	public abstract Drawable getMapTile(OpenStreetMapTile pTile);

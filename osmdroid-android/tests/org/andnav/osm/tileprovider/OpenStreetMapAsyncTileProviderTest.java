@@ -31,6 +31,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			public String getCloudmadeKey() {
 				return "key";
 			}
+			@Override
+			public boolean useDataConnection() {
+				return false;
+			}
 		};
 
 		final OpenStreetMapAsyncTileProvider target = new OpenStreetMapAsyncTileProvider(tileProviderCallback, 1, 10) {
@@ -83,6 +87,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			@Override
 			public String getCloudmadeKey() {
 				return "key";
+			}
+			@Override
+			public boolean useDataConnection() {
+				return false;
 			}
 		};
 
@@ -152,6 +160,10 @@ public class OpenStreetMapAsyncTileProviderTest {
 			@Override
 			public String getCloudmadeKey() {
 				return "key";
+			}
+			@Override
+			public boolean useDataConnection() {
+				return false;
 			}
 		};
 

@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 /**
  * Default map view activity.
@@ -36,7 +37,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
-	private static final int MENU_SAMPLES = MENU_MAP_MODE + 1;
+	private static final int MENU_OFFLINE = MENU_MAP_MODE + 1;
+	private static final int MENU_SAMPLES = MENU_OFFLINE + 1;
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
 
 	private static final int DIALOG_ABOUT_ID = 1;
@@ -121,6 +123,8 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
 		}
 
+		pMenu.add(0, MENU_OFFLINE, Menu.NONE, R.string.offline).setIcon(R.drawable.ic_menu_offline);
+
 		pMenu.add(0, MENU_SAMPLES, Menu.NONE, R.string.samples).setIcon(android.R.drawable.ic_menu_gallery);
 
 		pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(android.R.drawable.ic_menu_info_details);
@@ -148,6 +152,13 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 
 			case MENU_MAP_MODE:
 				this.mOsmv.invalidate();
+				return true;
+
+			case MENU_OFFLINE:
+				final boolean useDataConnection = !this.mOsmv.useDataConnection();
+				final int id = useDataConnection ? R.string.set_mode_online : R.string.set_mode_offline;
+				Toast.makeText(this, id, Toast.LENGTH_LONG).show();
+				this.mOsmv.setUseDataConnection(useDataConnection);
 				return true;
 
 			case MENU_SAMPLES:

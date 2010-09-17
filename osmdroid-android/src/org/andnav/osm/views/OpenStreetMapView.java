@@ -556,6 +556,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
 	}
 
+	/**
+	 * Whether to use the network connection if it's available.
+	 */
+	public boolean useDataConnection() {
+		return mMapOverlay.useDataConnection();
+	}
+
+	/**
+	 * Set whether to use the network connection if it's available.
+	 * @param aMode
+	 * if true use the network connection if it's available.
+	 * if false don't use the network connection even if it's available.
+	 */
+	public void setUseDataConnection(boolean aMode) {
+		mMapOverlay.setUseDataConnection(aMode);
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================

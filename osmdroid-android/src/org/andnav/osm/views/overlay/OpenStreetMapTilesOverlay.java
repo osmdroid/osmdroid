@@ -67,6 +67,23 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mPaint.setAlpha(a);
 	}
 
+	/**
+	 * Whether to use the network connection if it's available.
+	 */
+	public boolean useDataConnection() {
+		return mTileProvider.useDataConnection();
+	}
+
+	/**
+	 * Set whether to use the network connection if it's available.
+	 * @param aMode
+	 * if true use the network connection if it's available.
+	 * if false don't use the network connection even if it's available.
+	 */
+	public void setUseDataConnection(boolean aMode) {
+		mTileProvider.setUseDataConnection(aMode);
+	}
+
 	@Override
 	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
 

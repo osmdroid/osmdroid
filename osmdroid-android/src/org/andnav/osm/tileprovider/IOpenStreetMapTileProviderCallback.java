@@ -31,4 +31,9 @@ public interface IOpenStreetMapTileProviderCallback {
 	 * @return
 	 */
 	String getCloudmadeKey() throws CloudmadeException;
+
+	/**
+	 * Whether to use the network connection if it's available.
+	 */
+	public boolean useDataConnection();
 }

@@ -118,6 +118,12 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 		return CloudmadeUtil.getCloudmadeKey(this);
 	}
 
+	@Override
+	public boolean useDataConnection() {
+		// TODO implementation
+		return true;
+	}
+
 	/**
 	 * The IRemoteInterface is defined through IDL
 	 */

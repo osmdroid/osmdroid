@@ -198,7 +198,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					final long now = System.currentTimeMillis();
 					final long lastModified = tileFile.lastModified();
 					if (now - lastModified > TILE_EXPIRY_TIME_MILLISECONDS) {
-						if (mConnected) {
+						// XXX perhaps we should distinguish between phone and wifi data connection
+						if (mConnected && mCallback.useDataConnection()) {
 							if (DEBUGMODE)
 								logger.debug("Tile has expired, requesting new download: " + aTile);
 							mTileDownloader.loadMapTileAsync(aTile);
@@ -215,8 +216,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 					final InputStream fileFromZip = fileFromZip(aTile);
 					if (fileFromZip == null) {
-
-						if (mConnected) {
+						// XXX perhaps we should distinguish between phone and wifi data connection
+						if (mConnected && mCallback.useDataConnection()) {
 							if (DEBUGMODE)
 								logger.debug("Request for download: " + aTile);
 							mTileDownloader.loadMapTileAsync(aTile);
