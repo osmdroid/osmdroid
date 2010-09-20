@@ -9,6 +9,9 @@ import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
 
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
+import org.andnav.osm.events.MapListener;
+import org.andnav.osm.events.ScrollEvent;
+import org.andnav.osm.events.ZoomEvent;
 import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
@@ -108,6 +111,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private MultiTouchController<Object> mMultiTouchController;
 	private float mMultiTouchScale = 1.0f;
+
+	protected MapListener mListener;
 
 	// ===========================================================
 	// Constructors
@@ -415,6 +420,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 				scrollTo(snapPoint.x, snapPoint.y);
 			}
 		}
+
+		// do callback on listener
+		if (newZoomLevel != curZoomLevel && mListener != null) {
+			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
+			mListener.onZoom(event);
+		}
 		return this.mZoomLevel;
 	}
 
@@ -677,6 +688,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		x %= worldSize;
 		y %= worldSize;
 		super.scrollTo(x, y);
+
+		// do callback on listener
+		if (mListener != null) {
+			final ScrollEvent event = new ScrollEvent(this, x, y);
+			mListener.onScroll(event);
+		}
 	}
 
 	@Override
@@ -764,6 +781,13 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mMultiTouchScale = aNewObjPosAndScale.getScale();
 		invalidate(); // redraw
 		return true;
+	}
+
+	/*
+	 * Set the MapListener for this view
+	 */
+	public void setMapListener(MapListener ml) {
+		mListener = ml;
 	}
 
 	// ===========================================================
