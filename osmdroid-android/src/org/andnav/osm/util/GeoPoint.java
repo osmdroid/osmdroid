@@ -5,13 +5,16 @@ import org.andnav.osm.util.constants.GeoConstants;
 import org.andnav.osm.views.util.constants.MathConstants;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  *
  * @author Nicolas Gramlich
+ * @author Theodore Hong
  *
  */
-public class GeoPoint implements MathConstants, GeoConstants{
+public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -105,6 +108,37 @@ public class GeoPoint implements MathConstants, GeoConstants{
 		final GeoPoint rhs = (GeoPoint)obj;
 		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6;
 	}
+
+	// ===========================================================
+	// Parcelable
+	// ===========================================================
+	private GeoPoint(Parcel in) {
+		this.mLatitudeE6 = in.readInt();
+		this.mLongitudeE6 = in.readInt();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(mLatitudeE6);
+		out.writeInt(mLongitudeE6);
+	}
+
+	public static final Parcelable.Creator<GeoPoint> CREATOR = new Parcelable.Creator<GeoPoint>() {
+		@Override
+		public GeoPoint createFromParcel(Parcel in) {
+			return new GeoPoint(in);
+		}
+
+		@Override
+		public GeoPoint[] newArray(int size) {
+			return new GeoPoint[size];
+		}
+	};
 
 	// ===========================================================
 	// Methods
