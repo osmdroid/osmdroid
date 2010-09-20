@@ -312,7 +312,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// Fields
 		// ===========================================================
 
-		protected final int mSmoothness, mDuration;
+		protected final int mSmoothness;
 		protected final int mTargetLatitudeE6, mTargetLongitudeE6;
 		protected boolean mDone = false;
 
@@ -333,8 +333,6 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 			this.mTargetLatitudeE6 = aTargetLatitudeE6;
 			this.mTargetLongitudeE6 = aTargetLongitudeE6;
 			this.mSmoothness = aSmoothness;
-			this.mDuration = aDuration;
-
 			this.mStepDuration = aDuration / aSmoothness;
 
 
@@ -347,6 +345,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 			this.mPanTotalLongitudeE6 = (mapCenterLonE6 - aTargetLongitudeE6);
 		}
 
+		@Override
 		public void run(){
 			onRunAnimation();
 			this.mDone = true;
@@ -476,7 +475,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		// ===========================================================
 
 		protected final float mStepIncrement, mAmountStretch;
-		protected final float mYOffset, mRange, mStart;
+		protected final float mYOffset, mStart;
 
 		// ===========================================================
 		// Constructors
@@ -490,7 +489,6 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 		public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6, final int aSmoothness, final int aDuration, final float aStart, final float aRange, final float aYOffset){
 			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
 			this.mYOffset = aYOffset;
-			this.mRange = aRange;
 			this.mStart = aStart;
 
 			this.mStepIncrement =  aRange / aSmoothness;
