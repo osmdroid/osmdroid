@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 
 /**
@@ -49,6 +50,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	/** whether we have a data connection */
 	private boolean mConnected = true;
 
+	/** whether the sdcard is mounted read/write */
+	private boolean mSdCardAvailable = true;
+
+	private final MyBroadcastReceiver mBroadcastReceiver;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -59,13 +65,26 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 */
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
 		super(aCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
-		this.mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
+		mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
+		mBroadcastReceiver = new MyBroadcastReceiver();
+
+		checkSdCard();
+
 		findZipFiles();
 
-		final IntentFilter filter = new IntentFilter();
-		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-		aRegisterReceiver.registerReceiver(new MyBroadcastReceiver(), filter);
+		final IntentFilter networkFilter = new IntentFilter();
+		networkFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		networkFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		aRegisterReceiver.registerReceiver(mBroadcastReceiver, networkFilter);
+
+		final IntentFilter mediaFilter = new IntentFilter();
+		mediaFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+		mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+		mediaFilter.addDataScheme("file");
+		aRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
+
+		// TODO need to unregister receivers at some point otherwise we get an error message about a leaked receiver.
+		// The message is easy to reproduce just by rotating the screen.
 	}
 
 	// ===========================================================
@@ -86,10 +105,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		return new TileLoader();
 	};
 
-
-	/**
-	 * Stops all workers, the service is shutting down.
-	 */
 	@Override
 	public void stopWorkers()
 	{
@@ -123,6 +138,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		final File parent = file.getParentFile();
 		// check exists twice because maybe mkdirs returned false because another thread created it
 		if (!parent.exists() && !parent.mkdirs() && !parent.exists()) {
+			checkSdCard();
 			throw new CantContinueException("Tile directory doesn't exist: " + parent);
 		}
 		return file;
@@ -136,6 +152,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	}
 
 	private void findZipFiles() {
+
+		mZipFiles.clear();
+
 		final File baseFolder = new File(TILE_PATH_BASE);
 
 		final File[] z = baseFolder.listFiles(new FileFilter() {
@@ -145,11 +164,13 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 			}
 		});
 
-		for(final File file : z) {
-			try {
-				mZipFiles.add(new ZipFile(file));
-			} catch(final Throwable e) {
-				logger.warn("Error opening zip file: " + file, e);
+		if (z != null) {
+			for (final File file : z) {
+				try {
+					mZipFiles.add(new ZipFile(file));
+				} catch (final Throwable e) {
+					logger.warn("Error opening zip file: " + file, e);
+				}
 			}
 		}
 	}
@@ -171,6 +192,17 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		return null;
 	}
 
+	private void checkSdCard() {
+		final String state = Environment.getExternalStorageState();
+		logger.info("sdcard state: " + state);
+		mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
+		if (DEBUGMODE)
+			logger.debug("mSdcardAvailable=" + mSdCardAvailable);
+		if (!mSdCardAvailable) {
+			mZipFiles.clear();
+		}
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -179,6 +211,15 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		@Override
 		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
+
+			// if there's no sdcard then don't do anything
+			if (!mSdCardAvailable) {
+				if (DEBUGMODE)
+					logger.debug("No sdcard - do nothing for tile: " + aTile);
+				tileLoaded(aTile, false);
+				return;
+			}
+
 			final File tileFile = getOutputFile(aTile);
 
 			// TODO need a policy for deciding which file to use, eg:
@@ -245,8 +286,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		@Override
 		public void onReceive(final Context aContext, final Intent aIntent) {
-			if (DEBUGMODE)
-				logger.debug("onReceive action=" + aIntent.getAction());
+
+			final String action = aIntent.getAction();
+			logger.info("onReceive: " + action);
 
 			final WifiManager wm = (WifiManager) aContext.getSystemService(Context.WIFI_SERVICE);
 			final int wifiState = wm.getWifiState(); // TODO check for permission or catch error
@@ -263,6 +305,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 			if (DEBUGMODE)
 				logger.debug("mConnected=" + mConnected);
+
+			checkSdCard();
+
+			if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
+				findZipFiles();
+			}
 		}
 	}
 

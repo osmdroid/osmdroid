@@ -68,7 +68,7 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	}
 
 	/**
-	 * Stops all workers, the service is shutting down.
+	 * Stops all workers - we're shutting down.
 	 */
 	public void stopWorkers()
 	{
