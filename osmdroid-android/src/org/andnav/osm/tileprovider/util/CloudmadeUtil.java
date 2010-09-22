@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.andnav.osm.tileprovider.CloudmadeException;
+import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -23,10 +24,10 @@ import android.provider.Settings;
  * Utility class for implementing Cloudmade authorization.
  * See http://developers.cloudmade.com/projects/show/auth
  */
-public class CloudmadeUtil {
+public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(CloudmadeUtil.class);
-	
+
 	/** the meta data key in the manifest */
 	public static final String CLOUDMADE_KEY = "CLOUDMADE_KEY";
 
@@ -42,12 +43,13 @@ public class CloudmadeUtil {
 			if (info.metaData != null) {
 				final String key = info.metaData.getString(CLOUDMADE_KEY);
 				if (key != null && key.trim().length() > 0) {
-					logger.info("Cloudmade key: " + key);
+					if (DEBUGMODE)
+						logger.debug("Cloudmade key: " + key);
 					return key.trim();
 				}
 			}
 		} catch (final NameNotFoundException e) {}
-		
+
 		logger.info("Cloudmade key not found in manifest");
 		return null;
 	}
@@ -56,7 +58,7 @@ public class CloudmadeUtil {
 	 * Get the token from the Cloudmade server.
 	 * @param aKey the cloudmade key
 	 * @return the token returned from the server, or null if not found
-	 * @throws CloudmadeException 
+	 * @throws CloudmadeException
 	 */
 	public static String getCloudmadeToken(final String aKey) throws CloudmadeException {
 		final String url = "http://auth.cloudmade.com/token/" + aKey + "?userid=" + Settings.Secure.ANDROID_ID;
@@ -64,11 +66,13 @@ public class CloudmadeUtil {
 		final HttpPost httpPost = new HttpPost(url);
 		try {
 			final HttpResponse response = httpClient.execute(httpPost);
-			logger.info("Response from Cloudmade auth: " + response.getStatusLine());
+			if (DEBUGMODE)
+				logger.debug("Response from Cloudmade auth: " + response.getStatusLine());
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()), 8000);
 				final String line = br.readLine();
-				logger.info("First line from Cloudmade auth: " + line);
+				if (DEBUGMODE)
+					logger.debug("First line from Cloudmade auth: " + line);
 				final String token = line.trim();
 				if (token.length() == 0) {
 					throw new CloudmadeException("No authorization token received from Cloudmade");
