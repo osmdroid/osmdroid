@@ -132,7 +132,7 @@ public class OpenStreetMapRendererFactory {
 				"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
 
 	public static final IOpenStreetMapRendererInfo CLOUDMADESMALLTILES =
-		new CloudmadeRenderer("CLOUDMADESMALLTILES", ResourceProxy.string.cloudmade_small, 0, 13, 6, ".png",
+		new CloudmadeRenderer("CLOUDMADESMALLTILES", ResourceProxy.string.cloudmade_small, 0, 21, 6, ".png",
 				"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
