@@ -11,7 +11,6 @@ public interface ResourceProxy {
 		osmarender,
 		mapnik,
 		cyclemap,
-		openareal_sat,
 		base,
 		topo,
 		hills,

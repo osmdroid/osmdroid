@@ -36,15 +36,14 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	@Override
 	public String getString(final string pResId) {
 		switch(pResId) {
-		case osmarender : return "OsmaRender";
+		case osmarender : return "Osmarender";
 		case mapnik : return "Mapnik";
 		case cyclemap : return "Cycle Map";
-		case openareal_sat : return "OpenArialMap";
 		case base : return "OSM base layer";
 		case topo : return "Topographic";
 		case hills : return "Hills";
-		case cloudmade_small : return "Cloudmade (small tiles)";
-		case cloudmade_standard : return "Cloudmade (Standard tiles)";
+		case cloudmade_standard : return "CloudMade (Standard tiles)";
+		case cloudmade_small : return "CloudMade (small tiles)";
 		case unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}

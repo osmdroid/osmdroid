@@ -96,43 +96,39 @@ public class OpenStreetMapRendererFactory {
 	}
 
 	public static final IOpenStreetMapRendererInfo OSMARENDER =
-		new XYRenderer("OSMARENDER", ResourceProxy.string.osmarender, 0, 17, 8, ".png",
+		new XYRenderer("Osmarender", ResourceProxy.string.osmarender, 0, 17, 8, ".png",
 				"http://tah.openstreetmap.org/Tiles/tile/");
 
 	public static final IOpenStreetMapRendererInfo MAPNIK =
-		new XYRenderer("MAPNIK", ResourceProxy.string.mapnik, 0, 18, 8, ".png",
+		new XYRenderer("Mapnik", ResourceProxy.string.mapnik, 0, 18, 8, ".png",
 				"http://tile.openstreetmap.org/");
 
 	public static final IOpenStreetMapRendererInfo CYCLEMAP =
-		new XYRenderer("CYCLEMAP", ResourceProxy.string.cyclemap, 0, 17, 8, ".png",
+		new XYRenderer("CycleMap", ResourceProxy.string.cyclemap, 0, 17, 8, ".png",
 				"http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
 				"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
 				"http://c.andy.sandbox.cloudmade.com/tiles/cycle/");
 
-	public static final IOpenStreetMapRendererInfo OPENARIELMAP =
-		new XYRenderer("OPENARIELMAP", ResourceProxy.string.openareal_sat, 0, 13, 8, ".jpg",
-				"http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/");
-
 	public static final IOpenStreetMapRendererInfo BASE =
-		new XYRenderer("BASE", ResourceProxy.string.base, 4, 17, 8, ".png",
+		new XYRenderer("Base", ResourceProxy.string.base, 4, 17, 8, ".png",
 				"http://topo.openstreetmap.de/base/");
 
 	public static final IOpenStreetMapRendererInfo TOPO =
-		new XYRenderer("TOPO", ResourceProxy.string.topo, 4, 17, 8, ".png",
+		new XYRenderer("Topo", ResourceProxy.string.topo, 4, 17, 8, ".png",
 				"http://topo.openstreetmap.de/topo/");
 
 	public static final IOpenStreetMapRendererInfo HILLS =
-		new XYRenderer("HILLS", ResourceProxy.string.hills, 8, 17, 8, ".png",
+		new XYRenderer("Hills", ResourceProxy.string.hills, 8, 17, 8, ".png",
 				"http://topo.geofabrik.de/hills/");
 
 	public static final IOpenStreetMapRendererInfo CLOUDMADESTANDARDTILES =
-		new CloudmadeRenderer("CLOUDMADESTANDARDTILES", ResourceProxy.string.cloudmade_standard, 0, 18, 8, ".png",
+		new CloudmadeRenderer("CloudMadeStandardTiles", ResourceProxy.string.cloudmade_standard, 0, 18, 8, ".png",
 				"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
 
 	public static final IOpenStreetMapRendererInfo CLOUDMADESMALLTILES =
-		new CloudmadeRenderer("CLOUDMADESMALLTILES", ResourceProxy.string.cloudmade_small, 0, 21, 6, ".png",
+		new CloudmadeRenderer("CloudMadeSmallTiles", ResourceProxy.string.cloudmade_small, 0, 21, 6, ".png",
 				"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 				"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
@@ -146,7 +142,6 @@ public class OpenStreetMapRendererFactory {
 		OSMARENDER,
 		MAPNIK,
 		CYCLEMAP,
-		OPENARIELMAP,
 		BASE,
 		TOPO,
 		HILLS,
