@@ -1,13 +1,15 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.andnav.osm.views;
 
+import org.andnav.osm.util.BasicPoint;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.Point;
 import org.andnav.osm.views.util.Mercator;
 import org.andnav.osm.views.util.MyMath;
 import org.andnav.osm.views.util.constants.MathConstants;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+
+import android.graphics.Point;
 
 /**
  *
@@ -80,7 +82,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 	public void animateTo(final GeoPoint point) {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
-		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
+		final BasicPoint p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx()/2;
 		mOsmv.getScroller().startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y, ANIMATION_DURATION_DEFAULT);
 		mOsmv.postInvalidate();
@@ -154,7 +156,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 	 * Set the map view to the given center. There will be no animation.
 	 */
 	public void setCenter(final GeoPoint point) {
-		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
+		final BasicPoint p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx()/2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
@@ -416,7 +418,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 			}
 		}
 	}
-
+	
 	private class ExponentialDeceleratingAnimationRunner extends AbstractAnimationRunner{
 
 		// ===========================================================

@@ -3,7 +3,7 @@ package org.andnav.osm.views.util;
 
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.Point;
+import org.andnav.osm.util.BasicPoint;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
 /**
@@ -81,8 +81,8 @@ public class Mercator implements OpenStreetMapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom, final Point aUseAsReturnValue) {
-		final Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
+	public static BasicPoint projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom, final BasicPoint aUseAsReturnValue) {
+		final BasicPoint p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new BasicPoint();
 		
 		final double aLon = aGeoPoint.getLongitudeE6()*1E-6;
 		final double aLat = aGeoPoint.getLatitudeE6()*1E-6; 

@@ -3,7 +3,7 @@ package org.andnav.osm.views.util;
 import static org.junit.Assert.assertEquals;
 
 import org.andnav.osm.util.GeoPoint;
-import org.andnav.osm.util.Point;
+import org.andnav.osm.util.BasicPoint;
 import org.junit.Test;
 
 /**
@@ -21,7 +21,7 @@ public class MercatorTest {
         final GeoPoint hannover = new GeoPoint(52370816, 9735936);
 		final int zoom = 8;
 
-		final Point point = Mercator.projectGeoPoint(hannover, zoom, null);
+		final BasicPoint point = Mercator.projectGeoPoint(hannover, zoom, null);
 		
 		assertEquals("TODO describe test", 134, point.x);
 		assertEquals("TODO describe test", 84, point.y);

@@ -42,7 +42,6 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 	protected final Point mMarkerFocusedHotSpot;
 	protected final Drawable mMarkerFocusedBase;
 	protected final int mMarkerFocusedBackgroundColor;
-	protected final int mMarkerFocusedWidth, mMarkerFocusedHeight;
 	protected final Paint mMarkerBackgroundPaint, mDescriptionPaint, mTitlePaint;
 
 	protected int mFocusedItemIndex;
@@ -101,9 +100,6 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 		this.mTitlePaint = new Paint();
 		this.mTitlePaint.setFakeBoldText(true);
 		this.mTitlePaint.setAntiAlias(true);
-
-		this.mMarkerFocusedWidth = this.mMarkerFocusedBase.getIntrinsicWidth();
-		this.mMarkerFocusedHeight = this.mMarkerFocusedBase.getIntrinsicHeight();
 	}
 
 	// ===========================================================
@@ -145,15 +141,27 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 	@Override
 	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
 		if(this.mFocusedItemIndex != NOT_SET){
+			// get focused item's preferred marker & hotspot
+		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
+		Drawable markerFocusedBase = focusedItem.getMarker(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Point markerFocusedHotspot = focusedItem.getMarkerHotspot(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+		if (markerFocusedBase == null) {
+			markerFocusedBase = this.mMarkerFocusedBase;
+		}
+		if (markerFocusedHotspot == null) {
+			markerFocusedHotspot = this.mMarkerFocusedHotSpot;
+		}
+			
 			/* Calculate and set the bounds of the marker. */
-			final int left = this.mFocusedScreenCoords.x - this.mMarkerFocusedHotSpot.x;
-			final int right = left + this.mMarkerFocusedWidth;
-			final int top = this.mFocusedScreenCoords.y - this.mMarkerFocusedHotSpot.y;
-			final int bottom = top + this.mMarkerFocusedHeight;
-			this.mMarkerFocusedBase.setBounds(left, top, right, bottom);
+			int markerFocusedWidth = markerFocusedBase.getIntrinsicWidth();
+		int markerFocusedHeight = markerFocusedBase.getIntrinsicHeight();		
+		final int left = this.mFocusedScreenCoords.x - markerFocusedHotspot.x;
+		final int right = left + markerFocusedWidth;
+		final int top = this.mFocusedScreenCoords.y - markerFocusedHotspot.y;
+		final int bottom = top + markerFocusedHeight;
+		markerFocusedBase.setBounds(left, top, right, bottom);
 
 			/* Strings of the OverlayItem, we need. */
-			final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 			final String itemTitle = (focusedItem.mTitle == null) ? UNKNOWN : focusedItem.mTitle;
 			final String itemDescription = (focusedItem.mDescription == null) ? UNKNOWN : focusedItem.mDescription;
 
@@ -209,7 +217,7 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 			final int descWidth = Math.min(maxWidth, DESCRIPTION_MAXWIDTH);
 
 			/* Calculate the bounds of the Description box that needs to be drawn. */
-			final int descBoxLeft = left - descWidth / 2 - DESCRIPTION_BOX_PADDING + this.mMarkerFocusedWidth / 2;
+			final int descBoxLeft = left - descWidth / 2 - DESCRIPTION_BOX_PADDING + markerFocusedWidth / 2;
 			final int descBoxRight = descBoxLeft + descWidth + 2 * DESCRIPTION_BOX_PADDING;
 			final int descBoxBottom = top;
 			final int descBoxTop = descBoxBottom
@@ -240,7 +248,7 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 			c.drawLine(descBoxLeft, descTextLineBottom, descBoxRight, descTextLineBottom, mDescriptionPaint);
 
 			/* Finally draw the marker base. This is done in the end to make it look better. */
-			this.mMarkerFocusedBase.draw(c);
+			markerFocusedBase.draw(c);
 		}
 	}
 

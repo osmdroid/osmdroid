@@ -7,6 +7,7 @@ import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -20,6 +21,8 @@ import android.view.MotionEvent;
  * The item with the lowest index is drawn as last and therefore the 'topmost' marker. It also gets checked for onTap first.
  * This class is generic, because you then you get your custom item-class passed back in onTap().
  * @author Nicolas Gramlich
+ * @author Theodore Hong
+ * @author Fred Eisele
  *
  * @param <T>
  */
@@ -29,17 +32,13 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// Constants
 	// ===========================================================
 
-	protected static final Point DEFAULTMARKER_HOTSPOT = new Point(13, 47);
-
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	protected OnItemTapListener<T> mOnItemTapListener;
 	protected final List<T> mItemList;
-	protected final Point mMarkerHotSpot;
-	protected final Drawable mMarker;
-	protected final int mMarkerWidth, mMarkerHeight;
+	protected final OpenStreetMapViewOverlayItem mDefaultMarker;
 
 	// ===========================================================
 	// Constructors
@@ -57,7 +56,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final List<T> aList, 
 			final OnItemTapListener<T> aOnItemTapListener, 
 			final ResourceProxy pResourceProxy) {
-        this(ctx, aList, null, null, aOnItemTapListener, pResourceProxy);
+        this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
@@ -67,20 +66,25 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final Point pMarkerHotspot, 
 			final OnItemTapListener<T> aOnItemTapListener, 
 			final ResourceProxy pResourceProxy) {
+		this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
+	}
+	public OpenStreetMapViewItemizedOverlay(
+			final Context ctx, 
+			final List<T> aList, 
+			final Drawable pMarker, 
+			final Point pMarkerHotspot,
+			final OpenStreetMapViewOverlayItem.HotspotPlace pHotSpotPlace,
+			final OnItemTapListener<T> aOnItemTapListener, 
+			final ResourceProxy pResourceProxy) {
 		
 		super(pResourceProxy);
 		
 		assert(ctx != null);
 		assert(aList != null);
 
-		this.mMarker = (pMarker != null) ? pMarker : mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default);
-
-		this.mMarkerHotSpot = (pMarkerHotspot != null) ? pMarkerHotspot : DEFAULTMARKER_HOTSPOT;
+		this.mDefaultMarker = OpenStreetMapViewOverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace, pResourceProxy);
 
         this.mOnItemTapListener = aOnItemTapListener;
-
-		this.mMarkerWidth = this.mMarker.getIntrinsicWidth();
-		this.mMarkerHeight = this.mMarker.getIntrinsicHeight();
 
 		// Add one sample item.
 		this.mItemList = aList;
@@ -115,14 +119,28 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	}
 
 	protected void onDrawItem(final Canvas c, final int index, final Point curScreenCoords) {
-		final int left = curScreenCoords.x - this.mMarkerHotSpot.x;
-		final int right = left + this.mMarkerWidth;
-		final int top = curScreenCoords.y - this.mMarkerHotSpot.y;
-		final int bottom = top + this.mMarkerHeight;
-
-		this.mMarker.setBounds(left, top, right, bottom);
-
-		this.mMarker.draw(c);
+		// get this item's preferred marker & hotspot
+		T item = this.mItemList.get(index);
+		Drawable marker = item.getMarker(0);
+		Point markerHotspot = item.getMarkerHotspot(0);
+		if (marker == null) {
+			marker = this.mDefaultMarker.getMarker(0);
+		}
+		if (markerHotspot == null) {
+			markerHotspot = this.mDefaultMarker.getMarkerHotspot(0);
+		}
+	
+			// calculate bounding rectangle
+		int markerWidth = marker.getIntrinsicWidth();
+		int markerHeight = marker.getIntrinsicHeight();		
+		final int left = curScreenCoords.x - markerHotspot.x;
+		final int right = left + markerWidth;
+		final int top = curScreenCoords.y - markerHotspot.y;
+		final int bottom = top + markerHeight;
+			 
+		// draw it
+		marker.setBounds(left, top, right, bottom);
+		marker.draw(c);
 	}
 
 	@Override
@@ -130,22 +148,23 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
-		final int markerWidth = this.mMarker.getIntrinsicWidth();
-		final int markerHeight = this.mMarker.getIntrinsicHeight();
 
 		/* These objects are created to avoid construct new ones every cycle. */
 		final Rect curMarkerBounds = new Rect();
 		final Point curScreenCoords = new Point();
 		final Point curScreenCoords2 = new Point();
 
-		for(int i = 0; i < this.mItemList.size(); i++){
+		for(int i = 0; i < this.mItemList.size(); ++i) {
 			final T item = this.mItemList.get(i);
+			final int markerWidth = item.getWidth();
+			final int markerHeight = item.getHeight();
+			final Point markerHotspot = item.getMarkerHotspot(0);
 
 			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
 
-			final int left = (curScreenCoords.x - this.mMarkerHotSpot.x);
+			final int left = (curScreenCoords.x - markerHotspot.x);
 			final int right = left + markerWidth;
-			final int top = (curScreenCoords.y - this.mMarkerHotSpot.y);
+			final int top = (curScreenCoords.y - markerHotspot.y);
 			final int bottom = top + markerHeight;
 			curMarkerBounds.set(left, top, right, bottom);
 
@@ -169,7 +188,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		else
 			return false;
 	}
-
+	
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
