@@ -19,6 +19,7 @@ public class OpenStreetMapRendererFactory {
 	 */
 	public static IOpenStreetMapRendererInfo getRenderer(String aName) throws IllegalArgumentException {
 		for (IOpenStreetMapRendererInfo renderer : mRenderers) {
+			// TODO perhaps we should ignore case and white space
 			if (renderer.name().equals(aName)) {
 				return renderer;
 			}
