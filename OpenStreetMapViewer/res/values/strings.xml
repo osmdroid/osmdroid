@@ -12,5 +12,8 @@
 
 	<string name="set_mode_offline">Set to offline mode</string>
 	<string name="set_mode_online">Set to online mode</string>
+	
+	<string name="set_mode_show_me">showing and tracking my current location</string>
+	<string name="set_mode_hide_me">hiding my current location</string>
 
 </resources>

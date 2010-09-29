@@ -144,11 +144,21 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch(item.getItemId()) {
 			case MENU_MY_LOCATION:
-				this.mLocationOverlay.followLocation(true);
-	    		this.mLocationOverlay.enableMyLocation();
-	    		Location lastFix = this.mLocationOverlay.getLastFix();
-	    		if (lastFix != null)
-	    			this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
+				if (this.mLocationOverlay.isMyLocationEnabled()) {
+					this.mLocationOverlay.followLocation(false);
+		    		this.mLocationOverlay.disableMyLocation();
+				} else {
+				   this.mLocationOverlay.followLocation(true);
+	    		   this.mLocationOverlay.enableMyLocation();
+	    		   Location lastFix = this.mLocationOverlay.getLastFix();
+	    		   if (lastFix != null)
+	    		      	this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
+				}
+				Toast.makeText(this, 
+						this.mLocationOverlay.isMyLocationEnabled() 
+						   ? R.string.set_mode_show_me 
+						   : R.string.set_mode_hide_me,
+						Toast.LENGTH_LONG).show();
 				return true;
 
 			case MENU_MAP_MODE:

@@ -385,9 +385,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	// Methods
 	// ===========================================================
 
-	public void disableMyLocation() {
+	public boolean disableMyLocation() {
 		mLocationManager.removeUpdates(this);
-		mMyLocationEnabled = false;
+		return mMyLocationEnabled = false;
 	}
 
 	/**
@@ -404,6 +404,10 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		}
 		return mMyLocationEnabled = true;
 	}
+	
+	public boolean toggleMyLocation() {
+		return (mMyLocationEnabled) ? disableMyLocation() : enableMyLocation();
+	}
 
 	public boolean enableCompass() {
 		if (mOrientationSensorAvailable) {
@@ -417,13 +421,18 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		}
 	}
 
-	public void disableCompass() {
+	public boolean disableCompass() {
 		if (mCompassEnabled) {
 			mSensorManager.unregisterListener(this);
 			mCompassEnabled = false;
 			// Reset azimuth value
 			mAzimuth = -1.0f;
 		}
+		return mCompassEnabled;
+	}
+	
+	public boolean toggleCompass() {
+		return (mCompassEnabled) ? disableCompass() : enableCompass();
 	}
 
 	public boolean runOnFirstFix(Runnable runnable) {
