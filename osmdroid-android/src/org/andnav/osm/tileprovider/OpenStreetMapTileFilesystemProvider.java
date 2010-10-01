@@ -116,8 +116,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Methods
 	// ===========================================================
 
-	private String buildFullPath(final OpenStreetMapTile tile) {
-		return TILE_PATH_BASE + buildPath(tile);
+	private File buildFullPath(final OpenStreetMapTile tile) {
+		return new File(TILE_PATH_BASE, buildPath(tile));
 	}
 
 	private String buildPath(final OpenStreetMapTile tile) {
@@ -134,7 +134,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * and can't be created
 	 */
 	File getOutputFile(final OpenStreetMapTile tile) throws CantContinueException {
-		final File file = new File(buildFullPath(tile));
+		final File file = buildFullPath(tile);
 		final File parent = file.getParentFile();
 		// check exists twice because maybe mkdirs returned false because another thread created it
 		if (!parent.exists() && !parent.mkdirs() && !parent.exists()) {
@@ -155,9 +155,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 		mZipFiles.clear();
 
-		final File baseFolder = new File(TILE_PATH_BASE);
-
-		final File[] z = baseFolder.listFiles(new FileFilter() {
+		final File[] z = OSMDROID_PATH.listFiles(new FileFilter() {
 			@Override
 			public boolean accept(final File aFile) {
 				return aFile.isFile() && aFile.getName().endsWith(".zip");

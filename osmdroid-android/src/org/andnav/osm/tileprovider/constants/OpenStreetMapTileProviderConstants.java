@@ -1,5 +1,7 @@
 package org.andnav.osm.tileprovider.constants;
 
+import java.io.File;
+
 import android.os.Environment;
 
 /**
@@ -16,7 +18,8 @@ public interface OpenStreetMapTileProviderConstants {
 
 	public static final boolean DEBUGMODE = false;
 
-	public static final String TILE_PATH_BASE = Environment.getExternalStorageDirectory() + "/osmdroid/tiles/";
+	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(), "osmdroid");
+	public static final File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
 	public static final String TILE_PATH_EXTENSION = ""; // TODO could just remove this
 
 	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 8;
