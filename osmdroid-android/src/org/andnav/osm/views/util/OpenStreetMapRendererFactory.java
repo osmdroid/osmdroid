@@ -76,7 +76,9 @@ public class OpenStreetMapRendererFactory {
 
 		if (aAttributeSet != null && renderer instanceof CloudmadeRenderer) {
 			final String style = aAttributeSet.getAttributeValue(null, "cloudmadeStyle");
-			if (style != null) {
+			if (style == null) {
+				logger.info("Using default Cloudmade style: 1");
+			} else {
 				try {
 					final int s = Integer.valueOf(style);
 					logger.info("Using Cloudmade style specified in layout attributes: " + s);
@@ -85,7 +87,6 @@ public class OpenStreetMapRendererFactory {
 					logger.warn("Invalid Cloudmade style specified in layout attributes: " + style);
 				}
 			}
-			logger.info("Using default Cloudmade style : 1");
 		}
 
 		logger.info("Using renderer : " + DEFAULT_RENDERER);
