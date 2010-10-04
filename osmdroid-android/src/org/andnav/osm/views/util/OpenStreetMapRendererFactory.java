@@ -145,10 +145,10 @@ public class OpenStreetMapRendererFactory {
 	//       so that means making it possible to have a bigger or smaller list of renderers
 	//   - there's a number of ways of doing that
 	private static IOpenStreetMapRendererInfo[] mRenderers = new IOpenStreetMapRendererInfo[] {
-		FIETS,
 		OSMARENDER,
 		MAPNIK,
 		CYCLEMAP,
+		FIETS,
 		BASE,
 		TOPO,
 		HILLS,
