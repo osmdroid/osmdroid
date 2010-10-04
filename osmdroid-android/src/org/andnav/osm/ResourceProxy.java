@@ -11,6 +11,7 @@ public interface ResourceProxy {
 		osmarender,
 		mapnik,
 		cyclemap,
+		fiets,
 		base,
 		topo,
 		hills,
@@ -37,7 +38,7 @@ public interface ResourceProxy {
 		next,
 		previous,
 		person,
-		
+
 	}
 
 	String getString(string pResId);

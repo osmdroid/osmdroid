@@ -111,6 +111,10 @@ public class OpenStreetMapRendererFactory {
 				"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
 				"http://c.andy.sandbox.cloudmade.com/tiles/cycle/");
 
+	public static final IOpenStreetMapRendererInfo FIETS =
+		new XYRenderer("Fiets", ResourceProxy.string.fiets, 3, 16, 8, ".png",
+				"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
+
 	public static final IOpenStreetMapRendererInfo BASE =
 		new XYRenderer("Base", ResourceProxy.string.base, 4, 17, 8, ".png",
 				"http://topo.openstreetmap.de/base/");
@@ -141,6 +145,7 @@ public class OpenStreetMapRendererFactory {
 	//       so that means making it possible to have a bigger or smaller list of renderers
 	//   - there's a number of ways of doing that
 	private static IOpenStreetMapRendererInfo[] mRenderers = new IOpenStreetMapRendererInfo[] {
+		FIETS,
 		OSMARENDER,
 		MAPNIK,
 		CYCLEMAP,

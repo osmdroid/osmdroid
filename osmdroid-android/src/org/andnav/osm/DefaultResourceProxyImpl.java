@@ -17,14 +17,14 @@ import android.util.DisplayMetrics;
 public class DefaultResourceProxyImpl implements ResourceProxy {
 
 	private static final Logger logger = LoggerFactory.getLogger(DefaultResourceProxyImpl.class);
-	
+
 	private DisplayMetrics mDisplayMetrics;
 
 	/**
 	 * Constructor.
 	 * @param pContext Used to get the display metrics that are used for scaling the bitmaps
 	 *                 returned by {@link getBitmap}.
-	 *                 Can be null, in which case the bitmaps are not scaled. 
+	 *                 Can be null, in which case the bitmaps are not scaled.
 	 */
 	public DefaultResourceProxyImpl(final Context pContext) {
 		if (pContext != null) {
@@ -32,13 +32,14 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 			logger.debug("mDisplayMetrics=" + mDisplayMetrics);
 		}
 	}
-	
+
 	@Override
 	public String getString(final string pResId) {
 		switch(pResId) {
 		case osmarender : return "Osmarender";
 		case mapnik : return "Mapnik";
 		case cyclemap : return "Cycle Map";
+		case fiets : return "OpenFietsKaart";
 		case base : return "OSM base layer";
 		case topo : return "Topographic";
 		case hills : return "Hills";
@@ -71,7 +72,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 			}
 		}
 	}
-	
+
 	private BitmapFactory.Options getBitmapOptions() {
 		try {
 			final Field density = DisplayMetrics.class.getDeclaredField("DENSITY_DEFAULT");
