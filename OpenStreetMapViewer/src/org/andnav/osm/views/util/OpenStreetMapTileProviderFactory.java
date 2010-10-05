@@ -15,12 +15,12 @@ import android.os.Handler;
 import android.util.Log;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConstants {
-	
+
 	public static final String DEBUGTAG = "OpenStreetMapTileProviderFactory";
 
 	/**
@@ -39,10 +39,15 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 		final ResolveInfo ri = aContext.getPackageManager().resolveService(intent, 0);
 		if (ri == null) {
 			Log.i(DEBUGTAG, "Service not found - using direct tile provider");
+			final Context applicationContext = aContext.getApplicationContext();
 			final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
 				@Override
 				public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
-					return registerReceiver(aReceiver, aFilter);
+					return applicationContext.registerReceiver(aReceiver, aFilter);
+				}
+				@Override
+				public void unregisterReceiver(final BroadcastReceiver aReceiver) {
+					applicationContext.unregisterReceiver(aReceiver);
 				}
 			};
 			return new OpenStreetMapTileProviderDirect(aDownloadFinishedListener, aCloudmadeKey, registerReceiver);
@@ -54,7 +59,7 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 			//     That will also give the option of specifying something else.
 		}
 	}
-	
+
 	/**
 	 * This is a utility class with only static members.
 	 */

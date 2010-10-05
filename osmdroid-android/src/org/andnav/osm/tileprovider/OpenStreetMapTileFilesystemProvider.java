@@ -53,6 +53,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	/** whether the sdcard is mounted read/write */
 	private boolean mSdCardAvailable = true;
 
+	/** keep around to unregister when we're done */
+	private final IRegisterReceiver aRegisterReceiver;
 	private final MyBroadcastReceiver mBroadcastReceiver;
 
 	// ===========================================================
@@ -66,6 +68,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
 		super(aCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 		mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
+		this.aRegisterReceiver = aRegisterReceiver;
 		mBroadcastReceiver = new MyBroadcastReceiver();
 
 		checkSdCard();
@@ -82,9 +85,10 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		mediaFilter.addDataScheme("file");
 		aRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
+	}
 
-		// TODO need to unregister receivers at some point otherwise we get an error message about a leaked receiver.
-		// The message is easy to reproduce just by rotating the screen.
+	public void detach() {
+		aRegisterReceiver.unregisterReceiver(mBroadcastReceiver);
 	}
 
 	// ===========================================================

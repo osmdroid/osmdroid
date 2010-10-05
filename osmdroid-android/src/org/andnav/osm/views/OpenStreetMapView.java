@@ -129,11 +129,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mScroller = new Scroller(context);
 
 		if(tileProvider == null) {
-			final String cloudmadeKey = getCloudmadeKey(context);
+			final Context applicationContext = context.getApplicationContext();
+			final String cloudmadeKey = getCloudmadeKey(applicationContext);
 			final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
 				@Override
 				public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
-					return context.registerReceiver(aReceiver, aFilter);
+					return applicationContext.registerReceiver(aReceiver, aFilter);
+				}
+				@Override
+				public void unregisterReceiver(final BroadcastReceiver aReceiver) {
+					applicationContext.unregisterReceiver(aReceiver);
 				}
 			};
 			tileProvider = new OpenStreetMapTileProviderDirect(new SimpleInvalidationHandler(), cloudmadeKey, registerReceiver);
@@ -153,6 +158,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		mGestureDetector = new GestureDetector(context, new OpenStreetMapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new OpenStreetMapViewDoubleClickListener());
+	}
+
+	public void detach() {
+		mMapOverlay.detach();
 	}
 
 	/**

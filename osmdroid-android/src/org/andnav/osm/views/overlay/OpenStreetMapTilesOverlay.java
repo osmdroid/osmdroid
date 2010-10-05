@@ -49,8 +49,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mTileProvider = aTileProvider; // TODO check for null
 	}
 
-	public void detach()
-	{
+	public void detach() {
 		this.mTileProvider.detach();
 	}
 

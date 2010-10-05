@@ -13,6 +13,7 @@ import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -35,10 +36,15 @@ public class OpenStreetMapTileProviderService extends Service implements OpenStr
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		final Context applicationContext = this.getApplicationContext();
 		final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
 			@Override
 			public Intent registerReceiver(final BroadcastReceiver aReceiver, final IntentFilter aFilter) {
-				return registerReceiver(aReceiver, aFilter);
+				return applicationContext.registerReceiver(aReceiver, aFilter);
+			}
+			@Override
+			public void unregisterReceiver(final BroadcastReceiver aReceiver) {
+				applicationContext.unregisterReceiver(aReceiver);
 			}
 		};
 		mFileSystemProvider = new OpenStreetMapTileFilesystemProvider(this, registerReceiver);
