@@ -121,13 +121,13 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	private File buildFullPath(final OpenStreetMapTile tile) {
-		return new File(TILE_PATH_BASE, buildPath(tile));
+		return new File(TILE_PATH_BASE, buildPath(tile) + TILE_PATH_EXTENSION);
 	}
 
 	private String buildPath(final OpenStreetMapTile tile) {
 		final IOpenStreetMapRendererInfo renderer = tile.getRenderer();
 		return renderer.name() + "/" + tile.getZoomLevel() + "/"
-					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding() + TILE_PATH_EXTENSION;
+					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding();
 	}
 
 	/**
