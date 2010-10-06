@@ -31,11 +31,15 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 	/** the meta data key in the manifest */
 	public static final String CLOUDMADE_KEY = "CLOUDMADE_KEY";
 
+	private static String mAndroidId = Settings.Secure.ANDROID_ID; // will get real id later
+
 	/**
 	 * Get the key from the manifest.
 	 * @return the key, or null if not found
 	 */
 	public static String getCloudmadeKey(final Context aContext) {
+
+		mAndroidId = Settings.Secure.getString(aContext.getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		final PackageManager pm = aContext.getPackageManager();
 		try {
@@ -61,7 +65,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 	 * @throws CloudmadeException
 	 */
 	public static String getCloudmadeToken(final String aKey) throws CloudmadeException {
-		final String url = "http://auth.cloudmade.com/token/" + aKey + "?userid=" + Settings.Secure.ANDROID_ID;
+		final String url = "http://auth.cloudmade.com/token/" + aKey + "?userid=" + mAndroidId;
 		final HttpClient httpClient = new DefaultHttpClient();
 		final HttpPost httpPost = new HttpPost(url);
 		try {
