@@ -115,6 +115,10 @@ public class OpenStreetMapRendererFactory {
 		new XYRenderer("Fiets", ResourceProxy.string.fiets, 3, 16, 8, ".png",
 				"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
 
+	public static final IOpenStreetMapRendererInfo OPNVKARTE =
+		new XYRenderer("Public transport", ResourceProxy.string.opnvkarte, 0, 17, 8, ".png",
+				"http://tile.xn--pnvkarte-m4a.de/tilegen/");
+
 	public static final IOpenStreetMapRendererInfo BASE =
 		new XYRenderer("Base", ResourceProxy.string.base, 4, 17, 8, ".png",
 				"http://topo.openstreetmap.de/base/");
@@ -148,7 +152,8 @@ public class OpenStreetMapRendererFactory {
 		OSMARENDER,
 		MAPNIK,
 		CYCLEMAP,
-		FIETS,
+		// FIETS, // don't return fiets because it's an overlay, not a standalone renderer
+		OPNVKARTE,
 		BASE,
 		TOPO,
 		HILLS,

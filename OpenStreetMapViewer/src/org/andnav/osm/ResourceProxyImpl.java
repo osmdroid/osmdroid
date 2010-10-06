@@ -21,6 +21,7 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 		case mapnik : return mContext.getString(R.string.mapnik);
 		case cyclemap : return mContext.getString(R.string.cyclemap);
 		case fiets : return mContext.getString(R.string.fiets);
+		case opnvkarte : return mContext.getString(R.string.opnvkarte);
 		case base : return mContext.getString(R.string.base);
 		case topo : return mContext.getString(R.string.topo);
 		case hills : return mContext.getString(R.string.hills);

@@ -3,7 +3,8 @@
 	<string name="osmarender">Osmarender</string>
 	<string name="mapnik">Mapnik</string>
 	<string name="cyclemap">Cycle Map</string>
-	<string name="fiets">OpenFietsKaart</string>
+	<string name="fiets">OpenFietsKaart overlay</string>
+	<string name="opnvkarte">Public transport</string>
 	<string name="base">OSM base layer</string>
 	<string name="topo">Topographic</string>
 	<string name="hills">Hills</string>

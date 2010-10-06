@@ -12,6 +12,7 @@ public interface ResourceProxy {
 		mapnik,
 		cyclemap,
 		fiets,
+		opnvkarte,
 		base,
 		topo,
 		hills,

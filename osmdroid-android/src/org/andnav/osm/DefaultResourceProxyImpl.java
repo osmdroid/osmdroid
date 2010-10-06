@@ -39,7 +39,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		case osmarender : return "Osmarender";
 		case mapnik : return "Mapnik";
 		case cyclemap : return "Cycle Map";
-		case fiets : return "OpenFietsKaart";
+		case fiets : return "OpenFietsKaart overlay";
+		case opnvkarte : return "Public transport";
 		case base : return "OSM base layer";
 		case topo : return "Topographic";
 		case hills : return "Hills";
