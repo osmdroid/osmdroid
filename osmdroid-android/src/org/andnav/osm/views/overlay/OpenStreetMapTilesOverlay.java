@@ -30,6 +30,10 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	protected final OpenStreetMapTileProvider mTileProvider;
 	protected final Paint mPaint = new Paint();
 
+	/* to avoid allocations during draw */
+	private final Point mTilePos = new Point();
+	private final Rect mViewPort = new Rect();
+
 	public OpenStreetMapTilesOverlay(
 			final OpenStreetMapView aOsmv,
 			final IOpenStreetMapRendererInfo aRendererInfo,
@@ -95,7 +99,8 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		 */
 		final OpenStreetMapViewProjection pj = osmv.getProjection();
 		final int zoomLevel = osmv.getZoomLevel(false);
-		final Rect viewPort = c.getClipBounds();
+
+		c.getClipBounds(mViewPort);
 		final int tileSizePx = this.mRendererInfo.maptileSizePx();
 		final int tileZoom = this.mRendererInfo.maptileZoom();
 		final int worldSize_2 = 1 << (zoomLevel + tileZoom - 1);
@@ -104,14 +109,13 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		 * Calculate the amount of tiles needed for each side around the center
 		 * one.
 		 */
-		viewPort.offset(worldSize_2, worldSize_2);
-		final int tileNeededToLeftOfCenter = (viewPort.left >> tileZoom) - 1;
-		final int tileNeededToRightOfCenter = viewPort.right >> tileZoom;
-		final int tileNeededToTopOfCenter = (viewPort.top >> tileZoom) - 1;
-		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
+		mViewPort.offset(worldSize_2, worldSize_2);
+		final int tileNeededToLeftOfCenter = (mViewPort.left >> tileZoom) - 1;
+		final int tileNeededToRightOfCenter = mViewPort.right >> tileZoom;
+		final int tileNeededToTopOfCenter = (mViewPort.top >> tileZoom) - 1;
+		final int tileNeededToBottomOfCenter = mViewPort.bottom >> tileZoom;
 
 		final int mapTileUpperBound = 1 << zoomLevel;
-		final Point tilePos = new Point();
 
 		// make sure the cache is big enough for all the tiles
 		final int numNeeded = (tileNeededToBottomOfCenter - tileNeededToTopOfCenter + 1)
@@ -126,17 +130,17 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
 				final OpenStreetMapTile tile = new OpenStreetMapTile(this.mRendererInfo, zoomLevel, tileX, tileY);
 
-				pj.toPixels(x, y, tilePos);
+				pj.toPixels(x, y, mTilePos);
 				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
 				if (currentMapTile != null) {
-					currentMapTile.setBounds(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y + tileSizePx);
+					currentMapTile.setBounds(mTilePos.x, mTilePos.y, mTilePos.x + tileSizePx, mTilePos.y + tileSizePx);
 					currentMapTile.draw(c);
 				}
 
 				if (DEBUGMODE) {
-					c.drawText(tile.toString(), tilePos.x + 1, tilePos.y + mPaint.getTextSize(), mPaint);
-					c.drawLine(tilePos.x, tilePos.y, tilePos.x + tileSizePx, tilePos.y, mPaint);
-					c.drawLine(tilePos.x, tilePos.y, tilePos.x, tilePos.y + tileSizePx, mPaint);
+					c.drawText(tile.toString(), mTilePos.x + 1, mTilePos.y + mPaint.getTextSize(), mPaint);
+					c.drawLine(mTilePos.x, mTilePos.y, mTilePos.x + tileSizePx, mTilePos.y, mPaint);
+					c.drawLine(mTilePos.x, mTilePos.y, mTilePos.x, mTilePos.y + tileSizePx, mPaint);
 				}
 			}
 		}

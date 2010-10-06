@@ -82,7 +82,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	private final List<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
+	private final ArrayList<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
 
 	private final Paint mPaint = new Paint();
 	private OpenStreetMapViewProjection mProjection;
@@ -113,6 +113,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private float mMultiTouchScale = 1.0f;
 
 	protected MapListener mListener;
+
+	// for speed (avoiding allocations)
+	private Matrix mMatrix = new Matrix();
+	private BoundingBoxE6 mBoundingBox = new BoundingBoxE6(0,0,0,0);
+	private int[] mIntArray = new int[2];
 
 	// ===========================================================
 	// Constructors
@@ -420,7 +425,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		else if(newZoomLevel < curZoomLevel)
 			scrollTo(getScrollX()>>(curZoomLevel-newZoomLevel), getScrollY()>>(curZoomLevel-newZoomLevel));
 
-		// TODO snap for all snappables
+		// snap for all snappables
 		final Point snapPoint = new Point();
 		mProjection = new OpenStreetMapViewProjection();
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays) {
@@ -714,10 +719,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		if (mMultiTouchScale == 1.0f) {
 			c.translate(getWidth() / 2, getHeight() / 2);
 		} else {
-			final Matrix m = c.getMatrix();
-			m.postTranslate(getWidth() / 2, getHeight() / 2);
-			m.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
-			c.setMatrix(m);
+			c.getMatrix(mMatrix);
+			mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);
+			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
+			c.setMatrix(mMatrix);
 		}
 
 		/* Draw background */

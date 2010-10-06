@@ -106,6 +106,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 	private float mScale = 1.0f;
 
+	// to avoid allocations during onDraw
+	private final float[] mMatrixValues = new float[9];
+	private final GeoPoint mGeoPoint = new GeoPoint(0, 0);
+	private final Matrix mMatrix = new Matrix();
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -222,7 +227,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 		if(this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
+			mGeoPoint.setCoordsE6((int)(mLocation.getLatitude()* 1E6), (int)(mLocation.getLongitude()* 1E6));
+			pj.toMapPixels(mGeoPoint, mMapCoords);
+
 			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 
 			this.mCirclePaint.setAlpha(50);
@@ -233,12 +240,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			this.mCirclePaint.setStyle(Style.STROKE);
 			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
 
-			float[] mtx = new float[9];
-			c.getMatrix().getValues(mtx);
+			c.getMatrix(mMatrix);
+			mMatrix.getValues(mMatrixValues);
 
 			if (DEBUGMODE) {
-				float tx = (-mtx[Matrix.MTRANS_X]+20)/mtx[Matrix.MSCALE_X];
-				float ty = (-mtx[Matrix.MTRANS_Y]+90)/mtx[Matrix.MSCALE_Y];
+				float tx = (-mMatrixValues[Matrix.MTRANS_X]+20)/mMatrixValues[Matrix.MSCALE_X];
+				float ty = (-mMatrixValues[Matrix.MTRANS_Y]+90)/mMatrixValues[Matrix.MSCALE_Y];
 				c.drawText("Lat: " + mLocation.getLatitude(),  tx, ty +  5, this.mPaint);
 				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
 				c.drawText("Alt: " + mLocation.getAltitude(),  tx, ty + 35, this.mPaint);
@@ -260,12 +267,12 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
 				this.directionRotater.setRotate(bearing, DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);
-				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postScale(1/mMatrixValues[Matrix.MSCALE_X], 1/mMatrixValues[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
 			} else {
 				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
-				this.directionRotater.postScale(1/mtx[Matrix.MSCALE_X], 1/mtx[Matrix.MSCALE_Y]);
+				this.directionRotater.postScale(1/mMatrixValues[Matrix.MSCALE_X], 1/mMatrixValues[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
 			}
@@ -343,8 +350,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
-
-			boolean snap = (x - mMapCoords.x)*(x - mMapCoords.x) + (y - mMapCoords.y)*(y - mMapCoords.y) < 64;
+			final double xDiff = (x - mMapCoords.x);
+			final double yDiff = (y - mMapCoords.y);
+			final boolean snap = xDiff *xDiff + yDiff *yDiff < 64;
 			if (DEBUGMODE) {
 				logger.debug("snap=" + snap);
 			}
@@ -441,7 +449,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	public boolean runOnFirstFix(Runnable runnable) {
-		if(mMyLocationEnabled) {
+		if(mMyLocationEnabled && mLocation != null) {
 			runnable.run();
 			return true;
 		} else {

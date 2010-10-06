@@ -2,12 +2,13 @@ package org.andnav.osm.tileprovider;
 
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 
-
 public class OpenStreetMapTile {
 
 	public static final int MAPTILE_SUCCESS_ID = 0;
 	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
 
+	// This class must be immutable because it's used as the key in the cache hash map
+	// (ie all the fields are final).
 	private final IOpenStreetMapRendererInfo renderer;
 	private final int x;
 	private final int y;
