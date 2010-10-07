@@ -49,9 +49,9 @@ public class SampleWithTilesOverlay extends Activity {
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		this.mOsmv.setBuiltInZoomControls(true);
 
-		// zoom to the netherlands (setZoom works, but animateTo doesn't)
+		// zoom to the netherlands
 		this.mOsmv.getController().setZoom(7);
-		this.mOsmv.getController().animateTo(new GeoPoint(51500000, 5400000));
+		this.mOsmv.getController().setCenter(new GeoPoint(51500000, 5400000));
 
 		// Add tiles layer
 		IRegisterReceiver registerReceiver = new IRegisterReceiver() {
