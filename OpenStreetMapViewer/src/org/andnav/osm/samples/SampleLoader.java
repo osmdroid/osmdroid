@@ -28,16 +28,16 @@ public class SampleLoader extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		final ArrayList<String> list = new ArrayList<String>();
-		
+
 		list.add("OSMapView with Minimap, ZoomControls, Animations and MyLocationOverlay");
 		list.add("Sample OSMContributor");
 		list.add("OSMapView with ItemizedOverlay");
 		list.add("OSMapView with ItemizedOverlayWithFocus");
 		list.add("OSMapView with Minimap and ZoomControls");
-//		list.add("OSM Tracker");
-		
+		list.add("Sample with tiles overlay");
+
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
 	}
 	// ===========================================================
@@ -47,7 +47,7 @@ public class SampleLoader extends ListActivity {
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		switch(position){
@@ -66,9 +66,9 @@ public class SampleLoader extends ListActivity {
 			case 4:
 				this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
 				break;
-//			case 5:
-//				this.startActivity(new Intent(this, SampleOSMTracking.class));
-//				break;
+			case 5:
+				this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
+				break;
 		}
 	}
 
