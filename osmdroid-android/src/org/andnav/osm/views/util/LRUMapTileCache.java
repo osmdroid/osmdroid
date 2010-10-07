@@ -1,6 +1,5 @@
 package org.andnav.osm.views.util;
 
-import java.util.ConcurrentModificationException;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -46,12 +45,8 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Drawable> 
 	@Override
 	public void clear() {
 		// remove them all individually so that they get recycled
-		try {
-			for (final OpenStreetMapTile key : keySet()) {
-				remove(key);
-			}
-		} catch (final ConcurrentModificationException ignore) {
-			logger.info("ConcurrentModificationException clearing tile cache");
+		while(size() > 0) {
+			remove(keySet().iterator().next());
 		}
 
 		// and then clear
@@ -60,7 +55,10 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Drawable> 
 
 	@Override
 	protected boolean removeEldestEntry(final Entry<OpenStreetMapTile, Drawable> aEldest) {
-		return size() > mCapacity;
+		if(size() > mCapacity) {
+			remove(aEldest.getKey());
+			// don't return true because we've already removed it
+		}
+		return false;
 	}
-
 }
