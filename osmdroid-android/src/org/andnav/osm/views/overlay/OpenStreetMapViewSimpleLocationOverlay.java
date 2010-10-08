@@ -14,7 +14,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
@@ -26,19 +26,20 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	protected final Paint mPaint = new Paint();
-	
+
 	protected final Bitmap PERSON_ICON;
 	/** Coordinates the feet of the person are located. */
 	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24,39);
-	
+
 	protected GeoPoint mLocation;
+	private final Point screenCoords = new Point();
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx) {
 		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
@@ -51,7 +52,7 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public void setLocation(final GeoPoint mp) {
 		this.mLocation = mp;
 	}
@@ -59,23 +60,22 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	public GeoPoint getMyLocation() {
 		return this.mLocation;
 	}
-	
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
 	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
 		return;
 	}
-	
+
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 		if(this.mLocation != null){
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			final Point screenCoords = new Point();
 			pj.toMapPixels(this.mLocation, screenCoords);
-	
+
 			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y - PERSON_HOTSPOT.y, this.mPaint);
 		}
 	}

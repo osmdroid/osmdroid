@@ -427,7 +427,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		// snap for all snappables
 		final Point snapPoint = new Point();
-		mProjection = new OpenStreetMapViewProjection();
+		mProjection = new OpenStreetMapViewProjection(); // XXX why do we need a new projection here?
 		for (OpenStreetMapViewOverlay osmvo : this.mOverlays) {
 			if (osmvo instanceof Snappable &&
 					((Snappable)osmvo).onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
@@ -901,7 +901,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		private final int[] reuseInt2 = new int[2];
 
-		public OpenStreetMapViewProjection() {
+		private OpenStreetMapViewProjection() {
 
 			/*
 			 * Do some calculations and drag attributes to local variables to

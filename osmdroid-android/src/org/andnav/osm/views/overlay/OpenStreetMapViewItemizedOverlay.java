@@ -7,7 +7,6 @@ import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,7 +26,7 @@ import android.view.MotionEvent;
  * @param <T>
  */
 public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlayItem> extends OpenStreetMapViewOverlay {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -39,46 +38,48 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	protected OnItemTapListener<T> mOnItemTapListener;
 	protected final List<T> mItemList;
 	protected final OpenStreetMapViewOverlayItem mDefaultMarker;
+	private final Point curScreenCoords = new Point();
+
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public OpenStreetMapViewItemizedOverlay(
-			final Context ctx, 
-			final List<T> aList, 
+			final Context ctx,
+			final List<T> aList,
 			final OnItemTapListener<T> aOnItemTapListener) {
         this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
-			final Context ctx, 
-			final List<T> aList, 
-			final OnItemTapListener<T> aOnItemTapListener, 
+			final Context ctx,
+			final List<T> aList,
+			final OnItemTapListener<T> aOnItemTapListener,
 			final ResourceProxy pResourceProxy) {
         this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
-			final Context ctx, 
-			final List<T> aList, 
-			final Drawable pMarker, 
-			final Point pMarkerHotspot, 
-			final OnItemTapListener<T> aOnItemTapListener, 
+			final Context ctx,
+			final List<T> aList,
+			final Drawable pMarker,
+			final Point pMarkerHotspot,
+			final OnItemTapListener<T> aOnItemTapListener,
 			final ResourceProxy pResourceProxy) {
 		this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
 	}
 	public OpenStreetMapViewItemizedOverlay(
-			final Context ctx, 
-			final List<T> aList, 
-			final Drawable pMarker, 
+			final Context ctx,
+			final List<T> aList,
+			final Drawable pMarker,
 			final Point pMarkerHotspot,
 			final OpenStreetMapViewOverlayItem.HotspotPlace pHotSpotPlace,
-			final OnItemTapListener<T> aOnItemTapListener, 
+			final OnItemTapListener<T> aOnItemTapListener,
 			final ResourceProxy pResourceProxy) {
-		
+
 		super(pResourceProxy);
-		
+
 		assert(ctx != null);
 		assert(aList != null);
 
@@ -107,8 +108,6 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	public void onDraw(final Canvas c, final OpenStreetMapView mapView) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 
-		final Point curScreenCoords = new Point();
-
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for(int i = this.mItemList.size() - 1; i >= 0; i--){
 			T item = this.mItemList.get(i);
@@ -129,15 +128,15 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		if (markerHotspot == null) {
 			markerHotspot = this.mDefaultMarker.getMarkerHotspot(0);
 		}
-	
+
 			// calculate bounding rectangle
 		int markerWidth = marker.getIntrinsicWidth();
-		int markerHeight = marker.getIntrinsicHeight();		
+		int markerHeight = marker.getIntrinsicHeight();
 		final int left = curScreenCoords.x - markerHotspot.x;
 		final int right = left + markerWidth;
 		final int top = curScreenCoords.y - markerHotspot.y;
 		final int bottom = top + markerHeight;
-			 
+
 		// draw it
 		marker.setBounds(left, top, right, bottom);
 		marker.draw(c);
@@ -188,7 +187,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		else
 			return false;
 	}
-	
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
