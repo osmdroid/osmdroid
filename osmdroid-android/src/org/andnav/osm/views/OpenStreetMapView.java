@@ -654,7 +654,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		if (DEBUGMODE)
 			logger.debug("onTouchEvent(" + event + ")");
 
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this))
 			{
 				if (DEBUGMODE)
@@ -736,9 +736,10 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 //		for (int y = r.top; y < r.bottom; y += 20)
 //			c.drawLine(r.left, y, r.right, y, mPaint);
 
-		/* Draw all Overlays. */
-		for (OpenStreetMapViewOverlay osmvo : this.mOverlays)
-			osmvo.onManagedDraw(c, this);
+		/* Draw all Overlays. Avoid allocation by not doing enhanced loop. */
+		for (int i = 0; i < mOverlays.size(); i++) {
+			mOverlays.get(i).onManagedDraw(c, this);
+		}
 
 		if (this.mMaxiMap != null) { // If this is a MiniMap
 			this.mPaint.setColor(Color.RED);
