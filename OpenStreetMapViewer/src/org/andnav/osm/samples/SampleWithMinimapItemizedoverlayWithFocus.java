@@ -74,13 +74,15 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem>(this, items, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
 				@Override
 				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
+							"Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 					return true; // We 'handled' this event.
 				}
 
 				@Override
 				public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
-					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, "Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
+					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
+							"Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
 					return false;
 				}
 	        }, mResourceProxy);

@@ -34,7 +34,8 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	static final boolean DEBUG_GRAPHICS = false;
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -127,7 +128,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			onDrawItem(canvas, i, curScreenCoords);
 		}
         // indicate the place touched with a bullseye
-		if (touchPoint != null) canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
+		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
 	}
 
 	@Override
@@ -185,7 +186,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		marker.setBounds(rect);
 		marker.draw(canvas);
 		// the following lines place objects on the screen indicating the item boundary.
-		if (touchPoint != null) canvas.drawRect(rect, boudaryPaint);
+		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawRect(rect, boudaryPaint);
 	}
 
 	protected boolean runTap(int pIndex) {
