@@ -112,7 +112,7 @@ public class OpenStreetMapRendererFactory {
 				"http://c.andy.sandbox.cloudmade.com/tiles/cycle/");
 
 	public static final IOpenStreetMapRendererInfo PUBLIC_TRANSPORT =
-		new XYRenderer("Public transport", ResourceProxy.string.public_transport, 0, 17, 8, ".png",
+		new XYRenderer("PublicTransport", ResourceProxy.string.public_transport, 0, 17, 8, ".png",
 				"http://tile.xn--pnvkarte-m4a.de/tilegen/");
 
 	public static final IOpenStreetMapRendererInfo BASE =
