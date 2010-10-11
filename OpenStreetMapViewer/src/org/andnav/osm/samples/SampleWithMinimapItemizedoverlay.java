@@ -73,14 +73,14 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 						@Override
 						public boolean onItemSingleTapUp(int index, OpenStreetMapViewOverlayItem item) {
 							Toast.makeText(SampleWithMinimapItemizedoverlay.this, 
-									"Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+									"Item '" + item.mTitle + "' (index=" + index + ") got single tapped up", Toast.LENGTH_LONG).show();
 							return true; // We 'handled' this event.
 						}
 		
 						@Override
 						public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
 							Toast.makeText(SampleWithMinimapItemizedoverlay.this, 
-									"Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
+									"Item '" + item.mTitle + "' (index=" + index + ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
 			        }, mResourceProxy);
