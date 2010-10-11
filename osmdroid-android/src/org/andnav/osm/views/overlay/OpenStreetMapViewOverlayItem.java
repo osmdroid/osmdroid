@@ -104,7 +104,7 @@ public class OpenStreetMapViewOverlayItem {
 	}
 
 	public Point getMarkerHotspot(int stateBitset) {
-		return mMarkerHotspot;
+		return (mMarkerHotspot == null) ? this.deriveHotspot() : mMarkerHotspot;
 	}
 
 	public void setMarker(Drawable marker) {
@@ -129,7 +129,7 @@ public class OpenStreetMapViewOverlayItem {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-		/*
+	/*
 	 * (copied from the Google API docs)
 	 * Sets the state of a drawable to match a given state bitset. This is done by converting
 	 * the state bitset bits into a state set of R.attr.state_pressed, R.attr.state_selected
@@ -145,6 +145,7 @@ public class OpenStreetMapViewOverlayItem {
 	}
 
 	/**
+	 * This is a factory method.
 	 * The interaction between the hot-spot-place and the hot-spot is somewhat ambiguous.
 	 * Generally either one or the other will be specified and the other will be set appropriately.
 	 * The ambiguity arises in the case where they are both specified.
@@ -153,10 +154,15 @@ public class OpenStreetMapViewOverlayItem {
 	 * @param pHotspot
 	 * @param pHotspotPlace
 	 * @param pResourceProxy
-	 * @return
+	 * @return a map item with all unspecified values set to reasonable defaults.
 	 */
-	public static OpenStreetMapViewOverlayItem getDefaultItem(Drawable pMarker, Point pHotspot, HotspotPlace pHotspotPlace, ResourceProxy pResourceProxy) {
-		OpenStreetMapViewOverlayItem that = new OpenStreetMapViewOverlayItem("<default>", "used when no marker is specified", new GeoPoint(0.0,0.0));
+	public static OpenStreetMapViewOverlayItem 
+	   getDefaultItem(Drawable pMarker, Point pHotspot, HotspotPlace pHotspotPlace, ResourceProxy pResourceProxy) 
+	{
+		OpenStreetMapViewOverlayItem that = 
+			new OpenStreetMapViewOverlayItem("<default>", 
+				                             "used when no marker is specified",
+				                             new GeoPoint(0.0,0.0));
 		that.mMarker = (pMarker != null) ? pMarker : pResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default);
 		
 		if (pHotspot == null) {
@@ -187,46 +193,47 @@ public class OpenStreetMapViewOverlayItem {
 	/**
 	 * Select one of several standard positions for the hot spot.
 	 */
-	protected void deriveHotspot() {
+	protected Point deriveHotspot() {
 		if (this.mStdHotspotPlace == null) this.mStdHotspotPlace = HotspotPlace.CUSTOM;
-		Point markerSize = new Point( this.mMarker.getIntrinsicWidth(), this.mMarker.getIntrinsicWidth());
-		// there may be some case where markerSize = DEFAULT_MARKER_SIZE but I can't think of any right now.
+		Point markerSize = (this.mMarker == null) 
+		     ? DEFAULT_MARKER_SIZE
+		     : new Point( this.getWidth(), this.getWidth());
 		
 		switch (this.mStdHotspotPlace){
 		case CUSTOM: 
-			if (this.mMarkerHotspot != null) return;
+			if (this.mMarkerHotspot != null) break;
 			this.mStdHotspotPlace = HotspotPlace.BOTTOM_CENTER;
 			this.mMarkerHotspot = new Point(markerSize.x/2, markerSize.y/2);
-			return;
+			break;
 		case CENTER: 
 			this.mMarkerHotspot = new Point(markerSize.x/2, markerSize.y/2);
-			return;
+			break;
 		case BOTTOM_CENTER: 
 			this.mMarkerHotspot = new Point(markerSize.x/2, markerSize.y);
-			return;
+			break;
 		case TOP_CENTER: 
 			this.mMarkerHotspot = new Point(markerSize.x/2, 0);
-			return;
+			break;
 		case RIGHT_CENTER: 
 			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y/2);
-			return;
+			break;
 		case LEFT_CENTER: 
 			this.mMarkerHotspot = new Point(0, markerSize.y/2);
-			return;
+			break;
 		case UPPER_RIGHT_CORNER: 
 			this.mMarkerHotspot = new Point(markerSize.x, 0);
-			return;
+			break;
 		case LOWER_RIGHT_CORNER: 
 			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y);
-			return;
+			break;
 		case UPPER_LEFT_CORNER: 
 			this.mMarkerHotspot = new Point(0, 0);
-			return;
+			break;
 		case LOWER_LEFT_CORNER: 
 			this.mMarkerHotspot = new Point(0, markerSize.y);
-			return;
+			break;
 		}
-		
+		return this.mMarkerHotspot;
 	}
 
 	// ===========================================================

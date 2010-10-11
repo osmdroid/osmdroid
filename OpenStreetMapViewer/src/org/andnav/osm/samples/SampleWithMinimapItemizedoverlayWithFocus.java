@@ -65,7 +65,9 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
         	final ArrayList<OpenStreetMapViewOverlayItem> items = new ArrayList<OpenStreetMapViewOverlayItem>();
 	        items.add(new OpenStreetMapViewOverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52370816, 9735936))); // Hannover
 	        items.add(new OpenStreetMapViewOverlayItem("Berlin", "This is a relatively short SampleDescription.", new GeoPoint(52518333, 13408333))); // Berlin
-	        items.add(new OpenStreetMapViewOverlayItem("Washington", "This SampleDescription is a pretty long one. Almost as long as a the great wall in china.", new GeoPoint(38895000, -77036667))); // Washington
+	        items.add(new OpenStreetMapViewOverlayItem("Washington", 
+	        		"This SampleDescription is a pretty long one. Almost as long as a the great wall in china.",
+	        		new GeoPoint(38895000, -77036667))); // Washington
 	        items.add(new OpenStreetMapViewOverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200))); // San Francisco
 
 	        /* OnTapListener for the Markers, shows a simple Toast. */
@@ -74,6 +76,12 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
 					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 					return true; // We 'handled' this event.
+				}
+
+				@Override
+				public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
+					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, "Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
+					return false;
 				}
 	        }, mResourceProxy);
 	        this.mMyLocationOverlay.setFocusItemsOnTap(true);

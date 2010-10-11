@@ -19,6 +19,13 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
+/**
+ * These objects are the principle consumer of map tiles.
+ * 
+ * see {@link OpenStreetMapTile} for an overview of how tiles are acquired by this overlay.
+ * 
+ */
+
 public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);

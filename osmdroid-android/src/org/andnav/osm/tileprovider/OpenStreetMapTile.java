@@ -2,6 +2,13 @@ package org.andnav.osm.tileprovider;
 
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 
+/**
+ * A map tile is distributed using the observer pattern.
+ * The tile is delivered by a tile provider 
+ * (i.e. a descendant of {@link OpenStreetMapAsyncTileProvider}  or {@link OpenStreetMapTileProvider}
+ * to a consumer of tiles (e.g.  descendant of {@link OpenStreetMapTilesOverlay}).
+ * Tiles are typically images (e.g. png or jpeg).
+ */
 public class OpenStreetMapTile {
 
 	public static final int MAPTILE_SUCCESS_ID = 0;

@@ -74,6 +74,12 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 					Toast.makeText(SampleWithMinimapItemizedoverlay.this, "Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
 					return true; // We 'handled' this event.
 				}
+
+				@Override
+				public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
+					Toast.makeText(SampleWithMinimapItemizedoverlay.this, "Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
+					return false;
+				}
 	        }, mResourceProxy);
 	        this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
         }

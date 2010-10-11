@@ -11,7 +11,27 @@ import org.andnav.osm.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * An abstract child class of {@link OpenStreetMapTileProvider} which acquires tile images
+ * asynchronously from some network source.
+ * The key unimplemented methods are 'threadGroupname' and 'getTileLoader'.
+ */
 public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
+
+	/**
+	 * 
+	 * @return
+	 */
+	protected abstract String threadGroupName();
+
+	/**
+	 * It is expected that the implementation will construct an internal member which
+	 * internally implements a {@link TileLoader}.  This method is expected to return
+	 * a that internal member to methods of the parent methods.
+	 *  
+	 * @return the internal member of this tile provider.
+	 */
+	protected abstract Runnable getTileLoader();
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapAsyncTileProvider.class);
 
@@ -76,16 +96,23 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 		this.mThreadPool.interrupt();
 	}
 
-	protected abstract String threadGroupName();
-
-	protected abstract Runnable getTileLoader();
-
+	/**
+	 * Load the requested tile.
+     * An abstract internal class whose objects are used by worker threads to acquire tiles from servers.
+     * It processes tiles from the 'pending' set to the 'working' set as they become available.
+     * The key unimplemented method is 'loadTile'.
+	 * 
+	 * @param aTile the tile to load
+	 * @throws CantContinueException if it is not possible to continue with processing the queue
+	 * @throws CloudmadeException if there's an error authorizing for Cloudmade tiles
+	 */
 	protected abstract class TileLoader implements Runnable {
+		
 		/**
-		 * Load the requested tile.
-		 * @param aTile the tile to load
-		 * @throws CantContinueException if it is not possible to continue with processing the queue
-		 * @throws CloudmadeException if there's an error authorizing for Cloudmade tiles
+		 * The key unimplemented method.
+		 * 
+		 * @param aTile
+		 * @throws CantContinueException
 		 */
 		protected abstract void loadTile(OpenStreetMapTile aTile) throws CantContinueException;
 
@@ -169,6 +196,10 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 			mCallback.mapTileRequestCompleted(aTile);
 		}
 
+		/**
+		 * This is a functor class of type Runnable.
+		 * The run method is the encapsulated function.
+		 */
 		@Override
 		final public void run() {
 
