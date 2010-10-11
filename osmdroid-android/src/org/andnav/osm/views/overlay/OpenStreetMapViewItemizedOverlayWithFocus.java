@@ -6,6 +6,7 @@ import java.util.List;
 import org.andnav.osm.DefaultResourceProxyImpl;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.views.OpenStreetMapView;
+import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay.ActiveItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 
 
 public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapViewOverlayItem> 
@@ -59,14 +61,14 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	public OpenStreetMapViewItemizedOverlayWithFocus(
 			final Context ctx,
 			final List<T> aList,
-			final OnItemTapListener<T> aOnItemTapListener) {
+			final OnItemGestureListener<T> aOnItemTapListener) {
 		this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewItemizedOverlayWithFocus(
 			final Context ctx,
 			final List<T> aList,
-			final OnItemTapListener<T> aOnItemTapListener,
+			final OnItemGestureListener<T> aOnItemTapListener,
 			final ResourceProxy pResourceProxy) {
 		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
 	}
@@ -79,7 +81,7 @@ extends OpenStreetMapViewItemizedOverlay<T>
 			final Drawable pMarkerFocusedBase,
 			final Point pMarkerFocusedHotSpot,
 			final int pFocusedBackgroundColor,
-			final OnItemTapListener<T> aOnItemTapListener,
+			final OnItemGestureListener<T> aOnItemTapListener,
 			final ResourceProxy pResourceProxy) {
 
 		super(ctx, aList, pMarker, pMarkerHotspot, aOnItemTapListener, pResourceProxy);
@@ -90,10 +92,8 @@ extends OpenStreetMapViewItemizedOverlay<T>
 
 		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot : DEFAULTMARKER_FOCUSED_HOTSPOT;
 
-		if(pFocusedBackgroundColor != NOT_SET)
-			this.mMarkerFocusedBackgroundColor = pFocusedBackgroundColor;
-		else
-			this.mMarkerFocusedBackgroundColor = DEFAULTMARKER_BACKGROUNDCOLOR;
+		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET)
+			 ? pFocusedBackgroundColor : DEFAULTMARKER_BACKGROUNDCOLOR;
 
 		this.mMarkerBackgroundPaint = new Paint(); // Color is set in onDraw(...)
 
@@ -133,11 +133,9 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// ===========================================================
 
 	@Override
-	protected boolean runTap(int pIndex) {
-		if(this.mFocusItemsOnTap)
-			this.mFocusedItemIndex = pIndex;
-
-		return super.runTap(pIndex);
+	protected boolean onSingleTapUpHelper(final int index, final T item) {
+		if(this.mFocusItemsOnTap) this.mFocusedItemIndex = index;
+		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
 	/**

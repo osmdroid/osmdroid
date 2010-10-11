@@ -16,6 +16,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 /**
@@ -40,7 +41,8 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// Fields
 	// ===========================================================
 
-	protected OnItemTapListener<T> mOnItemTapListener;
+	protected OnItemGestureListener<T> mOnItemGestureListener;
+	protected GestureDetector mGestureDetector;
 	protected final List<T> mItemList;
 	protected final OpenStreetMapViewOverlayItem mDefaultItem;
 
@@ -51,16 +53,16 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	public OpenStreetMapViewItemizedOverlay(
 			final Context ctx,
 			final List<T> aList,
-			final OnItemTapListener<T> aOnItemTapListener) {
-        this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
+			final OnItemGestureListener<T> aOnItemGestureListener) {
+        this(ctx, aList, aOnItemGestureListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
 			final Context ctx,
 			final List<T> aList,
-			final OnItemTapListener<T> aOnItemTapListener,
+			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
-        this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
+        this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
@@ -68,9 +70,9 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final List<T> aList,
 			final Drawable pMarker,
 			final Point pMarkerHotspot,
-			final OnItemTapListener<T> aOnItemTapListener,
+			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
-		this(ctx, aList, null, null, null, aOnItemTapListener, pResourceProxy);
+		this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
 	}
 	public OpenStreetMapViewItemizedOverlay(
 			final Context ctx,
@@ -78,7 +80,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final Drawable pMarker,
 			final Point pMarkerHotspot,
 			final OpenStreetMapViewOverlayItem.HotspotPlace pHotSpotPlace,
-			final OnItemTapListener<T> aOnItemTapListener,
+			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
 
 		super(pResourceProxy);
@@ -88,7 +90,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 
 		this.mDefaultItem = OpenStreetMapViewOverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace, pResourceProxy);
 
-        this.mOnItemTapListener = aOnItemTapListener;
+        this.mOnItemGestureListener = aOnItemGestureListener;
 
 		// Add one sample item.
 		this.mItemList = aList;
@@ -131,30 +133,46 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
 	}
 
+	/**
+	 * Each of these methods performs a item sensitive check.
+	 * If the item is located its corresponding method is called.
+	 * The result of the call is returned.
+	 * 
+	 * Helper methods are provided so that child classes may more easily override behavior
+	 * without resorting to overriding the ItemGestureListener methods.
+	 */
 	@Override
 	public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {
-		return ( activateSelectedItems(event,mapView, new ActiveItem() {
+		return ( activateSelectedItems(event, mapView, new ActiveItem() {
 			@Override
-			public boolean run(int aIndex) {
-				runTap(aIndex);
-				return false;
+			public boolean run(int index) {
+				OpenStreetMapViewItemizedOverlay<T> that = OpenStreetMapViewItemizedOverlay.this;
+				if(that.mOnItemGestureListener == null) return false;
+				return onSingleTapUpHelper(index, that.mItemList.get(index));
 			}
 		})) 
             ? true
 		    : super.onSingleTapUp(event, mapView);
 	}
+	protected boolean onSingleTapUpHelper(final int index, final T item) {
+		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
+	}
 	
 	@Override
 	public boolean onLongPress(MotionEvent event, OpenStreetMapView mapView) {
-		return ( activateSelectedItems(event,mapView, new ActiveItem() {
+		return ( activateSelectedItems(event, mapView, new ActiveItem() {
 			@Override
-			public boolean run(int aIndex) {
-				runLongPress(aIndex);
-				return false;
+			public boolean run(int index) {
+				OpenStreetMapViewItemizedOverlay<T> that = OpenStreetMapViewItemizedOverlay.this;
+				if(that.mOnItemGestureListener == null) return false;
+				return onLongPressHelper(index, that.mItemList.get(index));
 			}
 		})) 
 			? true
 		    : super.onLongPress(event, mapView);
+	}
+	protected boolean onLongPressHelper(final int index, final T item) {
+		return this.mOnItemGestureListener.onItemLongPress(index, item);
 	}
 
 	// ===========================================================
@@ -187,16 +205,6 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		marker.draw(canvas);
 		// the following lines place objects on the screen indicating the item boundary.
 		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawRect(rect, boudaryPaint);
-	}
-
-	protected boolean runTap(int pIndex) {
-		if(this.mOnItemTapListener == null) return false;
-		return this.mOnItemTapListener.onItemTap(pIndex, this.mItemList.get(pIndex));
-	}
-	
-	protected boolean runLongPress(int pIndex) {
-		if(this.mOnItemTapListener == null) return false;
-		return this.mOnItemTapListener.onItemTap(pIndex, this.mItemList.get(pIndex));
 	}
 
 	/**
@@ -266,12 +274,20 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	public static interface OnItemTapListener<T>{
-		public boolean onItemTap(final int aIndex, final T aItem);
-		public boolean onItemLongPress(final int aIndex, final T aItem);
+	
+	/**
+	 * When the item is touched one of these methods may be invoked
+	 * depending on the type of touch.
+	 * 
+	 * Each of them returns true if the event was completely handled.
+	 */
+	public static interface OnItemGestureListener<T>{
+		public boolean onItemSingleTapUp(final int index, final T item);
+		public boolean onItemLongPress(final int index, final T item);
 	}
 	
 	public static interface ActiveItem {
 		public boolean run(final int aIndex);
 	}
+
 }

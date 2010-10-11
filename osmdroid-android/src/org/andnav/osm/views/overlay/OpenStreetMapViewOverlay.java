@@ -10,12 +10,18 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.GestureDetector;
 
 /**
  * Base class representing an overlay which may be displayed on top of a
  * {@link OpenStreetMapView}. To add an overlay, subclass this class, create an
  * instance, and add it to the list obtained from getOverlays() of
  * {@link OpenStreetMapView}.
+ * 
+ * This class implements a form of Gesture Handling similar to 
+ * {@link android.view.GestureDetector.SimpleOnGestureListener} 
+ * and {@link GestureDetector.OnGestureListener}.
+ * The difference is there is an additional argument for the item.
  * 
  * @author Nicolas Gramlich
  */

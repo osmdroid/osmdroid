@@ -71,21 +71,23 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 	        items.add(new OpenStreetMapViewOverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200))); // San Francisco
 
 	        /* OnTapListener for the Markers, shows a simple Toast. */
-	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem>(this, items, new OpenStreetMapViewItemizedOverlay.OnItemTapListener<OpenStreetMapViewOverlayItem>(){
-				@Override
-				public boolean onItemTap(int index, OpenStreetMapViewOverlayItem item) {
-					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
-							"Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
-					return true; // We 'handled' this event.
-				}
-
-				@Override
-				public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
-					Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
-							"Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
-					return false;
-				}
-	        }, mResourceProxy);
+	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem>(this, items, 
+	        		new OpenStreetMapViewItemizedOverlay.OnItemGestureListener<OpenStreetMapViewOverlayItem>()
+	        		{
+						@Override
+						public boolean onItemSingleTapUp(int index, OpenStreetMapViewOverlayItem item) {
+							Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
+									"Item '" + item.mTitle + "' (index=" + index + ") got tapped", Toast.LENGTH_LONG).show();
+							return true; 
+						}
+		
+						@Override
+						public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
+							Toast.makeText(SampleWithMinimapItemizedoverlayWithFocus.this, 
+									"Item '" + item.mTitle + "' (index=" + index + ") got long tapped", Toast.LENGTH_LONG).show();
+							return false;
+						}
+			        }, mResourceProxy);
 	        this.mMyLocationOverlay.setFocusItemsOnTap(true);
 	        this.mMyLocationOverlay.setFocusedItem(0);
 
