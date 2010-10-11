@@ -111,12 +111,8 @@ public class OpenStreetMapRendererFactory {
 				"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
 				"http://c.andy.sandbox.cloudmade.com/tiles/cycle/");
 
-	public static final IOpenStreetMapRendererInfo FIETS =
-		new XYRenderer("Fiets", ResourceProxy.string.fiets, 3, 16, 8, ".png",
-				"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
-
-	public static final IOpenStreetMapRendererInfo OPNVKARTE =
-		new XYRenderer("Public transport", ResourceProxy.string.opnvkarte, 0, 17, 8, ".png",
+	public static final IOpenStreetMapRendererInfo PUBLIC_TRANSPORT =
+		new XYRenderer("Public transport", ResourceProxy.string.public_transport, 0, 17, 8, ".png",
 				"http://tile.xn--pnvkarte-m4a.de/tilegen/");
 
 	public static final IOpenStreetMapRendererInfo BASE =
@@ -145,6 +141,21 @@ public class OpenStreetMapRendererFactory {
 
 	public static final IOpenStreetMapRendererInfo DEFAULT_RENDERER = MAPNIK;
 
+	// The following renderers are overlays, not standalone map views.
+	// They are therefore not in mRenderers.
+
+	public static final IOpenStreetMapRendererInfo FIETS_OVERLAY_NL =
+		new XYRenderer("Fiets", ResourceProxy.string.fiets_nl, 3, 16, 8, ".png",
+				"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
+
+	public static final IOpenStreetMapRendererInfo BASE_OVERLAY_NL =
+		new XYRenderer("BaseNL", ResourceProxy.string.base_nl, 0, 18, 8, ".png",
+				"http://overlay.openstreetmap.nl/basemap/");
+
+	public static final IOpenStreetMapRendererInfo ROADS_OVERLAY_NL =
+		new XYRenderer("RoadsNL", ResourceProxy.string.roads_nl, 0, 18, 8, ".png",
+				"http://overlay.openstreetmap.nl/roads/");
+
 	// FIXME the whole point of this implementation is that the list of renderers should be extensible,
 	//       so that means making it possible to have a bigger or smaller list of renderers
 	//   - there's a number of ways of doing that
@@ -152,8 +163,7 @@ public class OpenStreetMapRendererFactory {
 		OSMARENDER,
 		MAPNIK,
 		CYCLEMAP,
-		// FIETS, // don't return fiets because it's an overlay, not a standalone renderer
-		OPNVKARTE,
+		PUBLIC_TRANSPORT,
 		BASE,
 		TOPO,
 		HILLS,

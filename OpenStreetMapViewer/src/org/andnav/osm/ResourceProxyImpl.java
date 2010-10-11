@@ -20,13 +20,15 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 		case osmarender : return mContext.getString(R.string.osmarender);
 		case mapnik : return mContext.getString(R.string.mapnik);
 		case cyclemap : return mContext.getString(R.string.cyclemap);
-		case fiets : return mContext.getString(R.string.fiets);
-		case opnvkarte : return mContext.getString(R.string.opnvkarte);
+		case public_transport : return mContext.getString(R.string.public_transport);
 		case base : return mContext.getString(R.string.base);
 		case topo : return mContext.getString(R.string.topo);
 		case hills : return mContext.getString(R.string.hills);
 		case cloudmade_small : return mContext.getString(R.string.cloudmade_small);
 		case cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
+		case fiets_nl : return mContext.getString(R.string.fiets_nl);
+		case base_nl : return mContext.getString(R.string.base_nl);
+		case roads_nl : return mContext.getString(R.string.roads_nl);
 		case unknown : return mContext.getString(R.string.unknown);
 		default : return super.getString(pResId);
 		}

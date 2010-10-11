@@ -3,11 +3,13 @@
 	<string name="osmarender">Osmarender</string>
 	<string name="mapnik">Mapnik</string>
 	<string name="cyclemap">Cycle Map</string>
-	<string name="fiets">OpenFietsKaart overlay</string>
-	<string name="opnvkarte">Public transport</string>
+	<string name="public_transport">Public transport</string>
 	<string name="base">OSM base layer</string>
 	<string name="topo">Topographic</string>
 	<string name="hills">Hills</string>
 	<string name="cloudmade_standard">CloudMade (Standard tiles)</string>
 	<string name="cloudmade_small">CloudMade (small tiles)</string>
+	<string name="fiets_nl">OpenFietsKaart overlay</string>
+	<string name="base_nl">Netherlands base overlay</string>
+	<string name="roads_nl">Netherlands roads overlay</string>
 </resources>

@@ -64,7 +64,7 @@ public class SampleWithTilesOverlay extends Activity {
 			}
 		};
 		mProvider = new OpenStreetMapTileProviderDirect(new Handler(), "key", registerReceiver);
-		this.mTilesOverlay = new OpenStreetMapTilesOverlay (this.mOsmv, OpenStreetMapRendererFactory.FIETS, mProvider, this.getBaseContext());
+		this.mTilesOverlay = new OpenStreetMapTilesOverlay (this.mOsmv, OpenStreetMapRendererFactory.FIETS_OVERLAY_NL, mProvider, this.getBaseContext());
 		this.mOsmv.getOverlays().add(this.mTilesOverlay);
 
 		this.setContentView(rl);

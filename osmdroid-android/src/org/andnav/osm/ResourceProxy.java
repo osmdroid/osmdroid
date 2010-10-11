@@ -11,13 +11,17 @@ public interface ResourceProxy {
 		osmarender,
 		mapnik,
 		cyclemap,
-		fiets,
-		opnvkarte,
+		public_transport,
 		base,
 		topo,
 		hills,
 		cloudmade_small,
 		cloudmade_standard,
+
+		// overlays
+		fiets_nl,
+		base_nl,
+		roads_nl,
 
 		// other stuff
 		unknown,

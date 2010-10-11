@@ -39,13 +39,15 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		case osmarender : return "Osmarender";
 		case mapnik : return "Mapnik";
 		case cyclemap : return "Cycle Map";
-		case fiets : return "OpenFietsKaart overlay";
-		case opnvkarte : return "Public transport";
+		case public_transport : return "Public transport";
 		case base : return "OSM base layer";
 		case topo : return "Topographic";
 		case hills : return "Hills";
 		case cloudmade_standard : return "CloudMade (Standard tiles)";
 		case cloudmade_small : return "CloudMade (small tiles)";
+		case fiets_nl : return "OpenFietsKaart overlay";
+		case base_nl : return "Netherlands base overlay";
+		case roads_nl : return "Netherlands roads overlay";
 		case unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}
