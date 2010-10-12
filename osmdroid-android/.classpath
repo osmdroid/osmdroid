@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/eburrows/android/android-sdk-linux_86/platforms/android-8/android.jar"/>
+	<classpathentry kind="var" path="ANDROID_SDK_PLATFORM/android.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
