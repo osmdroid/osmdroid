@@ -17,6 +17,11 @@ public interface ResourceProxy {
 		hills,
 		cloudmade_small,
 		cloudmade_standard,
+		format_distance_meters,
+		format_distance_kilometers,
+		format_distance_miles,
+		format_distance_nautical_miles,
+		format_distance_feet,
 
 		// overlays
 		fiets_nl,

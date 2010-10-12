@@ -9,6 +9,7 @@ import org.andnav.osm.util.GeoPoint;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapViewController;
 import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
+import org.andnav.osm.views.overlay.ScaleBarOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 
@@ -47,6 +48,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	private OpenStreetMapViewController mOsmvController;
 	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
+	private ScaleBarOverlay mScaleBarOverlay;
 
 	// ===========================================================
 	// Constructors
@@ -65,6 +67,14 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
         this.mOsmvController = this.mOsmv.getController();
         rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
+        /* Scale Bar Overlay */
+        {
+        	this.mScaleBarOverlay = new ScaleBarOverlay(this.getBaseContext());
+        	this.mOsmv.getOverlays().add(mScaleBarOverlay);
+        	// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to half screen width, minus half an inch.
+        	this.mScaleBarOverlay.setScaleBarOffset(getResources().getDisplayMetrics().widthPixels/2 - getResources().getDisplayMetrics().xdpi/2, 10);
+        }
+        
         /* SingleLocation-Overlay */
         {
 	        /* Create a static Overlay showing a single location. (Gets updated in onLocationChanged(Location loc)! */

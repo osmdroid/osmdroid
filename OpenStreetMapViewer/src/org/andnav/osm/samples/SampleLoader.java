@@ -31,7 +31,7 @@ public class SampleLoader extends ListActivity {
 
 		final ArrayList<String> list = new ArrayList<String>();
 
-		list.add("OSMapView with Minimap, ZoomControls, Animations and MyLocationOverlay");
+		list.add("OSMapView with Minimap, ZoomControls, Animations, Scale Bar and MyLocationOverlay");
 		list.add("Sample OSMContributor");
 		list.add("OSMapView with ItemizedOverlay");
 		list.add("OSMapView with ItemizedOverlayWithFocus");
