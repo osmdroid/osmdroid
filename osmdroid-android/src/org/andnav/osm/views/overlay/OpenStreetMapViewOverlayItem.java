@@ -42,13 +42,14 @@ public class OpenStreetMapViewOverlayItem {
 	// Fields
 	// ===========================================================
 	
+	public final long mKey;
 	public final String mTitle;
 	public final String mDescription;
 	public final GeoPoint mGeoPoint;
 	protected Drawable mMarker;
 	protected Point mMarkerHotspot;
 	protected HotspotPlace mStdHotspotPlace;
-
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -59,14 +60,23 @@ public class OpenStreetMapViewOverlayItem {
 	 * @param aGeoPoint
 	 */
 	public OpenStreetMapViewOverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
+		this(-1L, aTitle,aDescription,aGeoPoint);
+	}
+	
+	public OpenStreetMapViewOverlayItem(final long aKey, final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
 		this.mTitle = aTitle;
 		this.mDescription = aDescription;
 		this.mGeoPoint = aGeoPoint;
+		this.mKey = aKey;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+	public long getKey() {
+		return mKey;
+	}
+	
 	public String getTitle() {
 		return mTitle;
 	}

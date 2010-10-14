@@ -62,7 +62,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	/**
-	 * @param aCallback
+	 * The tiles may be found on several media.  
+	 * This one works with tiles stored on the file system.
+	 * It and its friends are typically created and controlled by {@link OpenStreetMapTileProvider}.
+	 * 
+	 * @param aCallback 
 	 * @param aRegisterReceiver
 	 */
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
@@ -211,6 +215,19 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
 
+		/**
+		 * The tile loading policy for deciding which file to use...
+		 * The order of preferences is...
+		 * prefer actual tiles over dummy tiles
+		 * prefer newest tile over older
+		 * prefer local tiles over zip
+		 * prefer zip files in lexicographic order
+		 *
+		 * When a dummy tile is generated it may be constructed from 
+		 * coarser tiles from a lower resolution level.
+		 * 
+		 * aTile a tile to be constructed by the method.
+		 */
 		@Override
 		public void loadTile(final OpenStreetMapTile aTile) throws CantContinueException {
 
@@ -224,12 +241,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 			final File tileFile = getOutputFile(aTile);
 
-			// TODO need a policy for deciding which file to use, eg:
-			// always prefer local file,
-			// always prefer zip,
-			// prefer local file, but if old use zip
-			// prefer local file, but if old use most recent of local and zip
-			// ... etc ...
+	
 
 			try {
 				if (tileFile.exists()) {
@@ -284,6 +296,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		}
 	}
 
+	/**
+	 * This broadcast receiver is responsible for determining the best
+	 * channel over which tiles may be acquired.
+	 * In other words it sets network status flags.
+	 *
+	 */
 	private class MyBroadcastReceiver extends BroadcastReceiver {
 
 		@Override

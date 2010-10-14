@@ -11,6 +11,12 @@ import org.slf4j.LoggerFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 
+/**
+ * Objects of this class provide access to tiles which are amenable to synchronous access.
+ * They are expected to return quickly enough so that a person will perceive it as instantaneous.
+ * 
+ * At present the only source which meets this criteria is the file system.
+ */
 public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProvider implements IOpenStreetMapTileProviderCallback {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderDirect.class);

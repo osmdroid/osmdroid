@@ -127,7 +127,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			final Context context,
 			final AttributeSet attrs,
 			final IOpenStreetMapRendererInfo rendererInfo,
-			OpenStreetMapTileProvider tileProvider) {
+			OpenStreetMapTileProvider tileProvider) 
+	{
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
