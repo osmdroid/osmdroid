@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
+import org.andnav.osm.ResourceProxy.string;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,6 +59,12 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		}
 	}
 
+	@Override
+	public String getString(string pResId, Object... formatArgs) {
+		return String.format(getString(pResId), formatArgs);
+	}
+
+	
 	@Override
 	public Bitmap getBitmap(final bitmap pResId) {
 		InputStream is = null;

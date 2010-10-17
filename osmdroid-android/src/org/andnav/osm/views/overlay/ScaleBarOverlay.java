@@ -50,7 +50,6 @@ import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.Rect;
 import android.graphics.Paint.Style;
-import android.util.Log;
 
 public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoConstants {
 
@@ -182,7 +181,7 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 			
 			GeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight/2);
 
-			if (zoomLevel != lastZoomLevel || (int)(center.getLatitudeE6()/1000000) != (int)(lastLatitude/1000000)) {
+			if (zoomLevel != lastZoomLevel || (int)(center.getLatitudeE6()/1E6) != (int)(lastLatitude/1E6)) {
 				lastZoomLevel = zoomLevel;
 				lastLatitude = center.getLatitudeE6();
 				createScaleBarPicture(mapView);
@@ -289,47 +288,47 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 	}
 	
 	private String scaleBarLengthText(int meters, boolean imperial, boolean nautical) {
-
 		if (this.imperial) {
 			if (meters >= METERS_PER_STATUTE_MILE) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_miles), 
-						((int)(meters / METERS_PER_STATUTE_MILE)));
+				return 	resourceProxy.getString(
+						ResourceProxy.string.format_distance_miles,
+						(int)(meters / METERS_PER_STATUTE_MILE));
+				
 			} else if (meters >= METERS_PER_STATUTE_MILE/10) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_miles),
-						(((int)(meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0));
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_miles,
+						((int)(meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);
 			} else {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_feet), 
-						((int)(meters * FEET_PER_METER)));
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_feet,
+						(int)(meters * FEET_PER_METER));
 			}
 		} else if (this.nautical) {
 			if (meters >= METERS_PER_NAUTICAL_MILE) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_nautical_miles,
 						((int)(meters / METERS_PER_NAUTICAL_MILE)));
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 10.0) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_nautical_miles,
 						(((int)(meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));
 			} else {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_feet),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_feet,
 						((int)(meters * FEET_PER_METER)));
 			}
 		} else {
 			if (meters >= 1000) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_kilometers),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_kilometers,
 						(int)(meters/1000));
 			} else if (meters > 100) {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_kilometers),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_kilometers,
 						(int)(meters / 100.0) / 10.0);
 			} else {
-				return String.format(
-						resourceProxy.getString(ResourceProxy.string.format_distance_meters),
+				return resourceProxy.getString(
+						ResourceProxy.string.format_distance_meters,
 						(int)meters);
 			}
 		}

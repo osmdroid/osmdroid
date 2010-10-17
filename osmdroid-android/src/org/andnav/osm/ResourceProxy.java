@@ -52,6 +52,14 @@ public interface ResourceProxy {
 	}
 
 	String getString(string pResId);
+	
+	/**
+	 * Use a string resource as a format definition, and format using the supplied format arguments.
+	 * @param pResId
+	 * @param formatArgs
+	 * @return
+	 */
+	String getString(string pResId, Object... formatArgs);
 
 	Bitmap getBitmap(bitmap pResId);
 
