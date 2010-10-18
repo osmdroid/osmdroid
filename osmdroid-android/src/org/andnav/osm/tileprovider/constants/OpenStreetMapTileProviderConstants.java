@@ -25,7 +25,7 @@ public interface OpenStreetMapTileProviderConstants {
 	public static final File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
 
 	/** add an extension to files on sdcard so that gallery doesn't index them */
-	public static final String TILE_PATH_EXTENSION = ".x";
+	public static final String TILE_PATH_EXTENSION = ".tile";
 
 	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 8;
 	public static final int NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
