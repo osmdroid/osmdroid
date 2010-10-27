@@ -69,7 +69,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 
         /* Scale Bar Overlay */
         {
-        	this.mScaleBarOverlay = new ScaleBarOverlay(this.getBaseContext());
+        	this.mScaleBarOverlay = new ScaleBarOverlay(this.getBaseContext(), mResourceProxy);
         	this.mOsmv.getOverlays().add(mScaleBarOverlay);
         	// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to half screen width, minus half an inch.
         	this.mScaleBarOverlay.setScaleBarOffset(getResources().getDisplayMetrics().widthPixels/2 - getResources().getDisplayMetrics().xdpi/2, 10);
