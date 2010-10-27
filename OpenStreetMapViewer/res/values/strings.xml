@@ -12,8 +12,14 @@
 
 	<string name="set_mode_offline">Set to offline mode</string>
 	<string name="set_mode_online">Set to online mode</string>
-	
+
 	<string name="set_mode_show_me">showing and tracking my current location</string>
 	<string name="set_mode_hide_me">hiding my current location</string>
+
+	<string name="format_distance_meters">%s m</string>
+	<string name="format_distance_kilometers">%s km</string>
+	<string name="format_distance_miles">%s mi</string>
+	<string name="format_distance_nautical_miles">%s nm</string>
+	<string name="format_distance_feet">%s ft</string>
 
 </resources>

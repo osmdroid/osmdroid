@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
-import org.andnav.osm.ResourceProxy.string;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,15 +45,15 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		case hills : return "Hills";
 		case cloudmade_standard : return "CloudMade (Standard tiles)";
 		case cloudmade_small : return "CloudMade (small tiles)";
+		case fiets_nl : return "OpenFietsKaart overlay";
+		case base_nl : return "Netherlands base overlay";
+		case roads_nl : return "Netherlands roads overlay";
+		case unknown : return "Unknown";
 		case format_distance_meters : return "%s m";
 		case format_distance_kilometers : return "%s km";
 		case format_distance_miles : return "%s mi";
 		case format_distance_nautical_miles : return "%s nm";
 		case format_distance_feet : return "%s ft";
-		case fiets_nl : return "OpenFietsKaart overlay";
-		case base_nl : return "Netherlands base overlay";
-		case roads_nl : return "Netherlands roads overlay";
-		case unknown : return "Unknown";
 		default : throw new IllegalArgumentException();
 		}
 	}
@@ -64,7 +63,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 		return String.format(getString(pResId), formatArgs);
 	}
 
-	
+
 	@Override
 	public Bitmap getBitmap(final bitmap pResId) {
 		InputStream is = null;
