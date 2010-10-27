@@ -26,6 +26,11 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 		case hills : return mContext.getString(R.string.hills);
 		case cloudmade_small : return mContext.getString(R.string.cloudmade_small);
 		case cloudmade_standard : return mContext.getString(R.string.cloudmade_standard);
+		case format_distance_meters : return "%s m";
+		case format_distance_kilometers : return "%s km";
+		case format_distance_miles : return "%s mi";
+		case format_distance_nautical_miles : return "%s nm";
+		case format_distance_feet : return "%s ft";
 		case fiets_nl : return mContext.getString(R.string.fiets_nl);
 		case base_nl : return mContext.getString(R.string.base_nl);
 		case roads_nl : return mContext.getString(R.string.roads_nl);
