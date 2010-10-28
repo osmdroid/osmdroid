@@ -13,6 +13,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +63,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// ===========================================================
 
 	/**
-	 * The tiles may be found on several media.  
+	 * The tiles may be found on several media.
 	 * This one works with tiles stored on the file system.
 	 * It and its friends are typically created and controlled by {@link OpenStreetMapTileProvider}.
-	 * 
-	 * @param aCallback 
+	 *
+	 * @param aCallback
 	 * @param aRegisterReceiver
 	 */
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
@@ -144,12 +145,33 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	File getOutputFile(final OpenStreetMapTile tile) throws CantContinueException {
 		final File file = buildFullPath(tile);
 		final File parent = file.getParentFile();
-		// check exists twice because maybe mkdirs returned false because another thread created it
-		if (!parent.exists() && !parent.mkdirs() && !parent.exists()) {
+		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
 			checkSdCard();
 			throw new CantContinueException("Tile directory doesn't exist: " + parent);
 		}
 		return file;
+	}
+
+	private boolean createFolderAndCheckIfExists(final File pFile) {
+		if (pFile.mkdirs()) {
+			return true;
+		}
+		// if (DEBUGMODE)
+			logger.debug("Failed to create " + pFile + " - wait and check again");
+
+		// if create failed, wait a bit in case another thread created it
+		try {
+			Thread.sleep(500);
+		} catch (final InterruptedException ignore) {
+		}
+		// and then check again
+		if (pFile.exists()) {
+			// if (DEBUGMODE)
+				logger.debug("Seems like another thread created " + pFile);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	void saveFile(final OpenStreetMapTile tile, final File outputFile, final byte[] someData) throws IOException{
@@ -223,9 +245,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		 * prefer local tiles over zip
 		 * prefer zip files in lexicographic order
 		 *
-		 * When a dummy tile is generated it may be constructed from 
+		 * When a dummy tile is generated it may be constructed from
 		 * coarser tiles from a lower resolution level.
-		 * 
+		 *
 		 * aTile a tile to be constructed by the method.
 		 */
 		@Override
@@ -241,7 +263,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 
 			final File tileFile = getOutputFile(aTile);
 
-	
+
 
 			try {
 				if (tileFile.exists()) {
