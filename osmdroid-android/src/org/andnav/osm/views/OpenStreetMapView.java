@@ -127,7 +127,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			final Context context,
 			final AttributeSet attrs,
 			final IOpenStreetMapRendererInfo rendererInfo,
-			OpenStreetMapTileProvider tileProvider) 
+			OpenStreetMapTileProvider tileProvider)
 	{
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
@@ -477,6 +477,14 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		return getRenderer().zoomMaxLevel();
 	}
 
+	/*
+	 * Returns the minimum zoom level for the point currently at the center.
+	 * @return The minimum zoom level for the map's current center.
+	 */
+	public int getMinZoomLevel() {
+		return getRenderer().zoomMinLevel();
+	}
+
 	public boolean canZoomIn() {
 		final int maxZoomLevel = getMaxZoomLevel();
 		if (mZoomLevel >= maxZoomLevel) {
@@ -489,10 +497,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	public boolean canZoomOut() {
-		if (mZoomLevel <= 0) {
+		final int minZoomLevel = getMinZoomLevel();
+		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel <= 0) {
+		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel <= minZoomLevel) {
 			return false;
 		}
 		return true;
