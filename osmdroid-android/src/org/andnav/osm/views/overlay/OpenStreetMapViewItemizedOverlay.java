@@ -21,7 +21,7 @@ import android.view.MotionEvent;
 
 /**
  * Draws a list of {@link OpenStreetMapViewOverlayItem} as markers to a map.
- * The item with the lowest index is drawn as last and therefore the 'topmost' marker. 
+ * The item with the lowest index is drawn as last and therefore the 'topmost' marker.
  * It also gets checked for onTap first.
  * This class is generic, because you then you get your custom item-class passed back in onTap().
  * @author Nicolas Gramlich
@@ -36,7 +36,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// Constants
 	// ===========================================================
 	static final boolean DEBUG_GRAPHICS = false;
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -72,7 +72,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final Point pMarkerHotspot,
 			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
-		this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
+		this(ctx, aList, pMarker, pMarkerHotspot, null, aOnItemGestureListener, pResourceProxy);
 	}
 	public OpenStreetMapViewItemizedOverlay(
 			final Context ctx,
@@ -137,7 +137,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	 * Each of these methods performs a item sensitive check.
 	 * If the item is located its corresponding method is called.
 	 * The result of the call is returned.
-	 * 
+	 *
 	 * Helper methods are provided so that child classes may more easily override behavior
 	 * without resorting to overriding the ItemGestureListener methods.
 	 */
@@ -150,14 +150,14 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 				if(that.mOnItemGestureListener == null) return false;
 				return onSingleTapUpHelper(index, that.mItemList.get(index));
 			}
-		})) 
+		}))
             ? true
 		    : super.onSingleTapUp(event, mapView);
 	}
 	protected boolean onSingleTapUpHelper(final int index, final T item) {
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
-	
+
 	@Override
 	public boolean onLongPress(MotionEvent event, OpenStreetMapView mapView) {
 		return ( activateSelectedItems(event, mapView, new ActiveItem() {
@@ -167,7 +167,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 				if(that.mOnItemGestureListener == null) return false;
 				return onLongPressHelper(index, that.mItemList.get(index));
 			}
-		})) 
+		}))
 			? true
 		    : super.onLongPress(event, mapView);
 	}
@@ -178,14 +178,14 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	private static final Paint boudaryPaint = new Paint();
 	static {
 		boudaryPaint.setStyle(Paint.Style.STROKE);
 		boudaryPaint.setColor(Color.BLUE);
 	}
 	/**
-	 * 
+	 *
 	 * @param canvas what the item is drawn upon
 	 * @param index which item is to be drawn
 	 * @param curScreenCoords
@@ -193,11 +193,11 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	protected void onDrawItem(final Canvas canvas, final int index, final Point curScreenCoords) {
 		// get this item's preferred marker & hotspot
 		final T item = this.mItemList.get(index);
-		
-		final Drawable marker = (item.getMarker(0) == null) 
-                ? this.mDefaultItem.getMarker(0) 
+
+		final Drawable marker = (item.getMarker(0) == null)
+                ? this.mDefaultItem.getMarker(0)
 		        : item.getMarker(0);
-                
+
         final Rect rect = new Rect();
         getItemBoundingRetangle(item, rect, curScreenCoords);
 		// draw it
@@ -210,7 +210,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	/**
 	 * When a content sensitive action is performed the content item needs to be identified.
 	 * This method does that and then performs the assigned task on that item.
-	 * 
+	 *
 	 * @param event
 	 * @param mapView
 	 * @param task
@@ -226,39 +226,39 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		pj.fromMapPixels(eventX, eventY, touchScreenCoords);
 
 		touchPoint = touchScreenCoords;
-		
+
 		final Rect markerScreenBounds = new Rect();
 		final Point curScreenCoords = new Point();
 		for(int i = 0; i < this.mItemList.size(); ++i) {
 			final T item = this.mItemList.get(i);
 			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
-			
+
 			getItemBoundingRetangle(item, markerScreenBounds, curScreenCoords);
-		
-			if (! markerScreenBounds.contains(touchScreenCoords.x, touchScreenCoords.y)) 
+
+			if (! markerScreenBounds.contains(touchScreenCoords.x, touchScreenCoords.y))
 				continue;
 			if (task.run(i)) return true;
 		}
 		return false;
 	}
-	
+
 	private Point touchPoint = null;
-	
+
 	/**
 	 * Finds the bounding rectangle for the object in current projection.
-	 * 
+	 *
 	 * @param item
 	 * @param rect
 	 * @return
 	 */
 	private Rect getItemBoundingRetangle(final T item, final Rect rect, final Point ctr) {
-		final Drawable marker = (item.getMarker(0) == null) 
-		              ? this.mDefaultItem.getMarker(0) 
+		final Drawable marker = (item.getMarker(0) == null)
+		              ? this.mDefaultItem.getMarker(0)
 		    		  : item.getMarker(0);
-		final Point markerHotspot = (item.getMarkerHotspot(0) == null) 
-		              ? this.mDefaultItem.getMarkerHotspot(0) 
+		final Point markerHotspot = (item.getMarkerHotspot(0) == null)
+		              ? this.mDefaultItem.getMarkerHotspot(0)
 		              : item.getMarkerHotspot(0);
-		
+
 		// calculate bounding rectangle
 		final int markerWidth = marker.getIntrinsicWidth();
 		final int markerHeight = marker.getIntrinsicHeight();
@@ -266,7 +266,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		final int right = left + markerWidth;
 		final int top = ctr.y - markerHotspot.y;
 		final int bottom = top + markerHeight;
-		
+
 		rect.set(left, top, right, bottom);
 	    return rect;
 	}
@@ -274,18 +274,18 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	
+
 	/**
 	 * When the item is touched one of these methods may be invoked
 	 * depending on the type of touch.
-	 * 
+	 *
 	 * Each of them returns true if the event was completely handled.
 	 */
 	public static interface OnItemGestureListener<T>{
 		public boolean onItemSingleTapUp(final int index, final T item);
 		public boolean onItemLongPress(final int index, final T item);
 	}
-	
+
 	public static interface ActiveItem {
 		public boolean run(final int aIndex);
 	}
