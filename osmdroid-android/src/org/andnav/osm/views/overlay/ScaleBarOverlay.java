@@ -78,7 +78,6 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 	private Context context;
 	
 	protected final Picture scaleBarPicture = new Picture();
-	private final Matrix scaleBarMatrix = new Matrix();
 	
 	private int lastZoomLevel = -1;
 	private float lastLatitude = 0;
@@ -89,7 +88,11 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 	int screenHeight;
 	
 	private ResourceProxy resourceProxy;
-
+	private Matrix oldMatrix;
+	private Paint barPaint;
+	private Paint textPaint;
+	private OpenStreetMapViewProjection projection;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -102,12 +105,26 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		super(pResourceProxy);
 		this.resourceProxy = pResourceProxy;
 		this.context = ctx;
-
-		xdpi = this.context.getResources().getDisplayMetrics().xdpi;
-		ydpi = this.context.getResources().getDisplayMetrics().ydpi;
 		
-		screenWidth = this.context.getResources().getDisplayMetrics().widthPixels;
-		screenHeight = this.context.getResources().getDisplayMetrics().heightPixels;
+		this.barPaint = new Paint();
+		this.barPaint.setColor(Color.BLACK);
+		this.barPaint.setAntiAlias(true);
+		this.barPaint.setStyle(Style.FILL);
+		this.barPaint.setAlpha(255);
+
+		this.textPaint = new Paint();
+		this.textPaint.setColor(Color.BLACK);
+		this.textPaint.setAntiAlias(true);
+		this.textPaint.setStyle(Style.FILL);
+		this.textPaint.setAlpha(255);
+		this.textPaint.setTextSize(textSize);
+
+
+		this.xdpi = this.context.getResources().getDisplayMetrics().xdpi;
+		this.ydpi = this.context.getResources().getDisplayMetrics().ydpi;
+		
+		this.screenWidth = this.context.getResources().getDisplayMetrics().widthPixels;
+		this.screenHeight = this.context.getResources().getDisplayMetrics().heightPixels;
 	}
 
 	// ===========================================================
@@ -178,22 +195,20 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 			if (projection == null) {
 				return;
 			}
-			
-			GeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight/2);
 
+			GeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight/2);
 			if (zoomLevel != lastZoomLevel || (int)(center.getLatitudeE6()/1E6) != (int)(lastLatitude/1E6)) {
 				lastZoomLevel = zoomLevel;
 				lastLatitude = center.getLatitudeE6();
 				createScaleBarPicture(mapView);
 			}
-
-			this.scaleBarMatrix.setTranslate(-1 * (scaleBarPicture.getWidth() / 2 - 0.5f), -1 * (scaleBarPicture.getHeight() / 2 - 0.5f));
-			this.scaleBarMatrix.postTranslate(xdpi/2, ydpi/2 + (c.getHeight() - mapView.getHeight()));
-
-			c.save();
-			c.setMatrix(scaleBarMatrix);
-			c.drawPicture(scaleBarPicture);
+			
+			this.oldMatrix = c.getMatrix();
 			c.restore();
+			c.save();
+			c.translate(xOffset, yOffset);
+			c.drawPicture(scaleBarPicture);
+			c.setMatrix(this.oldMatrix);
 		}
 	}
 
@@ -213,8 +228,8 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		// We want the scale bar to be as long as the closest round-number miles/kilometers
 		// to 1-inch at the latitude at the current center of the screen.
 				
-		OpenStreetMapViewProjection projection = mapView.getProjection();
-				
+		projection = mapView.getProjection();
+	
 		if (projection == null) {
 			return;
 		}
@@ -230,21 +245,8 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 
 		int yMetersPerInch = p1.distanceTo(p2);
 
-		final Paint barPaint = new Paint();
-		barPaint.setColor(Color.BLACK);
-		barPaint.setAntiAlias(true);
-		barPaint.setStyle(Style.FILL);
-		barPaint.setAlpha(255);
-			
-		final Paint textPaint = new Paint();
-		textPaint.setColor(Color.BLACK);
-		textPaint.setAntiAlias(true);
-		textPaint.setStyle(Style.FILL);
-		textPaint.setAlpha(255);
-		textPaint.setTextSize(textSize);
-
 		final Canvas canvas = scaleBarPicture.beginRecording((int)xdpi, (int)ydpi);
-
+				
 		if (latitudeBar) {
 			String xMsg = scaleBarLengthText(xMetersPerInch, imperial, nautical);
 			Rect xTextRect = new Rect();
@@ -252,14 +254,14 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 
 			int textSpacing = (int)(xTextRect.height() / 5.0);
 			
-			canvas.drawRect(xOffset, yOffset, xOffset + xdpi, yOffset + lineWidth, barPaint);
-			canvas.drawRect(xOffset + xdpi, yOffset, xOffset + xdpi + lineWidth, yOffset + xTextRect.height() + lineWidth + textSpacing, barPaint);
+			canvas.drawRect(0,0 , xdpi, lineWidth, barPaint);
+			canvas.drawRect(xdpi, 0, xdpi + lineWidth, xTextRect.height() + lineWidth + textSpacing, barPaint);
 			
 			if (! longitudeBar) {
-				canvas.drawRect(xOffset, yOffset, xOffset + lineWidth, yOffset + xTextRect.height() + lineWidth + textSpacing, barPaint);
+				canvas.drawRect(0, 0, lineWidth, xTextRect.height() + lineWidth + textSpacing, barPaint);
 			}
 
-			canvas.drawText(xMsg, xOffset + xdpi/2 - xTextRect.width()/2, yOffset + xTextRect.height() + lineWidth + textSpacing, textPaint);
+			canvas.drawText(xMsg, xdpi/2 - xTextRect.width()/2, xTextRect.height() + lineWidth + textSpacing, textPaint);
 		}
 		
 		if (longitudeBar) {
@@ -269,15 +271,15 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 
 			int textSpacing = (int)(yTextRect.height() / 5.0);
 
-			canvas.drawRect(xOffset, yOffset, xOffset + lineWidth, yOffset + ydpi, barPaint);
-			canvas.drawRect(xOffset, yOffset + ydpi, xOffset + yTextRect.height() + lineWidth + textSpacing, yOffset + ydpi + lineWidth, barPaint);
+			canvas.drawRect(0, 0, lineWidth, ydpi, barPaint);
+			canvas.drawRect(0, ydpi, yTextRect.height() + lineWidth + textSpacing, ydpi + lineWidth, barPaint);
 
 			if (! latitudeBar) {
-				canvas.drawRect(xOffset, yOffset, xOffset + yTextRect.height() + lineWidth + textSpacing, yOffset + lineWidth, barPaint);
+				canvas.drawRect(0, 0, yTextRect.height() + lineWidth + textSpacing, lineWidth, barPaint);
 			}			
 			
-			float x = xOffset + yTextRect.height() + lineWidth + textSpacing;
-			float y = yOffset + ydpi/2 + yTextRect.width()/2;
+			float x = yTextRect.height() + lineWidth + textSpacing;
+			float y = ydpi/2 + yTextRect.width()/2;
 
 			canvas.rotate(-90, x, y);
 			canvas.drawText(yMsg, x, y + textSpacing, textPaint);
