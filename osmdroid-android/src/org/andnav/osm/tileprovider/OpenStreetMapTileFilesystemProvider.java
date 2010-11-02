@@ -156,7 +156,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		if (pFile.mkdirs()) {
 			return true;
 		}
-		// if (DEBUGMODE)
+		if (DEBUGMODE)
 			logger.debug("Failed to create " + pFile + " - wait and check again");
 
 		// if create failed, wait a bit in case another thread created it
@@ -166,10 +166,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		}
 		// and then check again
 		if (pFile.exists()) {
-			// if (DEBUGMODE)
+			if (DEBUGMODE)
 				logger.debug("Seems like another thread created " + pFile);
 			return true;
 		} else {
+			if (DEBUGMODE)
+				logger.debug("File still doesn't exist: " + pFile);
 			return false;
 		}
 	}
