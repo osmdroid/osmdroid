@@ -27,7 +27,12 @@ public interface OpenStreetMapTileProviderConstants {
 	/** add an extension to files on sdcard so that gallery doesn't index them */
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
-	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 8;
+	/**
+	 * number of tile download threads, conforming to OSM policy:
+	 * http://wiki.openstreetmap.org/wiki/Tile_usage_policy
+	 */
+	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 2;
+
 	public static final int NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
 
 	public static final int TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
