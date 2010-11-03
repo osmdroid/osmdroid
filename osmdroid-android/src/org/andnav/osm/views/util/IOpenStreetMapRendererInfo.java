@@ -14,6 +14,7 @@ public interface IOpenStreetMapRendererInfo {
 
 	int ordinal();
 	String name();
+	String pathBase();
 	String localizedName(ResourceProxy proxy);
 	int maptileSizePx();
 	int maptileZoom();
@@ -23,5 +24,5 @@ public interface IOpenStreetMapRendererInfo {
 	String getTileURLString(OpenStreetMapTile aTile, IOpenStreetMapTileProviderCallback aCallback, IOpenStreetMapTileProviderCloudmadeTokenCallback aCloudmadeTokenCallback) throws CloudmadeException;
 	Drawable getDrawable(String aFilePath);
 	Drawable getDrawable(InputStream aTileInputStream);
-
+	void setCloudmadeStyle(int styleId);
 }

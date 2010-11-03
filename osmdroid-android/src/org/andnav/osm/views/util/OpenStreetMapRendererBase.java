@@ -19,7 +19,7 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 	private static int globalOrdinal = 0;
 
 	private final int mOrdinal;
-	private final String mName;
+	protected final String mName;
 	protected final int mMaptileSizePx;
 	private final int mMaptileZoom;
 	private final int mZoomMinLevel;
@@ -50,6 +50,11 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 
 	@Override
 	public String name() {
+		return mName;
+	}
+
+	@Override
+	public String pathBase() {
 		return mName;
 	}
 
@@ -113,6 +118,11 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 			System.gc();
 		}
 		return null;
+	}
+
+	@Override
+	public void setCloudmadeStyle(int aStyleId) {
+		cloudmadeStyle = aStyleId;
 	}
 
 	/**

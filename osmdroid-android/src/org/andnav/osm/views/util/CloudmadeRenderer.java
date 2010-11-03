@@ -19,6 +19,15 @@ class CloudmadeRenderer extends OpenStreetMapRendererBase {
 	}
 
 	@Override
+	public String pathBase() {
+		if (cloudmadeStyle <= 1) {
+			return mName;
+		} else {
+			return mName + cloudmadeStyle;
+		}
+	}
+
+	@Override
 	public String localizedName(ResourceProxy proxy) {
 		return proxy.getString(mResourceId);
 	}
