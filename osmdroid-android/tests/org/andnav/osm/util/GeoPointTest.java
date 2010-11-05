@@ -65,4 +65,13 @@ public class GeoPointTest {
 		GeoPoint other = new GeoPoint(-10.0, -10.0);
 		assertEquals("north west", 180 + 45, Math.round(target.bearingTo(other)));
 	}
+
+	@Test
+	public void test_destinationPoint_north_west_here() {
+		// this test is based on the actual result, not calculated expectations, 
+		// but it is at least a basic sanity check for rounding errors and regression
+		GeoPoint start = new GeoPoint(52387524, 4891604);
+		GeoPoint end   = new GeoPoint(52389882, 4885341);
+		assertEquals("destinationPoint north west", end, start.destinationPoint(500, -45));
+	}
 }

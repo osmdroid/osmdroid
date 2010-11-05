@@ -17,7 +17,7 @@ public class DefaultResourceProxyTest {
 	public void test_getString() {
 		final ResourceProxy rp = new DefaultResourceProxyImpl(null);
 		final String osmarender = rp.getString(ResourceProxy.string.osmarender);
-		assertEquals("Got string okay", "OsmaRender", osmarender);
+		assertEquals("Got string okay", "Osmarender", osmarender);
 	}
 
 	@Test (expected = RuntimeException.class)
