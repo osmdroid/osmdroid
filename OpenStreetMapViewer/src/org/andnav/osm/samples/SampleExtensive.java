@@ -12,6 +12,8 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
 import org.andnav.osm.views.overlay.ScaleBarOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -33,7 +35,8 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	public static final Logger logger = LoggerFactory.getLogger(SampleExtensive.class);
+	
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
 	private static final int MENU_RENDERER_ID = MENU_ZOOMOUT_ID + 1;

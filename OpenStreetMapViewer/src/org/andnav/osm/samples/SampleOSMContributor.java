@@ -1,6 +1,8 @@
 package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -11,6 +13,8 @@ import android.widget.TextView;
  * @author Nicolas Gramlich
  */
 public class SampleOSMContributor extends OpenStreetMapActivity {
+	
+	public static final Logger logger = LoggerFactory.getLogger(SampleOSMContributor.class);
 	
 	/** Called when the activity is first created. */
 	@Override

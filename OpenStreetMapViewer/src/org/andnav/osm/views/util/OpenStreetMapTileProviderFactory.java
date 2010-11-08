@@ -63,6 +63,6 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 	/**
 	 * This is a utility class with only static members.
 	 */
-	private OpenStreetMapTileProviderFactory() {
+	protected OpenStreetMapTileProviderFactory() {
 	}
 }

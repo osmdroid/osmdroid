@@ -8,6 +8,8 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,6 +36,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMap.class);
 
 	private static final int MENU_MY_LOCATION = Menu.FIRST;
 	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;

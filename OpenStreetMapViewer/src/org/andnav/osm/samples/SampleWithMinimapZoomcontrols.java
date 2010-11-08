@@ -4,6 +4,8 @@ package org.andnav.osm.samples;
 import org.andnav.osm.R;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,7 +25,8 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	public static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapZoomcontrols.class);
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================

@@ -6,6 +6,8 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
 import org.andnav.osm.views.util.OpenStreetMapTileProviderDirect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -26,7 +28,8 @@ public class SampleWithTilesOverlay extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	public static final Logger logger = LoggerFactory.getLogger(SampleWithTilesOverlay.class);
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================

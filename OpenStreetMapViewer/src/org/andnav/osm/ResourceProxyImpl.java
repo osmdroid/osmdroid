@@ -1,11 +1,15 @@
 package org.andnav.osm;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 public class ResourceProxyImpl extends DefaultResourceProxyImpl {
+	private static final Logger logger = LoggerFactory.getLogger(ResourceProxyImpl.class);
 
 	private final Context mContext;
 

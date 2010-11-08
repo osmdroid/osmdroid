@@ -3,6 +3,9 @@ package org.andnav.osm.samples;
 
 import java.util.ArrayList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +18,8 @@ public class SampleLoader extends ListActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	public static final Logger logger = LoggerFactory.getLogger(SampleLoader.class);
+	
 	// ===========================================================
 	// Fields
 	// ===========================================================

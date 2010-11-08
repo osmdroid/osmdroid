@@ -4,6 +4,8 @@ package org.andnav.osm;
 import org.andnav.osm.constants.OpenStreetMapConstants;
 import org.andnav.osm.contributor.OSMUploader;
 import org.andnav.osm.contributor.RouteRecorder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +23,7 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 	// ===========================================================
 	// Constants
 	// ===========================================================
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapActivity.class);
 	
 	protected static final String PROVIDER_NAME = LocationManager.GPS_PROVIDER;
 

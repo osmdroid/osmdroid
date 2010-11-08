@@ -10,6 +10,8 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.OpenStreetMapViewItemizedOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlayItem;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -30,7 +32,8 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
+	public static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapItemizedoverlay.class);
+	
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
 
