@@ -71,7 +71,7 @@ public class GeoPointTest {
 		// this test is based on the actual result, not calculated expectations, 
 		// but it is at least a basic sanity check for rounding errors and regression
 		GeoPoint start = new GeoPoint(52387524, 4891604);
-		GeoPoint end   = new GeoPoint(52389882, 4885341);
+		GeoPoint end   = new GeoPoint(52390698, 4886399);
 		assertEquals("destinationPoint north west", end, start.destinationPoint(500, -45));
 	}
 }

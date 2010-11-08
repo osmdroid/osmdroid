@@ -208,8 +208,8 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
 		final double lon1 = DEG2RAD * getLongitudeE6() / 1E6;
 
 		final double lat2 = Math.asin( Math.sin(lat1) * Math.cos(dist) +
-				Math.cos(lat1) * Math.sin(dist) * Math.cos(aBearingInDegrees));
-		final double lon2 = lon1 + Math.atan2( Math.sin(aBearingInDegrees) * Math.sin(dist) * Math.cos(lat1),
+				Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+		final double lon2 = lon1 + Math.atan2( Math.sin(brng) * Math.sin(dist) * Math.cos(lat1),
 				Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
 
 		final double lat2deg = lat2 / DEG2RAD;
