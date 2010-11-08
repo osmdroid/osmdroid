@@ -72,9 +72,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 */
 	public OpenStreetMapTileFilesystemProvider(final IOpenStreetMapTileProviderCallback aCallback, final IRegisterReceiver aRegisterReceiver) {
 		super(aCallback, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
-		mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
+		this.mTileDownloader = new OpenStreetMapTileDownloader(aCallback, this);
 		this.aRegisterReceiver = aRegisterReceiver;
-		mBroadcastReceiver = new MyBroadcastReceiver();
+		this.mBroadcastReceiver = new MyBroadcastReceiver();
 
 		checkSdCard();
 

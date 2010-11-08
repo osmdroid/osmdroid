@@ -14,7 +14,7 @@ import android.os.Parcelable;
  * @author Theodore Hong
  *
  */
-public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
+public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Cloneable {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -49,11 +49,18 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
 		this.mLongitudeE6 = aGeopoint.mLongitudeE6;
 	}
 
-	protected static GeoPoint fromDoubleString(final String s, final char spacer) {
+	public static GeoPoint fromDoubleString(final String s, final char spacer) {
 		final int spacerPos = s.indexOf(spacer);
 		return new GeoPoint((int) (Double.parseDouble(s.substring(0,
 				spacerPos - 1)) * 1E6), (int) (Double.parseDouble(s.substring(
 				spacerPos + 1, s.length())) * 1E6));
+	}
+
+	public static GeoPoint fromInvertedDoubleString(final String s, final char spacer) {
+		final int spacerPos = s.indexOf(spacer);
+		return new GeoPoint((int) (Double.parseDouble(s.substring(
+				spacerPos + 1, s.length())) * 1E6), (int) (Double.parseDouble(s.substring(
+				0, spacerPos)) * 1E6));
 	}
 
 	public static GeoPoint fromIntString(final String s){
@@ -87,6 +94,15 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
 		this.mLongitudeE6 = aLongitudeE6;
 	}
 
+	public static GeoPoint fromCenterBetween(final GeoPoint geoPointA, final GeoPoint geoPointB) {
+		return new GeoPoint((geoPointA.getLatitudeE6() + geoPointB.getLatitudeE6()) / 2,
+							(geoPointA.getLongitudeE6() + geoPointB.getLongitudeE6()) / 2);
+	}
+
+	public Object clone() {
+		return new GeoPoint(this.mLatitudeE6, this.mLongitudeE6);
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -98,6 +114,10 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable {
 
 	public String toDoubleString() {
 		return new StringBuilder().append(this.mLatitudeE6 / 1E6).append(",").append(this.mLongitudeE6  / 1E6).toString();
+	}
+
+	public String toInvertedDoubleString() {
+		return new StringBuilder().append(this.mLongitudeE6 / 1E6).append(",").append(this.mLatitudeE6 / 1E6).toString();
 	}
 
 	@Override

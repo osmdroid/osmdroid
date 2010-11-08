@@ -1,9 +1,13 @@
 // Created by plusminus on 19:06:38 - 25.09.2008
 package org.andnav.osm.util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import static org.andnav.osm.util.MyMath.gudermann;
 import static org.andnav.osm.util.MyMath.gudermannInverse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
@@ -13,11 +17,13 @@ import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
  * @author Nicolas Gramlich
  *
  */
-public class BoundingBoxE6 implements OpenStreetMapViewConstants {
+public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapViewConstants {
 	
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	static final long serialVersionUID = 2L;
 
 	// ===========================================================
 	// Fields
@@ -50,6 +56,13 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants {
 	// Getter & Setter
 	// ===========================================================
 	
+	/**
+	 * @return GeoPoint center of this BoundingBox
+	 */
+	public GeoPoint getCenter() {
+		return new GeoPoint((this.mLatNorthE6 + this.mLatSouthE6) / 2, (this.mLonEastE6 + this.mLonWestE6) / 2);
+	}
+ 	
 	public int getDiagonalLengthInMeters() {
 		return new GeoPoint(this.mLatNorthE6, this.mLonWestE6).distanceTo(new GeoPoint(this.mLatSouthE6, this.mLonEastE6));
 	}
@@ -147,6 +160,52 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants {
 		return new GeoPoint(lat, lon);
 	}
 
+	public BoundingBoxE6 getQuarter(final Direction pDir){
+		switch(pDir){
+		case NORTHEAST:
+			return getNorthEastQuarter();
+		case SOUTHEAST:
+			return getSouthEastQuarter();
+		case SOUTHWEST:
+			return getSouthWestQuarter();
+		case NORTHWEST:
+			return getNorthWestQuarter();
+		default:
+			throw new IllegalArgumentException("Not yet supported: " + pDir.NAME);
+		}
+	}
+
+	public BoundingBoxE6 getNorthEastQuarter(){
+		final GeoPoint center = this.getCenter();
+		return new BoundingBoxE6(this.mLatNorthE6, this.mLonEastE6, center.getLatitudeE6(), center.getLongitudeE6());
+	}
+
+	public BoundingBoxE6 getNorthWestQuarter(){
+		final GeoPoint center = this.getCenter();
+		return new BoundingBoxE6(this.mLatNorthE6, center.getLongitudeE6(), center.getLatitudeE6(), this.mLonWestE6);
+	}
+
+	public BoundingBoxE6 getSouthEastQuarter(){
+		final GeoPoint center = this.getCenter();
+		return new BoundingBoxE6(center.getLatitudeE6(), this.mLonEastE6, this.mLatSouthE6, center.getLongitudeE6());
+	}
+
+	public BoundingBoxE6 getSouthWestQuarter(){
+		final GeoPoint center = this.getCenter();
+		return new BoundingBoxE6(center.getLatitudeE6(), center.getLongitudeE6(), this.mLatSouthE6, this.mLonWestE6);
+	}
+
+	public BoundingBoxE6 increaseByScale(final float pBoundingboxPaddingRelativeScale) {
+		final GeoPoint pCenter = this.getCenter();
+		final int mLatSpanE6Padded_2 = (int)((this.getLatitudeSpanE6() * pBoundingboxPaddingRelativeScale) / 2);
+		final int mLonSpanE6Padded_2 = (int)((this.getLongitudeSpanE6() * pBoundingboxPaddingRelativeScale) / 2);
+
+		return new BoundingBoxE6(pCenter.getLatitudeE6() + mLatSpanE6Padded_2,
+							     pCenter.getLongitudeE6() + mLonSpanE6Padded_2,
+							     pCenter.getLatitudeE6() - mLatSpanE6Padded_2,
+							     pCenter.getLongitudeE6() - mLonSpanE6Padded_2);
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -164,6 +223,11 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants {
 	// ===========================================================
 	// Methods
 	// ===========================================================
+
+	public GeoPoint bringToBoundingBox(final int aLatitudeE6, final int aLongitudeE6) {
+		return new GeoPoint(Math.max(this.mLatSouthE6, Math.min(this.mLatNorthE6, aLatitudeE6)),
+							Math.max(this.mLonWestE6, Math.min(this.mLonEastE6, aLongitudeE6)));
+	}
 
 	public static BoundingBoxE6 fromGeoPoints(final ArrayList<? extends GeoPoint> partialPolyLine) {
 		int minLat = Integer.MAX_VALUE;
@@ -183,8 +247,54 @@ public class BoundingBoxE6 implements OpenStreetMapViewConstants {
 		return new BoundingBoxE6(minLat, minLon, maxLat, maxLon);
 	}
 
+	public boolean contains(final GeoPoint pGeoPoint){
+		return contains(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6());
+	}
+
+	public boolean contains(final int aLatitudeE6, final int aLongitudeE6){
+		return ((aLatitudeE6 < this.mLatNorthE6)
+				&& (aLatitudeE6 > this.mLatSouthE6))
+			|| ((aLongitudeE6 < this.mLonEastE6)
+				&& (aLongitudeE6 > this.mLonWestE6));
+	}
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+	// ===========================================================
+	// Parcelable
+	// ===========================================================
+
+	public static final Parcelable.Creator<BoundingBoxE6> CREATOR = new Parcelable.Creator<BoundingBoxE6>() {
+		public BoundingBoxE6 createFromParcel(final Parcel in) {
+			return readFromParcel(in);
+		}
+
+		public BoundingBoxE6[] newArray(final int size) {
+			return new BoundingBoxE6[size];
+		}
+	};
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(final Parcel out, final int arg1) {
+		out.writeInt(this.mLatNorthE6);
+		out.writeInt(this.mLonEastE6);
+		out.writeInt(this.mLatSouthE6);
+		out.writeInt(this.mLonWestE6);
+	}
+
+	private static BoundingBoxE6 readFromParcel(final Parcel in){
+		final int latNorthE6 = in.readInt();
+		final int lonEastE6 = in.readInt();
+		final int latSouthE6 = in.readInt();
+		final int lonWestE6 = in.readInt();
+		return new BoundingBoxE6(latNorthE6, lonEastE6, latSouthE6, lonWestE6);
+	}
 }
 

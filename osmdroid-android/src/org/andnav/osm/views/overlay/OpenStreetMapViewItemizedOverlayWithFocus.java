@@ -108,6 +108,10 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// Getter & Setter
 	// ===========================================================
 
+	public T getFocusedItem(){
+		return this.mItemList.get(this.mFocusedItemIndex);
+	}
+
 	public void setFocusedItem(final int pIndex){
 		this.mFocusedItemIndex = pIndex;
 	}

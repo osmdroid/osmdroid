@@ -1073,6 +1073,22 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			return toPixels(in, reuse, true);
 		}
 
+		public Rect toPixels(final BoundingBoxE6 pBoundingBoxE6) {
+			final Rect rect = new Rect();
+
+			final Point reuse = new Point();
+
+			toMapPixels(new GeoPoint(pBoundingBoxE6.getLatNorthE6(), pBoundingBoxE6.getLonWestE6()), reuse);
+			rect.left = reuse.x;
+			rect.top = reuse.y;
+
+			toMapPixels(new GeoPoint(pBoundingBoxE6.getLatSouthE6(), pBoundingBoxE6.getLonEastE6()), reuse);
+			rect.right = reuse.x;
+			rect.bottom = reuse.y;
+
+			return rect;
+		}
+
 		protected Path toPixels(final List<? extends GeoPoint> in, final Path reuse, final boolean doGudermann)
 				throws IllegalArgumentException {
 			if (in.size() < 2)
