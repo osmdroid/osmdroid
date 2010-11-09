@@ -5,6 +5,8 @@ import org.andnav.osm.services.IOpenStreetMapTileProviderService;
 import org.andnav.osm.tileprovider.IRegisterReceiver;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,7 +14,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ResolveInfo;
 import android.os.Handler;
-import android.util.Log;
 
 /**
  *
@@ -21,7 +22,7 @@ import android.util.Log;
  */
 public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConstants {
 
-	public static final String DEBUGTAG = "OpenStreetMapTileProviderFactory";
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderFactory.class);
 
 	/**
 	 * Get a tile provider.
@@ -38,7 +39,7 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 		final Intent intent = new Intent(IOpenStreetMapTileProviderService.class.getName());
 		final ResolveInfo ri = aContext.getPackageManager().resolveService(intent, 0);
 		if (ri == null) {
-			Log.i(DEBUGTAG, "Service not found - using direct tile provider");
+			logger.info("Service not found - using direct tile provider");
 			final Context applicationContext = aContext.getApplicationContext();
 			final IRegisterReceiver registerReceiver = new IRegisterReceiver() {
 				@Override
@@ -52,7 +53,7 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 			};
 			return new OpenStreetMapTileProviderDirect(aDownloadFinishedListener, aCloudmadeKey, registerReceiver);
 		} else {
-			Log.i(DEBUGTAG, "Using tile provider service");
+			logger.info("Using tile provider service");
 			return new OpenStreetMapTileProviderService(aContext, aDownloadFinishedListener);
 			// XXX Perhaps we should pass the Intent or the class name (action) into
 			//     this constructor since we do the same again in there.
@@ -63,6 +64,6 @@ public class OpenStreetMapTileProviderFactory implements OpenStreetMapViewConsta
 	/**
 	 * This is a utility class with only static members.
 	 */
-	protected OpenStreetMapTileProviderFactory() {
+	private OpenStreetMapTileProviderFactory() {
 	}
 }

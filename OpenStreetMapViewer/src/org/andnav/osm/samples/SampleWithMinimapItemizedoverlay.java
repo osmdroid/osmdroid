@@ -32,8 +32,8 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	public static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapItemizedoverlay.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapItemizedoverlay.class);
+
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
 
@@ -71,18 +71,18 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 	        items.add(new OpenStreetMapViewOverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200))); // San Francisco
 
 	        /* OnTapListener for the Markers, shows a simple Toast. */
-	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, items, 
+	        this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(this, items,
 	        		new OpenStreetMapViewItemizedOverlay.OnItemGestureListener<OpenStreetMapViewOverlayItem>(){
 						@Override
 						public boolean onItemSingleTapUp(int index, OpenStreetMapViewOverlayItem item) {
-							Toast.makeText(SampleWithMinimapItemizedoverlay.this, 
+							Toast.makeText(SampleWithMinimapItemizedoverlay.this,
 									"Item '" + item.mTitle + "' (index=" + index + ") got single tapped up", Toast.LENGTH_LONG).show();
 							return true; // We 'handled' this event.
 						}
-		
+
 						@Override
 						public boolean onItemLongPress(int index, OpenStreetMapViewOverlayItem item) {
-							Toast.makeText(SampleWithMinimapItemizedoverlay.this, 
+							Toast.makeText(SampleWithMinimapItemizedoverlay.this,
 									"Item '" + item.mTitle + "' (index=" + index + ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}

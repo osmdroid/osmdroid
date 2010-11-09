@@ -25,8 +25,8 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	public static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapZoomcontrols.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SampleWithMinimapZoomcontrols.class);
+
 	// ===========================================================
 	// Fields
 	// ===========================================================

@@ -28,8 +28,8 @@ public class SampleWithTilesOverlay extends Activity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	public static final Logger logger = LoggerFactory.getLogger(SampleWithTilesOverlay.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SampleWithTilesOverlay.class);
+
 	// ===========================================================
 	// Fields
 	// ===========================================================

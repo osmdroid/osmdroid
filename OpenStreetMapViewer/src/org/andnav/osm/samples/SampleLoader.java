@@ -18,8 +18,8 @@ public class SampleLoader extends ListActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	public static final Logger logger = LoggerFactory.getLogger(SampleLoader.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SampleLoader.class);
+
 	// ===========================================================
 	// Fields
 	// ===========================================================

@@ -13,15 +13,15 @@ import android.widget.TextView;
  * @author Nicolas Gramlich
  */
 public class SampleOSMContributor extends OpenStreetMapActivity {
-	
-	public static final Logger logger = LoggerFactory.getLogger(SampleOSMContributor.class);
-	
+
+	private static final Logger logger = LoggerFactory.getLogger(SampleOSMContributor.class);
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		/* You need to do exactly nothing, 
-		 * to contribute to the OSM-Project, 
-		 * except extending from OpenStreetMapActivity 
+		/* You need to do exactly nothing,
+		 * to contribute to the OSM-Project,
+		 * except extending from OpenStreetMapActivity
 		 * and passing true to its onCreate(...) .*/
 		super.onCreate(savedInstanceState, false);
 		final TextView tv = new TextView(this);

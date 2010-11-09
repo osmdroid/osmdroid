@@ -35,8 +35,8 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	public static final Logger logger = LoggerFactory.getLogger(SampleExtensive.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(SampleExtensive.class);
+
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
 	private static final int MENU_RENDERER_ID = MENU_ZOOMOUT_ID + 1;
@@ -77,7 +77,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
         	// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to half screen width, minus half an inch.
         	this.mScaleBarOverlay.setScaleBarOffset(getResources().getDisplayMetrics().widthPixels/2 - getResources().getDisplayMetrics().xdpi/2, 10);
         }
-        
+
         /* SingleLocation-Overlay */
         {
 	        /* Create a static Overlay showing a single location. (Gets updated in onLocationChanged(Location loc)! */

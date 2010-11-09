@@ -2,7 +2,6 @@ package org.andnav.osm.services;
 
 import java.io.InputStream;
 
-import org.andnav.osm.samples.SampleWithMinimapItemizedoverlay;
 import org.andnav.osm.services.constants.OpenStreetMapServiceConstants;
 import org.andnav.osm.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.andnav.osm.tileprovider.IRegisterReceiver;
@@ -30,7 +29,7 @@ import android.os.RemoteException;
  */
 public class OpenStreetMapTileProviderService extends Service implements OpenStreetMapServiceConstants, IOpenStreetMapTileProviderCallback {
 
-	public static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderService.class);
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderService.class);
 
 	private OpenStreetMapTileFilesystemProvider mFileSystemProvider;
 	private IOpenStreetMapTileProviderServiceCallback mCallback;
