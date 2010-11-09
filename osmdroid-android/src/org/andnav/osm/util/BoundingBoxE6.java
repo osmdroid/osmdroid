@@ -1,9 +1,6 @@
 // Created by plusminus on 19:06:38 - 25.09.2008
 package org.andnav.osm.util;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import static org.andnav.osm.util.MyMath.gudermann;
 import static org.andnav.osm.util.MyMath.gudermannInverse;
 
@@ -12,13 +9,16 @@ import java.util.ArrayList;
 
 import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
 public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapViewConstants {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -32,19 +32,19 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	protected final int mLatNorthE6;
 	protected final int mLatSouthE6;
 	protected final int mLonEastE6;
-	protected final int mLonWestE6;  
+	protected final int mLonWestE6;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public BoundingBoxE6(final int northE6, final int eastE6, final int southE6, final int westE6){
 		this.mLatNorthE6 = northE6;
 		this.mLonEastE6 = eastE6;
 		this.mLatSouthE6 = southE6;
 		this.mLonWestE6 = westE6;
 	}
-	
+
 	public BoundingBoxE6(final double north, final double east, final double south, final double west){
 		this.mLatNorthE6 = (int)(north * 1E6);
 		this.mLonEastE6 = (int)(east * 1E6);
@@ -55,30 +55,30 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	/**
 	 * @return GeoPoint center of this BoundingBox
 	 */
 	public GeoPoint getCenter() {
 		return new GeoPoint((this.mLatNorthE6 + this.mLatSouthE6) / 2, (this.mLonEastE6 + this.mLonWestE6) / 2);
 	}
- 	
+
 	public int getDiagonalLengthInMeters() {
 		return new GeoPoint(this.mLatNorthE6, this.mLonWestE6).distanceTo(new GeoPoint(this.mLatSouthE6, this.mLonEastE6));
 	}
-	
+
 	public int getLatNorthE6() {
 		return this.mLatNorthE6;
 	}
-	
+
 	public int getLatSouthE6() {
 		return this.mLatSouthE6;
 	}
-	
+
 	public int getLonEastE6() {
 		return this.mLonEastE6;
 	}
-	
+
 	public int getLonWestE6() {
 		return this.mLonWestE6;
 	}
@@ -86,12 +86,12 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	public int getLatitudeSpanE6() {
 		return Math.abs(this.mLatNorthE6 - this.mLatSouthE6);
 	}
-	
+
 	public int getLongitudeSpanE6() {
 		return Math.abs(this.mLonEastE6 - this.mLonWestE6);
 	}
 	/**
-	 * 
+	 *
 	 * @param aLatitude
 	 * @param aLongitude
 	 * @param reuse
@@ -99,7 +99,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	 * {0,0} would be the upper left corner.
 	 * {1,1} would be the lower right corner.
 	 * {1,0} would be the lower left corner.
-	 * {0,1} would be the upper right corner. 
+	 * {0,1} would be the upper right corner.
 	 */
 	public float[] getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(final int aLatitude, final int aLongitude, final float[] reuse){
 		float[] out = (reuse != null) ? reuse : new float[2];
@@ -107,56 +107,56 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 		out[MAPTILE_LONGITUDE_INDEX] = 1 - ((float)(this.mLonEastE6 - aLongitude) / getLongitudeSpanE6());
 		return out;
 	}
-	
+
 	public float[] getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(final int aLatitudeE6, final int aLongitudeE6, final float[] reuse){
 		float[] out = (reuse != null) ? reuse : new float[2];
 		out[MAPTILE_LATITUDE_INDEX] = (float)((gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(aLatitudeE6 / 1E6)) / (gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(this.mLatSouthE6 / 1E6)));
 		out[MAPTILE_LONGITUDE_INDEX] = 1 - ((float)(this.mLonEastE6 - aLongitudeE6) / getLongitudeSpanE6());
 		return out;
 	}
-	
-	public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX, final float relY) {		
-		
+
+	public GeoPoint getGeoPointOfRelativePositionWithLinearInterpolation(final float relX, final float relY) {
+
 		int lat = (int)(this.mLatNorthE6 - (this.getLatitudeSpanE6() * relY));
-							
+
 		int lon = (int)(this.mLonWestE6 + (this.getLongitudeSpanE6() * relX));
-		
+
 		/* Bring into bounds. */
 		while(lat > 90500000)
 			lat -= 90500000;
 		while(lat < -90500000)
 			lat += 90500000;
-		
+
 		/* Bring into bounds. */
 		while(lon > 180000000)
 			lon -= 180000000;
 		while(lon < -180000000)
 			lon += 180000000;
-		
+
 		return new GeoPoint(lat, lon);
 	}
-	
-	public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX, final float relY) {		
-		
+
+	public GeoPoint getGeoPointOfRelativePositionWithExactGudermannInterpolation(final float relX, final float relY) {
+
 		final double gudNorth = gudermannInverse(this.mLatNorthE6 / 1E6);
 		final double gudSouth = gudermannInverse(this.mLatSouthE6 / 1E6);
 		final double latD = gudermann((gudSouth + (1-relY) * (gudNorth - gudSouth)));
 		int lat = (int)(latD * 1E6);
-							
+
 		int lon = (int)((this.mLonWestE6 + (this.getLongitudeSpanE6() * relX)));
-		
+
 		/* Bring into bounds. */
 		while(lat > 90500000)
 			lat -= 90500000;
 		while(lat < -90500000)
 			lat += 90500000;
-		
+
 		/* Bring into bounds. */
 		while(lon > 180000000)
 			lon -= 180000000;
 		while(lon < -180000000)
 			lon += 180000000;
-		
+
 		return new GeoPoint(lat, lon);
 	}
 
@@ -209,7 +209,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-	
+
 	@Override
 	public String toString(){
 		return new StringBuffer()
@@ -237,13 +237,13 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 		for (GeoPoint gp : partialPolyLine) {
 			final int latitudeE6 = gp.getLatitudeE6();
 			final int longitudeE6 = gp.getLongitudeE6();
-			
+
 			minLat = Math.min(minLat, latitudeE6);
 			minLon = Math.min(minLon, longitudeE6);
 			maxLat = Math.max(maxLat, latitudeE6);
 			maxLon = Math.max(maxLon, longitudeE6);
 		}
-		
+
 		return new BoundingBoxE6(minLat, minLon, maxLat, maxLon);
 	}
 
@@ -267,10 +267,12 @@ public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapVie
 	// ===========================================================
 
 	public static final Parcelable.Creator<BoundingBoxE6> CREATOR = new Parcelable.Creator<BoundingBoxE6>() {
+		@Override
 		public BoundingBoxE6 createFromParcel(final Parcel in) {
 			return readFromParcel(in);
 		}
 
+		@Override
 		public BoundingBoxE6[] newArray(final int size) {
 			return new BoundingBoxE6[size];
 		}
