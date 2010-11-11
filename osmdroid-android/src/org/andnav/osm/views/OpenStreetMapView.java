@@ -17,6 +17,7 @@ import org.andnav.osm.tileprovider.OpenStreetMapTile;
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
 import org.andnav.osm.util.BoundingBoxE6;
 import org.andnav.osm.util.GeoPoint;
+import org.andnav.osm.util.constants.GeoConstants;
 import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.Snappable;
@@ -896,7 +897,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
-	public class OpenStreetMapViewProjection {
+	public class OpenStreetMapViewProjection implements GeoConstants {
 
 		private final int viewWidth_2 = getWidth() / 2;
 		private final int viewHeight_2 = getHeight() / 2;
@@ -953,8 +954,6 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			out.offset(getScrollX(), getScrollY());
 			return out;
 		}
-
-		private static final int EQUATORCIRCUMFENCE = 40075004;
 
 		public float metersToEquatorPixels(final float aMeters) {
 			return aMeters / EQUATORCIRCUMFENCE * getWorldSizePx();
