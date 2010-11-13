@@ -36,6 +36,7 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	// ===========================================================
 
 	protected final ResourceProxy mResourceProxy;
+	private boolean mVisible = true;
 
 	// ===========================================================
 	// Constructors
@@ -53,6 +54,14 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	// Getter & Setter
 	// ===========================================================
 
+	public void setVisible(final boolean pVisible){
+		this.mVisible = pVisible;
+	}
+
+	public boolean isVisible(){
+		return this.mVisible;
+	}
+
 	// ===========================================================
 	// Methods for SuperClass/Interfaces
 	// ===========================================================
@@ -63,8 +72,10 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	 * needs to be <b>topmost</b>.
 	 */
 	public void onManagedDraw(final Canvas c, final OpenStreetMapView osmv) {
-		onDraw(c, osmv);
-		onDrawFinished(c, osmv);
+		if (this.mVisible) {
+			onDraw(c, osmv);
+			onDrawFinished(c, osmv);
+		}
 	}
 
 	protected abstract void onDraw(final Canvas c, final OpenStreetMapView osmv);

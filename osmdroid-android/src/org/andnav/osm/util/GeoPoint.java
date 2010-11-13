@@ -4,6 +4,8 @@ package org.andnav.osm.util;
 import org.andnav.osm.util.constants.GeoConstants;
 import org.andnav.osm.views.util.constants.MathConstants;
 
+import java.io.Serializable;
+
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,10 +16,13 @@ import android.os.Parcelable;
  * @author Theodore Hong
  *
  */
-public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Cloneable {
+public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serializable, Cloneable {
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	static final long serialVersionUID = 1L;
 
 	// ===========================================================
 	// Fields

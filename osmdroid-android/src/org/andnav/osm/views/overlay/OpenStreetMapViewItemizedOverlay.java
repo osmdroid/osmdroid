@@ -45,6 +45,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	protected GestureDetector mGestureDetector;
 	protected final List<T> mItemList;
 	protected final OpenStreetMapViewOverlayItem mDefaultItem;
+	private int mDrawnItemsLimit = Integer.MAX_VALUE;
 
 	// ===========================================================
 	// Constructors
@@ -100,6 +101,14 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	// Getter & Setter
 	// ===========================================================
 
+	public int getDrawnItemsLimit() {
+		return this.mDrawnItemsLimit;
+	}
+
+	public void setDrawnItemsLimit(final int aLimit) {
+		this.mDrawnItemsLimit = aLimit;
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
@@ -122,12 +131,17 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	public void onDraw(final Canvas canvas, final OpenStreetMapView mapView) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
+
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for(int i = this.mItemList.size() - 1; i >= 0; i--){
 			T item = this.mItemList.get(i);
 			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
 
 			onDrawItem(canvas, i, curScreenCoords);
+			if(i >= this.mDrawnItemsLimit) {
+				break;
+			}
+
 		}
         // indicate the place touched with a bullseye
 		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);

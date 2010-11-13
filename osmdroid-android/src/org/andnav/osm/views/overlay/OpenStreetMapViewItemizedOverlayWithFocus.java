@@ -44,10 +44,10 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// ===========================================================
 
 	protected final Point mMarkerFocusedHotSpot;
-	protected final Drawable mMarkerFocusedBase;
 	protected final int mMarkerFocusedBackgroundColor;
 	protected final Paint mMarkerBackgroundPaint, mDescriptionPaint, mTitlePaint;
 
+	protected Drawable mMarkerFocusedBase;
 	protected int mFocusedItemIndex;
 	protected boolean mFocusItemsOnTap;
 	private Point mFocusedScreenCoords = new Point();
