@@ -55,7 +55,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final Context ctx,
 			final List<T> aList,
 			final OnItemGestureListener<T> aOnItemGestureListener) {
-        this(ctx, aList, aOnItemGestureListener, new DefaultResourceProxyImpl(ctx));
+		this(ctx, aList, aOnItemGestureListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
@@ -63,7 +63,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			final List<T> aList,
 			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
-        this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
+		this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
 	}
 
 	public OpenStreetMapViewItemizedOverlay(
@@ -91,7 +91,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 
 		this.mDefaultItem = OpenStreetMapViewOverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace, pResourceProxy);
 
-        this.mOnItemGestureListener = aOnItemGestureListener;
+		this.mOnItemGestureListener = aOnItemGestureListener;
 
 		// Add one sample item.
 		this.mItemList = aList;
@@ -131,19 +131,19 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	public void onDraw(final Canvas canvas, final OpenStreetMapView mapView) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
+		int limit = this.mItemList.size() - 1;
+		if (limit > this.mDrawnItemsLimit) {
+			limit = this.mDrawnItemsLimit;
+		}
 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-		for(int i = this.mItemList.size() - 1; i >= 0; i--){
+		for(int i = limit; i >= 0; i--){
 			T item = this.mItemList.get(i);
 			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
 
 			onDrawItem(canvas, i, curScreenCoords);
-			if(i >= this.mDrawnItemsLimit) {
-				break;
-			}
-
 		}
-        // indicate the place touched with a bullseye
+		// indicate the place touched with a bullseye
 		if (DEBUG_GRAPHICS) if (touchPoint != null) canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
 	}
 
@@ -165,8 +165,8 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 				return onSingleTapUpHelper(index, that.mItemList.get(index));
 			}
 		}))
-            ? true
-		    : super.onSingleTapUp(event, mapView);
+			? true
+			: super.onSingleTapUp(event, mapView);
 	}
 	protected boolean onSingleTapUpHelper(final int index, final T item) {
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
@@ -183,7 +183,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 			}
 		}))
 			? true
-		    : super.onLongPress(event, mapView);
+			: super.onLongPress(event, mapView);
 	}
 	protected boolean onLongPressHelper(final int index, final T item) {
 		return this.mOnItemGestureListener.onItemLongPress(index, item);
@@ -209,11 +209,11 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		final T item = this.mItemList.get(index);
 
 		final Drawable marker = (item.getMarker(0) == null)
-                ? this.mDefaultItem.getMarker(0)
-		        : item.getMarker(0);
+				? this.mDefaultItem.getMarker(0)
+				: item.getMarker(0);
 
-        final Rect rect = new Rect();
-        getItemBoundingRetangle(item, rect, curScreenCoords);
+		final Rect rect = new Rect();
+		getItemBoundingRetangle(item, rect, curScreenCoords);
 		// draw it
 		marker.setBounds(rect);
 		marker.draw(canvas);
@@ -267,11 +267,11 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	 */
 	private Rect getItemBoundingRetangle(final T item, final Rect rect, final Point ctr) {
 		final Drawable marker = (item.getMarker(0) == null)
-		              ? this.mDefaultItem.getMarker(0)
-		    		  : item.getMarker(0);
+						? this.mDefaultItem.getMarker(0)
+						: item.getMarker(0);
 		final Point markerHotspot = (item.getMarkerHotspot(0) == null)
-		              ? this.mDefaultItem.getMarkerHotspot(0)
-		              : item.getMarkerHotspot(0);
+						? this.mDefaultItem.getMarkerHotspot(0)
+						: item.getMarkerHotspot(0);
 
 		// calculate bounding rectangle
 		final int markerWidth = marker.getIntrinsicWidth();
@@ -282,7 +282,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 		final int bottom = top + markerHeight;
 
 		rect.set(left, top, right, bottom);
-	    return rect;
+		return rect;
 	}
 
 	// ===========================================================
