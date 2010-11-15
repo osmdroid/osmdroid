@@ -102,6 +102,7 @@ extends OpenStreetMapViewItemizedOverlay<T>
 		this.mTitlePaint = new Paint();
 		this.mTitlePaint.setFakeBoldText(true);
 		this.mTitlePaint.setAntiAlias(true);
+		this.unSetFocusedItem();
 	}
 
 	// ===========================================================
@@ -109,6 +110,7 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// ===========================================================
 
 	public T getFocusedItem(){
+		if (this.mFocusedItemIndex == NOT_SET) return null;
 		return this.mItemList.get(this.mFocusedItemIndex);
 	}
 

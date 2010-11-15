@@ -1,5 +1,7 @@
 package org.andnav.osm.views.util;
 
+import java.util.ArrayList;
+
 import org.andnav.osm.ResourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,8 +95,12 @@ public class OpenStreetMapRendererFactory {
 		return renderer;
 	}
 
+	public static void addRenderer(IOpenStreetMapRendererInfo mRenderer) {
+		mRenderers.add(mRenderer);
+	}
+
 	public static IOpenStreetMapRendererInfo[] getRenderers() {
-		return mRenderers;
+		return mRenderers.toArray(new IOpenStreetMapRendererInfo[0]);
 	}
 
 	public static final IOpenStreetMapRendererInfo OSMARENDER =
@@ -156,18 +162,18 @@ public class OpenStreetMapRendererFactory {
 		new XYRenderer("RoadsNL", ResourceProxy.string.roads_nl, 0, 18, 8, ".png",
 				"http://overlay.openstreetmap.nl/roads/");
 
-	// FIXME the whole point of this implementation is that the list of renderers should be extensible,
-	//       so that means making it possible to have a bigger or smaller list of renderers
-	//   - there's a number of ways of doing that
-	private static IOpenStreetMapRendererInfo[] mRenderers = new IOpenStreetMapRendererInfo[] {
-		OSMARENDER,
-		MAPNIK,
-		CYCLEMAP,
-		PUBLIC_TRANSPORT,
-		BASE,
-		TOPO,
-		HILLS,
-		CLOUDMADESTANDARDTILES,
-		CLOUDMADESMALLTILES
-	};
+	private static ArrayList<IOpenStreetMapRendererInfo> mRenderers;
+
+	static {
+		mRenderers = new ArrayList<IOpenStreetMapRendererInfo>();
+		mRenderers.add(OSMARENDER);
+		mRenderers.add(MAPNIK);
+		mRenderers.add(CYCLEMAP);
+		mRenderers.add(PUBLIC_TRANSPORT);
+		mRenderers.add(BASE);
+		mRenderers.add(TOPO);
+		mRenderers.add(HILLS);
+		mRenderers.add(CLOUDMADESTANDARDTILES);
+		mRenderers.add(CLOUDMADESMALLTILES);
+	}
 }

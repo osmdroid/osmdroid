@@ -1,15 +1,31 @@
 package org.andnav.osm.tileprovider;
 
+import org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
+import org.andnav.osm.views.util.OpenStreetMapTileProvider;
 
 /**
  * A map tile is distributed using the observer pattern.
- * The tile is delivered by a tile provider 
+ * The tile is delivered by a tile provider
  * (i.e. a descendant of {@link OpenStreetMapAsyncTileProvider}  or {@link OpenStreetMapTileProvider}
  * to a consumer of tiles (e.g.  descendant of {@link OpenStreetMapTilesOverlay}).
  * Tiles are typically images (e.g. png or jpeg).
  */
 public class OpenStreetMapTile {
+
+	// ===========================================================
+	// Constants
+	// ===========================================================
+
+	private static final int POSITION_IN_PARENT_LEFT = 1;
+	private static final int POSITION_IN_PARENT_RIGHT = 2;
+	private static final int POSITION_IN_PARENT_BOTTOM = 4;
+	private static final int POSITION_IN_PARENT_TOP = 8;
+
+	public static final int POSITION_IN_PARENT_TOPLEFT = POSITION_IN_PARENT_LEFT | POSITION_IN_PARENT_TOP;
+	public static final int POSITION_IN_PARENT_TOPRIGHT = POSITION_IN_PARENT_RIGHT | POSITION_IN_PARENT_TOP;
+	public static final int POSITION_IN_PARENT_BOTTOMRIGHT = POSITION_IN_PARENT_RIGHT | POSITION_IN_PARENT_BOTTOM;
+	public static final int POSITION_IN_PARENT_BOTTOMLEFT = POSITION_IN_PARENT_LEFT | POSITION_IN_PARENT_BOTTOM;
 
 	public static final int MAPTILE_SUCCESS_ID = 0;
 	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
@@ -42,6 +58,19 @@ public class OpenStreetMapTile {
 
 	public int getY() {
 		return y;
+	}
+
+	public OpenStreetMapTile getParentTile(){
+	    return new OpenStreetMapTile(this.renderer, this.zoomLevel - 1, this.x / 2, this.y / 2);
+	}
+
+	public int getPositionInParent(final OpenStreetMapTile pParent){
+		final int childShouldUpperLeftX = pParent.x * 2;
+		final int childShouldUpperLeftY = pParent.y * 2;
+
+		int out = (childShouldUpperLeftX == this.x) ? POSITION_IN_PARENT_LEFT : POSITION_IN_PARENT_RIGHT;
+		out += (childShouldUpperLeftY == this.y) ? POSITION_IN_PARENT_TOP : POSITION_IN_PARENT_BOTTOM;
+		return out;
 	}
 
 	@Override
