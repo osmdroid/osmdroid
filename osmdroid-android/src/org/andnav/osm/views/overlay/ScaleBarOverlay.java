@@ -42,6 +42,7 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.OpenStreetMapView.OpenStreetMapViewProjection;
 import org.andnav.osm.views.overlay.OpenStreetMapViewOverlay;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -75,17 +76,17 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		
 	// Internal
 	
-	private Context context;
+	private Activity activity;
 	
 	protected final Picture scaleBarPicture = new Picture();
 	
 	private int lastZoomLevel = -1;
 	private float lastLatitude = 0;
 
-	float xdpi;
-	float ydpi;
-	int screenWidth;
-	int screenHeight;
+	public float xdpi;
+	public float ydpi;
+	public int screenWidth;
+	public int screenHeight;
 	
 	private ResourceProxy resourceProxy;
 	private Matrix oldMatrix;
@@ -97,14 +98,14 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 	// Constructors
 	// ===========================================================
 
-	public ScaleBarOverlay(final Context ctx) {
-		this(ctx, new DefaultResourceProxyImpl(ctx));
+	public ScaleBarOverlay(final Activity activity) {
+		this(activity, new DefaultResourceProxyImpl(activity));
 	}
 
-	public ScaleBarOverlay(final Context ctx, final ResourceProxy pResourceProxy) {
+	public ScaleBarOverlay(final Activity activity, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.resourceProxy = pResourceProxy;
-		this.context = ctx;
+		this.activity = activity;
 		
 		this.barPaint = new Paint();
 		this.barPaint.setColor(Color.BLACK);
@@ -120,11 +121,30 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		this.textPaint.setTextSize(textSize);
 
 
-		this.xdpi = this.context.getResources().getDisplayMetrics().xdpi;
-		this.ydpi = this.context.getResources().getDisplayMetrics().ydpi;
+		this.xdpi = this.activity.getResources().getDisplayMetrics().xdpi;
+		this.ydpi = this.activity.getResources().getDisplayMetrics().ydpi;
 		
-		this.screenWidth = this.context.getResources().getDisplayMetrics().widthPixels;
-		this.screenHeight = this.context.getResources().getDisplayMetrics().heightPixels;
+		this.screenWidth = this.activity.getResources().getDisplayMetrics().widthPixels;
+		this.screenHeight = this.activity.getResources().getDisplayMetrics().heightPixels;
+		
+		// DPI corrections for specific models
+		if (android.os.Build.MANUFACTURER.equals("motorola") && android.os.Build.MODEL.equals("DROIDX")) {
+
+			// If the screen is rotated, flip the x and y dpi values
+			if (activity.getWindowManager().getDefaultDisplay().getOrientation() > 0) {
+				this.xdpi = (float)(this.screenWidth/3.75);
+				this.ydpi = (float)(this.screenHeight/2.1);				
+			} else {
+				this.xdpi = (float)(this.screenWidth/2.1);
+				this.ydpi = (float)(this.screenHeight/3.75);
+			}
+			
+		} else if (android.os.Build.MANUFACTURER.equals("motorola") && android.os.Build.MODEL.equals("Droid")) {
+			// http://www.mail-archive.com/android-developers@googlegroups.com/msg109497.html
+			this.xdpi = 264;
+			this.ydpi = 264;
+		}
+				
 	}
 
 	// ===========================================================
@@ -187,6 +207,11 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView mapView) {
+
+		// If map view is animating, don't update, scale will be wrong.
+		if (mapView.isAnimating())
+			return;
+		
 		final int zoomLevel = mapView.getZoomLevel();
 		
 		if (this.enabled && zoomLevel >= minZoom) {

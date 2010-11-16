@@ -610,6 +610,16 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mMapOverlay.setUseDataConnection(aMode);
 	}
 
+	/**
+	 * Check mAnimationListener.animating to determine if view is animating. Useful for
+	 * overlays to avoid recalculating during an animation sequence.
+	 * 
+	 * @return boolean indicating whether view is animating.
+	 */
+	public boolean isAnimating() {
+		return mAnimationListener.animating;
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
