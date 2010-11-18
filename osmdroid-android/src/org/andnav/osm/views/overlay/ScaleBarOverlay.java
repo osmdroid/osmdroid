@@ -130,14 +130,12 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		// DPI corrections for specific models
 		String manufacturer = null;
 		try {
-			Field field = android.os.Build.class.getField("MANUFACTURER");
+			final Field field = android.os.Build.class.getField("MANUFACTURER");
 			manufacturer = (String) field.get(null);
 		}
-		catch(Exception ex) {
-			// no can do
-		}
+		catch(final Exception ignore) { }
 
-		if ("motorola".equals(manufacturer) && android.os.Build.MODEL.equals("DROIDX")) {
+		if ("motorola".equals(manufacturer) && "DROIDX".equals(android.os.Build.MODEL)) {
 
 			// If the screen is rotated, flip the x and y dpi values
 			if (activity.getWindowManager().getDefaultDisplay().getOrientation() > 0) {
@@ -148,7 +146,7 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 				this.ydpi = (float)(this.screenHeight/3.75);
 			}
 
-		} else if ("motorola".equals(manufacturer) && android.os.Build.MODEL.equals("Droid")) {
+		} else if ("motorola".equals(manufacturer) && "Droid".equals(android.os.Build.MODEL)) {
 			// http://www.mail-archive.com/android-developers@googlegroups.com/msg109497.html
 			this.xdpi = 264;
 			this.ydpi = 264;
