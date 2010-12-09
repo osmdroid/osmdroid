@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -58,6 +61,9 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	private final IRegisterReceiver aRegisterReceiver;
 	private final MyBroadcastReceiver mBroadcastReceiver;
 
+	/** amount of disk space used by tile cache **/
+	private long mUsedCacheSpace;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -90,6 +96,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		mediaFilter.addDataScheme("file");
 		aRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
+
+		mUsedCacheSpace = calculateDirectorySize(TILE_PATH_BASE);
+		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
+			cutCurrentCache();
+		}
 	}
 
 	public void detach() {
@@ -177,10 +188,85 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	}
 
 	void saveFile(final OpenStreetMapTile tile, final File outputFile, final byte[] someData) throws IOException{
+
 		final OutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile, false), StreamUtils.IO_BUFFER_SIZE);
 		bos.write(someData);
 		bos.flush();
 		bos.close();
+
+		mUsedCacheSpace += someData.length;
+		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
+			cutCurrentCache();
+		}
+	}
+
+	private List<File> getDirectoryFileList(final File aDirectory) {
+		final List<File> files = new ArrayList<File>();
+
+		final File[] z = aDirectory.listFiles();
+		if (z != null) {
+			for (final File file : z) {
+				if (file.isFile()) {
+					files.add(file);
+				}
+				if (file.isDirectory()) {
+					files.addAll(getDirectoryFileList(file));
+				}
+			}
+		}
+
+		return files;
+	}
+
+	private long calculateDirectorySize(final File aDirectory) {
+		long size = 0;
+
+		final File[] z = aDirectory.listFiles();
+		if (z != null) {
+			for (final File file : z) {
+				if (file.isFile()) {
+					size += file.length();
+				}
+				if (file.isDirectory()) {
+					size += calculateDirectorySize(file);
+				}
+			}
+		}
+
+		return size;
+	}
+
+	private void cutCurrentCache() {
+
+		synchronized (TILE_PATH_BASE) {
+
+			if (mUsedCacheSpace > TILE_TRIM_CACHE_SIZE_BYTES) {
+
+				logger.info("Trimming tile cache from " + mUsedCacheSpace + " to " + TILE_TRIM_CACHE_SIZE_BYTES);
+
+				final List<File> z = getDirectoryFileList(TILE_PATH_BASE);
+
+				// order list by files day created from old to new
+				final File[] files = z.toArray(new File[0]);
+				Arrays.sort(files, new Comparator<File>(){
+						@Override
+						public int compare(final File f1, final File f2)
+						{
+							return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+						} });
+
+				for (final File file : files) {
+					if (mUsedCacheSpace <= TILE_TRIM_CACHE_SIZE_BYTES){
+						break;
+					}
+
+					final long length = file.length();
+					if(file.delete()) {
+						mUsedCacheSpace -= length;
+					}
+				}
+			}
+		}
 	}
 
 	private void findZipFiles() {

@@ -41,6 +41,12 @@ public interface OpenStreetMapTileProviderConstants {
 	/** 30 days */
 	public static final long TILE_EXPIRY_TIME_MILLISECONDS = 1000L * 60 * 60 * 24 * 30;
 
+	/** 600 Mb */
+	public static final long TILE_MAX_CACHE_SIZE_BYTES = 600L * 1024 * 1024;
+
+	/** 500 Mb */
+	public static final long TILE_TRIM_CACHE_SIZE_BYTES = 500L * 1024 * 1024;
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
