@@ -103,13 +103,17 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		}
 	}
 
-	public void detach() {
-		aRegisterReceiver.unregisterReceiver(mBroadcastReceiver);
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	/**
+	 * Get the amount of disk space used by the tile cache.
+	 * @return size in bytes
+	 */
+	public long getUsedCacheSpace() {
+		return mUsedCacheSpace;
+	}
 
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
@@ -136,14 +140,8 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	// Methods
 	// ===========================================================
 
-	private File buildFullPath(final OpenStreetMapTile tile) {
-		return new File(TILE_PATH_BASE, buildPath(tile) + TILE_PATH_EXTENSION);
-	}
-
-	private String buildPath(final OpenStreetMapTile tile) {
-		final IOpenStreetMapRendererInfo renderer = tile.getRenderer();
-		return renderer.pathBase() + "/" + tile.getZoomLevel() + "/"
-					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding();
+	public void detach() {
+		aRegisterReceiver.unregisterReceiver(mBroadcastReceiver);
 	}
 
 	/**
@@ -163,30 +161,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		return file;
 	}
 
-	private boolean createFolderAndCheckIfExists(final File pFile) {
-		if (pFile.mkdirs()) {
-			return true;
-		}
-		if (DEBUGMODE)
-			logger.debug("Failed to create " + pFile + " - wait and check again");
-
-		// if create failed, wait a bit in case another thread created it
-		try {
-			Thread.sleep(500);
-		} catch (final InterruptedException ignore) {
-		}
-		// and then check again
-		if (pFile.exists()) {
-			if (DEBUGMODE)
-				logger.debug("Seems like another thread created " + pFile);
-			return true;
-		} else {
-			if (DEBUGMODE)
-				logger.debug("File still doesn't exist: " + pFile);
-			return false;
-		}
-	}
-
 	void saveFile(final OpenStreetMapTile tile, final File outputFile, final byte[] someData) throws IOException{
 
 		final OutputStream bos = new BufferedOutputStream(new FileOutputStream(outputFile, false), StreamUtils.IO_BUFFER_SIZE);
@@ -197,6 +171,62 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		mUsedCacheSpace += someData.length;
 		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 			cutCurrentCache();
+		}
+	}
+
+	private File buildFullPath(final OpenStreetMapTile tile) {
+		return new File(TILE_PATH_BASE, buildPath(tile) + TILE_PATH_EXTENSION);
+	}
+
+	private String buildPath(final OpenStreetMapTile tile) {
+		final IOpenStreetMapRendererInfo renderer = tile.getRenderer();
+		return renderer.pathBase() + "/" + tile.getZoomLevel() + "/"
+					+ tile.getX() + "/" + tile.getY() + renderer.imageFilenameEnding();
+	}
+
+	private boolean createFolderAndCheckIfExists(final File aFile) {
+		if (aFile.mkdirs()) {
+			return true;
+		}
+		if (DEBUGMODE)
+			logger.debug("Failed to create " + aFile + " - wait and check again");
+
+		// if create failed, wait a bit in case another thread created it
+		try {
+			Thread.sleep(500);
+		} catch (final InterruptedException ignore) {
+		}
+		// and then check again
+		if (aFile.exists()) {
+			if (DEBUGMODE)
+				logger.debug("Seems like another thread created " + aFile);
+			return true;
+		} else {
+			if (DEBUGMODE)
+				logger.debug("File still doesn't exist: " + aFile);
+			return false;
+		}
+	}
+
+	private void findZipFiles() {
+
+		mZipFiles.clear();
+
+		final File[] z = OSMDROID_PATH.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(final File aFile) {
+				return aFile.isFile() && aFile.getName().endsWith(".zip");
+			}
+		});
+
+		if (z != null) {
+			for (final File file : z) {
+				try {
+					mZipFiles.add(new ZipFile(file));
+				} catch (final Throwable e) {
+					logger.warn("Error opening zip file: " + file, e);
+				}
+			}
 		}
 	}
 
@@ -236,6 +266,10 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		return size;
 	}
 
+	/**
+	 * If the cache size is greater than the max then trim it down to the trim level.
+	 * This method is synchronized so that only one thread can run it at a time.
+	 */
 	private void cutCurrentCache() {
 
 		synchronized (TILE_PATH_BASE) {
@@ -264,28 +298,6 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 					if(file.delete()) {
 						mUsedCacheSpace -= length;
 					}
-				}
-			}
-		}
-	}
-
-	private void findZipFiles() {
-
-		mZipFiles.clear();
-
-		final File[] z = OSMDROID_PATH.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(final File aFile) {
-				return aFile.isFile() && aFile.getName().endsWith(".zip");
-			}
-		});
-
-		if (z != null) {
-			for (final File file : z) {
-				try {
-					mZipFiles.add(new ZipFile(file));
-				} catch (final Throwable e) {
-					logger.warn("Error opening zip file: " + file, e);
 				}
 			}
 		}
