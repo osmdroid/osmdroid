@@ -323,12 +323,12 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 
 	private String scaleBarLengthText(int meters, boolean imperial, boolean nautical) {
 		if (this.imperial) {
-			if (meters >= METERS_PER_STATUTE_MILE) {
+			if (meters >= METERS_PER_STATUTE_MILE * 5) {
 				return 	resourceProxy.getString(
 						ResourceProxy.string.format_distance_miles,
 						(int)(meters / METERS_PER_STATUTE_MILE));
 
-			} else if (meters >= METERS_PER_STATUTE_MILE/10) {
+			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
 				return resourceProxy.getString(
 						ResourceProxy.string.format_distance_miles,
 						((int)(meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);
@@ -338,11 +338,11 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 						(int)(meters * FEET_PER_METER));
 			}
 		} else if (this.nautical) {
-			if (meters >= METERS_PER_NAUTICAL_MILE) {
+			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
 				return resourceProxy.getString(
 						ResourceProxy.string.format_distance_nautical_miles,
 						((int)(meters / METERS_PER_NAUTICAL_MILE)));
-			} else if (meters >= METERS_PER_NAUTICAL_MILE / 10.0) {
+			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
 				return resourceProxy.getString(
 						ResourceProxy.string.format_distance_nautical_miles,
 						(((int)(meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));
@@ -352,11 +352,11 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 						((int)(meters * FEET_PER_METER)));
 			}
 		} else {
-			if (meters >= 1000) {
+			if (meters >= 1000 * 5) {
 				return resourceProxy.getString(
 						ResourceProxy.string.format_distance_kilometers,
 						(int)(meters/1000));
-			} else if (meters > 100) {
+			} else if (meters >= 1000 / 5) {
 				return resourceProxy.getString(
 						ResourceProxy.string.format_distance_kilometers,
 						(int)(meters / 100.0) / 10.0);
