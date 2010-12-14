@@ -62,7 +62,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	private final MyBroadcastReceiver mBroadcastReceiver;
 
 	/** amount of disk space used by tile cache **/
-	private long mUsedCacheSpace;
+	private static long mUsedCacheSpace;
 
 	// ===========================================================
 	// Constructors
@@ -111,7 +111,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 	 * Get the amount of disk space used by the tile cache.
 	 * @return size in bytes
 	 */
-	public long getUsedCacheSpace() {
+	public static long getUsedCacheSpace() {
 		return mUsedCacheSpace;
 	}
 
@@ -168,7 +168,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapAsyncTileP
 		bos.flush();
 		bos.close();
 
-		mUsedCacheSpace += someData.length;
+		mUsedCacheSpace += someData.length; // XXX should this be synchronized? or is it a single operation?
 		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 			cutCurrentCache();
 		}
