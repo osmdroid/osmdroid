@@ -18,8 +18,8 @@
     </path>
     <path id="osmdroid-android.classpath">
         <pathelement location="bin"/>
-        <pathelement location="lib/apache-mime4j-0.4.jar"/>
-        <pathelement location="lib/httpmime-4.0-beta1.jar"/>
+        <pathelement location="lib/apache-mime4j-0.6.jar"/>
+        <pathelement location="lib/httpmime-4.0.1.jar"/>
         <pathelement location="lib/slf4j-android-1.5.8.jar"/>
         <path refid="JUnit 4.libraryclasspath"/>
         <pathelement location="${ANDROID_SDK_PLATFORM}/android.jar"/>
