@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.UnknownHostException;
 
 import org.andnav.osm.tileprovider.util.CloudmadeUtil;
+import org.andnav.osm.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

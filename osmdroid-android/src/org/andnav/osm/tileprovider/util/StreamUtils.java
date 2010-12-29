@@ -1,5 +1,5 @@
 // Created by plusminus on 19:14:08 - 20.10.2008
-package org.andnav.osm.tileprovider;
+package org.andnav.osm.tileprovider.util;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StreamUtils {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(StreamUtils.class);
-	
+
 	public static final int IO_BUFFER_SIZE = 8 * 1024;
 
 	// ===========================================================
@@ -44,7 +44,7 @@ public class StreamUtils {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * Copy the content of the input stream into the output stream, using a temporary
 	 * byte array buffer whose size is defined by {@link #IO_BUFFER_SIZE}.
@@ -75,7 +75,7 @@ public class StreamUtils {
 				logger.error("IO", "Could not close stream", e);
 			}
 		}
-	} 
+	}
 
 	// ===========================================================
 	// Inner and Anonymous Classes
