@@ -73,7 +73,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 			if (DEBUGMODE)
 				logger.debug("Response from Cloudmade auth: " + response.getStatusLine());
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()), 8000);
+				final BufferedReader br = new BufferedReader(new InputStreamReader(response.getEntity().getContent()), StreamUtils.IO_BUFFER_SIZE);
 				final String line = br.readLine();
 				if (DEBUGMODE)
 					logger.debug("First line from Cloudmade auth: " + line);
