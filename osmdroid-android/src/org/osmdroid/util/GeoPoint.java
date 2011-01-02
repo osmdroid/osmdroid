@@ -1,8 +1,8 @@
 // Created by plusminus on 21:28:12 - 25.09.2008
 package org.osmdroid.util;
 
-import org.andnav.osm.util.constants.GeoConstants;
-import org.andnav.osm.views.util.constants.MathConstants;
+import org.osmdroid.util.constants.GeoConstants;
+import org.osmdroid.views.util.constants.MathConstants;
 
 import java.io.Serializable;
 

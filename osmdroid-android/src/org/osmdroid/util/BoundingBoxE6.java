@@ -1,13 +1,13 @@
 // Created by plusminus on 19:06:38 - 25.09.2008
 package org.osmdroid.util;
 
-import static org.andnav.osm.util.MyMath.gudermann;
-import static org.andnav.osm.util.MyMath.gudermannInverse;
+import static org.osmdroid.util.MyMath.gudermann;
+import static org.osmdroid.util.MyMath.gudermannInverse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 
-import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
+import org.osmdroid.contributor.util.constants.OpenStreetMapContributorConstants;
 
 /**
  * Class capable of formatting a List of Points to the GPX 1.1 format.
@@ -14,11 +14,11 @@ import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstan
  *
  */
 public class RecordedRouteGPXFormatter implements OpenStreetMapContributorConstants {
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final String XML_VERSION = "<?xml version=\"1.0\"?>";
 	private static final String GPX_VERSION = "1.1";
 	private static final String GPX_TAG = "<gpx version=\"" + GPX_VERSION + "\" creator=\"%s\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://www.topografix.com/GPX/1/1\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd\">";
@@ -34,8 +34,8 @@ public class RecordedRouteGPXFormatter implements OpenStreetMapContributorConsta
 	public static final String GPX_TAG_TRACK_SEGMENT_POINT_TIME = "<time>%s</time>";
 	public static final String GPX_TAG_TRACK_SEGMENT_POINT_SAT = "<sat>%d</sat>";
 	public static final String GPX_TAG_TRACK_SEGMENT_POINT_ELE = "<ele>%d</ele>";
-	
-	
+
+
 	private static final SimpleDateFormat formatterCompleteDateTime = new SimpleDateFormat("yyyyMMdd'_'HHmmss");
 
 	// ===========================================================
@@ -77,24 +77,24 @@ public class RecordedRouteGPXFormatter implements OpenStreetMapContributorConsta
 	 * 		&lt;/trkseg&gt;
 	 * 	&lt;/trk&gt;
 	 * &lt;/gpx&gt;</PRE>
-	 * 
+	 *
 	 */
 	public static String create(final List<RecordedGeoPoint> someRecords) throws IllegalArgumentException {
 		if(someRecords == null)
 			throw new IllegalArgumentException("Records may not be null.");
-		
+
 		if(someRecords.size() == 0)
 			throw new IllegalArgumentException("Records size == 0");
-			
+
 		final StringBuilder sb = new StringBuilder();
 		final Formatter f = new Formatter(sb);
 		sb.append(XML_VERSION);
 		f.format(GPX_TAG, OSM_CREATOR_INFO);
 		f.format(GPX_TAG_TIME, Util.convertTimestampToUTCString(System.currentTimeMillis()));
 		sb.append(GPX_TAG_TRACK);
-		f.format(GPX_TAG_TRACK_NAME, OSM_USERNAME + "--" 
+		f.format(GPX_TAG_TRACK_NAME, OSM_USERNAME + "--"
 						+ formatterCompleteDateTime.format(new Date(someRecords.get(0).getTimeStamp()).getTime())
-						+ "-" 
+						+ "-"
 						+ formatterCompleteDateTime.format(new Date(someRecords.get(someRecords.size() - 1).getTimeStamp()).getTime()));
 		sb.append(GPX_TAG_TRACK_SEGMENT);
 
@@ -105,11 +105,11 @@ public class RecordedRouteGPXFormatter implements OpenStreetMapContributorConsta
 				f.format(GPX_TAG_TRACK_SEGMENT_POINT_SAT, rgp.mNumSatellites);
 			sb.append(GPX_TAG_TRACK_SEGMENT_POINT_CLOSE);
 		}
-		
+
 		sb.append(GPX_TAG_TRACK_SEGMENT_CLOSE)
 		.append(GPX_TAG_TRACK_CLOSE)
-		.append(GPX_TAG_CLOSE);		
-		
+		.append(GPX_TAG_CLOSE);
+
 		return sb.toString();
 	}
 

@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.util;
 
-import org.andnav.osm.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTile;
 
 import android.os.Handler;
 import android.os.Message;

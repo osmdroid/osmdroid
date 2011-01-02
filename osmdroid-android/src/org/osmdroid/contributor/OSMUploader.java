@@ -3,7 +3,7 @@ package org.osmdroid.contributor;
 /**
  * Copyright by Christof Dallermassl
  * This program is free software and licensed under GPL.
- * 
+ *
  * Original JAVA-Code ported for Android compatibility by Nicolas 'plusminus' Gramlich.
  */
 
@@ -19,35 +19,35 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import org.andnav.osm.contributor.util.RecordedGeoPoint;
-import org.andnav.osm.contributor.util.RecordedRouteGPXFormatter;
-import org.andnav.osm.contributor.util.Util;
-import org.andnav.osm.contributor.util.constants.OpenStreetMapContributorConstants;
+import org.osmdroid.contributor.util.RecordedGeoPoint;
+import org.osmdroid.contributor.util.RecordedRouteGPXFormatter;
+import org.osmdroid.contributor.util.Util;
+import org.osmdroid.contributor.util.constants.OpenStreetMapContributorConstants;
 
 /**
  * Small java class that allows to upload gpx files to www.openstreetmap.org via its api call.
- * 
+ *
  * @author cdaller
  * @author Nicolas Gramlich
  */
 public class OSMUploader implements OpenStreetMapContributorConstants{
-	
+
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	public static final String API_VERSION = "0.5";
 	private static final int BUFFER_SIZE = 65535;
 	private static final String BASE64_ENC = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 	private static final String BOUNDARY = "----------------------------d10f7aa230e8";
 	private static final String LINE_END = "\r\n";
-	
+
 	private static final String DEFAULT_DESCRIPTION = "AndNav - automatically created route.";
 	private static final String DEFAULT_TAGS = "AndNav";
-	
+
 	public static final SimpleDateFormat pseudoFileNameFormat = new SimpleDateFormat("yyyyMMdd'_'HHmmss'_'SSS");
 	private static final SimpleDateFormat autoTagFormat = new SimpleDateFormat("MMMM yyyy");
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -65,7 +65,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * Uses OSMConstants.OSM_USERNAME and OSMConstants.OSM_PASSWORD as username/password.
 	 * Description will be <code>DEFAULT_DESCRIPTION</code>, tags will be automatically generated (i.e. "<code>October 2008</code>")
@@ -76,7 +76,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 	public static void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
 		uploadAsync( DEFAULT_DESCRIPTION, DEFAULT_TAGS, true, recordedGeoPoints);
 	}
-	
+
 	/**
 	 * Uses OSMConstants.OSM_USERNAME and OSMConstants.OSM_PASSWORD as username/password.
 	 * The 'filename' will be the current <code>timestamp.gpx</code> (i.e. "20081231_234815_912.gpx")
@@ -86,7 +86,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 	 * @param addDateTags adds Date Tags to the existing Tags (i.e. "October 2008")
 	 * @param gpxInputStreaman the InputStream containing the gpx-data.
 	 * @throws IOException
-	 */	
+	 */
 	public static void uploadAsync(final String description, final String tags, final boolean addDateTags, final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
 		uploadAsync(OSM_USERNAME, OSM_PASSWORD, description, tags, addDateTags, recordedGeoPoints, pseudoFileNameFormat.format(new GregorianCalendar().getTime()) + "_" + OSM_USERNAME + ".gpx");
 	}
@@ -114,16 +114,16 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 			@Override
 			public void run() {
 				if(!Util.isSufficienDataForUpload(recordedGeoPoints)) return;
-				
+
 				final InputStream gpxInputStream = new ByteArrayInputStream(RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes());
-				
+
 				String tagsToUse = tags;
 				if(addDateTags || tagsToUse == null)
 					if(tagsToUse == null)
 						tagsToUse = autoTagFormat.format(new GregorianCalendar().getTime());
 					else
 						tagsToUse = tagsToUse + " " + autoTagFormat.format(new GregorianCalendar().getTime());
-				
+
 				// logger.debug("Uploading " + pseudoFileName + " to openstreetmap.org");
 				try {
 					//String urlGpxName = URLEncoder.encode(gpxName.replaceAll("\\.;&?,/","_"), "UTF-8");
@@ -147,7 +147,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 					writeContentDispositionFile(out, "file", gpxInputStream, pseudoFileName);
 					writeContentDisposition(out, "description", urlDesc);
 					writeContentDisposition(out, "tags", urlTags);
-					
+
 					writeContentDisposition(out, "public", "1");
 
 					out.writeBytes("--" + BOUNDARY + "--" + LINE_END);
@@ -169,10 +169,10 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 					// logger.error("OSMUpload Error", e);
 				}
 			}
-			
+
 		}, "OSMUpload-Thread").start();
 	}
-	
+
 	public static void upload(final String username, final String password, final String description, final String tags, final boolean addDateTags, final ArrayList<RecordedGeoPoint> recordedGeoPoints, final String pseudoFileName) throws IOException{
 		uploadAsync(username, password, description, tags, addDateTags, recordedGeoPoints, pseudoFileName);
 	}
@@ -181,7 +181,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 	 * @param out
 	 * @param string
 	 * @param gpxFile
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private static void writeContentDispositionFile(final DataOutputStream out, final String name, final InputStream gpxInputStream, final String pseudoFileName) throws IOException {
 		out.writeBytes("--" + BOUNDARY + LINE_END);
@@ -200,14 +200,14 @@ public class OSMUploader implements OpenStreetMapContributorConstants{
 			out.flush();
 			sumread += read;
 		}
-		in.close();        
+		in.close();
 		out.writeBytes(LINE_END);
 	}
 
 	/**
 	 * @param string
 	 * @param urlDesc
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private static void writeContentDisposition(final DataOutputStream out, final String name, final String value) throws IOException {
 		out.writeBytes("--" + BOUNDARY + LINE_END);

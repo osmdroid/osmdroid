@@ -3,13 +3,13 @@ package org.osmdroid.contributor;
 
 import java.util.ArrayList;
 
-import org.andnav.osm.contributor.util.RecordedGeoPoint;
-import org.andnav.osm.util.GeoPoint;
+import org.osmdroid.contributor.util.RecordedGeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 import android.location.Location;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  *
  */
@@ -21,7 +21,7 @@ public class RouteRecorder {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	protected final ArrayList<RecordedGeoPoint> mRecords = new ArrayList<RecordedGeoPoint>();
 
 	// ===========================================================
@@ -31,7 +31,7 @@ public class RouteRecorder {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public ArrayList<RecordedGeoPoint> getRecordedGeoPoints() {
 		return this.mRecords;
 	}
@@ -46,15 +46,15 @@ public class RouteRecorder {
 
 	public void add(final Location aLocation, final int aNumSatellites){
 		this.mRecords.add(new RecordedGeoPoint(
-					(int)(aLocation.getLatitude() * 1E6), 
+					(int)(aLocation.getLatitude() * 1E6),
 					(int)(aLocation.getLongitude() * 1E6),
 					System.currentTimeMillis(),
 					aNumSatellites));
 	}
-	
+
 	public void add(final GeoPoint aGeoPoint, final int aNumSatellites){
 		this.mRecords.add(new RecordedGeoPoint(
-					aGeoPoint.getLatitudeE6(), 
+					aGeoPoint.getLatitudeE6(),
 					aGeoPoint.getLongitudeE6(),
 					System.currentTimeMillis(),
 					aNumSatellites));

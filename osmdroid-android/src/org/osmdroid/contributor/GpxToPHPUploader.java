@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-import org.andnav.osm.contributor.util.RecordedGeoPoint;
-import org.andnav.osm.contributor.util.RecordedRouteGPXFormatter;
-import org.andnav.osm.contributor.util.Util;
+import org.osmdroid.contributor.util.RecordedGeoPoint;
+import org.osmdroid.contributor.util.RecordedRouteGPXFormatter;
+import org.osmdroid.contributor.util.Util;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GpxToPHPUploader {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(GpxToPHPUploader.class);
-	
+
 	protected static final String UPLOADSCRIPT_URL = "http://www.PLACEYOURDOMAINHERE.com/anyfolder/gpxuploader/upload.php";
 
 	/**
@@ -38,23 +38,23 @@ public class GpxToPHPUploader {
 			public void run() {
 				try{
 					if(!Util.isSufficienDataForUpload(recordedGeoPoints)) return;
-					
+
 					final InputStream gpxInputStream = new ByteArrayInputStream(RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes());
 					final HttpClient httpClient = new DefaultHttpClient();
-	
+
 					final HttpPost request = new HttpPost(UPLOADSCRIPT_URL);
-	
+
 					// create the multipart request and add the parts to it
 					final MultipartEntity requestEntity = new MultipartEntity();
 					requestEntity.addPart("gpxfile", new InputStreamBody(gpxInputStream, "" + System.currentTimeMillis() + ".gpx"));
-	
+
 					httpClient.getParams().setBooleanParameter("http.protocol.expect-continue", false);
-	
+
 					request.setEntity(requestEntity);
-	
+
 					final HttpResponse response = httpClient.execute(request);
 					final int status = response.getStatusLine().getStatusCode();
-	
+
 					if (status != HttpStatus.SC_OK) {
 						logger.error("GPXUploader", "status != HttpStatus.SC_OK");
 					} else {
@@ -65,7 +65,7 @@ public class GpxToPHPUploader {
 						final StringBuilder sb = new StringBuilder();
 						while((read = r.read(buf)) != -1)
 							sb.append(buf, 0, read);
-	
+
 						logger.debug("GPXUploader", "Response: " + sb.toString());
 					}
 				}catch (Exception e){
