@@ -3,7 +3,7 @@ package org.osmdroid.tileprovider.tilesource;
 import java.io.InputStream;
 
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 
 import android.graphics.drawable.Drawable;
 
@@ -41,7 +41,7 @@ public interface ITileSource {
 	 *            the tile
 	 * @return the unique file path
 	 */
-	String getTileRelativeFilenameString(OpenStreetMapTile aTile);
+	String getTileRelativeFilenameString(MapTile aTile);
 
 	/**
 	 * Get a rendered Drawable from the specified file path.

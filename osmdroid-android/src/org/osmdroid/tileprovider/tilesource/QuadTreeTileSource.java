@@ -1,7 +1,7 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import org.osmdroid.ResourceProxy.string;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 
 class QuadTreeTileSource extends OnlineTileSourceBase {
 
@@ -13,7 +13,7 @@ class QuadTreeTileSource extends OnlineTileSourceBase {
 	}
 
 	@Override
-	public String getTileURLString(final OpenStreetMapTile aTile) {
+	public String getTileURLString(final MapTile aTile) {
 		return getBaseUrl() + quadTree(aTile) + mImageFilenameEnding;
 	}
 
@@ -24,7 +24,7 @@ class QuadTreeTileSource extends OnlineTileSourceBase {
 	 *            The tile coordinates to convert
 	 * @return The QuadTree as String.
 	 */
-	private String quadTree(final OpenStreetMapTile aTile) {
+	private String quadTree(final MapTile aTile) {
 		final StringBuilder quadKey = new StringBuilder();
 		for (int i = aTile.getZoomLevel(); i > 0; i--) {
 			int digit = 0;

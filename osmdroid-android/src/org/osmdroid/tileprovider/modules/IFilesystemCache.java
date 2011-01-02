@@ -2,7 +2,7 @@ package org.osmdroid.tileprovider.modules;
 
 import java.io.InputStream;
 
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 /**
@@ -24,6 +24,6 @@ public interface IFilesystemCache {
 	 *            an InputStream
 	 * @return
 	 */
-	boolean saveFile(final ITileSource pTileSourceInfo, OpenStreetMapTile pTile,
+	boolean saveFile(final ITileSource pTileSourceInfo, MapTile pTile,
 			final InputStream pStream);
 }

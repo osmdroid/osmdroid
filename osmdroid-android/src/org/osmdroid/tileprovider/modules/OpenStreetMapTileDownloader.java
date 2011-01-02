@@ -11,8 +11,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
@@ -130,7 +130,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final OpenStreetMapTileRequestState aState)
+		public Drawable loadTile(final MapTileRequestState aState)
 				throws CantContinueException {
 
 			if (mTileSource == null)
@@ -138,7 +138,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 
 			InputStream in = null;
 			OutputStream out = null;
-			final OpenStreetMapTile tile = aState.getMapTile();
+			final MapTile tile = aState.getMapTile();
 
 			try {
 

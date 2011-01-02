@@ -2,7 +2,7 @@ package org.osmdroid.tileprovider;
 
 import android.graphics.drawable.Drawable;
 
-public interface IOpenStreetMapTileProviderCallback {
+public interface IMapTileProviderCallback {
 
 	/**
 	 * The map tile request has completed.
@@ -12,7 +12,7 @@ public interface IOpenStreetMapTileProviderCallback {
 	 * @param aDrawable
 	 *            a drawable
 	 */
-	void mapTileRequestCompleted(OpenStreetMapTileRequestState aState, final Drawable aDrawable);
+	void mapTileRequestCompleted(MapTileRequestState aState, final Drawable aDrawable);
 
 	/**
 	 * The map tile request has produced a candidate tile. A candidate tile can fulfill the request
@@ -23,7 +23,7 @@ public interface IOpenStreetMapTileProviderCallback {
 	 * @param aDrawable
 	 *            a drawable
 	 */
-	void mapTileRequestCandidate(OpenStreetMapTileRequestState aState, final Drawable aDrawable);
+	void mapTileRequestCandidate(MapTileRequestState aState, final Drawable aDrawable);
 
 	/**
 	 * The map tile request has failed.
@@ -31,7 +31,7 @@ public interface IOpenStreetMapTileProviderCallback {
 	 * @param aState
 	 *            a state object
 	 */
-	void mapTileRequestFailed(OpenStreetMapTileRequestState aState);
+	void mapTileRequestFailed(MapTileRequestState aState);
 
 	/**
 	 * Returns true if the network connection should be used, false if not.

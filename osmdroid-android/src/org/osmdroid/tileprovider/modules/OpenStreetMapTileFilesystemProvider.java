@@ -3,8 +3,8 @@ package org.osmdroid.tileprovider.modules;
 import java.io.File;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.slf4j.Logger;
@@ -115,12 +115,12 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final OpenStreetMapTileRequestState aState) {
+		public Drawable loadTile(final MapTileRequestState aState) {
 
 			if (mTileSource == null)
 				return null;
 
-			final OpenStreetMapTile aTile = aState.getMapTile();
+			final MapTile aTile = aState.getMapTile();
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {

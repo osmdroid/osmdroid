@@ -1,7 +1,7 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 	}
 
 	@Override
-	public String getTileURLString(final OpenStreetMapTile aTile) {
+	public String getTileURLString(final MapTile aTile) {
 		if (mKey == null) {
 			mKey = CloudmadeUtil.getCloudmadeKey();
 		}

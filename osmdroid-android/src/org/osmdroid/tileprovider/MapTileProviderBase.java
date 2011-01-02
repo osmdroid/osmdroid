@@ -15,25 +15,25 @@ import android.os.Handler;
  * <li>determining if a map tile is available,</li>
  * <li>notifying the client, via a callback handler</li>
  * </ul>
- * see {@link OpenStreetMapTile} for an overview of how tiles are served by this provider.
+ * see {@link MapTile} for an overview of how tiles are served by this provider.
  * 
  * @author Marc Kurtz
  * @author Nicolas Gramlich
  * 
  */
-public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTileProviderCallback,
+public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		OpenStreetMapViewConstants {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileProviderBase.class);
+			.getLogger(MapTileProviderBase.class);
 
-	protected final OpenStreetMapTileCache mTileCache;
+	protected final MapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
 	protected boolean mUseDataConnection = true;
 
 	private ITileSource mTileSource;
 
-	public abstract Drawable getMapTile(OpenStreetMapTile pTile);
+	public abstract Drawable getMapTile(MapTile pTile);
 
 	public abstract void detach();
 
@@ -70,12 +70,12 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 		return mTileSource;
 	}
 
-	public OpenStreetMapTileProviderBase() {
+	public MapTileProviderBase() {
 		this(null);
 	}
 
-	public OpenStreetMapTileProviderBase(final Handler pDownloadFinishedListener) {
-		mTileCache = new OpenStreetMapTileCache();
+	public MapTileProviderBase(final Handler pDownloadFinishedListener) {
+		mTileCache = new MapTileCache();
 		mTileRequestCompleteHandler = pDownloadFinishedListener;
 	}
 
@@ -89,16 +89,16 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCompleted(final OpenStreetMapTileRequestState pState,
+	public void mapTileRequestCompleted(final MapTileRequestState pState,
 			final Drawable pDrawable) {
-		final OpenStreetMapTile tile = pState.getMapTile();
+		final MapTile tile = pState.getMapTile();
 		if (pDrawable != null) {
 			mTileCache.putTile(tile, pDrawable);
 		}
 
 		// tell our caller we've finished and it should update its view
 		if (mTileRequestCompleteHandler != null)
-			mTileRequestCompleteHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);
+			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
 
 		if (DEBUGMODE)
 			logger.debug("MapTile request complete: " + tile);
@@ -113,7 +113,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCandidate(final OpenStreetMapTileRequestState aState,
+	public void mapTileRequestCandidate(final MapTileRequestState aState,
 			final Drawable aDrawable) {
 		mapTileRequestCompleted(aState, aDrawable);
 	}
@@ -126,10 +126,10 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 *            the map tile request state object
 	 */
 	@Override
-	public void mapTileRequestFailed(final OpenStreetMapTileRequestState pState) {
-		final OpenStreetMapTile tile = pState.getMapTile();
+	public void mapTileRequestFailed(final MapTileRequestState pState) {
+		final MapTile tile = pState.getMapTile();
 		if (mTileRequestCompleteHandler != null)
-			mTileRequestCompleteHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_FAIL_ID);
+			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_FAIL_ID);
 
 		if (DEBUGMODE)
 			logger.debug("MapTile request failed: " + tile);

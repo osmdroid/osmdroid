@@ -10,7 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Drawable> {
+public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 
 	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
 
@@ -54,7 +54,7 @@ public class LRUMapTileCache extends LinkedHashMap<OpenStreetMapTile, Drawable> 
 	}
 
 	@Override
-	protected boolean removeEldestEntry(final Entry<OpenStreetMapTile, Drawable> aEldest) {
+	protected boolean removeEldestEntry(final Entry<MapTile, Drawable> aEldest) {
 		if (size() > mCapacity) {
 			remove(aEldest.getKey());
 			// don't return true because we've already removed it

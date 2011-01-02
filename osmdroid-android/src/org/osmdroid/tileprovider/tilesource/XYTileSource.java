@@ -1,7 +1,7 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import org.osmdroid.ResourceProxy.string;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 
 class XYTileSource extends OnlineTileSourceBase {
 
@@ -13,7 +13,7 @@ class XYTileSource extends OnlineTileSourceBase {
 	}
 
 	@Override
-	public String getTileURLString(final OpenStreetMapTile aTile) {
+	public String getTileURLString(final MapTile aTile) {
 		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY()
 				+ mImageFilenameEnding;
 	}

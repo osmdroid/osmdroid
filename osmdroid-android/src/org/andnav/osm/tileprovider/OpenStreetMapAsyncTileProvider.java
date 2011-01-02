@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * An abstract child class of {@link OpenStreetMapTileProviderBase} which acquires tile images
+ * An abstract child class of {@link MapTileProviderBase} which acquires tile images
  * asynchronously from some network source.
  * The key unimplemented methods are 'threadGroupname' and 'getTileLoader'.
  */

@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase.CantContinueException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -82,20 +82,20 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(getThreadGroupName());
-	private final ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mWorking;
-	final LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mPending;
+	private final ConcurrentHashMap<MapTile, MapTileRequestState> mWorking;
+	final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
 	public OpenStreetMapTileModuleProviderBase(final int aThreadPoolSize,
 			final int aPendingQueueSize) {
 		mThreadPoolSize = aThreadPoolSize;
-		mWorking = new ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>();
-		mPending = new LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>(
+		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();
+		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(
 				aPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
 		};
 	}
 
-	public void loadMapTileAsync(final OpenStreetMapTileRequestState aState) {
+	public void loadMapTileAsync(final MapTileRequestState aState) {
 
 		final int activeCount = mThreadPool.activeCount();
 
@@ -128,7 +128,7 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 		this.mThreadPool.interrupt();
 	}
 
-	private void removeTileFromQueues(final OpenStreetMapTile mapTile) {
+	private void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mPending) {
 			mPending.remove(mapTile);
 		}
@@ -155,23 +155,23 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 		 * @param aTile
 		 * @throws {@link CantContinueException}
 		 */
-		protected abstract Drawable loadTile(OpenStreetMapTileRequestState aState)
+		protected abstract Drawable loadTile(MapTileRequestState aState)
 				throws CantContinueException;
 
-		private OpenStreetMapTileRequestState nextTile() {
+		private MapTileRequestState nextTile() {
 
 			synchronized (mPending) {
-				OpenStreetMapTile result = null;
+				MapTile result = null;
 
 				// get the most recently accessed tile
 				// - the last item in the iterator that's not already being
 				// processed
-				Iterator<OpenStreetMapTile> iterator = mPending.keySet().iterator();
+				Iterator<MapTile> iterator = mPending.keySet().iterator();
 
 				// TODO this iterates the whole list, make this faster...
 				while (iterator.hasNext()) {
 					try {
-						final OpenStreetMapTile tile = iterator.next();
+						final MapTile tile = iterator.next();
 						if (!mWorking.containsKey(tile)) {
 							result = tile;
 						}
@@ -205,18 +205,18 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 		 * @param aTileInputStream
 		 *            the input stream of the file.
 		 */
-		private void tileLoaded(final OpenStreetMapTileRequestState aState, final Drawable aDrawable) {
+		private void tileLoaded(final MapTileRequestState aState, final Drawable aDrawable) {
 			removeTileFromQueues(aState.getMapTile());
 
 			aState.getCallback().mapTileRequestCompleted(aState, aDrawable);
 		}
 
-		protected void tileCandidateLoaded(final OpenStreetMapTileRequestState aState,
+		protected void tileCandidateLoaded(final MapTileRequestState aState,
 				final Drawable aDrawable) {
 			aState.getCallback().mapTileRequestCandidate(aState, aDrawable);
 		}
 
-		private void tileLoadedFailed(final OpenStreetMapTileRequestState aState) {
+		private void tileLoadedFailed(final MapTileRequestState aState) {
 			removeTileFromQueues(aState.getMapTile());
 
 			aState.getCallback().mapTileRequestFailed(aState);
@@ -228,7 +228,7 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 		@Override
 		final public void run() {
 
-			OpenStreetMapTileRequestState state;
+			MapTileRequestState state;
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
 				if (DEBUGMODE)

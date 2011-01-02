@@ -6,10 +6,10 @@ import org.osmdroid.views.overlay.TilesOverlay;
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
  * (i.e. a descendant of {@link OpenStreetMapTileModuleProviderBase} or
- * {@link OpenStreetMapTileProviderBase} to a consumer of tiles (e.g. descendant of
+ * {@link MapTileProviderBase} to a consumer of tiles (e.g. descendant of
  * {@link TilesOverlay}). Tiles are typically images (e.g. png or jpeg).
  */
-public class OpenStreetMapTile {
+public class MapTile {
 
 	public static final int MAPTILE_SUCCESS_ID = 0;
 	public static final int MAPTILE_FAIL_ID = MAPTILE_SUCCESS_ID + 1;
@@ -20,7 +20,7 @@ public class OpenStreetMapTile {
 	private final int y;
 	private final int zoomLevel;
 
-	public OpenStreetMapTile(final int zoomLevel, final int tileX, final int tileY) {
+	public MapTile(final int zoomLevel, final int tileX, final int tileY) {
 		this.zoomLevel = zoomLevel;
 		this.x = tileX;
 		this.y = tileY;
@@ -49,9 +49,9 @@ public class OpenStreetMapTile {
 			return false;
 		if (obj == this)
 			return true;
-		if (!(obj instanceof OpenStreetMapTile))
+		if (!(obj instanceof MapTile))
 			return false;
-		final OpenStreetMapTile rhs = (OpenStreetMapTile) obj;
+		final MapTile rhs = (MapTile) obj;
 		return zoomLevel == rhs.zoomLevel && x == rhs.x && y == rhs.y;
 	}
 

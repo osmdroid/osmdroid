@@ -13,7 +13,7 @@ import android.graphics.drawable.Drawable;
  * @author Nicolas Gramlich
  * 
  */
-public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderConstants {
+public final class MapTileCache implements OpenStreetMapTileProviderConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -30,7 +30,7 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileCache() {
+	public MapTileCache() {
 		this(CACHE_MAPTILECOUNT_DEFAULT);
 	}
 
@@ -38,7 +38,7 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 	 * @param aMaximumCacheSize
 	 *            Maximum amount of MapTiles to be hold within.
 	 */
-	public OpenStreetMapTileCache(final int aMaximumCacheSize) {
+	public MapTileCache(final int aMaximumCacheSize) {
 		this.mCachedTiles = new LRUMapTileCache(aMaximumCacheSize);
 	}
 
@@ -52,14 +52,14 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 		mReadWriteLock.readLock().unlock();
 	}
 
-	public Drawable getMapTile(final OpenStreetMapTile aTile) {
+	public Drawable getMapTile(final MapTile aTile) {
 		mReadWriteLock.readLock().lock();
 		final Drawable result = this.mCachedTiles.get(aTile);
 		mReadWriteLock.readLock().unlock();
 		return result;
 	}
 
-	public void putTile(final OpenStreetMapTile aTile, final Drawable aDrawable) {
+	public void putTile(final MapTile aTile, final Drawable aDrawable) {
 		if (aDrawable != null) {
 			mReadWriteLock.writeLock().lock();
 			this.mCachedTiles.put(aTile, aDrawable);
@@ -75,7 +75,7 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 	// Methods
 	// ===========================================================
 
-	public boolean containsTile(final OpenStreetMapTile aTile) {
+	public boolean containsTile(final MapTile aTile) {
 		mReadWriteLock.readLock().lock();
 		final boolean result = this.mCachedTiles.containsKey(aTile);
 		mReadWriteLock.readLock().unlock();

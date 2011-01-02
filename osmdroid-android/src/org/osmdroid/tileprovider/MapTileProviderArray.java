@@ -27,12 +27,12 @@ import android.graphics.drawable.Drawable;
  * @author Marc Kurtz
  * 
  */
-public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBase {
+public class MapTileProviderArray extends MapTileProviderBase {
 
-	private final ConcurrentHashMap<OpenStreetMapTileRequestState, OpenStreetMapTile> mWorking;
+	private final ConcurrentHashMap<MapTileRequestState, MapTile> mWorking;
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileProviderArray.class);
+			.getLogger(MapTileProviderArray.class);
 
 	protected final List<OpenStreetMapTileModuleProviderBase> mTileProviderList;
 
@@ -42,7 +42,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	 * @param aRegisterReceiver
 	 *            a RegisterReceiver
 	 */
-	protected OpenStreetMapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
+	protected MapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
 		this(aRegisterReceiver, new OpenStreetMapTileModuleProviderBase[0]);
 	}
 
@@ -54,11 +54,11 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	 * @param tileProviderArray
 	 *            an array of OpenStreetMapTileModuleProviderBase
 	 */
-	public OpenStreetMapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
+	public MapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
 			final OpenStreetMapTileModuleProviderBase[] tileProviderArray) {
 		super();
 
-		mWorking = new ConcurrentHashMap<OpenStreetMapTileRequestState, OpenStreetMapTile>();
+		mWorking = new ConcurrentHashMap<MapTileRequestState, MapTile>();
 
 		mTileProviderList = new ArrayList<OpenStreetMapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, tileProviderArray);
@@ -74,7 +74,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	}
 
 	@Override
-	public Drawable getMapTile(final OpenStreetMapTile pTile) {
+	public Drawable getMapTile(final MapTile pTile) {
 		if (mTileCache.containsTile(pTile)) {
 			if (DEBUGMODE)
 				logger.debug("MapTileCache succeeded for: " + pTile);
@@ -89,11 +89,11 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 				if (DEBUGMODE)
 					logger.debug("Cache failed, trying from async providers: " + pTile);
 
-				OpenStreetMapTileRequestState state;
+				MapTileRequestState state;
 				synchronized (mTileProviderList) {
 					final OpenStreetMapTileModuleProviderBase[] providerArray = new OpenStreetMapTileModuleProviderBase[mTileProviderList
 							.size()];
-					state = new OpenStreetMapTileRequestState(pTile,
+					state = new MapTileRequestState(pTile,
 							mTileProviderList.toArray(providerArray), this);
 				}
 
@@ -117,7 +117,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	}
 
 	@Override
-	public void mapTileRequestCompleted(final OpenStreetMapTileRequestState aState,
+	public void mapTileRequestCompleted(final MapTileRequestState aState,
 			final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState);
@@ -126,7 +126,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	}
 
 	@Override
-	public void mapTileRequestFailed(final OpenStreetMapTileRequestState aState) {
+	public void mapTileRequestFailed(final MapTileRequestState aState) {
 		final OpenStreetMapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
 		if (nextProvider != null) {
 			nextProvider.loadMapTileAsync(aState);
@@ -143,7 +143,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	 * a provider that requires a data connection when one is not available.
 	 */
 	private OpenStreetMapTileModuleProviderBase findNextAppropriateProvider(
-			final OpenStreetMapTileRequestState aState) {
+			final MapTileRequestState aState) {
 		OpenStreetMapTileModuleProviderBase provider = null;
 		// The logic of the while statement is
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"

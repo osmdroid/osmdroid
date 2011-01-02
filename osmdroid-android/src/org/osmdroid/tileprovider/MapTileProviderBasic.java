@@ -22,23 +22,23 @@ import android.content.Context;
  * @author Marc Kurtz
  * 
  */
-public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderArray implements
-		IOpenStreetMapTileProviderCallback {
+public class MapTileProviderBasic extends MapTileProviderArray implements
+		IMapTileProviderCallback {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileProviderDirect.class);
+			.getLogger(MapTileProviderBasic.class);
 
 	/**
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
-	public OpenStreetMapTileProviderDirect(final Context aContext) {
+	public MapTileProviderBasic(final Context aContext) {
 		this(aContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
 	/**
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
-	public OpenStreetMapTileProviderDirect(final Context aContext, final ITileSource aTileSource) {
+	public MapTileProviderBasic(final Context aContext, final ITileSource aTileSource) {
 		this(new SimpleRegisterReceiver(aContext), new NetworkAvailabliltyCheck(aContext),
 				aTileSource);
 	}
@@ -46,7 +46,7 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderAr
 	/**
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
-	public OpenStreetMapTileProviderDirect(final IRegisterReceiver aRegisterReceiver,
+	public MapTileProviderBasic(final IRegisterReceiver aRegisterReceiver,
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource aTileSource) {
 		super(aRegisterReceiver);
 

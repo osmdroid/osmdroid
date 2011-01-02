@@ -2,8 +2,8 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.MapView;
@@ -21,7 +21,7 @@ import android.graphics.drawable.Drawable;
 /**
  * These objects are the principle consumer of map tiles.
  * 
- * see {@link OpenStreetMapTile} for an overview of how tiles are acquired by this overlay.
+ * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
  * 
  */
 
@@ -32,7 +32,7 @@ public class TilesOverlay extends Overlay {
 	protected MapView mOsmv;
 
 	/** Current tile source */
-	protected final OpenStreetMapTileProviderBase mTileProvider;
+	protected final MapTileProviderBase mTileProvider;
 	protected final Paint mPaint = new Paint();
 
 	/* to avoid allocations during draw */
@@ -40,12 +40,12 @@ public class TilesOverlay extends Overlay {
 	private final Rect mViewPort = new Rect();
 
 	public TilesOverlay(final MapView aOsmv,
-			final OpenStreetMapTileProviderBase aTileProvider, final Context aContext) {
+			final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
 	public TilesOverlay(final MapView aOsmv,
-			final OpenStreetMapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
+			final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mTileProvider = aTileProvider; // TODO check for null
@@ -124,7 +124,7 @@ public class TilesOverlay extends Overlay {
 				/* Construct a URLString, which represents the MapTile. */
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
-				final OpenStreetMapTile tile = new OpenStreetMapTile(zoomLevel, tileX, tileY);
+				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
 
 				pj.toPixels(x, y, mTilePos);
 				final Drawable currentMapTile = mTileProvider.getMapTile(tile);

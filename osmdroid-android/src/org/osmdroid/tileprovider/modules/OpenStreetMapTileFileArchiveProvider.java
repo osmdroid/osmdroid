@@ -9,9 +9,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
@@ -51,7 +51,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	/**
 	 * The tiles may be found on several media. This one works with tiles stored on the file system.
 	 * It and its friends are typically created and controlled by
-	 * {@link OpenStreetMapTileProviderBase}.
+	 * {@link MapTileProviderBase}.
 	 * 
 	 * @param aCallback
 	 * @param aRegisterReceiver
@@ -149,7 +149,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 		}
 	}
 
-	private synchronized InputStream fileFromZip(final OpenStreetMapTile aTile) {
+	private synchronized InputStream fileFromZip(final MapTile aTile) {
 		final String path = mTileSource.getTileRelativeFilenameString(aTile);
 		for (final ZipFile zipFile : mZipFiles) {
 			try {
@@ -173,12 +173,12 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final OpenStreetMapTileRequestState aState) {
+		public Drawable loadTile(final MapTileRequestState aState) {
 
 			if (mTileSource == null)
 				return null;
 
-			final OpenStreetMapTile aTile = aState.getMapTile();
+			final MapTile aTile = aState.getMapTile();
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {

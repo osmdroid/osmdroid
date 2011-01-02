@@ -6,7 +6,7 @@ import java.util.Random;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.string;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,7 +109,7 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 	}
 
 	@Override
-	public String getTileRelativeFilenameString(final OpenStreetMapTile tile) {
+	public String getTileRelativeFilenameString(final MapTile tile) {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(pathBase());
 		sb.append('/');
