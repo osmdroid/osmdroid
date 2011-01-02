@@ -10,11 +10,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 
-public abstract class OpenStreetMapTileFileStorageProviderBase extends
-		OpenStreetMapTileModuleProviderBase {
+public abstract class MapTileFileStorageProviderBase extends
+		MapTileModuleProviderBase {
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileFileStorageProviderBase.class);
+			.getLogger(MapTileFileStorageProviderBase.class);
 
 	/** whether the sdcard is mounted read/write */
 	private boolean mSdCardAvailable = true;
@@ -22,7 +22,7 @@ public abstract class OpenStreetMapTileFileStorageProviderBase extends
 	private final IRegisterReceiver mRegisterReceiver;
 	private MyBroadcastReceiver mBroadcastReceiver;
 
-	public OpenStreetMapTileFileStorageProviderBase(final int aThreadPoolSize,
+	public MapTileFileStorageProviderBase(final int aThreadPoolSize,
 			final int aPendingQueueSize, final IRegisterReceiver aRegisterReceiver) {
 		super(aThreadPoolSize, aPendingQueueSize);
 

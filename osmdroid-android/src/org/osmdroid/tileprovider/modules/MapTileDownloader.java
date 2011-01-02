@@ -30,13 +30,13 @@ import android.graphics.drawable.Drawable;
  * @author Manuel Stahl
  * 
  */
-public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProviderBase {
+public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileDownloader.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileDownloader.class);
 
 	// ===========================================================
 	// Fields
@@ -52,16 +52,16 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileDownloader(final ITileSource pTileSource) {
+	public MapTileDownloader(final ITileSource pTileSource) {
 		this(pTileSource, null, null);
 	}
 
-	public OpenStreetMapTileDownloader(final ITileSource pTileSource,
+	public MapTileDownloader(final ITileSource pTileSource,
 			final IFilesystemCache pFilesystemCache) {
 		this(pTileSource, pFilesystemCache, null);
 	}
 
-	public OpenStreetMapTileDownloader(final ITileSource pTileSource,
+	public MapTileDownloader(final ITileSource pTileSource,
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
 		super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
@@ -127,7 +127,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
+	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final MapTileRequestState aState)

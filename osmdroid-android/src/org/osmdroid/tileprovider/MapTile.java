@@ -1,11 +1,11 @@
 package org.osmdroid.tileprovider;
 
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
- * (i.e. a descendant of {@link OpenStreetMapTileModuleProviderBase} or
+ * (i.e. a descendant of {@link MapTileModuleProviderBase} or
  * {@link MapTileProviderBase} to a consumer of tiles (e.g. descendant of
  * {@link TilesOverlay}). Tiles are typically images (e.g. png or jpeg).
  */

@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	private static final Logger logger = LoggerFactory
 			.getLogger(MapTileProviderArray.class);
 
-	protected final List<OpenStreetMapTileModuleProviderBase> mTileProviderList;
+	protected final List<MapTileModuleProviderBase> mTileProviderList;
 
 	/**
 	 * Creates an OpenStreetMapTileProviderArray with no tile providers.
@@ -43,7 +43,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 *            a RegisterReceiver
 	 */
 	protected MapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
-		this(aRegisterReceiver, new OpenStreetMapTileModuleProviderBase[0]);
+		this(aRegisterReceiver, new MapTileModuleProviderBase[0]);
 	}
 
 	/**
@@ -55,19 +55,19 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 *            an array of OpenStreetMapTileModuleProviderBase
 	 */
 	public MapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
-			final OpenStreetMapTileModuleProviderBase[] tileProviderArray) {
+			final MapTileModuleProviderBase[] tileProviderArray) {
 		super();
 
 		mWorking = new ConcurrentHashMap<MapTileRequestState, MapTile>();
 
-		mTileProviderList = new ArrayList<OpenStreetMapTileModuleProviderBase>();
+		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, tileProviderArray);
 	}
 
 	@Override
 	public void detach() {
 		synchronized (mTileProviderList) {
-			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
 			}
 		}
@@ -91,7 +91,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 				MapTileRequestState state;
 				synchronized (mTileProviderList) {
-					final OpenStreetMapTileModuleProviderBase[] providerArray = new OpenStreetMapTileModuleProviderBase[mTileProviderList
+					final MapTileModuleProviderBase[] providerArray = new MapTileModuleProviderBase[mTileProviderList
 							.size()];
 					state = new MapTileRequestState(pTile,
 							mTileProviderList.toArray(providerArray), this);
@@ -106,7 +106,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 					mWorking.put(state, pTile);
 				}
 
-				final OpenStreetMapTileModuleProviderBase provider = findNextAppropriateProvider(state);
+				final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
 				if (provider != null)
 					provider.loadMapTileAsync(state);
 				else
@@ -127,7 +127,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public void mapTileRequestFailed(final MapTileRequestState aState) {
-		final OpenStreetMapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
+		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
 		if (nextProvider != null) {
 			nextProvider.loadMapTileAsync(aState);
 		} else {
@@ -142,9 +142,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
 	 * a provider that requires a data connection when one is not available.
 	 */
-	private OpenStreetMapTileModuleProviderBase findNextAppropriateProvider(
+	private MapTileModuleProviderBase findNextAppropriateProvider(
 			final MapTileRequestState aState) {
-		OpenStreetMapTileModuleProviderBase provider = null;
+		MapTileModuleProviderBase provider = null;
 		// The logic of the while statement is
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"
 		do {
@@ -154,7 +154,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		return provider;
 	}
 
-	public boolean getProviderExists(final OpenStreetMapTileModuleProviderBase provider) {
+	public boolean getProviderExists(final MapTileModuleProviderBase provider) {
 		synchronized (mTileProviderList) {
 			return mTileProviderList.contains(provider);
 		}
@@ -164,7 +164,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public int getMinimumZoomLevel() {
 		int result = Integer.MAX_VALUE;
 		synchronized (mTileProviderList) {
-			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result)
 					result = tileProvider.getMinimumZoomLevel();
 			}
@@ -176,7 +176,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public int getMaximumZoomLevel() {
 		int result = Integer.MIN_VALUE;
 		synchronized (mTileProviderList) {
-			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMaximumZoomLevel() > result)
 					result = tileProvider.getMaximumZoomLevel();
 			}
@@ -188,7 +188,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public void setTileSource(final ITileSource aTileSource) {
 		super.setTileSource(aTileSource);
 
-		for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+		for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 			tileProvider.setTileSource(aTileSource);
 			clearTileCache();
 		}

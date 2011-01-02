@@ -4,19 +4,19 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 
 public class MapTileRequestState {
 
-	private final Queue<OpenStreetMapTileModuleProviderBase> mProviderQueue;
+	private final Queue<MapTileModuleProviderBase> mProviderQueue;
 	private final MapTile mMapTile;
 	private final IMapTileProviderCallback mCallback;
-	private OpenStreetMapTileModuleProviderBase mCurrentProvider;
+	private MapTileModuleProviderBase mCurrentProvider;
 
 	public MapTileRequestState(final MapTile mapTile,
-			final OpenStreetMapTileModuleProviderBase[] providers,
+			final MapTileModuleProviderBase[] providers,
 			final IMapTileProviderCallback callback) {
-		mProviderQueue = new LinkedList<OpenStreetMapTileModuleProviderBase>();
+		mProviderQueue = new LinkedList<MapTileModuleProviderBase>();
 		Collections.addAll(mProviderQueue, providers);
 		mMapTile = mapTile;
 		mCallback = callback;
@@ -34,12 +34,12 @@ public class MapTileRequestState {
 		return mProviderQueue.isEmpty();
 	}
 
-	public OpenStreetMapTileModuleProviderBase getNextProvider() {
+	public MapTileModuleProviderBase getNextProvider() {
 		mCurrentProvider = mProviderQueue.poll();
 		return mCurrentProvider;
 	}
 
-	public OpenStreetMapTileModuleProviderBase getCurrentProvider() {
+	public MapTileModuleProviderBase getCurrentProvider() {
 		return mCurrentProvider;
 	}
 }

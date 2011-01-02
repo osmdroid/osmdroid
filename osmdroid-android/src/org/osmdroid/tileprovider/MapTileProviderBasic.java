@@ -2,9 +2,9 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileDownloader;
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileFileArchiveProvider;
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
+import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -52,15 +52,15 @@ public class MapTileProviderBasic extends MapTileProviderArray implements
 
 		final TileWriter tileWriter = new TileWriter();
 
-		final OpenStreetMapTileFilesystemProvider fileSystemProvider = new OpenStreetMapTileFilesystemProvider(
+		final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
 				aRegisterReceiver);
 		mTileProviderList.add(fileSystemProvider);
 
-		final OpenStreetMapTileFileArchiveProvider archiveProvider = new OpenStreetMapTileFileArchiveProvider(
+		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
 				aTileSource, aRegisterReceiver);
 		mTileProviderList.add(archiveProvider);
 
-		final OpenStreetMapTileDownloader downloaderProvider = new OpenStreetMapTileDownloader(
+		final MapTileDownloader downloaderProvider = new MapTileDownloader(
 				aTileSource, tileWriter, aNetworkAvailablityCheck);
 		mTileProviderList.add(downloaderProvider);
 	}

@@ -40,7 +40,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 		}
 	};
 
-	final OpenStreetMapTileModuleProviderBase mTileProvider = new OpenStreetMapTileModuleProviderBase(
+	final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(
 			1, 10) {
 		@Override
 		protected String getThreadGroupName() {
@@ -92,7 +92,7 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		// request the same tile twice
 		final MapTileRequestState state = new MapTileRequestState(tile,
-				new OpenStreetMapTileDownloader[] {}, mTileProviderCallback);
+				new MapTileDownloader[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state);
 		mTileProvider.loadMapTileAsync(state);
 
@@ -116,15 +116,15 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		// request the three tiles
 		final MapTileRequestState state1 = new MapTileRequestState(tile1,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state1);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state2 = new MapTileRequestState(tile2,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state2);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state3 = new MapTileRequestState(tile3,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state3);
 
 		// wait 4 seconds (because it takes 1 second for each tile + an extra
@@ -158,19 +158,19 @@ public class OpenStreetMapAsyncTileProviderTest {
 
 		// request tile1, tile2, tile3, then tile2 again
 		final MapTileRequestState state1 = new MapTileRequestState(tile1,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state1);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state2 = new MapTileRequestState(tile2,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state2);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state3 = new MapTileRequestState(tile3,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state3);
 		Thread.sleep(100); // give the thread time to run
 		final MapTileRequestState state4 = new MapTileRequestState(tile2,
-				new OpenStreetMapTileModuleProviderBase[] {}, mTileProviderCallback);
+				new MapTileModuleProviderBase[] {}, mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state4);
 
 		// wait 4 seconds (because it takes 1 second for each tile + an extra

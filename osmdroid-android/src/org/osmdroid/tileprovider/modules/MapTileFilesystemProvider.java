@@ -20,14 +20,14 @@ import android.graphics.drawable.Drawable;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileStorageProviderBase {
+public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileFilesystemProvider.class);
+			.getLogger(MapTileFilesystemProvider.class);
 
 	// ===========================================================
 	// Fields
@@ -41,11 +41,11 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver) {
+	public MapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver) {
 		this(aRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
-	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
+	public MapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
 			final ITileSource aTileSource) {
 		this(aRegisterReceiver, aTileSource, DEFAULT_MAXIMUM_CACHED_FILE_AGE);
 	}
@@ -56,7 +56,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	 * 
 	 * @param aRegisterReceiver
 	 */
-	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
+	public MapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
 			final ITileSource aTileSource, final long maximumCachedFileAge) {
 		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
 				aRegisterReceiver);
@@ -112,7 +112,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
+	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final MapTileRequestState aState) {

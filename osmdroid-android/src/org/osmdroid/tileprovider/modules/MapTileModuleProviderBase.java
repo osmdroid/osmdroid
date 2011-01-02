@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase.CantContinueException;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import android.graphics.drawable.Drawable;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class OpenStreetMapTileModuleProviderBase implements
+public abstract class MapTileModuleProviderBase implements
 		OpenStreetMapTileProviderConstants {
 
 	/**
@@ -78,14 +78,14 @@ public abstract class OpenStreetMapTileModuleProviderBase implements
 	public abstract void setTileSource(ITileSource tileSource);
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileModuleProviderBase.class);
+			.getLogger(MapTileModuleProviderBase.class);
 
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(getThreadGroupName());
 	private final ConcurrentHashMap<MapTile, MapTileRequestState> mWorking;
 	final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
-	public OpenStreetMapTileModuleProviderBase(final int aThreadPoolSize,
+	public MapTileModuleProviderBase(final int aThreadPoolSize,
 			final int aPendingQueueSize) {
 		mThreadPoolSize = aThreadPoolSize;
 		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();

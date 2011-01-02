@@ -27,14 +27,14 @@ import android.graphics.drawable.Drawable;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileStorageProviderBase {
+public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapTileFileArchiveProvider.class);
+			.getLogger(MapTileFileArchiveProvider.class);
 
 	// ===========================================================
 	// Fields
@@ -56,7 +56,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	 * @param aCallback
 	 * @param aRegisterReceiver
 	 */
-	public OpenStreetMapTileFileArchiveProvider(final ITileSource pTileSource,
+	public MapTileFileArchiveProvider(final ITileSource pTileSource,
 			final IRegisterReceiver pRegisterReceiver) {
 		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
 				pRegisterReceiver);
@@ -170,7 +170,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
+	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final MapTileRequestState aState) {
