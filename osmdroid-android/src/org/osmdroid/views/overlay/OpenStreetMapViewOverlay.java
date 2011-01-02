@@ -3,7 +3,7 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.views.OpenStreetMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 
 import android.content.Context;
@@ -13,9 +13,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
- * Base class representing an overlay which may be displayed on top of a {@link OpenStreetMapView}.
+ * Base class representing an overlay which may be displayed on top of a {@link MapView}.
  * To add an overlay, subclass this class, create an instance, and add it to the list obtained from
- * getOverlays() of {@link OpenStreetMapView}.
+ * getOverlays() of {@link MapView}.
  * 
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
@@ -69,16 +69,16 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	 * Managed Draw calls gives Overlays the possibility to first draw manually and after that do a
 	 * final draw. This is very useful, i sth. to be drawn needs to be <b>topmost</b>.
 	 */
-	public void onManagedDraw(final Canvas c, final OpenStreetMapView osmv) {
+	public void onManagedDraw(final Canvas c, final MapView osmv) {
 		if (this.mVisible) {
 			onDraw(c, osmv);
 			onDrawFinished(c, osmv);
 		}
 	}
 
-	protected abstract void onDraw(final Canvas c, final OpenStreetMapView osmv);
+	protected abstract void onDraw(final Canvas c, final MapView osmv);
 
-	protected abstract void onDrawFinished(final Canvas c, final OpenStreetMapView osmv);
+	protected abstract void onDrawFinished(final Canvas c, final MapView osmv);
 
 	// ===========================================================
 	// Methods
@@ -87,21 +87,21 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
 	public boolean onKeyDown(final int keyCode, final KeyEvent event,
-			final OpenStreetMapView mapView) {
+			final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
-	public boolean onKeyUp(final int keyCode, final KeyEvent event, final OpenStreetMapView mapView) {
+	public boolean onKeyUp(final int keyCode, final KeyEvent event, final MapView mapView) {
 		return false;
 	}
 
@@ -109,47 +109,47 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	 * <b>You can prevent all(!) other Touch-related events from happening!</b><br />
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
-	public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
-	public boolean onTrackballEvent(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onTrackballEvent(final MotionEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
-	public boolean onSingleTapUp(final MotionEvent e, final OpenStreetMapView openStreetMapView) {
+	public boolean onSingleTapUp(final MotionEvent e, final MapView openStreetMapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link OpenStreetMapView} has the chance to
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to
 	 * handle this event.
 	 */
-	public boolean onLongPress(final MotionEvent e, final OpenStreetMapView openStreetMapView) {
+	public boolean onLongPress(final MotionEvent e, final MapView openStreetMapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>).
 	 */
-	public void onDetach(final OpenStreetMapView openStreetMapView) {
+	public void onDetach(final MapView openStreetMapView) {
 		return;
 	}
 
@@ -181,7 +181,7 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 		 * @return Whether or not to snap to the interesting point.
 		 */
 		boolean onSnapToItem(int x, int y, android.graphics.Point snapPoint,
-				OpenStreetMapView mapView);
+				MapView mapView);
 	}
 
 }

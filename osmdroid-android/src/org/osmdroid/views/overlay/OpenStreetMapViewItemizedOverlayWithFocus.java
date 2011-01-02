@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.views.OpenStreetMapView;
+import org.osmdroid.views.MapView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -137,7 +137,7 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 	 * focus.
 	 */
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 		if (this.mFocusedItemIndex == NOT_SET)
 			return;
 

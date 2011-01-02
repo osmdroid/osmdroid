@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -110,7 +110,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	 * Called to draw any items after all other items.
 	 */
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 		return;
 	}
 
@@ -121,7 +121,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	}
 
 	@Override
-	public void onDraw(final Canvas canvas, final OpenStreetMapView mapView) {
+	public void onDraw(final Canvas canvas, final MapView mapView) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
 		int limit = this.mItemList.size() - 1;
@@ -150,7 +150,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	 * resorting to overriding the ItemGestureListener methods.
 	 */
 	@Override
-	public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onSingleTapUp(final MotionEvent event, final MapView mapView) {
 		return (activateSelectedItems(event, mapView, new ActiveItem() {
 			@Override
 			public boolean run(final int index) {
@@ -167,7 +167,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	}
 
 	@Override
-	public boolean onLongPress(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onLongPress(final MotionEvent event, final MapView mapView) {
 		return (activateSelectedItems(event, mapView, new ActiveItem() {
 			@Override
 			public boolean run(final int index) {
@@ -228,7 +228,7 @@ public class OpenStreetMapViewItemizedOverlay<T extends OpenStreetMapViewOverlay
 	 * @param task
 	 * @return true if event is handled false otherwise
 	 */
-	private boolean activateSelectedItems(final MotionEvent event, final OpenStreetMapView mapView,
+	private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
 			final ActiveItem task) {
 		final OpenStreetMapViewProjection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();

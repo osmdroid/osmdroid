@@ -8,9 +8,9 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.osmdroid.views.OpenStreetMapViewController;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapController;
 import org.osmdroid.views.overlay.OpenStreetMapViewOverlay.Snappable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,9 +60,9 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	protected final Bitmap PERSON_ICON;
 	protected final Bitmap DIRECTION_ARROW;
 
-	protected final OpenStreetMapView mMapView;
+	protected final MapView mMapView;
 
-	private final OpenStreetMapViewController mMapController;
+	private final MapController mMapController;
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
 
@@ -116,11 +116,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	// Constructors
 	// ===========================================================
 
-	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView) {
+	public MyLocationOverlay(final Context ctx, final MapView mapView) {
 		this(ctx, mapView, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView,
+	public MyLocationOverlay(final Context ctx, final MapView mapView,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		mMapView = mapView;
@@ -226,11 +226,11 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 	}
 
 	@Override
-	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
+	public void onDraw(final Canvas c, final MapView osmv) {
 		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
@@ -361,7 +361,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 	@Override
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
-			final OpenStreetMapView mapView) {
+			final MapView mapView) {
 		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = mapView.getProjection();
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
@@ -380,7 +380,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	@Override
-	public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView) {
+	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE)
 			mFollow = false;
 

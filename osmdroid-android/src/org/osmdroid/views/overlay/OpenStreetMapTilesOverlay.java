@@ -6,8 +6,8 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 
 	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);
 
-	protected OpenStreetMapView mOsmv;
+	protected MapView mOsmv;
 
 	/** Current tile source */
 	protected final OpenStreetMapTileProviderBase mTileProvider;
@@ -39,12 +39,12 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	private final Point mTilePos = new Point();
 	private final Rect mViewPort = new Rect();
 
-	public OpenStreetMapTilesOverlay(final OpenStreetMapView aOsmv,
+	public OpenStreetMapTilesOverlay(final MapView aOsmv,
 			final OpenStreetMapTileProviderBase aTileProvider, final Context aContext) {
 		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
-	public OpenStreetMapTilesOverlay(final OpenStreetMapView aOsmv,
+	public OpenStreetMapTilesOverlay(final MapView aOsmv,
 			final OpenStreetMapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
@@ -86,7 +86,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	}
 
 	@Override
-	protected void onDraw(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDraw(final Canvas c, final MapView osmv) {
 
 		if (DEBUGMODE)
 			logger.trace("onDraw");
@@ -154,6 +154,6 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	}
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 	}
 }

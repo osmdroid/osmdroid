@@ -90,7 +90,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 
 	/**
 	 * Animates the underlying {@link OpenStreetMapView} that it centers the passed {@link GeoPoint} in the end.
-	 * Uses: {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT} and {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}.
+	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and {@link MapController.ANIMATION_DURATION_DEFAULT}.
 	 * @param gp
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType){
@@ -100,8 +100,8 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 	/**
 	 * Animates the underlying {@link OpenStreetMapView} that it centers the passed {@link GeoPoint} in the end.
 	 * @param gp GeoPoint to be centered in the end.
-	 * @param aSmoothness steps made during animation. I.e.: {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_LOW}, {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT}, {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_HIGH}
-	 * @param aDuration in Milliseconds. I.e.: {@link OpenStreetMapViewController.ANIMATION_DURATION_SHORT}, {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}, {@link OpenStreetMapViewController.ANIMATION_DURATION_LONG}
+	 * @param aSmoothness steps made during animation. I.e.: {@link MapController.ANIMATION_SMOOTHNESS_LOW}, {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT}, {@link MapController.ANIMATION_SMOOTHNESS_HIGH}
+	 * @param aDuration in Milliseconds. I.e.: {@link MapController.ANIMATION_DURATION_SHORT}, {@link MapController.ANIMATION_DURATION_DEFAULT}, {@link MapController.ANIMATION_DURATION_LONG}
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType, final int aSmoothness, final int aDuration){
 		animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType, aSmoothness, aDuration);
@@ -109,7 +109,7 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 
 	/**
 	 * Animates the underlying {@link OpenStreetMapView} that it centers the passed coordinates in the end.
-	 * Uses: {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT} and {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}.
+	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and {@link MapController.ANIMATION_DURATION_DEFAULT}.
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 */
@@ -121,8 +121,8 @@ public class OpenStreetMapViewController implements OpenStreetMapViewConstants {
 	 * Animates the underlying {@link OpenStreetMapView} that it centers the passed coordinates in the end.
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
-	 * @param aSmoothness steps made during animation. I.e.: {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_LOW}, {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_DEFAULT}, {@link OpenStreetMapViewController.ANIMATION_SMOOTHNESS_HIGH}
-	 * @param aDuration in Milliseconds. I.e.: {@link OpenStreetMapViewController.ANIMATION_DURATION_SHORT}, {@link OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT}, {@link OpenStreetMapViewController.ANIMATION_DURATION_LONG}
+	 * @param aSmoothness steps made during animation. I.e.: {@link MapController.ANIMATION_SMOOTHNESS_LOW}, {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT}, {@link MapController.ANIMATION_SMOOTHNESS_HIGH}
+	 * @param aDuration in Milliseconds. I.e.: {@link MapController.ANIMATION_DURATION_SHORT}, {@link MapController.ANIMATION_DURATION_DEFAULT}, {@link MapController.ANIMATION_DURATION_LONG}
 	 */
 	public void animateTo(final int aLatitudeE6, final int aLongitudeE6, final AnimationType aAnimationType, final int aSmoothness, final int aDuration){
 		this.stopAnimation(false);

@@ -1,6 +1,6 @@
 package org.osmdroid.events;
 
-import org.osmdroid.views.OpenStreetMapView;
+import org.osmdroid.views.MapView;
 
 /*
  * The event generated when a map has finished zooming to the level <code>zoomLevel</code>.
@@ -8,10 +8,10 @@ import org.osmdroid.views.OpenStreetMapView;
  * @author Theodore Hong
  */
 public class ZoomEvent implements MapEvent {
-	protected OpenStreetMapView source;
+	protected MapView source;
 	protected int zoomLevel;
 
-	public ZoomEvent(final OpenStreetMapView source, final int zoomLevel) {
+	public ZoomEvent(final MapView source, final int zoomLevel) {
 		this.source = source;
 		this.zoomLevel = zoomLevel;
 	}
@@ -19,7 +19,7 @@ public class ZoomEvent implements MapEvent {
 	/*
 	 * Return the map which generated this event.
 	 */
-	public OpenStreetMapView getSource() {
+	public MapView getSource() {
 		return source;
 	}
 

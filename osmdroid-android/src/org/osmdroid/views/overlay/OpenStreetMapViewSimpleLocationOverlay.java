@@ -4,8 +4,8 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -67,12 +67,12 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 		return;
 	}
 
 	@Override
-	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
+	public void onDraw(final Canvas c, final MapView osmv) {
 		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);

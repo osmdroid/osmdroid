@@ -55,14 +55,14 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class OpenStreetMapView extends View implements OpenStreetMapViewConstants,
+public class MapView extends View implements OpenStreetMapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapView.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapView.class);
 
 	final static String BUNDLE_TILE_SOURCE = "org.andnav.osm.views.OpenStreetMapView.TILE_SOURCE";
 	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
@@ -86,7 +86,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private final Paint mPaint = new Paint();
 	private OpenStreetMapViewProjection mProjection;
 
-	private OpenStreetMapView mMiniMap, mMaxiMap;
+	private MapView mMiniMap, mMaxiMap;
 	private final OpenStreetMapTilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector;
@@ -98,7 +98,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	private final ScaleAnimation mZoomOutAnimation;
 	private final MyAnimationListener mAnimationListener = new MyAnimationListener();
 
-	private final OpenStreetMapViewController mController;
+	private final MapController mController;
 	private int mMiniMapOverriddenVisibility = NOT_SET;
 	private int mMiniMapZoomDiff = NOT_SET;
 
@@ -124,12 +124,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// Constructors
 	// ===========================================================
 
-	private OpenStreetMapView(final Context context, final Handler tileRequestCompleteHandler,
+	private MapView(final Context context, final Handler tileRequestCompleteHandler,
 			final AttributeSet attrs, final int tileSizePixels,
 			OpenStreetMapTileProviderBase tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
-		this.mController = new OpenStreetMapViewController(this);
+		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
 		this.mTileSizePixels = tileSizePixels;
 
@@ -169,23 +169,23 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	/**
 	 * Constructor used by XML layout resource (uses default tile source).
 	 */
-	public OpenStreetMapView(final Context context, final AttributeSet attrs) {
+	public MapView(final Context context, final AttributeSet attrs) {
 		this(context, null, attrs, 256, null);
 	}
 
 	/**
 	 * Standard Constructor.
 	 */
-	public OpenStreetMapView(final Context context, final int tileSizePixels,
+	public MapView(final Context context, final int tileSizePixels,
 			final OpenStreetMapTileProviderBase aTileProvider) {
 		this(context, null, null, tileSizePixels, aTileProvider);
 	}
 
-	public OpenStreetMapView(final Context context, final int tileSizePixels) {
+	public MapView(final Context context, final int tileSizePixels) {
 		this(context, null, null, tileSizePixels, null);
 	}
 
-	public OpenStreetMapView(final Context context, final Handler tileRequestCompleteHandler,
+	public MapView(final Context context, final Handler tileRequestCompleteHandler,
 			final int tileSizePixels, final OpenStreetMapTileProviderBase aTileProvider) {
 		this(context, tileRequestCompleteHandler, null, tileSizePixels, aTileProvider);
 	}
@@ -194,12 +194,12 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * 
 	 * @param context
 	 * @param osmv
-	 *            another {@link OpenStreetMapView}, to share the TileProvider with.<br/>
+	 *            another {@link MapView}, to share the TileProvider with.<br/>
 	 *            May significantly improve the render speed, when using the same
 	 *            {@link IOpenStreetMapRenderInfo}.
 	 */
-	public OpenStreetMapView(final Context context,
-			final OpenStreetMapView aMapToShareTheTileProviderWith) {
+	public MapView(final Context context,
+			final MapView aMapToShareTheTileProviderWith) {
 		this(context, aMapToShareTheTileProviderWith.mTileRequestCompleteHandler, null,
 				aMapToShareTheTileProviderWith.getProjection().getTileSizePixels(),
 				aMapToShareTheTileProviderWith.mTileProvider);
@@ -210,7 +210,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	/**
-	 * This MapView takes control of the {@link OpenStreetMapView} passed as parameter.<br />
+	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
 	 * 
@@ -220,7 +220,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 *            3 is a good Value. Pass {@link OpenStreetMapViewConstants} .NOT_SET to disable
 	 *            autozooming of the minimap.
 	 */
-	public void setMiniMap(final OpenStreetMapView aOsmvMinimap, final int aZoomDiff) {
+	public void setMiniMap(final MapView aOsmvMinimap, final int aZoomDiff) {
 		this.mMiniMapZoomDiff = aZoomDiff;
 		this.mMiniMap = aOsmvMinimap;
 		aOsmvMinimap.setMaxiMap(this);
@@ -267,11 +267,11 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mMiniMapOverriddenVisibility = aVisibility;
 	}
 
-	private void setMaxiMap(final OpenStreetMapView aOsmvMaxiMap) {
+	private void setMaxiMap(final MapView aOsmvMaxiMap) {
 		this.mMaxiMap = aOsmvMaxiMap;
 	}
 
-	public OpenStreetMapViewController getController() {
+	public MapController getController() {
 		return this.mController;
 	}
 
@@ -941,7 +941,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	// ===========================================================
 
 	/**
-	 * This class may return valid results until the underlying {@link OpenStreetMapView} gets
+	 * This class may return valid results until the underlying {@link MapView} gets
 	 * modified in any way (i.e. new center).
 	 * 
 	 * @author Nicolas Gramlich
@@ -969,7 +969,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			/*
 			 * Do some calculations and drag attributes to local variables to save some performance.
 			 */
-			zoomLevel = OpenStreetMapView.this.mZoomLevel; // TODO Draw to
+			zoomLevel = MapView.this.mZoomLevel; // TODO Draw to
 			// attributes and so
 			// make it only
 			// 'valid' for a
@@ -984,7 +984,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 			upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(
 					centerMapTileCoords, tileSizePx, null);
 
-			bb = OpenStreetMapView.this.getDrawnBoundingBoxE6();
+			bb = MapView.this.getDrawnBoundingBoxE6();
 		}
 
 		public int getTileSizePixels() {
@@ -1228,7 +1228,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		@Override
 		public void onLongPress(final MotionEvent e) {
-			OpenStreetMapView.this.onLongPress(e);
+			MapView.this.onLongPress(e);
 		}
 
 		@Override
@@ -1244,7 +1244,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 		@Override
 		public boolean onSingleTapUp(final MotionEvent e) {
-			return OpenStreetMapView.this.onSingleTapUp(e);
+			return MapView.this.onSingleTapUp(e);
 		}
 
 	}

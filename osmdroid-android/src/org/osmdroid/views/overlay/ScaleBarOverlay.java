@@ -40,8 +40,8 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
 
 import android.app.Activity;
 import android.graphics.Canvas;
@@ -209,11 +209,11 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 	}
 
 	@Override
-	public void onDraw(final Canvas c, final OpenStreetMapView mapView) {
+	public void onDraw(final Canvas c, final MapView mapView) {
 
 		// If map view is animating, don't update, scale will be wrong.
 		if (mapView.isAnimating())
@@ -257,7 +257,7 @@ public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoCons
 		return this.enabled = true;
 	}
 
-	private void createScaleBarPicture(final OpenStreetMapView mapView) {
+	private void createScaleBarPicture(final MapView mapView) {
 		// We want the scale bar to be as long as the closest round-number miles/kilometers
 		// to 1-inch at the latitude at the current center of the screen.
 
