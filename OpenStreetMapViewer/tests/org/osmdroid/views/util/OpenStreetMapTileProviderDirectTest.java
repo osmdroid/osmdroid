@@ -4,10 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileProviderDirect;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
-import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import android.graphics.Bitmap;
@@ -27,18 +27,18 @@ import android.test.AndroidTestCase;
  */
 public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 
-	OpenStreetMapTileProviderDirect mProvider;
+	MapTileProviderBasic mProvider;
 
 	@Override
 	protected void setUp() throws Exception {
 
-		mProvider = new OpenStreetMapTileProviderDirect(getContext());
+		mProvider = new MapTileProviderBasic(getContext());
 
 		super.setUp();
 	}
 
 	public void test_getMapTile_not_found() {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(2, 3, 4);
+		final MapTile tile = new MapTile(2, 3, 4);
 
 		final Drawable drawable = mProvider.getMapTile(tile);
 
@@ -46,7 +46,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 	}
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
-		final OpenStreetMapTile tile = new OpenStreetMapTile(2, 3, 4);
+		final MapTile tile = new MapTile(2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
 		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
@@ -57,8 +57,8 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		final FileOutputStream fos = new FileOutputStream(path);
 		bitmap1.compress(CompressFormat.PNG, 100, fos);
 
-		final OpenStreetMapTileRequestState state = new OpenStreetMapTileRequestState(tile,
-				new OpenStreetMapTileModuleProviderBase[] {}, mProvider);
+		final MapTileRequestState state = new MapTileRequestState(tile,
+				new MapTileModuleProviderBase[] {}, mProvider);
 		mProvider.mapTileRequestCompleted(state, TileSourceFactory.MAPNIK.getDrawable(path));
 
 		// do the test

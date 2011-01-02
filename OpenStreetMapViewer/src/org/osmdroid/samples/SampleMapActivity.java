@@ -1,5 +1,5 @@
 // Created by plusminus on 00:14:42 - 02.10.2008
-package org.osmdroid;
+package org.osmdroid.samples;
 
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.contributor.OSMUploader;
@@ -18,7 +18,7 @@ import android.os.Bundle;
  * @author Nicolas Gramlich
  * 
  */
-public abstract class OpenStreetMapActivity extends Activity implements OpenStreetMapConstants {
+public abstract class SampleMapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -155,19 +155,19 @@ public abstract class OpenStreetMapActivity extends Activity implements OpenStre
 		@Override
 		public void onLocationChanged(final Location loc) {
 			if (loc != null) {
-				if (OpenStreetMapActivity.this.mDoGPSRecordingAndContributing)
-					OpenStreetMapActivity.this.mRouteRecorder.add(loc,
-							OpenStreetMapActivity.this.mNumSatellites);
+				if (SampleMapActivity.this.mDoGPSRecordingAndContributing)
+					SampleMapActivity.this.mRouteRecorder.add(loc,
+							SampleMapActivity.this.mNumSatellites);
 
-				OpenStreetMapActivity.this.onLocationChanged(loc);
+				SampleMapActivity.this.onLocationChanged(loc);
 			} else {
-				OpenStreetMapActivity.this.onLocationLost();
+				SampleMapActivity.this.onLocationLost();
 			}
 		}
 
 		@Override
 		public void onStatusChanged(final String a, final int i, final Bundle b) {
-			OpenStreetMapActivity.this.mNumSatellites = b.getInt("satellites", NOT_SET); // TODO
+			SampleMapActivity.this.mNumSatellites = b.getInt("satellites", NOT_SET); // TODO
 																							// Check
 																							// on an
 																							// actual

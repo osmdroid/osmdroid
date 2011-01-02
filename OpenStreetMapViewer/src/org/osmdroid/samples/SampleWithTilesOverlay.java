@@ -1,11 +1,11 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.tileprovider.OpenStreetMapTileProviderDirect;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.overlay.OpenStreetMapTilesOverlay;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,9 +27,9 @@ public class SampleWithTilesOverlay extends Activity {
 	// Fields
 	// ===========================================================
 
-	private OpenStreetMapView mOsmv;
-	private OpenStreetMapTilesOverlay mTilesOverlay;
-	private OpenStreetMapTileProviderDirect mProvider;
+	private MapView mOsmv;
+	private TilesOverlay mTilesOverlay;
+	private MapTileProviderBasic mProvider;
 
 	// ===========================================================
 	// Constructors
@@ -44,7 +44,7 @@ public class SampleWithTilesOverlay extends Activity {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new OpenStreetMapView(this, 256);
+		this.mOsmv = new MapView(this, 256);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		this.mOsmv.setBuiltInZoomControls(true);
@@ -54,10 +54,9 @@ public class SampleWithTilesOverlay extends Activity {
 		this.mOsmv.getController().setCenter(new GeoPoint(51500000, 5400000));
 
 		// Add tiles layer
-		mProvider = new OpenStreetMapTileProviderDirect(getApplicationContext());
+		mProvider = new MapTileProviderBasic(getApplicationContext());
 		mProvider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);
-		this.mTilesOverlay = new OpenStreetMapTilesOverlay(this.mOsmv, mProvider,
-				this.getBaseContext());
+		this.mTilesOverlay = new TilesOverlay(this.mOsmv, mProvider, this.getBaseContext());
 		this.mOsmv.getOverlays().add(this.mTilesOverlay);
 
 		this.setContentView(rl);

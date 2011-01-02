@@ -8,7 +8,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
 
 import android.app.Activity;
@@ -33,7 +33,7 @@ import android.widget.Toast;
  * @author Manuel Stahl
  * 
  */
-public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
+public class MapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -51,7 +51,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 
 	private SharedPreferences mPrefs;
-	private OpenStreetMapView mOsmv;
+	private MapView mOsmv;
 	private MyLocationOverlay mLocationOverlay;
 	private ResourceProxy mResourceProxy;
 
@@ -71,7 +71,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new OpenStreetMapView(this, 256);
+		this.mOsmv = new MapView(this, 256);
 		this.mOsmv.setResourceProxy(mResourceProxy);
 		this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv,
 				mResourceProxy);
@@ -204,7 +204,7 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 
 		switch (id) {
 		case DIALOG_ABOUT_ID:
-			return new AlertDialog.Builder(OpenStreetMap.this).setIcon(R.drawable.icon)
+			return new AlertDialog.Builder(MapActivity.this).setIcon(R.drawable.icon)
 					.setTitle(R.string.app_name).setMessage(R.string.about_message)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						@Override

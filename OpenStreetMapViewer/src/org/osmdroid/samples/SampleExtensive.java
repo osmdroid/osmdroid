@@ -1,7 +1,6 @@
 package org.osmdroid.samples;
 
 import org.andnav.osm.R;
-import org.osmdroid.OpenStreetMapActivity;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.constants.OpenStreetMapConstants;
@@ -9,10 +8,10 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.OpenStreetMapViewController;
-import org.osmdroid.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
+import org.osmdroid.views.MapController;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -30,7 +29,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * @author Nicolas Gramlich
  * 
  */
-public class SampleExtensive extends OpenStreetMapActivity implements OpenStreetMapConstants {
+public class SampleExtensive extends SampleMapActivity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -45,9 +44,9 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 	// Fields
 	// ===========================================================
 
-	private OpenStreetMapView mOsmv, mOsmvMinimap;
-	private OpenStreetMapViewController mOsmvController;
-	private OpenStreetMapViewSimpleLocationOverlay mMyLocationOverlay;
+	private MapView mOsmv, mOsmvMinimap;
+	private MapController mOsmvController;
+	private SimpleLocationOverlay mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 	private ScaleBarOverlay mScaleBarOverlay;
 
@@ -66,7 +65,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new OpenStreetMapView(this, 256);
+		this.mOsmv = new MapView(this, 256);
 		this.mOsmvController = this.mOsmv.getController();
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
@@ -87,8 +86,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 			 * Create a static Overlay showing a single location. (Gets updated in
 			 * onLocationChanged(Location loc)!
 			 */
-			this.mMyLocationOverlay = new OpenStreetMapViewSimpleLocationOverlay(this,
-					mResourceProxy);
+			this.mMyLocationOverlay = new SimpleLocationOverlay(this, mResourceProxy);
 			this.mOsmv.getOverlays().add(mMyLocationOverlay);
 		}
 
@@ -138,7 +136,7 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 			 * Create another OpenStreetMapView, that will act as the MiniMap for the 'MainMap'.
 			 * They will share the TileProvider.
 			 */
-			mOsmvMinimap = new OpenStreetMapView(this, this.mOsmv);
+			mOsmvMinimap = new MapView(this, this.mOsmv);
 			final int aZoomDiff = 3; // Use OpenStreetMapViewConstants.NOT_SET to disable
 										// autozooming of this minimap
 			this.mOsmv.setMiniMap(mOsmvMinimap, aZoomDiff);
@@ -226,9 +224,9 @@ public class SampleExtensive extends OpenStreetMapActivity implements OpenStreet
 
 		case MENU_ANIMATION_ID:
 			this.mOsmv.getController().animateTo(52370816, 9735936,
-					OpenStreetMapViewController.AnimationType.MIDDLEPEAKSPEED,
-					OpenStreetMapViewController.ANIMATION_SMOOTHNESS_HIGH,
-					OpenStreetMapViewController.ANIMATION_DURATION_DEFAULT); // Hannover
+					MapController.AnimationType.MIDDLEPEAKSPEED,
+					MapController.ANIMATION_SMOOTHNESS_HIGH,
+					MapController.ANIMATION_DURATION_DEFAULT); // Hannover
 			// Stop the Animation after 500ms (just to show that it works)
 			// new Handler().postDelayed(new Runnable(){
 			// @Override

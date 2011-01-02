@@ -3,7 +3,7 @@ package org.osmdroid.samples;
 
 import org.andnav.osm.R;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
-import org.osmdroid.views.OpenStreetMapView;
+import org.osmdroid.views.MapView;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 	// Fields
 	// ===========================================================
 
-	private OpenStreetMapView mOsmv, mOsmvMinimap;
+	private MapView mOsmv, mOsmvMinimap;
 
 	// ===========================================================
 	// Constructors
@@ -42,7 +42,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new OpenStreetMapView(this, 256);
+		this.mOsmv = new MapView(this, 256);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
@@ -92,7 +92,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 			 * Create another OpenStreetMapView, that will act as the MiniMap for the 'MainMap'.
 			 * They will share the TileProvider.
 			 */
-			mOsmvMinimap = new OpenStreetMapView(this, this.mOsmv);
+			mOsmvMinimap = new MapView(this, this.mOsmv);
 			final int aZoomDiff = 3; // Use OpenStreetMapViewConstants.NOT_SET to disable
 										// autozooming of this
 										// minimap

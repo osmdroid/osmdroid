@@ -7,10 +7,10 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.overlay.OpenStreetMapViewItemizedOverlay;
-import org.osmdroid.views.overlay.OpenStreetMapViewItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.OpenStreetMapViewOverlayItem;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.OverlayItem;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -38,8 +38,8 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 	// Fields
 	// ===========================================================
 
-	private OpenStreetMapView mOsmv, mOsmvMinimap;
-	private OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem> mMyLocationOverlay;
+	private MapView mOsmv, mOsmvMinimap;
+	private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
@@ -56,34 +56,30 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new OpenStreetMapView(this, 256);
+		this.mOsmv = new MapView(this, 256);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
 		/* Itemized Overlay */
 		{
 			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
-			final ArrayList<OpenStreetMapViewOverlayItem> items = new ArrayList<OpenStreetMapViewOverlayItem>();
-			items.add(new OpenStreetMapViewOverlayItem("Hannover", "Tiny SampleDescription",
-					new GeoPoint(52370816, 9735936))); // Hannover
-			items.add(new OpenStreetMapViewOverlayItem("Berlin",
-					"This is a relatively short SampleDescription.", new GeoPoint(52518333,
-							13408333))); // Berlin
-			items.add(new OpenStreetMapViewOverlayItem(
+			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52370816,
+					9735936))); // Hannover
+			items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
+					new GeoPoint(52518333, 13408333))); // Berlin
+			items.add(new OverlayItem(
 					"Washington",
 					"This SampleDescription is a pretty long one. Almost as long as a the great wall in china.",
 					new GeoPoint(38895000, -77036667))); // Washington
-			items.add(new OpenStreetMapViewOverlayItem("San Francisco", "SampleDescription",
-					new GeoPoint(37779300, -122419200))); // San Francisco
+			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300,
+					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			this.mMyLocationOverlay = new OpenStreetMapViewItemizedOverlayWithFocus<OpenStreetMapViewOverlayItem>(
-					this,
-					items,
-					new OpenStreetMapViewItemizedOverlay.OnItemGestureListener<OpenStreetMapViewOverlayItem>() {
+			this.mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(this, items,
+					new ItemizedOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
-						public boolean onItemSingleTapUp(final int index,
-								final OpenStreetMapViewOverlayItem item) {
+						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 							Toast.makeText(
 									SampleWithMinimapItemizedoverlayWithFocus.this,
 									"Item '" + item.mTitle + "' (index=" + index
@@ -92,8 +88,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 						}
 
 						@Override
-						public boolean onItemLongPress(final int index,
-								final OpenStreetMapViewOverlayItem item) {
+						public boolean onItemLongPress(final int index, final OverlayItem item) {
 							Toast.makeText(
 									SampleWithMinimapItemizedoverlayWithFocus.this,
 									"Item '" + item.mTitle + "' (index=" + index
@@ -113,7 +108,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 			 * Create another OpenStreetMapView, that will act as the MiniMap for the 'MainMap'.
 			 * They will share the TileProvider.
 			 */
-			mOsmvMinimap = new OpenStreetMapView(this, this.mOsmv);
+			mOsmvMinimap = new MapView(this, this.mOsmv);
 			final int aZoomDiff = 3; // Use OpenStreetMapViewConstants.NOT_SET to disable
 										// autozooming of this
 										// minimap

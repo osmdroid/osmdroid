@@ -1,8 +1,8 @@
 package org.osmdroid.views;
 
-import org.osmdroid.tileprovider.OpenStreetMapTileProviderDirect;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,7 +21,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 	private static final int WIDTH = 300;
 	private static final int HEIGHT = 500;
 
-	private OpenStreetMapView mOpenStreetMapView;
+	private MapView mOpenStreetMapView;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -36,10 +36,10 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		};
 
 		// final String cloudmadeKey = getCloudmadeKey(applicationContext);
-		final OpenStreetMapTileProviderDirect mTileProvider = new OpenStreetMapTileProviderDirect(
+		final MapTileProviderBasic mTileProvider = new MapTileProviderBasic(
 				context);
 
-		mOpenStreetMapView = new OpenStreetMapView(context, 256, mTileProvider);
+		mOpenStreetMapView = new MapView(context, 256, mTileProvider);
 		final Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Config.RGB_565);
 		final Canvas canvas = new Canvas(bitmap);
 		mOpenStreetMapView.onDraw(canvas);
@@ -56,7 +56,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		final GeoPoint zz = new GeoPoint(0, 0);
 		mOpenStreetMapView.getController().setCenter(zz);
 		mOpenStreetMapView.getController().setZoom(8);
-		final OpenStreetMapViewProjection projection = mOpenStreetMapView.getProjection();
+		final Projection projection = mOpenStreetMapView.getProjection();
 
 		final Point point = projection.toMapPixels(zz, null);
 
@@ -73,7 +73,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		final GeoPoint hannover = new GeoPoint(52370816, 9735936);
 		mOpenStreetMapView.getController().setCenter(hannover);
 		mOpenStreetMapView.getController().setZoom(8);
-		final OpenStreetMapViewProjection projection = mOpenStreetMapView.getProjection();
+		final Projection projection = mOpenStreetMapView.getProjection();
 
 		final Point point = projection.toMapPixels(hannover, null);
 

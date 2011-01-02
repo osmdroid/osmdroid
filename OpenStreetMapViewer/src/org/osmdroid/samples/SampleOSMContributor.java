@@ -1,6 +1,5 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.OpenStreetMapActivity;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.TextView;
  * 
  * @author Nicolas Gramlich
  */
-public class SampleOSMContributor extends OpenStreetMapActivity {
+public class SampleOSMContributor extends SampleMapActivity {
 
 	/** Called when the activity is first created. */
 	@Override

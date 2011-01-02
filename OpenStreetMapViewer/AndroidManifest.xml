@@ -22,50 +22,50 @@
 		<meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
 
 		<uses-library android:name="android.test.runner" />
-		<activity android:name="OpenStreetMap" android:icon="@drawable/icon"
-			android:label="Open Map">
+		<activity android:icon="@drawable/icon"
+			android:label="Open Map" android:name="org.osmdroid.MapActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"></action>
 				<category android:name="android.intent.category.LAUNCHER"></category>
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleLoader" android:label="OSMSamples">
+		<activity android:label="OSMSamples" android:name="org.osmdroid.samples.SampleLoader">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithMinimapItemizedoverlay">
+		<activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithMinimapItemizedoverlayWithFocus">
+		<activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlayWithFocus">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleExtensive">
+		<activity android:name="org.osmdroid.samples.SampleExtensive">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithMinimapZoomcontrols">
+		<activity android:name="org.osmdroid.samples.SampleWithMinimapZoomcontrols">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleOSMContributor">
+		<activity android:name="org.osmdroid.samples.SampleOSMContributor">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithTilesOverlay">
+		<activity android:name="org.osmdroid.samples.SampleWithTilesOverlay">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
