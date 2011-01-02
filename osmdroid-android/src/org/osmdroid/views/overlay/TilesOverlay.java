@@ -25,9 +25,9 @@ import android.graphics.drawable.Drawable;
  * 
  */
 
-public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
+public class TilesOverlay extends Overlay {
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTilesOverlay.class);
+	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
 
 	protected MapView mOsmv;
 
@@ -39,12 +39,12 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	private final Point mTilePos = new Point();
 	private final Rect mViewPort = new Rect();
 
-	public OpenStreetMapTilesOverlay(final MapView aOsmv,
+	public TilesOverlay(final MapView aOsmv,
 			final OpenStreetMapTileProviderBase aTileProvider, final Context aContext) {
 		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
-	public OpenStreetMapTilesOverlay(final MapView aOsmv,
+	public TilesOverlay(final MapView aOsmv,
 			final OpenStreetMapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;

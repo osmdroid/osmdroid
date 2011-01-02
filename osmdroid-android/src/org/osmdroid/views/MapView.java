@@ -25,9 +25,9 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
-import org.osmdroid.views.overlay.OpenStreetMapTilesOverlay;
-import org.osmdroid.views.overlay.OpenStreetMapViewOverlay;
-import org.osmdroid.views.overlay.OpenStreetMapViewOverlay.Snappable;
+import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
@@ -81,13 +81,13 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	private int mTileSizePixels = 0;
 
-	private final ArrayList<OpenStreetMapViewOverlay> mOverlays = new ArrayList<OpenStreetMapViewOverlay>();
+	private final ArrayList<Overlay> mOverlays = new ArrayList<Overlay>();
 
 	private final Paint mPaint = new Paint();
 	private OpenStreetMapViewProjection mProjection;
 
 	private MapView mMiniMap, mMaxiMap;
-	private final OpenStreetMapTilesOverlay mMapOverlay;
+	private final TilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector;
 
@@ -143,7 +143,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		mTileProvider = tileProvider;
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-		this.mMapOverlay = new OpenStreetMapTilesOverlay(this, mTileProvider, mResourceProxy);
+		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
@@ -276,10 +276,10 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	}
 
 	/**
-	 * You can add/remove/reorder your Overlays using the List of {@link OpenStreetMapViewOverlay}.
+	 * You can add/remove/reorder your Overlays using the List of {@link Overlay}.
 	 * The first (index 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
-	public List<OpenStreetMapViewOverlay> getOverlays() {
+	public List<Overlay> getOverlays() {
 		return this.mOverlays;
 	}
 
@@ -428,7 +428,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		mProjection = new OpenStreetMapViewProjection(); // XXX why do we need a
 		// new projection
 		// here?
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays) {
+		for (final Overlay osmvo : this.mOverlays) {
 			if (osmvo instanceof Snappable
 					&& ((Snappable) osmvo)
 							.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
@@ -622,18 +622,18 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	public void onDetach() {
 		mMapOverlay.detach();
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			osmvo.onDetach(this);
 	}
 
 	public void onLongPress(final MotionEvent e) {
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onLongPress(e, this))
 				return;
 	}
 
 	public boolean onSingleTapUp(final MotionEvent e) {
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onSingleTapUp(e, this)) {
 				postInvalidate();
 				return true;
@@ -644,7 +644,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onKeyDown(keyCode, event, this))
 				return true;
 
@@ -653,7 +653,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	@Override
 	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onKeyUp(keyCode, event, this))
 				return true;
 
@@ -662,7 +662,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	@Override
 	public boolean onTrackballEvent(final MotionEvent event) {
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onTrackballEvent(event, this))
 				return true;
 
@@ -677,7 +677,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		if (DEBUGMODE)
 			logger.debug("onTouchEvent(" + event + ")");
 
-		for (final OpenStreetMapViewOverlay osmvo : this.mOverlays)
+		for (final Overlay osmvo : this.mOverlays)
 			if (osmvo.onTouchEvent(event, this)) {
 				if (DEBUGMODE)
 					logger.debug("overlay handled onTouchEvent");

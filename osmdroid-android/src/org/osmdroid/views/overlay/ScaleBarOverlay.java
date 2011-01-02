@@ -52,7 +52,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Picture;
 import android.graphics.Rect;
 
-public class ScaleBarOverlay extends OpenStreetMapViewOverlay implements GeoConstants {
+public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// ===========================================================
 	// Fields

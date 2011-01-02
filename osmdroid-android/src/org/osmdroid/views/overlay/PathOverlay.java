@@ -20,7 +20,7 @@ import android.graphics.Rect;
  * 
  *         This class draws a path line in given color.
  */
-public class OpenStreetMapViewPathOverlay extends OpenStreetMapViewOverlay {
+public class PathOverlay extends Overlay {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -57,11 +57,11 @@ public class OpenStreetMapViewPathOverlay extends OpenStreetMapViewOverlay {
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewPathOverlay(final int color, final Context ctx) {
+	public PathOverlay(final int color, final Context ctx) {
 		this(color, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewPathOverlay(final int color, final ResourceProxy pResourceProxy) {
+	public PathOverlay(final int color, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(2.0f);

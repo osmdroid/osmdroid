@@ -24,7 +24,7 @@ import android.view.MotionEvent;
  * 
  * @author Nicolas Gramlich
  */
-public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConstants {
+public abstract class Overlay implements OpenStreetMapViewConstants {
 
 	// ===========================================================
 	// Constants
@@ -41,11 +41,11 @@ public abstract class OpenStreetMapViewOverlay implements OpenStreetMapViewConst
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewOverlay(final Context ctx) {
+	public Overlay(final Context ctx) {
 		mResourceProxy = new DefaultResourceProxyImpl(ctx);
 	}
 
-	public OpenStreetMapViewOverlay(final ResourceProxy pResourceProxy) {
+	public Overlay(final ResourceProxy pResourceProxy) {
 		mResourceProxy = pResourceProxy;
 	}
 

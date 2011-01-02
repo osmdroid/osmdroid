@@ -15,8 +15,8 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapViewOverlayItem>
-		extends OpenStreetMapViewItemizedOverlay<T> {
+public class ItemizedOverlayWithFocus<T extends OverlayItem>
+		extends ItemizedOverlay<T> {
 
 	// ===========================================================
 	// Constants
@@ -53,17 +53,17 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
+	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
 			final OnItemGestureListener<T> aOnItemTapListener) {
 		this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
+	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
 			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
 	}
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
+	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
 			final Drawable pMarker, final Point pMarkerHotspot, final Drawable pMarkerFocusedBase,
 			final Point pMarkerFocusedHotSpot, final int pFocusedBackgroundColor,
 			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
@@ -144,9 +144,9 @@ public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapVi
 		// get focused item's preferred marker & hotspot
 		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 		Drawable markerFocusedBase = focusedItem
-				.getMarker(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+				.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		Point markerFocusedHotspot = focusedItem
-				.getMarkerHotspot(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+				.getMarkerHotspot(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (markerFocusedBase == null) {
 			markerFocusedBase = this.mMarkerFocusedBase;
 		}

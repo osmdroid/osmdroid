@@ -11,7 +11,7 @@ import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
 import org.osmdroid.views.MapController;
-import org.osmdroid.views.overlay.OpenStreetMapViewOverlay.Snappable;
+import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +41,7 @@ import android.view.MotionEvent;
  * @author Manuel Stahl
  * 
  */
-public class MyLocationOverlay extends OpenStreetMapViewOverlay implements SensorEventListener,
+public class MyLocationOverlay extends Overlay implements SensorEventListener,
 		LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);

@@ -21,7 +21,7 @@ import android.graphics.Point;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewOverlay {
+public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -53,11 +53,11 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx) {
+	public DirectedLocationOverlay(final Context ctx) {
 		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx,
+	public DirectedLocationOverlay(final Context ctx,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);

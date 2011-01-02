@@ -15,7 +15,7 @@ import android.graphics.drawable.Drawable;
  * @author Fred Eisele
  * 
  */
-public class OpenStreetMapViewOverlayItem {
+public class OverlayItem {
 
 	// ===========================================================
 	// Constants
@@ -55,12 +55,12 @@ public class OpenStreetMapViewOverlayItem {
 	 *            a <b>multiLine</b> description ( <code>'\n'</code> possible)
 	 * @param aGeoPoint
 	 */
-	public OpenStreetMapViewOverlayItem(final String aTitle, final String aDescription,
+	public OverlayItem(final String aTitle, final String aDescription,
 			final GeoPoint aGeoPoint) {
 		this(-1L, aTitle, aDescription, aGeoPoint);
 	}
 
-	public OpenStreetMapViewOverlayItem(final long aKey, final String aTitle,
+	public OverlayItem(final long aKey, final String aTitle,
 			final String aDescription, final GeoPoint aGeoPoint) {
 		this.mTitle = aTitle;
 		this.mDescription = aDescription;
@@ -160,10 +160,10 @@ public class OpenStreetMapViewOverlayItem {
 	 * @param pResourceProxy
 	 * @return a map item with all unspecified values set to reasonable defaults.
 	 */
-	public static OpenStreetMapViewOverlayItem getDefaultItem(final Drawable pMarker,
+	public static OverlayItem getDefaultItem(final Drawable pMarker,
 			final Point pHotspot, final HotspotPlace pHotspotPlace,
 			final ResourceProxy pResourceProxy) {
-		final OpenStreetMapViewOverlayItem that = new OpenStreetMapViewOverlayItem("<default>",
+		final OverlayItem that = new OverlayItem("<default>",
 				"used when no marker is specified", new GeoPoint(0.0, 0.0));
 		that.mMarker = (pMarker != null) ? pMarker : pResourceProxy
 				.getDrawable(ResourceProxy.bitmap.marker_default);

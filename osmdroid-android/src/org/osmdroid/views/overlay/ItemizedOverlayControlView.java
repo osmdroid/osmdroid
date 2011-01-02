@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
+public class ItemizedOverlayControlView extends LinearLayout {
 
 	// ===========================================================
 	// Constants
@@ -31,12 +31,12 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewItemizedOverlayControlView(final Context context,
+	public ItemizedOverlayControlView(final Context context,
 			final AttributeSet attrs) {
 		this(context, attrs, new DefaultResourceProxyImpl(context));
 	}
 
-	public OpenStreetMapViewItemizedOverlayControlView(final Context context,
+	public ItemizedOverlayControlView(final Context context,
 			final AttributeSet attrs, final ResourceProxy pResourceProxy) {
 		super(context, attrs);
 
@@ -102,32 +102,32 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 		this.mNextButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
-					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onNext();
+				if (ItemizedOverlayControlView.this.mLis != null)
+					ItemizedOverlayControlView.this.mLis.onNext();
 			}
 		});
 
 		this.mPreviousButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
-					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onPrevious();
+				if (ItemizedOverlayControlView.this.mLis != null)
+					ItemizedOverlayControlView.this.mLis.onPrevious();
 			}
 		});
 
 		this.mCenterToButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
-					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onCenter();
+				if (ItemizedOverlayControlView.this.mLis != null)
+					ItemizedOverlayControlView.this.mLis.onCenter();
 			}
 		});
 
 		this.mNavToButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
-					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onNavTo();
+				if (ItemizedOverlayControlView.this.mLis != null)
+					ItemizedOverlayControlView.this.mLis.onNavTo();
 			}
 		});
 	}

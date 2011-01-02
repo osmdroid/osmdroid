@@ -18,7 +18,7 @@ import android.graphics.Point;
  * @author Nicolas Gramlich
  * 
  */
-public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOverlay {
+public class SimpleLocationOverlay extends Overlay {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -40,11 +40,11 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx) {
+	public SimpleLocationOverlay(final Context ctx) {
 		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx,
+	public SimpleLocationOverlay(final Context ctx,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
