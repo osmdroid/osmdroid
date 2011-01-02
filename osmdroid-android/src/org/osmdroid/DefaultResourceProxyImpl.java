@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
-import org.andnav.osm.ResourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

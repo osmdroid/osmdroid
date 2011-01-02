@@ -1,6 +1,6 @@
 package org.osmdroid.events;
 
-import org.andnav.osm.views.OpenStreetMapView;
+import org.osmdroid.views.OpenStreetMapView;
 
 /*
  * The event generated when a map has finished zooming to the level <code>zoomLevel</code>.
