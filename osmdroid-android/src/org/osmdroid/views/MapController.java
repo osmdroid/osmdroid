@@ -366,7 +366,7 @@ public class MapController implements OpenStreetMapViewConstants {
 
 		@SuppressWarnings("unused")
 		public AbstractAnimationRunner(
-				final MapController openStreetMapViewController,
+				final MapController mapViewController,
 				final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
 			this(aTargetLatitudeE6, aTargetLongitudeE6,
 					OpenStreetMapViewConstants.ANIMATION_SMOOTHNESS_DEFAULT,

@@ -13,8 +13,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
- * Base class representing an overlay which may be displayed on top of a {@link MapView}.
- * To add an overlay, subclass this class, create an instance, and add it to the list obtained from
+ * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
+ * overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
  * 
  * This class implements a form of Gesture Handling similar to
@@ -87,19 +87,18 @@ public abstract class Overlay implements OpenStreetMapViewConstants {
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
-	public boolean onKeyDown(final int keyCode, final KeyEvent event,
-			final MapView mapView) {
+	public boolean onKeyDown(final int keyCode, final KeyEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
 	public boolean onKeyUp(final int keyCode, final KeyEvent event, final MapView mapView) {
 		return false;
@@ -109,8 +108,8 @@ public abstract class Overlay implements OpenStreetMapViewConstants {
 	 * <b>You can prevent all(!) other Touch-related events from happening!</b><br />
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		return false;
@@ -119,8 +118,8 @@ public abstract class Overlay implements OpenStreetMapViewConstants {
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
 	public boolean onTrackballEvent(final MotionEvent event, final MapView mapView) {
 		return false;
@@ -129,27 +128,27 @@ public abstract class Overlay implements OpenStreetMapViewConstants {
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
-	public boolean onSingleTapUp(final MotionEvent e, final MapView openStreetMapView) {
+	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to
-	 * handle this event.
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
 	 */
-	public boolean onLongPress(final MotionEvent e, final MapView openStreetMapView) {
+	public boolean onLongPress(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
 	 * By default does nothing (<code>return false</code>).
 	 */
-	public void onDetach(final MapView openStreetMapView) {
+	public void onDetach(final MapView mapView) {
 		return;
 	}
 
@@ -176,12 +175,11 @@ public abstract class Overlay implements OpenStreetMapViewConstants {
 		 *            To be filled with the the interesting point (in screen coordinates) that is
 		 *            closest to the given x and y. Can be untouched if not snapping.
 		 * @param mapView
-		 *            The OpenStreetMapView that is requesting the snap. Use MapView.getProjection()
+		 *            The {@link MapView} that is requesting the snap. Use MapView.getProjection()
 		 *            to convert between on-screen pixels and latitude/longitude pairs.
 		 * @return Whether or not to snap to the interesting point.
 		 */
-		boolean onSnapToItem(int x, int y, android.graphics.Point snapPoint,
-				MapView mapView);
+		boolean onSnapToItem(int x, int y, android.graphics.Point snapPoint, MapView mapView);
 	}
 
 }

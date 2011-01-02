@@ -9,7 +9,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.slf4j.Logger;
@@ -232,7 +232,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 	@Override
 	public void onDraw(final Canvas c, final MapView osmv) {
 		if (this.mLocation != null) {
-			final OpenStreetMapViewProjection pj = osmv.getProjection();
+			final Projection pj = osmv.getProjection();
 			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
 					(int) (mLocation.getLongitude() * 1E6));
 			pj.toMapPixels(mGeoPoint, mMapCoords);
@@ -363,7 +363,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
 			final MapView mapView) {
 		if (this.mLocation != null) {
-			final OpenStreetMapViewProjection pj = mapView.getProjection();
+			final Projection pj = mapView.getProjection();
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;

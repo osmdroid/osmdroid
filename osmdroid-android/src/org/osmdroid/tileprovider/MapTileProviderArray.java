@@ -14,15 +14,16 @@ import android.graphics.drawable.Drawable;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
- * providers to be used to obtain map tiles. When a tile is requested, the ArrayProvider first
- * checks the MapTileCache (synchronously) and returns the tile if available. If not, then the
- * ArrayProvider returns null and sends the tile request through the asynchronous tile request
- * chain. Each asynchronous tile provider returns success/failure to the ArrayProvider. If
- * successful, the ArrayProvider passes the result to the base class. If failed, then the next
+ * providers to be used to obtain map tiles. When a tile is requested, the
+ * {@link MapTileProviderArray} first checks the {@link MapTileCache} (synchronously) and returns
+ * the tile if available. If not, then the {@link MapTileProviderArray} returns null and sends the
+ * tile request through the asynchronous tile request chain. Each asynchronous tile provider returns
+ * success/failure to the {@link MapTileProviderArray}. If successful, the
+ * {@link MapTileProviderArray} passes the result to the base class. If failed, then the next
  * asynchronous tile provider is called in the chain. If there are no more asynchronous tile
- * providers in the chain, then the failure result is passed to the base class. The ArrayProvider
- * provides a mechanism so that only one unique tile-request can be in the map tile request chain at
- * a time.
+ * providers in the chain, then the failure result is passed to the base class. The
+ * {@link MapTileProviderArray} provides a mechanism so that only one unique tile-request can be in
+ * the map tile request chain at a time.
  * 
  * @author Marc Kurtz
  * 
@@ -31,28 +32,27 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	private final ConcurrentHashMap<MapTileRequestState, MapTile> mWorking;
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MapTileProviderArray.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderArray.class);
 
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
 
 	/**
-	 * Creates an OpenStreetMapTileProviderArray with no tile providers.
+	 * Creates an {@link MapTileProviderArray} with no tile providers.
 	 * 
 	 * @param aRegisterReceiver
-	 *            a RegisterReceiver
+	 *            a {@link IRegisterReceiver}
 	 */
 	protected MapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
 		this(aRegisterReceiver, new MapTileModuleProviderBase[0]);
 	}
 
 	/**
-	 * Creates an OpenStreetMapTileProviderArray with the specified tile providers.
+	 * Creates an {@link MapTileProviderArray} with the specified tile providers.
 	 * 
 	 * @param aRegisterReceiver
-	 *            a RegisterReceiver
+	 *            a {@link IRegisterReceiver}
 	 * @param tileProviderArray
-	 *            an array of OpenStreetMapTileModuleProviderBase
+	 *            an array of {@link MapTileModuleProviderBase}
 	 */
 	public MapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
 			final MapTileModuleProviderBase[] tileProviderArray) {
@@ -117,8 +117,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	}
 
 	@Override
-	public void mapTileRequestCompleted(final MapTileRequestState aState,
-			final Drawable aDrawable) {
+	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState);
 		}
@@ -142,8 +141,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
 	 * a provider that requires a data connection when one is not available.
 	 */
-	private MapTileModuleProviderBase findNextAppropriateProvider(
-			final MapTileRequestState aState) {
+	private MapTileModuleProviderBase findNextAppropriateProvider(final MapTileRequestState aState) {
 		MapTileModuleProviderBase provider = null;
 		// The logic of the while statement is
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"

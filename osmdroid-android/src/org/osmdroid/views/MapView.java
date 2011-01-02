@@ -25,9 +25,9 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
-import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
+import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
@@ -64,10 +64,10 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	private static final Logger logger = LoggerFactory.getLogger(MapView.class);
 
-	final static String BUNDLE_TILE_SOURCE = "org.andnav.osm.views.OpenStreetMapView.TILE_SOURCE";
-	final static String BUNDLE_SCROLL_X = "org.andnav.osm.views.OpenStreetMapView.SCROLL_X";
-	final static String BUNDLE_SCROLL_Y = "org.andnav.osm.views.OpenStreetMapView.SCROLL_Y";
-	final static String BUNDLE_ZOOM_LEVEL = "org.andnav.osm.views.OpenStreetMapView.ZOOM";
+	final static String BUNDLE_TILE_SOURCE = "org.osmdroid.views.MapView.TILE_SOURCE";
+	final static String BUNDLE_SCROLL_X = "org.osmdroid.views.MapView.SCROLL_X";
+	final static String BUNDLE_SCROLL_Y = "org.osmdroid.views.MapView.SCROLL_Y";
+	final static String BUNDLE_ZOOM_LEVEL = "org.osmdroid.views.MapView.ZOOM";
 
 	private static final double ZOOM_SENSITIVITY = 1.3;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
@@ -84,7 +84,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	private final ArrayList<Overlay> mOverlays = new ArrayList<Overlay>();
 
 	private final Paint mPaint = new Paint();
-	private OpenStreetMapViewProjection mProjection;
+	private Projection mProjection;
 
 	private MapView mMiniMap, mMaxiMap;
 	private final TilesOverlay mMapOverlay;
@@ -125,8 +125,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	// ===========================================================
 
 	private MapView(final Context context, final Handler tileRequestCompleteHandler,
-			final AttributeSet attrs, final int tileSizePixels,
-			MapTileProviderBase tileProvider) {
+			final AttributeSet attrs, final int tileSizePixels, MapTileProviderBase tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new MapController(this);
@@ -146,7 +145,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
-		this.mZoomController.setOnZoomListener(new OpenStreetMapViewZoomListener());
+		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
 		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
 				Animation.RELATIVE_TO_SELF, 0.5f);
@@ -157,9 +156,8 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		mZoomInAnimation.setAnimationListener(mAnimationListener);
 		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 
-		mGestureDetector = new GestureDetector(context,
-				new OpenStreetMapViewGestureDetectorListener());
-		mGestureDetector.setOnDoubleTapListener(new OpenStreetMapViewDoubleClickListener());
+		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
+		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 	}
 
 	public void detach() {
@@ -196,10 +194,10 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	 * @param osmv
 	 *            another {@link MapView}, to share the TileProvider with.<br/>
 	 *            May significantly improve the render speed, when using the same
-	 *            {@link IOpenStreetMapRenderInfo}.
+	 *            {@link MapTileProviderBase}.
 	 */
-	public MapView(final Context context,
-			final MapView aMapToShareTheTileProviderWith) {
+	// TODO: This isn't safe. See issue #126
+	public MapView(final Context context, final MapView aMapToShareTheTileProviderWith) {
 		this(context, aMapToShareTheTileProviderWith.mTileRequestCompleteHandler, null,
 				aMapToShareTheTileProviderWith.getProjection().getTileSizePixels(),
 				aMapToShareTheTileProviderWith.mTileProvider);
@@ -214,7 +212,6 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
 	 * 
-	 * @see OpenStreetMapView.OpenStreetMapView(
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
 	 *            3 is a good Value. Pass {@link OpenStreetMapViewConstants} .NOT_SET to disable
@@ -276,8 +273,8 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	}
 
 	/**
-	 * You can add/remove/reorder your Overlays using the List of {@link Overlay}.
-	 * The first (index 0) Overlay gets drawn first, the one with the highest as the last one.
+	 * You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index
+	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
 		return this.mOverlays;
@@ -346,9 +343,9 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	 * 
 	 * @return
 	 */
-	public OpenStreetMapViewProjection getProjection() {
+	public Projection getProjection() {
 		if (mProjection == null)
-			mProjection = new OpenStreetMapViewProjection();
+			mProjection = new Projection();
 		return mProjection;
 	}
 
@@ -425,7 +422,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 		// snap for all snappables
 		final Point snapPoint = new Point();
-		mProjection = new OpenStreetMapViewProjection(); // XXX why do we need a
+		mProjection = new Projection(); // XXX why do we need a
 		// new projection
 		// here?
 		for (final Overlay osmvo : this.mOverlays) {
@@ -737,7 +734,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	public void onDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
-		mProjection = new OpenStreetMapViewProjection();
+		mProjection = new Projection();
 
 		if (mMultiTouchScale == 1.0f) {
 			c.translate(getWidth() / 2, getHeight() / 2);
@@ -941,13 +938,13 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	// ===========================================================
 
 	/**
-	 * This class may return valid results until the underlying {@link MapView} gets
-	 * modified in any way (i.e. new center).
+	 * This class may return valid results until the underlying {@link MapView} gets modified in any
+	 * way (i.e. new center).
 	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
-	public class OpenStreetMapViewProjection implements GeoConstants {
+	public class Projection implements GeoConstants {
 
 		private final int viewWidth_2 = getWidth() / 2;
 		private final int viewHeight_2 = getHeight() / 2;
@@ -964,7 +961,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 		private final int[] reuseInt2 = new int[2];
 
-		private OpenStreetMapViewProjection() {
+		private Projection() {
 
 			/*
 			 * Do some calculations and drag attributes to local variables to save some performance.
@@ -1198,8 +1195,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 				/* Add up the offset caused by touch. */
 				if (first)
 					out.moveTo(x, y);
-				// out.moveTo(x + OpenStreetMapView.this.mTouchMapOffsetX, y
-				// + OpenStreetMapView.this.mTouchMapOffsetY);
+				// out.moveTo(x + MapView.this.mTouchMapOffsetX, y + MapView.this.mTouchMapOffsetY);
 				else
 					out.lineTo(x, y);
 				first = false;
@@ -1209,7 +1205,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		}
 	}
 
-	private class OpenStreetMapViewGestureDetectorListener implements OnGestureListener {
+	private class MapViewGestureDetectorListener implements OnGestureListener {
 
 		@Override
 		public boolean onDown(final MotionEvent e) {
@@ -1249,8 +1245,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	}
 
-	private class OpenStreetMapViewDoubleClickListener implements
-			GestureDetector.OnDoubleTapListener {
+	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
 			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
@@ -1268,7 +1263,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 		}
 	}
 
-	private class OpenStreetMapViewZoomListener implements OnZoomListener {
+	private class MapViewZoomListener implements OnZoomListener {
 		@Override
 		public void onZoom(final boolean zoomIn) {
 			if (zoomIn)

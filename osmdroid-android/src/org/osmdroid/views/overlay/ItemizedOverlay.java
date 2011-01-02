@@ -6,7 +6,7 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -122,7 +122,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends
 
 	@Override
 	public void onDraw(final Canvas canvas, final MapView mapView) {
-		final OpenStreetMapViewProjection pj = mapView.getProjection();
+		final Projection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
 		int limit = this.mItemList.size() - 1;
 		if (limit > this.mDrawnItemsLimit) {
@@ -230,7 +230,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends
 	 */
 	private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
 			final ActiveItem task) {
-		final OpenStreetMapViewProjection pj = mapView.getProjection();
+		final Projection pj = mapView.getProjection();
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
 

@@ -5,7 +5,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -113,7 +113,7 @@ public class DirectedLocationOverlay extends Overlay {
 	@Override
 	public void onDraw(final Canvas c, final MapView osmv) {
 		if (this.mLocation != null) {
-			final OpenStreetMapViewProjection pj = osmv.getProjection();
+			final Projection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);
 
 			if (this.mShowAccuracy && this.mAccuracy > 10) {

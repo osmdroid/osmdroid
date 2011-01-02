@@ -7,7 +7,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,7 +94,7 @@ public class TilesOverlay extends Overlay {
 		/*
 		 * Do some calculations and drag attributes to local variables to save some performance.
 		 */
-		final OpenStreetMapViewProjection pj = osmv.getProjection();
+		final Projection pj = osmv.getProjection();
 		final int zoomLevel = osmv.getZoomLevel(false);
 
 		c.getClipBounds(mViewPort);

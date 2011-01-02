@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import android.graphics.drawable.Drawable;
 
 /**
- * The OpenStreetMapTileDownloader loads tiles from an HTTP server. It saves downloaded tiles to an
+ * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
  * IFilesystemCache if available.
  * 
  * @author Marc Kurtz
@@ -56,8 +56,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		this(pTileSource, null, null);
 	}
 
-	public MapTileDownloader(final ITileSource pTileSource,
-			final IFilesystemCache pFilesystemCache) {
+	public MapTileDownloader(final ITileSource pTileSource, final IFilesystemCache pFilesystemCache) {
 		this(pTileSource, pFilesystemCache, null);
 	}
 
@@ -130,8 +129,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState aState)
-				throws CantContinueException {
+		public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
 
 			if (mTileSource == null)
 				return null;

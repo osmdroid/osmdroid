@@ -6,7 +6,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.OpenStreetMapViewProjection;
+import org.osmdroid.views.MapView.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -109,7 +109,7 @@ public class PathOverlay extends Overlay {
 			return;
 		}
 
-		final OpenStreetMapViewProjection pj = mapView.getProjection();
+		final Projection pj = mapView.getProjection();
 
 		// precompute new points to the intermediate projection.
 		final int size = this.mPoints.size();
