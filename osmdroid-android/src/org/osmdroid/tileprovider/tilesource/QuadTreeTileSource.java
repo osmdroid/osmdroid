@@ -5,11 +5,11 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 
 class QuadTreeTileSource extends OnlineTileSourceBase {
 
-	QuadTreeTileSource(String aName, string aResourceId, int aZoomMinLevel,
-			int aZoomMaxLevel, int aTileSizePixels,
-			String aImageFilenameEnding, String... aBaseUrl) {
-		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel,
-				aTileSizePixels, aImageFilenameEnding, aBaseUrl);
+	QuadTreeTileSource(final String aName, final string aResourceId, final int aZoomMinLevel,
+			final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
+			final String... aBaseUrl) {
+		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl);
 	}
 
 	@Override
@@ -19,7 +19,7 @@ class QuadTreeTileSource extends OnlineTileSourceBase {
 
 	/**
 	 * Converts TMS tile coordinates to QuadTree
-	 *
+	 * 
 	 * @param aTile
 	 *            The tile coordinates to convert
 	 * @return The QuadTree as String.
@@ -28,7 +28,7 @@ class QuadTreeTileSource extends OnlineTileSourceBase {
 		final StringBuilder quadKey = new StringBuilder();
 		for (int i = aTile.getZoomLevel(); i > 0; i--) {
 			int digit = 0;
-			int mask = 1 << (i - 1);
+			final int mask = 1 << (i - 1);
 			if ((aTile.getX() & mask) != 0)
 				digit += 1;
 			if ((aTile.getY() & mask) != 0)

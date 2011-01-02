@@ -17,9 +17,9 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewOverlay {
 	// ===========================================================
@@ -53,11 +53,12 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx){
+	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx) {
 		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy){
+	public OpenStreetMapViewDirectedLocationOverlay(final Context ctx,
+			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
@@ -75,27 +76,28 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// Getter & Setter
 	// ===========================================================
 
-	public void setShowAccuracy(final boolean pShowIt){
+	public void setShowAccuracy(final boolean pShowIt) {
 		this.mShowAccuracy = pShowIt;
 	}
 
-	public void setLocation(final GeoPoint mp){
+	public void setLocation(final GeoPoint mp) {
 		this.mLocation = mp;
 	}
 
-	public GeoPoint getLocation(){
+	public GeoPoint getLocation() {
 		return this.mLocation;
 	}
 
 	/**
-	 *
-	 * @param pAccuracy in Meters
+	 * 
+	 * @param pAccuracy
+	 *            in Meters
 	 */
-	public void setAccuracy(final int pAccuracy){
-		this.mAccuracy  = pAccuracy;
+	public void setAccuracy(final int pAccuracy) {
+		this.mAccuracy = pAccuracy;
 	}
 
-	public void setBearing(final float aHeading){
+	public void setBearing(final float aHeading) {
 		this.mBearing = aHeading;
 	}
 
@@ -104,38 +106,46 @@ public class OpenStreetMapViewDirectedLocationOverlay extends OpenStreetMapViewO
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
 		return;
 	}
 
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
-		if(this.mLocation != null){
+		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);
 
-			if(this.mShowAccuracy && this.mAccuracy > 10){
+			if (this.mShowAccuracy && this.mAccuracy > 10) {
 				final float accuracyRadius = pj.metersToEquatorPixels(this.mAccuracy);
 				/* Only draw if the DirectionArrow doesn't cover it. */
-				if(accuracyRadius > 8){
+				if (accuracyRadius > 8) {
 					/* Draw the inner shadow. */
 					this.mAccuracyPaint.setAntiAlias(false);
 					this.mAccuracyPaint.setAlpha(30);
 					this.mAccuracyPaint.setStyle(Style.FILL);
-					c.drawCircle(screenCoords.x, screenCoords.y, accuracyRadius, this.mAccuracyPaint);
+					c.drawCircle(screenCoords.x, screenCoords.y, accuracyRadius,
+							this.mAccuracyPaint);
 
 					/* Draw the edge. */
 					this.mAccuracyPaint.setAntiAlias(true);
 					this.mAccuracyPaint.setAlpha(150);
 					this.mAccuracyPaint.setStyle(Style.STROKE);
-					c.drawCircle(screenCoords.x, screenCoords.y, accuracyRadius, this.mAccuracyPaint);
+					c.drawCircle(screenCoords.x, screenCoords.y, accuracyRadius,
+							this.mAccuracyPaint);
 				}
 			}
 
-			/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
-			this.directionRotater.setRotate(this.mBearing, DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
-			Bitmap rotatedDirection = Bitmap.createBitmap(DIRECTION_ARROW, 0, 0, DIRECTION_ARROW_WIDTH, DIRECTION_ARROW_HEIGHT, this.directionRotater, false);
-			c.drawBitmap(rotatedDirection, screenCoords.x - rotatedDirection.getWidth() / 2, screenCoords.y - rotatedDirection.getHeight() / 2, this.mPaint);
+			/*
+			 * Rotate the direction-Arrow according to the bearing we are driving. And draw it to
+			 * the canvas.
+			 */
+			this.directionRotater.setRotate(this.mBearing, DIRECTION_ARROW_CENTER_X,
+					DIRECTION_ARROW_CENTER_Y);
+			final Bitmap rotatedDirection = Bitmap.createBitmap(DIRECTION_ARROW, 0, 0,
+					DIRECTION_ARROW_WIDTH, DIRECTION_ARROW_HEIGHT, this.directionRotater, false);
+			c.drawBitmap(rotatedDirection, screenCoords.x - rotatedDirection.getWidth() / 2,
+					screenCoords.y - rotatedDirection.getHeight() / 2, this.mPaint);
 		}
 	}
 

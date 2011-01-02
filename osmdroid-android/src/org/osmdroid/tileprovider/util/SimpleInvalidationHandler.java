@@ -7,9 +7,9 @@ import android.os.Message;
 import android.view.View;
 
 public class SimpleInvalidationHandler extends Handler {
-	private View mView;
+	private final View mView;
 
-	public SimpleInvalidationHandler(View pView) {
+	public SimpleInvalidationHandler(final View pView) {
 		super();
 		mView = pView;
 	}

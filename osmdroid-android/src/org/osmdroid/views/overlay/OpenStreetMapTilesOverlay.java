@@ -55,7 +55,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 		this.mTileProvider.detach();
 	}
 
-	public void setAlpha(int a) {
+	public void setAlpha(final int a) {
 		this.mPaint.setAlpha(a);
 	}
 
@@ -81,12 +81,12 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
 	 */
-	public void setUseDataConnection(boolean aMode) {
+	public void setUseDataConnection(final boolean aMode) {
 		mTileProvider.setUseDataConnection(aMode);
 	}
 
 	@Override
-	protected void onDraw(Canvas c, OpenStreetMapView osmv) {
+	protected void onDraw(final Canvas c, final OpenStreetMapView osmv) {
 
 		if (DEBUGMODE)
 			logger.trace("onDraw");
@@ -154,6 +154,6 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	}
 
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
 	}
 }

@@ -5,18 +5,19 @@ import java.io.File;
 import android.os.Environment;
 
 /**
- *
+ * 
  * This class contains constants used by the tile provider.
- *
+ * 
  * @author Neil Boyd
- *
+ * 
  */
 public interface OpenStreetMapTileProviderConstants {
 
 	public static final boolean DEBUGMODE = false;
 
 	/** Base path for osmdroid files. Zip files are in this folder. */
-	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(), "osmdroid");
+	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+			"osmdroid");
 
 	/** Base path for tiles. */
 	public static final File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
@@ -25,10 +26,8 @@ public interface OpenStreetMapTileProviderConstants {
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
 	/**
-	 * Initial tile cache size.
-	 * The size will be increased as required by calling
-	 * {@link LRUMapTileCache.ensureCapacity(int)}
-	 * The tile cache will always be at least 3x3.
+	 * Initial tile cache size. The size will be increased as required by calling {@link
+	 * LRUMapTileCache.ensureCapacity(int)} The tile cache will always be at least 3x3.
 	 */
 	public static final int CACHE_MAPTILECOUNT_DEFAULT = 9;
 

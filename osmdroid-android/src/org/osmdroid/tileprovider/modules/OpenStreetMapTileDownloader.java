@@ -138,7 +138,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 
 			InputStream in = null;
 			OutputStream out = null;
-			OpenStreetMapTile tile = aState.getMapTile();
+			final OpenStreetMapTile tile = aState.getMapTile();
 
 			try {
 
@@ -165,14 +165,14 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
-				ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
+				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
 				// Save the data to the filesystem cache
 				if (mFilesystemCache != null) {
 					mFilesystemCache.saveFile(mTileSource, tile, byteStream);
 					byteStream.reset();
 				}
-				Drawable result = mTileSource.getDrawable(byteStream);
+				final Drawable result = mTileSource.getDrawable(byteStream);
 
 				return result;
 			} catch (final UnknownHostException e) {

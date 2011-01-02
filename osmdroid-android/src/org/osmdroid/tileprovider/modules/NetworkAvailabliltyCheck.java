@@ -6,11 +6,11 @@ import android.net.NetworkInfo;
 
 /**
  * A straightforward network check implementation. NOTE: Requires
- * android.permission.ACCESS_NETWORK_STATE and
- * android.permission.ACCESS_WIFI_STATE (?) and android.permission.INTERNET (?)
- *
+ * android.permission.ACCESS_NETWORK_STATE and android.permission.ACCESS_WIFI_STATE (?) and
+ * android.permission.INTERNET (?)
+ * 
  * @author Marc Kurtz
- *
+ * 
  */
 
 public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
@@ -36,16 +36,15 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 
 	@Override
 	public boolean getCellularDataNetworkAvailable() {
-		final NetworkInfo mobile = mConnectionManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+		final NetworkInfo mobile = mConnectionManager
+				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 		return mobile != null && mobile.isAvailable();
 	}
 
 	@Override
 	public boolean getRouteToPathExists(final int hostAddress) {
-		return (mConnectionManager.requestRouteToHost(
-				ConnectivityManager.TYPE_WIFI, hostAddress) || mConnectionManager
-				.requestRouteToHost(ConnectivityManager.TYPE_MOBILE,
-						hostAddress));
+		return (mConnectionManager.requestRouteToHost(ConnectivityManager.TYPE_WIFI, hostAddress) || mConnectionManager
+				.requestRouteToHost(ConnectivityManager.TYPE_MOBILE, hostAddress));
 	}
 
 }

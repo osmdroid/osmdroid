@@ -8,13 +8,13 @@ package org.osmdroid.events;
  */
 public abstract class MapAdapter implements MapListener {
 	@Override
-	public boolean onScroll(ScrollEvent event) {
+	public boolean onScroll(final ScrollEvent event) {
 		// do nothing
 		return false;
 	}
 
 	@Override
-	public boolean onZoom(ZoomEvent event) {
+	public boolean onZoom(final ZoomEvent event) {
 		// do nothing
 		return false;
 	}

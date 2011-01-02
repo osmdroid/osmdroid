@@ -23,8 +23,8 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 
 	private static int globalOrdinal = 0;
 
-	private int mMinimumZoomLevel;
-	private int mMaximumZoomLevel;
+	private final int mMinimumZoomLevel;
+	private final int mMaximumZoomLevel;
 
 	private final int mOrdinal;
 	protected final String mName;
@@ -35,8 +35,9 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 
 	private final string mResourceId;
 
-	public BitmapTileSourceBase(String aName, string aResourceId, int aZoomMinLevel,
-			int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding) {
+	public BitmapTileSourceBase(final String aName, final string aResourceId,
+			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
+			final String aImageFilenameEnding) {
 		mResourceId = aResourceId;
 		mOrdinal = globalOrdinal++;
 		mName = aName;
@@ -80,7 +81,7 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 	}
 
 	@Override
-	public String localizedName(ResourceProxy proxy) {
+	public String localizedName(final ResourceProxy proxy) {
 		return proxy.getString(mResourceId);
 	}
 
@@ -108,8 +109,8 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 	}
 
 	@Override
-	public String getTileRelativeFilenameString(OpenStreetMapTile tile) {
-		StringBuilder sb = new StringBuilder();
+	public String getTileRelativeFilenameString(final OpenStreetMapTile tile) {
+		final StringBuilder sb = new StringBuilder();
 		sb.append(pathBase());
 		sb.append('/');
 		sb.append(tile.getZoomLevel());

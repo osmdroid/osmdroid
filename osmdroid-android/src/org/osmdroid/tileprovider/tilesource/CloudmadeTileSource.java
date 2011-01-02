@@ -14,8 +14,9 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 	private String mToken;
 	private int mStyle = 1;
 
-	CloudmadeTileSource(final String aName, ResourceProxy.string aResourceId, int aZoomMinLevel,
-			int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String... aBaseUrl) {
+	CloudmadeTileSource(final String aName, final ResourceProxy.string aResourceId,
+			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
+			final String aImageFilenameEnding, final String... aBaseUrl) {
 		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
 				aImageFilenameEnding, aBaseUrl);
 	}

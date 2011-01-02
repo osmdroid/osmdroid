@@ -11,7 +11,7 @@ public class ZoomEvent implements MapEvent {
 	protected OpenStreetMapView source;
 	protected int zoomLevel;
 
-	public ZoomEvent(OpenStreetMapView source, int zoomLevel) {
+	public ZoomEvent(final OpenStreetMapView source, final int zoomLevel) {
 		this.source = source;
 		this.zoomLevel = zoomLevel;
 	}

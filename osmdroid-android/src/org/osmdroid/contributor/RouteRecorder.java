@@ -9,9 +9,9 @@ import org.osmdroid.util.GeoPoint;
 import android.location.Location;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class RouteRecorder {
 	// ===========================================================
@@ -44,20 +44,15 @@ public class RouteRecorder {
 	// Methods
 	// ===========================================================
 
-	public void add(final Location aLocation, final int aNumSatellites){
-		this.mRecords.add(new RecordedGeoPoint(
-					(int)(aLocation.getLatitude() * 1E6),
-					(int)(aLocation.getLongitude() * 1E6),
-					System.currentTimeMillis(),
-					aNumSatellites));
+	public void add(final Location aLocation, final int aNumSatellites) {
+		this.mRecords
+				.add(new RecordedGeoPoint((int) (aLocation.getLatitude() * 1E6), (int) (aLocation
+						.getLongitude() * 1E6), System.currentTimeMillis(), aNumSatellites));
 	}
 
-	public void add(final GeoPoint aGeoPoint, final int aNumSatellites){
-		this.mRecords.add(new RecordedGeoPoint(
-					aGeoPoint.getLatitudeE6(),
-					aGeoPoint.getLongitudeE6(),
-					System.currentTimeMillis(),
-					aNumSatellites));
+	public void add(final GeoPoint aGeoPoint, final int aNumSatellites) {
+		this.mRecords.add(new RecordedGeoPoint(aGeoPoint.getLatitudeE6(), aGeoPoint
+				.getLongitudeE6(), System.currentTimeMillis(), aNumSatellites));
 	}
 
 	// ===========================================================

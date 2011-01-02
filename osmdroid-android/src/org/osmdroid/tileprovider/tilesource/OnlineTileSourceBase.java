@@ -7,8 +7,9 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	private final String mBaseUrls[];
 
-	public OnlineTileSourceBase(String aName, string aResourceId, int aZoomMinLevel,
-			int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String... aBaseUrl) {
+	public OnlineTileSourceBase(final String aName, final string aResourceId,
+			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
+			final String aImageFilenameEnding, final String... aBaseUrl) {
 		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
 				aImageFilenameEnding);
 		mBaseUrls = aBaseUrl;

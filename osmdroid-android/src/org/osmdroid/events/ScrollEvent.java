@@ -12,7 +12,7 @@ public class ScrollEvent implements MapEvent {
 	protected int x;
 	protected int y;
 
-	public ScrollEvent(OpenStreetMapView source, int x, int y) {
+	public ScrollEvent(final OpenStreetMapView source, final int x, final int y) {
 		this.source = source;
 		this.x = x;
 		this.y = y;

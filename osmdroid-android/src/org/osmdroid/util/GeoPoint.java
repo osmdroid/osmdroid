@@ -1,20 +1,20 @@
 // Created by plusminus on 21:28:12 - 25.09.2008
 package org.osmdroid.util;
 
+import java.io.Serializable;
+
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.util.constants.MathConstants;
-
-import java.io.Serializable;
 
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
  * @author Theodore Hong
- *
+ * 
  */
 public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serializable, Cloneable {
 
@@ -56,22 +56,21 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	public static GeoPoint fromDoubleString(final String s, final char spacer) {
 		final int spacerPos = s.indexOf(spacer);
-		return new GeoPoint((int) (Double.parseDouble(s.substring(0,
-				spacerPos - 1)) * 1E6), (int) (Double.parseDouble(s.substring(
-				spacerPos + 1, s.length())) * 1E6));
+		return new GeoPoint((int) (Double.parseDouble(s.substring(0, spacerPos - 1)) * 1E6),
+				(int) (Double.parseDouble(s.substring(spacerPos + 1, s.length())) * 1E6));
 	}
 
 	public static GeoPoint fromInvertedDoubleString(final String s, final char spacer) {
 		final int spacerPos = s.indexOf(spacer);
-		return new GeoPoint((int) (Double.parseDouble(s.substring(
-				spacerPos + 1, s.length())) * 1E6), (int) (Double.parseDouble(s.substring(
-				0, spacerPos)) * 1E6));
+		return new GeoPoint(
+				(int) (Double.parseDouble(s.substring(spacerPos + 1, s.length())) * 1E6),
+				(int) (Double.parseDouble(s.substring(0, spacerPos)) * 1E6));
 	}
 
-	public static GeoPoint fromIntString(final String s){
+	public static GeoPoint fromIntString(final String s) {
 		final int commaPos = s.indexOf(',');
-		return new GeoPoint(Integer.parseInt(s.substring(0,commaPos-1)),
-				Integer.parseInt(s.substring(commaPos+1,s.length())));
+		return new GeoPoint(Integer.parseInt(s.substring(0, commaPos - 1)), Integer.parseInt(s
+				.substring(commaPos + 1, s.length())));
 	}
 
 	// ===========================================================
@@ -109,16 +108,20 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 	}
 
 	@Override
-	public String toString(){
-		return new StringBuilder().append(this.mLatitudeE6).append(",").append(this.mLongitudeE6).toString();
+	public String toString() {
+		return new StringBuilder().append(this.mLatitudeE6).append(",").append(this.mLongitudeE6)
+				.toString();
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
-		if (obj == null) return false;
-		if (obj == this) return true;
-		if (obj.getClass() != getClass()) return false;
-		final GeoPoint rhs = (GeoPoint)obj;
+		if (obj == null)
+			return false;
+		if (obj == this)
+			return true;
+		if (obj.getClass() != getClass())
+			return false;
+		final GeoPoint rhs = (GeoPoint) obj;
 		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6;
 	}
 
@@ -136,19 +139,19 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 	}
 
 	@Override
-	public void writeToParcel(Parcel out, int flags) {
+	public void writeToParcel(final Parcel out, final int flags) {
 		out.writeInt(mLatitudeE6);
 		out.writeInt(mLongitudeE6);
 	}
 
 	public static final Parcelable.Creator<GeoPoint> CREATOR = new Parcelable.Creator<GeoPoint>() {
 		@Override
-		public GeoPoint createFromParcel(Parcel in) {
+		public GeoPoint createFromParcel(final Parcel in) {
 			return new GeoPoint(in);
 		}
 
 		@Override
-		public GeoPoint[] newArray(int size) {
+		public GeoPoint[] newArray(final int size) {
 			return new GeoPoint[size];
 		}
 	};
@@ -173,19 +176,20 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 		final double cosa1 = Math.cos(a1);
 		final double cosb1 = Math.cos(b1);
 
-		final double t1 = cosa1*Math.cos(a2)*cosb1*Math.cos(b2);
+		final double t1 = cosa1 * Math.cos(a2) * cosb1 * Math.cos(b2);
 
-		final double t2 = cosa1*Math.sin(a2)*cosb1*Math.sin(b2);
+		final double t2 = cosa1 * Math.sin(a2) * cosb1 * Math.sin(b2);
 
-		final double t3 = Math.sin(a1)*Math.sin(b1);
+		final double t3 = Math.sin(a1) * Math.sin(b1);
 
-		final double tt = Math.acos( t1 + t2 + t3 );
+		final double tt = Math.acos(t1 + t2 + t3);
 
-		return (int)(RADIUS_EARTH_METERS*tt);
+		return (int) (RADIUS_EARTH_METERS * tt);
 	}
 
 	/**
-	 * @see Source@ http://groups.google.com/group/osmdroid/browse_thread/thread/d22c4efeb9188fe9/bc7f9b3111158dd
+	 * @see Source@ http://groups.google.com/group/osmdroid/browse_thread/thread/d22c4efeb9188fe9/
+	 *      bc7f9b3111158dd
 	 * @param other
 	 * @return bearing in degrees
 	 */
@@ -196,8 +200,8 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 		final double long2 = Math.toRadians(other.mLongitudeE6 / 1E6);
 		final double delta_long = long2 - long1;
 		final double a = Math.sin(delta_long) * Math.cos(lat2);
-		final double b = Math.cos(lat1) * Math.sin(lat2) -
-						 Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_long);
+		final double b = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2)
+				* Math.cos(delta_long);
 		final double bearing = Math.toDegrees(Math.atan2(a, b));
 		final double bearing_normalized = (bearing + 360) % 360;
 		return bearing_normalized;
@@ -205,25 +209,27 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	/**
 	 * Calculate a point that is the specified distance and bearing away from this point.
+	 * 
 	 * @see Source@ http://www.movable-type.co.uk/scripts/latlong.html
 	 * @see Source@ http://www.movable-type.co.uk/scripts/latlon.js
 	 */
-	public GeoPoint destinationPoint(final double aDistanceInMeters, float aBearingInDegrees) {
+	public GeoPoint destinationPoint(final double aDistanceInMeters, final float aBearingInDegrees) {
 
 		// convert distance to angular distance
 		final double dist = aDistanceInMeters / RADIUS_EARTH_METERS;
 
 		// convert bearing to radians
-		float brng = DEG2RAD * aBearingInDegrees;
+		final float brng = DEG2RAD * aBearingInDegrees;
 
 		// get current location in radians
 		final double lat1 = DEG2RAD * getLatitudeE6() / 1E6;
 		final double lon1 = DEG2RAD * getLongitudeE6() / 1E6;
 
-		final double lat2 = Math.asin( Math.sin(lat1) * Math.cos(dist) +
-				Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
-		final double lon2 = lon1 + Math.atan2( Math.sin(brng) * Math.sin(dist) * Math.cos(lat1),
-				Math.cos(dist) - Math.sin(lat1) * Math.sin(lat2));
+		final double lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) + Math.cos(lat1)
+				* Math.sin(dist) * Math.cos(brng));
+		final double lon2 = lon1
+				+ Math.atan2(Math.sin(brng) * Math.sin(dist) * Math.cos(lat1), Math.cos(dist)
+						- Math.sin(lat1) * Math.sin(lat2));
 
 		final double lat2deg = lat2 / DEG2RAD;
 		final double lon2deg = lon2 / DEG2RAD;
@@ -233,15 +239,17 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	public static GeoPoint fromCenterBetween(final GeoPoint geoPointA, final GeoPoint geoPointB) {
 		return new GeoPoint((geoPointA.getLatitudeE6() + geoPointB.getLatitudeE6()) / 2,
-							(geoPointA.getLongitudeE6() + geoPointB.getLongitudeE6()) / 2);
+				(geoPointA.getLongitudeE6() + geoPointB.getLongitudeE6()) / 2);
 	}
 
 	public String toDoubleString() {
-		return new StringBuilder().append(this.mLatitudeE6 / 1E6).append(",").append(this.mLongitudeE6  / 1E6).toString();
+		return new StringBuilder().append(this.mLatitudeE6 / 1E6).append(",")
+				.append(this.mLongitudeE6 / 1E6).toString();
 	}
 
 	public String toInvertedDoubleString() {
-		return new StringBuilder().append(this.mLongitudeE6 / 1E6).append(",").append(this.mLatitudeE6 / 1E6).toString();
+		return new StringBuilder().append(this.mLongitudeE6 / 1E6).append(",")
+				.append(this.mLatitudeE6 / 1E6).toString();
 	}
 
 	// ===========================================================

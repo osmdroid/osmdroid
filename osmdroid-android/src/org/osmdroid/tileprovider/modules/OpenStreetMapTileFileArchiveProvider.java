@@ -10,6 +10,7 @@ import java.util.zip.ZipFile;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
@@ -114,7 +115,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	}
 
 	@Override
-	public void setTileSource(ITileSource pTileSource) {
+	public void setTileSource(final ITileSource pTileSource) {
 		mTileSource = pTileSource;
 	}
 

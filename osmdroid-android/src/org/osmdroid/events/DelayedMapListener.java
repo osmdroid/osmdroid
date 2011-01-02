@@ -17,10 +17,10 @@ public class DelayedMapListener implements MapListener {
 
 	private static final Logger logger = LoggerFactory.getLogger(DelayedMapListener.class);
 
-	/**	Default listening delay */
+	/** Default listening delay */
 	protected static final int DEFAULT_DELAY = 100;
 
-	/**	The wrapped MapListener */
+	/** The wrapped MapListener */
 	MapListener wrappedListener;
 
 	/** Listening delay, in milliseconds */
@@ -30,10 +30,11 @@ public class DelayedMapListener implements MapListener {
 	protected CallbackTask callback;
 
 	/*
-	 * @param wrappedListener	The wrapped MapListener
-	 * @param delay				Listening delay, in milliseconds
+	 * @param wrappedListener The wrapped MapListener
+	 * 
+	 * @param delay Listening delay, in milliseconds
 	 */
-	public DelayedMapListener(MapListener wrappedListener, long delay) {
+	public DelayedMapListener(final MapListener wrappedListener, final long delay) {
 		this.wrappedListener = wrappedListener;
 		this.delay = delay;
 		this.handler = new Handler();
@@ -42,21 +43,21 @@ public class DelayedMapListener implements MapListener {
 
 	/*
 	 * Constructor with default delay.
-	 *
-	 * @param wrappedListener	The wrapped MapListener
+	 * 
+	 * @param wrappedListener The wrapped MapListener
 	 */
-	public DelayedMapListener(MapListener wrappedListener) {
+	public DelayedMapListener(final MapListener wrappedListener) {
 		this(wrappedListener, DEFAULT_DELAY);
 	}
 
 	@Override
-	public boolean onScroll(ScrollEvent event) {
+	public boolean onScroll(final ScrollEvent event) {
 		dispatch(event);
 		return true;
 	}
 
 	@Override
-	public boolean onZoom(ZoomEvent event) {
+	public boolean onZoom(final ZoomEvent event) {
 		dispatch(event);
 		return true;
 	}
@@ -64,7 +65,7 @@ public class DelayedMapListener implements MapListener {
 	/*
 	 * Process an incoming MapEvent.
 	 */
-	protected void dispatch(MapEvent event) {
+	protected void dispatch(final MapEvent event) {
 		// cancel any pending callback
 		if (callback != null) {
 			handler.removeCallbacks(callback);
@@ -77,9 +78,9 @@ public class DelayedMapListener implements MapListener {
 
 	// Callback tasks
 	private class CallbackTask implements Runnable {
-		private MapEvent event;
+		private final MapEvent event;
 
-		public CallbackTask(MapEvent event) {
+		public CallbackTask(final MapEvent event) {
 			this.event = event;
 		}
 
@@ -88,11 +89,9 @@ public class DelayedMapListener implements MapListener {
 			// do the callback
 			if (event instanceof ScrollEvent) {
 				wrappedListener.onScroll((ScrollEvent) event);
-			}
-			else if (event instanceof ZoomEvent) {
+			} else if (event instanceof ZoomEvent) {
 				wrappedListener.onZoom((ZoomEvent) event);
-			}
-			else {
+			} else {
 				// unknown event; discard
 				logger.debug("Unknown event received: " + event);
 			}

@@ -6,7 +6,6 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.OpenStreetMapView;
-import org.osmdroid.views.overlay.OpenStreetMapViewItemizedOverlay.ActiveItem;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,12 +14,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.view.MotionEvent;
-
 
 public class OpenStreetMapViewItemizedOverlayWithFocus<T extends OpenStreetMapViewOverlayItem>
-extends OpenStreetMapViewItemizedOverlay<T>
-{
+		extends OpenStreetMapViewItemizedOverlay<T> {
 
 	// ===========================================================
 	// Constants
@@ -32,7 +28,6 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	public static final int DESCRIPTION_LINE_HEIGHT = 12;
 	/** Additional to <code>DESCRIPTION_LINE_HEIGHT</code>. */
 	public static final int DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT = 2;
-
 
 	protected static final Point DEFAULTMARKER_FOCUSED_HOTSPOT = new Point(10, 19);
 	protected static final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
@@ -50,7 +45,7 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	protected Drawable mMarkerFocusedBase;
 	protected int mFocusedItemIndex;
 	protected boolean mFocusItemsOnTap;
-	private Point mFocusedScreenCoords = new Point();
+	private final Point mFocusedScreenCoords = new Point();
 
 	private final String UNKNOWN;
 
@@ -58,42 +53,33 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(
-			final Context ctx,
-			final List<T> aList,
+	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
 			final OnItemGestureListener<T> aOnItemTapListener) {
 		this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(
-			final Context ctx,
-			final List<T> aList,
-			final OnItemGestureListener<T> aOnItemTapListener,
-			final ResourceProxy pResourceProxy) {
+	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
+			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
 	}
 
-	public OpenStreetMapViewItemizedOverlayWithFocus(
-			final Context ctx,
-			final List<T> aList,
-			final Drawable pMarker,
-			final Point pMarkerHotspot,
-			final Drawable pMarkerFocusedBase,
-			final Point pMarkerFocusedHotSpot,
-			final int pFocusedBackgroundColor,
-			final OnItemGestureListener<T> aOnItemTapListener,
-			final ResourceProxy pResourceProxy) {
+	public OpenStreetMapViewItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
+			final Drawable pMarker, final Point pMarkerHotspot, final Drawable pMarkerFocusedBase,
+			final Point pMarkerFocusedHotSpot, final int pFocusedBackgroundColor,
+			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 
 		super(ctx, aList, pMarker, pMarkerHotspot, aOnItemTapListener, pResourceProxy);
 
 		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 
-		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase : mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base);
+		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase
+				: mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base);
 
-		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot : DEFAULTMARKER_FOCUSED_HOTSPOT;
+		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot
+				: DEFAULTMARKER_FOCUSED_HOTSPOT;
 
-		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET)
-			 ? pFocusedBackgroundColor : DEFAULTMARKER_BACKGROUNDCOLOR;
+		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET) ? pFocusedBackgroundColor
+				: DEFAULTMARKER_BACKGROUNDCOLOR;
 
 		this.mMarkerBackgroundPaint = new Paint(); // Color is set in onDraw(...)
 
@@ -109,22 +95,23 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	// Getter & Setter
 	// ===========================================================
 
-	public T getFocusedItem(){
-		if (this.mFocusedItemIndex == NOT_SET) return null;
+	public T getFocusedItem() {
+		if (this.mFocusedItemIndex == NOT_SET)
+			return null;
 		return this.mItemList.get(this.mFocusedItemIndex);
 	}
 
-	public void setFocusedItem(final int pIndex){
+	public void setFocusedItem(final int pIndex) {
 		this.mFocusedItemIndex = pIndex;
 	}
 
-	public void unSetFocusedItem(){
+	public void unSetFocusedItem() {
 		this.mFocusedItemIndex = NOT_SET;
 	}
 
-	public void setFocusedItem(final T pItem){
+	public void setFocusedItem(final T pItem) {
 		final int indexFound = super.mItemList.indexOf(pItem);
-		if(indexFound < 0)
+		if (indexFound < 0)
 			throw new IllegalArgumentException();
 
 		this.setFocusedItem(indexFound);
@@ -140,22 +127,26 @@ extends OpenStreetMapViewItemizedOverlay<T>
 
 	@Override
 	protected boolean onSingleTapUpHelper(final int index, final T item) {
-		if(this.mFocusItemsOnTap) this.mFocusedItemIndex = index;
+		if (this.mFocusItemsOnTap)
+			this.mFocusedItemIndex = index;
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
 	/**
-	 * This is called after onDraw.
-	 * It is intended to draw the top items, in this case the item of focus.
+	 * This is called after onDraw. It is intended to draw the top items, in this case the item of
+	 * focus.
 	 */
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
-		if (this.mFocusedItemIndex == NOT_SET) return;
+	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+		if (this.mFocusedItemIndex == NOT_SET)
+			return;
 
 		// get focused item's preferred marker & hotspot
 		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
-		Drawable markerFocusedBase = focusedItem.getMarker(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
-		Point markerFocusedHotspot = focusedItem.getMarkerHotspot(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Drawable markerFocusedBase = focusedItem
+				.getMarker(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Point markerFocusedHotspot = focusedItem
+				.getMarkerHotspot(OpenStreetMapViewOverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (markerFocusedBase == null) {
 			markerFocusedBase = this.mMarkerFocusedBase;
 		}
@@ -164,8 +155,8 @@ extends OpenStreetMapViewItemizedOverlay<T>
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		int markerFocusedWidth = markerFocusedBase.getIntrinsicWidth();
-		int markerFocusedHeight = markerFocusedBase.getIntrinsicHeight();
+		final int markerFocusedWidth = markerFocusedBase.getIntrinsicWidth();
+		final int markerFocusedHeight = markerFocusedBase.getIntrinsicHeight();
 		final int left = this.mFocusedScreenCoords.x - markerFocusedHotspot.x;
 		final int right = left + markerFocusedWidth;
 		final int top = this.mFocusedScreenCoords.y - markerFocusedHotspot.y;
@@ -174,11 +165,12 @@ extends OpenStreetMapViewItemizedOverlay<T>
 
 		/* Strings of the OverlayItem, we need. */
 		final String itemTitle = (focusedItem.mTitle == null) ? UNKNOWN : focusedItem.mTitle;
-		final String itemDescription = (focusedItem.mDescription == null) ? UNKNOWN : focusedItem.mDescription;
+		final String itemDescription = (focusedItem.mDescription == null) ? UNKNOWN
+				: focusedItem.mDescription;
 
 		/*
-		 * Store the width needed for each char in the description to a float
-		 * array. This is pretty efficient.
+		 * Store the width needed for each char in the description to a float array. This is pretty
+		 * efficient.
 		 */
 		final float[] widths = new float[itemDescription.length()];
 		this.mDescriptionPaint.getTextWidths(itemDescription, widths);
@@ -190,14 +182,14 @@ extends OpenStreetMapViewItemizedOverlay<T>
 		int i;
 		int lastwhitespace = 0;
 		/*
-		 * Loop through the charwidth array and harshly insert a linebreak, when
-		 * the width gets bigger than DESCRIPTION_MAXWIDTH.
+		 * Loop through the charwidth array and harshly insert a linebreak, when the width gets
+		 * bigger than DESCRIPTION_MAXWIDTH.
 		 */
 		for (i = 0; i < widths.length; i++) {
 			if (!Character.isLetter(itemDescription.charAt(i)))
 				lastwhitespace = i;
 
-			float charwidth = widths[i];
+			final float charwidth = widths[i];
 
 			if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
 				if (lastStop == lastwhitespace)
@@ -224,8 +216,7 @@ extends OpenStreetMapViewItemizedOverlay<T>
 		final String[] lines = sb.toString().split("\n");
 
 		/*
-		 * The title also needs to be taken into consideration for the width
-		 * calculation.
+		 * The title also needs to be taken into consideration for the width calculation.
 		 */
 		final int titleWidth = (int) this.mDescriptionPaint.measureText(itemTitle);
 
@@ -233,20 +224,23 @@ extends OpenStreetMapViewItemizedOverlay<T>
 		final int descWidth = Math.min(maxWidth, DESCRIPTION_MAXWIDTH);
 
 		/* Calculate the bounds of the Description box that needs to be drawn. */
-		final int descBoxLeft = left - descWidth / 2 - DESCRIPTION_BOX_PADDING + markerFocusedWidth / 2;
+		final int descBoxLeft = left - descWidth / 2 - DESCRIPTION_BOX_PADDING + markerFocusedWidth
+				/ 2;
 		final int descBoxRight = descBoxLeft + descWidth + 2 * DESCRIPTION_BOX_PADDING;
 		final int descBoxBottom = top;
 		final int descBoxTop = descBoxBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT
-		       - (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
+				- (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
 				- 2 * DESCRIPTION_BOX_PADDING;
 
 		/* Twice draw a RoundRect, once in black with 1px as a small border. */
 		this.mMarkerBackgroundPaint.setColor(Color.BLACK);
-		c.drawRoundRect(new RectF(descBoxLeft - 1, descBoxTop - 1, descBoxRight + 1, descBoxBottom + 1),
-				DESCRIPTION_BOX_CORNERWIDTH, DESCRIPTION_BOX_CORNERWIDTH, this.mDescriptionPaint);
+		c.drawRoundRect(new RectF(descBoxLeft - 1, descBoxTop - 1, descBoxRight + 1,
+				descBoxBottom + 1), DESCRIPTION_BOX_CORNERWIDTH, DESCRIPTION_BOX_CORNERWIDTH,
+				this.mDescriptionPaint);
 		this.mMarkerBackgroundPaint.setColor(this.mMarkerFocusedBackgroundColor);
 		c.drawRoundRect(new RectF(descBoxLeft, descBoxTop, descBoxRight, descBoxBottom),
-				DESCRIPTION_BOX_CORNERWIDTH, DESCRIPTION_BOX_CORNERWIDTH, this.mMarkerBackgroundPaint);
+				DESCRIPTION_BOX_CORNERWIDTH, DESCRIPTION_BOX_CORNERWIDTH,
+				this.mMarkerBackgroundPaint);
 
 		final int descLeft = descBoxLeft + DESCRIPTION_BOX_PADDING;
 		int descTextLineBottom = descBoxBottom - DESCRIPTION_BOX_PADDING;
@@ -257,8 +251,10 @@ extends OpenStreetMapViewItemizedOverlay<T>
 			descTextLineBottom -= DESCRIPTION_LINE_HEIGHT;
 		}
 		/* Draw the title. */
-		c.drawText(itemTitle, descLeft, descTextLineBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT, this.mTitlePaint);
-		c.drawLine(descBoxLeft, descTextLineBottom, descBoxRight, descTextLineBottom, mDescriptionPaint);
+		c.drawText(itemTitle, descLeft, descTextLineBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT,
+				this.mTitlePaint);
+		c.drawLine(descBoxLeft, descTextLineBottom, descBoxRight, descTextLineBottom,
+				mDescriptionPaint);
 
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
@@ -271,10 +267,11 @@ extends OpenStreetMapViewItemizedOverlay<T>
 	 */
 	@Override
 	protected void onDrawItem(final Canvas c, final int index, final Point screenCoords) {
-		if (this.mFocusedItemIndex != NOT_SET && index == this.mFocusedItemIndex){
-			// Because we are reusing the screencoords passed here, we cannot simply store the reference.
+		if (this.mFocusedItemIndex != NOT_SET && index == this.mFocusedItemIndex) {
+			// Because we are reusing the screencoords passed here, we cannot simply store the
+			// reference.
 			this.mFocusedScreenCoords.set(screenCoords.x, screenCoords.y);
-		}else{
+		} else {
 			super.onDrawItem(c, index, screenCoords);
 		}
 	}

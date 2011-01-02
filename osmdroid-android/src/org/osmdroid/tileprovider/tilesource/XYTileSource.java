@@ -5,16 +5,16 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 
 class XYTileSource extends OnlineTileSourceBase {
 
-	XYTileSource(String aName, string aResourceId, int aZoomMinLevel,
-			int aZoomMaxLevel, int aTileSizePixels,
-			String aImageFilenameEnding, String... aBaseUrl) {
-		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel,
-				aTileSizePixels, aImageFilenameEnding, aBaseUrl);
+	XYTileSource(final String aName, final string aResourceId, final int aZoomMinLevel,
+			final int aZoomMaxLevel, final int aTileSizePixels, final String aImageFilenameEnding,
+			final String... aBaseUrl) {
+		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
+				aImageFilenameEnding, aBaseUrl);
 	}
 
 	@Override
 	public String getTileURLString(final OpenStreetMapTile aTile) {
-		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/"
-				+ aTile.getY() + mImageFilenameEnding;
+		return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getX() + "/" + aTile.getY()
+				+ mImageFilenameEnding;
 	}
 }

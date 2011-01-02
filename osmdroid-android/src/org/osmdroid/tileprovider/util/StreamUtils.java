@@ -46,18 +46,21 @@ public class StreamUtils {
 	// ===========================================================
 
 	/**
-	 * Copy the content of the input stream into the output stream, using a temporary
-	 * byte array buffer whose size is defined by {@link #IO_BUFFER_SIZE}.
-	 *
-	 * @param in The input stream to copy from.
-	 * @param out The output stream to copy to.
+	 * Copy the content of the input stream into the output stream, using a temporary byte array
+	 * buffer whose size is defined by {@link #IO_BUFFER_SIZE}.
+	 * 
+	 * @param in
+	 *            The input stream to copy from.
+	 * @param out
+	 *            The output stream to copy to.
 	 * @return the total length copied
-	 *
-	 * @throws IOException If any error occurs during the copy.
+	 * 
+	 * @throws IOException
+	 *             If any error occurs during the copy.
 	 */
-	public static long copy(InputStream in, OutputStream out) throws IOException {
+	public static long copy(final InputStream in, final OutputStream out) throws IOException {
 		long length = 0;
-		byte[] b = new byte[IO_BUFFER_SIZE];
+		final byte[] b = new byte[IO_BUFFER_SIZE];
 		int read;
 		while ((read = in.read(b)) != -1) {
 			out.write(b, 0, read);
@@ -68,14 +71,15 @@ public class StreamUtils {
 
 	/**
 	 * Closes the specified stream.
-	 *
-	 * @param stream The stream to close.
+	 * 
+	 * @param stream
+	 *            The stream to close.
 	 */
-	public static void closeStream(Closeable stream) {
+	public static void closeStream(final Closeable stream) {
 		if (stream != null) {
 			try {
 				stream.close();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				logger.error("IO", "Could not close stream", e);
 			}
 		}

@@ -104,7 +104,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	}
 
 	@Override
-	public void setTileSource(ITileSource pTileSource) {
+	public void setTileSource(final ITileSource pTileSource) {
 		mTileSource = pTileSource;
 	}
 

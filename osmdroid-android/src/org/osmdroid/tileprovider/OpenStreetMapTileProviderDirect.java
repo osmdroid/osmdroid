@@ -38,8 +38,7 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderAr
 	/**
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
-	public OpenStreetMapTileProviderDirect(final Context aContext,
-			final ITileSource aTileSource) {
+	public OpenStreetMapTileProviderDirect(final Context aContext, final ITileSource aTileSource) {
 		this(new SimpleRegisterReceiver(aContext), new NetworkAvailabliltyCheck(aContext),
 				aTileSource);
 	}
@@ -48,8 +47,7 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderAr
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
 	public OpenStreetMapTileProviderDirect(final IRegisterReceiver aRegisterReceiver,
-			final INetworkAvailablityCheck aNetworkAvailablityCheck,
-			final ITileSource aTileSource) {
+			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource aTileSource) {
 		super(aRegisterReceiver);
 
 		final TileWriter tileWriter = new TileWriter();

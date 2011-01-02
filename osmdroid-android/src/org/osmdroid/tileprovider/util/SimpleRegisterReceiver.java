@@ -9,9 +9,9 @@ import android.content.IntentFilter;
 
 public class SimpleRegisterReceiver implements IRegisterReceiver {
 
-	private Context mContext;
+	private final Context mContext;
 
-	public SimpleRegisterReceiver(Context pContext) {
+	public SimpleRegisterReceiver(final Context pContext) {
 		super();
 		mContext = pContext;
 	}

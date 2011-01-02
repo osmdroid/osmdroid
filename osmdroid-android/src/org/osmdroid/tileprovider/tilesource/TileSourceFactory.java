@@ -6,8 +6,7 @@ import org.slf4j.LoggerFactory;
 
 public class TileSourceFactory {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(TileSourceFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
 
 	/**
 	 * Get the tile source with the specified name.
@@ -18,9 +17,8 @@ public class TileSourceFactory {
 	 * @throws IllegalArgumentException
 	 *             if tile source not found
 	 */
-	public static ITileSource getTileSource(String aName)
-			throws IllegalArgumentException {
-		for (ITileSource tileSource : mTileSources) {
+	public static ITileSource getTileSource(final String aName) throws IllegalArgumentException {
+		for (final ITileSource tileSource : mTileSources) {
 			// TODO perhaps we should ignore case and white space
 			if (tileSource.name().equals(aName)) {
 				return tileSource;
@@ -37,9 +35,8 @@ public class TileSourceFactory {
 	 * @throws IllegalArgumentException
 	 *             if tile source not found
 	 */
-	public static ITileSource getTileSource(int aOrdinal)
-			throws IllegalArgumentException {
-		for (ITileSource tileSource : mTileSources) {
+	public static ITileSource getTileSource(final int aOrdinal) throws IllegalArgumentException {
+		for (final ITileSource tileSource : mTileSources) {
 			if (tileSource.ordinal() == aOrdinal) {
 				return tileSource;
 			}
@@ -110,7 +107,6 @@ public class TileSourceFactory {
 	// FIXME the whole point of this implementation is that the list of tile sources should be
 	// extensible, so that means making it possible to have a bigger or smaller list of tile sources
 	// - there's a number of ways of doing that
-	private static ITileSource[] mTileSources = new ITileSource[] {
-			OSMARENDER, MAPNIK, CYCLEMAP, PUBLIC_TRANSPORT, BASE, TOPO, HILLS,
-			CLOUDMADESTANDARDTILES, CLOUDMADESMALLTILES };
+	private static ITileSource[] mTileSources = new ITileSource[] { OSMARENDER, MAPNIK, CYCLEMAP,
+			PUBLIC_TRANSPORT, BASE, TOPO, HILLS, CLOUDMADESTANDARDTILES, CLOUDMADESMALLTILES };
 }

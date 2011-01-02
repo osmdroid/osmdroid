@@ -12,8 +12,8 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
  */
 @Deprecated
 public interface IFilesystemCacheProvider {
-	IFilesystemCache registerTileSourceForFilesystemAccess(
-			ITileSource pTileSourceInfo, int minimumZoomLevel, int maximumZoomLevel);
+	IFilesystemCache registerTileSourceForFilesystemAccess(ITileSource pTileSourceInfo,
+			int minimumZoomLevel, int maximumZoomLevel);
 
 	void unregisterTileSourceForFilesystemAccess(ITileSource pTileSourceInfo);
 }

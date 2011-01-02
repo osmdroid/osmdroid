@@ -68,8 +68,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	// ===========================================================
 
 	@Override
-	public boolean saveFile(final ITileSource pTileSource,
-			final OpenStreetMapTile pTile, final InputStream pStream) {
+	public boolean saveFile(final ITileSource pTileSource, final OpenStreetMapTile pTile,
+			final InputStream pStream) {
 
 		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile));
 

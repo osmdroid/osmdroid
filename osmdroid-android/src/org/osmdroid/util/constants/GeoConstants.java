@@ -1,7 +1,6 @@
 // Created by plusminus on 17:41:55 - 16.10.2008
 package org.osmdroid.util.constants;
 
-
 public interface GeoConstants {
 	// ===========================================================
 	// Final Fields

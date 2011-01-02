@@ -14,9 +14,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOverlay {
 	// ===========================================================
@@ -31,7 +31,7 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 
 	protected final Bitmap PERSON_ICON;
 	/** Coordinates the feet of the person are located. */
-	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24,39);
+	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);
 
 	protected GeoPoint mLocation;
 	private final Point screenCoords = new Point();
@@ -44,7 +44,8 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 		this(ctx, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx, final ResourceProxy pResourceProxy) {
+	public OpenStreetMapViewSimpleLocationOverlay(final Context ctx,
+			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 	}
@@ -66,17 +67,18 @@ public class OpenStreetMapViewSimpleLocationOverlay extends OpenStreetMapViewOve
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {
+	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
 		return;
 	}
 
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
-		if(this.mLocation != null){
+		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);
 
-			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y - PERSON_HOTSPOT.y, this.mPaint);
+			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y
+					- PERSON_HOTSPOT.y, this.mPaint);
 		}
 	}
 

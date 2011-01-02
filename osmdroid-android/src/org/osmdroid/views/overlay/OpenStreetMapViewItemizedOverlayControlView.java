@@ -31,15 +31,18 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs) {
+	public OpenStreetMapViewItemizedOverlayControlView(final Context context,
+			final AttributeSet attrs) {
 		this(context, attrs, new DefaultResourceProxyImpl(context));
 	}
 
-	public OpenStreetMapViewItemizedOverlayControlView(final Context context, final AttributeSet attrs, final ResourceProxy pResourceProxy) {
+	public OpenStreetMapViewItemizedOverlayControlView(final Context context,
+			final AttributeSet attrs, final ResourceProxy pResourceProxy) {
 		super(context, attrs);
 
 		this.mPreviousButton = new ImageButton(context);
-		this.mPreviousButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.previous));
+		this.mPreviousButton
+				.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.previous));
 
 		this.mNextButton = new ImageButton(context);
 		this.mNextButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.next));
@@ -48,12 +51,21 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 		this.mCenterToButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.center));
 
 		this.mNavToButton = new ImageButton(context);
-		this.mNavToButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.navto_small));
+		this.mNavToButton
+				.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.navto_small));
 
-		this.addView(mPreviousButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		this.addView(mCenterToButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		this.addView(mNavToButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		this.addView(mNextButton, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		this.addView(mPreviousButton, new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+		this.addView(mCenterToButton, new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+		this.addView(mNavToButton, new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+		this.addView(mNextButton, new LayoutParams(
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		initViewListeners();
 	}
@@ -66,15 +78,15 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 		this.mLis = lis;
 	}
 
-	public void setNextEnabled(final boolean pEnabled){
+	public void setNextEnabled(final boolean pEnabled) {
 		this.mNextButton.setEnabled(pEnabled);
 	}
 
-	public void setPreviousEnabled(final boolean pEnabled){
+	public void setPreviousEnabled(final boolean pEnabled) {
 		this.mPreviousButton.setEnabled(pEnabled);
 	}
 
-	public void setNavToVisible(final int pVisibility){
+	public void setNavToVisible(final int pVisibility) {
 		this.mNavToButton.setVisibility(pVisibility);
 	}
 
@@ -86,35 +98,35 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// Methods
 	// ===========================================================
 
-	private void initViewListeners(){
-		this.mNextButton.setOnClickListener(new OnClickListener(){
+	private void initViewListeners() {
+		this.mNextButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				if(OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
+			public void onClick(final View v) {
+				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
 					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onNext();
 			}
 		});
 
-		this.mPreviousButton.setOnClickListener(new OnClickListener(){
+		this.mPreviousButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				if(OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
+			public void onClick(final View v) {
+				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
 					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onPrevious();
 			}
 		});
 
-		this.mCenterToButton.setOnClickListener(new OnClickListener(){
+		this.mCenterToButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				if(OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
+			public void onClick(final View v) {
+				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
 					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onCenter();
 			}
 		});
 
-		this.mNavToButton.setOnClickListener(new OnClickListener(){
+		this.mNavToButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				if(OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
+			public void onClick(final View v) {
+				if (OpenStreetMapViewItemizedOverlayControlView.this.mLis != null)
 					OpenStreetMapViewItemizedOverlayControlView.this.mLis.onNavTo();
 			}
 		});
@@ -124,10 +136,13 @@ public class OpenStreetMapViewItemizedOverlayControlView extends LinearLayout {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	public interface ItemizedOverlayControlViewListener{
+	public interface ItemizedOverlayControlViewListener {
 		public void onPrevious();
+
 		public void onNext();
+
 		public void onCenter();
+
 		public void onNavTo();
 	}
 }

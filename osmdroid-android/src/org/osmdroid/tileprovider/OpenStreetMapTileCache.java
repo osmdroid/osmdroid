@@ -54,7 +54,7 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 
 	public Drawable getMapTile(final OpenStreetMapTile aTile) {
 		mReadWriteLock.readLock().lock();
-		Drawable result = this.mCachedTiles.get(aTile);
+		final Drawable result = this.mCachedTiles.get(aTile);
 		mReadWriteLock.readLock().unlock();
 		return result;
 	}
@@ -77,7 +77,7 @@ public final class OpenStreetMapTileCache implements OpenStreetMapTileProviderCo
 
 	public boolean containsTile(final OpenStreetMapTile aTile) {
 		mReadWriteLock.readLock().lock();
-		boolean result = this.mCachedTiles.containsKey(aTile);
+		final boolean result = this.mCachedTiles.containsKey(aTile);
 		mReadWriteLock.readLock().unlock();
 		return result;
 	}

@@ -8,28 +8,13 @@ public interface ResourceProxy {
 	public static enum string {
 
 		// tile sources
-		osmarender,
-		mapnik,
-		cyclemap,
-		public_transport,
-		base,
-		topo,
-		hills,
-		cloudmade_small,
-		cloudmade_standard,
+		osmarender, mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard,
 
 		// overlays
-		fiets_nl,
-		base_nl,
-		roads_nl,
+		fiets_nl, base_nl, roads_nl,
 
 		// other stuff
-		unknown,
-		format_distance_meters,
-		format_distance_kilometers,
-		format_distance_miles,
-		format_distance_nautical_miles,
-		format_distance_feet,
+		unknown, format_distance_meters, format_distance_kilometers, format_distance_miles, format_distance_nautical_miles, format_distance_feet,
 
 	}
 
@@ -40,14 +25,7 @@ public interface ResourceProxy {
 		 */
 		unknown,
 
-		center,
-		direction_arrow,
-		marker_default,
-		marker_default_focused_base,
-		navto_small,
-		next,
-		previous,
-		person,
+		center, direction_arrow, marker_default, marker_default_focused_base, navto_small, next, previous, person,
 
 	}
 
@@ -55,6 +33,7 @@ public interface ResourceProxy {
 
 	/**
 	 * Use a string resource as a format definition, and format using the supplied format arguments.
+	 * 
 	 * @param pResId
 	 * @param formatArgs
 	 * @return
@@ -65,6 +44,7 @@ public interface ResourceProxy {
 
 	/**
 	 * Get a bitmap as a {@link Drawable}
+	 * 
 	 * @param pResId
 	 * @return
 	 */

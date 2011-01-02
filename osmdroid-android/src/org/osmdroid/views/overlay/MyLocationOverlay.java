@@ -37,11 +37,12 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 /**
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
-public class MyLocationOverlay extends OpenStreetMapViewOverlay implements SensorEventListener, LocationListener, Snappable {
+public class MyLocationOverlay extends OpenStreetMapViewOverlay implements SensorEventListener,
+		LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
@@ -66,19 +67,19 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	private final SensorManager mSensorManager;
 
 	private boolean mMyLocationEnabled = false;
-	private LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
+	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
 
 	private Location mLocation;
 	private long mLocationUpdateMinTime = 0;
 	private float mLocationUpdateMinDistance = 0.0f;
-	protected boolean mFollow = false;	// follow location updates
-	private NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
+	protected boolean mFollow = false; // follow location updates
+	private final NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
 
 	private final Matrix directionRotater = new Matrix();
 
 	/** Coordinates the feet of the person are located. */
-	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24,39);
+	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);
 
 	private final float DIRECTION_ARROW_CENTER_X;
 	private final float DIRECTION_ARROW_CENTER_Y;
@@ -97,7 +98,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 
 	private float mCompassCenterX = 35.0f;
 	private float mCompassCenterY = 35.0f;
-	private float mCompassRadius = 20.0f;
+	private final float mCompassRadius = 20.0f;
 
 	private final float COMPASS_FRAME_CENTER_X;
 	private final float COMPASS_FRAME_CENTER_Y;
@@ -119,7 +120,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		this(ctx, mapView, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView, final ResourceProxy pResourceProxy) {
+	public MyLocationOverlay(final Context ctx, final OpenStreetMapView mapView,
+			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		mMapView = mapView;
 		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
@@ -144,7 +146,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		COMPASS_ROSE_CENTER_X = mCompassRose.getWidth() / 2 - 0.5f;
 		COMPASS_ROSE_CENTER_Y = mCompassRose.getHeight() / 2 - 0.5f;
 
-		final List<Sensor> mOrientationSensors = mSensorManager.getSensorList(Sensor.TYPE_ORIENTATION);
+		final List<Sensor> mOrientationSensors = mSensorManager
+				.getSensorList(Sensor.TYPE_ORIENTATION);
 		mOrientationSensorAvailable = !mOrientationSensors.isEmpty();
 	}
 
@@ -179,7 +182,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		return mFollow;
 	}
 
-	public void followLocation(boolean enable) {
+	public void followLocation(final boolean enable) {
 		mFollow = enable;
 	}
 
@@ -188,9 +191,10 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	/**
-	 * Set the minimum interval for location updates.
-	 * See {@link LocationManager.requestLocationUpdates(String, long, float, LocationListener)}.
-	 * Note that you should call this before calling {@link enableMyLocation()}.
+	 * Set the minimum interval for location updates. See {@link
+	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
+	 * should call this before calling {@link enableMyLocation()}.
+	 * 
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -202,16 +206,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	/**
-	 * Set the minimum distance for location updates.
-	 * See {@link LocationManager.requestLocationUpdates}.
-	 * Note that you should call this before calling {@link enableMyLocation()}.
+	 * Set the minimum distance for location updates. See
+	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
+	 * {@link enableMyLocation()}.
+	 * 
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
 		mLocationUpdateMinDistance = meters;
 	}
 
-	public void setCompassCenter(float x, float y) {
+	public void setCompassCenter(final float x, final float y) {
 		mCompassCenterX = x;
 		mCompassCenterY = y;
 	}
@@ -221,13 +226,15 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(Canvas c, OpenStreetMapView osmv) {}
+	protected void onDrawFinished(final Canvas c, final OpenStreetMapView osmv) {
+	}
 
 	@Override
 	public void onDraw(final Canvas c, final OpenStreetMapView osmv) {
-		if(this.mLocation != null) {
+		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = osmv.getProjection();
-			mGeoPoint.setCoordsE6((int)(mLocation.getLatitude()* 1E6), (int)(mLocation.getLongitude()* 1E6));
+			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
+					(int) (mLocation.getLongitude() * 1E6));
 			pj.toMapPixels(mGeoPoint, mMapCoords);
 
 			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
@@ -244,12 +251,14 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			mMatrix.getValues(mMatrixValues);
 
 			if (DEBUGMODE) {
-				float tx = (-mMatrixValues[Matrix.MTRANS_X]+20)/mMatrixValues[Matrix.MSCALE_X];
-				float ty = (-mMatrixValues[Matrix.MTRANS_Y]+90)/mMatrixValues[Matrix.MSCALE_Y];
-				c.drawText("Lat: " + mLocation.getLatitude(),  tx, ty +  5, this.mPaint);
+				final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
+						/ mMatrixValues[Matrix.MSCALE_X];
+				final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
+						/ mMatrixValues[Matrix.MSCALE_Y];
+				c.drawText("Lat: " + mLocation.getLatitude(), tx, ty + 5, this.mPaint);
 				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
-				c.drawText("Alt: " + mLocation.getAltitude(),  tx, ty + 35, this.mPaint);
-				c.drawText("Acc: " + mLocation.getAccuracy(),  tx, ty + 50, this.mPaint);
+				c.drawText("Alt: " + mLocation.getAltitude(), tx, ty + 35, this.mPaint);
+				c.drawText("Acc: " + mLocation.getAccuracy(), tx, ty + 50, this.mPaint);
 			}
 
 			float bearing = -1.0f;
@@ -264,15 +273,22 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 			}
 
 			if (bearing >= 0.0f) {
-				/* Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas. */
-				this.directionRotater.setRotate(bearing, DIRECTION_ARROW_CENTER_X , DIRECTION_ARROW_CENTER_Y);
-				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);
-				this.directionRotater.postScale(1/mMatrixValues[Matrix.MSCALE_X], 1/mMatrixValues[Matrix.MSCALE_Y]);
+				/*
+				 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
+				 * to the canvas.
+				 */
+				this.directionRotater.setRotate(bearing, DIRECTION_ARROW_CENTER_X,
+						DIRECTION_ARROW_CENTER_Y);
+				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X,
+						-DIRECTION_ARROW_CENTER_Y);
+				this.directionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
+						1 / mMatrixValues[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
 			} else {
 				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
-				this.directionRotater.postScale(1/mMatrixValues[Matrix.MSCALE_X], 1/mMatrixValues[Matrix.MSCALE_Y]);
+				this.directionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
+						1 / mMatrixValues[Matrix.MSCALE_Y]);
 				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
 				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
 			}
@@ -320,20 +336,20 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	@Override
-	public void onProviderDisabled(String provider) {
+	public void onProviderDisabled(final String provider) {
 	}
 
 	@Override
-	public void onProviderEnabled(String provider) {
+	public void onProviderEnabled(final String provider) {
 	}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		if(status == LocationProvider.AVAILABLE) {
+	public void onStatusChanged(final String provider, final int status, final Bundle extras) {
+		if (status == LocationProvider.AVAILABLE) {
 			final Thread t = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					for(Runnable runnable: mRunOnFirstFix) {
+					for (final Runnable runnable : mRunOnFirstFix) {
 						runnable.run();
 					}
 					mRunOnFirstFix.clear();
@@ -344,15 +360,16 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	@Override
-	public boolean onSnapToItem(int x, int y, Point snapPoint, OpenStreetMapView mapView) {
-		if(this.mLocation != null) {
+	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
+			final OpenStreetMapView mapView) {
+		if (this.mLocation != null) {
 			final OpenStreetMapViewProjection pj = mapView.getProjection();
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
 			final double xDiff = (x - mMapCoords.x);
 			final double yDiff = (y - mMapCoords.y);
-			final boolean snap = xDiff *xDiff + yDiff *yDiff < 64;
+			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
 				logger.debug("snap=" + snap);
 			}
@@ -363,7 +380,7 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event, OpenStreetMapView mapView) {
+	public boolean onTouchEvent(final MotionEvent event, final OpenStreetMapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE)
 			mFollow = false;
 
@@ -371,19 +388,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
+	public void onAccuracyChanged(final Sensor arg0, final int arg1) {
 		// This is not interesting for us at the moment
 	}
 
 	@Override
-	public void onSensorChanged(SensorEvent event) {
+	public void onSensorChanged(final SensorEvent event) {
 		// It's not necessary to check for mCompassEnabled here, because the event will
 		// only fire, if the sensor has been enabled ...
-		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION)
-		{
-			if (event.values != null)
-			{
-				mAzimuth = (float) event.values[0];
+		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+			if (event.values != null) {
+				mAzimuth = event.values[0];
 				mMapView.invalidate();
 			}
 		}
@@ -399,16 +414,17 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	}
 
 	/**
-	 * Enable location updates so that the map follows the current location.
-	 * By default this will request location updates as frequently as possible,
-	 * but you can change the frequency and/or distance by calling
-	 * {@link setLocationUpdateMinTime(long)} and/or {@link setLocationUpdateMinDistance(float)}
-	 * before calling this method.
+	 * Enable location updates so that the map follows the current location. By default this will
+	 * request location updates as frequently as possible, but you can change the frequency and/or
+	 * distance by calling {@link setLocationUpdateMinTime(long)} and/or {@link
+	 * setLocationUpdateMinDistance(float)} before calling this method.
 	 */
 	public boolean enableMyLocation() {
 		if (!mMyLocationEnabled) {
-			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
+			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+					mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+					mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
 		}
 		return mMyLocationEnabled = true;
 	}
@@ -425,8 +441,10 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	public boolean enableCompass() {
 		if (mOrientationSensorAvailable) {
 			if (!mCompassEnabled) {
-				final Sensor sensorOrientation = this.mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-				mSensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_UI);
+				final Sensor sensorOrientation = this.mSensorManager
+						.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+				mSensorManager.registerListener(this, sensorOrientation,
+						SensorManager.SENSOR_DELAY_UI);
 			}
 			return mCompassEnabled = true;
 		} else {
@@ -448,8 +466,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		return (mCompassEnabled) ? disableCompass() : enableCompass();
 	}
 
-	public boolean runOnFirstFix(Runnable runnable) {
-		if(mMyLocationEnabled && mLocation != null) {
+	public boolean runOnFirstFix(final Runnable runnable) {
+		if (mMyLocationEnabled && mLocation != null) {
 			runnable.run();
 			return true;
 		} else {
@@ -462,7 +480,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private Point calculatePointOnCircle(float centerX, float centerY, float radius, float degrees) {
+	private Point calculatePointOnCircle(final float centerX, final float centerY,
+			final float radius, final float degrees) {
 		// for trigonometry, 0 is pointing east, so subtract 90
 		// compass degrees are the wrong way round
 		final double dblRadians = Math.toRadians(-degrees + 90);
@@ -473,7 +492,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		return new Point((int) centerX + intX, (int) centerY - intY);
 	}
 
-	private void drawTriangle(Canvas canvas, float x, float y, float radius, float degrees, Paint paint) {
+	private void drawTriangle(final Canvas canvas, final float x, final float y,
+			final float radius, final float degrees, final Paint paint) {
 		canvas.save();
 		final Point point = this.calculatePointOnCircle(x, y, radius, degrees);
 		canvas.rotate(degrees, point.x, point.y);
@@ -505,14 +525,16 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
 		final int center = picBorderWidthAndHeight / 2;
 
-		final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
+		final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight,
+				picBorderWidthAndHeight);
 
 		// draw compass inner circle and border
 		canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
 		canvas.drawCircle(center, center, mCompassRadius * mScale, outerPaint);
 
 		// Draw little triangles north, south, west and east (don't move)
-		// to make those move use "-bearing + 0" etc. (Note: that would mean to draw the triangles in the onDraw() method)
+		// to make those move use "-bearing + 0" etc. (Note: that would mean to draw the triangles
+		// in the onDraw() method)
 		drawTriangle(canvas, center, center, mCompassRadius * mScale, 0, outerPaint);
 		drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
 		drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
@@ -547,7 +569,8 @@ public class MyLocationOverlay extends OpenStreetMapViewOverlay implements Senso
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
 		final int center = picBorderWidthAndHeight / 2;
 
-		final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
+		final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight,
+				picBorderWidthAndHeight);
 
 		// Blue triangle pointing north
 		final Path pathNorth = new Path();

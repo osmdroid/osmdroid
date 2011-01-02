@@ -24,7 +24,8 @@ import android.os.Handler;
 public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTileProviderCallback,
 		OpenStreetMapViewConstants {
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderBase.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(OpenStreetMapTileProviderBase.class);
 
 	protected final OpenStreetMapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
@@ -56,7 +57,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 * @param tileSource
 	 *            the tile source
 	 */
-	public void setTileSource(ITileSource tileSource) {
+	public void setTileSource(final ITileSource tileSource) {
 		mTileSource = tileSource;
 	}
 
@@ -90,7 +91,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	@Override
 	public void mapTileRequestCompleted(final OpenStreetMapTileRequestState pState,
 			final Drawable pDrawable) {
-		OpenStreetMapTile tile = pState.getMapTile();
+		final OpenStreetMapTile tile = pState.getMapTile();
 		if (pDrawable != null) {
 			mTileCache.putTile(tile, pDrawable);
 		}
@@ -112,7 +113,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCandidate(OpenStreetMapTileRequestState aState,
+	public void mapTileRequestCandidate(final OpenStreetMapTileRequestState aState,
 			final Drawable aDrawable) {
 		mapTileRequestCompleted(aState, aDrawable);
 	}
@@ -126,7 +127,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 */
 	@Override
 	public void mapTileRequestFailed(final OpenStreetMapTileRequestState pState) {
-		OpenStreetMapTile tile = pState.getMapTile();
+		final OpenStreetMapTile tile = pState.getMapTile();
 		if (mTileRequestCompleteHandler != null)
 			mTileRequestCompleteHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_FAIL_ID);
 
@@ -134,7 +135,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 			logger.debug("MapTile request failed: " + tile);
 	}
 
-	public void setTileRequestCompleteHandler(Handler handler) {
+	public void setTileRequestCompleteHandler(final Handler handler) {
 		mTileRequestCompleteHandler = handler;
 	}
 
@@ -161,7 +162,7 @@ public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTil
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
 	 */
-	public void setUseDataConnection(boolean aMode) {
+	public void setUseDataConnection(final boolean aMode) {
 		mUseDataConnection = aMode;
 	}
 

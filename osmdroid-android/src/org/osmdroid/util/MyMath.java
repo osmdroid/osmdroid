@@ -4,9 +4,9 @@ package org.osmdroid.util;
 import org.osmdroid.views.util.constants.MathConstants;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class MyMath implements MathConstants {
 	// ===========================================================
@@ -39,21 +39,19 @@ public class MyMath implements MathConstants {
 	// Methods
 	// ===========================================================
 
-
-	public static double gudermannInverse(double aLatitude){
+	public static double gudermannInverse(final double aLatitude) {
 		return Math.log(Math.tan(PI_4 + (DEG2RAD * aLatitude / 2)));
 	}
 
-	public static double gudermann(double y){
+	public static double gudermann(final double y) {
 		return RAD2DEG * Math.atan(Math.sinh(y));
 	}
 
-
-	public static int mod(int number, final int modulus){
-		if(number > 0)
+	public static int mod(int number, final int modulus) {
+		if (number > 0)
 			return number % modulus;
 
-		while(number < 0)
+		while (number < 0)
 			number += modulus;
 
 		return number;

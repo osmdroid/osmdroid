@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
 import org.osmdroid.views.overlay.OpenStreetMapTilesOverlay;
 
 /**
@@ -19,7 +20,7 @@ public class OpenStreetMapTile {
 	private final int y;
 	private final int zoomLevel;
 
-	public OpenStreetMapTile(int zoomLevel, int tileX, int tileY) {
+	public OpenStreetMapTile(final int zoomLevel, final int tileX, final int tileY) {
 		this.zoomLevel = zoomLevel;
 		this.x = tileX;
 		this.y = tileY;
@@ -43,7 +44,7 @@ public class OpenStreetMapTile {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (obj == null)
 			return false;
 		if (obj == this)

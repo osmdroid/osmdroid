@@ -67,7 +67,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	@Override
 	public void detach() {
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
 			}
 		}
@@ -91,7 +91,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 
 				OpenStreetMapTileRequestState state;
 				synchronized (mTileProviderList) {
-					OpenStreetMapTileModuleProviderBase[] providerArray = new OpenStreetMapTileModuleProviderBase[mTileProviderList
+					final OpenStreetMapTileModuleProviderBase[] providerArray = new OpenStreetMapTileModuleProviderBase[mTileProviderList
 							.size()];
 					state = new OpenStreetMapTileRequestState(pTile,
 							mTileProviderList.toArray(providerArray), this);
@@ -106,7 +106,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 					mWorking.put(state, pTile);
 				}
 
-				OpenStreetMapTileModuleProviderBase provider = findNextAppropriateProvider(state);
+				final OpenStreetMapTileModuleProviderBase provider = findNextAppropriateProvider(state);
 				if (provider != null)
 					provider.loadMapTileAsync(state);
 				else
@@ -117,7 +117,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	}
 
 	@Override
-	public void mapTileRequestCompleted(OpenStreetMapTileRequestState aState,
+	public void mapTileRequestCompleted(final OpenStreetMapTileRequestState aState,
 			final Drawable aDrawable) {
 		synchronized (mWorking) {
 			mWorking.remove(aState);
@@ -127,7 +127,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 
 	@Override
 	public void mapTileRequestFailed(final OpenStreetMapTileRequestState aState) {
-		OpenStreetMapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
+		final OpenStreetMapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
 		if (nextProvider != null) {
 			nextProvider.loadMapTileAsync(aState);
 		} else {
@@ -154,7 +154,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 		return provider;
 	}
 
-	public boolean getProviderExists(OpenStreetMapTileModuleProviderBase provider) {
+	public boolean getProviderExists(final OpenStreetMapTileModuleProviderBase provider) {
 		synchronized (mTileProviderList) {
 			return mTileProviderList.contains(provider);
 		}
@@ -164,7 +164,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	public int getMinimumZoomLevel() {
 		int result = Integer.MAX_VALUE;
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result)
 					result = tileProvider.getMinimumZoomLevel();
 			}
@@ -176,7 +176,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	public int getMaximumZoomLevel() {
 		int result = Integer.MIN_VALUE;
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
+			for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMaximumZoomLevel() > result)
 					result = tileProvider.getMaximumZoomLevel();
 			}
@@ -185,7 +185,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProviderBas
 	}
 
 	@Override
-	public void setTileSource(ITileSource aTileSource) {
+	public void setTileSource(final ITileSource aTileSource) {
 		super.setTileSource(aTileSource);
 
 		for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {

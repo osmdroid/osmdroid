@@ -8,15 +8,15 @@ public class CloudmadeException extends Exception {
 		super();
 	}
 
-	public CloudmadeException(String aDetailMessage, Throwable aThrowable) {
+	public CloudmadeException(final String aDetailMessage, final Throwable aThrowable) {
 		super(aDetailMessage, aThrowable);
 	}
 
-	public CloudmadeException(String aDetailMessage) {
+	public CloudmadeException(final String aDetailMessage) {
 		super(aDetailMessage);
 	}
 
-	public CloudmadeException(Throwable aThrowable) {
+	public CloudmadeException(final Throwable aThrowable) {
 		super(aThrowable);
 	}
 }

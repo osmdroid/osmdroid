@@ -6,6 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 /**
  * Extends the {@link GeoPoint} with a timeStamp.
+ * 
  * @author Nicolas Gramlich
  */
 public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContributorConstants {
@@ -29,7 +30,8 @@ public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContribut
 		this(latitudeE6, longitudeE6, System.currentTimeMillis(), NOT_SET);
 	}
 
-	public RecordedGeoPoint(final int latitudeE6, final int longitudeE6, final long aTimeStamp, final int aNumSatellites) {
+	public RecordedGeoPoint(final int latitudeE6, final int longitudeE6, final long aTimeStamp,
+			final int aNumSatellites) {
 		super(latitudeE6, longitudeE6);
 		this.mTimeStamp = aTimeStamp;
 		this.mNumSatellites = aNumSatellites;
@@ -43,15 +45,15 @@ public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContribut
 		return this.mTimeStamp;
 	}
 
-	public double getLatitudeAsDouble(){
+	public double getLatitudeAsDouble() {
 		return this.getLatitudeE6() / 1E6;
 	}
 
-	public double getLongitudeAsDouble(){
+	public double getLongitudeAsDouble() {
 		return this.getLongitudeE6() / 1E6;
 	}
 
-	public int getNumSatellites(){
+	public int getNumSatellites() {
 		return this.mNumSatellites;
 	}
 

@@ -21,7 +21,8 @@ import android.graphics.drawable.Drawable;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class OpenStreetMapTileModuleProviderBase implements OpenStreetMapTileProviderConstants {
+public abstract class OpenStreetMapTileModuleProviderBase implements
+		OpenStreetMapTileProviderConstants {
 
 	/**
 	 * Gets the human-friendly name assigned to this tile provider.
@@ -84,7 +85,8 @@ public abstract class OpenStreetMapTileModuleProviderBase implements OpenStreetM
 	private final ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mPending;
 
-	public OpenStreetMapTileModuleProviderBase(final int aThreadPoolSize, final int aPendingQueueSize) {
+	public OpenStreetMapTileModuleProviderBase(final int aThreadPoolSize,
+			final int aPendingQueueSize) {
 		mThreadPoolSize = aThreadPoolSize;
 		mWorking = new ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>(
@@ -126,7 +128,7 @@ public abstract class OpenStreetMapTileModuleProviderBase implements OpenStreetM
 		this.mThreadPool.interrupt();
 	}
 
-	private void removeTileFromQueues(OpenStreetMapTile mapTile) {
+	private void removeTileFromQueues(final OpenStreetMapTile mapTile) {
 		synchronized (mPending) {
 			mPending.remove(mapTile);
 		}
