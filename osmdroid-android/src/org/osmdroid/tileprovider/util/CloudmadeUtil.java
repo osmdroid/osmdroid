@@ -9,8 +9,8 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.osmdroid.tileprovider.CloudmadeException;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.CloudmadeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

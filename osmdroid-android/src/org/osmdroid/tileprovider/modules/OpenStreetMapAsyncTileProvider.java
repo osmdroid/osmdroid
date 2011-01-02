@@ -9,7 +9,7 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider.CantContinueException;
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

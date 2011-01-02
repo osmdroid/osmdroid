@@ -8,6 +8,8 @@ import org.osmdroid.tileprovider.modules.OpenStreetMapTileDownloader;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.TileWriter;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.OpenStreetMapRendererFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,6 @@
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider.tilesource;
 
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.tileprovider.CloudmadeException;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.tilesource;
 
 public class CloudmadeException extends Exception {
 

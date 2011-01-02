@@ -5,8 +5,8 @@ import java.io.File;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
-import org.osmdroid.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.OpenStreetMapRendererFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

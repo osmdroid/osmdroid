@@ -12,8 +12,8 @@ import java.util.List;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

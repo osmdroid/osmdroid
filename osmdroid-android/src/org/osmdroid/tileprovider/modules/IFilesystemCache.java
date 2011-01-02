@@ -3,7 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import java.io.InputStream;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 
 /**
  * Represents a write-only interface into a file system cache.

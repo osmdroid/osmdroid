@@ -1,4 +1,4 @@
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider.tilesource;
 
 import java.io.InputStream;
 

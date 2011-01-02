@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 
 /**
  * An interface that allows a class to register a tile source for file system cache access. This

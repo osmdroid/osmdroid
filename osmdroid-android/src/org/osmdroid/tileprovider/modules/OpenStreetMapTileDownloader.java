@@ -13,9 +13,9 @@ import java.net.UnknownHostException;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
-import org.osmdroid.views.util.OnlineTileSourceBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

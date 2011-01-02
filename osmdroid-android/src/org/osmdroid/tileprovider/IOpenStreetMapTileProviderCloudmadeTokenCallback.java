@@ -1,5 +1,7 @@
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.tileprovider.tilesource.CloudmadeException;
+
 @Deprecated
 public interface IOpenStreetMapTileProviderCloudmadeTokenCallback {
 
