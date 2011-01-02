@@ -1,13 +1,10 @@
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider;
 import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;

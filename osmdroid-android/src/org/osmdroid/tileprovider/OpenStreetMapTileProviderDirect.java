@@ -1,7 +1,5 @@
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider;
 
-import org.osmdroid.tileprovider.IOpenStreetMapTileProviderCallback;
-import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileDownloader;

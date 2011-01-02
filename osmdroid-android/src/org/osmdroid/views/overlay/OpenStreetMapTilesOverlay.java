@@ -3,11 +3,11 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTileProvider;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.OpenStreetMapView;
 import org.osmdroid.views.OpenStreetMapView.OpenStreetMapViewProjection;
-import org.osmdroid.views.util.OpenStreetMapTileProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,6 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider;
 
-import org.osmdroid.tileprovider.IOpenStreetMapTileProviderCallback;
-import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;

@@ -1,9 +1,8 @@
-package org.osmdroid.views.util;
+package org.osmdroid.tileprovider;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
-import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
