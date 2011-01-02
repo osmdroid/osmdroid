@@ -16,7 +16,7 @@ import android.graphics.drawable.Drawable;
  * @author Neil Boyd
  * 
  */
-public class OpenStreetMapAsyncTileProviderTest {
+public class MapTileProviderTest {
 
 	final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
 
