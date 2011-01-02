@@ -3,7 +3,7 @@ package org.osmdroid.tileprovider.tilesource;
 import org.osmdroid.ResourceProxy.string;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 
-public abstract class OnlineTileSourceBase extends OpenStreetMapRendererBase {
+public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	private final String mBaseUrls[];
 

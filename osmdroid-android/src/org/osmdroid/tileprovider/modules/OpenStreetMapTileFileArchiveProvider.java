@@ -11,7 +11,7 @@ import java.util.zip.ZipFile;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +41,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 
 	private final ArrayList<ZipFile> mZipFiles = new ArrayList<ZipFile>();
 
-	private IOpenStreetMapRendererInfo mTileSource;
+	private ITileSource mTileSource;
 
 	// ===========================================================
 	// Constructors
@@ -55,7 +55,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	 * @param aCallback
 	 * @param aRegisterReceiver
 	 */
-	public OpenStreetMapTileFileArchiveProvider(final IOpenStreetMapRendererInfo pTileSource,
+	public OpenStreetMapTileFileArchiveProvider(final ITileSource pTileSource,
 			final IRegisterReceiver pRegisterReceiver) {
 		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
 				pRegisterReceiver);
@@ -114,7 +114,7 @@ public class OpenStreetMapTileFileArchiveProvider extends OpenStreetMapTileFileS
 	}
 
 	@Override
-	public void setTileSource(IOpenStreetMapRendererInfo pTileSource) {
+	public void setTileSource(ITileSource pTileSource) {
 		mTileSource = pTileSource;
 	}
 

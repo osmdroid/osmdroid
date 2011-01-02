@@ -7,7 +7,7 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 
 import android.graphics.drawable.Drawable;
 
-public interface IOpenStreetMapRendererInfo {
+public interface ITileSource {
 
 	/**
 	 * An ordinal identifier for this tile source

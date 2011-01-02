@@ -5,8 +5,8 @@ import java.io.File;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
-import org.osmdroid.tileprovider.tilesource.OpenStreetMapRendererFactory;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,18 +35,18 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 
 	private final long mMaximumCachedFileAge;
 
-	private IOpenStreetMapRendererInfo mTileSource;
+	private ITileSource mTileSource;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver) {
-		this(aRegisterReceiver, OpenStreetMapRendererFactory.DEFAULT_TILE_SOURCE);
+		this(aRegisterReceiver, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
 	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
-			final IOpenStreetMapRendererInfo aTileSource) {
+			final ITileSource aTileSource) {
 		this(aRegisterReceiver, aTileSource, DEFAULT_MAXIMUM_CACHED_FILE_AGE);
 	}
 
@@ -57,7 +57,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	 * @param aRegisterReceiver
 	 */
 	public OpenStreetMapTileFilesystemProvider(final IRegisterReceiver aRegisterReceiver,
-			final IOpenStreetMapRendererInfo aTileSource, final long maximumCachedFileAge) {
+			final ITileSource aTileSource, final long maximumCachedFileAge) {
 		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
 				aRegisterReceiver);
 		mTileSource = aTileSource;
@@ -104,7 +104,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	}
 
 	@Override
-	public void setTileSource(IOpenStreetMapRendererInfo pTileSource) {
+	public void setTileSource(ITileSource pTileSource) {
 		mTileSource = pTileSource;
 	}
 

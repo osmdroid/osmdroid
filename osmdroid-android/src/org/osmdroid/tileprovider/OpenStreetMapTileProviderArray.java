@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,7 +185,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	}
 
 	@Override
-	public void setTileSource(IOpenStreetMapRendererInfo aTileSource) {
+	public void setTileSource(ITileSource aTileSource) {
 		super.setTileSource(aTileSource);
 
 		for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {

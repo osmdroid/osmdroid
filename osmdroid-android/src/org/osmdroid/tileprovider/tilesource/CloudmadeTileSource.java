@@ -6,15 +6,15 @@ import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class CloudmadeRenderer extends OnlineTileSourceBase implements IStyledTileSource {
+class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSource {
 
-	private static final Logger logger = LoggerFactory.getLogger(CloudmadeRenderer.class);
+	private static final Logger logger = LoggerFactory.getLogger(CloudmadeTileSource.class);
 
 	private String mKey;
 	private String mToken;
 	private int mStyle = 1;
 
-	CloudmadeRenderer(final String aName, ResourceProxy.string aResourceId, int aZoomMinLevel,
+	CloudmadeTileSource(final String aName, ResourceProxy.string aResourceId, int aZoomMinLevel,
 			int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding, String... aBaseUrl) {
 		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
 				aImageFilenameEnding, aBaseUrl);

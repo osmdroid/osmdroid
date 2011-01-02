@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	// ===========================================================
 
 	@Override
-	public boolean saveFile(final IOpenStreetMapRendererInfo pTileSource,
+	public boolean saveFile(final ITileSource pTileSource,
 			final OpenStreetMapTile pTile, final InputStream pStream) {
 
 		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile));

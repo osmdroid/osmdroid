@@ -9,7 +9,7 @@ import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase.CantContinueException;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +74,7 @@ public abstract class OpenStreetMapTileModuleProviderBase implements OpenStreetM
 	 * @param tileSource
 	 *            the tile source
 	 */
-	public abstract void setTileSource(IOpenStreetMapRendererInfo tileSource);
+	public abstract void setTileSource(ITileSource tileSource);
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(OpenStreetMapTileModuleProviderBase.class);

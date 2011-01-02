@@ -18,9 +18,9 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.OpenStreetMapTileProvider;
 import org.osmdroid.tileprovider.OpenStreetMapTileProviderDirect;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
-import org.osmdroid.tileprovider.tilesource.OpenStreetMapRendererFactory;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -134,7 +134,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		this.mTileSizePixels = tileSizePixels;
 
 		if (tileProvider == null) {
-			IOpenStreetMapRendererInfo tileSource = getTileSourceFromAttributes(attrs);
+			ITileSource tileSource = getTileSourceFromAttributes(attrs);
 			tileProvider = new OpenStreetMapTileProviderDirect(context, tileSource);
 		}
 
@@ -196,7 +196,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * @param osmv
 	 *            another {@link OpenStreetMapView}, to share the TileProvider with.<br/>
 	 *            May significantly improve the render speed, when using the same
-	 *            {@link ITileSource}.
+	 *            {@link IOpenStreetMapRenderInfo}.
 	 */
 	public OpenStreetMapView(final Context context,
 			final OpenStreetMapView aMapToShareTheTileProviderWith) {
@@ -378,7 +378,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		}
 	}
 
-	public void setTileSource(final IOpenStreetMapRendererInfo aTileSource) {
+	public void setTileSource(final ITileSource aTileSource) {
 		mTileProvider.setTileSource(aTileSource);
 		mTileSizePixels = aTileSource.getTileSizePixels();
 		if (this.mMiniMap != null)
@@ -607,8 +607,8 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	/**
-	 * Check mAnimationListener.animating to determine if view is animating. Useful for
-	 * overlays to avoid recalculating during an animation sequence.
+	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
+	 * avoid recalculating during an animation sequence.
 	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
@@ -901,15 +901,15 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		mMultiTouchController = on ? new MultiTouchController<Object>(this, false) : null;
 	}
 
-	private IOpenStreetMapRendererInfo getTileSourceFromAttributes(final AttributeSet aAttributeSet) {
+	private ITileSource getTileSourceFromAttributes(final AttributeSet aAttributeSet) {
 
-		IOpenStreetMapRendererInfo tileSource = OpenStreetMapRendererFactory.DEFAULT_TILE_SOURCE;
+		ITileSource tileSource = TileSourceFactory.DEFAULT_TILE_SOURCE;
 
 		if (aAttributeSet != null) {
 			final String tileSourceAttr = aAttributeSet.getAttributeValue(null, "tilesource");
 			if (tileSourceAttr != null) {
 				try {
-					final IOpenStreetMapRendererInfo r = OpenStreetMapRendererFactory
+					final ITileSource r = TileSourceFactory
 							.getTileSource(tileSourceAttr);
 					logger.info("Using tile source specified in layout attributes: " + r);
 					tileSource = r;

@@ -6,8 +6,8 @@ import org.osmdroid.tileprovider.modules.OpenStreetMapTileDownloader;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.OpenStreetMapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.TileWriter;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
-import org.osmdroid.tileprovider.tilesource.OpenStreetMapRendererFactory;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,14 +32,14 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderAr
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
 	public OpenStreetMapTileProviderDirect(final Context aContext) {
-		this(aContext, OpenStreetMapRendererFactory.DEFAULT_TILE_SOURCE);
+		this(aContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
 	/**
 	 * Creates an OpenStreetMapTileProviderDirect.
 	 */
 	public OpenStreetMapTileProviderDirect(final Context aContext,
-			final IOpenStreetMapRendererInfo aTileSource) {
+			final ITileSource aTileSource) {
 		this(new SimpleRegisterReceiver(aContext), new NetworkAvailabliltyCheck(aContext),
 				aTileSource);
 	}
@@ -49,7 +49,7 @@ public class OpenStreetMapTileProviderDirect extends OpenStreetMapTileProviderAr
 	 */
 	public OpenStreetMapTileProviderDirect(final IRegisterReceiver aRegisterReceiver,
 			final INetworkAvailablityCheck aNetworkAvailablityCheck,
-			final IOpenStreetMapRendererInfo aTileSource) {
+			final ITileSource aTileSource) {
 		super(aRegisterReceiver);
 
 		final TileWriter tileWriter = new TileWriter();

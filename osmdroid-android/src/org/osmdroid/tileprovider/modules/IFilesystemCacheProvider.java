@@ -1,6 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 /**
  * An interface that allows a class to register a tile source for file system cache access. This
@@ -13,7 +13,7 @@ import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 @Deprecated
 public interface IFilesystemCacheProvider {
 	IFilesystemCache registerTileSourceForFilesystemAccess(
-			IOpenStreetMapRendererInfo pTileSourceInfo, int minimumZoomLevel, int maximumZoomLevel);
+			ITileSource pTileSourceInfo, int minimumZoomLevel, int maximumZoomLevel);
 
-	void unregisterTileSourceForFilesystemAccess(IOpenStreetMapRendererInfo pTileSourceInfo);
+	void unregisterTileSourceForFilesystemAccess(ITileSource pTileSourceInfo);
 }

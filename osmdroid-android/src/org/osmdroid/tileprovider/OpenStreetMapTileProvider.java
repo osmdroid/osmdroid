@@ -1,7 +1,7 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
 package org.osmdroid.tileprovider;
 
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public abstract class OpenStreetMapTileProvider implements IOpenStreetMapTilePro
 	protected Handler mTileRequestCompleteHandler;
 	protected boolean mUseDataConnection = true;
 
-	private IOpenStreetMapRendererInfo mTileSource;
+	private ITileSource mTileSource;
 
 	public abstract Drawable getMapTile(OpenStreetMapTile pTile);
 
@@ -56,7 +56,7 @@ public abstract class OpenStreetMapTileProvider implements IOpenStreetMapTilePro
 	 * @param tileSource
 	 *            the tile source
 	 */
-	public void setTileSource(IOpenStreetMapRendererInfo tileSource) {
+	public void setTileSource(ITileSource tileSource) {
 		mTileSource = tileSource;
 	}
 
@@ -65,7 +65,7 @@ public abstract class OpenStreetMapTileProvider implements IOpenStreetMapTilePro
 	 * 
 	 * @return the tile source
 	 */
-	public IOpenStreetMapRendererInfo getTileSource() {
+	public ITileSource getTileSource() {
 		return mTileSource;
 	}
 

@@ -16,10 +16,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendererInfo,
+public abstract class BitmapTileSourceBase implements ITileSource,
 		OpenStreetMapTileProviderConstants {
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapRendererBase.class);
+	private static final Logger logger = LoggerFactory.getLogger(BitmapTileSourceBase.class);
 
 	private static int globalOrdinal = 0;
 
@@ -35,7 +35,7 @@ public abstract class OpenStreetMapRendererBase implements IOpenStreetMapRendere
 
 	private final string mResourceId;
 
-	public OpenStreetMapRendererBase(String aName, string aResourceId, int aZoomMinLevel,
+	public BitmapTileSourceBase(String aName, string aResourceId, int aZoomMinLevel,
 			int aZoomMaxLevel, int aTileSizePixels, String aImageFilenameEnding) {
 		mResourceId = aResourceId;
 		mOrdinal = globalOrdinal++;

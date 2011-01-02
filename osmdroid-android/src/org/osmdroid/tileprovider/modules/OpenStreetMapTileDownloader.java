@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
@@ -52,16 +52,16 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	// Constructors
 	// ===========================================================
 
-	public OpenStreetMapTileDownloader(final IOpenStreetMapRendererInfo pTileSource) {
+	public OpenStreetMapTileDownloader(final ITileSource pTileSource) {
 		this(pTileSource, null, null);
 	}
 
-	public OpenStreetMapTileDownloader(final IOpenStreetMapRendererInfo pTileSource,
+	public OpenStreetMapTileDownloader(final ITileSource pTileSource,
 			final IFilesystemCache pFilesystemCache) {
 		this(pTileSource, pFilesystemCache, null);
 	}
 
-	public OpenStreetMapTileDownloader(final IOpenStreetMapRendererInfo pTileSource,
+	public OpenStreetMapTileDownloader(final ITileSource pTileSource,
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
 		super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
@@ -75,7 +75,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	// Getter & Setter
 	// ===========================================================
 
-	public IOpenStreetMapRendererInfo getTileSource() {
+	public ITileSource getTileSource() {
 		return mTileSource;
 	}
 
@@ -114,7 +114,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProvider
 	}
 
 	@Override
-	public void setTileSource(final IOpenStreetMapRendererInfo tileSource) {
+	public void setTileSource(final ITileSource tileSource) {
 		// We are only interested in OnlineTileSourceBase tile sources
 		if (tileSource instanceof OnlineTileSourceBase) {
 			mTileSource = (OnlineTileSourceBase) tileSource;

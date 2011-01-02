@@ -3,7 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import java.io.InputStream;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 /**
  * Represents a write-only interface into a file system cache.
@@ -24,6 +24,6 @@ public interface IFilesystemCache {
 	 *            an InputStream
 	 * @return
 	 */
-	boolean saveFile(final IOpenStreetMapRendererInfo pTileSourceInfo, OpenStreetMapTile pTile,
+	boolean saveFile(final ITileSource pTileSourceInfo, OpenStreetMapTile pTile,
 			final InputStream pStream);
 }
