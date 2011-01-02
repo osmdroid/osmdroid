@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.OpenStreetMapAsyncTileProvider;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
+import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

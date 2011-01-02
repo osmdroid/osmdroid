@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider;
+
 public class OpenStreetMapTileRequestState {
 
 	private final Queue<OpenStreetMapAsyncTileProvider> mProviderQueue;

@@ -1,13 +1,13 @@
 package org.osmdroid.views.util;
 
-import org.osmdroid.tileprovider.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.IOpenStreetMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.osmdroid.tileprovider.NetworkAvailabliltyCheck;
-import org.osmdroid.tileprovider.OpenStreetMapTileDownloader;
-import org.osmdroid.tileprovider.OpenStreetMapTileFileArchiveProvider;
-import org.osmdroid.tileprovider.OpenStreetMapTileFilesystemProvider;
-import org.osmdroid.tileprovider.TileWriter;
+import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
+import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileDownloader;
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileFileArchiveProvider;
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileFilesystemProvider;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

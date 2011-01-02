@@ -1,5 +1,5 @@
 // Created by plusminus on 21:46:41 - 25.09.2008
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.osmdroid.tileprovider.IRegisterReceiver;
+import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;

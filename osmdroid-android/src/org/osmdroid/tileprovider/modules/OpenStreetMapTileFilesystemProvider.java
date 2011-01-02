@@ -1,7 +1,10 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
 
+import org.osmdroid.tileprovider.IRegisterReceiver;
+import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 import org.osmdroid.views.util.OpenStreetMapRendererFactory;
 import org.slf4j.Logger;

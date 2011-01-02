@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
 import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 

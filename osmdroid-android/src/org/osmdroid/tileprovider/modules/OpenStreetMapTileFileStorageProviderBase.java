@@ -1,5 +1,6 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
+import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

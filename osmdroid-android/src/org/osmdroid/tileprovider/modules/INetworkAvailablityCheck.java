@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
 public interface INetworkAvailablityCheck {
 
