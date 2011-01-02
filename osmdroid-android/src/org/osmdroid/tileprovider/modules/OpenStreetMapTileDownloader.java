@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider;
+package org.osmdroid.tileprovider.modules;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import org.osmdroid.tileprovider.OpenStreetMapTile;
+import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 import org.osmdroid.views.util.OnlineTileSourceBase;
