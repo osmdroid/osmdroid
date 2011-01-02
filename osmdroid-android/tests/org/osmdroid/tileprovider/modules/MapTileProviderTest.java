@@ -40,8 +40,7 @@ public class MapTileProviderTest {
 		}
 	};
 
-	final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(
-			1, 10) {
+	final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(1, 10) {
 		@Override
 		protected String getThreadGroupName() {
 			return "OpenStreetMapAsyncTileProviderTest";
@@ -91,8 +90,8 @@ public class MapTileProviderTest {
 		final MapTile tile = new MapTile(1, 1, 1);
 
 		// request the same tile twice
-		final MapTileRequestState state = new MapTileRequestState(tile,
-				new MapTileDownloader[] {}, mTileProviderCallback);
+		final MapTileRequestState state = new MapTileRequestState(tile, new MapTileDownloader[] {},
+				mTileProviderCallback);
 		mTileProvider.loadMapTileAsync(state);
 		mTileProvider.loadMapTileAsync(state);
 
