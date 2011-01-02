@@ -1,4 +1,4 @@
-package org.osmdroid.tileprovider.util;
+package org.osmdroid.tileprovider.modules;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.util.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
