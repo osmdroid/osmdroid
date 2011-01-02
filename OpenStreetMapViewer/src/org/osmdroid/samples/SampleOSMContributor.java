@@ -1,6 +1,5 @@
 package org.osmdroid.samples;
 
-
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;

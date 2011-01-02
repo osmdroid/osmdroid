@@ -167,11 +167,8 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 
 		@Override
 		public void onStatusChanged(final String a, final int i, final Bundle b) {
-			SampleMapActivity.this.mNumSatellites = b.getInt("satellites", NOT_SET); // TODO
-																							// Check
-																							// on an
-																							// actual
-																							// device
+			// TODO Check on an actual device
+			SampleMapActivity.this.mNumSatellites = b.getInt("satellites", NOT_SET);
 		}
 
 		@Override

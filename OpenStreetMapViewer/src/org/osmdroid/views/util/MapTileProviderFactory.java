@@ -19,8 +19,7 @@ import android.os.Handler;
  */
 public class MapTileProviderFactory implements OpenStreetMapViewConstants {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MapTileProviderFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderFactory.class);
 
 	/**
 	 * Get a tile provider. If a tile provider service exists then it will use the service,
