@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
 import org.osmdroid.tileprovider.OpenStreetMapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider.CantContinueException;
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase.CantContinueException;
 import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import android.graphics.drawable.Drawable;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTileProviderConstants {
+public abstract class OpenStreetMapTileModuleProviderBase implements OpenStreetMapTileProviderConstants {
 
 	/**
 	 * Gets the human-friendly name assigned to this tile provider.
@@ -77,14 +77,14 @@ public abstract class OpenStreetMapAsyncTileProvider implements OpenStreetMapTil
 	public abstract void setTileSource(IOpenStreetMapRendererInfo tileSource);
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(OpenStreetMapAsyncTileProvider.class);
+			.getLogger(OpenStreetMapTileModuleProviderBase.class);
 
 	private final int mThreadPoolSize;
 	private final ThreadGroup mThreadPool = new ThreadGroup(getThreadGroupName());
 	private final ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mWorking;
 	final LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState> mPending;
 
-	public OpenStreetMapAsyncTileProvider(final int aThreadPoolSize, final int aPendingQueueSize) {
+	public OpenStreetMapTileModuleProviderBase(final int aThreadPoolSize, final int aPendingQueueSize) {
 		mThreadPoolSize = aThreadPoolSize;
 		mWorking = new ConcurrentHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>();
 		mPending = new LinkedHashMap<OpenStreetMapTile, OpenStreetMapTileRequestState>(
