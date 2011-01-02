@@ -21,10 +21,10 @@ import android.os.Handler;
  * @author Nicolas Gramlich
  * 
  */
-public abstract class OpenStreetMapTileProvider implements IOpenStreetMapTileProviderCallback,
+public abstract class OpenStreetMapTileProviderBase implements IOpenStreetMapTileProviderCallback,
 		OpenStreetMapViewConstants {
 
-	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProvider.class);
+	private static final Logger logger = LoggerFactory.getLogger(OpenStreetMapTileProviderBase.class);
 
 	protected final OpenStreetMapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
@@ -69,11 +69,11 @@ public abstract class OpenStreetMapTileProvider implements IOpenStreetMapTilePro
 		return mTileSource;
 	}
 
-	public OpenStreetMapTileProvider() {
+	public OpenStreetMapTileProviderBase() {
 		this(null);
 	}
 
-	public OpenStreetMapTileProvider(final Handler pDownloadFinishedListener) {
+	public OpenStreetMapTileProviderBase(final Handler pDownloadFinishedListener) {
 		mTileCache = new OpenStreetMapTileCache();
 		mTileRequestCompleteHandler = pDownloadFinishedListener;
 	}

@@ -3,7 +3,7 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.OpenStreetMapTile;
-import org.osmdroid.tileprovider.OpenStreetMapTileProvider;
+import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.OpenStreetMapView;
@@ -32,7 +32,7 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	protected OpenStreetMapView mOsmv;
 
 	/** Current tile source */
-	protected final OpenStreetMapTileProvider mTileProvider;
+	protected final OpenStreetMapTileProviderBase mTileProvider;
 	protected final Paint mPaint = new Paint();
 
 	/* to avoid allocations during draw */
@@ -40,12 +40,12 @@ public class OpenStreetMapTilesOverlay extends OpenStreetMapViewOverlay {
 	private final Rect mViewPort = new Rect();
 
 	public OpenStreetMapTilesOverlay(final OpenStreetMapView aOsmv,
-			final OpenStreetMapTileProvider aTileProvider, final Context aContext) {
+			final OpenStreetMapTileProviderBase aTileProvider, final Context aContext) {
 		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
 	public OpenStreetMapTilesOverlay(final OpenStreetMapView aOsmv,
-			final OpenStreetMapTileProvider aTileProvider, final ResourceProxy pResourceProxy) {
+			final OpenStreetMapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mTileProvider = aTileProvider; // TODO check for null

@@ -16,7 +16,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.tileprovider.OpenStreetMapTileProvider;
+import org.osmdroid.tileprovider.OpenStreetMapTileProviderBase;
 import org.osmdroid.tileprovider.OpenStreetMapTileProviderDirect;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
@@ -116,7 +116,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	// for speed (avoiding allocations)
 	private Matrix mMatrix = new Matrix();
-	private OpenStreetMapTileProvider mTileProvider;
+	private OpenStreetMapTileProviderBase mTileProvider;
 
 	private final Handler mTileRequestCompleteHandler;
 
@@ -126,7 +126,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 
 	private OpenStreetMapView(final Context context, final Handler tileRequestCompleteHandler,
 			final AttributeSet attrs, final int tileSizePixels,
-			OpenStreetMapTileProvider tileProvider) {
+			OpenStreetMapTileProviderBase tileProvider) {
 		super(context, attrs);
 		mResourceProxy = new DefaultResourceProxyImpl(context);
 		this.mController = new OpenStreetMapViewController(this);
@@ -177,7 +177,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	 * Standard Constructor.
 	 */
 	public OpenStreetMapView(final Context context, final int tileSizePixels,
-			final OpenStreetMapTileProvider aTileProvider) {
+			final OpenStreetMapTileProviderBase aTileProvider) {
 		this(context, null, null, tileSizePixels, aTileProvider);
 	}
 
@@ -186,7 +186,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 	}
 
 	public OpenStreetMapView(final Context context, final Handler tileRequestCompleteHandler,
-			final int tileSizePixels, OpenStreetMapTileProvider aTileProvider) {
+			final int tileSizePixels, OpenStreetMapTileProviderBase aTileProvider) {
 		this(context, tileRequestCompleteHandler, null, tileSizePixels, aTileProvider);
 	}
 
@@ -283,7 +283,7 @@ public class OpenStreetMapView extends View implements OpenStreetMapViewConstant
 		return this.mOverlays;
 	}
 
-	public OpenStreetMapTileProvider getTileProvider() {
+	public OpenStreetMapTileProviderBase getTileProvider() {
 		return mTileProvider;
 	}
 
