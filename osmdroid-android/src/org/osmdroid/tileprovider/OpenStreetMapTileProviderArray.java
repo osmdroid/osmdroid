@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.osmdroid.tileprovider.modules.OpenStreetMapAsyncTileProvider;
+import org.osmdroid.tileprovider.modules.OpenStreetMapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.IOpenStreetMapRendererInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	private static final Logger logger = LoggerFactory
 			.getLogger(OpenStreetMapTileProviderArray.class);
 
-	protected final List<OpenStreetMapAsyncTileProvider> mTileProviderList;
+	protected final List<OpenStreetMapTileModuleProviderBase> mTileProviderList;
 
 	/**
 	 * Creates an OpenStreetMapTileProviderArray with no tile providers.
@@ -43,7 +43,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	 *            a RegisterReceiver
 	 */
 	protected OpenStreetMapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
-		this(aRegisterReceiver, new OpenStreetMapAsyncTileProvider[0]);
+		this(aRegisterReceiver, new OpenStreetMapTileModuleProviderBase[0]);
 	}
 
 	/**
@@ -55,19 +55,19 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	 *            an array of OpenStreetMapTileModuleProviderBase
 	 */
 	public OpenStreetMapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
-			final OpenStreetMapAsyncTileProvider[] tileProviderArray) {
+			final OpenStreetMapTileModuleProviderBase[] tileProviderArray) {
 		super();
 
 		mWorking = new ConcurrentHashMap<OpenStreetMapTileRequestState, OpenStreetMapTile>();
 
-		mTileProviderList = new ArrayList<OpenStreetMapAsyncTileProvider>();
+		mTileProviderList = new ArrayList<OpenStreetMapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, tileProviderArray);
 	}
 
 	@Override
 	public void detach() {
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapAsyncTileProvider tileProvider : mTileProviderList) {
+			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
 			}
 		}
@@ -91,7 +91,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 
 				OpenStreetMapTileRequestState state;
 				synchronized (mTileProviderList) {
-					OpenStreetMapAsyncTileProvider[] providerArray = new OpenStreetMapAsyncTileProvider[mTileProviderList
+					OpenStreetMapTileModuleProviderBase[] providerArray = new OpenStreetMapTileModuleProviderBase[mTileProviderList
 							.size()];
 					state = new OpenStreetMapTileRequestState(pTile,
 							mTileProviderList.toArray(providerArray), this);
@@ -106,7 +106,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 					mWorking.put(state, pTile);
 				}
 
-				OpenStreetMapAsyncTileProvider provider = findNextAppropriateProvider(state);
+				OpenStreetMapTileModuleProviderBase provider = findNextAppropriateProvider(state);
 				if (provider != null)
 					provider.loadMapTileAsync(state);
 				else
@@ -127,7 +127,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 
 	@Override
 	public void mapTileRequestFailed(final OpenStreetMapTileRequestState aState) {
-		OpenStreetMapAsyncTileProvider nextProvider = findNextAppropriateProvider(aState);
+		OpenStreetMapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
 		if (nextProvider != null) {
 			nextProvider.loadMapTileAsync(aState);
 		} else {
@@ -142,9 +142,9 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
 	 * a provider that requires a data connection when one is not available.
 	 */
-	private OpenStreetMapAsyncTileProvider findNextAppropriateProvider(
+	private OpenStreetMapTileModuleProviderBase findNextAppropriateProvider(
 			final OpenStreetMapTileRequestState aState) {
-		OpenStreetMapAsyncTileProvider provider = null;
+		OpenStreetMapTileModuleProviderBase provider = null;
 		// The logic of the while statement is
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"
 		do {
@@ -154,7 +154,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 		return provider;
 	}
 
-	public boolean getProviderExists(OpenStreetMapAsyncTileProvider provider) {
+	public boolean getProviderExists(OpenStreetMapTileModuleProviderBase provider) {
 		synchronized (mTileProviderList) {
 			return mTileProviderList.contains(provider);
 		}
@@ -164,7 +164,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	public int getMinimumZoomLevel() {
 		int result = Integer.MAX_VALUE;
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapAsyncTileProvider tileProvider : mTileProviderList) {
+			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result)
 					result = tileProvider.getMinimumZoomLevel();
 			}
@@ -176,7 +176,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	public int getMaximumZoomLevel() {
 		int result = Integer.MIN_VALUE;
 		synchronized (mTileProviderList) {
-			for (OpenStreetMapAsyncTileProvider tileProvider : mTileProviderList) {
+			for (OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMaximumZoomLevel() > result)
 					result = tileProvider.getMaximumZoomLevel();
 			}
@@ -188,7 +188,7 @@ public class OpenStreetMapTileProviderArray extends OpenStreetMapTileProvider {
 	public void setTileSource(IOpenStreetMapRendererInfo aTileSource) {
 		super.setTileSource(aTileSource);
 
-		for (final OpenStreetMapAsyncTileProvider tileProvider : mTileProviderList) {
+		for (final OpenStreetMapTileModuleProviderBase tileProvider : mTileProviderList) {
 			tileProvider.setTileSource(aTileSource);
 			clearTileCache();
 		}

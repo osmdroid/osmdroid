@@ -30,7 +30,7 @@ import android.graphics.drawable.Drawable;
  * @author Manuel Stahl
  * 
  */
-public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider {
+public class OpenStreetMapTileDownloader extends OpenStreetMapTileModuleProviderBase {
 
 	// ===========================================================
 	// Constants
@@ -127,7 +127,7 @@ public class OpenStreetMapTileDownloader extends OpenStreetMapAsyncTileProvider 
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
+	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final OpenStreetMapTileRequestState aState)

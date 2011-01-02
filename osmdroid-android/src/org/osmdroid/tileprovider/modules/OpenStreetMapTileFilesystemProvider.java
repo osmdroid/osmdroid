@@ -112,7 +112,7 @@ public class OpenStreetMapTileFilesystemProvider extends OpenStreetMapTileFileSt
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends OpenStreetMapAsyncTileProvider.TileLoader {
+	private class TileLoader extends OpenStreetMapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final OpenStreetMapTileRequestState aState) {

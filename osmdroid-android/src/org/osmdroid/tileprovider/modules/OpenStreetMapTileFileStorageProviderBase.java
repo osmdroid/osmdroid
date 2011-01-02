@@ -11,7 +11,7 @@ import android.content.IntentFilter;
 import android.os.Environment;
 
 public abstract class OpenStreetMapTileFileStorageProviderBase extends
-		OpenStreetMapAsyncTileProvider {
+		OpenStreetMapTileModuleProviderBase {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(OpenStreetMapTileFileStorageProviderBase.class);
