@@ -1,5 +1,6 @@
 package org.andnav.osm;
 
+import org.osmdroid.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -59,7 +59,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		final OpenStreetMapTile tile = new OpenStreetMapTile(OpenStreetMapRendererFactory.MAPNIK, 2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
-		final String path = "/sdcard/andnav2/OpenStreetMapTileProviderTest.png";
+		final String path = "/sdcard/osmdroid/OpenStreetMapTileProviderTest.png";
 		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);
 		bitmap1.eraseColor(Color.YELLOW);
 		final Canvas canvas = new Canvas(bitmap1);

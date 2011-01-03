@@ -8,6 +8,7 @@ import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.overlay.MyLocationOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -157,9 +158,9 @@ public class OpenStreetMap extends Activity implements OpenStreetMapConstants {
 	    		   if (lastFix != null)
 	    		      	this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
 				}
-				Toast.makeText(this, 
-						this.mLocationOverlay.isMyLocationEnabled() 
-						   ? R.string.set_mode_show_me 
+				Toast.makeText(this,
+						this.mLocationOverlay.isMyLocationEnabled()
+						   ? R.string.set_mode_show_me
 						   : R.string.set_mode_hide_me,
 						Toast.LENGTH_LONG).show();
 				return true;

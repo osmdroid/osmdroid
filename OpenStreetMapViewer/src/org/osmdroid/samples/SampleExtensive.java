@@ -1,6 +1,6 @@
 package org.osmdroid.samples;
 
-import org.andnav.osm.R;
+import org.osmdroid.R;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.constants.OpenStreetMapConstants;
@@ -25,9 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SampleExtensive extends SampleMapActivity implements OpenStreetMapConstants {
 	// ===========================================================

@@ -1,9 +1,9 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.andnav.osm.samples;
 
-import org.andnav.osm.R;
 import org.andnav.osm.views.OpenStreetMapView;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

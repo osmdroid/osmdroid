@@ -1,7 +1,6 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
-import org.andnav.osm.R;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.samples.SampleLoader;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -29,9 +28,9 @@ import android.widget.Toast;
 
 /**
  * Default map view activity.
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
 public class MapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================

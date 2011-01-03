@@ -7,14 +7,14 @@ import android.test.AndroidTestCase;
 
 /**
  * @author Neil Boyd
- * 
+ *
  */
 public class ContextResourceProxyTest extends AndroidTestCase {
 
 	public void test_getString() {
 		final ResourceProxy rp = new ResourceProxyImpl(getContext());
 		final String osmarender = rp.getString(ResourceProxy.string.osmarender);
-		assertEquals("Got string okay", "OsmaRender", osmarender);
+		assertEquals("Got string okay", "Osmarender", osmarender);
 	}
 
 	public void test_getBitmap() {
@@ -28,11 +28,8 @@ public class ContextResourceProxyTest extends AndroidTestCase {
 		final Bitmap contextBitmap = contextResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 
 		final ResourceProxy defaultResourceProxy = new DefaultResourceProxyImpl(getContext());
-		final Bitmap defaultBitmap = defaultResourceProxy.getBitmap(ResourceProxy.bitmap.person); // FIXME
-																									// this
-																									// throws
-																									// an
-																									// exception
+		final Bitmap defaultBitmap = defaultResourceProxy.getBitmap(ResourceProxy.bitmap.person);
+		// FIXME this throws an exception
 
 		// compare a few things to see if they're the same bitmap
 		assertEquals("Compare config", contextBitmap.getConfig(), defaultBitmap.getConfig());

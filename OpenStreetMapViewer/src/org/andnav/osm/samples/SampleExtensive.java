@@ -1,7 +1,6 @@
 package org.andnav.osm.samples;
 
 import org.andnav.osm.OpenStreetMapActivity;
-import org.andnav.osm.R;
 import org.andnav.osm.ResourceProxy;
 import org.andnav.osm.ResourceProxyImpl;
 import org.andnav.osm.constants.OpenStreetMapConstants;
@@ -12,6 +11,7 @@ import org.andnav.osm.views.overlay.OpenStreetMapViewSimpleLocationOverlay;
 import org.andnav.osm.views.overlay.ScaleBarOverlay;
 import org.andnav.osm.views.util.IOpenStreetMapRendererInfo;
 import org.andnav.osm.views.util.OpenStreetMapRendererFactory;
+import org.osmdroid.R;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

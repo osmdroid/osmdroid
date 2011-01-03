@@ -1,7 +1,7 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid.samples;
 
-import org.andnav.osm.R;
+import org.osmdroid.R;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 
@@ -14,9 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SampleWithMinimapZoomcontrols extends Activity {
 

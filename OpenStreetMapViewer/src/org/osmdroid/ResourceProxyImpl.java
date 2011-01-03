@@ -1,7 +1,5 @@
 package org.osmdroid;
 
-import org.andnav.osm.R;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
