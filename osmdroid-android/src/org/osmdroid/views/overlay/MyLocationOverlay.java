@@ -8,9 +8,9 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
+import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +36,15 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+
 /**
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
-public class MyLocationOverlay extends Overlay implements SensorEventListener,
-		LocationListener, Snappable {
+public class MyLocationOverlay
+extends Overlay
+implements SensorEventListener, LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
@@ -147,7 +149,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 		COMPASS_ROSE_CENTER_Y = mCompassRose.getHeight() / 2 - 0.5f;
 
 		final List<Sensor> mOrientationSensors = mSensorManager
-				.getSensorList(Sensor.TYPE_ORIENTATION);
+		.getSensorList(Sensor.TYPE_ORIENTATION);
 		mOrientationSensorAvailable = !mOrientationSensors.isEmpty();
 	}
 
@@ -194,7 +196,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -209,7 +211,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -252,9 +254,9 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 
 			if (DEBUGMODE) {
 				final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
-						/ mMatrixValues[Matrix.MSCALE_X];
+				/ mMatrixValues[Matrix.MSCALE_X];
 				final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
-						/ mMatrixValues[Matrix.MSCALE_Y];
+				/ mMatrixValues[Matrix.MSCALE_Y];
 				c.drawText("Lat: " + mLocation.getLatitude(), tx, ty + 5, this.mPaint);
 				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
 				c.drawText("Alt: " + mLocation.getAltitude(), tx, ty + 35, this.mPaint);
@@ -262,10 +264,10 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 			}
 
 			float bearing = -1.0f;
-			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && mAzimuth >= 0.0f) {
+			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && (mAzimuth >= 0.0f)) {
 				// if GPS and compass is available, use compass value
 				bearing = mAzimuth;
-			} else if (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {
+			} else if (mLocation.hasSpeed() && (mLocation.getSpeed() > 1) && mLocation.hasBearing()) {
 				// use bearing if available and if we're actually moving
 				// XXX do we really need to test for speed > 1, or maybe better
 				// some number other than 1
@@ -381,8 +383,9 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
-		if (event.getAction() == MotionEvent.ACTION_MOVE)
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			mFollow = false;
+		}
 
 		return super.onTouchEvent(event, mapView);
 	}
@@ -442,7 +445,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 		if (mOrientationSensorAvailable) {
 			if (!mCompassEnabled) {
 				final Sensor sensorOrientation = this.mSensorManager
-						.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+				.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 				mSensorManager.registerListener(this, sensorOrientation,
 						SensorManager.SENSOR_DELAY_UI);
 			}
@@ -467,7 +470,7 @@ public class MyLocationOverlay extends Overlay implements SensorEventListener,
 	}
 
 	public boolean runOnFirstFix(final Runnable runnable) {
-		if (mMyLocationEnabled && mLocation != null) {
+		if (mMyLocationEnabled && (mLocation != null)) {
 			runnable.run();
 			return true;
 		} else {
