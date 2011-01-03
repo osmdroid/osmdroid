@@ -37,7 +37,7 @@
 			<attribute name="Implementation-Version" value="${version.num}.r${version}" />
 			<attribute name="Built-Date" value="${TODAY}" />
 		</manifest>
-		<copy todir="bin/org/andnav/osm">
+		<copy todir="bin/org/osmdroid">
 			<fileset dir="assets" />
 		</copy>
 		<jar destfile="osmdroid-android-${version.num}.jar" manifest="MANIFEST.MF">
