@@ -8,7 +8,7 @@ package org.osmdroid.views.util.constants;
  * @author Nicolas Gramlich
  * 
  */
-public interface OpenStreetMapViewConstants {
+public interface MapViewConstants {
 	// ===========================================================
 	// Final Fields
 	// ===========================================================

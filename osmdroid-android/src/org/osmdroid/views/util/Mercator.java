@@ -4,7 +4,7 @@ package org.osmdroid.views.util;
 import org.osmdroid.util.BasicPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator
@@ -13,7 +13,7 @@ import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
  * @author Nicolas Gramlich
  * 
  */
-public class Mercator implements OpenStreetMapViewConstants {
+public class Mercator implements MapViewConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================

@@ -7,13 +7,13 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MathConstants;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 
 /**
  * 
  * @author Nicolas Gramlich
  */
-public class MapController implements OpenStreetMapViewConstants {
+public class MapController implements MapViewConstants {
 
 	// TODO use same interface as google maps controller
 
@@ -369,8 +369,8 @@ public class MapController implements OpenStreetMapViewConstants {
 				final MapController mapViewController,
 				final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
 			this(aTargetLatitudeE6, aTargetLongitudeE6,
-					OpenStreetMapViewConstants.ANIMATION_SMOOTHNESS_DEFAULT,
-					OpenStreetMapViewConstants.ANIMATION_DURATION_DEFAULT);
+					MapViewConstants.ANIMATION_SMOOTHNESS_DEFAULT,
+					MapViewConstants.ANIMATION_DURATION_DEFAULT);
 		}
 
 		public AbstractAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6,

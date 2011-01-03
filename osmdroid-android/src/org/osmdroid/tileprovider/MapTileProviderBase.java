@@ -2,7 +2,7 @@
 package org.osmdroid.tileprovider;
 
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ import android.os.Handler;
  * 
  */
 public abstract class MapTileProviderBase implements IMapTileProviderCallback,
-		OpenStreetMapViewConstants {
+		MapViewConstants {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(MapTileProviderBase.class);

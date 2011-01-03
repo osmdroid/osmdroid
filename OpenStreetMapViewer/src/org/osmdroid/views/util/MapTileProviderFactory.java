@@ -5,7 +5,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import android.os.Handler;
  * @author Nicolas Gramlich
  * 
  */
-public class MapTileProviderFactory implements OpenStreetMapViewConstants {
+public class MapTileProviderFactory implements MapViewConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderFactory.class);
 

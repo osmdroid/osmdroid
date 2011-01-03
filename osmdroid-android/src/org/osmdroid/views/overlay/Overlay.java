@@ -4,7 +4,7 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,7 +24,7 @@ import android.view.MotionEvent;
  * 
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements OpenStreetMapViewConstants {
+public abstract class Overlay implements MapViewConstants {
 
 	// ===========================================================
 	// Constants

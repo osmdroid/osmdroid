@@ -29,7 +29,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.util.Mercator;
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +55,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class MapView extends View implements OpenStreetMapViewConstants,
+public class MapView extends View implements MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
@@ -214,7 +214,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	 * 
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
-	 *            3 is a good Value. Pass {@link OpenStreetMapViewConstants} .NOT_SET to disable
+	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable
 	 *            autozooming of the minimap.
 	 */
 	public void setMiniMap(final MapView aOsmvMinimap, final int aZoomDiff) {
@@ -235,7 +235,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 
 	/**
 	 * @return {@link View}.GONE or {@link View}.VISIBLE or {@link View} .INVISIBLE or
-	 *         {@link OpenStreetMapViewConstants}.NOT_SET
+	 *         {@link MapViewConstants}.NOT_SET
 	 * */
 	public int getOverrideMiniMapVisibility() {
 		return this.mMiniMapOverriddenVisibility;
@@ -244,7 +244,7 @@ public class MapView extends View implements OpenStreetMapViewConstants,
 	/**
 	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
 	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
-	 * {@link OpenStreetMapViewConstants}.NOT_SET to reset this feature.
+	 * {@link MapViewConstants}.NOT_SET to reset this feature.
 	 * 
 	 * @param aVisibility
 	 */

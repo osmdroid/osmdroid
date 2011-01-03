@@ -7,7 +7,7 @@ import static org.osmdroid.util.MyMath.gudermannInverse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.osmdroid.views.util.constants.OpenStreetMapViewConstants;
+import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,7 +17,7 @@ import android.os.Parcelable;
  * @author Nicolas Gramlich
  * 
  */
-public class BoundingBoxE6 implements Parcelable, Serializable, OpenStreetMapViewConstants {
+public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants {
 
 	// ===========================================================
 	// Constants
