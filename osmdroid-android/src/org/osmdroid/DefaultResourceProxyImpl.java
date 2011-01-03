@@ -22,7 +22,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
 	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
@@ -87,9 +87,10 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	public Bitmap getBitmap(final bitmap pResId) {
 		InputStream is = null;
 		try {
-			is = getClass().getResourceAsStream(pResId.name() + ".png");
+			final String resName = pResId.name() + ".png";
+			is = getClass().getResourceAsStream(resName);
 			if (is == null) {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Resource not found: " + resName);
 			}
 			BitmapFactory.Options options = null;
 			if (mDisplayMetrics != null) {
@@ -111,7 +112,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 			final Field density = DisplayMetrics.class.getDeclaredField("DENSITY_DEFAULT");
 			final Field inDensity = BitmapFactory.Options.class.getDeclaredField("inDensity");
 			final Field inTargetDensity = BitmapFactory.Options.class
-					.getDeclaredField("inTargetDensity");
+			.getDeclaredField("inTargetDensity");
 			final Field targetDensity = DisplayMetrics.class.getDeclaredField("densityDpi");
 			final BitmapFactory.Options options = new BitmapFactory.Options();
 			inDensity.setInt(options, density.getInt(null));
