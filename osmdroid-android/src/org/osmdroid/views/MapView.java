@@ -996,11 +996,8 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			/*
 			 * Do some calculations and drag attributes to local variables to save some performance.
 			 */
-			zoomLevel = MapView.this.mZoomLevel; // TODO Draw to
-			// attributes and so
-			// make it only
-			// 'valid' for a
-			// short time.
+			zoomLevel = MapView.this.mZoomLevel;
+			// TODO Draw to attributes and so make it only 'valid' for a short time.
 			tileSizePx = mTileSizePixels;
 			tileMapZoom = getMapTileZoom(tileSizePx);
 
