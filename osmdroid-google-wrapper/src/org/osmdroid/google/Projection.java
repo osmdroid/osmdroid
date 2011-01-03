@@ -5,13 +5,11 @@ import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
 
-import com.google.android.maps.Projection;
+public class Projection implements IProjection {
 
-public class GoogleProjection implements IProjection {
+	private final com.google.android.maps.Projection mProjection;
 
-	private final Projection mProjection;
-
-	public GoogleProjection(final Projection pProjection) {
+	public Projection(final com.google.android.maps.Projection pProjection) {
 		mProjection = pProjection;
 	}
 
