@@ -13,6 +13,8 @@ import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
 import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -57,7 +59,7 @@ import android.widget.Scroller;
 
 public class MapView
 extends View
-implements MapViewConstants, MultiTouchObjectCanvas<Object> {
+implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
@@ -972,7 +974,7 @@ implements MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
-	public class Projection implements GeoConstants {
+	public class Projection implements IProjection, GeoConstants {
 
 		private final int viewWidth_2 = getWidth() / 2;
 		private final int viewHeight_2 = getHeight() / 2;

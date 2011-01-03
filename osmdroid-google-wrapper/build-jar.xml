@@ -37,18 +37,13 @@
 			<attribute name="Implementation-Version" value="${version.num}.r${version}" />
 			<attribute name="Built-Date" value="${TODAY}" />
 		</manifest>
-		<copy todir="bin/org/osmdroid">
-			<fileset dir="assets" />
-		</copy>
-		<jar destfile="osmdroid-android-${version.num}.jar" manifest="MANIFEST.MF">
+		<jar destfile="osmdroid-google-wrapper-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
 				<include name="**/*.class" />
 				<include name="**/*.png" />
 				<exclude name="**/*Test.class" />
 			</fileset>
 		</jar>
-		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
-		<copy todir="../osmdroid-google-wrapper/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
 
 	<target name="javadoc">
@@ -59,7 +54,7 @@
 			<classpath refid="osmdroid-android.classpath" />
 			<link href="http://developer.android.com/reference/" />
 		</javadoc>
-		<zip destfile="osmdroid-android-docs-${version.num}.zip"
+		<zip destfile="osmdroid-google-wrapper-docs-${version.num}.zip"
 			 basedir="docs/api"
 			 includes="**"
 			 />
