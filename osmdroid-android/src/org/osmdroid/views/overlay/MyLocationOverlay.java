@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapController;
@@ -44,7 +45,7 @@ import android.view.MotionEvent;
  */
 public class MyLocationOverlay
 extends Overlay
-implements SensorEventListener, LocationListener, Snappable {
+implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
@@ -411,6 +412,7 @@ implements SensorEventListener, LocationListener, Snappable {
 	// Methods
 	// ===========================================================
 
+	@Override
 	public void disableMyLocation() {
 		mLocationManager.removeUpdates(this);
 		mMyLocationEnabled = false;
@@ -422,6 +424,7 @@ implements SensorEventListener, LocationListener, Snappable {
 	 * distance by calling {@link setLocationUpdateMinTime(long)} and/or {@link
 	 * setLocationUpdateMinDistance(float)} before calling this method.
 	 */
+	@Override
 	public boolean enableMyLocation() {
 		if (!mMyLocationEnabled) {
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,

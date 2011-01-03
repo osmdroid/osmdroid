@@ -348,6 +348,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 *
 	 * @return
 	 */
+	@Override
 	public Projection getProjection() {
 		if (mProjection == null) {
 			mProjection = new Projection();
@@ -1038,10 +1039,6 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			return out;
 		}
 
-		public float metersToEquatorPixels(final float aMeters) {
-			return aMeters / EQUATORCIRCUMFENCE * getWorldSizePx();
-		}
-
 		/**
 		 * Converts a GeoPoint to its ScreenCoordinates. <br/>
 		 * <br/>
@@ -1232,6 +1229,21 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			}
 
 			return out;
+		}
+
+		@Override
+		public float metersToEquatorPixels(final float meters) {
+			return meters / EQUATORCIRCUMFENCE * getWorldSizePx();
+		}
+
+		@Override
+		public Point toPixels(final GeoPoint in, final Point out) {
+			return toMapPixels(in, out);
+		}
+
+		@Override
+		public GeoPoint fromPixels(final int x, final int y) {
+			return fromPixels((float)x, (float)y);
 		}
 	}
 

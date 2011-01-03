@@ -1,27 +1,36 @@
 package org.osmdroid.google;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IProjection;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.google.android.maps.MapView;
 
-public class GoogleMapView extends MapView implements IMapView {
+public class GoogleMapView implements IMapView {
 
-	public GoogleMapView(final Context aArg0, final AttributeSet aArg1, final int aArg2) {
-		super(aArg0, aArg1, aArg2);
-		// TODO Auto-generated constructor stub
+	private final MapView mMapView;
+
+	public GoogleMapView(final MapView pMapView) {
+		mMapView = pMapView;
 	}
 
-	public GoogleMapView(final Context aArg0, final AttributeSet aArg1) {
-		super(aArg0, aArg1);
-		// TODO Auto-generated constructor stub
+	public static IMapView getInstance(final Context pContext, final AttributeSet pAttrs, final int pDefStyle) {
+		return new GoogleMapView(new MapView(pContext, pAttrs, pDefStyle));
 	}
 
-	public GoogleMapView(final Context aArg0, final String aArg1) {
-		super(aArg0, aArg1);
-		// TODO Auto-generated constructor stub
+	public static IMapView getInstance(final Context pContext, final AttributeSet pAttrs) {
+		return new GoogleMapView(new MapView(pContext, pAttrs));
+	}
+
+	public static IMapView getInstance(final Context pContext, final String pApiKey) {
+		return new GoogleMapView(new MapView(pContext, pApiKey));
+	}
+
+	@Override
+	public IProjection getProjection() {
+		return new GoogleProjection(mMapView.getProjection());
 	}
 
 }
