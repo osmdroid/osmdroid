@@ -16,6 +16,18 @@ public class GoogleMapView implements IMapView {
 		mMapView = pMapView;
 	}
 
+	public GoogleMapView(final Context pContext, final AttributeSet pAttrs, final int pDefStyle) {
+		this(new MapView(pContext, pAttrs, pDefStyle));
+	}
+
+	public GoogleMapView(final Context pContext, final AttributeSet pAttrs) {
+		this(new MapView(pContext, pAttrs));
+	}
+
+	public GoogleMapView(final Context pContext, final String pApiKey) {
+		this(new MapView(pContext, pApiKey));
+	}
+
 	@Override
 	public IProjection getProjection() {
 		return new GoogleProjection(mMapView.getProjection());
