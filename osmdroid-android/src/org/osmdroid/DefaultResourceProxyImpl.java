@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 
+import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
-public class DefaultResourceProxyImpl implements ResourceProxy {
+public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(DefaultResourceProxyImpl.class);
 
@@ -30,7 +31,9 @@ public class DefaultResourceProxyImpl implements ResourceProxy {
 	public DefaultResourceProxyImpl(final Context pContext) {
 		if (pContext != null) {
 			mDisplayMetrics = pContext.getResources().getDisplayMetrics();
-			logger.debug("mDisplayMetrics=" + mDisplayMetrics);
+			if (DEBUGMODE) {
+				logger.debug("mDisplayMetrics=" + mDisplayMetrics);
+			}
 		}
 	}
 
