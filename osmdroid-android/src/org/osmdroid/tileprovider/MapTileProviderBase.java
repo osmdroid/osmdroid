@@ -16,16 +16,15 @@ import android.os.Handler;
  * <li>notifying the client, via a callback handler</li>
  * </ul>
  * see {@link MapTile} for an overview of how tiles are served by this provider.
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- * 
+ *
  */
-public abstract class MapTileProviderBase implements IMapTileProviderCallback,
-		MapViewConstants {
+public abstract class MapTileProviderBase
+implements IMapTileProviderCallback, MapViewConstants {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MapTileProviderBase.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBase.class);
 
 	protected final MapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
@@ -39,31 +38,31 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Gets the minimum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the minimum zoom level
 	 */
 	public abstract int getMinimumZoomLevel();
 
 	/**
 	 * Gets the maximum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the maximum zoom level
 	 */
 	public abstract int getMaximumZoomLevel();
 
 	/**
 	 * Sets the tile source for this tile provider.
-	 * 
-	 * @param tileSource
+	 *
+	 * @param pTileSource
 	 *            the tile source
 	 */
-	public void setTileSource(final ITileSource tileSource) {
-		mTileSource = tileSource;
+	public void setTileSource(final ITileSource pTileSource) {
+		mTileSource = pTileSource;
 	}
 
 	/**
 	 * Gets the tile source for this tile provider.
-	 * 
+	 *
 	 * @return the tile source
 	 */
 	public ITileSource getTileSource() {
@@ -82,7 +81,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	/**
 	 * Called by implementation class methods indicating that they have completed the request as
 	 * best it can. The tile is added to the cache, and a MAPTILE_SUCCESS_ID message is sent.
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
@@ -97,50 +96,54 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		// tell our caller we've finished and it should update its view
-		if (mTileRequestCompleteHandler != null)
+		if (mTileRequestCompleteHandler != null) {
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
+		}
 
-		if (DEBUGMODE)
+		if (DEBUGMODE) {
 			logger.debug("MapTile request complete: " + tile);
+		}
 	}
 
 	/**
 	 * Default implementation is to call mapTileRequestCompleted
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCandidate(final MapTileRequestState aState,
-			final Drawable aDrawable) {
-		mapTileRequestCompleted(aState, aDrawable);
+	public void mapTileRequestCandidate(final MapTileRequestState pState,
+			final Drawable pDrawable) {
+		mapTileRequestCompleted(pState, pDrawable);
 	}
 
 	/**
 	 * Called by implementation class methods indicating that they have failed to retrieve the
 	 * requested map tile. a MAPTILE_FAIL_ID message is sent.
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 */
 	@Override
 	public void mapTileRequestFailed(final MapTileRequestState pState) {
 		final MapTile tile = pState.getMapTile();
-		if (mTileRequestCompleteHandler != null)
+		if (mTileRequestCompleteHandler != null) {
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_FAIL_ID);
+		}
 
-		if (DEBUGMODE)
+		if (DEBUGMODE) {
 			logger.debug("MapTile request failed: " + tile);
+		}
 	}
 
 	public void setTileRequestCompleteHandler(final Handler handler) {
 		mTileRequestCompleteHandler = handler;
 	}
 
-	public void ensureCapacity(final int aCapacity) {
-		mTileCache.ensureCapacity(aCapacity);
+	public void ensureCapacity(final int pCapacity) {
+		mTileCache.ensureCapacity(pCapacity);
 	}
 
 	public void clearTileCache() {
@@ -157,13 +160,13 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
-	 * @param aMode
+	 *
+	 * @param pMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
 	 */
-	public void setUseDataConnection(final boolean aMode) {
-		mUseDataConnection = aMode;
+	public void setUseDataConnection(final boolean pMode) {
+		mUseDataConnection = pMode;
 	}
 
 }
