@@ -51,8 +51,13 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 	}
 
 	@Override
-	public void setStyle(final Integer aStyle) {
-		mStyle = aStyle;
+	public void setStyle(final Integer pStyle) {
+		mStyle = pStyle;
+	}
+
+	@Override
+	public void setStyle(final String pStyle) {
+		mStyle = Integer.getInteger(pStyle);
 	}
 
 	@Override
