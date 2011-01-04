@@ -1,7 +1,6 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.osmdroid.ResourceProxy;
 import org.slf4j.Logger;
@@ -13,7 +12,7 @@ public class TileSourceFactory {
 
 	/**
 	 * Get the tile source with the specified name.
-	 * 
+	 *
 	 * @param aName
 	 *            the tile source name
 	 * @return the tile source
@@ -32,7 +31,7 @@ public class TileSourceFactory {
 
 	/**
 	 * Get the tile source at the specified position.
-	 * 
+	 *
 	 * @param aOrdinal
 	 * @return the tile source
 	 * @throws IllegalArgumentException
@@ -47,7 +46,7 @@ public class TileSourceFactory {
 		throw new IllegalArgumentException("No tile source at position: " + aOrdinal);
 	}
 
-	public static List<ITileSource> getTileSources() {
+	public static ArrayList<ITileSource> getTileSources() {
 		return mTileSources;
 	}
 
