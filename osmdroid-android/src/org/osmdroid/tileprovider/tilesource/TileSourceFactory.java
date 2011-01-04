@@ -1,5 +1,8 @@
 package org.osmdroid.tileprovider.tilesource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.osmdroid.ResourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +47,12 @@ public class TileSourceFactory {
 		throw new IllegalArgumentException("No tile source at position: " + aOrdinal);
 	}
 
-	public static ITileSource[] getTileSources() {
+	public static List<ITileSource> getTileSources() {
 		return mTileSources;
+	}
+
+	public static void addTileSource(ITileSource mTileSource) {
+		mTileSources.add(mTileSource);
 	}
 
 	public static final OnlineTileSourceBase OSMARENDER = new XYTileSource("Osmarender",
@@ -104,9 +111,17 @@ public class TileSourceFactory {
 			ResourceProxy.string.roads_nl, 0, 18, 256, ".png",
 			"http://overlay.openstreetmap.nl/roads/");
 
-	// FIXME the whole point of this implementation is that the list of tile sources should be
-	// extensible, so that means making it possible to have a bigger or smaller list of tile sources
-	// - there's a number of ways of doing that
-	private static ITileSource[] mTileSources = new ITileSource[] { OSMARENDER, MAPNIK, CYCLEMAP,
-			PUBLIC_TRANSPORT, BASE, TOPO, HILLS, CLOUDMADESTANDARDTILES, CLOUDMADESMALLTILES };
+	private static ArrayList<ITileSource> mTileSources;
+	static {
+		mTileSources = new ArrayList<ITileSource>();
+		mTileSources.add(OSMARENDER);
+		mTileSources.add(MAPNIK);
+		mTileSources.add(CYCLEMAP);
+		mTileSources.add(PUBLIC_TRANSPORT);
+		mTileSources.add(BASE);
+		mTileSources.add(TOPO);
+		mTileSources.add(HILLS);
+		mTileSources.add(CLOUDMADESTANDARDTILES);
+		mTileSources.add(CLOUDMADESMALLTILES);
+	}
 }
