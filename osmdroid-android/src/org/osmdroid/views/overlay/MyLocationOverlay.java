@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapController;
@@ -158,6 +160,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 	// Getter & Setter
 	// ===========================================================
 
+	@Override
 	public Location getLastFix() {
 		return mLocation;
 	}
@@ -173,10 +176,12 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		}
 	}
 
+	@Override
 	public boolean isMyLocationEnabled() {
 		return mMyLocationEnabled;
 	}
 
+	@Override
 	public boolean isCompassEnabled() {
 		return mCompassEnabled;
 	}
@@ -364,10 +369,10 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 
 	@Override
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
-			final MapView mapView) {
+			final IMapView mapView) {
 		if (this.mLocation != null) {
-			final Projection pj = mapView.getProjection();
-			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
+			final IProjection pj = mapView.getProjection();
+			pj.toPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
 			final double xDiff = (x - mMapCoords.x);
@@ -444,6 +449,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		return mMyLocationEnabled;
 	}
 
+	@Override
 	public boolean enableCompass() {
 		if (mOrientationSensorAvailable) {
 			if (!mCompassEnabled) {
@@ -458,20 +464,26 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		}
 	}
 
-	public boolean disableCompass() {
+	@Override
+	public void disableCompass() {
 		if (mCompassEnabled) {
 			mSensorManager.unregisterListener(this);
 			mCompassEnabled = false;
 			// Reset azimuth value
 			mAzimuth = -1.0f;
 		}
-		return mCompassEnabled;
 	}
 
 	public boolean toggleCompass() {
-		return (mCompassEnabled) ? disableCompass() : enableCompass();
+		if (mCompassEnabled) {
+			disableCompass();
+		} else {
+			enableCompass();
+		}
+		return mCompassEnabled;
 	}
 
+	@Override
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mMyLocationEnabled && (mLocation != null)) {
 			runnable.run();

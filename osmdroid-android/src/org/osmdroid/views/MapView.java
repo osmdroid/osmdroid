@@ -459,6 +459,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
+	@Override
 	public int getZoomLevel() {
 		return getZoomLevel(true);
 	}

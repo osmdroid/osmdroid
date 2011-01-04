@@ -13,5 +13,4 @@ implements IMyLocationOverlay {
 	public MyLocationOverlay(final Context pContext, final MapView pMapView) {
 		super(pContext, pMapView);
 	}
-
 }

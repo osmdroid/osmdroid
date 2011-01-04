@@ -31,4 +31,9 @@ public class MapView implements IMapView {
 		return new Projection(mMapView.getProjection());
 	}
 
+	@Override
+	public int getZoomLevel() {
+		return mMapView.getZoomLevel();
+	}
+
 }

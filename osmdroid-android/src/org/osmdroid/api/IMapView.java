@@ -4,4 +4,6 @@ public interface IMapView {
 
 	IProjection getProjection();
 
+	int getZoomLevel();
+
 }

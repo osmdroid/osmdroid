@@ -3,11 +3,13 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -16,12 +18,12 @@ import android.view.MotionEvent;
  * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
  * overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
- * 
+ *
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- * 
+ *
  * @author Nicolas Gramlich
  */
 public abstract class Overlay implements MapViewConstants {
@@ -166,7 +168,7 @@ public abstract class Overlay implements MapViewConstants {
 		/**
 		 * Checks to see if the given x and y are close enough to an item resulting in snapping the
 		 * current action (e.g. zoom) to the item.
-		 * 
+		 *
 		 * @param x
 		 *            The x in screen coordinates.
 		 * @param y
@@ -175,11 +177,11 @@ public abstract class Overlay implements MapViewConstants {
 		 *            To be filled with the the interesting point (in screen coordinates) that is
 		 *            closest to the given x and y. Can be untouched if not snapping.
 		 * @param mapView
-		 *            The {@link MapView} that is requesting the snap. Use MapView.getProjection()
+		 *            The {@link IMapView} that is requesting the snap. Use MapView.getProjection()
 		 *            to convert between on-screen pixels and latitude/longitude pairs.
 		 * @return Whether or not to snap to the interesting point.
 		 */
-		boolean onSnapToItem(int x, int y, android.graphics.Point snapPoint, MapView mapView);
+		boolean onSnapToItem(int x, int y, Point snapPoint, IMapView mapView);
 	}
 
 }
