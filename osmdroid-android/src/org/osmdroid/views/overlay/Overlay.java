@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
@@ -177,11 +176,11 @@ public abstract class Overlay implements MapViewConstants {
 		 *            To be filled with the the interesting point (in screen coordinates) that is
 		 *            closest to the given x and y. Can be untouched if not snapping.
 		 * @param mapView
-		 *            The {@link IMapView} that is requesting the snap. Use MapView.getProjection()
+		 *            The {@link MapView} that is requesting the snap. Use MapView.getProjection()
 		 *            to convert between on-screen pixels and latitude/longitude pairs.
 		 * @return Whether or not to snap to the interesting point.
 		 */
-		boolean onSnapToItem(int x, int y, Point snapPoint, IMapView mapView);
+		boolean onSnapToItem(int x, int y, Point snapPoint, MapView mapView);
 	}
 
 }

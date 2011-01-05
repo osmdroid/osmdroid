@@ -19,12 +19,4 @@ public interface IMyLocationOverlay {
 
 	Location getLastFix();
 
-	/*
-	 * In order to add the following methods to this interface
-	 * we'd need to make the Google MyLocationOverlay a wrapper
-	 * instead of just extending
-	 */
-	// GeoPoint getMyLocation();
-	// boolean onSnapToItem(int x, int y, Point snapPoint, IMapView mapView);
-
 }
