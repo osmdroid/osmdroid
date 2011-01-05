@@ -23,7 +23,7 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 
 	@Override
 	public String pathBase() {
-		if (mStyle <= 1) {
+		if (mStyle == null || mStyle <= 1) {
 			return mName;
 		} else {
 			return mName + mStyle;
