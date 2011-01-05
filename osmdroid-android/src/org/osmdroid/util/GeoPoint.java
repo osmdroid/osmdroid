@@ -30,6 +30,7 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	private int mLongitudeE6;
 	private int mLatitudeE6;
+	private int mAltitude;
 
 	// ===========================================================
 	// Constructors
@@ -40,37 +41,81 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 		this.mLongitudeE6 = aLongitudeE6;
 	}
 
+	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6, final int aAltitude) {
+		this.mLatitudeE6 = aLatitudeE6;
+		this.mLongitudeE6 = aLongitudeE6;
+		this.mAltitude = aAltitude;
+	}
+
 	public GeoPoint(final double aLatitude, final double aLongitude) {
 		this.mLatitudeE6 = (int) (aLatitude * 1E6);
 		this.mLongitudeE6 = (int) (aLongitude * 1E6);
 	}
 
+	public GeoPoint(final double aLatitude, final double aLongitude, final double aAltitude) {
+		this.mLatitudeE6 = (int) (aLatitude * 1E6);
+		this.mLongitudeE6 = (int) (aLongitude * 1E6);
+		this.mAltitude = (int) aAltitude;
+	}
+
 	public GeoPoint(final Location aLocation) {
-		this(aLocation.getLatitude(), aLocation.getLongitude());
+		this(aLocation.getLatitude(), aLocation.getLongitude(), aLocation.getAltitude());
 	}
 
 	public GeoPoint(final GeoPoint aGeopoint) {
 		this.mLatitudeE6 = aGeopoint.mLatitudeE6;
 		this.mLongitudeE6 = aGeopoint.mLongitudeE6;
+		this.mAltitude = aGeopoint.mAltitude;
 	}
 
 	public static GeoPoint fromDoubleString(final String s, final char spacer) {
-		final int spacerPos = s.indexOf(spacer);
-		return new GeoPoint((int) (Double.parseDouble(s.substring(0, spacerPos - 1)) * 1E6),
-				(int) (Double.parseDouble(s.substring(spacerPos + 1, s.length())) * 1E6));
+		final int spacerPos1 = s.indexOf(spacer);
+		final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
+
+		if (spacerPos2 == -1) {
+			return new GeoPoint(
+				(int) (Double.parseDouble(s.substring(0, spacerPos1)) * 1E6),
+				(int) (Double.parseDouble(s.substring(spacerPos1 + 1, s.length())) * 1E6));
+		} else {
+			return new GeoPoint(
+					(int) (Double.parseDouble(s.substring(0, spacerPos1)) * 1E6),
+					(int) (Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2)) * 1E6),
+					(int) (Double.parseDouble(s.substring(spacerPos2 + 1, s.length()))));		
+		}
 	}
 
 	public static GeoPoint fromInvertedDoubleString(final String s, final char spacer) {
-		final int spacerPos = s.indexOf(spacer);
-		return new GeoPoint(
-				(int) (Double.parseDouble(s.substring(spacerPos + 1, s.length())) * 1E6),
-				(int) (Double.parseDouble(s.substring(0, spacerPos)) * 1E6));
+		final int spacerPos1 = s.indexOf(spacer);
+		final int spacerPos2 = s.indexOf(spacer, spacerPos1 + 1);
+		
+		if (spacerPos2 == -1) {
+			return new GeoPoint(
+				(int) (Double.parseDouble(s.substring(spacerPos1 + 1, s.length())) * 1E6),
+				(int) (Double.parseDouble(s.substring(0, spacerPos1)) * 1E6));
+		} else {
+			return new GeoPoint(
+					(int) (Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2)) * 1E6),
+					(int) (Double.parseDouble(s.substring(0, spacerPos1)) * 1E6),
+					(int) (Double.parseDouble(s.substring(spacerPos2 + 1, s.length()))));
+					
+		}
 	}
 
 	public static GeoPoint fromIntString(final String s) {
-		final int commaPos = s.indexOf(',');
-		return new GeoPoint(Integer.parseInt(s.substring(0, commaPos - 1)), Integer.parseInt(s
-				.substring(commaPos + 1, s.length())));
+		final int commaPos1 = s.indexOf(',');
+		final int commaPos2 = s.indexOf(',', commaPos1 + 1);
+		
+		if (commaPos2 == -1) {
+			return new GeoPoint(
+				Integer.parseInt(s.substring(0, commaPos1)),
+				Integer.parseInt(s.substring(commaPos1 + 1, s.length())));
+		} else {
+			return new GeoPoint(
+					Integer.parseInt(s.substring(0, commaPos1)),
+					Integer.parseInt(s.substring(commaPos1 + 1, commaPos2)),
+					Integer.parseInt(s.substring(commaPos2 + 1, s.length()))
+			);			
+		}
 	}
 
 	// ===========================================================
@@ -85,12 +130,20 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 		return this.mLatitudeE6;
 	}
 
+	public int getAltitude() {
+		return this.mAltitude;
+	}
+	
 	public void setLongitudeE6(final int aLongitudeE6) {
 		this.mLongitudeE6 = aLongitudeE6;
 	}
 
 	public void setLatitudeE6(final int aLatitudeE6) {
 		this.mLatitudeE6 = aLatitudeE6;
+	}
+	
+	public void setAltitude(int aAltitude) {
+		this.mAltitude = aAltitude;
 	}
 
 	public void setCoordsE6(final int aLatitudeE6, final int aLongitudeE6) {
@@ -109,7 +162,7 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	@Override
 	public String toString() {
-		return new StringBuilder().append(this.mLatitudeE6).append(",").append(this.mLongitudeE6)
+		return new StringBuilder().append(this.mLatitudeE6).append(",").append(this.mLongitudeE6).append(",").append(this.mAltitude)
 				.toString();
 	}
 
@@ -122,7 +175,7 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 		if (obj.getClass() != getClass())
 			return false;
 		final GeoPoint rhs = (GeoPoint) obj;
-		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6;
+		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6 && rhs.mAltitude == this.mAltitude;
 	}
 
 	// ===========================================================
@@ -131,6 +184,7 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 	private GeoPoint(final Parcel in) {
 		this.mLatitudeE6 = in.readInt();
 		this.mLongitudeE6 = in.readInt();
+		this.mAltitude = in.readInt();
 	}
 
 	@Override
@@ -142,6 +196,7 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 	public void writeToParcel(final Parcel out, final int flags) {
 		out.writeInt(mLatitudeE6);
 		out.writeInt(mLongitudeE6);
+		out.writeInt(mAltitude);
 	}
 
 	public static final Parcelable.Creator<GeoPoint> CREATOR = new Parcelable.Creator<GeoPoint>() {
@@ -244,12 +299,12 @@ public class GeoPoint implements MathConstants, GeoConstants, Parcelable, Serial
 
 	public String toDoubleString() {
 		return new StringBuilder().append(this.mLatitudeE6 / 1E6).append(",")
-				.append(this.mLongitudeE6 / 1E6).toString();
+				.append(this.mLongitudeE6 / 1E6).append(",").append(this.mAltitude).toString();
 	}
 
 	public String toInvertedDoubleString() {
 		return new StringBuilder().append(this.mLongitudeE6 / 1E6).append(",")
-				.append(this.mLatitudeE6 / 1E6).toString();
+				.append(this.mLatitudeE6 / 1E6).append(",").append(this.mAltitude).toString();
 	}
 
 	// ===========================================================
