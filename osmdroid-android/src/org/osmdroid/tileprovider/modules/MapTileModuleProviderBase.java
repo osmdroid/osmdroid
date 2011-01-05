@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.MapTile;
@@ -88,6 +89,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();
 		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(pPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
+			@Override
+			protected boolean removeEldestEntry(final Entry<MapTile, MapTileRequestState> pEldest) {
+				return size() > pPendingQueueSize;
+			}
 		};
 	}
 
