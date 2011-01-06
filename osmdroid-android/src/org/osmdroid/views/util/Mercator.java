@@ -1,10 +1,11 @@
 // Created by plusminus on 17:53:07 - 25.09.2008
 package org.osmdroid.views.util;
 
-import org.osmdroid.util.BasicPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.constants.MapViewConstants;
+
+import android.graphics.Point;
 
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator
@@ -58,8 +59,8 @@ public class Mercator implements MapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static int[] projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
-			final int[] reuse) {
+	public static GeoPoint projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
+			final GeoPoint reuse) {
 		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, reuse);
 	}
 
@@ -75,15 +76,15 @@ public class Mercator implements MapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static int[] projectGeoPoint(final double aLat, final double aLon, final int aZoom,
-			final int[] aUseAsReturnValue) {
-		final int[] out = (aUseAsReturnValue != null) ? aUseAsReturnValue : new int[2];
+	public static GeoPoint projectGeoPoint(final double aLat, final double aLon, final int aZoom,
+			final GeoPoint aUseAsReturnValue) {
+		final GeoPoint out = (aUseAsReturnValue != null) ? aUseAsReturnValue : new GeoPoint(0, 0);
 
-		out[MAPTILE_LONGITUDE_INDEX] = (int) Math.floor((aLon + 180) / 360 * (1 << aZoom));
-		out[MAPTILE_LATITUDE_INDEX] = (int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
+		out.setLongitudeE6((int) Math.floor((aLon + 180) / 360 * (1 << aZoom)));
+		out.setLatitudeE6((int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
 				/ Math.cos(aLat * DEG2RAD))
 				/ Math.PI)
-				/ 2 * (1 << aZoom));
+				/ 2 * (1 << aZoom)));
 
 		return out;
 	}
@@ -97,9 +98,9 @@ public class Mercator implements MapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static BasicPoint projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom,
-			final BasicPoint aUseAsReturnValue) {
-		final BasicPoint p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new BasicPoint();
+	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom,
+			final Point aUseAsReturnValue) {
+		final Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
 
 		final double aLon = aGeoPoint.getLongitudeE6() * 1E-6;
 		final double aLat = aGeoPoint.getLatitudeE6() * 1E-6;
@@ -135,9 +136,10 @@ public class Mercator implements MapViewConstants {
 	 * @param aZoom
 	 * @return
 	 */
-	public static BoundingBoxE6 getBoundingBoxFromMapTile(final int[] aMapTile, final int aZoom) {
-		final int y = aMapTile[MAPTILE_LATITUDE_INDEX];
-		final int x = aMapTile[MAPTILE_LONGITUDE_INDEX];
+	public static BoundingBoxE6 getBoundingBoxFromPointInMapTile(final GeoPoint aMapTile,
+			final int aZoom) {
+		final int y = aMapTile.getLatitudeE6();
+		final int x = aMapTile.getLongitudeE6();
 		return new BoundingBoxE6(tile2lat(y, aZoom), tile2lon(x + 1, aZoom),
 				tile2lat(y + 1, aZoom), tile2lon(x, aZoom));
 	}

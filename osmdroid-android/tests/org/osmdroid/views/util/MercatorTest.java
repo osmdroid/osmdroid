@@ -3,8 +3,9 @@ package org.osmdroid.views.util;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.osmdroid.util.BasicPoint;
 import org.osmdroid.util.GeoPoint;
+
+import android.graphics.Point;
 
 /**
  * @author Neil Boyd
@@ -21,7 +22,7 @@ public class MercatorTest {
 		final GeoPoint hannover = new GeoPoint(52370816, 9735936);
 		final int zoom = 8;
 
-		final BasicPoint point = Mercator.projectGeoPoint(hannover, zoom, null);
+		final Point point = Mercator.projectGeoPoint(hannover, zoom, null);
 
 		assertEquals("TODO describe test", 134, point.x);
 		assertEquals("TODO describe test", 84, point.y);
@@ -37,10 +38,10 @@ public class MercatorTest {
 		final int lonE6 = 9735936;
 		final int zoom = 8;
 
-		final int[] point = Mercator.projectGeoPoint(latE6, lonE6, zoom, null);
+		final GeoPoint point = Mercator.projectGeoPoint(latE6, lonE6, zoom, null);
 
-		assertEquals("TODO describe test", 84, point[0]);
-		assertEquals("TODO describe test", 134, point[1]);
+		assertEquals("TODO describe test", 84, point.getLatitudeE6());
+		assertEquals("TODO describe test", 134, point.getLongitudeE6());
 	}
 
 	/**
@@ -53,9 +54,9 @@ public class MercatorTest {
 		final double lon = 9.735936d;
 		final int zoom = 8;
 
-		final int[] point = Mercator.projectGeoPoint(lat, lon, zoom, null);
+		final GeoPoint point = Mercator.projectGeoPoint(lat, lon, zoom, null);
 
-		assertEquals("TODO describe test", 84, point[0]);
-		assertEquals("TODO describe test", 134, point[1]);
+		assertEquals("TODO describe test", 84, point.getLatitudeE6());
+		assertEquals("TODO describe test", 134, point.getLongitudeE6());
 	}
 }

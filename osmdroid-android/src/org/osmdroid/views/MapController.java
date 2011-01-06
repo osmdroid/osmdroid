@@ -1,13 +1,14 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
-import org.osmdroid.util.BasicPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MathConstants;
 import org.osmdroid.views.util.constants.MapViewConstants;
+
+import android.graphics.Point;
 
 /**
  * 
@@ -82,7 +83,7 @@ public class MapController implements MapViewConstants {
 	public void animateTo(final GeoPoint point) {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
-		final BasicPoint p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
+		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx() / 2;
 		mOsmv.getScroller().startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y,
 				ANIMATION_DURATION_DEFAULT);
@@ -90,8 +91,8 @@ public class MapController implements MapViewConstants {
 	}
 
 	/**
-	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint}
-	 * in the end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
+	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
+	 * end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
 	 * 
 	 * @param gp
@@ -102,19 +103,17 @@ public class MapController implements MapViewConstants {
 	}
 
 	/**
-	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint}
-	 * in the end.
+	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
+	 * end.
 	 * 
 	 * @param gp
 	 *            GeoPoint to be centered in the end.
 	 * @param aSmoothness
-	 *            steps made during animation. I.e.:
-	 *            {@link MapController.ANIMATION_SMOOTHNESS_LOW},
+	 *            steps made during animation. I.e.: {@link MapController.ANIMATION_SMOOTHNESS_LOW},
 	 *            {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT},
 	 *            {@link MapController.ANIMATION_SMOOTHNESS_HIGH}
 	 * @param aDuration
-	 *            in Milliseconds. I.e.:
-	 *            {@link MapController.ANIMATION_DURATION_SHORT},
+	 *            in Milliseconds. I.e.: {@link MapController.ANIMATION_DURATION_SHORT},
 	 *            {@link MapController.ANIMATION_DURATION_DEFAULT},
 	 *            {@link MapController.ANIMATION_DURATION_LONG}
 	 */
@@ -124,8 +123,8 @@ public class MapController implements MapViewConstants {
 	}
 
 	/**
-	 * Animates the underlying {@link MapView} that it centers the passed coordinates in
-	 * the end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
+	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
+	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
 	 * 
 	 * @param aLatitudeE6
@@ -138,19 +137,16 @@ public class MapController implements MapViewConstants {
 	}
 
 	/**
-	 * Animates the underlying {@link MapView} that it centers the passed coordinates in
-	 * the end.
+	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
 	 * 
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 * @param aSmoothness
-	 *            steps made during animation. I.e.:
-	 *            {@link MapController.ANIMATION_SMOOTHNESS_LOW},
+	 *            steps made during animation. I.e.: {@link MapController.ANIMATION_SMOOTHNESS_LOW},
 	 *            {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT},
 	 *            {@link MapController.ANIMATION_SMOOTHNESS_HIGH}
 	 * @param aDuration
-	 *            in Milliseconds. I.e.:
-	 *            {@link MapController.ANIMATION_DURATION_SHORT},
+	 *            in Milliseconds. I.e.: {@link MapController.ANIMATION_DURATION_SHORT},
 	 *            {@link MapController.ANIMATION_DURATION_DEFAULT},
 	 *            {@link MapController.ANIMATION_DURATION_LONG}
 	 */
@@ -192,7 +188,7 @@ public class MapController implements MapViewConstants {
 	 * Set the map view to the given center. There will be no animation.
 	 */
 	public void setCenter(final GeoPoint point) {
-		final BasicPoint p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
+		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
 		final int worldSize_2 = this.mOsmv.getWorldSizePx() / 2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
@@ -365,8 +361,7 @@ public class MapController implements MapViewConstants {
 		// ===========================================================
 
 		@SuppressWarnings("unused")
-		public AbstractAnimationRunner(
-				final MapController mapViewController,
+		public AbstractAnimationRunner(final MapController mapViewController,
 				final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
 			this(aTargetLatitudeE6, aTargetLongitudeE6,
 					MapViewConstants.ANIMATION_SMOOTHNESS_DEFAULT,

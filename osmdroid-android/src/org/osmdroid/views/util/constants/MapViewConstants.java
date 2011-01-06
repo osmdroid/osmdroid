@@ -17,9 +17,6 @@ public interface MapViewConstants {
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 
-	public static final int MAPTILE_LATITUDE_INDEX = 0;
-	public static final int MAPTILE_LONGITUDE_INDEX = 1;
-
 	public static final int ANIMATION_SMOOTHNESS_LOW = 4;
 	public static final int ANIMATION_SMOOTHNESS_DEFAULT = 10;
 	public static final int ANIMATION_SMOOTHNESS_HIGH = 20;

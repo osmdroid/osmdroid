@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import org.osmdroid.views.util.constants.MapViewConstants;
 
+import android.graphics.PointF;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -103,19 +104,21 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 	 *         {0,0} would be the upper left corner. {1,1} would be the lower right corner. {1,0}
 	 *         would be the lower left corner. {0,1} would be the upper right corner.
 	 */
-	public float[] getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-			final int aLatitude, final int aLongitude, final float[] reuse) {
-		final float[] out = (reuse != null) ? reuse : new float[2];
-		out[MAPTILE_LATITUDE_INDEX] = ((float) (this.mLatNorthE6 - aLatitude) / getLatitudeSpanE6());
-		out[MAPTILE_LONGITUDE_INDEX] = 1 - ((float) (this.mLonEastE6 - aLongitude) / getLongitudeSpanE6());
+	public PointF getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
+			final int aLatitude, final int aLongitude, final PointF reuse) {
+		final PointF out = (reuse != null) ? reuse : new PointF();
+		final float y = ((float) (this.mLatNorthE6 - aLatitude) / getLatitudeSpanE6());
+		final float x = 1 - ((float) (this.mLonEastE6 - aLongitude) / getLongitudeSpanE6());
+		out.set(x, y);
 		return out;
 	}
 
-	public float[] getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-			final int aLatitudeE6, final int aLongitudeE6, final float[] reuse) {
-		final float[] out = (reuse != null) ? reuse : new float[2];
-		out[MAPTILE_LATITUDE_INDEX] = (float) ((gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(aLatitudeE6 / 1E6)) / (gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(this.mLatSouthE6 / 1E6)));
-		out[MAPTILE_LONGITUDE_INDEX] = 1 - ((float) (this.mLonEastE6 - aLongitudeE6) / getLongitudeSpanE6());
+	public PointF getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
+			final int aLatitudeE6, final int aLongitudeE6, final PointF reuse) {
+		final PointF out = (reuse != null) ? reuse : new PointF();
+		final float y = (float) ((gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(aLatitudeE6 / 1E6)) / (gudermannInverse(this.mLatNorthE6 / 1E6) - gudermannInverse(this.mLatSouthE6 / 1E6)));
+		final float x = 1 - ((float) (this.mLonEastE6 - aLongitudeE6) / getLongitudeSpanE6());
+		out.set(x, y);
 		return out;
 	}
 
@@ -164,45 +167,6 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 			lon += 180000000;
 
 		return new GeoPoint(lat, lon);
-	}
-
-	public BoundingBoxE6 getQuarter(final Direction pDir) {
-		switch (pDir) {
-		case NORTHEAST:
-			return getNorthEastQuarter();
-		case SOUTHEAST:
-			return getSouthEastQuarter();
-		case SOUTHWEST:
-			return getSouthWestQuarter();
-		case NORTHWEST:
-			return getNorthWestQuarter();
-		default:
-			throw new IllegalArgumentException("Not yet supported: " + pDir.NAME);
-		}
-	}
-
-	public BoundingBoxE6 getNorthEastQuarter() {
-		final GeoPoint center = this.getCenter();
-		return new BoundingBoxE6(this.mLatNorthE6, this.mLonEastE6, center.getLatitudeE6(),
-				center.getLongitudeE6());
-	}
-
-	public BoundingBoxE6 getNorthWestQuarter() {
-		final GeoPoint center = this.getCenter();
-		return new BoundingBoxE6(this.mLatNorthE6, center.getLongitudeE6(), center.getLatitudeE6(),
-				this.mLonWestE6);
-	}
-
-	public BoundingBoxE6 getSouthEastQuarter() {
-		final GeoPoint center = this.getCenter();
-		return new BoundingBoxE6(center.getLatitudeE6(), this.mLonEastE6, this.mLatSouthE6,
-				center.getLongitudeE6());
-	}
-
-	public BoundingBoxE6 getSouthWestQuarter() {
-		final GeoPoint center = this.getCenter();
-		return new BoundingBoxE6(center.getLatitudeE6(), center.getLongitudeE6(), this.mLatSouthE6,
-				this.mLonWestE6);
 	}
 
 	public BoundingBoxE6 increaseByScale(final float pBoundingboxPaddingRelativeScale) {

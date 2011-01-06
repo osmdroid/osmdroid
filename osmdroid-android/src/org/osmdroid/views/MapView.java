@@ -43,6 +43,7 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,9 +58,8 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class MapView
-extends View
-implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
+public class MapView extends View implements IMapView, MapViewConstants,
+		MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
@@ -142,25 +142,25 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		mTileRequestCompleteHandler = tileRequestCompleteHandler == null ? new SimpleInvalidationHandler(
 				this) : tileRequestCompleteHandler;
-				mTileProvider = tileProvider;
-				mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider = tileProvider;
+		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-				this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
-				mOverlays.add(this.mMapOverlay);
-				this.mZoomController = new ZoomButtonsController(this);
-				this.mZoomController.setOnZoomListener(new MapViewZoomListener());
+		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
+		mOverlays.add(this.mMapOverlay);
+		this.mZoomController = new ZoomButtonsController(this);
+		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
-				mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-						Animation.RELATIVE_TO_SELF, 0.5f);
-				mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
-						Animation.RELATIVE_TO_SELF, 0.5f);
-				mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
-				mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
-				mZoomInAnimation.setAnimationListener(mAnimationListener);
-				mZoomOutAnimation.setAnimationListener(mAnimationListener);
+		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomInAnimation.setAnimationListener(mAnimationListener);
+		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 
-				mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
-				mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
+		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
+		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 	}
 
 	public void detach() {
@@ -192,7 +192,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param osmv
 	 *            another {@link MapView}, to share the TileProvider with.<br/>
@@ -214,11 +214,11 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
-	 *
+	 * 
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
-	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable
-	 *            autozooming of the minimap.
+	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable autozooming
+	 *            of the minimap.
 	 */
 	public void setMiniMap(final MapView aOsmvMinimap, final int aZoomDiff) {
 		this.mMiniMapZoomDiff = aZoomDiff;
@@ -248,7 +248,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
 	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
 	 * {@link MapViewConstants}.NOT_SET to reset this feature.
-	 *
+	 * 
 	 * @param aVisibility
 	 */
 	public void setOverrideMiniMapVisibility(final int aVisibility) {
@@ -325,7 +325,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		int a = 0;
 		while (pixels != 0) {
 			pixels >>= 1;
-		a++;
+			a++;
 		}
 		return a - 1;
 	}
@@ -339,13 +339,13 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		final int east = world_2 + getScrollX() + getWidth() / 2;
 
 		return Mercator
-		.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
+				.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
 	}
 
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -371,14 +371,13 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
 		}
 
-		final int[] coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
+		final GeoPoint coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
 				getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx() / 2;
 		if ((getAnimation() == null) || getAnimation().hasEnded()) {
 			logger.debug("StartScroll");
-			mScroller.startScroll(getScrollX(), getScrollY(), coords[MAPTILE_LONGITUDE_INDEX]
-			                                                         - worldSize_2 - getScrollX(), coords[MAPTILE_LATITUDE_INDEX] - worldSize_2
-			                                                         - getScrollY(), 500);
+			mScroller.startScroll(getScrollX(), getScrollY(), coords.getLongitudeE6() - worldSize_2
+					- getScrollX(), coords.getLatitudeE6() - worldSize_2 - getScrollY(), 500);
 			postInvalidate();
 		}
 	}
@@ -429,7 +428,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 					getScrollY() << (newZoomLevel - curZoomLevel));
 		} else if (newZoomLevel < curZoomLevel) {
 			scrollTo(getScrollX() >> (curZoomLevel - newZoomLevel),
-			getScrollY() >> (curZoomLevel - newZoomLevel));
+					getScrollY() >> (curZoomLevel - newZoomLevel));
 		}
 
 		// snap for all snappables
@@ -440,7 +439,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		for (final Overlay osmvo : this.mOverlays) {
 			if ((osmvo instanceof Snappable)
 					&& ((Snappable) osmvo)
-					.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+							.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 				scrollTo(snapPoint.x, snapPoint.y);
 			}
 		}
@@ -455,7 +454,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -466,7 +465,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -482,7 +481,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinimumZoomLevel() {
@@ -491,7 +490,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	public int getMaximumZoomLevel() {
@@ -607,7 +606,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -619,7 +618,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -893,12 +892,12 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		this.mZoomController.setZoomOutEnabled(canZoomOut());
 	}
 
-	private int[] getCenterMapTileCoords() {
+	private GeoPoint getCenterMapTileCoords() {
 		final int mapTileZoom = getMapTileZoom(mTileSizePixels);
 		final int worldTiles_2 = 1 << (mZoomLevel - 1);
 		// convert to tile coordinate and make positive
-		return new int[] { (getScrollY() >> mapTileZoom) + worldTiles_2,
-				(getScrollX() >> mapTileZoom) + worldTiles_2 };
+		return new GeoPoint((getScrollY() >> mapTileZoom) + worldTiles_2,
+				(getScrollX() >> mapTileZoom) + worldTiles_2);
 	}
 
 	/**
@@ -907,15 +906,15 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 */
-	private Point getUpperLeftCornerOfCenterMapTileInScreen(final int[] centerMapTileCoords,
+	private Point getUpperLeftCornerOfCenterMapTileInScreen(final GeoPoint centerMapTileCoords,
 			final int tileSizePx, final Point reuse) {
 		final Point out = (reuse != null) ? reuse : new Point();
 
 		final int worldTiles_2 = 1 << (mZoomLevel - 1);
-		final int centerMapTileScreenLeft = (centerMapTileCoords[MAPTILE_LONGITUDE_INDEX] - worldTiles_2)
-		* tileSizePx - tileSizePx / 2;
-		final int centerMapTileScreenTop = (centerMapTileCoords[MAPTILE_LATITUDE_INDEX] - worldTiles_2)
-		* tileSizePx - tileSizePx / 2;
+		final int centerMapTileScreenLeft = (centerMapTileCoords.getLongitudeE6() - worldTiles_2)
+				* tileSizePx - tileSizePx / 2;
+		final int centerMapTileScreenTop = (centerMapTileCoords.getLatitudeE6() - worldTiles_2)
+				* tileSizePx - tileSizePx / 2;
 
 		out.set(centerMapTileScreenLeft, centerMapTileScreenTop);
 		return out;
@@ -972,7 +971,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -988,10 +987,10 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		private final int zoomLevel;
 		private final int tileSizePx;
 		private final int tileMapZoom;
-		private final int[] centerMapTileCoords;
+		private final GeoPoint centerMapTileCoords;
 		private final Point upperLeftCornerOfCenterMapTile;
 
-		private final int[] reuseInt2 = new int[2];
+		private final GeoPoint reuseInt2 = new GeoPoint(0, 0);
 
 		private Projection() {
 
@@ -1023,7 +1022,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1046,7 +1045,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 *
+		 * 
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -1055,7 +1054,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -1065,9 +1064,9 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		public Point toMapPixels(final GeoPoint in, final Point reuse) {
 			final Point out = (reuse != null) ? reuse : new Point();
 
-			final int[] coords = Mercator.projectGeoPoint(in.getLatitudeE6(), in.getLongitudeE6(),
-					getPixelZoomLevel(), null);
-			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
+			final GeoPoint coords = Mercator.projectGeoPoint(in.getLatitudeE6(),
+					in.getLongitudeE6(), getPixelZoomLevel(), null);
+			out.set(coords.getLongitudeE6(), coords.getLatitudeE6());
 			out.offset(offsetX, offsetY);
 			return out;
 		}
@@ -1075,7 +1074,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1089,15 +1088,15 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			final Point out = (reuse != null) ? reuse : new Point();
 
 			// 26 is the biggest zoomlevel we can project
-			final int[] coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28,
+			final GeoPoint coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28,
 					this.reuseInt2);
-			out.set(coords[MAPTILE_LONGITUDE_INDEX], coords[MAPTILE_LATITUDE_INDEX]);
+			out.set(coords.getLongitudeE6(), coords.getLatitudeE6());
 			return out;
 		}
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1116,7 +1115,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.
@@ -1136,9 +1135,8 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 			return result;
 		}
 
-		public Point toPixels(final int[] tileCoords, final Point reuse) {
-			return toPixels(tileCoords[MAPTILE_LONGITUDE_INDEX],
-					tileCoords[MAPTILE_LATITUDE_INDEX], reuse);
+		public Point toPixels(final Point tileCoords, final Point reuse) {
+			return toPixels(tileCoords.x, tileCoords.y, reuse);
 		}
 
 		public Point toPixels(final int tileX, final int tileY, final Point reuse) {
@@ -1185,44 +1183,45 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 			boolean first = true;
 			for (final GeoPoint gp : in) {
-				final int[] underGeopointTileCoords = Mercator.projectGeoPoint(gp.getLatitudeE6(),
-						gp.getLongitudeE6(), zoomLevel, null);
+				final GeoPoint underGeopointTileCoords = Mercator.projectGeoPoint(
+						gp.getLatitudeE6(), gp.getLongitudeE6(), zoomLevel, null);
 
 				/*
 				 * Calculate the Latitude/Longitude on the left-upper ScreenCoords of the MapTile.
 				 */
-				final BoundingBoxE6 bb = Mercator.getBoundingBoxFromMapTile(
+				final BoundingBoxE6 bb = Mercator.getBoundingBoxFromPointInMapTile(
 						underGeopointTileCoords, zoomLevel);
 
-				final float[] relativePositionInCenterMapTile;
+				final PointF relativePositionInCenterMapTile;
 				if (doGudermann && (zoomLevel < 7)) {
 					relativePositionInCenterMapTile = bb
-					.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-							gp.getLatitudeE6(), gp.getLongitudeE6(), null);
+							.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
+									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
 				} else {
 					relativePositionInCenterMapTile = bb
-					.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-							gp.getLatitudeE6(), gp.getLongitudeE6(), null);
+							.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
+									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
 				}
 
-				final int tileDiffX = centerMapTileCoords[MAPTILE_LONGITUDE_INDEX]
-				                                          - underGeopointTileCoords[MAPTILE_LONGITUDE_INDEX];
-				final int tileDiffY = centerMapTileCoords[MAPTILE_LATITUDE_INDEX]
-				                                          - underGeopointTileCoords[MAPTILE_LATITUDE_INDEX];
+				final int tileDiffX = centerMapTileCoords.getLongitudeE6()
+						- underGeopointTileCoords.getLongitudeE6();
+				final int tileDiffY = centerMapTileCoords.getLatitudeE6()
+						- underGeopointTileCoords.getLatitudeE6();
 				final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-				- (tileSizePx * tileDiffX);
+						- (tileSizePx * tileDiffX);
 				final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-				- (tileSizePx * tileDiffY);
+						- (tileSizePx * tileDiffY);
 
 				final int x = underGeopointTileScreenLeft
-				+ (int) (relativePositionInCenterMapTile[MAPTILE_LONGITUDE_INDEX] * tileSizePx);
+						+ (int) (relativePositionInCenterMapTile.x * tileSizePx);
 				final int y = underGeopointTileScreenTop
-				+ (int) (relativePositionInCenterMapTile[MAPTILE_LATITUDE_INDEX] * tileSizePx);
+						+ (int) (relativePositionInCenterMapTile.y * tileSizePx);
 
 				/* Add up the offset caused by touch. */
 				if (first) {
 					out.moveTo(x, y);
-					// out.moveTo(x + MapView.this.mTouchMapOffsetX, y + MapView.this.mTouchMapOffsetY);
+					// out.moveTo(x + MapView.this.mTouchMapOffsetX, y +
+					// MapView.this.mTouchMapOffsetY);
 				} else {
 					out.lineTo(x, y);
 				}
@@ -1244,7 +1243,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		@Override
 		public GeoPoint fromPixels(final int x, final int y) {
-			return fromPixels((float)x, (float)y);
+			return fromPixels((float) x, (float) y);
 		}
 	}
 
