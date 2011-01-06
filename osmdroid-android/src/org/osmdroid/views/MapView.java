@@ -41,9 +41,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1157,10 +1155,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			return out;
 		}
 
-		public Path toPixels(final List<? extends GeoPoint> in, final Path reuse) {
-			return toPixels(in, reuse, true);
-		}
-
+		// not presently used
 		public Rect toPixels(final BoundingBoxE6 pBoundingBoxE6) {
 			final Rect rect = new Rect();
 
@@ -1179,65 +1174,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			rect.bottom = reuse.y;
 
 			return rect;
-		}
-
-		protected Path toPixels(final List<? extends GeoPoint> in, final Path reuse,
-				final boolean doGudermann) throws IllegalArgumentException {
-			if (in.size() < 2) {
-				throw new IllegalArgumentException("List of GeoPoints needs to be at least 2.");
-			}
-
-			final Path out = (reuse != null) ? reuse : new Path();
-			out.incReserve(in.size());
-
-			boolean first = true;
-			for (final GeoPoint gp : in) {
-				final GeoPoint underGeopointTileCoords = Mercator.projectGeoPoint(
-						gp.getLatitudeE6(), gp.getLongitudeE6(), getZoomLevel(), null);
-
-				/*
-				 * Calculate the Latitude/Longitude on the left-upper ScreenCoords of the MapTile.
-				 */
-				final BoundingBoxE6 bb = Mercator.getBoundingBoxFromPointInMapTile(
-						underGeopointTileCoords, getZoomLevel());
-
-				final PointF relativePositionInCenterMapTile;
-				if (doGudermann && (getZoomLevel() < 7)) {
-					relativePositionInCenterMapTile = bb
-							.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
-				} else {
-					relativePositionInCenterMapTile = bb
-							.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
-				}
-
-				final int tileDiffX = getCenterMapTileCoords().x
-						- underGeopointTileCoords.getLongitudeE6();
-				final int tileDiffY = getCenterMapTileCoords().y
-						- underGeopointTileCoords.getLatitudeE6();
-				final int underGeopointTileScreenLeft = getUpperLeftCornerOfCenterMapTile().x
-						- (getTileSizePixels() * tileDiffX);
-				final int underGeopointTileScreenTop = getUpperLeftCornerOfCenterMapTile().y
-						- (getTileSizePixels() * tileDiffY);
-
-				final int x = underGeopointTileScreenLeft
-						+ (int) (relativePositionInCenterMapTile.x * getTileSizePixels());
-				final int y = underGeopointTileScreenTop
-						+ (int) (relativePositionInCenterMapTile.y * getTileSizePixels());
-
-				/* Add up the offset caused by touch. */
-				if (first) {
-					out.moveTo(x, y);
-					// out.moveTo(x + MapView.this.mTouchMapOffsetX, y +
-					// MapView.this.mTouchMapOffsetY);
-				} else {
-					out.lineTo(x, y);
-				}
-				first = false;
-			}
-
-			return out;
 		}
 
 		@Override
