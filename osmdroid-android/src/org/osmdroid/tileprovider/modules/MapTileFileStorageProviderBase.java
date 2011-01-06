@@ -10,11 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 
-public abstract class MapTileFileStorageProviderBase extends
-		MapTileModuleProviderBase {
+public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MapTileFileStorageProviderBase.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileFileStorageProviderBase.class);
 
 	/** whether the sdcard is mounted read/write */
 	private boolean mSdCardAvailable = true;
@@ -22,20 +20,20 @@ public abstract class MapTileFileStorageProviderBase extends
 	private final IRegisterReceiver mRegisterReceiver;
 	private MyBroadcastReceiver mBroadcastReceiver;
 
-	public MapTileFileStorageProviderBase(final int aThreadPoolSize,
-			final int aPendingQueueSize, final IRegisterReceiver aRegisterReceiver) {
-		super(aThreadPoolSize, aPendingQueueSize);
+	public MapTileFileStorageProviderBase(final IRegisterReceiver pRegisterReceiver,
+			final int pThreadPoolSize, final int pPendingQueueSize) {
+		super(pThreadPoolSize, pPendingQueueSize);
 
 		checkSdCard();
 
-		mRegisterReceiver = aRegisterReceiver;
+		mRegisterReceiver = pRegisterReceiver;
 		mBroadcastReceiver = new MyBroadcastReceiver();
 
 		final IntentFilter mediaFilter = new IntentFilter();
 		mediaFilter.addAction(Intent.ACTION_MEDIA_MOUNTED);
 		mediaFilter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
 		mediaFilter.addDataScheme("file");
-		aRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
+		pRegisterReceiver.registerReceiver(mBroadcastReceiver, mediaFilter);
 	}
 
 	private void checkSdCard() {
@@ -67,7 +65,7 @@ public abstract class MapTileFileStorageProviderBase extends
 
 	/**
 	 * This broadcast receiver will recheck the sd card when the mount/unmount messages happen
-	 * 
+	 *
 	 */
 	private class MyBroadcastReceiver extends BroadcastReceiver {
 
@@ -78,10 +76,11 @@ public abstract class MapTileFileStorageProviderBase extends
 
 			checkSdCard();
 
-			if (Intent.ACTION_MEDIA_MOUNTED.equals(action))
+			if (Intent.ACTION_MEDIA_MOUNTED.equals(action)) {
 				onMediaMounted();
-			else if (Intent.ACTION_MEDIA_UNMOUNTED.equals(action))
+			} else if (Intent.ACTION_MEDIA_UNMOUNTED.equals(action)) {
 				onMediaUnmounted();
+			}
 		}
 	}
 }

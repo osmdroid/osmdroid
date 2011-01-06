@@ -48,14 +48,11 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 * The tiles may be found on several media. This one works with tiles stored on the file system.
 	 * It and its friends are typically created and controlled by
 	 * {@link MapTileProviderBase}.
-	 *
-	 * @param aCallback
-	 * @param aRegisterReceiver
 	 */
-	public MapTileFileArchiveProvider(final ITileSource pTileSource,
-			final IRegisterReceiver pRegisterReceiver) {
-		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
-				pRegisterReceiver);
+	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource) {
+		super(pRegisterReceiver,
+				NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
 		mTileSource = pTileSource;
 

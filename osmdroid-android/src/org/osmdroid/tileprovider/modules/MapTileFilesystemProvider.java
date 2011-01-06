@@ -57,8 +57,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	 */
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-		super(NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE,
-				pRegisterReceiver);
+		super(pRegisterReceiver,
+				NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 		mTileSource = pTileSource;
 
 		mMaximumCachedFileAge = pMaximumCachedFileAge;

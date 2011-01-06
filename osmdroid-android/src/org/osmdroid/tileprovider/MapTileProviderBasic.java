@@ -18,9 +18,9 @@ import android.content.Context;
  * This top-level tile provider implements a basic tile request chain which includes a
  * {@link MapTileFilesystemProvider} (a file-system cache), a {@link MapTileFileArchiveProvider}
  * (archive provider), and a {@link MapTileDownloader} (downloads map tiles via tile source).
- * 
+ *
  * @author Marc Kurtz
- * 
+ *
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
@@ -29,36 +29,36 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final Context aContext) {
-		this(aContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
+	public MapTileProviderBasic(final Context pContext) {
+		this(pContext, TileSourceFactory.DEFAULT_TILE_SOURCE);
 	}
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final Context aContext, final ITileSource aTileSource) {
-		this(new SimpleRegisterReceiver(aContext), new NetworkAvailabliltyCheck(aContext),
-				aTileSource);
+	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
+		this(new SimpleRegisterReceiver(pContext),
+				new NetworkAvailabliltyCheck(pContext), pTileSource);
 	}
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 */
-	public MapTileProviderBasic(final IRegisterReceiver aRegisterReceiver,
-			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource aTileSource) {
-		super(aRegisterReceiver);
+	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
+			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource) {
+		super(pRegisterReceiver);
 
 		final TileWriter tileWriter = new TileWriter();
 
 		final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
-				aRegisterReceiver);
+				pRegisterReceiver);
 		mTileProviderList.add(fileSystemProvider);
 
 		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
-				aTileSource, aRegisterReceiver);
+				pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);
 
-		final MapTileDownloader downloaderProvider = new MapTileDownloader(aTileSource, tileWriter,
+		final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
 				aNetworkAvailablityCheck);
 		mTileProviderList.add(downloaderProvider);
 	}
