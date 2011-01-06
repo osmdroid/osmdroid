@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import org.andnav2.osm.mtp.adt.OSMTileInfo;
 import org.andnav2.osm.mtp.download.DownloadManager;
+import org.andnav2.osm.mtp.util.DbCreator;
 import org.andnav2.osm.mtp.util.FolderDeleter;
 import org.andnav2.osm.mtp.util.FolderFileCounter;
 import org.andnav2.osm.mtp.util.FolderZipper;
@@ -148,7 +149,10 @@ public class OSMMapTilePackager {
 
         if (pDestinationFile != null) {
             System.out.println("---------------------------");
-            runZipToFile(pTempFolder, pDestinationFile);
+            if(pDestinationFile.endsWith(".zip"))
+            	runZipToFile(pTempFolder, pDestinationFile);
+            else
+            	runCreateDb(pTempFolder, pDestinationFile);
 
 	        System.out.println("---------------------------");
 	        runCleanup(pTempFolder);
@@ -205,6 +209,16 @@ public class OSMMapTilePackager {
         try {
             System.out.print("Zipping files to " + pDestinationFile + " ...");
             FolderZipper.zipFolderToFile(new File(pDestinationFile), new File(pTempFolder));
+            System.out.println(" done.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void runCreateDb(final String pTempFolder, final String pDestinationFile) {
+        try {
+            System.out.print("Putting files into db : " + pDestinationFile + " ...");
+            DbCreator.putFolderToDb(new File(pDestinationFile), new File(pTempFolder));
             System.out.println(" done.");
         } catch (Exception e) {
             e.printStackTrace();
