@@ -1,12 +1,14 @@
 package org.osmdroid.tileprovider.modules;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.test.AndroidTestCase;
 
@@ -16,11 +18,14 @@ import android.test.AndroidTestCase;
  */
 public class MapTileProviderTest extends AndroidTestCase {
 
+	final private List<MapTile> mTiles = new LinkedList<MapTile>();
+
 	final IMapTileProviderCallback mTileProviderCallback = new IMapTileProviderCallback() {
 
 		@Override
 		public void mapTileRequestCompleted(final MapTileRequestState aState,
 				final Drawable aDrawable) {
+			mTiles.add(aState.getMapTile());
 		}
 
 		@Override
@@ -39,6 +44,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 	};
 
 	final MapTileModuleProviderBase mTileProvider = new MapTileModuleProviderBase(1, 10) {
+
 		@Override
 		protected String getThreadGroupName() {
 			return "OpenStreetMapAsyncTileProviderTest";
@@ -50,8 +56,11 @@ public class MapTileProviderTest extends AndroidTestCase {
 				@Override
 				protected Drawable loadTile(final MapTileRequestState aState)
 						throws CantContinueException {
-					// does nothing - doesn't call the callback
-					return null;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+					}
+					return new BitmapDrawable();
 				}
 			};
 		}
@@ -103,7 +112,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 	 */
 	public void test_order() throws InterruptedException {
 
-		final ArrayList<MapTile> tiles = new ArrayList<MapTile>();
+		// final ArrayList<MapTile> tiles = new ArrayList<MapTile>();
 
 		final MapTile tile1 = new MapTile(1, 1, 1);
 		final MapTile tile2 = new MapTile(2, 2, 2);
@@ -127,14 +136,14 @@ public class MapTileProviderTest extends AndroidTestCase {
 		Thread.sleep(4000);
 
 		// check that there are three tiles in the list (ie no duplicates)
-		assertEquals("Three tiles in the list", 3, tiles.size());
+		assertEquals("Three tiles in the list", 3, mTiles.size());
 
 		// the tiles should have been loaded in the order 1, 3, 2
 		// because 1 was loaded immediately, 2 was next,
 		// but 3 was requested before 2 started, so it jumped the queue
-		assertEquals("tile1 is first", tile1, tiles.get(0));
-		assertEquals("tile3 is second", tile3, tiles.get(1));
-		assertEquals("tile2 is third", tile2, tiles.get(2));
+		assertEquals("tile1 is first", tile1, mTiles.get(0));
+		assertEquals("tile3 is second", tile3, mTiles.get(1));
+		assertEquals("tile2 is third", tile2, mTiles.get(2));
 	}
 
 	/**
@@ -143,9 +152,6 @@ public class MapTileProviderTest extends AndroidTestCase {
 	 * @throws InterruptedException
 	 */
 	public void test_jump_queue() throws InterruptedException {
-
-		final ArrayList<MapTile> tiles = new ArrayList<MapTile>();
-
 		final MapTile tile1 = new MapTile(1, 1, 1);
 		final MapTile tile2 = new MapTile(2, 2, 2);
 		final MapTile tile3 = new MapTile(3, 3, 3);
@@ -172,12 +178,12 @@ public class MapTileProviderTest extends AndroidTestCase {
 		Thread.sleep(4000);
 
 		// check that there are three tiles in the list (ie no duplicates)
-		assertEquals("Three tiles in the list", 3, tiles.size());
+		assertEquals("Three tiles in the list", 3, mTiles.size());
 
 		// the tiles should have been loaded in the order 1, 2, 3
 		// 3 jumped ahead of 2, but then 2 jumped ahead of it again
-		assertEquals("tile1 is first", tile1, tiles.get(0));
-		assertEquals("tile2 is second", tile2, tiles.get(1));
-		assertEquals("tile3 is third", tile3, tiles.get(2));
+		assertEquals("tile1 is first", tile1, mTiles.get(0));
+		assertEquals("tile2 is second", tile2, mTiles.get(1));
+		assertEquals("tile3 is third", tile3, mTiles.get(2));
 	}
 }
