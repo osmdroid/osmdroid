@@ -14,7 +14,11 @@ public class ArchiveFileFactory {
 			return ZipFileArchive.getZipFileArchive(pFile);
 		}
 
-		// TODO gzip, gemf, database
+		if (pFile.getName().endsWith(".sqlite")) {
+			return DatabaseFileArchive.getDatabaseFileArchive(pFile);
+		}
+
+		// TODO gzip, gemf
 		// maybe we can even do a filesystem archive instead of file system provider
 
 		return null;
