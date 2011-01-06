@@ -879,25 +879,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	// Methods
 	// ===========================================================
 
-	// NB: this method will be called even if we don't use Cloudmade
-	// because we only have the context in the constructor
-	// the alternative would be to only get it when needed,
-	// but that would mean keeping a handle on the context
-	// private String getCloudmadeKey(final Context aContext) {
-	// return CloudmadeUtil.getCloudmadeKey(aContext);
-	// }
-
 	private void checkZoomButtons() {
 		this.mZoomController.setZoomInEnabled(canZoomIn());
 		this.mZoomController.setZoomOutEnabled(canZoomOut());
-	}
-
-	private GeoPoint getCenterMapTileCoords() {
-		final int mapTileZoom = getMapTileZoom(mTileSizePixels);
-		final int worldTiles_2 = 1 << (mZoomLevel - 1);
-		// convert to tile coordinate and make positive
-		return new GeoPoint((getScrollY() >> mapTileZoom) + worldTiles_2,
-				(getScrollX() >> mapTileZoom) + worldTiles_2);
 	}
 
 	/**
@@ -906,15 +890,15 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 */
-	private Point getUpperLeftCornerOfCenterMapTileInScreen(final GeoPoint centerMapTileCoords,
+	private Point getUpperLeftCornerOfCenterMapTileInScreen(final Point centerMapTileCoords,
 			final int tileSizePx, final Point reuse) {
 		final Point out = (reuse != null) ? reuse : new Point();
 
 		final int worldTiles_2 = 1 << (mZoomLevel - 1);
-		final int centerMapTileScreenLeft = (centerMapTileCoords.getLongitudeE6() - worldTiles_2)
-				* tileSizePx - tileSizePx / 2;
-		final int centerMapTileScreenTop = (centerMapTileCoords.getLatitudeE6() - worldTiles_2)
-				* tileSizePx - tileSizePx / 2;
+		final int centerMapTileScreenLeft = (centerMapTileCoords.x - worldTiles_2) * tileSizePx
+				- tileSizePx / 2;
+		final int centerMapTileScreenTop = (centerMapTileCoords.y - worldTiles_2) * tileSizePx
+				- tileSizePx / 2;
 
 		out.set(centerMapTileScreenLeft, centerMapTileScreenTop);
 		return out;
@@ -983,41 +967,66 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		private final int offsetX = -worldSize_2;
 		private final int offsetY = -worldSize_2;
 
-		private final BoundingBoxE6 bb;
-		private final int zoomLevel;
-		private final int tileSizePx;
-		private final int tileMapZoom;
-		private final GeoPoint centerMapTileCoords;
-		private final Point upperLeftCornerOfCenterMapTile;
+		private final BoundingBoxE6 mBoundingBoxProjection;
+		private final int mZoomLevelProjection;
+		private final int mTileSizePixelsProjection;
+		private final int mTileMapZoomProjection;
+		private final Point mCenterMapTileCoordsProjection;
+		private final Point mUpperLeftCornerOfCenterMapTileProjection;
 
-		private final GeoPoint reuseInt2 = new GeoPoint(0, 0);
+		private final GeoPoint reuseGeoPoint = new GeoPoint(0, 0);
 
 		private Projection() {
 
 			/*
 			 * Do some calculations and drag attributes to local variables to save some performance.
 			 */
-			zoomLevel = MapView.this.mZoomLevel;
+			mZoomLevelProjection = mZoomLevel;
 			// TODO Draw to attributes and so make it only 'valid' for a short time.
-			tileSizePx = mTileSizePixels;
-			tileMapZoom = getMapTileZoom(tileSizePx);
+			mTileSizePixelsProjection = mTileSizePixels;
+			mTileMapZoomProjection = getMapTileZoom(getTileSizePixels());
 
 			/*
 			 * Get the center MapTile which is above this.mLatitudeE6 and this.mLongitudeE6 .
 			 */
-			centerMapTileCoords = getCenterMapTileCoords();
-			upperLeftCornerOfCenterMapTile = getUpperLeftCornerOfCenterMapTileInScreen(
-					centerMapTileCoords, tileSizePx, null);
+			mCenterMapTileCoordsProjection = calculateCenterMapTileCoords(getTileSizePixels(),
+					getZoomLevel());
+			mUpperLeftCornerOfCenterMapTileProjection = getUpperLeftCornerOfCenterMapTileInScreen(
+					getCenterMapTileCoords(), getTileSizePixels(), null);
 
-			bb = MapView.this.getDrawnBoundingBoxE6();
+			mBoundingBoxProjection = MapView.this.getDrawnBoundingBoxE6();
 		}
 
 		public int getTileSizePixels() {
-			return tileSizePx;
+			return mTileSizePixelsProjection;
 		}
 
 		public int getTileMapZoom() {
-			return tileMapZoom;
+			return mTileMapZoomProjection;
+		}
+
+		public int getZoomLevel() {
+			return mZoomLevelProjection;
+		}
+
+		public Point getCenterMapTileCoords() {
+			return mCenterMapTileCoordsProjection;
+		}
+
+		public Point getUpperLeftCornerOfCenterMapTile() {
+			return mUpperLeftCornerOfCenterMapTileProjection;
+		}
+
+		public BoundingBoxE6 getBoundingBox() {
+			return mBoundingBoxProjection;
+		}
+
+		private Point calculateCenterMapTileCoords(int tileSizePixels, int zoomLevel) {
+			final int mapTileZoom = getMapTileZoom(tileSizePixels);
+			final int worldTiles_2 = 1 << (zoomLevel - 1);
+			// convert to tile coordinate and make positive
+			return new Point((getScrollX() >> mapTileZoom) + worldTiles_2,
+					(getScrollY() >> mapTileZoom) + worldTiles_2);
 		}
 
 		/**
@@ -1028,8 +1037,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * @return GeoPoint under x/y.
 		 */
 		public GeoPoint fromPixels(final float x, final float y) {
-			return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / getWidth(), y
-					/ getHeight());
+			return getBoundingBox().getGeoPointOfRelativePositionWithLinearInterpolation(
+					x / getWidth(), y / getHeight());
 		}
 
 		public Point fromMapPixels(final int x, final int y, final Point reuse) {
@@ -1089,7 +1098,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 			// 26 is the biggest zoomlevel we can project
 			final GeoPoint coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28,
-					this.reuseInt2);
+					this.reuseGeoPoint);
 			out.set(coords.getLongitudeE6(), coords.getLatitudeE6());
 			return out;
 		}
@@ -1142,7 +1151,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		public Point toPixels(final int tileX, final int tileY, final Point reuse) {
 			final Point out = (reuse != null) ? reuse : new Point();
 
-			out.set(tileX * tileSizePx, tileY * tileSizePx);
+			out.set(tileX * getTileSizePixels(), tileY * getTileSizePixels());
 			out.offset(offsetX, offsetY);
 
 			return out;
@@ -1184,16 +1193,16 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			boolean first = true;
 			for (final GeoPoint gp : in) {
 				final GeoPoint underGeopointTileCoords = Mercator.projectGeoPoint(
-						gp.getLatitudeE6(), gp.getLongitudeE6(), zoomLevel, null);
+						gp.getLatitudeE6(), gp.getLongitudeE6(), getZoomLevel(), null);
 
 				/*
 				 * Calculate the Latitude/Longitude on the left-upper ScreenCoords of the MapTile.
 				 */
 				final BoundingBoxE6 bb = Mercator.getBoundingBoxFromPointInMapTile(
-						underGeopointTileCoords, zoomLevel);
+						underGeopointTileCoords, getZoomLevel());
 
 				final PointF relativePositionInCenterMapTile;
-				if (doGudermann && (zoomLevel < 7)) {
+				if (doGudermann && (getZoomLevel() < 7)) {
 					relativePositionInCenterMapTile = bb
 							.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
 									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
@@ -1203,19 +1212,19 @@ public class MapView extends View implements IMapView, MapViewConstants,
 									gp.getLatitudeE6(), gp.getLongitudeE6(), null);
 				}
 
-				final int tileDiffX = centerMapTileCoords.getLongitudeE6()
+				final int tileDiffX = getCenterMapTileCoords().x
 						- underGeopointTileCoords.getLongitudeE6();
-				final int tileDiffY = centerMapTileCoords.getLatitudeE6()
+				final int tileDiffY = getCenterMapTileCoords().y
 						- underGeopointTileCoords.getLatitudeE6();
-				final int underGeopointTileScreenLeft = upperLeftCornerOfCenterMapTile.x
-						- (tileSizePx * tileDiffX);
-				final int underGeopointTileScreenTop = upperLeftCornerOfCenterMapTile.y
-						- (tileSizePx * tileDiffY);
+				final int underGeopointTileScreenLeft = getUpperLeftCornerOfCenterMapTile().x
+						- (getTileSizePixels() * tileDiffX);
+				final int underGeopointTileScreenTop = getUpperLeftCornerOfCenterMapTile().y
+						- (getTileSizePixels() * tileDiffY);
 
 				final int x = underGeopointTileScreenLeft
-						+ (int) (relativePositionInCenterMapTile.x * tileSizePx);
+						+ (int) (relativePositionInCenterMapTile.x * getTileSizePixels());
 				final int y = underGeopointTileScreenTop
-						+ (int) (relativePositionInCenterMapTile.y * tileSizePx);
+						+ (int) (relativePositionInCenterMapTile.y * getTileSizePixels());
 
 				/* Add up the offset caused by touch. */
 				if (first) {
