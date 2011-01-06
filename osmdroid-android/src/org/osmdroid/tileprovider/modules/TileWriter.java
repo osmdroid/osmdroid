@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb.
- * 
+ *
  * @author Neil Boyd
- * 
+ *
  */
 public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderConstants {
 
@@ -56,7 +56,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 
 	/**
 	 * Get the amount of disk space used by the tile cache.
-	 * 
+	 *
 	 * @return size in bytes
 	 */
 	public static long getUsedCacheSpace() {
@@ -71,7 +71,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile));
+		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile) + TILE_PATH_EXTENSION);
 
 		final File parent = file.getParentFile();
 		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
@@ -84,16 +84,16 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					StreamUtils.IO_BUFFER_SIZE);
 			final long length = StreamUtils.copy(pStream, outputStream);
 
-			mUsedCacheSpace += length; // XXX should this be synchronized? or is
-										// it a single operation?
+			mUsedCacheSpace += length; // XXX should this be synchronized? or is it a single operation?
 			if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 				cutCurrentCache();
 			}
 		} catch (final IOException e) {
 			return false;
 		} finally {
-			if (outputStream != null)
+			if (outputStream != null) {
 				StreamUtils.closeStream(outputStream);
+			}
 		}
 		return true;
 	}
@@ -106,8 +106,9 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		if (pFile.mkdirs()) {
 			return true;
 		}
-		if (DEBUGMODE)
+		if (DEBUGMODE) {
 			logger.debug("Failed to create " + pFile + " - wait and check again");
+		}
 
 		// if create failed, wait a bit in case another thread created it
 		try {
@@ -116,12 +117,14 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		}
 		// and then check again
 		if (pFile.exists()) {
-			if (DEBUGMODE)
+			if (DEBUGMODE) {
 				logger.debug("Seems like another thread created " + pFile);
+			}
 			return true;
 		} else {
-			if (DEBUGMODE)
+			if (DEBUGMODE) {
 				logger.debug("File still doesn't exist: " + pFile);
+			}
 			return false;
 		}
 	}

@@ -16,8 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public abstract class BitmapTileSourceBase implements ITileSource,
-		OpenStreetMapTileProviderConstants {
+public abstract class BitmapTileSourceBase implements ITileSource, OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(BitmapTileSourceBase.class);
 
@@ -119,7 +118,6 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 		sb.append('/');
 		sb.append(tile.getY());
 		sb.append(imageFilenameEnding());
-		sb.append(TILE_PATH_EXTENSION);
 		return sb.toString();
 	}
 

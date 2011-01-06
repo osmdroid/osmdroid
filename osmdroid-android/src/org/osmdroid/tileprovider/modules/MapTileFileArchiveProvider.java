@@ -22,10 +22,10 @@ import android.graphics.drawable.Drawable;
 /**
  * A tile provider that can serve tiles from a Zip archive using the supplied tile source. The tile
  * provider will automatically find existing archives and use each one that it finds.
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
@@ -33,8 +33,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	// Constants
 	// ===========================================================
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(MapTileFileArchiveProvider.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapTileFileArchiveProvider.class);
 
 	// ===========================================================
 	// Fields
@@ -52,7 +51,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 * The tiles may be found on several media. This one works with tiles stored on the file system.
 	 * It and its friends are typically created and controlled by
 	 * {@link MapTileProviderBase}.
-	 * 
+	 *
 	 * @param aCallback
 	 * @param aRegisterReceiver
 	 */
@@ -96,12 +95,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMinimumZoomLevel() : Integer.MAX_VALUE);
+		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : Integer.MAX_VALUE;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMaximumZoomLevel() : Integer.MIN_VALUE);
+		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : Integer.MIN_VALUE;
 	}
 
 	@Override
@@ -127,8 +126,9 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 		mZipFiles.clear();
 
-		if (!getSdCardAvailable())
+		if (!getSdCardAvailable()) {
 			return;
+		}
 
 		// path should be optionally configurable
 		final File[] z = OSMDROID_PATH.listFiles(new FileFilter() {
@@ -149,8 +149,8 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		}
 	}
 
-	private synchronized InputStream fileFromZip(final MapTile aTile) {
-		final String path = mTileSource.getTileRelativeFilenameString(aTile);
+	private synchronized InputStream fileFromZip(final MapTile pTile) {
+		final String path = mTileSource.getTileRelativeFilenameString(pTile);
 		for (final ZipFile zipFile : mZipFiles) {
 			try {
 				final ZipEntry entry = zipFile.getEntry(path);
@@ -159,7 +159,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 					return in;
 				}
 			} catch (final Throwable e) {
-				logger.warn("Error getting zip stream: " + aTile, e);
+				logger.warn("Error getting zip stream: " + pTile, e);
 			}
 		}
 
@@ -173,37 +173,42 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState aState) {
+		public Drawable loadTile(final MapTileRequestState pState) {
 
-			if (mTileSource == null)
+			if (mTileSource == null) {
 				return null;
+			}
 
-			final MapTile aTile = aState.getMapTile();
+			final MapTile pTile = pState.getMapTile();
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
-				if (DEBUGMODE)
-					logger.debug("No sdcard - do nothing for tile: " + aTile);
+				if (DEBUGMODE) {
+					logger.debug("No sdcard - do nothing for tile: " + pTile);
+				}
 				return null;
 			}
 
 			InputStream fileFromZip = null;
 			try {
-				if (DEBUGMODE)
-					logger.debug("Tile doesn't exist: " + aTile);
+				if (DEBUGMODE) {
+					logger.debug("Tile doesn't exist: " + pTile);
+				}
 
-				fileFromZip = fileFromZip(aTile);
+				fileFromZip = fileFromZip(pTile);
 				if (fileFromZip != null) {
-					if (DEBUGMODE)
-						logger.debug("Use tile from zip: " + aTile);
+					if (DEBUGMODE) {
+						logger.debug("Use tile from zip: " + pTile);
+					}
 					final Drawable drawable = mTileSource.getDrawable(fileFromZip);
 					return drawable;
 				}
 			} catch (final Throwable e) {
 				logger.error("Error loading tile", e);
 			} finally {
-				if (fileFromZip != null)
+				if (fileFromZip != null) {
 					StreamUtils.closeStream(fileFromZip);
+				}
 			}
 
 			return null;
