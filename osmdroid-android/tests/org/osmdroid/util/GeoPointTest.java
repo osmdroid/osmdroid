@@ -8,9 +8,9 @@ public class GeoPointTest {
 
 	// private static final double CIRCUMFERENCE_AT_EQUATOR = 40075160.0; //
 	// http://en.wikipedia.org/wiki/Earth
-	private static final double CIRCUMFERENCE_AT_EQUATOR = 2 * Math.PI * 6378137; // http://en.wikipedia.org/wiki/Earth_radius#Equatorial_radius
-																					// + a bit of
-																					// math
+
+	private static final double CIRCUMFERENCE_AT_EQUATOR = 2 * Math.PI * 6378137;
+	// http://en.wikipedia.org/wiki/Earth_radius#Equatorial_radius + a bit of math
 
 	@Test
 	public void test_distanceTo_zero() {
@@ -77,7 +77,7 @@ public class GeoPointTest {
 		final GeoPoint end = new GeoPoint(52390698, 4886399);
 		assertEquals("destinationPoint north west", end, start.destinationPoint(500, -45));
 	}
-	
+
 	@Test
 	public void test_toFromString_withoutAltitude() {
 		final GeoPoint in = new GeoPoint(52387524, 4891604);
@@ -91,7 +91,7 @@ public class GeoPointTest {
 		final GeoPoint out = GeoPoint.fromIntString(in.toString());
 		assertEquals("toFromString with altitude", in, out);
 	}
-	
+
 	@Test
 	public void test_toFromDoubleString_withoutAltitude() {
 		final GeoPoint in = new GeoPoint(-117.123, 33.123);
@@ -105,7 +105,7 @@ public class GeoPointTest {
 		final GeoPoint out = GeoPoint.fromDoubleString(in.toDoubleString(), ',');
 		assertEquals("toFromString with altitude", in, out);
 	}
-	
+
 	@Test
 	public void test_toFromInvertedDoubleString_withoutAltitude() {
 		final GeoPoint in = new GeoPoint(-117.123, 33.123);
@@ -119,6 +119,6 @@ public class GeoPointTest {
 		final GeoPoint out = GeoPoint.fromInvertedDoubleString(in.toInvertedDoubleString(), ',');
 		assertEquals("toFromString with altitude", in, out);
 	}
-	
-	
+
+
 }

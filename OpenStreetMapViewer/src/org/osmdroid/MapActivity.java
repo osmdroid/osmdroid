@@ -112,8 +112,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 			mOsmv.setTileSource(tileSource);
 		} catch (final IllegalArgumentException ignore) {
 		}
-		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false))
+		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
 			this.mLocationOverlay.enableMyLocation();
+		}
 		this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	}
 
@@ -123,9 +124,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 				android.R.drawable.ic_menu_mylocation);
 
 		{
-			final SubMenu mapMenu = pMenu
-					.addSubMenu(0, MENU_MAP_MODE, Menu.NONE, R.string.map_mode).setIcon(
-							android.R.drawable.ic_menu_mapmode);
+			final SubMenu mapMenu =
+				pMenu.addSubMenu(0, MENU_MAP_MODE, Menu.NONE, R.string.map_mode).setIcon(
+						android.R.drawable.ic_menu_mapmode);
 
 			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
 				mapMenu.add(MENU_MAP_MODE, 1000 + tileSource.ordinal(), Menu.NONE,
@@ -163,8 +164,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 				this.mLocationOverlay.followLocation(true);
 				this.mLocationOverlay.enableMyLocation();
 				final Location lastFix = this.mLocationOverlay.getLastFix();
-				if (lastFix != null)
+				if (lastFix != null) {
 					this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
+				}
 			}
 			Toast.makeText(
 					this,
@@ -204,12 +206,12 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		switch (id) {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(MapActivity.this).setIcon(R.drawable.icon)
-					.setTitle(R.string.app_name).setMessage(R.string.about_message)
-					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog, final int whichButton) {
-						}
-					}).create();
+			.setTitle(R.string.app_name).setMessage(R.string.about_message)
+			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(final DialogInterface dialog, final int whichButton) {
+				}
+			}).create();
 
 		default:
 			dialog = null;
@@ -233,8 +235,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_MOVE)
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			this.mLocationOverlay.followLocation(false);
+		}
 
 		return super.onTouchEvent(event);
 	}
