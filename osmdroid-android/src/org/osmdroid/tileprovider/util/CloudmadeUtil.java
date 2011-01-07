@@ -85,6 +85,10 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 		final String id = pref.getString(CLOUDMADE_ID, "");
 		if (id.equals(mAndroidId)) {
 			mToken = pref.getString(CLOUDMADE_TOKEN, "");
+			// if we've got a token we don't need the editor any more
+			if (mToken.length() > 0) {
+				mPreferenceEditor = null;
+			}
 		} else {
 			mPreferenceEditor.putString(CLOUDMADE_ID, mAndroidId);
 			mPreferenceEditor.commit();
@@ -133,6 +137,8 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 							if (mToken.length() > 0) {
 								mPreferenceEditor.putString(CLOUDMADE_TOKEN, mToken);
 								mPreferenceEditor.commit();
+								// we don't need the editor any more
+								mPreferenceEditor = null;
 							} else {
 								logger.error("No authorization token received from Cloudmade");
 							}
