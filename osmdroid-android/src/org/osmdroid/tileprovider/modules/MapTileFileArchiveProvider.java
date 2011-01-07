@@ -125,11 +125,13 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		}
 
 		// path should be optionally configurable
-		final File[] z = OSMDROID_PATH.listFiles();
-		for (final File file : z) {
-			final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
-			if (archiveFile != null) {
-				mArchiveFiles.add(archiveFile);
+		final File[] files = OSMDROID_PATH.listFiles();
+		if (files != null) {
+			for (final File file : files) {
+				final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
+				if (archiveFile != null) {
+					mArchiveFiles.add(archiveFile);
+				}
 			}
 		}
 	}
