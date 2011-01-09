@@ -5,6 +5,14 @@ import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
 
+/**
+ * A wrapper for the Google {@link com.google.android.maps.Projection} implementation.
+ * This implements {@link IProjection}, which is also implemented by the osmdroid
+ * {@link org.osmdroid.views.MapView.Projection}.
+ *
+ * @author Neil Boyd
+ *
+ */
 public class Projection implements IProjection {
 
 	private final com.google.android.maps.Projection mProjection;

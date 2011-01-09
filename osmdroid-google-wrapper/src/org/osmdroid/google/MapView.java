@@ -1,11 +1,20 @@
 package org.osmdroid.google;
 
+import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
+/**
+ * A wrapper for the Google {@link com.google.android.maps.MapView} class.
+ * This implements {@link IMapView}, which is also implemented by the osmdroid
+ * {@link org.osmdroid.views.MapView}.
+ *
+ * @author Neil Boyd
+ *
+ */
 public class MapView implements IMapView {
 
 	private final com.google.android.maps.MapView mMapView;
@@ -24,6 +33,11 @@ public class MapView implements IMapView {
 
 	public MapView(final Context pContext, final String pApiKey) {
 		this(new com.google.android.maps.MapView(pContext, pApiKey));
+	}
+
+	@Override
+	public IMapController getController() {
+		return new MapController(mMapView.getController());
 	}
 
 	@Override

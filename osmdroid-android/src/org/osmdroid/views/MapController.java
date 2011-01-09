@@ -1,20 +1,21 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
+import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.MyMath;
-import org.osmdroid.views.util.constants.MathConstants;
 import org.osmdroid.views.util.constants.MapViewConstants;
+import org.osmdroid.views.util.constants.MathConstants;
 
 import android.graphics.Point;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  */
-public class MapController implements MapViewConstants {
+public class MapController implements IMapController, MapViewConstants {
 
 	// TODO use same interface as google maps controller
 
@@ -55,8 +56,9 @@ public class MapController implements MapViewConstants {
 
 	// TODO rework zoomToSpan
 	public void zoomToSpan(final int reqLatSpan, final int reqLonSpan) {
-		if (reqLatSpan <= 0 || reqLonSpan <= 0)
+		if (reqLatSpan <= 0 || reqLonSpan <= 0) {
 			return;
+		}
 
 		final BoundingBoxE6 bb = this.mOsmv.getVisibleBoundingBoxE6();
 		final int curZoomLevel = this.mOsmv.getZoomLevel();
@@ -94,7 +96,7 @@ public class MapController implements MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 * 
+	 *
 	 * @param gp
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
@@ -105,7 +107,7 @@ public class MapController implements MapViewConstants {
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end.
-	 * 
+	 *
 	 * @param gp
 	 *            GeoPoint to be centered in the end.
 	 * @param aSmoothness
@@ -126,7 +128,7 @@ public class MapController implements MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
 	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 * 
+	 *
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 */
@@ -138,7 +140,7 @@ public class MapController implements MapViewConstants {
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
-	 * 
+	 *
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 * @param aSmoothness
@@ -195,7 +197,7 @@ public class MapController implements MapViewConstants {
 
 	/**
 	 * Stops a running animation.
-	 * 
+	 *
 	 * @param jumpToTarget
 	 */
 	public void stopAnimation(final boolean jumpToTarget) {
@@ -203,9 +205,10 @@ public class MapController implements MapViewConstants {
 
 		if (currentAnimationRunner != null && !currentAnimationRunner.isDone()) {
 			currentAnimationRunner.interrupt();
-			if (jumpToTarget)
+			if (jumpToTarget) {
 				setCenter(new GeoPoint(currentAnimationRunner.mTargetLatitudeE6,
 						currentAnimationRunner.mTargetLongitudeE6));
+			}
 		}
 	}
 
@@ -380,8 +383,8 @@ public class MapController implements MapViewConstants {
 			final int mapCenterLatE6 = mapview.getMapCenterLatitudeE6();
 			final int mapCenterLonE6 = mapview.getMapCenterLongitudeE6();
 
-			this.mPanTotalLatitudeE6 = (mapCenterLatE6 - aTargetLatitudeE6);
-			this.mPanTotalLongitudeE6 = (mapCenterLonE6 - aTargetLongitudeE6);
+			this.mPanTotalLatitudeE6 = mapCenterLatE6 - aTargetLatitudeE6;
+			this.mPanTotalLongitudeE6 = mapCenterLonE6 - aTargetLongitudeE6;
 		}
 
 		@Override
@@ -514,7 +517,7 @@ public class MapController implements MapViewConstants {
 	}
 
 	private class CosinusalBasedAnimationRunner extends AbstractAnimationRunner implements
-			MathConstants {
+	MathConstants {
 		// ===========================================================
 		// Fields
 		// ===========================================================
@@ -545,8 +548,9 @@ public class MapController implements MapViewConstants {
 
 			/* We need to normalize the amount in the end, so wee need the the: sum^(-1) . */
 			float amountSum = 0;
-			for (int i = 0; i < aSmoothness; i++)
+			for (int i = 0; i < aSmoothness; i++) {
 				amountSum += aYOffset + Math.cos(this.mStepIncrement * i + aStart);
+			}
 
 			this.mAmountStretch = 1 / amountSum;
 
@@ -588,7 +592,7 @@ public class MapController implements MapViewConstants {
 	}
 
 	protected class QuarterCosinusalDeceleratingAnimationRunner extends
-			CosinusalBasedAnimationRunner implements MathConstants {
+	CosinusalBasedAnimationRunner implements MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================
@@ -606,7 +610,7 @@ public class MapController implements MapViewConstants {
 	}
 
 	protected class HalfCosinusalDeceleratingAnimationRunner extends CosinusalBasedAnimationRunner
-			implements MathConstants {
+	implements MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================
@@ -624,7 +628,7 @@ public class MapController implements MapViewConstants {
 	}
 
 	protected class MiddlePeakSpeedAnimationRunner extends CosinusalBasedAnimationRunner implements
-			MathConstants {
+	MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================

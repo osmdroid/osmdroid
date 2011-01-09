@@ -56,8 +56,8 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class MapView extends View implements IMapView, MapViewConstants,
-		MultiTouchObjectCanvas<Object> {
+public class MapView extends View
+implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
@@ -140,25 +140,25 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		mTileRequestCompleteHandler = tileRequestCompleteHandler == null ? new SimpleInvalidationHandler(
 				this) : tileRequestCompleteHandler;
-		mTileProvider = tileProvider;
-		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+				mTileProvider = tileProvider;
+				mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
-		mOverlays.add(this.mMapOverlay);
-		this.mZoomController = new ZoomButtonsController(this);
-		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
+				this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
+				mOverlays.add(this.mMapOverlay);
+				this.mZoomController = new ZoomButtonsController(this);
+				this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
-		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
-		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
-		mZoomInAnimation.setAnimationListener(mAnimationListener);
-		mZoomOutAnimation.setAnimationListener(mAnimationListener);
+				mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
+						Animation.RELATIVE_TO_SELF, 0.5f);
+				mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
+						Animation.RELATIVE_TO_SELF, 0.5f);
+				mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+				mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
+				mZoomInAnimation.setAnimationListener(mAnimationListener);
+				mZoomOutAnimation.setAnimationListener(mAnimationListener);
 
-		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
-		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
+				mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
+				mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 	}
 
 	public void detach() {
@@ -190,7 +190,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 * @param osmv
 	 *            another {@link MapView}, to share the TileProvider with.<br/>
@@ -212,7 +212,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
-	 * 
+	 *
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
 	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable autozooming
@@ -246,7 +246,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
 	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
 	 * {@link MapViewConstants}.NOT_SET to reset this feature.
-	 * 
+	 *
 	 * @param aVisibility
 	 */
 	public void setOverrideMiniMapVisibility(final int aVisibility) {
@@ -270,6 +270,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		this.mMaxiMap = aOsmvMaxiMap;
 	}
 
+	@Override
 	public MapController getController() {
 		return this.mController;
 	}
@@ -323,27 +324,27 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		int a = 0;
 		while (pixels != 0) {
 			pixels >>= 1;
-			a++;
+		a++;
 		}
 		return a - 1;
 	}
 
 	private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight) {
 		final int mapTileZoom = getMapTileZoom(mTileSizePixels);
-		final int world_2 = (1 << mZoomLevel + mapTileZoom - 1);
+		final int world_2 = 1 << mZoomLevel + mapTileZoom - 1;
 		final int north = world_2 + getScrollY() - getHeight() / 2;
 		final int south = world_2 + getScrollY() + getHeight() / 2;
 		final int west = world_2 + getScrollX() - getWidth() / 2;
 		final int east = world_2 + getScrollX() + getWidth() / 2;
 
 		return Mercator
-				.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
+		.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
 	}
 
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -363,16 +364,16 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6, final boolean doPassFurther) {
-		if (doPassFurther && (this.mMiniMap != null)) {
+		if (doPassFurther && this.mMiniMap != null) {
 			this.mMiniMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
-		} else if (doPassFurther && (this.mMaxiMap != null)) {
+		} else if (doPassFurther && this.mMaxiMap != null) {
 			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
 		}
 
 		final GeoPoint coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
 				getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx() / 2;
-		if ((getAnimation() == null) || getAnimation().hasEnded()) {
+		if (getAnimation() == null || getAnimation().hasEnded()) {
 			logger.debug("StartScroll");
 			mScroller.startScroll(getScrollX(), getScrollY(), coords.getLongitudeE6() - worldSize_2
 					- getScrollX(), coords.getLatitudeE6() - worldSize_2 - getScrollY(), 500);
@@ -408,8 +409,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 					this.mMiniMap.setVisibility(View.INVISIBLE);
 				}
 			} else {
-				if ((this.mMiniMapOverriddenVisibility == NOT_SET)
-						&& (this.mMiniMap.getVisibility() != View.VISIBLE)) {
+				if (this.mMiniMapOverriddenVisibility == NOT_SET
+						&& this.mMiniMap.getVisibility() != View.VISIBLE) {
 					this.mMiniMap.setVisibility(View.VISIBLE);
 				}
 				if (this.mMiniMapZoomDiff != NOT_SET) {
@@ -422,11 +423,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		this.checkZoomButtons();
 
 		if (newZoomLevel > curZoomLevel) {
-			scrollTo(getScrollX() << (newZoomLevel - curZoomLevel),
-					getScrollY() << (newZoomLevel - curZoomLevel));
+			scrollTo(getScrollX() << newZoomLevel - curZoomLevel,
+					getScrollY() << newZoomLevel - curZoomLevel);
 		} else if (newZoomLevel < curZoomLevel) {
-			scrollTo(getScrollX() >> (curZoomLevel - newZoomLevel),
-					getScrollY() >> (curZoomLevel - newZoomLevel));
+			scrollTo(getScrollX() >> curZoomLevel - newZoomLevel,
+			getScrollY() >> curZoomLevel - newZoomLevel);
 		}
 
 		// snap for all snappables
@@ -435,15 +436,15 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		// new projection
 		// here?
 		for (final Overlay osmvo : this.mOverlays) {
-			if ((osmvo instanceof Snappable)
+			if (osmvo instanceof Snappable
 					&& ((Snappable) osmvo)
-							.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+					.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 				scrollTo(snapPoint.x, snapPoint.y);
 			}
 		}
 
 		// do callback on listener
-		if ((newZoomLevel != curZoomLevel) && (mListener != null)) {
+		if (newZoomLevel != curZoomLevel && mListener != null) {
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
 			mListener.onZoom(event);
 		}
@@ -452,7 +453,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -463,7 +464,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -479,7 +480,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinimumZoomLevel() {
@@ -488,7 +489,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	public int getMaximumZoomLevel() {
@@ -500,7 +501,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.animating && (mAnimationListener.targetZoomLevel >= maxZoomLevel)) {
+		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel >= maxZoomLevel) {
 			return false;
 		}
 		return true;
@@ -511,7 +512,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.animating && (mAnimationListener.targetZoomLevel <= minZoomLevel)) {
+		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel <= minZoomLevel) {
 			return false;
 		}
 		return true;
@@ -604,7 +605,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -616,7 +617,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 * 
+	 *
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -704,7 +705,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			}
 		}
 
-		if ((mMultiTouchController != null) && mMultiTouchController.onTouchEvent(event)) {
+		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 			if (DEBUGMODE) {
 				logger.debug("mMultiTouchController handled onTouchEvent");
 			}
@@ -828,7 +829,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	public void selectObject(final Object obj, final PointInfo pt) {
 		// if obj is null it means we released the pointers
 		// if scale is not 1 it means we pinched
-		if ((obj == null) && (mMultiTouchScale != 1.0f)) {
+		if (obj == null && mMultiTouchScale != 1.0f) {
 			final float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
 			final int scaleDiffInt = Math.round(scaleDiffFloat);
 			setZoomLevel(mZoomLevel + scaleDiffInt);
@@ -863,7 +864,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * Get the world size in pixels.
 	 */
 	int getWorldSizePx() {
-		return (1 << getPixelZoomLevel());
+		return 1 << getPixelZoomLevel();
 	}
 
 	/**
@@ -890,13 +891,13 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 */
 	private Point getUpperLeftCornerOfCenterMapTileInScreen(final Point centerMapTileCoords,
 			final int tileSizePx, final Point reuse) {
-		final Point out = (reuse != null) ? reuse : new Point();
+		final Point out = reuse != null ? reuse : new Point();
 
-		final int worldTiles_2 = 1 << (mZoomLevel - 1);
+		final int worldTiles_2 = 1 << mZoomLevel - 1;
 		final int centerMapTileScreenLeft = (centerMapTileCoords.x - worldTiles_2) * tileSizePx
-				- tileSizePx / 2;
+		- tileSizePx / 2;
 		final int centerMapTileScreenTop = (centerMapTileCoords.y - worldTiles_2) * tileSizePx
-				- tileSizePx / 2;
+		- tileSizePx / 2;
 
 		out.set(centerMapTileScreenLeft, centerMapTileScreenTop);
 		return out;
@@ -928,7 +929,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			}
 		}
 
-		if ((aAttributeSet != null) && (tileSource instanceof IStyledTileSource)) {
+		if (aAttributeSet != null && tileSource instanceof IStyledTileSource) {
 			String style = aAttributeSet.getAttributeValue(null, "style");
 			if (style == null) {
 				// historic - old attribute name
@@ -953,7 +954,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 * 
+	 *
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -1019,9 +1020,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			return mBoundingBoxProjection;
 		}
 
-		private Point calculateCenterMapTileCoords(int tileSizePixels, int zoomLevel) {
+		private Point calculateCenterMapTileCoords(final int tileSizePixels, final int zoomLevel) {
 			final int mapTileZoom = getMapTileZoom(tileSizePixels);
-			final int worldTiles_2 = 1 << (zoomLevel - 1);
+			final int worldTiles_2 = 1 << zoomLevel - 1;
 			// convert to tile coordinate and make positive
 			return new Point((getScrollX() >> mapTileZoom) + worldTiles_2,
 					(getScrollY() >> mapTileZoom) + worldTiles_2);
@@ -1029,7 +1030,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 * 
+		 *
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1040,7 +1041,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		}
 
 		public Point fromMapPixels(final int x, final int y, final Point reuse) {
-			final Point out = (reuse != null) ? reuse : new Point();
+			final Point out = reuse != null ? reuse : new Point();
 			out.set(x - viewWidth_2, y - viewHeight_2);
 			out.offset(getScrollX(), getScrollY());
 			return out;
@@ -1052,7 +1053,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 * 
+		 *
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -1061,7 +1062,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 * 
+		 *
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -1069,7 +1070,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * @return the Point containing the approximated ScreenCoordinates of the GeoPoint passed.
 		 */
 		public Point toMapPixels(final GeoPoint in, final Point reuse) {
-			final Point out = (reuse != null) ? reuse : new Point();
+			final Point out = reuse != null ? reuse : new Point();
 
 			final GeoPoint coords = Mercator.projectGeoPoint(in.getLatitudeE6(),
 					in.getLongitudeE6(), getPixelZoomLevel(), null);
@@ -1081,7 +1082,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 * 
+		 *
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1092,7 +1093,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 */
 		public Point toMapPixelsProjected(final int latituteE6, final int longitudeE6,
 				final Point reuse) {
-			final Point out = (reuse != null) ? reuse : new Point();
+			final Point out = reuse != null ? reuse : new Point();
 
 			// 26 is the biggest zoomlevel we can project
 			final GeoPoint coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28,
@@ -1103,7 +1104,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 * 
+		 *
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1112,7 +1113,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 *         passed to the toMapPixelsProjected.
 		 */
 		public Point toMapPixelsTranslated(final Point in, final Point reuse) {
-			final Point out = (reuse != null) ? reuse : new Point();
+			final Point out = reuse != null ? reuse : new Point();
 
 			// 26 is the biggest zoomlevel we can project
 			final int zoomDifference = 28 - getPixelZoomLevel();
@@ -1122,7 +1123,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 * 
+		 *
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.
@@ -1133,10 +1134,10 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			// 26 is the biggest zoomlevel we can project
 			final int zoomDifference = 28 - getPixelZoomLevel();
 
-			final int x0 = (in.left - offsetX) << zoomDifference;
-			final int x1 = (in.right - offsetX) << zoomDifference;
-			final int y0 = (in.bottom - offsetX) << zoomDifference;
-			final int y1 = (in.top - offsetX) << zoomDifference;
+			final int x0 = in.left - offsetX << zoomDifference;
+			final int x1 = in.right - offsetX << zoomDifference;
+			final int y0 = in.bottom - offsetX << zoomDifference;
+			final int y1 = in.top - offsetX << zoomDifference;
 
 			result.set(Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1));
 			return result;
@@ -1147,7 +1148,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		}
 
 		public Point toPixels(final int tileX, final int tileY, final Point reuse) {
-			final Point out = (reuse != null) ? reuse : new Point();
+			final Point out = reuse != null ? reuse : new Point();
 
 			out.set(tileX * getTileSizePixels(), tileY * getTileSizePixels());
 			out.offset(offsetX, offsetY);
