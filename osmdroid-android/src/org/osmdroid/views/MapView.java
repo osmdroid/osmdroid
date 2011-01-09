@@ -546,6 +546,11 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		return zoomIn();
 	}
 
+	boolean zoomInFixing(final int xPixel, final int yPixel) {
+		setMapCenter(xPixel, yPixel); // TODO should fix on point, not center on it
+		return zoomIn();
+	}
+
 	/**
 	 * Zoom out by one zoom level.
 	 */
@@ -568,6 +573,11 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	boolean zoomOutFixing(final GeoPoint point) {
 		setMapCenter(point); // TODO should fix on point, not center on it
+		return zoomOut();
+	}
+
+	boolean zoomOutFixing(final int xPixel, final int yPixel) {
+		setMapCenter(xPixel, yPixel); // TODO should fix on point, not center on it
 		return zoomOut();
 	}
 
@@ -943,7 +953,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 				logger.info("Using default style: 1");
 			} else {
 				logger.info("Using style specified in layout attributes: " + style);
-				((IStyledTileSource) tileSource).setStyle(style);
+				((IStyledTileSource<?>) tileSource).setStyle(style);
 			}
 		}
 

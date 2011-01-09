@@ -1,6 +1,7 @@
 // Created by plusminus on 17:53:07 - 25.09.2008
 package org.osmdroid.views.util;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -10,9 +11,9 @@ import android.graphics.Point;
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator
  * http://developers.cloudmade.com/projects/tiles/examples/convert-coordinates-to-tile-numbers
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class Mercator implements MapViewConstants {
 	// ===========================================================
@@ -49,7 +50,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
+	 *
 	 * @param aLat
 	 *            latitude in degrees [-89000000 to 89000000]
 	 * @param aLon
@@ -66,7 +67,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
+	 *
 	 * @param aLat
 	 *            latitude in degrees [-89 to 89]
 	 * @param aLon
@@ -78,7 +79,7 @@ public class Mercator implements MapViewConstants {
 	 */
 	public static GeoPoint projectGeoPoint(final double aLat, final double aLon, final int aZoom,
 			final GeoPoint aUseAsReturnValue) {
-		final GeoPoint out = (aUseAsReturnValue != null) ? aUseAsReturnValue : new GeoPoint(0, 0);
+		final GeoPoint out = aUseAsReturnValue != null ? aUseAsReturnValue : new GeoPoint(0, 0);
 
 		out.setLongitudeE6((int) Math.floor((aLon + 180) / 360 * (1 << aZoom)));
 		out.setLatitudeE6((int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
@@ -91,31 +92,31 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
-	 * @param aGeoPoint
+	 *
+	 * @param pGeoPoint
 	 * @param zoom
 	 *            zoom level
-	 * @param aUseAsReturnValue
+	 * @param pUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static Point projectGeoPoint(final GeoPoint aGeoPoint, final int aZoom,
-			final Point aUseAsReturnValue) {
-		final Point p = (aUseAsReturnValue != null) ? aUseAsReturnValue : new Point();
+	public static Point projectGeoPoint(final IGeoPoint pGeoPoint, final int pZoom,
+			final Point pUseAsReturnValue) {
+		final Point p = pUseAsReturnValue != null ? pUseAsReturnValue : new Point();
 
-		final double aLon = aGeoPoint.getLongitudeE6() * 1E-6;
-		final double aLat = aGeoPoint.getLatitudeE6() * 1E-6;
-		p.x = (int) Math.floor((aLon + 180) / 360 * (1 << aZoom));
+		final double aLon = pGeoPoint.getLongitudeE6() * 1E-6;
+		final double aLat = pGeoPoint.getLatitudeE6() * 1E-6;
+		p.x = (int) Math.floor((aLon + 180) / 360 * (1 << pZoom));
 		p.y = (int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
 				/ Math.cos(aLat * DEG2RAD))
 				/ Math.PI)
-				/ 2 * (1 << aZoom));
+				/ 2 * (1 << pZoom));
 
 		return p;
 	}
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 * 
+	 *
 	 * @param left
 	 * @param top
 	 * @param right
@@ -131,7 +132,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 * 
+	 *
 	 * @param aMapTile
 	 * @param aZoom
 	 * @return
@@ -146,18 +147,18 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Reverse Mercator projection of Point at given zoom level
-	 * 
+	 *
 	 */
 	public static GeoPoint projectPoint(final int x, final int y, final int aZoom) {
 		return new GeoPoint((int) (tile2lat(y, aZoom) * 1E6), (int) (tile2lon(x, aZoom) * 1E6));
 	}
 
 	public static double tile2lon(final int x, final int aZoom) {
-		return ((double) x / (1 << aZoom) * 360.0) - 180;
+		return (double) x / (1 << aZoom) * 360.0 - 180;
 	}
 
 	public static double tile2lat(final int y, final int aZoom) {
-		final double n = Math.PI - ((2.0 * Math.PI * y) / (1 << aZoom));
+		final double n = Math.PI - 2.0 * Math.PI * y / (1 << aZoom);
 		return 180.0 / Math.PI * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
 	}
 

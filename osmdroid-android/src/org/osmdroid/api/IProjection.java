@@ -14,7 +14,7 @@ import android.graphics.Point;
  */
 public interface IProjection {
 
-	Point toPixels(GeoPoint in, android.graphics.Point out);
+	Point toPixels(GeoPoint in, Point out);
 	GeoPoint fromPixels(int x, int y);
 	float metersToEquatorPixels(float meters);
 
