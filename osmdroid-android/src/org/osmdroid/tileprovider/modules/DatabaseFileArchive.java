@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 public class DatabaseFileArchive implements IArchiveFile {
 
@@ -22,13 +23,8 @@ public class DatabaseFileArchive implements IArchiveFile {
 		mDatabase = pDatabase;
 	}
 
-	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) {
-		try {
-			return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
-		} catch (final Throwable e) {
-			logger.warn("Error opening db file: " + pFile, e);
-		}
-		return null;
+	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
+		return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
 	}
 
 	@Override

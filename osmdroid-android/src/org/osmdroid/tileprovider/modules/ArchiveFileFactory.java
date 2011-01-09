@@ -1,10 +1,16 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import android.database.sqlite.SQLiteException;
+
 public class ArchiveFileFactory {
+
+	private static final Logger logger = LoggerFactory.getLogger(ArchiveFileFactory.class);
 
 	/**
 	 * Return an implementation of {@link IArchiveFile} for the specified file.
@@ -13,20 +19,26 @@ public class ArchiveFileFactory {
 	public static IArchiveFile getArchiveFile(final File pFile) {
 
 		if (pFile.getName().endsWith(".zip")) {
-			return ZipFileArchive.getZipFileArchive(pFile);
+			try {
+				return ZipFileArchive.getZipFileArchive(pFile);
+			} catch (final IOException e) {
+				logger.error("Error opening ZIP file", e);
+			}
 		}
 
 		if (pFile.getName().endsWith(".sqlite")) {
-			return DatabaseFileArchive.getDatabaseFileArchive(pFile);
+			try {
+				return DatabaseFileArchive.getDatabaseFileArchive(pFile);
+			} catch (final SQLiteException e) {
+				logger.error("Error opening SQL file", e);
+			}
 		}
-		
+
 		if (pFile.getName().endsWith(".gemf")) {
 			try {
 				return GEMFFileArchive.getGEMFFileArchive(pFile);
-			} catch (FileNotFoundException e) {
-				// Error in file search system
-			} catch (IOException e) {
-				// Something wrong with the GEMF archive.
+			} catch (final IOException e) {
+				logger.error("Error opening GEMF file", e);
 			}
 		}
 

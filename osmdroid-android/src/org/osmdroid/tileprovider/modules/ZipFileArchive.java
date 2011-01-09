@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.osmdroid.tileprovider.MapTile;
@@ -21,13 +22,8 @@ public class ZipFileArchive implements IArchiveFile {
 		mZipFile = pZipFile;
 	}
 
-	public static ZipFileArchive getZipFileArchive(final File pFile) {
-		try {
-			return new ZipFileArchive(new ZipFile(pFile));
-		} catch (final IOException e) {
-			logger.error("Error opening zip file", e);
-		}
-		return null;
+	public static ZipFileArchive getZipFileArchive(final File pFile) throws ZipException, IOException {
+		return new ZipFileArchive(new ZipFile(pFile));
 	}
 
 	@Override
