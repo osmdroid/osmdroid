@@ -66,4 +66,9 @@ public class MapView implements IMapView {
 		return new GeoPoint(mMapView.getMapCenter());
 	}
 
+	@Override
+	public int getMaxZoomLevel() {
+		return mMapView.getMaxZoomLevel();
+	}
+
 }

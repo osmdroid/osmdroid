@@ -482,16 +482,25 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	}
 
 	/**
-	 * Returns the maximum zoom level for the point currently at the center.
-	 *
-	 * @return The maximum zoom level for the map's current center.
+	 * @deprecated Replaced by {@link #getMaxZoomLevel()}
 	 */
+	@Deprecated
 	public int getMaximumZoomLevel() {
 		return mMapOverlay.getMaximumZoomLevel();
 	}
 
+	/**
+	 * Returns the maximum zoom level for the point currently at the center.
+	 *
+	 * @return The maximum zoom level for the map's current center.
+	 */
+	@Override
+	public int getMaxZoomLevel() {
+		return mMapOverlay.getMaximumZoomLevel();
+	}
+
 	public boolean canZoomIn() {
-		final int maxZoomLevel = getMaximumZoomLevel();
+		final int maxZoomLevel = getMaxZoomLevel();
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
@@ -562,6 +571,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		return zoomOut();
 	}
 
+	@Override
 	public GeoPoint getMapCenter() {
 		return new GeoPoint(getMapCenterLatitudeE6(), getMapCenterLongitudeE6());
 	}
