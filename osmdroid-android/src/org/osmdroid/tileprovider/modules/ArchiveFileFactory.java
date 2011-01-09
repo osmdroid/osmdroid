@@ -1,6 +1,8 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ArchiveFileFactory {
 
@@ -17,8 +19,18 @@ public class ArchiveFileFactory {
 		if (pFile.getName().endsWith(".sqlite")) {
 			return DatabaseFileArchive.getDatabaseFileArchive(pFile);
 		}
+		
+		if (pFile.getName().endsWith(".gemf")) {
+			try {
+				return GEMFFileArchive.getGEMFFileArchive(pFile);
+			} catch (FileNotFoundException e) {
+				// Error in file search system
+			} catch (IOException e) {
+				// Something wrong with the GEMF archive.
+			}
+		}
 
-		// TODO gzip, gemf
+		// TODO gzip
 		// maybe we can even do a filesystem archive instead of file system provider
 
 		return null;
