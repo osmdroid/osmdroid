@@ -42,9 +42,6 @@ public class ArchiveFileFactory {
 			}
 		}
 
-		// TODO gzip
-		// maybe we can even do a filesystem archive instead of file system provider
-
 		return null;
 	}
 
