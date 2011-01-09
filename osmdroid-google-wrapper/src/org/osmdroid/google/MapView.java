@@ -1,5 +1,6 @@
 package org.osmdroid.google;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
@@ -58,6 +59,11 @@ public class MapView implements IMapView {
 	@Override
 	public int getLongitudeSpan() {
 		return mMapView.getLongitudeSpan();
+	}
+
+	@Override
+	public IGeoPoint getMapCenter() {
+		return new GeoPoint(mMapView.getMapCenter());
 	}
 
 }
