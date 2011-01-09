@@ -12,9 +12,8 @@ import org.osmdroid.views.MapView;
 public interface IMapView {
 
 	IMapController getController();
-
 	IProjection getProjection();
-
 	int getZoomLevel();
-
+	int getLatitudeSpan();
+	int getLongitudeSpan();
 }

@@ -291,19 +291,13 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		return mScroller;
 	}
 
-	public double getLatitudeSpan() {
-		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6() / 1E6;
-	}
-
-	public int getLatitudeSpanE6() {
+	@Override
+	public int getLatitudeSpan() {
 		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();
 	}
 
-	public double getLongitudeSpan() {
-		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;
-	}
-
-	public int getLongitudeSpanE6() {
+	@Override
+	public int getLongitudeSpan() {
 		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6();
 	}
 
