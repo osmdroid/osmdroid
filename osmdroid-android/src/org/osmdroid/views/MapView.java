@@ -309,7 +309,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		return getBoundingBox(this.getWidth(), this.getHeight());
 	}
 
-	private static int getMapTileZoom(final int tileSizePixels) {
+	public static int getMapTileZoom(final int tileSizePixels) {
 		if (tileSizePixels <= 0) {
 			return 0;
 		}

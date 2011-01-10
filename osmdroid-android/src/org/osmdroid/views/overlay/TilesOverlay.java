@@ -4,7 +4,6 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -36,16 +35,18 @@ public class TilesOverlay extends Overlay {
 	protected final Paint mPaint = new Paint();
 
 	/* to avoid allocations during draw */
-	private final Point mTilePos = new Point();
+	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
 
-	public TilesOverlay(final MapView aOsmv,
-			final MapTileProviderBase aTileProvider, final Context aContext) {
+	private int mWorldSize_2;
+
+	public TilesOverlay(final MapView aOsmv, final MapTileProviderBase aTileProvider,
+			final Context aContext) {
 		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
-	public TilesOverlay(final MapView aOsmv,
-			final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
+	public TilesOverlay(final MapView aOsmv, final MapTileProviderBase aTileProvider,
+			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.mOsmv = aOsmv;
 		this.mTileProvider = aTileProvider; // TODO check for null
@@ -91,25 +92,38 @@ public class TilesOverlay extends Overlay {
 		if (DEBUGMODE)
 			logger.trace("onDraw");
 
-		/*
-		 * Do some calculations and drag attributes to local variables to save some performance.
-		 */
+		// Calculate the half-world size
 		final Projection pj = osmv.getProjection();
-		final int zoomLevel = osmv.getZoomLevel(false);
-
-		c.getClipBounds(mViewPort);
-		final int tileSizePx = pj.getTileSizePixels();
+		final int zoomLevel = pj.getZoomLevel();
 		final int tileZoom = pj.getTileMapZoom();
-		final int worldSize_2 = 1 << (zoomLevel + tileZoom - 1);
+		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
+
+		// Get the area we are drawing to
+		c.getClipBounds(mViewPort);
+
+		// Translate the Canvas coordinates into Mercator coordinates
+		mViewPort.offset(mWorldSize_2, mWorldSize_2);
+
+		// Draw the tiles!
+		drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
+	}
+
+	/**
+	 * This is meant to be a "pure" tile drawing function that doesn't take into account
+	 * platform-specific characteristics (like Android's canvas's having 0,0 as the center rather
+	 * than the upper-left corner).
+	 */
+	public void drawTiles(final Canvas c, int zoomLevel, int tileSizePx, Rect viewPort) {
+
+		final int tileZoom = MapView.getMapTileZoom(tileSizePx);
 
 		/*
 		 * Calculate the amount of tiles needed for each side around the center one.
 		 */
-		mViewPort.offset(worldSize_2, worldSize_2);
-		final int tileNeededToLeftOfCenter = (mViewPort.left >> tileZoom) - 1;
-		final int tileNeededToRightOfCenter = mViewPort.right >> tileZoom;
-		final int tileNeededToTopOfCenter = (mViewPort.top >> tileZoom) - 1;
-		final int tileNeededToBottomOfCenter = mViewPort.bottom >> tileZoom;
+		final int tileNeededToLeftOfCenter = (viewPort.left >> tileZoom) - 1;
+		final int tileNeededToRightOfCenter = viewPort.right >> tileZoom;
+		final int tileNeededToTopOfCenter = (viewPort.top >> tileZoom) - 1;
+		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
 
 		final int mapTileUpperBound = 1 << zoomLevel;
 
@@ -121,36 +135,46 @@ public class TilesOverlay extends Overlay {
 		/* Draw all the MapTiles (from the upper left to the lower right). */
 		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
 			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
-				/* Construct a URLString, which represents the MapTile. */
+				// Construct a MapTile to request from the tile provider.
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
 				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
 
-				pj.toPixels(x, y, mTilePos);
 				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
 				if (currentMapTile != null) {
-					currentMapTile.setBounds(mTilePos.x, mTilePos.y, mTilePos.x + tileSizePx,
-							mTilePos.y + tileSizePx);
-					currentMapTile.draw(c);
+					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
+							* tileSizePx + tileSizePx);
+					onTileReadyToDraw(c, currentMapTile, mTileRect);
 				}
 
 				if (DEBUGMODE) {
-					c.drawText(tile.toString(), mTilePos.x + 1, mTilePos.y + mPaint.getTextSize(),
+					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
+							* tileSizePx + tileSizePx);
+					c.drawText(tile.toString(), mTileRect.left + 1,
+							mTileRect.top + mPaint.getTextSize(), mPaint);
+					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
 							mPaint);
-					c.drawLine(mTilePos.x, mTilePos.y, mTilePos.x + tileSizePx, mTilePos.y, mPaint);
-					c.drawLine(mTilePos.x, mTilePos.y, mTilePos.x, mTilePos.y + tileSizePx, mPaint);
+					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
+							mPaint);
 				}
 			}
 		}
 
 		// draw a cross at center in debug mode
 		if (DEBUGMODE) {
-			final GeoPoint center = osmv.getMapCenter();
-			final Point centerPoint = pj.toMapPixels(center, null);
+			// final GeoPoint center = osmv.getMapCenter();
+			final Point centerPoint = new Point(viewPort.centerX() - mWorldSize_2,
+					viewPort.centerY() - mWorldSize_2);
 			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mPaint);
 			c.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mPaint);
 		}
 
+	}
+
+	protected void onTileReadyToDraw(Canvas c, Drawable currentMapTile, Rect tileRect) {
+		tileRect.offset(-mWorldSize_2, -mWorldSize_2);
+		currentMapTile.setBounds(tileRect);
+		currentMapTile.draw(c);
 	}
 
 	@Override
