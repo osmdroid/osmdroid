@@ -113,7 +113,8 @@ public class TilesOverlay extends Overlay {
 	 * platform-specific characteristics (like Android's canvas's having 0,0 as the center rather
 	 * than the upper-left corner).
 	 */
-	public void drawTiles(final Canvas c, int zoomLevel, int tileSizePx, Rect viewPort) {
+	public void drawTiles(final Canvas c, final int zoomLevel, final int tileSizePx,
+			final Rect viewPort) {
 
 		final int tileZoom = MapView.getMapTileZoom(tileSizePx);
 
@@ -171,7 +172,8 @@ public class TilesOverlay extends Overlay {
 
 	}
 
-	protected void onTileReadyToDraw(Canvas c, Drawable currentMapTile, Rect tileRect) {
+	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
+			final Rect tileRect) {
 		tileRect.offset(-mWorldSize_2, -mWorldSize_2);
 		currentMapTile.setBounds(tileRect);
 		currentMapTile.draw(c);

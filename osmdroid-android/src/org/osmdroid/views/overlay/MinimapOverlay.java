@@ -14,13 +14,20 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
+/**
+ * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic.
+ * 
+ * @author Marc Kurtz
+ * 
+ */
 public class MinimapOverlay extends TilesOverlay {
 
+	// TODO: Make these constants adjustable
 	private static final int MAP_WIDTH = 100;
 	private static final int MAP_HEIGHT = 100;
 	private static final int MAP_PADDING = 10;
 	private static final int ZOOM_LEVEL_DIFFERENCE = 3;
-	private Paint mPaint;
+	private final Paint mPaint;
 	private int mWorldSize_2;
 
 	// The Mercator coordinates of what is on the screen
@@ -35,7 +42,8 @@ public class MinimapOverlay extends TilesOverlay {
 	// Stores the intersection of the minimap and the Canvas clipping area
 	final private Rect mIntersectionRect = new Rect();
 
-	public MinimapOverlay(Context pCtx) {
+	// TODO: Make tile provider an optional parameter, and expose setTileRenderer() as public
+	public MinimapOverlay(final Context pCtx) {
 		super(null, new MapTileProviderBasic(pCtx), pCtx);
 
 		mPaint = new Paint();
@@ -45,24 +53,24 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void onDraw(Canvas pC, MapView pOsmv) {
+	protected void onDraw(final Canvas pC, final MapView pOsmv) {
 
 		// Don't draw if we are animating
 		if (pOsmv.isAnimating())
 			return;
 
 		// Calculate the half-world size
-		Projection projection = pOsmv.getProjection();
+		final Projection projection = pOsmv.getProjection();
 		final int zoomLevel = projection.getZoomLevel();
 		final int tileZoom = projection.getTileMapZoom();
 		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
 
 		// Find what's on the screen
-		BoundingBoxE6 boundingBox = projection.getBoundingBox();
-		GeoPoint upperLeft = org.osmdroid.views.util.Mercator
+		final BoundingBoxE6 boundingBox = projection.getBoundingBox();
+		final GeoPoint upperLeft = org.osmdroid.views.util.Mercator
 				.projectGeoPoint(boundingBox.getLatNorthE6(), boundingBox.getLonWestE6(), zoomLevel
 						+ tileZoom, null);
-		GeoPoint lowerRight = org.osmdroid.views.util.Mercator
+		final GeoPoint lowerRight = org.osmdroid.views.util.Mercator
 				.projectGeoPoint(boundingBox.getLatSouthE6(), boundingBox.getLonEastE6(), zoomLevel
 						+ tileZoom, null);
 
@@ -106,18 +114,19 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void onTileReadyToDraw(Canvas c, Drawable currentMapTile, Rect tileRect) {
+	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
+			final Rect tileRect) {
 
 		// Get the offsets for where to draw the tiles relative to where the minimap is located
-		int xOffset = (tileRect.left - mTileArea.left) + (mMiniMapCanvasRect.left);
-		int yOffset = (tileRect.top - mTileArea.top) + (mMiniMapCanvasRect.top);
+		final int xOffset = (tileRect.left - mTileArea.left) + (mMiniMapCanvasRect.left);
+		final int yOffset = (tileRect.top - mTileArea.top) + (mMiniMapCanvasRect.top);
 
 		// Set the drawable's location
 		currentMapTile.setBounds(xOffset, yOffset, xOffset + tileRect.width(),
 				yOffset + tileRect.height());
 
 		// Save the current clipping bounds
-		Rect oldClip = c.getClipBounds();
+		final Rect oldClip = c.getClipBounds();
 
 		// Check to see if the drawing area intersects with the minimap area
 		if (mIntersectionRect.setIntersect(oldClip, mMiniMapCanvasRect)) {
@@ -133,7 +142,7 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void onDrawFinished(Canvas pC, MapView pOsmv) {
+	protected void onDrawFinished(final Canvas pC, final MapView pOsmv) {
 		// TODO Auto-generated method stub
 
 	}

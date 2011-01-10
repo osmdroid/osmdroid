@@ -56,8 +56,8 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class MapView extends View
-implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
+public class MapView extends View implements IMapView, MapViewConstants,
+		MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
 	// Constants
@@ -140,25 +140,25 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		mTileRequestCompleteHandler = tileRequestCompleteHandler == null ? new SimpleInvalidationHandler(
 				this) : tileRequestCompleteHandler;
-				mTileProvider = tileProvider;
-				mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		mTileProvider = tileProvider;
+		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-				this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
-				mOverlays.add(this.mMapOverlay);
-				this.mZoomController = new ZoomButtonsController(this);
-				this.mZoomController.setOnZoomListener(new MapViewZoomListener());
+		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
+		mOverlays.add(this.mMapOverlay);
+		this.mZoomController = new ZoomButtonsController(this);
+		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
-				mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-						Animation.RELATIVE_TO_SELF, 0.5f);
-				mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
-						Animation.RELATIVE_TO_SELF, 0.5f);
-				mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
-				mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
-				mZoomInAnimation.setAnimationListener(mAnimationListener);
-				mZoomOutAnimation.setAnimationListener(mAnimationListener);
+		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
+				Animation.RELATIVE_TO_SELF, 0.5f);
+		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
+		mZoomInAnimation.setAnimationListener(mAnimationListener);
+		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 
-				mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
-				mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
+		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
+		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 	}
 
 	public void detach() {
@@ -190,7 +190,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	}
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param osmv
 	 *            another {@link MapView}, to share the TileProvider with.<br/>
@@ -212,7 +212,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
-	 *
+	 * 
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
 	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable autozooming
@@ -246,7 +246,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
 	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
 	 * {@link MapViewConstants}.NOT_SET to reset this feature.
-	 *
+	 * 
 	 * @param aVisibility
 	 */
 	public void setOverrideMiniMapVisibility(final int aVisibility) {
@@ -318,7 +318,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		int a = 0;
 		while (pixels != 0) {
 			pixels >>= 1;
-		a++;
+			a++;
 		}
 		return a - 1;
 	}
@@ -332,13 +332,13 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		final int east = world_2 + getScrollX() + getWidth() / 2;
 
 		return Mercator
-		.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
+				.getBoundingBoxFromCoords(west, north, east, south, mZoomLevel + mapTileZoom);
 	}
 
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -417,11 +417,11 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		this.checkZoomButtons();
 
 		if (newZoomLevel > curZoomLevel) {
-			scrollTo(getScrollX() << newZoomLevel - curZoomLevel,
-					getScrollY() << newZoomLevel - curZoomLevel);
+			scrollTo(getScrollX() << newZoomLevel - curZoomLevel, getScrollY() << newZoomLevel
+					- curZoomLevel);
 		} else if (newZoomLevel < curZoomLevel) {
-			scrollTo(getScrollX() >> curZoomLevel - newZoomLevel,
-			getScrollY() >> curZoomLevel - newZoomLevel);
+			scrollTo(getScrollX() >> curZoomLevel - newZoomLevel, getScrollY() >> curZoomLevel
+					- newZoomLevel);
 		}
 
 		// snap for all snappables
@@ -432,7 +432,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		for (final Overlay osmvo : this.mOverlays) {
 			if (osmvo instanceof Snappable
 					&& ((Snappable) osmvo)
-					.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+							.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 				scrollTo(snapPoint.x, snapPoint.y);
 			}
 		}
@@ -447,7 +447,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -458,7 +458,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -474,7 +474,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinimumZoomLevel() {
@@ -491,7 +491,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -619,7 +619,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -631,7 +631,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -909,9 +909,9 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		final int worldTiles_2 = 1 << mZoomLevel - 1;
 		final int centerMapTileScreenLeft = (centerMapTileCoords.x - worldTiles_2) * tileSizePx
-		- tileSizePx / 2;
+				- tileSizePx / 2;
 		final int centerMapTileScreenTop = (centerMapTileCoords.y - worldTiles_2) * tileSizePx
-		- tileSizePx / 2;
+				- tileSizePx / 2;
 
 		out.set(centerMapTileScreenLeft, centerMapTileScreenTop);
 		return out;
@@ -968,7 +968,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -1044,7 +1044,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1067,7 +1067,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 *
+		 * 
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -1076,7 +1076,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -1096,7 +1096,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1118,7 +1118,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1137,7 +1137,7 @@ implements IMapView, MapViewConstants, MultiTouchObjectCanvas<Object> {
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.
