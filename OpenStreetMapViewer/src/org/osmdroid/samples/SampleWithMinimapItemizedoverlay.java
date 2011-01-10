@@ -9,6 +9,7 @@ import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.app.Activity;
@@ -37,7 +38,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 	// Fields
 	// ===========================================================
 
-	private MapView mOsmv, mOsmvMinimap;
+	private MapView mOsmv;
 	private ItemizedOverlay<OverlayItem> mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 
@@ -98,26 +99,8 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 
 		/* MiniMap */
 		{
-			/*
-			 * Create another OpenStreetMapView, that will act as the MiniMap for the 'MainMap'.
-			 * They will share the TileProvider.
-			 */
-			mOsmvMinimap = new MapView(this, this.mOsmv);
-			final int aZoomDiff = 3; // Use OpenStreetMapViewConstants.NOT_SET to disable
-										// autozooming of this
-										// minimap
-			this.mOsmv.setMiniMap(mOsmvMinimap, aZoomDiff);
-
-			/*
-			 * Create RelativeLayout.LayoutParams that position the MiniMap on the top-right corner
-			 * of the RelativeLayout.
-			 */
-			final RelativeLayout.LayoutParams minimapParams = new RelativeLayout.LayoutParams(90,
-					90);
-			minimapParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			minimapParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-			minimapParams.setMargins(5, 5, 5, 5);
-			rl.addView(mOsmvMinimap, minimapParams);
+			MinimapOverlay miniMapOverlay = new MinimapOverlay(this);
+			this.mOsmv.getOverlays().add(miniMapOverlay);
 		}
 
 		this.setContentView(rl);
