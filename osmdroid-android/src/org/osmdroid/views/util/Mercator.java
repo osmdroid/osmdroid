@@ -11,9 +11,9 @@ import android.graphics.Point;
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator
  * http://developers.cloudmade.com/projects/tiles/examples/convert-coordinates-to-tile-numbers
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class Mercator implements MapViewConstants {
 	// ===========================================================
@@ -50,7 +50,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 *
+	 * 
 	 * @param aLat
 	 *            latitude in degrees [-89000000 to 89000000]
 	 * @param aLon
@@ -60,14 +60,29 @@ public class Mercator implements MapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static GeoPoint projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
-			final GeoPoint reuse) {
+	public static Point projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
+			final Point reuse) {
 		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, reuse);
 	}
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 *
+	 * 
+	 * @param pGeoPoint
+	 * @param zoom
+	 *            zoom level
+	 * @param pUseAsReturnValue
+	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
+	 */
+	public static Point projectGeoPoint(final IGeoPoint pGeoPoint, final int pZoom,
+			final Point pUseAsReturnValue) {
+		return projectGeoPoint(pGeoPoint.getLatitudeE6() * 1E-6, pGeoPoint.getLongitudeE6() * 1E-6,
+				pZoom, pUseAsReturnValue);
+	}
+
+	/**
+	 * Mercator projection of GeoPoint at given zoom level
+	 * 
 	 * @param aLat
 	 *            latitude in degrees [-89 to 89]
 	 * @param aLon
@@ -77,46 +92,22 @@ public class Mercator implements MapViewConstants {
 	 * @param aUseAsReturnValue
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static GeoPoint projectGeoPoint(final double aLat, final double aLon, final int aZoom,
-			final GeoPoint aUseAsReturnValue) {
-		final GeoPoint out = aUseAsReturnValue != null ? aUseAsReturnValue : new GeoPoint(0, 0);
+	public static Point projectGeoPoint(final double aLat, final double aLon, final int aZoom,
+			final Point aUseAsReturnValue) {
+		final Point p = aUseAsReturnValue != null ? aUseAsReturnValue : new Point(0, 0);
 
-		out.setLongitudeE6((int) Math.floor((aLon + 180) / 360 * (1 << aZoom)));
-		out.setLatitudeE6((int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
+		p.x = ((int) Math.floor((aLon + 180) / 360 * (1 << aZoom)));
+		p.y = ((int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
 				/ Math.cos(aLat * DEG2RAD))
 				/ Math.PI)
 				/ 2 * (1 << aZoom)));
-
-		return out;
-	}
-
-	/**
-	 * Mercator projection of GeoPoint at given zoom level
-	 *
-	 * @param pGeoPoint
-	 * @param zoom
-	 *            zoom level
-	 * @param pUseAsReturnValue
-	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
-	 */
-	public static Point projectGeoPoint(final IGeoPoint pGeoPoint, final int pZoom,
-			final Point pUseAsReturnValue) {
-		final Point p = pUseAsReturnValue != null ? pUseAsReturnValue : new Point();
-
-		final double aLon = pGeoPoint.getLongitudeE6() * 1E-6;
-		final double aLat = pGeoPoint.getLatitudeE6() * 1E-6;
-		p.x = (int) Math.floor((aLon + 180) / 360 * (1 << pZoom));
-		p.y = (int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
-				/ Math.cos(aLat * DEG2RAD))
-				/ Math.PI)
-				/ 2 * (1 << pZoom));
 
 		return p;
 	}
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 *
+	 * 
 	 * @param left
 	 * @param top
 	 * @param right
@@ -132,22 +123,20 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 *
+	 * 
 	 * @param aMapTile
 	 * @param aZoom
 	 * @return
 	 */
-	public static BoundingBoxE6 getBoundingBoxFromPointInMapTile(final GeoPoint aMapTile,
+	public static BoundingBoxE6 getBoundingBoxFromPointInMapTile(final Point aMapTile,
 			final int aZoom) {
-		final int y = aMapTile.getLatitudeE6();
-		final int x = aMapTile.getLongitudeE6();
-		return new BoundingBoxE6(tile2lat(y, aZoom), tile2lon(x + 1, aZoom),
-				tile2lat(y + 1, aZoom), tile2lon(x, aZoom));
+		return new BoundingBoxE6(tile2lat(aMapTile.y, aZoom), tile2lon(aMapTile.x + 1, aZoom),
+				tile2lat(aMapTile.y + 1, aZoom), tile2lon(aMapTile.x, aZoom));
 	}
 
 	/**
 	 * Reverse Mercator projection of Point at given zoom level
-	 *
+	 * 
 	 */
 	public static GeoPoint projectPoint(final int x, final int y, final int aZoom) {
 		return new GeoPoint((int) (tile2lat(y, aZoom) * 1E6), (int) (tile2lon(x, aZoom) * 1E6));

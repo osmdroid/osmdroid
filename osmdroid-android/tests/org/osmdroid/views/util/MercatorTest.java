@@ -38,10 +38,10 @@ public class MercatorTest {
 		final int lonE6 = 9735936;
 		final int zoom = 8;
 
-		final GeoPoint point = Mercator.projectGeoPoint(latE6, lonE6, zoom, null);
+		final Point point = Mercator.projectGeoPoint(latE6, lonE6, zoom, null);
 
-		assertEquals("TODO describe test", 84, point.getLatitudeE6());
-		assertEquals("TODO describe test", 134, point.getLongitudeE6());
+		assertEquals("TODO describe test", 84, point.y);
+		assertEquals("TODO describe test", 134, point.x);
 	}
 
 	/**
@@ -54,9 +54,9 @@ public class MercatorTest {
 		final double lon = 9.735936d;
 		final int zoom = 8;
 
-		final GeoPoint point = Mercator.projectGeoPoint(lat, lon, zoom, null);
+		final Point point = Mercator.projectGeoPoint(lat, lon, zoom, null);
 
-		assertEquals("TODO describe test", 84, point.getLatitudeE6());
-		assertEquals("TODO describe test", 134, point.getLongitudeE6());
+		assertEquals("TODO describe test", 84, point.y);
+		assertEquals("TODO describe test", 134, point.x);
 	}
 }

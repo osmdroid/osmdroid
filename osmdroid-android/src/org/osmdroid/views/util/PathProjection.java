@@ -7,6 +7,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView.Projection;
 
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.PointF;
 
 public class PathProjection {
@@ -27,7 +28,7 @@ public class PathProjection {
 
 		boolean first = true;
 		for (final GeoPoint gp : in) {
-			final GeoPoint underGeopointTileCoords = Mercator.projectGeoPoint(gp.getLatitudeE6(),
+			final Point underGeopointTileCoords = Mercator.projectGeoPoint(gp.getLatitudeE6(),
 					gp.getLongitudeE6(), projection.getZoomLevel(), null);
 
 			/*
@@ -47,10 +48,8 @@ public class PathProjection {
 								gp.getLatitudeE6(), gp.getLongitudeE6(), null);
 			}
 
-			final int tileDiffX = projection.getCenterMapTileCoords().x
-					- underGeopointTileCoords.getLongitudeE6();
-			final int tileDiffY = projection.getCenterMapTileCoords().y
-					- underGeopointTileCoords.getLatitudeE6();
+			final int tileDiffX = projection.getCenterMapTileCoords().x - underGeopointTileCoords.x;
+			final int tileDiffY = projection.getCenterMapTileCoords().y - underGeopointTileCoords.y;
 			final int underGeopointTileScreenLeft = projection.getUpperLeftCornerOfCenterMapTile().x
 					- (projection.getTileSizePixels() * tileDiffX);
 			final int underGeopointTileScreenTop = projection.getUpperLeftCornerOfCenterMapTile().y

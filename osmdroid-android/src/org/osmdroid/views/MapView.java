@@ -364,13 +364,14 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
 		}
 
-		final GeoPoint coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
+		final Point coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
 				getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx() / 2;
 		if (getAnimation() == null || getAnimation().hasEnded()) {
 			logger.debug("StartScroll");
-			mScroller.startScroll(getScrollX(), getScrollY(), coords.getLongitudeE6() - worldSize_2
-					- getScrollX(), coords.getLatitudeE6() - worldSize_2 - getScrollY(), 500);
+			mScroller.startScroll(getScrollX(), getScrollY(),
+					coords.x - worldSize_2 - getScrollX(), coords.y - worldSize_2 - getScrollY(),
+					500);
 			postInvalidate();
 		}
 	}
@@ -987,8 +988,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		private final Point mCenterMapTileCoordsProjection;
 		private final Point mUpperLeftCornerOfCenterMapTileProjection;
 
-		private final GeoPoint reuseGeoPoint = new GeoPoint(0, 0);
-
 		private Projection() {
 
 			/*
@@ -1086,9 +1085,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		public Point toMapPixels(final GeoPoint in, final Point reuse) {
 			final Point out = reuse != null ? reuse : new Point();
 
-			final GeoPoint coords = Mercator.projectGeoPoint(in.getLatitudeE6(),
-					in.getLongitudeE6(), getPixelZoomLevel(), null);
-			out.set(coords.getLongitudeE6(), coords.getLatitudeE6());
+			final Point coords = Mercator.projectGeoPoint(in.getLatitudeE6(), in.getLongitudeE6(),
+					getPixelZoomLevel(), null);
+			out.set(coords.x, coords.y);
 			out.offset(offsetX, offsetY);
 			return out;
 		}
@@ -1110,9 +1109,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			final Point out = reuse != null ? reuse : new Point();
 
 			// 26 is the biggest zoomlevel we can project
-			final GeoPoint coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28,
-					this.reuseGeoPoint);
-			out.set(coords.getLongitudeE6(), coords.getLatitudeE6());
+			final Point coords = Mercator.projectGeoPoint(latituteE6, longitudeE6, 28, out);
+			out.set(coords.x, coords.y);
 			return out;
 		}
 

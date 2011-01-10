@@ -2,7 +2,6 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 
@@ -11,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
@@ -67,16 +67,15 @@ public class MinimapOverlay extends TilesOverlay {
 
 		// Find what's on the screen
 		final BoundingBoxE6 boundingBox = projection.getBoundingBox();
-		final GeoPoint upperLeft = org.osmdroid.views.util.Mercator
+		final Point upperLeft = org.osmdroid.views.util.Mercator
 				.projectGeoPoint(boundingBox.getLatNorthE6(), boundingBox.getLonWestE6(), zoomLevel
 						+ tileZoom, null);
-		final GeoPoint lowerRight = org.osmdroid.views.util.Mercator
+		final Point lowerRight = org.osmdroid.views.util.Mercator
 				.projectGeoPoint(boundingBox.getLatSouthE6(), boundingBox.getLonEastE6(), zoomLevel
 						+ tileZoom, null);
 
 		// Save the Mercator coordinates of what is on the screen
-		mViewportRect.set(upperLeft.getLongitudeE6(), upperLeft.getLatitudeE6(),
-				lowerRight.getLongitudeE6(), lowerRight.getLatitudeE6());
+		mViewportRect.set(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
 
 		// Start calculating the tile area with the current viewport
 		mTileArea.set(mViewportRect);
