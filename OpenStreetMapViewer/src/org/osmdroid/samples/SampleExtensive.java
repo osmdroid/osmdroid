@@ -134,7 +134,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 
 		/* MiniMap */
 		{
-			mMiniMapOverlay = new MinimapOverlay(this);
+			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
 

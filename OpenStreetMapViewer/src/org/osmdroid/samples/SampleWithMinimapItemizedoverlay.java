@@ -99,7 +99,8 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 
 		/* MiniMap */
 		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(this);
+			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
+					mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(miniMapOverlay);
 		}
 
