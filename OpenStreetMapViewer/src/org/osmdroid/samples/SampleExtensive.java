@@ -195,16 +195,8 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 			return true;
 
 		case MENU_MINIMAP_ID:
-			switch (this.mOsmv.getOverrideMiniMapVisibility()) {
-			case View.VISIBLE:
-				this.mOsmv.setOverrideMiniMapVisibility(View.INVISIBLE);
-				break;
-			case NOT_SET:
-			case View.INVISIBLE:
-			case View.GONE:
-				this.mOsmv.setOverrideMiniMapVisibility(View.VISIBLE);
-				break;
-			}
+			mMiniMapOverlay.setEnabled(!mMiniMapOverlay.isEnabled());
+			this.mOsmv.invalidate();
 			return true;
 
 		case MENU_ANIMATION_ID:
