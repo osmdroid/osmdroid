@@ -19,9 +19,9 @@ import android.graphics.drawable.Drawable;
 
 /**
  * These objects are the principle consumer of map tiles.
- * 
+ *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- * 
+ *
  */
 
 public class TilesOverlay extends Overlay {
@@ -47,7 +47,8 @@ public class TilesOverlay extends Overlay {
 		this.mTileProvider = aTileProvider; // TODO check for null
 	}
 
-	public void detach() {
+	@Override
+	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
 	}
 
@@ -72,7 +73,7 @@ public class TilesOverlay extends Overlay {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -84,8 +85,9 @@ public class TilesOverlay extends Overlay {
 	@Override
 	protected void onDraw(final Canvas c, final MapView osmv) {
 
-		if (DEBUGMODE)
+		if (DEBUGMODE) {
 			logger.trace("onDraw");
+		}
 
 		// Calculate the half-world size
 		final Projection pj = osmv.getProjection();

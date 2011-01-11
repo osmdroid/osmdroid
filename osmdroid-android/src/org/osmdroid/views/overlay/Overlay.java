@@ -17,12 +17,12 @@ import android.view.MotionEvent;
  * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
  * overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
- * 
+ *
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- * 
+ *
  * @author Nicolas Gramlich
  */
 public abstract class Overlay implements MapViewConstants {
@@ -147,10 +147,9 @@ public abstract class Overlay implements MapViewConstants {
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>).
+	 * By default does nothing.
 	 */
 	public void onDetach(final MapView mapView) {
-		return;
 	}
 
 	// ===========================================================
@@ -167,7 +166,7 @@ public abstract class Overlay implements MapViewConstants {
 		/**
 		 * Checks to see if the given x and y are close enough to an item resulting in snapping the
 		 * current action (e.g. zoom) to the item.
-		 * 
+		 *
 		 * @param x
 		 *            The x in screen coordinates.
 		 * @param y

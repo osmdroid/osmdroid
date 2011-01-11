@@ -531,7 +531,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	public void onDetach() {
-		mMapOverlay.detach();
 		for (final Overlay osmvo : this.mOverlays) {
 			osmvo.onDetach(this);
 		}
@@ -701,7 +700,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	@Override
 	protected void onDetachedFromWindow() {
 		this.mZoomController.setVisible(false);
-		this.mMapOverlay.detach();
+		this.onDetach();
 		super.onDetachedFromWindow();
 	}
 
