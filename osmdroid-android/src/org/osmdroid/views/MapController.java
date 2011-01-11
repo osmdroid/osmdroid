@@ -13,7 +13,7 @@ import org.osmdroid.views.util.constants.MathConstants;
 import android.graphics.Point;
 
 /**
- *
+ * 
  * @author Nicolas Gramlich
  */
 public class MapController implements IMapController, MapViewConstants {
@@ -60,7 +60,7 @@ public class MapController implements IMapController, MapViewConstants {
 			return;
 		}
 
-		final BoundingBoxE6 bb = this.mOsmv.getVisibleBoundingBoxE6();
+		final BoundingBoxE6 bb = this.mOsmv.getBoundingBox();
 		final int curZoomLevel = this.mOsmv.getZoomLevel();
 
 		final int curLatSpan = bb.getLatitudeSpanE6();
@@ -97,7 +97,7 @@ public class MapController implements IMapController, MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 *
+	 * 
 	 * @param gp
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
@@ -108,7 +108,7 @@ public class MapController implements IMapController, MapViewConstants {
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end.
-	 *
+	 * 
 	 * @param gp
 	 *            GeoPoint to be centered in the end.
 	 * @param aSmoothness
@@ -129,7 +129,7 @@ public class MapController implements IMapController, MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
 	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 *
+	 * 
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 */
@@ -141,7 +141,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
-	 *
+	 * 
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 * @param aSmoothness
@@ -199,7 +199,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 	/**
 	 * Stops a running animation.
-	 *
+	 * 
 	 * @param jumpToTarget
 	 */
 	public void stopAnimation(final boolean jumpToTarget) {
@@ -532,7 +532,7 @@ public class MapController implements IMapController, MapViewConstants {
 	}
 
 	private class CosinusalBasedAnimationRunner extends AbstractAnimationRunner implements
-	MathConstants {
+			MathConstants {
 		// ===========================================================
 		// Fields
 		// ===========================================================
@@ -607,7 +607,7 @@ public class MapController implements IMapController, MapViewConstants {
 	}
 
 	protected class QuarterCosinusalDeceleratingAnimationRunner extends
-	CosinusalBasedAnimationRunner implements MathConstants {
+			CosinusalBasedAnimationRunner implements MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================
@@ -625,7 +625,7 @@ public class MapController implements IMapController, MapViewConstants {
 	}
 
 	protected class HalfCosinusalDeceleratingAnimationRunner extends CosinusalBasedAnimationRunner
-	implements MathConstants {
+			implements MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================
@@ -643,7 +643,7 @@ public class MapController implements IMapController, MapViewConstants {
 	}
 
 	protected class MiddlePeakSpeedAnimationRunner extends CosinusalBasedAnimationRunner implements
-	MathConstants {
+			MathConstants {
 		// ===========================================================
 		// Constructors
 		// ===========================================================

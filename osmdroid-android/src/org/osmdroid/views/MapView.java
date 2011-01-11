@@ -40,7 +40,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -87,7 +86,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private final Paint mPaint = new Paint();
 	private Projection mProjection;
 
-	private MapView mMiniMap, mMaxiMap;
 	private final TilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector;
@@ -100,8 +98,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private final MyAnimationListener mAnimationListener = new MyAnimationListener();
 
 	private final MapController mController;
-	private int mMiniMapOverriddenVisibility = NOT_SET;
-	private int mMiniMapZoomDiff = NOT_SET;
 
 	// XXX we can use android.widget.ZoomButtonsController if we upgrade the
 	// dependency to Android 1.6
@@ -189,86 +185,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		this(context, tileRequestCompleteHandler, null, tileSizePixels, aTileProvider);
 	}
 
-	/**
-	 * 
-	 * @param context
-	 * @param osmv
-	 *            another {@link MapView}, to share the TileProvider with.<br/>
-	 *            May significantly improve the render speed, when using the same
-	 *            {@link MapTileProviderBase}.
-	 */
-	// TODO: This isn't safe. See issue #126
-	public MapView(final Context context, final MapView aMapToShareTheTileProviderWith) {
-		this(context, aMapToShareTheTileProviderWith.mTileRequestCompleteHandler, null,
-				aMapToShareTheTileProviderWith.getProjection().getTileSizePixels(),
-				aMapToShareTheTileProviderWith.mTileProvider);
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	/**
-	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
-	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
-	 * Its pretty useful when the MiniMap uses the same TileProvider.
-	 * 
-	 * @param aOsmvMinimap
-	 * @param aZoomDiff
-	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable autozooming
-	 *            of the minimap.
-	 */
-	public void setMiniMap(final MapView aOsmvMinimap, final int aZoomDiff) {
-		this.mMiniMapZoomDiff = aZoomDiff;
-		this.mMiniMap = aOsmvMinimap;
-		aOsmvMinimap.setMaxiMap(this);
-
-		// make sure that the zoom level of the minimap is set correctly. this
-		// is done when setting the zoom level of the main map
-		this.setZoomLevel(this.getZoomLevel());
-
-		this.mMiniMap.getController().setCenter(this.getMapCenter());
-	}
-
-	public boolean hasMiniMap() {
-		return this.mMiniMap != null;
-	}
-
-	/**
-	 * @return {@link View}.GONE or {@link View}.VISIBLE or {@link View} .INVISIBLE or
-	 *         {@link MapViewConstants}.NOT_SET
-	 * */
-	public int getOverrideMiniMapVisibility() {
-		return this.mMiniMapOverriddenVisibility;
-	}
-
-	/**
-	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
-	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
-	 * {@link MapViewConstants}.NOT_SET to reset this feature.
-	 * 
-	 * @param aVisibility
-	 */
-	public void setOverrideMiniMapVisibility(final int aVisibility) {
-		switch (aVisibility) {
-		case View.GONE:
-		case View.VISIBLE:
-		case View.INVISIBLE:
-			if (this.mMiniMap != null) {
-				this.mMiniMap.setVisibility(aVisibility);
-			}
-		case NOT_SET:
-			this.setZoomLevel(this.mZoomLevel);
-			break;
-		default:
-			throw new IllegalArgumentException("See javadoc of this method !!!");
-		}
-		this.mMiniMapOverriddenVisibility = aVisibility;
-	}
-
-	private void setMaxiMap(final MapView aOsmvMaxiMap) {
-		this.mMaxiMap = aOsmvMaxiMap;
-	}
 
 	@Override
 	public MapController getController() {
@@ -293,20 +212,12 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	@Override
 	public int getLatitudeSpan() {
-		return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();
+		return this.getBoundingBox().getLatitudeSpanE6();
 	}
 
 	@Override
 	public int getLongitudeSpan() {
-		return this.getDrawnBoundingBoxE6().getLongitudeSpanE6();
-	}
-
-	public BoundingBoxE6 getDrawnBoundingBoxE6() {
-		return getBoundingBox(this.getWidth(), this.getHeight());
-	}
-
-	public BoundingBoxE6 getVisibleBoundingBoxE6() {
-		return getBoundingBox(this.getWidth(), this.getHeight());
+		return this.getBoundingBox().getLongitudeSpanE6();
 	}
 
 	public static int getMapTileZoom(final int tileSizePixels) {
@@ -323,7 +234,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		return a - 1;
 	}
 
-	private BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight) {
+	public BoundingBoxE6 getBoundingBox() {
+		return getBoundingBox(getWidth(), getHeight());
+	}
+
+	public BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight) {
 		final int mapTileZoom = getMapTileZoom(mTileSizePixels);
 		final int world_2 = 1 << mZoomLevel + mapTileZoom - 1;
 		final int north = world_2 + getScrollY() - getHeight() / 2;
@@ -354,16 +269,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
-		this.setMapCenter(aLatitudeE6, aLongitudeE6, true);
-	}
-
-	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6, final boolean doPassFurther) {
-		if (doPassFurther && this.mMiniMap != null) {
-			this.mMiniMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
-		} else if (doPassFurther && this.mMaxiMap != null) {
-			this.mMaxiMap.setMapCenter(aLatitudeE6, aLongitudeE6, false);
-		}
-
 		final Point coords = Mercator.projectGeoPoint(aLatitudeE6, aLongitudeE6,
 				getPixelZoomLevel(), null);
 		final int worldSize_2 = getWorldSizePx() / 2;
@@ -379,9 +284,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	public void setTileSource(final ITileSource aTileSource) {
 		mTileProvider.setTileSource(aTileSource);
 		mTileSizePixels = aTileSource.getTileSizePixels();
-		if (this.mMiniMap != null) {
-			this.mMiniMap.setTileSource(aTileSource);
-		}
 		this.checkZoomButtons();
 		this.setZoomLevel(mZoomLevel); // revalidate zoom level
 		postInvalidate();
@@ -397,22 +299,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
 		final int curZoomLevel = this.mZoomLevel;
-
-		if (this.mMiniMap != null) {
-			if (this.mZoomLevel < this.mMiniMapZoomDiff) {
-				if (this.mMiniMapOverriddenVisibility == NOT_SET) {
-					this.mMiniMap.setVisibility(View.INVISIBLE);
-				}
-			} else {
-				if (this.mMiniMapOverriddenVisibility == NOT_SET
-						&& this.mMiniMap.getVisibility() != View.VISIBLE) {
-					this.mMiniMap.setVisibility(View.VISIBLE);
-				}
-				if (this.mMiniMapZoomDiff != NOT_SET) {
-					this.mMiniMap.setZoomLevel(this.mZoomLevel - this.mMiniMapZoomDiff);
-				}
-			}
-		}
 
 		this.mZoomLevel = newZoomLevel;
 		this.checkZoomButtons();
@@ -804,14 +690,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			mOverlays.get(i).onManagedDraw(c, this);
 		}
 
-		if (this.mMaxiMap != null) { // If this is a MiniMap
-			this.mPaint.setColor(Color.RED);
-			this.mPaint.setStyle(Style.STROKE);
-			final int viewWidth = this.getWidth();
-			final int viewHeight = this.getHeight();
-			c.drawRect(0, 0, viewWidth, viewHeight, this.mPaint);
-		}
-
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE) {
 			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
@@ -1005,7 +883,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			mUpperLeftCornerOfCenterMapTileProjection = getUpperLeftCornerOfCenterMapTileInScreen(
 					getCenterMapTileCoords(), getTileSizePixels(), null);
 
-			mBoundingBoxProjection = MapView.this.getDrawnBoundingBoxE6();
+			mBoundingBoxProjection = MapView.this.getBoundingBox();
 		}
 
 		public int getTileSizePixels() {

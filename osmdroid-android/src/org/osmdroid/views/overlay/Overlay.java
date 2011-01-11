@@ -17,12 +17,12 @@ import android.view.MotionEvent;
  * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
  * overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
- *
+ * 
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
- *
+ * 
  * @author Nicolas Gramlich
  */
 public abstract class Overlay implements MapViewConstants {
@@ -36,7 +36,7 @@ public abstract class Overlay implements MapViewConstants {
 	// ===========================================================
 
 	protected final ResourceProxy mResourceProxy;
-	private boolean mVisible = true;
+	private boolean mEnabled = true;
 
 	// ===========================================================
 	// Constructors
@@ -54,12 +54,12 @@ public abstract class Overlay implements MapViewConstants {
 	// Getter & Setter
 	// ===========================================================
 
-	public void setVisible(final boolean pVisible) {
-		this.mVisible = pVisible;
+	public void setEnabled(final boolean pEnabled) {
+		this.mEnabled = pEnabled;
 	}
 
-	public boolean isVisible() {
-		return this.mVisible;
+	public boolean isEnabled() {
+		return this.mEnabled;
 	}
 
 	// ===========================================================
@@ -71,7 +71,7 @@ public abstract class Overlay implements MapViewConstants {
 	 * final draw. This is very useful, i sth. to be drawn needs to be <b>topmost</b>.
 	 */
 	public void onManagedDraw(final Canvas c, final MapView osmv) {
-		if (this.mVisible) {
+		if (this.mEnabled) {
 			onDraw(c, osmv);
 			onDrawFinished(c, osmv);
 		}
@@ -167,7 +167,7 @@ public abstract class Overlay implements MapViewConstants {
 		/**
 		 * Checks to see if the given x and y are close enough to an item resulting in snapping the
 		 * current action (e.g. zoom) to the item.
-		 *
+		 * 
 		 * @param x
 		 *            The x in screen coordinates.
 		 * @param y

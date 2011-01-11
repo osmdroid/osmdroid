@@ -58,7 +58,7 @@ public class MinimapOverlay extends TilesOverlay {
 		super(pTileProvider, pContext);
 
 		mPaint = new Paint();
-		mPaint.setColor(Color.BLUE);
+		mPaint.setColor(Color.LTGRAY);
 		mPaint.setStyle(Style.FILL);
 		mPaint.setStrokeWidth(2);
 	}
