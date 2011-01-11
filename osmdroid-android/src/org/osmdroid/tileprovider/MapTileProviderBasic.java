@@ -9,8 +9,6 @@ import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 
@@ -24,7 +22,7 @@ import android.content.Context;
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
-	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBasic.class);
+	// private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBasic.class);
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.

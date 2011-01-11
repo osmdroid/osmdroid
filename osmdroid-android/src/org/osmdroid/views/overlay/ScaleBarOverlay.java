@@ -193,10 +193,6 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		lastZoomLevel = -1; // Force redraw of scalebar
 	}
 
-	public void setEnabled(final boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public void drawLatitudeScale(final boolean latitude) {
 		this.latitudeBar = latitude;
 	}
@@ -210,6 +206,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
+	public void setEnabled(final boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
 	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 	}
 
@@ -217,8 +218,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	public void onDraw(final Canvas c, final MapView mapView) {
 
 		// If map view is animating, don't update, scale will be wrong.
-		if (mapView.isAnimating())
+		if (mapView.isAnimating()) {
 			return;
+		}
 
 		final int zoomLevel = mapView.getZoomLevel();
 
