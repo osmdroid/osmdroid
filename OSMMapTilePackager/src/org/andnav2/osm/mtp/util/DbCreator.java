@@ -24,11 +24,11 @@ public class DbCreator
 				for(File yf : xf.listFiles())
 				{
 					String[] s = yf.toString().split("/");
-					int z = Integer.parseInt(s[s.length - 3]);
-					int x = Integer.parseInt(s[s.length - 2]);
-					int y = Integer.parseInt(s[s.length - 1].split(".png")[0]);
-					int index = (((z << z) + x) << z) + y;
-					prep.setInt(1, index);
+					long z = Long.parseLong(s[s.length - 3]);
+					long x = Long.parseLong(s[s.length - 2]);
+					long y = Long.parseLong(s[s.length - 1].split(".png")[0]);
+					long index = (((z << z) + x) << z) + y;
+					prep.setLong(1, index);
 					String provider = s[s.length - 4];
 					prep.setString(2, provider);
 					byte[] image = new byte[(int) yf.length()];
