@@ -210,6 +210,10 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		return mScroller;
 	}
 
+	public Handler getTileRequestCompleteHandler() {
+		return mTileRequestCompleteHandler;
+	}
+
 	@Override
 	public int getLatitudeSpan() {
 		return this.getBoundingBox().getLatitudeSpanE6();

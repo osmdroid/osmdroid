@@ -15,6 +15,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 
 /**
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
@@ -58,19 +59,23 @@ public class MinimapOverlay extends TilesOverlay {
 		super(pTileProvider, pContext);
 
 		mPaint = new Paint();
-		mPaint.setColor(Color.LTGRAY);
+		mPaint.setColor(Color.GRAY);
 		mPaint.setStyle(Style.FILL);
 		mPaint.setStrokeWidth(2);
 	}
 
 	/**
-	 * Creates a MinimapOverlay that uses its own MapTileProviderBasic.
+	 * Creates a MinimapOverlay that uses its own MapTileProviderBasic. Typically this will be the
+	 * same handler being used by the main MapView.
 	 * 
 	 * @param pContext
 	 *            a context
+	 * @param tileRequestCompleteHandler
+	 *            a handler for tile request complete notifications
 	 */
-	public MinimapOverlay(final Context pContext) {
+	public MinimapOverlay(final Context pContext, Handler tileRequestCompleteHandler) {
 		this(pContext, new MapTileProviderBasic(pContext));
+		mTileProvider.setTileRequestCompleteHandler(tileRequestCompleteHandler);
 	}
 
 	public void setTileSource(ITileSource pTileSource) {
