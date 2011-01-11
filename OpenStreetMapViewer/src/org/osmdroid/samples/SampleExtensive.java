@@ -50,6 +50,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 	private SimpleLocationOverlay mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 	private ScaleBarOverlay mScaleBarOverlay;
+	private MinimapOverlay mMiniMapOverlay;
 
 	// ===========================================================
 	// Constructors
@@ -133,8 +134,8 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 
 		/* MiniMap */
 		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(this);
-			this.mOsmv.getOverlays().add(miniMapOverlay);
+			mMiniMapOverlay = new MinimapOverlay(this);
+			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
 
 		this.setContentView(rl);
@@ -221,11 +222,12 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 			return true;
 
 		default:
-			mOsmv.setTileSource(TileSourceFactory.getTileSource(item.getItemId() - 1000));
+			ITileSource tileSource = TileSourceFactory.getTileSource(item.getItemId() - 1000);
+			mOsmv.setTileSource(tileSource);
+			mMiniMapOverlay.setTileSource(tileSource);
 		}
 		return false;
 	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
