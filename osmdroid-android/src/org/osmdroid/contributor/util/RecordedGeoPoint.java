@@ -6,7 +6,7 @@ import org.osmdroid.util.GeoPoint;
 
 /**
  * Extends the {@link GeoPoint} with a timeStamp.
- * 
+ *
  * @author Nicolas Gramlich
  */
 public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContributorConstants {
@@ -14,6 +14,8 @@ public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContribut
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	private static final long serialVersionUID = 7304941424576720318L;
 
 	// ===========================================================
 	// Fields
