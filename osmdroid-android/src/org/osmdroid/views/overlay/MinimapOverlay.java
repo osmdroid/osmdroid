@@ -1,6 +1,8 @@
 package org.osmdroid.views.overlay;
 
+import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -15,7 +17,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 /**
- * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic.
+ * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
+ * provider supplied to it. Do NOT share a tile provider amongst multiple tile drawing overlays - it
+ * will create an under-sized cache.
  * 
  * @author Marc Kurtz
  * 
@@ -42,14 +46,35 @@ public class MinimapOverlay extends TilesOverlay {
 	// Stores the intersection of the minimap and the Canvas clipping area
 	final private Rect mIntersectionRect = new Rect();
 
-	// TODO: Make tile provider an optional parameter, and expose setTileRenderer() as public
-	public MinimapOverlay(final Context pCtx) {
-		super(null, new MapTileProviderBasic(pCtx), pCtx);
+	/**
+	 * Creates a MinimapOverlay with the supplied tile provider
+	 * 
+	 * @param pContext
+	 *            a context
+	 * @param pTileProvider
+	 *            a tile provider
+	 */
+	public MinimapOverlay(final Context pContext, MapTileProviderBase pTileProvider) {
+		super(pTileProvider, pContext);
 
 		mPaint = new Paint();
 		mPaint.setColor(Color.BLUE);
 		mPaint.setStyle(Style.FILL);
 		mPaint.setStrokeWidth(2);
+	}
+
+	/**
+	 * Creates a MinimapOverlay that uses its own MapTileProviderBasic.
+	 * 
+	 * @param pContext
+	 *            a context
+	 */
+	public MinimapOverlay(final Context pContext) {
+		this(pContext, new MapTileProviderBasic(pContext));
+	}
+
+	public void setTileSource(ITileSource pTileSource) {
+		mTileProvider.setTileSource(pTileSource);
 	}
 
 	@Override

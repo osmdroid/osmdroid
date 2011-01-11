@@ -143,7 +143,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		mTileProvider = tileProvider;
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
-		this.mMapOverlay = new TilesOverlay(this, mTileProvider, mResourceProxy);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
 		mOverlays.add(this.mMapOverlay);
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
@@ -190,7 +190,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 *
+	 * 
 	 * @param context
 	 * @param osmv
 	 *            another {@link MapView}, to share the TileProvider with.<br/>
@@ -212,7 +212,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * This MapView takes control of the {@link MapView} passed as parameter.<br />
 	 * I.e. it zooms it to x levels less than itself and centers it the same coords.<br />
 	 * Its pretty useful when the MiniMap uses the same TileProvider.
-	 *
+	 * 
 	 * @param aOsmvMinimap
 	 * @param aZoomDiff
 	 *            3 is a good Value. Pass {@link MapViewConstants} .NOT_SET to disable autozooming
@@ -246,7 +246,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * Use this method if you want to make the MiniMap visible i.e.: always or never. Use
 	 * {@link View}.GONE , {@link View}.VISIBLE, {@link View} .INVISIBLE. Use
 	 * {@link MapViewConstants}.NOT_SET to reset this feature.
-	 *
+	 * 
 	 * @param aVisibility
 	 */
 	public void setOverrideMiniMapVisibility(final int aVisibility) {
@@ -338,7 +338,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -447,7 +447,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -458,7 +458,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -474,7 +474,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinimumZoomLevel() {
@@ -491,7 +491,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -619,7 +619,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -631,7 +631,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -968,7 +968,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -1042,7 +1042,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1065,7 +1065,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 *
+		 * 
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -1074,7 +1074,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -1094,7 +1094,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1115,7 +1115,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1134,7 +1134,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.

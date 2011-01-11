@@ -28,8 +28,6 @@ public class TilesOverlay extends Overlay {
 
 	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
 
-	protected MapView mOsmv;
-
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
 	protected final Paint mPaint = new Paint();
@@ -40,15 +38,12 @@ public class TilesOverlay extends Overlay {
 
 	private int mWorldSize_2;
 
-	public TilesOverlay(final MapView aOsmv, final MapTileProviderBase aTileProvider,
-			final Context aContext) {
-		this(aOsmv, aTileProvider, new DefaultResourceProxyImpl(aContext));
+	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
+		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
-	public TilesOverlay(final MapView aOsmv, final MapTileProviderBase aTileProvider,
-			final ResourceProxy pResourceProxy) {
+	public TilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
-		this.mOsmv = aOsmv;
 		this.mTileProvider = aTileProvider; // TODO check for null
 	}
 
