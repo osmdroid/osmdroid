@@ -30,9 +30,9 @@ import android.view.MotionEvent;
 public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 	// TODO: Make these constants adjustable
-	private static final int MAP_WIDTH = 100;
-	private static final int MAP_HEIGHT = 100;
-	private static final int MAP_PADDING = 10;
+	private static int mWidth = 100;
+	private static int mHeight = 100;
+	private static int mPadding = 10;
 	private final Paint mPaint;
 	private int mWorldSize_2;
 
@@ -159,14 +159,14 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 		// Limit the area we are interested in for tiles to be the MAP_WIDTH by MAP_HEIGHT and
 		// centered on the center of the screen
-		mTileArea.set(mTileArea.centerX() - (MAP_WIDTH / 2),
-				mTileArea.centerY() - (MAP_HEIGHT / 2), mTileArea.centerX() + (MAP_WIDTH / 2),
-				mTileArea.centerY() + (MAP_HEIGHT / 2));
+		mTileArea.set(mTileArea.centerX() - (getWidth() / 2), mTileArea.centerY()
+				- (getHeight() / 2), mTileArea.centerX() + (getWidth() / 2), mTileArea.centerY()
+				+ (getHeight() / 2));
 
 		// Get the area where we will draw the minimap in screen coordinates
-		mMiniMapCanvasRect.set(mViewportRect.right - MAP_PADDING - MAP_WIDTH, mViewportRect.bottom
-				- MAP_PADDING - MAP_HEIGHT, mViewportRect.right - MAP_PADDING, mViewportRect.bottom
-				- MAP_PADDING);
+		mMiniMapCanvasRect.set(mViewportRect.right - getPadding() - getWidth(),
+				mViewportRect.bottom - getPadding() - getHeight(), mViewportRect.right
+						- getPadding(), mViewportRect.bottom - getPadding());
 		mMiniMapCanvasRect.offset(-mWorldSize_2, -mWorldSize_2);
 
 		// Draw a solid background where the minimap will be drawn with a 2 pixel inset
@@ -229,6 +229,63 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Sets the width of the mini-map in pixels
+	 * 
+	 * @param width
+	 *            the width to set in pixels
+	 */
+	public static void setWidth(int width) {
+		mWidth = width;
+	}
+
+	/**
+	 * Gets the width of the mini-map in pixels
+	 * 
+	 * @return the width in pixels
+	 */
+	public static int getWidth() {
+		return mWidth;
+	}
+
+	/**
+	 * Sets the height of the mini-map in pixels
+	 * 
+	 * @param height
+	 *            the height to set in pixels
+	 */
+	public static void setHeight(int height) {
+		mHeight = height;
+	}
+
+	/**
+	 * Gets the height of the mini-map in pixels
+	 * 
+	 * @return the height in pixels
+	 */
+	public static int getHeight() {
+		return mHeight;
+	}
+
+	/**
+	 * Sets the number of pixels from the lower-right corner to offset the mini-map
+	 * 
+	 * @param padding
+	 *            the padding to set in pixels
+	 */
+	public static void setPadding(int padding) {
+		mPadding = padding;
+	}
+
+	/**
+	 * Gets the number of pixels from the lower-right corner to offset the mini-map
+	 * 
+	 * @return the padding in pixels
+	 */
+	public static int getPadding() {
+		return mPadding;
 	}
 
 	// TODO: This is too "sensitive". Drags will be cancelled across the mini-map even if they are
