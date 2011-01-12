@@ -92,6 +92,13 @@ public class TileSourceFactory {
 			"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 			"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 			"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
+	
+	public static final OnlineTileSourceBase MAPQUESTOSM =
+		new XYTileSource("MapquestOSM", ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png",
+				"http://otile1.mqcdn.com/tiles/1.0.0/osm/",
+				"http://otile2.mqcdn.com/tiles/1.0.0/osm/",
+				"http://otile3.mqcdn.com/tiles/1.0.0/osm/",
+				"http://otile4.mqcdn.com/tiles/1.0.0/osm/");
 
 	public static final OnlineTileSourceBase DEFAULT_TILE_SOURCE = MAPNIK;
 
@@ -122,5 +129,6 @@ public class TileSourceFactory {
 		mTileSources.add(HILLS);
 		mTileSources.add(CLOUDMADESTANDARDTILES);
 		mTileSources.add(CLOUDMADESMALLTILES);
+		mTileSources.add(MAPQUESTOSM);
 	}
 }

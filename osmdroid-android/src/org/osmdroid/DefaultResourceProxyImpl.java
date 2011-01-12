@@ -58,6 +58,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "CloudMade (Standard tiles)";
 		case cloudmade_small:
 			return "CloudMade (small tiles)";
+		case mapquest_osm:
+			return "Mapquest";
 		case fiets_nl:
 			return "OpenFietsKaart overlay";
 		case base_nl:
