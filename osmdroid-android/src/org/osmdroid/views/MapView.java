@@ -1110,6 +1110,10 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
+			for (int i = mOverlays.size() - 1; i >= 0; i--)
+				if (mOverlays.get(i).onDoubleTapUp(e, MapView.this))
+					return true;
+
 			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
 			return zoomInFixing(center);
 		}

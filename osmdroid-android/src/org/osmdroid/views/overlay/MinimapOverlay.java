@@ -222,6 +222,16 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	}
 
 	@Override
+	public boolean onDoubleTapUp(final MotionEvent pEvent, final MapView pMapView) {
+		// Consume event so layers underneath don't receive
+		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
+				(int) pEvent.getY() + mViewportRect.top - mWorldSize_2))
+			return true;
+
+		return false;
+	}
+
+	@Override
 	public boolean onLongPress(final MotionEvent pEvent, final MapView pMapView) {
 		// Consume event so layers underneath don't receive
 		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
@@ -287,18 +297,4 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	public static int getPadding() {
 		return mPadding;
 	}
-
-	// TODO: This is too "sensitive". Drags will be cancelled across the mini-map even if they are
-	// started outside the mini-map. We need to implement a double-click handler for the overlays.
-
-	// @Override
-	// public boolean onTouchEvent(final MotionEvent pEvent, final MapView pMapView) {
-	// // Consume event so layers underneath don't receive
-	// if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
-	// (int) pEvent.getY() + mViewportRect.top - mWorldSize_2))
-	// return true;
-	//
-	// return false;
-	// }
-
 }
