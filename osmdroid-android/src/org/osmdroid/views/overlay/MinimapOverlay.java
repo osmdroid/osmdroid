@@ -30,9 +30,10 @@ import android.view.MotionEvent;
 public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 	// TODO: Make these constants adjustable
-	private static int mWidth = 100;
-	private static int mHeight = 100;
-	private static int mPadding = 10;
+	private int mWidth = 200;
+	private int mHeight = 100;
+	private int mPadding = 10;
+	private int mZoomDifference;
 	private final Paint mPaint;
 	private int mWorldSize_2;
 
@@ -47,7 +48,6 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 	// Stores the intersection of the minimap and the Canvas clipping area
 	final private Rect mIntersectionRect = new Rect();
-	private int mZoomDifference;
 
 	/**
 	 * Creates a {@link MinimapOverlay} with the supplied tile provider. The {@link Handler} passed
@@ -247,7 +247,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * @param width
 	 *            the width to set in pixels
 	 */
-	public static void setWidth(int width) {
+	public void setWidth(int width) {
 		mWidth = width;
 	}
 
@@ -256,7 +256,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * 
 	 * @return the width in pixels
 	 */
-	public static int getWidth() {
+	public int getWidth() {
 		return mWidth;
 	}
 
@@ -266,7 +266,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * @param height
 	 *            the height to set in pixels
 	 */
-	public static void setHeight(int height) {
+	public void setHeight(int height) {
 		mHeight = height;
 	}
 
@@ -275,7 +275,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * 
 	 * @return the height in pixels
 	 */
-	public static int getHeight() {
+	public int getHeight() {
 		return mHeight;
 	}
 
@@ -285,7 +285,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * @param padding
 	 *            the padding to set in pixels
 	 */
-	public static void setPadding(int padding) {
+	public void setPadding(int padding) {
 		mPadding = padding;
 	}
 
@@ -294,7 +294,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	 * 
 	 * @return the padding in pixels
 	 */
-	public static int getPadding() {
+	public int getPadding() {
 		return mPadding;
 	}
 }
