@@ -30,7 +30,7 @@ import android.view.MotionEvent;
 public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 	// TODO: Make these constants adjustable
-	private int mWidth = 200;
+	private int mWidth = 100;
 	private int mHeight = 100;
 	private int mPadding = 10;
 	private int mZoomDifference;
