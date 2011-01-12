@@ -6,6 +6,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.view.MotionEvent;
 
 /**
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
@@ -25,13 +27,12 @@ import android.os.Handler;
  * @author Marc Kurtz
  * 
  */
-public class MinimapOverlay extends TilesOverlay {
+public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 
 	// TODO: Make these constants adjustable
 	private static final int MAP_WIDTH = 100;
 	private static final int MAP_HEIGHT = 100;
 	private static final int MAP_PADDING = 10;
-	private static final int ZOOM_LEVEL_DIFFERENCE = 3;
 	private final Paint mPaint;
 	private int mWorldSize_2;
 
@@ -46,17 +47,25 @@ public class MinimapOverlay extends TilesOverlay {
 
 	// Stores the intersection of the minimap and the Canvas clipping area
 	final private Rect mIntersectionRect = new Rect();
+	private int mZoomDifference;
 
 	/**
-	 * Creates a MinimapOverlay with the supplied tile provider
+	 * Creates a {@link MinimapOverlay} with the supplied tile provider. The {@link Handler} passed
+	 * in is typically the same handler being used by the main map.
 	 * 
 	 * @param pContext
 	 *            a context
+	 * @param tileRequestCompleteHandler
+	 *            a handler for the tile request complete notifications
 	 * @param pTileProvider
 	 *            a tile provider
 	 */
-	public MinimapOverlay(final Context pContext, MapTileProviderBase pTileProvider) {
+	public MinimapOverlay(final Context pContext, final Handler pTileRequestCompleteHandler,
+			final MapTileProviderBase pTileProvider, final int pZoomDifference) {
 		super(pTileProvider, pContext);
+		setZoomDifference(pZoomDifference);
+
+		mTileProvider.setTileRequestCompleteHandler(pTileRequestCompleteHandler);
 
 		mPaint = new Paint();
 		mPaint.setColor(Color.GRAY);
@@ -65,21 +74,45 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	/**
-	 * Creates a MinimapOverlay that uses its own MapTileProviderBasic. Typically this will be the
-	 * same handler being used by the main MapView.
+	 * Creates a {@link MinimapOverlay} with the supplied tile provider. The {@link Handler} passed
+	 * in is typically the same handler being used by the main map.
+	 * 
+	 * @param pContext
+	 *            a context
+	 * @param tileRequestCompleteHandler
+	 *            a handler for the tile request complete notifications
+	 * @param pTileProvider
+	 *            a tile provider
+	 */
+	public MinimapOverlay(final Context pContext, final Handler pTileRequestCompleteHandler,
+			final MapTileProviderBase pTileProvider) {
+		this(pContext, pTileRequestCompleteHandler, pTileProvider,
+				DEFAULT_ZOOMLEVEL_MINIMAP_DIFFERENCE);
+	}
+
+	/**
+	 * Creates a {@link MinimapOverlay} that uses its own {@link MapTileProviderBasic}. The
+	 * {@link Handler} passed in is typically the same handler being used by the main map.
 	 * 
 	 * @param pContext
 	 *            a context
 	 * @param tileRequestCompleteHandler
 	 *            a handler for tile request complete notifications
 	 */
-	public MinimapOverlay(final Context pContext, Handler tileRequestCompleteHandler) {
-		this(pContext, new MapTileProviderBasic(pContext));
-		mTileProvider.setTileRequestCompleteHandler(tileRequestCompleteHandler);
+	public MinimapOverlay(final Context pContext, final Handler pTileRequestCompleteHandler) {
+		this(pContext, pTileRequestCompleteHandler, new MapTileProviderBasic(pContext));
 	}
 
-	public void setTileSource(ITileSource pTileSource) {
+	public void setTileSource(final ITileSource pTileSource) {
 		mTileProvider.setTileSource(pTileSource);
+	}
+
+	public int getZoomDifference() {
+		return mZoomDifference;
+	}
+
+	public void setZoomDifference(final int zoomDifference) {
+		mZoomDifference = zoomDifference;
 	}
 
 	@Override
@@ -110,10 +143,12 @@ public class MinimapOverlay extends TilesOverlay {
 		// Start calculating the tile area with the current viewport
 		mTileArea.set(mViewportRect);
 
-		// Get the target zoom level difference
-		int miniMapZoomLevelDifference = ZOOM_LEVEL_DIFFERENCE;
-		if (zoomLevel - ZOOM_LEVEL_DIFFERENCE < mTileProvider.getMinimumZoomLevel())
-			miniMapZoomLevelDifference += zoomLevel - ZOOM_LEVEL_DIFFERENCE
+		// Get the target zoom level difference.
+		int miniMapZoomLevelDifference = getZoomDifference();
+
+		// Make sure the zoom level difference isn't below the minimum zoom level
+		if (zoomLevel - getZoomDifference() < mTileProvider.getMinimumZoomLevel())
+			miniMapZoomLevelDifference += zoomLevel - getZoomDifference()
 					- mTileProvider.getMinimumZoomLevel();
 
 		// Shift the screen coordinates into the target zoom level
@@ -175,5 +210,38 @@ public class MinimapOverlay extends TilesOverlay {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public boolean onSingleTapUp(final MotionEvent pEvent, final MapView pMapView) {
+		// Consume event so layers underneath don't receive
+		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
+				(int) pEvent.getY() + mViewportRect.top - mWorldSize_2))
+			return true;
+
+		return false;
+	}
+
+	@Override
+	public boolean onLongPress(final MotionEvent pEvent, final MapView pMapView) {
+		// Consume event so layers underneath don't receive
+		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
+				(int) pEvent.getY() + mViewportRect.top - mWorldSize_2))
+			return true;
+
+		return false;
+	}
+
+	// TODO: This is too "sensitive". Drags will be cancelled across the mini-map even if they are
+	// started outside the mini-map. We need to implement a double-click handler for the overlays.
+
+	// @Override
+	// public boolean onTouchEvent(final MotionEvent pEvent, final MapView pMapView) {
+	// // Consume event so layers underneath don't receive
+	// if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
+	// (int) pEvent.getY() + mViewportRect.top - mWorldSize_2))
+	// return true;
+	//
+	// return false;
+	// }
 
 }
