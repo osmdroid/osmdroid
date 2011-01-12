@@ -44,6 +44,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	// ===========================================================
 
 	public TileWriter() {
+
+		// TODO this should be done in the background because it takes a long time
 		mUsedCacheSpace = calculateDirectorySize(TILE_PATH_BASE);
 		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 			cutCurrentCache();
