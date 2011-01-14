@@ -2,6 +2,8 @@
 package org.andnav2.osm.mtp;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.andnav2.osm.mtp.adt.OSMTileInfo;
@@ -11,6 +13,7 @@ import org.andnav2.osm.mtp.util.FolderDeleter;
 import org.andnav2.osm.mtp.util.FolderFileCounter;
 import org.andnav2.osm.mtp.util.FolderZipper;
 import org.andnav2.osm.mtp.util.Util;
+import org.osmdroid.util.GEMFFile;
 
 
 public class OSMMapTilePackager {
@@ -128,9 +131,12 @@ public class OSMMapTilePackager {
             printUsageAndExit();
         }
 
-        if(serverURL == null || tempFolder == null)
-            printUsageAndExit();
-
+        if (tempFolder == null)
+        	printUsageAndExit();
+        
+        if (serverURL == null && !new File(tempFolder).exists())
+        	printUsageAndExit();
+        
         if(north == null || south == null || east == null || west == null)
             printUsageAndExit();
 
@@ -138,24 +144,32 @@ public class OSMMapTilePackager {
     }
 
     private static void run(final String pServerURL, final String pDestinationFile, final String pTempFolder, final int pThreadCount, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
-        System.out.println("---------------------------");
-        final int expectedFileCount = runFileExpecter(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
 
-        System.out.println("---------------------------");
-        runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
+    	if (pServerURL != null) {
+        	System.out.println("---------------------------");
+        	final int expectedFileCount = runFileExpecter(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
 
-        System.out.println("---------------------------");
-        runFileExistenceChecker(expectedFileCount, pTempFolder, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
+        	System.out.println("---------------------------");
+        	runDownloading(pServerURL, pTempFolder, pThreadCount, pFileAppendix, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
+
+            System.out.println("---------------------------");
+            runFileExistenceChecker(expectedFileCount, pTempFolder, pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);
+    	}
 
         if (pDestinationFile != null) {
             System.out.println("---------------------------");
             if(pDestinationFile.endsWith(".zip"))
             	runZipToFile(pTempFolder, pDestinationFile);
+            else if (pDestinationFile.endsWith(".gemf"))
+            	runCreateGEMFFile(pTempFolder, pDestinationFile);
             else
             	runCreateDb(pTempFolder, pDestinationFile);
 
 	        System.out.println("---------------------------");
-	        runCleanup(pTempFolder);
+
+	        if (pServerURL != null) {
+	        	runCleanup(pTempFolder);
+	        }
         }
 
         System.out.println("---------------------------");
@@ -205,6 +219,19 @@ public class OSMMapTilePackager {
     // Methods
     // ===========================================================
 
+    private static void runCreateGEMFFile(final String pTempFolder, final String pDestinationFile) {
+    	try {
+            System.out.println("Creating GEMF archive from " + pTempFolder + " to " + pDestinationFile + " ...");
+            List<File> sourceFolders = new ArrayList<File>();
+            sourceFolders.add(new File(pTempFolder));
+            GEMFFile file = new GEMFFile(pDestinationFile, sourceFolders);
+            file.close();
+            System.out.println(" done.");
+        } catch (Exception e) {
+            e.printStackTrace();
+    	}
+    }
+    
     private static void runZipToFile(final String pTempFolder, final String pDestinationFile) {
         try {
             System.out.print("Zipping files to " + pDestinationFile + " ...");
