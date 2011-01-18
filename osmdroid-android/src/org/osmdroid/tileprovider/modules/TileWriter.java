@@ -49,7 +49,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		final Thread t = new Thread() {
 			@Override
 			public void run() {
-				mUsedCacheSpace = calculateDirectorySize(TILE_PATH_BASE);
+				calculateDirectorySize(TILE_PATH_BASE);
 				if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 					cutCurrentCache();
 				}
@@ -84,7 +84,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile) + TILE_PATH_EXTENSION);
+		final File file = new File(TILE_PATH_BASE,
+				pTileSource.getTileRelativeFilenameString(pTile) + TILE_PATH_EXTENSION);
 
 		final File parent = file.getParentFile();
 		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
@@ -97,9 +98,9 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					StreamUtils.IO_BUFFER_SIZE);
 			final long length = StreamUtils.copy(pStream, outputStream);
 
-			mUsedCacheSpace += length; // XXX should this be synchronized? or is it a single operation?
+			mUsedCacheSpace += length;
 			if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
-				cutCurrentCache();
+				cutCurrentCache(); // TODO perhaps we should do this in the background
 			}
 		} catch (final IOException e) {
 			return false;
@@ -142,22 +143,18 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		}
 	}
 
-	private long calculateDirectorySize(final File aDirectory) {
-		long size = 0;
-
+	private void calculateDirectorySize(final File aDirectory) {
 		final File[] z = aDirectory.listFiles();
 		if (z != null) {
 			for (final File file : z) {
 				if (file.isFile()) {
-					size += file.length();
+					mUsedCacheSpace += file.length();
 				}
 				if (file.isDirectory()) {
-					size += calculateDirectorySize(file);
+					calculateDirectorySize(file);
 				}
 			}
 		}
-
-		return size;
 	}
 
 	private List<File> getDirectoryFileList(final File aDirectory) {
