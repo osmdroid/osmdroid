@@ -45,11 +45,21 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 
 	public TileWriter() {
 
-		// TODO this should be done in the background because it takes a long time
-		mUsedCacheSpace = calculateDirectorySize(TILE_PATH_BASE);
-		if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
-			cutCurrentCache();
-		}
+		// do this in the background because it takes a long time
+		final Thread t = new Thread() {
+			@Override
+			public void run() {
+				mUsedCacheSpace = calculateDirectorySize(TILE_PATH_BASE);
+				if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
+					cutCurrentCache();
+				}
+				if(DEBUGMODE) {
+					logger.debug("Finished init thread");
+				}
+			}
+		};
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.start();
 	}
 
 	// ===========================================================
@@ -58,6 +68,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 
 	/**
 	 * Get the amount of disk space used by the tile cache.
+	 * This will initially be zero since the used space is calculated in the background.
 	 *
 	 * @return size in bytes
 	 */
@@ -201,6 +212,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 						mUsedCacheSpace -= length;
 					}
 				}
+
+				logger.info("Finished trimming tile cache");
 			}
 		}
 	}
