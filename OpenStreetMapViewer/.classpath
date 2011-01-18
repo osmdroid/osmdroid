@@ -7,6 +7,6 @@
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/osmdroid-android"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

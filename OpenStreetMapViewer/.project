@@ -30,4 +30,11 @@
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>osmdroid-android-src</name>
+			<type>2</type>
+			<location>C:/Documents and Settings/admin/workspace/osmdroid/osmdroid-android/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

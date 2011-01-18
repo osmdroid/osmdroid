@@ -47,8 +47,6 @@
 				<exclude name="**/*Test.class" />
 			</fileset>
 		</jar>
-		<copy todir="../OpenStreetMapViewer/lib" file="osmdroid-android-${version.num}.jar" />
-		<copy todir="../osmdroid-google-wrapper/lib" file="osmdroid-android-${version.num}.jar" />
 	</target>
 
 	<target name="javadoc">
