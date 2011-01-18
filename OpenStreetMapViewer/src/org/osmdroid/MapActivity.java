@@ -94,7 +94,6 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
 		edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
 		edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-		edit.putBoolean(PREFS_FOLLOW_LOCATION, mLocationOverlay.isLocationFollowEnabled());
 		edit.commit();
 
 		this.mLocationOverlay.disableMyLocation();
@@ -115,7 +114,6 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
 			this.mLocationOverlay.enableMyLocation();
 		}
-		this.mLocationOverlay.followLocation(mPrefs.getBoolean(PREFS_FOLLOW_LOCATION, true));
 	}
 
 	@Override
@@ -158,10 +156,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		switch (item.getItemId()) {
 		case MENU_MY_LOCATION:
 			if (this.mLocationOverlay.isMyLocationEnabled()) {
-				this.mLocationOverlay.followLocation(false);
 				this.mLocationOverlay.disableMyLocation();
 			} else {
-				this.mLocationOverlay.followLocation(true);
 				this.mLocationOverlay.enableMyLocation();
 				final Location lastFix = this.mLocationOverlay.getLastFix();
 				if (lastFix != null) {

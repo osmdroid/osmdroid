@@ -268,10 +268,10 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 			}
 
 			float bearing = -1.0f;
-			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && (mAzimuth >= 0.0f)) {
+			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && mAzimuth >= 0.0f) {
 				// if GPS and compass is available, use compass value
 				bearing = mAzimuth;
-			} else if (mLocation.hasSpeed() && (mLocation.getSpeed() > 1) && mLocation.hasBearing()) {
+			} else if (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {
 				// use bearing if available and if we're actually moving
 				// XXX do we really need to test for speed > 1, or maybe better
 				// some number other than 1
@@ -372,8 +372,8 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
-			final double xDiff = (x - mMapCoords.x);
-			final double yDiff = (y - mMapCoords.y);
+			final double xDiff = x - mMapCoords.x;
+			final double yDiff = y - mMapCoords.y;
 			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
 				logger.debug("snap=" + snap);
@@ -417,6 +417,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 	@Override
 	public void disableMyLocation() {
 		mLocationManager.removeUpdates(this);
+		mFollow = false;
 		mMyLocationEnabled = false;
 	}
 
@@ -434,6 +435,27 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
 					mLocationUpdateMinTime, mLocationUpdateMinDistance, this);
 		}
+
+		// set initial location when enabled
+		final Location gpsLocation =
+			mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		final Location networkLocation =
+			mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		if (gpsLocation == null) {
+			mLocation = networkLocation;
+		} else if (networkLocation == null) {
+			mLocation = gpsLocation;
+		} else {
+			// both are non-null - use the most recent
+			if (networkLocation.getTime() > gpsLocation.getTime()) {
+				mLocation = networkLocation;
+			} else {
+				mLocation = gpsLocation;
+			}
+		}
+		mMapController.animateTo(new GeoPoint(mLocation));
+
+		mFollow = true;
 		return mMyLocationEnabled = true;
 	}
 
@@ -482,7 +504,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 
 	@Override
 	public boolean runOnFirstFix(final Runnable runnable) {
-		if (mMyLocationEnabled && (mLocation != null)) {
+		if (mMyLocationEnabled && mLocation != null) {
 			runnable.run();
 			return true;
 		} else {
