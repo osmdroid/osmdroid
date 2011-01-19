@@ -453,7 +453,9 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 				mLocation = gpsLocation;
 			}
 		}
-		mMapController.animateTo(new GeoPoint(mLocation));
+		if (mLocation != null) {
+			mMapController.animateTo(new GeoPoint(mLocation));
+		}
 
 		mFollow = true;
 		return mMyLocationEnabled = true;
