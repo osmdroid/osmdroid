@@ -8,6 +8,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
@@ -437,22 +438,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		}
 
 		// set initial location when enabled
-		final Location gpsLocation =
-			mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		final Location networkLocation =
-			mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-		if (gpsLocation == null) {
-			mLocation = networkLocation;
-		} else if (networkLocation == null) {
-			mLocation = gpsLocation;
-		} else {
-			// both are non-null - use the most recent
-			if (networkLocation.getTime() > gpsLocation.getTime()) {
-				mLocation = networkLocation;
-			} else {
-				mLocation = gpsLocation;
-			}
-		}
+		mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
 		if (mLocation != null) {
 			mMapController.animateTo(new GeoPoint(mLocation));
 		}
