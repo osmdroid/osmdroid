@@ -19,5 +19,4 @@ public interface IMapView {
 	int getLongitudeSpan();
 	IGeoPoint getMapCenter();
 
-	// TODO getOverlays()
 }
