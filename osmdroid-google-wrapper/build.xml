@@ -6,15 +6,25 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="osmdroid-google-wrapper">
     <property environment="env"/>
-    <property name="ANDROID_SDK_PLATFORM" value="../../../../../../opt/android/android-sdk-linux_86/platforms/android-7"/>
-    <property name="ECLIPSE_HOME" value="../../../../../../usr/lib/eclipse"/>
+    <property name="ANDROID_SDK_PLATFORM" value="W:/android-sdk-windows/platforms/android-3"/>
+    <property name="GOOGLE_SDK_PLATFORM" value="W:/android-sdk-windows/add-ons/google_apis-3-r03/libs"/>
+    <property name="ECLIPSE_HOME" value="C:/eclipse"/>
+    <property name="osmdroid-android.location" value="../osmdroid-android"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <import file="build-jar.xml"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit4_4.5.0.v20090824/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.jar"/>
+    </path>
+    <path id="osmdroid-android.classpath">
+        <pathelement location="${osmdroid-android.location}/bin"/>
+        <pathelement location="${osmdroid-android.location}/lib/apache-mime4j-0.6.jar"/>
+        <pathelement location="${osmdroid-android.location}/lib/httpmime-4.0.1.jar"/>
+        <pathelement location="${osmdroid-android.location}/lib/slf4j-android-1.5.8.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="${ANDROID_SDK_PLATFORM}/android.jar"/>
     </path>
     <path id="osmdroid-google-wrapper.classpath">
         <pathelement location="bin"/>
@@ -23,6 +33,8 @@
         <pathelement location="lib/slf4j-android-1.5.8.jar"/>
         <path refid="JUnit 4.libraryclasspath"/>
         <pathelement location="${ANDROID_SDK_PLATFORM}/android.jar"/>
+        <pathelement location="${GOOGLE_SDK_PLATFORM}/maps.jar"/>
+        <path refid="osmdroid-android.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
