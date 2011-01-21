@@ -19,10 +19,10 @@ import android.graphics.drawable.Drawable;
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
  * provider will automatically find existing archives and use each one that it finds.
- *
+ * 
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
@@ -46,13 +46,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	/**
 	 * The tiles may be found on several media. This one works with tiles stored on the file system.
-	 * It and its friends are typically created and controlled by
-	 * {@link MapTileProviderBase}.
+	 * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
 	 */
 	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource) {
-		super(pRegisterReceiver,
-				NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		super(pRegisterReceiver, NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
 		mTileSource = pTileSource;
 
@@ -89,12 +88,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : Integer.MAX_VALUE;
+		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MAXIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : Integer.MIN_VALUE;
+		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
@@ -140,7 +139,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		for (final IArchiveFile archiveFile : mArchiveFiles) {
 			final InputStream in = archiveFile.getInputStream(mTileSource, pTile);
 			if (in != null) {
-				if(DEBUGMODE) {
+				if (DEBUGMODE) {
 					logger.debug("Found tile " + pTile + " in " + archiveFile);
 				}
 				return in;

@@ -15,6 +15,15 @@ public interface OpenStreetMapTileProviderConstants {
 
 	public static final boolean DEBUGMODE = false;
 
+	/** Minimum Zoom Level */
+	public static final int MINIMUM_ZOOMLEVEL = 0;
+
+	/**
+	 * Maximum Zoom Level - we use Integers to store zoom levels so overflow happens at 2^32, but we
+	 * also have a tile size that is typically 2^8, so 32-8-1 = 23
+	 */
+	public static final int MAXIMUM_ZOOMLEVEL = 23;
+
 	/** Base path for osmdroid files. Zip files are in this folder. */
 	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");

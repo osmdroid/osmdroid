@@ -1,8 +1,8 @@
 // Created by plusminus on 21:46:22 - 25.09.2008
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +16,13 @@ import android.os.Handler;
  * <li>notifying the client, via a callback handler</li>
  * </ul>
  * see {@link MapTile} for an overview of how tiles are served by this provider.
- *
+ * 
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- *
+ * 
  */
-public abstract class MapTileProviderBase
-implements IMapTileProviderCallback, MapViewConstants {
+public abstract class MapTileProviderBase implements IMapTileProviderCallback,
+		OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBase.class);
 
@@ -38,21 +38,21 @@ implements IMapTileProviderCallback, MapViewConstants {
 
 	/**
 	 * Gets the minimum zoom level this tile provider can provide
-	 *
+	 * 
 	 * @return the minimum zoom level
 	 */
 	public abstract int getMinimumZoomLevel();
 
 	/**
 	 * Gets the maximum zoom level this tile provider can provide
-	 *
+	 * 
 	 * @return the maximum zoom level
 	 */
 	public abstract int getMaximumZoomLevel();
 
 	/**
 	 * Sets the tile source for this tile provider.
-	 *
+	 * 
 	 * @param pTileSource
 	 *            the tile source
 	 */
@@ -62,7 +62,7 @@ implements IMapTileProviderCallback, MapViewConstants {
 
 	/**
 	 * Gets the tile source for this tile provider.
-	 *
+	 * 
 	 * @return the tile source
 	 */
 	public ITileSource getTileSource() {
@@ -81,15 +81,14 @@ implements IMapTileProviderCallback, MapViewConstants {
 	/**
 	 * Called by implementation class methods indicating that they have completed the request as
 	 * best it can. The tile is added to the cache, and a MAPTILE_SUCCESS_ID message is sent.
-	 *
+	 * 
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCompleted(final MapTileRequestState pState,
-			final Drawable pDrawable) {
+	public void mapTileRequestCompleted(final MapTileRequestState pState, final Drawable pDrawable) {
 		final MapTile tile = pState.getMapTile();
 		if (pDrawable != null) {
 			mTileCache.putTile(tile, pDrawable);
@@ -107,22 +106,21 @@ implements IMapTileProviderCallback, MapViewConstants {
 
 	/**
 	 * Default implementation is to call mapTileRequestCompleted
-	 *
+	 * 
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
 	 *            the Drawable of the map tile
 	 */
 	@Override
-	public void mapTileRequestCandidate(final MapTileRequestState pState,
-			final Drawable pDrawable) {
+	public void mapTileRequestCandidate(final MapTileRequestState pState, final Drawable pDrawable) {
 		mapTileRequestCompleted(pState, pDrawable);
 	}
 
 	/**
 	 * Called by implementation class methods indicating that they have failed to retrieve the
 	 * requested map tile. a MAPTILE_FAIL_ID message is sent.
-	 *
+	 * 
 	 * @param pState
 	 *            the map tile request state object
 	 */
@@ -160,7 +158,7 @@ implements IMapTileProviderCallback, MapViewConstants {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param pMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.

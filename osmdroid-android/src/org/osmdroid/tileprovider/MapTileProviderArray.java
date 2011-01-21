@@ -160,7 +160,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		int result = Integer.MAX_VALUE;
+		int result = MAXIMUM_ZOOMLEVEL;
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result)
@@ -172,7 +172,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public int getMaximumZoomLevel() {
-		int result = Integer.MIN_VALUE;
+		int result = MINIMUM_ZOOMLEVEL;
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMaximumZoomLevel() > result)

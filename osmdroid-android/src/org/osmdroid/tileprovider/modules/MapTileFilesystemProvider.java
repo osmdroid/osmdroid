@@ -15,10 +15,10 @@ import android.graphics.drawable.Drawable;
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
  * serving cached tiles for the supplied tile source.
- *
+ * 
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- *
+ * 
  */
 public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
@@ -52,13 +52,13 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	/**
 	 * Provides a file system based cache tile provider. Other providers can register and store data
 	 * in the cache.
-	 *
+	 * 
 	 * @param pRegisterReceiver
 	 */
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-		super(pRegisterReceiver,
-				NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		super(pRegisterReceiver, NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 		mTileSource = pTileSource;
 
 		mMaximumCachedFileAge = pMaximumCachedFileAge;
@@ -94,12 +94,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : Integer.MAX_VALUE;
+		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MAXIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : Integer.MIN_VALUE;
+		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
