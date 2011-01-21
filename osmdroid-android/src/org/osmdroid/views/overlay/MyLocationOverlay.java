@@ -38,15 +38,13 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
-
 /**
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
-public class MyLocationOverlay
-extends Overlay
-implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable {
+public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, SensorEventListener,
+		LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
@@ -151,7 +149,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		COMPASS_ROSE_CENTER_Y = mCompassRose.getHeight() / 2 - 0.5f;
 
 		final List<Sensor> mOrientationSensors = mSensorManager
-		.getSensorList(Sensor.TYPE_ORIENTATION);
+				.getSensorList(Sensor.TYPE_ORIENTATION);
 		mOrientationSensorAvailable = !mOrientationSensors.isEmpty();
 	}
 
@@ -201,7 +199,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -216,7 +214,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -238,7 +236,8 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 
 	@Override
 	public void onDraw(final Canvas c, final MapView osmv) {
-		if (this.mLocation != null) {
+
+		if ((mMyLocationEnabled) && (this.mLocation != null)) {
 			final Projection pj = osmv.getProjection();
 			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
 					(int) (mLocation.getLongitude() * 1E6));
@@ -259,9 +258,9 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 
 			if (DEBUGMODE) {
 				final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
-				/ mMatrixValues[Matrix.MSCALE_X];
+						/ mMatrixValues[Matrix.MSCALE_X];
 				final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
-				/ mMatrixValues[Matrix.MSCALE_Y];
+						/ mMatrixValues[Matrix.MSCALE_Y];
 				c.drawText("Lat: " + mLocation.getLatitude(), tx, ty + 5, this.mPaint);
 				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
 				c.drawText("Alt: " + mLocation.getAltitude(), tx, ty + 35, this.mPaint);
@@ -301,7 +300,7 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 			}
 		}
 
-		if (mAzimuth >= 0.0f) {
+		if ((mCompassEnabled) && (mAzimuth >= 0.0f)) {
 			final float centerX = mCompassCenterX * mScale;
 			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
 
@@ -367,7 +366,8 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 	}
 
 	@Override
-	public boolean onSnapToItem(final int x, final int y, final Point snapPoint, final MapView mapView) {
+	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
+			final MapView mapView) {
 		if (this.mLocation != null) {
 			final Projection pj = mapView.getProjection();
 			pj.toMapPixels(new GeoPoint(mLocation), mMapCoords);
@@ -420,6 +420,10 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		mLocationManager.removeUpdates(this);
 		mFollow = false;
 		mMyLocationEnabled = false;
+
+		// Update the screen to see changes take effect
+		if (mMapView != null)
+			mMapView.invalidate();
 	}
 
 	/**
@@ -444,6 +448,11 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		}
 
 		mFollow = true;
+
+		// Update the screen to see changes take effect
+		if (mMapView != null)
+			mMapView.invalidate();
+
 		return mMyLocationEnabled = true;
 	}
 
@@ -461,10 +470,15 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 		if (mOrientationSensorAvailable) {
 			if (!mCompassEnabled) {
 				final Sensor sensorOrientation = this.mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+						.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 				mSensorManager.registerListener(this, sensorOrientation,
 						SensorManager.SENSOR_DELAY_UI);
 			}
+
+			// Update the screen to see changes take effect
+			if (mMapView != null)
+				mMapView.invalidate();
+
 			return mCompassEnabled = true;
 		} else {
 			return mCompassEnabled = false;
@@ -479,6 +493,10 @@ implements IMyLocationOverlay, SensorEventListener, LocationListener, Snappable 
 			// Reset azimuth value
 			mAzimuth = -1.0f;
 		}
+
+		// Update the screen to see changes take effect
+		if (mMapView != null)
+			mMapView.invalidate();
 	}
 
 	public boolean toggleCompass() {
