@@ -2,11 +2,11 @@
 package org.osmdroid.constants;
 
 /**
- *
+ * 
  * This class contains constants used by the sample applications.
- *
+ * 
  * @author Nicolas Gramlich
- *
+ * 
  */
 public interface OpenStreetMapConstants {
 	// ===========================================================
@@ -23,6 +23,7 @@ public interface OpenStreetMapConstants {
 	public static final String PREFS_SCROLL_Y = "scrollY";
 	public static final String PREFS_ZOOM_LEVEL = "zoomLevel";
 	public static final String PREFS_SHOW_LOCATION = "showLocation";
+	public static final String PREFS_SHOW_COMPASS = "showCompass";
 
 	// ===========================================================
 	// Methods

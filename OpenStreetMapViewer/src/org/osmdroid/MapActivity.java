@@ -28,9 +28,9 @@ import android.widget.Toast;
 
 /**
  * Default map view activity.
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
 public class MapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -95,6 +95,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		edit.putInt(PREFS_SCROLL_Y, mOsmv.getScrollY());
 		edit.putInt(PREFS_ZOOM_LEVEL, mOsmv.getZoomLevel());
 		edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
+		edit.putBoolean(PREFS_SHOW_COMPASS, mLocationOverlay.isCompassEnabled());
 		edit.commit();
 
 		this.mLocationOverlay.disableMyLocation();
@@ -114,6 +115,9 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		}
 		if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
 			this.mLocationOverlay.enableMyLocation();
+		}
+		if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
+			this.mLocationOverlay.enableCompass();
 		}
 	}
 
