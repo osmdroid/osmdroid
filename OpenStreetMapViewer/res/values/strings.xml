@@ -22,4 +22,5 @@
 	<string name="format_distance_nautical_miles">%s nm</string>
 	<string name="format_distance_feet">%s ft</string>
 
+<string name="compass">Compass</string>
 </resources>

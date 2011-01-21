@@ -42,6 +42,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 	private static final int MENU_OFFLINE = MENU_MAP_MODE + 1;
 	private static final int MENU_SAMPLES = MENU_OFFLINE + 1;
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
+	private static final int MENU_COMPASS = MENU_ABOUT + 1;
 
 	private static final int DIALOG_ABOUT_ID = 1;
 
@@ -121,10 +122,13 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location).setIcon(
 				android.R.drawable.ic_menu_mylocation);
 
+		pMenu.add(0, MENU_COMPASS, Menu.NONE, R.string.compass).setIcon(
+				android.R.drawable.ic_menu_compass);
+
 		{
-			final SubMenu mapMenu =
-				pMenu.addSubMenu(0, MENU_MAP_MODE, Menu.NONE, R.string.map_mode).setIcon(
-						android.R.drawable.ic_menu_mapmode);
+			final SubMenu mapMenu = pMenu
+					.addSubMenu(0, MENU_MAP_MODE, Menu.NONE, R.string.map_mode).setIcon(
+							android.R.drawable.ic_menu_mapmode);
 
 			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
 				mapMenu.add(MENU_MAP_MODE, 1000 + tileSource.ordinal(), Menu.NONE,
@@ -170,6 +174,14 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 							: R.string.set_mode_hide_me, Toast.LENGTH_LONG).show();
 			return true;
 
+		case MENU_COMPASS:
+			if (this.mLocationOverlay.isCompassEnabled()) {
+				this.mLocationOverlay.disableCompass();
+			} else {
+				this.mLocationOverlay.enableCompass();
+			}
+			return true;
+
 		case MENU_MAP_MODE:
 			this.mOsmv.invalidate();
 			return true;
@@ -202,12 +214,12 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		switch (id) {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(MapActivity.this).setIcon(R.drawable.icon)
-			.setTitle(R.string.app_name).setMessage(R.string.about_message)
-			.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(final DialogInterface dialog, final int whichButton) {
-				}
-			}).create();
+					.setTitle(R.string.app_name).setMessage(R.string.about_message)
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(final DialogInterface dialog, final int whichButton) {
+						}
+					}).create();
 
 		default:
 			dialog = null;
