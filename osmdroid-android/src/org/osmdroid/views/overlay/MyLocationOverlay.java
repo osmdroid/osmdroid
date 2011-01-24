@@ -28,6 +28,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Picture;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -81,8 +82,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 
 	private final Matrix directionRotater = new Matrix();
 
-	/** Coordinates the feet of the person are located. */
-	protected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);
+	/** Coordinates the feet of the person are located scaled for display density. */
+	protected final PointF PERSON_HOTSPOT;
 
 	private final float DIRECTION_ARROW_CENTER_X;
 	private final float DIRECTION_ARROW_CENTER_Y;
@@ -140,6 +141,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 		DIRECTION_ARROW_CENTER_Y = DIRECTION_ARROW.getHeight() / 2 - 0.5f;
 
 		mScale = ctx.getResources().getDisplayMetrics().density;
+
+		// Calculate position of person icon's feet, scaled to screen density
+		PERSON_HOTSPOT = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
 
 		createCompassFramePicture();
 		createCompassRosePicture();
