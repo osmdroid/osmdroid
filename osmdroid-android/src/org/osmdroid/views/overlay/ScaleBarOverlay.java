@@ -66,7 +66,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	float xOffset = 10;
 	float yOffset = 10;
 	float lineWidth = 2;
-	int textSize = 12;
+	final int textSize = 12;
 	int minZoom = 0;
 
 	boolean imperial = false;
@@ -171,8 +171,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		this.lineWidth = width;
 	}
 
-	public void setTextSize(final int size) {
-		this.textSize = size;
+	public void setTextSize(final float size) {
+		this.textPaint.setTextSize(size);
 	}
 
 	public void setImperial() {
