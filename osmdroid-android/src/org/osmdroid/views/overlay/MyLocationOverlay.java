@@ -242,7 +242,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	@Override
 	public void onDraw(final Canvas c, final MapView osmv) {
 
-		// Note - all azimuths are offset by +90 when in landscape mode. This is because the
+		// Note - all azimuths are offset by -90 when in landscape mode. This is because the
 		// hardware does not change orientation when physically flipped, but Android changes the
 		// screen coordinates therefore it will be off by 90 degrees. This assumes that Android only
 		// allows two screen rotations - 0 degrees (portrait) and 90 degrees (landscape) and does
@@ -250,7 +250,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 		// respectively). This is probably a bad assumption, so maybe there is a better way to do
 		// this. SensorManager.remapCoordinateSystem might be able to help.
 
-		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 90
+		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
 				: 0);
 
 		if ((mMyLocationEnabled) && (this.mLocation != null)) {
@@ -299,7 +299,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 				 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
 				 * to the canvas.
 				 */
-				this.directionRotater.setRotate(azimuthRotationOffset + bearing,
+				this.directionRotater.setRotate(-bearing + azimuthRotationOffset,
 						DIRECTION_ARROW_CENTER_X, DIRECTION_ARROW_CENTER_Y);
 
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X,
@@ -328,7 +328,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 			c.setMatrix(mCompassMatrix);
 			c.drawPicture(mCompassFrame);
 
-			this.mCompassMatrix.setRotate(azimuthRotationOffset + mAzimuth, COMPASS_ROSE_CENTER_X,
+			this.mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
 					COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(centerX, centerY);
