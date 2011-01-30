@@ -621,6 +621,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	public void computeScroll() {
 		if (mScroller.computeScrollOffset()) {
 			if (mScroller.isFinished()) {
+				// This will facilitate snapping-to any Snappable points.
 				setZoomLevel(mZoomLevel);
 			} else {
 				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
