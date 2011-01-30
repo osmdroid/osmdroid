@@ -1151,7 +1151,12 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public void onAnimationEnd(final Animation aAnimation) {
 			animating = false;
-			setZoomLevel(targetZoomLevel);
+			MapView.this.post(new Runnable() {
+				@Override
+				public void run() {
+					setZoomLevel(targetZoomLevel);
+				}
+			});
 		}
 
 		@Override
