@@ -223,7 +223,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 
 	public boolean contains(final int aLatitudeE6, final int aLongitudeE6) {
 		return ((aLatitudeE6 < this.mLatNorthE6) && (aLatitudeE6 > this.mLatSouthE6))
-				|| ((aLongitudeE6 < this.mLonEastE6) && (aLongitudeE6 > this.mLonWestE6));
+				&& ((aLongitudeE6 < this.mLonEastE6) && (aLongitudeE6 > this.mLonWestE6));
 	}
 
 	// ===========================================================
