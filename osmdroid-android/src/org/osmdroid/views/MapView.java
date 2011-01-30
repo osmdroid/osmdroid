@@ -722,7 +722,13 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	@Override
 	public boolean setPositionAndScale(final Object obj, final PositionAndScale aNewObjPosAndScale,
 			final PointInfo aTouchPoint) {
-		mMultiTouchScale = aNewObjPosAndScale.getScale();
+		float multiTouchScale = aNewObjPosAndScale.getScale();
+		// If we are at the first or last zoom level, prevent pinching/expanding
+		if ((multiTouchScale > 1) && !canZoomIn())
+			multiTouchScale = 1;
+		if ((multiTouchScale < 1) && !canZoomOut())
+			multiTouchScale = 1;
+		mMultiTouchScale = multiTouchScale;
 		invalidate(); // redraw
 		return true;
 	}
