@@ -15,8 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.andnav2.osm.mtp.adt.OSMTileInfo;
-import org.andnav2.osm.mtp.util.StreamUtils;
-
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 public class DownloadManager {
 	// ===========================================================
@@ -26,18 +25,18 @@ public class DownloadManager {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private final ExecutorService mThreadPool;
-	
+
 	private final Queue<OSMTileInfo> mQueue = new LinkedBlockingQueue<OSMTileInfo>();
 
-	private String mBaseURL;
-	private String mDestinationURL;
+	private final String mBaseURL;
+	private final String mDestinationURL;
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
+
 	public DownloadManager(final String pBaseURL, final String pDestinationURL, final int mThreads) {
 		this.mBaseURL = pBaseURL;
 		this.mDestinationURL = pDestinationURL;
@@ -47,31 +46,32 @@ public class DownloadManager {
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public synchronized void add(final OSMTileInfo pTileInfo){
 		this.mQueue.add(pTileInfo);
 		spawnNewThread();
 	}
-	
+
 	private synchronized OSMTileInfo getNext(){
 		final OSMTileInfo tile = this.mQueue.poll();
-		
+
 		final int remaining = this.mQueue.size();
-		if(remaining % 10 == 0 && remaining > 0)
+		if(remaining % 10 == 0 && remaining > 0) {
 			System.out.print("(" + remaining +")");
-		else
+		} else {
 			System.out.print(".");
-		
+		}
+
 		this.notify();
 		return tile;
 	}
-	
+
 	public synchronized void waitEmpty() throws InterruptedException {
 		while(this.mQueue.size() > 0){
 			this.wait();
 		}
 	}
-	
+
 	public void waitFinished() throws InterruptedException {
 		waitEmpty();
 		this.mThreadPool.shutdown();
@@ -85,30 +85,30 @@ public class DownloadManager {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	private void spawnNewThread() {
 		this.mThreadPool.execute(new DownloadRunner());
 	}
-	
+
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
 
 
 	private class DownloadRunner implements Runnable {
-		
+
 		private OSMTileInfo mTileInfo;
 		private File mDestinationFile;
-		
-		public DownloadRunner() {			
+
+		public DownloadRunner() {
 		}
-		
-		private void init(final OSMTileInfo pTileInfo) {	
+
+		private void init(final OSMTileInfo pTileInfo) {
 			this.mTileInfo = pTileInfo;
 			/* Create destination file. */
-			final String filename = String.format(DownloadManager.this.mDestinationURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y); 
+			final String filename = String.format(DownloadManager.this.mDestinationURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y);
 			this.mDestinationFile = new File(filename);
-			
+
 			final File parent = this.mDestinationFile.getParentFile();
 			parent.mkdirs();
 		}
@@ -117,25 +117,25 @@ public class DownloadManager {
 		public void run() {
 			InputStream in = null;
 			OutputStream out = null;
-			
+
 			init(DownloadManager.this.getNext());
 
 			if (mDestinationFile.exists()) {
 				return; // TODO issue 70 - make this an option
 			}
-			
+
 			final String finalURL = String.format(DownloadManager.this.mBaseURL, this.mTileInfo.zoom, this.mTileInfo.x, this.mTileInfo.y);
 
-			try {			
+			try {
 				in = new BufferedInputStream(new URL(finalURL).openStream(), StreamUtils.IO_BUFFER_SIZE);
 
 				final FileOutputStream fileOut = new FileOutputStream(this.mDestinationFile);
 				out = new BufferedOutputStream(fileOut, StreamUtils.IO_BUFFER_SIZE);
-				
+
 				StreamUtils.copy(in, out);
-				
+
 				out.flush();
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				System.err.println("Error downloading: '" + this.mTileInfo + "' from URL: " + finalURL + " : " + e);
 				DownloadManager.this.add(this.mTileInfo); // try again later
 			} finally {

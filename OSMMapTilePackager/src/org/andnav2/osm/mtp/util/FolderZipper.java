@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.osmdroid.tileprovider.util.StreamUtils;
+
 
 public class FolderZipper {
 	// ===========================================================
@@ -34,33 +36,33 @@ public class FolderZipper {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	public static void zipFolderToFile(final File pDestinationFile, final File pFolderToZip){
 		try {
 			//create ZipOutputStream object
 			final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(pDestinationFile));
-			
+
 			//get path prefix so that the zip file does not contain the whole path
 			// eg. if folder to be zipped is /home/lalit/test
 			// the zip file when opened will have test folder and not home/lalit/test folder
 			final int len = pDestinationFile.getAbsolutePath().lastIndexOf(File.separator);
-			String baseName = pFolderToZip.getAbsolutePath().substring(0,len+1);
-			
+			final String baseName = pFolderToZip.getAbsolutePath().substring(0,len+1);
+
 			addFolderToZip(pFolderToZip, out, baseName);
-			
+
 			StreamUtils.closeStream(out);
-		} catch (FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
 
-	private static void addFolderToZip(File folder, ZipOutputStream zip, String baseName) throws IOException {
+
+	private static void addFolderToZip(final File folder, final ZipOutputStream zip, final String baseName) throws IOException {
 		final File[] files = folder.listFiles();
 		/* For each child (subdirectory/child-file). */
-		for (File file : files) {
+		for (final File file : files) {
 			if (file.isDirectory()) {
 				/* If the file is a folder, do recursrion with this folder.*/
 				addFolderToZip(file, zip, baseName);

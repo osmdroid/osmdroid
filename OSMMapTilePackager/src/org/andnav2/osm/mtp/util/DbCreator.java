@@ -4,7 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DbCreator
 {
@@ -12,27 +16,29 @@ public class DbCreator
 	{
 		pDestinationFile.delete();
 		Class.forName("org.sqlite.JDBC");
-		Connection conn = DriverManager.getConnection("jdbc:sqlite:" + pDestinationFile);
-		Statement stat = conn.createStatement();
+		final Connection conn = DriverManager.getConnection("jdbc:sqlite:" + pDestinationFile);
+		final Statement stat = conn.createStatement();
 		stat.execute("CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)");
 		stat.close();
-		PreparedStatement prep = conn.prepareStatement("insert into tiles values (?, ?, ?);");
-		for(File zf : pFolderToPut.listFiles())
+		final PreparedStatement prep = conn.prepareStatement("insert into tiles values (?, ?, ?);");
+		for(final File zf : pFolderToPut.listFiles())
 		{
-			for(File xf : zf.listFiles())
+			for(final File xf : zf.listFiles())
 			{
-				for(File yf : xf.listFiles())
+				for(final File yf : xf.listFiles())
 				{
-					String[] s = yf.toString().split("/");
-					long z = Long.parseLong(s[s.length - 3]);
-					long x = Long.parseLong(s[s.length - 2]);
-					long y = Long.parseLong(s[s.length - 1].split(".png")[0]);
-					long index = (((z << z) + x) << z) + y;
+					final String[] s = yf.toString().split("/");
+					final long z = Long.parseLong(s[s.length - 3]);
+					final long x = Long.parseLong(s[s.length - 2]);
+					final long y = Long.parseLong(s[s.length - 1].split(".png")[0]);
+					final long index = (((z << z) + x) << z) + y;
 					prep.setLong(1, index);
-					String provider = s[s.length - 4];
+					final String provider = s[s.length - 4];
 					prep.setString(2, provider);
-					byte[] image = new byte[(int) yf.length()];
-					new FileInputStream(yf).read(image);
+					final byte[] image = new byte[(int) yf.length()];
+					final FileInputStream str = new FileInputStream(yf);
+					str.read(image);
+					str.close();
 					prep.setBytes(3, image);
 					prep.executeUpdate();
 				}
