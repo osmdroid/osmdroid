@@ -38,6 +38,8 @@ public class TilesOverlay extends Overlay {
 
 	private int mWorldSize_2;
 
+	private boolean mEnabled = true;
+	
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
@@ -52,6 +54,18 @@ public class TilesOverlay extends Overlay {
 		this.mTileProvider.detach();
 	}
 
+	public boolean isEnabled() {
+		return mEnabled;
+	}
+	
+	public void enable() {
+		mEnabled = true;
+	}
+	
+	public void disable() {
+		mEnabled = false;
+	}
+	
 	public void setAlpha(final int a) {
 		this.mPaint.setAlpha(a);
 	}
@@ -84,25 +98,27 @@ public class TilesOverlay extends Overlay {
 
 	@Override
 	protected void onDraw(final Canvas c, final MapView osmv) {
-
-		if (DEBUGMODE) {
-			logger.trace("onDraw");
+		if (mEnabled) {
+		
+			if (DEBUGMODE) {
+				logger.trace("onDraw");
+			}
+	
+			// Calculate the half-world size
+			final Projection pj = osmv.getProjection();
+			final int zoomLevel = pj.getZoomLevel();
+			final int tileZoom = pj.getTileMapZoom();
+			mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
+	
+			// Get the area we are drawing to
+			c.getClipBounds(mViewPort);
+	
+			// Translate the Canvas coordinates into Mercator coordinates
+			mViewPort.offset(mWorldSize_2, mWorldSize_2);
+	
+			// Draw the tiles!
+			drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
 		}
-
-		// Calculate the half-world size
-		final Projection pj = osmv.getProjection();
-		final int zoomLevel = pj.getZoomLevel();
-		final int tileZoom = pj.getTileMapZoom();
-		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
-
-		// Get the area we are drawing to
-		c.getClipBounds(mViewPort);
-
-		// Translate the Canvas coordinates into Mercator coordinates
-		mViewPort.offset(mWorldSize_2, mWorldSize_2);
-
-		// Draw the tiles!
-		drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
 	}
 
 	/**
