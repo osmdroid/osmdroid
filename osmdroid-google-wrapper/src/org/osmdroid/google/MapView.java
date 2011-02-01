@@ -71,4 +71,9 @@ public class MapView implements IMapView {
 		return mMapView.getMaxZoomLevel();
 	}
 
+	@Override
+	public void setBackgroundColor(final int pColor) {
+		mMapView.setBackgroundColor(pColor);
+	}
+
 }

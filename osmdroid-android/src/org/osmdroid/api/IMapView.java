@@ -19,4 +19,8 @@ public interface IMapView {
 	int getLongitudeSpan();
 	IGeoPoint getMapCenter();
 
+	// some methods from View
+	// (well, just one for now)
+	void setBackgroundColor(int color);
+
 }
