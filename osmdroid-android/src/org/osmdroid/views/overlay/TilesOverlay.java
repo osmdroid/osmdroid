@@ -37,8 +37,6 @@ public class TilesOverlay extends Overlay {
 	private final Rect mViewPort = new Rect();
 
 	private int mWorldSize_2;
-
-	private boolean mEnabled = true;
 	
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
@@ -54,18 +52,6 @@ public class TilesOverlay extends Overlay {
 		this.mTileProvider.detach();
 	}
 
-	public boolean isEnabled() {
-		return mEnabled;
-	}
-	
-	public void enable() {
-		mEnabled = true;
-	}
-	
-	public void disable() {
-		mEnabled = false;
-	}
-	
 	public void setAlpha(final int a) {
 		this.mPaint.setAlpha(a);
 	}
@@ -98,7 +84,7 @@ public class TilesOverlay extends Overlay {
 
 	@Override
 	protected void onDraw(final Canvas c, final MapView osmv) {
-		if (mEnabled) {
+		if (isEnabled()) {
 		
 			if (DEBUGMODE) {
 				logger.trace("onDraw");
