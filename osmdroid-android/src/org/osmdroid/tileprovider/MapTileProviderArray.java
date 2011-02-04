@@ -42,8 +42,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * @param aRegisterReceiver
 	 *            a {@link IRegisterReceiver}
 	 */
-	protected MapTileProviderArray(final IRegisterReceiver aRegisterReceiver) {
-		this(aRegisterReceiver, new MapTileModuleProviderBase[0]);
+	protected MapTileProviderArray(final ITileSource pTileSource,
+			final IRegisterReceiver pRegisterReceiver) {
+		this(pTileSource, pRegisterReceiver, new MapTileModuleProviderBase[0]);
 	}
 
 	/**
@@ -54,14 +55,15 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * @param tileProviderArray
 	 *            an array of {@link MapTileModuleProviderBase}
 	 */
-	public MapTileProviderArray(final IRegisterReceiver aRegisterReceiver,
-			final MapTileModuleProviderBase[] tileProviderArray) {
-		super();
+	public MapTileProviderArray(final ITileSource pTileSource,
+			final IRegisterReceiver aRegisterReceiver,
+			final MapTileModuleProviderBase[] pTileProviderArray) {
+		super(pTileSource);
 
 		mWorking = new ConcurrentHashMap<MapTileRequestState, MapTile>();
 
 		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
-		Collections.addAll(mTileProviderList, tileProviderArray);
+		Collections.addAll(mTileProviderList, pTileProviderArray);
 	}
 
 	@Override

@@ -69,13 +69,15 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		return mTileSource;
 	}
 
-	public MapTileProviderBase() {
-		this(null);
+	public MapTileProviderBase(final ITileSource pTileSource) {
+		this(pTileSource, null);
 	}
 
-	public MapTileProviderBase(final Handler pDownloadFinishedListener) {
+	public MapTileProviderBase(final ITileSource pTileSource,
+			final Handler pDownloadFinishedListener) {
 		mTileCache = new MapTileCache();
 		mTileRequestCompleteHandler = pDownloadFinishedListener;
+		mTileSource = pTileSource;
 	}
 
 	/**

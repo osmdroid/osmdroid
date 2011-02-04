@@ -44,7 +44,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 */
 	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource) {
-		super(pRegisterReceiver);
+		super(pTileSource, pRegisterReceiver);
 
 		final TileWriter tileWriter = new TileWriter();
 
