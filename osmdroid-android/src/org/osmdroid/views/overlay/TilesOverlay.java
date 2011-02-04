@@ -84,27 +84,25 @@ public class TilesOverlay extends Overlay {
 
 	@Override
 	protected void onDraw(final Canvas c, final MapView osmv) {
-		if (isEnabled()) {
-		
-			if (DEBUGMODE) {
-				logger.trace("onDraw");
-			}
-	
-			// Calculate the half-world size
-			final Projection pj = osmv.getProjection();
-			final int zoomLevel = pj.getZoomLevel();
-			final int tileZoom = pj.getTileMapZoom();
-			mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
-	
-			// Get the area we are drawing to
-			c.getClipBounds(mViewPort);
-	
-			// Translate the Canvas coordinates into Mercator coordinates
-			mViewPort.offset(mWorldSize_2, mWorldSize_2);
-	
-			// Draw the tiles!
-			drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
+
+		if (DEBUGMODE) {
+			logger.trace("onDraw");
 		}
+
+		// Calculate the half-world size
+		final Projection pj = osmv.getProjection();
+		final int zoomLevel = pj.getZoomLevel();
+		final int tileZoom = pj.getTileMapZoom();
+		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
+
+		// Get the area we are drawing to
+		c.getClipBounds(mViewPort);
+
+		// Translate the Canvas coordinates into Mercator coordinates
+		mViewPort.offset(mWorldSize_2, mWorldSize_2);
+
+		// Draw the tiles!
+		drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
 	}
 
 	/**
