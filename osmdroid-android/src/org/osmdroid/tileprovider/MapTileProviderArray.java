@@ -147,8 +147,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"
 		do {
 			provider = aState.getNextProvider();
-		} while ((provider != null) && (!getProviderExists(provider))
-				&& (!useDataConnection() && provider.getUsesDataConnection()));
+		} while ((provider != null)
+				&& (!getProviderExists(provider) || (!useDataConnection() && provider
+						.getUsesDataConnection())));
 		return provider;
 	}
 
