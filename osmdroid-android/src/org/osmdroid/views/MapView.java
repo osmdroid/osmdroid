@@ -1,9 +1,6 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import net.wigle.wigleandroid.ZoomButtonsController;
 import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
 
@@ -29,6 +26,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
+import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -79,7 +77,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	private int mTileSizePixels = 0;
 
-	private final LinkedList<Overlay> mOverlays = new LinkedList<Overlay>();
+	private final OverlayManager mOverlayManager = new OverlayManager();
 
 	private Projection mProjection;
 
@@ -137,7 +135,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
-		mOverlays.add(this.mMapOverlay);
+		mOverlayManager.addOverlay(this.mMapOverlay, true);
+
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
@@ -191,8 +190,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
-	public List<Overlay> getOverlays() {
-		return this.mOverlays;
+	public OverlayManager getOverlayManager() {
+		return mOverlayManager;
 	}
 
 	public MapTileProviderBase getTileProvider() {
@@ -312,11 +311,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i) instanceof Snappable
-					&& ((Snappable) mOverlays.get(i)).onSnapToItem(getScrollX(), getScrollY(),
-							snapPoint, this)) {
-				scrollTo(snapPoint.x, snapPoint.y);
+		for (Overlay overlay : mOverlayManager.overlays()) {
+			if (overlay instanceof Snappable) {
+				if (((Snappable) overlay).onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+					scrollTo(snapPoint.x, snapPoint.y);
+				}
 			}
 		}
 
@@ -526,59 +525,36 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	public void onDetach() {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			mOverlays.get(i).onDetach(this);
-		}
+		mOverlayManager.onDetach(this);
 	}
 
-	public void onLongPress(final MotionEvent e) {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onLongPress(e, this)) {
-				return;
-			}
-		}
+	public boolean onLongPress(final MotionEvent e) {
+		return mOverlayManager.onLongPress(e, this);
 	}
 
 	public boolean onSingleTapUp(final MotionEvent e) {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onSingleTapUp(e, this)) {
-				postInvalidate();
-				return true;
-			}
-		}
-
-		return false;
+		return mOverlayManager.onSingleTapUp(e, this);
 	}
 
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onKeyDown(keyCode, event, this)) {
-				return true;
-			}
-		}
+		boolean result = mOverlayManager.onKeyDown(keyCode, event, this);
 
-		return super.onKeyDown(keyCode, event);
+		return result || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onKeyUp(keyCode, event, this)) {
-				return true;
-			}
-		}
+		boolean result = mOverlayManager.onKeyUp(keyCode, event, this);
 
-		return super.onKeyUp(keyCode, event);
+		return result || super.onKeyUp(keyCode, event);
 	}
 
 	@Override
 	public boolean onTrackballEvent(final MotionEvent event) {
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onTrackballEvent(event, this)) {
-				return true;
-			}
-		}
+
+		if (mOverlayManager.onTrackballEvent(event, this))
+			return true;
 
 		scrollBy((int) (event.getX() * 25), (int) (event.getY() * 25));
 
@@ -592,14 +568,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			logger.debug("onTouchEvent(" + event + ")");
 		}
 
-		for (int i = mOverlays.size() - 1; i >= 0; i--) {
-			if (mOverlays.get(i).onTouchEvent(event, this)) {
-				if (DEBUGMODE) {
-					logger.debug("overlay handled onTouchEvent");
-				}
-				return true;
-			}
-		}
+		if (mOverlayManager.onTouchEvent(event, this))
+			return true;
 
 		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 			if (DEBUGMODE) {
@@ -680,10 +650,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
 
-		/* Draw all Overlays. Avoid allocation by not doing enhanced loop. */
-		for (int i = 0; i < mOverlays.size(); i++) {
-			mOverlays.get(i).onManagedDraw(c, this);
-		}
+		/* Draw all Overlays. */
+		mOverlayManager.onDraw(c, this);
 
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE) {
@@ -1128,11 +1096,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-			for (int i = mOverlays.size() - 1; i >= 0; i--) {
-				if (mOverlays.get(i).onDoubleTapUp(e, MapView.this)) {
-					return true;
-				}
-			}
+
+			if (mOverlayManager.onDoubleTap(e, MapView.this))
+				return true;
 
 			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
 			return zoomInFixing(center);
