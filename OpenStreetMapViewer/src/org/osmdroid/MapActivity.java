@@ -77,7 +77,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 				mResourceProxy);
 		this.mOsmv.setBuiltInZoomControls(true);
 		this.mOsmv.setMultiTouchControls(true);
-		this.mOsmv.getOverlays().add(this.mLocationOverlay);
+		this.mOsmv.getOverlayManager().addOverlay(this.mLocationOverlay);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
