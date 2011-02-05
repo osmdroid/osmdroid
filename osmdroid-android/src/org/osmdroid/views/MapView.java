@@ -37,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -94,8 +93,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
 	private final MyAnimationListener mAnimationListener = new MyAnimationListener();
-
-	private int mBackgroundColor = Color.LTGRAY;
 
 	private final MapController mController;
 
@@ -253,7 +250,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -333,7 +330,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -344,7 +341,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -360,7 +357,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinimumZoomLevel() {
@@ -377,7 +374,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -505,7 +502,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -517,7 +514,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -661,7 +658,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	@Override
 	public void setBackgroundColor(final int pColor) {
-		mBackgroundColor = pColor;
+		mMapOverlay.setLoadingBackgroundColor(pColor);
+		invalidate();
 	}
 
 	@Override
@@ -680,15 +678,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		}
 
 		/* Draw background */
-		c.drawColor(mBackgroundColor);
-		// This is too slow:
-		// final Rect r = c.getClipBounds();
-		// mPaint.setColor(Color.GRAY);
-		// mPaint.setPathEffect(new DashPathEffect(new float[] {1, 1}, 0));
-		// for (int x = r.left; x < r.right; x += 20)
-		// c.drawLine(x, r.top, x, r.bottom, mPaint);
-		// for (int y = r.top; y < r.bottom; y += 20)
-		// c.drawLine(r.left, y, r.right, y, mPaint);
+		// c.drawColor(mBackgroundColor);
 
 		/* Draw all Overlays. Avoid allocation by not doing enhanced loop. */
 		for (int i = 0; i < mOverlays.size(); i++) {
@@ -859,7 +849,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -933,7 +923,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -956,7 +946,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 *
+		 * 
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -965,7 +955,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -985,7 +975,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1006,7 +996,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1025,7 +1015,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.

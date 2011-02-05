@@ -10,18 +10,22 @@ import org.osmdroid.views.MapView.Projection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.R.bool;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 /**
  * These objects are the principle consumer of map tiles.
- *
+ * 
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- *
+ * 
  */
 
 public class TilesOverlay extends Overlay {
@@ -30,21 +34,30 @@ public class TilesOverlay extends Overlay {
 
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
-	protected final Paint mPaint = new Paint();
 
 	/* to avoid allocations during draw */
+	protected final Paint mPaint = new Paint();
 	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
 
 	private int mWorldSize_2;
-	
+
+	/** A drawable loading tile **/
+	private BitmapDrawable mLoadingTile = null;
+	private bool mUseLoadingTile = null;
+	private int mLoadingBackgroundColor = Color.rgb(216, 208, 208);
+	private int mLoadingLineColor = Color.rgb(200, 192, 192);
+
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
 	}
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
-		this.mTileProvider = aTileProvider; // TODO check for null
+		if (aTileProvider == null)
+			throw new IllegalArgumentException(
+					"You must pass a valid tile provider to the tiles overlay.");
+		this.mTileProvider = aTileProvider;
 	}
 
 	@Override
@@ -73,7 +86,7 @@ public class TilesOverlay extends Overlay {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -138,12 +151,13 @@ public class TilesOverlay extends Overlay {
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
 				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
 
-				final Drawable currentMapTile = mTileProvider.getMapTile(tile);
-				if (currentMapTile != null) {
-					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
-							* tileSizePx + tileSizePx);
-					onTileReadyToDraw(c, currentMapTile, mTileRect);
-				}
+				Drawable currentMapTile = mTileProvider.getMapTile(tile);
+				if (currentMapTile == null)
+					currentMapTile = getLoadingTile();
+
+				mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
+						* tileSizePx + tileSizePx);
+				onTileReadyToDraw(c, currentMapTile, mTileRect);
 
 				if (DEBUGMODE) {
 					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
@@ -178,5 +192,56 @@ public class TilesOverlay extends Overlay {
 
 	@Override
 	protected void onDrawFinished(final Canvas c, final MapView osmv) {
+	}
+
+	public int getLoadingBackgroundColor() {
+		return mLoadingBackgroundColor;
+	}
+
+	public void setLoadingBackgroundColor(int pLoadingBackgroundColor) {
+		if (mLoadingBackgroundColor != pLoadingBackgroundColor) {
+			mLoadingBackgroundColor = pLoadingBackgroundColor;
+			clearLoadingTile();
+		}
+	}
+
+	public int getLoadingLineColor() {
+		return mLoadingLineColor;
+	}
+
+	public void setLoadingLineColor(int pLoadingLineColor) {
+		if (mLoadingLineColor != pLoadingLineColor) {
+			mLoadingLineColor = pLoadingLineColor;
+			clearLoadingTile();
+		}
+	}
+
+	private Drawable getLoadingTile() {
+		if (mLoadingTile == null) {
+			int tileSize = (mTileProvider.getTileSource() != null ? mTileProvider.getTileSource()
+					.getTileSizePixels() : 256);
+			Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.RGB_565);
+			Canvas canvas = new Canvas(bitmap);
+			Paint paint = new Paint();
+			canvas.drawColor(mLoadingBackgroundColor); // #D8D0D0
+			paint.setColor(mLoadingLineColor); // #C8C0C0
+			// paint.setStyle(Style.STROKE);
+			paint.setStrokeWidth(0);
+			// paint.setPathEffect(new DashPathEffect(new float[] { 1, 1 }, 0));
+			int lineSize = tileSize / 16;
+			for (int a = 0; a < tileSize; a += lineSize) {
+				canvas.drawLine(0, a, tileSize, a, paint);
+				canvas.drawLine(a, 0, a, tileSize, paint);
+			}
+			mLoadingTile = new BitmapDrawable(bitmap);
+		}
+		return mLoadingTile;
+	}
+
+	private void clearLoadingTile() {
+		BitmapDrawable bitmapDrawable = mLoadingTile;
+		mLoadingTile = null;
+		if (bitmapDrawable != null)
+			bitmapDrawable.getBitmap().recycle();
 	}
 }
