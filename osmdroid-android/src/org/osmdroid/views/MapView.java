@@ -116,10 +116,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	// Constructors
 	// ===========================================================
 
-	private MapView(final Context context, final Handler tileRequestCompleteHandler,
-			final AttributeSet attrs, final int tileSizePixels, MapTileProviderBase tileProvider) {
+	private MapView(final Context context, final ResourceProxy resourceProxy,
+			final Handler tileRequestCompleteHandler, final AttributeSet attrs,
+			final int tileSizePixels, MapTileProviderBase tileProvider) {
 		super(context, attrs);
-		mResourceProxy = new DefaultResourceProxyImpl(context);
+		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
 		this.mTileSizePixels = tileSizePixels;
@@ -157,24 +158,31 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * Constructor used by XML layout resource (uses default tile source).
 	 */
 	public MapView(final Context context, final AttributeSet attrs) {
-		this(context, null, attrs, 256, null);
+		this(context, new DefaultResourceProxyImpl(context), null, attrs, 256, null);
 	}
 
 	/**
 	 * Standard Constructor.
 	 */
-	public MapView(final Context context, final int tileSizePixels,
-			final MapTileProviderBase aTileProvider) {
-		this(context, null, null, tileSizePixels, aTileProvider);
-	}
-
 	public MapView(final Context context, final int tileSizePixels) {
-		this(context, null, null, tileSizePixels, null);
+		this(context, new DefaultResourceProxyImpl(context), tileSizePixels);
 	}
 
-	public MapView(final Context context, final Handler tileRequestCompleteHandler,
+	public MapView(final Context context, final ResourceProxy resourceProxy,
+			final int tileSizePixels) {
+		this(context, resourceProxy, tileSizePixels, null);
+	}
+
+	public MapView(final Context context, final ResourceProxy resourceProxy,
 			final int tileSizePixels, final MapTileProviderBase aTileProvider) {
-		this(context, tileRequestCompleteHandler, null, tileSizePixels, aTileProvider);
+		this(context, resourceProxy, tileSizePixels, null, aTileProvider);
+	}
+
+	public MapView(final Context context, final ResourceProxy resourceProxy,
+			final int tileSizePixels, final Handler tileRequestCompleteHandler,
+			final MapTileProviderBase aTileProvider) {
+		this(context, resourceProxy, tileRequestCompleteHandler, null, tileSizePixels,
+				aTileProvider);
 	}
 
 	// ===========================================================
@@ -476,8 +484,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		return (int) (Mercator.tile2lon(getScrollX() + getWorldSizePx() / 2, getPixelZoomLevel()) * 1E6);
 	}
 
-	public void setResourceProxy(final ResourceProxy pResourceProxy) {
-		mResourceProxy = pResourceProxy;
+	public ResourceProxy getResourceProxy() {
+		return mResourceProxy;
 	}
 
 	public void onSaveInstanceState(final Bundle state) {

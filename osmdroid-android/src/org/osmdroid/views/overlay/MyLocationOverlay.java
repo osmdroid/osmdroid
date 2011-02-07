@@ -38,6 +38,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
@@ -108,6 +110,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	private final float COMPASS_FRAME_CENTER_Y;
 	private final float COMPASS_ROSE_CENTER_X;
 	private final float COMPASS_ROSE_CENTER_Y;
+
+	public static final int MENU_MY_LOCATION = getSafeMenuId();
+	public static final int MENU_COMPASS = getSafeMenuId();
 
 	private float mScale = 1.0f;
 
@@ -427,6 +432,51 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 				mMapView.invalidate();
 			}
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
+		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
+				mResourceProxy.getString(ResourceProxy.string.my_location)).setIcon(
+				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation));
+
+		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
+				mResourceProxy.getString(ResourceProxy.string.compass)).setIcon(
+				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass));
+
+		super.onCreateOptionsMenu(pMenu, pMenuIdOffset, pMapView);
+
+		return true;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int pFeatureId, MenuItem pItem, int pMenuIdOffset,
+			MapView pMapView) {
+		final int menuId = pItem.getItemId() - pMenuIdOffset;
+		if (menuId == MENU_MY_LOCATION) {
+			if (this.isMyLocationEnabled()) {
+				this.disableMyLocation();
+			} else {
+				this.enableMyLocation();
+				final Location lastFix = this.getLastFix();
+				if (lastFix != null) {
+					pMapView.getController().setCenter(new GeoPoint(lastFix));
+				}
+			}
+			// Toast.makeText(
+			// this,
+			// this.mLocationOverlay.isMyLocationEnabled() ? R.string.set_mode_show_me
+			// : R.string.set_mode_hide_me, Toast.LENGTH_LONG).show();
+			return true;
+		} else if (menuId == MENU_COMPASS) {
+			if (this.isCompassEnabled()) {
+				this.disableCompass();
+			} else {
+				this.enableCompass();
+			}
+			return true;
+		} else
+			return super.onMenuItemSelected(pFeatureId, pItem, pMenuIdOffset, pMapView);
 	}
 
 	// ===========================================================

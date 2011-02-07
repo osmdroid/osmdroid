@@ -23,7 +23,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
 	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
@@ -78,6 +78,16 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "%s nm";
 		case format_distance_feet:
 			return "%s ft";
+		case online_mode:
+			return "Online mode";
+		case offline_mode:
+			return "Offline mode";
+		case my_location:
+			return "My location";
+		case compass:
+			return "Compass";
+		case map_mode:
+			return "Map mode";
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -117,7 +127,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			final Field density = DisplayMetrics.class.getDeclaredField("DENSITY_DEFAULT");
 			final Field inDensity = BitmapFactory.Options.class.getDeclaredField("inDensity");
 			final Field inTargetDensity = BitmapFactory.Options.class
-			.getDeclaredField("inTargetDensity");
+					.getDeclaredField("inTargetDensity");
 			final Field targetDensity = DisplayMetrics.class.getDeclaredField("densityDpi");
 			final BitmapFactory.Options options = new BitmapFactory.Options();
 			inDensity.setInt(options, density.getInt(null));

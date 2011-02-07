@@ -8,6 +8,8 @@ import org.osmdroid.views.MapView;
 
 import android.graphics.Canvas;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 
 public class OverlayManager {
@@ -42,6 +44,11 @@ public class OverlayManager {
 			mOverlays.retainAll(mPermanentOverlays);
 	}
 
+	public void setOptionsMenusEnabled(boolean pEnabled) {
+		for (Overlay overlay : mOverlays)
+			overlay.setOptionsMenuEnabled(pEnabled);
+	}
+
 	public Iterable<Overlay> overlays() {
 		return mOverlays;
 	}
@@ -74,15 +81,13 @@ public class OverlayManager {
 	}
 
 	public void onDraw(final Canvas c, final MapView pMapView) {
-		for (Overlay overlay : mOverlays) {
+		for (Overlay overlay : mOverlays)
 			overlay.onManagedDraw(c, pMapView);
-		}
 	}
 
 	public void onDetach(final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed()) {
+		for (Overlay overlay : this.overlaysReversed())
 			overlay.onDetach(pMapView);
-		}
 	}
 
 	public boolean onLongPress(final MotionEvent e, final MapView pMapView) {
@@ -136,6 +141,33 @@ public class OverlayManager {
 	public boolean onDoubleTap(final MotionEvent e, final MapView pMapView) {
 		for (Overlay overlay : this.overlaysReversed())
 			if (overlay.onDoubleTapUp(e, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onCreateOptionsMenu(final Menu pMenu, final int menuIdOffset,
+			final MapView mapView) {
+		boolean result = true;
+		for (Overlay overlay : this.overlaysReversed())
+			result &= overlay.onManagedCreateOptionsMenu(pMenu, menuIdOffset, mapView);
+
+		return result;
+	}
+
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int menuIdOffset,
+			final MapView mapView) {
+		boolean result = true;
+		for (Overlay overlay : this.overlaysReversed())
+			result &= overlay.onManagedPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
+
+		return result;
+	}
+
+	public boolean onMenuItemSelected(final int featureId, final MenuItem item,
+			final int menuIdOffset, final MapView mapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView))
 				return true;
 
 		return false;

@@ -1,6 +1,8 @@
 // Created by plusminus on 20:32:01 - 27.09.2008
 package org.osmdroid.views.overlay;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
@@ -11,6 +13,8 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
@@ -31,12 +35,16 @@ public abstract class Overlay implements MapViewConstants {
 	// Constants
 	// ===========================================================
 
+	private static AtomicInteger sOrdinal = new AtomicInteger();
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	protected final ResourceProxy mResourceProxy;
+
 	private boolean mEnabled = true;
+	private boolean mOptionsMenuEnabled = true;
 
 	// ===========================================================
 	// Constructors
@@ -60,6 +68,35 @@ public abstract class Overlay implements MapViewConstants {
 
 	public boolean isEnabled() {
 		return this.mEnabled;
+	}
+
+	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
+		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
+	}
+
+	public boolean isOptionsMenuEnabled() {
+		return this.mOptionsMenuEnabled;
+	}
+
+	/**
+	 * Since the menu-chain will pass through several independent Overlays, menu IDs cannot be fixed
+	 * at compile time. Overlays should use this method to obtain and store a menu id for each menu
+	 * item at construction time. This will ensure that two overlays don't use the same id.
+	 * 
+	 * @return an integer suitable to be used as a menu identifier
+	 */
+	protected final static int getSafeMenuId() {
+		return sOrdinal.getAndIncrement();
+	}
+
+	/**
+	 * Similar to <see cref="getSafeMenuId" />, except this reserves a sequence of IDs of length
+	 * <param name="count" />. The returned number is the starting index of that sequential list.
+	 * 
+	 * @return an integer suitable to be used as a menu identifier
+	 */
+	protected final static int getSafeMenuIdSequence(int count) {
+		return sOrdinal.getAndAdd(count);
 	}
 
 	// ===========================================================
@@ -156,8 +193,47 @@ public abstract class Overlay implements MapViewConstants {
 		return false;
 	}
 
+	public final boolean onManagedCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
+		if (this.isOptionsMenuEnabled())
+			return onCreateOptionsMenu(pMenu, pMenuIdOffset, pMapView);
+		else
+			return true;
+	}
+
+	protected boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
+		return true;
+	}
+
+	public final boolean onManagedPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
+		if (this.isOptionsMenuEnabled())
+			return onPrepareOptionsMenu(pMenu, pMenuIdOffset, pMapView);
+		else
+			return true;
+	}
+
+	protected boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
+		return true;
+	}
+
+	public final boolean onManagedMenuItemSelected(final int pFeatureId, final MenuItem pItem,
+			final int pMenuIdOffset, final MapView pMapView) {
+		if (this.isOptionsMenuEnabled())
+			return onMenuItemSelected(pFeatureId, pItem, pMenuIdOffset, pMapView);
+		else
+			return false;
+	}
+
+	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
+			final int pMenuIdOffset, final MapView pMapView) {
+		return false;
+	}
+
 	/**
-	 * By default does nothing.
+	 * Override to perform clean up of resources before shutdown. By default does nothing.
 	 */
 	public void onDetach(final MapView mapView) {
 	}
