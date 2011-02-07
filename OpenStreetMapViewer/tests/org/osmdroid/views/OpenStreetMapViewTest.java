@@ -39,7 +39,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		// final String cloudmadeKey = getCloudmadeKey(applicationContext);
 		final MapTileProviderBasic mTileProvider = new MapTileProviderBasic(context);
 
-		mOpenStreetMapView = new MapView(context, new DefaultResourceProxyImpl(context), 256,
+		mOpenStreetMapView = new MapView(context, 256, new DefaultResourceProxyImpl(context),
 				mTileProvider);
 		final Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Config.RGB_565);
 		final Canvas canvas = new Canvas(bitmap);

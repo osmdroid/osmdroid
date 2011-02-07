@@ -67,7 +67,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new MapView(this, mResourceProxy, 256);
+		this.mOsmv = new MapView(this, 256, mResourceProxy);
 		this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv,
 				mResourceProxy);
 		this.mOsmv.setBuiltInZoomControls(true);
