@@ -1057,8 +1057,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDown(final MotionEvent e) {
-			if (!MapView.this.mOverlayManager.onDown(e, MapView.this))
-				return false;
+			if (MapView.this.mOverlayManager.onDown(e, MapView.this))
+				return true;
 
 			mZoomController.setVisible(mEnableZoomController);
 			return true;
@@ -1067,8 +1067,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX,
 				final float velocityY) {
-			if (!MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this))
-				return false;
+			if (MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this))
+				return true;
 
 			final int worldSize = getWorldSizePx();
 			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
@@ -1084,8 +1084,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
 				final float distanceY) {
-			if (!MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this))
-				return false;
+			if (MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this))
+				return true;
 
 			scrollBy((int) distanceX, (int) distanceY);
 			return true;
