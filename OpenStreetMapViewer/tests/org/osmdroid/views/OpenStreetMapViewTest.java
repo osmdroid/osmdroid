@@ -1,5 +1,6 @@
 package org.osmdroid.views;
 
+import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView.Projection;
@@ -36,10 +37,10 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		};
 
 		// final String cloudmadeKey = getCloudmadeKey(applicationContext);
-		final MapTileProviderBasic mTileProvider = new MapTileProviderBasic(
-				context);
+		final MapTileProviderBasic mTileProvider = new MapTileProviderBasic(context);
 
-		mOpenStreetMapView = new MapView(context, 256, mTileProvider);
+		mOpenStreetMapView = new MapView(context, new DefaultResourceProxyImpl(context), 256,
+				mTileProvider);
 		final Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Config.RGB_565);
 		final Canvas canvas = new Canvas(bitmap);
 		mOpenStreetMapView.onDraw(canvas);

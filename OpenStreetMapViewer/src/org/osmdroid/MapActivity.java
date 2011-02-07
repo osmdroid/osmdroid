@@ -6,9 +6,9 @@ import org.osmdroid.samples.SampleLoader;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
+import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,12 +16,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.SubMenu;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
@@ -37,12 +35,10 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 	// Constants
 	// ===========================================================
 
-	private static final int MENU_MY_LOCATION = Menu.FIRST;
-	private static final int MENU_MAP_MODE = MENU_MY_LOCATION + 1;
-	private static final int MENU_OFFLINE = MENU_MAP_MODE + 1;
-	private static final int MENU_SAMPLES = MENU_OFFLINE + 1;
+	private static final int MENU_SAMPLES = Menu.FIRST + 1;
 	private static final int MENU_ABOUT = MENU_SAMPLES + 1;
-	private static final int MENU_COMPASS = MENU_ABOUT + 1;
+
+	private static final int MENU_LAST_ID = MENU_ABOUT + 1; // Always set to last unused id
 
 	private static final int DIALOG_ABOUT_ID = 1;
 
@@ -71,8 +67,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new MapView(this, 256);
-		this.mOsmv.setResourceProxy(mResourceProxy);
+		this.mOsmv = new MapView(this, mResourceProxy, 256);
 		this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv,
 				mResourceProxy);
 		this.mOsmv.setBuiltInZoomControls(true);
@@ -123,29 +118,14 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {
-		pMenu.add(0, MENU_MY_LOCATION, Menu.NONE, R.string.my_location).setIcon(
-				android.R.drawable.ic_menu_mylocation);
-
-		pMenu.add(0, MENU_COMPASS, Menu.NONE, R.string.compass).setIcon(
-				android.R.drawable.ic_menu_compass);
-
-		{
-			final SubMenu mapMenu = pMenu
-					.addSubMenu(0, MENU_MAP_MODE, Menu.NONE, R.string.map_mode).setIcon(
-							android.R.drawable.ic_menu_mapmode);
-
-			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
-				mapMenu.add(MENU_MAP_MODE, 1000 + tileSource.ordinal(), Menu.NONE,
-						tileSource.localizedName(mResourceProxy));
-			}
-			mapMenu.setGroupCheckable(MENU_MAP_MODE, true, true);
-		}
-
-		pMenu.add(0, MENU_OFFLINE, Menu.NONE, R.string.offline).setIcon(R.drawable.ic_menu_offline);
-
+		// Put samples first
 		pMenu.add(0, MENU_SAMPLES, Menu.NONE, R.string.samples).setIcon(
 				android.R.drawable.ic_menu_gallery);
 
+		// Put overlay items next
+		mOsmv.getOverlayManager().onCreateOptionsMenu(pMenu, MENU_LAST_ID, mOsmv);
+
+		// Put "About" menu item last
 		pMenu.add(0, MENU_ABOUT, Menu.NONE, R.string.about).setIcon(
 				android.R.drawable.ic_menu_info_details);
 
@@ -153,50 +133,28 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(final Menu menu) {
-		final int ordinal = mOsmv.getTileProvider().getTileSource().ordinal();
-		menu.findItem(1000 + ordinal).setChecked(true);
-		return true;
+	public boolean onPrepareOptionsMenu(final Menu pMenu) {
+		mOsmv.getOverlayManager().onPrepareOptionsMenu(pMenu, MENU_LAST_ID, mOsmv);
+		return super.onPrepareOptionsMenu(pMenu);
 	}
 
 	@Override
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_MY_LOCATION:
-			if (this.mLocationOverlay.isMyLocationEnabled()) {
-				this.mLocationOverlay.disableMyLocation();
-			} else {
-				this.mLocationOverlay.enableMyLocation();
-				final Location lastFix = this.mLocationOverlay.getLastFix();
-				if (lastFix != null) {
-					this.mOsmv.getController().setCenter(new GeoPoint(lastFix));
-				}
-			}
-			Toast.makeText(
-					this,
-					this.mLocationOverlay.isMyLocationEnabled() ? R.string.set_mode_show_me
-							: R.string.set_mode_hide_me, Toast.LENGTH_LONG).show();
-			return true;
 
-		case MENU_COMPASS:
-			if (this.mLocationOverlay.isCompassEnabled()) {
-				this.mLocationOverlay.disableCompass();
-			} else {
-				this.mLocationOverlay.enableCompass();
-			}
-			return true;
-
-		case MENU_MAP_MODE:
-			this.mOsmv.invalidate();
-			return true;
-
-		case MENU_OFFLINE:
-			final boolean useDataConnection = !this.mOsmv.useDataConnection();
-			final int id = useDataConnection ? R.string.set_mode_online : R.string.set_mode_offline;
+		// We can also respond to events in the overlays here
+		final int overlayItemId = item.getItemId() - MENU_LAST_ID;
+		if (overlayItemId == MyLocationOverlay.MENU_MY_LOCATION) {
+			final int id = mLocationOverlay.isMyLocationEnabled() ? R.string.set_mode_hide_me
+					: R.string.set_mode_show_me;
 			Toast.makeText(this, id, Toast.LENGTH_LONG).show();
-			this.mOsmv.setUseDataConnection(useDataConnection);
-			return true;
+		} else if (overlayItemId == TilesOverlay.MENU_OFFLINE) {
+			final int id = mOsmv.useDataConnection() ? R.string.set_mode_offline
+					: R.string.set_mode_online;
+			Toast.makeText(this, id, Toast.LENGTH_LONG).show();
+		}
 
+		// Now process the menu item selection
+		switch (item.getItemId()) {
 		case MENU_SAMPLES:
 			startActivity(new Intent(this, SampleLoader.class));
 			return true;
@@ -205,10 +163,10 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 			showDialog(DIALOG_ABOUT_ID);
 			return true;
 
-		default: // Map mode submenu items
-			mOsmv.setTileSource(TileSourceFactory.getTileSource(item.getItemId() - 1000));
+		default:
+			return mOsmv.getOverlayManager().onMenuItemSelected(featureId, item, MENU_LAST_ID,
+					mOsmv);
 		}
-		return false;
 	}
 
 	@Override
