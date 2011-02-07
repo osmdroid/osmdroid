@@ -90,22 +90,6 @@ public class OverlayManager {
 			overlay.onDetach(pMapView);
 	}
 
-	public boolean onLongPress(final MotionEvent e, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onLongPress(e, pMapView))
-				return true;
-
-		return false;
-	}
-
-	public boolean onSingleTapUp(final MotionEvent e, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onSingleTapUp(e, pMapView))
-				return true;
-
-		return false;
-	}
-
 	public boolean onKeyDown(final int keyCode, final KeyEvent event, final MapView pMapView) {
 		for (Overlay overlay : this.overlaysReversed())
 			if (overlay.onKeyDown(keyCode, event, pMapView))
@@ -122,14 +106,6 @@ public class OverlayManager {
 		return false;
 	}
 
-	public boolean onTrackballEvent(final MotionEvent event, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onTrackballEvent(event, pMapView))
-				return true;
-
-		return false;
-	}
-
 	public boolean onTouchEvent(final MotionEvent event, final MapView pMapView) {
 		for (Overlay overlay : this.overlaysReversed())
 			if (overlay.onTouchEvent(event, pMapView))
@@ -138,13 +114,90 @@ public class OverlayManager {
 		return false;
 	}
 
-	public boolean onDoubleTap(final MotionEvent e, final MapView pMapView) {
+	public boolean onTrackballEvent(final MotionEvent event, final MapView pMapView) {
 		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onDoubleTapUp(e, pMapView))
+			if (overlay.onTrackballEvent(event, pMapView))
 				return true;
 
 		return false;
 	}
+
+	/** GestureDetector.OnDoubleTapListener **/
+
+	public boolean onDoubleTap(final MotionEvent e, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onDoubleTap(e, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onDoubleTapEvent(final MotionEvent e, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onDoubleTapEvent(e, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onSingleTapConfirmed(final MotionEvent e, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onSingleTapConfirmed(e, pMapView))
+				return true;
+
+		return false;
+	}
+
+	/** OnGestureListener **/
+
+	public boolean onDown(final MotionEvent pEvent, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onDown(pEvent, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onFling(MotionEvent pEvent1, MotionEvent pEvent2, float pVelocityX,
+			float pVelocityY, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onFling(pEvent1, pEvent2, pVelocityX, pVelocityY, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onLongPress(final MotionEvent pEvent, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onLongPress(pEvent, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
+			final float pDistanceX, final float pDistanceY, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onScroll(pEvent1, pEvent2, pDistanceX, pDistanceY, pMapView))
+				return true;
+
+		return false;
+	}
+
+	public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			overlay.onShowPress(pEvent, pMapView);
+	}
+
+	public boolean onSingleTapUp(final MotionEvent pEvent, final MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay.onSingleTapUp(pEvent, pMapView))
+				return true;
+
+		return false;
+	}
+
+	/** Options Menu **/
 
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int menuIdOffset,
 			final MapView mapView) {

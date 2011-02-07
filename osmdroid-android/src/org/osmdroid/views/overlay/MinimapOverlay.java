@@ -227,7 +227,7 @@ public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
 	}
 
 	@Override
-	public boolean onDoubleTapUp(final MotionEvent pEvent, final MapView pMapView) {
+	public boolean onDoubleTap(final MotionEvent pEvent, final MapView pMapView) {
 		// Consume event so layers underneath don't receive
 		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
 				(int) pEvent.getY() + mViewportRect.top - mWorldSize_2)) {

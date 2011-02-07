@@ -123,6 +123,12 @@ public abstract class Overlay implements MapViewConstants {
 	// ===========================================================
 
 	/**
+	 * Override to perform clean up of resources before shutdown. By default does nothing.
+	 */
+	public void onDetach(final MapView mapView) {
+	}
+
+	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
 	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
@@ -163,13 +169,15 @@ public abstract class Overlay implements MapViewConstants {
 		return false;
 	}
 
+	/** GestureDetector.OnDoubleTapListener **/
+
 	/**
 	 * By default does nothing (<code>return false</code>). If you handled the Event, return
 	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
 	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
 	 * this event.
 	 */
-	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
+	public boolean onDoubleTap(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
@@ -179,7 +187,40 @@ public abstract class Overlay implements MapViewConstants {
 	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
 	 * this event.
 	 */
-	public boolean onDoubleTapUp(final MotionEvent e, final MapView mapView) {
+	public boolean onDoubleTapEvent(final MotionEvent e, final MapView mapView) {
+		return false;
+	}
+
+	/**
+	 * By default does nothing (<code>return false</code>). If you handled the Event, return
+	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
+	 */
+	public boolean onSingleTapConfirmed(final MotionEvent e, final MapView mapView) {
+		return false;
+	}
+
+	/** OnGestureListener **/
+
+	/**
+	 * By default does nothing (<code>return false</code>). If you handled the Event, return
+	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
+	 */
+	public boolean onDown(final MotionEvent e, final MapView mapView) {
+		return false;
+	}
+
+	/**
+	 * By default does nothing (<code>return false</code>). If you handled the Event, return
+	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
+	 */
+	public boolean onFling(MotionEvent pEvent1, MotionEvent pEvent2, float pVelocityX,
+			float pVelocityY, final MapView pMapView) {
 		return false;
 	}
 
@@ -192,6 +233,33 @@ public abstract class Overlay implements MapViewConstants {
 	public boolean onLongPress(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
+
+	/**
+	 * By default does nothing (<code>return false</code>). If you handled the Event, return
+	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
+	 */
+	public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
+			final float pDistanceX, final float pDistanceY, final MapView pMapView) {
+		return false;
+	}
+
+	public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
+		return;
+	}
+
+	/**
+	 * By default does nothing (<code>return false</code>). If you handled the Event, return
+	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
+	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
+	 * this event.
+	 */
+	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
+		return false;
+	}
+
+	/** Options Menu **/
 
 	public final boolean onManagedCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
@@ -230,12 +298,6 @@ public abstract class Overlay implements MapViewConstants {
 	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
 			final int pMenuIdOffset, final MapView pMapView) {
 		return false;
-	}
-
-	/**
-	 * Override to perform clean up of resources before shutdown. By default does nothing.
-	 */
-	public void onDetach(final MapView mapView) {
 	}
 
 	// ===========================================================

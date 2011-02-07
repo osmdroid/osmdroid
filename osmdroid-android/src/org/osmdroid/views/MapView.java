@@ -536,14 +536,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		mOverlayManager.onDetach(this);
 	}
 
-	public boolean onLongPress(final MotionEvent e) {
-		return mOverlayManager.onLongPress(e, this);
-	}
-
-	public boolean onSingleTapUp(final MotionEvent e) {
-		return mOverlayManager.onSingleTapUp(e, this);
-	}
-
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
 		boolean result = mOverlayManager.onKeyDown(keyCode, event, this);
@@ -1065,6 +1057,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDown(final MotionEvent e) {
+			if (!MapView.this.mOverlayManager.onDown(e, MapView.this))
+				return false;
+
 			mZoomController.setVisible(mEnableZoomController);
 			return true;
 		}
@@ -1072,6 +1067,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX,
 				final float velocityY) {
+			if (!MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this))
+				return false;
+
 			final int worldSize = getWorldSizePx();
 			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
 					-worldSize, worldSize, -worldSize, worldSize);
@@ -1080,23 +1078,30 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public void onLongPress(final MotionEvent e) {
-			MapView.this.onLongPress(e);
+			MapView.this.mOverlayManager.onLongPress(e, MapView.this);
 		}
 
 		@Override
 		public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
 				final float distanceY) {
+			if (!MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this))
+				return false;
+
 			scrollBy((int) distanceX, (int) distanceY);
 			return true;
 		}
 
 		@Override
 		public void onShowPress(final MotionEvent e) {
+			MapView.this.mOverlayManager.onShowPress(e, MapView.this);
 		}
 
 		@Override
 		public boolean onSingleTapUp(final MotionEvent e) {
-			return MapView.this.onSingleTapUp(e);
+			if (MapView.this.mOverlayManager.onSingleTapUp(e, MapView.this))
+				return true;
+
+			return false;
 		}
 
 	}
@@ -1104,7 +1109,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-
 			if (mOverlayManager.onDoubleTap(e, MapView.this))
 				return true;
 
@@ -1114,11 +1118,17 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
+			if (mOverlayManager.onDoubleTapEvent(e, MapView.this))
+				return true;
+
 			return false;
 		}
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
+			if (mOverlayManager.onSingleTapConfirmed(e, MapView.this))
+				return true;
+
 			return false;
 		}
 	}
