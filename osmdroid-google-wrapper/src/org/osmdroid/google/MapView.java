@@ -73,6 +73,7 @@ public class MapView implements IMapView {
 
 	@Override
 	public void setBackgroundColor(final int pColor) {
+		// this doesn't seem to have any visible effect on the Google MapView
 		mMapView.setBackgroundColor(pColor);
 	}
 
