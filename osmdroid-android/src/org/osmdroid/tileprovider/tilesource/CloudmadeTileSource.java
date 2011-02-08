@@ -3,8 +3,12 @@ package org.osmdroid.tileprovider.tilesource;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSource<Integer> {
+
+	private static final Logger logger = LoggerFactory.getLogger(CloudmadeTileSource.class);
 
 	private Integer mStyle = 1;
 
@@ -39,7 +43,11 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 
 	@Override
 	public void setStyle(final String pStyle) {
-		mStyle = Integer.getInteger(pStyle);
+		try {
+			mStyle = Integer.parseInt(pStyle);
+		} catch(final NumberFormatException e) {
+			logger.warn("Error setting integer style: " + pStyle);
+		}
 	}
 
 	@Override
