@@ -1,6 +1,9 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.wigle.wigleandroid.ZoomButtonsController;
 import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
 
@@ -198,6 +201,15 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * You can add/remove/reorder your Overlays using the List of {@link Overlay}. The first (index
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
+	public List<Overlay> getOverlays() {
+		// TODO: This is a lazy hack. We need to change the overlay manager to be more
+		// accommodating.
+		List<Overlay> overlays = new ArrayList<Overlay>();
+		for (Overlay overlay : mOverlayManager.overlays())
+			overlays.add(overlay);
+		return overlays;
+	}
+
 	public OverlayManager getOverlayManager() {
 		return mOverlayManager;
 	}
