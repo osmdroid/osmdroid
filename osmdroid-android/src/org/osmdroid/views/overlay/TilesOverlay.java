@@ -27,9 +27,9 @@ import android.view.SubMenu;
 
 /**
  * These objects are the principle consumer of map tiles.
- * 
+ *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- * 
+ *
  */
 
 public class TilesOverlay extends Overlay {
@@ -62,9 +62,10 @@ public class TilesOverlay extends Overlay {
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
-		if (aTileProvider == null)
+		if (aTileProvider == null) {
 			throw new IllegalArgumentException(
 					"You must pass a valid tile provider to the tiles overlay.");
+		}
 		this.mTileProvider = aTileProvider;
 	}
 
@@ -94,7 +95,7 @@ public class TilesOverlay extends Overlay {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -160,12 +161,16 @@ public class TilesOverlay extends Overlay {
 				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
 
 				Drawable currentMapTile = mTileProvider.getMapTile(tile);
-				if (currentMapTile == null)
+				if (currentMapTile == null) {
 					currentMapTile = getLoadingTile();
+				}
 
-				mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
-						* tileSizePx + tileSizePx);
-				onTileReadyToDraw(c, currentMapTile, mTileRect);
+				if (currentMapTile != null) {
+					mTileRect.set(
+							x * tileSizePx, y * tileSizePx,
+							x * tileSizePx + tileSizePx, y * tileSizePx + tileSizePx);
+					onTileReadyToDraw(c, currentMapTile, mTileRect);
+				}
 
 				if (DEBUGMODE) {
 					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
@@ -203,7 +208,7 @@ public class TilesOverlay extends Overlay {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
+	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
 		final SubMenu mapMenu = pMenu.addSubMenu(0, MENU_MAP_MODE + pMenuIdOffset, Menu.NONE,
 				mResourceProxy.getString(ResourceProxy.string.map_mode)).setIcon(
 				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mapmode));
@@ -226,11 +231,12 @@ public class TilesOverlay extends Overlay {
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
 		final int index = TileSourceFactory.getTileSources().indexOf(
 				pMapView.getTileProvider().getTileSource());
-		if (index >= 0)
+		if (index >= 0) {
 			pMenu.findItem(MENU_TILE_SOURCE_STARTING_ID + index + pMenuIdOffset).setChecked(true);
+		}
 
 		pMenu.findItem(MENU_OFFLINE + pMenuIdOffset).setTitle(
 				pMapView.getResourceProxy().getString(
@@ -241,8 +247,8 @@ public class TilesOverlay extends Overlay {
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int pFeatureId, MenuItem pItem, int pMenuIdOffset,
-			MapView pMapView) {
+	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem, final int pMenuIdOffset,
+			final MapView pMapView) {
 
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if ((menuId >= MENU_TILE_SOURCE_STARTING_ID)
@@ -255,15 +261,16 @@ public class TilesOverlay extends Overlay {
 			final boolean useDataConnection = !pMapView.useDataConnection();
 			pMapView.setUseDataConnection(useDataConnection);
 			return true;
-		} else
+		} else {
 			return super.onMenuItemSelected(pFeatureId, pItem, pMenuIdOffset, pMapView);
+		}
 	}
 
 	public int getLoadingBackgroundColor() {
 		return mLoadingBackgroundColor;
 	}
 
-	public void setLoadingBackgroundColor(int pLoadingBackgroundColor) {
+	public void setLoadingBackgroundColor(final int pLoadingBackgroundColor) {
 		if (mLoadingBackgroundColor != pLoadingBackgroundColor) {
 			mLoadingBackgroundColor = pLoadingBackgroundColor;
 			clearLoadingTile();
@@ -274,7 +281,7 @@ public class TilesOverlay extends Overlay {
 		return mLoadingLineColor;
 	}
 
-	public void setLoadingLineColor(int pLoadingLineColor) {
+	public void setLoadingLineColor(final int pLoadingLineColor) {
 		if (mLoadingLineColor != pLoadingLineColor) {
 			mLoadingLineColor = pLoadingLineColor;
 			clearLoadingTile();
@@ -283,28 +290,34 @@ public class TilesOverlay extends Overlay {
 
 	private Drawable getLoadingTile() {
 		if (mLoadingTile == null) {
-			int tileSize = (mTileProvider.getTileSource() != null ? mTileProvider.getTileSource()
-					.getTileSizePixels() : 256);
-			Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.RGB_565);
-			Canvas canvas = new Canvas(bitmap);
-			Paint paint = new Paint();
-			canvas.drawColor(mLoadingBackgroundColor);
-			paint.setColor(mLoadingLineColor);
-			paint.setStrokeWidth(0);
-			int lineSize = tileSize / 16;
-			for (int a = 0; a < tileSize; a += lineSize) {
-				canvas.drawLine(0, a, tileSize, a, paint);
-				canvas.drawLine(a, 0, a, tileSize, paint);
+			try {
+				final int tileSize = mTileProvider.getTileSource() != null ?
+						mTileProvider.getTileSource().getTileSizePixels() : 256;
+				final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.RGB_565);
+				final Canvas canvas = new Canvas(bitmap);
+				final Paint paint = new Paint();
+				canvas.drawColor(mLoadingBackgroundColor);
+				paint.setColor(mLoadingLineColor);
+				paint.setStrokeWidth(0);
+				final int lineSize = tileSize / 16;
+				for (int a = 0; a < tileSize; a += lineSize) {
+					canvas.drawLine(0, a, tileSize, a, paint);
+					canvas.drawLine(a, 0, a, tileSize, paint);
+				}
+				mLoadingTile = new BitmapDrawable(bitmap);
+			} catch (final OutOfMemoryError e) {
+				logger.error("OutOfMemoryError getting loading tile");
+				System.gc();
 			}
-			mLoadingTile = new BitmapDrawable(bitmap);
 		}
 		return mLoadingTile;
 	}
 
 	private void clearLoadingTile() {
-		BitmapDrawable bitmapDrawable = mLoadingTile;
+		final BitmapDrawable bitmapDrawable = mLoadingTile;
 		mLoadingTile = null;
-		if (bitmapDrawable != null)
+		if (bitmapDrawable != null) {
 			bitmapDrawable.getBitmap().recycle();
+		}
 	}
 }
