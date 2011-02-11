@@ -304,8 +304,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 *            the zoom level bound by the tile source
 	 */
 	int setZoomLevel(final int aZoomLevel) {
-		final int minZoomLevel = getMinimumZoomLevel();
-		final int maxZoomLevel = getMaximumZoomLevel();
+		final int minZoomLevel = getMinZoomLevel();
+		final int maxZoomLevel = getMaxZoomLevel();
 
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
 		final int curZoomLevel = this.mZoomLevel;
@@ -373,16 +373,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
-	public int getMinimumZoomLevel() {
+	public int getMinZoomLevel() {
 		return mMapOverlay.getMinimumZoomLevel();
-	}
-
-	/**
-	 * @deprecated Replaced by {@link #getMaxZoomLevel()}
-	 */
-	@Deprecated
-	public int getMaximumZoomLevel() {
-		return mMapOverlay.getMaximumZoomLevel();
 	}
 
 	/**
@@ -407,7 +399,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	public boolean canZoomOut() {
-		final int minZoomLevel = getMinimumZoomLevel();
+		final int minZoomLevel = getMinZoomLevel();
 		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
