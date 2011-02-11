@@ -17,7 +17,7 @@ public class SimpleInvalidationHandler extends Handler {
 	@Override
 	public void handleMessage(final Message msg) {
 		switch (msg.what) {
-		case MapTile.MAPTILE_FAIL_ID:
+		case MapTile.MAPTILE_SUCCESS_ID:
 			mView.invalidate();
 			break;
 		}
