@@ -1,7 +1,6 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.wigle.wigleandroid.ZoomButtonsController;
@@ -80,7 +79,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	private int mTileSizePixels = 0;
 
-	private final OverlayManager mOverlayManager = new OverlayManager();
+	private final OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
@@ -139,7 +138,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
-		mOverlayManager.addOverlay(this.mMapOverlay, true);
+		mOverlayManager = new OverlayManager(mMapOverlay);
 
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
@@ -202,12 +201,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
-		// TODO: This is a lazy hack. We need to change the overlay manager to be more
-		// accommodating.
-		List<Overlay> overlays = new ArrayList<Overlay>();
-		for (Overlay overlay : mOverlayManager.overlays())
-			overlays.add(overlay);
-		return overlays;
+		return mOverlayManager;
 	}
 
 	public OverlayManager getOverlayManager() {
@@ -331,7 +325,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		for (Overlay overlay : mOverlayManager.overlays()) {
+		for (Overlay overlay : mOverlayManager) {
 			if (overlay instanceof Snappable) {
 				if (((Snappable) overlay).onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 					scrollTo(snapPoint.x, snapPoint.y);

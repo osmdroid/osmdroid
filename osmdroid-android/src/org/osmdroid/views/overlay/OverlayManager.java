@@ -1,5 +1,6 @@
 package org.osmdroid.views.overlay;
 
+import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -12,52 +13,73 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-public class OverlayManager {
+public class OverlayManager extends AbstractList<Overlay> {
 
-	final CopyOnWriteArrayList<Overlay> mOverlays;
-	final CopyOnWriteArrayList<Overlay> mPermanentOverlays;
+	private TilesOverlay mTilesOverlay;
 
-	public OverlayManager() {
-		mOverlays = new CopyOnWriteArrayList<Overlay>();
-		mPermanentOverlays = new CopyOnWriteArrayList<Overlay>();
+	private final CopyOnWriteArrayList<Overlay> mOverlayList;
+
+	public OverlayManager(TilesOverlay tilesOverlay) {
+		setTilesOverlay(tilesOverlay);
+		mOverlayList = new CopyOnWriteArrayList<Overlay>();
 	}
 
-	public void addOverlay(Overlay overlay) {
-		addOverlay(overlay, false);
+	@Override
+	public Overlay get(int pIndex) {
+		return mOverlayList.get(pIndex);
 	}
 
-	public void addOverlay(Overlay overlay, boolean permanentOverlay) {
-		mOverlays.add(overlay);
-		if (permanentOverlay)
-			mPermanentOverlays.add(overlay);
+	@Override
+	public int size() {
+		return mOverlayList.size();
 	}
 
-	public void removeOverlay(Overlay overlay) {
-		mOverlays.remove(overlay);
-		mPermanentOverlays.remove(overlay);
+	@Override
+	public void add(int pIndex, Overlay pElement) {
+		mOverlayList.add(pIndex, pElement);
 	}
 
-	public void clearOverlays(boolean clearPermanentOverlays) {
-		if (clearPermanentOverlays)
-			mOverlays.clear();
-		else
-			mOverlays.retainAll(mPermanentOverlays);
+	@Override
+	public Overlay remove(int pIndex) {
+		return mOverlayList.remove(pIndex);
+	}
+
+	@Override
+	public Overlay set(int pIndex, Overlay pElement) {
+		return mOverlayList.set(pIndex, pElement);
+	}
+
+	/**
+	 * Gets the optional TilesOverlay class.
+	 * 
+	 * @return the tilesOverlay
+	 */
+	public TilesOverlay getTilesOverlay() {
+		return mTilesOverlay;
+	}
+
+	/**
+	 * Sets the optional TilesOverlay class. If set, this overlay will be drawn before all other
+	 * overlays and will not be included in the editable list of overlays and can't be cleared
+	 * except by a subsequent call to setTilesOverlay().
+	 * 
+	 * @param tilesOverlay
+	 *            the tilesOverlay to set
+	 */
+	public void setTilesOverlay(TilesOverlay tilesOverlay) {
+		mTilesOverlay = tilesOverlay;
 	}
 
 	public void setOptionsMenusEnabled(boolean pEnabled) {
-		for (Overlay overlay : mOverlays)
+		for (Overlay overlay : mOverlayList)
 			overlay.setOptionsMenuEnabled(pEnabled);
-	}
-
-	public Iterable<Overlay> overlays() {
-		return mOverlays;
 	}
 
 	public Iterable<Overlay> overlaysReversed() {
 		return new Iterable<Overlay>() {
 			@Override
 			public Iterator<Overlay> iterator() {
-				final ListIterator<Overlay> i = mOverlays.listIterator(mOverlays.size());
+				final ListIterator<Overlay> i = mOverlayList.listIterator(mOverlayList.size());
 
 				return new Iterator<Overlay>() {
 					public boolean hasNext() {
@@ -76,16 +98,18 @@ public class OverlayManager {
 		};
 	}
 
-	public int count() {
-		return mOverlays.size();
-	}
-
 	public void onDraw(final Canvas c, final MapView pMapView) {
-		for (Overlay overlay : mOverlays)
+		if (mTilesOverlay != null)
+			mTilesOverlay.onManagedDraw(c, pMapView);
+
+		for (Overlay overlay : mOverlayList)
 			overlay.onManagedDraw(c, pMapView);
 	}
 
 	public void onDetach(final MapView pMapView) {
+		if (mTilesOverlay != null)
+			mTilesOverlay.onDetach(pMapView);
+
 		for (Overlay overlay : this.overlaysReversed())
 			overlay.onDetach(pMapView);
 	}
@@ -205,6 +229,9 @@ public class OverlayManager {
 		for (Overlay overlay : this.overlaysReversed())
 			result &= overlay.onManagedCreateOptionsMenu(pMenu, menuIdOffset, mapView);
 
+		if (mTilesOverlay != null)
+			result &= mTilesOverlay.onManagedCreateOptionsMenu(pMenu, menuIdOffset, mapView);
+
 		return result;
 	}
 
@@ -214,6 +241,9 @@ public class OverlayManager {
 		for (Overlay overlay : this.overlaysReversed())
 			result &= overlay.onManagedPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
 
+		if (mTilesOverlay != null)
+			result &= mTilesOverlay.onManagedPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
+
 		return result;
 	}
 
@@ -221,6 +251,10 @@ public class OverlayManager {
 			final int menuIdOffset, final MapView mapView) {
 		for (Overlay overlay : this.overlaysReversed())
 			if (overlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView))
+				return true;
+
+		if (mTilesOverlay != null)
+			if (mTilesOverlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView))
 				return true;
 
 		return false;
