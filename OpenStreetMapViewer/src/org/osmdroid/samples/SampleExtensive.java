@@ -75,7 +75,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 		/* Scale Bar Overlay */
 		{
 			this.mScaleBarOverlay = new ScaleBarOverlay(this, mResourceProxy);
-			this.mOsmv.getOverlayManager().addOverlay(mScaleBarOverlay);
+			this.mOsmv.getOverlays().add(mScaleBarOverlay);
 			// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to
 			// half screen width, minus half an inch.
 			this.mScaleBarOverlay.setScaleBarOffset(getResources().getDisplayMetrics().widthPixels
@@ -89,7 +89,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 			 * onLocationChanged(Location loc)!
 			 */
 			this.mMyLocationOverlay = new SimpleLocationOverlay(this, mResourceProxy);
-			this.mOsmv.getOverlayManager().addOverlay(mMyLocationOverlay);
+			this.mOsmv.getOverlays().add(mMyLocationOverlay);
 		}
 
 		/* ZoomControls */
@@ -135,7 +135,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 		/* MiniMap */
 		{
 			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlayManager().addOverlay(mMiniMapOverlay);
+			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
 
 		this.setContentView(rl);

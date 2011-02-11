@@ -57,7 +57,7 @@ public class SampleWithTilesOverlay extends Activity {
 		mProvider = new MapTileProviderBasic(getApplicationContext());
 		mProvider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);
 		this.mTilesOverlay = new TilesOverlay(mProvider, this.getBaseContext());
-		this.mOsmv.getOverlayManager().addOverlay(this.mTilesOverlay);
+		this.mOsmv.getOverlays().add(this.mTilesOverlay);
 
 		this.setContentView(rl);
 	}

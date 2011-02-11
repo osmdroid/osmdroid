@@ -94,14 +94,14 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 							return false;
 						}
 					}, mResourceProxy);
-			this.mOsmv.getOverlayManager().addOverlay(this.mMyLocationOverlay);
+			this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
 		}
 
 		/* MiniMap */
 		{
 			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
 					mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlayManager().addOverlay(miniMapOverlay);
+			this.mOsmv.getOverlays().add(miniMapOverlay);
 		}
 
 		this.setContentView(rl);

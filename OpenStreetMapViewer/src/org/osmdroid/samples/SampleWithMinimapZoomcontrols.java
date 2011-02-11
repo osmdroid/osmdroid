@@ -91,7 +91,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 		{
 			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
 					mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlayManager().addOverlay(miniMapOverlay);
+			this.mOsmv.getOverlays().add(miniMapOverlay);
 		}
 
 		this.setContentView(rl);
