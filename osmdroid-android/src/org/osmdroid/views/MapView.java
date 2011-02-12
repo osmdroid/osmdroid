@@ -1156,6 +1156,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			MapView.this.post(new Runnable() {
 				@Override
 				public void run() {
+					// This is necessary because (as of API 1.5) when onAnimationEnd is dispatched
+					// there still is some residual scaling going on and this will cause a frame of
+					// the new zoom level while the canvas is still being scaled as part of the
+					// animation and we don't want that.
+					clearAnimation();
 					setZoomLevel(targetZoomLevel);
 				}
 			});
