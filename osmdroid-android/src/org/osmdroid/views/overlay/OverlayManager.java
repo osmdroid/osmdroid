@@ -6,8 +6,10 @@ import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay.Snappable;
 
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -142,6 +144,15 @@ public class OverlayManager extends AbstractList<Overlay> {
 		for (Overlay overlay : this.overlaysReversed())
 			if (overlay.onTrackballEvent(event, pMapView))
 				return true;
+
+		return false;
+	}
+
+	public boolean onSnapToItem(int x, int y, Point snapPoint, MapView pMapView) {
+		for (Overlay overlay : this.overlaysReversed())
+			if (overlay instanceof Snappable)
+				if (((Snappable) overlay).onSnapToItem(x, y, snapPoint, pMapView))
+					return true;
 
 		return false;
 	}

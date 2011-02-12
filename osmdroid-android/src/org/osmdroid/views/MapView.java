@@ -27,7 +27,6 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.util.Mercator;
@@ -325,13 +324,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		for (Overlay overlay : mOverlayManager) {
-			if (overlay instanceof Snappable) {
-				if (((Snappable) overlay).onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
-					scrollTo(snapPoint.x, snapPoint.y);
-				}
-			}
-		}
+		if (mOverlayManager.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this))
+			scrollTo(snapPoint.x, snapPoint.y);
 
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel && mListener != null) {
