@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.util.constants.MapViewConstants;
+import org.osmdroid.views.util.constants.OverlayConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -29,13 +29,17 @@ import android.view.MotionEvent;
  * 
  * @author Nicolas Gramlich
  */
-public abstract class Overlay implements MapViewConstants {
+public abstract class Overlay implements OverlayConstants {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
 
 	private static AtomicInteger sOrdinal = new AtomicInteger();
+
+	// From Google Maps API
+	protected static final float SHADOW_X_SKEW = -0.8999999761581421f;
+	protected static final float SHADOW_Y_SCALE = 0.5f;
 
 	// ===========================================================
 	// Fields

@@ -24,10 +24,4 @@ public interface MapViewConstants {
 	public static final int ANIMATION_DURATION_SHORT = 500;
 	public static final int ANIMATION_DURATION_DEFAULT = 1000;
 	public static final int ANIMATION_DURATION_LONG = 2000;
-
-	public static final int DEFAULT_ZOOMLEVEL_MINIMAP_DIFFERENCE = 3;
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
 }

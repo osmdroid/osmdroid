@@ -6,7 +6,6 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,7 +26,7 @@ import android.view.MotionEvent;
  * @author Marc Kurtz
  * 
  */
-public class MinimapOverlay extends TilesOverlay implements MapViewConstants {
+public class MinimapOverlay extends TilesOverlay {
 
 	private int mWidth = 100;
 	private int mHeight = 100;
