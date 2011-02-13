@@ -15,8 +15,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-public class ItemizedOverlayWithFocus<T extends OverlayItem>
-		extends ItemizedOverlay<T> {
+public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOverlay<T> {
 
 	// ===========================================================
 	// Constants
@@ -63,8 +62,8 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem>
 		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
 	}
 
-	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
-			final Drawable pMarker, final Point pMarkerHotspot, final Drawable pMarkerFocusedBase,
+	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList, final Drawable pMarker,
+			final Point pMarkerHotspot, final Drawable pMarkerFocusedBase,
 			final Point pMarkerFocusedHotSpot, final int pFocusedBackgroundColor,
 			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 
@@ -126,9 +125,11 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem>
 	// ===========================================================
 
 	@Override
-	protected boolean onSingleTapUpHelper(final int index, final T item) {
-		if (this.mFocusItemsOnTap)
+	protected boolean onSingleTapUpHelper(final int index, final T item, final MapView mapView) {
+		if (this.mFocusItemsOnTap) {
 			this.mFocusedItemIndex = index;
+			mapView.postInvalidate();
+		}
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
@@ -143,8 +144,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem>
 
 		// get focused item's preferred marker & hotspot
 		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
-		Drawable markerFocusedBase = focusedItem
-				.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Drawable markerFocusedBase = focusedItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		Point markerFocusedHotspot = focusedItem
 				.getMarkerHotspot(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (markerFocusedBase == null) {

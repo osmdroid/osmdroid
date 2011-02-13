@@ -55,13 +55,12 @@ public class OverlayItem {
 	 *            a <b>multiLine</b> description ( <code>'\n'</code> possible)
 	 * @param aGeoPoint
 	 */
-	public OverlayItem(final String aTitle, final String aDescription,
-			final GeoPoint aGeoPoint) {
+	public OverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
 		this(-1L, aTitle, aDescription, aGeoPoint);
 	}
 
-	public OverlayItem(final long aKey, final String aTitle,
-			final String aDescription, final GeoPoint aGeoPoint) {
+	public OverlayItem(final long aKey, final String aTitle, final String aDescription,
+			final GeoPoint aGeoPoint) {
 		this.mTitle = aTitle;
 		this.mDescription = aDescription;
 		this.mGeoPoint = aGeoPoint;
@@ -107,11 +106,12 @@ public class OverlayItem {
 
 		// set marker state appropriately
 		setState(mMarker, stateBitset);
+		this.deriveHotspot();
 		return mMarker;
 	}
 
 	public Point getMarkerHotspot(final int stateBitset) {
-		return (mMarkerHotspot == null) ? this.deriveHotspot() : mMarkerHotspot;
+		return (mMarkerHotspot == null) ? null : mMarkerHotspot;
 	}
 
 	public void setMarker(final Drawable marker) {
@@ -160,11 +160,10 @@ public class OverlayItem {
 	 * @param pResourceProxy
 	 * @return a map item with all unspecified values set to reasonable defaults.
 	 */
-	public static OverlayItem getDefaultItem(final Drawable pMarker,
-			final Point pHotspot, final HotspotPlace pHotspotPlace,
-			final ResourceProxy pResourceProxy) {
-		final OverlayItem that = new OverlayItem("<default>",
-				"used when no marker is specified", new GeoPoint(0.0, 0.0));
+	public static OverlayItem getDefaultItem(final Drawable pMarker, final Point pHotspot,
+			final HotspotPlace pHotspotPlace, final ResourceProxy pResourceProxy) {
+		final OverlayItem that = new OverlayItem("<default>", "used when no marker is specified",
+				new GeoPoint(0.0, 0.0));
 		that.mMarker = (pMarker != null) ? pMarker : pResourceProxy
 				.getDrawable(ResourceProxy.bitmap.marker_default);
 
@@ -208,14 +207,14 @@ public class OverlayItem {
 		if (this.mStdHotspotPlace == null)
 			this.mStdHotspotPlace = HotspotPlace.CUSTOM;
 		final Point markerSize = (this.mMarker == null) ? DEFAULT_MARKER_SIZE : new Point(
-				this.getWidth(), this.getWidth());
+				this.getWidth(), this.getHeight());
 
 		switch (this.mStdHotspotPlace) {
 		case CUSTOM:
 			if (this.mMarkerHotspot != null)
 				break;
 			this.mStdHotspotPlace = HotspotPlace.BOTTOM_CENTER;
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y / 2);
+			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y);
 			break;
 		case CENTER:
 			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y / 2);

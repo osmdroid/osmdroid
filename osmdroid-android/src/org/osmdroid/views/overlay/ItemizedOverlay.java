@@ -19,10 +19,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 /**
- * Draws a list of {@link OverlayItem} as markers to a map. The item with the
- * lowest index is drawn as last and therefore the 'topmost' marker. It also gets checked for onTap
- * first. This class is generic, because you then you get your custom item-class passed back in
- * onTap().
+ * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
+ * as last and therefore the 'topmost' marker. It also gets checked for onTap first. This class is
+ * generic, because you then you get your custom item-class passed back in onTap().
  * 
  * @author Nicolas Gramlich
  * @author Theodore Hong
@@ -30,8 +29,7 @@ import android.view.MotionEvent;
  * 
  * @param <T>
  */
-public class ItemizedOverlay<T extends OverlayItem> extends
-		Overlay {
+public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 
 	// ===========================================================
 	// Constants
@@ -63,16 +61,14 @@ public class ItemizedOverlay<T extends OverlayItem> extends
 		this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
 	}
 
-	public ItemizedOverlay(final Context ctx, final List<T> aList,
-			final Drawable pMarker, final Point pMarkerHotspot,
-			final OnItemGestureListener<T> aOnItemGestureListener,
+	public ItemizedOverlay(final Context ctx, final List<T> aList, final Drawable pMarker,
+			final Point pMarkerHotspot, final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
 		this(ctx, aList, pMarker, pMarkerHotspot, null, aOnItemGestureListener, pResourceProxy);
 	}
 
-	public ItemizedOverlay(final Context ctx, final List<T> aList,
-			final Drawable pMarker, final Point pMarkerHotspot,
-			final OverlayItem.HotspotPlace pHotSpotPlace,
+	public ItemizedOverlay(final Context ctx, final List<T> aList, final Drawable pMarker,
+			final Point pMarkerHotspot, final OverlayItem.HotspotPlace pHotSpotPlace,
 			final OnItemGestureListener<T> aOnItemGestureListener,
 			final ResourceProxy pResourceProxy) {
 
@@ -81,8 +77,8 @@ public class ItemizedOverlay<T extends OverlayItem> extends
 		assert (ctx != null);
 		assert (aList != null);
 
-		this.mDefaultItem = OverlayItem.getDefaultItem(pMarker, pMarkerHotspot,
-				pHotSpotPlace, pResourceProxy);
+		this.mDefaultItem = OverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace,
+				pResourceProxy);
 
 		this.mOnItemGestureListener = aOnItemGestureListener;
 
@@ -157,12 +153,12 @@ public class ItemizedOverlay<T extends OverlayItem> extends
 				final ItemizedOverlay<T> that = ItemizedOverlay.this;
 				if (that.mOnItemGestureListener == null)
 					return false;
-				return onSingleTapUpHelper(index, that.mItemList.get(index));
+				return onSingleTapUpHelper(index, that.mItemList.get(index), mapView);
 			}
 		})) ? true : super.onSingleTapUp(event, mapView);
 	}
 
-	protected boolean onSingleTapUpHelper(final int index, final T item) {
+	protected boolean onSingleTapUpHelper(final int index, final T item, final MapView mapView) {
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
