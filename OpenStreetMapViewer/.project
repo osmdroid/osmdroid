@@ -34,7 +34,7 @@
 		<link>
 			<name>osmdroid-android-src</name>
 			<type>2</type>
-			<location>C:/Documents and Settings/admin/workspace/osmdroid/osmdroid-android/src</location>
+			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-android/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
