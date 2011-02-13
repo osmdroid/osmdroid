@@ -28,7 +28,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	/** Additional to <code>DESCRIPTION_LINE_HEIGHT</code>. */
 	public static final int DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT = 2;
 
-	protected static final Point DEFAULTMARKER_FOCUSED_HOTSPOT = new Point(10, 19);
+	// protected static final Point DEFAULTMARKER_FOCUSED_HOTSPOT = new Point(10, 19);
 	protected static final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
 
 	protected static final int DESCRIPTION_MAXWIDTH = 200;
@@ -47,6 +47,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	private final Point mFocusedScreenCoords = new Point();
 
 	private final String UNKNOWN;
+	private final float mScale;
 
 	// ===========================================================
 	// Constructors
@@ -69,13 +70,16 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 
 		super(ctx, aList, pMarker, pMarkerHotspot, aOnItemTapListener, pResourceProxy);
 
+		mScale = ctx.getResources().getDisplayMetrics().density;
+
 		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 
 		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase
 				: mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base);
 
 		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot
-				: DEFAULTMARKER_FOCUSED_HOTSPOT;
+				: new Point(mMarkerFocusedBase.getIntrinsicWidth() / 2,
+						mMarkerFocusedBase.getIntrinsicHeight());
 
 		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET) ? pFocusedBackgroundColor
 				: DEFAULTMARKER_BACKGROUNDCOLOR;
@@ -155,11 +159,11 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		final int markerFocusedWidth = markerFocusedBase.getIntrinsicWidth();
-		final int markerFocusedHeight = markerFocusedBase.getIntrinsicHeight();
-		final int left = this.mFocusedScreenCoords.x - markerFocusedHotspot.x;
+		final int markerFocusedWidth = (int) (markerFocusedBase.getIntrinsicWidth() * mScale);
+		final int markerFocusedHeight = (int) (markerFocusedBase.getIntrinsicHeight() * mScale);
+		final int left = this.mFocusedScreenCoords.x - (int) (markerFocusedHotspot.x * mScale);
 		final int right = left + markerFocusedWidth;
-		final int top = this.mFocusedScreenCoords.y - markerFocusedHotspot.y;
+		final int top = this.mFocusedScreenCoords.y - (int) (markerFocusedHotspot.y * mScale);
 		final int bottom = top + markerFocusedHeight;
 		markerFocusedBase.setBounds(left, top, right, bottom);
 

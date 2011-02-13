@@ -44,6 +44,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 	protected GestureDetector mGestureDetector;
 	protected final List<T> mItemList;
 	protected final OverlayItem mDefaultItem;
+	private final float mScale;
 	private int mDrawnItemsLimit = Integer.MAX_VALUE;
 
 	// ===========================================================
@@ -76,6 +77,8 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 
 		assert (ctx != null);
 		assert (aList != null);
+
+		mScale = ctx.getResources().getDisplayMetrics().density;
 
 		this.mDefaultItem = OverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace,
 				pResourceProxy);
@@ -267,9 +270,12 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 		final Point markerHotspot = (item.getMarkerHotspot(0) == null) ? this.mDefaultItem
 				.getMarkerHotspot(0) : item.getMarkerHotspot(0);
 
+		// Scale the markerHotspot
+		markerHotspot.set((int) (markerHotspot.x * mScale), (int) (markerHotspot.y * mScale));
+
 		// calculate bounding rectangle
-		final int markerWidth = marker.getIntrinsicWidth();
-		final int markerHeight = marker.getIntrinsicHeight();
+		final int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
+		final int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
 		final int left = ctr.x - markerHotspot.x;
 		final int right = left + markerWidth;
 		final int top = ctr.y - markerHotspot.y;

@@ -114,7 +114,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 	public static final int MENU_COMPASS = getSafeMenuId();
 
-	private float mScale = 1.0f;
+	private final float mScale;
 
 	// to avoid allocations during onDraw
 	private final float[] mMatrixValues = new float[9];
