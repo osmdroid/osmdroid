@@ -5,8 +5,8 @@
 	<classpathentry kind="lib" path="lib/httpmime-4.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="src" path="osmdroid-android-src"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/osmdroid-android"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
