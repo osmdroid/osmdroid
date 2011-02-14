@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.MyListener;
+import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
@@ -73,7 +73,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
 
-	public MyListener mLocationListener = null;
+	public LocationListenerProxy mLocationListener = null;
 
 	private boolean mMyLocationEnabled = false;
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
@@ -513,7 +513,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	@Override
 	public boolean enableMyLocation() {
 		if (!mMyLocationEnabled) {
-			mLocationListener = new MyListener(mLocationManager);
+			mLocationListener = new LocationListenerProxy(mLocationManager);
 			mLocationListener.startListening(this, mLocationUpdateMinTime, mLocationUpdateMinDistance);
 		}
 
