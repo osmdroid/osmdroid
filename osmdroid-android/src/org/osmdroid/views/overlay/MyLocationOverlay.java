@@ -490,8 +490,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 
 	@Override
 	public void disableMyLocation() {
-		mLocationListener.stopListening();
-		mLocationListener = null;
+		if (mLocationListener != null) {
+			mLocationListener.stopListening();
+			mLocationListener = null;
+		}
 
 		mFollow = false;
 		mMyLocationEnabled = false;
