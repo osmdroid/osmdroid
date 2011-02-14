@@ -75,7 +75,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 
 	public LocationListenerProxy mLocationListener = null;
 
-	private boolean mMyLocationEnabled = false;
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
 
@@ -188,7 +187,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 
 	@Override
 	public boolean isMyLocationEnabled() {
-		return mMyLocationEnabled;
+		return mLocationListener != null;
 	}
 
 	@Override
@@ -261,7 +260,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
 				: 0);
 
-		if ((mMyLocationEnabled) && (this.mLocation != null)) {
+		if (mLocationListener != null && mLocation != null) {
 			final Projection pj = osmv.getProjection();
 			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
 					(int) (mLocation.getLongitude() * 1E6));
@@ -496,7 +495,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 		}
 
 		mFollow = false;
-		mMyLocationEnabled = false;
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
@@ -512,7 +510,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	 */
 	@Override
 	public boolean enableMyLocation() {
-		if (!mMyLocationEnabled) {
+		if (mLocationListener == null) {
 			mLocationListener = new LocationListenerProxy(mLocationManager);
 			mLocationListener.startListening(this, mLocationUpdateMinTime, mLocationUpdateMinDistance);
 		}
@@ -530,16 +528,16 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 			mMapView.invalidate();
 		}
 
-		return mMyLocationEnabled = true;
+		return true;
 	}
 
 	public boolean toggleMyLocation() {
-		if (mMyLocationEnabled) {
+		if (mLocationListener != null) {
 			disableMyLocation();
 		} else {
 			enableMyLocation();
 		}
-		return mMyLocationEnabled;
+		return mLocationListener != null;
 	}
 
 	@Override
@@ -589,7 +587,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 
 	@Override
 	public boolean runOnFirstFix(final Runnable runnable) {
-		if (mMyLocationEnabled && mLocation != null) {
+		if (mLocationListener != null && mLocation != null) {
 			runnable.run();
 			return true;
 		} else {
