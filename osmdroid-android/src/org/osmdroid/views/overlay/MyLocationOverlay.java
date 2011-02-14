@@ -73,7 +73,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
 
-	public LocationListener mLocationListener = null;
+	public LocationListenerProxy mLocationListener = null;
 
 	private boolean mMyLocationEnabled = false;
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
