@@ -5,21 +5,22 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-public class MyListener implements LocationListener
+public class LocationListenerProxy implements LocationListener
 {
 	private final LocationManager mLocationManager;
 	private LocationListener mListener = null;
 
-	public MyListener(final LocationManager pLocationManager) {
+	public LocationListenerProxy(final LocationManager pLocationManager) {
 		mLocationManager = pLocationManager;
 	}
 
-	public void startListening(final LocationListener pListener, final long pUpdateTime, final float pUpdateDistance) {
+	public void startListening(final LocationListener pListener,
+			final long pUpdateTime, final float pUpdateDistance) {
 		mListener = pListener;
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-				pUpdateTime, pUpdateDistance, this);
-		mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-				pUpdateTime, pUpdateDistance, this);
+		mLocationManager.requestLocationUpdates(
+				LocationManager.GPS_PROVIDER, pUpdateTime, pUpdateDistance, this);
+		mLocationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, pUpdateTime, pUpdateDistance, this);
 	}
 
 	public void stopListening() {
