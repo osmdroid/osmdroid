@@ -21,13 +21,13 @@ public class OverlayManager extends AbstractList<Overlay> {
 
 	private final CopyOnWriteArrayList<Overlay> mOverlayList;
 
-	public OverlayManager(TilesOverlay tilesOverlay) {
+	public OverlayManager(final TilesOverlay tilesOverlay) {
 		setTilesOverlay(tilesOverlay);
 		mOverlayList = new CopyOnWriteArrayList<Overlay>();
 	}
 
 	@Override
-	public Overlay get(int pIndex) {
+	public Overlay get(final int pIndex) {
 		return mOverlayList.get(pIndex);
 	}
 
@@ -37,23 +37,23 @@ public class OverlayManager extends AbstractList<Overlay> {
 	}
 
 	@Override
-	public void add(int pIndex, Overlay pElement) {
+	public void add(final int pIndex, final Overlay pElement) {
 		mOverlayList.add(pIndex, pElement);
 	}
 
 	@Override
-	public Overlay remove(int pIndex) {
+	public Overlay remove(final int pIndex) {
 		return mOverlayList.remove(pIndex);
 	}
 
 	@Override
-	public Overlay set(int pIndex, Overlay pElement) {
+	public Overlay set(final int pIndex, final Overlay pElement) {
 		return mOverlayList.set(pIndex, pElement);
 	}
 
 	/**
 	 * Gets the optional TilesOverlay class.
-	 * 
+	 *
 	 * @return the tilesOverlay
 	 */
 	public TilesOverlay getTilesOverlay() {
@@ -64,17 +64,18 @@ public class OverlayManager extends AbstractList<Overlay> {
 	 * Sets the optional TilesOverlay class. If set, this overlay will be drawn before all other
 	 * overlays and will not be included in the editable list of overlays and can't be cleared
 	 * except by a subsequent call to setTilesOverlay().
-	 * 
+	 *
 	 * @param tilesOverlay
 	 *            the tilesOverlay to set
 	 */
-	public void setTilesOverlay(TilesOverlay tilesOverlay) {
+	public void setTilesOverlay(final TilesOverlay tilesOverlay) {
 		mTilesOverlay = tilesOverlay;
 	}
 
-	public void setOptionsMenusEnabled(boolean pEnabled) {
-		for (Overlay overlay : mOverlayList)
+	public void setOptionsMenusEnabled(final boolean pEnabled) {
+		for (final Overlay overlay : mOverlayList) {
 			overlay.setOptionsMenuEnabled(pEnabled);
+		}
 	}
 
 	public Iterable<Overlay> overlaysReversed() {
@@ -84,14 +85,17 @@ public class OverlayManager extends AbstractList<Overlay> {
 				final ListIterator<Overlay> i = mOverlayList.listIterator(mOverlayList.size());
 
 				return new Iterator<Overlay>() {
+					@Override
 					public boolean hasNext() {
 						return i.hasPrevious();
 					}
 
+					@Override
 					public Overlay next() {
 						return i.previous();
 					}
 
+					@Override
 					public void remove() {
 						i.remove();
 					}
@@ -101,58 +105,73 @@ public class OverlayManager extends AbstractList<Overlay> {
 	}
 
 	public void onDraw(final Canvas c, final MapView pMapView) {
-		if (mTilesOverlay != null)
+		if (mTilesOverlay != null) {
 			mTilesOverlay.onManagedDraw(c, pMapView);
+		}
 
-		for (Overlay overlay : mOverlayList)
+		for (final Overlay overlay : mOverlayList) {
 			overlay.onManagedDraw(c, pMapView);
+		}
 	}
 
 	public void onDetach(final MapView pMapView) {
-		if (mTilesOverlay != null)
+		if (mTilesOverlay != null) {
 			mTilesOverlay.onDetach(pMapView);
+		}
 
-		for (Overlay overlay : this.overlaysReversed())
+		for (final Overlay overlay : this.overlaysReversed()) {
 			overlay.onDetach(pMapView);
+		}
 	}
 
 	public boolean onKeyDown(final int keyCode, final KeyEvent event, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onKeyDown(keyCode, event, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onKeyDown(keyCode, event, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onKeyUp(final int keyCode, final KeyEvent event, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onKeyUp(keyCode, event, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onKeyUp(keyCode, event, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onTouchEvent(final MotionEvent event, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onTouchEvent(event, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onTouchEvent(event, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onTrackballEvent(final MotionEvent event, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onTrackballEvent(event, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onTrackballEvent(event, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
-	public boolean onSnapToItem(int x, int y, Point snapPoint, MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay instanceof Snappable)
-				if (((Snappable) overlay).onSnapToItem(x, y, snapPoint, pMapView))
+	public boolean onSnapToItem(final int x, final int y, final Point snapPoint, final MapView pMapView) {
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay instanceof Snappable) {
+				if (((Snappable) overlay).onSnapToItem(x, y, snapPoint, pMapView)) {
 					return true;
+				}
+			}
+		}
 
 		return false;
 	}
@@ -160,25 +179,31 @@ public class OverlayManager extends AbstractList<Overlay> {
 	/** GestureDetector.OnDoubleTapListener **/
 
 	public boolean onDoubleTap(final MotionEvent e, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onDoubleTap(e, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onDoubleTap(e, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onDoubleTapEvent(final MotionEvent e, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onDoubleTapEvent(e, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onDoubleTapEvent(e, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onSingleTapConfirmed(final MotionEvent e, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onSingleTapConfirmed(e, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onSingleTapConfirmed(e, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -186,48 +211,59 @@ public class OverlayManager extends AbstractList<Overlay> {
 	/** OnGestureListener **/
 
 	public boolean onDown(final MotionEvent pEvent, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onDown(pEvent, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onDown(pEvent, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
-	public boolean onFling(MotionEvent pEvent1, MotionEvent pEvent2, float pVelocityX,
-			float pVelocityY, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onFling(pEvent1, pEvent2, pVelocityX, pVelocityY, pMapView))
+	public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2, final float pVelocityX,
+			final float pVelocityY, final MapView pMapView) {
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onFling(pEvent1, pEvent2, pVelocityX, pVelocityY, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onLongPress(final MotionEvent pEvent, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onLongPress(pEvent, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onLongPress(pEvent, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
 			final float pDistanceX, final float pDistanceY, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onScroll(pEvent1, pEvent2, pDistanceX, pDistanceY, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onScroll(pEvent1, pEvent2, pDistanceX, pDistanceY, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
 
 	public void onShowPress(final MotionEvent pEvent, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
+		for (final Overlay overlay : this.overlaysReversed()) {
 			overlay.onShowPress(pEvent, pMapView);
+		}
 	}
 
 	public boolean onSingleTapUp(final MotionEvent pEvent, final MapView pMapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onSingleTapUp(pEvent, pMapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onSingleTapUp(pEvent, pMapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}
@@ -237,11 +273,13 @@ public class OverlayManager extends AbstractList<Overlay> {
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int menuIdOffset,
 			final MapView mapView) {
 		boolean result = true;
-		for (Overlay overlay : this.overlaysReversed())
+		for (final Overlay overlay : this.overlaysReversed()) {
 			result &= overlay.onManagedCreateOptionsMenu(pMenu, menuIdOffset, mapView);
+		}
 
-		if (mTilesOverlay != null)
+		if (mTilesOverlay != null) {
 			result &= mTilesOverlay.onManagedCreateOptionsMenu(pMenu, menuIdOffset, mapView);
+		}
 
 		return result;
 	}
@@ -249,24 +287,30 @@ public class OverlayManager extends AbstractList<Overlay> {
 	public boolean onPrepareOptionsMenu(final Menu pMenu, final int menuIdOffset,
 			final MapView mapView) {
 		boolean result = true;
-		for (Overlay overlay : this.overlaysReversed())
+		for (final Overlay overlay : this.overlaysReversed()) {
 			result &= overlay.onManagedPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
+		}
 
-		if (mTilesOverlay != null)
+		if (mTilesOverlay != null) {
 			result &= mTilesOverlay.onManagedPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
+		}
 
 		return result;
 	}
 
 	public boolean onMenuItemSelected(final int featureId, final MenuItem item,
 			final int menuIdOffset, final MapView mapView) {
-		for (Overlay overlay : this.overlaysReversed())
-			if (overlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView))
+		for (final Overlay overlay : this.overlaysReversed()) {
+			if (overlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView)) {
 				return true;
+			}
+		}
 
-		if (mTilesOverlay != null)
-			if (mTilesOverlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView))
+		if (mTilesOverlay != null) {
+			if (mTilesOverlay.onManagedMenuItemSelected(featureId, item, menuIdOffset, mapView)) {
 				return true;
+			}
+		}
 
 		return false;
 	}

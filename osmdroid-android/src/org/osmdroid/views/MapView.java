@@ -100,7 +100,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private final ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
-	private ResourceProxy mResourceProxy;
+	private final ResourceProxy mResourceProxy;
 
 	private MultiTouchController<Object> mMultiTouchController;
 	private float mMultiTouchScale = 1.0f;
@@ -262,7 +262,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 * 
+	 *
 	 * @return
 	 */
 	@Override
@@ -324,8 +324,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		if (mOverlayManager.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this))
+		if (mOverlayManager.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 			scrollTo(snapPoint.x, snapPoint.y);
+		}
 
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel && mListener != null) {
@@ -337,7 +338,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -348,7 +349,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -364,7 +365,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinZoomLevel() {
@@ -373,7 +374,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -501,7 +502,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -513,7 +514,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 * 
+	 *
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -530,14 +531,14 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-		boolean result = mOverlayManager.onKeyDown(keyCode, event, this);
+		final boolean result = mOverlayManager.onKeyDown(keyCode, event, this);
 
 		return result || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-		boolean result = mOverlayManager.onKeyUp(keyCode, event, this);
+		final boolean result = mOverlayManager.onKeyUp(keyCode, event, this);
 
 		return result || super.onKeyUp(keyCode, event);
 	}
@@ -545,8 +546,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	@Override
 	public boolean onTrackballEvent(final MotionEvent event) {
 
-		if (mOverlayManager.onTrackballEvent(event, this))
+		if (mOverlayManager.onTrackballEvent(event, this)) {
 			return true;
+		}
 
 		scrollBy((int) (event.getX() * 25), (int) (event.getY() * 25));
 
@@ -560,8 +562,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			logger.debug("onTouchEvent(" + event + ")");
 		}
 
-		if (mOverlayManager.onTouchEvent(event, this))
+		if (mOverlayManager.onTouchEvent(event, this)) {
 			return true;
+		}
 
 		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 			if (DEBUGMODE) {
@@ -809,7 +812,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 * 
+	 *
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -883,7 +886,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 * 
+		 *
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -906,7 +909,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 * 
+		 *
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -915,7 +918,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 * 
+		 *
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -935,7 +938,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 * 
+		 *
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -956,7 +959,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 * 
+		 *
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -975,7 +978,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 * 
+		 *
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.
@@ -1049,8 +1052,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDown(final MotionEvent e) {
-			if (MapView.this.mOverlayManager.onDown(e, MapView.this))
+			if (MapView.this.mOverlayManager.onDown(e, MapView.this)) {
 				return true;
+			}
 
 			mZoomController.setVisible(mEnableZoomController);
 			return true;
@@ -1059,8 +1063,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX,
 				final float velocityY) {
-			if (MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this))
+			if (MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
 				return true;
+			}
 
 			final int worldSize = getWorldSizePx();
 			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
@@ -1076,8 +1081,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		@Override
 		public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
 				final float distanceY) {
-			if (MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this))
+			if (MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this)) {
 				return true;
+			}
 
 			scrollBy((int) distanceX, (int) distanceY);
 			return true;
@@ -1090,8 +1096,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onSingleTapUp(final MotionEvent e) {
-			if (MapView.this.mOverlayManager.onSingleTapUp(e, MapView.this))
+			if (MapView.this.mOverlayManager.onSingleTapUp(e, MapView.this)) {
 				return true;
+			}
 
 			return false;
 		}
@@ -1101,8 +1108,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-			if (mOverlayManager.onDoubleTap(e, MapView.this))
+			if (mOverlayManager.onDoubleTap(e, MapView.this)) {
 				return true;
+			}
 
 			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
 			return zoomInFixing(center);
@@ -1110,16 +1118,18 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
-			if (mOverlayManager.onDoubleTapEvent(e, MapView.this))
+			if (mOverlayManager.onDoubleTapEvent(e, MapView.this)) {
 				return true;
+			}
 
 			return false;
 		}
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
-			if (mOverlayManager.onSingleTapConfirmed(e, MapView.this))
+			if (mOverlayManager.onSingleTapConfirmed(e, MapView.this)) {
 				return true;
+			}
 
 			return false;
 		}
