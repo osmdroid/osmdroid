@@ -74,14 +74,6 @@ public abstract class Overlay implements OverlayConstants {
 		return this.mEnabled;
 	}
 
-	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
-		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
-	}
-
-	public boolean isOptionsMenuEnabled() {
-		return this.mOptionsMenuEnabled;
-	}
-
 	/**
 	 * Since the menu-chain will pass through several independent Overlays, menu IDs cannot be fixed
 	 * at compile time. Overlays should use this method to obtain and store a menu id for each menu
@@ -263,7 +255,15 @@ public abstract class Overlay implements OverlayConstants {
 		return false;
 	}
 
-	/** Options Menu **/
+	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
+		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
+	}
+
+	public boolean isOptionsMenuEnabled() {
+		return this.mOptionsMenuEnabled;
+	}
+
+	//** Options Menu **//
 
 	public final boolean onManagedCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {

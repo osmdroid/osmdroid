@@ -72,12 +72,6 @@ public class OverlayManager extends AbstractList<Overlay> {
 		mTilesOverlay = tilesOverlay;
 	}
 
-	public void setOptionsMenusEnabled(final boolean pEnabled) {
-		for (final Overlay overlay : mOverlayList) {
-			overlay.setOptionsMenuEnabled(pEnabled);
-		}
-	}
-
 	public Iterable<Overlay> overlaysReversed() {
 		return new Iterable<Overlay>() {
 			@Override
@@ -268,7 +262,13 @@ public class OverlayManager extends AbstractList<Overlay> {
 		return false;
 	}
 
-	/** Options Menu **/
+	//** Options Menu **//
+
+	public void setOptionsMenusEnabled(final boolean pEnabled) {
+		for (final Overlay overlay : mOverlayList) {
+			overlay.setOptionsMenuEnabled(pEnabled);
+		}
+	}
 
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int menuIdOffset,
 			final MapView mapView) {
