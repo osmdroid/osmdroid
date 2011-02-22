@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, GoogleWrapperSample!</string>
+    <string name="app_name">GoogleWrapperSample</string>
+
+    <string name="map_view_google">Google</string>
+    <string name="map_view_osm">OSM</string>
+
+</resources>
