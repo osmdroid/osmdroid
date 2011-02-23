@@ -6,8 +6,8 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="osmdroid-google-wrapper">
     <property environment="env"/>
-    <property name="ANDROID_SDK_PLATFORM" value="W:/android-sdk-windows/platforms/android-3"/>
-    <property name="GOOGLE_SDK_PLATFORM" value="W:/android-sdk-windows/add-ons/google_apis-3-r03/libs"/>
+    <property name="ANDROID_SDK_PLATFORM" value="c:/android-sdk-windows/platforms/android-3"/>
+    <property name="GOOGLE_SDK_PLATFORM" value="c:/android-sdk-windows/add-ons/google_apis-3-r03/libs"/>
     <property name="ECLIPSE_HOME" value="C:/eclipse"/>
     <property name="osmdroid-android.location" value="../osmdroid-android"/>
     <property name="debuglevel" value="source,lines,vars"/>

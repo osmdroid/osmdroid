@@ -6,14 +6,14 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="osmdroid-android">
     <property environment="env"/>
-    <property name="ANDROID_SDK_PLATFORM" value="../../../../../../opt/android/android-sdk-linux_86/platforms/android-7"/>
-    <property name="ECLIPSE_HOME" value="../../../../../../usr/lib/eclipse"/>
+    <property name="ANDROID_SDK_PLATFORM" value="c:/android-sdk-windows/platforms/android-4"/>
+    <property name="ECLIPSE_HOME" value="C:/eclipse"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <import file="build-jar.xml"/>
     <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit4_4.5.0.v20090824/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
         <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.jar"/>
     </path>
     <path id="osmdroid-android.classpath">
