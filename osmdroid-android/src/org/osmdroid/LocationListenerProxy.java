@@ -17,10 +17,13 @@ public class LocationListenerProxy implements LocationListener
 	public void startListening(final LocationListener pListener,
 			final long pUpdateTime, final float pUpdateDistance) {
 		mListener = pListener;
-		mLocationManager.requestLocationUpdates(
-				LocationManager.GPS_PROVIDER, pUpdateTime, pUpdateDistance, this);
-		mLocationManager.requestLocationUpdates(
-				LocationManager.NETWORK_PROVIDER, pUpdateTime, pUpdateDistance, this);
+		for (final String provider : mLocationManager.getProviders(true)) {
+			if (LocationManager.GPS_PROVIDER.equals(provider)
+					|| LocationManager.NETWORK_PROVIDER.equals(provider)) {
+				mLocationManager.requestLocationUpdates(provider,
+						pUpdateTime, pUpdateDistance, this);
+			}
+		}
 	}
 
 	public void stopListening() {
