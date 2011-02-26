@@ -58,6 +58,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 */
 	public void setTileSource(final ITileSource pTileSource) {
 		mTileSource = pTileSource;
+		clearTileCache();
 	}
 
 	/**
