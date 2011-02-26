@@ -9,6 +9,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="ANDROID_SDK_PLATFORM/android.jar"/>
 	<classpathentry kind="var" path="GOOGLE_SDK_PLATFORM/maps.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/osmdroid-android"/>
+	<classpathentry kind="src" path="osmdroid-android-src" combineaccessrules="false"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
