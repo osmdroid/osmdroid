@@ -6,13 +6,13 @@ import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSource<Integer> {
+public class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSource<Integer> {
 
 	private static final Logger logger = LoggerFactory.getLogger(CloudmadeTileSource.class);
 
 	private Integer mStyle = 1;
 
-	CloudmadeTileSource(final String pName, final ResourceProxy.string pResourceId,
+	public CloudmadeTileSource(final String pName, final ResourceProxy.string pResourceId,
 			final int pZoomMinLevel, final int pZoomMaxLevel, final int pTileSizePixels,
 			final String pImageFilenameEnding, final String... pBaseUrl) {
 		super(pName, pResourceId, pZoomMinLevel, pZoomMaxLevel, pTileSizePixels,
@@ -45,7 +45,7 @@ class CloudmadeTileSource extends OnlineTileSourceBase implements IStyledTileSou
 	public void setStyle(final String pStyle) {
 		try {
 			mStyle = Integer.parseInt(pStyle);
-		} catch(final NumberFormatException e) {
+		} catch (final NumberFormatException e) {
 			logger.warn("Error setting integer style: " + pStyle);
 		}
 	}
