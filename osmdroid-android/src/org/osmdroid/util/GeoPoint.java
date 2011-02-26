@@ -183,6 +183,11 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		final GeoPoint rhs = (GeoPoint) obj;
 		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6 && rhs.mAltitude == this.mAltitude;
 	}
+	
+	@Override
+	public int hashCode() {
+		return 37 * (17 * mLatitudeE6 + mLongitudeE6) + mAltitude;
+	}
 
 	// ===========================================================
 	// Parcelable
