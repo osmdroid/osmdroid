@@ -39,7 +39,7 @@
 		</manifest>
 		<jar destfile="osmdroid-google-wrapper-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
-				<include name="**/*.class" />
+				<include name="org/osmdroid/google/**/*.class" />
 				<include name="**/*.png" />
 				<exclude name="**/*Test.class" />
 			</fileset>
