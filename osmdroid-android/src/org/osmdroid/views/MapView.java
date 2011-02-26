@@ -47,12 +47,13 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
-public class MapView extends View implements IMapView, MapViewConstants,
+public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
 	// ===========================================================
@@ -112,6 +113,9 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	private final MapTileProviderBase mTileProvider;
 
 	private final Handler mTileRequestCompleteHandler;
+
+	/* a point that will be reused to design added views */
+	private final Point mPoint = new Point();
 
 	// ===========================================================
 	// Constructors
@@ -262,7 +266,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class is only meant to be used during on call of onDraw(). Otherwise it may produce
 	 * strange results.
-	 *
+	 * 
 	 * @return
 	 */
 	@Override
@@ -338,7 +342,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -349,7 +353,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -365,7 +369,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinZoomLevel() {
@@ -374,7 +378,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -502,7 +506,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -514,7 +518,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
 	 * avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -524,6 +528,147 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
+
+	/**
+	 * Returns a set of layout parameters with a width of
+	 * {@link android.view.ViewGroup.LayoutParams#WRAP_CONTENT}, a height of
+	 * {@link android.view.ViewGroup.LayoutParams#WRAP_CONTENT} at the {@link GeoPoint} (0, 0) align
+	 * with {@link LayoutParams#BOTTOM_CENTER}.
+	 */
+	@Override
+	protected ViewGroup.LayoutParams generateDefaultLayoutParams() {
+		return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, null,
+				LayoutParams.BOTTOM_CENTER);
+	}
+
+	@Override
+	public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+		return new LayoutParams(getContext(), attrs);
+	}
+
+	// Override to allow type-checking of LayoutParams.
+	@Override
+	protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+		return p instanceof LayoutParams;
+	}
+
+	@Override
+	protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+		return new LayoutParams(p);
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int count = getChildCount();
+
+		int maxHeight = 0;
+		int maxWidth = 0;
+
+		// Find out how big everyone wants to be
+		measureChildren(widthMeasureSpec, heightMeasureSpec);
+
+		// Find rightmost and bottom-most child
+		for (int i = 0; i < count; i++) {
+			View child = getChildAt(i);
+			if (child.getVisibility() != GONE) {
+
+				final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+				final int childHeight = child.getMeasuredHeight();
+				final int childWidth = child.getMeasuredWidth();
+				getProjection().toMapPixels(lp.geoPoint, mPoint);
+				final int x = mPoint.x + getWidth() / 2;
+				final int y = mPoint.y + getHeight() / 2;
+				int childRight = x;
+				int childBottom = y;
+				switch (lp.alignment) {
+				case LayoutParams.BOTTOM_CENTER:
+					childRight = x + childWidth / 2;
+					childBottom = y + childHeight;
+					break;
+				case LayoutParams.BOTTOM_LEFT:
+					childRight = x + childWidth;
+					childBottom = y + childHeight;
+					break;
+				case LayoutParams.BOTTOM_RIGHT:
+					childRight = x;
+					childBottom = y + childHeight;
+					break;
+				case LayoutParams.TOP_CENTER:
+					childRight = x + childWidth / 2;
+					childBottom = y;
+					break;
+				case LayoutParams.TOP_LEFT:
+					childRight = x + childWidth;
+					childBottom = y;
+					break;
+				case LayoutParams.TOP_RIGHT:
+					childRight = x;
+					childBottom = y;
+					break;
+				}
+
+				maxWidth = Math.max(maxWidth, childRight);
+				maxHeight = Math.max(maxHeight, childBottom);
+			}
+		}
+
+		// Account for padding too
+		maxWidth += getPaddingLeft() + getPaddingRight();
+		maxHeight += getPaddingTop() + getPaddingBottom();
+
+		// Check against minimum height and width
+		maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());
+		maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());
+
+		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec),
+				resolveSize(maxHeight, heightMeasureSpec));
+	}
+
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		int count = getChildCount();
+
+		for (int i = 0; i < count; i++) {
+			View child = getChildAt(i);
+			if (child.getVisibility() != GONE) {
+
+				final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+				final int childHeight = child.getMeasuredHeight();
+				final int childWidth = child.getMeasuredWidth();
+				getProjection().toMapPixels(lp.geoPoint, mPoint);
+				final int x = mPoint.x + getWidth() / 2;
+				final int y = mPoint.y + getHeight() / 2;
+				int childLeft = x;
+				int childTop = y;
+				switch (lp.alignment) {
+				case LayoutParams.BOTTOM_CENTER:
+					childLeft = getPaddingLeft() + x - childWidth / 2;
+					childTop = getPaddingTop() + y - childHeight;
+					break;
+				case LayoutParams.BOTTOM_LEFT:
+					childLeft = getPaddingLeft() + x;
+					childTop = getPaddingTop() + y - childHeight;
+					break;
+				case LayoutParams.BOTTOM_RIGHT:
+					childLeft = getPaddingLeft() + x - childWidth;
+					childTop = getPaddingTop() + y - childHeight;
+					break;
+				case LayoutParams.TOP_CENTER:
+					childLeft = getPaddingLeft() + x - childWidth / 2;
+					childTop = getPaddingTop() + y;
+					break;
+				case LayoutParams.TOP_LEFT:
+					childLeft = getPaddingLeft() + x;
+					childTop = getPaddingTop() + y;
+					break;
+				case LayoutParams.TOP_RIGHT:
+					childLeft = getPaddingLeft() + x - childWidth;
+					childTop = getPaddingTop() + y;
+					break;
+				}
+				child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
+			}
+		}
+	}
 
 	public void onDetach() {
 		mOverlayManager.onDetach(this);
@@ -556,10 +701,10 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	@Override
-	public boolean onTouchEvent(final MotionEvent event) {
+	public boolean dispatchTouchEvent(final MotionEvent event) {
 
 		if (DEBUGMODE) {
-			logger.debug("onTouchEvent(" + event + ")");
+			logger.debug("dispatchTouchEvent(" + event + ")");
 		}
 
 		if (mOverlayManager.onTouchEvent(event, this)) {
@@ -573,6 +718,8 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			return true;
 		}
 
+		final boolean r = super.dispatchTouchEvent(event);
+
 		if (mGestureDetector.onTouchEvent(event)) {
 			if (DEBUGMODE) {
 				logger.debug("mGestureDetector handled onTouchEvent");
@@ -580,7 +727,6 @@ public class MapView extends View implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		final boolean r = super.onTouchEvent(event);
 		if (r) {
 			if (DEBUGMODE) {
 				logger.debug("super handled onTouchEvent");
@@ -628,10 +774,13 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	}
 
 	@Override
-	public void onDraw(final Canvas c) {
+	protected void dispatchDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
 		mProjection = new Projection();
+
+		// Save the current canvas matrix
+		c.save();
 
 		if (mMultiTouchScale == 1.0f) {
 			c.translate(getWidth() / 2, getHeight() / 2);
@@ -647,6 +796,11 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/* Draw all Overlays. */
 		mOverlayManager.onDraw(c, this);
+
+		// Restore the canvas matrix
+		c.restore();
+
+		super.dispatchDraw(c);
 
 		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE) {
@@ -812,7 +966,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 	/**
 	 * This class may return valid results until the underlying {@link MapView} gets modified in any
 	 * way (i.e. new center).
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -886,7 +1040,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts x/y ScreenCoordinates to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -909,7 +1063,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * <b>CAUTION</b> ! Conversion currently has a large error on <code>zoomLevels <= 7</code>.<br/>
 		 * The Error on ZoomLevels higher than 7, the error is below <code>1px</code>.<br/>
 		 * TODO: Add a linear interpolation to minimize this error.
-		 *
+		 * 
 		 * <PRE>
 		 * Zoom 	Error(m) 	Error(px)
 		 * 11 	6m 	1/12px
@@ -918,7 +1072,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		 * 6 	6144m 	3px
 		 * 4 	98304m 	10px
 		 * </PRE>
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the onScreenCoordinates of.
 		 * @param reuse
@@ -938,7 +1092,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection, needToCall
 		 * toMapPixelsTranslated to get final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -959,7 +1113,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Performs the second computationally light part of the projection.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -978,7 +1132,7 @@ public class MapView extends View implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from screen coordinates to intermediate coordinates.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in screen coordinates
 		 * @return a rectangle in intermediate coords.
@@ -1180,4 +1334,103 @@ public class MapView extends View implements IMapView, MapViewConstants,
 		}
 
 	}
+
+	// ===========================================================
+	// Public Classes
+	// ===========================================================
+
+	/**
+	 * Per-child layout information associated with OpenStreetMapView.
+	 */
+	public static class LayoutParams extends ViewGroup.LayoutParams {
+
+		/**
+		 * Special value for the alignment requested by a View. BOTTOM_CENTER means that the
+		 * location will be centered at the bottom of the view.
+		 */
+		public static final int BOTTOM_CENTER = 1;
+		/**
+		 * Special value for the alignment requested by a View. BOTTOM_LEFT means that the location
+		 * will be at the bottom left of the View.
+		 */
+		public static final int BOTTOM_LEFT = 2;
+		/**
+		 * Special value for the alignment requested by a View. BOTTOM_RIGHT means that the location
+		 * will be at the bottom right of the View.
+		 */
+		public static final int BOTTOM_RIGHT = 3;
+		/**
+		 * Special value for the alignment requested by a View. TOP_RIGHT means that the location
+		 * will be centered at the top of the View.
+		 */
+		public static final int TOP_CENTER = 4;
+		/**
+		 * Special value for the alignment requested by a View. TOP_LEFT means that the location
+		 * will at the top left the View.
+		 */
+		public static final int TOP_LEFT = 5;
+		/**
+		 * Special value for the alignment requested by a View. TOP_RIGHT means that the location
+		 * will at the top right the View.
+		 */
+		public static final int TOP_RIGHT = 6;
+		/**
+		 * The location of the child within the map view.
+		 */
+		public GeoPoint geoPoint;
+
+		/**
+		 * The alignment the alignment of the view compared to the location.
+		 */
+		public int alignment;
+
+		/**
+		 * Creates a new set of layout parameters with the specified width, height and location.
+		 * 
+		 * @param width
+		 *            the width, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
+		 *            in pixels
+		 * @param height
+		 *            the height, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
+		 *            in pixels
+		 * @param geoPoint
+		 *            the location of the child within the map view
+		 * @param alignment
+		 *            the alignment of the view compared to the location {@link #BOTTOM_CENTER},
+		 *            {@link #BOTTOM_LEFT}, {@link #BOTTOM_RIGHT} {@link #TOP_CENTER},
+		 *            {@link #TOP_LEFT}, {@link #TOP_RIGHT}
+		 */
+		public LayoutParams(int width, int height, GeoPoint geoPoint, int alignment) {
+			super(width, height);
+			if (geoPoint != null)
+				this.geoPoint = geoPoint;
+			else
+				this.geoPoint = new GeoPoint(0, 0);
+			this.alignment = alignment;
+		}
+
+		/**
+		 * Since we cannot use XML files in this project this constructor is useless. Creates a new
+		 * set of layout parameters. The values are extracted from the supplied attributes set and
+		 * context.
+		 * 
+		 * @param c
+		 *            the application environment
+		 * @param attrs
+		 *            the set of attributes fom which to extract the layout parameters values
+		 */
+		public LayoutParams(Context c, AttributeSet attrs) {
+			super(c, attrs);
+			this.geoPoint = new GeoPoint(0, 0);
+			this.alignment = BOTTOM_CENTER;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		public LayoutParams(ViewGroup.LayoutParams source) {
+			super(source);
+		}
+	}
+
 }
