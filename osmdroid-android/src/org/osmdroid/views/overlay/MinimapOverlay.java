@@ -22,9 +22,9 @@ import android.view.MotionEvent;
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
  * provider supplied to it. Do NOT share a tile provider amongst multiple tile drawing overlays - it
  * will create an under-sized cache.
- * 
+ *
  * @author Marc Kurtz
- * 
+ *
  */
 public class MinimapOverlay extends TilesOverlay {
 
@@ -50,7 +50,7 @@ public class MinimapOverlay extends TilesOverlay {
 	/**
 	 * Creates a {@link MinimapOverlay} with the supplied tile provider. The {@link Handler} passed
 	 * in is typically the same handler being used by the main map.
-	 * 
+	 *
 	 * @param pContext
 	 *            a context
 	 * @param tileRequestCompleteHandler
@@ -77,7 +77,7 @@ public class MinimapOverlay extends TilesOverlay {
 	/**
 	 * Creates a {@link MinimapOverlay} with the supplied tile provider. The {@link Handler} passed
 	 * in is typically the same handler being used by the main map.
-	 * 
+	 *
 	 * @param pContext
 	 *            a context
 	 * @param tileRequestCompleteHandler
@@ -94,7 +94,7 @@ public class MinimapOverlay extends TilesOverlay {
 	/**
 	 * Creates a {@link MinimapOverlay} that uses its own {@link MapTileProviderBasic}. The
 	 * {@link Handler} passed in is typically the same handler being used by the main map.
-	 * 
+	 *
 	 * @param pContext
 	 *            a context
 	 * @param tileRequestCompleteHandler
@@ -117,7 +117,11 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void onDraw(final Canvas pC, final MapView pOsmv) {
+	protected void draw(final Canvas pC, final MapView pOsmv, final boolean shadow) {
+
+		if (shadow) {
+			return;
+		}
 
 		// Don't draw if we are animating
 		if (pOsmv.isAnimating()) {
@@ -209,12 +213,6 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void onDrawFinished(final Canvas pC, final MapView pOsmv) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public boolean onSingleTapUp(final MotionEvent pEvent, final MapView pMapView) {
 		// Consume event so layers underneath don't receive
 		if (mMiniMapCanvasRect.contains((int) pEvent.getX() + mViewportRect.left - mWorldSize_2,
@@ -249,7 +247,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Sets the width of the mini-map in pixels
-	 * 
+	 *
 	 * @param width
 	 *            the width to set in pixels
 	 */
@@ -259,7 +257,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Gets the width of the mini-map in pixels
-	 * 
+	 *
 	 * @return the width in pixels
 	 */
 	public int getWidth() {
@@ -268,7 +266,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Sets the height of the mini-map in pixels
-	 * 
+	 *
 	 * @param height
 	 *            the height to set in pixels
 	 */
@@ -278,7 +276,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Gets the height of the mini-map in pixels
-	 * 
+	 *
 	 * @return the height in pixels
 	 */
 	public int getHeight() {
@@ -287,7 +285,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Sets the number of pixels from the lower-right corner to offset the mini-map
-	 * 
+	 *
 	 * @param padding
 	 *            the padding to set in pixels
 	 */
@@ -297,7 +295,7 @@ public class MinimapOverlay extends TilesOverlay {
 
 	/**
 	 * Gets the number of pixels from the lower-right corner to offset the mini-map
-	 * 
+	 *
 	 * @return the padding in pixels
 	 */
 	public int getPadding() {

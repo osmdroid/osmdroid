@@ -14,9 +14,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SimpleLocationOverlay extends Overlay {
 	// ===========================================================
@@ -67,13 +67,8 @@ public class SimpleLocationOverlay extends Overlay {
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-		return;
-	}
-
-	@Override
-	public void onDraw(final Canvas c, final MapView osmv) {
-		if (this.mLocation != null) {
+	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+		if (!shadow && this.mLocation != null) {
 			final Projection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);
 

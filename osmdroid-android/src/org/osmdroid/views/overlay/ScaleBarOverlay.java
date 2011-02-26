@@ -211,11 +211,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-	}
+	public void draw(final Canvas c, final MapView mapView, final boolean shadow) {
 
-	@Override
-	public void onDraw(final Canvas c, final MapView mapView) {
+		if (shadow) {
+			return;
+		}
 
 		// If map view is animating, don't update, scale will be wrong.
 		if (mapView.isAnimating()) {

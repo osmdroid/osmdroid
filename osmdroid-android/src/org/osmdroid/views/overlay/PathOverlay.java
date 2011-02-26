@@ -15,9 +15,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 /**
- * 
+ *
  * @author Viesturs Zarins
- * 
+ *
  *         This class draws a path line in given color.
  */
 public class PathOverlay extends Overlay {
@@ -103,7 +103,12 @@ public class PathOverlay extends Overlay {
 	 * Should be fine up to 10K points.
 	 */
 	@Override
-	protected void onDraw(final Canvas canvas, final MapView mapView) {
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+
+		if (shadow) {
+			return;
+		}
+
 		if (this.mPoints.size() < 2) {
 			// nothing to paint
 			return;
@@ -190,11 +195,6 @@ public class PathOverlay extends Overlay {
 		if (bufferCount > 0) {
 			canvas.drawLines(buffer, 0, bufferCount, this.mPaint);
 		}
-	}
-
-	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-		// nothing here
 	}
 
 }

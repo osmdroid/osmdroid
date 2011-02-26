@@ -105,10 +105,14 @@ public class TilesOverlay extends Overlay {
 	}
 
 	@Override
-	protected void onDraw(final Canvas c, final MapView osmv) {
+	protected void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
 		if (DEBUGMODE) {
-			logger.trace("onDraw");
+			logger.trace("onDraw(" + shadow + ")");
+		}
+
+		if (shadow) {
+			return;
 		}
 
 		// Calculate the half-world size
@@ -201,10 +205,6 @@ public class TilesOverlay extends Overlay {
 		tileRect.offset(-mWorldSize_2, -mWorldSize_2);
 		currentMapTile.setBounds(tileRect);
 		currentMapTile.draw(c);
-	}
-
-	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
 	}
 
 	@Override

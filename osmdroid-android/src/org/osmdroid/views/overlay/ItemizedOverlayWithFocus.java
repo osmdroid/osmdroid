@@ -99,8 +99,9 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	// ===========================================================
 
 	public T getFocusedItem() {
-		if (this.mFocusedItemIndex == NOT_SET)
+		if (this.mFocusedItemIndex == NOT_SET) {
 			return null;
+		}
 		return this.mItemList.get(this.mFocusedItemIndex);
 	}
 
@@ -114,8 +115,9 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 
 	public void setFocusedItem(final T pItem) {
 		final int indexFound = super.mItemList.indexOf(pItem);
-		if (indexFound < 0)
+		if (indexFound < 0) {
 			throw new IllegalArgumentException();
+		}
 
 		this.setFocusedItem(indexFound);
 	}
@@ -137,14 +139,16 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
-	/**
-	 * This is called after onDraw. It is intended to draw the top items, in this case the item of
-	 * focus.
-	 */
 	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-		if (this.mFocusedItemIndex == NOT_SET)
+	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+
+		if (shadow) {
 			return;
+		}
+
+		if (this.mFocusedItemIndex == NOT_SET) {
+			return;
+		}
 
 		// get focused item's preferred marker & hotspot
 		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
@@ -190,16 +194,18 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		 * bigger than DESCRIPTION_MAXWIDTH.
 		 */
 		for (i = 0; i < widths.length; i++) {
-			if (!Character.isLetter(itemDescription.charAt(i)))
+			if (!Character.isLetter(itemDescription.charAt(i))) {
 				lastwhitespace = i;
+			}
 
 			final float charwidth = widths[i];
 
 			if (curLineWidth + charwidth > DESCRIPTION_MAXWIDTH) {
-				if (lastStop == lastwhitespace)
+				if (lastStop == lastwhitespace) {
 					i--;
-				else
+				} else {
 					i = lastwhitespace;
+				}
 
 				sb.append(itemDescription.subSequence(lastStop, i));
 				sb.append('\n');

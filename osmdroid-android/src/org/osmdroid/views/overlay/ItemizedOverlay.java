@@ -22,11 +22,11 @@ import android.view.MotionEvent;
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
  * as last and therefore the 'topmost' marker. It also gets checked for onTap first. This class is
  * generic, because you then you get your custom item-class passed back in onTap().
- * 
+ *
  * @author Nicolas Gramlich
  * @author Theodore Hong
  * @author Fred Eisele
- * 
+ *
  * @param <T>
  */
 public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
@@ -105,14 +105,6 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
 
-	/**
-	 * Called to draw any items after all other items.
-	 */
-	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-		return;
-	}
-
 	private static final Paint bullseyePaint = new Paint();
 	static {
 		bullseyePaint.setStyle(Paint.Style.STROKE);
@@ -120,7 +112,12 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 	}
 
 	@Override
-	public void onDraw(final Canvas canvas, final MapView mapView) {
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+
+		if (shadow) {
+			return;
+		}
+
 		final Projection pj = mapView.getProjection();
 		final Point curScreenCoords = new Point();
 		int limit = this.mItemList.size() - 1;
@@ -136,15 +133,17 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 			onDrawItem(canvas, i, curScreenCoords);
 		}
 		// indicate the place touched with a bullseye
-		if (DEBUG_GRAPHICS)
-			if (touchPoint != null)
+		if (DEBUG_GRAPHICS) {
+			if (touchPoint != null) {
 				canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
+			}
+		}
 	}
 
 	/**
 	 * Each of these methods performs a item sensitive check. If the item is located its
 	 * corresponding method is called. The result of the call is returned.
-	 * 
+	 *
 	 * Helper methods are provided so that child classes may more easily override behavior without
 	 * resorting to overriding the ItemGestureListener methods.
 	 */
@@ -154,8 +153,9 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 			@Override
 			public boolean run(final int index) {
 				final ItemizedOverlay<T> that = ItemizedOverlay.this;
-				if (that.mOnItemGestureListener == null)
+				if (that.mOnItemGestureListener == null) {
 					return false;
+				}
 				return onSingleTapUpHelper(index, that.mItemList.get(index), mapView);
 			}
 		})) ? true : super.onSingleTapUp(event, mapView);
@@ -171,8 +171,9 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 			@Override
 			public boolean run(final int index) {
 				final ItemizedOverlay<T> that = ItemizedOverlay.this;
-				if (that.mOnItemGestureListener == null)
+				if (that.mOnItemGestureListener == null) {
 					return false;
+				}
 				return onLongPressHelper(index, that.mItemList.get(index));
 			}
 		})) ? true : super.onLongPress(event, mapView);
@@ -193,7 +194,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param canvas
 	 *            what the item is drawn upon
 	 * @param index
@@ -213,15 +214,17 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 		marker.setBounds(rect);
 		marker.draw(canvas);
 		// the following lines place objects on the screen indicating the item boundary.
-		if (DEBUG_GRAPHICS)
-			if (touchPoint != null)
+		if (DEBUG_GRAPHICS) {
+			if (touchPoint != null) {
 				canvas.drawRect(rect, boudaryPaint);
+			}
+		}
 	}
 
 	/**
 	 * When a content sensitive action is performed the content item needs to be identified. This
 	 * method does that and then performs the assigned task on that item.
-	 * 
+	 *
 	 * @param event
 	 * @param mapView
 	 * @param task
@@ -247,10 +250,12 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 
 			getItemBoundingRetangle(item, markerScreenBounds, curScreenCoords);
 
-			if (!markerScreenBounds.contains(touchScreenCoords.x, touchScreenCoords.y))
+			if (!markerScreenBounds.contains(touchScreenCoords.x, touchScreenCoords.y)) {
 				continue;
-			if (task.run(i))
+			}
+			if (task.run(i)) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -259,7 +264,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 
 	/**
 	 * Finds the bounding rectangle for the object in current projection.
-	 * 
+	 *
 	 * @param item
 	 * @param rect
 	 * @return
@@ -291,7 +296,7 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 
 	/**
 	 * When the item is touched one of these methods may be invoked depending on the type of touch.
-	 * 
+	 *
 	 * Each of them returns true if the event was completely handled.
 	 */
 	public static interface OnItemGestureListener<T> {

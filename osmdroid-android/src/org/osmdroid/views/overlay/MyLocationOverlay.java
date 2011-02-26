@@ -243,11 +243,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-	}
+	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
-	@Override
-	public void onDraw(final Canvas c, final MapView osmv) {
+		if (shadow) {
+			return;
+		}
 
 		// Note - all azimuths are offset by -90 when in landscape mode. This is because the
 		// hardware does not change orientation when physically flipped, but Android changes the

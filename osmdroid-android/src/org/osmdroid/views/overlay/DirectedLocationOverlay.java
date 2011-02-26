@@ -17,9 +17,9 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
@@ -89,7 +89,7 @@ public class DirectedLocationOverlay extends Overlay {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param pAccuracy
 	 *            in Meters
 	 */
@@ -106,12 +106,12 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 
 	@Override
-	protected void onDrawFinished(final Canvas c, final MapView osmv) {
-		return;
-	}
+	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
-	@Override
-	public void onDraw(final Canvas c, final MapView osmv) {
+		if (shadow) {
+			return;
+		}
+
 		if (this.mLocation != null) {
 			final Projection pj = osmv.getProjection();
 			pj.toMapPixels(this.mLocation, screenCoords);

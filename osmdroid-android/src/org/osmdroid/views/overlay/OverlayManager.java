@@ -53,7 +53,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 
 	/**
 	 * Gets the optional TilesOverlay class.
-	 *
+	 * 
 	 * @return the tilesOverlay
 	 */
 	public TilesOverlay getTilesOverlay() {
@@ -64,7 +64,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 	 * Sets the optional TilesOverlay class. If set, this overlay will be drawn before all other
 	 * overlays and will not be included in the editable list of overlays and can't be cleared
 	 * except by a subsequent call to setTilesOverlay().
-	 *
+	 * 
 	 * @param tilesOverlay
 	 *            the tilesOverlay to set
 	 */
@@ -99,13 +99,24 @@ public class OverlayManager extends AbstractList<Overlay> {
 	}
 
 	public void onDraw(final Canvas c, final MapView pMapView) {
-		if (mTilesOverlay != null) {
-			mTilesOverlay.onManagedDraw(c, pMapView);
+		if ((mTilesOverlay != null) && mTilesOverlay.isEnabled()) {
+			mTilesOverlay.draw(c, pMapView, true);
 		}
 
 		for (final Overlay overlay : mOverlayList) {
-			overlay.onManagedDraw(c, pMapView);
+			if (overlay.isEnabled())
+				overlay.draw(c, pMapView, true);
 		}
+
+		if ((mTilesOverlay != null) && mTilesOverlay.isEnabled()) {
+			mTilesOverlay.draw(c, pMapView, false);
+		}
+
+		for (final Overlay overlay : mOverlayList) {
+			if (overlay.isEnabled())
+				overlay.draw(c, pMapView, false);
+		}
+
 	}
 
 	public void onDetach(final MapView pMapView) {
@@ -158,7 +169,8 @@ public class OverlayManager extends AbstractList<Overlay> {
 		return false;
 	}
 
-	public boolean onSnapToItem(final int x, final int y, final Point snapPoint, final MapView pMapView) {
+	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
+			final MapView pMapView) {
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if (overlay instanceof Snappable) {
 				if (((Snappable) overlay).onSnapToItem(x, y, snapPoint, pMapView)) {
@@ -214,8 +226,8 @@ public class OverlayManager extends AbstractList<Overlay> {
 		return false;
 	}
 
-	public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2, final float pVelocityX,
-			final float pVelocityY, final MapView pMapView) {
+	public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2,
+			final float pVelocityX, final float pVelocityY, final MapView pMapView) {
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if (overlay.onFling(pEvent1, pEvent2, pVelocityX, pVelocityY, pMapView)) {
 				return true;
@@ -262,7 +274,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 		return false;
 	}
 
-	//** Options Menu **//
+	// ** Options Menu **//
 
 	public void setOptionsMenusEnabled(final boolean pEnabled) {
 		for (final Overlay overlay : mOverlayList) {
