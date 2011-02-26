@@ -106,7 +106,7 @@ public class TileSourceFactory {
 	// They are therefore not in mTileSources.
 
 	public static final OnlineTileSourceBase FIETS_OVERLAY_NL = new XYTileSource("Fiets",
-			ResourceProxy.string.fiets_nl, 3, 16, 256, ".png",
+			ResourceProxy.string.fiets_nl, 3, 18, 256, ".png",
 			"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
 
 	public static final OnlineTileSourceBase BASE_OVERLAY_NL = new XYTileSource("BaseNL",
