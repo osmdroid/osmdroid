@@ -36,6 +36,7 @@ public class SampleLoader extends ListActivity {
 		list.add("OSMapView with ItemizedOverlayWithFocus");
 		list.add("OSMapView with Minimap and ZoomControls");
 		list.add("Sample with tiles overlay");
+		list.add("Sample with tiles overlay and custom tile source");
 
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
 				list));
@@ -69,6 +70,9 @@ public class SampleLoader extends ListActivity {
 			break;
 		case 5:
 			this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
+			break;
+		case 6:
+			this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
 			break;
 		}
 	}
