@@ -138,6 +138,14 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
 
+		// PathOverlay pathOverlay = new PathOverlay(Color.RED, this);
+		// pathOverlay.addPoint(new GeoPoint(40.714623, -74.006605));
+		// pathOverlay.addPoint(new GeoPoint(38.8951118, -77.0363658));
+		// pathOverlay.addPoint(new GeoPoint(34.052186, -118.243932));
+		// pathOverlay.getPaint().setStrokeWidth(50.0f);
+		// pathOverlay.setAlpha(100);
+		// this.mOsmv.getOverlays().add(pathOverlay);
+
 		this.setContentView(rl);
 	}
 
