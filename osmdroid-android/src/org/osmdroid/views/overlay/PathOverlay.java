@@ -11,13 +11,14 @@ import org.osmdroid.views.MapView.Projection;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 /**
- *
+ * 
  * @author Viesturs Zarins
- *
+ * 
  *         This class draws a path line in given color.
  */
 public class PathOverlay extends Overlay {
@@ -44,14 +45,13 @@ public class PathOverlay extends Overlay {
 	 */
 	protected Paint mPaint = new Paint();
 
-	/**
-	 * Point cache for Canvas.drawLines.
-	 */
-	static final int POINT_BUFFER_SIZE = 256; // should be a multiple of 4
-	private final float[] mPointBuffer = new float[POINT_BUFFER_SIZE];
+	private final Path mPath = new Path();
 
 	private final Point mTempPoint1 = new Point();
 	private final Point mTempPoint2 = new Point();
+
+	// bounding rectangle for the current line segment.
+	private final Rect mLineBounds = new Rect();
 
 	// ===========================================================
 	// Constructors
@@ -65,6 +65,7 @@ public class PathOverlay extends Overlay {
 		super(pResourceProxy);
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(2.0f);
+		this.mPaint.setStyle(Paint.Style.STROKE);
 
 		this.clearPath();
 	}
@@ -141,27 +142,19 @@ public class PathOverlay extends Overlay {
 		Point projectedPoint0; // points from the points list
 		Point projectedPoint1;
 
-		final float[] buffer = this.mPointBuffer;
-		int bufferCount = 0;
-		final Rect clipBounds = pj.fromPixelsToProjected(canvas.getClipBounds()); // clipping
-																					// rectangle in
-																					// the
-																					// intermediate
-																					// projection,
-																					// to avoid
-																					// performing
-																					// projection.
-		final Rect lineBounds = new Rect(); // bounding rectangle for the current line segment.
+		// clipping rectangle in the intermediate projection, to avoid performing projection.
+		final Rect clipBounds = pj.fromPixelsToProjected(canvas.getClipBounds());
 
+		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
-		lineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
+		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 
 		for (int i = size - 2; i >= 0; i--) {
 			// compute next points
 			projectedPoint1 = this.mPoints.get(i);
-			lineBounds.union(projectedPoint1.x, projectedPoint1.y);
+			mLineBounds.union(projectedPoint1.x, projectedPoint1.y);
 
-			if (!Rect.intersects(clipBounds, lineBounds)) {
+			if (!Rect.intersects(clipBounds, mLineBounds)) {
 				// skip this line, move to next point
 				projectedPoint0 = projectedPoint1;
 				screenPoint0 = null;
@@ -172,6 +165,7 @@ public class PathOverlay extends Overlay {
 			// bounds
 			if (screenPoint0 == null) {
 				screenPoint0 = pj.toMapPixelsTranslated(projectedPoint0, this.mTempPoint1);
+				mPath.moveTo(screenPoint0.x, screenPoint0.y);
 			}
 
 			screenPoint1 = pj.toMapPixelsTranslated(projectedPoint1, this.mTempPoint2);
@@ -182,29 +176,16 @@ public class PathOverlay extends Overlay {
 				continue;
 			}
 
-			// add new line to buffer
-			buffer[bufferCount] = screenPoint0.x;
-			buffer[bufferCount + 1] = screenPoint0.y;
-			buffer[bufferCount + 2] = screenPoint1.x;
-			buffer[bufferCount + 3] = screenPoint1.y;
-			bufferCount += 4;
-
-			if (bufferCount == POINT_BUFFER_SIZE) {
-				canvas.drawLines(buffer, this.mPaint);
-				bufferCount = 0;
-			}
+			mPath.lineTo(screenPoint1.x, screenPoint1.y);
 
 			// update starting point to next position
 			projectedPoint0 = projectedPoint1;
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
-			lineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x,
+			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x,
 					projectedPoint0.y);
 		}
 
-		if (bufferCount > 0) {
-			canvas.drawLines(buffer, 0, bufferCount, this.mPaint);
-		}
+		canvas.drawPath(mPath, this.mPaint);
 	}
-
 }
