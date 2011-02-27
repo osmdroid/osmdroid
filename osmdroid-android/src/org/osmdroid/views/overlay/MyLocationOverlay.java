@@ -44,12 +44,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
-public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, SensorEventListener,
-		LocationListener, Snappable {
+public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
+		SensorEventListener, LocationListener, Snappable {
 
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
@@ -117,6 +117,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	public static final int MENU_COMPASS = getSafeMenuId();
 
 	private final float mScale;
+
+	private boolean mOptionsMenuEnabled = true;
 
 	// to avoid allocations during onDraw
 	private final float[] mMatrixValues = new float[9];
@@ -211,7 +213,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -226,7 +228,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -437,7 +439,18 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
+	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
+		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
+	}
+
+	@Override
+	public boolean isOptionsMenuEnabled() {
+		return this.mOptionsMenuEnabled;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
 		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
 				mResourceProxy.getString(ResourceProxy.string.my_location)).setIcon(
 				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation));
@@ -446,14 +459,17 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 				mResourceProxy.getString(ResourceProxy.string.compass)).setIcon(
 				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass));
 
-		super.onCreateOptionsMenu(pMenu, pMenuIdOffset, pMapView);
-
 		return true;
 	}
 
 	@Override
-	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem, final int pMenuIdOffset,
-			final MapView pMapView) {
+	public boolean onPrepareOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
+		return false;
+	}
+
+	@Override
+	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
+			final int pMenuIdOffset, final MapView pMapView) {
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if (menuId == MENU_MY_LOCATION) {
 			if (this.isMyLocationEnabled()) {
@@ -477,15 +493,13 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 				this.enableCompass();
 			}
 			return true;
-		} else {
-			return super.onMenuItemSelected(pFeatureId, pItem, pMenuIdOffset, pMapView);
-		}
+		} else
+			return false;
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-
 
 	@Override
 	public void disableMyLocation() {
@@ -512,7 +526,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, Se
 	public boolean enableMyLocation() {
 		if (mLocationListener == null) {
 			mLocationListener = new LocationListenerProxy(mLocationManager);
-			mLocationListener.startListening(this, mLocationUpdateMinTime, mLocationUpdateMinDistance);
+			mLocationListener.startListening(this, mLocationUpdateMinTime,
+					mLocationUpdateMinDistance);
 		}
 
 		// set initial location when enabled

@@ -13,8 +13,6 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
@@ -48,7 +46,6 @@ public abstract class Overlay implements OverlayConstants {
 	protected final ResourceProxy mResourceProxy;
 
 	private boolean mEnabled = true;
-	private boolean mOptionsMenuEnabled = true;
 
 	// ===========================================================
 	// Constructors
@@ -254,58 +251,6 @@ public abstract class Overlay implements OverlayConstants {
 	 * this event.
 	 */
 	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
-		return false;
-	}
-
-	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
-		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
-	}
-
-	public boolean isOptionsMenuEnabled() {
-		return this.mOptionsMenuEnabled;
-	}
-
-	// ** Options Menu **//
-
-	public final boolean onManagedCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
-		if (this.isOptionsMenuEnabled()) {
-			return onCreateOptionsMenu(pMenu, pMenuIdOffset, pMapView);
-		} else {
-			return true;
-		}
-	}
-
-	protected boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
-		return true;
-	}
-
-	public final boolean onManagedPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
-		if (this.isOptionsMenuEnabled()) {
-			return onPrepareOptionsMenu(pMenu, pMenuIdOffset, pMapView);
-		} else {
-			return true;
-		}
-	}
-
-	protected boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView) {
-		return true;
-	}
-
-	public final boolean onManagedMenuItemSelected(final int pFeatureId, final MenuItem pItem,
-			final int pMenuIdOffset, final MapView pMapView) {
-		if (this.isOptionsMenuEnabled()) {
-			return onMenuItemSelected(pFeatureId, pItem, pMenuIdOffset, pMapView);
-		} else {
-			return false;
-		}
-	}
-
-	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
-			final int pMenuIdOffset, final MapView pMapView) {
 		return false;
 	}
 
