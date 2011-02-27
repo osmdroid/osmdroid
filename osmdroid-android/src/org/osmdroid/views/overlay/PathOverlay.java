@@ -42,7 +42,7 @@ public class PathOverlay extends Overlay {
 	/**
 	 * Paint settings.
 	 */
-	protected final Paint mPaint = new Paint();
+	protected Paint mPaint = new Paint();
 
 	/**
 	 * Point cache for Canvas.drawLines.
@@ -79,6 +79,16 @@ public class PathOverlay extends Overlay {
 
 	public void setAlpha(final int a) {
 		this.mPaint.setAlpha(a);
+	}
+
+	public Paint getPaint() {
+		return mPaint;
+	}
+
+	public void setPaint(Paint pPaint) {
+		if (pPaint == null)
+			throw new IllegalArgumentException("pPaint argument cannot be null");
+		mPaint = pPaint;
 	}
 
 	public void clearPath() {

@@ -204,6 +204,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	public void setBarPaint(Paint pBarPaint) {
+		if (pBarPaint == null)
+			throw new IllegalArgumentException("pBarPaint argument cannot be null");
 		barPaint = pBarPaint;
 	}
 
@@ -212,6 +214,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	public void setTextPaint(Paint pTextPaint) {
+		if (pTextPaint == null)
+			throw new IllegalArgumentException("pTextPaint argument cannot be null");
 		textPaint = pTextPaint;
 	}
 
