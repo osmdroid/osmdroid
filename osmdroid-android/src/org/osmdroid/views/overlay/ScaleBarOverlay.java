@@ -61,8 +61,6 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// Defaults
 
-	boolean enabled = true;
-
 	float xOffset = 10;
 	float yOffset = 10;
 	float lineWidth = 2;
@@ -91,8 +89,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	private final ResourceProxy resourceProxy;
 	private Matrix oldMatrix;
-	private final Paint barPaint;
-	private final Paint textPaint;
+	private Paint barPaint;
+	private Paint textPaint;
 	private Projection projection;
 
 	// ===========================================================
@@ -201,14 +199,25 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		this.longitudeBar = longitude;
 	}
 
+	public Paint getBarPaint() {
+		return barPaint;
+	}
+
+	public void setBarPaint(Paint pBarPaint) {
+		barPaint = pBarPaint;
+	}
+
+	public Paint getTextPaint() {
+		return textPaint;
+	}
+
+	public void setTextPaint(Paint pTextPaint) {
+		textPaint = pTextPaint;
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-
-	@Override
-	public void setEnabled(final boolean enabled) {
-		this.enabled = enabled;
-	}
 
 	@Override
 	public void draw(final Canvas c, final MapView mapView, final boolean shadow) {
@@ -224,7 +233,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 		final int zoomLevel = mapView.getZoomLevel();
 
-		if (this.enabled && zoomLevel >= minZoom) {
+		if (zoomLevel >= minZoom) {
 			final Projection projection = mapView.getProjection();
 
 			if (projection == null) {
@@ -253,11 +262,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	public void disableScaleBar() {
-		this.enabled = false;
+		setEnabled(false);
 	}
 
-	public boolean enableScaleBar() {
-		return this.enabled = true;
+	public void enableScaleBar() {
+		setEnabled(true);
 	}
 
 	private void createScaleBarPicture(final MapView mapView) {
