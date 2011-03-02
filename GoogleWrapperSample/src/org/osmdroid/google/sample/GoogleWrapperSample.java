@@ -1,6 +1,7 @@
 package org.osmdroid.google.sample;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 
 import android.view.Menu;
@@ -21,6 +22,7 @@ public class GoogleWrapperSample extends MapActivity {
 	private MapViewSelection mMapViewSelection = MapViewSelection.OSM;
 
 	private IMapView mMapView;
+	private IMyLocationOverlay mMyLocationOverlay;
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -31,12 +33,13 @@ public class GoogleWrapperSample extends MapActivity {
 	protected void onResume() {
 		super.onResume();
 		setMapView();
+		mMyLocationOverlay.enableMyLocation();
 	}
 
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
+		mMyLocationOverlay.disableMyLocation();
 	}
 
 	@Override
@@ -76,11 +79,19 @@ public class GoogleWrapperSample extends MapActivity {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
 			setContentView(mapView);
 			mMapView = mapView;
+
+			final org.osmdroid.views.overlay.MyLocationOverlay mlo = new org.osmdroid.views.overlay.MyLocationOverlay(this, mapView);
+			mapView.getOverlays().add(mlo);
+			mMyLocationOverlay = mlo;
 		}
 		if (mMapViewSelection == MapViewSelection.Google) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, GOOGLE_API_KEY);
 			setContentView(mapView);
 			mMapView = new org.osmdroid.google.MapView(mapView);
+
+			final org.osmdroid.google.MyLocationOverlay mlo = new org.osmdroid.google.MyLocationOverlay(this, mapView);
+			mapView.getOverlays().add(mlo);
+			mMyLocationOverlay = mlo;
 		}
 
 		mMapView.getController().setZoom(14);
