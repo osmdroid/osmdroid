@@ -23,7 +23,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
 	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
@@ -112,6 +112,12 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 				options = getBitmapOptions();
 			}
 			return BitmapFactory.decodeStream(is, null, options);
+		} catch(final OutOfMemoryError e) {
+			logger.error("OutOfMemoryError getting bitmap resource: " + pResId);
+			System.gc();
+			// there's not much we can do here
+			// - when we load a bitmap from resources we expect it to be found
+			throw e;
 		} finally {
 			if (is != null) {
 				try {
