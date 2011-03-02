@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="osmdroid-android-src"/>
-	<classpathentry kind="src" path="osmdroid-google-wrapper-src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="lib/apache-mime4j-0.6.jar"/>
-	<classpathentry kind="lib" path="lib/httpmime-4.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="lib" path="libs/apache-mime4j-0.6.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/slf4j-android-1.5.8.jar"/>
+	<classpathentry kind="lib" path="libs/osmdroid-android-3.0.3.jar" sourcepath="../osmdroid-android/src"/>
+	<classpathentry kind="lib" path="libs/osmdroid-google-wrapper-3.0.3.jar" sourcepath="../osmdroid-google-wrapper/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
