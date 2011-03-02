@@ -27,9 +27,9 @@ import android.view.SubMenu;
 
 /**
  * These objects are the principle consumer of map tiles.
- * 
+ *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- * 
+ *
  */
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
@@ -97,7 +97,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -283,6 +283,12 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		return mLoadingBackgroundColor;
 	}
 
+	/**
+	 * Set the color to use to draw the background while we're waiting for the tile
+	 * to load.
+	 * @param pLoadingBackgroundColor the color to use.
+	 * If the value is {@link Color.TRANSPARENT} then there will be no loading tile.
+	 */
 	public void setLoadingBackgroundColor(final int pLoadingBackgroundColor) {
 		if (mLoadingBackgroundColor != pLoadingBackgroundColor) {
 			mLoadingBackgroundColor = pLoadingBackgroundColor;
@@ -302,12 +308,12 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	private Drawable getLoadingTile() {
-		if (mLoadingTile == null) {
+		if (mLoadingTile == null && mLoadingBackgroundColor != Color.TRANSPARENT) {
 			try {
-				final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider
-						.getTileSource().getTileSizePixels() : 256;
-				final Bitmap bitmap = Bitmap
-						.createBitmap(tileSize, tileSize, Bitmap.Config.RGB_565);
+				final int tileSize = mTileProvider.getTileSource() != null ?
+						mTileProvider.getTileSource().getTileSizePixels() : 256;
+				final Bitmap bitmap = Bitmap.createBitmap(
+						tileSize, tileSize, Bitmap.Config.ARGB_8888);
 				final Canvas canvas = new Canvas(bitmap);
 				final Paint paint = new Paint();
 				canvas.drawColor(mLoadingBackgroundColor);
