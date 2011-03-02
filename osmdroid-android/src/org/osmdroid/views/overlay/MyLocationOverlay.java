@@ -7,6 +7,7 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.SensorEventListenerProxy;
 import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
@@ -44,9 +45,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
@@ -93,7 +94,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	private final float DIRECTION_ARROW_CENTER_Y;
 
 	// Compass values
-	private boolean mCompassEnabled = false;
+	private SensorEventListenerProxy mSensorListener = null;;
 	private final boolean mOrientationSensorAvailable;
 
 	protected final Picture mCompassFrame = new Picture();
@@ -194,7 +195,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	@Override
 	public boolean isCompassEnabled() {
-		return mCompassEnabled;
+		return mSensorListener != null;
 	}
 
 	public boolean isLocationFollowEnabled() {
@@ -213,7 +214,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -228,7 +229,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -326,7 +327,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			}
 		}
 
-		if ((mCompassEnabled) && (mAzimuth >= 0.0f)) {
+		if ((mSensorListener != null) && (mAzimuth >= 0.0f)) {
 			final float centerX = mCompassCenterX * mScale;
 			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
 
@@ -463,7 +464,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(Menu pMenu, int pMenuIdOffset, MapView pMapView) {
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
 		return false;
 	}
 
@@ -493,8 +494,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 				this.enableCompass();
 			}
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	// ===========================================================
@@ -558,29 +560,24 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public boolean enableCompass() {
 		if (mOrientationSensorAvailable) {
-			if (!mCompassEnabled) {
-				final Sensor sensorOrientation = this.mSensorManager
-						.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-				mSensorManager.registerListener(this, sensorOrientation,
-						SensorManager.SENSOR_DELAY_UI);
+			if (mSensorListener == null) {
+				mSensorListener = new SensorEventListenerProxy(mSensorManager);
+				mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_UI);
 			}
 
 			// Update the screen to see changes take effect
 			if (mMapView != null) {
 				mMapView.invalidate();
 			}
-
-			return mCompassEnabled = true;
-		} else {
-			return mCompassEnabled = false;
 		}
+		return mSensorListener != null;
 	}
 
 	@Override
 	public void disableCompass() {
-		if (mCompassEnabled) {
-			mSensorManager.unregisterListener(this);
-			mCompassEnabled = false;
+		if (mSensorListener != null) {
+			mSensorListener.stopListening();
+			mSensorListener = null;
 			// Reset azimuth value
 			mAzimuth = -1.0f;
 		}
@@ -592,12 +589,12 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	public boolean toggleCompass() {
-		if (mCompassEnabled) {
+		if (mSensorListener != null) {
 			disableCompass();
 		} else {
 			enableCompass();
 		}
-		return mCompassEnabled;
+		return mSensorListener != null;
 	}
 
 	@Override
