@@ -26,9 +26,9 @@ import android.widget.Toast;
 
 /**
  * Default map view activity.
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
 public class MapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -94,6 +94,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		edit.commit();
 
 		this.mLocationOverlay.disableMyLocation();
+		this.mLocationOverlay.disableCompass();
 
 		super.onPause();
 	}
