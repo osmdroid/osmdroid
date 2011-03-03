@@ -45,9 +45,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
@@ -75,6 +75,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	private final SensorManager mSensorManager;
 
 	public LocationListenerProxy mLocationListener = null;
+	public SensorEventListenerProxy mSensorListener = null;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
@@ -92,10 +93,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	private final float DIRECTION_ARROW_CENTER_X;
 	private final float DIRECTION_ARROW_CENTER_Y;
-
-	// Compass values
-	private SensorEventListenerProxy mSensorListener = null;;
-	private final boolean mOrientationSensorAvailable;
 
 	protected final Picture mCompassFrame = new Picture();
 	protected final Picture mCompassRose = new Picture();
@@ -165,46 +162,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		final List<Sensor> mOrientationSensors = mSensorManager
 				.getSensorList(Sensor.TYPE_ORIENTATION);
-		mOrientationSensorAvailable = !mOrientationSensors.isEmpty();
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-
-	@Override
-	public Location getLastFix() {
-		return mLocation;
-	}
-
-	/**
-	 * Return a GeoPoint of the last known location, or null if not known.
-	 */
-	public GeoPoint getMyLocation() {
-		if (mLocation == null) {
-			return null;
-		} else {
-			return new GeoPoint(mLocation);
-		}
-	}
-
-	@Override
-	public boolean isMyLocationEnabled() {
-		return mLocationListener != null;
-	}
-
-	@Override
-	public boolean isCompassEnabled() {
-		return mSensorListener != null;
-	}
-
-	public boolean isLocationFollowEnabled() {
-		return mFollow;
-	}
-
-	public void followLocation(final boolean enable) {
-		mFollow = enable;
-	}
 
 	public long getLocationUpdateMinTime() {
 		return mLocationUpdateMinTime;
@@ -214,7 +176,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -229,7 +191,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -327,7 +289,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			}
 		}
 
-		if ((mSensorListener != null) && (mAzimuth >= 0.0f)) {
+		if ((isCompassEnabled()) && (mAzimuth >= 0.0f)) {
 			final float centerX = mCompassCenterX * mScale;
 			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
 
@@ -365,7 +327,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		if (mFollow) {
 			mMapController.animateTo(new GeoPoint(location));
 		} else {
-			mMapView.invalidate(); // redraw the my location icon
+			mMapView.postInvalidate(); // redraw the my location icon
 		}
 	}
 
@@ -429,15 +391,17 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	@Override
 	public void onSensorChanged(final SensorEvent event) {
-		// It's not necessary to check for mCompassEnabled here, because the event will
-		// only fire, if the sensor has been enabled ...
 		if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
 			if (event.values != null) {
 				mAzimuth = event.values[0];
-				mMapView.invalidate();
+				mMapView.postInvalidate();
 			}
 		}
 	}
+
+	// ===========================================================
+	// Menu handling methods
+	// ===========================================================
 
 	@Override
 	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
@@ -464,7 +428,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	@Override
-	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView) {
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
 		return false;
 	}
 
@@ -473,19 +438,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			final int pMenuIdOffset, final MapView pMapView) {
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if (menuId == MENU_MY_LOCATION) {
-			if (this.isMyLocationEnabled()) {
-				this.disableMyLocation();
+			if (this.isFollowLocationEnabled()) {
+				this.disableFollowLocation();
 			} else {
-				this.enableMyLocation();
-				final Location lastFix = this.getLastFix();
-				if (lastFix != null) {
-					pMapView.getController().setCenter(new GeoPoint(lastFix));
-				}
+				this.enableFollowLocation();
 			}
-			// Toast.makeText(
-			// this,
-			// this.mLocationOverlay.isMyLocationEnabled() ? R.string.set_mode_show_me
-			// : R.string.set_mode_hide_me, Toast.LENGTH_LONG).show();
 			return true;
 		} else if (menuId == MENU_COMPASS) {
 			if (this.isCompassEnabled()) {
@@ -503,26 +460,68 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	// Methods
 	// ===========================================================
 
-	@Override
-	public void disableMyLocation() {
-		if (mLocationListener != null) {
-			mLocationListener.stopListening();
-			mLocationListener = null;
+	/**
+	 * Return a GeoPoint of the last known location, or null if not known.
+	 */
+	public GeoPoint getMyLocation() {
+		if (mLocation == null) {
+			return null;
+		} else {
+			return new GeoPoint(mLocation);
 		}
+	}
 
-		mFollow = false;
+	@Override
+	public Location getLastFix() {
+		return mLocation;
+	}
+
+	/**
+	 * Enables "follow" functionality. The map will center on your current location and
+	 * automatically scroll as you move. Scrolling the map in the UI will disable.
+	 */
+	public void enableFollowLocation() {
+		mFollow = true;
+
+		// set initial location when enabled
+		if (isMyLocationEnabled()) {
+			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
+			if (mLocation != null) {
+				mMapController.animateTo(new GeoPoint(mLocation));
+			}
+		}
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
-			mMapView.invalidate();
+			mMapView.postInvalidate();
 		}
 	}
 
 	/**
-	 * Enable location updates so that the map follows the current location. By default this will
+	 * Disables "follow" functionality.
+	 */
+	public void disableFollowLocation() {
+		mFollow = false;
+	}
+
+	/**
+	 * If enabled, the map will center on your current location and automatically scroll as you
+	 * move. Scrolling the map in the UI will disable.
+	 * 
+	 * @return true if enabled, false otherwise
+	 */
+	public boolean isFollowLocationEnabled() {
+		return mFollow;
+	}
+
+	/**
+	 * Enable location updates and show your current location on the map. By default this will
 	 * request location updates as frequently as possible, but you can change the frequency and/or
 	 * distance by calling {@link setLocationUpdateMinTime(long)} and/or {@link
-	 * setLocationUpdateMinDistance(float)} before calling this method.
+	 * setLocationUpdateMinDistance(float)} before calling this method. You will want to call
+	 * enableMyLocation() probably from your Activity's Activity.onResume() method, to enable the
+	 * features of this overlay. Remember to call the corresponding disableMyLocation() in your
+	 * Activity's Activity.onPause() method to turn off updates when in the background.
 	 */
 	@Override
 	public boolean enableMyLocation() {
@@ -533,67 +532,105 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		}
 
 		// set initial location when enabled
-		mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
-		if (mLocation != null) {
-			mMapController.animateTo(new GeoPoint(mLocation));
+		if (isFollowLocationEnabled()) {
+			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
+			if (mLocation != null) {
+				mMapController.animateTo(new GeoPoint(mLocation));
+			}
 		}
-
-		mFollow = true;
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
-			mMapView.invalidate();
+			mMapView.postInvalidate();
 		}
 
 		return true;
 	}
 
-	public boolean toggleMyLocation() {
+	/**
+	 * Disable location updates
+	 */
+	@Override
+	public void disableMyLocation() {
 		if (mLocationListener != null) {
-			disableMyLocation();
-		} else {
-			enableMyLocation();
+			mLocationListener.stopListening();
 		}
+
+		mLocationListener = null;
+
+		// Update the screen to see changes take effect
+		if (mMapView != null) {
+			mMapView.postInvalidate();
+		}
+	}
+
+	/**
+	 * If enabled, the map is receiving location updates and drawing your location on the map.
+	 * 
+	 * @return true if enabled, false otherwise
+	 */
+	@Override
+	public boolean isMyLocationEnabled() {
 		return mLocationListener != null;
 	}
 
+	/**
+	 * Enable orientation sensor (compass) updates and show a compass on the map. You will want to
+	 * call enableCompass() probably from your Activity's Activity.onResume() method, to enable the
+	 * features of this overlay. Remember to call the corresponding disableCompass() in your
+	 * Activity's Activity.onPause() method to turn off updates when in the background.
+	 */
 	@Override
 	public boolean enableCompass() {
-		if (mOrientationSensorAvailable) {
-			if (mSensorListener == null) {
-				mSensorListener = new SensorEventListenerProxy(mSensorManager);
-				mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION, SensorManager.SENSOR_DELAY_UI);
-			}
+		boolean result = true;
+		if (mSensorListener == null) {
+			final Sensor sensorOrientation = this.mSensorManager
+					.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 
-			// Update the screen to see changes take effect
-			if (mMapView != null) {
-				mMapView.invalidate();
-			}
-		}
-		return mSensorListener != null;
-	}
+			if (sensorOrientation == null)
+				return false;
 
-	@Override
-	public void disableCompass() {
-		if (mSensorListener != null) {
-			mSensorListener.stopListening();
-			mSensorListener = null;
-			// Reset azimuth value
-			mAzimuth = -1.0f;
+			mSensorListener = new SensorEventListenerProxy(mSensorManager);
+			mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION,
+					SensorManager.SENSOR_DELAY_UI);
+
+			result = mSensorManager.registerListener(mSensorListener, sensorOrientation,
+					SensorManager.SENSOR_DELAY_UI);
 		}
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
-			mMapView.invalidate();
+			mMapView.postInvalidate();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Disable orientation updates
+	 */
+	@Override
+	public void disableCompass() {
+		if (mSensorListener != null) {
+			mSensorManager.unregisterListener(mSensorListener);
+		}
+
+		mSensorListener = null;
+		mAzimuth = -1.0f;
+
+		// Update the screen to see changes take effect
+		if (mMapView != null) {
+			mMapView.postInvalidate();
 		}
 	}
 
-	public boolean toggleCompass() {
-		if (mSensorListener != null) {
-			disableCompass();
-		} else {
-			enableCompass();
-		}
+	/**
+	 * If enabled, the map is receiving orientation updates and drawing your location on the map.
+	 * 
+	 * @return true if enabled, false otherwise
+	 */
+	@Override
+	public boolean isCompassEnabled() {
 		return mSensorListener != null;
 	}
 
