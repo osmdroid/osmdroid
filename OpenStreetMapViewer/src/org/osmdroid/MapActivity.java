@@ -204,15 +204,6 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		return this.mOsmv.onTrackballEvent(event);
 	}
 
-	@Override
-	public boolean onTouchEvent(final MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			this.mLocationOverlay.followLocation(false);
-		}
-
-		return super.onTouchEvent(event);
-	}
-
 	// ===========================================================
 	// Methods
 	// ===========================================================
