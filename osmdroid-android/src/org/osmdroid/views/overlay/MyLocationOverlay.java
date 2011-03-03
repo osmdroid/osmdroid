@@ -378,7 +378,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			mFollow = false;
+			disableFollowLocation();
 		}
 
 		return super.onTouchEvent(event, mapView);
@@ -438,10 +438,12 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			final int pMenuIdOffset, final MapView pMapView) {
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if (menuId == MENU_MY_LOCATION) {
-			if (this.isFollowLocationEnabled()) {
+			if (this.isMyLocationEnabled()) {
 				this.disableFollowLocation();
+				this.disableMyLocation();
 			} else {
 				this.enableFollowLocation();
+				this.enableMyLocation();
 			}
 			return true;
 		} else if (menuId == MENU_COMPASS) {
