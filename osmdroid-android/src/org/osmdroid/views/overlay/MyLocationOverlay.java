@@ -84,6 +84,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	private long mLocationUpdateMinTime = 0;
 	private float mLocationUpdateMinDistance = 0.0f;
 	protected boolean mFollow = false; // follow location updates
+	protected boolean mDrawAccuracyEnabled = true;
 	private final NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
 
 	private final Matrix directionRotater = new Matrix();
@@ -203,6 +204,25 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mCompassCenterY = y;
 	}
 
+	/**
+	 * If enabled, an accuracy circle will be drawn around your current position.
+	 * 
+	 * @param drawAccuracyEnabled
+	 *            whether the accuracy circle will be enabled
+	 */
+	public void setDrawAccuracyEnabled(boolean drawAccuracyEnabled) {
+		mDrawAccuracyEnabled = drawAccuracyEnabled;
+	}
+
+	/**
+	 * If enabled, an accuracy circle will be drawn around your current position.
+	 * 
+	 * @return true if enabled, false otherwise
+	 */
+	public boolean isDrawAccuracyEnabled() {
+		return mDrawAccuracyEnabled;
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -231,15 +251,17 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 					(int) (mLocation.getLongitude() * 1E6));
 			pj.toMapPixels(mGeoPoint, mMapCoords);
 
-			final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
+			if (mDrawAccuracyEnabled) {
+				final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
 
-			this.mCirclePaint.setAlpha(50);
-			this.mCirclePaint.setStyle(Style.FILL);
-			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+				this.mCirclePaint.setAlpha(50);
+				this.mCirclePaint.setStyle(Style.FILL);
+				c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
 
-			this.mCirclePaint.setAlpha(150);
-			this.mCirclePaint.setStyle(Style.STROKE);
-			c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+				this.mCirclePaint.setAlpha(150);
+				this.mCirclePaint.setStyle(Style.STROKE);
+				c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
+			}
 
 			c.getMatrix(mMatrix);
 			mMatrix.getValues(mMatrixValues);
