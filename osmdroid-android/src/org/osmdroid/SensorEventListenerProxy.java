@@ -5,8 +5,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class SensorEventListenerProxy implements SensorEventListener
-{
+public class SensorEventListenerProxy implements SensorEventListener {
 	private final SensorManager mSensorManager;
 	private SensorEventListener mListener = null;
 
@@ -14,11 +13,13 @@ public class SensorEventListenerProxy implements SensorEventListener
 		mSensorManager = pSensorManager;
 	}
 
-	public void startListening(final SensorEventListener pListener,
-			final int pSensorType, final int pRate) {
-		mListener = pListener;
+	public boolean startListening(final SensorEventListener pListener, final int pSensorType,
+			final int pRate) {
 		final Sensor sensor = mSensorManager.getDefaultSensor(pSensorType);
-		mSensorManager.registerListener(this, sensor, pRate);
+		if (sensor == null)
+			return false;
+		mListener = pListener;
+		return mSensorManager.registerListener(this, sensor, pRate);
 	}
 
 	public void stopListening() {
@@ -28,14 +29,14 @@ public class SensorEventListenerProxy implements SensorEventListener
 
 	@Override
 	public void onAccuracyChanged(final Sensor pSensor, final int pAccuracy) {
-		if(mListener != null) {
+		if (mListener != null) {
 			mListener.onAccuracyChanged(pSensor, pAccuracy);
 		}
 	}
 
 	@Override
 	public void onSensorChanged(final SensorEvent pEvent) {
-		if(mListener != null) {
+		if (mListener != null) {
 			mListener.onSensorChanged(pEvent);
 		}
 	}

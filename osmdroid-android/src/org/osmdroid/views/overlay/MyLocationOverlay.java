@@ -545,9 +545,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 */
 	@Override
 	public boolean enableMyLocation() {
+		boolean result = true;
+
 		if (mLocationListener == null) {
 			mLocationListener = new LocationListenerProxy(mLocationManager);
-			mLocationListener.startListening(this, mLocationUpdateMinTime,
+			result = mLocationListener.startListening(this, mLocationUpdateMinTime,
 					mLocationUpdateMinDistance);
 		}
 
@@ -564,7 +566,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			mMapView.postInvalidate();
 		}
 
-		return true;
+		return result;
 	}
 
 	/**
@@ -605,7 +607,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		boolean result = true;
 		if (mSensorListener == null) {
 			mSensorListener = new SensorEventListenerProxy(mSensorManager);
-			mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION,
+			result = mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION,
 					SensorManager.SENSOR_DELAY_UI);
 		}
 
