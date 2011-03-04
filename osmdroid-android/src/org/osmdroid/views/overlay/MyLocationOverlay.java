@@ -114,8 +114,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 	public static final int MENU_COMPASS = getSafeMenuId();
 
-	private final float mScale;
-
 	private boolean mOptionsMenuEnabled = true;
 
 	// to avoid allocations during onDraw
@@ -146,8 +144,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		DIRECTION_ARROW_CENTER_X = DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		DIRECTION_ARROW_CENTER_Y = DIRECTION_ARROW.getHeight() / 2 - 0.5f;
-
-		mScale = ctx.getResources().getDisplayMetrics().density;
 
 		// Calculate position of person icon's feet, scaled to screen density
 		PERSON_HOTSPOT = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);

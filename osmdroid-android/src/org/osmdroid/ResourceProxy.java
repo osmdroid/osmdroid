@@ -53,4 +53,11 @@ public interface ResourceProxy {
 	 * @return
 	 */
 	Drawable getDrawable(bitmap pResId);
+
+	/**
+	 * Gets the density from the current screen's DisplayMetrics
+	 * 
+	 * @return the screen's density
+	 */
+	float getDisplayMetricsDensity();
 }

@@ -23,7 +23,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
 	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
@@ -112,7 +112,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 				options = getBitmapOptions();
 			}
 			return BitmapFactory.decodeStream(is, null, options);
-		} catch(final OutOfMemoryError e) {
+		} catch (final OutOfMemoryError e) {
 			logger.error("OutOfMemoryError getting bitmap resource: " + pResId);
 			System.gc();
 			// there's not much we can do here
@@ -150,6 +150,12 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 	@Override
 	public Drawable getDrawable(final bitmap pResId) {
 		return new BitmapDrawable(getBitmap(pResId));
+	}
+
+	@Override
+	public float getDisplayMetricsDensity() {
+		// TODO Auto-generated method stub
+		return mDisplayMetrics.density;
 	}
 
 }

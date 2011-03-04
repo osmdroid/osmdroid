@@ -4,7 +4,9 @@ package org.osmdroid.views.overlay;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 
+import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -41,8 +43,9 @@ public class OverlayItem {
 	public final String mDescription;
 	public final GeoPoint mGeoPoint;
 	protected Drawable mMarker;
-	protected Point mMarkerHotspot;
-	protected HotspotPlace mStdHotspotPlace;
+	protected Point mMarkerHotspotPoint;
+	protected HotspotPlace mMarkerHotspotPlace;
+	private float mScale;
 
 	// ===========================================================
 	// Constructors
@@ -56,15 +59,21 @@ public class OverlayItem {
 	 * @param aGeoPoint
 	 */
 	public OverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
-		this(-1L, aTitle, aDescription, aGeoPoint);
+		this(-1L, aTitle, aDescription, aGeoPoint, 1.0f);
+	}
+
+	public OverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint,
+			final float scale) {
+		this(-1L, aTitle, aDescription, aGeoPoint, scale);
 	}
 
 	public OverlayItem(final long aKey, final String aTitle, final String aDescription,
-			final GeoPoint aGeoPoint) {
+			final GeoPoint aGeoPoint, final float scale) {
 		this.mTitle = aTitle;
 		this.mDescription = aDescription;
 		this.mGeoPoint = aGeoPoint;
 		this.mKey = aKey;
+		this.mScale = scale;
 	}
 
 	// ===========================================================
@@ -106,28 +115,33 @@ public class OverlayItem {
 
 		// set marker state appropriately
 		setState(mMarker, stateBitset);
-		this.deriveHotspot();
+		mMarkerHotspotPoint = null;
 		return mMarker;
-	}
-
-	public Point getMarkerHotspot(final int stateBitset) {
-		return (mMarkerHotspot == null) ? null : mMarkerHotspot;
 	}
 
 	public void setMarker(final Drawable marker) {
 		this.mMarker = marker;
-		this.deriveHotspot();
+		mMarkerHotspotPoint = null;
 	}
 
-	public void setMarkerHotspot(final Point mMarkerHotspot) {
-		this.mMarkerHotspot = mMarkerHotspot;
-		this.mStdHotspotPlace = HotspotPlace.CUSTOM;
+	/*
+	 * public Point getMarkerHotspotPoint(final int stateBitset) { return (mMarkerHotspotPoint ==
+	 * null) ? null : mMarkerHotspotPoint; }
+	 */
+
+	public void setMarkerHotspotPoint(final Point mMarkerHotspot) {
+		this.mMarkerHotspotPoint = mMarkerHotspot;
+		this.mMarkerHotspotPlace = HotspotPlace.CUSTOM;
+	}
+
+	public HotspotPlace getMarkerHotspotPlace(final int stateBitset) {
+		return mMarkerHotspotPlace;
 	}
 
 	public Point setMarkerHotspotPlace(final HotspotPlace place) {
-		this.mStdHotspotPlace = (place == null) ? HotspotPlace.BOTTOM_CENTER : place;
-		this.deriveHotspot();
-		return this.mMarkerHotspot;
+		mMarkerHotspotPlace = place;
+		mMarkerHotspotPoint = null;
+		return this.mMarkerHotspotPoint;
 	}
 
 	// ===========================================================
@@ -150,6 +164,51 @@ public class OverlayItem {
 	}
 
 	/**
+	 * 
+	 * @param canvas
+	 *            what the item is drawn upon
+	 * @param index
+	 *            which item is to be drawn
+	 * @param curScreenCoords
+	 */
+	protected void onDrawItem(final Canvas canvas, final Point curScreenCoords) {
+		final Rect rect = new Rect();
+		if (mMarker != null) {
+			getItemBoundingRectangle(rect, curScreenCoords);
+			// draw it
+			mMarker.setBounds(rect);
+			mMarker.draw(canvas);
+		}
+	}
+
+	/**
+	 * Finds the bounding rectangle for the object in current projection.
+	 * 
+	 * @param item
+	 * @param rect
+	 * @return
+	 */
+	public Rect getItemBoundingRectangle(final Rect rect, final Point ctr) {
+
+		final Drawable marker = mMarker;
+		final Point markerHotspot = getMarkerHotspot();
+
+		// Scale the markerHotspot
+		// markerHotspot.set((int) (markerHotspot.x * mScale), (int) (markerHotspot.y * mScale));
+
+		// calculate bounding rectangle
+		final int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
+		final int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
+		final int left = ctr.x - markerHotspot.x;
+		final int right = left + markerWidth;
+		final int top = ctr.y - markerHotspot.y;
+		final int bottom = top + markerHeight;
+
+		rect.set(left, top, right, bottom);
+		return rect;
+	}
+
+	/**
 	 * This is a factory method. The interaction between the hot-spot-place and the hot-spot is
 	 * somewhat ambiguous. Generally either one or the other will be specified and the other will be
 	 * set appropriately. The ambiguity arises in the case where they are both specified.
@@ -169,20 +228,20 @@ public class OverlayItem {
 
 		if (pHotspot == null) {
 			if (pHotspotPlace == null) {
-				that.deriveHotspot();
+				// that.deriveHotspot();
 				return that;
 			} else {
-				that.mStdHotspotPlace = pHotspotPlace;
-				that.deriveHotspot();
+				that.mMarkerHotspotPlace = pHotspotPlace;
+				// that.deriveHotspot();
 				return that;
 			}
 		} else {
-			that.mMarkerHotspot = pHotspot;
 			if (pHotspotPlace == null) {
-				that.mStdHotspotPlace = HotspotPlace.CUSTOM;
+				that.mMarkerHotspotPoint = pHotspot;
+				that.mMarkerHotspotPlace = HotspotPlace.CUSTOM;
 				return that;
 			} else {
-				that.mStdHotspotPlace = pHotspotPlace;
+				that.mMarkerHotspotPlace = pHotspotPlace;
 				return that;
 			}
 		}
@@ -203,48 +262,49 @@ public class OverlayItem {
 	/**
 	 * Select one of several standard positions for the hot spot.
 	 */
-	protected Point deriveHotspot() {
-		if (this.mStdHotspotPlace == null)
-			this.mStdHotspotPlace = HotspotPlace.CUSTOM;
-		final Point markerSize = (this.mMarker == null) ? DEFAULT_MARKER_SIZE : new Point(
-				this.getWidth(), this.getHeight());
+	protected Point getMarkerHotspot() {
+		if (this.mMarkerHotspotPoint == null) {
+			Drawable marker = mMarker;
+			final Point markerSize = (marker == null) ? DEFAULT_MARKER_SIZE : new Point(
+					this.getWidth(), this.getHeight());
 
-		switch (this.mStdHotspotPlace) {
-		case CUSTOM:
-			if (this.mMarkerHotspot != null)
+			switch (this.mMarkerHotspotPlace) {
+			case CUSTOM:
+				// This shouldn't happen - but we'll just default to 0,0
+				this.mMarkerHotspotPoint = new Point(0, 0);
 				break;
-			this.mStdHotspotPlace = HotspotPlace.BOTTOM_CENTER;
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y);
-			break;
-		case CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y / 2);
-			break;
-		case BOTTOM_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y);
-			break;
-		case TOP_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, 0);
-			break;
-		case RIGHT_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y / 2);
-			break;
-		case LEFT_CENTER:
-			this.mMarkerHotspot = new Point(0, markerSize.y / 2);
-			break;
-		case UPPER_RIGHT_CORNER:
-			this.mMarkerHotspot = new Point(markerSize.x, 0);
-			break;
-		case LOWER_RIGHT_CORNER:
-			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y);
-			break;
-		case UPPER_LEFT_CORNER:
-			this.mMarkerHotspot = new Point(0, 0);
-			break;
-		case LOWER_LEFT_CORNER:
-			this.mMarkerHotspot = new Point(0, markerSize.y);
-			break;
+			case CENTER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x / 2, markerSize.y / 2);
+				break;
+			case BOTTOM_CENTER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x / 2, markerSize.y);
+				break;
+			case TOP_CENTER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x / 2, 0);
+				break;
+			case RIGHT_CENTER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x, markerSize.y / 2);
+				break;
+			case LEFT_CENTER:
+				this.mMarkerHotspotPoint = new Point(0, markerSize.y / 2);
+				break;
+			case UPPER_RIGHT_CORNER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x, 0);
+				break;
+			case LOWER_RIGHT_CORNER:
+				this.mMarkerHotspotPoint = new Point(markerSize.x, markerSize.y);
+				break;
+			case UPPER_LEFT_CORNER:
+				this.mMarkerHotspotPoint = new Point(0, 0);
+				break;
+			case LOWER_LEFT_CORNER:
+				this.mMarkerHotspotPoint = new Point(0, markerSize.y);
+				break;
+			}
+			mMarkerHotspotPoint.set((int) (mMarkerHotspotPoint.x * mScale),
+					(int) (mMarkerHotspotPoint.y * mScale));
 		}
-		return this.mMarkerHotspot;
+		return this.mMarkerHotspotPoint;
 	}
 
 	// ===========================================================

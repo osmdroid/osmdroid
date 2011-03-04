@@ -44,7 +44,7 @@ public abstract class Overlay implements OverlayConstants {
 	// ===========================================================
 
 	protected final ResourceProxy mResourceProxy;
-
+	protected final float mScale;
 	private boolean mEnabled = true;
 
 	// ===========================================================
@@ -53,10 +53,12 @@ public abstract class Overlay implements OverlayConstants {
 
 	public Overlay(final Context ctx) {
 		mResourceProxy = new DefaultResourceProxyImpl(ctx);
+		mScale = ctx.getResources().getDisplayMetrics().density;
 	}
 
 	public Overlay(final ResourceProxy pResourceProxy) {
 		mResourceProxy = pResourceProxy;
+		mScale = mResourceProxy.getDisplayMetricsDensity();
 	}
 
 	// ===========================================================
