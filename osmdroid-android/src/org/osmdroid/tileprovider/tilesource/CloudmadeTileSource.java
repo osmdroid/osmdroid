@@ -31,6 +31,9 @@ public class CloudmadeTileSource extends OnlineTileSourceBase implements IStyled
 	@Override
 	public String getTileURLString(final MapTile pTile) {
 		final String key = CloudmadeUtil.getCloudmadeKey();
+		if (key.length() == 0) {
+			logger.error("CloudMade key is not set. You should enter it in the manifest and call CloudmadeUtil.retrieveCloudmadeKey()");
+		}
 		final String token = CloudmadeUtil.getCloudmadeToken();
 		return String.format(getBaseUrl(), key, mStyle, getTileSizePixels(), pTile.getZoomLevel(),
 				pTile.getX(), pTile.getY(), mImageFilenameEnding, token);
