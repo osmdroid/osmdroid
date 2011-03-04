@@ -39,7 +39,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -61,11 +60,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	private static final Logger logger = LoggerFactory.getLogger(MapView.class);
-
-	final static String BUNDLE_TILE_SOURCE = "org.osmdroid.views.MapView.TILE_SOURCE";
-	final static String BUNDLE_SCROLL_X = "org.osmdroid.views.MapView.SCROLL_X";
-	final static String BUNDLE_SCROLL_Y = "org.osmdroid.views.MapView.SCROLL_Y";
-	final static String BUNDLE_ZOOM_LEVEL = "org.osmdroid.views.MapView.ZOOM";
 
 	private static final double ZOOM_SENSITIVITY = 1.3;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
@@ -483,18 +477,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public ResourceProxy getResourceProxy() {
 		return mResourceProxy;
-	}
-
-	public void onSaveInstanceState(final Bundle state) {
-		state.putInt(BUNDLE_SCROLL_X, getScrollX());
-		state.putInt(BUNDLE_SCROLL_Y, getScrollY());
-		state.putInt(BUNDLE_ZOOM_LEVEL, getZoomLevel());
-	}
-
-	public void onRestoreInstanceState(final Bundle state) {
-
-		setZoomLevel(state.getInt(BUNDLE_ZOOM_LEVEL, 1));
-		scrollTo(state.getInt(BUNDLE_SCROLL_X, 0), state.getInt(BUNDLE_SCROLL_Y, 0));
 	}
 
 	/**
