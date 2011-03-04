@@ -2,7 +2,6 @@
 package org.osmdroid.views.overlay;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
@@ -160,9 +159,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		COMPASS_FRAME_CENTER_Y = mCompassFrame.getHeight() / 2 - 0.5f;
 		COMPASS_ROSE_CENTER_X = mCompassRose.getWidth() / 2 - 0.5f;
 		COMPASS_ROSE_CENTER_Y = mCompassRose.getHeight() / 2 - 0.5f;
-
-		final List<Sensor> mOrientationSensors = mSensorManager
-				.getSensorList(Sensor.TYPE_ORIENTATION);
 	}
 
 	// ===========================================================
@@ -608,17 +604,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	public boolean enableCompass() {
 		boolean result = true;
 		if (mSensorListener == null) {
-			final Sensor sensorOrientation = this.mSensorManager
-					.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-
-			if (sensorOrientation == null)
-				return false;
-
 			mSensorListener = new SensorEventListenerProxy(mSensorManager);
 			mSensorListener.startListening(this, Sensor.TYPE_ORIENTATION,
-					SensorManager.SENSOR_DELAY_UI);
-
-			result = mSensorManager.registerListener(mSensorListener, sensorOrientation,
 					SensorManager.SENSOR_DELAY_UI);
 		}
 
@@ -636,9 +623,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public void disableCompass() {
 		if (mSensorListener != null) {
-			mSensorManager.unregisterListener(mSensorListener);
+			mSensorListener.stopListening();
 		}
 
+		// Reset values
 		mSensorListener = null;
 		mAzimuth = -1.0f;
 
