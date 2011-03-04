@@ -9,14 +9,15 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Alex van der Linden
- * 
+ *
  */
 public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 
@@ -27,11 +28,6 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-
-	private MapView mOsmv;
-	private TilesOverlay mTilesOverlay;
-	private MapTileProviderBasic mProvider;
-	private ITileSource mCustomTileSource;
 
 	// ===========================================================
 	// Constructors
@@ -46,22 +42,23 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
-		this.mOsmv = new MapView(this, 256);
-		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		final MapView osmv = new MapView(this, 256);
+		rl.addView(osmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
-		this.mOsmv.setBuiltInZoomControls(true);
+		osmv.setBuiltInZoomControls(true);
 
 		// zoom to the netherlands
-		this.mOsmv.getController().setZoom(7);
-		this.mOsmv.getController().setCenter(new GeoPoint(51500000, 5400000));
+		osmv.getController().setZoom(7);
+		osmv.getController().setCenter(new GeoPoint(51500000, 5400000));
 
 		// Add tiles layer with custom tile source
-		this.mProvider = new MapTileProviderBasic(getApplicationContext());
-		this.mCustomTileSource = new XYTileSource("FietsRegionaal", null, 3, 18, 256, ".png",
+		final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());
+		final ITileSource tileSource = new XYTileSource("FietsRegionaal", null, 3, 18, 256, ".png",
 				"http://overlay.openstreetmap.nl/openfietskaart-rcn/");
-		this.mProvider.setTileSource(this.mCustomTileSource);
-		this.mTilesOverlay = new TilesOverlay(mProvider, this.getBaseContext());
-		this.mOsmv.getOverlays().add(this.mTilesOverlay);
+		tileProvider.setTileSource(tileSource);
+		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());
+		tilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);
+		osmv.getOverlays().add(tilesOverlay);
 
 		this.setContentView(rl);
 	}
