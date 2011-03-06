@@ -139,6 +139,8 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
+		super.draw(c, osmv, shadow);
+
 		if (shadow) {
 			return;
 		}
