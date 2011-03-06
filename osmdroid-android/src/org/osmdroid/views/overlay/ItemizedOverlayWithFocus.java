@@ -136,7 +136,6 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
 
-	// TODO: Move this into a class that extends OverlayItem class.
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
@@ -151,7 +150,8 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		// get focused item's preferred marker & hotspot
 		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 		Drawable markerFocusedBase = focusedItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
-		Point markerFocusedHotspot = focusedItem.getMarkerHotspot();
+		Point markerFocusedHotspot = focusedItem
+				.getMarkerHotspot(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (markerFocusedBase == null) {
 			markerFocusedBase = this.mMarkerFocusedBase;
 		}
@@ -272,14 +272,16 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	/**
 	 * Actual drawing of focus item will take place in onDrawFinished.
 	 */
-
-	/*
-	 * @Override protected void onDrawItem(final Canvas c, final int index, final Point
-	 * screenCoords) { if (this.mFocusedItemIndex != NOT_SET && index == this.mFocusedItemIndex) {
-	 * // Because we are reusing the screencoords passed here, we cannot simply store the //
-	 * reference. this.mFocusedScreenCoords.set(screenCoords.x, screenCoords.y); } else {
-	 * super.onDrawItem(c, index, screenCoords); } }
-	 */
+	@Override
+	protected void onDrawItem(final Canvas c, final int index, final Point screenCoords) {
+		if (this.mFocusedItemIndex != NOT_SET && index == this.mFocusedItemIndex) {
+			// Because we are reusing the screencoords passed here, we cannot simply store the
+			// reference.
+			this.mFocusedScreenCoords.set(screenCoords.x, screenCoords.y);
+		} else {
+			super.onDrawItem(c, index, screenCoords);
+		}
+	}
 
 	// ===========================================================
 	// Methods
