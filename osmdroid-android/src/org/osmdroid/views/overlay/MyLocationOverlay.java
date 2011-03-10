@@ -44,9 +44,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
@@ -169,7 +169,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -184,7 +184,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -198,17 +198,17 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @param drawAccuracyEnabled
 	 *            whether the accuracy circle will be enabled
 	 */
-	public void setDrawAccuracyEnabled(boolean drawAccuracyEnabled) {
+	public void setDrawAccuracyEnabled(final boolean drawAccuracyEnabled) {
 		mDrawAccuracyEnabled = drawAccuracyEnabled;
 	}
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isDrawAccuracyEnabled() {
@@ -493,6 +493,19 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	/**
+	 * @deprecated use {@link enableFollowLocation()} and {@link disableFollowLocation()} instead.
+	 * @param follow
+	 */
+	@Deprecated
+	public void followLocation(final boolean follow) {
+		if (follow) {
+			enableFollowLocation();
+		} else {
+			disableFollowLocation();
+		}
+	}
+
+	/**
 	 * Enables "follow" functionality. The map will center on your current location and
 	 * automatically scroll as you move. Scrolling the map in the UI will disable.
 	 */
@@ -523,7 +536,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	/**
 	 * If enabled, the map will center on your current location and automatically scroll as you
 	 * move. Scrolling the map in the UI will disable.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isFollowLocationEnabled() {
@@ -584,7 +597,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving location updates and drawing your location on the map.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
@@ -636,7 +649,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving orientation updates and drawing your location on the map.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
