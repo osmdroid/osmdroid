@@ -1,29 +1,26 @@
 package org.osmdroid.util;
 
+import org.osmdroid.util.constants.UtilConstants;
+
 import android.location.LocationManager;
 
 /**
- * 
+ *
  * A class to check whether we want to use a location. If there are multiple location providers,
  * i.e. network and GPS, then you want to ignore network locations shortly after a GPS location
  * because you will get another GPS location soon.
- * 
+ *
  * @author Neil Boyd
- * 
+ *
  */
-public class NetworkLocationIgnorer {
-
-	/**
-	 * The time we wait after the last gps location before displaying a non-gps location.
-	 */
-	private static final long GPS_WAIT_TIME = 20000; // 20 seconds
+public class NetworkLocationIgnorer implements UtilConstants {
 
 	/** last time we got a location from the gps provider */
 	private long mLastGps = 0;
 
 	/**
 	 * Whether we should ignore this location.
-	 * 
+	 *
 	 * @param pProvider
 	 *            the provider that provided the location
 	 * @param pTime
