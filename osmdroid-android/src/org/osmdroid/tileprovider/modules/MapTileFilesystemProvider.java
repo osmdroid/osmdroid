@@ -5,6 +5,7 @@ import java.io.File;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.slf4j.Logger;
@@ -114,18 +115,18 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
-		public Drawable loadTile(final MapTileRequestState pState) {
+		public Drawable loadTile(final MapTileRequestState pState) throws CantContinueException {
 
 			if (mTileSource == null) {
 				return null;
 			}
 
-			final MapTile pTile = pState.getMapTile();
+			final MapTile tile = pState.getMapTile();
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
 				if (DEBUGMODE) {
-					logger.debug("No sdcard - do nothing for tile: " + pTile);
+					logger.debug("No sdcard - do nothing for tile: " + tile);
 				}
 				return null;
 			}
@@ -133,7 +134,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
 			final File file = new File(TILE_PATH_BASE,
-					mTileSource.getTileRelativeFilenameString(pTile) + TILE_PATH_EXTENSION);
+					mTileSource.getTileRelativeFilenameString(tile) + TILE_PATH_EXTENSION);
 			if (file.exists()) {
 
 				// Check to see if file has expired
@@ -143,15 +144,29 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 				if (!fileExpired) {
 					// If the file has not expired, then render it and return it!
-					final Drawable drawable = mTileSource.getDrawable(file.getPath());
-					return drawable;
+					try {
+						Drawable drawable;
+						drawable = mTileSource.getDrawable(file.getPath());
+
+						return drawable;
+					} catch (LowMemoryException e) {
+						// low memory so empty the queue
+						logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
+						throw new CantContinueException(e);
+					}
 				} else {
 					// If the file has expired then we render it, but we return it as a candidate
 					// and then fail on the request. This allows the tile to be loaded, but also
 					// allows other tile providers to do a better job.
-					final Drawable drawable = mTileSource.getDrawable(file.getPath());
-					tileCandidateLoaded(pState, drawable);
-					return null;
+					try {
+						final Drawable drawable = mTileSource.getDrawable(file.getPath());
+						tileCandidateLoaded(pState, drawable);
+						return null;
+					} catch (LowMemoryException e) {
+						// low memory so empty the queue
+						logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
+						throw new CantContinueException(e);
+					}
 				}
 			}
 

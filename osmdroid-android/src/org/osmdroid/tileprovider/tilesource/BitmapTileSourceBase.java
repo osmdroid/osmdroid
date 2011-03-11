@@ -16,7 +16,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public abstract class BitmapTileSourceBase implements ITileSource, OpenStreetMapTileProviderConstants {
+public abstract class BitmapTileSourceBase implements ITileSource,
+		OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(BitmapTileSourceBase.class);
 
@@ -122,7 +123,7 @@ public abstract class BitmapTileSourceBase implements ITileSource, OpenStreetMap
 	}
 
 	@Override
-	public Drawable getDrawable(final InputStream aFileInputStream) {
+	public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
@@ -133,7 +134,20 @@ public abstract class BitmapTileSourceBase implements ITileSource, OpenStreetMap
 		} catch (final OutOfMemoryError e) {
 			logger.error("OutOfMemoryError loading bitmap");
 			System.gc();
+			throw new LowMemoryException(e);
 		}
 		return null;
+	}
+
+	public final class LowMemoryException extends Exception {
+		private static final long serialVersionUID = 146526524087765134L;
+
+		public LowMemoryException(final String pDetailMessage) {
+			super(pDetailMessage);
+		}
+
+		public LowMemoryException(final Throwable pThrowable) {
+			super(pThrowable);
+		}
 	}
 }

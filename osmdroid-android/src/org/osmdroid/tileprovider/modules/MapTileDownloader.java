@@ -13,6 +13,7 @@ import java.net.UnknownHostException;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
@@ -176,6 +177,10 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
 				logger.warn("UnknownHostException downloading MapTile: " + tile + " : " + e);
+				throw new CantContinueException(e);
+			} catch (final LowMemoryException e) {
+				// low memory so empty the queue
+				logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
 				throw new CantContinueException(e);
 			} catch (final FileNotFoundException e) {
 				logger.warn("Tile not found: " + tile + " : " + e);

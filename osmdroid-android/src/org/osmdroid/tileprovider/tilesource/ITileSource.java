@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 
 import android.graphics.drawable.Drawable;
 
@@ -50,7 +51,7 @@ public interface ITileSource {
 	 *            a file path
 	 * @return the rendered Drawable
 	 */
-	Drawable getDrawable(String aFilePath);
+	Drawable getDrawable(String aFilePath) throws LowMemoryException;
 
 	/**
 	 * Get a rendered Drawable from the specified InputStream.
@@ -59,7 +60,7 @@ public interface ITileSource {
 	 *            an InputStream
 	 * @return the rendered Drawable
 	 */
-	Drawable getDrawable(InputStream aTileInputStream);
+	Drawable getDrawable(InputStream aTileInputStream) throws LowMemoryException;
 
 	/**
 	 * Get the minimum zoom level this tile source can provide.
