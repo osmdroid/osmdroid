@@ -47,7 +47,6 @@ import org.osmdroid.views.MapView.Projection;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Picture;
@@ -88,10 +87,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	public int screenHeight;
 
 	private final ResourceProxy resourceProxy;
-	private Matrix oldMatrix;
 	private Paint barPaint;
 	private Paint textPaint;
 	private Projection projection;
+
+	final private Rect mBounds = new Rect();
 
 	// ===========================================================
 	// Constructors
@@ -252,12 +252,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				createScaleBarPicture(mapView);
 			}
 
-			this.oldMatrix = c.getMatrix();
-			c.restore();
-			c.save();
-			c.translate(xOffset, yOffset);
-			c.drawPicture(scaleBarPicture);
-			c.setMatrix(this.oldMatrix);
+			c.getClipBounds(mBounds);
+			mBounds.offset((int) xOffset, (int) yOffset);
+
+			mBounds.set(mBounds.left, mBounds.top, mBounds.left + scaleBarPicture.getWidth(),
+					mBounds.top + scaleBarPicture.getHeight());
+			c.drawPicture(scaleBarPicture, mBounds);
 		}
 	}
 
