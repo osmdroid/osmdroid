@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -55,7 +56,7 @@ public class GEMFFile {
 	private List<Long> mFileSizes = new ArrayList<Long>();
 
 	// List of tile sources within this archive
-	private HashMap<Integer, String> mSources = new HashMap<Integer, String>();
+	private LinkedHashMap<Integer, String> mSources = new LinkedHashMap<Integer, String>();
 
 	// Fields to restrict to a single source for reading
 	private boolean mSourceLimited = false;
@@ -125,13 +126,13 @@ public class GEMFFile {
 		this.mLocation = pLocation;
 		
 		// Create in-memory array of sources, X and Y values.
-		HashMap<String, HashMap<Integer, HashMap<Integer, HashMap<Integer, File>>>> dirIndex = 
-			new HashMap<String, HashMap<Integer, HashMap<Integer, HashMap<Integer, File>>>>();
+		LinkedHashMap<String, LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>> dirIndex = 
+			new LinkedHashMap<String, LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>>();
 		
 		for (File sourceDir: pSourceFolders) {
 
-			HashMap<Integer, HashMap<Integer, HashMap<Integer, File>>> zList = 
-				new HashMap<Integer, HashMap<Integer, HashMap<Integer, File>>>();
+			LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>> zList = 
+				new LinkedHashMap<Integer, LinkedHashMap<Integer, LinkedHashMap<Integer, File>>>();
 
 			for (File zDir: sourceDir.listFiles()) {
 				// Make sure the directory name is just a number
@@ -141,8 +142,8 @@ public class GEMFFile {
 					continue;
 				}
 				
-				HashMap<Integer, HashMap<Integer, File>> xList = 
-					new HashMap<Integer, HashMap<Integer, File>>();
+				LinkedHashMap<Integer, LinkedHashMap<Integer, File>> xList = 
+					new LinkedHashMap<Integer, LinkedHashMap<Integer, File>>();
 				
 				for (File xDir: zDir.listFiles()) {
 
@@ -153,7 +154,7 @@ public class GEMFFile {
 						continue; 
 					}
 				
-					HashMap<Integer, File> yList = new HashMap<Integer, File>();
+					LinkedHashMap<Integer, File> yList = new LinkedHashMap<Integer, File>();
 					for (File yFile: xDir.listFiles()) {
 
 						try {
@@ -177,8 +178,8 @@ public class GEMFFile {
 		}
 		
 		// Create a source index list
-		HashMap<String, Integer> sourceIndex = new HashMap<String, Integer>();
-		HashMap<Integer, String> indexSource = new HashMap<Integer, String>();
+		LinkedHashMap<String, Integer> sourceIndex = new LinkedHashMap<String, Integer>();
+		LinkedHashMap<Integer, String> indexSource = new LinkedHashMap<Integer, String>();
 		int si = 0;
 		for (String source: dirIndex.keySet()) {
 			sourceIndex.put(source, new Integer(si));
@@ -191,17 +192,22 @@ public class GEMFFile {
 	
 		for (String source: dirIndex.keySet()) {
 			for (Integer zoom: dirIndex.get(source).keySet()) {
-		
-				// Get non-contiguous Y sets for each Z/X
-				HashMap<List<Integer>, List<Integer>> ySets = 
-					new HashMap<List<Integer>, List<Integer>>();
 				
-				for (Integer x: dirIndex.get(source).get(zoom).keySet()) {
+				// Get non-contiguous Y sets for each Z/X
+				LinkedHashMap<List<Integer>, List<Integer>> ySets = 
+					new LinkedHashMap<List<Integer>, List<Integer>>();
+				
+				for (Integer x: new TreeSet<Integer>(dirIndex.get(source).get(zoom).keySet())) {
+					
 					List<Integer> ySet = new ArrayList<Integer>();
 					for (Integer y: dirIndex.get(source).get(zoom).get(x).keySet()) {
 						ySet.add(y);
 					}
 				
+					if (ySet.size() == 0) continue;
+					
+					Collections.sort(ySet);
+					
 					if (! ySets.containsKey(ySet)) {
 						ySets.put(ySet, new ArrayList<Integer>());
 					}
@@ -210,10 +216,11 @@ public class GEMFFile {
 				}
 			
 				// For each Y set find contiguous X sets
-				HashMap<List<Integer>, List<Integer>> xSets = 
-					new HashMap<List<Integer>, List<Integer>>();
+				LinkedHashMap<List<Integer>, List<Integer>> xSets = 
+					new LinkedHashMap<List<Integer>, List<Integer>>();
 				
 				for (List<Integer> ySet: ySets.keySet()) {
+					
 					TreeSet<Integer> xList = new TreeSet<Integer>(ySets.get(ySet));
 					
 					List<Integer> xSet = new ArrayList<Integer>();
@@ -228,11 +235,14 @@ public class GEMFFile {
 						}
 					}
 					
-					xSets.put(ySet, xSet);
+					if (xSet.size() > 0) {
+						xSets.put(ySet, xSet);
+					}
 				}
 
 				// For each contiguous X set, find contiguous Y sets and create GEMFRange object
 				for (List<Integer> xSet: xSets.keySet()) {
+					
 					TreeSet<Integer> yList = new TreeSet<Integer>(xSet);
 					TreeSet<Integer> xList = new TreeSet<Integer>(ySets.get(xSet));
 				
@@ -247,17 +257,22 @@ public class GEMFFile {
 							if (range.yMin == null) range.yMin = i;
 							range.yMax = i;
 						} else {
-							ranges.add(range);
 							
-							range = new GEMFFile.GEMFRange();
-							range.zoom = zoom;
-							range.sourceIndex = sourceIndex.get(source);
-							range.xMin = xList.first();
-							range.xMax = xList.last();
+							if (range.yMin != null) {
+								ranges.add(range);
+							
+								range = new GEMFFile.GEMFRange();
+								range.zoom = zoom;
+								range.sourceIndex = sourceIndex.get(source);
+								range.xMin = xList.first();
+								range.xMax = xList.last();
+							}
 						}
 					}
-					
-					ranges.add(range);
+
+					if (range.yMin != null) {
+						ranges.add(range);
+					}
 				}
 			}
 		}
@@ -487,9 +502,9 @@ public class GEMFFile {
 	}
 	
 	/*
-	 * Returns a HashMap of the sources in this archive, as names and indexes.
+	 * Returns a LinkedHashMap of the sources in this archive, as names and indexes.
 	 */
-	public HashMap<Integer, String> getSources() {
+	public LinkedHashMap<Integer, String> getSources() {
 		return mSources;
 	}
 	
