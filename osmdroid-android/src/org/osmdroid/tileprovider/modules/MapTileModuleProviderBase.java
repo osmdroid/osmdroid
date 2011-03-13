@@ -3,12 +3,12 @@ package org.osmdroid.tileprovider.modules;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.CantContinueException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,8 +88,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();
 		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(pPendingQueueSize + 2, 0.1f, true) {
 			private static final long serialVersionUID = 6455337315681858866L;
+
 			@Override
-			protected boolean removeEldestEntry(final Entry<MapTile, MapTileRequestState> pEldest) {
+			protected boolean removeEldestEntry(
+					final Map.Entry<MapTile, MapTileRequestState> pEldest) {
 				return size() > pPendingQueueSize;
 			}
 		};
@@ -143,8 +145,8 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 *
 	 * @param aTile
 	 *            the tile to load
-	 * @throws CantContinueException
-	 *             if it is not possible to continue with processing the queue
+	 * @throws {@link CantContinueException} if it is not possible to continue with processing the
+	 *         queue
 	 */
 	protected abstract class TileLoader implements Runnable {
 
