@@ -3,7 +3,6 @@ package org.osmdroid.tileprovider.modules;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.MapTile;
@@ -158,7 +157,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * @throws {@link CantContinueException}
 		 */
 		protected abstract Drawable loadTile(MapTileRequestState pState)
-		throws CantContinueException;
+				throws CantContinueException;
 
 		private MapTileRequestState nextTile() {
 
@@ -255,7 +254,11 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		}
 	}
 
-	class CantContinueException extends Exception {
+	/**
+	 * Thrown by a tile provider module in TileLoader.loadTile() to signal that it can no longer
+	 * function properly. This will typically clear the pending queue.
+	 */
+	public class CantContinueException extends Exception {
 		private static final long serialVersionUID = 146526524087765133L;
 
 		public CantContinueException(final String pDetailMessage) {
