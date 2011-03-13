@@ -2,6 +2,7 @@
 package org.osmdroid.views;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import net.wigle.wigleandroid.ZoomButtonsController;
 import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
@@ -354,7 +355,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @return the zoom level
 	 */
 	public int getZoomLevel(final boolean aPending) {
-		if (aPending && mAnimationListener.animating) {
+		if (aPending && mAnimationListener.isAnimating()) {
 			return mAnimationListener.targetZoomLevel;
 		} else {
 			return mZoomLevel;
@@ -385,7 +386,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel >= maxZoomLevel) {
+		if (mAnimationListener.isAnimating() && mAnimationListener.targetZoomLevel >= maxZoomLevel) {
 			return false;
 		}
 		return true;
@@ -396,7 +397,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.animating && mAnimationListener.targetZoomLevel <= minZoomLevel) {
+		if (mAnimationListener.isAnimating() && mAnimationListener.targetZoomLevel <= minZoomLevel) {
 			return false;
 		}
 		return true;
@@ -408,12 +409,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomIn() {
 
 		if (canZoomIn()) {
-			if (mAnimationListener.animating) {
+			if (mAnimationListener.isAnimating()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
 				mAnimationListener.targetZoomLevel = mZoomLevel + 1;
-				mAnimationListener.animating = true;
 				startAnimation(mZoomInAnimation);
 				return true;
 			}
@@ -438,12 +438,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomOut() {
 
 		if (canZoomOut()) {
-			if (mAnimationListener.animating) {
+			if (mAnimationListener.isAnimating()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
 				mAnimationListener.targetZoomLevel = mZoomLevel - 1;
-				mAnimationListener.animating = true;
 				startAnimation(mZoomOutAnimation);
 				return true;
 			}
@@ -498,13 +497,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * Check mAnimationListener.animating to determine if view is animating. Useful for overlays to
-	 * avoid recalculating during an animation sequence.
+	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
+	 * to avoid recalculating during an animation sequence.
 	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
-		return mAnimationListener.animating;
+		return mAnimationListener.isAnimating();
 	}
 
 	// ===========================================================
@@ -1288,11 +1287,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private class MyAnimationListener implements AnimationListener {
 		private int targetZoomLevel;
-		private boolean animating;
+		private AtomicBoolean animating = new AtomicBoolean(false);
 
 		@Override
 		public void onAnimationEnd(final Animation aAnimation) {
-			animating = false;
+			animating.set(false);
 			MapView.this.post(new Runnable() {
 				@Override
 				public void run() {
@@ -1312,7 +1311,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onAnimationStart(final Animation aAnimation) {
-			animating = true;
+			animating.set(true);
+		}
+
+		public boolean isAnimating() {
+			return animating.get();
 		}
 
 	}
