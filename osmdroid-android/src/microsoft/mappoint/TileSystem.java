@@ -14,20 +14,29 @@ import org.osmdroid.util.GeoPoint;
 import android.graphics.Point;
 
 /**
- * This class provides methods to handle the Mercator projection that is used for the
- * osmdroid tile system.
+ * This class provides methods to handle the Mercator projection that is used for the osmdroid tile
+ * system.
  */
 public final class TileSystem {
 
+	protected static int mTileSize = 256;
 	private static final double EarthRadius = 6378137;
 	private static final double MinLatitude = -85.05112878;
 	private static final double MaxLatitude = 85.05112878;
 	private static final double MinLongitude = -180;
 	private static final double MaxLongitude = 180;
 
+	public static void setTileSize(final int tileSize) {
+		mTileSize = tileSize;
+	}
+
+	public static int getTileSize() {
+		return mTileSize;
+	}
+
 	/**
 	 * Clips a number to the specified minimum and maximum values.
-	 *
+	 * 
 	 * @param n
 	 *            The number to clip
 	 * @param minValue
@@ -42,20 +51,20 @@ public final class TileSystem {
 
 	/**
 	 * Determines the map width and height (in pixels) at a specified level of detail.
-	 *
+	 * 
 	 * @param levelOfDetail
 	 *            Level of detail, from 1 (lowest detail) to 23 (highest detail)
 	 * @return The map width and height in pixels
 	 */
 
 	public static int MapSize(final int levelOfDetail) {
-		return 256 << levelOfDetail;
+		return mTileSize << levelOfDetail;
 	}
 
 	/**
 	 * Determines the ground resolution (in meters per pixel) at a specified latitude and level of
 	 * detail.
-	 *
+	 * 
 	 * @param latitude
 	 *            Latitude (in degrees) at which to measure the ground resolution
 	 * @param levelOfDetail
@@ -70,7 +79,7 @@ public final class TileSystem {
 
 	/**
 	 * Determines the map scale at a specified latitude, level of detail, and screen resolution.
-	 *
+	 * 
 	 * @param latitude
 	 *            Latitude (in degrees) at which to measure the map scale
 	 * @param levelOfDetail
@@ -79,14 +88,15 @@ public final class TileSystem {
 	 *            Resolution of the screen, in dots per inch
 	 * @return The map scale, expressed as the denominator N of the ratio 1 : N
 	 */
-	public static double MapScale(final double latitude, final int levelOfDetail, final int screenDpi) {
+	public static double MapScale(final double latitude, final int levelOfDetail,
+			final int screenDpi) {
 		return GroundResolution(latitude, levelOfDetail) * screenDpi / 0.0254;
 	}
 
 	/**
 	 * Converts a point from latitude/longitude WGS-84 coordinates (in degrees) into pixel XY
 	 * coordinates at a specified level of detail.
-	 *
+	 * 
 	 * @param latitude
 	 *            Latitude of the point, in degrees
 	 * @param longitude
@@ -97,8 +107,8 @@ public final class TileSystem {
 	 *            An optional Point to be recycled, or null to create a new one automatically
 	 * @return Output parameter receiving the X and Y coordinates in pixels
 	 */
-	public static Point LatLongToPixelXY(double latitude, double longitude, final int levelOfDetail,
-			final Point reuse) {
+	public static Point LatLongToPixelXY(double latitude, double longitude,
+			final int levelOfDetail, final Point reuse) {
 		final Point out = (reuse == null ? new Point() : reuse);
 
 		latitude = Clip(latitude, MinLatitude, MaxLatitude);
@@ -117,7 +127,7 @@ public final class TileSystem {
 	/**
 	 * Converts a pixel from pixel XY coordinates at a specified level of detail into
 	 * latitude/longitude WGS-84 coordinates (in degrees).
-	 *
+	 * 
 	 * @param pixelX
 	 *            X coordinate of the point, in pixels
 	 * @param pixelY
@@ -128,8 +138,8 @@ public final class TileSystem {
 	 *            An optional GeoPoint to be recycled, or null to create a new one automatically
 	 * @return Output parameter receiving the latitude and longitude in degrees.
 	 */
-	public static GeoPoint PixelXYToLatLong(final int pixelX, final int pixelY, final int levelOfDetail,
-			final GeoPoint reuse) {
+	public static GeoPoint PixelXYToLatLong(final int pixelX, final int pixelY,
+			final int levelOfDetail, final GeoPoint reuse) {
 		final GeoPoint out = (reuse == null ? new GeoPoint(0, 0) : reuse);
 
 		final double mapSize = MapSize(levelOfDetail);
@@ -147,7 +157,7 @@ public final class TileSystem {
 	/**
 	 * Converts pixel XY coordinates into tile XY coordinates of the tile containing the specified
 	 * pixel.
-	 *
+	 * 
 	 * @param pixelX
 	 *            Pixel X coordinate
 	 * @param pixelY
@@ -159,15 +169,15 @@ public final class TileSystem {
 	public static Point PixelXYToTileXY(final int pixelX, final int pixelY, final Point reuse) {
 		final Point out = (reuse == null ? new Point() : reuse);
 
-		out.x = pixelX / 256;
-		out.y = pixelY / 256;
+		out.x = pixelX / mTileSize;
+		out.y = pixelY / mTileSize;
 		return out;
 	}
 
 	/**
 	 * Converts tile XY coordinates into pixel XY coordinates of the upper-left pixel of the
 	 * specified tile.
-	 *
+	 * 
 	 * @param tileX
 	 *            Tile X coordinate
 	 * @param tileY
@@ -179,14 +189,14 @@ public final class TileSystem {
 	public static Point TileXYToPixelXY(final int tileX, final int tileY, final Point reuse) {
 		final Point out = (reuse == null ? new Point() : reuse);
 
-		out.x = tileX * 256;
-		out.y = tileY * 256;
+		out.x = tileX * mTileSize;
+		out.y = tileY * mTileSize;
 		return out;
 	}
 
 	/**
 	 * Converts tile XY coordinates into a QuadKey at a specified level of detail.
-	 *
+	 * 
 	 * @param tileX
 	 *            Tile X coordinate
 	 * @param tileY
@@ -214,7 +224,7 @@ public final class TileSystem {
 
 	/**
 	 * Converts a QuadKey into tile XY coordinates.
-	 *
+	 * 
 	 * @param quadKey
 	 *            QuadKey of the tile
 	 * @param reuse

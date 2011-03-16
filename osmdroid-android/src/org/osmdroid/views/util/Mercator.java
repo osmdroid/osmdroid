@@ -14,6 +14,8 @@ import android.graphics.Point;
  * 
  * @author Nicolas Gramlich
  * 
+ * @deprecated Use TileSystem instead
+ * 
  */
 public class Mercator implements MapViewConstants {
 	// ===========================================================

@@ -1,11 +1,12 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
+import microsoft.mappoint.TileSystem;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.util.Mercator;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.osmdroid.views.util.constants.MathConstants;
@@ -86,8 +87,9 @@ public class MapController implements IMapController, MapViewConstants {
 	public void animateTo(final IGeoPoint point) {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
-		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
-		final int worldSize_2 = this.mOsmv.getWorldSizePx() / 2;
+		final Point p = TileSystem.LatLongToPixelXY(point.getLatitudeE6() / 1E6,
+				point.getLongitudeE6() / 1E6, this.mOsmv.getZoomLevel(), null);
+		final int worldSize_2 = TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
 		mOsmv.getScroller().startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y,
 				ANIMATION_DURATION_DEFAULT);
 		mOsmv.postInvalidate();
@@ -192,8 +194,9 @@ public class MapController implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void setCenter(final IGeoPoint point) {
-		final Point p = Mercator.projectGeoPoint(point, this.mOsmv.getPixelZoomLevel(), null);
-		final int worldSize_2 = this.mOsmv.getWorldSizePx() / 2;
+		final Point p = TileSystem.LatLongToPixelXY(point.getLatitudeE6() / 1E6,
+				point.getLongitudeE6() / 1E6, this.mOsmv.getZoomLevel(), null);
+		final int worldSize_2 = TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
 
@@ -395,11 +398,10 @@ public class MapController implements IMapController, MapViewConstants {
 
 			/* Get the current mapview-center. */
 			final MapView mapview = MapController.this.mOsmv;
-			final int mapCenterLatE6 = mapview.getMapCenterLatitudeE6();
-			final int mapCenterLonE6 = mapview.getMapCenterLongitudeE6();
+			final GeoPoint mapCenter = mapview.getMapCenter();
 
-			this.mPanTotalLatitudeE6 = mapCenterLatE6 - aTargetLatitudeE6;
-			this.mPanTotalLongitudeE6 = mapCenterLonE6 - aTargetLongitudeE6;
+			this.mPanTotalLatitudeE6 = mapCenter.getLatitudeE6() - aTargetLatitudeE6;
+			this.mPanTotalLongitudeE6 = mapCenter.getLongitudeE6() - aTargetLongitudeE6;
 		}
 
 		@Override
@@ -439,11 +441,12 @@ public class MapController implements IMapController, MapViewConstants {
 
 			/* Get the current mapview-center. */
 			final MapView mapview = MapController.this.mOsmv;
-			final int mapCenterLatE6 = mapview.getMapCenterLatitudeE6();
-			final int mapCenterLonE6 = mapview.getMapCenterLongitudeE6();
+			final GeoPoint mapCenter = mapview.getMapCenter();
 
-			this.mPanPerStepLatitudeE6 = (mapCenterLatE6 - aTargetLatitudeE6) / aSmoothness;
-			this.mPanPerStepLongitudeE6 = (mapCenterLonE6 - aTargetLongitudeE6) / aSmoothness;
+			this.mPanPerStepLatitudeE6 = (mapCenter.getLatitudeE6() - aTargetLatitudeE6)
+					/ aSmoothness;
+			this.mPanPerStepLongitudeE6 = (mapCenter.getLongitudeE6() - aTargetLongitudeE6)
+					/ aSmoothness;
 
 			this.setName("LinearAnimationRunner");
 		}
@@ -455,6 +458,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
+			final GeoPoint mapCenter = mapview.getMapCenter();
 			final int panPerStepLatitudeE6 = this.mPanPerStepLatitudeE6;
 			final int panPerStepLongitudeE6 = this.mPanPerStepLongitudeE6;
 			final int stepDuration = this.mStepDuration;
@@ -464,8 +468,8 @@ public class MapController implements IMapController, MapViewConstants {
 
 				for (int i = this.mSmoothness; i > 0; i--) {
 
-					newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - panPerStepLatitudeE6;
-					newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - panPerStepLongitudeE6;
+					newMapCenterLatE6 = mapCenter.getLatitudeE6() - panPerStepLatitudeE6;
+					newMapCenterLonE6 = mapCenter.getLongitudeE6() - panPerStepLongitudeE6;
 					mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
 					Thread.sleep(stepDuration);
@@ -507,6 +511,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
+			final GeoPoint mapCenter = mapview.getMapCenter();
 			final int stepDuration = this.mStepDuration;
 			try {
 				int newMapCenterLatE6;
@@ -518,8 +523,8 @@ public class MapController implements IMapController, MapViewConstants {
 					final int deltaLatitudeE6 = (int) (this.mPanTotalLatitudeE6 * delta);
 					final int detlaLongitudeE6 = (int) (this.mPanTotalLongitudeE6 * delta);
 
-					newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - deltaLatitudeE6;
-					newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - detlaLongitudeE6;
+					newMapCenterLatE6 = mapCenter.getLatitudeE6() - deltaLatitudeE6;
+					newMapCenterLonE6 = mapCenter.getLongitudeE6() - detlaLongitudeE6;
 					mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
 					Thread.sleep(stepDuration);
@@ -579,6 +584,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
+			final GeoPoint mapCenter = mapview.getMapCenter();
 			final int stepDuration = this.mStepDuration;
 			final float amountStretch = this.mAmountStretch;
 			try {
@@ -593,8 +599,8 @@ public class MapController implements IMapController, MapViewConstants {
 					final int deltaLatitudeE6 = (int) (this.mPanTotalLatitudeE6 * delta);
 					final int deltaLongitudeE6 = (int) (this.mPanTotalLongitudeE6 * delta);
 
-					newMapCenterLatE6 = mapview.getMapCenterLatitudeE6() - deltaLatitudeE6;
-					newMapCenterLonE6 = mapview.getMapCenterLongitudeE6() - deltaLongitudeE6;
+					newMapCenterLatE6 = mapCenter.getLatitudeE6() - deltaLatitudeE6;
+					newMapCenterLonE6 = mapCenter.getLongitudeE6() - deltaLongitudeE6;
 					mapview.setMapCenter(newMapCenterLatE6, newMapCenterLonE6);
 
 					Thread.sleep(stepDuration);

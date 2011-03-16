@@ -1,9 +1,10 @@
 package org.osmdroid.views.overlay;
 
+import microsoft.mappoint.TileSystem;
+
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 
@@ -12,7 +13,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -135,20 +135,11 @@ public class MinimapOverlay extends TilesOverlay {
 		// Calculate the half-world size
 		final Projection projection = pOsmv.getProjection();
 		final int zoomLevel = projection.getZoomLevel();
-		final int tileZoom = projection.getTileMapZoom();
-		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
-
-		// Find what's on the screen
-		final BoundingBoxE6 boundingBox = projection.getBoundingBox();
-		final Point upperLeft = org.osmdroid.views.util.Mercator
-				.projectGeoPoint(boundingBox.getLatNorthE6(), boundingBox.getLonWestE6(), zoomLevel
-						+ tileZoom, null);
-		final Point lowerRight = org.osmdroid.views.util.Mercator
-				.projectGeoPoint(boundingBox.getLatSouthE6(), boundingBox.getLonEastE6(), zoomLevel
-						+ tileZoom, null);
+		mWorldSize_2 = TileSystem.MapSize(zoomLevel) / 2;
 
 		// Save the Mercator coordinates of what is on the screen
-		mViewportRect.set(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+		mViewportRect.set(projection.getScreenRect());
+		mViewportRect.offset(mWorldSize_2, mWorldSize_2);
 
 		// Start calculating the tile area with the current viewport
 		mTileArea.set(mViewportRect);

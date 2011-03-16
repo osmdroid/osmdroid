@@ -1,5 +1,7 @@
 package org.osmdroid.views.overlay;
 
+import microsoft.mappoint.TileSystem;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
@@ -27,9 +29,9 @@ import android.view.SubMenu;
 
 /**
  * These objects are the principle consumer of map tiles.
- *
+ * 
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- *
+ * 
  */
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
@@ -97,7 +99,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -120,17 +122,16 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		// Calculate the half-world size
 		final Projection pj = osmv.getProjection();
 		final int zoomLevel = pj.getZoomLevel();
-		final int tileZoom = pj.getTileMapZoom();
-		mWorldSize_2 = 1 << (zoomLevel + tileZoom - 1);
+		mWorldSize_2 = TileSystem.MapSize(zoomLevel) / 2;
 
 		// Get the area we are drawing to
-		c.getClipBounds(mViewPort);
+		mViewPort.set(pj.getScreenRect());
 
 		// Translate the Canvas coordinates into Mercator coordinates
 		mViewPort.offset(mWorldSize_2, mWorldSize_2);
 
 		// Draw the tiles!
-		drawTiles(c, pj.getZoomLevel(), pj.getTileSizePixels(), mViewPort);
+		drawTiles(c, pj.getZoomLevel(), TileSystem.getTileSize(), mViewPort);
 	}
 
 	/**
@@ -141,26 +142,20 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void drawTiles(final Canvas c, final int zoomLevel, final int tileSizePx,
 			final Rect viewPort) {
 
-		final int tileZoom = MapView.getMapTileZoom(tileSizePx);
-
-		/*
-		 * Calculate the amount of tiles needed for each side around the center one.
-		 */
-		final int tileNeededToLeftOfCenter = (viewPort.left >> tileZoom) - 1;
-		final int tileNeededToRightOfCenter = viewPort.right >> tileZoom;
-		final int tileNeededToTopOfCenter = (viewPort.top >> tileZoom) - 1;
-		final int tileNeededToBottomOfCenter = viewPort.bottom >> tileZoom;
+		// Calculate the amount of tiles needed for each side around the center one.
+		Point upperLeft = TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, null);
+		upperLeft.offset(-1, -1);
+		Point lowerRight = TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, null);
 
 		final int mapTileUpperBound = 1 << zoomLevel;
 
 		// make sure the cache is big enough for all the tiles
-		final int numNeeded = (tileNeededToBottomOfCenter - tileNeededToTopOfCenter + 1)
-				* (tileNeededToRightOfCenter - tileNeededToLeftOfCenter + 1);
+		final int numNeeded = (lowerRight.y - upperLeft.y + 1) * (lowerRight.x - upperLeft.x + 1);
 		mTileProvider.ensureCapacity(numNeeded);
 
 		/* Draw all the MapTiles (from the upper left to the lower right). */
-		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
-			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
+		for (int y = upperLeft.y; y <= lowerRight.y; y++) {
+			for (int x = upperLeft.x; x <= lowerRight.x; x++) {
 				// Construct a MapTile to request from the tile provider.
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
@@ -284,10 +279,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	/**
-	 * Set the color to use to draw the background while we're waiting for the tile
-	 * to load.
-	 * @param pLoadingBackgroundColor the color to use.
-	 * If the value is {@link Color.TRANSPARENT} then there will be no loading tile.
+	 * Set the color to use to draw the background while we're waiting for the tile to load.
+	 * 
+	 * @param pLoadingBackgroundColor
+	 *            the color to use. If the value is {@link Color.TRANSPARENT} then there will be no
+	 *            loading tile.
 	 */
 	public void setLoadingBackgroundColor(final int pLoadingBackgroundColor) {
 		if (mLoadingBackgroundColor != pLoadingBackgroundColor) {
@@ -310,10 +306,10 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private Drawable getLoadingTile() {
 		if (mLoadingTile == null && mLoadingBackgroundColor != Color.TRANSPARENT) {
 			try {
-				final int tileSize = mTileProvider.getTileSource() != null ?
-						mTileProvider.getTileSource().getTileSizePixels() : 256;
-				final Bitmap bitmap = Bitmap.createBitmap(
-						tileSize, tileSize, Bitmap.Config.ARGB_8888);
+				final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider
+						.getTileSource().getTileSizePixels() : 256;
+				final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize,
+						Bitmap.Config.ARGB_8888);
 				final Canvas canvas = new Canvas(bitmap);
 				final Paint paint = new Paint();
 				canvas.drawColor(mLoadingBackgroundColor);
