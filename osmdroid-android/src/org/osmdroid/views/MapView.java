@@ -688,6 +688,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			logger.debug("dispatchTouchEvent(" + event + ")");
 		}
 
+		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
+			return true;
+		}
+
 		if (mOverlayManager.onTouchEvent(event, this)) {
 			return true;
 		}

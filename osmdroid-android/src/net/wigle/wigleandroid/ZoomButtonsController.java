@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import android.view.MotionEvent;
 import android.view.View;
 
 /**
@@ -27,6 +28,8 @@ public class ZoomButtonsController {
   private static Method setVisible;
   private static Method setZoomInEnabled;
   private static Method setZoomOutEnabled;
+  private static Method onTouch;
+  private static Method isVisible;
   
   private Object controller;
   
@@ -44,6 +47,8 @@ public class ZoomButtonsController {
       setVisible = ZOOM_CLASS.getMethod("setVisible", Boolean.TYPE );
       setZoomInEnabled = ZOOM_CLASS.getMethod("setZoomInEnabled", Boolean.TYPE );
       setZoomOutEnabled = ZOOM_CLASS.getMethod("setZoomOutEnabled", Boolean.TYPE );
+      onTouch = ZOOM_CLASS.getMethod("onTouch", View.class, MotionEvent.class);
+      isVisible = ZOOM_CLASS.getMethod("isVisible" );
     }
     catch ( Exception ex ) {
       // don't have it
@@ -126,5 +131,28 @@ public class ZoomButtonsController {
         logger.error( "setZoomOutEnabled exception: " + ex );
       }
     } 
+  }
+  
+  public boolean onTouch(final View v, final MotionEvent m ) {
+    if ( controller != null ) {
+      try {
+    	return (Boolean) onTouch.invoke(controller, v, m);
+      }
+      catch ( Exception ex ) {
+        logger.error( "onTouch exception: " + ex );
+      }
+    } 
+    return false;
+  }
+  public boolean isVisible() {
+    if ( controller != null ) {
+      try {
+    	return (Boolean) isVisible.invoke(controller);
+      }
+      catch ( Exception ex ) {
+        logger.error( "isVisible exception: " + ex );
+      }
+    } 
+    return false;
   }
 }
