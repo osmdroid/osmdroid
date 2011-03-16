@@ -3,12 +3,12 @@ package org.osmdroid;
 import microsoft.mappoint.TileSystem;
 
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.util.Mercator;
 
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 
 /**
+ * @auther Marc Kurtz
  * @author Neil Boyd
  * 
  */
@@ -135,105 +135,6 @@ public class TileSystemMathTest extends AndroidTestCase {
 		assertEquals(282.12, TileSystem.MapScale(0, 21, 96), delta);
 		assertEquals(141.06, TileSystem.MapScale(0, 22, 96), delta);
 		assertEquals(-70.53, TileSystem.MapScale(0, 23, 96), delta);
-	}
-
-	// No delta needed to pass!
-	public void test_CompareAlgorithms() {
-		final int maxZoom = 21;
-		final int points = 10;
-		final double delta = 0.0;
-
-		for (int zoomLevel = 0; zoomLevel < maxZoom; zoomLevel++) {
-			final int mapSize = TileSystem.MapSize(zoomLevel);
-			for (int divX = 0; divX < points; divX++) {
-				for (int divY = 0; divY < points; divY++) {
-					final int x = (int) (mapSize * ((float) divX / (float) points));
-					final int y = (int) (mapSize * ((float) divY / (float) points));
-					final GeoPoint point1 = Mercator.projectPoint(x, y, zoomLevel + 8);
-					final GeoPoint point2 = TileSystem.PixelXYToLatLong(x, y, zoomLevel, null);
-					assertEquals(point1.getLatitudeE6() / 1E6, point2.getLatitudeE6() / 1E6, delta);
-					assertEquals(point1.getLongitudeE6() / 1E6, point2.getLongitudeE6() / 1E6,
-							delta);
-				}
-			}
-		}
-	}
-
-	// Needs a delta of "2" to pass!
-	public void test_CompareAlgorithms2() {
-		final int maxZoom = 21;
-		final int points = 10;
-		final double delta = 2.0;
-
-		for (int zoomLevel = 0; zoomLevel < maxZoom; zoomLevel++) {
-			for (int divLat = 0; divLat < points; divLat++) {
-				for (int divLong = 0; divLong < points; divLong++) {
-					final double lat = (170.0d * ((float) divLat / (float) points)) - 85;
-					final double lng = (360.0d * ((float) divLong / (float) points)) - 180;
-					final Point point1 = Mercator.projectGeoPoint(lat, lng, zoomLevel + 8, null);
-					final Point point2 = TileSystem.LatLongToPixelXY(lat, lng, zoomLevel, null);
-					assertEquals(point1.x, point2.x, delta);
-					assertEquals(point1.y, point2.y, delta);
-				}
-			}
-		}
-	}
-
-	/**
-	 * This test was retrospectively added based on current implementation. TODO a manual
-	 * calculation and verify that this test gives the correct result.
-	 */
-	public void test_projectGeoPoint_1() {
-		final GeoPoint hannover = new GeoPoint(52370816, 9735936);
-		final int zoom = 8;
-
-		final Point point = Mercator.projectGeoPoint(hannover, zoom, null);
-		final Point point2 = TileSystem.LatLongToPixelXY(hannover.getLatitudeE6() / 1E6,
-				hannover.getLongitudeE6() / 1E6, zoom - 8, null);
-
-		assertEquals(point.x, point2.x, 1);
-		assertEquals(point.y, point2.y, 1);
-
-		assertEquals("TODO describe test", 134, point.x);
-		assertEquals("TODO describe test", 84, point.y);
-	}
-
-	/**
-	 * This test was retrospectively added based on current implementation. TODO a manual
-	 * calculation and verify that this test gives the correct result.
-	 */
-	public void test_projectGeoPoint_2() {
-		final int latE6 = 52370816;
-		final int lonE6 = 9735936;
-		final int zoom = 8;
-
-		final Point point = Mercator.projectGeoPoint(latE6, lonE6, zoom, null);
-		final Point point2 = TileSystem.LatLongToPixelXY(latE6 / 1E6, lonE6 / 1E6, zoom - 8, null);
-
-		assertEquals(point.x, point2.x, 1);
-		assertEquals(point.y, point2.y, 1);
-
-		assertEquals("TODO describe test", 84, point.y);
-		assertEquals("TODO describe test", 134, point.x);
-	}
-
-	/**
-	 * This test was retrospectively added based on current implementation. TODO a manual
-	 * calculation and verify that this test gives the correct result.
-	 */
-	public void test_projectGeoPoint_3() {
-		final double lat = 52.370816d;
-		final double lon = 9.735936d;
-		final int zoom = 8;
-
-		final Point point = Mercator.projectGeoPoint(lat, lon, zoom, null);
-		final Point point2 = TileSystem.LatLongToPixelXY(lat, lon, zoom - 8, null);
-
-		assertEquals(point.x, point2.x, 1);
-		assertEquals(point.y, point2.y, 1);
-
-		assertEquals("TODO describe test", 84, point.y);
-		assertEquals("TODO describe test", 134, point.x);
 	}
 
 	/**
