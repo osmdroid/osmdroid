@@ -736,9 +736,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		final int worldSize = TileSystem.MapSize(mZoomLevel);
-		x %= worldSize;
-		y %= worldSize;
+		final int worldSize_2 = TileSystem.MapSize(mZoomLevel) / 2;
+		while (x < -worldSize_2)
+			x += (worldSize_2 * 2);
+		while (x > worldSize_2)
+			x -= (worldSize_2 * 2);
+		while (y < -worldSize_2)
+			y += (worldSize_2 * 2);
+		while (y > worldSize_2)
+			y -= (worldSize_2 * 2);
 		super.scrollTo(x, y);
 
 		// do callback on listener
