@@ -14,6 +14,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
 import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
@@ -1055,7 +1056,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 *            just pass null if you do not have a Point to be 'recycled'.
 		 * @return the Point containing the <I>screen coordinates</I> of the GeoPoint passed.
 		 */
-		public Point toMapPixels(final GeoPoint in, final Point reuse) {
+		public Point toMapPixels(final IGeoPoint in, final Point reuse) {
 			final Point out = reuse != null ? reuse : new Point();
 
 			final Point coords = TileSystem.LatLongToPixelXY(in.getLatitudeE6() / 1E6,
