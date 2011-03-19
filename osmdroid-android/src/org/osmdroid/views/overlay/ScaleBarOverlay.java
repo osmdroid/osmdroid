@@ -252,7 +252,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				createScaleBarPicture(mapView);
 			}
 
-			c.getClipBounds(mBounds);
+			mBounds.set(projection.getScreenRect());
 			mBounds.offset((int) xOffset, (int) yOffset);
 
 			mBounds.set(mBounds.left, mBounds.top, mBounds.left + scaleBarPicture.getWidth(),

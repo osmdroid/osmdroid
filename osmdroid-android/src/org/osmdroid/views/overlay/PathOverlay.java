@@ -143,7 +143,7 @@ public class PathOverlay extends Overlay {
 		Point projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		final Rect clipBounds = pj.fromPixelsToProjected(canvas.getClipBounds());
+		final Rect clipBounds = pj.fromPixelsToProjected(pj.getScreenRect());
 
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
