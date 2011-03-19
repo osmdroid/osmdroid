@@ -6,16 +6,18 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOverlay<T> {
+public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
 
 	// ===========================================================
 	// Constants
@@ -37,7 +39,6 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	// Fields
 	// ===========================================================
 
-	protected final Point mMarkerFocusedHotSpot;
 	protected final int mMarkerFocusedBackgroundColor;
 	protected final Paint mMarkerBackgroundPaint, mDescriptionPaint, mTitlePaint;
 
@@ -52,31 +53,31 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	// Constructors
 	// ===========================================================
 
-	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
-			final OnItemGestureListener<T> aOnItemTapListener) {
-		this(ctx, aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
+	public ItemizedOverlayWithFocus(final Context ctx, final List<Item> aList,
+			final OnItemGestureListener<Item> aOnItemTapListener) {
+		this(aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
-	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList,
-			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
-		this(ctx, aList, null, null, null, null, NOT_SET, aOnItemTapListener, pResourceProxy);
+	public ItemizedOverlayWithFocus(final List<Item> aList,
+			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
+		this(aList, pResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default), null, NOT_SET,
+				aOnItemTapListener, pResourceProxy);
 	}
 
-	public ItemizedOverlayWithFocus(final Context ctx, final List<T> aList, final Drawable pMarker,
-			final Point pMarkerHotspot, final Drawable pMarkerFocusedBase,
-			final Point pMarkerFocusedHotSpot, final int pFocusedBackgroundColor,
-			final OnItemGestureListener<T> aOnItemTapListener, final ResourceProxy pResourceProxy) {
+	public ItemizedOverlayWithFocus(final List<Item> aList, final Drawable pMarker,
+			final Drawable pMarkerFocused, final int pFocusedBackgroundColor,
+			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 
-		super(ctx, aList, pMarker, pMarkerHotspot, aOnItemTapListener, pResourceProxy);
+		super(aList, pMarker, aOnItemTapListener, pResourceProxy);
 
 		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 
-		this.mMarkerFocusedBase = (pMarkerFocusedBase != null) ? pMarkerFocusedBase
-				: mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base);
-
-		this.mMarkerFocusedHotSpot = (pMarkerFocusedHotSpot != null) ? pMarkerFocusedHotSpot
-				: new Point(mMarkerFocusedBase.getIntrinsicWidth() / 2,
-						mMarkerFocusedBase.getIntrinsicHeight());
+		if (pMarkerFocused == null) {
+			this.mMarkerFocusedBase = boundToHotspot(
+					mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base),
+					HotspotPlace.BOTTOM_CENTER);
+		} else
+			this.mMarkerFocusedBase = pMarkerFocused;
 
 		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET) ? pFocusedBackgroundColor
 				: DEFAULTMARKER_BACKGROUNDCOLOR;
@@ -95,7 +96,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	// Getter & Setter
 	// ===========================================================
 
-	public T getFocusedItem() {
+	public Item getFocusedItem() {
 		if (this.mFocusedItemIndex == NOT_SET) {
 			return null;
 		}
@@ -110,7 +111,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		this.mFocusedItemIndex = NOT_SET;
 	}
 
-	public void setFocusedItem(final T pItem) {
+	public void setFocusedItem(final Item pItem) {
 		final int indexFound = super.mItemList.indexOf(pItem);
 		if (indexFound < 0) {
 			throw new IllegalArgumentException();
@@ -128,13 +129,15 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 	// ===========================================================
 
 	@Override
-	protected boolean onSingleTapUpHelper(final int index, final T item, final MapView mapView) {
+	protected boolean onSingleTapUpHelper(final int index, final Item item, final MapView mapView) {
 		if (this.mFocusItemsOnTap) {
 			this.mFocusedItemIndex = index;
 			mapView.postInvalidate();
 		}
 		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
 	}
+
+	private final Rect mRect = new Rect();
 
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
@@ -150,25 +153,17 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		}
 
 		// get focused item's preferred marker & hotspot
-		final T focusedItem = super.mItemList.get(this.mFocusedItemIndex);
+		final Item focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 		Drawable markerFocusedBase = focusedItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
-		Point markerFocusedHotspot = focusedItem
-				.getMarkerHotspot(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (markerFocusedBase == null) {
 			markerFocusedBase = this.mMarkerFocusedBase;
 		}
-		if (markerFocusedHotspot == null) {
-			markerFocusedHotspot = this.mMarkerFocusedHotSpot;
-		}
 
 		/* Calculate and set the bounds of the marker. */
-		final int markerFocusedWidth = (int) (markerFocusedBase.getIntrinsicWidth() * mScale);
-		final int markerFocusedHeight = (int) (markerFocusedBase.getIntrinsicHeight() * mScale);
-		final int left = this.mFocusedScreenCoords.x - (int) (markerFocusedHotspot.x * mScale);
-		final int right = left + markerFocusedWidth;
-		final int top = this.mFocusedScreenCoords.y - (int) (markerFocusedHotspot.y * mScale);
-		final int bottom = top + markerFocusedHeight;
-		markerFocusedBase.setBounds(left, top, right, bottom);
+		osmv.getProjection().toMapPixels(focusedItem.mGeoPoint, mFocusedScreenCoords);
+
+		markerFocusedBase.copyBounds(mRect);
+		mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);
 
 		/* Strings of the OverlayItem, we need. */
 		final String itemTitle = (focusedItem.mTitle == null) ? UNKNOWN : focusedItem.mTitle;
@@ -233,10 +228,10 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		final int descWidth = Math.min(maxWidth, DESCRIPTION_MAXWIDTH);
 
 		/* Calculate the bounds of the Description box that needs to be drawn. */
-		final int descBoxLeft = left - descWidth / 2 - DESCRIPTION_BOX_PADDING + markerFocusedWidth
-				/ 2;
+		final int descBoxLeft = mRect.left - descWidth / 2 - DESCRIPTION_BOX_PADDING
+				+ mRect.width() / 2;
 		final int descBoxRight = descBoxLeft + descWidth + 2 * DESCRIPTION_BOX_PADDING;
-		final int descBoxBottom = top;
+		final int descBoxBottom = mRect.top;
 		final int descBoxTop = descBoxBottom - DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT
 				- (lines.length + 1) * DESCRIPTION_LINE_HEIGHT /* +1 because of the title. */
 				- 2 * DESCRIPTION_BOX_PADDING;
@@ -268,21 +263,7 @@ public class ItemizedOverlayWithFocus<T extends OverlayItem> extends ItemizedOve
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
-		markerFocusedBase.draw(c);
-	}
-
-	/**
-	 * Actual drawing of focus item will take place in onDrawFinished.
-	 */
-	@Override
-	protected void onDrawItem(final Canvas c, final int index, final Point screenCoords) {
-		if (this.mFocusedItemIndex != NOT_SET && index == this.mFocusedItemIndex) {
-			// Because we are reusing the screencoords passed here, we cannot simply store the
-			// reference.
-			this.mFocusedScreenCoords.set(screenCoords.x, screenCoords.y);
-		} else {
-			super.onDrawItem(c, index, screenCoords);
-		}
+		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false);
 	}
 
 	// ===========================================================

@@ -11,6 +11,7 @@ import org.osmdroid.views.util.constants.OverlayConstants;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -45,6 +46,7 @@ public abstract class Overlay implements OverlayConstants {
 
 	protected final ResourceProxy mResourceProxy;
 	protected final float mScale;
+	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
 
 	// ===========================================================
@@ -254,6 +256,22 @@ public abstract class Overlay implements OverlayConstants {
 	 */
 	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
 		return false;
+	}
+
+	/**
+	 * Convenience method to draw a Drawable at an offset. x and y are pixel coordinates. You can
+	 * find appropriate coordinates from latitude/longitude using the MapView.getProjection() method
+	 * on the MapView passed to you in draw(Canvas, MapView, boolean).
+	 * 
+	 * @param shadow
+	 *            If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
+	 */
+	protected synchronized static void drawAt(android.graphics.Canvas canvas,
+			android.graphics.drawable.Drawable drawable, int x, int y, boolean shadow) {
+		drawable.copyBounds(mRect);
+		drawable.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
+		drawable.draw(canvas);
+		drawable.setBounds(mRect);
 	}
 
 	// ===========================================================

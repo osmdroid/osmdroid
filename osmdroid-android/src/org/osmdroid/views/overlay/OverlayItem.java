@@ -1,7 +1,6 @@
 // Created by plusminus on 00:02:58 - 03.10.2008
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
@@ -26,23 +25,25 @@ public class OverlayItem {
 
 	protected static final Point DEFAULT_MARKER_SIZE = new Point(26, 94);
 
+	/**
+	 * Indicates a hotspot for an area. This is where the origin (0,0) of a point will be located
+	 * relative to the area. In otherwords this acts as an offset. NONE indicates that no adjustment
+	 * should be made.
+	 */
 	public enum HotspotPlace {
-		CUSTOM, // indicates the mMarker is set by the user
-		CENTER, BOTTOM_CENTER, // default
-		TOP_CENTER, RIGHT_CENTER, LEFT_CENTER, UPPER_RIGHT_CORNER, LOWER_RIGHT_CORNER, UPPER_LEFT_CORNER, LOWER_LEFT_CORNER
+		NONE, CENTER, BOTTOM_CENTER, TOP_CENTER, RIGHT_CENTER, LEFT_CENTER, UPPER_RIGHT_CORNER, LOWER_RIGHT_CORNER, UPPER_LEFT_CORNER, LOWER_LEFT_CORNER
 	}
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	public final long mKey;
+	public final String mUid;
 	public final String mTitle;
 	public final String mDescription;
 	public final GeoPoint mGeoPoint;
 	protected Drawable mMarker;
-	protected Point mMarkerHotspot;
-	protected HotspotPlace mStdHotspotPlace;
+	protected HotspotPlace mHotspotPlace;
 
 	// ===========================================================
 	// Constructors
@@ -56,22 +57,22 @@ public class OverlayItem {
 	 * @param aGeoPoint
 	 */
 	public OverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
-		this(-1L, aTitle, aDescription, aGeoPoint);
+		this(null, aTitle, aDescription, aGeoPoint);
 	}
 
-	public OverlayItem(final long aKey, final String aTitle, final String aDescription,
+	public OverlayItem(final String aUid, final String aTitle, final String aDescription,
 			final GeoPoint aGeoPoint) {
 		this.mTitle = aTitle;
 		this.mDescription = aDescription;
 		this.mGeoPoint = aGeoPoint;
-		this.mKey = aKey;
+		this.mUid = aUid;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	public long getKey() {
-		return mKey;
+	public String getUid() {
+		return mUid;
 	}
 
 	public String getTitle() {
@@ -106,28 +107,19 @@ public class OverlayItem {
 
 		// set marker state appropriately
 		setState(mMarker, stateBitset);
-		this.deriveHotspot();
 		return mMarker;
-	}
-
-	public Point getMarkerHotspot(final int stateBitset) {
-		return (mMarkerHotspot == null) ? null : mMarkerHotspot;
 	}
 
 	public void setMarker(final Drawable marker) {
 		this.mMarker = marker;
-		this.deriveHotspot();
 	}
 
-	public void setMarkerHotspot(final Point mMarkerHotspot) {
-		this.mMarkerHotspot = mMarkerHotspot;
-		this.mStdHotspotPlace = HotspotPlace.CUSTOM;
+	public void setMarkerHotspot(final HotspotPlace place) {
+		this.mHotspotPlace = (place == null) ? HotspotPlace.BOTTOM_CENTER : place;
 	}
 
-	public Point setMarkerHotspotPlace(final HotspotPlace place) {
-		this.mStdHotspotPlace = (place == null) ? HotspotPlace.BOTTOM_CENTER : place;
-		this.deriveHotspot();
-		return this.mMarkerHotspot;
+	public HotspotPlace getMarkerHotspot() {
+		return this.mHotspotPlace;
 	}
 
 	// ===========================================================
@@ -144,48 +136,16 @@ public class OverlayItem {
 	 * Drawable.setState(int[])}.
 	 */
 	public static void setState(final Drawable drawable, final int stateBitset) {
-		final int[] stateArray = new int[] { -stateBitset & ITEM_STATE_PRESSED_MASK,
-				stateBitset & ITEM_STATE_SELECTED_MASK, stateBitset & ITEM_STATE_FOCUSED_MASK, };
-		drawable.setState(stateArray);
-	}
+		final int[] states = new int[3];
+		int index = 0;
+		if ((stateBitset & ITEM_STATE_PRESSED_MASK) > 0)
+			states[index++] = android.R.attr.state_pressed;
+		if ((stateBitset & ITEM_STATE_SELECTED_MASK) > 0)
+			states[index++] = android.R.attr.state_selected;
+		if ((stateBitset & ITEM_STATE_FOCUSED_MASK) > 0)
+			states[index++] = android.R.attr.state_focused;
 
-	/**
-	 * This is a factory method. The interaction between the hot-spot-place and the hot-spot is
-	 * somewhat ambiguous. Generally either one or the other will be specified and the other will be
-	 * set appropriately. The ambiguity arises in the case where they are both specified.
-	 * 
-	 * @param pMarker
-	 * @param pHotspot
-	 * @param pHotspotPlace
-	 * @param pResourceProxy
-	 * @return a map item with all unspecified values set to reasonable defaults.
-	 */
-	public static OverlayItem getDefaultItem(final Drawable pMarker, final Point pHotspot,
-			final HotspotPlace pHotspotPlace, final ResourceProxy pResourceProxy) {
-		final OverlayItem that = new OverlayItem("<default>", "used when no marker is specified",
-				new GeoPoint(0.0, 0.0));
-		that.mMarker = (pMarker != null) ? pMarker : pResourceProxy
-				.getDrawable(ResourceProxy.bitmap.marker_default);
-
-		if (pHotspot == null) {
-			if (pHotspotPlace == null) {
-				that.deriveHotspot();
-				return that;
-			} else {
-				that.mStdHotspotPlace = pHotspotPlace;
-				that.deriveHotspot();
-				return that;
-			}
-		} else {
-			that.mMarkerHotspot = pHotspot;
-			if (pHotspotPlace == null) {
-				that.mStdHotspotPlace = HotspotPlace.CUSTOM;
-				return that;
-			} else {
-				that.mStdHotspotPlace = pHotspotPlace;
-				return that;
-			}
-		}
+		drawable.setState(states);
 	}
 
 	public Drawable getDrawable() {
@@ -198,53 +158,6 @@ public class OverlayItem {
 
 	public int getHeight() {
 		return this.mMarker.getIntrinsicHeight();
-	}
-
-	/**
-	 * Select one of several standard positions for the hot spot.
-	 */
-	protected Point deriveHotspot() {
-		if (this.mStdHotspotPlace == null)
-			this.mStdHotspotPlace = HotspotPlace.CUSTOM;
-		final Point markerSize = (this.mMarker == null) ? DEFAULT_MARKER_SIZE : new Point(
-				this.getWidth(), this.getHeight());
-
-		switch (this.mStdHotspotPlace) {
-		case CUSTOM:
-			if (this.mMarkerHotspot != null)
-				break;
-			this.mStdHotspotPlace = HotspotPlace.BOTTOM_CENTER;
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y);
-			break;
-		case CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y / 2);
-			break;
-		case BOTTOM_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, markerSize.y);
-			break;
-		case TOP_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x / 2, 0);
-			break;
-		case RIGHT_CENTER:
-			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y / 2);
-			break;
-		case LEFT_CENTER:
-			this.mMarkerHotspot = new Point(0, markerSize.y / 2);
-			break;
-		case UPPER_RIGHT_CORNER:
-			this.mMarkerHotspot = new Point(markerSize.x, 0);
-			break;
-		case LOWER_RIGHT_CORNER:
-			this.mMarkerHotspot = new Point(markerSize.x, markerSize.y);
-			break;
-		case UPPER_LEFT_CORNER:
-			this.mMarkerHotspot = new Point(0, 0);
-			break;
-		case LOWER_LEFT_CORNER:
-			this.mMarkerHotspot = new Point(0, markerSize.y);
-			break;
-		}
-		return this.mMarkerHotspot;
 	}
 
 	// ===========================================================

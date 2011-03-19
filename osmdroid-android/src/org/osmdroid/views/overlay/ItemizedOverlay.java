@@ -1,113 +1,105 @@
 // Created by plusminus on 23:18:23 - 02.10.2008
 package org.osmdroid.views.overlay;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
  * as last and therefore the 'topmost' marker. It also gets checked for onTap first. This class is
  * generic, because you then you get your custom item-class passed back in onTap().
  * 
+ * @author Marc Kurtz
  * @author Nicolas Gramlich
  * @author Theodore Hong
  * @author Fred Eisele
  * 
- * @param <T>
+ * @param <Item>
  */
-public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
+public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements
+		Overlay.Snappable {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	static final boolean DEBUG_GRAPHICS = false;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	protected OnItemGestureListener<T> mOnItemGestureListener;
-	protected GestureDetector mGestureDetector;
-	protected final List<T> mItemList;
-	protected final OverlayItem mDefaultItem;
-	private int mDrawnItemsLimit = Integer.MAX_VALUE;
+	protected final Drawable mDefaultMarker;
+	private final ArrayList<Item> mInternalItemList;
+	private final Rect mRect = new Rect();
+	private final Point mCurScreenCoords = new Point();
+	private boolean mDrawFocusedItem = true;
+	private Item mFocusedItem;
+
+	// ===========================================================
+	// Abstract methods
+	// ===========================================================
+
+	/**
+	 * Method by which subclasses create the actual Items. This will only be called from populate()
+	 * we'll cache them for later use.
+	 */
+	protected abstract Item createItem(int i);
+
+	/**
+	 * The number of items in this overlay.
+	 */
+	public abstract int size();
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public ItemizedOverlay(final Context ctx, final List<T> aList,
-			final OnItemGestureListener<T> aOnItemGestureListener) {
-		this(ctx, aList, aOnItemGestureListener, new DefaultResourceProxyImpl(ctx));
-	}
-
-	public ItemizedOverlay(final Context ctx, final List<T> aList,
-			final OnItemGestureListener<T> aOnItemGestureListener,
-			final ResourceProxy pResourceProxy) {
-		this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);
-	}
-
-	public ItemizedOverlay(final Context ctx, final List<T> aList, final Drawable pMarker,
-			final Point pMarkerHotspot, final OnItemGestureListener<T> aOnItemGestureListener,
-			final ResourceProxy pResourceProxy) {
-		this(ctx, aList, pMarker, pMarkerHotspot, null, aOnItemGestureListener, pResourceProxy);
-	}
-
-	public ItemizedOverlay(final Context ctx, final List<T> aList, final Drawable pMarker,
-			final Point pMarkerHotspot, final OverlayItem.HotspotPlace pHotSpotPlace,
-			final OnItemGestureListener<T> aOnItemGestureListener,
-			final ResourceProxy pResourceProxy) {
+	public ItemizedOverlay(final Drawable pDefaultMarker, final ResourceProxy pResourceProxy) {
 
 		super(pResourceProxy);
 
-		assert (ctx != null);
-		assert (aList != null);
+		if (pDefaultMarker == null)
+			throw new IllegalArgumentException("You must pass a default marker to ItemizedOverlay.");
 
-		this.mDefaultItem = OverlayItem.getDefaultItem(pMarker, pMarkerHotspot, pHotSpotPlace,
-				pResourceProxy);
+		this.mDefaultMarker = pDefaultMarker;
 
-		this.mOnItemGestureListener = aOnItemGestureListener;
-
-		// Add one sample item.
-		this.mItemList = aList;
-	}
-
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	public int getDrawnItemsLimit() {
-		return this.mDrawnItemsLimit;
-	}
-
-	public void setDrawnItemsLimit(final int aLimit) {
-		this.mDrawnItemsLimit = aLimit;
+		mInternalItemList = new ArrayList<Item>();
 	}
 
 	// ===========================================================
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
 
-	private static final Paint bullseyePaint = new Paint();
-	static {
-		bullseyePaint.setStyle(Paint.Style.STROKE);
-		bullseyePaint.setColor(Color.RED);
-	}
-
+	/**
+	 * Draw a marker on each of our items. populate() must have been called first.<br/>
+	 * <br/>
+	 * The marker will be drawn twice for each Item in the Overlay--once in the shadow phase, skewed
+	 * and darkened, then again in the non-shadow phase. The bottom-center of the marker will be
+	 * aligned with the geographical coordinates of the Item.<br/>
+	 * <br/>
+	 * The order of drawing may be changed by overriding the getIndexToDraw(int) method. An item may
+	 * provide an alternate marker via its OverlayItem.getMarker(int) method. If that method returns
+	 * null, the default marker is used.<br/>
+	 * <br/>
+	 * The focused item is always drawn last, which puts it visually on top of the other items.<br/>
+	 * 
+	 * @param canvas
+	 *            the Canvas upon which to draw. Note that this may already have a transformation
+	 *            applied, so be sure to leave it the way you found it
+	 * @param mapView
+	 *            the MapView that requested the draw. Use MapView.getProjection() to convert
+	 *            between on-screen pixels and latitude/longitude pairs
+	 * @param shadow
+	 *            if true, draw the shadow layer. If false, draw the overlay contents.
+	 */
 	@Override
 	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
@@ -116,194 +108,174 @@ public class ItemizedOverlay<T extends OverlayItem> extends Overlay {
 		}
 
 		final Projection pj = mapView.getProjection();
-		final Point curScreenCoords = new Point();
-		int limit = this.mItemList.size() - 1;
-		if (limit > this.mDrawnItemsLimit) {
-			limit = this.mDrawnItemsLimit;
-		}
+		final int size = this.mInternalItemList.size() - 1;
 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-		for (int i = limit; i >= 0; i--) {
-			final T item = this.mItemList.get(i);
-			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
+		for (int i = size; i >= 0; i--) {
+			final Item item = getItem(i);
+			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
 
-			onDrawItem(canvas, i, curScreenCoords);
+			onDrawItem(canvas, item, mCurScreenCoords);
 		}
-		// indicate the place touched with a bullseye
-		if (DEBUG_GRAPHICS) {
-			if (touchPoint != null) {
-				canvas.drawCircle(touchPoint.x, touchPoint.y, 20, bullseyePaint);
-			}
-		}
-	}
-
-	/**
-	 * Each of these methods performs a item sensitive check. If the item is located its
-	 * corresponding method is called. The result of the call is returned.
-	 * 
-	 * Helper methods are provided so that child classes may more easily override behavior without
-	 * resorting to overriding the ItemGestureListener methods.
-	 */
-	@Override
-	public boolean onSingleTapUp(final MotionEvent event, final MapView mapView) {
-		return (activateSelectedItems(event, mapView, new ActiveItem() {
-			@Override
-			public boolean run(final int index) {
-				final ItemizedOverlay<T> that = ItemizedOverlay.this;
-				if (that.mOnItemGestureListener == null) {
-					return false;
-				}
-				return onSingleTapUpHelper(index, that.mItemList.get(index), mapView);
-			}
-		})) ? true : super.onSingleTapUp(event, mapView);
-	}
-
-	protected boolean onSingleTapUpHelper(final int index, final T item, final MapView mapView) {
-		return this.mOnItemGestureListener.onItemSingleTapUp(index, item);
-	}
-
-	@Override
-	public boolean onLongPress(final MotionEvent event, final MapView mapView) {
-		return (activateSelectedItems(event, mapView, new ActiveItem() {
-			@Override
-			public boolean run(final int index) {
-				final ItemizedOverlay<T> that = ItemizedOverlay.this;
-				if (that.mOnItemGestureListener == null) {
-					return false;
-				}
-				return onLongPressHelper(index, that.mItemList.get(index));
-			}
-		})) ? true : super.onLongPress(event, mapView);
-	}
-
-	protected boolean onLongPressHelper(final int index, final T item) {
-		return this.mOnItemGestureListener.onItemLongPress(index, item);
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
 
-	private static final Paint boudaryPaint = new Paint();
-	static {
-		boudaryPaint.setStyle(Paint.Style.STROKE);
-		boudaryPaint.setColor(Color.BLUE);
+	/**
+	 * Utility method to perform all processing on a new ItemizedOverlay. Subclasses provide Items
+	 * through the createItem(int) method. The subclass should call this as soon as it has data,
+	 * before anything else gets called.
+	 */
+	protected final void populate() {
+		int size = size();
+		mInternalItemList.clear();
+		mInternalItemList.ensureCapacity(size);
+		for (int a = 0; a < size; a++) {
+			mInternalItemList.add(createItem(a));
+		}
 	}
 
 	/**
+	 * Returns the Item at the given index.
+	 * 
+	 * @param position
+	 *            the position of the item to return
+	 * @return the Item of the given index.
+	 */
+	public final Item getItem(int position) {
+		return mInternalItemList.get(position);
+	}
+
+	/**
+	 * Draws an item located at the provided screen coordinates to the canvas.
 	 * 
 	 * @param canvas
 	 *            what the item is drawn upon
-	 * @param index
-	 *            which item is to be drawn
+	 * @param item
+	 *            the item to be drawn
 	 * @param curScreenCoords
+	 *            the screen coordinates of the item
 	 */
-	protected void onDrawItem(final Canvas canvas, final int index, final Point curScreenCoords) {
-		// get this item's preferred marker & hotspot
-		final T item = this.mItemList.get(index);
+	protected void onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords) {
+		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
+				: 0);
+		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
+				.getMarker(state);
+		final HotspotPlace hotspot = item.getMarkerHotspot();
 
-		final Drawable marker = (item.getMarker(0) == null) ? this.mDefaultItem.getMarker(0) : item
-				.getMarker(0);
+		boundToHotspot(marker, hotspot);
 
-		final Rect rect = new Rect();
-		getItemBoundingRetangle(item, rect, curScreenCoords);
 		// draw it
-		marker.setBounds(rect);
-		marker.draw(canvas);
-		// the following lines place objects on the screen indicating the item boundary.
-		if (DEBUG_GRAPHICS) {
-			if (touchPoint != null) {
-				canvas.drawRect(rect, boudaryPaint);
-			}
-		}
+		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
+	}
+
+	private Drawable getDefaultMarker(int state) {
+		OverlayItem.setState(mDefaultMarker, state);
+		return mDefaultMarker;
 	}
 
 	/**
-	 * When a content sensitive action is performed the content item needs to be identified. This
-	 * method does that and then performs the assigned task on that item.
-	 * 
-	 * @param event
-	 * @param mapView
-	 * @param task
-	 * @return true if event is handled false otherwise
-	 */
-	private boolean activateSelectedItems(final MotionEvent event, final MapView mapView,
-			final ActiveItem task) {
-		final Projection pj = mapView.getProjection();
-		final int eventX = (int) event.getX();
-		final int eventY = (int) event.getY();
-
-		/* These objects are created to avoid construct new ones every cycle. */
-		final Point touchScreenCoords = new Point();
-		pj.fromMapPixels(eventX, eventY, touchScreenCoords);
-
-		touchPoint = touchScreenCoords;
-
-		final Rect markerScreenBounds = new Rect();
-		final Point curScreenCoords = new Point();
-		for (int i = 0; i < this.mItemList.size(); ++i) {
-			final T item = this.mItemList.get(i);
-			pj.toMapPixels(item.mGeoPoint, curScreenCoords);
-
-			getItemBoundingRetangle(item, markerScreenBounds, curScreenCoords);
-
-			if (!markerScreenBounds.contains(touchScreenCoords.x, touchScreenCoords.y)) {
-				continue;
-			}
-			if (task.run(i)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private Point touchPoint = null;
-
-	/**
-	 * Finds the bounding rectangle for the object in current projection.
+	 * See if a given hit point is within the bounds of an item's marker. Override to modify the way
+	 * an item is hit tested. The hit point is relative to the marker's bounds. The default
+	 * implementation just checks to see if the hit point is within the touchable bounds of the
+	 * marker.
 	 * 
 	 * @param item
-	 * @param rect
-	 * @return
+	 *            the item to hit test
+	 * @param marker
+	 *            the item's marker
+	 * @param hitX
+	 *            x coordinate of point to check
+	 * @param hitY
+	 *            y coordinate of point to check
+	 * @return true if the hit point is within the marker
 	 */
-	private Rect getItemBoundingRetangle(final T item, final Rect rect, final Point ctr) {
-		final Drawable marker = (item.getMarker(0) == null) ? this.mDefaultItem.getMarker(0) : item
-				.getMarker(0);
-		final Point markerHotspot = (item.getMarkerHotspot(0) == null) ? this.mDefaultItem
-				.getMarkerHotspot(0) : item.getMarkerHotspot(0);
-
-		// Scale the markerHotspot
-		markerHotspot.set((int) (markerHotspot.x * mScale), (int) (markerHotspot.y * mScale));
-
-		// calculate bounding rectangle
-		final int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
-		final int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
-		final int left = ctr.x - markerHotspot.x;
-		final int right = left + markerWidth;
-		final int top = ctr.y - markerHotspot.y;
-		final int bottom = top + markerHeight;
-
-		rect.set(left, top, right, bottom);
-		return rect;
+	protected boolean hitTest(Item item, android.graphics.drawable.Drawable marker, int hitX,
+			int hitY) {
+		return marker.getBounds().contains(hitX, hitY);
 	}
-
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
 
 	/**
-	 * When the item is touched one of these methods may be invoked depending on the type of touch.
-	 * 
-	 * Each of them returns true if the event was completely handled.
+	 * Set whether or not to draw the focused item. The default is to draw it, but some clients may
+	 * prefer to draw the focused item themselves.
 	 */
-	public static interface OnItemGestureListener<T> {
-		public boolean onItemSingleTapUp(final int index, final T item);
-
-		public boolean onItemLongPress(final int index, final T item);
+	public void setDrawFocusedItem(boolean drawFocusedItem) {
+		mDrawFocusedItem = drawFocusedItem;
 	}
 
-	public static interface ActiveItem {
-		public boolean run(final int aIndex);
+	/**
+	 * If the given Item is found in the overlay, force it to be the current focus-bearer. Any
+	 * registered {@link ItemizedOverlay#OnFocusChangeListener} will be notified. This does not move
+	 * the map, so if the Item isn't already centered, the user may get confused. If the Item is not
+	 * found, this is a no-op. You can also pass null to remove focus.
+	 */
+	public void setFocus(Item item) {
+		mFocusedItem = item;
 	}
 
+	/**
+	 * 
+	 * @return the currently-focused item, or null if no item is currently focused.
+	 */
+	public Item getFocus() {
+		return mFocusedItem;
+	}
+
+	/**
+	 * Adjusts a drawable's bounds so that (0,0) is a pixel in the location described by the hotspot
+	 * parameter. Useful for "pin"-like graphics. For convenience, returns the same drawable that
+	 * was passed in.
+	 * 
+	 * @param marker
+	 *            the drawable to adjust
+	 * @param hotspot
+	 *            the hotspot for the drawable
+	 * @return the same drawable that was passed in.
+	 */
+	protected synchronized Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
+		int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
+		int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
+
+		mRect.set(0, 0, 0 + markerWidth, 0 + markerHeight);
+
+		if (hotspot == null)
+			hotspot = HotspotPlace.BOTTOM_CENTER;
+
+		switch (hotspot) {
+		default:
+		case NONE:
+			break;
+		case CENTER:
+			mRect.offset(-markerWidth / 2, -markerHeight / 2);
+			break;
+		case BOTTOM_CENTER:
+			mRect.offset(-markerWidth / 2, -markerHeight);
+			break;
+		case TOP_CENTER:
+			mRect.offset(-markerWidth / 2, 0);
+			break;
+		case RIGHT_CENTER:
+			mRect.offset(-markerWidth, -markerHeight / 2);
+			break;
+		case LEFT_CENTER:
+			mRect.offset(0, -markerHeight / 2);
+			break;
+		case UPPER_RIGHT_CORNER:
+			mRect.offset(-markerWidth, 0);
+			break;
+		case LOWER_RIGHT_CORNER:
+			mRect.offset(-markerWidth, -markerHeight);
+			break;
+		case UPPER_LEFT_CORNER:
+			mRect.offset(0, 0);
+			break;
+		case LOWER_LEFT_CORNER:
+			mRect.offset(0, markerHeight);
+			break;
+		}
+		marker.setBounds(mRect);
+		return marker;
+	}
 }
