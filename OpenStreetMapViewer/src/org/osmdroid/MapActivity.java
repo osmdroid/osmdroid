@@ -165,8 +165,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 			return true;
 
 		default:
-			return mOsmv.getOverlayManager().onMenuItemSelected(featureId, item, MENU_LAST_ID,
-					mOsmv);
+			return mOsmv.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mOsmv);
 		}
 	}
 
