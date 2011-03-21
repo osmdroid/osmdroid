@@ -8,6 +8,7 @@ import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -74,8 +75,8 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			this.mMyLocationOverlay = new ItemizedOverlay<OverlayItem>(this, items,
-					new ItemizedOverlay.OnItemGestureListener<OverlayItem>() {
+			this.mMyLocationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 							Toast.makeText(
