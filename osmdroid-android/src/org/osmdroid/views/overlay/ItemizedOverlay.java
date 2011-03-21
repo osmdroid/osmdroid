@@ -40,7 +40,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	private final ArrayList<Item> mInternalItemList;
 	private final Rect mRect = new Rect();
 	private final Point mCurScreenCoords = new Point();
-	private boolean mDrawFocusedItem = true;
+	protected boolean mDrawFocusedItem = true;
 	private Item mFocusedItem;
 
 	// ===========================================================
