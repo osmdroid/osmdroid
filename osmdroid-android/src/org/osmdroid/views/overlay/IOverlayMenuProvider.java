@@ -12,8 +12,8 @@ public interface IOverlayMenuProvider {
 	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView);
 
-	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
-			final int pMenuIdOffset, final MapView pMapView);
+	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
+			final MapView pMapView);
 
 	/**
 	 * Can be used to signal to external callers that this Overlay should not be used for providing

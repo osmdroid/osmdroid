@@ -318,13 +318,13 @@ public class OverlayManager extends AbstractList<Overlay> {
 		return true;
 	}
 
-	public boolean onMenuItemSelected(final int featureId, final MenuItem item,
-			final int menuIdOffset, final MapView mapView) {
+	public boolean onOptionsItemSelected(final MenuItem item, final int menuIdOffset,
+			final MapView mapView) {
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if ((overlay instanceof IOverlayMenuProvider)
 					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()
-					&& ((IOverlayMenuProvider) overlay).onMenuItemSelected(featureId, item,
-							menuIdOffset, mapView)) {
+					&& ((IOverlayMenuProvider) overlay).onOptionsItemSelected(item, menuIdOffset,
+							mapView)) {
 				return true;
 			}
 		}
@@ -332,8 +332,8 @@ public class OverlayManager extends AbstractList<Overlay> {
 		if ((mTilesOverlay != null)
 				&& (mTilesOverlay instanceof IOverlayMenuProvider)
 				&& ((IOverlayMenuProvider) mTilesOverlay).isOptionsMenuEnabled()
-				&& ((IOverlayMenuProvider) mTilesOverlay).onMenuItemSelected(featureId, item,
-						menuIdOffset, mapView)) {
+				&& ((IOverlayMenuProvider) mTilesOverlay).onOptionsItemSelected(item, menuIdOffset,
+						mapView)) {
 			return true;
 		}
 

@@ -448,8 +448,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	@Override
-	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
-			final int pMenuIdOffset, final MapView pMapView) {
+	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
+			final MapView pMapView) {
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if (menuId == MENU_MY_LOCATION) {
 			if (this.isMyLocationEnabled()) {

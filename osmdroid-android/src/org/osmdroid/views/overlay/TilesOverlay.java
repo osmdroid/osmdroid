@@ -255,8 +255,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	@Override
-	public boolean onMenuItemSelected(final int pFeatureId, final MenuItem pItem,
-			final int pMenuIdOffset, final MapView pMapView) {
+	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
+			final MapView pMapView) {
 
 		final int menuId = pItem.getItemId() - pMenuIdOffset;
 		if ((menuId >= MENU_TILE_SOURCE_STARTING_ID)
