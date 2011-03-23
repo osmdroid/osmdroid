@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		package="org.osmdroid"
-		android:versionCode="4" android:versionName="3.0.3">
+		android:versionCode="5" android:versionName="3.0.4">
 
 	<uses-sdk android:minSdkVersion="3" android:targetSdkVersion="4" />
 	<supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
