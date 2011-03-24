@@ -1,8 +1,7 @@
 // Created by plusminus on 3:43:56 PM - Mar 6, 2009
-package org.andnav2.osm.mtp.util;
+package org.osmdroid.mtp.util;
 
 import java.io.File;
-
 
 public class FolderFileCounter {
 	// ===========================================================
@@ -28,7 +27,7 @@ public class FolderFileCounter {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * @return <code>true</code> on success, <code>false</code> otherwise.
 	 */
@@ -36,7 +35,7 @@ public class FolderFileCounter {
 		final File[] children = pFolder.listFiles();
 
 		int tmpCnt = 0;
-		for(File c : children){
+		for(final File c : children){
 			if(c.isDirectory()){
 				tmpCnt += getTotalRecursiveFileCount(c);
 			}else{

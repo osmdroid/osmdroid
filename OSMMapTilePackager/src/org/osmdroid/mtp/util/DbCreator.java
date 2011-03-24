@@ -1,4 +1,4 @@
-package org.andnav2.osm.mtp.util;
+package org.osmdroid.mtp.util;
 
 import java.io.File;
 import java.io.FileInputStream;

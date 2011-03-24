@@ -1,5 +1,5 @@
 // Created by plusminus on 2:17:46 AM - Mar 6, 2009
-package org.andnav2.osm.mtp.util;
+package org.osmdroid.mtp.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.osmdroid.tileprovider.util.StreamUtils;
-
 
 public class FolderZipper {
 	// ===========================================================

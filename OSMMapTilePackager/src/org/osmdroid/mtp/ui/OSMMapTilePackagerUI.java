@@ -1,6 +1,5 @@
 // Created by plusminus on 11:39:40 AM - Apr 8, 2009
-package org.andnav2.osm.mtp.ui;
-
+package org.osmdroid.mtp.ui;
 
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -8,9 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -26,7 +23,7 @@ public class OSMMapTilePackagerUI extends JFrame {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	private static final long serialVersionUID = 749039680990304151L;
 
 	// ===========================================================
@@ -49,19 +46,19 @@ public class OSMMapTilePackagerUI extends JFrame {
 	private final JLabel lblMaxZoom = new JLabel("MaxZoom:");
 	private final JSlider sliMinZoom = new JSlider();
 	private final JSlider sliMaxZoom = new JSlider();
-	
+
 	private final JLabel lblNorth = new JLabel("North:");
 	private final JTextField txtNorth = new JTextField();
-	
+
 	private final JLabel lblEast = new JLabel("East:");
 	private final JTextField txtEast = new JTextField();
-	
+
 	private final JLabel lblSouth = new JLabel("South:");
 	private final JTextField txtSouth = new JTextField();
-	
+
 	private final JLabel lblWest = new JLabel("West:");
 	private final JTextField txtWest = new JTextField();
-	
+
 	private final JLabel lblFileAppendix = new JLabel("FileAppendix:");
 	private final JTextField txtFileAppendix = new JTextField(".andnav");
 	private final JCheckBox chkForce = new JCheckBox("Force");
@@ -70,8 +67,8 @@ public class OSMMapTilePackagerUI extends JFrame {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public static void main(String[] args) {
+
+	public static void main(final String[] args) {
 		final JFrame j = new OSMMapTilePackagerUI();
 		j.setPreferredSize(new Dimension(440,290));
 		j.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -82,8 +79,8 @@ public class OSMMapTilePackagerUI extends JFrame {
 	public OSMMapTilePackagerUI() {
 		mainPanel = new JPanel();
 		this.add(this.mainPanel);
-		GridBagLayout gbpanel0 = new GridBagLayout();
-		GridBagConstraints gbcpanel0 = new GridBagConstraints();
+		final GridBagLayout gbpanel0 = new GridBagLayout();
+		final GridBagConstraints gbcpanel0 = new GridBagConstraints();
 		mainPanel.setLayout(gbpanel0);
 
 		gbcpanel0.gridx = 0;
@@ -130,12 +127,12 @@ public class OSMMapTilePackagerUI extends JFrame {
 		gbpanel0.setConstraints(cmdDestinationBrowse, gbcpanel0);
 		cmdDestinationBrowse.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser();
+			public void actionPerformed(final ActionEvent e) {
+				final JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				jfc.setAcceptAllFileFilterUsed(true);
 
-				int result = jfc.showSaveDialog(null);
+				final int result = jfc.showSaveDialog(null);
 				if(result == JFileChooser.APPROVE_OPTION){
 					final String absolutePath = jfc.getSelectedFile().getAbsolutePath();
 					if(absolutePath.endsWith(".zip")){
@@ -181,16 +178,16 @@ public class OSMMapTilePackagerUI extends JFrame {
 		gbpanel0.setConstraints(cmdTempFolderBrowse, gbcpanel0);
 		cmdTempFolderBrowse.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc = new JFileChooser();
+			public void actionPerformed(final ActionEvent e) {
+				final JFileChooser jfc = new JFileChooser();
 				jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				jfc.setAcceptAllFileFilterUsed(false);
 
-				int result = jfc.showSaveDialog(null);
+				final int result = jfc.showSaveDialog(null);
 				if(result == JFileChooser.APPROVE_OPTION){
 					txtTempFolder.setText(jfc.getSelectedFile().getAbsolutePath());
 				}
-			}		
+			}
 		});
 		mainPanel.add(cmdTempFolderBrowse);
 
@@ -216,20 +213,20 @@ public class OSMMapTilePackagerUI extends JFrame {
 		gbpanel0.setConstraints(cmdURLTest, gbcpanel0);
 		cmdURLTest.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				if(Desktop.isDesktopSupported()){
 					try {
 						Desktop.getDesktop().browse(new URI(String.format(txtURL.getText(), 0,0,0)));
-					} catch (Throwable t) {
+					} catch (final Throwable t) {
 						t.printStackTrace();
 					}
 				}else{
 					JOptionPane.showMessageDialog(null, "Could not open browser.");
-				}	
+				}
 			}
 		});
 		mainPanel.add(cmdURLTest);
-		
+
 		gbcpanel0.gridx = 0;
 		gbcpanel0.gridy = 3;
 		gbcpanel0.gridwidth = 1;
@@ -328,7 +325,7 @@ public class OSMMapTilePackagerUI extends JFrame {
 		gbcpanel0.anchor = GridBagConstraints.NORTH;
 		gbpanel0.setConstraints(lblSouth, gbcpanel0);
 		mainPanel.add(lblSouth);
-		
+
 		gbcpanel0.gridx = 1;
 		gbcpanel0.gridy = 7;
 		gbcpanel0.gridwidth = 2;

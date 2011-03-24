@@ -1,5 +1,5 @@
 // Created by plusminus on 9:34:16 PM - Mar 5, 2009
-package org.andnav2.osm.mtp.download;
+package org.osmdroid.mtp.download;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import org.andnav2.osm.mtp.adt.OSMTileInfo;
+import org.osmdroid.mtp.adt.OSMTileInfo;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 public class DownloadManager {

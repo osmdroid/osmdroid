@@ -1,13 +1,13 @@
 // Created by plusminus on 10:15:51 PM - Mar 5, 2009
-package org.andnav2.osm.mtp.util;
+package org.osmdroid.mtp.util;
 
-import org.andnav2.osm.mtp.adt.OSMTileInfo;
+import org.osmdroid.mtp.adt.OSMTileInfo;
 
 public class Util {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-	
+
 	// ===========================================================
 	// Fields
 	// ===========================================================
@@ -27,7 +27,7 @@ public class Util {
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
 	/**
 	 * For a description see:
 	 * @see http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames

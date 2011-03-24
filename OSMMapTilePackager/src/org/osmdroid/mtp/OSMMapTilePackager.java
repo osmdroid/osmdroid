@@ -1,20 +1,19 @@
 // Created by plusminus on 9:22:20 PM - Mar 5, 2009
-package org.andnav2.osm.mtp;
+package org.osmdroid.mtp;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.andnav2.osm.mtp.adt.OSMTileInfo;
-import org.andnav2.osm.mtp.download.DownloadManager;
-import org.andnav2.osm.mtp.util.DbCreator;
-import org.andnav2.osm.mtp.util.FolderDeleter;
-import org.andnav2.osm.mtp.util.FolderFileCounter;
-import org.andnav2.osm.mtp.util.FolderZipper;
-import org.andnav2.osm.mtp.util.Util;
+import org.osmdroid.mtp.adt.OSMTileInfo;
+import org.osmdroid.mtp.download.DownloadManager;
+import org.osmdroid.mtp.util.DbCreator;
+import org.osmdroid.mtp.util.FolderDeleter;
+import org.osmdroid.mtp.util.FolderFileCounter;
+import org.osmdroid.mtp.util.FolderZipper;
+import org.osmdroid.mtp.util.Util;
 import org.osmdroid.util.GEMFFile;
-
 
 public class OSMMapTilePackager {
     // ===========================================================
@@ -32,9 +31,10 @@ public class OSMMapTilePackager {
     // Constructors
     // ===========================================================
 
-    public static void main(String[] args) {
-        if(args == null || args.length == 0)
-            printUsageAndExit();
+    public static void main(final String[] args) {
+        if(args == null || args.length == 0) {
+			printUsageAndExit();
+		}
 
         /* Parsing will only start if this variable was set. */
         FORCE = false;
@@ -127,18 +127,21 @@ public class OSMMapTilePackager {
                     }
                 }
             }
-        }catch(NumberFormatException nfe){
+        }catch(final NumberFormatException nfe){
             printUsageAndExit();
         }
 
-        if (tempFolder == null)
-        	printUsageAndExit();
-        
-        if (serverURL == null && !new File(tempFolder).exists())
-        	printUsageAndExit();
-        
-        if(north == null || south == null || east == null || west == null)
-            printUsageAndExit();
+        if (tempFolder == null) {
+			printUsageAndExit();
+		}
+
+        if (serverURL == null && !new File(tempFolder).exists()) {
+			printUsageAndExit();
+		}
+
+        if(north == null || south == null || east == null || west == null) {
+			printUsageAndExit();
+		}
 
         run(serverURL, destinationFile, tempFolder, threadCount, fileAppendix, minzoom, maxzoom, north, south, east, west);
     }
@@ -158,12 +161,13 @@ public class OSMMapTilePackager {
 
         if (pDestinationFile != null) {
             System.out.println("---------------------------");
-            if(pDestinationFile.endsWith(".zip"))
-            	runZipToFile(pTempFolder, pDestinationFile);
-            else if (pDestinationFile.endsWith(".gemf"))
-            	runCreateGEMFFile(pTempFolder, pDestinationFile);
-            else
-            	runCreateDb(pTempFolder, pDestinationFile);
+            if(pDestinationFile.endsWith(".zip")) {
+				runZipToFile(pTempFolder, pDestinationFile);
+			} else if (pDestinationFile.endsWith(".gemf")) {
+				runCreateGEMFFile(pTempFolder, pDestinationFile);
+			} else {
+				runCreateDb(pTempFolder, pDestinationFile);
+			}
 
 	        System.out.println("---------------------------");
 
@@ -222,22 +226,22 @@ public class OSMMapTilePackager {
     private static void runCreateGEMFFile(final String pTempFolder, final String pDestinationFile) {
     	try {
             System.out.println("Creating GEMF archive from " + pTempFolder + " to " + pDestinationFile + " ...");
-            List<File> sourceFolders = new ArrayList<File>();
+            final List<File> sourceFolders = new ArrayList<File>();
             sourceFolders.add(new File(pTempFolder));
-            GEMFFile file = new GEMFFile(pDestinationFile, sourceFolders);
+            final GEMFFile file = new GEMFFile(pDestinationFile, sourceFolders);
             file.close();
             System.out.println(" done.");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
     	}
     }
-    
+
     private static void runZipToFile(final String pTempFolder, final String pDestinationFile) {
         try {
             System.out.print("Zipping files to " + pDestinationFile + " ...");
             FolderZipper.zipFolderToFile(new File(pDestinationFile), new File(pTempFolder));
             System.out.println(" done.");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -247,7 +251,7 @@ public class OSMMapTilePackager {
             System.out.print("Putting files into db : " + pDestinationFile + " ...");
             DbCreator.putFolderToDb(new File(pDestinationFile), new File(pTempFolder));
             System.out.println(" done.");
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }
@@ -286,7 +290,7 @@ public class OSMMapTilePackager {
             try{
                 dm.waitEmpty();
                 System.out.println(" done.");
-            } catch (InterruptedException e) {
+            } catch (final InterruptedException e) {
                 e.printStackTrace();
             }
         }
@@ -294,7 +298,7 @@ public class OSMMapTilePackager {
             System.out.print("Awaiting termination of all threads ...");
             dm.waitFinished();
             System.out.println(" done.");
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -317,14 +321,15 @@ public class OSMMapTilePackager {
     }
 
     private static void abortIfUserIsNotSure(final String message) {
-        if(FORCE)
-            return;
+        if(FORCE) {
+			return;
+		}
 
         System.out.println(message);
         System.out.print("Are you sure? [Y/N] ?: ");
         try{
             java.awt.Toolkit.getDefaultToolkit().beep();
-        }catch(Throwable t){ /* Ignore */ }
+        }catch(final Throwable t){ /* Ignore */ }
 
         final String line = new Scanner(System.in).nextLine().toUpperCase().trim();
 

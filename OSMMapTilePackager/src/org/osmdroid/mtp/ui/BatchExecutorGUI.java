@@ -1,5 +1,5 @@
 // Created by plusminus on 2:29:40 PM - Mar 8, 2009
-package org.andnav2.osm.mtp.ui;
+package org.osmdroid.mtp.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -14,8 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
 
-import org.andnav2.osm.mtp.OSMMapTilePackager;
-
+import org.osmdroid.mtp.OSMMapTilePackager;
 
 public class BatchExecutorGUI extends JFrame {
 	// ===========================================================
@@ -27,7 +26,7 @@ public class BatchExecutorGUI extends JFrame {
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private JTextArea mTxtBatchItems;
 	private JButton mBtnStartBatch;
 
@@ -38,12 +37,12 @@ public class BatchExecutorGUI extends JFrame {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	
-	public static void main(String[] args) {
+
+	public static void main(final String[] args) {
 		new BatchExecutorGUI().setVisible(true);
 	}
-	
-	
+
+
 	public BatchExecutorGUI() {
 		initGUI();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,23 +52,23 @@ public class BatchExecutorGUI extends JFrame {
 
 	private void initGUI() {
 		this.setLayout(new BorderLayout());
-		
+
 		this.mTxtBatchItems = new JTextArea();
 		this.add(this.mTxtBatchItems, BorderLayout.CENTER);
 		this.mTxtBatchItems.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		
-		
+
+
 		this.mBtnStartBatch = new JButton("Run Batch");
 		this.add(this.mBtnStartBatch, BorderLayout.SOUTH);
 		this.mBtnStartBatch.addActionListener(new ActionListener(){
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(final ActionEvent e) {
 				freezeUI();
 				startBatch();
 				unFreezeUI();
 			}
 		});
-		
+
 		this.mProgressBar = new JProgressBar();
 		this.mProgressBar.setStringPainted(true);
 		this.add(this.mProgressBar, BorderLayout.NORTH);
@@ -93,24 +92,24 @@ public class BatchExecutorGUI extends JFrame {
 			this.mProgress++;
 			this.mProgressBar.setValue(this.mProgress);
 		}
-		this.mProgressBar.paint(this.mProgressBar.getGraphics());	
+		this.mProgressBar.paint(this.mProgressBar.getGraphics());
 	}
 
 	private void startBatch() {
 		final String txtBatchItemsContent = this.mTxtBatchItems.getText();
 		final int numLines = txtBatchItemsContent.split("\n").length;
-		
+
 		this.mProgressBar.setMaximum(numLines);
-		
+
 		final Scanner scan = new Scanner(txtBatchItemsContent);
 
 		this.mProgress = 0;
 		this.mProgressBar.setValue(this.mProgress);
-		this.mProgressBar.paint(this.mProgressBar.getGraphics());	
-		
+		this.mProgressBar.paint(this.mProgressBar.getGraphics());
+
 		while(scan.hasNextLine()){
 			final String currentLine = scan.nextLine();
-			
+
 			final Thread runner = new Thread(new Runnable(){
 				@Override
 				public void run() {
@@ -121,10 +120,10 @@ public class BatchExecutorGUI extends JFrame {
 			runner.start();
 			try {
 				runner.join();
-			} catch (InterruptedException e){ e.printStackTrace(); }
+			} catch (final InterruptedException e){ e.printStackTrace(); }
 		}
 	}
-	
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

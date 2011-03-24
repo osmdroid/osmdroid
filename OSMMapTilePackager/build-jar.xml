@@ -36,7 +36,7 @@
 		<manifest file="MANIFEST.MF">
 			<attribute name="Implementation-Version" value="${version.num}.r${version}" />
 			<attribute name="Built-Date" value="${TODAY}" />
-			<attribute name="Main-Class" value="org.andnav2.osm.mtp.OSMMapTilePackager" />
+			<attribute name="Main-Class" value="org.osmdroid.mtp.OSMMapTilePackager" />
 		</manifest>
 		<jar destfile="osmdroid-packager-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
