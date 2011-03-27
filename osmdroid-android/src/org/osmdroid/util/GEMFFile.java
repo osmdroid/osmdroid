@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import android.util.Log;
+
 /**
  * GEMF File handler class.
  * 
@@ -48,7 +50,8 @@ public class GEMFFile {
 
 	// All GEMF file parts for this archive
 	private List<RandomAccessFile> mFiles = new ArrayList<RandomAccessFile>();
-
+	private List<String> mFileNames = new ArrayList<String>();
+	
 	// Tile ranges represented within this archive
 	private List<GEMFRange> mRangeData = new ArrayList<GEMFRange>();
 
@@ -423,6 +426,7 @@ public class GEMFFile {
 		
 		File base = new File(mLocation);
 		mFiles.add(new RandomAccessFile(base, "r"));
+		mFileNames.add(base.getPath());
 		
 		int i = 0;
 		for(;;) {
@@ -430,6 +434,7 @@ public class GEMFFile {
 			File nextFile = new File(mLocation + "-" + i);
 			if (nextFile.exists()) {
 				mFiles.add(new RandomAccessFile(nextFile, "r"));
+				mFileNames.add(nextFile.getPath());
 			} else {
 				break;
 			}
@@ -539,7 +544,6 @@ public class GEMFFile {
 		return zoomLevels;
 	}
 
-	
 	/*
 	 * Get an InputStream for the tile data specified by the Z/X/Y coordinates.
 	 * 
@@ -565,7 +569,6 @@ public class GEMFFile {
 			return null;
 		}
 
-		byte[] dataBuf;
 		long dataOffset;
 		int dataLength;
 
@@ -586,7 +589,6 @@ public class GEMFFile {
 			dataOffset = baseFile.readLong();
 			dataLength = baseFile.readInt();
 
-			
 			// Seek to correct data file and offset.
 			RandomAccessFile pDataFile = mFiles.get(0);
 			int index = 0;
@@ -603,23 +605,16 @@ public class GEMFFile {
 				pDataFile = mFiles.get(index);
 			}
 
-
 			// Read data block into a byte array
-			dataBuf = new byte[dataLength];
 			pDataFile.seek(dataOffset);
-			
-			int read = pDataFile.read(dataBuf, 0, dataLength);
-			while (read < dataLength) {
-				read += pDataFile.read(dataBuf, read, dataLength);
-			}
-			
+
+			return new GEMFInputStream(mFileNames.get(index), dataOffset, dataLength);
+
 		} catch (java.io.IOException e) {
 			return null;
 		}
-
-		// Return byte array as InputStream as required by tile provider framework
-		return new ByteArrayInputStream(dataBuf, 0, dataLength);
 	}
+	
 	
 	// ===========================================================
 	// Inner and Anonymous Classes
@@ -641,4 +636,58 @@ public class GEMFFile {
 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
 		}
 	};
+	
+	// InputStream class to hand to the tile loader system. It wants an InputStream, and it is more
+	// efficient to create a new open file handle pointed to the right place, than to buffer the file
+	// in memory.
+	class GEMFInputStream extends InputStream {
+
+		RandomAccessFile raf;
+		int remainingBytes;
+		
+		GEMFInputStream(String filePath, long offset, int length) throws IOException {
+			this.raf = new RandomAccessFile(filePath, "r");
+			raf.seek(offset);
+
+			this.remainingBytes = length;
+		}
+		
+		@Override
+		public int available() {
+			return remainingBytes;
+		}
+		
+		@Override
+		public void close() throws IOException {
+			raf.close();
+		}
+		
+		@Override
+		public boolean markSupported() {
+			return false;
+		}
+
+		@Override
+		public int read(byte[] buffer, int offset, int length) throws IOException {
+			int read = raf.read(buffer, offset, length > remainingBytes ? remainingBytes : length);
+			
+			remainingBytes -= read;
+			return read;			
+		}
+		
+		@Override
+		public int read() throws IOException {			
+			if (remainingBytes > 0) {
+				remainingBytes--;
+				return raf.read();
+			} else {
+				throw new IOException("End of stream");
+			}
+		}
+		
+		@Override
+		public long skip(long byteCount) {
+			return 0;
+		}
+	}
 }
