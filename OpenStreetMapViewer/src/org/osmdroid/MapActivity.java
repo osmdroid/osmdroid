@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -80,6 +81,30 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 		mOsmv.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
 		mOsmv.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
+
+
+		/*
+		 * This is an example of usage of runOnFirstFix.
+		 * It looks more complicated than necessary because we need to create an
+		 * extra thread and a handler.
+		 * If you wanted to do a non-GUI thread then you wouldn't need the handler.
+		 */
+		if (DEBUGMODE) {
+			final Handler handler = new Handler();
+			mLocationOverlay.runOnFirstFix(new Runnable() {
+				@Override
+				public void run() {
+					handler.post(new Runnable() {
+						@Override
+						public void run() {
+							Toast.makeText(getApplicationContext(),
+									R.string.first_fix_message,
+									Toast.LENGTH_LONG).show();
+						}
+					});
+				}
+			});
+		}
 	}
 
 	@Override

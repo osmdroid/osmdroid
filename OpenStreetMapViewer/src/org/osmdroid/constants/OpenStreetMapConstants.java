@@ -2,11 +2,11 @@
 package org.osmdroid.constants;
 
 /**
- * 
+ *
  * This class contains constants used by the sample applications.
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public interface OpenStreetMapConstants {
 	// ===========================================================
@@ -14,6 +14,8 @@ public interface OpenStreetMapConstants {
 	// ===========================================================
 
 	public static final String DEBUGTAG = "OPENSTREETMAP";
+
+	public static final boolean DEBUGMODE = false;
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 

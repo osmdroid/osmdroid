@@ -37,7 +37,6 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -343,6 +342,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		} else {
 			mMapView.postInvalidate(); // redraw the my location icon
 		}
+
+		for(final Runnable runnable : mRunOnFirstFix) {
+			new Thread(runnable).start();
+		}
+		mRunOnFirstFix.clear();
 	}
 
 	@Override
@@ -355,18 +359,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	@Override
 	public void onStatusChanged(final String provider, final int status, final Bundle extras) {
-		if (status == LocationProvider.AVAILABLE) {
-			final Thread t = new Thread(new Runnable() {
-				@Override
-				public void run() {
-					for (final Runnable runnable : mRunOnFirstFix) {
-						runnable.run();
-					}
-					mRunOnFirstFix.clear();
-				}
-			});
-			t.run();
-		}
 	}
 
 	@Override
