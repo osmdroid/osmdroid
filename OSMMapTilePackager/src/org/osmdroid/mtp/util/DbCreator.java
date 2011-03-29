@@ -27,7 +27,10 @@ public class DbCreator
 			{
 				for(final File yf : xf.listFiles())
 				{
-					final String[] s = yf.toString().split("/");
+					// escaped path separator
+					// Windows -> \\
+					// Unix -> \/
+					final String[] s = yf.toString().split("\\" + File.separator);
 					final long z = Long.parseLong(s[s.length - 3]);
 					final long x = Long.parseLong(s[s.length - 2]);
 					final long y = Long.parseLong(s[s.length - 1].split(".png")[0]);
