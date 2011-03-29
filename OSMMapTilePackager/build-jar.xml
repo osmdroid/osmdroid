@@ -40,7 +40,7 @@
 		</manifest>
 		<jar destfile="osmdroid-packager-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
-				<include name="**/*.class" />
+				<include name="org/osmdroid/mtp/**/*.class" />
 				<include name="**/*.png" />
 				<exclude name="**/*Test.class" />
 			</fileset>
