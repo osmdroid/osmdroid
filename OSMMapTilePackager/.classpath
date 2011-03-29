@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="osmdroid-android-src"/>
 	<classpathentry kind="lib" path="libs/sqlitejdbc-v056.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/osmdroid-android"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="var" path="ANDROID_SDK_PLATFORM/android.jar"/>
 </classpath>
