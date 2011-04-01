@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory;
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb.
- *
+ * 
  * @author Neil Boyd
- *
+ * 
  */
 public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderConstants {
 
@@ -53,7 +53,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 				if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 					cutCurrentCache();
 				}
-				if(DEBUGMODE) {
+				if (DEBUGMODE) {
 					logger.debug("Finished init thread");
 				}
 			}
@@ -67,9 +67,9 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	// ===========================================================
 
 	/**
-	 * Get the amount of disk space used by the tile cache.
-	 * This will initially be zero since the used space is calculated in the background.
-	 *
+	 * Get the amount of disk space used by the tile cache. This will initially be zero since the
+	 * used space is calculated in the background.
+	 * 
 	 * @return size in bytes
 	 */
 	public static long getUsedCacheSpace() {
@@ -84,8 +84,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(TILE_PATH_BASE,
-				pTileSource.getTileRelativeFilenameString(pTile) + TILE_PATH_EXTENSION);
+		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+				+ TILE_PATH_EXTENSION);
 
 		final File parent = file.getParentFile();
 		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
@@ -143,17 +143,33 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		}
 	}
 
-	private void calculateDirectorySize(final File aDirectory) {
-		final File[] z = aDirectory.listFiles();
+	private void calculateDirectorySize(final File pDirectory) {
+		final File[] z = pDirectory.listFiles();
 		if (z != null) {
 			for (final File file : z) {
 				if (file.isFile()) {
 					mUsedCacheSpace += file.length();
 				}
-				if (file.isDirectory()) {
+				if (file.isDirectory() && !isSymbolicDirectoryLink(pDirectory, file)) {
 					calculateDirectorySize(file);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Checks to see if it appears that a directory is a symbolic link. It does this by comparing
+	 * the canonical path of the parent directory and the parent directory of the directory's
+	 * canonical path. If they are equal, then the come from the same true parent. If not, then
+	 * pDirectory is a symbolic link.
+	 */
+	private boolean isSymbolicDirectoryLink(final File pParentDirectory, final File pDirectory) {
+		try {
+			final String canonicalParentPath1 = pParentDirectory.getCanonicalPath();
+			final String canonicalParentPath2 = pDirectory.getCanonicalFile().getParent();
+			return !canonicalParentPath1.equals(canonicalParentPath2);
+		} catch (IOException e) {
+			return false;
 		}
 	}
 
