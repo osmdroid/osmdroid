@@ -312,9 +312,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.checkZoomButtons();
 
 		if (newZoomLevel > curZoomLevel) {
-			scrollTo(getScrollX() << newZoomLevel - curZoomLevel, getScrollY() << newZoomLevel
-					- curZoomLevel);
+			// We are going from a lower-resolution plane to a higher-resolution plane, so we have
+			// to do it the hard way.
+			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel);
+			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel);
+			GeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
+					- worldSize_current_2, getScrollY() - worldSize_current_2, curZoomLevel, null);
+			Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
+					centerGeoPoint.getLongitudeE6() / 1E6, newZoomLevel, null);
+			scrollTo(centerPoint.x - worldSize_new_2, centerPoint.y - worldSize_new_2);
 		} else if (newZoomLevel < curZoomLevel) {
+			// We are going from a higher-resolution plane to a lower-resolution plane, so we can do
+			// it the easy way.
 			scrollTo(getScrollX() >> curZoomLevel - newZoomLevel, getScrollY() >> curZoomLevel
 					- newZoomLevel);
 		}
