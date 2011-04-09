@@ -652,7 +652,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mLocationListener != null && mLocation != null) {
-			runnable.run();
+			new Thread(runnable).start();
 			return true;
 		} else {
 			mRunOnFirstFix.addLast(runnable);
