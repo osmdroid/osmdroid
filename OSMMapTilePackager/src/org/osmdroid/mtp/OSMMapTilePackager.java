@@ -229,7 +229,6 @@ public class OSMMapTilePackager {
             final List<File> sourceFolders = new ArrayList<File>();
             sourceFolders.add(new File(pTempFolder));
             final GEMFFile file = new GEMFFile(pDestinationFile, sourceFolders);
-            file.close();
             System.out.println(" done.");
         } catch (final Exception e) {
             e.printStackTrace();
