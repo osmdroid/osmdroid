@@ -314,10 +314,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (newZoomLevel > curZoomLevel) {
 			// We are going from a lower-resolution plane to a higher-resolution plane, so we have
 			// to do it the hard way.
-			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel);
-			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel);
+			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel) / 2;
+			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel) / 2;
 			GeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
-					- worldSize_current_2, getScrollY() - worldSize_current_2, curZoomLevel, null);
+					+ worldSize_current_2, getScrollY() + worldSize_current_2, curZoomLevel, null);
 			Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
 					centerGeoPoint.getLongitudeE6() / 1E6, newZoomLevel, null);
 			scrollTo(centerPoint.x - worldSize_new_2, centerPoint.y - worldSize_new_2);
