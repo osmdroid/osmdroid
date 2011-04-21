@@ -37,7 +37,7 @@
 			<attribute name="Implementation-Version" value="${version.num}.r${version}" />
 			<attribute name="Built-Date" value="${TODAY}" />
 		</manifest>
-		<jar destfile="osmdroid-google-wrapper-${version.num}.jar" manifest="MANIFEST.MF">
+		<jar destfile="osmdroid-google-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
 				<include name="org/osmdroid/google/**/*.class" />
 				<include name="**/*.png" />
@@ -54,7 +54,7 @@
 			<classpath refid="osmdroid-android.classpath" />
 			<link href="http://developer.android.com/reference/" />
 		</javadoc>
-		<zip destfile="osmdroid-google-wrapper-docs-${version.num}.zip"
+		<zip destfile="osmdroid-google-docs-${version.num}.zip"
 			 basedir="docs/api"
 			 includes="**"
 			 />
