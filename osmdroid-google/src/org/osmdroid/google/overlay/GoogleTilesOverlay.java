@@ -1,4 +1,4 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.google.overlay;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;

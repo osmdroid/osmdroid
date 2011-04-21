@@ -1,4 +1,4 @@
-package org.osmdroid.google;
+package org.osmdroid.google.wrapper;
 
 import org.osmdroid.api.IMyLocationOverlay;
 
