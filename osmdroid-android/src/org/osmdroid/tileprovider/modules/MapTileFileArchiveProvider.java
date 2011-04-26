@@ -19,10 +19,10 @@ import android.graphics.drawable.Drawable;
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
  * provider will automatically find existing archives and use each one that it finds.
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
@@ -40,6 +40,9 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	protected ITileSource mTileSource;
 
+	/** Disable the search of archives if specified in constructor */
+	private final boolean mSpecificArchivesProvided;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -49,13 +52,27 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 * It and its friends are typically created and controlled by {@link MapTileProviderBase}.
 	 */
 	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
-			final ITileSource pTileSource) {
+			final ITileSource pTileSource, final IArchiveFile[] pArchives) {
 		super(pRegisterReceiver, NUMBER_OF_TILE_FILESYSTEM_THREADS,
 				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
 		mTileSource = pTileSource;
 
-		findArchiveFiles();
+		if (pArchives == null) {
+			mSpecificArchivesProvided = false;
+			findArchiveFiles();
+		} else {
+			mSpecificArchivesProvided = true;
+			for (int i = pArchives.length - 1; i >= 0; i--) {
+				mArchiveFiles.add(pArchives[i]);
+			}
+		}
+
+	}
+
+	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource) {
+		this(pRegisterReceiver, pTileSource, null);
 	}
 
 	// ===========================================================
@@ -98,12 +115,16 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	protected void onMediaMounted() {
-		findArchiveFiles();
+		if (!mSpecificArchivesProvided) {
+			findArchiveFiles();
+		}
 	}
 
 	@Override
 	protected void onMediaUnmounted() {
-		findArchiveFiles();
+		if (!mSpecificArchivesProvided) {
+			findArchiveFiles();
+		}
 	}
 
 	@Override

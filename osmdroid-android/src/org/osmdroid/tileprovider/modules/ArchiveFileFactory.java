@@ -34,6 +34,14 @@ public class ArchiveFileFactory {
 			}
 		}
 
+		if (pFile.getName().endsWith(".mbtiles")) {
+			try {
+				return MBTilesFileArchive.getDatabaseFileArchive(pFile);
+			} catch (final SQLiteException e) {
+				logger.error("Error opening MBTiles SQLite file", e);
+			}
+		}
+		
 		if (pFile.getName().endsWith(".gemf")) {
 			try {
 				return GEMFFileArchive.getGEMFFileArchive(pFile);
