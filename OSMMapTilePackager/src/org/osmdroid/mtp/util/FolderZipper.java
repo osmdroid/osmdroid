@@ -41,11 +41,7 @@ public class FolderZipper {
 			//create ZipOutputStream object
 			final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(pDestinationFile));
 
-			//get path prefix so that the zip file does not contain the whole path
-			// eg. if folder to be zipped is /home/lalit/test
-			// the zip file when opened will have test folder and not home/lalit/test folder
-			final int len = pDestinationFile.getAbsolutePath().lastIndexOf(File.separator);
-			final String baseName = pFolderToZip.getAbsolutePath().substring(0,len+1);
+			final String baseName = pFolderToZip.getParent();
 
 			addFolderToZip(pFolderToZip, out, baseName);
 
