@@ -4,10 +4,10 @@
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="osmdroid-google-wrapper">
+<project basedir="." default="build" name="osmdroid-google">
     <property environment="env"/>
     <property name="ANDROID_SDK_PLATFORM" value="c:/android-sdk-windows/platforms/android-3"/>
-    <property name="GOOGLE_SDK_PLATFORM" value="c:/android-sdk-windows/add-ons/google_apis-3-r03/libs"/>
+    <property name="GOOGLE_SDK_PLATFORM" value="c:/android-sdk-windows/add-ons/addon_google_apis_google_inc_3/libs"/>
     <property name="ECLIPSE_HOME" value="C:/eclipse"/>
     <property name="osmdroid-android.location" value="../osmdroid-android"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -26,7 +26,7 @@
         <path refid="JUnit 4.libraryclasspath"/>
         <pathelement location="${ANDROID_SDK_PLATFORM}/android.jar"/>
     </path>
-    <path id="osmdroid-google-wrapper.classpath">
+    <path id="osmdroid-google.classpath">
         <pathelement location="bin"/>
         <pathelement location="lib/apache-mime4j-0.6.jar"/>
         <pathelement location="lib/httpmime-4.0.1.jar"/>
@@ -59,11 +59,11 @@
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
             <src path="src"/>
-            <classpath refid="osmdroid-google-wrapper.classpath"/>
+            <classpath refid="osmdroid-google.classpath"/>
         </javac>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
             <src path="tests"/>
-            <classpath refid="osmdroid-google-wrapper.classpath"/>
+            <classpath refid="osmdroid-google.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
@@ -82,7 +82,7 @@
     </target>
     <target name="TestRunner">
         <java classname="junit.textui.TestRunner" failonerror="true" fork="yes">
-            <classpath refid="osmdroid-google-wrapper.classpath"/>
+            <classpath refid="osmdroid-google.classpath"/>
         </java>
     </target>
 </project>

@@ -51,7 +51,7 @@
 				 use="true"
 				 windowtitle="osmdroid API">
 			<packageset dir="src" defaultexcludes="yes" />
-			<classpath refid="osmdroid-android.classpath" />
+			<classpath refid="osmdroid-google.classpath" />
 			<link href="http://developer.android.com/reference/" />
 		</javadoc>
 		<zip destfile="osmdroid-google-docs-${version.num}.zip"
