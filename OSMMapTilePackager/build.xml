@@ -7,12 +7,26 @@
 <project basedir="." default="build" name="OSMMapTilePackager">
     <property environment="env"/>
     <property name="ECLIPSE_HOME" value="../../../eclipse"/>
+    <property name="osmdroid-android.location" value="../osmdroid-android"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <import file="build-jar.xml"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}/plugins/org.hamcrest.core_1.1.0.jar"/>
+    </path>
+    <path id="osmdroid-android.classpath">
+        <pathelement location="${osmdroid-android.location}/bin"/>
+        <pathelement location="${osmdroid-android.location}/lib/apache-mime4j-0.6.jar"/>
+        <pathelement location="${osmdroid-android.location}/lib/httpmime-4.0.1.jar"/>
+        <pathelement location="${osmdroid-android.location}/lib/slf4j-android-1.5.8.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="${ANDROID_SDK_PLATFORM}/android.jar"/>
+    </path>
     <path id="OSMMapTilePackager.classpath">
         <pathelement location="bin"/>
+        <path refid="osmdroid-android.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
