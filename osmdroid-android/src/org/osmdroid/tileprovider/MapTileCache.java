@@ -48,22 +48,30 @@ public final class MapTileCache implements OpenStreetMapTileProviderConstants {
 
 	public void ensureCapacity(final int aCapacity) {
 		mReadWriteLock.readLock().lock();
-		mCachedTiles.ensureCapacity(aCapacity);
-		mReadWriteLock.readLock().unlock();
+		try {
+			mCachedTiles.ensureCapacity(aCapacity);
+		} finally {
+			mReadWriteLock.readLock().unlock();
+		}
 	}
 
 	public Drawable getMapTile(final MapTile aTile) {
 		mReadWriteLock.readLock().lock();
-		final Drawable result = this.mCachedTiles.get(aTile);
-		mReadWriteLock.readLock().unlock();
-		return result;
+		try {
+			return this.mCachedTiles.get(aTile);
+		} finally {
+			mReadWriteLock.readLock().unlock();
+		}
 	}
 
 	public void putTile(final MapTile aTile, final Drawable aDrawable) {
 		if (aDrawable != null) {
 			mReadWriteLock.writeLock().lock();
-			this.mCachedTiles.put(aTile, aDrawable);
-			mReadWriteLock.writeLock().unlock();
+			try {
+				this.mCachedTiles.put(aTile, aDrawable);
+			} finally {
+				mReadWriteLock.writeLock().unlock();
+			}
 		}
 	}
 
@@ -77,15 +85,20 @@ public final class MapTileCache implements OpenStreetMapTileProviderConstants {
 
 	public boolean containsTile(final MapTile aTile) {
 		mReadWriteLock.readLock().lock();
-		final boolean result = this.mCachedTiles.containsKey(aTile);
-		mReadWriteLock.readLock().unlock();
-		return result;
+		try {
+			return this.mCachedTiles.containsKey(aTile);
+		} finally {
+			mReadWriteLock.readLock().unlock();
+		}
 	}
 
 	public void clear() {
 		mReadWriteLock.writeLock().lock();
-		this.mCachedTiles.clear();
-		mReadWriteLock.writeLock().unlock();
+		try {
+			this.mCachedTiles.clear();
+		} finally {
+			mReadWriteLock.writeLock().unlock();
+		}
 	}
 
 	// ===========================================================
