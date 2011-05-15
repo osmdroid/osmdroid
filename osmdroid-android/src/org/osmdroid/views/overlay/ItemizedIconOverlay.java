@@ -75,6 +75,23 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 		mItemList.add(location, item);
 	}
 
+	public boolean addItems(List<Item> items) {
+		boolean result = mItemList.addAll(items);
+		populate();
+		return result;
+	}
+
+	public void removeAllItems() {
+		removeAllItems(true);
+	}
+
+	public void removeAllItems(boolean withPopulate) {
+		mItemList.clear();
+		if (withPopulate) {
+			populate();
+		}
+	}
+
 	public boolean removeItem(Item item) {
 		boolean result = mItemList.remove(item);
 		populate();
