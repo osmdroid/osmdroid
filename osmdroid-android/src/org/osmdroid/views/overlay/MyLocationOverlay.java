@@ -43,9 +43,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- *
+ * 
  * @author Manuel Stahl
- *
+ * 
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
@@ -168,7 +168,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -183,7 +183,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 *
+	 * 
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -197,7 +197,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 *
+	 * 
 	 * @param drawAccuracyEnabled
 	 *            whether the accuracy circle will be enabled
 	 */
@@ -207,7 +207,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isDrawAccuracyEnabled() {
@@ -233,7 +233,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		// respectively). This is probably a bad assumption, so maybe there is a better way to do
 		// this. SensorManager.remapCoordinateSystem might be able to help.
 
-		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
+		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 90
 				: 0);
 
 		if (mLocationListener != null && mLocation != null) {
@@ -284,7 +284,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 				 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
 				 * to the canvas.
 				 */
-				this.directionRotater.setRotate(-bearing + azimuthRotationOffset,
+				this.directionRotater.setRotate(bearing + azimuthRotationOffset,
 						DIRECTION_ARROW_CENTER_X, DIRECTION_ARROW_CENTER_Y);
 
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X,
@@ -313,7 +313,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			c.setMatrix(mCompassMatrix);
 			c.drawPicture(mCompassFrame);
 
-			this.mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
+			this.mCompassMatrix.setRotate(mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
 					COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(centerX, centerY);
@@ -343,7 +343,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			mMapView.postInvalidate(); // redraw the my location icon
 		}
 
-		for(final Runnable runnable : mRunOnFirstFix) {
+		for (final Runnable runnable : mRunOnFirstFix) {
 			new Thread(runnable).start();
 		}
 		mRunOnFirstFix.clear();
@@ -528,7 +528,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	/**
 	 * If enabled, the map will center on your current location and automatically scroll as you
 	 * move. Scrolling the map in the UI will disable.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isFollowLocationEnabled() {
@@ -589,7 +589,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving location updates and drawing your location on the map.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
@@ -641,7 +641,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving orientation updates and drawing your location on the map.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
