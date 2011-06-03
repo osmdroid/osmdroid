@@ -5,7 +5,6 @@ package microsoft.mappoint;
  *
  * Copyright (c) 2006-2009 Microsoft Corporation.  All rights reserved.
  *
- * http://msdn.microsoft.com/en-us/cc300389.aspx#P
  *
  */
 
