@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -17,7 +20,7 @@ import android.graphics.drawable.Drawable;
 
 /**
  * An abstract base class for modular tile providers
- *
+ * 
  * @author Marc Kurtz
  * @author Neil Boyd
  */
@@ -25,14 +28,14 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	/**
 	 * Gets the human-friendly name assigned to this tile provider.
-	 *
+	 * 
 	 * @return the thread name
 	 */
 	protected abstract String getName();
 
 	/**
 	 * Gets the name assigned to the thread for this provider.
-	 *
+	 * 
 	 * @return the thread name
 	 */
 	protected abstract String getThreadGroupName();
@@ -41,7 +44,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 * It is expected that the implementation will construct an internal member which internally
 	 * implements a {@link TileLoader}. This method is expected to return a that internal member to
 	 * methods of the parent methods.
-	 *
+	 * 
 	 * @return the internal member of this tile provider.
 	 */
 	protected abstract Runnable getTileLoader();
@@ -49,44 +52,48 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	/**
 	 * Returns true if implementation uses a data connection, false otherwise. This value is used to
 	 * determine if this provider should be skipped if there is no data connection.
-	 *
+	 * 
 	 * @return true if implementation uses a data connection, false otherwise
 	 */
 	public abstract boolean getUsesDataConnection();
 
 	/**
 	 * Gets the minimum zoom level this tile provider can provide
-	 *
+	 * 
 	 * @return the minimum zoom level
 	 */
 	public abstract int getMinimumZoomLevel();
 
 	/**
 	 * Gets the maximum zoom level this tile provider can provide
-	 *
+	 * 
 	 * @return the maximum zoom level
 	 */
 	public abstract int getMaximumZoomLevel();
 
 	/**
 	 * Sets the tile source for this tile provider.
-	 *
+	 * 
 	 * @param tileSource
 	 *            the tile source
 	 */
 	public abstract void setTileSource(ITileSource tileSource);
 
+	private final ExecutorService mExecutor;
+
 	private static final Logger logger = LoggerFactory.getLogger(MapTileModuleProviderBase.class);
 
-	private final int mThreadPoolSize;
-	private final ThreadGroup mThreadPool = new ThreadGroup(getThreadGroupName());
 	private final ConcurrentHashMap<MapTile, MapTileRequestState> mWorking;
 	final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
-	public MapTileModuleProviderBase(final int pThreadPoolSize,	final int pPendingQueueSize) {
-		mThreadPoolSize = pThreadPoolSize;
+	public MapTileModuleProviderBase(final int pThreadPoolSize, final int pPendingQueueSize) {
+		mExecutor = Executors.newFixedThreadPool(pThreadPoolSize,
+				new ConfigurablePriorityThreadFactory(Thread.NORM_PRIORITY, getThreadGroupName()));
+
 		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();
-		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(pPendingQueueSize + 2, 0.1f, true) {
+		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(pPendingQueueSize + 2, 0.1f,
+				true) {
+
 			private static final long serialVersionUID = 6455337315681858866L;
 
 			@Override
@@ -98,21 +105,15 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	}
 
 	public void loadMapTileAsync(final MapTileRequestState pState) {
-
-		final int activeCount = mThreadPool.activeCount();
-
 		synchronized (mPending) {
 			// this will put the tile in the queue, or move it to the front of
 			// the queue if it's already present
 			mPending.put(pState.getMapTile(), pState);
 		}
-
-		if (DEBUGMODE) {
-			logger.debug(activeCount + " active threads");
-		}
-		if (activeCount < mThreadPoolSize) {
-			final Thread t = new Thread(mThreadPool, getTileLoader());
-			t.start();
+		try {
+			mExecutor.execute(getTileLoader());
+		} catch (RejectedExecutionException e) {
+			logger.warn("RejectedExecutionException", e);
 		}
 	}
 
@@ -128,7 +129,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 */
 	public void detach() {
 		this.clearQueue();
-		this.mThreadPool.interrupt();
+		this.mExecutor.shutdown();
 	}
 
 	private void removeTileFromQueues(final MapTile mapTile) {
@@ -142,7 +143,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 * Load the requested tile. An abstract internal class whose objects are used by worker threads
 	 * to acquire tiles from servers. It processes tiles from the 'pending' set to the 'working' set
 	 * as they become available. The key unimplemented method is 'loadTile'.
-	 *
+	 * 
 	 * @param aTile
 	 *            the tile to load
 	 * @throws {@link CantContinueException} if it is not possible to continue with processing the
@@ -152,7 +153,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 		/**
 		 * The key unimplemented method.
-		 *
+		 * 
 		 * @return true if the tile was loaded successfully and other tile providers need not be
 		 *         called, false otherwise
 		 * @param pState
