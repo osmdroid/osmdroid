@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -160,8 +161,10 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	/**
 	 * Checks to see if it appears that a directory is a symbolic link. It does this by comparing
 	 * the canonical path of the parent directory and the parent directory of the directory's
-	 * canonical path. If they are equal, then the come from the same true parent. If not, then
-	 * pDirectory is a symbolic link.
+	 * canonical path. If they are equal, then they come from the same true parent. If not, then
+	 * pDirectory is a symbolic link. If we get an exception, we err on the side of caution and
+	 * return "true" expecting the calculateDirectorySize to now skip further processing since
+	 * something went goofy.
 	 */
 	private boolean isSymbolicDirectoryLink(final File pParentDirectory, final File pDirectory) {
 		try {
@@ -169,8 +172,13 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			final String canonicalParentPath2 = pDirectory.getCanonicalFile().getParent();
 			return !canonicalParentPath1.equals(canonicalParentPath2);
 		} catch (IOException e) {
-			return false;
+			return true;
+		} catch (NoSuchElementException e) {
+			// See: http://code.google.com/p/android/issues/detail?id=4961
+			// See: http://code.google.com/p/android/issues/detail?id=5807
+			return true;
 		}
+
 	}
 
 	private List<File> getDirectoryFileList(final File aDirectory) {
