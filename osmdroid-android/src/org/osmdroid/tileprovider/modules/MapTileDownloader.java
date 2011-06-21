@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -152,6 +153,9 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				if (DEBUGMODE)
 					logger.debug("Downloading Maptile from url: " + tileURLString);
+
+				if (TextUtils.isEmpty(tileURLString))
+					return null;
 
 				// TODO consider using apache HttpClient instead of openStream()
 				// - see http://groups.google.com/d/msg/osmdroid/uDK_SUNeyhs/obv4V2w3cZoJ
