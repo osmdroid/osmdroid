@@ -233,7 +233,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		// respectively). This is probably a bad assumption, so maybe there is a better way to do
 		// this. SensorManager.remapCoordinateSystem might be able to help.
 
-		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 90
+		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
 				: 0);
 
 		if (mLocationListener != null && mLocation != null) {
@@ -284,7 +284,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 				 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
 				 * to the canvas.
 				 */
-				this.directionRotater.setRotate(bearing + azimuthRotationOffset,
+				this.directionRotater.setRotate(-bearing + azimuthRotationOffset,
 						DIRECTION_ARROW_CENTER_X, DIRECTION_ARROW_CENTER_Y);
 
 				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X,
@@ -313,7 +313,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			c.setMatrix(mCompassMatrix);
 			c.drawPicture(mCompassFrame);
 
-			this.mCompassMatrix.setRotate(mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
+			this.mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
 					COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
 			this.mCompassMatrix.postTranslate(centerX, centerY);
