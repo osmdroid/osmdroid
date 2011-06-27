@@ -3,6 +3,7 @@ package org.osmdroid.views;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import microsoft.mappoint.TileSystem;
 import net.wigle.wigleandroid.ZoomButtonsController;
@@ -50,7 +51,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 
@@ -83,10 +83,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/** Handles map scrolling */
 	private final Scroller mScroller;
+	private AtomicInteger mTargetZoomLevel = new AtomicInteger();
+	private AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
-	private final MyAnimationListener mAnimationListener = new MyAnimationListener();
 
 	private final MapController mController;
 
@@ -146,8 +147,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				Animation.RELATIVE_TO_SELF, 0.5f);
 		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
 		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
-		mZoomInAnimation.setAnimationListener(mAnimationListener);
-		mZoomOutAnimation.setAnimationListener(mAnimationListener);
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
@@ -364,8 +363,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @return the zoom level
 	 */
 	public int getZoomLevel(final boolean aPending) {
-		if (aPending && mAnimationListener.isAnimating()) {
-			return mAnimationListener.targetZoomLevel;
+		if (aPending && isAnimating()) {
+			return mTargetZoomLevel.get();
 		} else {
 			return mZoomLevel;
 		}
@@ -395,7 +394,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.isAnimating() && mAnimationListener.targetZoomLevel >= maxZoomLevel) {
+		if (isAnimating() & mTargetZoomLevel.get() >= maxZoomLevel) {
 			return false;
 		}
 		return true;
@@ -406,7 +405,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
-		if (mAnimationListener.isAnimating() && mAnimationListener.targetZoomLevel <= minZoomLevel) {
+		if (isAnimating() && mTargetZoomLevel.get() <= minZoomLevel) {
 			return false;
 		}
 		return true;
@@ -418,11 +417,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomIn() {
 
 		if (canZoomIn()) {
-			if (mAnimationListener.isAnimating()) {
+			if (isAnimating()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
-				mAnimationListener.targetZoomLevel = mZoomLevel + 1;
+				mTargetZoomLevel.set(mZoomLevel + 1);
 				startAnimation(mZoomInAnimation);
 				return true;
 			}
@@ -447,11 +446,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomOut() {
 
 		if (canZoomOut()) {
-			if (mAnimationListener.isAnimating()) {
+			if (isAnimating()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
-				mAnimationListener.targetZoomLevel = mZoomLevel - 1;
+				mTargetZoomLevel.set(mZoomLevel - 1);
 				startAnimation(mZoomOutAnimation);
 				return true;
 			}
@@ -504,16 +503,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	public void setUseDataConnection(final boolean aMode) {
 		mMapOverlay.setUseDataConnection(aMode);
-	}
-
-	/**
-	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
-	 * to avoid recalculating during an animation sequence.
-	 * 
-	 * @return boolean indicating whether view is animating.
-	 */
-	public boolean isAnimating() {
-		return mAnimationListener.isAnimating();
 	}
 
 	// ===========================================================
@@ -842,6 +831,35 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.mZoomController.setVisible(false);
 		this.onDetach();
 		super.onDetachedFromWindow();
+	}
+
+	// ===========================================================
+	// Animation
+	// ===========================================================
+
+	@Override
+	protected void onAnimationStart() {
+		mIsAnimating.set(true);
+		super.onAnimationStart();
+	}
+
+	@Override
+	protected void onAnimationEnd() {
+		mIsAnimating.set(false);
+		clearAnimation();
+		setZoomLevel(mTargetZoomLevel.get());
+		this.isAnimating();
+		super.onAnimationEnd();
+	}
+
+	/**
+	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
+	 * to avoid recalculating during an animation sequence.
+	 * 
+	 * @return boolean indicating whether view is animating.
+	 */
+	public boolean isAnimating() {
+		return mIsAnimating.get();
 	}
 
 	// ===========================================================
@@ -1287,41 +1305,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public void onVisibilityChanged(final boolean visible) {
 		}
-	}
-
-	private class MyAnimationListener implements AnimationListener {
-		private int targetZoomLevel;
-		private AtomicBoolean animating = new AtomicBoolean(false);
-
-		@Override
-		public void onAnimationEnd(final Animation aAnimation) {
-			animating.set(false);
-			MapView.this.post(new Runnable() {
-				@Override
-				public void run() {
-					// This is necessary because (as of API 1.5) when onAnimationEnd is dispatched
-					// there still is some residual scaling going on and this will cause a frame of
-					// the new zoom level while the canvas is still being scaled as part of the
-					// animation and we don't want that.
-					clearAnimation();
-					setZoomLevel(targetZoomLevel);
-				}
-			});
-		}
-
-		@Override
-		public void onAnimationRepeat(final Animation aAnimation) {
-		}
-
-		@Override
-		public void onAnimationStart(final Animation aAnimation) {
-			animating.set(true);
-		}
-
-		public boolean isAnimating() {
-			return animating.get();
-		}
-
 	}
 
 	// ===========================================================
