@@ -19,6 +19,9 @@ public class LocationUtils implements UtilConstants {
 	 * @return return the most recent location, or null if there's no known location
 	 */
 	public static Location getLastKnownLocation(final LocationManager pLocationManager) {
+		if (pLocationManager == null) {
+			return null;
+		}
 		final Location gpsLocation =
 			pLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		final Location networkLocation =
