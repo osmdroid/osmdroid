@@ -70,7 +70,9 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 				logger.info("Cloudmade key not found in manifest");
 			} else {
 				final String key = info.metaData.getString(CLOUDMADE_KEY);
-				if (key != null) {
+				if (key == null) {
+					logger.info("Cloudmade key not found in manifest");
+				} else {
 					if (DEBUGMODE) {
 						logger.debug("Cloudmade key: " + key);
 					}
