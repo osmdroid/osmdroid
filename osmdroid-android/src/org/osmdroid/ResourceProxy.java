@@ -8,7 +8,7 @@ public interface ResourceProxy {
 	public static enum string {
 
 		// tile sources
-		osmarender, mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard, mapquest_osm,
+		osmarender, mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard, mapquest_osm, bing,
 
 		// overlays
 		fiets_nl, base_nl, roads_nl,
@@ -37,7 +37,7 @@ public interface ResourceProxy {
 
 	/**
 	 * Use a string resource as a format definition, and format using the supplied format arguments.
-	 * 
+	 *
 	 * @param pResId
 	 * @param formatArgs
 	 * @return
@@ -48,7 +48,7 @@ public interface ResourceProxy {
 
 	/**
 	 * Get a bitmap as a {@link Drawable}
-	 * 
+	 *
 	 * @param pResId
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public interface ResourceProxy {
 
 	/**
 	 * Gets the density from the current screen's DisplayMetrics
-	 * 
+	 *
 	 * @return the screen's density
 	 */
 	float getDisplayMetricsDensity();

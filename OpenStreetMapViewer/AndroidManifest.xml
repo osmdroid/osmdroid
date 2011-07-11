@@ -27,6 +27,9 @@
 		<!-- all applications based on this code should get their own CloudMade key -->
 		<meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
 
+		<!-- all applications based on this code should get their own Bing key -->
+		<meta-data android:name="BING_KEY" android:value="ApEqyap8rTa4WTNCNv-3pAGQc7XUsHS6595tuDI3MHR59QlahJ5bqYGYhMYJq6Ae" />
+
 		<uses-library android:name="android.test.runner" />
 		<activity android:icon="@drawable/icon"
 			android:label="Open Map" android:name="MapActivity">

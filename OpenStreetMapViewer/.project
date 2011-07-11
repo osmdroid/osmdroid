@@ -36,5 +36,10 @@
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-android/src</locationURI>
 		</link>
+		<link>
+			<name>osmdroid-third-party-src</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-third-party/src</locationURI>
+		</link>
 	</linkedResources>
 </projectDescription>

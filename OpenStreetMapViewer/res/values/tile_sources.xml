@@ -10,6 +10,7 @@
 	<string name="cloudmade_standard">CloudMade (Standard tiles)</string>
 	<string name="cloudmade_small">CloudMade (small tiles)</string>
 	<string name="mapquest_osm">Mapquest</string>
+	<string name="bing">Bing</string>
 	<string name="fiets_nl">OpenFietsKaart overlay</string>
 	<string name="base_nl">Netherlands base overlay</string>
 	<string name="roads_nl">Netherlands roads overlay</string>

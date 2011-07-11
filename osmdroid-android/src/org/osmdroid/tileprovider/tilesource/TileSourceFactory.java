@@ -3,12 +3,10 @@ package org.osmdroid.tileprovider.tilesource;
 import java.util.ArrayList;
 
 import org.osmdroid.ResourceProxy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class TileSourceFactory {
 
-	private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
+	// private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
 
 	/**
 	 * Get the tile source with the specified name.
@@ -50,7 +48,7 @@ public class TileSourceFactory {
 		return mTileSources;
 	}
 
-	public static void addTileSource(ITileSource mTileSource) {
+	public static void addTileSource(final ITileSource mTileSource) {
 		mTileSources.add(mTileSource);
 	}
 
@@ -92,7 +90,7 @@ public class TileSourceFactory {
 			"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 			"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
 			"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
-	
+
 	public static final OnlineTileSourceBase MAPQUESTOSM =
 		new XYTileSource("MapquestOSM", ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png",
 				"http://otile1.mqcdn.com/tiles/1.0.0/osm/",

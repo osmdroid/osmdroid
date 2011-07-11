@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse.ant.import?>
+<project>
+	<!--
+		Can't make it depend on build because that's in a different build file.
+		So just run
+			ant build jar
+	-->
+	<property name="version.num" value="3.0.5" />
+
+	<target name="version">
+		<typedef resource="com/googlecode/svntask/svntask.xml">
+			<classpath>
+				<fileset dir="ext">
+					<include name="svnkit.jar" />
+					<include name="svntask.jar" />
+				</fileset>
+			</classpath>
+		</typedef>
+
+		<!-- Do an update first to make sure you have the latest version -->
+		<svn>
+			<update path="." force="true" recursive="true" />
+		</svn>
+
+		<svn>
+			<info path="." revisionProperty="revisionVersion" />
+		</svn>
+		<property name="version" value="${revisionVersion}" />
+	</target>
+
+	<target name="jar" depends="version">
+		<tstamp>
+			<format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<manifest file="MANIFEST.MF">
+			<attribute name="Implementation-Version" value="${version.num}.r${version}" />
+			<attribute name="Built-Date" value="${TODAY}" />
+		</manifest>
+		<jar destfile="osmdroid-third-party-${version.num}.jar" manifest="MANIFEST.MF">
+			<fileset dir="bin">
+				<include name="org/osmdroid/tileprovider/tilesource/bing/**/*.class" />
+				<exclude name="**/*Test.class" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc destdir="docs/api"
+				 use="true"
+				 windowtitle="osmdroid API">
+			<packageset dir="src" defaultexcludes="yes" />
+			<classpath refid="osmdroid-third-party.classpath" />
+			<link href="http://developer.android.com/reference/" />
+		</javadoc>
+		<zip destfile="osmdroid-third-party-docs-${version.num}.zip"
+			 basedir="docs/api"
+			 includes="**"
+			 />
+	</target>
+
+</project>

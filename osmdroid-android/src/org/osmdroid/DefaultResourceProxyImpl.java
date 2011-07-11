@@ -23,7 +23,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
 	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
@@ -60,6 +60,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "CloudMade (small tiles)";
 		case mapquest_osm:
 			return "Mapquest";
+		case bing:
+			return "Bing";
 		case fiets_nl:
 			return "OpenFietsKaart overlay";
 		case base_nl:
