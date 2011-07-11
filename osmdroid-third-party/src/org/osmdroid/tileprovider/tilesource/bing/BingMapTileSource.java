@@ -86,7 +86,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		m_style = a_style;
 		m_locale = a_locale;
 		if(m_locale==null) {
-			m_locale=Locale.getDefault().getISO3Language()+"-"+Locale.getDefault().getISO3Language();
+			m_locale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
 		}
 		updateBaseUrl();
 	}
