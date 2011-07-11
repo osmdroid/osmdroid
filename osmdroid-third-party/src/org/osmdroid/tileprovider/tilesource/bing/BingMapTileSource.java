@@ -28,10 +28,11 @@ import android.content.pm.PackageManager.NameNotFoundException;
 
 /**
  * BingMap tile source used with OSMDroid<br>
- * This class builds the Bing REST services url to be requested to get a tile image<br>
+ * This class builds the Bing REST services url to be requested to get a tile image.<br>
  *
- *  Before to be used, the static initMetaData method must be invoke to get url patterns dynamically
+ * Before to be used, the static initMetaData method must be invoke to get url patterns dynamically.<br>
  *
+ * See {@link http://msdn.microsoft.com/en-us/library/ff701721.aspx} for details on the Bing API.
  */
 public class BingMapTileSource extends QuadTreeTileSource implements IStyledTileSource<Integer> {
 
@@ -41,7 +42,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	private static final String BING_KEY = "BING_KEY";
 
 	/** Bing Map key set by user.
-	 * See http://msdn.microsoft.com/en-us/library/ff428642.aspx
+	 * See {@link http://msdn.microsoft.com/en-us/library/ff428642.aspx}
 	 */
 	private static String BING_MAP_KEY = "";
 
@@ -95,7 +96,6 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 * Initialize BingMap tile source.<br>
 	 * This method should be invoked before class instantiation.<br>
 	 * It get dynamically the REST service url to be used to get tile in each supported map view mode.
-	 * @param a_BingMapKey	The user's BingMap key.
 	 * @throws Exception
 	 */
 	public static synchronized void initMetaData(final Context aContext) throws Exception
