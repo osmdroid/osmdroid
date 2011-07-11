@@ -78,10 +78,12 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	/**
 	 * Constructor.<br> <b>Warning, the static method {@link initMetaData} should have been invoked once before constructor invocation</b>
 	 * @param pName	A name associated to the current BingMapTileSource
-	 * @param a_locale	The language used with BingMap REST service to retrieve tiles.<br> If null, the default locale is used.
+	 * @param a_style The map style.
+	 * @param a_locale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
-	public BingMapTileSource(final String pName, final String a_locale) {
+	public BingMapTileSource(final String pName, final int a_style, final String a_locale) {
 		super(pName, ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, (String)null);
+		m_style = a_style;
 		m_locale = a_locale;
 		if(m_locale==null) {
 			m_locale=Locale.getDefault().getISO3Language()+"-"+Locale.getDefault().getISO3Language();
