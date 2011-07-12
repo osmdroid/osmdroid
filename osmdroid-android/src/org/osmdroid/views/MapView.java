@@ -83,8 +83,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/** Handles map scrolling */
 	private final Scroller mScroller;
-	private AtomicInteger mTargetZoomLevel = new AtomicInteger();
-	private AtomicBoolean mIsAnimating = new AtomicBoolean(false);
+	private final AtomicInteger mTargetZoomLevel = new AtomicInteger();
+	private final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
@@ -248,7 +248,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
 	 */
-	public Rect getScreenRect(Rect reuse) {
+	public Rect getScreenRect(final Rect reuse) {
 		final Rect out = reuse == null ? new Rect() : reuse;
 		out.set(getScrollX() - getWidth() / 2, getScrollY() - getHeight() / 2, getScrollX()
 				+ getWidth() / 2, getScrollY() + getHeight() / 2);
@@ -259,7 +259,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Get a projection for converting between screen-pixel coordinates and latitude/longitude
 	 * coordinates. You should not hold on to this object for more than one draw, since the
 	 * projection of the map could change.
-	 * 
+	 *
 	 * @return The Projection of the map in its current state. You should not hold on to this object
 	 *         for more than one draw, since the projection of the map could change.
 	 */
@@ -315,9 +315,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// to do it the hard way.
 			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel) / 2;
 			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel) / 2;
-			GeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
+			final GeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
 					+ worldSize_current_2, getScrollY() + worldSize_current_2, curZoomLevel, null);
-			Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
+			final Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
 					centerGeoPoint.getLongitudeE6() / 1E6, newZoomLevel, null);
 			scrollTo(centerPoint.x - worldSize_new_2, centerPoint.y - worldSize_new_2);
 		} else if (newZoomLevel < curZoomLevel) {
@@ -345,7 +345,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -356,7 +356,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 * 
+	 *
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -372,7 +372,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinZoomLevel() {
@@ -381,7 +381,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 * 
+	 *
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -471,13 +471,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the current center-point position of the map, as a GeoPoint (latitude and longitude).
-	 * 
+	 *
 	 * @return A GeoPoint of the map's center-point.
 	 */
 	@Override
 	public GeoPoint getMapCenter() {
 		final int world_2 = TileSystem.MapSize(mZoomLevel) / 2;
-		Rect screenRect = getScreenRect(null);
+		final Rect screenRect = getScreenRect(null);
 		screenRect.offset(world_2, world_2);
 		return TileSystem.PixelXYToLatLong(screenRect.centerX(), screenRect.centerY(), mZoomLevel,
 				null);
@@ -496,7 +496,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -522,24 +522,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	@Override
-	public ViewGroup.LayoutParams generateLayoutParams(AttributeSet attrs) {
+	public ViewGroup.LayoutParams generateLayoutParams(final AttributeSet attrs) {
 		return new MapView.LayoutParams(getContext(), attrs);
 	}
 
 	// Override to allow type-checking of LayoutParams.
 	@Override
-	protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+	protected boolean checkLayoutParams(final ViewGroup.LayoutParams p) {
 		return p instanceof MapView.LayoutParams;
 	}
 
 	@Override
-	protected ViewGroup.LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+	protected ViewGroup.LayoutParams generateLayoutParams(final ViewGroup.LayoutParams p) {
 		return new MapView.LayoutParams(p);
 	}
 
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int count = getChildCount();
+	protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+		final int count = getChildCount();
 
 		int maxHeight = 0;
 		int maxWidth = 0;
@@ -549,7 +549,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Find rightmost and bottom-most child
 		for (int i = 0; i < count; i++) {
-			View child = getChildAt(i);
+			final View child = getChildAt(i);
 			if (child.getVisibility() != GONE) {
 
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
@@ -618,11 +618,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				resolveSize(maxHeight, heightMeasureSpec));
 	}
 
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		int count = getChildCount();
+	@Override
+	protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
+		final int count = getChildCount();
 
 		for (int i = 0; i < count; i++) {
-			View child = getChildAt(i);
+			final View child = getChildAt(i);
 			if (child.getVisibility() != GONE) {
 
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
@@ -768,14 +769,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public void scrollTo(int x, int y) {
 		final int worldSize_2 = TileSystem.MapSize(mZoomLevel) / 2;
-		while (x < -worldSize_2)
+		while (x < -worldSize_2) {
 			x += (worldSize_2 * 2);
-		while (x > worldSize_2)
+		}
+		while (x > worldSize_2) {
 			x -= (worldSize_2 * 2);
-		while (y < -worldSize_2)
+		}
+		while (y < -worldSize_2) {
 			y += (worldSize_2 * 2);
-		while (y > worldSize_2)
+		}
+		while (y > worldSize_2) {
 			y -= (worldSize_2 * 2);
+		}
 		super.scrollTo(x, y);
 
 		// do callback on listener
@@ -855,7 +860,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
 	 * to avoid recalculating during an animation sequence.
-	 * 
+	 *
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -989,7 +994,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * <I>Intermediate coordinates</I> are used to cache the computationally heavy part of the
 	 * projection. They aren't suitable for use until translated into <I>screen coordinates</I> or
 	 * <I>map coordinates</I>.
-	 * 
+	 *
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -1030,6 +1035,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * @deprecated Use TileSystem.getTileSize() instead.
 		 */
+		@Deprecated
 		public int getTileSizePixels() {
 			return TileSystem.getTileSize();
 		}
@@ -1039,8 +1045,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 *             <code>Point out = TileSystem.PixelXYToTileXY(screenRect.centerX(), screenRect.centerY(), null);</code>
 		 *             instead.
 		 */
+		@Deprecated
 		public Point getCenterMapTileCoords() {
-			Rect rect = getScreenRect();
+			final Rect rect = getScreenRect();
 			return TileSystem.PixelXYToTileXY(rect.centerX(), rect.centerY(), null);
 		}
 
@@ -1049,14 +1056,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 *             <code>final Point out = TileSystem.TileXYToPixelXY(centerMapTileCoords.x, centerMapTileCoords.y, null);</code>
 		 *             instead.
 		 */
+		@Deprecated
 		public Point getUpperLeftCornerOfCenterMapTile() {
-			Point centerMapTileCoords = getCenterMapTileCoords();
+			final Point centerMapTileCoords = getCenterMapTileCoords();
 			return TileSystem.TileXYToPixelXY(centerMapTileCoords.x, centerMapTileCoords.y, null);
 		}
 
 		/**
 		 * Converts <I>screen coordinates</I> to the underlying GeoPoint.
-		 * 
+		 *
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1076,7 +1084,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts a GeoPoint to its <I>screen coordinates</I>.
-		 * 
+		 *
 		 * @param in
 		 *            the GeoPoint you want the <I>screen coordinates</I> of
 		 * @param reuse
@@ -1096,7 +1104,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection. Call
 		 * toMapPixelsTranslated to get the final position.
-		 * 
+		 *
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1117,7 +1125,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * Performs the second computationally light part of the projection. Returns results in
 		 * <I>screen coordinates</I>.
-		 * 
+		 *
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1135,7 +1143,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from <I>screen coordinates</I> to <I>intermediate coordinates</I>.
-		 * 
+		 *
 		 * @param in
 		 *            the rectangle in <I>screen coordinates</I>
 		 * @return a rectangle in </I>intermediate coordindates</I>.
@@ -1157,6 +1165,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * @deprecated Use TileSystem.TileXYToPixelXY
 		 */
+		@Deprecated
 		public Point toPixels(final Point tileCoords, final Point reuse) {
 			return toPixels(tileCoords.x, tileCoords.y, reuse);
 		}
@@ -1164,6 +1173,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * @deprecated Use TileSystem.TileXYToPixelXY
 		 */
+		@Deprecated
 		public Point toPixels(final int tileX, final int tileY, final Point reuse) {
 			return TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
 		}
@@ -1195,12 +1205,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		@Override
-		public Point toPixels(final GeoPoint in, final Point out) {
+		public Point toPixels(final IGeoPoint in, final Point out) {
 			return toMapPixels(in, out);
 		}
 
 		@Override
-		public GeoPoint fromPixels(final int x, final int y) {
+		public IGeoPoint fromPixels(final int x, final int y) {
 			return fromPixels((float) x, (float) y);
 		}
 	}
@@ -1376,7 +1386,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Creates a new set of layout parameters with the specified width, height and location.
-		 * 
+		 *
 		 * @param width
 		 *            the width, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
 		 *            in pixels
@@ -1396,13 +1406,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 *            the additional Y offset from the alignment location to draw the child within
 		 *            the map view
 		 */
-		public LayoutParams(int width, int height, GeoPoint geoPoint, int alignment, int offsetX,
-				int offsetY) {
+		public LayoutParams(final int width, final int height, final GeoPoint geoPoint, final int alignment, final int offsetX,
+				final int offsetY) {
 			super(width, height);
-			if (geoPoint != null)
+			if (geoPoint != null) {
 				this.geoPoint = geoPoint;
-			else
+			} else {
 				this.geoPoint = new GeoPoint(0, 0);
+			}
 			this.alignment = alignment;
 			this.offsetX = offsetX;
 			this.offsetY = offsetY;
@@ -1412,13 +1423,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 * Since we cannot use XML files in this project this constructor is useless. Creates a new
 		 * set of layout parameters. The values are extracted from the supplied attributes set and
 		 * context.
-		 * 
+		 *
 		 * @param c
 		 *            the application environment
 		 * @param attrs
 		 *            the set of attributes fom which to extract the layout parameters values
 		 */
-		public LayoutParams(Context c, AttributeSet attrs) {
+		public LayoutParams(final Context c, final AttributeSet attrs) {
 			super(c, attrs);
 			this.geoPoint = new GeoPoint(0, 0);
 			this.alignment = BOTTOM_CENTER;
@@ -1427,7 +1438,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * {@inheritDoc}
 		 */
-		public LayoutParams(ViewGroup.LayoutParams source) {
+		public LayoutParams(final ViewGroup.LayoutParams source) {
 			super(source);
 		}
 	}

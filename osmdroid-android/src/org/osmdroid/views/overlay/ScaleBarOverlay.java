@@ -39,6 +39,7 @@ import java.lang.reflect.Field;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
@@ -203,9 +204,10 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		return barPaint;
 	}
 
-	public void setBarPaint(Paint pBarPaint) {
-		if (pBarPaint == null)
+	public void setBarPaint(final Paint pBarPaint) {
+		if (pBarPaint == null) {
 			throw new IllegalArgumentException("pBarPaint argument cannot be null");
+		}
 		barPaint = pBarPaint;
 	}
 
@@ -213,9 +215,10 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		return textPaint;
 	}
 
-	public void setTextPaint(Paint pTextPaint) {
-		if (pTextPaint == null)
+	public void setTextPaint(final Paint pTextPaint) {
+		if (pTextPaint == null) {
 			throw new IllegalArgumentException("pTextPaint argument cannot be null");
+		}
 		textPaint = pTextPaint;
 	}
 
@@ -244,7 +247,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return;
 			}
 
-			final GeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight / 2);
+			final IGeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight / 2);
 			if (zoomLevel != lastZoomLevel
 					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
 				lastZoomLevel = zoomLevel;
