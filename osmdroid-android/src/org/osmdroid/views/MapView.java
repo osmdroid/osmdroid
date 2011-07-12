@@ -236,9 +236,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final Rect screenRect = getScreenRect(null);
 		screenRect.offset(world_2, world_2);
 
-		final GeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(screenRect.right, screenRect.top,
+		final IGeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(screenRect.right, screenRect.top,
 				mZoomLevel, null);
-		final GeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(screenRect.left, screenRect.bottom,
+		final IGeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(screenRect.left, screenRect.bottom,
 				mZoomLevel, null);
 
 		return new BoundingBoxE6(neGeoPoint.getLatitudeE6(), neGeoPoint.getLongitudeE6(),
@@ -315,7 +315,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// to do it the hard way.
 			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel) / 2;
 			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel) / 2;
-			final GeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
+			final IGeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
 					+ worldSize_current_2, getScrollY() + worldSize_current_2, curZoomLevel, null);
 			final Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
 					centerGeoPoint.getLongitudeE6() / 1E6, newZoomLevel, null);
@@ -459,7 +459,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 	}
 
-	boolean zoomOutFixing(final GeoPoint point) {
+	boolean zoomOutFixing(final IGeoPoint point) {
 		setMapCenter(point); // TODO should fix on point, not center on it
 		return zoomOut();
 	}
@@ -475,7 +475,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * @return A GeoPoint of the map's center-point.
 	 */
 	@Override
-	public GeoPoint getMapCenter() {
+	public IGeoPoint getMapCenter() {
 		final int world_2 = TileSystem.MapSize(mZoomLevel) / 2;
 		final Rect screenRect = getScreenRect(null);
 		screenRect.offset(world_2, world_2);
