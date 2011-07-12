@@ -12,6 +12,4 @@ import org.osmdroid.util.GeoPoint;
 public interface IGeoPoint {
 	int getLatitudeE6();
 	int getLongitudeE6();
-	int distanceTo(IGeoPoint other);
-	double bearingTo(IGeoPoint other);
 }

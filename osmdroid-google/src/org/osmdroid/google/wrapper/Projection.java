@@ -1,5 +1,6 @@
 package org.osmdroid.google.wrapper;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 
@@ -22,14 +23,14 @@ public class Projection implements IProjection {
 	}
 
 	@Override
-	public Point toPixels(final GeoPoint in, final Point out) {
+	public Point toPixels(final IGeoPoint in, final Point out) {
 		final com.google.android.maps.GeoPoint googleGeoPoint =
 			new com.google.android.maps.GeoPoint(in.getLatitudeE6(), in.getLongitudeE6());
 		return mProjection.toPixels(googleGeoPoint, out);
 	}
 
 	@Override
-	public GeoPoint fromPixels(final int x, final int y) {
+	public IGeoPoint fromPixels(final int x, final int y) {
 		final com.google.android.maps.GeoPoint googleGeoPoint = mProjection.fromPixels(x, y);
 		return new GeoPoint(googleGeoPoint.getLatitudeE6(), googleGeoPoint.getLongitudeE6());
 	}

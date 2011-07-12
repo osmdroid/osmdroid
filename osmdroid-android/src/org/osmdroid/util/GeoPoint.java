@@ -230,7 +230,6 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	 * @see Source@ http://www.geocities.com/DrChengalva/GPSDistance.html
 	 * @return distance in meters
 	 */
-	@Override
 	public int distanceTo(final IGeoPoint other) {
 
 		final double a1 = DEG2RAD * this.mLatitudeE6 / 1E6;
@@ -257,7 +256,6 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	 *      bc7f9b3111158dd
 	 * @return bearing in degrees
 	 */
-	@Override
 	public double bearingTo(final IGeoPoint other) {
 		final double lat1 = Math.toRadians(this.mLatitudeE6 / 1E6);
 		final double long1 = Math.toRadians(this.mLongitudeE6 / 1E6);
