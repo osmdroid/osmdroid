@@ -17,12 +17,12 @@ import android.graphics.drawable.Drawable;
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
  * as last and therefore the 'topmost' marker. It also gets checked for onTap first. This class is
  * generic, because you then you get your custom item-class passed back in onTap().
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
  * @author Theodore Hong
  * @author Fred Eisele
- * 
+ *
  * @param <Item>
  */
 public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements
@@ -66,8 +66,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		super(pResourceProxy);
 
-		if (pDefaultMarker == null)
+		if (pDefaultMarker == null) {
 			throw new IllegalArgumentException("You must pass a default marker to ItemizedOverlay.");
+		}
 
 		this.mDefaultMarker = pDefaultMarker;
 
@@ -90,7 +91,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * null, the default marker is used.<br/>
 	 * <br/>
 	 * The focused item is always drawn last, which puts it visually on top of the other items.<br/>
-	 * 
+	 *
 	 * @param canvas
 	 *            the Canvas upon which to draw. Note that this may already have a transformation
 	 *            applied, so be sure to leave it the way you found it
@@ -129,7 +130,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * before anything else gets called.
 	 */
 	protected final void populate() {
-		int size = size();
+		final int size = size();
 		mInternalItemList.clear();
 		mInternalItemList.ensureCapacity(size);
 		for (int a = 0; a < size; a++) {
@@ -139,18 +140,18 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	/**
 	 * Returns the Item at the given index.
-	 * 
+	 *
 	 * @param position
 	 *            the position of the item to return
 	 * @return the Item of the given index.
 	 */
-	public final Item getItem(int position) {
+	public final Item getItem(final int position) {
 		return mInternalItemList.get(position);
 	}
 
 	/**
 	 * Draws an item located at the provided screen coordinates to the canvas.
-	 * 
+	 *
 	 * @param canvas
 	 *            what the item is drawn upon
 	 * @param item
@@ -171,7 +172,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
 	}
 
-	private Drawable getDefaultMarker(int state) {
+	private Drawable getDefaultMarker(final int state) {
 		OverlayItem.setState(mDefaultMarker, state);
 		return mDefaultMarker;
 	}
@@ -181,7 +182,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * an item is hit tested. The hit point is relative to the marker's bounds. The default
 	 * implementation just checks to see if the hit point is within the touchable bounds of the
 	 * marker.
-	 * 
+	 *
 	 * @param item
 	 *            the item to hit test
 	 * @param marker
@@ -192,8 +193,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            y coordinate of point to check
 	 * @return true if the hit point is within the marker
 	 */
-	protected boolean hitTest(Item item, android.graphics.drawable.Drawable marker, int hitX,
-			int hitY) {
+	protected boolean hitTest(final Item item, final android.graphics.drawable.Drawable marker, final int hitX,
+			final int hitY) {
 		return marker.getBounds().contains(hitX, hitY);
 	}
 
@@ -201,7 +202,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * Set whether or not to draw the focused item. The default is to draw it, but some clients may
 	 * prefer to draw the focused item themselves.
 	 */
-	public void setDrawFocusedItem(boolean drawFocusedItem) {
+	public void setDrawFocusedItem(final boolean drawFocusedItem) {
 		mDrawFocusedItem = drawFocusedItem;
 	}
 
@@ -211,12 +212,12 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * the map, so if the Item isn't already centered, the user may get confused. If the Item is not
 	 * found, this is a no-op. You can also pass null to remove focus.
 	 */
-	public void setFocus(Item item) {
+	public void setFocus(final Item item) {
 		mFocusedItem = item;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the currently-focused item, or null if no item is currently focused.
 	 */
 	public Item getFocus() {
@@ -227,21 +228,22 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * Adjusts a drawable's bounds so that (0,0) is a pixel in the location described by the hotspot
 	 * parameter. Useful for "pin"-like graphics. For convenience, returns the same drawable that
 	 * was passed in.
-	 * 
+	 *
 	 * @param marker
 	 *            the drawable to adjust
 	 * @param hotspot
 	 *            the hotspot for the drawable
 	 * @return the same drawable that was passed in.
 	 */
-	protected synchronized Drawable boundToHotspot(Drawable marker, HotspotPlace hotspot) {
-		int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
-		int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
+	protected synchronized Drawable boundToHotspot(final Drawable marker, HotspotPlace hotspot) {
+		final int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
+		final int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
 
 		mRect.set(0, 0, 0 + markerWidth, 0 + markerHeight);
 
-		if (hotspot == null)
+		if (hotspot == null) {
 			hotspot = HotspotPlace.BOTTOM_CENTER;
+		}
 
 		switch (hotspot) {
 		default:
@@ -272,7 +274,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 			mRect.offset(0, 0);
 			break;
 		case LOWER_LEFT_CORNER:
-			mRect.offset(0, markerHeight);
+			mRect.offset(0, markerHeight); /// TODO test - should this be -markerHeight ???
 			break;
 		}
 		marker.setBounds(mRect);
