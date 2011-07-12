@@ -183,7 +183,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		final GeoPoint rhs = (GeoPoint) obj;
 		return rhs.mLatitudeE6 == this.mLatitudeE6 && rhs.mLongitudeE6 == this.mLongitudeE6 && rhs.mAltitude == this.mAltitude;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return 37 * (17 * mLatitudeE6 + mLongitudeE6) + mAltitude;
@@ -228,16 +228,15 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 
 	/**
 	 * @see Source@ http://www.geocities.com/DrChengalva/GPSDistance.html
-	 * @param gpA
-	 * @param gpB
 	 * @return distance in meters
 	 */
-	public int distanceTo(final GeoPoint other) {
+	@Override
+	public int distanceTo(final IGeoPoint other) {
 
 		final double a1 = DEG2RAD * this.mLatitudeE6 / 1E6;
 		final double a2 = DEG2RAD * this.mLongitudeE6 / 1E6;
-		final double b1 = DEG2RAD * other.mLatitudeE6 / 1E6;
-		final double b2 = DEG2RAD * other.mLongitudeE6 / 1E6;
+		final double b1 = DEG2RAD * other.getLatitudeE6() / 1E6;
+		final double b2 = DEG2RAD * other.getLongitudeE6() / 1E6;
 
 		final double cosa1 = Math.cos(a1);
 		final double cosb1 = Math.cos(b1);
@@ -256,18 +255,18 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	/**
 	 * @see Source@ http://groups.google.com/group/osmdroid/browse_thread/thread/d22c4efeb9188fe9/
 	 *      bc7f9b3111158dd
-	 * @param other
 	 * @return bearing in degrees
 	 */
-	public double bearingTo(final GeoPoint other) {
+	@Override
+	public double bearingTo(final IGeoPoint other) {
 		final double lat1 = Math.toRadians(this.mLatitudeE6 / 1E6);
 		final double long1 = Math.toRadians(this.mLongitudeE6 / 1E6);
-		final double lat2 = Math.toRadians(other.mLatitudeE6 / 1E6);
-		final double long2 = Math.toRadians(other.mLongitudeE6 / 1E6);
+		final double lat2 = Math.toRadians(other.getLatitudeE6() / 1E6);
+		final double long2 = Math.toRadians(other.getLongitudeE6() / 1E6);
 		final double delta_long = long2 - long1;
 		final double a = Math.sin(delta_long) * Math.cos(lat2);
-		final double b = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2)
-		* Math.cos(delta_long);
+		final double b = Math.cos(lat1) * Math.sin(lat2) -
+						 Math.sin(lat1) * Math.cos(lat2) * Math.cos(delta_long);
 		final double bearing = Math.toDegrees(Math.atan2(a, b));
 		final double bearing_normalized = (bearing + 360) % 360;
 		return bearing_normalized;

@@ -40,7 +40,6 @@ import java.lang.reflect.Field;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
@@ -287,8 +286,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		}
 
 		// Two points, 1-inch apart in x/latitude, centered on screen
-		GeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xdpi / 2), screenHeight / 2);
-		GeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xdpi / 2), screenHeight / 2);
+		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xdpi / 2), screenHeight / 2);
+		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xdpi / 2), screenHeight / 2);
 
 		final int xMetersPerInch = p1.distanceTo(p2);
 

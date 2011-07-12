@@ -271,7 +271,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mProjection;
 	}
 
-	void setMapCenter(final GeoPoint aCenter) {
+	void setMapCenter(final IGeoPoint aCenter) {
 		this.setMapCenter(aCenter.getLatitudeE6(), aCenter.getLongitudeE6());
 	}
 
@@ -430,7 +430,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 	}
 
-	boolean zoomInFixing(final GeoPoint point) {
+	boolean zoomInFixing(final IGeoPoint point) {
 		setMapCenter(point); // TODO should fix on point, not center on it
 		return zoomIn();
 	}
@@ -1069,7 +1069,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 * @param y
 		 * @return GeoPoint under x/y.
 		 */
-		public GeoPoint fromPixels(final float x, final float y) {
+		public IGeoPoint fromPixels(final float x, final float y) {
 			final Rect screenRect = getScreenRect();
 			return TileSystem.PixelXYToLatLong(screenRect.left + (int) x + worldSize_2,
 					screenRect.top + (int) y + worldSize_2, mZoomLevelProjection, null);
@@ -1279,7 +1279,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final GeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
+			final IGeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
 			return zoomInFixing(center);
 		}
 
