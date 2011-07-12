@@ -5,6 +5,7 @@ import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.samples.SampleLoader;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
@@ -67,6 +68,8 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
+		BingMapTileSource.retrieveBingKey(getApplicationContext());
+		TileSourceFactory.addTileSource(new BingMapTileSource(BingMapTileSource.IMAGERYSET_ROAD, null));
 
 		this.mOsmv = new MapView(this, 256, mResourceProxy);
 		this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv,

@@ -14,7 +14,7 @@ import org.osmdroid.views.util.constants.MathConstants;
 import android.graphics.Point;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
  */
 public class MapController implements IMapController, MapViewConstants {
@@ -99,7 +99,7 @@ public class MapController implements IMapController, MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end. Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 * 
+	 *
 	 * @param gp
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
@@ -110,7 +110,7 @@ public class MapController implements IMapController, MapViewConstants {
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
 	 * end.
-	 * 
+	 *
 	 * @param gp
 	 *            GeoPoint to be centered in the end.
 	 * @param aSmoothness
@@ -131,7 +131,7 @@ public class MapController implements IMapController, MapViewConstants {
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
 	 * Uses: {@link MapController.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapController.ANIMATION_DURATION_DEFAULT}.
-	 * 
+	 *
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 */
@@ -143,7 +143,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
-	 * 
+	 *
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 * @param aSmoothness
@@ -202,7 +202,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 	/**
 	 * Stops a running animation.
-	 * 
+	 *
 	 * @param jumpToTarget
 	 */
 	public void stopAnimation(final boolean jumpToTarget) {
@@ -398,7 +398,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 			/* Get the current mapview-center. */
 			final MapView mapview = MapController.this.mOsmv;
-			final GeoPoint mapCenter = mapview.getMapCenter();
+			final IGeoPoint mapCenter = mapview.getMapCenter();
 
 			this.mPanTotalLatitudeE6 = mapCenter.getLatitudeE6() - aTargetLatitudeE6;
 			this.mPanTotalLongitudeE6 = mapCenter.getLongitudeE6() - aTargetLongitudeE6;
@@ -441,7 +441,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 			/* Get the current mapview-center. */
 			final MapView mapview = MapController.this.mOsmv;
-			final GeoPoint mapCenter = mapview.getMapCenter();
+			final IGeoPoint mapCenter = mapview.getMapCenter();
 
 			this.mPanPerStepLatitudeE6 = (mapCenter.getLatitudeE6() - aTargetLatitudeE6)
 					/ aSmoothness;
@@ -458,7 +458,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
-			final GeoPoint mapCenter = mapview.getMapCenter();
+			final IGeoPoint mapCenter = mapview.getMapCenter();
 			final int panPerStepLatitudeE6 = this.mPanPerStepLatitudeE6;
 			final int panPerStepLongitudeE6 = this.mPanPerStepLongitudeE6;
 			final int stepDuration = this.mStepDuration;
@@ -511,7 +511,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
-			final GeoPoint mapCenter = mapview.getMapCenter();
+			final IGeoPoint mapCenter = mapview.getMapCenter();
 			final int stepDuration = this.mStepDuration;
 			try {
 				int newMapCenterLatE6;
@@ -584,7 +584,7 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onRunAnimation() {
 			final MapView mapview = MapController.this.mOsmv;
-			final GeoPoint mapCenter = mapview.getMapCenter();
+			final IGeoPoint mapCenter = mapview.getMapCenter();
 			final int stepDuration = this.mStepDuration;
 			final float amountStretch = this.mAmountStretch;
 			try {
