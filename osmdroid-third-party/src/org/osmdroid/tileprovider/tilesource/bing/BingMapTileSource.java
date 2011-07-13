@@ -75,13 +75,10 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 
 	/**
 	 * Constructor.<br> <b>Warning, the static method {@link retrieveBingKey} should have been invoked once before constructor invocation</b>
-	 * @param aStyle The map style.<br>
-	 * Should be one of {@link IMAGERYSET_AERIAL}, {@link IMAGERYSET_AERIALWITHLABELS} or {@link IMAGERYSET_ROAD}
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
-	public BingMapTileSource(final String aStyle, final String aLocale) {
+	public BingMapTileSource(final String aLocale) {
 		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, (String)null);
-		mStyle = aStyle;
 		mLocale = aLocale;
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
@@ -173,10 +170,19 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	/*--------------- IStyledTileSource --------------------*/
 
 	@Override
+	/**
+	 * Set the map style.
+	 * @param aStyle The map style.<br>
+	 * Should be one of {@link IMAGERYSET_AERIAL}, {@link IMAGERYSET_AERIALWITHLABELS} or {@link IMAGERYSET_ROAD}
+	 */
 	public void setStyle(final String pStyle) {
 		if(!pStyle.equals(mStyle)) {
-			// this is the flag to re-read imagery data
-			mBaseUrl = null;
+			// flag to re-read imagery data
+			synchronized (mStyle) {
+				mUrl = null;
+				mBaseUrl = null;
+				mImageryData = null;
+			}
 		}
 		mStyle = pStyle;
 	}
