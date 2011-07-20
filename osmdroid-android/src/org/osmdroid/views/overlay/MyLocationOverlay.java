@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -38,9 +37,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Surface;
+import android.view.WindowManager;
 
 /**
  *
@@ -71,6 +73,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	private final MapController mMapController;
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
+	private final Display mDisplay;
 
 	public LocationListenerProxy mLocationListener = null;
 	public SensorEventListenerProxy mSensorListener = null;
@@ -135,6 +138,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mMapView = mapView;
 		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 		mSensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
+		WindowManager windowManager = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+		mDisplay = windowManager.getDefaultDisplay();
+
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
@@ -650,18 +656,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			return Float.NaN;
 		}
 
-		// Note - all azimuths are offset by -90 when in landscape mode. This is because the
-		// hardware does not change orientation when physically flipped, but Android changes the
-		// screen coordinates therefore it will be off by 90 degrees. This assumes that Android only
-		// allows two screen rotations - 0 degrees (portrait) and 90 degrees (landscape) and does
-		// not permit 180 or 270 degrees (upside-down portrait and upside-down landscape
-		// respectively). This is probably a bad assumption, so maybe there is a better way to do
-		// this. SensorManager.remapCoordinateSystem might be able to help.
-
-		final int azimuthRotationOffset =
-			mMapView.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 90 : 0;
-
-		return mAzimuth + azimuthRotationOffset;
+		return mAzimuth + getDeviceOrientation();
 	}
 
 	@Override
@@ -703,6 +698,15 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		p.close();
 		canvas.drawPath(p, paint);
 		canvas.restore();
+	}
+
+	private int getDeviceOrientation() {
+		switch (mDisplay.getOrientation()) {
+		case Surface.ROTATION_90: return 90;
+		case Surface.ROTATION_180: return 180;
+		case Surface.ROTATION_270: return 270;
+		default: return 0;
+		}
 	}
 
 	private void createCompassFramePicture() {
