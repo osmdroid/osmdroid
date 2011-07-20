@@ -22,6 +22,8 @@ public interface IMyLocationOverlay {
 	void disableCompass();
 	boolean	isCompassEnabled() ;
 
+	public float getOrientation();
+
 	boolean	runOnFirstFix(Runnable runnable);
 
 	void onStatusChanged(String provider, int status, Bundle extras);

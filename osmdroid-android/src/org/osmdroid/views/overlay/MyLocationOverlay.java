@@ -43,9 +43,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
@@ -90,25 +90,26 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	/** Coordinates the feet of the person are located scaled for display density. */
 	protected final PointF PERSON_HOTSPOT;
 
-	private final float DIRECTION_ARROW_CENTER_X;
-	private final float DIRECTION_ARROW_CENTER_Y;
+	protected final float DIRECTION_ARROW_CENTER_X;
+	protected final float DIRECTION_ARROW_CENTER_Y;
 
 	protected final Picture mCompassFrame = new Picture();
 	protected final Picture mCompassRose = new Picture();
 	private final Matrix mCompassMatrix = new Matrix();
 
-	// actual compass value. Note: this one is only changed when an actual compass value
-	// is being read, so a check >= 0 is valid
-	private float mAzimuth = -1.0f;
+	/**
+	 * The bearing, in degrees east of north, or NaN if none has been set.
+	 */
+	private float mAzimuth = Float.NaN;
 
 	private float mCompassCenterX = 35.0f;
 	private float mCompassCenterY = 35.0f;
 	private final float mCompassRadius = 20.0f;
 
-	private final float COMPASS_FRAME_CENTER_X;
-	private final float COMPASS_FRAME_CENTER_Y;
-	private final float COMPASS_ROSE_CENTER_X;
-	private final float COMPASS_ROSE_CENTER_Y;
+	protected final float COMPASS_FRAME_CENTER_X;
+	protected final float COMPASS_FRAME_CENTER_Y;
+	protected final float COMPASS_ROSE_CENTER_X;
+	protected final float COMPASS_ROSE_CENTER_Y;
 
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 	public static final int MENU_COMPASS = getSafeMenuId();
@@ -168,7 +169,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum interval for location updates. See {@link
 	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
 	 * should call this before calling {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param milliSeconds
 	 */
 	public void setLocationUpdateMinTime(final long milliSeconds) {
@@ -183,7 +184,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	 * Set the minimum distance for location updates. See
 	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
 	 * {@link enableMyLocation()}.
-	 * 
+	 *
 	 * @param meters
 	 */
 	public void setLocationUpdateMinDistance(final float meters) {
@@ -197,7 +198,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @param drawAccuracyEnabled
 	 *            whether the accuracy circle will be enabled
 	 */
@@ -207,11 +208,89 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isDrawAccuracyEnabled() {
 		return mDrawAccuracyEnabled;
+	}
+
+	protected void drawMyLocation(final Canvas canvas,
+            final MapView mapView,
+            final Location lastFix,
+            final GeoPoint myLocation) {
+
+		if (mDrawAccuracyEnabled) {
+			final Projection pj = mapView.getProjection();
+			pj.toMapPixels(mGeoPoint, mMapCoords);
+			final float radius = pj.metersToEquatorPixels(lastFix.getAccuracy());
+
+			mCirclePaint.setAlpha(50);
+			mCirclePaint.setStyle(Style.FILL);
+			canvas.drawCircle(mMapCoords.x, mMapCoords.y, radius, mCirclePaint);
+
+			mCirclePaint.setAlpha(150);
+			mCirclePaint.setStyle(Style.STROKE);
+			canvas.drawCircle(mMapCoords.x, mMapCoords.y, radius, mCirclePaint);
+		}
+
+		canvas.getMatrix(mMatrix);
+		mMatrix.getValues(mMatrixValues);
+
+		if (DEBUGMODE) {
+			final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
+					/ mMatrixValues[Matrix.MSCALE_X];
+			final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
+					/ mMatrixValues[Matrix.MSCALE_Y];
+			canvas.drawText("Lat: " + lastFix.getLatitude(), tx, ty + 5, mPaint);
+			canvas.drawText("Lon: " + lastFix.getLongitude(), tx, ty + 20, mPaint);
+			canvas.drawText("Alt: " + lastFix.getAltitude(), tx, ty + 35, mPaint);
+			canvas.drawText("Acc: " + lastFix.getAccuracy(), tx, ty + 50, mPaint);
+		}
+
+		if (lastFix.hasBearing()) {
+			/*
+			 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
+			 * to the canvas.
+			 */
+			directionRotater.setRotate(
+					lastFix.getBearing(),
+					DIRECTION_ARROW_CENTER_X, DIRECTION_ARROW_CENTER_Y);
+
+			directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X, -DIRECTION_ARROW_CENTER_Y);
+			directionRotater.postScale(
+					1 / mMatrixValues[Matrix.MSCALE_X],
+					1 / mMatrixValues[Matrix.MSCALE_Y]);
+			directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
+			canvas.drawBitmap(DIRECTION_ARROW, directionRotater, mPaint);
+		} else {
+			directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
+			directionRotater.postScale(
+					1 / mMatrixValues[Matrix.MSCALE_X],
+					1 / mMatrixValues[Matrix.MSCALE_Y]);
+			directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
+			canvas.drawBitmap(PERSON_ICON, directionRotater, mPaint);
+		}
+	}
+
+	protected void drawCompass(final Canvas canvas, final float bearing) {
+		final float centerX = mCompassCenterX * mScale;
+		final float centerY = mCompassCenterY * mScale + (canvas.getHeight() - mMapView.getHeight());
+
+		mCompassMatrix.setTranslate(-COMPASS_FRAME_CENTER_X, -COMPASS_FRAME_CENTER_Y);
+		mCompassMatrix.postTranslate(centerX, centerY);
+
+		canvas.save();
+		canvas.setMatrix(mCompassMatrix);
+		canvas.drawPicture(mCompassFrame);
+
+		mCompassMatrix.setRotate(bearing, COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
+		mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
+		mCompassMatrix.postTranslate(centerX, centerY);
+
+		canvas.setMatrix(mCompassMatrix);
+		canvas.drawPicture(mCompassRose);
+		canvas.restore();
 	}
 
 	// ===========================================================
@@ -219,108 +298,23 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	// ===========================================================
 
 	@Override
-	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;
 		}
 
-		// Note - all azimuths are offset by -90 when in landscape mode. This is because the
-		// hardware does not change orientation when physically flipped, but Android changes the
-		// screen coordinates therefore it will be off by 90 degrees. This assumes that Android only
-		// allows two screen rotations - 0 degrees (portrait) and 90 degrees (landscape) and does
-		// not permit 180 or 270 degrees (upside-down portrait and upside-down landscape
-		// respectively). This is probably a bad assumption, so maybe there is a better way to do
-		// this. SensorManager.remapCoordinateSystem might be able to help.
+		if (mLocation != null) {
 
-		final int azimuthRotationOffset = (osmv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? -90
-				: 0);
-
-		if (mLocationListener != null && mLocation != null) {
-			final Projection pj = osmv.getProjection();
-			mGeoPoint.setCoordsE6((int) (mLocation.getLatitude() * 1E6),
+			mGeoPoint.setCoordsE6(
+					(int) (mLocation.getLatitude() * 1E6),
 					(int) (mLocation.getLongitude() * 1E6));
-			pj.toMapPixels(mGeoPoint, mMapCoords);
 
-			if (mDrawAccuracyEnabled) {
-				final float radius = pj.metersToEquatorPixels(this.mLocation.getAccuracy());
-
-				this.mCirclePaint.setAlpha(50);
-				this.mCirclePaint.setStyle(Style.FILL);
-				c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
-
-				this.mCirclePaint.setAlpha(150);
-				this.mCirclePaint.setStyle(Style.STROKE);
-				c.drawCircle(mMapCoords.x, mMapCoords.y, radius, this.mCirclePaint);
-			}
-
-			c.getMatrix(mMatrix);
-			mMatrix.getValues(mMatrixValues);
-
-			if (DEBUGMODE) {
-				final float tx = (-mMatrixValues[Matrix.MTRANS_X] + 20)
-						/ mMatrixValues[Matrix.MSCALE_X];
-				final float ty = (-mMatrixValues[Matrix.MTRANS_Y] + 90)
-						/ mMatrixValues[Matrix.MSCALE_Y];
-				c.drawText("Lat: " + mLocation.getLatitude(), tx, ty + 5, this.mPaint);
-				c.drawText("Lon: " + mLocation.getLongitude(), tx, ty + 20, this.mPaint);
-				c.drawText("Alt: " + mLocation.getAltitude(), tx, ty + 35, this.mPaint);
-				c.drawText("Acc: " + mLocation.getAccuracy(), tx, ty + 50, this.mPaint);
-			}
-
-			float bearing = -1.0f;
-			if (mLocation.getProvider().equals(LocationManager.GPS_PROVIDER) && mAzimuth >= 0.0f) {
-				// if GPS and compass is available, use compass value
-				bearing = mAzimuth;
-			} else if (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {
-				// use bearing if available and if we're actually moving
-				// XXX do we really need to test for speed > 1, or maybe better
-				// some number other than 1
-				bearing = this.mLocation.getBearing();
-			}
-
-			if (bearing >= 0.0f) {
-				/*
-				 * Rotate the direction-Arrow according to the bearing we are driving. And draw it
-				 * to the canvas.
-				 */
-				this.directionRotater.setRotate(-bearing + azimuthRotationOffset,
-						DIRECTION_ARROW_CENTER_X, DIRECTION_ARROW_CENTER_Y);
-
-				this.directionRotater.postTranslate(-DIRECTION_ARROW_CENTER_X,
-						-DIRECTION_ARROW_CENTER_Y);
-				this.directionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
-						1 / mMatrixValues[Matrix.MSCALE_Y]);
-				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
-				c.drawBitmap(DIRECTION_ARROW, this.directionRotater, this.mPaint);
-			} else {
-				this.directionRotater.setTranslate(-PERSON_HOTSPOT.x, -PERSON_HOTSPOT.y);
-				this.directionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
-						1 / mMatrixValues[Matrix.MSCALE_Y]);
-				this.directionRotater.postTranslate(mMapCoords.x, mMapCoords.y);
-				c.drawBitmap(PERSON_ICON, this.directionRotater, this.mPaint);
-			}
+			drawMyLocation(canvas, mapView, mLocation, mGeoPoint);
 		}
 
-		if ((isCompassEnabled()) && (mAzimuth >= 0.0f)) {
-			final float centerX = mCompassCenterX * mScale;
-			final float centerY = mCompassCenterY * mScale + (c.getHeight() - mMapView.getHeight());
-
-			this.mCompassMatrix.setTranslate(-COMPASS_FRAME_CENTER_X, -COMPASS_FRAME_CENTER_Y);
-			this.mCompassMatrix.postTranslate(centerX, centerY);
-
-			c.save();
-			c.setMatrix(mCompassMatrix);
-			c.drawPicture(mCompassFrame);
-
-			this.mCompassMatrix.setRotate(-mAzimuth + azimuthRotationOffset, COMPASS_ROSE_CENTER_X,
-					COMPASS_ROSE_CENTER_Y);
-			this.mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
-			this.mCompassMatrix.postTranslate(centerX, centerY);
-
-			c.setMatrix(mCompassMatrix);
-			c.drawPicture(mCompassRose);
-			c.restore();
+		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
+			drawCompass(canvas, -getOrientation());
 		}
 	}
 
@@ -528,7 +522,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	/**
 	 * If enabled, the map will center on your current location and automatically scroll as you
 	 * move. Scrolling the map in the UI will disable.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isFollowLocationEnabled() {
@@ -589,7 +583,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving location updates and drawing your location on the map.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
@@ -631,7 +625,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		// Reset values
 		mSensorListener = null;
-		mAzimuth = -1.0f;
+		mAzimuth = Float.NaN;
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
@@ -641,12 +635,33 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * If enabled, the map is receiving orientation updates and drawing your location on the map.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	@Override
 	public boolean isCompassEnabled() {
 		return mSensorListener != null;
+	}
+
+	@Override
+	public float getOrientation() {
+
+		if (Float.isNaN(mAzimuth)) {
+			return Float.NaN;
+		}
+
+		// Note - all azimuths are offset by -90 when in landscape mode. This is because the
+		// hardware does not change orientation when physically flipped, but Android changes the
+		// screen coordinates therefore it will be off by 90 degrees. This assumes that Android only
+		// allows two screen rotations - 0 degrees (portrait) and 90 degrees (landscape) and does
+		// not permit 180 or 270 degrees (upside-down portrait and upside-down landscape
+		// respectively). This is probably a bad assumption, so maybe there is a better way to do
+		// this. SensorManager.remapCoordinateSystem might be able to help.
+
+		final int azimuthRotationOffset =
+			mMapView.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 90 : 0;
+
+		return mAzimuth + azimuthRotationOffset;
 	}
 
 	@Override
