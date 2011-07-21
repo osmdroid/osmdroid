@@ -98,9 +98,9 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewSelection == MapViewSelection.Google) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, getString(R.string.google_maps_api_key));
 			setContentView(mapView);
-			mMapView = new org.osmdroid.google.MapView(mapView);
+			mMapView = new org.osmdroid.google.wrapper.MapView(mapView);
 
-			final org.osmdroid.google.MyLocationOverlay mlo = new org.osmdroid.google.MyLocationOverlay(this, mapView);
+			final org.osmdroid.google.wrapper.MyLocationOverlay mlo = new org.osmdroid.google.wrapper.MyLocationOverlay(this, mapView);
 			mapView.getOverlays().add(mlo);
 			mMyLocationOverlay = mlo;
 		}

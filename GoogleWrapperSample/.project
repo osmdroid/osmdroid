@@ -37,9 +37,9 @@
 			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-android/src</locationURI>
 		</link>
 		<link>
-			<name>osmdroid-google-wrapper-src</name>
+			<name>osmdroid-google-src</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-google-wrapper/src</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/osmdroid-google/src</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
