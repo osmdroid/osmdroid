@@ -29,9 +29,19 @@ public class ImageryMetaDataResource {
 	public int m_zoomMax=22;
 	/** minimum zoom level (1 as default value for BingMap) **/
 	public int m_zoomMin=1;
+	/** whether this imagery has been initialised */
+	public boolean m_isInitialised = false;
 
 	// counter used to manage next available sub domain
 	private int m_subdomainsCounter = 0;
+
+	/**
+	 * Get an instance with default values.
+	 * @return
+	 */
+	static public ImageryMetaDataResource getDefaultInstance() {
+		return new ImageryMetaDataResource();
+	}
 
 	/**
 	 * Parse a JSON string containing resource field of a ImageryMetaData response
@@ -74,6 +84,8 @@ public class ImageryMetaDataResource {
 			}
 
 		}
+
+		result.m_isInitialised = true;
 
 		return result;
 	}

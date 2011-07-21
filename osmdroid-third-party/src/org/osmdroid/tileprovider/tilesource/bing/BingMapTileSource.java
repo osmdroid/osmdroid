@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Locale;
 
+import microsoft.mappoint.TileSystem;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -63,13 +65,13 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 
 	private String mStyle = IMAGERYSET_ROAD;
 
-	// objects storing imagery meta data. One for each map view mode
-	private ImageryMetaDataResource mImageryData;
+	// object storing imagery meta data
+	private ImageryMetaDataResource mImageryData = ImageryMetaDataResource.getDefaultInstance();
 
-	// baseURl used for OnlineTileSourceBase override
-	private String mBaseUrl;
 	// local used for set BingMap REST culture parameter
 	private String mLocale;
+	// baseURl used for OnlineTileSourceBase override
+	private String mBaseUrl;
 	// tile's image resolved url pattern
 	private String mUrl;
 
@@ -118,8 +120,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 
 	@Override
 	protected String getBaseUrl() {
-		if (mBaseUrl == null) {
-			updateBaseUrl();
+		if (!mImageryData.m_isInitialised) {
+			initMetaData();
 		}
 		return mBaseUrl;
 	}
@@ -127,8 +129,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	@Override
 	public String getTileURLString(final MapTile pTile)
 	{
-		if (mUrl == null) {
-			updateBaseUrl();
+		if (!mImageryData.m_isInitialised) {
+			initMetaData();
 		}
 		return String.format(mUrl,quadTree(pTile));
 	}
@@ -139,7 +141,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	@Override
 	public int getMinimumZoomLevel() {
-		return getMetaData().m_zoomMin;
+		return mImageryData.m_zoomMin;
 	}
 	/**
 	 * get maximum zoom level
@@ -147,7 +149,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	@Override
 	public int getMaximumZoomLevel() {
-		return getMetaData().m_zoomMax;
+		return mImageryData.m_zoomMax;
 	}
 	/**
 	 * get tile size in pixel
@@ -155,7 +157,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	@Override
 	public int getTileSizePixels() {
-		return getMetaData().m_imageHeight;
+		return mImageryData.m_imageHeight;
 	}
 
 	/**
@@ -181,7 +183,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			synchronized (mStyle) {
 				mUrl = null;
 				mBaseUrl = null;
-				mImageryData = null;
+				mImageryData.m_isInitialised = false;
 			}
 		}
 		mStyle = pStyle;
@@ -192,11 +194,13 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		return mStyle;
 	}
 
-	private ImageryMetaDataResource getMetaData() {
-		if (mImageryData == null) {
-			synchronized (mStyle) {
-				if (mImageryData == null) {
-					mImageryData= initMetaData();
+	private ImageryMetaDataResource initMetaData() {
+		if (!mImageryData.m_isInitialised) {
+			synchronized (this) {
+				if (!mImageryData.m_isInitialised) {
+					mImageryData = getMetaData();
+					TileSystem.setTileSize(getTileSizePixels());
+					updateBaseUrl();
 				}
 			}
 		}
@@ -206,9 +210,9 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	/**
 	 * Gets the imagery meta from the REST service, or null if it fails
 	 */
-	private ImageryMetaDataResource initMetaData()
+	private ImageryMetaDataResource getMetaData()
 	{
-		logger.trace("initMetaData");
+		logger.trace("getMetaData");
 
 		final HttpClient client = new DefaultHttpClient();
 		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, BING_MAP_KEY));
@@ -235,7 +239,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			logger.error("Error getting imagery meta data", e);
 		} finally {
 			client.getConnectionManager().shutdown();
-			logger.trace("end initMetaData");
+			logger.trace("end getMetaData");
 		}
 		return null;
 	}
@@ -247,16 +251,15 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	protected void updateBaseUrl()
 	{
 		logger.trace("updateBaseUrl");
-		final ImageryMetaDataResource resource = getMetaData();
-		final String subDomain = resource.getSubDomain();
-		final int idx = resource.m_imageUrl.lastIndexOf("/");
+		final String subDomain = mImageryData.getSubDomain();
+		final int idx = mImageryData.m_imageUrl.lastIndexOf("/");
 		if(idx>0) {
-			mBaseUrl = resource.m_imageUrl.substring(0,idx);
+			mBaseUrl = mImageryData.m_imageUrl.substring(0,idx);
 		} else {
-			mBaseUrl = resource.m_imageUrl;
+			mBaseUrl = mImageryData.m_imageUrl;
 		}
 
-		mUrl = resource.m_imageUrl;
+		mUrl = mImageryData.m_imageUrl;
 		if(subDomain!=null)
 		{
 			mBaseUrl = String.format(mBaseUrl, subDomain);
