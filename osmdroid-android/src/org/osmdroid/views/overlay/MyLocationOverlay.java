@@ -290,7 +290,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		canvas.setMatrix(mCompassMatrix);
 		canvas.drawPicture(mCompassFrame);
 
-		mCompassMatrix.setRotate(bearing, COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
+		mCompassMatrix.setRotate(-bearing, COMPASS_ROSE_CENTER_X, COMPASS_ROSE_CENTER_Y);
 		mCompassMatrix.postTranslate(-COMPASS_ROSE_CENTER_X, -COMPASS_ROSE_CENTER_Y);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
@@ -320,7 +320,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		}
 
 		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
-			drawCompass(canvas, -getOrientation());
+			drawCompass(canvas, mAzimuth + getDisplayOrientation());
 		}
 	}
 
@@ -651,12 +651,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	@Override
 	public float getOrientation() {
-
-		if (Float.isNaN(mAzimuth)) {
-			return Float.NaN;
-		}
-
-		return mAzimuth + getDisplayOrientation();
+		return mAzimuth;
 	}
 
 	@Override
