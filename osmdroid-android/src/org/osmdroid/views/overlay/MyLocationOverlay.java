@@ -656,7 +656,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			return Float.NaN;
 		}
 
-		return mAzimuth + getDeviceOrientation();
+		return mAzimuth + getDisplayOrientation();
 	}
 
 	@Override
@@ -700,7 +700,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		canvas.restore();
 	}
 
-	private int getDeviceOrientation() {
+	private int getDisplayOrientation() {
 		switch (mDisplay.getOrientation()) {
 		case Surface.ROTATION_90: return 90;
 		case Surface.ROTATION_180: return 180;
