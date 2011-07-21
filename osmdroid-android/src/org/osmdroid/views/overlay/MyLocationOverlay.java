@@ -121,7 +121,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	// to avoid allocations during onDraw
 	private final float[] mMatrixValues = new float[9];
-	private final GeoPoint mGeoPoint = new GeoPoint(0, 0);
+	private final GeoPoint mMyLocation = new GeoPoint(0, 0);
 	private final Matrix mMatrix = new Matrix();
 
 	// ===========================================================
@@ -138,7 +138,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mMapView = mapView;
 		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 		mSensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
-		WindowManager windowManager = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
+		final WindowManager windowManager = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
 		mDisplay = windowManager.getDefaultDisplay();
 
 		mMapController = mapView.getController();
@@ -226,9 +226,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
             final Location lastFix,
             final GeoPoint myLocation) {
 
+		final Projection pj = mapView.getProjection();
+		pj.toMapPixels(mMyLocation, mMapCoords);
+
 		if (mDrawAccuracyEnabled) {
-			final Projection pj = mapView.getProjection();
-			pj.toMapPixels(mGeoPoint, mMapCoords);
 			final float radius = pj.metersToEquatorPixels(lastFix.getAccuracy());
 
 			mCirclePaint.setAlpha(50);
@@ -312,11 +313,11 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		if (mLocation != null) {
 
-			mGeoPoint.setCoordsE6(
+			mMyLocation.setCoordsE6(
 					(int) (mLocation.getLatitude() * 1E6),
 					(int) (mLocation.getLongitude() * 1E6));
 
-			drawMyLocation(canvas, mapView, mLocation, mGeoPoint);
+			drawMyLocation(canvas, mapView, mLocation, mMyLocation);
 		}
 
 		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
