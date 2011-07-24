@@ -44,11 +44,6 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	/** the meta data key in the manifest */
 	private static final String BING_KEY = "BING_KEY";
 
-	/** Bing Map key set by user.
-	 * See {@link http://msdn.microsoft.com/en-us/library/ff428642.aspx}
-	 */
-	private static String BING_MAP_KEY = "";
-
 	//Constant used for imagerySet parameter
 	/** Aerial imagery mode **/
 	public static final String IMAGERYSET_AERIAL = "Aerial";
@@ -62,6 +57,11 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 
 	// URL used to get imageryData. It is requested in order to get tiles url patterns
 	private static final String BASE_URL_PATTERN = "http://dev.virtualearth.net/REST/V1/Imagery/Metadata/%s?mapVersion=v1&output=json&key=%s";
+
+	/** Bing Map key set by user.
+	 * See {@link http://msdn.microsoft.com/en-us/library/ff428642.aspx}
+	 */
+	private static String mBingMapKey = "";
 
 	private String mStyle = IMAGERYSET_ROAD;
 
@@ -108,12 +108,16 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 					if (DEBUGMODE) {
 						logger.debug("Bing key: " + key);
 					}
-					BING_MAP_KEY = key.trim();
+					mBingMapKey = key.trim();
 				}
 			}
 		} catch (final NameNotFoundException e) {
 			logger.info("Bing key not found in manifest", e);
 		}
+	}
+
+	public static String getBingKey() {
+		return mBingMapKey;
 	}
 
 	/*-------------- overrides OnlineTileSourceBase ---------------------*/
@@ -215,7 +219,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		logger.trace("getMetaData");
 
 		final HttpClient client = new DefaultHttpClient();
-		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, BING_MAP_KEY));
+		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
 		logger.debug("make request "+head.getURI().toString());
 		try {
 		    final HttpResponse response = client.execute(head);

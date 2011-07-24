@@ -19,12 +19,20 @@ public class TileSourceFactory {
 	 */
 	public static ITileSource getTileSource(final String aName) throws IllegalArgumentException {
 		for (final ITileSource tileSource : mTileSources) {
-			// TODO perhaps we should ignore case and white space
 			if (tileSource.name().equals(aName)) {
 				return tileSource;
 			}
 		}
 		throw new IllegalArgumentException("No such tile source: " + aName);
+	}
+
+	public static boolean containsTileSource(final String aName) {
+		for (final ITileSource tileSource : mTileSources) {
+			if (tileSource.name().equals(aName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

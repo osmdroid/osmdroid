@@ -65,12 +65,19 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 
 		mPrefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
+		// only do static initialisation if needed
+		if (CloudmadeUtil.getCloudmadeKey().length() == 0) {
+			CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
+		}
+		if (BingMapTileSource.getBingKey().length() == 0) {
+			BingMapTileSource.retrieveBingKey(getApplicationContext());
+		}
+		final BingMapTileSource bmts = new BingMapTileSource(null);
+		if (!TileSourceFactory.containsTileSource(bmts.name())) {
+			TileSourceFactory.addTileSource(bmts);
+		}
+
 		final RelativeLayout rl = new RelativeLayout(this);
-
-		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
-		BingMapTileSource.retrieveBingKey(getApplicationContext());
-		TileSourceFactory.addTileSource(new BingMapTileSource(null));
-
 		this.mOsmv = new MapView(this, 256, mResourceProxy);
 		this.mLocationOverlay = new MyLocationOverlay(this.getBaseContext(), this.mOsmv,
 				mResourceProxy);
