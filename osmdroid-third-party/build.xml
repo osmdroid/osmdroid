@@ -6,9 +6,9 @@
               as the first entry and export the buildfile again. -->
 <project basedir="." default="build" name="osmdroid-third-party">
     <property environment="env"/>
-    <property name="ANDROID_SDK_PLATFORM" value="c:/android-sdk-windows/platforms/android-3"/>
-    <property name="GOOGLE_SDK_PLATFORM" value="c:/android-sdk-windows/add-ons/google_apis-3-r03/libs"/>
     <property name="osmdroid-android-src.link" value="../osmdroid-android/src"/>
+    <property name="ANDROID_SDK_PLATFORM" value="C:/android-sdk-windows/platforms/android-3"/>
+    <property name="GOOGLE_SDK_PLATFORM" value="C:/android-sdk-windows/add-ons/addon_google_apis_google_inc_3/libs"/>
     <property name="ECLIPSE_HOME" value="C:/eclipse"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.6"/>
@@ -30,6 +30,12 @@
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
+            <fileset dir="${osmdroid-android-src.link}">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
@@ -37,12 +43,6 @@
         </copy>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="tests">
-                <exclude name="**/*.launch"/>
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
-        <copy includeemptydirs="false" todir="bin">
-            <fileset dir="${osmdroid-android-src.link}">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.java"/>
             </fileset>
@@ -57,15 +57,15 @@
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="${osmdroid-android-src.link}"/>
+            <classpath refid="osmdroid-third-party.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="osmdroid-third-party.classpath"/>
         </javac>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
             <src path="tests"/>
-            <classpath refid="osmdroid-third-party.classpath"/>
-        </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
-            <src path="${osmdroid-android-src.link}"/>
             <classpath refid="osmdroid-third-party.classpath"/>
         </javac>
     </target>
