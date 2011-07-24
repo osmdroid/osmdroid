@@ -1,7 +1,6 @@
 package org.osmdroid.tileprovider;
 
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
