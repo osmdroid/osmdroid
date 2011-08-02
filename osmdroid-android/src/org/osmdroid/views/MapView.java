@@ -394,7 +394,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
-		if (isAnimating() & mTargetZoomLevel.get() >= maxZoomLevel) {
+		if (mIsAnimating.get() & mTargetZoomLevel.get() >= maxZoomLevel) {
 			return false;
 		}
 		return true;
@@ -405,7 +405,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel <= minZoomLevel) {
 			return false;
 		}
-		if (isAnimating() && mTargetZoomLevel.get() <= minZoomLevel) {
+		if (mIsAnimating.get() && mTargetZoomLevel.get() <= minZoomLevel) {
 			return false;
 		}
 		return true;
@@ -417,11 +417,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomIn() {
 
 		if (canZoomIn()) {
-			if (isAnimating()) {
+			if (mIsAnimating.get()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
 				mTargetZoomLevel.set(mZoomLevel + 1);
+				mIsAnimating.set(true);
 				startAnimation(mZoomInAnimation);
 				return true;
 			}
@@ -446,11 +447,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	boolean zoomOut() {
 
 		if (canZoomOut()) {
-			if (isAnimating()) {
+			if (mIsAnimating.get()) {
 				// TODO extend zoom (and return true)
 				return false;
 			} else {
 				mTargetZoomLevel.set(mZoomLevel - 1);
+				mIsAnimating.set(true);
 				startAnimation(mZoomOutAnimation);
 				return true;
 			}
@@ -853,7 +855,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mIsAnimating.set(false);
 		clearAnimation();
 		setZoomLevel(mTargetZoomLevel.get());
-		this.isAnimating();
 		super.onAnimationEnd();
 	}
 
