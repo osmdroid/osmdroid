@@ -197,7 +197,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
-		return getOverlayManager();
+		return this.getOverlayManager();
 	}
 
 	public OverlayManager getOverlayManager() {
@@ -332,7 +332,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		if (getOverlayManager().onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+		if (this.getOverlayManager().onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 			scrollTo(snapPoint.x, snapPoint.y);
 		}
 
@@ -684,19 +684,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public void onDetach() {
-		getOverlayManager().onDetach(this);
+		this.getOverlayManager().onDetach(this);
 	}
 
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-		final boolean result = getOverlayManager().onKeyDown(keyCode, event, this);
+		final boolean result = this.getOverlayManager().onKeyDown(keyCode, event, this);
 
 		return result || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-		final boolean result = getOverlayManager().onKeyUp(keyCode, event, this);
+		final boolean result = this.getOverlayManager().onKeyUp(keyCode, event, this);
 
 		return result || super.onKeyUp(keyCode, event);
 	}
@@ -704,7 +704,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public boolean onTrackballEvent(final MotionEvent event) {
 
-		if (getOverlayManager().onTrackballEvent(event, this)) {
+		if (this.getOverlayManager().onTrackballEvent(event, this)) {
 			return true;
 		}
 
@@ -724,7 +724,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		if (getOverlayManager().onTouchEvent(event, this)) {
+		if (this.getOverlayManager().onTouchEvent(event, this)) {
 			return true;
 		}
 
@@ -822,7 +822,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// c.drawColor(mBackgroundColor);
 
 		/* Draw all Overlays. */
-		getOverlayManager().onDraw(c, this);
+		this.getOverlayManager().onDraw(c, this);
 
 		// Restore the canvas matrix
 		c.restore();
@@ -1280,7 +1280,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-			if (getOverlayManager().onDoubleTap(e, MapView.this)) {
+			if (this.getOverlayManager().onDoubleTap(e, MapView.this)) {
 				return true;
 			}
 
@@ -1290,7 +1290,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
-			if (getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
+			if (this.getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
 				return true;
 			}
 
@@ -1299,7 +1299,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
-			if (getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
+			if (this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}
 
