@@ -73,7 +73,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	protected final OverlayManager mOverlayManager;
+	private final OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
@@ -89,7 +89,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
 
-	protected final MapController mController;
+	private final MapController mController;
 
 	// XXX we can use android.widget.ZoomButtonsController if we upgrade the
 	// dependency to Android 1.6
@@ -197,7 +197,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
-		return mOverlayManager;
+		return getOverlayManager();
 	}
 
 	public OverlayManager getOverlayManager() {
@@ -332,7 +332,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final Point snapPoint = new Point();
 		// XXX why do we need a new projection here?
 		mProjection = new Projection();
-		if (mOverlayManager.onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
+		if (getOverlayManager().onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
 			scrollTo(snapPoint.x, snapPoint.y);
 		}
 
@@ -684,19 +684,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public void onDetach() {
-		mOverlayManager.onDetach(this);
+		getOverlayManager().onDetach(this);
 	}
 
 	@Override
 	public boolean onKeyDown(final int keyCode, final KeyEvent event) {
-		final boolean result = mOverlayManager.onKeyDown(keyCode, event, this);
+		final boolean result = getOverlayManager().onKeyDown(keyCode, event, this);
 
 		return result || super.onKeyDown(keyCode, event);
 	}
 
 	@Override
 	public boolean onKeyUp(final int keyCode, final KeyEvent event) {
-		final boolean result = mOverlayManager.onKeyUp(keyCode, event, this);
+		final boolean result = getOverlayManager().onKeyUp(keyCode, event, this);
 
 		return result || super.onKeyUp(keyCode, event);
 	}
@@ -704,7 +704,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public boolean onTrackballEvent(final MotionEvent event) {
 
-		if (mOverlayManager.onTrackballEvent(event, this)) {
+		if (getOverlayManager().onTrackballEvent(event, this)) {
 			return true;
 		}
 
@@ -724,7 +724,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		if (mOverlayManager.onTouchEvent(event, this)) {
+		if (getOverlayManager().onTouchEvent(event, this)) {
 			return true;
 		}
 
@@ -822,7 +822,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// c.drawColor(mBackgroundColor);
 
 		/* Draw all Overlays. */
-		mOverlayManager.onDraw(c, this);
+		getOverlayManager().onDraw(c, this);
 
 		// Restore the canvas matrix
 		c.restore();
@@ -1222,7 +1222,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDown(final MotionEvent e) {
-			if (MapView.this.mOverlayManager.onDown(e, MapView.this)) {
+			if (MapView.this.getOverlayManager().onDown(e, MapView.this)) {
 				return true;
 			}
 
@@ -1233,7 +1233,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX,
 				final float velocityY) {
-			if (MapView.this.mOverlayManager.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
+			if (MapView.this.getOverlayManager()
+					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
 				return true;
 			}
 
@@ -1245,13 +1246,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onLongPress(final MotionEvent e) {
-			MapView.this.mOverlayManager.onLongPress(e, MapView.this);
+			MapView.this.getOverlayManager().onLongPress(e, MapView.this);
 		}
 
 		@Override
 		public boolean onScroll(final MotionEvent e1, final MotionEvent e2, final float distanceX,
 				final float distanceY) {
-			if (MapView.this.mOverlayManager.onScroll(e1, e2, distanceX, distanceY, MapView.this)) {
+			if (MapView.this.getOverlayManager().onScroll(e1, e2, distanceX, distanceY,
+					MapView.this)) {
 				return true;
 			}
 
@@ -1261,12 +1263,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onShowPress(final MotionEvent e) {
-			MapView.this.mOverlayManager.onShowPress(e, MapView.this);
+			MapView.this.getOverlayManager().onShowPress(e, MapView.this);
 		}
 
 		@Override
 		public boolean onSingleTapUp(final MotionEvent e) {
-			if (MapView.this.mOverlayManager.onSingleTapUp(e, MapView.this)) {
+			if (MapView.this.getOverlayManager().onSingleTapUp(e, MapView.this)) {
 				return true;
 			}
 
@@ -1278,7 +1280,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-			if (mOverlayManager.onDoubleTap(e, MapView.this)) {
+			if (getOverlayManager().onDoubleTap(e, MapView.this)) {
 				return true;
 			}
 
@@ -1288,7 +1290,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
-			if (mOverlayManager.onDoubleTapEvent(e, MapView.this)) {
+			if (getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
 				return true;
 			}
 
@@ -1297,7 +1299,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
-			if (mOverlayManager.onSingleTapConfirmed(e, MapView.this)) {
+			if (getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}
 
