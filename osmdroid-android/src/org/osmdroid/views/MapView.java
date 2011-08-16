@@ -73,7 +73,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	private final OverlayManager mOverlayManager;
+	protected final OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
@@ -89,7 +89,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
 
-	private final MapController mController;
+	protected final MapController mController;
 
 	// XXX we can use android.widget.ZoomButtonsController if we upgrade the
 	// dependency to Android 1.6
@@ -238,8 +238,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		final IGeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(screenRect.right, screenRect.top,
 				mZoomLevel, null);
-		final IGeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(screenRect.left, screenRect.bottom,
-				mZoomLevel, null);
+		final IGeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(screenRect.left,
+				screenRect.bottom, mZoomLevel, null);
 
 		return new BoundingBoxE6(neGeoPoint.getLatitudeE6(), neGeoPoint.getLongitudeE6(),
 				swGeoPoint.getLatitudeE6(), swGeoPoint.getLongitudeE6());
@@ -259,7 +259,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Get a projection for converting between screen-pixel coordinates and latitude/longitude
 	 * coordinates. You should not hold on to this object for more than one draw, since the
 	 * projection of the map could change.
-	 *
+	 * 
 	 * @return The Projection of the map in its current state. You should not hold on to this object
 	 *         for more than one draw, since the projection of the map could change.
 	 */
@@ -317,8 +317,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel) / 2;
 			final IGeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
 					+ worldSize_current_2, getScrollY() + worldSize_current_2, curZoomLevel, null);
-			final Point centerPoint = TileSystem.LatLongToPixelXY(centerGeoPoint.getLatitudeE6() / 1E6,
-					centerGeoPoint.getLongitudeE6() / 1E6, newZoomLevel, null);
+			final Point centerPoint = TileSystem.LatLongToPixelXY(
+					centerGeoPoint.getLatitudeE6() / 1E6, centerGeoPoint.getLongitudeE6() / 1E6,
+					newZoomLevel, null);
 			scrollTo(centerPoint.x - worldSize_new_2, centerPoint.y - worldSize_new_2);
 		} else if (newZoomLevel < curZoomLevel) {
 			// We are going from a higher-resolution plane to a lower-resolution plane, so we can do
@@ -345,7 +346,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @return the current ZoomLevel between 0 (equator) and 18/19(closest), depending on the tile
 	 *         source chosen.
 	 */
@@ -356,7 +357,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Get the current ZoomLevel for the map tiles.
-	 *
+	 * 
 	 * @param aPending
 	 *            if true and we're animating then return the zoom level that we're animating
 	 *            towards, otherwise return the current zoom level
@@ -372,7 +373,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the minimum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The minimum zoom level for the map's current center.
 	 */
 	public int getMinZoomLevel() {
@@ -381,7 +382,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the maximum zoom level for the point currently at the center.
-	 *
+	 * 
 	 * @return The maximum zoom level for the map's current center.
 	 */
 	@Override
@@ -473,7 +474,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns the current center-point position of the map, as a GeoPoint (latitude and longitude).
-	 *
+	 * 
 	 * @return A GeoPoint of the map's center-point.
 	 */
 	@Override
@@ -498,7 +499,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 *
+	 * 
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -621,7 +622,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	@Override
-	protected void onLayout(final boolean changed, final int l, final int t, final int r, final int b) {
+	protected void onLayout(final boolean changed, final int l, final int t, final int r,
+			final int b) {
 		final int count = getChildCount();
 
 		for (int i = 0; i < count; i++) {
@@ -861,7 +863,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
 	 * to avoid recalculating during an animation sequence.
-	 *
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -995,7 +997,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * <I>Intermediate coordinates</I> are used to cache the computationally heavy part of the
 	 * projection. They aren't suitable for use until translated into <I>screen coordinates</I> or
 	 * <I>map coordinates</I>.
-	 *
+	 * 
 	 * @author Nicolas Gramlich
 	 * @author Manuel Stahl
 	 */
@@ -1065,7 +1067,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts <I>screen coordinates</I> to the underlying GeoPoint.
-		 *
+		 * 
 		 * @param x
 		 * @param y
 		 * @return GeoPoint under x/y.
@@ -1085,7 +1087,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Converts a GeoPoint to its <I>screen coordinates</I>.
-		 *
+		 * 
 		 * @param in
 		 *            the GeoPoint you want the <I>screen coordinates</I> of
 		 * @param reuse
@@ -1105,7 +1107,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * Performs only the first computationally heavy part of the projection. Call
 		 * toMapPixelsTranslated to get the final position.
-		 *
+		 * 
 		 * @param latituteE6
 		 *            the latitute of the point
 		 * @param longitudeE6
@@ -1126,7 +1128,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		/**
 		 * Performs the second computationally light part of the projection. Returns results in
 		 * <I>screen coordinates</I>.
-		 *
+		 * 
 		 * @param in
 		 *            the Point calculated by the toMapPixelsProjected
 		 * @param reuse
@@ -1144,7 +1146,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Translates a rectangle from <I>screen coordinates</I> to <I>intermediate coordinates</I>.
-		 *
+		 * 
 		 * @param in
 		 *            the rectangle in <I>screen coordinates</I>
 		 * @return a rectangle in </I>intermediate coordindates</I>.
@@ -1387,7 +1389,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/**
 		 * Creates a new set of layout parameters with the specified width, height and location.
-		 *
+		 * 
 		 * @param width
 		 *            the width, either {@link #FILL_PARENT}, {@link #WRAP_CONTENT} or a fixed size
 		 *            in pixels
@@ -1407,8 +1409,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 *            the additional Y offset from the alignment location to draw the child within
 		 *            the map view
 		 */
-		public LayoutParams(final int width, final int height, final GeoPoint geoPoint, final int alignment, final int offsetX,
-				final int offsetY) {
+		public LayoutParams(final int width, final int height, final GeoPoint geoPoint,
+				final int alignment, final int offsetX, final int offsetY) {
 			super(width, height);
 			if (geoPoint != null) {
 				this.geoPoint = geoPoint;
@@ -1424,7 +1426,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 * Since we cannot use XML files in this project this constructor is useless. Creates a new
 		 * set of layout parameters. The values are extracted from the supplied attributes set and
 		 * context.
-		 *
+		 * 
 		 * @param c
 		 *            the application environment
 		 * @param attrs
