@@ -1280,7 +1280,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private class MapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {
 		@Override
 		public boolean onDoubleTap(final MotionEvent e) {
-			if (this.getOverlayManager().onDoubleTap(e, MapView.this)) {
+			if (MapView.this.getOverlayManager().onDoubleTap(e, MapView.this)) {
 				return true;
 			}
 
@@ -1290,7 +1290,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onDoubleTapEvent(final MotionEvent e) {
-			if (this.getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
+			if (MapView.this.getOverlayManager().onDoubleTapEvent(e, MapView.this)) {
 				return true;
 			}
 
@@ -1299,7 +1299,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public boolean onSingleTapConfirmed(final MotionEvent e) {
-			if (this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
+			if (MapView.this.getOverlayManager().onSingleTapConfirmed(e, MapView.this)) {
 				return true;
 			}
 
