@@ -24,9 +24,9 @@ import android.graphics.drawable.Drawable;
  * providers in the chain, then the failure result is passed to the base class. The
  * {@link MapTileProviderArray} provides a mechanism so that only one unique tile-request can be in
  * the map tile request chain at a time.
- * 
+ *
  * @author Marc Kurtz
- * 
+ *
  */
 public class MapTileProviderArray extends MapTileProviderBase {
 
@@ -38,7 +38,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
-	 * 
+	 *
 	 * @param aRegisterReceiver
 	 *            a {@link IRegisterReceiver}
 	 */
@@ -49,7 +49,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	/**
 	 * Creates an {@link MapTileProviderArray} with the specified tile providers.
-	 * 
+	 *
 	 * @param aRegisterReceiver
 	 *            a {@link IRegisterReceiver}
 	 * @param tileProviderArray
@@ -77,10 +77,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public Drawable getMapTile(final MapTile pTile) {
-		if (mTileCache.containsTile(pTile)) {
+		final Drawable tile = mTileCache.getMapTile(pTile);
+		if (tile != null) {
 			if (DEBUGMODE)
 				logger.debug("MapTileCache succeeded for: " + pTile);
-			return mTileCache.getMapTile(pTile);
+			return tile;
 		} else {
 			boolean alreadyInProgress = false;
 			synchronized (mWorking) {
@@ -93,8 +94,8 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 				MapTileRequestState state;
 				synchronized (mTileProviderList) {
-					final MapTileModuleProviderBase[] providerArray = new MapTileModuleProviderBase[mTileProviderList
-							.size()];
+					final MapTileModuleProviderBase[] providerArray =
+						new MapTileModuleProviderBase[mTileProviderList.size()];
 					state = new MapTileRequestState(pTile,
 							mTileProviderList.toArray(providerArray), this);
 				}
