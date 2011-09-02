@@ -31,8 +31,11 @@ public class MBTilesFileArchive implements IArchiveFile {
 	}
 
 	public static MBTilesFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
-		// return new MBTilesFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
-		return new MBTilesFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
+		return new MBTilesFileArchive(
+				SQLiteDatabase.openDatabase(
+						pFile.getAbsolutePath(),
+						null,
+						SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY));
 	}
 
 	@Override
