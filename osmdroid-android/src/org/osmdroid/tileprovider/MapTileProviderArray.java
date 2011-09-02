@@ -144,7 +144,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
 	 * a provider that requires a data connection when one is not available.
 	 */
-	private MapTileModuleProviderBase findNextAppropriateProvider(final MapTileRequestState aState) {
+	protected MapTileModuleProviderBase findNextAppropriateProvider(final MapTileRequestState aState) {
 		MapTileModuleProviderBase provider = null;
 		// The logic of the while statement is
 		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"
