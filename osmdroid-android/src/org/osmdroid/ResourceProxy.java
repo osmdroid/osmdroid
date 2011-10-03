@@ -8,7 +8,7 @@ public interface ResourceProxy {
 	public static enum string {
 
 		// tile sources
-		osmarender, mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard, mapquest_osm, bing,
+		osmarender, mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard, mapquest_osm, mapquest_aerial, bing,
 
 		// overlays
 		fiets_nl, base_nl, roads_nl,

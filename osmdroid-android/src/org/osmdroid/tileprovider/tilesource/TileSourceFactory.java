@@ -106,6 +106,13 @@ public class TileSourceFactory {
 				"http://otile3.mqcdn.com/tiles/1.0.0/osm/",
 				"http://otile4.mqcdn.com/tiles/1.0.0/osm/");
 
+	public static final OnlineTileSourceBase MAPQUESTAERIAL =
+		new XYTileSource("MapquestAerial", ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".png",
+				"http://oatile1.mqcdn.com/naip/",
+				"http://oatile2.mqcdn.com/naip/",
+				"http://oatile3.mqcdn.com/naip/",
+				"http://oatile4.mqcdn.com/naip/");
+
 	public static final OnlineTileSourceBase DEFAULT_TILE_SOURCE = MAPNIK;
 
 	// The following tile sources are overlays, not standalone map views.
@@ -136,5 +143,6 @@ public class TileSourceFactory {
 		mTileSources.add(CLOUDMADESTANDARDTILES);
 		mTileSources.add(CLOUDMADESMALLTILES);
 		mTileSources.add(MAPQUESTOSM);
+		mTileSources.add(MAPQUESTAERIAL);
 	}
 }
