@@ -158,7 +158,6 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	@Override
 	public float getDisplayMetricsDensity() {
-		// TODO Auto-generated method stub
 		return mDisplayMetrics.density;
 	}
 
