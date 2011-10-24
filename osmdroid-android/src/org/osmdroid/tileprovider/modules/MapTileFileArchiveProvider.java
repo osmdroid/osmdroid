@@ -132,6 +132,14 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		mTileSource = pTileSource;
 	}
 
+	@Override
+	public void detach() {
+		while(!mArchiveFiles.isEmpty()) {
+			mArchiveFiles.remove(0);
+		}
+		super.detach();
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
