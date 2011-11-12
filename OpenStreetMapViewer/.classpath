@@ -9,5 +9,5 @@
 	<classpathentry kind="src" path="osmdroid-android-src"/>
 	<classpathentry kind="src" path="osmdroid-third-party-src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
