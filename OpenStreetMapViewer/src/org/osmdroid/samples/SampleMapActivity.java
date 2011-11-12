@@ -14,9 +14,9 @@ import android.os.Bundle;
 
 /**
  * Baseclass for Activities who want to contribute to the OpenStreetMap Project.
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public abstract class SampleMapActivity extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -48,7 +48,7 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 	 * <code>onCreate(final Bundle savedInstanceState, final boolean pDoGPSRecordingAndContributing)</code>
 	 * with <code>pDoGPSRecordingAndContributing == true</code>.<br/>
 	 * That means it automatically contributes to the OpenStreetMap Project in the background.
-	 * 
+	 *
 	 * @param savedInstanceState
 	 */
 	@Override
@@ -58,7 +58,7 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 
 	/**
 	 * Called when the activity is first created. Registers LocationListener.
-	 * 
+	 *
 	 * @param savedInstanceState
 	 * @param pDoGPSRecordingAndContributing
 	 *            If <code>true</code>, it automatically contributes to the OpenStreetMap Project in
@@ -103,7 +103,7 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 		// register location listener
 		initLocation();
 
-		super.onPause();
+		super.onResume();
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 			OSMUploader.uploadAsync(this.mRouteRecorder.getRecordedGeoPoints());
 		}
 
-		super.onResume();
+		super.onPause();
 	}
 
 	// ===========================================================
@@ -151,7 +151,7 @@ public abstract class SampleMapActivity extends Activity implements OpenStreetMa
 
 	/**
 	 * Logs all Location-changes to <code>mRouteRecorder</code>.
-	 * 
+	 *
 	 * @author plusminus
 	 */
 	private class SampleLocationListener implements LocationListener {
