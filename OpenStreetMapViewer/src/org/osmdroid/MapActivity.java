@@ -212,7 +212,7 @@ public class MapActivity extends Activity implements OpenStreetMapConstants {
 		case DIALOG_ABOUT_ID:
 			return new AlertDialog.Builder(MapActivity.this).setIcon(R.drawable.icon)
 					.setTitle(R.string.app_name).setMessage(R.string.about_message)
-					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(final DialogInterface dialog, final int whichButton) {
 						}
