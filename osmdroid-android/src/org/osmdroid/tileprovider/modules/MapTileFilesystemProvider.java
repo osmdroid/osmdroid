@@ -16,10 +16,10 @@ import android.graphics.drawable.Drawable;
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
  * serving cached tiles for the supplied tile source.
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
@@ -53,7 +53,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	/**
 	 * Provides a file system based cache tile provider. Other providers can register and store data
 	 * in the cache.
-	 * 
+	 *
 	 * @param pRegisterReceiver
 	 */
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
@@ -95,12 +95,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MAXIMUM_ZOOMLEVEL;
+		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 						drawable = mTileSource.getDrawable(file.getPath());
 
 						return drawable;
-					} catch (LowMemoryException e) {
+					} catch (final LowMemoryException e) {
 						// low memory so empty the queue
 						logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
 						throw new CantContinueException(e);
@@ -162,7 +162,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 						final Drawable drawable = mTileSource.getDrawable(file.getPath());
 						tileCandidateLoaded(pState, drawable);
 						return null;
-					} catch (LowMemoryException e) {
+					} catch (final LowMemoryException e) {
 						// low memory so empty the queue
 						logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
 						throw new CantContinueException(e);

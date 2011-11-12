@@ -105,12 +105,12 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MAXIMUM_ZOOMLEVEL;
+		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
 	}
 
 	@Override
