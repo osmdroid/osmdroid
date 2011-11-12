@@ -145,9 +145,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				if (!fileExpired) {
 					// If the file has not expired, then render it and return it!
 					try {
-						Drawable drawable;
-						drawable = mTileSource.getDrawable(file.getPath());
-
+						final Drawable drawable = mTileSource.getDrawable(file.getPath());
 						return drawable;
 					} catch (final LowMemoryException e) {
 						// low memory so empty the queue

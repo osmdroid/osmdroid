@@ -20,7 +20,7 @@ import android.graphics.drawable.Drawable;
 
 /**
  * An abstract base class for modular tile providers
- * 
+ *
  * @author Marc Kurtz
  * @author Neil Boyd
  */
@@ -28,14 +28,14 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	/**
 	 * Gets the human-friendly name assigned to this tile provider.
-	 * 
+	 *
 	 * @return the thread name
 	 */
 	protected abstract String getName();
 
 	/**
 	 * Gets the name assigned to the thread for this provider.
-	 * 
+	 *
 	 * @return the thread name
 	 */
 	protected abstract String getThreadGroupName();
@@ -44,7 +44,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 * It is expected that the implementation will construct an internal member which internally
 	 * implements a {@link TileLoader}. This method is expected to return a that internal member to
 	 * methods of the parent methods.
-	 * 
+	 *
 	 * @return the internal member of this tile provider.
 	 */
 	protected abstract Runnable getTileLoader();
@@ -52,28 +52,28 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	/**
 	 * Returns true if implementation uses a data connection, false otherwise. This value is used to
 	 * determine if this provider should be skipped if there is no data connection.
-	 * 
+	 *
 	 * @return true if implementation uses a data connection, false otherwise
 	 */
 	public abstract boolean getUsesDataConnection();
 
 	/**
 	 * Gets the minimum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the minimum zoom level
 	 */
 	public abstract int getMinimumZoomLevel();
 
 	/**
 	 * Gets the maximum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the maximum zoom level
 	 */
 	public abstract int getMaximumZoomLevel();
 
 	/**
 	 * Sets the tile source for this tile provider.
-	 * 
+	 *
 	 * @param tileSource
 	 *            the tile source
 	 */
@@ -112,7 +112,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		}
 		try {
 			mExecutor.execute(getTileLoader());
-		} catch (RejectedExecutionException e) {
+		} catch (final RejectedExecutionException e) {
 			logger.warn("RejectedExecutionException", e);
 		}
 	}
@@ -143,19 +143,14 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	 * Load the requested tile. An abstract internal class whose objects are used by worker threads
 	 * to acquire tiles from servers. It processes tiles from the 'pending' set to the 'working' set
 	 * as they become available. The key unimplemented method is 'loadTile'.
-	 * 
-	 * @param aTile
-	 *            the tile to load
-	 * @throws {@link CantContinueException} if it is not possible to continue with processing the
-	 *         queue
 	 */
 	protected abstract class TileLoader implements Runnable {
 
 		/**
-		 * The key unimplemented method.
-		 * 
-		 * @return true if the tile was loaded successfully and other tile providers need not be
-		 *         called, false otherwise
+		 * Load the requested tile.
+		 *
+		 * @return the tile if it was loaded successfully, or null if failed to
+		 *         load and other tile providers need to be called
 		 * @param pState
 		 * @throws {@link CantContinueException}
 		 */
