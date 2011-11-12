@@ -47,7 +47,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected final MapTileProviderBase mTileProvider;
 
 	/* to avoid allocations during draw */
-	protected final Paint mPaint = new Paint();
+	protected final Paint mDebugPaint = new Paint();
 	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
 	private final Point mUpperLeft = new Point();
@@ -78,10 +78,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	@Override
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
-	}
-
-	public void setAlpha(final int a) {
-		this.mPaint.setAlpha(a);
 	}
 
 	public int getMinimumZoomLevel() {
@@ -177,12 +173,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				if (DEBUGMODE) {
 					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
 							* tileSizePx + tileSizePx);
+					mTileRect.offset(-mWorldSize_2, -mWorldSize_2);
 					c.drawText(tile.toString(), mTileRect.left + 1,
-							mTileRect.top + mPaint.getTextSize(), mPaint);
+							mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
 					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
-							mPaint);
+							mDebugPaint);
 					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
-							mPaint);
+							mDebugPaint);
 				}
 			}
 		}
@@ -192,8 +189,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			// final GeoPoint center = osmv.getMapCenter();
 			final Point centerPoint = new Point(viewPort.centerX() - mWorldSize_2,
 					viewPort.centerY() - mWorldSize_2);
-			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mPaint);
-			c.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mPaint);
+			c.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mDebugPaint);
+			c.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mDebugPaint);
 		}
 
 	}
