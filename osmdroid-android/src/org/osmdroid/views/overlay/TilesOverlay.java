@@ -29,9 +29,9 @@ import android.view.SubMenu;
 
 /**
  * These objects are the principle consumer of map tiles.
- * 
+ *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
- * 
+ *
  */
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
@@ -50,6 +50,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected final Paint mPaint = new Paint();
 	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
+	private Point mUpperLeft;
+	private Point mLowerRight;
 
 	private boolean mOptionsMenuEnabled = true;
 
@@ -99,7 +101,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param aMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
@@ -143,19 +145,19 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final Rect viewPort) {
 
 		// Calculate the amount of tiles needed for each side around the center one.
-		Point upperLeft = TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, null);
-		upperLeft.offset(-1, -1);
-		Point lowerRight = TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, null);
+		mUpperLeft = TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, null);
+		mUpperLeft.offset(-1, -1);
+		mLowerRight = TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, null);
 
 		final int mapTileUpperBound = 1 << zoomLevel;
 
 		// make sure the cache is big enough for all the tiles
-		final int numNeeded = (lowerRight.y - upperLeft.y + 1) * (lowerRight.x - upperLeft.x + 1);
+		final int numNeeded = (mLowerRight.y - mUpperLeft.y + 1) * (mLowerRight.x - mUpperLeft.x + 1);
 		mTileProvider.ensureCapacity(numNeeded);
 
 		/* Draw all the MapTiles (from the upper left to the lower right). */
-		for (int y = upperLeft.y; y <= lowerRight.y; y++) {
-			for (int x = upperLeft.x; x <= lowerRight.x; x++) {
+		for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
+			for (int x = mUpperLeft.x; x <= mLowerRight.x; x++) {
 				// Construct a MapTile to request from the tile provider.
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
@@ -280,7 +282,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	/**
 	 * Set the color to use to draw the background while we're waiting for the tile to load.
-	 * 
+	 *
 	 * @param pLoadingBackgroundColor
 	 *            the color to use. If the value is {@link Color.TRANSPARENT} then there will be no
 	 *            loading tile.
