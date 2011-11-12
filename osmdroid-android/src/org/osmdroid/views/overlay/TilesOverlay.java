@@ -50,8 +50,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected final Paint mPaint = new Paint();
 	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
-	private Point mUpperLeft;
-	private Point mLowerRight;
+	private final Point mUpperLeft = new Point();
+	private final Point mLowerRight = new Point();
 
 	private boolean mOptionsMenuEnabled = true;
 
@@ -145,9 +145,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			final Rect viewPort) {
 
 		// Calculate the amount of tiles needed for each side around the center one.
-		mUpperLeft = TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, null);
+		TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, mUpperLeft);
 		mUpperLeft.offset(-1, -1);
-		mLowerRight = TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, null);
+		TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, mLowerRight);
 
 		final int mapTileUpperBound = 1 << zoomLevel;
 
