@@ -1246,6 +1246,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		@Override
 		public void onLongPress(final MotionEvent e) {
+			if (mMultiTouchController != null && mMultiTouchController.isPinching()) {
+				return;
+			}
 			MapView.this.getOverlayManager().onLongPress(e, MapView.this);
 		}
 
