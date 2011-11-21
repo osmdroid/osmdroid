@@ -16,10 +16,10 @@ import android.os.Handler;
  * <li>notifying the client, via a callback handler</li>
  * </ul>
  * see {@link MapTile} for an overview of how tiles are served by this provider.
- * 
+ *
  * @author Marc Kurtz
  * @author Nicolas Gramlich
- * 
+ *
  */
 public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		OpenStreetMapTileProviderConstants {
@@ -38,21 +38,21 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Gets the minimum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the minimum zoom level
 	 */
 	public abstract int getMinimumZoomLevel();
 
 	/**
 	 * Gets the maximum zoom level this tile provider can provide
-	 * 
+	 *
 	 * @return the maximum zoom level
 	 */
 	public abstract int getMaximumZoomLevel();
 
 	/**
 	 * Sets the tile source for this tile provider.
-	 * 
+	 *
 	 * @param pTileSource
 	 *            the tile source
 	 */
@@ -63,7 +63,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Gets the tile source for this tile provider.
-	 * 
+	 *
 	 * @return the tile source
 	 */
 	public ITileSource getTileSource() {
@@ -84,7 +84,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	/**
 	 * Called by implementation class methods indicating that they have completed the request as
 	 * best it can. The tile is added to the cache, and a MAPTILE_SUCCESS_ID message is sent.
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
@@ -109,7 +109,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Default implementation is to call mapTileRequestCompleted
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
@@ -123,7 +123,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	/**
 	 * Called by implementation class methods indicating that they have failed to retrieve the
 	 * requested map tile. a MAPTILE_FAIL_ID message is sent.
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 */
@@ -161,7 +161,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	/**
 	 * Set whether to use the network connection if it's available.
-	 * 
+	 *
 	 * @param pMode
 	 *            if true use the network connection if it's available. if false don't use the
 	 *            network connection even if it's available.
