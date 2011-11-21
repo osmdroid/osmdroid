@@ -44,7 +44,7 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	@Override
 	public void clear() {
 		// remove them all individually so that they get recycled
-		while (size() > 0) {
+		while (!isEmpty()) {
 			remove(keySet().iterator().next());
 		}
 
