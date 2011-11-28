@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider;
 
 import java.util.LinkedHashMap;
 
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,7 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
+public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
+	implements OpenStreetMapTileProviderConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
 
@@ -55,7 +57,11 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	@Override
 	protected boolean removeEldestEntry(final java.util.Map.Entry<MapTile, Drawable> aEldest) {
 		if (size() > mCapacity) {
-			remove(aEldest.getKey());
+			final MapTile eldest = aEldest.getKey();
+			if (DEBUGMODE) {
+				logger.debug("Remove old tile: " + eldest);
+			}
+			remove(eldest);
 			// don't return true because we've already removed it
 		}
 		return false;
