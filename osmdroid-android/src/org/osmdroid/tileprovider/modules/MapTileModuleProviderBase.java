@@ -227,16 +227,16 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
 				if (DEBUGMODE) {
-					logger.debug("Next tile: " + state);
+					logger.debug("Next tile: " + state.getMapTile());
 				}
 				try {
 					result = null;
 					result = loadTile(state);
 				} catch (final CantContinueException e) {
-					logger.info("Tile loader can't continue", e);
+					logger.info("Tile loader can't continue: " + state.getMapTile(), e);
 					clearQueue();
 				} catch (final Throwable e) {
-					logger.error("Error downloading tile: " + state, e);
+					logger.error("Error downloading tile: " + state.getMapTile(), e);
 				}
 
 				if (result != null) {
