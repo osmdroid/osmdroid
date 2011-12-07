@@ -142,6 +142,10 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				final long lastModified = file.lastModified();
 				final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
+				// TODO use ExpiredBitmapDrawable.EXPIRED_IN_FILESYSTEM here
+				// and handle that.
+				// That probably means I can get rid of tileCandidateLoaded.
+
 				if (!fileExpired) {
 					// If the file has not expired, then render it and return it!
 					try {

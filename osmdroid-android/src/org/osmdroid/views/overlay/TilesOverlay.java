@@ -8,7 +8,7 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.MyMath;
+import org.osmdroid.util.TileLooper;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.slf4j.Logger;
@@ -50,8 +50,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected final Paint mDebugPaint = new Paint();
 	private final Rect mTileRect = new Rect();
 	private final Rect mViewPort = new Rect();
-	private final Point mUpperLeft = new Point();
-	private final Point mLowerRight = new Point();
 
 	private boolean mOptionsMenuEnabled = true;
 
@@ -120,7 +118,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		// Calculate the half-world size
 		final Projection pj = osmv.getProjection();
 		final int zoomLevel = pj.getZoomLevel();
-		mWorldSize_2 = TileSystem.MapSize(zoomLevel) / 2;
+		mWorldSize_2 = TileSystem.MapSize(zoomLevel) >> 1;
 
 		// Get the area we are drawing to
 		mViewPort.set(pj.getScreenRect());
@@ -140,49 +138,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public void drawTiles(final Canvas c, final int zoomLevel, final int tileSizePx,
 			final Rect viewPort) {
 
-		// Calculate the amount of tiles needed for each side around the center one.
-		TileSystem.PixelXYToTileXY(viewPort.left, viewPort.top, mUpperLeft);
-		mUpperLeft.offset(-1, -1);
-		TileSystem.PixelXYToTileXY(viewPort.right, viewPort.bottom, mLowerRight);
-
-		final int mapTileUpperBound = 1 << zoomLevel;
-
-		// make sure the cache is big enough for all the tiles
-		final int numNeeded = (mLowerRight.y - mUpperLeft.y + 1) * (mLowerRight.x - mUpperLeft.x + 1);
-		mTileProvider.ensureCapacity(numNeeded);
-
-		/* Draw all the MapTiles (from the upper left to the lower right). */
-		for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
-			for (int x = mUpperLeft.x; x <= mLowerRight.x; x++) {
-				// Construct a MapTile to request from the tile provider.
-				final int tileY = MyMath.mod(y, mapTileUpperBound);
-				final int tileX = MyMath.mod(x, mapTileUpperBound);
-				final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-
-				Drawable currentMapTile = mTileProvider.getMapTile(tile);
-				if (currentMapTile == null) {
-					currentMapTile = getLoadingTile();
-				}
-
-				if (currentMapTile != null) {
-					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
-							* tileSizePx + tileSizePx);
-					onTileReadyToDraw(c, currentMapTile, mTileRect);
-				}
-
-				if (DEBUGMODE) {
-					mTileRect.set(x * tileSizePx, y * tileSizePx, x * tileSizePx + tileSizePx, y
-							* tileSizePx + tileSizePx);
-					mTileRect.offset(-mWorldSize_2, -mWorldSize_2);
-					c.drawText(tile.toString(), mTileRect.left + 1,
-							mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
-					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
-							mDebugPaint);
-					c.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
-							mDebugPaint);
-				}
-			}
-		}
+		mTileLooper.loop(c, zoomLevel, tileSizePx, viewPort);
 
 		// draw a cross at center in debug mode
 		if (DEBUGMODE) {
@@ -194,6 +150,43 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 	}
+
+	private final TileLooper mTileLooper = new TileLooper() {
+		@Override
+		public void initialiseLoop(final int pZoomLevel, final int pTileSizePx) {
+			// make sure the cache is big enough for all the tiles
+			final int numNeeded = (mLowerRight.y - mUpperLeft.y + 1) * (mLowerRight.x - mUpperLeft.x + 1);
+			mTileProvider.ensureCapacity(numNeeded);
+		}
+		@Override
+		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
+			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
+			if (currentMapTile == null) {
+				currentMapTile = getLoadingTile();
+			}
+
+			if (currentMapTile != null) {
+				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx, pY
+						* pTileSizePx + pTileSizePx);
+				onTileReadyToDraw(pCanvas, currentMapTile, mTileRect);
+			}
+
+			if (DEBUGMODE) {
+				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx, pY
+						* pTileSizePx + pTileSizePx);
+				mTileRect.offset(-mWorldSize_2, -mWorldSize_2);
+				pCanvas.drawText(pTile.toString(), mTileRect.left + 1,
+						mTileRect.top + mDebugPaint.getTextSize(), mDebugPaint);
+				pCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top,
+						mDebugPaint);
+				pCanvas.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom,
+						mDebugPaint);
+			}
+		}
+		@Override
+		public void finaliseLoop() {
+		}
+	};
 
 	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
 			final Rect tileRect) {

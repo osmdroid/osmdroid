@@ -335,6 +335,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			scrollTo(snapPoint.x, snapPoint.y);
 		}
 
+		mTileProvider.rescaleCache(newZoomLevel, curZoomLevel, getScreenRect(null));
+
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel && mListener != null) {
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
@@ -869,8 +871,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		super.dispatchDraw(c);
 
-		final long endMs = System.currentTimeMillis();
 		if (DEBUGMODE) {
+			final long endMs = System.currentTimeMillis();
 			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
 		}
 	}

@@ -5,11 +5,11 @@ import java.io.File;
 import android.os.Environment;
 
 /**
- * 
+ *
  * This class contains constants used by the tile provider.
- * 
+ *
  * @author Neil Boyd
- * 
+ *
  */
 public interface OpenStreetMapTileProviderConstants {
 

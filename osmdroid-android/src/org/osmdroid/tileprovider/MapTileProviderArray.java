@@ -78,7 +78,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	@Override
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
-		if (tile != null) {
+		if (tile != null && !isDrawableExpired(tile)) {
 			if (DEBUGMODE)
 				logger.debug("MapTileCache succeeded for: " + pTile);
 			return tile;
@@ -92,7 +92,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				if (DEBUGMODE)
 					logger.debug("Cache failed, trying from async providers: " + pTile);
 
-				MapTileRequestState state;
+				final MapTileRequestState state;
 				synchronized (mTileProviderList) {
 					final MapTileModuleProviderBase[] providerArray =
 						new MapTileModuleProviderBase[mTileProviderList.size()];
@@ -115,8 +115,22 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				else
 					mapTileRequestFailed(state);
 			}
-			return null;
+			return tile;
 		}
+	}
+
+	private boolean isDrawableExpired(final Drawable pTile) {
+		if (!pTile.isStateful())
+			return false;
+		final int[] state = pTile.getState();
+		for(int i = 0; i < state.length; i++) {
+			if (state[i] == ExpiredBitmapDrawable.EXPIRED_IN_CACHE) {
+				if (DEBUGMODE)
+					logger.debug("Expired map tile in cache: " + pTile);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
