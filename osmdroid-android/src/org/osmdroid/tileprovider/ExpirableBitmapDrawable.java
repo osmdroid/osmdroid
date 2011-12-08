@@ -6,7 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 /**
  * A {@link BitmapDrawable} for a {@link MapTile} that has a state to indicate that it's expired.
  */
-public class ExpiredBitmapDrawable extends BitmapDrawable {
+public class ExpirableBitmapDrawable extends BitmapDrawable {
 
 	/** Tile is in cache but expired, so should go to first tile provider to retrieve again. */
 	public static final int EXPIRED_IN_CACHE = -1;
@@ -16,7 +16,7 @@ public class ExpiredBitmapDrawable extends BitmapDrawable {
 
 	private int[] mState = new int[] { EXPIRED_IN_CACHE };
 
-	public ExpiredBitmapDrawable(final Bitmap pBitmap) {
+	public ExpirableBitmapDrawable(final Bitmap pBitmap) {
 		super(pBitmap);
 	}
 

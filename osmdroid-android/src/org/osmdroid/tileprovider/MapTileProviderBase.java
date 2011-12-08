@@ -262,7 +262,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			while(!mNewTiles.isEmpty()) {
 				final MapTile tile = mNewTiles.keySet().iterator().next();
 				final Bitmap bitmap = mNewTiles.remove(tile);
-				mTileCache.putTile(tile, new ExpiredBitmapDrawable(bitmap));
+				mTileCache.putTile(tile, new ExpirableBitmapDrawable(bitmap));
 			}
 		}
 

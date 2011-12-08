@@ -79,8 +79,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
 		if (tile != null && !isDrawableExpired(tile)) {
-			if (DEBUGMODE)
+			if (DEBUGMODE) {
 				logger.debug("MapTileCache succeeded for: " + pTile);
+			}
 			return tile;
 		} else {
 			boolean alreadyInProgress = false;
@@ -89,8 +90,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 
 			if (!alreadyInProgress) {
-				if (DEBUGMODE)
+				if (DEBUGMODE) {
 					logger.debug("Cache failed, trying from async providers: " + pTile);
+				}
 
 				final MapTileRequestState state;
 				synchronized (mTileProviderList) {
@@ -103,30 +105,34 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				synchronized (mWorking) {
 					// Check again
 					alreadyInProgress = mWorking.containsValue(pTile);
-					if (alreadyInProgress)
+					if (alreadyInProgress) {
 						return null;
+					}
 
 					mWorking.put(state, pTile);
 				}
 
 				final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
-				if (provider != null)
+				if (provider != null) {
 					provider.loadMapTileAsync(state);
-				else
+				} else {
 					mapTileRequestFailed(state);
+				}
 			}
 			return tile;
 		}
 	}
 
 	private boolean isDrawableExpired(final Drawable pTile) {
-		if (!pTile.isStateful())
+		if (!pTile.isStateful()) {
 			return false;
+		}
 		final int[] state = pTile.getState();
 		for(int i = 0; i < state.length; i++) {
-			if (state[i] == ExpiredBitmapDrawable.EXPIRED_IN_CACHE) {
-				if (DEBUGMODE)
+			if (state[i] == ExpirableBitmapDrawable.EXPIRED_IN_CACHE) {
+				if (DEBUGMODE) {
 					logger.debug("Expired map tile in cache: " + pTile);
+				}
 				return true;
 			}
 		}
@@ -181,8 +187,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		int result = MAXIMUM_ZOOMLEVEL;
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
-				if (tileProvider.getMinimumZoomLevel() < result)
+				if (tileProvider.getMinimumZoomLevel() < result) {
 					result = tileProvider.getMinimumZoomLevel();
+				}
 			}
 		}
 		return result;
@@ -193,8 +200,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		int result = MINIMUM_ZOOMLEVEL;
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
-				if (tileProvider.getMaximumZoomLevel() > result)
+				if (tileProvider.getMaximumZoomLevel() > result) {
 					result = tileProvider.getMaximumZoomLevel();
+				}
 			}
 		}
 		return result;
