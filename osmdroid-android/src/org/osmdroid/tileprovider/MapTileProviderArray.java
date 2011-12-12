@@ -79,7 +79,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
 		if (tile != null && !ExpirableBitmapDrawable.isDrawableExpired(tile)) {
-
+			if (DEBUGMODE) {
+				logger.debug("MapTileCache succeeded for: " + pTile);
+			}
 			return tile;
 		} else {
 			boolean alreadyInProgress = false;
