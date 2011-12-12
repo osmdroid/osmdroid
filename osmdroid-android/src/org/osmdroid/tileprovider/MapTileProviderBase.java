@@ -119,19 +119,6 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	}
 
 	/**
-	 * Default implementation is to call mapTileRequestCompleted
-	 *
-	 * @param pState
-	 *            the map tile request state object
-	 * @param pDrawable
-	 *            the Drawable of the map tile
-	 */
-	@Override
-	public void mapTileRequestCandidate(final MapTileRequestState pState, final Drawable pDrawable) {
-		mapTileRequestCompleted(pState, pDrawable);
-	}
-
-	/**
 	 * Called by implementation class methods indicating that they have failed to retrieve the
 	 * requested map tile. a MAPTILE_FAIL_ID message is sent.
 	 *

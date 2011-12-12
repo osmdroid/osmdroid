@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -202,18 +203,20 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 */
 		private void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
 			removeTileFromQueues(pState.getMapTile());
-
 			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
 		}
 
-		protected void tileCandidateLoaded(final MapTileRequestState pState,
-				final Drawable pDrawable) {
-			pState.getCallback().mapTileRequestCandidate(pState, pDrawable);
+		/**
+		 * A tile has loaded but it's expired.
+		 * Return it <b>and</b> send request to next provider.
+		 */
+		private void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
+			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
+			pState.getCallback().mapTileRequestFailed(pState);
 		}
 
 		private void tileLoadedFailed(final MapTileRequestState pState) {
 			removeTileFromQueues(pState.getMapTile());
-
 			pState.getCallback().mapTileRequestFailed(pState);
 		}
 
@@ -239,10 +242,12 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 					logger.error("Error downloading tile: " + state.getMapTile(), e);
 				}
 
-				if (result != null) {
-					tileLoaded(state, result);
-				} else {
+				if (result == null) {
 					tileLoadedFailed(state);
+				} else if (ExpirableBitmapDrawable.isDrawableExpired(result)) {
+					tileLoadedExpired(state, result);
+				} else {
+					tileLoaded(state, result);
 				}
 
 				if (DEBUGMODE) {

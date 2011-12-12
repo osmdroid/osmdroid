@@ -78,10 +78,8 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	@Override
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
-		if (tile != null && !isDrawableExpired(tile)) {
-			if (DEBUGMODE) {
-				logger.debug("MapTileCache succeeded for: " + pTile);
-			}
+		if (tile != null && !ExpirableBitmapDrawable.isDrawableExpired(tile)) {
+
 			return tile;
 		} else {
 			boolean alreadyInProgress = false;
@@ -121,22 +119,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 			return tile;
 		}
-	}
-
-	private boolean isDrawableExpired(final Drawable pTile) {
-		if (!pTile.isStateful()) {
-			return false;
-		}
-		final int[] state = pTile.getState();
-		for(int i = 0; i < state.length; i++) {
-			if (state[i] == ExpirableBitmapDrawable.EXPIRED_IN_CACHE) {
-				if (DEBUGMODE) {
-					logger.debug("Expired map tile in cache: " + pTile);
-				}
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override

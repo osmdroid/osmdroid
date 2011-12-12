@@ -14,7 +14,7 @@ import android.test.AndroidTestCase;
 
 /**
  * @author Neil Boyd
- * 
+ *
  */
 public class MapTileProviderTest extends AndroidTestCase {
 
@@ -26,11 +26,6 @@ public class MapTileProviderTest extends AndroidTestCase {
 		public void mapTileRequestCompleted(final MapTileRequestState aState,
 				final Drawable aDrawable) {
 			mTiles.add(aState.getMapTile());
-		}
-
-		@Override
-		public void mapTileRequestCandidate(final MapTileRequestState aState,
-				final Drawable aDrawable) {
 		}
 
 		@Override
@@ -58,7 +53,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 						throws CantContinueException {
 					try {
 						Thread.sleep(1000);
-					} catch (InterruptedException e) {
+					} catch (final InterruptedException e) {
 					}
 					return new BitmapDrawable();
 				}
@@ -107,7 +102,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 
 	/**
 	 * Test that the tiles are loaded in most recently accessed order.
-	 * 
+	 *
 	 * @throws InterruptedException
 	 */
 	public void test_order() throws InterruptedException {
@@ -148,7 +143,7 @@ public class MapTileProviderTest extends AndroidTestCase {
 
 	/**
 	 * Test that adding the same tile more than once moves it up the queue.
-	 * 
+	 *
 	 * @throws InterruptedException
 	 */
 	public void test_jump_queue() throws InterruptedException {

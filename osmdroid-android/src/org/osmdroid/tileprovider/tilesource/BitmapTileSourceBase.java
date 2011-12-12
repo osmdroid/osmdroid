@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.string;
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
@@ -13,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public abstract class BitmapTileSourceBase implements ITileSource,
@@ -92,7 +92,7 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 			// a BitmapDrawable from it
 			final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath);
 			if (bitmap != null) {
-				return new BitmapDrawable(bitmap);
+				return new ExpirableBitmapDrawable(bitmap);
 			} else {
 				// if we couldn't load it then it's invalid - delete it
 				try {
@@ -129,7 +129,7 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 			// a BitmapDrawable from it
 			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream);
 			if (bitmap != null) {
-				return new BitmapDrawable(bitmap);
+				return new ExpirableBitmapDrawable(bitmap);
 			}
 		} catch (final OutOfMemoryError e) {
 			logger.error("OutOfMemoryError loading bitmap");

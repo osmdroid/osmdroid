@@ -2,22 +2,20 @@ package org.osmdroid.tileprovider;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 /**
  * A {@link BitmapDrawable} for a {@link MapTile} that has a state to indicate that it's expired.
  */
 public class ExpirableBitmapDrawable extends BitmapDrawable {
 
-	/** Tile is in cache but expired, so should go to first tile provider to retrieve again. */
-	public static final int EXPIRED_IN_CACHE = -1;
+	public static final int EXPIRED = -1;
 
-	/** Tile is in filesystem but expired, so should go to next tile provider to retrieve again. */
-	public static final int EXPIRED_IN_FILESYSTEM = -2;
-
-	private int[] mState = new int[] { EXPIRED_IN_CACHE };
+	private int[] mState;
 
 	public ExpirableBitmapDrawable(final Bitmap pBitmap) {
 		super(pBitmap);
+		mState = new int[0];
 	}
 
 	@Override
@@ -34,6 +32,19 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
 	public boolean setState(final int[] pStateSet) {
 		mState = pStateSet;
 		return true;
+	}
+
+	public static boolean isDrawableExpired(final Drawable pTile) {
+		if (!pTile.isStateful()) {
+			return false;
+		}
+		final int[] state = pTile.getState();
+		for(int i = 0; i < state.length; i++) {
+			if (state[i] == EXPIRED) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
