@@ -274,7 +274,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 			mRect.offset(0, 0);
 			break;
 		case LOWER_LEFT_CORNER:
-			mRect.offset(0, markerHeight); /// TODO test - should this be -markerHeight ???
+			mRect.offset(0, -markerHeight);
 			break;
 		}
 		marker.setBounds(mRect);
