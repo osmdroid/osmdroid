@@ -172,9 +172,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	/**
-	 * Set the minimum interval for location updates. See {@link
-	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
-	 * should call this before calling {@link enableMyLocation()}.
+	 * Set the minimum interval for location updates.
+	 * See {@link LocationManager.requestLocationUpdates(String, long, float, LocationListener)}.
+	 * Note that you should call this before calling {@link enableMyLocation()}.
 	 *
 	 * @param milliSeconds
 	 */
@@ -187,9 +187,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	/**
-	 * Set the minimum distance for location updates. See
-	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
-	 * {@link enableMyLocation()}.
+	 * Set the minimum distance for location updates.
+	 * See {@link LocationManager.requestLocationUpdates}.
+	 * Note that you should call this before calling {@link enableMyLocation()}.
 	 *
 	 * @param meters
 	 */
