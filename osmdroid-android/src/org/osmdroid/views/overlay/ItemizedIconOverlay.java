@@ -5,6 +5,7 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.bitmap;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 
@@ -22,10 +23,10 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	private final Point mItemPoint = new Point();
 
 	public ItemizedIconOverlay(
-			List<Item> pList,
-			Drawable pDefaultMarker,
-			org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
-			ResourceProxy pResourceProxy) {
+			final List<Item> pList,
+			final Drawable pDefaultMarker,
+			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
+			final ResourceProxy pResourceProxy) {
 		super(pDefaultMarker, pResourceProxy);
 
 		this.mItemList = pList;
@@ -34,29 +35,29 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	}
 
 	public ItemizedIconOverlay(
-			List<Item> pList,
-			org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
-			ResourceProxy pResourceProxy) {
+			final List<Item> pList,
+			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
+			final ResourceProxy pResourceProxy) {
 		this(pList, pResourceProxy.getDrawable(bitmap.marker_default), pOnItemGestureListener,
 				pResourceProxy);
 	}
 
 	public ItemizedIconOverlay(
-			Context pContext,
-			List<Item> pList,
-			org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
+			final Context pContext,
+			final List<Item> pList,
+			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
 		this(pList, new DefaultResourceProxyImpl(pContext).getDrawable(bitmap.marker_default),
 				pOnItemGestureListener, new DefaultResourceProxyImpl(pContext));
 	}
 
 	@Override
-	public boolean onSnapToItem(int pX, int pY, Point pSnapPoint, MapView pMapView) {
+	public boolean onSnapToItem(final int pX, final int pY, final Point pSnapPoint, final IMapView pMapView) {
 		// TODO Implement this!
 		return false;
 	}
 
 	@Override
-	protected Item createItem(int index) {
+	protected Item createItem(final int index) {
 		return mItemList.get(index);
 	}
 
@@ -65,18 +66,18 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 		return Math.min(mItemList.size(), mDrawnItemsLimit);
 	}
 
-	public boolean addItem(Item item) {
-		boolean result = mItemList.add(item);
+	public boolean addItem(final Item item) {
+		final boolean result = mItemList.add(item);
 		populate();
 		return result;
 	}
 
-	public void addItem(int location, Item item) {
+	public void addItem(final int location, final Item item) {
 		mItemList.add(location, item);
 	}
 
-	public boolean addItems(List<Item> items) {
-		boolean result = mItemList.addAll(items);
+	public boolean addItems(final List<Item> items) {
+		final boolean result = mItemList.addAll(items);
 		populate();
 		return result;
 	}
@@ -85,21 +86,21 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 		removeAllItems(true);
 	}
 
-	public void removeAllItems(boolean withPopulate) {
+	public void removeAllItems(final boolean withPopulate) {
 		mItemList.clear();
 		if (withPopulate) {
 			populate();
 		}
 	}
 
-	public boolean removeItem(Item item) {
-		boolean result = mItemList.remove(item);
+	public boolean removeItem(final Item item) {
+		final boolean result = mItemList.remove(item);
 		populate();
 		return result;
 	}
 
-	public Item removeItem(int position) {
-		Item result = mItemList.remove(position);
+	public Item removeItem(final int position) {
+		final Item result = mItemList.remove(position);
 		populate();
 		return result;
 	}
@@ -107,7 +108,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	/**
 	 * Each of these methods performs a item sensitive check. If the item is located its
 	 * corresponding method is called. The result of the call is returned.
-	 * 
+	 *
 	 * Helper methods are provided so that child classes may more easily override behavior without
 	 * resorting to overriding the ItemGestureListener methods.
 	 */
@@ -150,7 +151,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	/**
 	 * When a content sensitive action is performed the content item needs to be identified. This
 	 * method does that and then performs the assigned task on that item.
-	 * 
+	 *
 	 * @param event
 	 * @param mapView
 	 * @param task
@@ -200,7 +201,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 	/**
 	 * When the item is touched one of these methods may be invoked depending on the type of touch.
-	 * 
+	 *
 	 * Each of them returns true if the event was completely handled.
 	 */
 	public static interface OnItemGestureListener<T> {
