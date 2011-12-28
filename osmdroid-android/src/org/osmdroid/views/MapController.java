@@ -85,11 +85,17 @@ public class MapController implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void animateTo(final IGeoPoint point) {
+		animateTo(point.getLatitudeE6() / 1E6, point.getLongitudeE6() / 1E6);
+	}
+
+	/**
+	 * Start animating the map towards the given point.
+	 */
+	public void animateTo(final double latitude, final double longitude) {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
-		final Point p = TileSystem.LatLongToPixelXY(point.getLatitudeE6() / 1E6,
-				point.getLongitudeE6() / 1E6, this.mOsmv.getZoomLevel(), null);
-		final int worldSize_2 = TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
+		final Point p = TileSystem.LatLongToPixelXY(latitude, longitude, mOsmv.getZoomLevel(), null);
+		final int worldSize_2 = TileSystem.MapSize(mOsmv.getZoomLevel()) / 2;
 		mOsmv.getScroller().startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y,
 				ANIMATION_DURATION_DEFAULT);
 		mOsmv.postInvalidate();

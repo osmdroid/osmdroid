@@ -339,7 +339,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		mLocation = location;
 		if (mFollow) {
-			mMapController.animateTo(new GeoPoint(location));
+			mMapController.animateTo(location.getLatitude(), location.getLongitude());
 		} else {
 			mMapView.postInvalidate(); // redraw the my location icon
 		}
