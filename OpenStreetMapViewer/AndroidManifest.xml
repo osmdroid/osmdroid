@@ -30,7 +30,8 @@
 		<!-- all applications based on this code should get their own Bing key -->
 		<meta-data android:name="BING_KEY" android:value="ApEqyap8rTa4WTNCNv-3pAGQc7XUsHS6595tuDI3MHR59QlahJ5bqYGYhMYJq6Ae" />
 
-		<uses-library android:name="android.test.runner" />
+		<uses-library android:name="com.google.android.maps" android:required="false" />
+		<uses-library android:name="android.test.runner" android:required="false" />
 		<activity android:icon="@drawable/icon"
 			android:label="Open Map" android:name="MapActivity">
 			<intent-filter>

@@ -40,6 +40,8 @@
 		<jar destfile="osmdroid-third-party-${version.num}.jar" manifest="MANIFEST.MF">
 			<fileset dir="bin">
 				<include name="org/osmdroid/tileprovider/tilesource/bing/**/*.class" />
+				<include name="org/osmdroid/google/**/*.class" />
+				<include name="**/*.png" />
 				<exclude name="**/*Test.class" />
 			</fileset>
 		</jar>
