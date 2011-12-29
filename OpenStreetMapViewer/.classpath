@@ -4,6 +4,7 @@
 	<classpathentry kind="lib" path="libs/apache-mime4j-0.6.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/slf4j-android-1.5.8.jar"/>
+	<classpathentry kind="lib" path="libs/mapsforge-map-0.2.4.jar"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="osmdroid-android-src"/>
