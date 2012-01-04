@@ -133,7 +133,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		this.mExecutor.shutdown();
 	}
 
-	private void removeTileFromQueues(final MapTile mapTile) {
+	void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mPending) {
 			mPending.remove(mapTile);
 		}
@@ -201,7 +201,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		/**
 		 * A tile has loaded.
 		 */
-		private void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
+		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
 		}

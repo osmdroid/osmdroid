@@ -212,5 +212,15 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 			return null;
 		}
+
+		@Override
+		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
+			removeTileFromQueues(pState.getMapTile());
+			// don't return the tile because we'll wait for the fs provider to ask for it
+            // this prevent flickering when a load of delayed downloads complete for tiles
+            // that we might not even be interested in any more
+			pState.getCallback().mapTileRequestCompleted(pState, null);
+		}
+
 	}
 }
