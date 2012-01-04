@@ -1001,11 +1001,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		if (aAttributeSet != null && tileSource instanceof IStyledTileSource) {
-			String style = aAttributeSet.getAttributeValue(null, "style");
-			if (style == null) {
-				// historic - old attribute name
-				style = aAttributeSet.getAttributeValue(null, "cloudmadeStyle");
-			}
+			final String style = aAttributeSet.getAttributeValue(null, "style");
 			if (style == null) {
 				logger.info("Using default style: 1");
 			} else {
