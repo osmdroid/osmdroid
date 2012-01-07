@@ -346,7 +346,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		scaleBarPicture.endRecording();
 	}
 
-	private String scaleBarLengthText(final int meters, final boolean imperial,
+	protected String scaleBarLengthText(final int meters, final boolean imperial,
 			final boolean nautical) {
 		if (this.imperial) {
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
