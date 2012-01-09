@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 
@@ -53,7 +54,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 
 	/**
 	 * Gets the optional TilesOverlay class.
-	 * 
+	 *
 	 * @return the tilesOverlay
 	 */
 	public TilesOverlay getTilesOverlay() {
@@ -64,7 +65,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 	 * Sets the optional TilesOverlay class. If set, this overlay will be drawn before all other
 	 * overlays and will not be included in the editable list of overlays and can't be cleared
 	 * except by a subsequent call to setTilesOverlay().
-	 * 
+	 *
 	 * @param tilesOverlay
 	 *            the tilesOverlay to set
 	 */
@@ -104,8 +105,9 @@ public class OverlayManager extends AbstractList<Overlay> {
 		}
 
 		for (final Overlay overlay : mOverlayList) {
-			if (overlay.isEnabled())
+			if (overlay.isEnabled()) {
 				overlay.draw(c, pMapView, true);
+			}
 		}
 
 		if ((mTilesOverlay != null) && mTilesOverlay.isEnabled()) {
@@ -113,8 +115,9 @@ public class OverlayManager extends AbstractList<Overlay> {
 		}
 
 		for (final Overlay overlay : mOverlayList) {
-			if (overlay.isEnabled())
+			if (overlay.isEnabled()) {
 				overlay.draw(c, pMapView, false);
+			}
 		}
 
 	}
@@ -170,7 +173,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 	}
 
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
-			final MapView pMapView) {
+			final IMapView pMapView) {
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if (overlay instanceof Snappable) {
 				if (((Snappable) overlay).onSnapToItem(x, y, snapPoint, pMapView)) {
@@ -279,8 +282,9 @@ public class OverlayManager extends AbstractList<Overlay> {
 	public void setOptionsMenusEnabled(final boolean pEnabled) {
 		for (final Overlay overlay : mOverlayList) {
 			if ((overlay instanceof IOverlayMenuProvider)
-					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled())
+					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
 				((IOverlayMenuProvider) overlay).setOptionsMenuEnabled(pEnabled);
+			}
 		}
 	}
 
@@ -289,9 +293,10 @@ public class OverlayManager extends AbstractList<Overlay> {
 		boolean result = true;
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if ((overlay instanceof IOverlayMenuProvider)
-					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled())
+					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
 				result &= ((IOverlayMenuProvider) overlay).onCreateOptionsMenu(pMenu, menuIdOffset,
 						mapView);
+			}
 		}
 
 		if ((mTilesOverlay != null) && (mTilesOverlay instanceof IOverlayMenuProvider)
@@ -306,8 +311,9 @@ public class OverlayManager extends AbstractList<Overlay> {
 			final MapView mapView) {
 		for (final Overlay overlay : this.overlaysReversed()) {
 			if ((overlay instanceof IOverlayMenuProvider)
-					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled())
+					&& ((IOverlayMenuProvider) overlay).isOptionsMenuEnabled()) {
 				((IOverlayMenuProvider) overlay).onPrepareOptionsMenu(pMenu, menuIdOffset, mapView);
+			}
 		}
 
 		if ((mTilesOverlay != null) && (mTilesOverlay instanceof IOverlayMenuProvider)
