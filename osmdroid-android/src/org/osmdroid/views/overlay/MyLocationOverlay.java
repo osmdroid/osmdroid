@@ -3,6 +3,8 @@ package org.osmdroid.views.overlay;
 
 import java.util.LinkedList;
 
+import microsoft.mappoint.TileSystem;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
@@ -232,7 +234,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		pj.toMapPixels(mMyLocation, mMapCoords);
 
 		if (mDrawAccuracyEnabled) {
-			final float radius = pj.metersToEquatorPixels(lastFix.getAccuracy());
+			final float radius = lastFix.getAccuracy() / (float) TileSystem.GroundResolution(lastFix.getLatitude(), mapView.getZoomLevel());
 
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);
