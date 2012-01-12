@@ -69,9 +69,9 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase CYCLEMAP = new XYTileSource("CycleMap",
 			ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
-			"http://a.andy.sandbox.cloudmade.com/tiles/cycle/",
-			"http://b.andy.sandbox.cloudmade.com/tiles/cycle/",
-			"http://c.andy.sandbox.cloudmade.com/tiles/cycle/");
+			"http://a.tile.opencyclemap.org/cycle/",
+			"http://b.tile.opencyclemap.org/cycle/",
+			"http://c.tile.opencyclemap.org/cycle/");
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", ResourceProxy.string.public_transport, 0, 17, 256, ".png",
