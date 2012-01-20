@@ -8,7 +8,7 @@
         <version>3.0.7-SNAPSHOT</version>
     </parent>
 
-    <artifactId>osm-maptile-packager</artifactId>
+    <artifactId>osmdroid-packager</artifactId>
     <packaging>jar</packaging>
 
     <name>OSM map tile packager</name>

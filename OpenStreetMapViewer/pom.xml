@@ -9,7 +9,7 @@
         <version>3.0.7-SNAPSHOT</version>
     </parent>
 
-    <artifactId>openstreetmap-viewer</artifactId>
+    <artifactId>OpenStreetMapViewer</artifactId>
     <packaging>apk</packaging>
 
     <name>OpenStreetMap viewer</name>

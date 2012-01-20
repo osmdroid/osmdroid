@@ -9,7 +9,7 @@
         <version>3.0.7-SNAPSHOT</version>
     </parent>
 
-    <artifactId>google-wrapper-sample</artifactId>
+    <artifactId>GoogleWrapperSample</artifactId>
     <packaging>apk</packaging>
 
     <name>Google wrapper sample application</name>
