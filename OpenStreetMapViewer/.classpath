@@ -4,11 +4,11 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="src" path="tests"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="var" path="M2_REPO/org/osmdroid/osmdroid-android/3.0.7-SNAPSHOT/osmdroid-android-3.0.7-SNAPSHOT.jar" />
-	<classpathentry kind="var" path="M2_REPO/org/osmdroid/osmdroid-third-party/3.0.7-SNAPSHOT/osmdroid-third-party-3.0.7-SNAPSHOT.jar" />
-	<classpathentry kind="var" path="M2_REPO/org/mapsforge/mapsforge-map/0.2.4/mapsforge-map-0.2.4.jar" sourcepath="/M2_REPO/org/mapsforge/mapsforge-map/0.2.4/mapsforge-map-0.2.4.jar" />
-	<classpathentry kind="var" path="M2_REPO/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar" />
-	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpmime/4.0.1/httpmime-4.0.1.jar" />
-	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-android/1.5.8/slf4j-android-1.5.8.jar" />
+	<classpathentry kind="var" path="M2_REPO/org/osmdroid/osmdroid-android/3.0.7-SNAPSHOT/osmdroid-android-3.0.7-SNAPSHOT.jar" sourcepath="/M2_REPO/org/osmdroid/osmdroid-android/3.0.7-SNAPSHOT/osmdroid-android-3.0.7-SNAPSHOT-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/osmdroid/osmdroid-third-party/3.0.7-SNAPSHOT/osmdroid-third-party-3.0.7-SNAPSHOT.jar" sourcepath="/M2_REPO/org/osmdroid/osmdroid-third-party/3.0.7-SNAPSHOT/osmdroid-third-party-3.0.7-SNAPSHOT-sources.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mapsforge/mapsforge-map/0.2.4/mapsforge-map-0.2.4.jar" sourcepath="/M2_REPO/org/mapsforge/mapsforge-map/0.2.4/mapsforge-map-0.2.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/james/apache-mime4j/0.6/apache-mime4j-0.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpmime/4.0.1/httpmime-4.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-android/1.5.8/slf4j-android-1.5.8.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
