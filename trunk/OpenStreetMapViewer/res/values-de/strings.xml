@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="map_mode">Kartenmodus</string>
+	<string name="my_location">Standort</string>
+	<string name="about">Über</string>
+	<string name="about_message">Diese Software benutzt Kartenmaterial von OpenStreetMap.org</string>
+</resources>
