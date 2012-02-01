@@ -246,10 +246,12 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		@Override
 		public void finaliseLoop() {
 			// now add the new ones, pushing out the old ones
-			while(!mNewTiles.isEmpty()) {
+			while (!mNewTiles.isEmpty()) {
 				final MapTile tile = mNewTiles.keySet().iterator().next();
 				final Bitmap bitmap = mNewTiles.remove(tile);
-				mTileCache.putTile(tile, new ExpirableBitmapDrawable(bitmap));
+				final ExpirableBitmapDrawable drawable = new ExpirableBitmapDrawable(bitmap);
+				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
+				mTileCache.putTile(tile, drawable);
 			}
 		}
 
