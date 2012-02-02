@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb.
- * 
+ *
  * @author Neil Boyd
- * 
+ *
  */
 public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderConstants {
 
@@ -50,6 +50,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		final Thread t = new Thread() {
 			@Override
 			public void run() {
+				mUsedCacheSpace = 0; // because it's static
 				calculateDirectorySize(TILE_PATH_BASE);
 				if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
 					cutCurrentCache();
@@ -70,7 +71,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	/**
 	 * Get the amount of disk space used by the tile cache. This will initially be zero since the
 	 * used space is calculated in the background.
-	 * 
+	 *
 	 * @return size in bytes
 	 */
 	public static long getUsedCacheSpace() {
@@ -152,7 +153,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					mUsedCacheSpace += file.length();
 				}
 				if (file.isDirectory() && !isSymbolicDirectoryLink(pDirectory, file)) {
-					calculateDirectorySize(file);
+					calculateDirectorySize(file); // *** recurse ***
 				}
 			}
 		}
@@ -171,9 +172,9 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			final String canonicalParentPath1 = pParentDirectory.getCanonicalPath();
 			final String canonicalParentPath2 = pDirectory.getCanonicalFile().getParent();
 			return !canonicalParentPath1.equals(canonicalParentPath2);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			return true;
-		} catch (NoSuchElementException e) {
+		} catch (final NoSuchElementException e) {
 			// See: http://code.google.com/p/android/issues/detail?id=4961
 			// See: http://code.google.com/p/android/issues/detail?id=5807
 			return true;
