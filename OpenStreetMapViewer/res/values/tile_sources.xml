@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="osmarender">Osmarender</string>
 	<string name="mapnik">Mapnik</string>
 	<string name="cyclemap">Cycle Map</string>
 	<string name="public_transport">Public transport</string>

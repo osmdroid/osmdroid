@@ -40,8 +40,6 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 	@Override
 	public String getString(final string pResId) {
 		switch (pResId) {
-		case osmarender:
-			return "Osmarender";
 		case mapnik:
 			return "Mapnik";
 		case cyclemap:

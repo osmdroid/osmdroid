@@ -60,10 +60,6 @@ public class TileSourceFactory {
 		mTileSources.add(mTileSource);
 	}
 
-	public static final OnlineTileSourceBase OSMARENDER = new XYTileSource("Osmarender",
-			ResourceProxy.string.osmarender, 0, 17, 256, ".png",
-			"http://tah.openstreetmap.org/Tiles/tile/");
-
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
 			ResourceProxy.string.mapnik, 0, 18, 256, ".png", "http://tile.openstreetmap.org/");
 
@@ -133,7 +129,6 @@ public class TileSourceFactory {
 	private static ArrayList<ITileSource> mTileSources;
 	static {
 		mTileSources = new ArrayList<ITileSource>();
-		mTileSources.add(OSMARENDER);
 		mTileSources.add(MAPNIK);
 		mTileSources.add(CYCLEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);

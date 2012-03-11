@@ -7,17 +7,13 @@ import org.junit.Test;
 
 import android.graphics.Bitmap;
 
-/**
- * @author Neil Boyd
- * 
- */
 public class DefaultResourceProxyTest {
 
 	@Test
 	public void test_getString() {
 		final ResourceProxy rp = new DefaultResourceProxyImpl(null);
-		final String osmarender = rp.getString(ResourceProxy.string.osmarender);
-		assertEquals("Got string okay", "Osmarender", osmarender);
+		final String mapnik = rp.getString(ResourceProxy.string.mapnik);
+		assertEquals("Got string okay", "Mapnik", mapnik);
 	}
 
 	@Test(expected = RuntimeException.class)
