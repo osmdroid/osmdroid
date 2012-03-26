@@ -96,27 +96,29 @@ public class GoogleTilesOverlay extends Overlay {
 		final Projection pj = osmv.getProjection();
 		final int zoomLevel = osmv.getZoomLevel() - 1;
 		final int tileSizePx = this.mTileProvider.getTileSource().getTileSizePixels();
-		/*
-		 * Calculate the amount of tiles needed for each side around the center
-		 * one.
-		 */
-		final Point centerXY = Mercator.projectGeoPoint(
-				osmv.getMapCenter().getLatitudeE6() / 1E6,
-				osmv.getMapCenter().getLongitudeE6() / 1E6,
-				zoomLevel,
-				new Point(0, 0));
-		final int tileNeededToLeftOfCenter = centerXY.x - 1;
-		final int tileNeededToRightOfCenter = centerXY.x + 1;
-		final int tileNeededToTopOfCenter = centerXY.y - 1;
-		final int tileNeededToBottomOfCenter = centerXY.y + 1;
+
+		// Calculate the tiles needed for each side around the center one.
+		final int latSpan = osmv.getLatitudeSpan();
+		final int longSpan = osmv.getLongitudeSpan();
+		final int topLatitude = osmv.getMapCenter().getLatitudeE6() + latSpan/2;
+		final int leftLongitude = osmv.getMapCenter().getLongitudeE6() - longSpan/2;
+		final int bottomLatitude = osmv.getMapCenter().getLatitudeE6() - latSpan/2;
+		final int rightLongitude = osmv.getMapCenter().getLongitudeE6() + longSpan/2;
+		final Point leftTopXY = Mercator.projectGeoPoint(topLatitude/1E6, leftLongitude/1E6, zoomLevel, new Point(0,0));
+		final Point rightBottomXY = Mercator.projectGeoPoint(bottomLatitude/1E6, rightLongitude/1E6, zoomLevel, new Point(0,0));
+		final int tileNeededAtLeft = leftTopXY.x;
+		final int tileNeededAtRight = rightBottomXY.x;
+		final int tileNeededAtTop = leftTopXY.y;
+		final int tileNeededAtBottom = rightBottomXY.y;
+
 		final int mapTileUpperBound = 1 << zoomLevel;
 		// make sure the cache is big enough for all the tiles
-		final int numNeeded = (tileNeededToBottomOfCenter - tileNeededToTopOfCenter + 1)
-				* (tileNeededToRightOfCenter - tileNeededToLeftOfCenter + 1);
+		final int numNeeded = (tileNeededAtBottom - tileNeededAtTop + 1)
+				* (tileNeededAtRight - tileNeededAtLeft + 1);
 		mTileProvider.ensureCapacity(numNeeded);
 		/* Draw all the MapTiles (from the upper left to the lower right). */
-		for (int y = tileNeededToTopOfCenter; y <= tileNeededToBottomOfCenter; y++) {
-			for (int x = tileNeededToLeftOfCenter; x <= tileNeededToRightOfCenter; x++) {
+		for (int y = tileNeededAtTop; y <= tileNeededAtBottom; y++) {
+			for (int x = tileNeededAtLeft; x <= tileNeededAtRight; x++) {
 				// Construct a MapTile to request from the tile provider.
 				final int tileY = MyMath.mod(y, mapTileUpperBound);
 				final int tileX = MyMath.mod(x, mapTileUpperBound);
