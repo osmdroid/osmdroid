@@ -22,12 +22,12 @@ public class MapController implements IMapController {
 	@Override
 	public void animateTo(final IGeoPoint pGeoPoint) {
 		// TODO call animateTo if they define it
-		mController.setCenter(new org.mapsforge.android.maps.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
+		mController.setCenter(new org.mapsforge.core.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
 	}
 
 	@Override
 	public void setCenter(final IGeoPoint pGeoPoint) {
-		mController.setCenter(new org.mapsforge.android.maps.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
+		mController.setCenter(new org.mapsforge.core.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
 	}
 
 	@Override

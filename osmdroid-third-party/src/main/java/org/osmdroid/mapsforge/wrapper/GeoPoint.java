@@ -12,20 +12,20 @@ import org.osmdroid.api.IGeoPoint;
  */
 public class GeoPoint implements IGeoPoint {
 
-	private final org.mapsforge.android.maps.GeoPoint mGeoPoint;
+	private final org.mapsforge.core.GeoPoint mGeoPoint;
 
-	public GeoPoint(final org.mapsforge.android.maps.GeoPoint pGeoPoint) {
+	public GeoPoint(final org.mapsforge.core.GeoPoint pGeoPoint) {
 		mGeoPoint = pGeoPoint;
 	}
 
 	@Override
 	public int getLatitudeE6() {
-		return mGeoPoint.getLatitudeE6();
+		return mGeoPoint.latitudeE6;
 	}
 
 	@Override
 	public int getLongitudeE6() {
-		return mGeoPoint.getLongitudeE6();
+		return mGeoPoint.longitudeE6;
 	}
 
 }

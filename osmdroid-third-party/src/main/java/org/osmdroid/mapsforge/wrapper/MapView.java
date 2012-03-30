@@ -44,7 +44,7 @@ public class MapView implements IMapView {
 
 	@Override
 	public int getZoomLevel() {
-		return mMapView.getZoomLevel();
+		return mMapView.getMapPosition().getZoomLevel();
 	}
 
 	@Override
@@ -61,12 +61,12 @@ public class MapView implements IMapView {
 
 	@Override
 	public IGeoPoint getMapCenter() {
-		return new GeoPoint(mMapView.getMapCenter());
+		return new GeoPoint(mMapView.getMapPosition().getMapCenter());
 	}
 
 	@Override
 	public int getMaxZoomLevel() {
-		return mMapView.getMaxZoomLevel();
+		return mMapView.getMapZoomControls().getZoomLevelMax();
 	}
 
 	@Override

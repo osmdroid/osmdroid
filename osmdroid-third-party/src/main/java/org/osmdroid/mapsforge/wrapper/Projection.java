@@ -7,7 +7,7 @@ import org.osmdroid.util.GeoPoint;
 import android.graphics.Point;
 
 /**
- * A wrapper for the Google {@link org.mapsforge.android.maps.Projection} implementation.
+ * A wrapper for the mapsforge {@link org.mapsforge.android.maps.Projection} implementation.
  * This implements {@link IProjection}, which is also implemented by the osmdroid
  * {@link org.osmdroid.views.MapView.Projection}.
  *
@@ -24,15 +24,15 @@ public class Projection implements IProjection {
 
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point out) {
-		final org.mapsforge.android.maps.GeoPoint googleGeoPoint =
-			new org.mapsforge.android.maps.GeoPoint(in.getLatitudeE6(), in.getLongitudeE6());
+		final org.mapsforge.core.GeoPoint googleGeoPoint =
+			new org.mapsforge.core.GeoPoint(in.getLatitudeE6(), in.getLongitudeE6());
 		return mProjection.toPixels(googleGeoPoint, out);
 	}
 
 	@Override
 	public IGeoPoint fromPixels(final int x, final int y) {
-		final org.mapsforge.android.maps.GeoPoint googleGeoPoint = mProjection.fromPixels(x, y);
-		return new GeoPoint(googleGeoPoint.getLatitudeE6(), googleGeoPoint.getLongitudeE6());
+		final org.mapsforge.core.GeoPoint mapsforgeGeoPoint = mProjection.fromPixels(x, y);
+		return new GeoPoint(mapsforgeGeoPoint.latitudeE6, mapsforgeGeoPoint.longitudeE6);
 	}
 
 	@Override
