@@ -289,14 +289,18 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	}
 
 	private class ZoomOutTileLooper extends ScaleTileLooper {
+		private static final int MAX_ZOOM_OUT_DIFF = 4;
 		public ZoomOutTileLooper(final int pOldZoomLevel) {
 			super(pOldZoomLevel);
 		}
 		@Override
 		protected void handleTile(final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
 
-			// get many tiles from cache and make one tile from them
+			if (mDiff >= MAX_ZOOM_OUT_DIFF){
+				return;
+			}
 
+			// get many tiles from cache and make one tile from them
 			final int xx = pTile.getX() << mDiff;
 			final int yy = pTile.getY() << mDiff;
 			final int numTiles = 1 << mDiff;
