@@ -116,7 +116,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Constructors
 	// ===========================================================
 
-	private MapView(final Context context, final int tileSizePixels,
+	protected MapView(final Context context, final int tileSizePixels,
 			final ResourceProxy resourceProxy, MapTileProviderBase tileProvider,
 			final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
 		super(context, attrs);
@@ -355,9 +355,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final BoundingBoxE6 currentBox = getBoundingBox();
 
 		// Calculated required zoom based on latitude span
-    	final double maxZoomLatitudeSpan = (mZoomLevel == getMaxZoomLevel() ?
+    	final double maxZoomLatitudeSpan = mZoomLevel == getMaxZoomLevel() ?
     			currentBox.getLatitudeSpanE6() :
-    			currentBox.getLatitudeSpanE6() / Math.pow(2, (getMaxZoomLevel() - mZoomLevel)));
+    			currentBox.getLatitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
     	final double requiredLatitudeZoom =
     		getMaxZoomLevel() -
@@ -365,9 +365,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 
 		// Calculated required zoom based on longitude span
-    	final double maxZoomLongitudeSpan = (mZoomLevel == getMaxZoomLevel() ?
+    	final double maxZoomLongitudeSpan = mZoomLevel == getMaxZoomLevel() ?
     			currentBox.getLongitudeSpanE6() :
-    			currentBox.getLongitudeSpanE6() / Math.pow(2, (getMaxZoomLevel() - mZoomLevel)));
+    			currentBox.getLongitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
     	final double requiredLongitudeZoom =
     		getMaxZoomLevel() -
@@ -816,16 +816,16 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void scrollTo(int x, int y) {
 		final int worldSize_2 = TileSystem.MapSize(mZoomLevel) / 2;
 		while (x < -worldSize_2) {
-			x += (worldSize_2 * 2);
+			x += worldSize_2 * 2;
 		}
 		while (x > worldSize_2) {
-			x -= (worldSize_2 * 2);
+			x -= worldSize_2 * 2;
 		}
 		while (y < -worldSize_2) {
-			y += (worldSize_2 * 2);
+			y += worldSize_2 * 2;
 		}
 		while (y > worldSize_2) {
-			y -= (worldSize_2 * 2);
+			y -= worldSize_2 * 2;
 		}
 		super.scrollTo(x, y);
 
@@ -947,10 +947,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final PointInfo aTouchPoint) {
 		float multiTouchScale = aNewObjPosAndScale.getScale();
 		// If we are at the first or last zoom level, prevent pinching/expanding
-		if ((multiTouchScale > 1) && !canZoomIn()) {
+		if (multiTouchScale > 1 && !canZoomIn()) {
 			multiTouchScale = 1;
 		}
-		if ((multiTouchScale < 1) && !canZoomOut()) {
+		if (multiTouchScale < 1 && !canZoomOut()) {
 			multiTouchScale = 1;
 		}
 		mMultiTouchScale = multiTouchScale;
