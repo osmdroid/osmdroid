@@ -45,13 +45,14 @@ import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Picture;
 import android.graphics.Rect;
+import android.view.WindowManager;
 
 public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
@@ -75,7 +76,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// Internal
 
-	private final Activity activity;
+	private final Context context;
 
 	protected final Picture scaleBarPicture = new Picture();
 
@@ -98,14 +99,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Constructors
 	// ===========================================================
 
-	public ScaleBarOverlay(final Activity activity) {
-		this(activity, new DefaultResourceProxyImpl(activity));
+	public ScaleBarOverlay(final Context context) {
+		this(context, new DefaultResourceProxyImpl(context));
 	}
 
-	public ScaleBarOverlay(final Activity activity, final ResourceProxy pResourceProxy) {
+	public ScaleBarOverlay(final Context context, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
 		this.resourceProxy = pResourceProxy;
-		this.activity = activity;
+		this.context = context;
 
 		this.barPaint = new Paint();
 		this.barPaint.setColor(Color.BLACK);
@@ -120,11 +121,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		this.textPaint.setAlpha(255);
 		this.textPaint.setTextSize(textSize);
 
-		this.xdpi = this.activity.getResources().getDisplayMetrics().xdpi;
-		this.ydpi = this.activity.getResources().getDisplayMetrics().ydpi;
+		this.xdpi = this.context.getResources().getDisplayMetrics().xdpi;
+		this.ydpi = this.context.getResources().getDisplayMetrics().ydpi;
 
-		this.screenWidth = this.activity.getResources().getDisplayMetrics().widthPixels;
-		this.screenHeight = this.activity.getResources().getDisplayMetrics().heightPixels;
+		this.screenWidth = this.context.getResources().getDisplayMetrics().widthPixels;
+		this.screenHeight = this.context.getResources().getDisplayMetrics().heightPixels;
 
 		// DPI corrections for specific models
 		String manufacturer = null;
@@ -137,7 +138,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		if ("motorola".equals(manufacturer) && "DROIDX".equals(android.os.Build.MODEL)) {
 
 			// If the screen is rotated, flip the x and y dpi values
-			if (activity.getWindowManager().getDefaultDisplay().getOrientation() > 0) {
+			WindowManager windowManager = (WindowManager) this.context
+					.getSystemService(Context.WINDOW_SERVICE);
+			if (windowManager.getDefaultDisplay().getOrientation() > 0) {
 				this.xdpi = (float) (this.screenWidth / 3.75);
 				this.ydpi = (float) (this.screenHeight / 2.1);
 			} else {
