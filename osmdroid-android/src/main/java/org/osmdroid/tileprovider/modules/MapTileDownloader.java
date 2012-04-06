@@ -169,6 +169,14 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final HttpClient client = new DefaultHttpClient();
 				final HttpUriRequest head = new HttpGet(tileURLString);
 				final HttpResponse response = client.execute(head);
+
+				// Check to see if we got success
+				final org.apache.http.StatusLine line = response.getStatusLine();
+				if (line.getStatusCode() != 200) {
+					logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + line);
+					return null;
+				}
+
 				final HttpEntity entity = response.getEntity();
 				if (entity == null) {
 					logger.warn("No content downloading MapTile: " + tile);
