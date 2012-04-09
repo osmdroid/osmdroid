@@ -100,7 +100,11 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			@Override
 			protected boolean removeEldestEntry(
 					final Map.Entry<MapTile, MapTileRequestState> pEldest) {
-				return size() > pPendingQueueSize;
+				if (size() > pPendingQueueSize) {
+					removeTileFromQueues(pEldest.getKey());
+					pEldest.getValue().getCallback().mapTileRequestFailed(pEldest.getValue());
+				}
+				return false;
 			}
 		};
 	}
