@@ -160,7 +160,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		public void initialiseLoop(final int pZoomLevel, final int pTileSizePx) {
 			// make sure the cache is big enough for all the tiles
 			final int numNeeded = (mLowerRight.y - mUpperLeft.y + 1) * (mLowerRight.x - mUpperLeft.x + 1);
-			mTileProvider.ensureCapacity(numNeeded);
+			mTileProvider.ensureCapacity(numNeeded + mOvershootTileCache);
 		}
 		@Override
 		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
