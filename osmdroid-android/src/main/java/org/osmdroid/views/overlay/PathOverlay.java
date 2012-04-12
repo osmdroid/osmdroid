@@ -15,10 +15,11 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-/**
- * 
+/*
+ *
  * @author Viesturs Zarins
- * 
+ * @author Martin Pearman
+ *
  *         This class draws a path line in given color.
  */
 public class PathOverlay extends Overlay {
@@ -82,13 +83,48 @@ public class PathOverlay extends Overlay {
 		this.mPaint.setAlpha(a);
 	}
 
+	/**
+	 * Add numberOfPoints points to the path to create a great circle from startPoint to endPoint.
+	 */
+	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
+		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
+		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
+
+		// convert to radians
+		final double lat1 = startPoint.getLatitudeE6() / 1E6 * Math.PI / 180;
+		final double lon1 = startPoint.getLongitudeE6() / 1E6 * Math.PI / 180;
+		final double lat2 = endPoint.getLatitudeE6() / 1E6 * Math.PI / 180;
+		final double lon2 = endPoint.getLongitudeE6() / 1E6 * Math.PI / 180;
+
+		final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
+				* Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
+		double bearing = Math.atan2(Math.sin(lon1 - lon2) * Math.cos(lat2),
+				Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2))
+				/ -(Math.PI / 180);
+		bearing = bearing < 0 ? 360 + bearing : bearing;
+
+		for (int i = 0, j = numberOfPoints + 1; i < j; i++) {
+			final double f = 1.0 / numberOfPoints * i;
+			final double A = Math.sin((1 - f) * d) / Math.sin(d);
+			final double B = Math.sin(f * d) / Math.sin(d);
+			final double x = A * Math.cos(lat1) * Math.cos(lon1) + B * Math.cos(lat2) * Math.cos(lon2);
+			final double y = A * Math.cos(lat1) * Math.sin(lon1) + B * Math.cos(lat2) * Math.sin(lon2);
+			final double z = A * Math.sin(lat1) + B * Math.sin(lat2);
+
+			final double latN = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
+			final double lonN = Math.atan2(y, x);
+			addPoint((int) (latN / (Math.PI / 180) * 1E6), (int) (lonN / (Math.PI / 180) * 1E6));
+		}
+	}
+
 	public Paint getPaint() {
 		return mPaint;
 	}
 
-	public void setPaint(Paint pPaint) {
-		if (pPaint == null)
+	public void setPaint(final Paint pPaint) {
+		if (pPaint == null) {
 			throw new IllegalArgumentException("pPaint argument cannot be null");
+		}
 		mPaint = pPaint;
 	}
 
@@ -171,8 +207,7 @@ public class PathOverlay extends Overlay {
 			screenPoint1 = pj.toMapPixelsTranslated(projectedPoint1, this.mTempPoint2);
 
 			// skip this point, too close to previous point
-			if (Math.abs(screenPoint1.x - screenPoint0.x)
-					+ Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
+			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
 				continue;
 			}
 
@@ -182,8 +217,7 @@ public class PathOverlay extends Overlay {
 			projectedPoint0 = projectedPoint1;
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
-			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x,
-					projectedPoint0.y);
+			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 		}
 
 		canvas.drawPath(mPath, this.mPaint);
