@@ -15,7 +15,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-/*
+/**
  *
  * @author Viesturs Zarins
  * @author Martin Pearman
@@ -81,6 +81,19 @@ public class PathOverlay extends Overlay {
 
 	public void setAlpha(final int a) {
 		this.mPaint.setAlpha(a);
+	}
+
+	/**
+	 * Add numberOfPoints points to the path to create a great circle from startPoint to endPoint.
+	 */
+	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint) {
+        //	get the great circle path length in meters
+        final int greatCircleLength=startPoint.distanceTo(endPoint);
+
+        //	add one point for every 100kms of the great circle path
+        final int numberOfPoints=greatCircleLength/100000;
+
+        addGreatCircle(startPoint, endPoint, numberOfPoints);
 	}
 
 	/**
