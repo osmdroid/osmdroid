@@ -84,7 +84,10 @@ public class PathOverlay extends Overlay {
 	}
 
 	/**
-	 * Add numberOfPoints points to the path to create a great circle from startPoint to endPoint.
+	 * Draw a great circle.
+	 * Calculate a point for every 100km along the path.
+	 * @param startPoint start point of the great circle
+	 * @param endPoint end point of the great circle
 	 */
 	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint) {
         //	get the great circle path length in meters
@@ -97,7 +100,10 @@ public class PathOverlay extends Overlay {
 	}
 
 	/**
-	 * Add numberOfPoints points to the path to create a great circle from startPoint to endPoint.
+	 * Draw a great circle.
+	 * @param startPoint start point of the great circle
+	 * @param endPoint end point of the great circle
+	 * @param numberOfPoints number of points to calculate along the path
 	 */
 	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
