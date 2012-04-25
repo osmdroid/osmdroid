@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>3.0.8-SNAPSHOT</version>
+    <version>3.0.8</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
@@ -26,9 +25,9 @@
     </licenses>
 
     <scm>
-        <url>http://osmdroid.googlecode.com/svn/trunk</url>
-        <connection>scm:svn:http://osmdroid.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://osmdroid.googlecode.com/svn/trunk</developerConnection>
+        <url>http://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.8</url>
+        <connection>scm:svn:http://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.8</connection>
+        <developerConnection>scm:svn:https://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.8</developerConnection>
     </scm>
 
     <issueManagement>
