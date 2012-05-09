@@ -236,8 +236,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @return the same drawable that was passed in.
 	 */
 	protected synchronized Drawable boundToHotspot(final Drawable marker, HotspotPlace hotspot) {
-		final int markerWidth = (int) (marker.getIntrinsicWidth() * mScale);
-		final int markerHeight = (int) (marker.getIntrinsicHeight() * mScale);
+		final int markerWidth = marker.getIntrinsicWidth();
+		final int markerHeight = marker.getIntrinsicHeight();
 
 		mRect.set(0, 0, 0 + markerWidth, 0 + markerHeight);
 
