@@ -1134,11 +1134,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 */
 		public Point toMapPixels(final IGeoPoint in, final Point reuse) {
 			final Point out = reuse != null ? reuse : new Point();
-
-			final Point coords = TileSystem.LatLongToPixelXY(in.getLatitudeE6() / 1E6,
-					in.getLongitudeE6() / 1E6, getZoomLevel(), null);
-			out.set(coords.x, coords.y);
+			TileSystem.LatLongToPixelXY(
+							in.getLatitudeE6() / 1E6,
+							in.getLongitudeE6() / 1E6,
+							getZoomLevel(), out);
 			out.offset(offsetX, offsetY);
+			if (Math.abs(out.x - getScrollX()) >
+				Math.abs(out.x - TileSystem.MapSize(getZoomLevel()) - getScrollX())) {
+				out.x -= TileSystem.MapSize(getZoomLevel());
+			}
+			if (Math.abs(out.y - getScrollY()) >
+				Math.abs(out.y - TileSystem.MapSize(getZoomLevel()) - getScrollY())) {
+				out.y -= TileSystem.MapSize(getZoomLevel());
+			}
 			return out;
 		}
 

@@ -22,9 +22,9 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SampleWithMinimapItemizedoverlay extends Activity {
 
@@ -65,14 +65,11 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		{
 			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52370816,
-					9735936))); // Hannover
-			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52518333,
-					13408333))); // Berlin
-			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38895000,
-					-77036667))); // Washington
-			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300,
-					-122419200))); // San Francisco
+			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52370816, 9735936)));
+			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52518333, 13408333)));
+			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38895000, -77036667)));
+			items.add(new OverlayItem("San Francisco", "SampleDescription", new GeoPoint(37779300, -122419200)));
+			items.add(new OverlayItem("Tolaga Bay", "SampleDescription", new GeoPoint(-38371000, 178298000)));
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
 			this.mMyLocationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
@@ -100,7 +97,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 
 		/* MiniMap */
 		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
+			final MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
 					mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(miniMapOverlay);
 		}
