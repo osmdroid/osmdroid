@@ -104,14 +104,14 @@ public class OverlayManager extends AbstractList<Overlay> {
 			mTilesOverlay.draw(c, pMapView, true);
 		}
 
+		if ((mTilesOverlay != null) && mTilesOverlay.isEnabled()) {
+			mTilesOverlay.draw(c, pMapView, false);
+		}
+
 		for (final Overlay overlay : mOverlayList) {
 			if (overlay.isEnabled()) {
 				overlay.draw(c, pMapView, true);
 			}
-		}
-
-		if ((mTilesOverlay != null) && mTilesOverlay.isEnabled()) {
-			mTilesOverlay.draw(c, pMapView, false);
 		}
 
 		for (final Overlay overlay : mOverlayList) {
