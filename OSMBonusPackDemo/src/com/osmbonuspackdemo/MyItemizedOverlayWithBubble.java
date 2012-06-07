@@ -40,7 +40,7 @@ public class MyItemizedOverlayWithBubble {
 			}
 		}, resourceProxy);
 
-		mPanel = new InfoWindow(0, mView); //use default layout
+		mPanel = new InfoWindow(R.layout.bonuspack_bubble, mView); //use default layout
 		itemWithPanel = null;
 	}
 	
