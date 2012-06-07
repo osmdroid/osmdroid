@@ -1,0 +1,38 @@
+#summary Why this Bonus Pack, and what does it give.
+
+OSMDroid provides an simple and efficient way to move an application from Google Maps to OpenStreetMap. OSMDroid provides:
+  * the map tiles (MapView) and the usual zoom/pan tools (MapController)
+  * the standard overlays (ItemizedOverlay, MyLocationOverlay,...)
+  * and some additional overlays (MinimapOverlay, PathOverlay,...)
+
+However, in most map-based applications, we want more!
+So, here comes OSMDroid Bonus Pack. 
+
+= Geocoding and Reverse Geocoding =
+Android provides the Geocoder class. BUT... according to Google Terms&Conditions, it can only be used in relation with a Google map. 
+
+So, OSMDroid Bonus Pack provides GeocoderNominatim class, which is fully compatible with Android Geocoder API. 
+It access to Nominatim service: 
+ * OSM Nominatim
+ * MapQuest Nominatim
+ * or any other Nominatim-compliant service. 
+Migrating from Android Geocoder is a simple change of class name. 
+
+= Routes and Directions = 
+OSMDroid Bonus Pack provides a set of classes to get routes, with turn-by-turn information and route shape:
+ * RoadManagers retrieve roads from a variety of services providers. Currently supported: MapQuest Open API and OSRM. RoadManager can also build a PathOverlay with the route shape, ready-to-display. 
+ * Result is a "Road" object
+ * RoadNode array contains the turn-by-turn information
+ * Also provided, some route-related utilities: polyline encoder/decoder, polyline reducer based on Douglas-Peucker algorithm. 
+
+
+= Cartoon-bubble Overlays =
+OSMDroid Bonus Pack provides the InfoWindow class. This is a view that can be displayed on an OSMDroid map, associated to a GeoPoint. 
+Typical usage is to have cartoon-like bubble displayed when clicking an overlay item. 
+The API mimics the InfoWindow class of Google Maps JavaScript API V3. 
+A NinePatch background and a standard layout are provided in the sample application. 
+
+
+= Map events handling = 
+MapEventsOverlay and MapEventsReceiver classes provide a simple way to manage single-press and long-press events somewhere on the map. 
+Example: long-press on the map to define the destination, a new POI,... 

@@ -1,0 +1,150 @@
+package org.osmdroid.bonuspack;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.util.EntityUtils;
+
+import android.util.Log;
+
+/**
+ * My own "very very simple to use" class for performing http get and post requests. 
+ * So many ways to do that, and potential subtle issues. 
+ * If complexity should be added to handle even more issues, complexity should be put here and only here. 
+ * 
+ * @usage: 
+ * HttpConnection connection = new HttpConnection();
+ * connection.doGet("http://www.google.com");
+ * InputStream stream = connection.getStream();
+ * if (stream != null) {
+ * 	//use this stream, for buffer reading, to XML SAX parsing, to whatever... 
+ * }
+ * connection.close();
+ */
+public class HttpConnection {
+
+	private DefaultHttpClient client;
+	private InputStream stream;
+	private HttpEntity entity;
+	
+	private final static int TIMEOUT_CONNECTION=3000; //ms 
+	private final static int TIMEOUT_SOCKET=8000; //ms
+	
+	/** Constructor. 
+	 * Opens the url with an HttpURLConnection, then opens a stream on it. 
+	 * @param String sUrl: url to open
+	 */
+	public HttpConnection(){
+		stream = null;
+		entity = null;
+		HttpParams httpParameters = new BasicHttpParams();
+		//HttpProtocolParams.setContentCharset(httpParameters, "UTF-8"); - useless...
+		// Set the timeout in milliseconds until a connection is established.
+		HttpConnectionParams.setConnectionTimeout(httpParameters, TIMEOUT_CONNECTION);
+		// Set the default socket timeout (SO_TIMEOUT) 
+		// in milliseconds which is the timeout for waiting for data.
+		HttpConnectionParams.setSoTimeout(httpParameters, TIMEOUT_SOCKET);
+		client = new DefaultHttpClient(httpParameters); 
+			//TODO: created here. Reuse to do for better perfs???...
+	}
+	
+	public void doGet(String sUrl){
+		HttpGet request = new HttpGet(sUrl);
+		try {
+			HttpResponse response = client.execute(request);
+			StatusLine status = response.getStatusLine();
+			if (status.getStatusCode() != 200) {
+				Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());
+			} else {
+				entity = response.getEntity();
+			}
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void doPost(String sUrl, List<NameValuePair> nameValuePairs) {
+		HttpPost httppost = new HttpPost(sUrl);
+		try {
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = client.execute(httppost);
+			StatusLine status = response.getStatusLine();
+			if (status.getStatusCode() != 200) {
+				Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());
+			} else {
+				entity = response.getEntity();
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/** 
+	 * @return the opened InputStream, or null if creation failed for any reason. 
+	 */
+	public InputStream getStream() {
+		try {
+			if (entity != null)
+				stream = entity.getContent();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stream;
+	}
+	
+	public String getContentAsString(){
+		try {
+			if (entity != null) {
+				return EntityUtils.toString(entity /*, HTTP.UTF_8*/); 
+					//already ok, useless. 
+			} else 
+				return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Calling close once is mandatory. 
+	 */
+	public void close(){
+		if (stream != null){
+			try { 
+				stream.close();
+				stream = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (entity != null){
+			try {
+				entity.consumeContent(); 
+					//"finish". Important if we want to reuse the client object one day... 
+				entity = null;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (client != null){
+			client.getConnectionManager().shutdown();
+			client = null;
+		}
+	}
+	
+}
