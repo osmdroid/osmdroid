@@ -15,8 +15,8 @@ import android.os.Build;
  */
 public class BonusPackHelper {
 
-	//Static data. Apparently, we can have static data in an Android app... 
-	public static final String LOG_TAG = "BONUSPACK"; /** Log tag. */
+	/** Log tag. */
+	public static final String LOG_TAG = "BONUSPACK";
 
 	/** @return true if the device is the emulator, false if actual device. 
 	 */

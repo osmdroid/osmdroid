@@ -9,10 +9,14 @@ import android.util.Log;
 
 /** Road Link is a portion of road between 2 "nodes" or intersections */
 class RoadLink {
-	public double mSpeed; /** in km/h */
-	public double mLength; /** in km */
-	public double mDuration; /** in sec */
-	public int mShapeIndex; /** starting point of the link, as index in initial polyline */
+	/** in km/h */
+	public double mSpeed; 
+	/** in km */
+	public double mLength; 
+	/** in sec */
+	public double mDuration;
+	/** starting point of the link, as index in initial polyline */
+	public int mShapeIndex; 
 }
 
 
@@ -23,16 +27,20 @@ class RoadLink {
  * @author M.Kergall
  */
 public class Road {
-	public double mLength; /** length of the whole route in km. */
-	public double mDuration; /** duration of the whole trip in sec. */
-	
+	/** length of the whole route in km. */
+	public double mLength; 
+	/** duration of the whole trip in sec. */
+	public double mDuration; 	
 	public ArrayList<RoadLink> mLinks; /** */
 	public ArrayList<RoadNode> mNodes; /** */
-	public ArrayList<RoadLeg> mLegs; /** there is one leg between each waypoint */
-	
-	public ArrayList<GeoPoint> mRouteHigh; /** full shape: polyline, as an array of GeoPoints */
-	private ArrayList<GeoPoint> mRouteLow; /** the same, in low resolution (less points) */
-	public BoundingBoxE6 mBoundingBox; /** road bounding box */
+	/** there is one leg between each waypoint */
+	public ArrayList<RoadLeg> mLegs; 
+	/** full shape: polyline, as an array of GeoPoints */
+	public ArrayList<GeoPoint> mRouteHigh; 
+	/** the same, in low resolution (less points) */
+	private ArrayList<GeoPoint> mRouteLow; 
+	/** road bounding box */
+	public BoundingBoxE6 mBoundingBox; 
 	
 	private void init(){
 		mLength = 0.0;
@@ -104,7 +112,10 @@ public class Road {
 		RoadLeg lastLeg = new RoadLeg(firstLinkIndex, mLinks.size()-1, mLinks);
 		mLegs.add(lastLeg);
 	}
-	
+
+	/**
+	 * @return the road shape in "low resolution" = simplified by around 10 factor. 
+	 */
 	public ArrayList<GeoPoint> getRouteLow(){
 		if (mRouteLow == null){
 			//Simplify the route (divide number of points by around 10):
@@ -148,7 +159,12 @@ public class Road {
 		//switch to the new array of nodes:
 		mNodes = newNodes;
 	}
-	
+
+	/**
+	 * @param length in km
+	 * @param duration in sec
+	 * @return a human-readable length&duration text. 
+	 */
 	public String getLengthDurationText(double length, double duration){
 		String result;
 		if (length >= 100.0){

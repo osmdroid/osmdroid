@@ -9,10 +9,14 @@ import android.util.Log;
  * 
  */
 public class RoadLeg {
-	public double mLength; /** in km */
-	public double mDuration; /** in sec */
-	public int mStartLinkIndex; /** starting link of the leg, as index in links array */
-	public int mEndLinkIndex; /** and ending link */
+	/** in km */
+	public double mLength; 
+	/** in sec */
+	public double mDuration; 
+	/** starting link of the leg, as index in links array */
+	public int mStartLinkIndex;
+	/** and ending link */
+	public int mEndLinkIndex; 
 	
 	public RoadLeg(){
 		mLength = mDuration = 0.0;
