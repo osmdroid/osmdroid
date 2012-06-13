@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 public class ExtendedOverlayItem extends OverlayItem {
 
 	String mTitle, mDescription; // now, they are modifiable
-	String mAddress;
+	String mSubDescription; //a third field in the pop-up window, on a third line
 	Drawable mImage; //that will be shown in the pop-up window. 
 	
 	public ExtendedOverlayItem(String aTitle, String aDescription,
@@ -17,7 +17,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 		super(aTitle, aDescription, aGeoPoint);
 		mTitle = aTitle;
 		mDescription = aDescription;
-		mAddress = null;
+		mSubDescription = null;
 		mImage = null;
 	}
 
@@ -29,8 +29,8 @@ public class ExtendedOverlayItem extends OverlayItem {
 		mDescription = aDescription;
 	}
 	
-	public void setAddress(String aAddress){
-		mAddress = aAddress;
+	public void setSubDescription(String aSubDescription){
+		mSubDescription = aSubDescription;
 	}
 	
 	public void setImage(Drawable anImage){
@@ -45,8 +45,8 @@ public class ExtendedOverlayItem extends OverlayItem {
 		return mDescription;
 	}
 
-	public String getAddress() {
-		return mAddress;
+	public String getSubDescription() {
+		return mSubDescription;
 	}
 
 	public Drawable getImage() {

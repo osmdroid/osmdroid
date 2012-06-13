@@ -36,11 +36,11 @@ public class MyItemizedOverlayWithBubble {
 			}
 	
 			@Override public boolean onItemLongPress(final int index, final OverlayItem item) {
-				return true;
+				return false;
 			}
 		}, resourceProxy);
 
-		mPanel = new InfoWindow(R.layout.bonuspack_bubble, mView); //use default layout
+		mPanel = new InfoWindow(R.layout.bonuspack_bubble, mView);
 		itemWithPanel = null;
 	}
 	
@@ -52,7 +52,9 @@ public class MyItemizedOverlayWithBubble {
 		View view = mPanel.getView();
 		((TextView)view.findViewById(R.id.title)).setText(eItem.getTitle());
 		((TextView)view.findViewById(R.id.description)).setText(eItem.getDescription());
-
+		
+		//TODO: handle mSubDescription, hidding or showing the text view
+		
 		ImageView imageView = (ImageView)view.findViewById(R.id.image);
 		Drawable image = eItem.getImage();
 		if (image != null){

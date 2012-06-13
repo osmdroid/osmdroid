@@ -10,8 +10,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 
-/*
-public class MyOwnItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
+/* Implementation that doesn't work...  
+public class MyItemizedOverlay extends ItemizedIconOverlay<OverlayItem> {
 	protected Context mContext;
 	
 	public MyOwnItemizedOverlay(Drawable defaultMarker, Context context) {

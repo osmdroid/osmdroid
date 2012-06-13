@@ -21,6 +21,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import android.app.Activity;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.os.AsyncTask;
@@ -154,6 +155,7 @@ public class NavigationActivity
 		roadNodes.removeAllItems();
 		Drawable marker = getResources().getDrawable(R.drawable.marker_node);
 		int n = road.mNodes.size();
+		TypedArray iconIds = getResources().obtainTypedArray(R.array.direction_icons);
     	for (int i=0; i<n; i++){
     		RoadNode node = road.mNodes.get(i);
     		String instructions = (node.mInstructions==null ? "" : node.mInstructions);
@@ -163,6 +165,11 @@ public class NavigationActivity
     				node.mLocation);
     		nodeMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
     		nodeMarker.setMarker(marker);
+    		int iconId = iconIds.getResourceId(node.mManeuverType, R.drawable.ic_empty);
+    		if (iconId != R.drawable.ic_empty){
+	    		Drawable icon = getResources().getDrawable(iconId);
+	    		nodeMarker.setImage(icon);
+    		}
     		roadNodes.addItem(nodeMarker);
     	}
     }
@@ -175,8 +182,8 @@ public class NavigationActivity
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
 			//GoogleRoadManager roadManager = new GoogleRoadManager();
-			//OSRMRoadManager roadManager = new OSRMRoadManager();
-			MapQuestRoadManager roadManager = new MapQuestRoadManager();
+			OSRMRoadManager roadManager = new OSRMRoadManager();
+			//MapQuestRoadManager roadManager = new MapQuestRoadManager();
 			return roadManager.getRoad(waypoints);
 		}
 
@@ -209,14 +216,14 @@ public class NavigationActivity
 		}
 	}
 	
-    public void putRoadOverlay(GeoPoint start, GeoPoint destination){
-    	ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
-    	waypoints.add(start);
-    	//waypoints.add(new GeoPoint(...)); 
-    		//intermediate waypoints can be added here.
-    	waypoints.add(destination);
+	public void putRoadOverlay(GeoPoint start, GeoPoint destination){
+		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
+		waypoints.add(start);
+		//intermediate waypoints can be added here:
+		//waypoints.add(new GeoPoint(48.226, -1.9456)); 
+		waypoints.add(destination);
 		new UpdateRoadTask().execute(waypoints);
-    }
+	}
 
     /**
      * Geocoding of the destination address
