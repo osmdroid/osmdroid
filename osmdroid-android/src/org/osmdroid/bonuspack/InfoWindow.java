@@ -12,13 +12,16 @@ import android.view.ViewGroup;
  * Typical usage: cartoon-like bubbles displayed when clicking an overlay item. 
  * It mimics the InfoWindow class of Google Maps JavaScript API V3. 
  * Main differences are: 
- * - Structure and content of the view is let to the responsibility of the caller. 
- * - There is no "Close" button. The window is closed when clicking on it. 
- * - The same InfoWindow can be associated to many items. 
- * 
+ * <ul>
+ * <li>Structure and content of the view is let to the responsibility of the caller. </li>
+ * <li>There is no "Close" button. The window is closed when clicking on it. </li>
+ * <li>The same InfoWindow can be associated to many items. </li>
+ * </ul>
  * Known issues:
- * - It disappears when zooming in/out. 
- * - The window is displayed above the marker. 
+ * <ul>
+ * <li>It disappears when zooming in/out. </li>
+ * <li>The window is displayed above the marker. </li>
+ * </ul>
  * 
  * @author M.Kergall
  */

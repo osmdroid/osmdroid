@@ -21,18 +21,18 @@ import org.apache.http.util.EntityUtils;
 import android.util.Log;
 
 /**
- * My own "very very simple to use" class for performing http get and post requests. 
+ * A "very very simple to use" class for performing http get and post requests. 
  * So many ways to do that, and potential subtle issues. 
  * If complexity should be added to handle even more issues, complexity should be put here and only here. 
  * 
- * @usage: 
- * HttpConnection connection = new HttpConnection();
+ * Typical usage: 
+ * <pre>HttpConnection connection = new HttpConnection();
  * connection.doGet("http://www.google.com");
  * InputStream stream = connection.getStream();
  * if (stream != null) {
- * 	//use this stream, for buffer reading, to XML SAX parsing, to whatever... 
+ * 	//use this stream, for buffer reading, or XML SAX parsing, or whatever... 
  * }
- * connection.close();
+ * connection.close();</pre>
  */
 public class HttpConnection {
 

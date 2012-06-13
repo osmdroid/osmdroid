@@ -13,28 +13,27 @@ public class RoadLeg {
 	public double mLength; 
 	/** in sec */
 	public double mDuration; 
-	/** starting link of the leg, as index in links array */
-	public int mStartLinkIndex;
-	/** and ending link */
-	public int mEndLinkIndex; 
+	/** starting node of the leg, as index in nodes array */
+	public int mStartNodeIndex;
+	/** and ending node */
+	public int mEndNodeIndex; 
 	
 	public RoadLeg(){
 		mLength = mDuration = 0.0;
-		mStartLinkIndex = mEndLinkIndex = 0;
+		mStartNodeIndex = mEndNodeIndex = 0;
 	}
 	
-	public RoadLeg(int startLinkIndex, int endLinkIndex, 
-			ArrayList<RoadLink> roadLinks){
-		mStartLinkIndex = startLinkIndex;
-		mEndLinkIndex = endLinkIndex;
+	public RoadLeg(int startNodeIndex, int endNodeIndex, 
+			ArrayList<RoadNode> nodes){
+		mStartNodeIndex = startNodeIndex;
+		mEndNodeIndex = endNodeIndex;
 		mLength = mDuration = 0.0;
-		for (int i=mStartLinkIndex; i<=mEndLinkIndex; i++){
-			RoadLink link = roadLinks.get(i);
-			mLength += link.mLength;
-			mDuration += link.mDuration;
-			//TODO: also integrate nodes traversal duration...
+		for (int i=startNodeIndex; i<=endNodeIndex; i++){
+			RoadNode node = nodes.get(i);
+			mLength += node.mLength;
+			mDuration += node.mDuration;
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "Segment: " + mStartLinkIndex + "-" + mEndLinkIndex
+		Log.d(BonusPackHelper.LOG_TAG, "Leg: " + startNodeIndex + "-" + endNodeIndex
 				+ ", length=" + mLength + "km, duration="+mDuration+"s");
 	}
 }

@@ -11,7 +11,7 @@ import android.graphics.Paint;
 /**
  * Generic class to get a route between a start and a destination point, 
  * going through a list of waypoints. 
- * @see MapQuestRoadManager, GoogleRoadManager
+ * @see MapQuestRoadManager, GoogleRoadManager, OSRMRoadManager
  * 
  * @author M.Kergall
  */

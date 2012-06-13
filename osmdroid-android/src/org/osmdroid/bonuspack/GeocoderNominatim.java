@@ -13,7 +13,7 @@ import android.location.Address;
 import android.util.Log;
 
 /**
- * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. 
+ * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. <br>
  * See http://wiki.openstreetmap.org/wiki/Nominatim 
  * or http://open.mapquestapi.com/nominatim/
  * @author M.Kergall

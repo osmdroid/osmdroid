@@ -18,8 +18,8 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
 
 /** class to get a route between a start and a destination point, 
- * going through a list of waypoints. 
- * https://developers.google.com/maps/documentation/directions/
+ * going through a list of waypoints. <br>
+ * https://developers.google.com/maps/documentation/directions/<br>
  * Note that displaying a route provided by Google on a non-Google map (like OSM) is not allowed by Google T&C. 
  * @author M.Kergall
  */
@@ -61,7 +61,7 @@ public class GoogleRoadManager extends RoadManager {
 	 */
 	public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
-		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadProvider.getRouteXML:"+url);
+		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad:"+url);
 		Road road = null;
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
@@ -79,7 +79,7 @@ public class GoogleRoadManager extends RoadManager {
 				road.mLength += leg.mLength;
 			}
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadProvider.getRouteXML - end");
+		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad - finished");
 		return road;
 	}
 
@@ -180,7 +180,7 @@ class GoogleDirectionsHandler extends DefaultHandler {
 				mString = mString.replaceAll("<[^>]*>", " "); //remove everything in <...>
 				mString = mString.replaceAll("&nbsp;", " ");
 				mNode.mInstructions = mString;
-				Log.d(BonusPackHelper.LOG_TAG, mString);
+				//Log.d(BonusPackHelper.LOG_TAG, mString);
 			}
 		} else if (localName.equals("start_location")) {
 			if (isStep)

@@ -3,10 +3,10 @@ package org.osmdroid.bonuspack;
 import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;
 
-/** Reduces the number of points in a shape using the Douglas-Peucker algorithm. 
+/** Reduces the number of points in a shape using the Douglas-Peucker algorithm. <br>
  * 
- * From: http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4
- * Ported from PHP to Java, and added "marked" array to optimize. 
+ * From: http://www.phpriot.com/articles/reducing-map-path-douglas-peucker-algorithm/4<br>
+ * Ported from PHP to Java. "marked" array added to optimize. 
  * @author M.Kergall
  */
 public class DouglasPeuckerReducer {
