@@ -31,9 +31,19 @@
         android:background="#FFBBBBBB"
         android:textColor="#FF000000" />
     
-    <org.osmdroid.views.MapView android:id="@+id/map"
-        android:layout_width="fill_parent" 
-        android:layout_height="fill_parent"
-        android:layout_weight="1" />
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+		<org.osmdroid.views.MapView android:id="@+id/map"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="fill_parent" />
+		<Button
+            android:id="@+id/buttonRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+			android:background="@android:drawable/ic_menu_agenda" />
+	</RelativeLayout>
     
 </LinearLayout>

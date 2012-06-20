@@ -32,7 +32,7 @@ public class MyItemizedOverlayWithBubble {
 				items, 
 				new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 			@Override public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-				return onSingleTapUpHelper(index, item);
+				return onSingleTapUpHelper(index);
 			}
 	
 			@Override public boolean onItemLongPress(final int index, final OverlayItem item) {
@@ -44,10 +44,10 @@ public class MyItemizedOverlayWithBubble {
 		itemWithPanel = null;
 	}
 	
-	public boolean onSingleTapUpHelper(int i, OverlayItem item) {
-		ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
+	public boolean onSingleTapUpHelper(int i) {
+		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(mOverlay.getItem(i)); 
 		itemWithPanel = eItem;
-		GeoPoint position = item.getPoint();
+		GeoPoint position = eItem.getPoint();
 		//update the content of the popup panel, based on the item tapped:
 		View view = mPanel.getView();
 		((TextView)view.findViewById(R.id.title)).setText(eItem.getTitle());
@@ -64,7 +64,7 @@ public class MyItemizedOverlayWithBubble {
 			imageView.setVisibility(View.GONE);
 		
 		int offsetY = -20;
-		Drawable marker = item.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Drawable marker = eItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
 		if (marker != null)
 			offsetY = -marker.getIntrinsicHeight()*3/4;
 		mPanel.open(position, 0, offsetY);

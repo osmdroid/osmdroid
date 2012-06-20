@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.GeocoderNominatim;
-import org.osmdroid.bonuspack.GoogleRoadManager;
 import org.osmdroid.bonuspack.MapEventsOverlay;
 import org.osmdroid.bonuspack.MapEventsReceiver;
 import org.osmdroid.bonuspack.OSRMRoadManager;
 import org.osmdroid.bonuspack.MapQuestRoadManager;
+import org.osmdroid.bonuspack.GoogleRoadManager;
 import org.osmdroid.bonuspack.Road;
 import org.osmdroid.bonuspack.RoadNode;
 import org.osmdroid.bonuspack.RoadManager;
@@ -21,6 +21,7 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
@@ -41,7 +42,9 @@ public class NavigationActivity
 	MyItemizedOverlayWithBubble roadNodes;
 	protected GeoPoint startPoint, destinationPoint;
 	protected ExtendedOverlayItem markerStart, markerDestination;
-	
+	protected Road mRoad;
+	static final int ROUTE_REQUEST = 1;
+
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
@@ -58,7 +61,14 @@ public class NavigationActivity
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
 		
-		startPoint = new GeoPoint(48.131174, -1.637256);
+		if (savedInstanceState == null){
+			startPoint = new GeoPoint(48.13, -1.63);
+			destinationPoint = new GeoPoint(48.4, -1.9);
+		} else {
+			startPoint = savedInstanceState.getParcelable("start");
+			destinationPoint = savedInstanceState.getParcelable("destination");
+		}
+		
 		mapController.setCenter(startPoint);
 		
 		// Test MyItemizedOverlayWithBubble:
@@ -67,25 +77,62 @@ public class NavigationActivity
 		markerStart = putMarkerItem(null, startPoint, "Start", 
 				R.drawable.marker_a, R.drawable.rogger_rabbit);
 		
-		destinationPoint = new GeoPoint(48.4, -1.9);
 		markerDestination = putMarkerItem(null, destinationPoint, "Destination", 
 				R.drawable.marker_b, R.drawable.jessica);
 
     	roadNodes = new MyItemizedOverlayWithBubble(map, this);
 		map.getOverlays().add(roadNodes.getOverlay());
 
-		//Test road service:
-		putRoadOverlay(startPoint, destinationPoint);
-		
-		//Handle Search Destination button:
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				handleSearchLocationButton();
 			}
 		});
+		
+		Button routeButton = (Button)findViewById(R.id.buttonRoute);
+		routeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				Intent myIntent = new Intent(view.getContext(), RouteActivity.class);
+				myIntent.putExtra("ROAD", mRoad);
+				startActivityForResult(myIntent, ROUTE_REQUEST);
+			}
+		});
+		
+		if (savedInstanceState == null){
+			//Test road service:
+			getRoadAsync(startPoint, destinationPoint);
+		} else {
+			mRoad = savedInstanceState.getParcelable("road");
+			updateUIWithRoad(mRoad);
+		}
 	}
 
+	/**
+	 * callback to store activity status before a restart (orientation change for instance)
+	 */
+	@Override protected void onSaveInstanceState (Bundle outState){
+		outState.putParcelable("start", startPoint);
+		outState.putParcelable("destination", destinationPoint);
+		outState.putParcelable("road", mRoad);
+		//outState.putParcelable("controller_point", controllerPoint);
+		//outState.putParcelable("zoom", zoomLevel);
+	}
+	
+	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
+		switch (requestCode) {
+		case ROUTE_REQUEST : 
+			if (resultCode == RESULT_OK) {
+				int nodeId = intent.getIntExtra("NODE_ID", 0);
+				map.getController().setCenter(mRoad.mNodes.get(nodeId).mLocation);
+				roadNodes.onSingleTapUpHelper(nodeId);
+			}
+			break;
+		default: 
+			break;
+		}
+	}
+		
     /**
      * Test MyItemizedOverlay object
      */
@@ -174,6 +221,24 @@ public class NavigationActivity
     	}
     }
     
+    void updateUIWithRoad(Road road){
+		List<Overlay> mapOverlays = map.getOverlays();
+		if (roadOverlay != null){
+			mapOverlays.remove(roadOverlay);
+		}
+		if (road.mStatus == Road.DEFAULT)
+			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
+		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
+		Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
+			//we set the road overlay at the "bottom", just above MapEventsOverlay,
+			//to avoid covering the other overlays. 
+		mapOverlays.add(removedOverlay);
+		putRoadNodes(road);
+		map.invalidate();
+		//Set route info in the text view:
+		((TextView)findViewById(R.id.routeInfo)).setText(road.getLengthDurationText(-1));
+    }
+    
 	/**
 	 * Task to get the road in a separate thread. 
 	 */
@@ -188,19 +253,8 @@ public class NavigationActivity
 		}
 
 		protected void onPostExecute(Road result) {
-			List<Overlay> mapOverlays = map.getOverlays();
-			if (roadOverlay != null){
-				mapOverlays.remove(roadOverlay);
-			}
-			roadOverlay = RoadManager.buildRoadOverlay(result, map.getContext());
-			Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
-				//we set the road overlay at the "bottom", just above MapEventsOverlay,
-				//to avoid covering the other overlays. 
-			mapOverlays.add(removedOverlay);
-			putRoadNodes(result);
-			map.invalidate();
-			//Set route info in the text view:
-			((TextView)findViewById(R.id.routeInfo)).setText(result.getLengthDurationText(-1));
+			mRoad = result;
+			updateUIWithRoad(result);
 		}
 	}
 	
@@ -216,7 +270,7 @@ public class NavigationActivity
 		}
 	}
 	
-	public void putRoadOverlay(GeoPoint start, GeoPoint destination){
+	public void getRoadAsync(GeoPoint start, GeoPoint destination){
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
 		waypoints.add(start);
 		//intermediate waypoints can be added here:
@@ -254,7 +308,7 @@ public class NavigationActivity
 		destinationPoint = new GeoPoint((GeoPoint)p);
 		markerDestination = putMarkerItem(markerDestination, destinationPoint, 
 	    		"Destination", R.drawable.marker_b, R.drawable.jessica);
-		putRoadOverlay(startPoint, destinationPoint);
+		getRoadAsync(startPoint, destinationPoint);
 		return true;
 	}
 
