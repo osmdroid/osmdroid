@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 
@@ -14,7 +16,10 @@ import android.util.Log;
  * 
  * @author M.Kergall
  */
-public class Road {
+public class Road  implements Parcelable {
+	/** @see INVALID, OK, DEFAULT */
+	public int mStatus;
+
 	/** length of the whole route in km. */
 	public double mLength; 
 	/** duration of the whole trip in sec. */
@@ -29,10 +34,17 @@ public class Road {
 	/** road bounding box */
 	public BoundingBoxE6 mBoundingBox; 
 	
+	/** INVALID = road not built */
+	public static final int INVALID=0;
+	/** OK = road properly retrieved and built*/
+	public static final int OK=1;
+	/** DEFAULT = any issue (technical issue, or no possible route) led to build a default road */
+	public static final int DEFAULT=2;
+	
 	private void init(){
+		mStatus = INVALID;
 		mLength = 0.0;
 		mDuration = 0.0;
-		//mLinks = new ArrayList<RoadLink>();
 		mNodes = new ArrayList<RoadNode>();
 		mRouteHigh = new ArrayList<GeoPoint>();
 		mRouteLow = null;
@@ -44,24 +56,23 @@ public class Road {
 		init();
 	}
 	
-	/** default constructor when normal loading failed */
+	/** default constructor when normal loading failed: 
+	 * the road shape only contains the waypoints; All distances and times are at 0;
+	 * there is no node; mStatus equals DEFAULT. 
+	 */
 	public Road(ArrayList<GeoPoint> waypoints){
 		init();
 		int n = waypoints.size();
 		for (int i=0; i<n; i++){
 			GeoPoint p = waypoints.get(i);
 			mRouteHigh.add(p);
-			/*
-			RoadLink link = new RoadLink();
-			link.mShapeIndex = i;
-			mLinks.add(link);
-			*/
 		}
 		for (int i=0; i<n-1; i++){
 			RoadLeg leg = new RoadLeg(/*i, i+1, mLinks*/);
 			mLegs.add(leg);
 		}
 		mBoundingBox = BoundingBoxE6.fromGeoPoints(mRouteHigh);
+		mStatus = DEFAULT;
 	}
 	
 	/**
@@ -160,5 +171,40 @@ public class Road {
 		//Build last leg ending with last node:
 		RoadLeg lastLeg = new RoadLeg(firstNodeIndex, n-1, mNodes);
 		mLegs.add(lastLeg);
+	}
+
+	//--- Parcelable implementation
+	
+	@Override public int describeContents() {
+		return 0;
+	}
+
+	@Override public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(mStatus);
+		out.writeDouble(mLength);
+		out.writeDouble(mDuration);
+		out.writeList(mNodes);
+		out.writeList(mLegs);
+		out.writeList(mRouteHigh);
+		out.writeParcelable(mBoundingBox, 0);
+	}
+	
+	public static final Parcelable.Creator<Road> CREATOR = new Parcelable.Creator<Road>() {
+		@Override public Road createFromParcel(Parcel source) {
+			return new Road(source);
+		}
+		@Override public Road[] newArray(int size) {
+			return new Road[size];
+		}
+	};
+	
+	private Road(Parcel in){
+		mStatus = in.readInt();
+		mLength = in.readDouble();
+		mDuration = in.readDouble();
+		mNodes = in.readArrayList(RoadNode.class.getClassLoader());
+		mLegs = in.readArrayList(RoadLeg.class.getClassLoader());
+		mRouteHigh = in.readArrayList(GeoPoint.class.getClassLoader());
+		mBoundingBox = in.readParcelable(BoundingBoxE6.class.getClassLoader());
 	}
 }

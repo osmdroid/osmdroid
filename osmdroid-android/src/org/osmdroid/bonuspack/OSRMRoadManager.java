@@ -45,6 +45,7 @@ public class OSRMRoadManager extends RoadManager {
 		MANEUVERS.put("6", 5); //Sharp left
 		MANEUVERS.put("7", 4); //Left
 		MANEUVERS.put("8", 3); //Slight left
+		MANEUVERS.put("9", 24); //Arrived (at waypoint)
 		//MANEUVERS.put("10", 0); //"Head" => used by OSRM as the start node
 		MANEUVERS.put("11-1", 27); //Round-about, 1st exit
 		MANEUVERS.put("11-2", 28); //2nd exit, etc ...
@@ -78,6 +79,7 @@ public class OSRMRoadManager extends RoadManager {
 		directions.put("6","Turn sharp left< on %s>");
 		directions.put("7","Turn left< on %s>");
 		directions.put("8","Turn slight left< on %s>");
+		directions.put("9","You have reached a waypoint of your trip");
 		directions.put("10","<Go on %s>");
 		directions.put("11-1","Enter roundabout and leave at first exit< on %s>");
 		directions.put("11-2","Enter roundabout and leave at second exit< on %s>");
@@ -101,6 +103,7 @@ public class OSRMRoadManager extends RoadManager {
 		directions.put("6","Tournez fortement à gauche< sur %s>");
 		directions.put("7","Tournez à gauche< sur %s>");
 		directions.put("8","Tournez légèrement à gauche< sur %s>");
+		directions.put("9","Vous êtes arrivé à une étape de votre voyage");
 		directions.put("10","<Prenez %s>");
 		directions.put("11-1","Au rond-point, prenez la première sortie< sur %s>");
 		directions.put("11-2","Au rond-point, prenez la deuxième sortie< sur %s>");
@@ -189,6 +192,7 @@ public class OSRMRoadManager extends RoadManager {
 		} else {
 			road.buildLegs(waypoints);
 			road.mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
+			road.mStatus = Road.OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad - finished");
 		return road;

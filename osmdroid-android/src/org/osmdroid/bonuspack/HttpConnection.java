@@ -16,6 +16,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
@@ -51,7 +52,10 @@ public class HttpConnection {
 		stream = null;
 		entity = null;
 		HttpParams httpParameters = new BasicHttpParams();
-		//HttpProtocolParams.setContentCharset(httpParameters, "UTF-8"); - useless...
+		/* useful?
+		HttpProtocolParams.setContentCharset(httpParameters, "UTF-8"); 
+		HttpProtocolParams.setHttpElementCharset(httpParameters, "UTF-8");
+		*/
 		// Set the timeout in milliseconds until a connection is established.
 		HttpConnectionParams.setConnectionTimeout(httpParameters, TIMEOUT_CONNECTION);
 		// Set the default socket timeout (SO_TIMEOUT) 
@@ -110,8 +114,8 @@ public class HttpConnection {
 	public String getContentAsString(){
 		try {
 			if (entity != null) {
-				return EntityUtils.toString(entity /*, HTTP.UTF_8*/); 
-					//already ok, useless. 
+				return EntityUtils.toString(entity, "UTF-8");
+					//charset is important if none found in the entity 
 			} else 
 				return null;
 		} catch (IOException e) {

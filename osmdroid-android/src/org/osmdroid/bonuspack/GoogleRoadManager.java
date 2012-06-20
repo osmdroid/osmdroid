@@ -78,6 +78,7 @@ public class GoogleRoadManager extends RoadManager {
 				road.mDuration += leg.mDuration;
 				road.mLength += leg.mLength;
 			}
+			road.mStatus = Road.OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad - finished");
 		return road;

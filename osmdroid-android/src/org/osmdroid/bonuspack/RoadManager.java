@@ -25,7 +25,7 @@ public class RoadManager {
 	
 	/**
 	 * Add an option that will be used in the route request. 
-	 * Note that some options are set in any case. 
+	 * Note that some options are set in the request in all cases. 
 	 * @param requestOption see provider documentation. 
 	 * Just one example: "routeType=bicycle" for MapQuest; "mode=bicycling" for Google. 
 	 */

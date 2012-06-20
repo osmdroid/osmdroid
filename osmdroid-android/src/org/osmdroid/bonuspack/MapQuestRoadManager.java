@@ -106,6 +106,7 @@ public class MapQuestRoadManager extends RoadManager {
 		} else {
 			road.mNodes = finalizeNodes(road.mNodes, handler.mLinks, road.mRouteHigh);
 			road.buildLegs(waypoints);
+			road.mStatus = Road.OK;
 		}
 		return road;
 	}
