@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.bonuspack.GeocoderNominatim;
-import org.osmdroid.bonuspack.MapEventsOverlay;
-import org.osmdroid.bonuspack.MapEventsReceiver;
-import org.osmdroid.bonuspack.OSRMRoadManager;
-import org.osmdroid.bonuspack.MapQuestRoadManager;
-import org.osmdroid.bonuspack.GoogleRoadManager;
-import org.osmdroid.bonuspack.Road;
-import org.osmdroid.bonuspack.RoadNode;
-import org.osmdroid.bonuspack.RoadManager;
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
+import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
+import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
+import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
+import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
@@ -38,12 +38,12 @@ public class NavigationActivity
 {
 	protected MapView map;
 	protected PathOverlay roadOverlay;
-	protected MyItemizedOverlayWithBubble markerOverlays;
-	MyItemizedOverlayWithBubble roadNodes;
+	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> markerOverlays;
+	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodes;
 	protected GeoPoint startPoint, destinationPoint;
 	protected ExtendedOverlayItem markerStart, markerDestination;
 	protected Road mRoad;
-	static final int ROUTE_REQUEST = 1;
+	protected static final int ROUTE_REQUEST = 1;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,6 @@ public class NavigationActivity
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         MapController mapController = map.getController();
-        mapController.setZoom(9);
         
 		//To use MapEventsReceiver methods, you must add a MapEventsOverlay:
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
@@ -64,24 +63,28 @@ public class NavigationActivity
 		if (savedInstanceState == null){
 			startPoint = new GeoPoint(48.13, -1.63);
 			destinationPoint = new GeoPoint(48.4, -1.9);
+	        mapController.setZoom(9);
+			mapController.setCenter(startPoint);
 		} else {
 			startPoint = savedInstanceState.getParcelable("start");
 			destinationPoint = savedInstanceState.getParcelable("destination");
+			mapController.setZoom(savedInstanceState.getInt("zoom_level"));
+			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
-		
-		mapController.setCenter(startPoint);
-		
-		// Test MyItemizedOverlayWithBubble:
-		markerOverlays = new MyItemizedOverlayWithBubble(map, this);
-		map.getOverlays().add(markerOverlays.getOverlay());
+				
+		// Test ItemizedOverlayWithBubble:
+		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
+		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, waypointsItems, map);
+		map.getOverlays().add(markerOverlays);
 		markerStart = putMarkerItem(null, startPoint, "Start", 
 				R.drawable.marker_a, R.drawable.rogger_rabbit);
 		
 		markerDestination = putMarkerItem(null, destinationPoint, "Destination", 
 				R.drawable.marker_b, R.drawable.jessica);
 
-    	roadNodes = new MyItemizedOverlayWithBubble(map, this);
-		map.getOverlays().add(roadNodes.getOverlay());
+		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
+    	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
+		map.getOverlays().add(roadNodes);
 
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
 		searchButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +109,8 @@ public class NavigationActivity
 			mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
 		}
+		
+		//putMyItemizedOverlay(destinationPoint);
 	}
 
 	/**
@@ -115,8 +120,9 @@ public class NavigationActivity
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
 		outState.putParcelable("road", mRoad);
-		//outState.putParcelable("controller_point", controllerPoint);
-		//outState.putParcelable("zoom", zoomLevel);
+		outState.putInt("zoom_level", map.getZoomLevel());
+		GeoPoint c = (GeoPoint) map.getMapCenter();
+		outState.putParcelable("map_center", c);
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
@@ -125,24 +131,26 @@ public class NavigationActivity
 			if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
 				map.getController().setCenter(mRoad.mNodes.get(nodeId).mLocation);
-				roadNodes.onSingleTapUpHelper(nodeId);
+				roadNodes.showBubbleOnItem(nodeId, map);
 			}
 			break;
 		default: 
 			break;
 		}
 	}
-		
+	
     /**
      * Test MyItemizedOverlay object
      */
     public void putMyItemizedOverlay(GeoPoint p){
-		Drawable markerA = getResources().getDrawable(R.drawable.marker_a);
-		MyItemizedOverlay myOverlays = new MyItemizedOverlay(markerA, this);
+		ArrayList<OverlayItem> list = new ArrayList<OverlayItem>();
+		MyItemizedOverlay myOverlays = new MyItemizedOverlay(this, list);
 		OverlayItem overlayItem = new OverlayItem("Home Sweet Home", "This is the place I live", p);
 		overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+		Drawable marker = getResources().getDrawable(R.drawable.marker_a);
+		overlayItem.setMarker(marker);
 		myOverlays.addItem(overlayItem);
-		map.getOverlays().add(myOverlays.getOverlay());    	
+		map.getOverlays().add(myOverlays);    	
 		map.invalidate();
     }
 
@@ -226,7 +234,7 @@ public class NavigationActivity
 		if (roadOverlay != null){
 			mapOverlays.remove(roadOverlay);
 		}
-		if (road.mStatus == Road.DEFAULT)
+		if (road.mStatus == Road.STATUS_DEFAULT)
 			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
 		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
 		Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
@@ -240,33 +248,21 @@ public class NavigationActivity
     }
     
 	/**
-	 * Task to get the road in a separate thread. 
+	 * Async task to get the road in a separate thread. 
 	 */
 	private class UpdateRoadTask extends AsyncTask<Object, Void, Road> {
 		protected Road doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
-			//GoogleRoadManager roadManager = new GoogleRoadManager();
-			OSRMRoadManager roadManager = new OSRMRoadManager();
-			//MapQuestRoadManager roadManager = new MapQuestRoadManager();
+			//RoadManager roadManager = new GoogleRoadManager();
+			RoadManager roadManager = new OSRMRoadManager();
+			//RoadManager roadManager = new MapQuestRoadManager();
 			return roadManager.getRoad(waypoints);
 		}
 
 		protected void onPostExecute(Road result) {
 			mRoad = result;
 			updateUIWithRoad(result);
-		}
-	}
-	
-	//Task to Reverse-Geocode the marker position in a separate thread:
-	private class GeocodingTask extends AsyncTask<Object, Void, String> {
-		ExtendedOverlayItem marker;
-		protected String doInBackground(Object... params) {
-			marker = (ExtendedOverlayItem)params[0];
-			return getAddress(marker.getPoint());
-		}
-		protected void onPostExecute(String result) {
-			marker.setDescription(result);
 		}
 	}
 	
@@ -279,6 +275,19 @@ public class NavigationActivity
 		new UpdateRoadTask().execute(waypoints);
 	}
 
+	//Async task to reverse-geocode the marker position in a separate thread:
+	private class GeocodingTask extends AsyncTask<Object, Void, String> {
+		ExtendedOverlayItem marker;
+		protected String doInBackground(Object... params) {
+			marker = (ExtendedOverlayItem)params[0];
+			return getAddress(marker.getPoint());
+		}
+		protected void onPostExecute(String result) {
+			marker.setDescription(result);
+			markerOverlays.showBubbleOnItem(1, map); //open bubble
+		}
+	}
+	
     /**
      * Geocoding of the destination address
      */

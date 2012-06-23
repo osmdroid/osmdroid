@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-			android:background="@android:drawable/ic_menu_agenda" />
+			android:background="@drawable/btn_route" />
 	</RelativeLayout>
     
 </LinearLayout>

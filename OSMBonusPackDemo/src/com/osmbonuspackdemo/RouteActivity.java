@@ -1,7 +1,7 @@
 package com.osmbonuspackdemo;
 
-import org.osmdroid.bonuspack.Road;
-import org.osmdroid.bonuspack.RoadNode;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadNode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

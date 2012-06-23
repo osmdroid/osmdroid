@@ -5,7 +5,7 @@
 	android:orientation="horizontal"
 	android:background="@drawable/bonuspack_bubble"
   >
-	<ImageView android:id="@+id/image" 
+	<ImageView android:id="@+id/bubble_image" 
 		android:layout_width="40dp"
 		android:layout_height="40dp" 
 		android:paddingRight="5dp"
@@ -20,7 +20,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textColor="#000000" 
-			android:id="@+id/title" 
+			android:id="@+id/bubble_title" 
 			android:maxEms="18"
 			android:text="Title"
 		/>
@@ -29,7 +29,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="#000000" 
 			android:textSize="12dp"
-			android:id="@+id/description" 
+			android:id="@+id/bubble_description" 
 			android:maxEms="18"
 			android:text="Description"
 		/>
@@ -38,7 +38,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="#000000" 
 			android:textSize="10dp"
-			android:id="@+id/address" 
+			android:id="@+id/bubble_subdescription" 
 			android:maxEms="18"
 			android:text="Address"
 			android:visibility="gone"
