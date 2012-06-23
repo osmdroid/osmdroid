@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.HttpConnection;
+import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
@@ -59,7 +62,7 @@ public class GoogleRoadManager extends RoadManager {
 	 * @param waypoints: list of GeoPoints. Must have at least 2 entries, start and end points. 
 	 * @return the road
 	 */
-	public Road getRoad(ArrayList<GeoPoint> waypoints) {
+	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
 		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad:"+url);
 		Road road = null;
@@ -78,7 +81,7 @@ public class GoogleRoadManager extends RoadManager {
 				road.mDuration += leg.mDuration;
 				road.mLength += leg.mLength;
 			}
-			road.mStatus = Road.OK;
+			road.mStatus = Road.STATUS_OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad - finished");
 		return road;

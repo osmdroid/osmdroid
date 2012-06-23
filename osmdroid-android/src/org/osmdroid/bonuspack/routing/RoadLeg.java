@@ -1,6 +1,8 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.util.ArrayList;
+
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 
 import android.os.Parcel;
 import android.os.Parcelable;

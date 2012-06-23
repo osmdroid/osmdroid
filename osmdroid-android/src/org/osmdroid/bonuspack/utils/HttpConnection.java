@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.utils;
 
 import java.io.IOException;
 import java.io.InputStream;

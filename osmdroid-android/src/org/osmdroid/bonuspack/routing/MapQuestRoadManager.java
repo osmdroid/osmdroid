@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +8,10 @@ import java.util.Locale;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.HttpConnection;
+import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
@@ -68,7 +72,7 @@ public class MapQuestRoadManager extends RoadManager {
 	 * @param waypoints: list of GeoPoints. Must have at least 2 entries, start and end points. 
 	 * @return the road
 	 */
-	public Road getRoad(ArrayList<GeoPoint> waypoints) {
+	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
 		Log.d(BonusPackHelper.LOG_TAG, "MapQuestRoadManager.getRoute:"+url);
 		Road road = null;
@@ -106,7 +110,7 @@ public class MapQuestRoadManager extends RoadManager {
 		} else {
 			road.mNodes = finalizeNodes(road.mNodes, handler.mLinks, road.mRouteHigh);
 			road.buildLegs(waypoints);
-			road.mStatus = Road.OK;
+			road.mStatus = Road.STATUS_OK;
 		}
 		return road;
 	}

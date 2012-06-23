@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.MapView;

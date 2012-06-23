@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import org.osmdroid.util.GeoPoint;
 
@@ -10,7 +10,7 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public class RoadNode implements Parcelable {
-	/** @see http://open.mapquestapi.com/guidance/#maneuvertypes */
+	/** @see <a href="http://open.mapquestapi.com/guidance/#maneuvertypes">Maneuver Types</a> */
 	public int mManeuverType; 
 	/** textual information on what to do at this intersection */
 	public String mInstructions;

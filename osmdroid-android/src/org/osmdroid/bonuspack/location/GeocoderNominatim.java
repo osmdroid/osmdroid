@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.location;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -8,6 +8,8 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+
 import android.content.Context;
 import android.location.Address;
 import android.util.Log;

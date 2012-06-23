@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.utils;
 
 import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;

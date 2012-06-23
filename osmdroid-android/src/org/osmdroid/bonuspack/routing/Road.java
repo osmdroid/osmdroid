@@ -1,7 +1,9 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.util.ArrayList;
 
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.DouglasPeuckerReducer;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
@@ -12,12 +14,18 @@ import android.util.Log;
 
 /** describes the way to go from a position to an other. 
  * Normally returned by a call to a Directions API (from MapQuest, GoogleMaps or other)
- * @see MapQuestRoadManager, GoogleRoadManager, OSRMRoadManager
+ * @see MapQuestRoadManager
+ * @see GoogleRoadManager
+ * @see OSRMRoadManager
  * 
  * @author M.Kergall
  */
 public class Road  implements Parcelable {
-	/** @see INVALID, OK, DEFAULT */
+	/** 
+	 * @see #STATUS_INVALID STATUS_INVALID
+	 * @see #STATUS_OK STATUS_OK
+	 * @see #STATUS_DEFAULT STATUS_DEFAULT
+	 * */
 	public int mStatus;
 
 	/** length of the whole route in km. */
@@ -34,15 +42,15 @@ public class Road  implements Parcelable {
 	/** road bounding box */
 	public BoundingBoxE6 mBoundingBox; 
 	
-	/** INVALID = road not built */
-	public static final int INVALID=0;
-	/** OK = road properly retrieved and built*/
-	public static final int OK=1;
-	/** DEFAULT = any issue (technical issue, or no possible route) led to build a default road */
-	public static final int DEFAULT=2;
+	/** STATUS_INVALID = road not built */
+	public static final int STATUS_INVALID=0;
+	/** STATUS_OK = road properly retrieved and built*/
+	public static final int STATUS_OK=1;
+	/** STATUS_DEFAULT = any issue (technical issue, or no possible route) led to build a default road */
+	public static final int STATUS_DEFAULT=2;
 	
 	private void init(){
-		mStatus = INVALID;
+		mStatus = STATUS_INVALID;
 		mLength = 0.0;
 		mDuration = 0.0;
 		mNodes = new ArrayList<RoadNode>();
@@ -72,7 +80,7 @@ public class Road  implements Parcelable {
 			mLegs.add(leg);
 		}
 		mBoundingBox = BoundingBoxE6.fromGeoPoints(mRouteHigh);
-		mStatus = DEFAULT;
+		mStatus = STATUS_DEFAULT;
 	}
 	
 	/**

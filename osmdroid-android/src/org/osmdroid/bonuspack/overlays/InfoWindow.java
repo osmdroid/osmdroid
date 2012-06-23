@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -41,8 +41,10 @@ public class InfoWindow {
 		ViewGroup parent=(ViewGroup)mapView.getParent();
 		Context ctx = mapView.getContext();
 		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		/*
 		if (layoutResId == 0)
 			layoutResId = R.layout.bonuspack_bubble;
+		*/
 		mView = inflater.inflate(layoutResId, parent, false);
 		mView.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {

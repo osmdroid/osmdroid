@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,8 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import android.util.Log;
@@ -17,11 +19,7 @@ import android.util.Log;
  * 
  * It requests by default the OSRM demo site. 
  * Use setService() to request an other (for instance your own) OSRM service. <br> 
- * TODO: 
- * <ul>
- * <li>issue on special characters (accents) to solve (UTF-8?)</li>
- * <li>improve internationalization of instructions</li>
- * </ul>
+ * TODO: improve internationalization of instructions
  * @author M.Kergall
  */
 public class OSRMRoadManager extends RoadManager {
@@ -137,7 +135,7 @@ public class OSRMRoadManager extends RoadManager {
 		return urlString.toString();
 	}
 
-	public Road getRoad(ArrayList<GeoPoint> waypoints) {
+	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad:"+url);
 		String jString = BonusPackHelper.requestStringFromUrl(url);
@@ -192,7 +190,7 @@ public class OSRMRoadManager extends RoadManager {
 		} else {
 			road.buildLegs(waypoints);
 			road.mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
-			road.mStatus = Road.OK;
+			road.mStatus = Road.STATUS_OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad - finished");
 		return road;

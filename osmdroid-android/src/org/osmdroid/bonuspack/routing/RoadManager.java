@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack;
+package org.osmdroid.bonuspack.routing;
 
 import java.util.ArrayList;
 
@@ -11,13 +11,17 @@ import android.graphics.Paint;
 /**
  * Generic class to get a route between a start and a destination point, 
  * going through a list of waypoints. 
- * @see MapQuestRoadManager, GoogleRoadManager, OSRMRoadManager
+ * @see MapQuestRoadManager
+ * @see GoogleRoadManager
+ * @see OSRMRoadManager
  * 
  * @author M.Kergall
  */
-public class RoadManager {
+public abstract class RoadManager {
 	
-	String mOptions;
+	protected String mOptions;
+	
+	public abstract Road getRoad(ArrayList<GeoPoint> waypoints);
 	
 	public RoadManager(){
 		mOptions = "";
