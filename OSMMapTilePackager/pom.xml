@@ -43,6 +43,18 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+		
+		<!-- osmdroid dependencies -->
+        <dependency>
+             <groupId>org.osmdroid</groupId>
+             <artifactId>osmdroid-android</artifactId>
+             <version>${project.version}</version>  
+        </dependency>
+
     </dependencies>
 
+	<build>
+        <sourceDirectory>${basedir}/src</sourceDirectory>
+  </build>
+        
 </project>
