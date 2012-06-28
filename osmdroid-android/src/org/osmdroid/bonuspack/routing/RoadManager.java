@@ -46,20 +46,28 @@ public abstract class RoadManager {
 		return result.toString();
 	}
 	
-	public static PathOverlay buildRoadOverlay(Road r, Context context){
-		Paint paint = new Paint();
-		paint.setColor(0x800000FF);
-		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeWidth(5);
+	public static PathOverlay buildRoadOverlay(Road road, Paint paint, Context context){
 		PathOverlay roadOverlay = new PathOverlay(0, context);
 		roadOverlay.setPaint(paint);
-		if (r != null) {
-			ArrayList<GeoPoint> polyline = r.mRouteHigh;
+		if (road != null) {
+			ArrayList<GeoPoint> polyline = road.mRouteHigh;
 			for (GeoPoint p:polyline){
 				roadOverlay.addPoint(p);
 			}
 		}
 		return roadOverlay;
+	}
+	
+	/**
+	 * Builds an overlay for the road shape with a default (and nice!) color. 
+	 * @return route shape overlay
+	 */
+	public static PathOverlay buildRoadOverlay(Road road, Context context){
+		Paint paint = new Paint();
+		paint.setColor(0x800000FF);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(5);
+		return buildRoadOverlay(road, paint, context);
 	}
 
 }

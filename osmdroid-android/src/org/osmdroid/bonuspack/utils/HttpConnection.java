@@ -3,7 +3,6 @@ package org.osmdroid.bonuspack.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,9 +15,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
-
 import android.util.Log;
 
 /**
@@ -111,11 +108,14 @@ public class HttpConnection {
 		return stream;
 	}
 	
+	/**
+	 * @return the whole content as a String, or null if creation failed for any reason. 
+	 */
 	public String getContentAsString(){
 		try {
 			if (entity != null) {
 				return EntityUtils.toString(entity, "UTF-8");
-					//charset is important if none found in the entity 
+					//setting the charset is important if none found in the entity. 
 			} else 
 				return null;
 		} catch (IOException e) {

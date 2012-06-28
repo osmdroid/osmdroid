@@ -3,7 +3,6 @@ package org.osmdroid.bonuspack.routing;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -51,8 +50,8 @@ public class MapQuestRoadManager extends RoadManager {
 		urlString.append("&shapeFormat=cmp"); //encoded polyline, much faster
 		
 		urlString.append("&narrativeType=text"); //or "none"
-		Locale locale = Locale.getDefault();
-		urlString.append("&locale="+locale.getLanguage()+"_"+locale.getCountry());
+		//Locale locale = Locale.getDefault();
+		//urlString.append("&locale="+locale.getLanguage()+"_"+locale.getCountry());
 		
 		urlString.append("&unit=k&fishbone=false");
 		
@@ -81,6 +80,10 @@ public class MapQuestRoadManager extends RoadManager {
 		InputStream stream = connection.getStream();
 		if (stream != null)
 				road = getRoadXML(stream, waypoints);
+		if (road == null || road.mRouteHigh.size()==0){
+			//Create default road:
+			road = new Road(waypoints);
+		}
 		connection.close();
 		Log.d(BonusPackHelper.LOG_TAG, "MapQuestRoadManager.getRoute - finished");
 		return road;
@@ -104,10 +107,7 @@ public class MapQuestRoadManager extends RoadManager {
 			e.printStackTrace();
 		}
 		Road road = handler.mRoad;
-		if (road == null || road.mRouteHigh.size()==0){
-			//Create default road:
-			road = new Road(waypoints);
-		} else {
+		if (road != null && road.mRouteHigh.size()>0){
 			road.mNodes = finalizeNodes(road.mNodes, handler.mLinks, road.mRouteHigh);
 			road.buildLegs(waypoints);
 			road.mStatus = Road.STATUS_OK;
@@ -122,7 +122,7 @@ public class MapQuestRoadManager extends RoadManager {
 			return mNodes;
 		ArrayList<RoadNode> newNodes = new ArrayList<RoadNode>(n);
 		RoadNode lastNode = null;
-		for (int i=0; i<n-1; i++){ //n-1 => last MapQuest node is irrelevant.
+		for (int i=1; i<n-1; i++){ //1, n-1 => first and last MapQuest nodes are irrelevant.
 			RoadNode node = mNodes.get(i);
 			RoadLink link = mLinks.get(node.mNextRoadLink);
 			if (lastNode!=null && (node.mInstructions == null || node.mManeuverType == 0)){

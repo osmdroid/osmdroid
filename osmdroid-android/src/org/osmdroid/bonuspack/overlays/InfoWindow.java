@@ -42,8 +42,8 @@ public class InfoWindow {
 		Context ctx = mapView.getContext();
 		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		/*
-		if (layoutResId == 0)
-			layoutResId = R.layout.bonuspack_bubble;
+		if (layoutResId == 0) //default layout
+			layoutResId = R.layout.bonuspack_bubble; => KO: layout not part of the jar...
 		*/
 		mView = inflater.inflate(layoutResId, parent, false);
 		mView.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +83,10 @@ public class InfoWindow {
 			mIsVisible = false;
 			((ViewGroup)mView.getParent()).removeView(mView);
 		}
+	}
+	
+	public boolean isOpen(){
+		return mIsVisible;
 	}
 	
 	public void setPosition(GeoPoint p, int offsetX, int offsetY){
