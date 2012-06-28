@@ -8,7 +8,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import android.app.AlertDialog;
 import android.content.Context;
 
-/** Simple implementation of an ItemizedOverlay handling tap events. 
+/** Simple implementation of an ItemizedOverlay handling tap events with osmdroid. 
  * 
  * Usage inside your map activity: <br>
  * <code>

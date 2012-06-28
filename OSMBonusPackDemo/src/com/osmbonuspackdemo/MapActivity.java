@@ -3,12 +3,15 @@ package com.osmbonuspackdemo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
+import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -33,7 +36,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NavigationActivity 
+public class MapActivity 
 	extends Activity implements MapEventsReceiver
 {
 	protected MapView map;
@@ -71,10 +74,11 @@ public class NavigationActivity
 			mapController.setZoom(savedInstanceState.getInt("zoom_level"));
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
-				
+		
 		// Test ItemizedOverlayWithBubble:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
-		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, waypointsItems, map);
+		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, waypointsItems, 
+				map, R.layout.bonuspack_bubble_black);
 		map.getOverlays().add(markerOverlays);
 		markerStart = putMarkerItem(null, startPoint, "Start", 
 				R.drawable.marker_a, R.drawable.rogger_rabbit);
@@ -83,7 +87,8 @@ public class NavigationActivity
 				R.drawable.marker_b, R.drawable.jessica);
 
 		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
-    	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
+    	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, 
+    			map, R.layout.bonuspack_bubble);
 		map.getOverlays().add(roadNodes);
 
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
@@ -98,6 +103,7 @@ public class NavigationActivity
 			public void onClick(View view) {
 				Intent myIntent = new Intent(view.getContext(), RouteActivity.class);
 				myIntent.putExtra("ROAD", mRoad);
+				myIntent.putExtra("NODE_ID", roadNodes.getBubbledItemId());
 				startActivityForResult(myIntent, ROUTE_REQUEST);
 			}
 		});
@@ -195,7 +201,7 @@ public class NavigationActivity
 			markerOverlays.removeItem(item);
 		}
 		Drawable marker = getResources().getDrawable(markerResId);
-		ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p);
+		ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p, this);
 		overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
 		overlayItem.setMarker(marker);
 		overlayItem.setImage(getResources().getDrawable(iconResId));
@@ -215,9 +221,9 @@ public class NavigationActivity
     		RoadNode node = road.mNodes.get(i);
     		String instructions = (node.mInstructions==null ? "" : node.mInstructions);
     		ExtendedOverlayItem nodeMarker = new ExtendedOverlayItem(
-    				"" + (i+1) + ". " + instructions, 
-    				road.getLengthDurationText(node.mLength, node.mDuration),
-    				node.mLocation);
+    				"Step " + (i+1), instructions, 
+    				node.mLocation, this);
+    		nodeMarker.setSubDescription(road.getLengthDurationText(node.mLength, node.mDuration));
     		nodeMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
     		nodeMarker.setMarker(marker);
     		int iconId = iconIds.getResourceId(node.mManeuverType, R.drawable.ic_empty);
@@ -256,7 +262,11 @@ public class NavigationActivity
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
 			//RoadManager roadManager = new GoogleRoadManager();
 			RoadManager roadManager = new OSRMRoadManager();
-			//RoadManager roadManager = new MapQuestRoadManager();
+			/*
+			RoadManager roadManager = new MapQuestRoadManager();
+			Locale locale = Locale.getDefault();
+			roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
+			*/
 			return roadManager.getRoad(waypoints);
 		}
 

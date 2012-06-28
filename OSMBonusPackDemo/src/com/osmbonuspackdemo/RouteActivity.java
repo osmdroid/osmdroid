@@ -29,6 +29,7 @@ public class RouteActivity extends Activity {
 
         Intent myIntent = getIntent();
         final Road road = myIntent.getParcelableExtra("ROAD");
+        final int currentNodeId = myIntent.getIntExtra("NODE_ID", -1);
         RoadNodesAdapter adapter = new RoadNodesAdapter(this, road);
 
         list.setOnItemClickListener(new OnItemClickListener() {
@@ -41,6 +42,7 @@ public class RouteActivity extends Activity {
         });
 
         list.setAdapter(adapter);
+        list.setSelection(currentNodeId);
     }
 }
 
@@ -81,7 +83,8 @@ class RoadNodesAdapter extends BaseAdapter implements OnClickListener {
             convertView = inflater.inflate(R.layout.route_item, null);
         }
         TextView tvInstructions = (TextView)convertView.findViewById(R.id.node_instructions);
-        tvInstructions.setText("" + (position+1) + ". " + entry.mInstructions);
+        String instructions = (entry.mInstructions==null ? "" : entry.mInstructions);
+        tvInstructions.setText("" + (position+1) + ". " + instructions);
         TextView tvNextStep = (TextView)convertView.findViewById(R.id.next_step);
         tvNextStep.setText(mRoad.getLengthDurationText(entry.mLength, entry.mDuration));
 		int iconId = iconIds.getResourceId(entry.mManeuverType, R.drawable.ic_empty);
