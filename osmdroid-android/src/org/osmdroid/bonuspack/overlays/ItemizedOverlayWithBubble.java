@@ -2,9 +2,12 @@ package org.osmdroid.bonuspack.overlays;
 
 import java.util.List;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Point;
 
 /**
  * An itemized overlay with an InfoWindow or "bubble" which opens 
@@ -48,8 +51,10 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	public void showBubbleOnItem(int index, MapView mapView) {
 		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(getItem(index)); 
 		mItemWithBubble = eItem;
-		if (eItem != null)
+		if (eItem != null){
 			eItem.showBubble(mBubble, mapView);
+			//setFocus((Item)eItem);
+		}
 	}
 	
 	@Override protected boolean onSingleTapUpHelper(final int index, final Item item, final MapView mapView) {
@@ -89,4 +94,27 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		mItemWithBubble = null;
 	}
 
+	//fixing drawing focused item on top in ItemizedOverlay (osmdroid issue 354):
+	@Override public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+		if (shadow) {
+		        return;
+		}
+		final Projection pj = mapView.getProjection();
+		final int size = mItemsList.size() - 1;
+		final Point mCurScreenCoords = new Point();
+		
+		/* Draw in backward cycle, so the items with the least index are on the front. */
+		for (int i = size; i >= 0; i--) {
+	        final Item item = getItem(i);
+			if (item != mItemWithBubble){
+		        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+		        onDrawItem(canvas, item, mCurScreenCoords);
+			}
+		}
+		//draw focused item last:
+		if (mItemWithBubble != null){
+	        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
+	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
+		}
+    }
 }

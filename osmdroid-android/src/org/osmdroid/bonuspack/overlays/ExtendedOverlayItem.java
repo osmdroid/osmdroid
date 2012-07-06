@@ -1,11 +1,13 @@
 package org.osmdroid.bonuspack.overlays;
 
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,11 +34,14 @@ public class ExtendedOverlayItem extends OverlayItem {
 	static int mTitleId=0, mDescriptionId=0, mSubDescriptionId=0, mImageId=0; //resource ids
 
 	static void setIds(Context context){
-		String packageName = context.getClass().getPackage().getName();
+		String packageName = context.getPackageName(); //get application package name
 		mTitleId = context.getResources().getIdentifier( "id/bubble_title" , null, packageName);
 		mDescriptionId = context.getResources().getIdentifier( "id/bubble_description" , null, packageName);
 		mSubDescriptionId = context.getResources().getIdentifier( "id/bubble_subdescription" , null, packageName);
 		mImageId = context.getResources().getIdentifier( "id/bubble_image" , null, packageName);
+		if (mTitleId == 0){
+			Log.e(BonusPackHelper.LOG_TAG, "ExtendedOverlayItem: unable to get res ids in "+packageName);
+		}
 	}
 	
 	public ExtendedOverlayItem(String aTitle, String aDescription,
@@ -154,7 +159,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 			imageView.setVisibility(View.GONE);
 		
 		//offset the bubble to be top-centered on the marker:
-		Drawable marker = getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
+		Drawable marker = getMarker(0 /*OverlayItem.ITEM_STATE_FOCUSED_MASK*/);
 		int markerWidth = 0, markerHeight = 0;
 		if (marker != null){
 			markerWidth = marker.getIntrinsicWidth(); 
