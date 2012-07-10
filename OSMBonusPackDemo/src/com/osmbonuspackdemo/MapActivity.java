@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -75,10 +76,12 @@ public class MapActivity
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
-		// Test ItemizedOverlayWithBubble:
+		// Use ItemizedOverlayWithBubble for start and destination markers:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
-		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, waypointsItems, 
-				map, R.layout.bonuspack_bubble_black);
+		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
+				waypointsItems, 
+				map, 
+				new CustomInfoWindow(map));
 		map.getOverlays().add(markerOverlays);
 		markerStart = putMarkerItem(null, startPoint, "Start", 
 				R.drawable.marker_a, R.drawable.rogger_rabbit);
@@ -88,7 +91,7 @@ public class MapActivity
 
 		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
     	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, 
-    			map, R.layout.bonuspack_bubble);
+    			map, null);
 		map.getOverlays().add(roadNodes);
 
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
@@ -294,7 +297,7 @@ public class MapActivity
 		}
 		protected void onPostExecute(String result) {
 			marker.setDescription(result);
-			markerOverlays.showBubbleOnItem(1, map); //open bubble
+			markerOverlays.showBubbleOnItem(1, map); //open bubble on item 1 = destination
 		}
 	}
 	

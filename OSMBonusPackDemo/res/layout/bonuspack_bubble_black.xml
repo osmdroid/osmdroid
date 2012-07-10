@@ -21,7 +21,7 @@
 			android:layout_height="wrap_content"
 			android:textColor="#FFFFFF" 
 			android:id="@+id/bubble_title" 
-			android:maxEms="18"
+			android:maxEms="17"
 			android:text="Title"
 		/>
 		<TextView 
@@ -30,7 +30,7 @@
 			android:textColor="#FFFFFF" 
 			android:textSize="12dp"
 			android:id="@+id/bubble_description" 
-			android:maxEms="18"
+			android:maxEms="17"
 			android:text="Description"
 		/>
 		<TextView 
@@ -39,15 +39,14 @@
 			android:textColor="#FFFFFF" 
 			android:textSize="10dp"
 			android:id="@+id/bubble_subdescription" 
-			android:maxEms="18"
+			android:maxEms="17"
 			android:text="Address"
 			android:visibility="gone"
 		/>
 	</LinearLayout>
-	<Button android:id="@+id/moreinfo_btn" 
+	<Button android:id="@+id/bubble_moreinfo" 
 		android:background="@drawable/btn_moreinfo"
 		android:visibility="gone"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" />
-	<!--  TODO: find an elegant method to allow customized bubbles and handle their buttons... -->
 </LinearLayout>
