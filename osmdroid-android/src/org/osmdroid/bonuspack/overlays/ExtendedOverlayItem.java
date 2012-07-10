@@ -1,16 +1,11 @@
 package org.osmdroid.bonuspack.overlays;
 
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * An OverlayItem to use in ItemizedOverlayWithBubble<br>
@@ -30,19 +25,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 	private String mSubDescription; //a third field that can be displayed in the infowindow, on a third line
 	private Drawable mImage; //that will be shown in the infowindow. 
 	//private GeoPoint mGeoPoint //unfortunately, this is not so simple...
-	
-	static int mTitleId=0, mDescriptionId=0, mSubDescriptionId=0, mImageId=0; //resource ids
-
-	static void setIds(Context context){
-		String packageName = context.getPackageName(); //get application package name
-		mTitleId = context.getResources().getIdentifier( "id/bubble_title" , null, packageName);
-		mDescriptionId = context.getResources().getIdentifier( "id/bubble_description" , null, packageName);
-		mSubDescriptionId = context.getResources().getIdentifier( "id/bubble_subdescription" , null, packageName);
-		mImageId = context.getResources().getIdentifier( "id/bubble_image" , null, packageName);
-		if (mTitleId == 0){
-			Log.e(BonusPackHelper.LOG_TAG, "ExtendedOverlayItem: unable to get res ids in "+packageName);
-		}
-	}
+	private Object mRelatedObject; //reference to an object (of any kind) linked to this item. 
 	
 	public ExtendedOverlayItem(String aTitle, String aDescription,
 			GeoPoint aGeoPoint, Context context) {
@@ -51,8 +34,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 		mDescription = aDescription;
 		mSubDescription = null;
 		mImage = null;
-		if (mTitleId == 0)
-			setIds(context);
+		mRelatedObject = null;
 	}
 
 	public void setTitle(String aTitle){
@@ -71,6 +53,10 @@ public class ExtendedOverlayItem extends OverlayItem {
 		mImage = anImage;
 	}
 
+	public void setRelatedObject(Object o){
+		mRelatedObject = o;
+	}
+	
 	public String getTitle() {
 		return mTitle;
 	}
@@ -83,6 +69,14 @@ public class ExtendedOverlayItem extends OverlayItem {
 		return mSubDescription;
 	}
 
+	public Drawable getImage() {
+		return mImage;
+	}
+
+	public Object getRelatedObject(){
+		return mRelatedObject;
+	}
+	
 	/** 
 	 * From a HotspotPlace and drawable dimensions (width, height), return the hotspot position. 
 	 * Could be a public method of HotspotPlace... 
@@ -124,10 +118,6 @@ public class ExtendedOverlayItem extends OverlayItem {
 		return hp;
 	}
 	
-	public Drawable getImage() {
-		return mImage;
-	}
-
 	/**
 	 * Populates this bubble with all item info:
 	 * <ul>title and description in any case, </ul>
@@ -135,29 +125,6 @@ public class ExtendedOverlayItem extends OverlayItem {
 	 * and centers the map on the item. <br>
 	 */
 	public void showBubble(InfoWindow bubble, MapView mapView){
-		//update the content of the bubble:
-		View view = bubble.getView();
-		((TextView)view.findViewById(mTitleId /*R.id.title*/)).setText(getTitle());
-		((TextView)view.findViewById(mDescriptionId /*R.id.description*/)).setText(getDescription());
-		
-		//handle mSubDescription, hidding or showing the text view:
-		TextView subDescText = (TextView)view.findViewById(mSubDescriptionId);
-		String subDesc = getSubDescription();
-		if (subDesc != null && !("".equals(subDesc))){
-			subDescText.setText(subDesc);
-			subDescText.setVisibility(View.VISIBLE);
-		} else {
-			subDescText.setVisibility(View.GONE);
-		}
-	
-		ImageView imageView = (ImageView)view.findViewById(mImageId /*R.id.image*/);
-		Drawable image = getImage();
-		if (image != null){
-			imageView.setBackgroundDrawable(image);
-			imageView.setVisibility(View.VISIBLE);
-		} else
-			imageView.setVisibility(View.GONE);
-		
 		//offset the bubble to be top-centered on the marker:
 		Drawable marker = getMarker(0 /*OverlayItem.ITEM_STATE_FOCUSED_MASK*/);
 		int markerWidth = 0, markerHeight = 0;
@@ -169,9 +136,8 @@ public class ExtendedOverlayItem extends OverlayItem {
 		Point bubbleH = getHotspot(HotspotPlace.TOP_CENTER, markerWidth, markerHeight);
 		bubbleH.offset(-markerH.x, -markerH.y);
 		
-		GeoPoint position = getPoint();
-		bubble.open(position, bubbleH.x, bubbleH.y);
+		bubble.open(this, bubbleH.x, bubbleH.y);
 
-		mapView.getController().animateTo(position);
+		mapView.getController().animateTo(getPoint());
 	}
 }

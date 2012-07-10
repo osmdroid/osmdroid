@@ -2,7 +2,6 @@ package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,18 +13,19 @@ import android.view.ViewGroup;
  * Main differences are: 
  * <ul>
  * <li>Structure and content of the view is let to the responsibility of the caller. </li>
- * <li>There is no "Close" button. The window is closed when clicking on it. </li>
  * <li>The same InfoWindow can be associated to many items. </li>
  * </ul>
  * Known issues:
  * <ul>
- * <li>It disappears when zooming in/out. </li>
- * <li>The window is displayed above the marker. </li>
+ * <li>It disappears when zooming in/out (TODO: cite related osmdroid issue). </li>
+ * <li>The window is displayed "above" the marker, so the queue of the bubble can hide the marker. </li>
  * </ul>
  * 
+ * This is an abstract class. Sub-class it to handle
+ * @see DefaultInfoWindow
  * @author M.Kergall
  */
-public class InfoWindow {
+public abstract class InfoWindow {
 
 	protected View mView;
 	protected boolean mIsVisible = false;
@@ -39,18 +39,9 @@ public class InfoWindow {
 		mMapView = mapView;
 		mIsVisible = false;
 		ViewGroup parent=(ViewGroup)mapView.getParent();
-		Context ctx = mapView.getContext();
-		LayoutInflater inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		/*
-		if (layoutResId == 0) //default layout
-			layoutResId = R.layout.bonuspack_bubble; => KO: layout not part of the jar...
-		*/
+		Context context = mapView.getContext();
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = inflater.inflate(layoutResId, parent, false);
-		mView.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				close();
-			}
-		});
 	}
 
 	/**
@@ -60,20 +51,22 @@ public class InfoWindow {
 	public View getView() {
 		return(mView);
 	}
-    
+
 	/**
 	 * open the window at the specified position. 
-	 * @param position the geopoint on which is hooked the view
+	 * @param item the item on which is hooked the view
 	 * @param offsetX (&offsetY) the offset of the view to the position, in pixels. 
 	 * This allows to offset the view from the marker position. 
 	 */
-	public void open(GeoPoint position, int offsetX, int offsetY) {
-		MapView.LayoutParams lp=new MapView.LayoutParams(
+	public void open(ExtendedOverlayItem item, int offsetX, int offsetY) {
+		onOpen(item);
+		GeoPoint position = item.getPoint();
+		MapView.LayoutParams lp = new MapView.LayoutParams(
 				MapView.LayoutParams.WRAP_CONTENT,
 				MapView.LayoutParams.WRAP_CONTENT,
 				position, MapView.LayoutParams.BOTTOM_CENTER, 
 				offsetX, offsetY);
-		close();
+		close(); //if it was already opened
 		mMapView.addView(mView, lp);
 		mIsVisible = true;
 	}
@@ -82,6 +75,7 @@ public class InfoWindow {
 		if (mIsVisible) {
 			mIsVisible = false;
 			((ViewGroup)mView.getParent()).removeView(mView);
+			onClose();
 		}
 	}
 	
@@ -89,9 +83,8 @@ public class InfoWindow {
 		return mIsVisible;
 	}
 	
-	public void setPosition(GeoPoint p, int offsetX, int offsetY){
-		if (mIsVisible){
-			open(p, offsetX, offsetY);
-		}
-	}
+	//Abstract methods to implement:
+	public abstract void onOpen(ExtendedOverlayItem item);
+	public abstract void onClose();
+	
 }

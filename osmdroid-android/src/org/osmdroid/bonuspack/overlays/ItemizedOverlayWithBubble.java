@@ -1,6 +1,8 @@
 package org.osmdroid.bonuspack.overlays;
 
 import java.util.List;
+
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -8,6 +10,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * An itemized overlay with an InfoWindow or "bubble" which opens 
@@ -24,9 +27,11 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	protected List<Item> mItemsList;
 	protected InfoWindow mBubble; //only one for all items of this overlay => one at a time
 	protected OverlayItem mItemWithBubble; //the item currently showing the bubble. Null if none. 
+
+	static int layoutResId = 0;
 	
 	public ItemizedOverlayWithBubble(final Context context, final List<Item> aList, 
-			final MapView mapView, int layoutResId) {
+			final MapView mapView, final InfoWindow bubble) {
 		super(context, aList, new OnItemGestureListener<Item>() {
             @Override public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
                     return false;
@@ -36,10 +41,26 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
             }
     	} );
 		mItemsList = aList;
-		mBubble = new InfoWindow(layoutResId, mapView);
+		if (bubble != null){
+			mBubble = bubble;
+		} else {
+			//build default bubble:
+			String packageName = context.getPackageName();
+			if (layoutResId == 0){
+				layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+				if (layoutResId == 0)
+					Log.e(BonusPackHelper.LOG_TAG, "ItemizedOverlayWithBubble: layout/bonuspack_bubble not found in "+packageName);
+			}
+			mBubble = new DefaultInfoWindow(layoutResId, mapView);
+		}
 		mItemWithBubble = null;
 	}
 
+	public ItemizedOverlayWithBubble(final Context context, final List<Item> aList, 
+			final MapView mapView) {
+		this(context, aList, mapView, null);
+	}
+	
 	/**
 	 * Opens the bubble on the item. 
 	 * For each ItemizedOverlay, only one bubble is opened at a time. 
@@ -48,7 +69,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	 * @param index of the overlay item to show
 	 * @param mapView
 	 */
-	public void showBubbleOnItem(int index, MapView mapView) {
+	public void showBubbleOnItem(final int index, final MapView mapView) {
 		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(getItem(index)); 
 		mItemWithBubble = eItem;
 		if (eItem != null){
@@ -79,7 +100,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			return mItemsList.indexOf(item);
 	}
 	
-	@Override public boolean removeItem(Item item){
+	@Override public boolean removeItem(final Item item){
 		boolean result = super.removeItem(item);
 		if (mItemWithBubble == item){
 			mBubble.close();
