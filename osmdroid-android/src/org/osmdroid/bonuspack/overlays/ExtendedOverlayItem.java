@@ -79,10 +79,12 @@ public class ExtendedOverlayItem extends OverlayItem {
 	
 	/** 
 	 * From a HotspotPlace and drawable dimensions (width, height), return the hotspot position. 
-	 * Could be a public method of HotspotPlace... 
+	 * Could be a public method of HotspotPlace or OverlayItem... 
 	 */
 	public Point getHotspot(HotspotPlace place, int w, int h){
 		Point hp = new Point();
+		if (place == null)
+			place = HotspotPlace.BOTTOM_CENTER; //use same default than in osmdroid. 
 		switch (place){
 		case NONE : 
 			hp.set(0, 0);

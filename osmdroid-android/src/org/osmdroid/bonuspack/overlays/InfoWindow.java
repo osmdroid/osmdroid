@@ -21,7 +21,7 @@ import android.view.ViewGroup;
  * <li>The window is displayed "above" the marker, so the queue of the bubble can hide the marker. </li>
  * </ul>
  * 
- * This is an abstract class. Sub-class it to handle
+ * This is an abstract class. 
  * @see DefaultInfoWindow
  * @author M.Kergall
  */

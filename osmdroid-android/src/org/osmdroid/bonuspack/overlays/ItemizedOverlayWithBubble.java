@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.overlays;
 import java.util.List;
 
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -138,4 +139,5 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
 		}
     }
+	
 }
