@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+		<!-- OSM tags relevant for a Nominatim search by feature -->
+		<!--  See http://wiki.openstreetmap.org/wiki/Map_Features -->
+		<!--  in comment, those with 0 match for Paris area on 16/07/2012 -->
+    	<string-array name="poi_tags">
+		<!-- Aeroway -->
+		<!-- <item>aerodrome</item> -->
+		<!-- Amenity -->
+		<item>bar</item>
+		<item>cafe</item>
+		<!-- <item>fast_food</item>  -->
+		<item>pub</item>
+		<item>restaurant</item>
+		<item>library</item>		
+		<item>school</item>
+		<item>university</item>
+		<!--  <item>bicycle_parking</item> -->
+		<item>bus_station</item>
+		<!--  <item>car_rental</item> -->
+		<item>car_sharing</item>
+		<item>car_wash</item>
+		<!-- <item>ev_charging</item> -->
+		<item>fuel</item>
+		<item>parking</item>
+		<item>taxi</item>
+		<item>atm</item>
+		<item>bank</item>
+		<item>dentist</item>
+		<item>hospital</item>
+		<item>pharmacy</item>
+		<!--  <item>veterinary</item>  -->
+		<item>cinema</item>
+		<!--  <item>nightclub</item> -->
+		<item>theatre</item>
+		<!--  <item>fire_station</item> -->
+		<item>marketplace</item>
+		<item>police</item>
+		<!--  <item>post_box</item> -->
+		<!--  <item>post_office</item> -->
+		<!--  <item>recycling</item> -->
+		<!--  <item>sauna</item> -->
+		<item>telephone</item>
+		<item>toilets</item>
+		<!-- Building -->
+		<item>hotel</item>
+		<item>church</item>
+		<!-- <item>train_station</item> => station prefered -->
+		<!-- Craft -->
+		<!-- Emergency -->
+		<!-- <item>ambulance_station</item> -->
+		<!-- <item>phone</item> -->
+		<!-- Highway -->
+		<!-- <item>speed_camera</item> -->
+		<!-- Historic -->
+		<item>castle</item>
+		<item>monument</item>
+		<!-- Land use -->
+		<item>cemetery</item>
+		<!-- Leisure -->
+		<!-- <item>dance</item> -->
+		<!-- <item>golf_course</item> -->
+		<item>park</item>
+		<item>stadium</item>
+		<!-- <item>swimming_pool</item> -->
+		<!-- Natural -->
+		<item>beach</item>
+		<!-- Public Transport -->
+		<item>station</item>
+		<!-- Shop -->
+		<item>bakery</item>
+		<item>butcher</item>
+		<!-- <item>car_repair</item> -->
+		<!-- <item>clothes</item> -->
+		<!-- <item>convenience</item> -->
+		<item>florist</item>
+		<item>hairdresser</item>
+		<!-- <item>jewelry</item> -->
+		<item>kiosk</item>
+		<item>laundry</item>
+		<item>mall</item>
+		<item>optician</item>
+		<!-- <item>shoes</item> -->
+		<item>supermarket</item>
+		<!-- Sport -->
+		<!-- <item>golf</item> -->
+		<!-- <item>horse_racing</item> -->
+		<!-- <item>judo</item> -->
+		<!-- <item>karting</item> -->
+		<!-- <item>tennis</item> -->
+		<!-- Tourism -->
+		<item>information</item>
+		<item>museum</item>
+		<item>viewpoint</item>
+		<item>zoo</item>
+	</string-array>
+</resources>

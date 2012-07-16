@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
+import org.osmdroid.bonuspack.location.POI;
+import org.osmdroid.bonuspack.location.NominatimPOIProvider;
+import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -17,6 +18,7 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
@@ -27,32 +29,47 @@ import org.osmdroid.views.overlay.PathOverlay;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Demo Activity using osmdroid and osmbonuspack
+ * @see http://code.google.com/p/osmbonuspack/
+ * @author M.Kergall
+ *
+ */
 public class MapActivity 
 	extends Activity implements MapEventsReceiver
 {
 	protected MapView map;
-	protected PathOverlay roadOverlay;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> markerOverlays;
-	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodes;
 	protected GeoPoint startPoint, destinationPoint;
 	protected ExtendedOverlayItem markerStart, markerDestination;
+	
+	protected PathOverlay roadOverlay;
 	protected Road mRoad;
+	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodes;
 	protected static final int ROUTE_REQUEST = 1;
-
+	
+	ItemizedOverlayWithBubble<ExtendedOverlayItem> poiMarkers;
+	AutoCompleteTextView poiTagText;
+	ArrayList<POI> mPOIs;
+	
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         map = (MapView) findViewById(R.id.map);
         map.setTileSource(TileSourceFactory.MAPNIK);
 
@@ -60,11 +77,12 @@ public class MapActivity
         map.setMultiTouchControls(true);
         MapController mapController = map.getController();
         
-		//To use MapEventsReceiver methods, you must add a MapEventsOverlay:
+		//To use MapEventsReceiver methods, we add a MapEventsOverlay:
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
 		
 		if (savedInstanceState == null){
+			//for the demo, we put hard-coded start and destination at first launch:
 			startPoint = new GeoPoint(48.13, -1.63);
 			destinationPoint = new GeoPoint(48.4, -1.9);
 	        mapController.setZoom(9);
@@ -76,7 +94,7 @@ public class MapActivity
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
-		// Use ItemizedOverlayWithBubble for start and destination markers:
+		// Start and destination markers:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
 		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
 				waypointsItems, 
@@ -89,17 +107,17 @@ public class MapActivity
 		markerDestination = putMarkerItem(null, destinationPoint, "Destination", 
 				R.drawable.marker_b, R.drawable.jessica);
 
-		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
-    	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, 
-    			map, null);
-		map.getOverlays().add(roadNodes);
-
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				handleSearchLocationButton();
 			}
 		});
+		
+		//Route and Directions
+		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
+    	roadNodes = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
+		map.getOverlays().add(roadNodes);
 		
 		Button routeButton = (Button)findViewById(R.id.buttonRoute);
 		routeButton.setOnClickListener(new View.OnClickListener() {
@@ -112,14 +130,37 @@ public class MapActivity
 		});
 		
 		if (savedInstanceState == null){
-			//Test road service:
+			//Test road service at first launch:
 			getRoadAsync(startPoint, destinationPoint);
 		} else {
 			mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
 		}
 		
-		//putMyItemizedOverlay(destinationPoint);
+		//POIs:
+        //POI search interface:
+        String[] poiTags = getResources().getStringArray(R.array.poi_tags);
+        poiTagText = (AutoCompleteTextView) findViewById(R.id.poiTag);
+        ArrayAdapter adapter = new ArrayAdapter(this,
+				android.R.layout.simple_dropdown_item_1line, poiTags);
+        poiTagText.setAdapter(adapter);
+        Button setPOITagButton = (Button) findViewById(R.id.buttonSetPOITag);
+        setPOITagButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				getPOIAsync(destinationPoint, poiTagText.getText().toString());
+			}
+		});
+        //POI markers:
+		final ArrayList<ExtendedOverlayItem> poiItems = new ArrayList<ExtendedOverlayItem>();
+		poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, poiItems, map);
+		map.getOverlays().add(poiMarkers);
+		if (savedInstanceState == null){
+			//test at first launch: get cinemas:
+			//getPOIAsync(destinationPoint, "cinema");
+		} else {
+			mPOIs = savedInstanceState.getParcelableArrayList("poi");
+			updateUIWithPOI(mPOIs);
+		}
 	}
 
 	/**
@@ -132,6 +173,7 @@ public class MapActivity
 		outState.putInt("zoom_level", map.getZoomLevel());
 		GeoPoint c = (GeoPoint) map.getMapCenter();
 		outState.putParcelable("map_center", c);
+		outState.putParcelableArrayList("poi", mPOIs);
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
@@ -163,6 +205,8 @@ public class MapActivity
 		map.invalidate();
     }
 
+    //------------- Geocoding and Reverse Geocoding
+    
     /** 
      * Reverse Geocoding
      */
@@ -198,6 +242,43 @@ public class MapActivity
 		}
     }
     
+    /**
+     * Geocoding of the destination address
+     */
+	public void handleSearchLocationButton(){
+		EditText destinationEdit = (EditText)findViewById(R.id.editDestination);
+		String destinationAddress = destinationEdit.getText().toString();
+		GeocoderNominatim geocoder = new GeocoderNominatim(this);
+		try {
+			List<Address> foundAdresses = geocoder.getFromLocationName(destinationAddress, 1);
+			if (foundAdresses.size() == 0) { //if no address found, display an error
+				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
+			} else {
+				Address address = foundAdresses.get(0); //get first address
+				GeoPoint addressPosition = new GeoPoint(
+						address.getLatitude(), 
+						address.getLongitude());
+				longPressHelper(addressPosition);
+				map.getController().setCenter(addressPosition);
+			}
+		} catch (Exception e) {
+			Toast.makeText(this, "Geocoding error", Toast.LENGTH_SHORT).show();
+		}
+	}
+	
+	//Async task to reverse-geocode the marker position in a separate thread:
+	private class GeocodingTask extends AsyncTask<Object, Void, String> {
+		ExtendedOverlayItem marker;
+		protected String doInBackground(Object... params) {
+			marker = (ExtendedOverlayItem)params[0];
+			return getAddress(marker.getPoint());
+		}
+		protected void onPostExecute(String result) {
+			marker.setDescription(result);
+			markerOverlays.showBubbleOnItem(1, map); //open bubble on item 1 = destination
+		}
+	}
+	
     public ExtendedOverlayItem putMarkerItem(ExtendedOverlayItem item, GeoPoint p, String title, 
     		int markerResId, int iconResId) {
 		if (item != null){
@@ -214,6 +295,8 @@ public class MapActivity
 		new GeocodingTask().execute(overlayItem);
 		return overlayItem;
     }
+    
+    //------------ Route and Directions
     
     private void putRoadNodes(Road road){
 		roadNodes.removeAllItems();
@@ -247,7 +330,7 @@ public class MapActivity
 			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
 		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
 		Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
-			//we set the road overlay at the "bottom", just above MapEventsOverlay,
+			//we set the road overlay at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
 		mapOverlays.add(removedOverlay);
 		putRoadNodes(road);
@@ -276,6 +359,7 @@ public class MapActivity
 		protected void onPostExecute(Road result) {
 			mRoad = result;
 			updateUIWithRoad(result);
+			getPOIAsync(destinationPoint, poiTagText.getText().toString());
 		}
 	}
 	
@@ -288,42 +372,68 @@ public class MapActivity
 		new UpdateRoadTask().execute(waypoints);
 	}
 
-	//Async task to reverse-geocode the marker position in a separate thread:
-	private class GeocodingTask extends AsyncTask<Object, Void, String> {
-		ExtendedOverlayItem marker;
-		protected String doInBackground(Object... params) {
-			marker = (ExtendedOverlayItem)params[0];
-			return getAddress(marker.getPoint());
+	//----------------- POIs
+	
+	void updateUIWithPOI(ArrayList<POI> pois){
+		if (pois != null){
+			for (POI poi:pois){
+	    		ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
+	    				poi.mType, poi.mDescription, 
+	    				poi.mLocation, map.getContext());
+	    		Drawable marker = getResources().getDrawable(R.drawable.marker_poi_default);
+	    		poiMarker.setMarker(marker);
+	    		poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+	    		if (poi.mIcon != null){
+	    			poiMarker.setImage(poi.mIcon);
+	    		}
+	    		//TODO: 
+	    		//if (poi.mUrl!=null), put a "more info" button
+	    		poiMarkers.addItem(poiMarker);
+			}
 		}
-		protected void onPostExecute(String result) {
-			marker.setDescription(result);
-			markerOverlays.showBubbleOnItem(1, map); //open bubble on item 1 = destination
+		map.invalidate();
+	}
+	
+	private class POITask extends AsyncTask<Object, Void, ArrayList<POI>> {
+		String mTag;
+		protected ArrayList<POI> doInBackground(Object... params) {
+			GeoPoint point = (GeoPoint)params[0];
+			mTag = (String)params[1];
+
+			if (mTag != null && !mTag.equals("")){
+				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
+				//poiProvider.setService(POIProvider.MAPQUEST_POI_SERVICE);
+				ArrayList<POI> pois = poiProvider.getPOIAlong(getApplicationContext(), 
+						mRoad.getRouteLow(), mTag, 100, 2.0);
+				return pois;
+			} else 
+				return null;
+
+			/*
+			GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
+			ArrayList<POI> pois = poiProvider.getPOICloseTo(getApplicationContext(), point, 15, 20.0);
+			return pois;
+			*/
+		}
+		protected void onPostExecute(ArrayList<POI> pois) {
+			mPOIs = pois;
+			if (mTag.equals("")){
+				//no search, no message
+			} else if (mPOIs == null){
+				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mTag+ " POI.", Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " found", Toast.LENGTH_LONG).show();
+			}
+			updateUIWithPOI(mPOIs);
 		}
 	}
 	
-    /**
-     * Geocoding of the destination address
-     */
-	public void handleSearchLocationButton(){
-		EditText destinationEdit = (EditText)findViewById(R.id.editDestination);
-		String destinationAddress = destinationEdit.getText().toString();
-		GeocoderNominatim geocoder = new GeocoderNominatim(this);
-		try {
-			List<Address> foundAdresses = geocoder.getFromLocationName(destinationAddress, 1);
-			if (foundAdresses.size() == 0) { //if no address found, display an error
-				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
-			} else {
-				Address address = foundAdresses.get(0); //get first address
-				GeoPoint addressPosition = new GeoPoint(
-						address.getLatitude(), 
-						address.getLongitude());
-				longPressHelper(addressPosition);
-				map.getController().setCenter(addressPosition);
-			}
-		} catch (Exception e) {
-			Toast.makeText(this, "Geocoding error", Toast.LENGTH_SHORT).show();
-		}
+	void getPOIAsync(GeoPoint point, String tag){
+		poiMarkers.removeAllItems();
+		new POITask().execute(point, tag);
 	}
+	
+	//------------ MapEventsReceiver implementation
 	
 	@Override public boolean longPressHelper(IGeoPoint p) {
 		//On long-press, we update the trip destination:
@@ -331,6 +441,7 @@ public class MapActivity
 		markerDestination = putMarkerItem(markerDestination, destinationPoint, 
 	    		"Destination", R.drawable.marker_b, R.drawable.jessica);
 		getRoadAsync(startPoint, destinationPoint);
+		//getPOIAsync(destinationPoint, poiTagText.getText().toString());
 		return true;
 	}
 
