@@ -3,6 +3,8 @@ package org.osmdroid.bonuspack.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -37,6 +39,7 @@ public class HttpConnection {
 	private DefaultHttpClient client;
 	private InputStream stream;
 	private HttpEntity entity;
+	private String mUserAgent;
 	
 	private final static int TIMEOUT_CONNECTION=3000; //ms 
 	private final static int TIMEOUT_SOCKET=8000; //ms
@@ -62,8 +65,14 @@ public class HttpConnection {
 			//TODO: created here. Reuse to do for better perfs???...
 	}
 	
+	public void setUserAgent(String userAgent){
+		mUserAgent = userAgent;
+	}
+	
 	public void doGet(String sUrl){
 		HttpGet request = new HttpGet(sUrl);
+		if (mUserAgent != null)
+			request.setHeader("User-Agent", mUserAgent);
 		try {
 			HttpResponse response = client.execute(request);
 			StatusLine status = response.getStatusLine();
@@ -78,10 +87,12 @@ public class HttpConnection {
 	}
 	
 	public void doPost(String sUrl, List<NameValuePair> nameValuePairs) {
-		HttpPost httppost = new HttpPost(sUrl);
+		HttpPost request = new HttpPost(sUrl);
+		if (mUserAgent != null)
+			request.setHeader("User-Agent", mUserAgent);
 		try {
-			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-			HttpResponse response = client.execute(httppost);
+			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			HttpResponse response = client.execute(request);
 			StatusLine status = response.getStatusLine();
 			if (status.getStatusCode() != 200) {
 				Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());

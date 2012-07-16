@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -29,6 +30,7 @@ public class OSRMRoadManager extends RoadManager {
 	//http://developers.cloudmade.com/wiki/navengine/JSON_format
 
 	protected String mServiceUrl;
+	protected String mUserAgent;
 	
 	/** mapping from OSRM directions to MapQuest maneuver IDs: */
 	static final HashMap<String, Integer> MANEUVERS;
@@ -118,11 +120,19 @@ public class OSRMRoadManager extends RoadManager {
 	public OSRMRoadManager(){
 		super();
 		mServiceUrl = OSRM_SERVICE;
+		mUserAgent = BonusPackHelper.DEFAULT_USER_AGENT; //set user agent to the default one. 
 	}
 	
 	/** allows to request on an other site than OSRM demo site */
 	public void setService(String serviceUrl){
 		mServiceUrl = serviceUrl;
+	}
+
+	/** allows to send to OSRM service a user agent specific to the app, 
+	 * instead of the default user agent of OSMBonusPack lib. 
+	 */
+	public void setUserAgent(String userAgent){
+		mUserAgent = userAgent;
 	}
 	
 	protected String getUrl(ArrayList<GeoPoint> waypoints){
@@ -138,7 +148,14 @@ public class OSRMRoadManager extends RoadManager {
 	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad:"+url);
-		String jString = BonusPackHelper.requestStringFromUrl(url);
+
+		//String jString = BonusPackHelper.requestStringFromUrl(url);
+		HttpConnection connection = new HttpConnection();
+		connection.setUserAgent(mUserAgent);
+		connection.doGet(url);
+		String jString = connection.getContentAsString();
+		connection.close();
+
 		if (jString == null) {
 			Log.e(BonusPackHelper.LOG_TAG, "OSRMRoadManager::getRoad: request failed.");
 			return new Road(waypoints);
@@ -189,7 +206,10 @@ public class OSRMRoadManager extends RoadManager {
 			road = new Road(waypoints);
 		} else {
 			road.buildLegs(waypoints);
-			road.mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
+			BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
+			//Correcting osmdroid bug #359:
+			road.mBoundingBox = new BoundingBoxE6(
+				bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
 			road.mStatus = Road.STATUS_OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad - finished");

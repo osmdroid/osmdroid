@@ -18,7 +18,10 @@ public class BonusPackHelper {
 
 	/** Log tag. */
 	public static final String LOG_TAG = "BONUSPACK";
-
+	
+	/**	User agent sent to services by default */
+	public static final String DEFAULT_USER_AGENT = "OsmBonusPack/1";
+	
 	/** @return true if the device is the emulator, false if actual device. 
 	 */
 	public static boolean isEmulator(){
