@@ -3,50 +3,51 @@
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content" 
 	android:orientation="horizontal"
-	android:background="@drawable/bonuspack_bubble_black"
-  >
+	android:background="@drawable/bonuspack_bubble_black" >
 	<ImageView android:id="@+id/bubble_image" 
 		android:layout_width="40dp"
 		android:layout_height="40dp" 
-		android:paddingRight="5dp"
-		android:visibility="gone"
-	/>
+		android:paddingLeft="5dp"
+		android:visibility="gone" />
 	<LinearLayout 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 
-		android:orientation="vertical"
-	  >
-    	<TextView 
+		android:orientation="vertical" >
+		<LinearLayout 
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:textColor="#FFFFFF" 
-			android:id="@+id/bubble_title" 
-			android:maxEms="17"
-			android:text="Title"
-		/>
-		<TextView 
+			android:layout_height="wrap_content" 
+			android:orientation="horizontal" >
+	    	<TextView android:id="@+id/bubble_title" 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#FFFFFF" 
+				android:maxEms="17"
+				android:layout_gravity="left"
+				android:layout_weight="1"
+				android:text="Title" />
+			<Button android:id="@+id/bubble_moreinfo" 
+				android:background="@drawable/btn_moreinfo"
+				android:visibility="gone"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:layout_gravity="right"
+				android:layout_weight="0" />
+	    </LinearLayout>
+		<TextView android:id="@+id/bubble_description" 
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textColor="#FFFFFF" 
 			android:textSize="12dp"
-			android:id="@+id/bubble_description" 
 			android:maxEms="17"
-			android:text="Description"
-		/>
-		<TextView 
+			android:text="Description" />
+		<TextView android:id="@+id/bubble_subdescription" 
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:textColor="#FFFFFF" 
 			android:textSize="10dp"
-			android:id="@+id/bubble_subdescription" 
 			android:maxEms="17"
 			android:text="Address"
 			android:visibility="gone"
 		/>
 	</LinearLayout>
-	<Button android:id="@+id/bubble_moreinfo" 
-		android:background="@drawable/btn_moreinfo"
-		android:visibility="gone"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
 </LinearLayout>

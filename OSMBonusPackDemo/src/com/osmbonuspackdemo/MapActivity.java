@@ -9,6 +9,7 @@ import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -98,8 +99,7 @@ public class MapActivity
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
 		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
 				waypointsItems, 
-				map, 
-				new CustomInfoWindow(map));
+				map, new DefaultInfoWindow(R.layout.bonuspack_bubble_black, map));
 		map.getOverlays().add(markerOverlays);
 		markerStart = putMarkerItem(null, startPoint, "Start", 
 				R.drawable.marker_a, R.drawable.rogger_rabbit);
@@ -152,7 +152,8 @@ public class MapActivity
 		});
         //POI markers:
 		final ArrayList<ExtendedOverlayItem> poiItems = new ArrayList<ExtendedOverlayItem>();
-		poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, poiItems, map);
+		poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
+				poiItems, map, new POIInfoWindow(map));
 		map.getOverlays().add(poiMarkers);
 		if (savedInstanceState == null){
 			//test at first launch: get cinemas:
@@ -377,18 +378,17 @@ public class MapActivity
 	void updateUIWithPOI(ArrayList<POI> pois){
 		if (pois != null){
 			for (POI poi:pois){
-	    		ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
-	    				poi.mType, poi.mDescription, 
-	    				poi.mLocation, map.getContext());
-	    		Drawable marker = getResources().getDrawable(R.drawable.marker_poi_default);
-	    		poiMarker.setMarker(marker);
-	    		poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-	    		if (poi.mIcon != null){
-	    			poiMarker.setImage(poi.mIcon);
-	    		}
-	    		//TODO: 
-	    		//if (poi.mUrl!=null), put a "more info" button
-	    		poiMarkers.addItem(poiMarker);
+				ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
+					poi.mType, poi.mDescription, 
+					poi.mLocation, map.getContext());
+				Drawable marker = getResources().getDrawable(R.drawable.marker_poi_default);
+				poiMarker.setMarker(marker);
+				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+				if (poi.mIcon != null){
+					poiMarker.setImage(new BitmapDrawable(poi.mIcon));
+				}
+				poiMarker.setRelatedObject(poi);
+				poiMarkers.addItem(poiMarker);
 			}
 		}
 		map.invalidate();
@@ -399,21 +399,22 @@ public class MapActivity
 		protected ArrayList<POI> doInBackground(Object... params) {
 			GeoPoint point = (GeoPoint)params[0];
 			mTag = (String)params[1];
+			
+			//If there is a POI tag, we search for this tag along the route. 
+			//Else we search for Wikipedia entries close to the destination point:
 
 			if (mTag != null && !mTag.equals("")){
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 				//poiProvider.setService(POIProvider.MAPQUEST_POI_SERVICE);
-				ArrayList<POI> pois = poiProvider.getPOIAlong(getApplicationContext(), 
+				ArrayList<POI> pois = poiProvider.getPOIAlong(
 						mRoad.getRouteLow(), mTag, 100, 2.0);
 				return pois;
-			} else 
-				return null;
-
-			/*
-			GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
-			ArrayList<POI> pois = poiProvider.getPOICloseTo(getApplicationContext(), point, 15, 20.0);
-			return pois;
-			*/
+			} else {
+				mTag = "wikipedia";
+				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
+				ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 75, 20.0);
+				return pois;
+			}
 		}
 		protected void onPostExecute(ArrayList<POI> pois) {
 			mPOIs = pois;
@@ -422,7 +423,7 @@ public class MapActivity
 			} else if (mPOIs == null){
 				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " found", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " entries found", Toast.LENGTH_LONG).show();
 			}
 			updateUIWithPOI(mPOIs);
 		}
