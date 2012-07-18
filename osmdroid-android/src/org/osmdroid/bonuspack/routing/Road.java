@@ -89,9 +89,9 @@ public class Road  implements Parcelable {
 	public ArrayList<GeoPoint> getRouteLow(){
 		if (mRouteLow == null){
 			//Simplify the route (divide number of points by around 10):
-			Log.d(BonusPackHelper.LOG_TAG, "initial road size:"+mRouteHigh.size());
-			mRouteLow = DouglasPeuckerReducer.reduceWithTolerance(mRouteHigh, 600.0);
-			Log.d(BonusPackHelper.LOG_TAG, "road size after reduction:"+mRouteLow.size());
+			int n = mRouteHigh.size();
+			mRouteLow = DouglasPeuckerReducer.reduceWithTolerance(mRouteHigh, 1500.0);
+			Log.d(BonusPackHelper.LOG_TAG, "Road reduced from "+n+" to "+mRouteLow.size()+ " points");
 		}
 		return mRouteLow;
 	}

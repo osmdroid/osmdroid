@@ -1,26 +1,30 @@
 package org.osmdroid.bonuspack.location;
 
 import org.osmdroid.util.GeoPoint;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Point of Interest. 
- * DRAFT, UNDER DEVELOPMENT. 
+ * Point of Interest. Exact content may depend of the POI provider used. 
  * @see NominatimPOIProvider
  * @see GeoNamesPOIProvider
  * @author M.Kergall
  */
 public class POI implements Parcelable {
 	public long mId;
+	/** location of the POI */
 	public GeoPoint mLocation;
 	public String mCategory;
+	/** type or title */
 	public String mType;
+	/** can be the name, the address */
 	public String mDescription;
+	/** url of the thumbnail. Can be null if none */
 	public String mIconPath;
-	public Drawable mIcon;
-	//for GeoNames Wikipedia:
+	/** the thumbnail itself. Null if none */
+	public Bitmap mIcon;
+	/** url to a more detailed information page about this POI */
 	public String mUrl;
 	
 	public POI(){
@@ -38,7 +42,7 @@ public class POI implements Parcelable {
 		out.writeString(mType);
 		out.writeString(mDescription);
 		out.writeString(mIconPath);
-		//out.writeParcelable(mIcon, 0); Drawable is not parcelable!!! 
+		out.writeParcelable(mIcon, 0);
 		out.writeString(mUrl);
 	}
 	
@@ -58,7 +62,7 @@ public class POI implements Parcelable {
 		mType = in.readString();
 		mDescription = in.readString();
 		mIconPath = in.readString();
-		//mIcon = in.readParcelable(Drawable.class.getClassLoader());
+		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
 		mUrl = in.readString();
 	}
 }

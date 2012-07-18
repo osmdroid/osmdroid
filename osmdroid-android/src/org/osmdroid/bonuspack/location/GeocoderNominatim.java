@@ -29,7 +29,7 @@ public class GeocoderNominatim {
 	
 	protected void init(Context context, Locale locale){
 		mLocale = locale;
-		setService(MAPQUEST_SERVICE_URL); //default service
+		setService(NOMINATIM_SERVICE_URL); //default service
 	}
 	
 	public GeocoderNominatim(Context context, Locale locale){

@@ -2,25 +2,30 @@ package org.osmdroid.bonuspack.location;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+/**
+ * POI Provider using GeoNames services. 
+ * Currently, "find Nearby Wikipedia" service. 
+ * @see http://www.geonames.org
+ * @author M.Kergall
+ *
+ */
 public class GeoNamesPOIProvider {
 
 	protected String mUserName;
 	
-	public GeoNamesPOIProvider(String userName){
-		mUserName = userName;
+	/**
+	 * @param account the registered "username" to give to GeoNames service. 
+	 * @see http://www.geonames.org/login
+	 */
+	public GeoNamesPOIProvider(String account){
+		mUserName = account;
 	}
 	
 	private String getUrlCloseTo(GeoPoint p, int maxResults, double maxDistance){
@@ -34,11 +39,15 @@ public class GeoNamesPOIProvider {
 		return url.toString();
 	}
 	
-	protected ArrayList<POI> getThem(Context ctx, String url){
-		Log.d(BonusPackHelper.LOG_TAG, "NominatimPOIProvider:get:"+url);
-		String jString = BonusPackHelper.requestStringFromUrl(url);
+	/**
+	 * @param fullUrl
+	 * @return the list of POI
+	 */
+	public ArrayList<POI> getThem(String fullUrl){
+		Log.d(BonusPackHelper.LOG_TAG, "GeoNamesPOIProvider:get:"+fullUrl);
+		String jString = BonusPackHelper.requestStringFromUrl(fullUrl);
 		if (jString == null) {
-			Log.e(BonusPackHelper.LOG_TAG, "NominatimPOIProvider: request failed.");
+			Log.e(BonusPackHelper.LOG_TAG, "GeoNamesPOIProvider: request failed.");
 			return null;
 		}
 		try {
@@ -54,15 +63,13 @@ public class GeoNamesPOIProvider {
 				poi.mCategory = jPlace.optString("feature");
 				poi.mType = jPlace.getString("title");
 				poi.mDescription = jPlace.optString("summary");
-				poi.mIconPath = jPlace.optString("thumbnailImg");
-				if (!(poi.mIconPath.equals(""))){
-			    	Bitmap imgBitmap = BonusPackHelper.loadBitmap(poi.mIconPath);
-		    		if (imgBitmap != null){
-		    			Drawable img = new BitmapDrawable(ctx.getResources(), imgBitmap);
-		    			poi.mIcon = img;
-		    		}
+				poi.mIconPath = jPlace.optString("thumbnailImg", null);
+				if (poi.mIconPath != null){
+					poi.mIcon = BonusPackHelper.loadBitmap(poi.mIconPath);
 				}
-				poi.mUrl = jPlace.optString("wikipediaUrl");
+				poi.mUrl = jPlace.optString("wikipediaUrl", null);
+				if (poi.mUrl != null)
+					poi.mUrl = "http://" + poi.mUrl;
 				//other attributes: distance, rank?
 				pois.add(poi);
 			}
@@ -76,12 +83,12 @@ public class GeoNamesPOIProvider {
 	/**
 	 * @param position
 	 * @param maxResults
-	 * @param maxDistance in km
+	 * @param maxDistance in km. 20 km max for the free service. 
 	 * @return list of POI, Wikipedia entries close to the position. Null if technical issue. 
 	 */
-	public ArrayList<POI> getPOICloseTo(Context ctx, GeoPoint position, 
+	public ArrayList<POI> getPOICloseTo(GeoPoint position, 
 			int maxResults, double maxDistance){
 		String url = getUrlCloseTo(position, maxResults, maxDistance);
-		return getThem(ctx, url);
+		return getThem(url);
 	}
 }
