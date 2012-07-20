@@ -85,7 +85,7 @@ public class NominatimPOIProvider {
 			JSONArray jPlaceIds = new JSONArray(jString);
 			int n = jPlaceIds.length();
 			ArrayList<POI> pois = new ArrayList<POI>(n);
-			Bitmap img = null;
+			Bitmap thumbnail = null;
 			for (int i=0; i<n; i++){
 				JSONObject jPlace = jPlaceIds.getJSONObject(i);
 				POI poi = new POI();
@@ -95,12 +95,12 @@ public class NominatimPOIProvider {
 				poi.mCategory = jPlace.optString("class");
 				poi.mType = jPlace.getString("type");
 				poi.mDescription = jPlace.optString("display_name");
-				poi.mIconPath = jPlace.optString("icon", null);
-	    		if (i==0 && poi.mIconPath != null) {
-	    			//first POI, and we have an icon: load it
-			    	img = BonusPackHelper.loadBitmap(poi.mIconPath);
+				poi.mThumbnailPath = jPlace.optString("icon", null);
+	    		if (i==0 && poi.mThumbnailPath != null) {
+	    			//first POI, and we have a thumbnail: load it
+	    			thumbnail = BonusPackHelper.loadBitmap(poi.mThumbnailPath);
 				}
-	    		poi.mIcon = img;
+	    		poi.mThumbnail = thumbnail;
 				pois.add(poi);
 			}
 			return pois;

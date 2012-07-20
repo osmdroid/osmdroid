@@ -1,5 +1,6 @@
 package org.osmdroid.bonuspack.location;
 
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -21,14 +22,24 @@ public class POI implements Parcelable {
 	/** can be the name, the address */
 	public String mDescription;
 	/** url of the thumbnail. Can be null if none */
-	public String mIconPath;
+	public String mThumbnailPath;
 	/** the thumbnail itself. Null if none */
-	public Bitmap mIcon;
+	public Bitmap mThumbnail;
 	/** url to a more detailed information page about this POI */
 	public String mUrl;
 	
 	public POI(){
 		//default creator lets fields empty or null. That's fine. 
+	}
+	
+	public Bitmap getThumbnail(){
+		if (mThumbnail == null && mThumbnailPath != null){
+			mThumbnail = BonusPackHelper.loadBitmap(mThumbnailPath);
+			if (mThumbnail == null)
+				//this path doesn't work, kill it:
+				mThumbnailPath = null;
+		}
+		return mThumbnail;
 	}
 	
 	@Override public int describeContents() {
@@ -41,8 +52,8 @@ public class POI implements Parcelable {
 		out.writeString(mCategory);
 		out.writeString(mType);
 		out.writeString(mDescription);
-		out.writeString(mIconPath);
-		out.writeParcelable(mIcon, 0);
+		out.writeString(mThumbnailPath);
+		out.writeParcelable(mThumbnail, 0);
 		out.writeString(mUrl);
 	}
 	
@@ -61,8 +72,8 @@ public class POI implements Parcelable {
 		mCategory = in.readString();
 		mType = in.readString();
 		mDescription = in.readString();
-		mIconPath = in.readString();
-		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
+		mThumbnailPath = in.readString();
+		mThumbnail = in.readParcelable(Bitmap.class.getClassLoader());
 		mUrl = in.readString();
 	}
 }

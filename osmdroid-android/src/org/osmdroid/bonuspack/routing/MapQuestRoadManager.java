@@ -177,7 +177,7 @@ class XMLHandler extends DefaultHandler {
 		mLinks = new ArrayList<RoadLink>();
 	}
 
-	public void startElement(String uri, String localName, String name,
+	@Override public void startElement(String uri, String localName, String name,
 			Attributes attributes) throws SAXException {		
 		if (localName.equals("boundingBox"))
 			isBB = true;
@@ -193,13 +193,13 @@ class XMLHandler extends DefaultHandler {
 	/**
 	 * Overrides org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
 	 */
-	public void characters(char[] ch, int start, int length)
+	@Override public void characters(char[] ch, int start, int length)
 			throws SAXException {
 			String chars = new String(ch, start, length);
 			mString = mString.concat(chars);
 	}
 	
-	public void endElement(String uri, String localName, String name)
+	@Override public void endElement(String uri, String localName, String name)
 	throws SAXException {
 		if (localName.equals("lat")) {
 			mLat = Double.parseDouble(mString);
@@ -211,21 +211,21 @@ class XMLHandler extends DefaultHandler {
 		} else if (localName.equals("generalizedShape")) {
 			mRoad.setRouteLow(PolylineEncoder.decode(mString, 10));
 			//Log.d("DD", "Low="+mRoad.mRouteLow.size());
-		} else if (localName.equals("length")) {
+	    } else if (localName.equals("length")) {
 			mLink.mLength = Double.parseDouble(mString);
-		} else if (localName.equals("speed")) {
+	    } else if (localName.equals("speed")) {
 			mLink.mSpeed = Double.parseDouble(mString);
-		} else if (localName.equals("shapeIndex")){
+	    } else if (localName.equals("shapeIndex")){
 			mLink.mShapeIndex = Integer.parseInt(mString);
-		} else if (localName.equals("link")) {
-			//End of a link: update road attributes:
-			//GuidanceLinkCollection could in theory contain additional unused links, 
-			//but normally not with fishbone set to false. 
-			mLink.mDuration = mLink.mLength / mLink.mSpeed * 3600.0;
-			mLinks.add(mLink);
-			mRoad.mLength += mLink.mLength;
-			mRoad.mDuration += mLink.mDuration;
-			mLink = null;
+	    } else if (localName.equals("link")) {
+            //End of a link: update road attributes:
+            //GuidanceLinkCollection could in theory contain additional unused links, 
+            //but normally not with fishbone set to false. 
+            mLink.mDuration = mLink.mLength / mLink.mSpeed * 3600.0;
+            mLinks.add(mLink);
+            mRoad.mLength += mLink.mLength;
+            mRoad.mDuration += mLink.mDuration;
+            mLink = null;
 		} else if (localName.equals("turnCost")){
 			int turnCost = Integer.parseInt(mString);
 			mNode.mDuration += turnCost;
