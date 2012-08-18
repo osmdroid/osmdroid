@@ -2,6 +2,8 @@ package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
 
+import microsoft.mappoint.TileSystem;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
@@ -203,7 +205,6 @@ public class PathOverlay extends Overlay {
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
 		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
-
 		for (int i = size - 2; i >= 0; i--) {
 			// compute next points
 			projectedPoint1 = this.mPoints.get(i);
@@ -220,6 +221,8 @@ public class PathOverlay extends Overlay {
 			// bounds
 			if (screenPoint0 == null) {
 				screenPoint0 = pj.toMapPixelsTranslated(projectedPoint0, this.mTempPoint1);
+				//adjust point coordinates that traverse over dateline
+				adjustPoints(new Point(mapView.getScrollX(), mapView.getScrollY()), screenPoint0, mapView);
 				mPath.moveTo(screenPoint0.x, screenPoint0.y);
 			}
 
@@ -230,6 +233,8 @@ public class PathOverlay extends Overlay {
 				continue;
 			}
 
+			//adjust point coordinates that traverse over dateline
+			adjustPoints(screenPoint0, screenPoint1, mapView);
 			mPath.lineTo(screenPoint1.x, screenPoint1.y);
 
 			// update starting point to next position
@@ -241,4 +246,23 @@ public class PathOverlay extends Overlay {
 
 		canvas.drawPath(mPath, this.mPaint);
 	}
+
+	/**
+	 * adjusts point coordinates that traverse over dateline
+	 */
+	private static void adjustPoints(final Point originPoint, final Point destinPoint,
+			final MapView mapView) {
+
+		final int primeMeridian = TileSystem.MapSize(mapView.getZoomLevel()) / 2;
+		if (Math.abs(originPoint.x) <= primeMeridian && Math.abs(destinPoint.x) <= primeMeridian) {
+			if (originPoint.x < 0 && destinPoint.x > 0) {
+				destinPoint.set(destinPoint.x - TileSystem.MapSize(mapView.getZoomLevel()),
+						destinPoint.y);
+			} else if (originPoint.x > 0 && destinPoint.x < 0) {
+				destinPoint.set(destinPoint.x + TileSystem.MapSize(mapView.getZoomLevel()),
+						destinPoint.y);
+			}
+		}
+	}
+
 }
