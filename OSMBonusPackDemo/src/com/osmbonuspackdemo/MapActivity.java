@@ -50,9 +50,7 @@ import android.widget.Toast;
  * @author M.Kergall
  *
  */
-public class MapActivity 
-	extends Activity implements MapEventsReceiver
-{
+public class MapActivity extends Activity implements MapEventsReceiver {
 	protected MapView map;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> markerOverlays;
 	protected GeoPoint startPoint, destinationPoint;
@@ -384,8 +382,9 @@ public class MapActivity
 				Drawable marker = getResources().getDrawable(R.drawable.marker_poi_default);
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-				if (poi.mIcon != null){
-					poiMarker.setImage(new BitmapDrawable(poi.mIcon));
+				Bitmap thumbNail = poi.getThumbnail();
+				if (thumbNail != null){
+					poiMarker.setImage(new BitmapDrawable(thumbNail));
 				}
 				poiMarker.setRelatedObject(poi);
 				poiMarkers.addItem(poiMarker);
