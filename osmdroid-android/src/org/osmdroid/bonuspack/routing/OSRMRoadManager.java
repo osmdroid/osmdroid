@@ -203,7 +203,8 @@ public class OSRMRoadManager extends RoadManager {
 				node.mLocation = road.mRouteHigh.get(positionIndex);
 				node.mLength = jInstruction.getInt(2)/1000.0;
 				node.mDuration = jInstruction.getInt(4)/10.0;
-					//duration unit is not documented. Seems to be 10th of seconds... 
+					//Segment duration unit is currently 10th of seconds.
+					//Likely to pass to seconds in the next release of OSRM (OSRM Issue #355). 
 				String direction = jInstruction.getString(0);
 				String roadName = jInstruction.getString(1);
 				if (lastNode!=null && "1".equals(direction) && "".equals(roadName)){

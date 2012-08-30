@@ -13,19 +13,21 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public class POI implements Parcelable {
+	/** Nominatim: OSM ID. GeoNames: 0 */
 	public long mId;
 	/** location of the POI */
 	public GeoPoint mLocation;
+	/** Nominatim "class", GeoNames "feature" */
 	public String mCategory;
 	/** type or title */
 	public String mType;
-	/** can be the name, the address */
+	/** can be the name, the address, a short description */
 	public String mDescription;
-	/** url of the thumbnail. Can be null if none */
+	/** url of the thumbnail. Null if none */
 	public String mThumbnailPath;
 	/** the thumbnail itself. Null if none */
 	public Bitmap mThumbnail;
-	/** url to a more detailed information page about this POI */
+	/** url to a more detailed information page about this POI. Null if none */
 	public String mUrl;
 	
 	public POI(){

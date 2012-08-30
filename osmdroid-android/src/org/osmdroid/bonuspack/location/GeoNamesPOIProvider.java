@@ -73,7 +73,8 @@ public class GeoNamesPOIProvider {
 				poi.mType = jPlace.getString("title");
 				poi.mDescription = jPlace.optString("summary");
 				poi.mThumbnailPath = jPlace.optString("thumbnailImg", null);
-				/* Too long. Thumbnail loading will be done when needed with POI.getThumbnail()
+				/* This makes loading too long. 
+				 * Thumbnail loading will be done only when needed, with POI.getThumbnail()
 				if (poi.mThumbnailPath != null){
 					poi.mThumbnail = BonusPackHelper.loadBitmap(poi.mThumbnailPath);
 				}
