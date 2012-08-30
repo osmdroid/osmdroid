@@ -379,7 +379,14 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 				ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
 					poi.mType, poi.mDescription, 
 					poi.mLocation, map.getContext());
-				Drawable marker = getResources().getDrawable(R.drawable.marker_poi_default);
+				Drawable marker;
+				if (poi.mId != 0){
+					//this is a Nominatim POI:
+					marker = getResources().getDrawable(R.drawable.marker_poi_default);
+				} else {
+					//this is a GeoNames POI:
+					marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia);
+				}
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
 				Bitmap thumbNail = poi.getThumbnail();
@@ -404,9 +411,11 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 
 			if (mTag != null && !mTag.equals("")){
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
-				//poiProvider.setService(POIProvider.MAPQUEST_POI_SERVICE);
+				poiProvider.setService(NominatimPOIProvider.MAPQUEST_POI_SERVICE);
 				ArrayList<POI> pois = poiProvider.getPOIAlong(
 						mRoad.getRouteLow(), mTag, 100, 2.0);
+				//ArrayList<POI> pois = poiProvider.getPOICloseTo(
+				//		point, mTag, 100, 2.0);
 				return pois;
 			} else {
 				mTag = "wikipedia";
