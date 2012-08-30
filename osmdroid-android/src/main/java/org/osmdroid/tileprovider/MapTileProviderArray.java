@@ -143,6 +143,19 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			super.mapTileRequestFailed(aState);
 		}
 	}
+	
+	@Override
+	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
+		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
+		if (nextProvider != null) {
+			nextProvider.loadMapTileAsync(aState);
+		} else {
+			synchronized (mWorking) {
+				mWorking.remove(aState);
+			}
+		}
+		super.mapTileRequestExpiredTile(aState, aDrawable);
+	}
 
 	/**
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use

@@ -137,6 +137,33 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 	}
 
+	/**
+	 * Called by implementation class methods indicating that they have produced an expired result
+	 * that can be used but better results may be delivered later. The tile is added to the cache,
+	 * and a MAPTILE_SUCCESS_ID message is sent.
+	 * 
+	 * @param pState
+	 *            the map tile request state object
+	 * @param pDrawable
+	 *            the Drawable of the map tile
+	 */
+	@Override
+	public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
+		final MapTile tile = pState.getMapTile();
+		if (pDrawable != null) {
+			mTileCache.putTile(tile, pDrawable);
+		}
+
+		// tell our caller we've finished and it should update its view
+		if (mTileRequestCompleteHandler != null) {
+			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
+		}
+
+		if (DEBUGMODE) {
+			logger.debug("MapTile request complete: " + tile);
+		}
+	}
+
 	public void setTileRequestCompleteHandler(final Handler handler) {
 		mTileRequestCompleteHandler = handler;
 	}
@@ -251,7 +278,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				final Bitmap bitmap = mNewTiles.remove(tile);
 				final ExpirableBitmapDrawable drawable = new ExpirableBitmapDrawable(bitmap);
 				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
-				mTileCache.putTile(tile, drawable);
+				Drawable existingTile = mTileCache.getMapTile(tile);
+				if (existingTile == null || ExpirableBitmapDrawable.isDrawableExpired(existingTile))
+					mTileCache.putTile(tile, drawable);
 			}
 		}
 
