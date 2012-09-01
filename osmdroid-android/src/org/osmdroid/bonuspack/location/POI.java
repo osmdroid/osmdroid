@@ -5,6 +5,7 @@ import org.osmdroid.util.GeoPoint;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Point of Interest. Exact content may depend of the POI provider used. 
@@ -36,6 +37,7 @@ public class POI implements Parcelable {
 	
 	public Bitmap getThumbnail(){
 		if (mThumbnail == null && mThumbnailPath != null){
+			Log.d(BonusPackHelper.LOG_TAG, "POI:load thumbnail:"+mThumbnailPath);
 			mThumbnail = BonusPackHelper.loadBitmap(mThumbnailPath);
 			if (mThumbnail == null)
 				//this path doesn't work, kill it:

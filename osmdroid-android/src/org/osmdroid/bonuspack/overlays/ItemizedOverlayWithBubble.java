@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
+import android.view.View;
 
 /**
  * An itemized overlay with an InfoWindow or "bubble" which opens 
@@ -79,6 +80,14 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		}
 	}
 	
+	/**
+	 * Close the bubble (if it's opened). 
+	 */
+	public void hideBubble(){
+		mBubble.close();
+		mItemWithBubble = null;
+	}
+	
 	@Override protected boolean onSingleTapUpHelper(final int index, final Item item, final MapView mapView) {
 		showBubbleOnItem(index, mapView);
 		return true;
@@ -104,20 +113,18 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	@Override public boolean removeItem(final Item item){
 		boolean result = super.removeItem(item);
 		if (mItemWithBubble == item){
-			mBubble.close();
-			mItemWithBubble = null;
+			hideBubble();
 		}
 		return result;
 	}
 	
 	@Override public void removeAllItems(){
 		super.removeAllItems();
-		mBubble.close();
-		mItemWithBubble = null;
+		hideBubble();
 	}
 
-	//fixing drawing focused item on top in ItemizedOverlay (osmdroid issue 354):
 	@Override public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+		//1. Fixing drawing focused item on top in ItemizedOverlay (osmdroid issue 354):
 		if (shadow) {
 		        return;
 		}

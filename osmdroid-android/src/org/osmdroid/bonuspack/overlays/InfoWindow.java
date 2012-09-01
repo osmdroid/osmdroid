@@ -17,7 +17,8 @@ import android.view.ViewGroup;
  * </ul>
  * Known issues:
  * <ul>
- * <li>It disappears when zooming in/out (TODO: cite related osmdroid issue). </li>
+ * <li>It disappears when zooming in/out 
+ * 	(osmdroid issue #259 on osmdroid 3.0.8, should be fixed in next version). </li>
  * <li>The window is displayed "above" the marker, so the queue of the bubble can hide the marker. </li>
  * </ul>
  * 
