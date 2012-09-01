@@ -5,6 +5,8 @@ import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.views.MapView;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
@@ -36,11 +38,22 @@ public class POIInfoWindow extends DefaultInfoWindow {
 	}
 
 	@Override public void onOpen(ExtendedOverlayItem item){
-		super.onOpen(item);
 		mSelectedPOI = (POI)item.getRelatedObject();
+		
+		//Put thumbNail if any - done here to only load requested thumbNails
+		Bitmap thumbNail = mSelectedPOI.getThumbnail();
+		if (thumbNail != null && item.getImage() == null){
+			//thumbNail has not been set yet:
+			item.setImage(new BitmapDrawable(thumbNail));
+		}
+		
+		super.onOpen(item);
+		
+		//Show or hide "more info" button:
 		if (mSelectedPOI.mUrl != null)
 			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
 		else
 			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.GONE);
+		
 	}
 }

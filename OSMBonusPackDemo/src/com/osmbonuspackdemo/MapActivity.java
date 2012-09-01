@@ -375,24 +375,29 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 	
 	void updateUIWithPOI(ArrayList<POI> pois){
 		if (pois != null){
+			Drawable marker = null;
 			for (POI poi:pois){
 				ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
 					poi.mType, poi.mDescription, 
-					poi.mLocation, map.getContext());
-				Drawable marker;
-				if (poi.mId != 0){
-					//this is a Nominatim POI:
-					marker = getResources().getDrawable(R.drawable.marker_poi_default);
-				} else {
-					//this is a GeoNames POI:
-					marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia);
+					poi.mLocation, this);
+				if (marker == null){
+					if (poi.mId != 0){
+						//this is a Nominatim POI:
+						marker = getResources().getDrawable(R.drawable.marker_poi_default);
+					} else {
+						//this is a GeoNames POI:
+						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia);
+					}
 				}
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+				/*
 				Bitmap thumbNail = poi.getThumbnail();
 				if (thumbNail != null){
 					poiMarker.setImage(new BitmapDrawable(thumbNail));
 				}
+				//too slow if many Wikipedia thumbnails => moved in POIInfoWindow.onOpen
+				*/
 				poiMarker.setRelatedObject(poi);
 				poiMarkers.addItem(poiMarker);
 			}
