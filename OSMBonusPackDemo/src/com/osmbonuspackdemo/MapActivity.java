@@ -9,6 +9,7 @@ import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
@@ -19,8 +20,8 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
@@ -30,8 +31,6 @@ import org.osmdroid.views.overlay.PathOverlay;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.os.AsyncTask;
@@ -139,13 +138,13 @@ public class MapActivity extends Activity implements MapEventsReceiver {
         //POI search interface:
         String[] poiTags = getResources().getStringArray(R.array.poi_tags);
         poiTagText = (AutoCompleteTextView) findViewById(R.id.poiTag);
-        ArrayAdapter adapter = new ArrayAdapter(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line, poiTags);
         poiTagText.setAdapter(adapter);
         Button setPOITagButton = (Button) findViewById(R.id.buttonSetPOITag);
         setPOITagButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				getPOIAsync(destinationPoint, poiTagText.getText().toString());
+				getPOIAsync(poiTagText.getText().toString());
 			}
 		});
         //POI markers:
@@ -358,7 +357,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		protected void onPostExecute(Road result) {
 			mRoad = result;
 			updateUIWithRoad(result);
-			getPOIAsync(destinationPoint, poiTagText.getText().toString());
+			getPOIAsync(poiTagText.getText().toString());
 		}
 	}
 	
@@ -375,29 +374,25 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 	
 	void updateUIWithPOI(ArrayList<POI> pois){
 		if (pois != null){
-			Drawable marker = null;
 			for (POI poi:pois){
 				ExtendedOverlayItem poiMarker = new ExtendedOverlayItem(
 					poi.mType, poi.mDescription, 
 					poi.mLocation, this);
-				if (marker == null){
-					if (poi.mId != 0){
-						//this is a Nominatim POI:
-						marker = getResources().getDrawable(R.drawable.marker_poi_default);
-					} else {
-						//this is a GeoNames POI:
-						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia);
-					}
+				Drawable marker = null;
+				if (poi.mId != 0){
+					//this is a Nominatim POI:
+					marker = getResources().getDrawable(R.drawable.marker_poi_default);
+				} else {
+					//this is a GeoNames POI:
+					if (poi.mRank < 90)
+						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia_16);
+						//TEST marker = getResources().getDrawable(R.drawable.marker_poi_flickr);
+					else
+						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia_32);
 				}
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-				/*
-				Bitmap thumbNail = poi.getThumbnail();
-				if (thumbNail != null){
-					poiMarker.setImage(new BitmapDrawable(thumbNail));
-				}
-				//too slow if many Wikipedia thumbnails => moved in POIInfoWindow.onOpen
-				*/
+				//thumbNail loading moved in POIInfoWindow.onOpen for better performances. 
 				poiMarker.setRelatedObject(poi);
 				poiMarkers.addItem(poiMarker);
 			}
@@ -408,8 +403,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 	private class POITask extends AsyncTask<Object, Void, ArrayList<POI>> {
 		String mTag;
 		protected ArrayList<POI> doInBackground(Object... params) {
-			GeoPoint point = (GeoPoint)params[0];
-			mTag = (String)params[1];
+			mTag = (String)params[0];
 			
 			//If there is a POI tag, we search for this tag along the route. 
 			//Else we search for Wikipedia entries close to the destination point:
@@ -425,7 +419,11 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 			} else {
 				mTag = "wikipedia";
 				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
-				ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 75, 20.0);
+				//TEST - FlickrPOIProvider poiProvider = new FlickrPOIProvider();
+				//ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 75, 20.0);
+				//Get POI inside the bounding box of the current map view:
+				BoundingBoxE6 bb = map.getBoundingBox();
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 75);
 				return pois;
 			}
 		}
@@ -442,9 +440,9 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		}
 	}
 	
-	void getPOIAsync(GeoPoint point, String tag){
+	void getPOIAsync(String tag){
 		poiMarkers.removeAllItems();
-		new POITask().execute(point, tag);
+		new POITask().execute(tag);
 	}
 	
 	//------------ MapEventsReceiver implementation
@@ -455,7 +453,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		markerDestination = putMarkerItem(markerDestination, destinationPoint, 
 	    		"Destination", R.drawable.marker_b, R.drawable.jessica);
 		getRoadAsync(startPoint, destinationPoint);
-		//getPOIAsync(destinationPoint, poiTagText.getText().toString());
+		//getPOIAsync(poiTagText.getText().toString());
 		return true;
 	}
 
