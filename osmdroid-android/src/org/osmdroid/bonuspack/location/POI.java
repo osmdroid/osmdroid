@@ -30,17 +30,23 @@ public class POI implements Parcelable {
 	public Bitmap mThumbnail;
 	/** url to a more detailed information page about this POI. Null if none */
 	public String mUrl;
+	/** popularity of this POI, from 1 (lowest) to 100 (highest). 0 if not defined. */
+	public int mRank;
 	
 	public POI(){
-		//default creator lets fields empty or null. That's fine. 
+		//default constructor lets fields empty or null. That's fine. 
 	}
 	
+	/** 
+	 * @return the POI thumbnail as a Bitmap, if any. 
+	 * If not done yet, it will load the POI thumbnail from its url (in mThumbnailPath field). 
+	 */
 	public Bitmap getThumbnail(){
 		if (mThumbnail == null && mThumbnailPath != null){
 			Log.d(BonusPackHelper.LOG_TAG, "POI:load thumbnail:"+mThumbnailPath);
 			mThumbnail = BonusPackHelper.loadBitmap(mThumbnailPath);
 			if (mThumbnail == null)
-				//this path doesn't work, kill it:
+				//this path doesn't work, "kill" it for next calls:
 				mThumbnailPath = null;
 		}
 		return mThumbnail;
@@ -59,6 +65,7 @@ public class POI implements Parcelable {
 		out.writeString(mThumbnailPath);
 		out.writeParcelable(mThumbnail, 0);
 		out.writeString(mUrl);
+		out.writeInt(mRank);
 	}
 	
 	public static final Parcelable.Creator<POI> CREATOR = new Parcelable.Creator<POI>() {
@@ -79,5 +86,6 @@ public class POI implements Parcelable {
 		mThumbnailPath = in.readString();
 		mThumbnail = in.readParcelable(Bitmap.class.getClassLoader());
 		mUrl = in.readString();
+		mRank = in.readInt();
 	}
 }
