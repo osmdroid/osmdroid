@@ -14,6 +14,13 @@ import android.util.Log;
  * @author M.Kergall
  */
 public class POI implements Parcelable {
+	/** IDs of POI services */
+	public static int POI_SERVICE_NOMINATIM = 100;
+	public static int POI_SERVICE_GEONAMES_WIKIPEDIA = 200;
+	public static int POI_SERVICE_FLICKR = 300;
+	
+	/** Identifies the service provider of this POI. */
+	public int mServiceId;
 	/** Nominatim: OSM ID. GeoNames: 0 */
 	public long mId;
 	/** location of the POI */
@@ -33,8 +40,9 @@ public class POI implements Parcelable {
 	/** popularity of this POI, from 1 (lowest) to 100 (highest). 0 if not defined. */
 	public int mRank;
 	
-	public POI(){
-		//default constructor lets fields empty or null. That's fine. 
+	public POI(int serviceId){
+		mServiceId = serviceId;
+		//lets all other fields empty or null. That's fine. 
 	}
 	
 	/** 
@@ -57,6 +65,7 @@ public class POI implements Parcelable {
 	}
 	
 	@Override public void writeToParcel(Parcel out, int flags) {
+		out.writeInt(mServiceId);
 		out.writeLong(mId);
 		out.writeParcelable(mLocation, 0);
 		out.writeString(mCategory);
@@ -78,6 +87,7 @@ public class POI implements Parcelable {
 	};
 	
 	private POI(Parcel in){
+		mServiceId = in.readInt();
 		mId = in.readLong();
 		mLocation = in.readParcelable(GeoPoint.class.getClassLoader());
 		mCategory = in.readString();

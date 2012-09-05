@@ -88,7 +88,7 @@ public class NominatimPOIProvider {
 			Bitmap thumbnail = null;
 			for (int i=0; i<n; i++){
 				JSONObject jPlace = jPlaceIds.getJSONObject(i);
-				POI poi = new POI();
+				POI poi = new POI(POI.POI_SERVICE_NOMINATIM);
 				poi.mId = jPlace.optLong("osm_id");
 				poi.mLocation = new GeoPoint(jPlace.getDouble("lat"), 
 						jPlace.getDouble("lon"));

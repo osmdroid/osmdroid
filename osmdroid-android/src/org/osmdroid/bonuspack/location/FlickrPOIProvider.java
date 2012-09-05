@@ -12,31 +12,46 @@ import android.util.Log;
 
 /**
  * POI Provider using Flickr service to get geolocalized photos. 
- * -- UNDER CONSTRUCTION --
  * @see http://www.flickr.com/services/api/flickr.photos.search.html
  * @author M.Kergall
  */
 public class FlickrPOIProvider {
 
-	//http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=5caeee81cda4eac3a3c4b7f81a490ee6&bbox=-1%2C47%2C2%2C49&has_geo=&format=rest&api_sig=2aaf090eef56c2ea6c349efef72cd642
+	protected String mApiKey;
+	
+	/**
+	 * @param apiKey the registered API key to give to Flickr service. 
+	 * @see http://www.flickr.com/help/api/
+	 */
+	public FlickrPOIProvider(String apiKey){
+		mApiKey = apiKey;
+	}
 	
 	private String getUrlInside(BoundingBoxE6 boundingBox, int maxResults){
 		StringBuffer url = new StringBuffer("http://api.flickr.com/services/rest/?method=flickr.photos.search");
-		url.append("&api_key="+"5caeee81cda4eac3a3c4b7f81a490ee6");
+		url.append("&api_key="+mApiKey);
 		url.append("&bbox="+boundingBox.getLonWestE6()*1E-6);
 		url.append(","+boundingBox.getLatSouthE6()*1E-6);
 		url.append(","+boundingBox.getLonEastE6()*1E-6);
 		url.append(","+boundingBox.getLatNorthE6()*1E-6);
-		url.append("&has_geo");
+		url.append("&has_geo=1");
 		url.append("&format=json&nojsoncallback=1");
 		url.append("&per_page="+maxResults);
+		
+		//From Flickr doc: "Geo queries require some sort of limiting agent in order to prevent the database from crying."
+		//And min_date_upload is considered as a limiting agent. So:
+		url.append("&min_upload_date=2005/01/01");
+		
+		//Ask to provide some additional attributes we will need:
+		url.append("&extras=geo,url_sq");
+		url.append("&sort=interestingness-desc");
 		return url.toString();
 	}
 	
+	/*
 	public POI getPhoto(String photoId){
-		//http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=71801dd7da4aac971d4a7756efeb6aae&photo_id=7930486880&format=rest
 		String url = "http://api.flickr.com/services/rest/?method=flickr.photos.getInfo"
-			+ "&api_key=" + "71801dd7da4aac971d4a7756efeb6aae"
+			+ "&api_key=" + mApiKey
 			+ "&photo_id=" + photoId
 			+ "&format=json&nojsoncallback=1";
 		Log.d(BonusPackHelper.LOG_TAG, "getPhoto:"+url);
@@ -46,28 +61,36 @@ public class FlickrPOIProvider {
 			return null;
 		}
 		try {
-			POI poi = new POI();
+			POI poi = new POI(POI.POI_SERVICE_FLICKR);
 			JSONObject jRoot = new JSONObject(jString);
 			JSONObject jPhoto = jRoot.getJSONObject("photo");
 			JSONObject jLocation = jPhoto.getJSONObject("location");
 			poi.mLocation = new GeoPoint(
 					jLocation.getDouble("latitude"), 
 					jLocation.getDouble("longitude"));
+			poi.mId = Long.parseLong(photoId);
 			JSONObject jTitle = jPhoto.getJSONObject("title");
 			poi.mType = jTitle.getString("_content");
 			JSONObject jDescription = jPhoto.getJSONObject("description");
 			poi.mDescription = jDescription.getString("_content");
+			//truncate description if too long:
+			if (poi.mDescription.length() > 300){
+				poi.mDescription = poi.mDescription.substring(0, 300) + " (...)";
+			}
 			String farm = jPhoto.getString("farm");
 			String server = jPhoto.getString("server");
 			String secret = jPhoto.getString("secret");
+			JSONObject jOwner = jPhoto.getJSONObject("owner");
+			String nsid = jOwner.getString("nsid");
 			poi.mThumbnailPath = "http://farm"+farm+".staticflickr.com/"+server+"/"+photoId+"_"+secret+"_s.jpg";
-			//TODO: poi.mUrl = "http://www.flickr.com/photos/"+userId+"/"+photoId;
+			poi.mUrl = "http://www.flickr.com/photos/"+nsid+"/"+photoId;
 			return poi;
 		}catch (JSONException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
+	*/
 	
 	/**
 	 * @param fullUrl
@@ -89,11 +112,19 @@ public class FlickrPOIProvider {
 			for (int i=0; i<n; i++){
 				JSONObject jPhoto = jPhotoArray.getJSONObject(i);
 				String photoId = jPhoto.getString("id");
-				POI poi = getPhoto(photoId);
-				if (poi != null)
-					pois.add(poi);
+				POI poi = new POI(POI.POI_SERVICE_FLICKR);
+				poi.mLocation = new GeoPoint(
+						jPhoto.getDouble("latitude"), 
+						jPhoto.getDouble("longitude"));
+				poi.mId = Long.parseLong(photoId);
+				poi.mType = jPhoto.getString("title");
+				poi.mThumbnailPath = jPhoto.getString("url_sq");
+				String owner = jPhoto.getString("owner");
+				poi.mUrl = "http://www.flickr.com/photos/"+owner+"/"+photoId;
+				pois.add(poi);
 			}
-			Log.d(BonusPackHelper.LOG_TAG, "done");
+			int total = jPhotos.getInt("total");
+			Log.d(BonusPackHelper.LOG_TAG, "done:"+n+" got, on a total of:"+total);
 			return pois;
 		}catch (JSONException e) {
 			e.printStackTrace();
@@ -104,7 +135,7 @@ public class FlickrPOIProvider {
 	/**
 	 * @param boundingBox
 	 * @param maxResults
-	 * @return list of POI, Wikipedia entries inside the bounding box. Null if technical issue. 
+	 * @return list of POI, Flickr photos inside the bounding box. Null if technical issue. 
 	 */
 	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, int maxResults){
 		String url = getUrlInside(boundingBox, maxResults);

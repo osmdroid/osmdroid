@@ -78,7 +78,7 @@ public class GeoNamesPOIProvider {
 			ArrayList<POI> pois = new ArrayList<POI>(n);
 			for (int i=0; i<n; i++){
 				JSONObject jPlace = jPlaceIds.getJSONObject(i);
-				POI poi = new POI();
+				POI poi = new POI(POI.POI_SERVICE_GEONAMES_WIKIPEDIA);
 				poi.mLocation = new GeoPoint(jPlace.getDouble("lat"), 
 						jPlace.getDouble("lng"));
 				poi.mCategory = jPlace.optString("feature");
@@ -168,7 +168,7 @@ class XMLHandler extends DefaultHandler {
 	@Override public void startElement(String uri, String localName, String name,
 			Attributes attributes) throws SAXException {
 		if (localName.equals("entry")){
-			mPOI = new POI();
+			mPOI = new POI(POI.POI_SERVICE_GEONAMES_WIKIPEDIA);
 		}
 		mString = new String();
 	}
