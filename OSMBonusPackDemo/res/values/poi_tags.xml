@@ -93,5 +93,8 @@
 		<item>museum</item>
 		<item>viewpoint</item>
 		<item>zoo</item>
+		<!-- Non-Nominatim tags, for other services: -->
+		<item>wikipedia</item>
+		<item>flickr</item>
 	</string-array>
 </resources>

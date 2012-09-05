@@ -379,16 +379,15 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 					poi.mType, poi.mDescription, 
 					poi.mLocation, this);
 				Drawable marker = null;
-				if (poi.mId != 0){
-					//this is a Nominatim POI:
+				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
 					marker = getResources().getDrawable(R.drawable.marker_poi_default);
-				} else {
-					//this is a GeoNames POI:
+				} else if (poi.mServiceId == POI.POI_SERVICE_GEONAMES_WIKIPEDIA){
 					if (poi.mRank < 90)
 						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia_16);
-						//TEST marker = getResources().getDrawable(R.drawable.marker_poi_flickr);
 					else
 						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia_32);
+				} else if (poi.mServiceId == POI.POI_SERVICE_FLICKR){
+					marker = getResources().getDrawable(R.drawable.marker_poi_flickr);
 				}
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
@@ -408,22 +407,27 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 			//If there is a POI tag, we search for this tag along the route. 
 			//Else we search for Wikipedia entries close to the destination point:
 
-			if (mTag != null && !mTag.equals("")){
+			if (mTag == null || mTag.equals("")){
+				return null;
+			} else if (mTag.equals("wikipedia")){
+				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
+				//ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 75, 20.0);
+				//Get POI inside the bounding box of the current map view:
+				BoundingBoxE6 bb = map.getBoundingBox();
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 75);
+				return pois;
+			} else if (mTag.equals("flickr")){
+				FlickrPOIProvider poiProvider = new FlickrPOIProvider("c39be46304a6c6efda8bc066c185cd7e");
+				BoundingBoxE6 bb = map.getBoundingBox();
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 50);
+				return pois;
+			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 				poiProvider.setService(NominatimPOIProvider.MAPQUEST_POI_SERVICE);
 				ArrayList<POI> pois = poiProvider.getPOIAlong(
 						mRoad.getRouteLow(), mTag, 100, 2.0);
 				//ArrayList<POI> pois = poiProvider.getPOICloseTo(
 				//		point, mTag, 100, 2.0);
-				return pois;
-			} else {
-				mTag = "wikipedia";
-				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
-				//TEST - FlickrPOIProvider poiProvider = new FlickrPOIProvider();
-				//ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 75, 20.0);
-				//Get POI inside the bounding box of the current map view:
-				BoundingBoxE6 bb = map.getBoundingBox();
-				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 75);
 				return pois;
 			}
 		}
