@@ -304,7 +304,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				final int yy = (pY % (1 << mDiff)) * mTileSize_2;
 				mSrcRect.set(xx, yy, xx + mTileSize_2, yy + mTileSize_2);
 				mDestRect.set(0, 0, pTileSizePx, pTileSizePx);
-				final Bitmap bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);
+				final Bitmap bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.RGB_565);
 				final Canvas canvas = new Canvas(bitmap);
 				canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
 				if (DEBUGMODE) {
@@ -343,7 +343,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 						final Bitmap oldBitmap = ((BitmapDrawable)oldDrawable).getBitmap();
 						if (oldBitmap != null) {
 							if (bitmap == null) {
-								bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);
+								bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.RGB_565);
 								canvas = new Canvas(bitmap);
 								canvas.drawColor(Color.LTGRAY);
 							}
