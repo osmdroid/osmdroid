@@ -214,12 +214,12 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * A tile has loaded but it's expired.
 		 * Return it <b>and</b> send request to next provider.
 		 */
-		private void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
+		protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
 		}
 
-		private void tileLoadedFailed(final MapTileRequestState pState) {
+		protected void tileLoadedFailed(final MapTileRequestState pState) {
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestFailed(pState);
 		}
