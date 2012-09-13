@@ -40,11 +40,11 @@ public class POIInfoWindow extends DefaultInfoWindow {
 	@Override public void onOpen(ExtendedOverlayItem item){
 		mSelectedPOI = (POI)item.getRelatedObject();
 		
-		//Put thumbNail if any - done here to only load requested thumbNails
-		Bitmap thumbNail = mSelectedPOI.getThumbnail();
-		if (thumbNail != null && item.getImage() == null){
+		//Put thumbnail if any - done here to only load requested thumbNails
+		Bitmap thumbnail = mSelectedPOI.getThumbnail();
+		if (thumbnail != null && item.getImage() == null){
 			//thumbNail has not been set yet:
-			item.setImage(new BitmapDrawable(thumbNail));
+			item.setImage(new BitmapDrawable(thumbnail));
 		}
 		
 		super.onOpen(item);

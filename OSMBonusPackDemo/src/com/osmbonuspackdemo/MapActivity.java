@@ -28,14 +28,23 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
+import org.osmdroid.views.overlay.SimpleLocationOverlay;
+import org.osmdroid.DefaultResourceProxyImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -49,12 +58,13 @@ import android.widget.Toast;
  * @author M.Kergall
  *
  */
-public class MapActivity extends Activity implements MapEventsReceiver {
+public class MapActivity extends Activity implements MapEventsReceiver, LocationListener {
 	protected MapView map;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> markerOverlays;
-	protected GeoPoint startPoint, destinationPoint;
-	protected ExtendedOverlayItem markerStart, markerDestination;
-	
+	protected GeoPoint startPoint, destinationPoint, currentPoint;
+	protected ExtendedOverlayItem markerStart, markerDestination, markerCurrent;
+	SimpleLocationOverlay myLocationOverlay;
+
 	protected PathOverlay roadOverlay;
 	protected Road mRoad;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodes;
@@ -79,10 +89,19 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
 		
+		LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 100.0f, this);
+		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 100.0f, this);
+		
 		if (savedInstanceState == null){
-			//for the demo, we put hard-coded start and destination at first launch:
-			startPoint = new GeoPoint(48.13, -1.63);
-			destinationPoint = new GeoPoint(48.4, -1.9);
+			Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (l != null) {
+				startPoint = new GeoPoint(l.getLatitude(), l.getLongitude());
+			} else {
+				//we put a hard-coded start
+				startPoint = new GeoPoint(48.13, -1.63);
+			}
+			destinationPoint = null;
 	        mapController.setZoom(9);
 			mapController.setCenter(startPoint);
 		} else {
@@ -92,6 +111,10 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
+		myLocationOverlay = new SimpleLocationOverlay(this, new DefaultResourceProxyImpl(this));
+		map.getOverlays().add(myLocationOverlay);
+		myLocationOverlay.setLocation(startPoint);
+
 		// Start and destination markers:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
 		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
@@ -110,6 +133,10 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 				handleSearchLocationButton();
 			}
 		});
+		
+		registerForContextMenu(searchButton);
+		//context menu for clicking on the map is registered on this button. 
+		//(if registered on mapView, it catches map drag events)
 		
 		//Route and Directions
 		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
@@ -232,10 +259,8 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 			theAddress = null;
 		}
 		if (theAddress != null) {
-			//Toast.makeText(this, theAddress, Toast.LENGTH_LONG).show();
 			return theAddress;
 		} else {
-			//Toast.makeText(this, "Issue on Geocoding", Toast.LENGTH_LONG).show();
 			return "";
 		}
     }
@@ -253,11 +278,11 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
 			} else {
 				Address address = foundAdresses.get(0); //get first address
-				GeoPoint addressPosition = new GeoPoint(
-						address.getLatitude(), 
-						address.getLongitude());
-				longPressHelper(addressPosition);
-				map.getController().setCenter(addressPosition);
+				destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
+				markerDestination = putMarkerItem(markerDestination, destinationPoint, 
+			    		"Destination", R.drawable.marker_b, R.drawable.jessica);
+				getRoadAsync(startPoint, destinationPoint);
+				map.getController().setCenter(destinationPoint);
 			}
 		} catch (Exception e) {
 			Toast.makeText(this, "Geocoding error", Toast.LENGTH_SHORT).show();
@@ -273,7 +298,7 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		}
 		protected void onPostExecute(String result) {
 			marker.setDescription(result);
-			markerOverlays.showBubbleOnItem(1, map); //open bubble on item 1 = destination
+			//markerOverlays.showBubbleOnItem(1, map); //open bubble on item 1 = destination
 		}
 	}
 	
@@ -282,16 +307,19 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		if (item != null){
 			markerOverlays.removeItem(item);
 		}
-		Drawable marker = getResources().getDrawable(markerResId);
-		ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p, this);
-		overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-		overlayItem.setMarker(marker);
-		overlayItem.setImage(getResources().getDrawable(iconResId));
-		markerOverlays.addItem(overlayItem);
-		map.invalidate();
-		//Start geocoding task to update the description of the marker with its address:
-		new GeocodingTask().execute(overlayItem);
-		return overlayItem;
+		if (p != null){
+			Drawable marker = getResources().getDrawable(markerResId);
+			ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p, this);
+			overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+			overlayItem.setMarker(marker);
+			overlayItem.setImage(getResources().getDrawable(iconResId));
+			markerOverlays.addItem(overlayItem);
+			map.invalidate();
+			//Start geocoding task to update the description of the marker with its address:
+			new GeocodingTask().execute(overlayItem);
+			return overlayItem;
+		} else
+			return null;
     }
     
     //------------ Route and Directions
@@ -362,6 +390,8 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 	}
 	
 	public void getRoadAsync(GeoPoint start, GeoPoint destination){
+		if (destination == null)
+			return;
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
 		waypoints.add(start);
 		//intermediate waypoints can be added here:
@@ -404,9 +434,6 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 		protected ArrayList<POI> doInBackground(Object... params) {
 			mTag = (String)params[0];
 			
-			//If there is a POI tag, we search for this tag along the route. 
-			//Else we search for Wikipedia entries close to the destination point:
-
 			if (mTag == null || mTag.equals("")){
 				return null;
 			} else if (mTag.equals("wikipedia")){
@@ -450,19 +477,59 @@ public class MapActivity extends Activity implements MapEventsReceiver {
 	}
 	
 	//------------ MapEventsReceiver implementation
+
+	GeoPoint tempClickedGeoPoint; //any other way to pass the position to the menu ???
 	
 	@Override public boolean longPressHelper(IGeoPoint p) {
-		//On long-press, we update the trip destination:
-		destinationPoint = new GeoPoint((GeoPoint)p);
-		markerDestination = putMarkerItem(markerDestination, destinationPoint, 
-	    		"Destination", R.drawable.marker_b, R.drawable.jessica);
-		getRoadAsync(startPoint, destinationPoint);
-		//getPOIAsync(poiTagText.getText().toString());
+		tempClickedGeoPoint = new GeoPoint((GeoPoint)p);
+		Button searchButton = (Button)findViewById(R.id.buttonSearch);
+		openContextMenu(searchButton); //menu is hooked on the "Search" button
 		return true;
 	}
 
 	@Override public boolean singleTapUpHelper(IGeoPoint p) {
 		return false;
+	}
+
+	//----------- Context Menu when clicking on the map
+	@Override public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.map_menu, menu);
+	}
+
+	@Override public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_departure:
+			startPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			markerStart = putMarkerItem(markerStart, startPoint, 
+		    		"Destination", R.drawable.marker_a, R.drawable.rogger_rabbit);
+			getRoadAsync(startPoint, destinationPoint);
+			return true;
+		case R.id.menu_arrival:
+			destinationPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			markerDestination = putMarkerItem(markerDestination, destinationPoint, 
+		    		"Destination", R.drawable.marker_b, R.drawable.jessica);
+			getRoadAsync(startPoint, destinationPoint);
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+	
+	//------------ LocationListener implementation
+	@Override public void onLocationChanged(final Location pLoc) {
+            myLocationOverlay.setLocation(new GeoPoint(pLoc));
+    }
+
+	@Override public void onProviderDisabled(String provider) {
+	}
+
+	@Override public void onProviderEnabled(String provider) {
+	}
+
+	@Override public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
 }
