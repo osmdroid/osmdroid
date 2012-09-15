@@ -62,6 +62,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected MapView map;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> markerOverlays;
 	protected GeoPoint startPoint, destinationPoint, currentPoint;
+	protected ArrayList<GeoPoint> viaPoints;
 	protected ExtendedOverlayItem markerStart, markerDestination, markerCurrent;
 	SimpleLocationOverlay myLocationOverlay;
 
@@ -102,11 +103,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				startPoint = new GeoPoint(48.13, -1.63);
 			}
 			destinationPoint = null;
+			viaPoints = new ArrayList<GeoPoint>();
 	        mapController.setZoom(9);
 			mapController.setCenter(startPoint);
 		} else {
 			startPoint = savedInstanceState.getParcelable("start");
 			destinationPoint = savedInstanceState.getParcelable("destination");
+			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
 			mapController.setZoom(savedInstanceState.getInt("zoom_level"));
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
@@ -115,18 +118,26 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.setLocation(startPoint);
 
-		// Start and destination markers:
+		// Start marker:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
 		markerOverlays = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
 				waypointsItems, 
 				map, new DefaultInfoWindow(R.layout.bonuspack_bubble_black, map));
 		map.getOverlays().add(markerOverlays);
-		markerStart = putMarkerItem(null, startPoint, "Start", 
-				R.drawable.marker_a, R.drawable.rogger_rabbit);
+		markerStart = putMarkerItem(null, startPoint, "Departure", 
+				R.drawable.marker_departure, -1);
 		
-		markerDestination = putMarkerItem(null, destinationPoint, "Destination", 
-				R.drawable.marker_b, R.drawable.jessica);
-
+		//Destination marker if any:
+		if (destinationPoint != null){
+			markerDestination = putMarkerItem(null, destinationPoint, "Destination", 
+					R.drawable.marker_destination, -1);
+		}
+		
+		//Via-points markers if any:
+		for (GeoPoint p:viaPoints){
+			putMarkerItem(null, p, "Via-Point", R.drawable.marker_via, -1);
+		}
+		
 		Button searchButton = (Button)findViewById(R.id.buttonSearch);
 		searchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
@@ -153,10 +164,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 		});
 		
-		if (savedInstanceState == null){
-			//Test road service at first launch:
-			getRoadAsync(startPoint, destinationPoint);
-		} else {
+		if (savedInstanceState != null){
 			mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
 		}
@@ -179,10 +187,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
 				poiItems, map, new POIInfoWindow(map));
 		map.getOverlays().add(poiMarkers);
-		if (savedInstanceState == null){
-			//test at first launch: get cinemas:
-			//getPOIAsync(destinationPoint, "cinema");
-		} else {
+		if (savedInstanceState != null){
 			mPOIs = savedInstanceState.getParcelableArrayList("poi");
 			updateUIWithPOI(mPOIs);
 		}
@@ -194,6 +199,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override protected void onSaveInstanceState (Bundle outState){
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
+		outState.putParcelableArrayList("viapoints", viaPoints);
 		outState.putParcelable("road", mRoad);
 		outState.putInt("zoom_level", map.getZoomLevel());
 		GeoPoint c = (GeoPoint) map.getMapCenter();
@@ -223,7 +229,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MyItemizedOverlay myOverlays = new MyItemizedOverlay(this, list);
 		OverlayItem overlayItem = new OverlayItem("Home Sweet Home", "This is the place I live", p);
 		overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-		Drawable marker = getResources().getDrawable(R.drawable.marker_a);
+		Drawable marker = getResources().getDrawable(R.drawable.marker_departure);
 		overlayItem.setMarker(marker);
 		myOverlays.addItem(overlayItem);
 		map.getOverlays().add(myOverlays);    	
@@ -280,7 +286,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Address address = foundAdresses.get(0); //get first address
 				destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
 				markerDestination = putMarkerItem(markerDestination, destinationPoint, 
-			    		"Destination", R.drawable.marker_b, R.drawable.jessica);
+			    		"Destination", R.drawable.marker_destination, -1);
 				getRoadAsync(startPoint, destinationPoint);
 				map.getController().setCenter(destinationPoint);
 			}
@@ -302,25 +308,30 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
+	/** add (or replace) an item in markerOverlays. p position. 
+	 */
     public ExtendedOverlayItem putMarkerItem(ExtendedOverlayItem item, GeoPoint p, String title, 
     		int markerResId, int iconResId) {
 		if (item != null){
 			markerOverlays.removeItem(item);
 		}
-		if (p != null){
-			Drawable marker = getResources().getDrawable(markerResId);
-			ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p, this);
-			overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-			overlayItem.setMarker(marker);
+		Drawable marker = getResources().getDrawable(markerResId);
+		ExtendedOverlayItem overlayItem = new ExtendedOverlayItem(title, "", p, this);
+		overlayItem.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+		overlayItem.setMarker(marker);
+		if (iconResId != -1)
 			overlayItem.setImage(getResources().getDrawable(iconResId));
-			markerOverlays.addItem(overlayItem);
-			map.invalidate();
-			//Start geocoding task to update the description of the marker with its address:
-			new GeocodingTask().execute(overlayItem);
-			return overlayItem;
-		} else
-			return null;
-    }
+		markerOverlays.addItem(overlayItem);
+		map.invalidate();
+		//Start geocoding task to update the description of the marker with its address:
+		new GeocodingTask().execute(overlayItem);
+		return overlayItem;
+	}
+
+	public void addViaPoint(GeoPoint p){
+		viaPoints.add(p);
+		putMarkerItem(null, p, "Via-Point", R.drawable.marker_via, -1);
+	}
     
     //------------ Route and Directions
     
@@ -352,6 +363,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (roadOverlay != null){
 			mapOverlays.remove(roadOverlay);
 		}
+		if (road == null)
+			return;
 		if (road.mStatus == Road.STATUS_DEFAULT)
 			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
 		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
@@ -394,8 +407,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return;
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
 		waypoints.add(start);
-		//intermediate waypoints can be added here:
-		//waypoints.add(new GeoPoint(48.226, -1.9456)); 
+		//add intermediate via points:
+		for (GeoPoint p:viaPoints){
+			waypoints.add(p); 
+		}
 		waypoints.add(destination);
 		new UpdateRoadTask().execute(waypoints);
 	}
@@ -503,14 +518,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		switch (item.getItemId()) {
 		case R.id.menu_departure:
 			startPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
-			markerStart = putMarkerItem(markerStart, startPoint, 
-		    		"Destination", R.drawable.marker_a, R.drawable.rogger_rabbit);
+			markerStart = putMarkerItem(markerStart, startPoint, "Departure", R.drawable.marker_departure, -1);
 			getRoadAsync(startPoint, destinationPoint);
 			return true;
-		case R.id.menu_arrival:
+		case R.id.menu_destination:
 			destinationPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
 			markerDestination = putMarkerItem(markerDestination, destinationPoint, 
-		    		"Destination", R.drawable.marker_b, R.drawable.jessica);
+		    		"Destination", R.drawable.marker_destination, -1);
+			getRoadAsync(startPoint, destinationPoint);
+			return true;
+		case R.id.menu_viapoint:
+			GeoPoint viaPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			addViaPoint(viaPoint);
 			getRoadAsync(startPoint, destinationPoint);
 			return true;
 		default:

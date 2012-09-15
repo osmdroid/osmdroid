@@ -2,10 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/menu_departure"
-        android:title="Departure"/>
+        android:title="Set Departure"/>
     <item
-        android:id="@+id/menu_arrival"
-        android:title="Arrival"/>
+        android:id="@+id/menu_destination"
+        android:title="Set Destination"/>
+    <item
+        android:id="@+id/menu_viapoint"
+        android:title="Add Via-Point"/>
     <item
         android:id="@+id/menu_none"
         android:title="Cancel"/>
