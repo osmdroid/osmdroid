@@ -11,7 +11,6 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.SensorEventListenerProxy;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;
-import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.NetworkLocationIgnorer;
@@ -439,8 +438,6 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
 			final IMapView mapView) {
 		if (this.mLocation != null) {
-			final IProjection pj = mapView.getProjection();
-			pj.toPixels(new GeoPoint(mLocation), mMapCoords);
 			snapPoint.x = mMapCoords.x;
 			snapPoint.y = mMapCoords.y;
 			final double xDiff = x - mMapCoords.x;
