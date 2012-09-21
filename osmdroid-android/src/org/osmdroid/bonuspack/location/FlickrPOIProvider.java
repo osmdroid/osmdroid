@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-
 import android.util.Log;
 
 /**
@@ -97,6 +96,7 @@ public class FlickrPOIProvider {
 	 * @return the list of POI
 	 */
 	public ArrayList<POI> getThem(String fullUrl){
+		//for local debug: fullUrl = "http://10.0.2.2/flickr_mockup.json";
 		Log.d(BonusPackHelper.LOG_TAG, "FlickrPOIProvider:get:"+fullUrl);
 		String jString = BonusPackHelper.requestStringFromUrl(fullUrl);
 		if (jString == null) {
@@ -142,4 +142,5 @@ public class FlickrPOIProvider {
 		return getThem(url);
 	}
 	
+
 }

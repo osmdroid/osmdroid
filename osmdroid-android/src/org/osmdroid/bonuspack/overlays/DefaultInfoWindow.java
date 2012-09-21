@@ -71,7 +71,7 @@ public class DefaultInfoWindow extends InfoWindow {
 		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
 		Drawable image = item.getImage();
 		if (image != null){
-			imageView.setBackgroundDrawable(image);
+			imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?
 			imageView.setVisibility(View.VISIBLE);
 		} else
 			imageView.setVisibility(View.GONE);

@@ -115,7 +115,7 @@ public class GeoNamesPOIProvider {
 		if (stream == null){
 			return null;
 		}
-		XMLHandler handler = new XMLHandler();
+		GeoNamesXMLHandler handler = new GeoNamesXMLHandler();
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(stream, handler);
@@ -154,14 +154,14 @@ public class GeoNamesPOIProvider {
 	}
 }
 
-class XMLHandler extends DefaultHandler {
+class GeoNamesXMLHandler extends DefaultHandler {
 	
 	private String mString;
 	double mLat, mLng;
 	POI mPOI;
 	ArrayList<POI> mPOIs;
 	
-	public XMLHandler() {
+	public GeoNamesXMLHandler() {
 		mPOIs = new ArrayList<POI>();
 	}
 	

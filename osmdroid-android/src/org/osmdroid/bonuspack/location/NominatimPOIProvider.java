@@ -1,5 +1,6 @@
 package org.osmdroid.bonuspack.location;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class NominatimPOIProvider {
 		StringBuffer urlString = new StringBuffer(mService);
 		urlString.append("search?");
 		urlString.append("format=json");
-		urlString.append("&q=["+type+"]");
+		urlString.append("&q=["+URLEncoder.encode(type)+"]");
 		urlString.append("&limit="+maxResults);
 		urlString.append("&bounded=1");
 		return urlString;

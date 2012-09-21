@@ -3,9 +3,13 @@ package org.osmdroid.bonuspack.location;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 /**
  * Point of Interest. Exact content may depend of the POI provider used. 
@@ -18,6 +22,7 @@ public class POI implements Parcelable {
 	public static int POI_SERVICE_NOMINATIM = 100;
 	public static int POI_SERVICE_GEONAMES_WIKIPEDIA = 200;
 	public static int POI_SERVICE_FLICKR = 300;
+	public static int POI_SERVICE_PICASA = 400;
 	
 	/** Identifies the service provider of this POI. */
 	public int mServiceId;
@@ -39,12 +44,15 @@ public class POI implements Parcelable {
 	public String mUrl;
 	/** popularity of this POI, from 1 (lowest) to 100 (highest). 0 if not defined. */
 	public int mRank;
+	/** number of attempts to load the thumbnail that have failed */
+	protected int mThumbnailLoadingFailures;
 	
 	public POI(int serviceId){
 		mServiceId = serviceId;
 		//lets all other fields empty or null. That's fine. 
 	}
 	
+	protected static int MAX_LOADING_ATTEMPTS = 2;
 	/** 
 	 * @return the POI thumbnail as a Bitmap, if any. 
 	 * If not done yet, it will load the POI thumbnail from its url (in mThumbnailPath field). 
@@ -53,12 +61,52 @@ public class POI implements Parcelable {
 		if (mThumbnail == null && mThumbnailPath != null){
 			Log.d(BonusPackHelper.LOG_TAG, "POI:load thumbnail:"+mThumbnailPath);
 			mThumbnail = BonusPackHelper.loadBitmap(mThumbnailPath);
-			if (mThumbnail == null)
-				//this path doesn't work, "kill" it for next calls:
-				mThumbnailPath = null;
+			if (mThumbnail == null){
+				mThumbnailLoadingFailures++;
+				if (mThumbnailLoadingFailures >= MAX_LOADING_ATTEMPTS){
+					//this path really doesn't work, "kill" it for next calls:
+					mThumbnailPath = null;
+				}
+			}
 		}
 		return mThumbnail;
 	}
+	
+	/**
+	 * Fetch the thumbnail from its url on a thread. 
+	 * @param imageView to update once the thumbnail is retrieved, or to hide if no thumbnail. 
+	 */
+	public void fetchThumbnailOnThread(final ImageView imageView){
+		if (mThumbnail != null){
+			imageView.setImageBitmap(mThumbnail);
+			imageView.setVisibility(View.VISIBLE);
+		} else if (mThumbnailPath != null){
+			imageView.setVisibility(View.GONE);
+			
+			final Handler handler = new Handler() {
+				@Override public void handleMessage(Message message) {
+					ImageView imageView = (ImageView)message.obj;
+					if (mThumbnail != null)
+						imageView.setImageBitmap(mThumbnail);
+						imageView.setVisibility(View.VISIBLE);
+				}
+			};
+			
+			Thread thread = new Thread() {
+				@Override public void run() {
+					getThumbnail();
+					Message message = handler.obtainMessage(1, imageView);
+					handler.sendMessage(message);
+				}
+			};
+			thread.start();
+		} else {
+			//No thumbnail to show:
+			imageView.setVisibility(View.GONE);
+		}
+	}
+    
+	//--- Parcelable implementation
 	
 	@Override public int describeContents() {
 		return 0;
@@ -75,6 +123,7 @@ public class POI implements Parcelable {
 		out.writeParcelable(mThumbnail, 0);
 		out.writeString(mUrl);
 		out.writeInt(mRank);
+		out.writeInt(mThumbnailLoadingFailures);
 	}
 	
 	public static final Parcelable.Creator<POI> CREATOR = new Parcelable.Creator<POI>() {
@@ -97,5 +146,6 @@ public class POI implements Parcelable {
 		mThumbnail = in.readParcelable(Bitmap.class.getClassLoader());
 		mUrl = in.readString();
 		mRank = in.readInt();
+		mThumbnailLoadingFailures = in.readInt();
 	}
 }

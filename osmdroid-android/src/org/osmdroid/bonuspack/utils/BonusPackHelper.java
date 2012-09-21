@@ -1,5 +1,7 @@
 package org.osmdroid.bonuspack.utils;
 
+import java.io.BufferedInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -9,6 +11,8 @@ import org.apache.http.NameValuePair;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 /** Useful functions and common constants. 
@@ -71,13 +75,47 @@ public class BonusPackHelper {
 	public static Bitmap loadBitmap(String url) {
 		Bitmap bitmap = null;
 		try {
-			bitmap = BitmapFactory.decodeStream((InputStream)new URL(url).getContent());
-		} catch (MalformedURLException e) {
+			InputStream is = (InputStream) new URL(url).getContent();
+			bitmap = BitmapFactory.decodeStream(new FlushedInputStream(is));
+			//Alternative providing better handling on loading errors?
+			/*
+			Drawable d = Drawable.createFromStream(new FlushedInputStream(is), null);
+			if (is != null)
+				is.close();
+			if (d != null)
+				bitmap = ((BitmapDrawable)d).getBitmap();
+			*/
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return null;
 		}
 		return bitmap;
 	}
 
+	/**
+	 * Workaround on Android issue
+	 * see http://stackoverflow.com/questions/4601352/createfromstream-in-android-returning-null-for-certain-url
+	 */
+	static class FlushedInputStream extends FilterInputStream {
+	    public FlushedInputStream(InputStream inputStream) {
+	    	super(inputStream);
+	    }
+
+	    @Override public long skip(long n) throws IOException {
+	        long totalBytesSkipped = 0L;
+	        while (totalBytesSkipped < n) {
+	            long bytesSkipped = in.skip(n - totalBytesSkipped);
+	            if (bytesSkipped == 0L) {
+	                  int byteValue = read();
+	                  if (byteValue < 0) {
+	                      break;  // we reached EOF
+	                  } else {
+	                      bytesSkipped = 1; // we read one byte
+	                  }
+	           }
+	           totalBytesSkipped += bytesSkipped;
+	        }
+	        return totalBytesSkipped;
+	    }
+	}
 }
