@@ -47,7 +47,11 @@
 			android:textSize="10dp"
 			android:maxEms="17"
 			android:text="Address"
-			android:visibility="gone"
-		/>
+			android:visibility="gone" />
+		<Button android:id="@+id/btn_remove" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="10dp"
+			android:text="Remove" />
 	</LinearLayout>
 </LinearLayout>

@@ -5,11 +5,10 @@ import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.views.MapView;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 /**
  * A customized InfoWindow handling POIs. 
@@ -26,7 +25,7 @@ public class POIInfoWindow extends DefaultInfoWindow {
 		super(R.layout.bonuspack_bubble, mapView);
 		
 		Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
-			//yes, bonuspack_bubble layouts already contain a "more info" button. 
+			//bonuspack_bubble layouts already contain a "more info" button. 
 		btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if (mSelectedPOI.mUrl != null){
@@ -40,14 +39,13 @@ public class POIInfoWindow extends DefaultInfoWindow {
 	@Override public void onOpen(ExtendedOverlayItem item){
 		mSelectedPOI = (POI)item.getRelatedObject();
 		
-		//Put thumbnail if any - done here to only load requested thumbNails
-		Bitmap thumbnail = mSelectedPOI.getThumbnail();
-		if (thumbnail != null && item.getImage() == null){
-			//thumbNail has not been set yet:
-			item.setImage(new BitmapDrawable(thumbnail));
-		}
-		
 		super.onOpen(item);
+		
+		//Fetch the thumbnail in background
+		if (mSelectedPOI.mThumbnailPath != null){
+			ImageView imageView = (ImageView)mView.findViewById(R.id.bubble_image);
+			mSelectedPOI.fetchThumbnailOnThread(imageView);
+		}
 		
 		//Show or hide "more info" button:
 		if (mSelectedPOI.mUrl != null)

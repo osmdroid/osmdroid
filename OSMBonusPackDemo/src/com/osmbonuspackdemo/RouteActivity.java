@@ -19,11 +19,16 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
+/**
+ * Activity listing detailed itinerary as a list of nodes. 
+ * @author M.Kergall
+ */
+
 public class RouteActivity extends Activity {
 	
 	@Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.route);
+        setContentView(R.layout.items_list);
 
         ListView list = (ListView) findViewById(R.id.items);
 
@@ -80,16 +85,16 @@ class RoadNodesAdapter extends BaseAdapter implements OnClickListener {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.route_item, null);
+            convertView = inflater.inflate(R.layout.item_layout, null);
         }
-        TextView tvInstructions = (TextView)convertView.findViewById(R.id.node_instructions);
+        TextView tvTitle = (TextView)convertView.findViewById(R.id.title);
         String instructions = (entry.mInstructions==null ? "" : entry.mInstructions);
-        tvInstructions.setText("" + (position+1) + ". " + instructions);
-        TextView tvNextStep = (TextView)convertView.findViewById(R.id.next_step);
-        tvNextStep.setText(mRoad.getLengthDurationText(entry.mLength, entry.mDuration));
+        tvTitle.setText("" + (position+1) + ". " + instructions);
+        TextView tvDetails = (TextView)convertView.findViewById(R.id.details);
+        tvDetails.setText(mRoad.getLengthDurationText(entry.mLength, entry.mDuration));
 		int iconId = iconIds.getResourceId(entry.mManeuverType, R.drawable.ic_empty);
    		Drawable icon = mContext.getResources().getDrawable(iconId);
-		ImageView ivManeuver = (ImageView)convertView.findViewById(R.id.maneuver_icon);
+		ImageView ivManeuver = (ImageView)convertView.findViewById(R.id.thumbnail);
    		ivManeuver.setImageDrawable(icon);
         return convertView;
     }

@@ -25,8 +25,11 @@
         <activity
             android:name=".RouteActivity"
             android:label="@string/app_name" 
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".POIActivity"
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         
     </application>
     

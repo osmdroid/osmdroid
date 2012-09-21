@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OSMBonusPackDemo</string>
+    <string name="departure">Departure</string>
+    <string name="destination">Destination</string>
+    <string name="viapoint">Via-Point</string>
 </resources>

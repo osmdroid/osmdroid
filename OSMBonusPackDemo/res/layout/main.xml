@@ -10,7 +10,7 @@
         android:orientation="horizontal" >
         <EditText
             android:id="@+id/editDestination"
-			android:hint="Destination"
+			android:hint="@string/destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -63,6 +63,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+			android:background="@drawable/btn_route" />
+		<Button
+            android:id="@+id/buttonPOI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
 			android:background="@drawable/btn_route" />
 	</RelativeLayout>

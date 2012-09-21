@@ -5,9 +5,9 @@
 	android:orientation="horizontal"
 	android:background="@drawable/bonuspack_bubble" >
 	<ImageView android:id="@+id/bubble_image" 
-		android:layout_width="40dp"
-		android:layout_height="40dp" 
-		android:visibility="gone" />
+		android:layout_width="65dp"
+		android:layout_height="65dp" 
+		android:visibility="visible" />
 	<LinearLayout 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 

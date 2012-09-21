@@ -17,7 +17,7 @@
 		android:background="#FFFFFF"
         android:padding="10dp" >
 
-        <TextView
+        <TextView android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
