@@ -2,6 +2,7 @@ package org.osmdroid.bonuspack.location;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -31,8 +32,8 @@ public class PicasaPOIProvider {
 	public PicasaPOIProvider(String accessToken){
 		mAccessToken = accessToken;
 	}
-	
-	private String getUrlInside(BoundingBoxE6 boundingBox, int maxResults){
+
+	private String getUrlInside(BoundingBoxE6 boundingBox, int maxResults, String query){
 		StringBuffer url = new StringBuffer("http://picasaweb.google.com/data/feed/api/all?");
 		url.append("bbox="+boundingBox.getLonWestE6()*1E-6);
 		url.append(","+boundingBox.getLatSouthE6()*1E-6);
@@ -40,7 +41,9 @@ public class PicasaPOIProvider {
 		url.append(","+boundingBox.getLatNorthE6()*1E-6);
 		url.append("&max-results="+maxResults);
 		url.append("&thumbsize=64c"); //thumbnail size: 64, cropped. 
-		url.append("&fields=entry(title,summary,media:group,gphoto:id,georss:where,link)");
+		url.append("&fields=openSearch:totalResults,entry(summary,media:group/media:thumbnail,media:group/media:title,gphoto:*,georss:where,link)");
+		if (query != null)
+			url.append("&q="+URLEncoder.encode(query));
 		if (mAccessToken != null){
 			//TODO: warning: not tested... 
 			url.append("&access_token="+mAccessToken);
@@ -70,17 +73,19 @@ public class PicasaPOIProvider {
 			e.printStackTrace();
 		}
 		connection.close();
-		Log.d(BonusPackHelper.LOG_TAG, "done");
+		if (handler.mPOIs != null)
+			Log.d(BonusPackHelper.LOG_TAG, "done:"+handler.mPOIs.size()+" got, on a total of:"+handler.mTotalResults);
 		return handler.mPOIs;
 	}
 	
 	/**
 	 * @param boundingBox
 	 * @param maxResults
+	 * @param query - optional - full-text query string. Searches the title, caption and tags for the specified string value.
 	 * @return list of POI, Picasa photos inside the bounding box. Null if technical issue. 
 	 */
-	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, int maxResults){
-		String url = getUrlInside(boundingBox, maxResults);
+	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, int maxResults, String query){
+		String url = getUrlInside(boundingBox, maxResults, query);
 		return getThem(url);
 	}
 }
@@ -91,6 +96,7 @@ class PicasaXMLHandler extends DefaultHandler {
 	double mLat, mLng;
 	POI mPOI;
 	ArrayList<POI> mPOIs;
+	int mTotalResults;
 	
 	public PicasaXMLHandler() {
 		mPOIs = new ArrayList<POI>();
@@ -129,11 +135,15 @@ class PicasaXMLHandler extends DefaultHandler {
 			mPOI.mType = mString;
 		} else if (qName.equals("summary")){
 			mPOI.mDescription = mString;
+		} else if (qName.equals("gphoto:albumtitle")){
+			mPOI.mCategory = mString;
 		} else if (qName.equals("entry")) {
 			mPOI.mLocation = new GeoPoint(mLat, mLng);
 			mPOIs.add(mPOI);
 			mPOI = null;
-		};
+		} else if (qName.equals("openSearch:totalResults")) {
+			mTotalResults = Integer.parseInt(mString);
+		}
 	}
 
 }
