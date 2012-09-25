@@ -19,8 +19,8 @@ public class ViaPointInfoWindow extends DefaultInfoWindow {
 	
 	public ViaPointInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
-		Button btn = (Button)(mView.findViewById(R.id.btn_remove));
-		btn.setOnClickListener(new View.OnClickListener() {
+		Button btnDelete = (Button)(mView.findViewById(R.id.bubble_delete));
+		btnDelete.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				//Call the removePoint method on MapActivity. 
 				//TODO: find a cleaner way to do that!

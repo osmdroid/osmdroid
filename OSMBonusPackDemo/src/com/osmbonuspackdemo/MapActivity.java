@@ -503,6 +503,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 					marker = getResources().getDrawable(R.drawable.marker_poi_flickr);
 				} else if (poi.mServiceId == POI.POI_SERVICE_PICASA){
 					marker = getResources().getDrawable(R.drawable.marker_poi_picasa_24);
+					poiMarker.setSubDescription(poi.mCategory);
 				}
 				poiMarker.setMarker(marker);
 				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
@@ -564,10 +565,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20);
 				return pois;
-			} else if (mTag.equals("picasa")){
+			} else if (mTag.startsWith("picasa")){
 				PicasaPOIProvider poiProvider = new PicasaPOIProvider(null);
 				BoundingBoxE6 bb = map.getBoundingBox();
-				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20);
+				String q = mTag.substring("picasa".length());
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20, q);
 				return pois;
 			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
@@ -590,7 +592,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " entries found", Toast.LENGTH_LONG).show();
-				if (mTag.equals("flickr")||mTag.equals("picasa")||mTag.equals("wikipedia"))
+				if (mTag.equals("flickr")||mTag.startsWith("picasa")||mTag.equals("wikipedia"))
 					startAsyncThumbnailsLoading(mPOIs);
 			}
 			updateUIWithPOI(mPOIs);
