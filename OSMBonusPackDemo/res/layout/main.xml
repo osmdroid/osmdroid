@@ -58,20 +58,6 @@
 		<org.osmdroid.views.MapView android:id="@+id/map"
 	        android:layout_width="fill_parent" 
 	        android:layout_height="fill_parent" />
-		<Button
-            android:id="@+id/buttonRoute"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-			android:background="@drawable/btn_route" />
-		<Button
-            android:id="@+id/buttonPOI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-			android:background="@drawable/btn_route" />
 	</RelativeLayout>
-    
+
 </LinearLayout>

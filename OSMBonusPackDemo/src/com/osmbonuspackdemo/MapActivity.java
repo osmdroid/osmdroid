@@ -3,10 +3,8 @@ package com.osmbonuspackdemo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.POI;
@@ -14,7 +12,6 @@ import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -24,7 +21,6 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -38,10 +34,8 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
@@ -49,8 +43,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -157,16 +151,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     	roadNodeMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
 		map.getOverlays().add(roadNodeMarkers);
 		
-		Button routeButton = (Button)findViewById(R.id.buttonRoute);
-		routeButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				Intent myIntent = new Intent(view.getContext(), RouteActivity.class);
-				myIntent.putExtra("ROAD", mRoad);
-				myIntent.putExtra("NODE_ID", roadNodeMarkers.getBubbledItemId());
-				startActivityForResult(myIntent, ROUTE_REQUEST);
-			}
-		});
-		
 		if (savedInstanceState != null){
 			mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
@@ -198,17 +182,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mPOIs = savedInstanceState.getParcelableArrayList("poi");
 			updateUIWithPOI(mPOIs);
 		}
-		
-		Button poisButton = (Button)findViewById(R.id.buttonPOI);
-		poisButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View view) {
-				Intent myIntent = new Intent(view.getContext(), POIActivity.class);
-				myIntent.putParcelableArrayListExtra("POI", mPOIs);
-				myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
-				startActivityForResult(myIntent, POIS_REQUEST);
-			}
-		});
-		
 	}
 
 	/**
@@ -648,6 +621,46 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return true;
 		default:
 			return super.onContextItemSelected(item);
+		}
+	}
+	
+	//------------ Option Menu implementation
+	
+	@Override public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.option_menu, menu);
+		return true;
+	}
+	
+	@Override public boolean onPrepareOptionsMenu(Menu menu) {
+		if (mRoad != null && mRoad.mNodes.size()>0)
+			menu.findItem(R.id.menu_itinerary).setEnabled(true);
+		else 
+			menu.findItem(R.id.menu_itinerary).setEnabled(false);
+		if (mPOIs != null && mPOIs.size()>0)
+			menu.findItem(R.id.menu_pois).setEnabled(true);
+		else 
+			menu.findItem(R.id.menu_pois).setEnabled(false);
+		return true;
+	}
+	
+	@Override public boolean onOptionsItemSelected(MenuItem item) {
+		Intent myIntent;
+		switch (item.getItemId()) {
+		case R.id.menu_itinerary:
+			myIntent = new Intent(this, RouteActivity.class);
+			myIntent.putExtra("ROAD", mRoad);
+			myIntent.putExtra("NODE_ID", roadNodeMarkers.getBubbledItemId());
+			startActivityForResult(myIntent, ROUTE_REQUEST);
+			return true;
+		case R.id.menu_pois:
+			myIntent = new Intent(this, POIActivity.class);
+			myIntent.putParcelableArrayListExtra("POI", mPOIs);
+			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
+			startActivityForResult(myIntent, POIS_REQUEST);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 	
