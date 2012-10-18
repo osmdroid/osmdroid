@@ -150,7 +150,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
 		final MapTile tile = pState.getMapTile();
-		if (pDrawable != null) {
+		if (pDrawable != null && !mTileCache.containsTile(tile)) {
 			mTileCache.putTile(tile, pDrawable);
 		}
 
