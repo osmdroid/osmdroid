@@ -163,13 +163,24 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 */
 	protected MapTileModuleProviderBase findNextAppropriateProvider(final MapTileRequestState aState) {
 		MapTileModuleProviderBase provider = null;
+		boolean providerDoesntExist = false, providerCantGetDataConnection = false, providerCantServiceZoomlevel = false;
 		// The logic of the while statement is
-		// "Keep looping until you get null, or a provider that still exists and has a data connection if it needs one,"
+		// "Keep looping until you get null, or a provider that still exists
+		// and has a data connection if it needs one and can service the zoom level,"
 		do {
 			provider = aState.getNextProvider();
+			// Perform some checks to see if we can use this provider
+			// If any of these are true, then that disqualifies the provider for this tile request.
+			if (provider != null) {
+				providerDoesntExist = !this.getProviderExists(provider);
+				providerCantGetDataConnection = !useDataConnection()
+						&& provider.getUsesDataConnection();
+				int zoomLevel = aState.getMapTile().getZoomLevel();
+				providerCantServiceZoomlevel = zoomLevel > provider.getMaximumZoomLevel()
+						|| zoomLevel < provider.getMinimumZoomLevel();
+			}
 		} while ((provider != null)
-				&& (!getProviderExists(provider) || (!useDataConnection() && provider
-						.getUsesDataConnection())));
+				&& (providerDoesntExist || providerCantGetDataConnection || providerCantServiceZoomlevel));
 		return provider;
 	}
 
