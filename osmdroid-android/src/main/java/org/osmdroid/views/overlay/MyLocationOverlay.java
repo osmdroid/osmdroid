@@ -312,8 +312,13 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
-			reuse.set(posX, posY, posX + DIRECTION_ARROW.getWidth(), posY + DIRECTION_ARROW.getHeight());
-			reuse.offset((int) -DIRECTION_ARROW_CENTER_X, (int) -DIRECTION_ARROW_CENTER_Y);
+			// Get a square bounding box around the object, and expand by the length of the diagonal
+			// so as to allow for extra space for rotating
+			int widestEdge = (int) Math.ceil(Math.max(DIRECTION_ARROW.getWidth(),
+					DIRECTION_ARROW.getHeight())
+					* Math.sqrt(2));
+			reuse.set(posX, posY, posX + widestEdge, posY + widestEdge);
+			reuse.offset((int) -widestEdge / 2, (int) -widestEdge / 2);
 		} else {
 			reuse.set(posX, posY, posX + PERSON_ICON.getWidth(), posY + PERSON_ICON.getHeight());
 			reuse.offset((int) -PERSON_HOTSPOT.x, (int) -PERSON_HOTSPOT.y);
