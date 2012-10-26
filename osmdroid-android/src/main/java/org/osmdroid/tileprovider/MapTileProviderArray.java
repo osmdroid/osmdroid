@@ -30,7 +30,7 @@ import android.graphics.drawable.Drawable;
  */
 public class MapTileProviderArray extends MapTileProviderBase {
 
-	private final ConcurrentHashMap<MapTileRequestState, MapTile> mWorking;
+	protected final ConcurrentHashMap<MapTileRequestState, MapTile> mWorking;
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderArray.class);
 
@@ -72,6 +72,10 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
 			}
+		}
+
+		synchronized (mWorking) {
+			mWorking.clear();
 		}
 	}
 
@@ -143,7 +147,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			super.mapTileRequestFailed(aState);
 		}
 	}
-	
+
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
 		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
