@@ -5,6 +5,7 @@ import org.osmdroid.views.MapView;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ public class DefaultInfoWindow extends InfoWindow {
 		mDescriptionId = context.getResources().getIdentifier("id/bubble_description", null, packageName);
 		mSubDescriptionId = context.getResources().getIdentifier("id/bubble_subdescription", null, packageName);
 		mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
-		if (mTitleId == 0 || mDescriptionId == 0) {
+		if (mTitleId == 0 || mDescriptionId == 0 || mSubDescriptionId == 0 || mImageId == 0) {
 			Log.e(BonusPackHelper.LOG_TAG, "DefaultInfoWindow: unable to get res ids in "+packageName);
 		}
 	}
@@ -38,10 +39,12 @@ public class DefaultInfoWindow extends InfoWindow {
 		if (mTitleId == 0)
 			setResIds(mapView.getContext());
 		
-		//default behaviour: close it when clicking on the bubble:
-		mView.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				close();
+		//default behavior: close it when clicking on the bubble:
+		mView.setOnTouchListener(new View.OnTouchListener() {
+			@Override public boolean onTouch(View v, MotionEvent e) {
+				if (e.getAction() == MotionEvent.ACTION_UP)
+					close();
+				return true; //TODO: should consume the event - but it doesn't!
 			}
 		});
 	}

@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.location;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcel;
@@ -82,7 +83,7 @@ public class POI implements Parcelable {
 			imageView.setVisibility(View.VISIBLE);
 		} else if (mThumbnailPath != null){
 			imageView.setVisibility(View.GONE);
-			
+			/*
 			final Handler handler = new Handler() {
 				@Override public void handleMessage(Message message) {
 					ImageView imageView = (ImageView)message.obj;
@@ -100,12 +101,31 @@ public class POI implements Parcelable {
 				}
 			};
 			thread.start();
+			*/
+			new ThumbnailTask(imageView).execute(imageView);
 		} else {
 			//No thumbnail to show:
 			imageView.setVisibility(View.GONE);
 		}
 	}
     
+	class ThumbnailTask extends AsyncTask<ImageView, Void, ImageView> {
+
+		public ThumbnailTask(ImageView iv) {
+			iv.setTag(mThumbnailPath);
+		}
+
+		@Override protected ImageView doInBackground(ImageView... params) {
+			getThumbnail();
+			return params[0];
+		}
+
+		@Override protected void onPostExecute(ImageView iv) {
+			if (mThumbnailPath.equals(iv.getTag().toString()))
+				iv.setImageBitmap(mThumbnail);
+		}
+	}
+	
 	//--- Parcelable implementation
 	
 	@Override public int describeContents() {
