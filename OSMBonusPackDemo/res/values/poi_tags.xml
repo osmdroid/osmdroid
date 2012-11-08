@@ -6,6 +6,7 @@
     	<string-array name="poi_tags">
 		<!-- Aeroway -->
 		<!-- <item>aerodrome</item> -->
+		<!-- Accomodation -->
 		<!-- Amenity -->
 		<item>bar</item>
 		<item>cafe</item>
@@ -26,10 +27,12 @@
 		<item>taxi</item>
 		<item>atm</item>
 		<item>bank</item>
+		<item>doctors</item>
 		<item>dentist</item>
 		<item>hospital</item>
 		<item>pharmacy</item>
 		<!--  <item>veterinary</item>  -->
+		<item>casino</item>
 		<item>cinema</item>
 		<!--  <item>nightclub</item> -->
 		<item>theatre</item>
@@ -89,9 +92,11 @@
 		<!-- <item>karting</item> -->
 		<!-- <item>tennis</item> -->
 		<!-- Tourism -->
+		<item>attraction</item>
 		<item>information</item>
 		<item>museum</item>
 		<item>viewpoint</item>
+		<item>ruin</item>
 		<item>zoo</item>
 		<!-- Non-Nominatim tags, for other services: -->
 		<item>wikipedia</item>

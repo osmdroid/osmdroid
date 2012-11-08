@@ -5,11 +5,7 @@ import org.osmdroid.bonuspack.location.POI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,12 +55,10 @@ public class POIActivity extends Activity {
 class POIAdapter extends BaseAdapter implements OnClickListener {
 	private Context mContext;
 	private ArrayList<POI> mPois;
-	TypedArray iconIds;
 	
 	public POIAdapter(Context context, ArrayList<POI> pois) {
 		mContext = context;
 		mPois = pois;
-		iconIds = mContext.getResources().obtainTypedArray(R.array.direction_icons);
 	}
 
     @Override public int getCount() {
@@ -100,8 +94,8 @@ class POIAdapter extends BaseAdapter implements OnClickListener {
 		ImageView ivManeuver = (ImageView)convertView.findViewById(R.id.thumbnail);
    		//ivManeuver.setImageBitmap(entry.mThumbnail);
    		entry.fetchThumbnailOnThread(ivManeuver);
-   		
-        return convertView;
+
+   		return convertView;
     }
 
 	@Override public void onClick(View arg0) {

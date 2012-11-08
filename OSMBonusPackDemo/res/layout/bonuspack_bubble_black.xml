@@ -47,7 +47,6 @@
 			android:textSize="10dp"
 			android:maxEms="17"
 			android:text="Address"
-			android:visibility="gone"
-		/>
+			android:visibility="gone" />
 	</LinearLayout>
 </LinearLayout>
