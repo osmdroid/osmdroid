@@ -1,14 +1,11 @@
 package org.osmdroid.bonuspack.location;
 
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.WebImageCache;
 import org.osmdroid.util.GeoPoint;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,6 +22,12 @@ public class POI implements Parcelable {
 	public static int POI_SERVICE_FLICKR = 300;
 	public static int POI_SERVICE_PICASA = 400;
 	
+	private static WebImageCache mThumbnailCache;
+	static {
+		//one common cache for all POI thumbnails:
+		mThumbnailCache = new WebImageCache(300);
+	}
+	
 	/** Identifies the service provider of this POI. */
 	public int mServiceId;
 	/** Nominatim: OSM ID. GeoNames: 0 */
@@ -35,11 +38,11 @@ public class POI implements Parcelable {
 	public String mCategory;
 	/** type or title */
 	public String mType;
-	/** can be the name, the address, a short description */
+	/** can be the name, the address, or a "reasonably" short description (displayable in a bubble)*/
 	public String mDescription;
 	/** url of the thumbnail. Null if none */
 	public String mThumbnailPath;
-	/** the thumbnail itself. Null if none */
+	/** the thumbnail image itself. Null if none */
 	public Bitmap mThumbnail;
 	/** url to a more detailed information page about this POI. Null if none */
 	public String mUrl;
@@ -48,9 +51,10 @@ public class POI implements Parcelable {
 	/** number of attempts to load the thumbnail that have failed */
 	protected int mThumbnailLoadingFailures;
 	
+	/** constructor of an empty POI. Only specify which service is creating it. */
 	public POI(int serviceId){
 		mServiceId = serviceId;
-		//lets all other fields empty or null. That's fine. 
+		//lets all other fields empty or null: that's exactly the default values we want. 
 	}
 	
 	protected static int MAX_LOADING_ATTEMPTS = 2;
@@ -60,8 +64,12 @@ public class POI implements Parcelable {
 	 */
 	public Bitmap getThumbnail(){
 		if (mThumbnail == null && mThumbnailPath != null){
+			/*
 			Log.d(BonusPackHelper.LOG_TAG, "POI:load thumbnail:"+mThumbnailPath);
 			mThumbnail = BonusPackHelper.loadBitmap(mThumbnailPath);
+			*/
+			//now we use WebImageCache to share thumbnail loading done at various places:
+			mThumbnail = mThumbnailCache.get(mThumbnailPath);
 			if (mThumbnail == null){
 				mThumbnailLoadingFailures++;
 				if (mThumbnailLoadingFailures >= MAX_LOADING_ATTEMPTS){
@@ -75,6 +83,7 @@ public class POI implements Parcelable {
 	
 	/**
 	 * Fetch the thumbnail from its url on a thread. 
+	 * Using AsyncTask: must be invoked from the UI thread. 
 	 * @param imageView to update once the thumbnail is retrieved, or to hide if no thumbnail. 
 	 */
 	public void fetchThumbnailOnThread(final ImageView imageView){
@@ -123,6 +132,7 @@ public class POI implements Parcelable {
 		@Override protected void onPostExecute(ImageView iv) {
 			if (mThumbnailPath.equals(iv.getTag().toString()))
 				iv.setImageBitmap(mThumbnail);
+				iv.setVisibility(View.VISIBLE);
 		}
 	}
 	

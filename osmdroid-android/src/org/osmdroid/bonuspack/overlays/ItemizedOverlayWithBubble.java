@@ -1,9 +1,7 @@
 package org.osmdroid.bonuspack.overlays;
 
 import java.util.List;
-
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -12,7 +10,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
-import android.view.View;
 
 /**
  * An itemized overlay with an InfoWindow or "bubble" which opens 
@@ -71,11 +68,11 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	 * @param index of the overlay item to show
 	 * @param mapView
 	 */
-	public void showBubbleOnItem(final int index, final MapView mapView) {
+	public void showBubbleOnItem(final int index, final MapView mapView, boolean panIntoView) {
 		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(getItem(index)); 
 		mItemWithBubble = eItem;
 		if (eItem != null){
-			eItem.showBubble(mBubble, mapView);
+			eItem.showBubble(mBubble, mapView, panIntoView);
 			//setFocus((Item)eItem);
 		}
 	}
@@ -89,7 +86,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	}
 	
 	@Override protected boolean onSingleTapUpHelper(final int index, final Item item, final MapView mapView) {
-		showBubbleOnItem(index, mapView);
+		showBubbleOnItem(index, mapView, true);
 		return true;
 	}
 	

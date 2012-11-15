@@ -124,9 +124,9 @@ public class ExtendedOverlayItem extends OverlayItem {
 	 * Populates this bubble with all item info:
 	 * <ul>title and description in any case, </ul>
 	 * <ul>image and sub-description if any.</ul> 
-	 * and centers the map on the item. <br>
+	 * and centers the map view on the item if panIntoView is true. <br>
 	 */
-	public void showBubble(InfoWindow bubble, MapView mapView){
+	public void showBubble(InfoWindow bubble, MapView mapView, boolean panIntoView){
 		//offset the bubble to be top-centered on the marker:
 		Drawable marker = getMarker(0 /*OverlayItem.ITEM_STATE_FOCUSED_MASK*/);
 		int markerWidth = 0, markerHeight = 0;
@@ -139,7 +139,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 		bubbleH.offset(-markerH.x, -markerH.y);
 		
 		bubble.open(this, bubbleH.x, bubbleH.y);
-
-		mapView.getController().animateTo(getPoint());
+		if (panIntoView)
+			mapView.getController().animateTo(getPoint());
 	}
 }
