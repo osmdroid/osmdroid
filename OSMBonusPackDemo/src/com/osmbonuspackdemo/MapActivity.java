@@ -204,14 +204,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
 				map.getController().setCenter(mRoad.mNodes.get(nodeId).mLocation);
-				roadNodeMarkers.showBubbleOnItem(nodeId, map);
+				roadNodeMarkers.showBubbleOnItem(nodeId, map, true);
 			}
 			break;
 		case POIS_REQUEST:
 			if (resultCode == RESULT_OK) {
 				int id = intent.getIntExtra("ID", 0);
 				map.getController().setCenter(mPOIs.get(id).mLocation);
-				poiMarkers.showBubbleOnItem(id, map);
+				poiMarkers.showBubbleOnItem(id, map, true);
 			}
 			break;
 		default: 
@@ -536,13 +536,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			} else if (mTag.equals("flickr")){
 				FlickrPOIProvider poiProvider = new FlickrPOIProvider("c39be46304a6c6efda8bc066c185cd7e");
 				BoundingBoxE6 bb = map.getBoundingBox();
-				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20);
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 				return pois;
 			} else if (mTag.startsWith("picasa")){
 				PicasaPOIProvider poiProvider = new PicasaPOIProvider(null);
 				BoundingBoxE6 bb = map.getBoundingBox();
 				String q = mTag.substring("picasa".length());
-				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20, q);
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30, q);
 				return pois;
 			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
