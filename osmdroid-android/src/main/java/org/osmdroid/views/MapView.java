@@ -278,7 +278,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		final Point coords = TileSystem.LatLongToPixelXY(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6,
 				getZoomLevel(), null);
-		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(true)) / 2;
+		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(false)) / 2;
 		if (getAnimation() == null || getAnimation().hasEnded()) {
 			logger.debug("StartScroll");
 			mScroller.startScroll(getScrollX(), getScrollY(),
@@ -306,6 +306,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		final int newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));
 		final int curZoomLevel = this.mZoomLevel;
+
+		if (newZoomLevel != curZoomLevel) {
+		    mScroller.forceFinished(true);
+		}
 
 		this.mZoomLevel = newZoomLevel;
 		this.checkZoomButtons();
@@ -816,7 +820,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(true)) / 2;
+		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(false)) / 2;
 		while (x < -worldSize_2) {
 			x += worldSize_2 * 2;
 		}
@@ -1286,7 +1290,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(true));
+			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
 					-worldSize, worldSize, -worldSize, worldSize);
 			return true;
