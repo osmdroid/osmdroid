@@ -783,7 +783,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		final boolean r = super.dispatchTouchEvent(event);
+		if (super.dispatchTouchEvent(event)) {
+			if (DEBUGMODE) {
+				logger.debug("super handled onTouchEvent");
+			}
+			return true;
+		}
 
 		if (mGestureDetector.onTouchEvent(event)) {
 			if (DEBUGMODE) {
@@ -792,16 +797,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		if (r) {
-			if (DEBUGMODE) {
-				logger.debug("super handled onTouchEvent");
-			}
-		} else {
-			if (DEBUGMODE) {
-				logger.debug("no-one handled onTouchEvent");
-			}
+		if (DEBUGMODE) {
+			logger.debug("no-one handled onTouchEvent");
 		}
-		return r;
+		return false;
 	}
 
 	@Override
