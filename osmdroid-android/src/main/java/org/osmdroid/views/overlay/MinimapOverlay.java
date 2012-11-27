@@ -7,11 +7,12 @@ import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.safecanvas.SafePaint;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -32,7 +33,7 @@ public class MinimapOverlay extends TilesOverlay {
 	private int mHeight = 100;
 	private int mPadding = 10;
 	private int mZoomDifference;
-	private final Paint mPaint;
+	private final SafePaint mPaint;
 	private int mWorldSize_2;
 
 	// The Mercator coordinates of what is on the screen
@@ -70,7 +71,7 @@ public class MinimapOverlay extends TilesOverlay {
 		// Don't draw loading lines in the minimap
 		setLoadingLineColor(getLoadingBackgroundColor());
 
-		mPaint = new Paint();
+		mPaint = new SafePaint();
 		mPaint.setColor(Color.GRAY);
 		mPaint.setStyle(Style.FILL);
 		mPaint.setStrokeWidth(2);
@@ -121,7 +122,7 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void draw(final Canvas pC, final MapView pOsmv, final boolean shadow) {
+	protected void drawSafe(final ISafeCanvas pC, final MapView pOsmv, final boolean shadow) {
 
 		if (shadow) {
 			return;
@@ -175,7 +176,7 @@ public class MinimapOverlay extends TilesOverlay {
 		pC.drawRect(mMiniMapCanvasRect.left - 2, mMiniMapCanvasRect.top - 2,
 				mMiniMapCanvasRect.right + 2, mMiniMapCanvasRect.bottom + 2, mPaint);
 
-		super.drawTiles(pC, projection.getZoomLevel() - miniMapZoomLevelDifference,
+		super.drawTiles(pC.getSafeCanvas(), projection.getZoomLevel() - miniMapZoomLevelDifference,
 				TileSystem.getTileSize(), mTileArea);
 	}
 

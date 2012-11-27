@@ -44,6 +44,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -54,7 +55,7 @@ import android.graphics.Picture;
 import android.graphics.Rect;
 import android.view.WindowManager;
 
-public class ScaleBarOverlay extends Overlay implements GeoConstants {
+public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 
 	// ===========================================================
 	// Fields
@@ -230,7 +231,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
-	public void draw(final Canvas c, final MapView mapView, final boolean shadow) {
+	public void drawSafe(final ISafeCanvas c, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;
