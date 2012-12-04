@@ -2,8 +2,8 @@ package org.osmdroid.tileprovider;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -30,7 +30,7 @@ import android.graphics.drawable.Drawable;
  */
 public class MapTileProviderArray extends MapTileProviderBase {
 
-	protected final ConcurrentHashMap<MapTileRequestState, MapTile> mWorking;
+	protected final HashMap<MapTileRequestState, MapTile> mWorking;
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderArray.class);
 
@@ -60,7 +60,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			final MapTileModuleProviderBase[] pTileProviderArray) {
 		super(pTileSource);
 
-		mWorking = new ConcurrentHashMap<MapTileRequestState, MapTile>();
+		mWorking = new HashMap<MapTileRequestState, MapTile>();
 
 		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
