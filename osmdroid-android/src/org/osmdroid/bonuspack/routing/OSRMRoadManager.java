@@ -165,6 +165,7 @@ public class OSRMRoadManager extends RoadManager {
 			GeoPoint p = waypoints.get(i);
 			urlString.append("&loc="+geoPointAsString(p));
 		}
+		urlString.append("&instructions=true&alt=false");
 		urlString.append(mOptions);
 		return urlString.toString();
 	}
