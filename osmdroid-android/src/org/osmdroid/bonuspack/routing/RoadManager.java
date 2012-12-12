@@ -37,6 +37,9 @@ public abstract class RoadManager {
 		mOptions += "&" + requestOption;
 	}
 	
+	/**
+	 * @return the GeoPoint as a string, properly formatted: lat,lon
+	 */
 	protected String geoPointAsString(GeoPoint p){
 		StringBuffer result = new StringBuffer();
 		double d = p.getLatitudeE6()*1E-6;
@@ -46,6 +49,12 @@ public abstract class RoadManager {
 		return result.toString();
 	}
 	
+	/**
+	 * Using the road high definition shape, builds and returns a PathOverlay using the Paint. 
+	 * @param road
+	 * @param paint
+	 * @param context
+	 */
 	public static PathOverlay buildRoadOverlay(Road road, Paint paint, Context context){
 		PathOverlay roadOverlay = new PathOverlay(0, context);
 		roadOverlay.setPaint(paint);

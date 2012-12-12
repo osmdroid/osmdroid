@@ -23,7 +23,7 @@ import android.util.Log;
  * @author M.Kergall
  */
 public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
-	protected List<Item> mItemsList;
+	//protected List<Item> mItemsList;
 	protected InfoWindow mBubble; //only one for all items of this overlay => one at a time
 	protected OverlayItem mItemWithBubble; //the item currently showing the bubble. Null if none. 
 
@@ -39,7 +39,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
                     return false;
             }
     	} );
-		mItemsList = aList;
+		//mItemsList = aList;
 		if (bubble != null){
 			mBubble = bubble;
 		} else {
@@ -98,26 +98,42 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			return null;
 	}
 	
-	/** @return the index of the item currenty showing the bubble, or -1 if none.  */
+	/** @return the index of the item currently showing the bubble, or -1 if none.  */
 	public int getBubbledItemId(){
 		OverlayItem item = getBubbledItem();
 		if (item == null)
 			return -1;
 		else
-			return mItemsList.indexOf(item);
+			return mItemList.indexOf(item);
+	}
+	
+	@Override public Item removeItem(final int position){
+		Item result;
+		synchronized(mItemList){
+			result = super.removeItem(position);
+			if (mItemWithBubble == result){
+				hideBubble();
+			}
+		}
+		return result;
 	}
 	
 	@Override public boolean removeItem(final Item item){
-		boolean result = super.removeItem(item);
-		if (mItemWithBubble == item){
-			hideBubble();
+		boolean result;
+		synchronized(mItemList){
+			result = super.removeItem(item);
+			if (mItemWithBubble == item){
+				hideBubble();
+			}
 		}
 		return result;
 	}
 	
 	@Override public void removeAllItems(){
-		super.removeAllItems();
-		hideBubble();
+		synchronized(mItemList){
+			super.removeAllItems();
+			hideBubble();
+		}
 	}
 
 	@Override public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
@@ -125,22 +141,24 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		if (shadow) {
 		        return;
 		}
-		final Projection pj = mapView.getProjection();
-		final int size = mItemsList.size() - 1;
-		final Point mCurScreenCoords = new Point();
-		
-		/* Draw in backward cycle, so the items with the least index are on the front. */
-		for (int i = size; i >= 0; i--) {
-	        final Item item = getItem(i);
-			if (item != mItemWithBubble){
-		        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
-		        onDrawItem(canvas, item, mCurScreenCoords);
+		synchronized(mItemList){
+			final Projection pj = mapView.getProjection();
+			final int size = mItemList.size() - 1;
+			final Point mCurScreenCoords = new Point();
+			
+			/* Draw in backward cycle, so the items with the least index are on the front. */
+			for (int i = size; i >= 0; i--) {
+		        final Item item = getItem(i);
+				if (item != mItemWithBubble){
+			        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+			        onDrawItem(canvas, item, mCurScreenCoords);
+				}
 			}
-		}
-		//draw focused item last:
-		if (mItemWithBubble != null){
-	        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
-	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
+			//draw focused item last:
+			if (mItemWithBubble != null){
+		        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
+		        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
+			}
 		}
     }
 	
