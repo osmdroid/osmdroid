@@ -28,7 +28,7 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 	private final static RectF sRectF = new RectF();
 	private static float[] sFloatAry = new float[0];
 	private Canvas mCanvas;
-	private Matrix mMatrix;
+	private final Matrix mMatrix = new Matrix();
 	public int xOffset;
 	public int yOffset;
 
@@ -57,7 +57,7 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 
 	public void setCanvas(Canvas canvas) {
 		mCanvas = canvas;
-		mMatrix = canvas.getMatrix();
+		canvas.getMatrix(mMatrix);
 	}
 
 	public Canvas getWrappedCanvas() {
