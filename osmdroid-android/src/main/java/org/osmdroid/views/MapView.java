@@ -33,6 +33,7 @@ import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -880,6 +881,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final long endMs = System.currentTimeMillis();
 			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
 		}
+	}
+
+	/**
+	 * Returns true if the safe drawing canvas is being used.
+	 * 
+	 * @see {@link ISafeCanvas}
+	 */
+	public boolean isUsingSafeCanvas() {
+		return this.getOverlayManager().isUsingSafeCanvas();
+	}
+
+	/**
+	 * Sets whether the safe drawing canvas is being used.
+	 * 
+	 * @see {@link ISafeCanvas}
+	 */
+	public void setUseSafeCanvas(boolean useSafeCanvas) {
+		this.getOverlayManager().setUseSafeCanvas(useSafeCanvas);
 	}
 
 	@Override

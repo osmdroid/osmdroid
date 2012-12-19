@@ -10,11 +10,18 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 
+/**
+ * An overlay class that uses the safe drawing canvas to draw itself and can be zoomed in to high
+ * levels without drawing issues.
+ * 
+ * @see {@link ISafeCanvas}
+ */
 public abstract class SafeDrawOverlay extends Overlay {
 
 	private static final SafeTranslatedCanvas sSafeCanvas = new SafeTranslatedCanvas();
 	private static final Matrix sMatrix = new Matrix();
 	private static final float[] sMatrixValues = new float[9];
+	private boolean mUseSafeCanvas = true;
 
 	protected abstract void drawSafe(final ISafeCanvas c, final MapView osmv, final boolean shadow);
 
@@ -30,32 +37,46 @@ public abstract class SafeDrawOverlay extends Overlay {
 
 		sSafeCanvas.setCanvas(c);
 
-		c.getMatrix().getValues(sMatrixValues);
+		if (this.isUsingSafeCanvas()) {
+			c.getMatrix().getValues(sMatrixValues);
 
-		// Find the screen offset
-		Rect screenRect = osmv.getProjection().getScreenRect();
-		sSafeCanvas.xOffset = -screenRect.left;
-		sSafeCanvas.yOffset = -screenRect.top;
+			// Find the screen offset
+			Rect screenRect = osmv.getProjection().getScreenRect();
+			sSafeCanvas.xOffset = -screenRect.left;
+			sSafeCanvas.yOffset = -screenRect.top;
 
-		// Save the canvas state
-		c.save();
+			// Save the canvas state
+			c.save();
 
-		// If we're scaling, then we need to adjust
-		int xScalingOffset = (screenRect.width() / 2 - (int) (screenRect.width()
-				* sMatrixValues[Matrix.MSCALE_X] / 2));
-		int yScalingOffset = (screenRect.height() / 2 - (int) (screenRect.height()
-				* sMatrixValues[Matrix.MSCALE_Y] / 2));
+			// If we're scaling, then we need to adjust
+			int xScalingOffset = (screenRect.width() / 2 - (int) (screenRect.width()
+					* sMatrixValues[Matrix.MSCALE_X] / 2));
+			int yScalingOffset = (screenRect.height() / 2 - (int) (screenRect.height()
+					* sMatrixValues[Matrix.MSCALE_Y] / 2));
 
-		// Change the translation values for the matrix
-		sMatrixValues[Matrix.MTRANS_X] = 0 + xScalingOffset;
-		sMatrixValues[Matrix.MTRANS_Y] = (c.getHeight() - osmv.getHeight()) + yScalingOffset;
+			// Change the translation values for the matrix
+			sMatrixValues[Matrix.MTRANS_X] = 0 + xScalingOffset;
+			sMatrixValues[Matrix.MTRANS_Y] = (c.getHeight() - osmv.getHeight()) + yScalingOffset;
 
-		// Install the new matrix
-		sMatrix.setValues(sMatrixValues);
-		c.setMatrix(sMatrix);
-
+			// Install the new matrix
+			sMatrix.setValues(sMatrixValues);
+			c.setMatrix(sMatrix);
+		} else {
+			sSafeCanvas.xOffset = 0;
+			sSafeCanvas.yOffset = 0;
+		}
 		this.drawSafe(sSafeCanvas, osmv, shadow);
 
-		c.restore();
+		if (this.isUsingSafeCanvas()) {
+			c.restore();
+		}
+	}
+
+	public boolean isUsingSafeCanvas() {
+		return mUseSafeCanvas;
+	}
+
+	public void setUseSafeCanvas(boolean useSafeCanvas) {
+		mUseSafeCanvas = useSafeCanvas;
 	}
 }

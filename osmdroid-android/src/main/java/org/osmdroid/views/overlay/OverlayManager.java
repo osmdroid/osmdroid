@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 public class OverlayManager extends AbstractList<Overlay> {
 
 	private TilesOverlay mTilesOverlay;
+	private boolean mUseSafeCanvas = true;
 
 	private final CopyOnWriteArrayList<Overlay> mOverlayList;
 
@@ -40,6 +41,8 @@ public class OverlayManager extends AbstractList<Overlay> {
 	@Override
 	public void add(final int pIndex, final Overlay pElement) {
 		mOverlayList.add(pIndex, pElement);
+		if (pElement instanceof SafeDrawOverlay)
+			((SafeDrawOverlay) pElement).setUseSafeCanvas(this.isUsingSafeCanvas());
 	}
 
 	@Override
@@ -49,7 +52,22 @@ public class OverlayManager extends AbstractList<Overlay> {
 
 	@Override
 	public Overlay set(final int pIndex, final Overlay pElement) {
-		return mOverlayList.set(pIndex, pElement);
+		Overlay overlay = mOverlayList.set(pIndex, pElement);
+		if (pElement instanceof SafeDrawOverlay)
+			((SafeDrawOverlay) pElement).setUseSafeCanvas(this.isUsingSafeCanvas());
+		return overlay;
+	}
+
+	public boolean isUsingSafeCanvas() {
+		return mUseSafeCanvas;
+	}
+
+	public void setUseSafeCanvas(boolean useSafeCanvas) {
+		mUseSafeCanvas = useSafeCanvas;
+		for (Overlay overlay : mOverlayList)
+			if (overlay instanceof SafeDrawOverlay)
+				((SafeDrawOverlay) overlay).setUseSafeCanvas(this.isUsingSafeCanvas());
+		mTilesOverlay.setUseSafeCanvas(this.isUsingSafeCanvas());
 	}
 
 	/**
@@ -71,6 +89,7 @@ public class OverlayManager extends AbstractList<Overlay> {
 	 */
 	public void setTilesOverlay(final TilesOverlay tilesOverlay) {
 		mTilesOverlay = tilesOverlay;
+		mTilesOverlay.setUseSafeCanvas(this.isUsingSafeCanvas());
 	}
 
 	public Iterable<Overlay> overlaysReversed() {
