@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.routing;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -13,9 +14,13 @@ import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.PathOverlay;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 
 /** class to get a route between a start and a destination point, 
@@ -109,6 +114,7 @@ public class MapQuestRoadManager extends RoadManager {
 		Road road = handler.mRoad;
 		if (road != null && road.mRouteHigh.size()>0){
 			road.mNodes = finalizeNodes(road.mNodes, handler.mLinks, road.mRouteHigh);
+			road.mRouteHigh = finalizeRoadShape(road, handler.mLinks);
 			road.buildLegs(waypoints);
 			road.mStatus = Road.STATUS_OK;
 		}
@@ -131,6 +137,7 @@ public class MapQuestRoadManager extends RoadManager {
 				lastNode.mLength += link.mLength;
 				lastNode.mDuration += (node.mDuration + link.mDuration);
 			} else {
+				//TODO: check not the end node (n-2)
 				node.mLength = link.mLength;
 				node.mDuration += link.mDuration;
 				int locationIndex = link.mShapeIndex;
@@ -141,6 +148,22 @@ public class MapQuestRoadManager extends RoadManager {
 		}
 		//switch to the new array of nodes:
 		return newNodes;
+	}
+	
+	/**
+	 * Clean-up 2 useless portions of MapQuest road shape: before start node, and after end node. 
+	 * @return new road shape
+	 */
+	public ArrayList<GeoPoint> finalizeRoadShape(Road road, ArrayList<RoadLink> links){
+		ArrayList<GeoPoint> newShape = new ArrayList<GeoPoint>(road.mRouteHigh.size());
+		RoadNode nodeStart = road.mNodes.get(0);
+		RoadNode nodeEnd = road.mNodes.get(road.mNodes.size()-1);
+		int shapeIndexStart = links.get(nodeStart.mNextRoadLink).mShapeIndex;
+		int shapeIndexEnd = links.get(nodeEnd.mNextRoadLink).mShapeIndex;
+		for (int i=shapeIndexStart; i<=shapeIndexEnd; i++){
+		    newShape.add(road.mRouteHigh.get(i));
+		}
+		return newShape;
 	}
 }
 

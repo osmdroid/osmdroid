@@ -90,7 +90,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		return true;
 	}
 	
-	/** @return the item currenty showing the bubble, or null if none.  */
+	/** @return the item currently showing the bubble, or null if none.  */
 	public OverlayItem getBubbledItem(){
 		if (mBubble.isOpen())
 			return mItemWithBubble;
@@ -107,58 +107,49 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			return mItemList.indexOf(item);
 	}
 	
-	@Override public Item removeItem(final int position){
-		Item result;
-		synchronized(mItemList){
-			result = super.removeItem(position);
-			if (mItemWithBubble == result){
-				hideBubble();
-			}
-		}
-		return result;
-	}
-	
-	@Override public boolean removeItem(final Item item){
-		boolean result;
-		synchronized(mItemList){
-			result = super.removeItem(item);
-			if (mItemWithBubble == item){
-				hideBubble();
-			}
-		}
-		return result;
-	}
-	
-	@Override public void removeAllItems(){
-		synchronized(mItemList){
-			super.removeAllItems();
+	@Override public synchronized Item removeItem(final int position){
+		Item result = super.removeItem(position);
+		if (mItemWithBubble == result){
 			hideBubble();
 		}
+		return result;
+	}
+	
+	@Override public synchronized boolean removeItem(final Item item){
+		boolean result = super.removeItem(item);
+		if (mItemWithBubble == item){
+			hideBubble();
+		}
+		return result;
+	}
+	
+	@Override public synchronized void removeAllItems(){
+		super.removeAllItems();
+		hideBubble();
 	}
 
-	@Override public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	@Override public synchronized void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 		//1. Fixing drawing focused item on top in ItemizedOverlay (osmdroid issue 354):
+		//2. Fixing lack of synchronization on mItemList
 		if (shadow) {
 		        return;
 		}
-		synchronized(mItemList){
-			final Projection pj = mapView.getProjection();
-			final int size = mItemList.size() - 1;
-			final Point mCurScreenCoords = new Point();
-			
-			/* Draw in backward cycle, so the items with the least index are on the front. */
-			for (int i = size; i >= 0; i--) {
-		        final Item item = getItem(i);
-				if (item != mItemWithBubble){
-			        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
-			        onDrawItem(canvas, item, mCurScreenCoords);
-				}
+		final Projection pj = mapView.getProjection();
+		final int size = mItemList.size() - 1;
+		final Point mCurScreenCoords = new Point();
+		
+		/* Draw in backward cycle, so the items with the least index are on the front. */
+		for (int i = size; i >= 0; i--) {
+	        final Item item = getItem(i);
+			if (item != mItemWithBubble){
+		        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+		        onDrawItem(canvas, item, mCurScreenCoords);
 			}
-			//draw focused item last:
-			if (mItemWithBubble != null){
-		        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
-		        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
-			}
+		}
+		//draw focused item last:
+		if (mItemWithBubble != null){
+	        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
+	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
 		}
     }
 	
