@@ -808,6 +808,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void computeScroll() {
 		if (mScroller.computeScrollOffset()) {
 			if (mScroller.isFinished()) {
+				// One last scrollTo to get to the final destination
+				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 				// This will facilitate snapping-to any Snappable points.
 				setZoomLevel(mZoomLevel);
 			} else {
