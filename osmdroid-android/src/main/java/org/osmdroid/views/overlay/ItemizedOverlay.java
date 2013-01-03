@@ -7,6 +7,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -25,7 +26,7 @@ import android.graphics.drawable.Drawable;
  *
  * @param <Item>
  */
-public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements
+public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDrawOverlay implements
 		Overlay.Snappable {
 
 	// ===========================================================
@@ -102,7 +103,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
 			return;
@@ -116,7 +117,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 			final Item item = getItem(i);
 			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
 
-			onDrawItem(canvas, item, mCurScreenCoords);
+			onDrawItem(canvas.getSafeCanvas(), item, mCurScreenCoords);
 		}
 	}
 
