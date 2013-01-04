@@ -30,7 +30,7 @@ import android.graphics.drawable.Drawable;
  */
 public class MapTileProviderArray extends MapTileProviderBase {
 
-	protected final HashMap<MapTileRequestState, MapTile> mWorking;
+	protected final HashMap<MapTile, MapTileRequestState> mWorking;
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderArray.class);
 
@@ -60,7 +60,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			final MapTileModuleProviderBase[] pTileProviderArray) {
 		super(pTileSource);
 
-		mWorking = new HashMap<MapTileRequestState, MapTile>();
+		mWorking = new HashMap<MapTile, MapTileRequestState>();
 
 		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
@@ -90,7 +90,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		} else {
 			boolean alreadyInProgress = false;
 			synchronized (mWorking) {
-				alreadyInProgress = mWorking.containsValue(pTile);
+				alreadyInProgress = mWorking.containsKey(pTile);
 			}
 
 			if (!alreadyInProgress) {
@@ -108,12 +108,12 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 				synchronized (mWorking) {
 					// Check again
-					alreadyInProgress = mWorking.containsValue(pTile);
+					alreadyInProgress = mWorking.containsKey(pTile);
 					if (alreadyInProgress) {
 						return null;
 					}
 
-					mWorking.put(state, pTile);
+					mWorking.put(pTile, state);
 				}
 
 				final MapTileModuleProviderBase provider = findNextAppropriateProvider(state);
@@ -130,7 +130,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	@Override
 	public void mapTileRequestCompleted(final MapTileRequestState aState, final Drawable aDrawable) {
 		synchronized (mWorking) {
-			mWorking.remove(aState);
+			mWorking.remove(aState.getMapTile());
 		}
 		super.mapTileRequestCompleted(aState, aDrawable);
 	}
@@ -142,7 +142,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			nextProvider.loadMapTileAsync(aState);
 		} else {
 			synchronized (mWorking) {
-				mWorking.remove(aState);
+				mWorking.remove(aState.getMapTile());
 			}
 			super.mapTileRequestFailed(aState);
 		}
@@ -155,7 +155,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			nextProvider.loadMapTileAsync(aState);
 		} else {
 			synchronized (mWorking) {
-				mWorking.remove(aState);
+				mWorking.remove(aState.getMapTile());
 			}
 		}
 		super.mapTileRequestExpiredTile(aState, aDrawable);
@@ -224,9 +224,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public void setTileSource(final ITileSource aTileSource) {
 		super.setTileSource(aTileSource);
 
-		for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
-			tileProvider.setTileSource(aTileSource);
-			clearTileCache();
+		synchronized (mTileProviderList) {
+			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
+				tileProvider.setTileSource(aTileSource);
+				clearTileCache();
+			}
 		}
 	}
 }

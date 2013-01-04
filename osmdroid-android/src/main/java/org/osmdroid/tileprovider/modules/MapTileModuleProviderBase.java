@@ -1,10 +1,9 @@
 package org.osmdroid.tileprovider.modules;
 
-import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
@@ -84,14 +83,19 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	private static final Logger logger = LoggerFactory.getLogger(MapTileModuleProviderBase.class);
 
-	private final ConcurrentHashMap<MapTile, MapTileRequestState> mWorking;
-	final LinkedHashMap<MapTile, MapTileRequestState> mPending;
+	protected final Object mQueueLockObject = new Object();
+	protected final HashMap<MapTile, MapTileRequestState> mWorking;
+	protected final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
-	public MapTileModuleProviderBase(final int pThreadPoolSize, final int pPendingQueueSize) {
+	public MapTileModuleProviderBase(int pThreadPoolSize, final int pPendingQueueSize) {
+		if (pPendingQueueSize < pThreadPoolSize) {
+			logger.warn("The pending queue size is smaller than the thread pool size. Automatically reducing the thread pool size.");
+			pThreadPoolSize = pPendingQueueSize;
+		}
 		mExecutor = Executors.newFixedThreadPool(pThreadPoolSize,
 				new ConfigurablePriorityThreadFactory(Thread.NORM_PRIORITY, getThreadGroupName()));
 
-		mWorking = new ConcurrentHashMap<MapTile, MapTileRequestState>();
+		mWorking = new HashMap<MapTile, MapTileRequestState>();
 		mPending = new LinkedHashMap<MapTile, MapTileRequestState>(pPendingQueueSize + 2, 0.1f,
 				true) {
 
@@ -101,8 +105,23 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			protected boolean removeEldestEntry(
 					final Map.Entry<MapTile, MapTileRequestState> pEldest) {
 				if (size() > pPendingQueueSize) {
-					removeTileFromQueues(pEldest.getKey());
-					pEldest.getValue().getCallback().mapTileRequestFailed(pEldest.getValue());
+					MapTile result = null;
+
+					// get the oldest tile that isn't in the mWorking queue
+					Iterator<MapTile> iterator = mPending.keySet().iterator();
+
+					while (result == null && iterator.hasNext()) {
+						final MapTile tile = iterator.next();
+						if (!mWorking.containsKey(tile)) {
+							result = tile;
+						}
+					}
+
+					if (result != null) {
+						MapTileRequestState state = mPending.get(result);
+						removeTileFromQueues(result);
+						state.getCallback().mapTileRequestFailed(state);
+					}
 				}
 				return false;
 			}
@@ -110,7 +129,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	}
 
 	public void loadMapTileAsync(final MapTileRequestState pState) {
-		synchronized (mPending) {
+		synchronized (mQueueLockObject) {
 			// this will put the tile in the queue, or move it to the front of
 			// the queue if it's already present
 			mPending.put(pState.getMapTile(), pState);
@@ -123,10 +142,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	}
 
 	private void clearQueue() {
-		synchronized (mPending) {
+		synchronized (mQueueLockObject) {
 			mPending.clear();
+			mWorking.clear();
 		}
-		mWorking.clear();
 	}
 
 	/**
@@ -138,10 +157,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	}
 
 	void removeTileFromQueues(final MapTile mapTile) {
-		synchronized (mPending) {
+		synchronized (mQueueLockObject) {
 			mPending.remove(mapTile);
+			mWorking.remove(mapTile);
 		}
-		mWorking.remove(mapTile);
 	}
 
 	/**
@@ -164,7 +183,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 		private MapTileRequestState nextTile() {
 
-			synchronized (mPending) {
+			synchronized (mQueueLockObject) {
 				MapTile result = null;
 
 				// get the most recently accessed tile
@@ -174,23 +193,9 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 				// TODO this iterates the whole list, make this faster...
 				while (iterator.hasNext()) {
-					try {
-						final MapTile tile = iterator.next();
-						if (!mWorking.containsKey(tile)) {
-							result = tile;
-						}
-					} catch (final ConcurrentModificationException e) {
-						if (DEBUGMODE) {
-							logger.warn("ConcurrentModificationException break: "
-									+ (result != null));
-						}
-
-						// if we've got a result return it, otherwise try again
-						if (result != null) {
-							break;
-						} else {
-							iterator = mPending.keySet().iterator();
-						}
+					final MapTile tile = iterator.next();
+					if (!mWorking.containsKey(tile)) {
+						result = tile;
 					}
 				}
 
