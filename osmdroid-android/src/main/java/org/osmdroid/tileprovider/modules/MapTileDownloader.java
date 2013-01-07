@@ -69,7 +69,15 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	public MapTileDownloader(final ITileSource pTileSource,
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
-		super(NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+		this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
+				NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+	}
+
+	public MapTileDownloader(final ITileSource pTileSource,
+			final IFilesystemCache pFilesystemCache,
+			final INetworkAvailablityCheck pNetworkAvailablityCheck, int pThreadPoolSize,
+			int pPendingQueueSize) {
+		super(pThreadPoolSize, pPendingQueueSize);
 
 		mFilesystemCache = pFilesystemCache;
 		mNetworkAvailablityCheck = pNetworkAvailablityCheck;

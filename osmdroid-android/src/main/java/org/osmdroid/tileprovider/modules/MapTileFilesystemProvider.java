@@ -51,21 +51,27 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 		this(pRegisterReceiver, aTileSource, DEFAULT_MAXIMUM_CACHED_FILE_AGE);
 	}
 
+	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
+			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
+		this(pRegisterReceiver, pTileSource, pMaximumCachedFileAge,
+				NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+	}
+
 	/**
 	 * Provides a file system based cache tile provider. Other providers can register and store data
 	 * in the cache.
-	 *
+	 * 
 	 * @param pRegisterReceiver
 	 */
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
-			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-		super(pRegisterReceiver, NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+			final ITileSource pTileSource, final long pMaximumCachedFileAge, int pThreadPoolSize,
+			int pPendingQueueSize) {
+		super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
 		mTileSource = pTileSource;
 
 		mMaximumCachedFileAge = pMaximumCachedFileAge;
 	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
