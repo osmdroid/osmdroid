@@ -155,6 +155,11 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         mMyLocationProvider = myLocationProvider;
     }
 
+	public void setPersonHotspot(float x, float y)
+	{
+		mPersonHotspot.set(x, y);
+	}
+
     protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView, final Location lastFix)
     {
         final Projection pj = mapView.getProjection();
