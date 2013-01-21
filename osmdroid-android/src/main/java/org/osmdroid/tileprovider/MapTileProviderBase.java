@@ -6,6 +6,7 @@ import java.util.HashMap;
 import microsoft.mappoint.TileSystem;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.TileLooper;
 import org.slf4j.Logger;
@@ -81,13 +82,20 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		return mTileSource;
 	}
 
+	/**
+	 * Creates a {@link MapTileCache} to be used to cache tiles in memory.
+	 */
+	public MapTileCache createTileCache() {
+		return new MapTileCache();
+	}
+
 	public MapTileProviderBase(final ITileSource pTileSource) {
 		this(pTileSource, null);
 	}
 
 	public MapTileProviderBase(final ITileSource pTileSource,
 			final Handler pDownloadFinishedListener) {
-		mTileCache = new MapTileCache();
+		mTileCache = this.createTileCache();
 		mTileRequestCompleteHandler = pDownloadFinishedListener;
 		mTileSource = pTileSource;
 	}
@@ -103,10 +111,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 */
 	@Override
 	public void mapTileRequestCompleted(final MapTileRequestState pState, final Drawable pDrawable) {
-		final MapTile tile = pState.getMapTile();
-		if (pDrawable != null) {
-			mTileCache.putTile(tile, pDrawable);
-		}
+		// put the tile in the cache
+		putTileIntoCache(pState, pDrawable);
 
 		// tell our caller we've finished and it should update its view
 		if (mTileRequestCompleteHandler != null) {
@@ -114,7 +120,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		if (DEBUGMODE) {
-			logger.debug("MapTile request complete: " + tile);
+			logger.debug("MapTile request complete: " + pState.getMapTile());
 		}
 	}
 
@@ -127,13 +133,12 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 */
 	@Override
 	public void mapTileRequestFailed(final MapTileRequestState pState) {
-		final MapTile tile = pState.getMapTile();
 		if (mTileRequestCompleteHandler != null) {
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_FAIL_ID);
 		}
 
 		if (DEBUGMODE) {
-			logger.debug("MapTile request failed: " + tile);
+			logger.debug("MapTile request failed: " + pState.getMapTile());
 		}
 	}
 
@@ -149,10 +154,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 */
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState pState, Drawable pDrawable) {
-		final MapTile tile = pState.getMapTile();
-		if (pDrawable != null && !mTileCache.containsTile(tile)) {
-			mTileCache.putTile(tile, pDrawable);
-		}
+		// Put the expired tile into the cache
+		putExpiredTileIntoCache(pState, pDrawable);
 
 		// tell our caller we've finished and it should update its view
 		if (mTileRequestCompleteHandler != null) {
@@ -160,7 +163,21 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		if (DEBUGMODE) {
-			logger.debug("MapTile request complete: " + tile);
+			logger.debug("MapTile request complete: " + pState.getMapTile());
+		}
+	}
+
+	protected void putTileIntoCache(MapTileRequestState pState, Drawable pDrawable) {
+		final MapTile tile = pState.getMapTile();
+		if (pDrawable != null) {
+			mTileCache.putTile(tile, pDrawable);
+		}
+	}
+
+	protected void putExpiredTileIntoCache(MapTileRequestState pState, Drawable pDrawable) {
+		final MapTile tile = pState.getMapTile();
+		if (pDrawable != null && !mTileCache.containsTile(tile)) {
+			mTileCache.putTile(tile, pDrawable);
 		}
 	}
 
@@ -280,7 +297,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
 				Drawable existingTile = mTileCache.getMapTile(tile);
 				if (existingTile == null || ExpirableBitmapDrawable.isDrawableExpired(existingTile))
-					mTileCache.putTile(tile, drawable);
+					putExpiredTileIntoCache(new MapTileRequestState(tile,
+							new MapTileModuleProviderBase[0], null), drawable);
 			}
 		}
 

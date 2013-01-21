@@ -13,11 +13,16 @@ import android.graphics.drawable.Drawable;
 public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 	implements OpenStreetMapTileProviderConstants {
 
+	public interface TileRemovedListener {
+		void onTileRemoved(MapTile mapTile);
+	}
+
 	private static final Logger logger = LoggerFactory.getLogger(LRUMapTileCache.class);
 
 	private static final long serialVersionUID = -541142277575493335L;
 
 	private int mCapacity;
+	private TileRemovedListener mTileRemovedListener;
 
 	public LRUMapTileCache(final int aCapacity) {
 		super(aCapacity + 2, 0.1f, true);
@@ -62,8 +67,18 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 				logger.debug("Remove old tile: " + eldest);
 			}
 			remove(eldest);
+			if (getTileRemovedListener() != null)
+				getTileRemovedListener().onTileRemoved(eldest);
 			// don't return true because we've already removed it
 		}
 		return false;
+	}
+
+	public TileRemovedListener getTileRemovedListener() {
+		return mTileRemovedListener;
+	}
+
+	public void setTileRemovedListener(TileRemovedListener tileRemovedListener) {
+		mTileRemovedListener = tileRemovedListener;
 	}
 }

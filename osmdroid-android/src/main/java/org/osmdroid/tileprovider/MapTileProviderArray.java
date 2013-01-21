@@ -150,6 +150,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public void mapTileRequestExpiredTile(MapTileRequestState aState, Drawable aDrawable) {
+		// Call through to the super first so aState.getCurrentProvider() still contains the proper
+		// provider.
+		super.mapTileRequestExpiredTile(aState, aDrawable);
+
+		// Continue through the provider chain
 		final MapTileModuleProviderBase nextProvider = findNextAppropriateProvider(aState);
 		if (nextProvider != null) {
 			nextProvider.loadMapTileAsync(aState);
@@ -158,7 +163,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				mWorking.remove(aState.getMapTile());
 			}
 		}
-		super.mapTileRequestExpiredTile(aState, aDrawable);
 	}
 
 	/**

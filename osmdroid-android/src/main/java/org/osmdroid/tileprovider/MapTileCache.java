@@ -10,7 +10,7 @@ import android.graphics.drawable.Drawable;
  * @author Nicolas Gramlich
  * 
  */
-public final class MapTileCache implements OpenStreetMapTileProviderConstants {
+public class MapTileCache implements OpenStreetMapTileProviderConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
