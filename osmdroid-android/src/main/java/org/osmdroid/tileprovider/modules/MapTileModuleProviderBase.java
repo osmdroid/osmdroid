@@ -181,6 +181,14 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		protected abstract Drawable loadTile(MapTileRequestState pState)
 				throws CantContinueException;
 
+		protected void onTileLoaderInit() {
+			// Do nothing by default
+		}
+
+		protected void onTileLoaderShutdown() {
+			// Do nothing by default
+		}
+
 		private MapTileRequestState nextTile() {
 
 			synchronized (mQueueLockObject) {
@@ -235,6 +243,8 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		@Override
 		final public void run() {
 
+			onTileLoaderInit();
+
 			MapTileRequestState state;
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
@@ -263,6 +273,8 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 					logger.debug("No more tiles");
 				}
 			}
+
+			onTileLoaderShutdown();
 		}
 	}
 
