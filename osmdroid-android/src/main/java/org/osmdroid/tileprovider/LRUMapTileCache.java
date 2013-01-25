@@ -45,6 +45,8 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 				bitmap.recycle();
 			}
 		}
+		if (getTileRemovedListener() != null && aKey instanceof MapTile)
+			getTileRemovedListener().onTileRemoved((MapTile) aKey);
 		return drawable;
 	}
 
@@ -67,8 +69,6 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 				logger.debug("Remove old tile: " + eldest);
 			}
 			remove(eldest);
-			if (getTileRemovedListener() != null)
-				getTileRemovedListener().onTileRemoved(eldest);
 			// don't return true because we've already removed it
 		}
 		return false;
