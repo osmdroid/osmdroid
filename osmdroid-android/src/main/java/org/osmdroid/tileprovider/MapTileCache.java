@@ -19,6 +19,7 @@ public class MapTileCache implements OpenStreetMapTileProviderConstants {
 	// Fields
 	// ===========================================================
 
+	protected final Object mCachedTilesLockObject = new Object();
 	protected LRUMapTileCache mCachedTiles;
 
 	// ===========================================================
@@ -42,20 +43,20 @@ public class MapTileCache implements OpenStreetMapTileProviderConstants {
 	// ===========================================================
 
 	public void ensureCapacity(final int aCapacity) {
-		synchronized (mCachedTiles) {
+		synchronized (mCachedTilesLockObject) {
 			mCachedTiles.ensureCapacity(aCapacity);
 		}
 	}
 
 	public Drawable getMapTile(final MapTile aTile) {
-		synchronized (mCachedTiles) {
+		synchronized (mCachedTilesLockObject) {
 			return this.mCachedTiles.get(aTile);
 		}
 	}
 
 	public void putTile(final MapTile aTile, final Drawable aDrawable) {
 		if (aDrawable != null) {
-			synchronized (mCachedTiles) {
+			synchronized (mCachedTilesLockObject) {
 				this.mCachedTiles.put(aTile, aDrawable);
 			}
 		}
@@ -70,13 +71,13 @@ public class MapTileCache implements OpenStreetMapTileProviderConstants {
 	// ===========================================================
 
 	public boolean containsTile(final MapTile aTile) {
-		synchronized (mCachedTiles) {
+		synchronized (mCachedTilesLockObject) {
 			return this.mCachedTiles.containsKey(aTile);
 		}
 	}
 
 	public void clear() {
-		synchronized (mCachedTiles) {
+		synchronized (mCachedTilesLockObject) {
 			this.mCachedTiles.clear();
 		}
 	}
