@@ -11,8 +11,9 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.*;
+import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay.Snappable;
+import org.osmdroid.views.overlay.SafeDrawOverlay;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
 import org.osmdroid.views.safecanvas.SafePaint;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -20,8 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Paint.Style;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Rect;
 import android.location.Location;
 import android.util.FloatMath;
 import android.view.Menu;
@@ -418,12 +423,14 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         }
 
         mLocation = location;
-        TileSystem.LatLongToPixelXY(location.getLatitude(), location.getLongitude(),
-                MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-        final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
-        mMapCoords.offset(-worldSize_2, -worldSize_2);
+		mMapCoords.set(0, 0);
 
         if (mLocation != null) {
+			TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
+					MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
+			final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+			mMapCoords.offset(-worldSize_2, -worldSize_2);
+
             if (mIsFollowing) {
                 mMapController.animateTo(mLocation.getLatitude(), mLocation.getLongitude());
             } else {
