@@ -3,6 +3,7 @@ package com.osmbonuspackdemo;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.osmdroid.api.IGeoPoint;
@@ -36,6 +37,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Location;
@@ -43,6 +45,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,6 +77,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected ExtendedOverlayItem markerStart, markerDestination;
 	SimpleLocationOverlay myLocationOverlay;
 
+	protected PathOverlay polygonOverlay; //destination name - experimental
+	
 	protected Road mRoad;
 	protected PathOverlay roadOverlay;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodeMarkers;
@@ -247,11 +252,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			double dLongitude = p.getLongitudeE6() * 1E-6;
 			List<Address> addresses = geocoder.getFromLocation(dLatitude, dLongitude, 1);
 			StringBuilder sb = new StringBuilder(); 
-			if (addresses.size() > 0) { 
-				Address address = addresses.get(0); 
+			if (addresses.size() > 0) {
+				Address address = addresses.get(0);
 				int n = address.getMaxAddressLineIndex();
 				for (int i=0; i<=n; i++) {
-					if (i!=0) 
+					if (i!=0)
 						sb.append(", ");
 					sb.append(address.getAddressLine(i));
 				}
@@ -280,6 +285,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		String destinationAddress = destinationEdit.getText().toString();
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
+		geocoder.setOptions(true); //ask for enclosing polygon (if any)
 		try {
 			List<Address> foundAdresses = geocoder.getFromLocationName(destinationAddress, 1);
 			if (foundAdresses.size() == 0) { //if no address found, display an error
@@ -291,10 +297,42 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			    		R.string.destination, R.drawable.marker_destination, -1);
 				getRoadAsync();
 				map.getController().setCenter(destinationPoint);
+				//get and display enclosing polygon:
+				Bundle extras = address.getExtras();
+				if (extras != null && extras.containsKey("polygonpoints")){
+					ArrayList<GeoPoint> polygon = extras.getParcelableArrayList("polygonpoints");
+					//Log.d("DEBUG", "polygon:"+polygon.size());
+					updateUIWithPolygon(polygon);
+				} else {
+					updateUIWithPolygon(null);
+				}
 			}
 		} catch (Exception e) {
 			Toast.makeText(this, "Geocoding error", Toast.LENGTH_SHORT).show();
 		}
+	}
+	
+	//add or replace the polygon overlay
+	public void updateUIWithPolygon(ArrayList<GeoPoint> polygon){
+		List<Overlay> mapOverlays = map.getOverlays();
+		int location = -1;
+		if (polygonOverlay != null)
+			location = mapOverlays.indexOf(polygonOverlay);
+		Paint paint = new Paint();
+		paint.setColor(0x80FF0080);
+		paint.setStyle(Paint.Style.STROKE);
+		paint.setStrokeWidth(5);
+		polygonOverlay = new PathOverlay(0, this);
+		polygonOverlay.setPaint(paint);
+		if (polygon != null){
+			for (GeoPoint p:polygon)
+				polygonOverlay.addPoint(p);
+		}
+		if (location != -1)
+			mapOverlays.set(location, polygonOverlay);
+		else
+			mapOverlays.add(polygonOverlay);
+		map.invalidate();
 	}
 	
 	//Async task to reverse-geocode the marker position in a separate thread:
