@@ -9,9 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
 import android.location.Address;
+import android.os.Bundle;
 import android.util.Log;
 
 /**
@@ -26,9 +29,11 @@ public class GeocoderNominatim {
 	
 	protected Locale mLocale;
 	protected String mServiceUrl;
+	protected boolean mPolygon;
 	
 	protected void init(Context context, Locale locale){
 		mLocale = locale;
+		setOptions(false);
 		setService(NOMINATIM_SERVICE_URL); //default service
 	}
 	
@@ -51,6 +56,13 @@ public class GeocoderNominatim {
 	 */
 	public void setService(String serviceUrl){
 		mServiceUrl = serviceUrl;
+	}
+	
+	/**
+	 * @param polygon true to get the polygon enclosing the location. 
+	 */
+	public void setOptions(boolean polygon){
+		mPolygon = polygon;
 	}
 	
 	/** 
@@ -113,6 +125,29 @@ public class GeocoderNominatim {
 		 * state_district
 		*/
 		
+		//Add non-standard (but very useful) information in Extras bundle:
+		Bundle extras = new Bundle();
+		if (jResult.has("polygonpoints")){
+			JSONArray jPolygonPoints = jResult.getJSONArray("polygonpoints");
+			ArrayList<GeoPoint> polygonPoints = new ArrayList<GeoPoint>(jPolygonPoints.length());
+			for (int i=0; i<jPolygonPoints.length(); i++){
+				JSONArray jCoords = jPolygonPoints.getJSONArray(i);
+				double lon = jCoords.getDouble(0);
+				double lat = jCoords.getDouble(1);
+				GeoPoint p = new GeoPoint(lat, lon);
+				polygonPoints.add(p);
+			}
+			extras.putParcelableArrayList("polygonpoints", polygonPoints);
+		}
+		if (jResult.has("boundingbox")){
+			JSONArray jBoundingBox = jResult.getJSONArray("boundingbox");
+			BoundingBoxE6 bb = new BoundingBoxE6(
+					jBoundingBox.getDouble(1), jBoundingBox.getDouble(2), 
+					jBoundingBox.getDouble(0), jBoundingBox.getDouble(3));
+			extras.putParcelable("boundingbox", bb);
+		}
+		gAddress.setExtras(extras);
+		
 		return gAddress;
 	}
 	
@@ -127,7 +162,6 @@ public class GeocoderNominatim {
 			+ "&lon=" + longitude;
 		Log.d(BonusPackHelper.LOG_TAG, "GeocoderNominatim::getFromLocation:"+url);
 		String result = BonusPackHelper.requestStringFromUrl(url);
-		//Log.d("NOMINATIM", result);
 		if (result == null)
 			throw new IOException();
 		try {
@@ -159,6 +193,9 @@ public class GeocoderNominatim {
 				+ "," + upperRightLongitude
 				+ "," + lowerLeftLatitude
 				+ "&bounded=1";
+		}
+		if (mPolygon){
+			url += "&polygon=1"; //get polygon outlines for items found
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "GeocoderNominatim::getFromLocationName:"+url);
 		String result = BonusPackHelper.requestStringFromUrl(url);
