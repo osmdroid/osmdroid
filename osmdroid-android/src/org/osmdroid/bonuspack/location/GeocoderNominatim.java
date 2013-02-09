@@ -21,6 +21,7 @@ import android.util.Log;
  * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. <br>
  * See http://wiki.openstreetmap.org/wiki/Nominatim
  * or http://open.mapquestapi.com/nominatim/
+ * 
  * @author M.Kergall
  */
 public class GeocoderNominatim {
@@ -146,11 +147,22 @@ public class GeocoderNominatim {
 					jBoundingBox.getDouble(0), jBoundingBox.getDouble(3));
 			extras.putParcelable("boundingbox", bb);
 		}
+		if (jResult.has("osm_id")){
+			long osm_id = jResult.getLong("osm_id");
+			extras.putLong("osm_id", osm_id);
+		}
+		if (jResult.has("osm_type")){
+			String osm_type = jResult.getString("osm_type");
+			extras.putString("osm_type", osm_type);
+		}
 		gAddress.setExtras(extras);
 		
 		return gAddress;
 	}
 	
+	/**
+	 * Equivalent to Geocoder::getFromLocation(double latitude, double longitude, int maxResults). 
+	 */
 	public List<Address> getFromLocation(double latitude, double longitude, int maxResults) 
 	throws IOException {
 		String url = mServiceUrl
@@ -174,7 +186,11 @@ public class GeocoderNominatim {
 			throw new IOException();
 		}
 	}
-	
+
+	/**
+	 * Equivalent to Geocoder::getFromLocation(String locationName, int maxResults, double lowerLeftLatitude, double lowerLeftLongitude, double upperRightLatitude, double upperRightLongitude)
+	 * @see getFromLocationName(String locationName, int maxResults), about extra data added in Address results. 
+	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults, 
 			double lowerLeftLatitude, double lowerLeftLongitude, 
 			double upperRightLatitude, double upperRightLongitude)
@@ -216,6 +232,16 @@ public class GeocoderNominatim {
 		}
 	}
 
+	/**
+	 * Equivalent to Geocoder::getFromLocation(String locationName, int maxResults). <br>
+	 * 
+	 * Some useful information, returned by Nominatim, that doesn't fit naturally within Android Address, are added in the bundle Address.getExtras():<br>
+	 * "boundingbox": the enclosing bounding box, as a BoundingBoxE6<br>
+	 * "osm_id": the OSM id, as a long<br>
+	 * "osm_type": one of the 3 OSM types, as a string (node, way, or relation). <br>
+	 * "polygonpoints": the enclosing polygon of the location (depending on setOptions usage), as an ArrayList of GeoPoint<br>
+	 * (others could be added if needed)
+	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults)
 	throws IOException {
 		return getFromLocationName(locationName, maxResults, 0.0, 0.0, 0.0, 0.0);
