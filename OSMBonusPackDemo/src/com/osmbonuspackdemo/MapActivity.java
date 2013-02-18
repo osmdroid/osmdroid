@@ -17,6 +17,7 @@ import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
+import org.osmdroid.bonuspack.routing.GoogleRoadManager;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
@@ -45,7 +46,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,6 +88,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	ItemizedOverlayWithBubble<ExtendedOverlayItem> poiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
+	
+	enum RouteProviderType {OSRM, MAPQUEST_FASTEST, MAPQUEST_BICYCLE, MAPQUEST_PEDESTRIAN, GOOGLE_FASTEST};
+	RouteProviderType whichRouteProvider = RouteProviderType.OSRM;
 	
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -461,13 +464,33 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		protected Road doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
-			//RoadManager roadManager = new GoogleRoadManager();
-			RoadManager roadManager = new OSRMRoadManager();
-			/*
-			RoadManager roadManager = new MapQuestRoadManager();
+			RoadManager roadManager = null;
 			Locale locale = Locale.getDefault();
-			roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
-			*/
+			switch (whichRouteProvider){
+			case OSRM:
+				roadManager = new OSRMRoadManager();
+				break;
+			case MAPQUEST_FASTEST:
+				roadManager = new MapQuestRoadManager();
+				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
+				break;
+			case MAPQUEST_BICYCLE:
+				roadManager = new MapQuestRoadManager();
+				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
+				roadManager.addRequestOption("routeType=bicycle");
+				break;
+			case MAPQUEST_PEDESTRIAN:
+				roadManager = new MapQuestRoadManager();
+				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
+				roadManager.addRequestOption("routeType=pedestrian");
+				break;
+			case GOOGLE_FASTEST:
+				roadManager = new GoogleRoadManager();
+				//roadManager.addRequestOption("mode=driving"); //default
+				break;
+			default:
+				return null;
+			}
 			return roadManager.getRoad(waypoints);
 		}
 
@@ -696,6 +719,43 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putParcelableArrayListExtra("POI", mPOIs);
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
+			return true;
+		case R.id.menu_route_osrm:
+			whichRouteProvider = RouteProviderType.OSRM;
+			item.setChecked(true);
+			getRoadAsync();
+			return true;
+		case R.id.menu_route_mapquest_fastest:
+			whichRouteProvider = RouteProviderType.MAPQUEST_FASTEST;
+			item.setChecked(true);
+			getRoadAsync();
+			return true;
+		case R.id.menu_route_mapquest_bicycle:
+			whichRouteProvider = RouteProviderType.MAPQUEST_BICYCLE;
+			item.setChecked(true);
+			getRoadAsync();
+			return true;
+		case R.id.menu_route_mapquest_pedestrian:
+			whichRouteProvider = RouteProviderType.MAPQUEST_PEDESTRIAN;
+			item.setChecked(true);
+			getRoadAsync();
+			return true;
+		case R.id.menu_route_google:
+			whichRouteProvider = RouteProviderType.GOOGLE_FASTEST;
+			item.setChecked(true);
+			getRoadAsync();
+			return true;
+		case R.id.menu_tile_mapnik:
+			map.setTileSource(TileSourceFactory.MAPNIK);
+			item.setChecked(true);
+			return true;
+		case R.id.menu_tile_mapquest_osm:
+			map.setTileSource(TileSourceFactory.MAPQUESTOSM);
+			item.setChecked(true);
+			return true;
+		case R.id.menu_tile_mapquest_aerial:
+			map.setTileSource(TileSourceFactory.MAPQUESTAERIAL);
+			item.setChecked(true);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

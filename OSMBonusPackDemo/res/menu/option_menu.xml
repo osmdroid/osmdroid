@@ -8,4 +8,46 @@
         android:id="@+id/menu_pois"
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="POIs list"/>
+    <item
+        android:id="@+id/menu_tile"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Tile Provider">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/menu_tile_mapnik"
+                    android:title="Mapnik"/>
+                <item
+                    android:id="@+id/menu_tile_mapquest_osm"
+                    android:title="MapQuest OSM"/>
+                <item
+                    android:id="@+id/menu_tile_mapquest_aerial"
+                    android:title="MapQuest Aerial"/>
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_route"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Route Provider">
+        <menu>
+            <group android:checkableBehavior="single" >
+                <item
+                    android:id="@+id/menu_route_osrm"
+                    android:title="OSRM-Fastest"/>
+                <item
+                    android:id="@+id/menu_route_mapquest_fastest"
+                    android:title="MapQuest-Fastest"/>
+                <item
+                    android:id="@+id/menu_route_mapquest_bicycle"
+                    android:title="MapQuest-Bicycle"/>
+                <item
+                    android:id="@+id/menu_route_mapquest_pedestrian"
+                    android:title="MapQuest-Pedestrian"/>
+                <item
+                    android:id="@+id/menu_route_google"
+                    android:title="Google-Fastest"/>
+            </group>
+        </menu>
+    </item>
 </menu>
