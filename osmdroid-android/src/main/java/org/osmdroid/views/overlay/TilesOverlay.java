@@ -24,6 +24,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -38,6 +39,7 @@ import android.view.SubMenu;
 public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
+	private static final int GINGERBREAD = 9;
 
 	public static final int MENU_MAP_MODE = getSafeMenuId();
 	public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
@@ -329,8 +331,11 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 	private void clearLoadingTile() {
 		final BitmapDrawable bitmapDrawable = mLoadingTile;
 		mLoadingTile = null;
-		if (bitmapDrawable != null) {
-			bitmapDrawable.getBitmap().recycle();
+		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+		if (Build.VERSION.SDK_INT < GINGERBREAD) {
+			if (bitmapDrawable != null) {
+				bitmapDrawable.getBitmap().recycle();
+			}
 		}
 	}
 
