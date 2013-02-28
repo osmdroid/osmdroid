@@ -21,9 +21,13 @@ import android.graphics.Matrix;
 public class SafeBitmapShader extends BitmapShader {
 
 	private final Matrix mMatrix = new Matrix();
+	private final int mBitmapWidth;
+	private final int mBitmapHeight;
 	
 	public SafeBitmapShader(Bitmap bitmap, TileMode tileX, TileMode tileY) {
 		super(bitmap, tileX, tileY);
+		mBitmapWidth = bitmap.getWidth();
+		mBitmapHeight = bitmap.getHeight();
 	}
 
 	/**
@@ -32,10 +36,7 @@ public class SafeBitmapShader extends BitmapShader {
 	 * passed to it.
 	 */
 	public void onDrawCycleStart(ISafeCanvas canvas) {
-		int width = canvas.getWidth();
-		int height = canvas.getHeight();
-
-		mMatrix.setTranslate(canvas.getXOffset() % width, canvas.getYOffset() % height);
+		mMatrix.setTranslate(canvas.getXOffset() % mBitmapWidth, canvas.getYOffset() % mBitmapHeight);
 		this.setLocalMatrix(mMatrix);
 	}
 }
