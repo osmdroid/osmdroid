@@ -49,6 +49,7 @@ import org.osmdroid.views.safecanvas.ISafeCanvas;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Picture;
@@ -96,6 +97,7 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 	private Projection projection;
 
 	final private Rect mBounds = new Rect();
+	final private Matrix mIdentityMatrix = new Matrix();
 
 	private boolean centred = false;
 	private boolean adjustLength = false;
@@ -359,16 +361,18 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 				createScaleBarPicture(mapView);
 			}
 
-			mBounds.set(projection.getScreenRect());
+			mBounds.set(0, 0, scaleBarPicture.getWidth(), scaleBarPicture.getHeight());
 			mBounds.offset((int) xOffset, (int) yOffset);
 			if (centred && latitudeBar)
 				mBounds.offset(-scaleBarPicture.getWidth() / 2, 0);
 			if (centred && longitudeBar)
 				mBounds.offset(0, -scaleBarPicture.getHeight() / 2);
 
-			mBounds.set(mBounds.left, mBounds.top, mBounds.left + scaleBarPicture.getWidth(),
-					mBounds.top + scaleBarPicture.getHeight());
-			c.drawPicture(scaleBarPicture, mBounds);
+			mBounds.set(mBounds);
+			c.save();
+			c.setMatrix(mIdentityMatrix);
+			c.getWrappedCanvas().drawPicture(scaleBarPicture, mBounds);
+			c.restore();
 		}
 	}
 
