@@ -36,6 +36,13 @@ import android.graphics.Region;
 public interface ISafeCanvas {
 
 	/**
+	 * Allows access to the original unsafe canvas.
+	 */
+	public interface UnsafeCanvasHandler {
+		void onUnsafeCanvas(Canvas canvas);
+	}
+
+	/**
 	 * Gets the x-offset that will be used to adjust all drawing values.
 	 */
 	public int getXOffset();
@@ -44,6 +51,11 @@ public interface ISafeCanvas {
 	 * Gets the y-offset that will be used to adjust all drawing values.
 	 */
 	public int getYOffset();
+
+	/**
+	 * Allows access to the original unsafe canvas through an {@link UnsafeCanvasHandler}.
+	 */
+	public void getUnsafeCanvas(UnsafeCanvasHandler handler);
 
 	/**
 	 * Gets the wrapped canvas. This canvas will have a coordinate system where the origin is at the

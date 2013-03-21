@@ -60,6 +60,13 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 		canvas.getMatrix(mMatrix);
 	}
 
+	public void getUnsafeCanvas(UnsafeCanvasHandler handler) {
+		this.save();
+		this.setMatrix(this.getOriginalMatrix());
+		handler.onUnsafeCanvas(mCanvas);
+		this.restore();
+	}
+
 	public Canvas getWrappedCanvas() {
 		return mCanvas;
 	}
