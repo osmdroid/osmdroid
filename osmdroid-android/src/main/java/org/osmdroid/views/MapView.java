@@ -1,6 +1,8 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,6 +31,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.GeometryMath;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
@@ -43,6 +46,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -66,6 +70,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private static final double ZOOM_SENSITIVITY = 1.3;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
+	private static final int HONEYCOMB = 11;
+	private static Method sMotionEventTransformMethod;
 
 	// ===========================================================
 	// Fields
@@ -103,6 +109,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private float mMultiTouchScale = 1.0f;
 
 	protected MapListener mListener;
+
+	// For rotation
+	private float mapOrientation = 0;
+	private final Matrix mRotateMatrix = new Matrix();
+	private final float[] mRotatePoints = new float[2];
+	private final Rect mInvalidateRect = new Rect();
 
 	// for speed (avoiding allocations)
 	private final Matrix mMatrix = new Matrix();
@@ -250,6 +262,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Gets the current bounds of the screen in <I>screen coordinates</I>.
 	 */
 	public Rect getScreenRect(final Rect reuse) {
+		final Rect out = getIntrinsicScreenRect(reuse);
+		if (this.getMapOrientation() != 0 && this.getMapOrientation() != 180) {
+			// Since the canvas is shifted by getWidth/2, we can just return our natural scrollX/Y
+			// value since that is the same as the shifted center.
+			int centerX = this.getScrollX();
+			int centerY = this.getScrollY();
+			GeometryMath.getBoundingBoxForRotatatedRectangle(out, centerX, centerY,
+					this.getMapOrientation(), out);
+		}
+		return out;
+	}
+
+	public Rect getIntrinsicScreenRect(final Rect reuse) {
 		final Rect out = reuse == null ? new Rect() : reuse;
 		out.set(getScrollX() - getWidth() / 2, getScrollY() - getHeight() / 2, getScrollX()
 				+ getWidth() / 2, getScrollY() + getHeight() / 2);
@@ -539,6 +564,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mResourceProxy;
 	}
 
+	public void setMapOrientation(float degrees) {
+		this.mapOrientation = degrees % 360.0f;
+		mRotateMatrix.reset();
+		mRotateMatrix.preTranslate(-this.getWidth() / 2, -this.getHeight() / 2);
+		mRotateMatrix.postRotate(-getMapOrientation());
+		mRotateMatrix.postTranslate(this.getWidth() / 2, this.getHeight() / 2);
+		this.invalidate();
+	}
+
+	public float getMapOrientation() {
+		return mapOrientation;
+	}
+
 	/**
 	 * Whether to use the network connection if it's available.
 	 */
@@ -560,6 +598,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
+
+	public void invalidateMapCoordinates(Rect dirty) {
+		mInvalidateRect.set(dirty);
+		final int width_2 = this.getWidth() / 2;
+		final int height_2 = this.getHeight() / 2;
+
+		// Since the canvas is shifted by getWidth/2, we can just return our natural scrollX/Y value
+		// since that is the same as the shifted center.
+		int centerX = this.getScrollX();
+		int centerY = this.getScrollY();
+
+		if (this.getMapOrientation() != 0)
+			GeometryMath.getBoundingBoxForRotatatedRectangle(mInvalidateRect, centerX, centerY,
+					this.getMapOrientation() + 180, mInvalidateRect);
+		mInvalidateRect.offset(width_2, height_2);
+
+		super.invalidate(mInvalidateRect);
+	}
 
 	/**
 	 * Returns a set of layout parameters with a width of
@@ -773,7 +829,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		if (this.getOverlayManager().onTouchEvent(event, this)) {
+		// Get rotated event for some touch listeners.
+		MotionEvent rotatedEvent = rotateTouchEvent(event);
+
+		if (this.getOverlayManager().onTouchEvent(rotatedEvent, this)) {
 			return true;
 		}
 
@@ -791,7 +850,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			return true;
 		}
 
-		if (mGestureDetector.onTouchEvent(event)) {
+		if (mGestureDetector.onTouchEvent(rotatedEvent)) {
 			if (DEBUGMODE) {
 				logger.debug("mGestureDetector handled onTouchEvent");
 			}
@@ -802,6 +861,39 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			logger.debug("no-one handled onTouchEvent");
 		}
 		return false;
+	}
+
+	private MotionEvent rotateTouchEvent(MotionEvent ev) {
+		if (this.getMapOrientation() == 0)
+			return ev;
+
+		MotionEvent rotatedEvent = MotionEvent.obtain(ev);
+		if (Build.VERSION.SDK_INT < HONEYCOMB) {
+			mRotatePoints[0] = ev.getX();
+			mRotatePoints[1] = ev.getY();
+			mRotateMatrix.mapPoints(mRotatePoints);
+			rotatedEvent.setLocation(mRotatePoints[0], mRotatePoints[1]);
+		} else {
+			// This method is preferred since it will rotate historical touch events too
+			try {
+				if (sMotionEventTransformMethod == null) {
+					sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform",
+							new Class[] { Matrix.class });
+				}
+				sMotionEventTransformMethod.invoke(rotatedEvent, mRotateMatrix);
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		return rotatedEvent;
 	}
 
 	@Override
@@ -861,10 +953,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		if (mMultiTouchScale == 1.0f) {
 			c.translate(getWidth() / 2, getHeight() / 2);
+
+			/* rotate Canvas */
+			c.rotate(mapOrientation, mProjection.getScreenRect().right,
+					mProjection.getScreenRect().bottom);
 		} else {
 			c.getMatrix(mMatrix);
 			mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);
 			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
+
+			/* rotate Canvas */
+			mMatrix.preRotate(mapOrientation, mProjection.getScreenRect().right,
+					mProjection.getScreenRect().bottom);
+
 			c.setMatrix(mMatrix);
 		}
 
@@ -1076,6 +1177,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		private final BoundingBoxE6 mBoundingBoxProjection;
 		private final int mZoomLevelProjection;
 		private final Rect mScreenRectProjection;
+		private final Rect mIntrinsicScreenRectProjection;
 
 		private Projection() {
 
@@ -1085,6 +1187,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mZoomLevelProjection = MapView.this.mZoomLevel;
 			mBoundingBoxProjection = MapView.this.getBoundingBox();
 			mScreenRectProjection = MapView.this.getScreenRect(null);
+			mIntrinsicScreenRectProjection = MapView.this.getIntrinsicScreenRect(null);
 		}
 
 		public int getZoomLevel() {
@@ -1097,6 +1200,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		public Rect getScreenRect() {
 			return mScreenRectProjection;
+		}
+
+		public Rect getIntrinsicScreenRect() {
+			return mIntrinsicScreenRectProjection;
 		}
 
 		/**
@@ -1137,7 +1244,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		 * @return GeoPoint under x/y.
 		 */
 		public IGeoPoint fromPixels(final float x, final float y) {
-			final Rect screenRect = getScreenRect();
+			final Rect screenRect = getIntrinsicScreenRect();
 			return TileSystem.PixelXYToLatLong(screenRect.left + (int) x + worldSize_2,
 					screenRect.top + (int) y + worldSize_2, mZoomLevelProjection, null);
 		}

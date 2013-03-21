@@ -38,7 +38,6 @@ public abstract class SafeDrawOverlay extends Overlay {
 		sSafeCanvas.setCanvas(c);
 
 		if (this.isUsingSafeCanvas()) {
-			c.getMatrix().getValues(sMatrixValues);
 
 			// Find the screen offset
 			Rect screenRect = osmv.getProjection().getScreenRect();
@@ -48,18 +47,26 @@ public abstract class SafeDrawOverlay extends Overlay {
 			// Save the canvas state
 			c.save();
 
-			// If we're scaling, then we need to adjust
-			int xScalingOffset = (screenRect.width() / 2 - (int) (screenRect.width()
-					* sMatrixValues[Matrix.MSCALE_X] / 2));
-			int yScalingOffset = (screenRect.height() / 2 - (int) (screenRect.height()
-					* sMatrixValues[Matrix.MSCALE_Y] / 2));
+			// Get the matrix values
+			c.getMatrix(sMatrix);
+			sMatrix.getValues(sMatrixValues);
 
-			// Change the translation values for the matrix
-			sMatrixValues[Matrix.MTRANS_X] = 0 + xScalingOffset;
-			sMatrixValues[Matrix.MTRANS_Y] = (c.getHeight() - osmv.getHeight()) + yScalingOffset;
+			// If we're rotating, then reverse the rotation for now.
+			// This gets us proper MSCALE values in the matrix.
+			final double angrad = Math.atan2(sMatrixValues[Matrix.MSKEW_Y],
+					sMatrixValues[Matrix.MSCALE_X]);
+			sMatrix.preRotate((float) -Math.toDegrees(angrad), screenRect.right, screenRect.bottom);
 
-			// Install the new matrix
-			sMatrix.setValues(sMatrixValues);
+			// Get the new matrix values to find the scaling factor
+			sMatrix.getValues(sMatrixValues);
+
+			// Adjust to remove scroll
+			sMatrix.postTranslate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top
+					* sMatrixValues[Matrix.MSCALE_Y]);
+			// Put back the rotation.
+			sMatrix.preRotate((float) Math.toDegrees(angrad), screenRect.width() / 2,
+					screenRect.height() / 2);
+
 			c.setMatrix(sMatrix);
 		} else {
 			sSafeCanvas.xOffset = 0;
