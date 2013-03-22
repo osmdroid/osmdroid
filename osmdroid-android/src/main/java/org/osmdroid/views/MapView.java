@@ -566,10 +566,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public void setMapOrientation(float degrees) {
 		this.mapOrientation = degrees % 360.0f;
-		mRotateMatrix.reset();
-		mRotateMatrix.preTranslate(-this.getWidth() / 2, -this.getHeight() / 2);
-		mRotateMatrix.postRotate(-getMapOrientation());
-		mRotateMatrix.postTranslate(this.getWidth() / 2, this.getHeight() / 2);
 		this.invalidate();
 	}
 
@@ -867,6 +863,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (this.getMapOrientation() == 0)
 			return ev;
 
+		mRotateMatrix.setRotate(-getMapOrientation(), this.getWidth() / 2, this.getHeight() / 2);
+
 		MotionEvent rotatedEvent = MotionEvent.obtain(ev);
 		if (Build.VERSION.SDK_INT < HONEYCOMB) {
 			mRotatePoints[0] = ev.getX();
@@ -955,8 +953,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			c.translate(getWidth() / 2, getHeight() / 2);
 
 			/* rotate Canvas */
-			c.rotate(mapOrientation, mProjection.getScreenRect().right,
-					mProjection.getScreenRect().bottom);
+			c.rotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection
+					.getScreenRect().centerY());
 		} else {
 			c.getMatrix(mMatrix);
 			mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);

@@ -55,7 +55,8 @@ public abstract class SafeDrawOverlay extends Overlay {
 			// This gets us proper MSCALE values in the matrix.
 			final double angrad = Math.atan2(sMatrixValues[Matrix.MSKEW_Y],
 					sMatrixValues[Matrix.MSCALE_X]);
-			sMatrix.preRotate((float) -Math.toDegrees(angrad), screenRect.right, screenRect.bottom);
+			sMatrix.preRotate((float) -Math.toDegrees(angrad), screenRect.centerX(),
+					screenRect.centerY());
 
 			// Get the new matrix values to find the scaling factor
 			sMatrix.getValues(sMatrixValues);
