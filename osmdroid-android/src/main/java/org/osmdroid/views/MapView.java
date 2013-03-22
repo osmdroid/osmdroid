@@ -961,8 +961,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
 
 			/* rotate Canvas */
-			mMatrix.preRotate(mapOrientation, mProjection.getScreenRect().right,
-					mProjection.getScreenRect().bottom);
+			mMatrix.preRotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection
+					.getScreenRect().centerY());
 
 			c.setMatrix(mMatrix);
 		}
