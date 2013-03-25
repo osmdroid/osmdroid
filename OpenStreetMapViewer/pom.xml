@@ -84,10 +84,10 @@
 										<include>${project.build.directory}/${project.artifactId}.apk</include>
 									</includes>
 									<!-- these properties should be defined in settings.xml -->
-									<keystore>${osmdroid.sign.keystore}</keystore>
-									<alias>${osmdroid.sign.alias}</alias>
-									<storepass>${osmdroid.sign.storepass}</storepass>
-									<keypass>${osmdroid.sign.keypass}</keypass>
+									<keystore>${sign.keystore}</keystore>
+									<alias>${sign.alias}</alias>
+									<storepass>${sign.storepass}</storepass>
+									<keypass>${sign.keypass}</keypass>
 									<verbose>true</verbose>
 								</configuration>
 							</execution>
