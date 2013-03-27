@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>3.0.9-SNAPSHOT</version>
+        <version>3.0.9</version>
     </parent>
 
     <artifactId>osmdroid-android</artifactId>
