@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		package="org.osmdroid"
+		android:versionCode="10" android:versionName="3.0.9">
+
+	<uses-sdk android:minSdkVersion="8" android:targetSdkVersion="14" />
+	<supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
+
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+	<uses-feature android:name="android.hardware.location.network" android:required="false" />
+	<uses-feature android:name="android.hardware.location.gps" android:required="false" />
+	<uses-feature android:name="android.hardware.telephony" android:required="false" />
+	<uses-feature android:name="android.hardware.wifi" android:required="false" />
+
+	<instrumentation
+		android:targetPackage="org.osmdroid"
+		android:name="android.test.InstrumentationTestRunner" />
+
+	<application
+		android:icon="@drawable/icon"
+		android:label="@string/app_name"
+		android:debuggable="true">
+
+		<!-- all applications based on this code should get their own CloudMade key -->
+		<meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
+
+		<!-- all applications based on this code should get their own Bing key -->
+		<meta-data android:name="BING_KEY" android:value="ApEqyap8rTa4WTNCNv-3pAGQc7XUsHS6595tuDI3MHR59QlahJ5bqYGYhMYJq6Ae" />
+
+		<uses-library android:name="com.google.android.maps" android:required="false" />
+		<uses-library android:name="android.test.runner" android:required="false" />
+		<activity android:icon="@drawable/icon"
+			android:label="Open Map" android:name="MapActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"></action>
+				<category android:name="android.intent.category.LAUNCHER"></category>
+			</intent-filter>
+		</activity>
+		<activity android:label="OSMSamples" android:name=".samples.SampleLoader">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleWithMinimapItemizedoverlay">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleWithMinimapItemizedoverlayWithFocus">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleExtensive">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleWithMinimapZoomcontrols">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleOSMContributor">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleWithTilesOverlay">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name=".samples.SampleWithTilesOverlayAndCustomTileSource">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
+
+	</application>
+
+</manifest>
