@@ -91,7 +91,7 @@
                 <version>0.6</version>
                 <scope>provided</scope>
             </dependency>
-            
+
             <!--  -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -109,7 +109,7 @@
                 <artifactId>mapsforge-map</artifactId>
                 <version>0.3.0</version>
             </dependency>
-            
+
             <!-- test dependencies -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -157,7 +157,7 @@
                         <execution>
                           <id>attach-sources</id>
                           <phase>package</phase>
-                          <goals><goal>jar-no-fork</goal></goals> 
+                          <goals><goal>jar-no-fork</goal></goals>
                         </execution>
                       </executions>
                 </plugin>
@@ -165,13 +165,13 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <version>2.8</version>
-                      <executions> 
-                        <execution> 
+                      <executions>
+                        <execution>
                           <id>attach-javadocs</id>
                           <phase>package</phase>
-                          <goals><goal>jar</goal></goals> 
-                        </execution> 
-                      </executions> 
+                          <goals><goal>jar</goal></goals>
+                        </execution>
+                      </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -186,6 +186,11 @@
                         <autoVersionSubmodules>true</autoVersionSubmodules>
                     </configuration>
                 </plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jarsigner-plugin</artifactId>
+					<version>1.2</version>
+				</plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -200,7 +205,7 @@
 
     <profiles>
         <profile>
-            <!--  this profile is activated when using 'mvn release:perform' --> 
+            <!--  this profile is activated when using 'mvn release:perform' -->
             <!--  it signs artifacts before staging to Sonatype -->
             <id>release-sign-artifacts</id>
             <activation>
@@ -211,6 +216,7 @@
             </activation>
             <build>
                 <plugins>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -224,6 +230,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
@@ -236,6 +243,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -249,6 +257,60 @@
                             </execution>
                         </executions>
                     </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jarsigner-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>signing</id>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <inherited>true</inherited>
+                                <configuration>
+                                    <archiveDirectory></archiveDirectory>
+                                    <includes>
+                                        <include>target/*.apk</include>
+                                    </includes>
+                                    <keystore>${sign.keystore}</keystore>
+                                    <storepass>${sign.storepass}</storepass>
+                                    <keypass>${sign.keypass}</keypass>
+                                    <alias>${sign.alias}</alias>
+                                    <arguments>
+                                      <argument>-sigalg</argument><argument>MD5withRSA</argument>
+                                      <argument>-digestalg</argument><argument>SHA1</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.jayway.maven.plugins.android.generation2</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <executions>
+                          <execution>
+                            <id>alignApk</id>
+                            <phase>install</phase>
+                            <goals>
+                              <goal>zipalign</goal>
+                            </goals>
+                          </execution>
+                        </executions>
+                        <configuration>
+                            <zipalign>
+                                <verbose>true</verbose>
+                                <skip>false</skip>
+                            </zipalign>
+                            <sign>
+                                <debug>false</debug>
+                            </sign>
+                        </configuration>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>
