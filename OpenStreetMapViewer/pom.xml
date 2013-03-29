@@ -16,12 +16,12 @@
     <dependencies>
         <!-- Android included libraries -->
         <dependency>
-            <groupId>android</groupId>
+            <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
         </dependency>
         <dependency>
-            <groupId>android.support</groupId>
-            <artifactId>compatibility-v4</artifactId>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-logging</groupId>

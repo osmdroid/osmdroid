@@ -56,15 +56,15 @@
         <dependencies>
             <!-- Android included libraries -->
             <dependency>
-                <groupId>android</groupId>
+                <groupId>com.google.android</groupId>
                 <artifactId>android</artifactId>
-                <version>4.1.2_r4</version>
+                <version>4.1.1.4</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>android.support</groupId>
-                <artifactId>compatibility-v4</artifactId>
-                <version>11</version>
+                <groupId>com.google.android</groupId>
+                <artifactId>support-v4</artifactId>
+                <version>r7</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -320,4 +320,11 @@
             </build>
         </profile>
     </profiles>
+    <dependencies>
+    	<dependency>
+    		<groupId>com.google.android</groupId>
+    		<artifactId>android</artifactId>
+    		<version>4.1.1.4</version>
+    	</dependency>
+    </dependencies>
 </project>
