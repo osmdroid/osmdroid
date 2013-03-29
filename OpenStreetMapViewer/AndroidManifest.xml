@@ -25,7 +25,7 @@
 	<application
 		android:icon="@drawable/icon"
 		android:label="@string/app_name"
-		android:debuggable="true">
+		android:debuggable="true" android:hardwareAccelerated="false">
 
 		<!-- all applications based on this code should get their own CloudMade key -->
 		<meta-data android:name="CLOUDMADE_KEY" android:value="BC9A493B41014CAABB98F0471D759707" />
