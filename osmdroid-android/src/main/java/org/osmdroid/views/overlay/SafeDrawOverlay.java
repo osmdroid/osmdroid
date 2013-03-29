@@ -48,10 +48,10 @@ public abstract class SafeDrawOverlay extends Overlay {
 			c.save();
 
 			// Get the matrix values
-			c.getMatrix(sMatrix);
+			sMatrix.set(osmv.getMatrix());
 			sMatrix.getValues(sMatrixValues);
 
-			// If we're rotating, then reverse the rotation for now.
+			// If we're rotating, then reverse the rotation
 			// This gets us proper MSCALE values in the matrix.
 			final double angrad = Math.atan2(sMatrixValues[Matrix.MSKEW_Y],
 					sMatrixValues[Matrix.MSCALE_X]);
@@ -61,14 +61,10 @@ public abstract class SafeDrawOverlay extends Overlay {
 			// Get the new matrix values to find the scaling factor
 			sMatrix.getValues(sMatrixValues);
 
-			// Adjust to remove scroll
-			sMatrix.postTranslate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top
+			// Shift the canvas to remove scroll, while accounting for scaling values
+			c.translate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top
 					* sMatrixValues[Matrix.MSCALE_Y]);
-			// Put back the rotation.
-			sMatrix.preRotate((float) Math.toDegrees(angrad), screenRect.width() / 2,
-					screenRect.height() / 2);
 
-			c.setMatrix(sMatrix);
 		} else {
 			sSafeCanvas.xOffset = 0;
 			sSafeCanvas.yOffset = 0;
