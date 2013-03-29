@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.os.Build;
 
 /**
  * An overlay class that uses the safe drawing canvas to draw itself and can be zoomed in to high
@@ -48,7 +49,11 @@ public abstract class SafeDrawOverlay extends Overlay {
 			c.save();
 
 			// Get the matrix values
-			sMatrix.set(osmv.getMatrix());
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				sMatrix.set(osmv.getMatrix());
+			} else {
+				c.getMatrix(sMatrix);
+			}
 			sMatrix.getValues(sMatrixValues);
 
 			// If we're rotating, then reverse the rotation

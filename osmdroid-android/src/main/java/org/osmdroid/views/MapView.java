@@ -70,7 +70,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private static final double ZOOM_SENSITIVITY = 1.3;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
-	private static final int HONEYCOMB = 11;
 	private static Method sMotionEventTransformMethod;
 
 	// ===========================================================
@@ -866,7 +865,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mRotateMatrix.setRotate(-getMapOrientation(), this.getWidth() / 2, this.getHeight() / 2);
 
 		MotionEvent rotatedEvent = MotionEvent.obtain(ev);
-		if (Build.VERSION.SDK_INT < HONEYCOMB) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			mRotatePoints[0] = ev.getX();
 			mRotatePoints[1] = ev.getY();
 			mRotateMatrix.mapPoints(mRotatePoints);

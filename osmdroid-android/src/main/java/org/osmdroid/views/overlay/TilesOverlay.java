@@ -39,7 +39,6 @@ import android.view.SubMenu;
 public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
-	private static final int GINGERBREAD = 9;
 
 	public static final int MENU_MAP_MODE = getSafeMenuId();
 	public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
@@ -332,7 +331,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 		final BitmapDrawable bitmapDrawable = mLoadingTile;
 		mLoadingTile = null;
 		// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-		if (Build.VERSION.SDK_INT < GINGERBREAD) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
 			if (bitmapDrawable != null) {
 				bitmapDrawable.getBitmap().recycle();
 			}
