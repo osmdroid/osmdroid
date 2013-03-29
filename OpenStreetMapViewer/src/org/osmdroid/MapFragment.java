@@ -178,7 +178,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView);
+        if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView))
+            return true;
 
         switch (item.getItemId()) {
             case MENU_SAMPLES:

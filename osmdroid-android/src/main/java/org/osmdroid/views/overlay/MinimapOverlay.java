@@ -241,6 +241,12 @@ public class MinimapOverlay extends TilesOverlay {
 		return false;
 	}
 
+	@Override
+	public boolean isOptionsMenuEnabled() {
+		// Don't provide menu items from TilesOverlay.
+		return false;
+	}
+
 	/**
 	 * Sets the width of the mini-map in pixels
 	 * 
