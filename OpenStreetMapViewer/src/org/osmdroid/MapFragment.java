@@ -13,7 +13,7 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -69,7 +69,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         return mMapView;
     }
 
-    @SuppressLint("NewApi")
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setHardwareAccelerationOff()
     {
         // Turn off hardware acceleration here, or in manifest
