@@ -149,7 +149,7 @@
                     <version>3.5.1</version>
                     <configuration>
                         <sdk>
-                            <platform>7</platform>
+                            <platform>16</platform>
                         </sdk>
                     </configuration>
                     <extensions>true</extensions>
