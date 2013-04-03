@@ -115,6 +115,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final float[] mRotatePoints = new float[2];
 	private final Rect mInvalidateRect = new Rect();
 
+	protected Rect mScrollableAreaLimit;
+
 	// for speed (avoiding allocations)
 	private final Matrix mMatrix = new Matrix();
 	private final MapTileProviderBase mTileProvider;
@@ -590,6 +592,36 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mMapOverlay.setUseDataConnection(aMode);
 	}
 
+	/**
+	 * Set the map to limit it's scrollable view to the specified BoundingBoxE6. Note this does not
+	 * limit zooming so it will be possible for the user to zoom to an area that is larger than the
+	 * limited area.
+	 * 
+	 * @param boundingBox
+	 *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
+	 *            limitations
+	 */
+	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
+		final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+
+		// Clear scrollable area limit if null passed.
+		if (boundingBox == null) {
+			mScrollableAreaLimit = null;
+			return;
+		}
+
+		// Get NW/upper-left
+		final Point upperLeft = TileSystem.LatLongToPixelXY(boundingBox.getLatNorthE6() / 1E6,
+				boundingBox.getLonWestE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+		upperLeft.offset(-worldSize_2, -worldSize_2);
+
+		// Get SE/lower-right
+		final Point lowerRight = TileSystem.LatLongToPixelXY(boundingBox.getLatSouthE6() / 1E6,
+				boundingBox.getLonEastE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+		lowerRight.offset(-worldSize_2, -worldSize_2);
+		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+	}
+
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
@@ -923,6 +955,33 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 		while (y > worldSize_2) {
 			y -= worldSize_2 * 2;
+		}
+
+		if (mScrollableAreaLimit != null) {
+			final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel(false);
+			final int minX = (mScrollableAreaLimit.left >> zoomDiff);
+			final int minY = (mScrollableAreaLimit.top >> zoomDiff);
+			final int maxX = (mScrollableAreaLimit.right >> zoomDiff);
+			final int maxY = (mScrollableAreaLimit.bottom >> zoomDiff);
+
+			final int scrollableWidth = maxX - minX;
+			final int scrollableHeight = maxY - minY;
+			final int width = this.getWidth();
+			final int height = this.getHeight();
+			// Adjust if we are outside the scrollable area
+			if (scrollableWidth <= width)
+				x = minX + (scrollableWidth / 2);
+			else if (x - (width / 2) < minX)
+				x = minX + (width / 2);
+			else if (x + (width / 2) > maxX)
+				x = maxX - (width / 2);
+
+			if (scrollableHeight <= height)
+				y = minY + (scrollableHeight / 2);
+			else if (y - (height / 2) < minY)
+				y = minY + (height / 2);
+			else if (y + (height / 2) > maxY)
+				y = maxY - (height / 2);
 		}
 		super.scrollTo(x, y);
 
