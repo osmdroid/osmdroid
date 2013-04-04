@@ -45,6 +45,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -68,7 +69,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private static final Logger logger = LoggerFactory.getLogger(MapView.class);
 
-	private static final double ZOOM_SENSITIVITY = 1.3;
+	private static final double ZOOM_SENSITIVITY = 1.0;
 	private static final double ZOOM_LOG_BASE_INV = 1.0 / Math.log(2.0 / ZOOM_SENSITIVITY);
 	private static Method sMotionEventTransformMethod;
 
@@ -109,6 +110,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private MultiTouchController<Object> mMultiTouchController;
 	private float mMultiTouchScale = 1.0f;
+	private PointF mMultiTouchScalePoint = new PointF();
 
 	protected MapListener mListener;
 
@@ -1038,7 +1040,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		} else {
 			c.getMatrix(mMatrix);
 			mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);
-			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());
+			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
+					mMultiTouchScalePoint.y);
 
 			/* rotate Canvas */
 			mMatrix.preRotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection
@@ -1123,6 +1126,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public Object getDraggableObjectAtPoint(final PointInfo pt) {
+		mMultiTouchScalePoint.x = pt.getX() + getScrollX() - (this.getWidth() / 2);
+		mMultiTouchScalePoint.y = pt.getY() + getScrollY() - (this.getHeight() / 2);
 		return this;
 	}
 
@@ -1138,9 +1143,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (obj == null && mMultiTouchScale != 1.0f) {
 			final float scaleDiffFloat = (float) (Math.log(mMultiTouchScale) * ZOOM_LOG_BASE_INV);
 			final int scaleDiffInt = Math.round(scaleDiffFloat);
+			// If we are changing zoom levels,
+			// adjust the center point in respect to the scaling point
+			if (scaleDiffInt != 0) {
+				Matrix m = new Matrix();
+				m.setScale(1 / mMultiTouchScale, 1 / mMultiTouchScale, mMultiTouchScalePoint.x,
+						mMultiTouchScalePoint.y);
+				m.postRotate(-mapOrientation, mProjection.getScreenRect().centerX(), mProjection
+						.getScreenRect().centerY());
+				float[] pts = new float[2];
+				pts[0] = getScrollX();
+				pts[1] = getScrollY();
+				m.mapPoints(pts);
+				setScrollX((int) pts[0]);
+				setScrollY((int) pts[1]);
+			}
+
+			// Adjust the zoomLevel
 			setZoomLevel(mZoomLevel + scaleDiffInt);
-			// XXX maybe zoom in/out instead of zooming direct to zoom level
-			// - probably not a good idea because you'll repeat the animation
 		}
 
 		// reset scale
