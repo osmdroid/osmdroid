@@ -115,6 +115,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final float[] mRotatePoints = new float[2];
 	private final Rect mInvalidateRect = new Rect();
 
+	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
 	// for speed (avoiding allocations)
@@ -604,6 +605,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
 		final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
 
+		mScrollableAreaBoundingBox = boundingBox;
+
 		// Clear scrollable area limit if null passed.
 		if (boundingBox == null) {
 			mScrollableAreaLimit = null;
@@ -620,6 +623,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				boundingBox.getLonEastE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
 		lowerRight.offset(-worldSize_2, -worldSize_2);
 		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+	}
+
+	public BoundingBoxE6 getScrollableAreaLimit() {
+		return mScrollableAreaBoundingBox;
 	}
 
 	// ===========================================================
