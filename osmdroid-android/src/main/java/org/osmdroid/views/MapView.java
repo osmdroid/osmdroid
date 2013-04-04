@@ -95,6 +95,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final ScaleAnimation mZoomInAnimation;
 	private final ScaleAnimation mZoomOutAnimation;
 
+	protected Integer mMinimumZoomLevel;
+	protected Integer mMaximumZoomLevel;
+
 	private final MapController mController;
 
 	// XXX we can use android.widget.ZoomButtonsController if we upgrade the
@@ -448,22 +451,34 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * Returns the minimum zoom level for the point currently at the center.
-	 *
-	 * @return The minimum zoom level for the map's current center.
+	 * Get the minimum allowed zoom level for the maps.
 	 */
 	public int getMinZoomLevel() {
-		return mMapOverlay.getMinimumZoomLevel();
+		return mMinimumZoomLevel == null ? mMapOverlay.getMinimumZoomLevel() : mMinimumZoomLevel;
 	}
 
 	/**
-	 * Returns the maximum zoom level for the point currently at the center.
-	 *
-	 * @return The maximum zoom level for the map's current center.
+	 * Get the maximum allowed zoom level for the maps.
 	 */
 	@Override
 	public int getMaxZoomLevel() {
-		return mMapOverlay.getMaximumZoomLevel();
+		return mMaximumZoomLevel == null ? mMapOverlay.getMaximumZoomLevel() : mMaximumZoomLevel;
+	}
+
+	/**
+	 * Set the minimum allowed zoom level, or pass null to use the minimum zoom level from the tile
+	 * provider.
+	 */
+	public void setMinZoomLevel(Integer zoomLevel) {
+		mMinimumZoomLevel = zoomLevel;
+	}
+
+	/**
+	 * Set the maximum allowed zoom level, or pass null to use the maximum zoom level from the tile
+	 * provider.
+	 */
+	public void setMaxZoomLevel(Integer zoomLevel) {
+		mMaximumZoomLevel = zoomLevel;
 	}
 
 	public boolean canZoomIn() {
