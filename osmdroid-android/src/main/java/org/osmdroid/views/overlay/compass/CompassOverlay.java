@@ -183,19 +183,22 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         return this.mOptionsMenuEnabled;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView)
-    {
-        pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-                mResourceProxy.getString(ResourceProxy.string.compass)).setIcon(
-                mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass));
+	@Override
+	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView)
+	{
+		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
+				mResourceProxy.getString(ResourceProxy.string.compass))
+				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass))
+				.setCheckable(true);
 
-        return true;
-    }
+		return true;
+	}
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView)
     {
+		pMenu.findItem(MENU_COMPASS + pMenuIdOffset).setChecked(this.isCompassEnabled());
         return false;
     }
 

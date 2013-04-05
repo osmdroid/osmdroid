@@ -264,7 +264,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         if (shadow)
             return;
 
-        if (mLocation != null) {
+		if (mLocation != null) {
             drawMyLocation(canvas, mapView, mLocation);
         }
     }
@@ -316,17 +316,19 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
     @Override
     public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView)
     {
-        pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
-                mResourceProxy.getString(ResourceProxy.string.my_location)).setIcon(
-                mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation));
+		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
+				mResourceProxy.getString(ResourceProxy.string.my_location))
+				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation))
+				.setCheckable(true);
 
-        return true;
+		return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView)
     {
-        return false;
+		pMenu.findItem(MENU_MY_LOCATION + pMenuIdOffset).setChecked(this.isMyLocationEnabled());
+    	return false;
     }
 
     @Override
