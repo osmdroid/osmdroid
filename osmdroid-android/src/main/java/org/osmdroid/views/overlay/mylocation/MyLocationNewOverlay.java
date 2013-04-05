@@ -264,7 +264,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         if (shadow)
             return;
 
-		if (mLocation != null) {
+		if (mLocation != null && isMyLocationEnabled()) {
             drawMyLocation(canvas, mapView, mLocation);
         }
     }
