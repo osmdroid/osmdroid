@@ -1031,24 +1031,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Save the current canvas matrix
 		c.save();
 
-		if (mMultiTouchScale == 1.0f) {
-			c.translate(getWidth() / 2, getHeight() / 2);
+		c.translate(getWidth() / 2, getHeight() / 2);
+		c.scale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
+				mMultiTouchScalePoint.y);
 
-			/* rotate Canvas */
-			c.rotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection
-					.getScreenRect().centerY());
-		} else {
-			c.getMatrix(mMatrix);
-			mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);
-			mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
-					mMultiTouchScalePoint.y);
-
-			/* rotate Canvas */
-			mMatrix.preRotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection
-					.getScreenRect().centerY());
-
-			c.setMatrix(mMatrix);
-		}
+		/* rotate Canvas */
+		c.rotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection.getScreenRect()
+				.centerY());
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
