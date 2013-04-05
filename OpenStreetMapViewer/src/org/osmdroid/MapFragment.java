@@ -2,12 +2,14 @@
 package org.osmdroid;
 
 import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.samples.SampleLoader;
+import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -15,16 +17,24 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.*;
+import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.SubMenu;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Default map view activity.
  * 
+ * @author Marc Kurtz
  * @author Manuel Stahl
  * 
  */
@@ -50,6 +60,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
     private MyLocationNewOverlay mLocationOverlay;
     private CompassOverlay mCompassOverlay;
     private MinimapOverlay mMinimapOverlay;
+	private ScaleBarOverlay mScaleBarOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
     private ResourceProxy mResourceProxy;
 
@@ -98,13 +109,17 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
                 mMapView);
         mMinimapOverlay = new MinimapOverlay(getActivity(), mMapView.getTileRequestCompleteHandler());
 
+		mScaleBarOverlay = new ScaleBarOverlay(context);
+
         mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+		mRotationGestureOverlay.setEnabled(false);
 
         mMapView.setBuiltInZoomControls(true);
         mMapView.setMultiTouchControls(true);
         mMapView.getOverlays().add(this.mLocationOverlay);
         mMapView.getOverlays().add(this.mCompassOverlay);
         mMapView.getOverlays().add(this.mMinimapOverlay);
+		mMapView.getOverlays().add(this.mScaleBarOverlay);
         mMapView.getOverlays().add(this.mRotationGestureOverlay);
 
         mMapView.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
@@ -160,7 +175,20 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
         // Put samples next
-        menu.add(0, MENU_SAMPLES, Menu.NONE, R.string.samples).setIcon(android.R.drawable.ic_menu_gallery);
+		SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, R.string.samples)
+				.setIcon(android.R.drawable.ic_menu_gallery);
+		SampleFactory sampleFactory = SampleFactory.getInstance();
+		for (int a = 0; a < sampleFactory.count(); a++) {
+			final BaseSampleFragment f = sampleFactory.getSample(a);
+			samplesSubMenu.add(f.getSampleTitle()).setOnMenuItemClickListener(
+					new OnMenuItemClickListener() {
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							startSampleFragment(f);
+							return true;
+						}
+					});
+		}
 
         // Put "About" menu item last
         menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, R.string.about).setIcon(
@@ -169,6 +197,12 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+	protected void startSampleFragment(Fragment fragment) {
+		FragmentManager fm = getFragmentManager();
+		fm.beginTransaction().hide(this).add(android.R.id.content, fragment, "SampleFragment")
+				.addToBackStack(null).commit();
+	}
+
     @Override
     public void onPrepareOptionsMenu(final Menu pMenu)
     {
@@ -176,22 +210,19 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         super.onPrepareOptionsMenu(pMenu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView))
-            return true;
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView))
+			return true;
 
-        switch (item.getItemId()) {
-            case MENU_SAMPLES:
-                startActivity(new Intent(getActivity(), SampleLoader.class));
-                return true;
-            case MENU_ABOUT:
-                getActivity().showDialog(DIALOG_ABOUT_ID);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+		switch (item.getItemId()) {
+		case MENU_ABOUT:
+			getActivity().showDialog(DIALOG_ABOUT_ID);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
     // @Override
     // public boolean onTrackballEvent(final MotionEvent event) {

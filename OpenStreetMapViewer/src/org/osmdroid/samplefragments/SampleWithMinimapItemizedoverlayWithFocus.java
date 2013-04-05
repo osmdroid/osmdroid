@@ -1,24 +1,19 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
-package org.osmdroid.samples;
+package org.osmdroid.samplefragments;
 
 import java.util.ArrayList;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 /**
@@ -26,11 +21,13 @@ import android.widget.Toast;
  * @author Nicolas Gramlich
  * 
  */
-public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
+public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragment {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
+
+	public static final String TITLE = "Itemized overlay w/focus";
 
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
@@ -39,31 +36,31 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 	// Fields
 	// ===========================================================
 
-	private MapView mOsmv;
 	private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
-	private ResourceProxy mResourceProxy;
+
+	@Override
+	public String getSampleTitle() {
+		return TITLE;
+	}
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 	/** Called when the activity is first created. */
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+	}
 
-		mResourceProxy = new ResourceProxyImpl(getApplicationContext());
+	@Override
+	protected void addOverlays() {
+		super.addOverlays();
 
-		final RelativeLayout rl = new RelativeLayout(this);
-
-		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
-
-		this.mOsmv = new MapView(this, 256);
-		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT));
+		final Context context = getActivity();
 
 		/* Itemized Overlay */
 		{
-			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
+			/* Create a static ItemizedOverlay showing some Markers on various cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
 			items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52370816,
 					9735936))); // Hannover
@@ -77,12 +74,12 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			this.mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+			mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 							Toast.makeText(
-									SampleWithMinimapItemizedoverlayWithFocus.this,
+									context,
 									"Item '" + item.mTitle + "' (index=" + index
 											+ ") got single tapped up", Toast.LENGTH_LONG).show();
 							return true;
@@ -91,26 +88,31 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 						@Override
 						public boolean onItemLongPress(final int index, final OverlayItem item) {
 							Toast.makeText(
-									SampleWithMinimapItemizedoverlayWithFocus.this,
+									context,
 									"Item '" + item.mTitle + "' (index=" + index
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
 					}, mResourceProxy);
-			this.mMyLocationOverlay.setFocusItemsOnTap(true);
-			this.mMyLocationOverlay.setFocusedItem(0);
+			mMyLocationOverlay.setFocusItemsOnTap(true);
+			mMyLocationOverlay.setFocusedItem(0);
 
-			this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
+			mMapView.getOverlays().add(mMyLocationOverlay);
 		}
 
 		/* MiniMap */
 		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(this,
-					mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlays().add(miniMapOverlay);
+			MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
+					mMapView.getTileRequestCompleteHandler());
+			mMapView.getOverlays().add(miniMapOverlay);
 		}
 
-		this.setContentView(rl);
+		// Zoom and center on the focused item.
+		mMapView.getController().setZoom(5);
+		GeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().mGeoPoint;
+		mMapView.getController().animateTo(geoPoint);
+
+		setHasOptionsMenu(true);
 	}
 
 	// ===========================================================
@@ -122,22 +124,22 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends Activity {
 	// ===========================================================
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu pMenu) {
-		pMenu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
-		pMenu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		menu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
+		menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
 
-		return true;
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
-	public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case MENU_ZOOMIN_ID:
-			this.mOsmv.getController().zoomIn();
+			mMapView.getController().zoomIn();
 			return true;
 
 		case MENU_ZOOMOUT_ID:
-			this.mOsmv.getController().zoomOut();
+			mMapView.getController().zoomOut();
 			return true;
 		}
 		return false;
