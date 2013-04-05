@@ -67,8 +67,15 @@ public abstract class SafeDrawOverlay extends Overlay {
 			sMatrix.getValues(sMatrixValues);
 
 			// Shift the canvas to remove scroll, while accounting for scaling values
-			c.translate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top
-					* sMatrixValues[Matrix.MSCALE_Y]);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+				c.translate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top
+						* sMatrixValues[Matrix.MSCALE_Y]);
+			} else {
+				c.getMatrix(sMatrix);
+				sMatrix.postTranslate(screenRect.left * sMatrixValues[Matrix.MSCALE_X],
+						screenRect.top * sMatrixValues[Matrix.MSCALE_Y]);
+				c.setMatrix(sMatrix);
+			}
 
 		} else {
 			sSafeCanvas.xOffset = 0;
