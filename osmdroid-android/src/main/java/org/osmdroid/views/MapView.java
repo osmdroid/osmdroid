@@ -1144,8 +1144,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				pts[0] = getScrollX();
 				pts[1] = getScrollY();
 				m.mapPoints(pts);
-				setScrollX((int) pts[0]);
-				setScrollY((int) pts[1]);
+				scrollTo((int) pts[0], (int) pts[1]);
 			}
 
 			// Adjust the zoomLevel
