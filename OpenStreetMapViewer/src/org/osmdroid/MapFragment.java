@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -94,6 +95,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         super.onActivityCreated(savedInstanceState);
 
         final Context context = this.getActivity();
+		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
         // mResourceProxy = new ResourceProxyImpl(getActivity().getApplicationContext());
 
         mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -107,9 +109,14 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
                 mMapView);
         this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
                 mMapView);
+
         mMinimapOverlay = new MinimapOverlay(getActivity(), mMapView.getTileRequestCompleteHandler());
+		mMinimapOverlay.setWidth(dm.widthPixels / 5);
+		mMinimapOverlay.setHeight(dm.heightPixels / 5);
 
 		mScaleBarOverlay = new ScaleBarOverlay(context);
+		mScaleBarOverlay.setCentred(true);
+		mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
         mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
 		mRotationGestureOverlay.setEnabled(false);
