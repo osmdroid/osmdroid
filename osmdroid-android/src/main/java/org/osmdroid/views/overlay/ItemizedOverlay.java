@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.view.MotionEvent;
 
 /**
  * Draws a list of {@link OverlayItem} as markers to a map. The item with the lowest index is drawn
@@ -43,6 +44,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	private final Point mCurScreenCoords = new Point();
 	protected boolean mDrawFocusedItem = true;
 	private Item mFocusedItem;
+	private boolean mPendingFocusChangedEvent = false;
+	private OnFocusChangeListener mOnFocusChangeListener;
 
 	// ===========================================================
 	// Abstract methods
@@ -108,6 +111,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		if (shadow) {
 			return;
 		}
+		
+		if (!mPendingFocusChangedEvent && mOnFocusChangeListener != null)
+			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
+		mPendingFocusChangedEvent = false;
 
 		final Projection pj = mapView.getProjection();
 		final int size = this.mInternalItemList.size() - 1;
@@ -199,6 +206,47 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		return marker.getBounds().contains(hitX, hitY);
 	}
 
+	@Override
+	public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
+		final Projection pj = mapView.getProjection();
+		final Rect screenRect = pj.getIntrinsicScreenRect();
+		final int size = this.size() - 1;
+
+		/* Draw in backward cycle, so the items with the least index are on the front. */
+		for (int i = 0; i < size; i++) {
+			final Item item = getItem(i);
+			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+
+			final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
+					: 0);
+			final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state)
+					: item.getMarker(state);
+			boundToHotspot(marker, item.getMarkerHotspot());
+			if (hitTest(item, marker, mCurScreenCoords.x - screenRect.left - (int) e.getX(),
+					mCurScreenCoords.y - screenRect.top - (int) e.getY())) {
+				// We have a hit, do we get a response from onTap?
+				if (onTap(i)) {
+					// We got a response so consume the event
+					return true;
+				}
+			}
+		}
+
+		return super.onSingleTapConfirmed(e, mapView);
+	}
+
+	/**
+	 * Override this method to handle a "tap" on an item. This could be from a touchscreen tap on an
+	 * onscreen Item, or from a trackball click on a centered, selected Item. By default, does
+	 * nothing and returns false.
+	 * 
+	 * @return true if you handled the tap, false if you want the event that generated it to pass to
+	 *         other overlays.
+	 */
+	protected boolean onTap(int index) {
+		return false;
+	}
+
 	/**
 	 * Set whether or not to draw the focused item. The default is to draw it, but some clients may
 	 * prefer to draw the focused item themselves.
@@ -214,6 +262,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	 * found, this is a no-op. You can also pass null to remove focus.
 	 */
 	public void setFocus(final Item item) {
+		mPendingFocusChangedEvent = item != mFocusedItem;
 		mFocusedItem = item;
 	}
 
@@ -280,5 +329,13 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		}
 		marker.setBounds(mRect);
 		return marker;
+	}
+
+	public void setOnFocusChangeListener(OnFocusChangeListener l) {
+		mOnFocusChangeListener = l;
+	}
+
+	public static interface OnFocusChangeListener {
+		void onFocusChanged(ItemizedOverlay<?> overlay, OverlayItem newFocus);
 	}
 }
