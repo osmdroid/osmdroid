@@ -221,8 +221,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 			final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state)
 					: item.getMarker(state);
 			boundToHotspot(marker, item.getMarkerHotspot());
-			if (hitTest(item, marker, mCurScreenCoords.x - screenRect.left - (int) e.getX(),
-					mCurScreenCoords.y - screenRect.top - (int) e.getY())) {
+			if (hitTest(item, marker, -mCurScreenCoords.x + screenRect.left + (int) e.getX(),
+					-mCurScreenCoords.y + screenRect.top + (int) e.getY())) {
 				// We have a hit, do we get a response from onTap?
 				if (onTap(i)) {
 					// We got a response so consume the event
