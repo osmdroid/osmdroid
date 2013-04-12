@@ -13,7 +13,7 @@ import android.util.Log;
 
 /**
  * POI Provider using Nominatim service. <br>
- * See https://wiki.openstreetmap.org/wiki/Nominatim<br>
+ * See http://wiki.openstreetmap.org/wiki/Nominatim<br>
  * and http://open.mapquestapi.com/nominatim/<br>
  * 
  * @author M.Kergall
@@ -42,11 +42,11 @@ public class NominatimPOIProvider {
 		mService = serviceUrl;
 	}
 	
-	private StringBuffer getCommonUrl(String type, int maxResults){
+	private StringBuffer getCommonUrl(String facility, int maxResults){
 		StringBuffer urlString = new StringBuffer(mService);
 		urlString.append("search?");
 		urlString.append("format=json");
-		urlString.append("&q=["+URLEncoder.encode(type)+"]");
+		urlString.append("&q=["+URLEncoder.encode(facility)+"]");
 		urlString.append("&limit="+maxResults);
 		urlString.append("&bounded=1");
 		return urlString;
@@ -113,59 +113,61 @@ public class NominatimPOIProvider {
 
  	/**
 	 * @param position
-	 * @param type an OpenStreetMap feature. 
-	 * See http://wiki.openstreetmap.org/wiki/Map_Features 
-		 or http://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPackDemo/res/values/poi_tags.xml
+	 * @param facility a Nominatim facility. 
+	 * Note that Nominatim facility search uses Special Phrases instead of OSM tags. 
+	 * See http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
+	 * and http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/EN
+	 * or http://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPackDemo/res/values/poi_tags.xml
 	 * @param maxResults the maximum number of POI returned. 
-	 * Note that in any case, Nominatim will have an absolute maximum of 100. 
+	 * Note that in any case, Nominatim will have an absolute maximum of 100 (or 50?). 
 	 * @param maxDistance to the position, in degrees. 
 	 * Note that it is used to build a bounding box around the position, not a circle. 
 	 * @return the list of POI, null if technical issue. 
 	 */
-	public ArrayList<POI> getPOICloseTo(GeoPoint position, String type, 
+	public ArrayList<POI> getPOICloseTo(GeoPoint position, String facility, 
 			int maxResults, double maxDistance){
-		String url = getUrlCloseTo(position, type, maxResults, maxDistance);
+		String url = getUrlCloseTo(position, facility, maxResults, maxDistance);
 		return getThem(url);
 	}
 	
 	/**
 	 * @param boundingBox
-	 * @param type OpenStreetMap feature
+	 * @param facility Nominatim facility
 	 * @param maxResults
 	 * @return list of POIs, null if technical issue. 
 	 */
-	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, String type, int maxResults){
-		String url = getUrlInside(boundingBox, type, maxResults);
+	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, String facility, int maxResults){
+		String url = getUrlInside(boundingBox, facility, maxResults);
 		return getThem(url);
 	}
 	
 	/**
 	 * @param path
-	 * Warning: a long path may cause a failure due to the url to be too long. 
+	 * Warning: a very long path may cause a failure due to the url to be too long. 
 	 * Using a simplified route may help (see Road.getRouteLow()). 
-	 * @param type OpenStreetMap feature
+	 * @param facility Nominatim feature
 	 * @param maxResults
 	 * @param maxWidth to the path. Certainly not in degrees. Probably in km. 
 	 * @return list of POIs, null if technical issue. 
 	 */
-	public ArrayList<POI> getPOIAlong(ArrayList<GeoPoint> path, String type, 
+	public ArrayList<POI> getPOIAlong(ArrayList<GeoPoint> path, String facility, 
 		int maxResults, double maxWidth){
-		StringBuffer urlString = getCommonUrl(type, maxResults);
-		urlString.append("&routewidth="+maxWidth);
-		urlString.append("&route=");
+		StringBuffer url = getCommonUrl(facility, maxResults);
+		url.append("&routewidth="+maxWidth);
+		url.append("&route=");
 		boolean isFirst = true;
 		for (GeoPoint p:path){
 			if (isFirst)
 				isFirst = false;
 			else 
-				urlString.append(",");
+				url.append(",");
 			String lat = Double.toString(p.getLatitudeE6()*1E-6);
 			lat = lat.substring(0, Math.min(lat.length(), 7));
 			String lon = Double.toString(p.getLongitudeE6()*1E-6);
 			lon = lon.substring(0, Math.min(lon.length(), 7));
-			urlString.append(lat+","+lon);
+			url.append(lat+","+lon);
 				//limit the size of url as much as possible, as post method is not supported. 
 		}
-		return getThem(urlString.toString());
+		return getThem(url.toString());
 	}
 }
