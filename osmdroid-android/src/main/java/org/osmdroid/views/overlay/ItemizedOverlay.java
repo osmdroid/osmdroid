@@ -112,7 +112,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 			return;
 		}
 		
-		if (!mPendingFocusChangedEvent && mOnFocusChangeListener != null)
+		if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
 			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
 		mPendingFocusChangedEvent = false;
 
@@ -180,7 +180,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
 	}
 
-	private Drawable getDefaultMarker(final int state) {
+	protected Drawable getDefaultMarker(final int state) {
 		OverlayItem.setState(mDefaultMarker, state);
 		return mDefaultMarker;
 	}
