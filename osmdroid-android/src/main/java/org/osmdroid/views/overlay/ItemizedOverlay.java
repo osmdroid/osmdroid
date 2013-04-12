@@ -210,9 +210,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {
 		final Projection pj = mapView.getProjection();
 		final Rect screenRect = pj.getIntrinsicScreenRect();
-		final int size = this.size() - 1;
+		final int size = this.size();
 
-		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for (int i = 0; i < size; i++) {
 			final Item item = getItem(i);
 			pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
