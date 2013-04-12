@@ -77,7 +77,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected ExtendedOverlayItem markerStart, markerDestination;
 	SimpleLocationOverlay myLocationOverlay;
 
-	protected PathOverlay polygonOverlay; //destination name - experimental
+	protected PathOverlay polygonOverlay; //enclosing polygon of destination location - experimental
 	
 	protected Road mRoad;
 	protected PathOverlay roadOverlay;
@@ -602,14 +602,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			} else if (mTag.startsWith("picasa")){
 				PicasaPOIProvider poiProvider = new PicasaPOIProvider(null);
 				BoundingBoxE6 bb = map.getBoundingBox();
+				//allow to search for keywords among picasa photos:
 				String q = mTag.substring("picasa".length());
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30, q);
 				return pois;
 			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
-				poiProvider.setService(NominatimPOIProvider.MAPQUEST_POI_SERVICE);
+				//poiProvider.setService(NominatimPOIProvider.MAPQUEST_POI_SERVICE);
 				ArrayList<POI> pois;
-				if (destinationPoint == null){
+				if (mRoad == null){
 					BoundingBoxE6 bb = map.getBoundingBox();
 					pois = poiProvider.getPOIInside(bb, mTag, 100);
 				} else {
