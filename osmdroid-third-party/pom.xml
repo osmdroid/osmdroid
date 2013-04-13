@@ -49,10 +49,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.mapsforge</groupId>
-            <artifactId>mapsforge-map</artifactId>
-        </dependency>
         
         <!-- test dependencies -->
         <dependency>

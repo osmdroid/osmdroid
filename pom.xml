@@ -109,11 +109,6 @@
                 <artifactId>slf4j-android</artifactId>
                 <version>1.6.1-RC1</version>
             </dependency>
-            <dependency>
-                <groupId>org.mapsforge</groupId>
-                <artifactId>mapsforge-map</artifactId>
-                <version>0.3.0</version>
-            </dependency>
 
             <!-- test dependencies -->
             <dependency>
