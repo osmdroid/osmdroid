@@ -91,6 +91,12 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         mCompassRoseCenterY = mCompassRose.getHeight() / 2 - 0.5f;
     }
 
+    @Override
+    public void onDetach(MapView mapView) {
+        this.disableCompass();
+        super.onDetach(mapView);
+    }
+
     private void invalidateCompass()
     {
         Rect screenRect = mMapView.getProjection().getScreenRect();

@@ -122,6 +122,12 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         // Calculate position of person icon's feet, scaled to screen density
         mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
     }
+    
+    @Override
+    public void onDetach(MapView mapView) {
+        this.disableMyLocation();
+        super.onDetach(mapView);
+    }
 
     // ===========================================================
     // Getter & Setter
