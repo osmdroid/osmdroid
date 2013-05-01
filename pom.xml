@@ -9,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>3.0.10-SNAPSHOT</version>
+    <version>3.0.10</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
@@ -25,9 +25,9 @@
     </licenses>
 
     <scm>
-        <url>http://osmdroid.googlecode.com/svn/trunk</url>
-        <connection>scm:svn:http://osmdroid.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://osmdroid.googlecode.com/svn/trunk</developerConnection>
+        <url>http://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.10</url>
+        <connection>scm:svn:http://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.10</connection>
+        <developerConnection>scm:svn:https://osmdroid.googlecode.com/svn/tags/osmdroid-parent-3.0.10</developerConnection>
     </scm>
 
     <issueManagement>
@@ -270,7 +270,7 @@
                                 <phase>package</phase>
                                 <inherited>true</inherited>
                                 <configuration>
-                                    <archiveDirectory></archiveDirectory>
+                                    <archiveDirectory />
                                     <includes>
                                         <include>target/*.apk</include>
                                     </includes>
