@@ -9,8 +9,12 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="POIs list"/>
     <item
-        android:id="@+id/menu_tile"
+        android:id="@+id/menu_my_position"
         android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="My Position"/>
+    <item
+        android:id="@+id/menu_tile"
+        android:icon="@android:drawable/ic_menu_more"
         android:title="Tile Provider">
         <menu>
             <group android:checkableBehavior="single" >
@@ -28,7 +32,7 @@
     </item>
     <item
         android:id="@+id/menu_route"
-        android:icon="@android:drawable/ic_menu_mylocation"
+        android:icon="@android:drawable/ic_menu_more"
         android:title="Route Provider">
         <menu>
             <group android:checkableBehavior="single" >

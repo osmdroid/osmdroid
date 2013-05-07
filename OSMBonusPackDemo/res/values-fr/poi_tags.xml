@@ -25,11 +25,14 @@
 		<item>Salle polyvalente</item>
 		<item>Crématorium</item>
 		<item>Dentiste</item>
-		<item>Docteurs</item>
+		<item>Médecin</item>
+		<item>Docteur</item>
+		<item>Auto-école"</item>
 		<item>Ecole de conduite</item>
 		<item>Restauration rapide</item>
 		<item>Caserne de pompiers</item>
 		<item>Carburant</item>
+		<item>Station service</item>
 		<item>Cimetière</item>
 		<!--  <item>Fitness</item> -->
 		<item>Hôpital</item>
@@ -56,10 +59,11 @@
 		<item>Théâtre</item>
 		<item>Toilettes</item>
 		<item>Hôtel de ville</item>
+		<item>Mairie</item>
 		<item>Université</item>
 		<item>Vétérinaire</item>
 		<!-- <item>Accès WiFi</item> -->
-		<!-- <item>Eglise</item> -->
+		<item>Eglise</item>
 		<item>Lieu de culte</item>
 		<!-- Historic -->
 		<item>Château</item>
@@ -82,6 +86,7 @@
 		<item>Plage</item>
 		<!-- Public Transport -->
 		<item>Arrêt de bus</item>
+		<item>Arrêt de tram</item>
 		<item>Gare ferroviaire</item>
 		<item>Station de métro</item>
 		<!-- Shop -->
@@ -92,6 +97,7 @@
 		<item>Boucherie</item>
 		<item>Charcuterie</item>
 		<item>Magasin de voitures</item>
+		<item>Garage Automobile</item>
 		<item>Réparation de voitures</item>
 		<item>Magasin de vêtements</item>
 		<item>Magasin informatique</item>
@@ -100,6 +106,8 @@
 		<!-- <item>Magasin discount</item> -->
 		<item>Magasin de bricolage</item>
 		<item>Nettoyage à sec</item>
+		<item>Teinturerie</item>
+		<item>Pressing</item>
 		<item>Magasin d\'électronique</item>
 		<!--  <item>Agent immobilier</item> -->
 		<!--  <item>Poissonnerie</item> -->
@@ -140,6 +148,7 @@
 		<!-- <item>Gîte</item> -->
 		<item>Camping</item>
 		<item>Site de caravane</item>
+		<item>Office de tourisme</item>
 		<item>Informations</item>
 		<item>Site de pique-nique</item>
 		<item>Parc à thème</item>

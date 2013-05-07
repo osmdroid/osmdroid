@@ -721,6 +721,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
+		case R.id.menu_my_position:
+			GeoPoint myPosition = myLocationOverlay.getMyLocation();
+			map.getController().animateTo(myPosition);
+			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = RouteProviderType.OSRM;
 			item.setChecked(true);

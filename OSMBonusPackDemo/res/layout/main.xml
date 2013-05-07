@@ -30,7 +30,7 @@
         android:orientation="horizontal" >
 		<AutoCompleteTextView
 			android:id="@+id/poiTag"
-			android:hint="POI tag"
+			android:hint="Feature"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
