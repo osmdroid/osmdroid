@@ -31,7 +31,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.SimpleLocationOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.DefaultResourceProxyImpl;
 import android.app.Activity;
 import android.content.Context;
@@ -131,10 +133,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
-		myLocationOverlay = new SimpleLocationOverlay(this, new DefaultResourceProxyImpl(this));
+		DefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(this);
+		myLocationOverlay = new SimpleLocationOverlay(this, resourceProxy);
 		map.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.setLocation(startPoint);
-
+		
+		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this, resourceProxy);
+		map.getOverlays().add(scaleBarOverlay);
+		
 		// Itinerary markers:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
 		itineraryMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
@@ -438,6 +444,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     
 	void updateUIWithRoad(Road road){
 		roadNodeMarkers.removeAllItems();
+		TextView textView = (TextView)findViewById(R.id.routeInfo);
+		textView.setText("");
 		List<Overlay> mapOverlays = map.getOverlays();
 		if (roadOverlay != null){
 			mapOverlays.remove(roadOverlay);
@@ -454,7 +462,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		putRoadNodes(road);
 		map.invalidate();
 		//Set route info in the text view:
-		((TextView)findViewById(R.id.routeInfo)).setText(road.getLengthDurationText(-1));
+		textView.setText(road.getLengthDurationText(-1));
     }
     
 	/**
@@ -769,8 +777,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	//------------ LocationListener implementation
 	@Override public void onLocationChanged(final Location pLoc) {
-            myLocationOverlay.setLocation(new GeoPoint(pLoc));
-    }
+		myLocationOverlay.setLocation(new GeoPoint(pLoc));
+		//myLocationOverlay.setBearing(0.0f);
+	}
 
 	@Override public void onProviderDisabled(String provider) {
 	}
