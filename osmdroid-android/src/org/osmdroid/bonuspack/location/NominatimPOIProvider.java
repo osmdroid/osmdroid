@@ -119,7 +119,7 @@ public class NominatimPOIProvider {
 	 * and http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/EN
 	 * or http://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPackDemo/res/values/poi_tags.xml
 	 * @param maxResults the maximum number of POI returned. 
-	 * Note that in any case, Nominatim will have an absolute maximum of 100 (or 50?). 
+	 * Note that in any case, Nominatim will have an absolute maximum of 50. 
 	 * @param maxDistance to the position, in degrees. 
 	 * Note that it is used to build a bounding box around the position, not a circle. 
 	 * @return the list of POI, null if technical issue. 
