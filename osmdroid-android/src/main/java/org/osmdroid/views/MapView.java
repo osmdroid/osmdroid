@@ -124,7 +124,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected Rect mScrollableAreaLimit;
 
 	// for speed (avoiding allocations)
-	private final Matrix mMatrix = new Matrix();
 	private final MapTileProviderBase mTileProvider;
 
 	private final Handler mTileRequestCompleteHandler;
