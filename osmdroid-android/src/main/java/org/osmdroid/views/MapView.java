@@ -882,29 +882,34 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Get rotated event for some touch listeners.
 		MotionEvent rotatedEvent = rotateTouchEvent(event);
 
-		if (this.getOverlayManager().onTouchEvent(rotatedEvent, this)) {
-			return true;
-		}
-
-		if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
-			if (DEBUGMODE) {
-				logger.debug("mMultiTouchController handled onTouchEvent");
+		try {
+			if (this.getOverlayManager().onTouchEvent(rotatedEvent, this)) {
+				return true;
 			}
-			return true;
-		}
 
-		if (super.dispatchTouchEvent(event)) {
-			if (DEBUGMODE) {
-				logger.debug("super handled onTouchEvent");
+			if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
+				if (DEBUGMODE) {
+					logger.debug("mMultiTouchController handled onTouchEvent");
+				}
+				return true;
 			}
-			return true;
-		}
 
-		if (mGestureDetector.onTouchEvent(rotatedEvent)) {
-			if (DEBUGMODE) {
-				logger.debug("mGestureDetector handled onTouchEvent");
+			if (super.dispatchTouchEvent(event)) {
+				if (DEBUGMODE) {
+					logger.debug("super handled onTouchEvent");
+				}
+				return true;
 			}
-			return true;
+
+			if (mGestureDetector.onTouchEvent(rotatedEvent)) {
+				if (DEBUGMODE) {
+					logger.debug("mGestureDetector handled onTouchEvent");
+				}
+				return true;
+			}
+		} finally {
+			if (rotatedEvent != event)
+				rotatedEvent.recycle();
 		}
 
 		if (DEBUGMODE) {
