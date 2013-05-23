@@ -55,7 +55,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
-	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
+	private final IHttpClientFactory mHttpClientFactory;
 
 	// ===========================================================
 	// Constructors
@@ -84,6 +84,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 		mFilesystemCache = pFilesystemCache;
 		mNetworkAvailablityCheck = pNetworkAvailablityCheck;
+		mHttpClientFactory = new ApacheHttpClientFactory();
 		setTileSource(pTileSource);
 	}
 

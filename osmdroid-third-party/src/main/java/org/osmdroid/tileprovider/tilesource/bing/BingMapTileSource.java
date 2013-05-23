@@ -77,7 +77,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	// tile's image resolved url pattern
 	private String mUrl;
 
-	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
+	private final IHttpClientFactory mHttpClientFactory;
 
 	/**
 	 * Constructor.<br> <b>Warning, the static method {@link retrieveBingKey} should have been invoked once before constructor invocation</b>
@@ -89,6 +89,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
 		}
+		mHttpClientFactory = new ApacheHttpClientFactory();
 	}
 
 	/**
