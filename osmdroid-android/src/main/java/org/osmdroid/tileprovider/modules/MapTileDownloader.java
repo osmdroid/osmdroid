@@ -14,7 +14,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.osmdroid.http.ApacheHttpClientFactory;
+import org.osmdroid.http.IHttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
@@ -53,6 +54,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	private OnlineTileSourceBase mTileSource;
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
+
+	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
 
 	// ===========================================================
 	// Constructors
@@ -114,7 +117,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	@Override
 	protected Runnable getTileLoader() {
 		return new TileLoader();
-	};
+	}
 
 	@Override
 	public int getMinimumZoomLevel() {
@@ -174,7 +177,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final HttpClient client = new DefaultHttpClient();
+				final HttpClient client = mHttpClientFactory.createHttpClient();
 				final HttpUriRequest head = new HttpGet(tileURLString);
 				final HttpResponse response = client.execute(head);
 
@@ -233,8 +236,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
 			removeTileFromQueues(pState.getMapTile());
 			// don't return the tile because we'll wait for the fs provider to ask for it
-            // this prevent flickering when a load of delayed downloads complete for tiles
-            // that we might not even be interested in any more
+			// this prevent flickering when a load of delayed downloads complete for tiles
+			// that we might not even be interested in any more
 			pState.getCallback().mapTileRequestCompleted(pState, null);
 		}
 

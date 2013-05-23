@@ -14,6 +14,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.http.ApacheHttpClientFactory;
+import org.osmdroid.http.IHttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
@@ -74,6 +76,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	private String mBaseUrl;
 	// tile's image resolved url pattern
 	private String mUrl;
+
+	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
 
 	/**
 	 * Constructor.<br> <b>Warning, the static method {@link retrieveBingKey} should have been invoked once before constructor invocation</b>
@@ -221,22 +225,22 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	{
 		logger.trace("getMetaData");
 
-		final HttpClient client = new DefaultHttpClient();
+		final HttpClient client = mHttpClientFactory.createHttpClient();
 		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
 		logger.debug("make request "+head.getURI().toString());
 		try {
-		    final HttpResponse response = client.execute(head);
+			final HttpResponse response = client.execute(head);
 
-		    final HttpEntity entity = response.getEntity();
+			final HttpEntity entity = response.getEntity();
 
-		    if (entity == null) {
+			if (entity == null) {
 				logger.error("Cannot get response for url "+head.getURI().toString());
 				return null;
 			}
 
-		    final InputStream in = entity.getContent();
-		    final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-		    final BufferedOutputStream out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
+			final InputStream in = entity.getContent();
+			final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
+			final BufferedOutputStream out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 			StreamUtils.copy(in, out);
 			out.flush();
 
