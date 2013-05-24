@@ -28,13 +28,11 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.DefaultResourceProxyImpl;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +40,10 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -68,7 +70,7 @@ import android.widget.Toast;
  * @author M.Kergall
  *
  */
-public class MapActivity extends Activity implements MapEventsReceiver, LocationListener {
+public class MapActivity extends Activity implements MapEventsReceiver, LocationListener, SensorEventListener {
 	protected MapView map;
 	
 	protected GeoPoint startPoint, destinationPoint;
@@ -77,8 +79,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> itineraryMarkers; 
 		//for departure, destination and viapoints
 	protected ExtendedOverlayItem markerStart, markerDestination;
-	SimpleLocationOverlay myLocationOverlay;
-
+	DirectedLocationOverlay myLocationOverlay;
+	//MyLocationNewOverlay myLocationNewOverlay;
+	private LocationManager locationManager;
+	private SensorManager mSensorManager;
+	private Sensor mOrientation;
+	  
 	protected PathOverlay polygonOverlay; //enclosing polygon of destination location - experimental
 	
 	protected Road mRoad;
@@ -109,23 +115,34 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
 		
-		LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30*1000, 100.0f, this);
-		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 100.0f, this);
+		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		
+		myLocationOverlay = new DirectedLocationOverlay(this);
+		map.getOverlays().add(myLocationOverlay);
+		//myLocationNewOverlay = new MyLocationNewOverlay(this, this, map);
+
 		if (savedInstanceState == null){
-			Location l = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if (l != null) {
-				startPoint = new GeoPoint(l.getLatitude(), l.getLongitude());
+			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (location != null) {
+				//location known:
+				onLocationChanged(location);
+		        mapController.setZoom(13);
+				mapController.setCenter(new GeoPoint(location));
 			} else {
-				//we put a hard-coded start
-				startPoint = new GeoPoint(48.13, -1.63);
+				//no location known: we put a hard-coded map position, and no start point
+				myLocationOverlay.setEnabled(false);
+		        mapController.setZoom(5);
+				mapController.setCenter(new GeoPoint(48.5, 2.5));
 			}
+			startPoint = null;
 			destinationPoint = null;
 			viaPoints = new ArrayList<GeoPoint>();
-	        mapController.setZoom(9);
-			mapController.setCenter(startPoint);
 		} else {
+			myLocationOverlay.setLocation((GeoPoint)savedInstanceState.getParcelable("location"));
+			//TODO: restore other aspects...
 			startPoint = savedInstanceState.getParcelable("start");
 			destinationPoint = savedInstanceState.getParcelable("destination");
 			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
@@ -133,12 +150,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
-		DefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(this);
-		myLocationOverlay = new SimpleLocationOverlay(this, resourceProxy);
-		map.getOverlays().add(myLocationOverlay);
-		myLocationOverlay.setLocation(startPoint);
-		
-		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this, resourceProxy);
+		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
 		map.getOverlays().add(scaleBarOverlay);
 		
 		// Itinerary markers:
@@ -149,14 +161,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.getOverlays().add(itineraryMarkers);
 		updateUIWithItineraryMarkers();
 		
-		Button searchButton = (Button)findViewById(R.id.buttonSearch);
-		searchButton.setOnClickListener(new View.OnClickListener() {
+		Button searchDepButton = (Button)findViewById(R.id.buttonSearchDep);
+		searchDepButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
-				handleSearchLocationButton();
+				handleSearchButton(START_INDEX, R.id.editDeparture);
 			}
 		});
 		
-		registerForContextMenu(searchButton);
+		Button searchDestButton = (Button)findViewById(R.id.buttonSearchDest);
+		searchDestButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				handleSearchButton(DEST_INDEX, R.id.editDestination);
+			}
+		});
+		
+		registerForContextMenu(searchDestButton);
 		//context menu for clicking on the map is registered on this button. 
 		//(a little bit strange, but if we register it on mapView, it will catch map drag events)
 		
@@ -202,6 +221,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	 * callback to store activity status before a restart (orientation change for instance)
 	 */
 	@Override protected void onSaveInstanceState (Bundle outState){
+		outState.putParcelable("location", myLocationOverlay.getLocation());
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
 		outState.putParcelableArrayList("viapoints", viaPoints);
@@ -233,7 +253,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
-    /**
+	@Override protected void onResume() {
+		super.onResume();
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15*1000, 0.0f, this);
+		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60*1000, 0.0f, this);
+		mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_NORMAL);
+			//causing a big CPU consumption...
+	}
+
+	@Override protected void onPause() {
+		super.onPause();
+		locationManager.removeUpdates(this);
+		mSensorManager.unregisterListener(this);
+	}
+
+	/**
      * Test MyItemizedOverlay object
      */
     public void putMyItemizedOverlay(GeoPoint p){
@@ -284,28 +318,35 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     }
     
     /**
-     * Geocoding of the destination address
+     * Geocoding of the departure or destination address
      */
-	public void handleSearchLocationButton(){
-		EditText destinationEdit = (EditText)findViewById(R.id.editDestination);
+	public void handleSearchButton(int index, int editResId){
+		EditText locationEdit = (EditText)findViewById(editResId);
 		//Hide the soft keyboard:
 		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(destinationEdit.getWindowToken(), 0);
+		imm.hideSoftInputFromWindow(locationEdit.getWindowToken(), 0);
 		
-		String destinationAddress = destinationEdit.getText().toString();
+		String locationAddress = locationEdit.getText().toString();
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
 		try {
-			List<Address> foundAdresses = geocoder.getFromLocationName(destinationAddress, 1);
+			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1);
 			if (foundAdresses.size() == 0) { //if no address found, display an error
 				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
 			} else {
 				Address address = foundAdresses.get(0); //get first address
-				destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
-				markerDestination = putMarkerItem(markerDestination, destinationPoint, DEST_INDEX,
-			    		R.string.destination, R.drawable.marker_destination, -1);
+				if (index == START_INDEX){
+					startPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
+					markerStart = putMarkerItem(markerStart, startPoint, START_INDEX,
+						R.string.departure, R.drawable.marker_departure, -1);
+					map.getController().setCenter(startPoint);
+				} else if (index == DEST_INDEX){
+					destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
+					markerDestination = putMarkerItem(markerDestination, destinationPoint, DEST_INDEX,
+						R.string.destination, R.drawable.marker_destination, -1);
+					map.getController().setCenter(destinationPoint);
+				}
 				getRoadAsync();
-				map.getController().setCenter(destinationPoint);
 				//get and display enclosing polygon:
 				Bundle extras = address.getExtras();
 				if (extras != null && extras.containsKey("polygonpoints")){
@@ -511,12 +552,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	public void getRoadAsync(){
 		mRoad = null;
-		if (startPoint == null || destinationPoint == null){
+		GeoPoint roadStartPoint = null;
+		if (startPoint != null){
+			roadStartPoint = startPoint;
+		} else if (myLocationOverlay.isEnabled() && myLocationOverlay.getLocation() != null){
+			//use my current location as itinerary start point:
+			roadStartPoint = myLocationOverlay.getLocation();
+		}
+		if (roadStartPoint == null || destinationPoint == null){
 			updateUIWithRoad(mRoad);
 			return;
 		}
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
-		waypoints.add(startPoint);
+		waypoints.add(roadStartPoint);
 		//add intermediate via points:
 		for (GeoPoint p:viaPoints){
 			waypoints.add(p); 
@@ -653,8 +701,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	@Override public boolean longPressHelper(IGeoPoint p) {
 		tempClickedGeoPoint = new GeoPoint((GeoPoint)p);
-		Button searchButton = (Button)findViewById(R.id.buttonSearch);
-		openContextMenu(searchButton); //menu is hooked on the "Search" button
+		Button searchButton = (Button)findViewById(R.id.buttonSearchDest);
+		openContextMenu(searchButton); 
+			//menu is hooked on the "Search Departure" button, as it must be hooked somewhere. 
 		return true;
 	}
 
@@ -730,8 +779,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
 		case R.id.menu_my_position:
-			GeoPoint myPosition = myLocationOverlay.getMyLocation();
-			map.getController().animateTo(myPosition);
+			GeoPoint myPosition = myLocationOverlay.getLocation();
+			if (myPosition != null)
+				map.getController().animateTo(myPosition);
 			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = RouteProviderType.OSRM;
@@ -776,18 +826,41 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	//------------ LocationListener implementation
+	//int debugCount = 0;
 	@Override public void onLocationChanged(final Location pLoc) {
+		if (!myLocationOverlay.isEnabled()){
+			//we get the location for the first time:
+			myLocationOverlay.setEnabled(true);
+			map.getController().animateTo(new GeoPoint(pLoc));
+		}
 		myLocationOverlay.setLocation(new GeoPoint(pLoc));
-		//myLocationOverlay.setBearing(0.0f);
+		myLocationOverlay.setAccuracy((int)pLoc.getAccuracy());
+		//float speed = pLoc.getSpeed();
+		//debugCount++;
+		//((TextView)findViewById(R.id.routeInfo)).setText("Loc change:"+debugCount+" - "+speed);
+		map.invalidate();
 	}
 
 	@Override public void onProviderDisabled(String provider) {
+		myLocationOverlay.setEnabled(false);
 	}
 
 	@Override public void onProviderEnabled(String provider) {
+		myLocationOverlay.setEnabled(true);
 	}
 
 	@Override public void onStatusChanged(String provider, int status, Bundle extras) {
 	}
 
+	//------------ SensorEventListener implementation
+	@Override public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		myLocationOverlay.setAccuracy(accuracy);
+		map.invalidate();
+	}
+	
+	@Override public void onSensorChanged(SensorEvent event) {
+	    float azimuth_angle = event.values[0];
+		myLocationOverlay.setBearing(azimuth_angle);
+		map.invalidate();
+	}
 }

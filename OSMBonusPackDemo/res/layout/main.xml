@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
     
-   <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+        <EditText
+            android:id="@+id/editDeparture"
+			android:hint="@string/my_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1" />
+		<Button
+			android:id="@+id/buttonSearchDep"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="right"
+			android:layout_weight="0"
+			android:text="Search" />
+	</LinearLayout>
+    
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
         <EditText
             android:id="@+id/editDestination"
 			android:hint="@string/destination"
@@ -16,7 +36,7 @@
             android:layout_gravity="left"
             android:layout_weight="1" />
 		<Button
-			android:id="@+id/buttonSearch"
+			android:id="@+id/buttonSearchDest"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
@@ -24,7 +44,7 @@
 			android:text="Search" />
 	</LinearLayout>
     
-   <LinearLayout
+	<LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -44,6 +64,12 @@
 			android:layout_weight="0"
 			android:text="Search" />
 	</LinearLayout>
+
+	<!-- Button 
+	    android:id="@+id/expand"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	    android:background="@drawable/expander_ic_maximized"/ -->
 	
 	<TextView
 		android:id="@+id/routeInfo"
@@ -51,7 +77,7 @@
 		android:layout_height="wrap_content"
 		android:background="#FFBBBBBB"
 		android:textColor="#FF000000" />
-    
+	
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
