@@ -5,6 +5,12 @@
 	android:layout_height="fill_parent">
     
 	<LinearLayout
+	    android:id="@+id/search_panel"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+	
+	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
@@ -64,19 +70,29 @@
 			android:layout_weight="0"
 			android:text="Search" />
 	</LinearLayout>
-
-	<!-- Button 
-	    android:id="@+id/expand"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-	    android:background="@drawable/expander_ic_maximized"/ -->
+	</LinearLayout>
 	
-	<TextView
-		android:id="@+id/routeInfo"
+	<LinearLayout
+		android:id="@+id/expander"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-		android:background="#FFBBBBBB"
-		android:textColor="#FF000000" />
+		android:orientation="horizontal" 
+		android:background="@drawable/expander_bgrnd" >
+		<TextView
+			android:id="@+id/routeInfo"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="left" 
+			android:textColor="#FF000000" />
+		<TextView
+			android:id="@+id/speed"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="0"
+			android:layout_gravity="right" 
+			android:textColor="#FF000000" />
+	</LinearLayout>
 	
     <RelativeLayout
         android:layout_width="fill_parent"

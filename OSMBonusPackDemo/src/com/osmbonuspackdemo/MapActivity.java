@@ -56,6 +56,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -172,6 +173,30 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		searchDestButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				handleSearchButton(DEST_INDEX, R.id.editDestination);
+			}
+		});
+		
+		View expander = (View)findViewById(R.id.expander);
+		expander.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				View searchPanel = (View)findViewById(R.id.search_panel);
+				if (searchPanel.getVisibility() == View.VISIBLE){
+					/*
+					TranslateAnimation animate = new TranslateAnimation(0,0,0,-searchPanel.getHeight());
+					animate.setDuration(500);
+					animate.setFillAfter(true);
+					searchPanel.startAnimation(animate);
+					*/
+					searchPanel.setVisibility(View.GONE);
+				} else {
+					/*
+					TranslateAnimation animate = new TranslateAnimation(0,0,0,searchPanel.getHeight());
+					animate.setDuration(500);
+					animate.setFillAfter(true);
+					searchPanel.startAnimation(animate);
+					*/
+					searchPanel.setVisibility(View.VISIBLE);
+				}
 			}
 		});
 		
@@ -826,7 +851,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	//------------ LocationListener implementation
-	//int debugCount = 0;
 	@Override public void onLocationChanged(final Location pLoc) {
 		if (!myLocationOverlay.isEnabled()){
 			//we get the location for the first time:
@@ -835,9 +859,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		myLocationOverlay.setLocation(new GeoPoint(pLoc));
 		myLocationOverlay.setAccuracy((int)pLoc.getAccuracy());
-		//float speed = pLoc.getSpeed();
-		//debugCount++;
-		//((TextView)findViewById(R.id.routeInfo)).setText("Loc change:"+debugCount+" - "+speed);
+		float speed = pLoc.getSpeed() * 3.6f; //km/h
+		int speedInt = Math.round(speed);
+		((TextView)findViewById(R.id.speed)).setText("" + speedInt + " km/h");
 		map.invalidate();
 	}
 
