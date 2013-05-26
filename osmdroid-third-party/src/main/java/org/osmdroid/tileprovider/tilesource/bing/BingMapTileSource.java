@@ -5,17 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Locale;
 
-import microsoft.mappoint.TileSystem;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.http.ApacheHttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
+import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
@@ -29,6 +25,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import microsoft.mappoint.TileSystem;
 
 /**
  * BingMap tile source used with OSMDroid<br>
@@ -77,8 +75,6 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	// tile's image resolved url pattern
 	private String mUrl;
 
-	private final IHttpClientFactory mHttpClientFactory;
-
 	/**
 	 * Constructor.<br> <b>Warning, the static method {@link retrieveBingKey} should have been invoked once before constructor invocation</b>
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
@@ -89,7 +85,6 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
 		}
-		mHttpClientFactory = new ApacheHttpClientFactory();
 	}
 
 	/**
@@ -226,7 +221,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	{
 		logger.trace("getMetaData");
 
-		final HttpClient client = mHttpClientFactory.createHttpClient();
+		final HttpClient client = HttpClientFactory.getInstance().createHttpClient();
 		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
 		logger.debug("make request "+head.getURI().toString());
 		try {

@@ -1,13 +1,12 @@
 package org.osmdroid.google.sample;
 
+import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.google.android.maps.MapActivity;
 
 public class GoogleWrapperSample extends MapActivity {
 
@@ -110,6 +109,6 @@ public class GoogleWrapperSample extends MapActivity {
 		mMyLocationOverlay.disableMyLocation();
 	}
 
-	private enum MapViewSelection { Google, OSM };
+	private enum MapViewSelection { Google, OSM }
 
 }

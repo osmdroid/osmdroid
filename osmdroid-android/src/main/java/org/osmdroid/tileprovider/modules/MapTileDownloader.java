@@ -14,8 +14,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.http.ApacheHttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
+import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
@@ -55,8 +54,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
-	private final IHttpClientFactory mHttpClientFactory;
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -84,7 +81,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 		mFilesystemCache = pFilesystemCache;
 		mNetworkAvailablityCheck = pNetworkAvailablityCheck;
-		mHttpClientFactory = new ApacheHttpClientFactory();
 		setTileSource(pTileSource);
 	}
 
@@ -178,7 +174,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final HttpClient client = mHttpClientFactory.createHttpClient();
+				final HttpClient client = HttpClientFactory.getInstance().createHttpClient();
 				final HttpUriRequest head = new HttpGet(tileURLString);
 				final HttpResponse response = client.execute(head);
 

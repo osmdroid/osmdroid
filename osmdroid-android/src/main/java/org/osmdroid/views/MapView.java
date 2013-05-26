@@ -616,7 +616,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Set the map to limit it's scrollable view to the specified BoundingBoxE6. Note this does not
 	 * limit zooming so it will be possible for the user to zoom to an area that is larger than the
 	 * limited area.
-	 * 
+	 *
 	 * @param boundingBox
 	 *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
 	 *            limitations
@@ -1066,7 +1066,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Returns true if the safe drawing canvas is being used.
-	 * 
+	 *
 	 * @see {@link ISafeCanvas}
 	 */
 	public boolean isUsingSafeCanvas() {
@@ -1075,7 +1075,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/**
 	 * Sets whether the safe drawing canvas is being used.
-	 * 
+	 *
 	 * @see {@link ISafeCanvas}
 	 */
 	public void setUseSafeCanvas(boolean useSafeCanvas) {
@@ -1216,7 +1216,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					logger.info("Using tile source specified in layout attributes: " + r);
 					tileSource = r;
 				} catch (final IllegalArgumentException e) {
-					logger.warn("Invalid tile souce specified in layout attributes: " + tileSource);
+					logger.warn("Invalid tile source specified in layout attributes: " + tileSource);
 				}
 			}
 		}

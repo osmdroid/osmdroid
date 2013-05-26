@@ -8,11 +8,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.osmdroid.http.ApacheHttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
+import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -53,8 +53,6 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 	private static String mToken = "";
 
 	private static Editor mPreferenceEditor;
-
-	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
 
 	/**
 	 * Retrieve the key from the manifest and store it for later use.
@@ -123,7 +121,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 				// check again because it may have been set while we were blocking
 				if (mToken.length() == 0) {
 					final String url = "http://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
-					final HttpClient httpClient = mHttpClientFactory.createHttpClient();
+					final HttpClient httpClient = HttpClientFactory.getInstance().createHttpClient();
 					final HttpPost httpPost = new HttpPost(url);
 					try {
 						final HttpResponse response = httpClient.execute(httpPost);
@@ -157,5 +155,5 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 		}
 
 		return mToken;
-	};
+	}
 }

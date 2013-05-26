@@ -16,8 +16,7 @@ import org.apache.http.entity.mime.content.InputStreamBody;
 import org.osmdroid.contributor.util.RecordedGeoPoint;
 import org.osmdroid.contributor.util.RecordedRouteGPXFormatter;
 import org.osmdroid.contributor.util.Util;
-import org.osmdroid.http.ApacheHttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
+import org.osmdroid.http.HttpClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +25,6 @@ public class GpxToPHPUploader {
 	private static final Logger logger = LoggerFactory.getLogger(GpxToPHPUploader.class);
 
 	protected static final String UPLOADSCRIPT_URL = "http://www.PLACEYOURDOMAINHERE.com/anyfolder/gpxuploader/upload.php";
-
-	private static IHttpClientFactory mHttpClientFactory = new ApacheHttpClientFactory();
 
 	/**
 	 * This is a utility class with only static members.
@@ -45,7 +42,7 @@ public class GpxToPHPUploader {
 
 					final InputStream gpxInputStream = new ByteArrayInputStream(
 							RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes());
-					final HttpClient httpClient = mHttpClientFactory.createHttpClient();
+					final HttpClient httpClient = HttpClientFactory.getInstance().createHttpClient();
 
 					final HttpPost request = new HttpPost(UPLOADSCRIPT_URL);
 

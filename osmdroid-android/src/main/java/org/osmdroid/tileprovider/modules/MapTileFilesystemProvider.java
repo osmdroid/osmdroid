@@ -61,7 +61,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	/**
 	 * Provides a file system based cache tile provider. Other providers can register and store data
 	 * in the cache.
-	 * 
+	 *
 	 * @param pRegisterReceiver
 	 */
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
@@ -98,7 +98,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	@Override
 	protected Runnable getTileLoader() {
 		return new TileLoader();
-	};
+	}
 
 	@Override
 	public int getMinimumZoomLevel() {

@@ -39,7 +39,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	/**
 	 * Creates an {@link MapTileProviderArray} with no tile providers.
 	 *
-	 * @param aRegisterReceiver
+	 * @param pRegisterReceiver
 	 *            a {@link IRegisterReceiver}
 	 */
 	protected MapTileProviderArray(final ITileSource pTileSource,
@@ -52,7 +52,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	 *
 	 * @param aRegisterReceiver
 	 *            a {@link IRegisterReceiver}
-	 * @param tileProviderArray
+	 * @param pTileProviderArray
 	 *            an array of {@link MapTileModuleProviderBase}
 	 */
 	public MapTileProviderArray(final ITileSource pTileSource,

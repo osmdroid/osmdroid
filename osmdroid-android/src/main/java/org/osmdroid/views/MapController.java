@@ -366,7 +366,7 @@ public class MapController implements IMapController, MapViewConstants {
 		 * </li>
 		 * </ul>
 		 */
-		MIDDLEPEAKSPEED;
+		MIDDLEPEAKSPEED
 	}
 
 	private abstract class AbstractAnimationRunner extends Thread {

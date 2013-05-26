@@ -638,7 +638,7 @@ public class GEMFFile {
 					"GEMF Range: source=%d, zoom=%d, x=%d-%d, y=%d-%d, offset=0x%08X",
 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
 		}
-	};
+	}
 
 	// InputStream class to hand to the tile loader system. It wants an InputStream, and it is more
 	// efficient to create a new open file handle pointed to the right place, than to buffer the file
