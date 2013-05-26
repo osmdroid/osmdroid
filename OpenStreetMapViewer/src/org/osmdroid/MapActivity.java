@@ -1,11 +1,6 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.osmdroid.http.HttpClientFactory;
-import org.osmdroid.http.IHttpClientFactory;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -42,13 +37,6 @@ public class MapActivity extends FragmentActivity
         MapFragment mapFragment = new MapFragment();
 
         fm.beginTransaction().add(R.id.map_container, mapFragment).commit();
-
-		HttpClientFactory.setInstance(new IHttpClientFactory() {
-			@Override
-			public HttpClient createHttpClient() {
-				return new DefaultHttpClient();
-			}
-		});
     }
 
     @Override
