@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import microsoft.mappoint.TileSystem;
-import net.wigle.wigleandroid.ZoomButtonsController;
-import net.wigle.wigleandroid.ZoomButtonsController.OnZoomListener;
-
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
@@ -59,6 +55,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
+import android.widget.ZoomButtonsController;
+import android.widget.ZoomButtonsController.OnZoomListener;
+
+import microsoft.mappoint.TileSystem;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -102,8 +102,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final MapController mController;
 
-	// XXX we can use android.widget.ZoomButtonsController if we upgrade the
-	// dependency to Android 1.6
 	private final ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
