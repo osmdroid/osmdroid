@@ -121,7 +121,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 				// check again because it may have been set while we were blocking
 				if (mToken.length() == 0) {
 					final String url = "http://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
-					final HttpClient httpClient = HttpClientFactory.getInstance().createHttpClient();
+					final HttpClient httpClient = HttpClientFactory.createHttpClient();
 					final HttpPost httpPost = new HttpPost(url);
 					try {
 						final HttpResponse response = httpClient.execute(httpPost);

@@ -42,7 +42,7 @@ public class GpxToPHPUploader {
 
 					final InputStream gpxInputStream = new ByteArrayInputStream(
 							RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes());
-					final HttpClient httpClient = HttpClientFactory.getInstance().createHttpClient();
+					final HttpClient httpClient = HttpClientFactory.createHttpClient();
 
 					final HttpPost request = new HttpPost(UPLOADSCRIPT_URL);
 

@@ -174,7 +174,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final HttpClient client = HttpClientFactory.getInstance().createHttpClient();
+				final HttpClient client = HttpClientFactory.createHttpClient();
 				final HttpUriRequest head = new HttpGet(tileURLString);
 				final HttpResponse response = client.execute(head);
 

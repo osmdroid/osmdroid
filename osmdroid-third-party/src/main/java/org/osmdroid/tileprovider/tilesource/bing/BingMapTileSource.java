@@ -33,9 +33,11 @@ import microsoft.mappoint.TileSystem;
  *
  * This class builds the Bing REST services url to be requested to get a tile image.<br>
  *
- * Before to be used, the static method {@link retrieveBingKey} must be invoked.<br>
+ * Before to be used, the static method {@link #retrieveBingKey} must be invoked.<br>
  *
- * See {@link http://msdn.microsoft.com/en-us/library/ff701721.aspx} for details on the Bing API.
+ * See
+ * <a href="http://msdn.microsoft.com/en-us/library/ff701721.aspx">http://msdn.microsoft.com/en-us/library/ff701721.aspx</a>
+ * for details on the Bing API.
  */
 public class BingMapTileSource extends QuadTreeTileSource implements IStyledTileSource<String> {
 
@@ -59,7 +61,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	private static final String BASE_URL_PATTERN = "http://dev.virtualearth.net/REST/V1/Imagery/Metadata/%s?mapVersion=v1&output=json&key=%s";
 
 	/** Bing Map key set by user.
-	 * See {@link http://msdn.microsoft.com/en-us/library/ff428642.aspx}
+	 * @see
+	 * <a href="http://msdn.microsoft.com/en-us/library/ff428642.aspx">http://msdn.microsoft.com/en-us/library/ff428642.aspx</a>
 	 */
 	private static String mBingMapKey = "";
 
@@ -76,7 +79,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	private String mUrl;
 
 	/**
-	 * Constructor.<br> <b>Warning, the static method {@link retrieveBingKey} should have been invoked once before constructor invocation</b>
+	 * Constructor.<br> <b>Warning, the static method {@link #retrieveBingKey} should have been invoked once before constructor invocation</b>
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
 	public BingMapTileSource(final String aLocale) {
@@ -221,7 +224,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	{
 		logger.trace("getMetaData");
 
-		final HttpClient client = HttpClientFactory.getInstance().createHttpClient();
+		final HttpClient client = HttpClientFactory.createHttpClient();
 		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
 		logger.debug("make request "+head.getURI().toString());
 		try {
