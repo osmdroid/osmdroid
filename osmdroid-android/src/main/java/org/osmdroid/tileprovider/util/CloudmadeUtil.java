@@ -8,6 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
@@ -124,6 +125,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 					final HttpClient httpClient = HttpClientFactory.createHttpClient();
 					final HttpPost httpPost = new HttpPost(url);
 					try {
+						httpPost.setEntity(new StringEntity("", "utf-8"));
 						final HttpResponse response = httpClient.execute(httpPost);
 						if (DEBUGMODE) {
 							logger.debug("Response from Cloudmade auth: " + response.getStatusLine());
