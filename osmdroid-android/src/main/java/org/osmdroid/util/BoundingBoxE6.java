@@ -214,7 +214,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 			maxLon = Math.max(maxLon, longitudeE6);
 		}
 
-		return new BoundingBoxE6(minLat, minLon, maxLat, maxLon);
+		return new BoundingBoxE6(maxLat, maxLon, minLat, minLon);
 	}
 
 	public boolean contains(final GeoPoint pGeoPoint) {
