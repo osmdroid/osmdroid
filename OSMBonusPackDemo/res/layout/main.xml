@@ -84,14 +84,16 @@
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
 			android:layout_gravity="left" 
-			android:textColor="#FF000000" />
+			android:textColor="#FF000000" 
+			android:textSize="20dp" />
 		<TextView
 			android:id="@+id/speed"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0"
 			android:layout_gravity="right" 
-			android:textColor="#FF000000" />
+			android:textColor="#FF000000" 
+			android:textSize="20dp" />
 	</LinearLayout>
 	
     <RelativeLayout
@@ -100,6 +102,13 @@
 		<org.osmdroid.views.MapView android:id="@+id/map"
 	        android:layout_width="fill_parent" 
 	        android:layout_height="fill_parent" />
+        <Button
+            android:id="@+id/buttonTrackingMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/btn_tracking_off" />
 	</RelativeLayout>
 
 </LinearLayout>

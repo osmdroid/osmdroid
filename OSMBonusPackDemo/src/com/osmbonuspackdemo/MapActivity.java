@@ -2,6 +2,7 @@ package com.osmbonuspackdemo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +27,7 @@ import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.DirectedLocationOverlay;
@@ -45,6 +47,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -82,10 +85,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected ExtendedOverlayItem markerStart, markerDestination;
 	DirectedLocationOverlay myLocationOverlay;
 	//MyLocationNewOverlay myLocationNewOverlay;
-	private LocationManager locationManager;
-	private SensorManager mSensorManager;
-	private Sensor mOrientation;
-	  
+	protected LocationManager locationManager;
+	protected SensorManager mSensorManager;
+	protected Sensor mOrientation;
+
+	protected boolean mTrackingMode;
+	Button mTrackingModeButton;
+	float mAzimuthAngleSpeed = 0.0f;
+
 	protected PathOverlay polygonOverlay; //enclosing polygon of destination location - experimental
 	
 	protected Road mRoad;
@@ -123,17 +130,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		myLocationOverlay = new DirectedLocationOverlay(this);
 		map.getOverlays().add(myLocationOverlay);
-		//myLocationNewOverlay = new MyLocationNewOverlay(this, this, map);
 
 		if (savedInstanceState == null){
 			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (location == null)
+				location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
 			if (location != null) {
 				//location known:
 				onLocationChanged(location);
 		        mapController.setZoom(13);
 				mapController.setCenter(new GeoPoint(location));
 			} else {
-				//no location known: we put a hard-coded map position, and no start point
+				//no location known, we put a hard-coded map position:
 				myLocationOverlay.setEnabled(false);
 		        mapController.setZoom(5);
 				mapController.setCenter(new GeoPoint(48.5, 2.5));
@@ -143,7 +152,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			viaPoints = new ArrayList<GeoPoint>();
 		} else {
 			myLocationOverlay.setLocation((GeoPoint)savedInstanceState.getParcelable("location"));
-			//TODO: restore other aspects...
+			//TODO: restore other aspects of myLocationOverlay...
 			startPoint = savedInstanceState.getParcelable("start");
 			destinationPoint = savedInstanceState.getParcelable("destination");
 			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
@@ -161,6 +170,26 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				map, new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
 		map.getOverlays().add(itineraryMarkers);
 		updateUIWithItineraryMarkers();
+		
+		//Tracking system:
+		mTrackingModeButton = (Button)findViewById(R.id.buttonTrackingMode);
+		mTrackingModeButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				mTrackingMode = !mTrackingMode;
+				if (mTrackingMode){
+					mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_on);
+					if (myLocationOverlay.isEnabled()&& myLocationOverlay.getLocation() != null){
+						map.getController().animateTo(myLocationOverlay.getLocation());
+					}
+					map.setMapOrientation(-mAzimuthAngleSpeed);
+					view.setKeepScreenOn(true);
+				} else {
+					mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_off);
+					map.setMapOrientation(0.0f);
+					view.setKeepScreenOn(false);
+				}
+			}
+		});
 		
 		Button searchDepButton = (Button)findViewById(R.id.buttonSearchDep);
 		searchDepButton.setOnClickListener(new View.OnClickListener() {
@@ -181,20 +210,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			public void onClick(View view) {
 				View searchPanel = (View)findViewById(R.id.search_panel);
 				if (searchPanel.getVisibility() == View.VISIBLE){
-					/*
-					TranslateAnimation animate = new TranslateAnimation(0,0,0,-searchPanel.getHeight());
-					animate.setDuration(500);
-					animate.setFillAfter(true);
-					searchPanel.startAnimation(animate);
-					*/
 					searchPanel.setVisibility(View.GONE);
 				} else {
-					/*
-					TranslateAnimation animate = new TranslateAnimation(0,0,0,searchPanel.getHeight());
-					animate.setDuration(500);
-					animate.setFillAfter(true);
-					searchPanel.startAnimation(animate);
-					*/
 					searchPanel.setVisibility(View.VISIBLE);
 				}
 			}
@@ -228,7 +245,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(poiTagText.getWindowToken(), 0);
 				//Start search:
-				getPOIAsync(poiTagText.getText().toString());
+				String feature = poiTagText.getText().toString();
+				if (!feature.equals(""))
+					Toast.makeText(v.getContext(), "Searching:\n"+feature, Toast.LENGTH_LONG).show();
+				getPOIAsync(feature);
 			}
 		});
         //POI markers:
@@ -278,12 +298,31 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
+	/* String getBestProvider(){
+		String bestProvider = null;
+		//bestProvider = locationManager.getBestProvider(new Criteria(), true); // => returns "Network Provider"! 
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+			bestProvider = LocationManager.GPS_PROVIDER;
+		else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+			bestProvider = LocationManager.NETWORK_PROVIDER;
+		return bestProvider;
+	} */
+	
+	boolean startLocationUpdates(){
+		boolean result = false;
+		for (final String provider : locationManager.getProviders(true)) {
+			locationManager.requestLocationUpdates(provider, 2*1000, 0.0f, this);
+			result = true;
+		}
+		return result;
+	}
+
 	@Override protected void onResume() {
 		super.onResume();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15*1000, 0.0f, this);
-		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 60*1000, 0.0f, this);
+		boolean isOneProviderEnabled = startLocationUpdates();
+		myLocationOverlay.setEnabled(isOneProviderEnabled);
 		mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_NORMAL);
-			//causing a big CPU consumption...
+			//sensor listener is causing a high CPU consumption...
 	}
 
 	@Override protected void onPause() {
@@ -352,6 +391,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		imm.hideSoftInputFromWindow(locationEdit.getWindowToken(), 0);
 		
 		String locationAddress = locationEdit.getText().toString();
+		
+		if (locationAddress.equals("")){
+			removePoint(index);
+			map.invalidate();
+			return;
+		}
+		
+		Toast.makeText(this, "Searching:\n"+locationAddress, Toast.LENGTH_LONG).show();
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
 		try {
@@ -419,7 +466,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		protected void onPostExecute(String result) {
 			marker.setDescription(result);
-			//itineraryMarkers.showBubbleOnItem(???, map); //open bubble on the item
+			itineraryMarkers.showBubbleOnItem(marker, map, false); //open bubble on the item
 		}
 	}
 	
@@ -454,14 +501,23 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
     
 	public void removePoint(int index){
-		if (index == START_INDEX)
+		if (index == START_INDEX){
 			startPoint = null;
-		else if (index == DEST_INDEX)
+			if (markerStart != null){
+				itineraryMarkers.removeItem(markerStart);
+				markerStart = null;
+			}
+		} else if (index == DEST_INDEX){
 			destinationPoint = null;
-		else 
+			if (markerDestination != null){
+				itineraryMarkers.removeItem(markerDestination);
+				markerDestination = null;
+			}
+		} else {
 			viaPoints.remove(index);
+			updateUIWithItineraryMarkers();
+		}
 		getRoadAsync();
-		updateUIWithItineraryMarkers();
 	}
 	
 	public void updateUIWithItineraryMarkers(){
@@ -803,11 +859,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
-		case R.id.menu_my_position:
-			GeoPoint myPosition = myLocationOverlay.getLocation();
-			if (myPosition != null)
-				map.getController().animateTo(myPosition);
-			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = RouteProviderType.OSRM;
 			item.setChecked(true);
@@ -851,40 +902,93 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	//------------ LocationListener implementation
+	private final NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
+	long mLastTime = 0; // milliseconds
+	double mSpeed = 0.0; // km/h
 	@Override public void onLocationChanged(final Location pLoc) {
+		long currentTime = System.currentTimeMillis();
+		if (mIgnorer.shouldIgnore(pLoc.getProvider(), currentTime))
+            return;
+		double dT = currentTime - mLastTime;
+		if (dT < 100.0){
+			//Toast.makeText(this, pLoc.getProvider()+" dT="+dT, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		mLastTime = currentTime;
+		
+		GeoPoint newLocation = new GeoPoint(pLoc);
 		if (!myLocationOverlay.isEnabled()){
 			//we get the location for the first time:
 			myLocationOverlay.setEnabled(true);
-			map.getController().animateTo(new GeoPoint(pLoc));
+			map.getController().animateTo(newLocation);
 		}
-		myLocationOverlay.setLocation(new GeoPoint(pLoc));
+		
+		GeoPoint prevLocation = myLocationOverlay.getLocation();
+		myLocationOverlay.setLocation(newLocation);
 		myLocationOverlay.setAccuracy((int)pLoc.getAccuracy());
-		float speed = pLoc.getSpeed() * 3.6f; //km/h
-		int speedInt = Math.round(speed);
-		((TextView)findViewById(R.id.speed)).setText("" + speedInt + " km/h");
-		map.invalidate();
+
+		if (prevLocation != null && pLoc.getProvider().equals(LocationManager.GPS_PROVIDER)){
+			/*
+			double d = prevLocation.distanceTo(newLocation);
+			mSpeed = d/dT*1000.0; // m/s
+			mSpeed = mSpeed * 3.6; //km/h
+			*/
+			mSpeed = pLoc.getSpeed() * 3.6;
+			long speedInt = Math.round(mSpeed);
+			TextView speedTxt = (TextView)findViewById(R.id.speed);
+			speedTxt.setText(speedInt + " km/h");
+			
+			//TODO: check if speed is not too small
+			if (mSpeed >= 0.1){
+				//mAzimuthAngleSpeed = (float)prevLocation.bearingTo(newLocation);
+				mAzimuthAngleSpeed = (float)pLoc.getBearing();
+				myLocationOverlay.setBearing(mAzimuthAngleSpeed);
+			}
+		}
+		
+		if (mTrackingMode){
+			//keep the map view centered on current location:
+			map.getController().animateTo(newLocation);
+			map.setMapOrientation(-mAzimuthAngleSpeed);
+		} else {
+			//just redraw the location overlay:
+			map.invalidate();
+		}
 	}
 
-	@Override public void onProviderDisabled(String provider) {
-		myLocationOverlay.setEnabled(false);
-	}
+	@Override public void onProviderDisabled(String provider) {}
 
-	@Override public void onProviderEnabled(String provider) {
-		myLocationOverlay.setEnabled(true);
-	}
+	@Override public void onProviderEnabled(String provider) {}
 
-	@Override public void onStatusChanged(String provider, int status, Bundle extras) {
-	}
+	@Override public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 	//------------ SensorEventListener implementation
 	@Override public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		myLocationOverlay.setAccuracy(accuracy);
 		map.invalidate();
 	}
-	
+
+	static float mAzimuthOrientation = 0.0f;
 	@Override public void onSensorChanged(SensorEvent event) {
-	    float azimuth_angle = event.values[0];
-		myLocationOverlay.setBearing(azimuth_angle);
-		map.invalidate();
+		switch (event.sensor.getType()){
+			case Sensor.TYPE_ORIENTATION: 
+				if (mSpeed < 0.1){
+					/* TODO Filter to implement...
+					float azimuth = event.values[0];
+					if (Math.abs(azimuth-mAzimuthOrientation)>2.0f){
+						mAzimuthOrientation = azimuth;
+						myLocationOverlay.setBearing(mAzimuthOrientation);
+						if (mTrackingMode)
+							map.setMapOrientation(-mAzimuthOrientation);
+						else
+							map.invalidate();
+					}
+					*/
+				}
+				//at higher speed, we use speed vector, not phone orientation. 
+				break;
+			default:
+				break;
+		}
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OSMBonusPackDemo</string>
+    <string name="app_name">OSMNavigator</string>
     <string name="my_position">My Position</string>
     <string name="departure">Departure</string>
     <string name="destination">Destination</string>

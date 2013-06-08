@@ -9,10 +9,6 @@
         android:icon="@android:drawable/ic_menu_agenda"
         android:title="POIs list"/>
     <item
-        android:id="@+id/menu_my_position"
-        android:icon="@android:drawable/ic_menu_mylocation"
-        android:title="My Position"/>
-    <item
         android:id="@+id/menu_tile"
         android:icon="@android:drawable/ic_menu_more"
         android:title="Tile Provider">
@@ -20,10 +16,11 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/menu_tile_mapnik"
-                    android:title="Mapnik"/>
+                    android:title="OSM Standard"
+                    android:checked="true"/>
                 <item
                     android:id="@+id/menu_tile_mapquest_osm"
-                    android:title="MapQuest OSM"/>
+                    android:title="OSM by MapQuest"/>
                 <item
                     android:id="@+id/menu_tile_mapquest_aerial"
                     android:title="MapQuest Aerial"/>
@@ -38,7 +35,8 @@
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/menu_route_osrm"
-                    android:title="OSRM-Fastest"/>
+                    android:title="OSRM-Fastest"
+                    android:checked="true"/>
                 <item
                     android:id="@+id/menu_route_mapquest_fastest"
                     android:title="MapQuest-Fastest"/>
