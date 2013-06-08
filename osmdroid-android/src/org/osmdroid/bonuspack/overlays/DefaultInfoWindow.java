@@ -44,7 +44,7 @@ public class DefaultInfoWindow extends InfoWindow {
 			@Override public boolean onTouch(View v, MotionEvent e) {
 				if (e.getAction() == MotionEvent.ACTION_UP)
 					close();
-				return true; //TODO: should consume the event - but it doesn't!
+				return true; //From Osmdroid 3.0.10, event is properly consumed. 
 			}
 		});
 	}

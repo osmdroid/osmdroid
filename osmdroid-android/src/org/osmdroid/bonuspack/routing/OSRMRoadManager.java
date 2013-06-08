@@ -46,7 +46,7 @@ public class OSRMRoadManager extends RoadManager {
 		MANEUVERS.put("7", 4); //Left
 		MANEUVERS.put("8", 3); //Slight left
 		MANEUVERS.put("9", 24); //Arrived (at waypoint)
-		//MANEUVERS.put("10", 0); //"Head" => used by OSRM as the start node
+		MANEUVERS.put("10", 24); //"Head" => used by OSRM as the start node. Considered here as a "waypoint". 
 		MANEUVERS.put("11-1", 27); //Round-about, 1st exit
 		MANEUVERS.put("11-2", 28); //2nd exit, etc ...
 		MANEUVERS.put("11-3", 29);

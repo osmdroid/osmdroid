@@ -108,24 +108,24 @@ public class Road  implements Parcelable {
 	public String getLengthDurationText(double length, double duration){
 		String result;
 		if (length >= 100.0){
-			result = (int)(length) + " km, ";
+			result = (int)(length) + "km, ";
 		} else if (length >= 1.0){
-			result = Math.round(length*10)/10.0 + " km, ";
+			result = Math.round(length*10)/10.0 + "km, ";
 		} else {
-			result = (int)(length*1000) + " m, ";
+			result = (int)(length*1000) + "m, ";
 		}
 		int totalSeconds = (int)duration;
 		int hours = totalSeconds / 3600;
 		int minutes = (totalSeconds / 60) - (hours*60);
 		int seconds = (totalSeconds % 60);
 		if (hours != 0){
-			result += hours + " h ";
+			result += hours + "h ";
 		}
 		if (minutes != 0){
-			result += minutes + " min";
+			result += minutes + "min ";
 		}
 		if (hours == 0 && minutes == 0){
-			result += seconds + " s";
+			result += seconds + "sec";
 		}
 		return result;
 	}

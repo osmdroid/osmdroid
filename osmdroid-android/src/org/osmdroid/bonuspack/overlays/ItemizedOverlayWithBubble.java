@@ -59,6 +59,14 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			final MapView mapView) {
 		this(context, aList, mapView, null);
 	}
+
+	public void showBubbleOnItem(final ExtendedOverlayItem eItem, final MapView mapView, boolean panIntoView) {
+		mItemWithBubble = eItem;
+		if (eItem != null){
+			eItem.showBubble(mBubble, mapView, panIntoView);
+			//setFocus((Item)eItem);
+		}
+	}
 	
 	/**
 	 * Opens the bubble on the item. 
@@ -67,14 +75,11 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	 * 
 	 * @param index of the overlay item to show
 	 * @param mapView
+	 * @param panIntoView true if you want the map view to be centered on it. 
 	 */
 	public void showBubbleOnItem(final int index, final MapView mapView, boolean panIntoView) {
-		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(getItem(index)); 
-		mItemWithBubble = eItem;
-		if (eItem != null){
-			eItem.showBubble(mBubble, mapView, panIntoView);
-			//setFocus((Item)eItem);
-		}
+		ExtendedOverlayItem eItem = (ExtendedOverlayItem)(getItem(index));
+		showBubbleOnItem(eItem, mapView, panIntoView);
 	}
 	
 	/**
