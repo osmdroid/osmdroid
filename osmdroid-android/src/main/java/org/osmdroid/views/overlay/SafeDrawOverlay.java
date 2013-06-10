@@ -48,14 +48,21 @@ public abstract class SafeDrawOverlay extends Overlay {
 			// Save the canvas state
 			c.save();
 
+			// Since the translate calls still take a float, there can be rounding errors
+			// Let's calculate the error, and adjust for it.
+			final int floatErrorX = screenRect.left - (int) (float) screenRect.left;
+			final int floatErrorY = screenRect.top - (int) (float) screenRect.top;
+
 			// Translate the coordinates
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				final float scaleX = osmv.getScaleX();
 				final float scaleY = osmv.getScaleY();
 				c.translate(screenRect.left * scaleX, screenRect.top * scaleY);
+				c.translate(floatErrorX, floatErrorY);
 			} else {
 				c.getMatrix(sMatrix);
 				sMatrix.preTranslate(screenRect.left, screenRect.top);
+				sMatrix.preTranslate(floatErrorX, floatErrorY);
 				c.setMatrix(sMatrix);
 			}
 		} else {
