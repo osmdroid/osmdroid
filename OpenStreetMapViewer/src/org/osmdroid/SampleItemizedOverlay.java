@@ -10,7 +10,6 @@ import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -84,7 +83,7 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 	}
 
 	@Override
-	protected void onDrawItem(Canvas canvas, SampleOverlayItem item, Point curScreenCoords) {
+	protected void onDrawItem(ISafeCanvas canvas, SampleOverlayItem item, Point curScreenCoords) {
 		super.onDrawItem(canvas, item, curScreenCoords);
 	}
 
