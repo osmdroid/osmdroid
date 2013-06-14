@@ -998,17 +998,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final int scrollableHeight = maxY - minY;
 			final int width = this.getWidth();
 			final int height = this.getHeight();
+
 			// Adjust if we are outside the scrollable area
-			if (scrollableWidth <= width)
-				x = minX + (scrollableWidth / 2);
-			else if (x - (width / 2) < minX)
+			if (scrollableWidth <= width) {
+				if (x - (width / 2) > minX)
+					x = minX + (width / 2);
+				else if (x + (width / 2) < maxX)
+					x = maxX - (width / 2);
+			} else if (x - (width / 2) < minX)
 				x = minX + (width / 2);
 			else if (x + (width / 2) > maxX)
 				x = maxX - (width / 2);
 
-			if (scrollableHeight <= height)
-				y = minY + (scrollableHeight / 2);
-			else if (y - (height / 2) < minY)
+			if (scrollableHeight <= height) {
+				if (y - (height / 2) > minY)
+					y = minY + (height / 2);
+				else if (y + (height / 2) < maxY)
+					y = maxY - (height / 2);
+			} else if (y - (height / 2) < minY)
 				y = minY + (height / 2);
 			else if (y + (height / 2) > maxY)
 				y = maxY - (height / 2);
