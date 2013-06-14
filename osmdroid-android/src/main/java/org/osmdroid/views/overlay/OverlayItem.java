@@ -40,7 +40,7 @@ public class OverlayItem {
 
 	protected final String mUid;
 	protected final String mTitle;
-	protected final String mDescription;
+	protected final String mSnippet;
 	protected final GeoPoint mGeoPoint;
 	protected Drawable mMarker;
 	protected HotspotPlace mHotspotPlace;
@@ -56,14 +56,14 @@ public class OverlayItem {
 	 *            a <b>multiLine</b> description ( <code>'\n'</code> possible)
 	 * @param aGeoPoint
 	 */
-	public OverlayItem(final String aTitle, final String aDescription, final GeoPoint aGeoPoint) {
-		this(null, aTitle, aDescription, aGeoPoint);
+	public OverlayItem(final String aTitle, final String aSnippet, final GeoPoint aGeoPoint) {
+		this(null, aTitle, aSnippet, aGeoPoint);
 	}
 
 	public OverlayItem(final String aUid, final String aTitle, final String aDescription,
 			final GeoPoint aGeoPoint) {
 		this.mTitle = aTitle;
-		this.mDescription = aDescription;
+		this.mSnippet = aDescription;
 		this.mGeoPoint = aGeoPoint;
 		this.mUid = aUid;
 	}
@@ -80,7 +80,7 @@ public class OverlayItem {
 	}
 
 	public String getSnippet() {
-		return mDescription;
+		return mSnippet;
 	}
 
 	public GeoPoint getPoint() {
