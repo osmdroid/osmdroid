@@ -38,10 +38,10 @@ public class OverlayItem {
 	// Fields
 	// ===========================================================
 
-	public final String mUid;
-	public final String mTitle;
-	public final String mDescription;
-	public final GeoPoint mGeoPoint;
+	protected final String mUid;
+	protected final String mTitle;
+	protected final String mDescription;
+	protected final GeoPoint mGeoPoint;
 	protected Drawable mMarker;
 	protected HotspotPlace mHotspotPlace;
 

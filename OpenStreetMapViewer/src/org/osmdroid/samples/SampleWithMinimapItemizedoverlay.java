@@ -78,7 +78,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 							Toast.makeText(
 									SampleWithMinimapItemizedoverlay.this,
-									"Item '" + item.mTitle + "' (index=" + index
+									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got single tapped up", Toast.LENGTH_LONG).show();
 							return true; // We 'handled' this event.
 						}
@@ -87,7 +87,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 						public boolean onItemLongPress(final int index, final OverlayItem item) {
 							Toast.makeText(
 									SampleWithMinimapItemizedoverlay.this,
-									"Item '" + item.mTitle + "' (index=" + index
+									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}

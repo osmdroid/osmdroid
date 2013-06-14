@@ -160,15 +160,16 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		osmv.getProjection().toMapPixels(focusedItem.mGeoPoint, mFocusedScreenCoords);
+		osmv.getProjection().toMapPixels(focusedItem.getPoint(), mFocusedScreenCoords);
 
 		markerFocusedBase.copyBounds(mRect);
 		mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);
 
 		/* Strings of the OverlayItem, we need. */
-		final String itemTitle = (focusedItem.mTitle == null) ? UNKNOWN : focusedItem.mTitle;
-		final String itemDescription = (focusedItem.mDescription == null) ? UNKNOWN
-				: focusedItem.mDescription;
+		final String itemTitle = (focusedItem.getTitle() == null) ? UNKNOWN : focusedItem
+				.getTitle();
+		final String itemDescription = (focusedItem.getSnippet() == null) ? UNKNOWN : focusedItem
+				.getSnippet();
 
 		/*
 		 * Store the width needed for each char in the description to a float array. This is pretty

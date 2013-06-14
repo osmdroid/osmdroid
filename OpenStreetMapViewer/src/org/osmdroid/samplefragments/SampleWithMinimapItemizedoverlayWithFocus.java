@@ -80,7 +80,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 							Toast.makeText(
 									context,
-									"Item '" + item.mTitle + "' (index=" + index
+									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got single tapped up", Toast.LENGTH_LONG).show();
 							return true;
 						}
@@ -89,7 +89,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 						public boolean onItemLongPress(final int index, final OverlayItem item) {
 							Toast.makeText(
 									context,
-									"Item '" + item.mTitle + "' (index=" + index
+									"Item '" + item.getTitle() + "' (index=" + index
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
@@ -109,7 +109,7 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);
-		GeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().mGeoPoint;
+		GeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
 		mMapView.getController().animateTo(geoPoint);
 
 		setHasOptionsMenu(true);
