@@ -9,7 +9,6 @@ import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
 
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -124,7 +123,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 			final Item item = getItem(i);
 			pj.toMapPixels(item.getPoint(), mCurScreenCoords);
 
-			onDrawItem(canvas.getSafeCanvas(), item, mCurScreenCoords);
+			onDrawItem(canvas, item, mCurScreenCoords);
 		}
 	}
 
@@ -167,7 +166,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	 * @param curScreenCoords
 	 *            the screen coordinates of the item
 	 */
-	protected void onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords) {
+	protected void onDrawItem(final ISafeCanvas canvas, final Item item, final Point curScreenCoords) {
 		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
 				: 0);
 		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
@@ -177,7 +176,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		boundToHotspot(marker, hotspot);
 
 		// draw it
-		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
+		Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y, false);
 	}
 
 	protected Drawable getDefaultMarker(final int state) {
