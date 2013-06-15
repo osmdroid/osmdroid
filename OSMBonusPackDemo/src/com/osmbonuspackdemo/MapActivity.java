@@ -2,7 +2,6 @@ package com.osmbonuspackdemo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +46,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -59,7 +57,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -89,7 +86,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected SensorManager mSensorManager;
 	protected Sensor mOrientation;
 
-	protected boolean mTrackingMode;
+	protected boolean mTrackingMode = false;
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
@@ -107,6 +104,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	enum RouteProviderType {OSRM, MAPQUEST_FASTEST, MAPQUEST_BICYCLE, MAPQUEST_PEDESTRIAN, GOOGLE_FASTEST};
 	RouteProviderType whichRouteProvider = RouteProviderType.OSRM;
+	
+	static String SHARED_PREFS_APPKEY = "OSMNavigator";
+	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,20 +176,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mTrackingModeButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				mTrackingMode = !mTrackingMode;
-				if (mTrackingMode){
-					mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_on);
-					if (myLocationOverlay.isEnabled()&& myLocationOverlay.getLocation() != null){
-						map.getController().animateTo(myLocationOverlay.getLocation());
-					}
-					map.setMapOrientation(-mAzimuthAngleSpeed);
-					view.setKeepScreenOn(true);
-				} else {
-					mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_off);
-					map.setMapOrientation(0.0f);
-					view.setKeepScreenOn(false);
-				}
+				updateUIWithTrackingMode();
 			}
 		});
+		if (savedInstanceState != null){
+			mTrackingMode = savedInstanceState.getBoolean("tracking_mode");
+			updateUIWithTrackingMode();
+		}
+		
+		AutoCompleteOnPreferences departureText = (AutoCompleteOnPreferences) findViewById(R.id.editDeparture);
+		departureText.setPrefKeys(SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		
 		Button searchDepButton = (Button)findViewById(R.id.buttonSearchDep);
 		searchDepButton.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +193,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				handleSearchButton(START_INDEX, R.id.editDeparture);
 			}
 		});
+		
+		AutoCompleteOnPreferences destinationText = (AutoCompleteOnPreferences) findViewById(R.id.editDestination);
+		destinationText.setPrefKeys(SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		
 		Button searchDestButton = (Button)findViewById(R.id.buttonSearchDest);
 		searchDestButton.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +215,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				}
 			}
 		});
-		
+		if (savedInstanceState != null){
+			View searchPanel = (View)findViewById(R.id.search_panel);
+			searchPanel.setVisibility(savedInstanceState.getInt("panel_visibility"));
+		}
+
 		registerForContextMenu(searchDestButton);
 		//context menu for clicking on the map is registered on this button. 
 		//(a little bit strange, but if we register it on mapView, it will catch map drag events)
@@ -232,14 +235,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		
 		//POIs:
-        //POI search interface:
-        String[] poiTags = getResources().getStringArray(R.array.poi_tags);
-        poiTagText = (AutoCompleteTextView) findViewById(R.id.poiTag);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+		//POI search interface:
+		String[] poiTags = getResources().getStringArray(R.array.poi_tags);
+		poiTagText = (AutoCompleteTextView) findViewById(R.id.poiTag);
+		ArrayAdapter<String> poiAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line, poiTags);
-        poiTagText.setAdapter(adapter);
-        Button setPOITagButton = (Button) findViewById(R.id.buttonSetPOITag);
-        setPOITagButton.setOnClickListener(new View.OnClickListener() {
+		poiTagText.setAdapter(poiAdapter);
+		Button setPOITagButton = (Button) findViewById(R.id.buttonSetPOITag);
+		setPOITagButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				//Hide the soft keyboard:
 				InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -251,7 +254,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				getPOIAsync(feature);
 			}
 		});
-        //POI markers:
+		//POI markers:
 		final ArrayList<ExtendedOverlayItem> poiItems = new ArrayList<ExtendedOverlayItem>();
 		poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
 				poiItems, map, new POIInfoWindow(map));
@@ -267,6 +270,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	 */
 	@Override protected void onSaveInstanceState (Bundle outState){
 		outState.putParcelable("location", myLocationOverlay.getLocation());
+		outState.putBoolean("tracking_mode", mTrackingMode);
+		View searchPanel = (View)findViewById(R.id.search_panel);
+		outState.putInt("panel_visibility", searchPanel.getVisibility());
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
 		outState.putParcelableArrayList("viapoints", viaPoints);
@@ -346,6 +352,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.invalidate();
     }
 
+    void updateUIWithTrackingMode(){
+		if (mTrackingMode){
+			mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_on);
+			if (myLocationOverlay.isEnabled()&& myLocationOverlay.getLocation() != null){
+				map.getController().animateTo(myLocationOverlay.getLocation());
+			}
+			map.setMapOrientation(-mAzimuthAngleSpeed);
+			mTrackingModeButton.setKeepScreenOn(true);
+		} else {
+			mTrackingModeButton.setBackgroundResource(R.drawable.btn_tracking_off);
+			map.setMapOrientation(0.0f);
+			mTrackingModeButton.setKeepScreenOn(false);
+		}
+    }
+
     //------------- Geocoding and Reverse Geocoding
     
     /** 
@@ -399,6 +420,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		
 		Toast.makeText(this, "Searching:\n"+locationAddress, Toast.LENGTH_LONG).show();
+		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
 		try {
@@ -835,7 +857,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mRoad != null && mRoad.mNodes.size()>0)
 			menu.findItem(R.id.menu_itinerary).setEnabled(true);
-		else 
+		else
 			menu.findItem(R.id.menu_itinerary).setEnabled(false);
 		if (mPOIs != null && mPOIs.size()>0)
 			menu.findItem(R.id.menu_pois).setEnabled(true);

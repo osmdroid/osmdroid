@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/menu_itinerary"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_menu_itinerary"
         android:title="Itinerary"/>
     <item
         android:id="@+id/menu_pois"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_menu_poi"
         android:title="POIs list"/>
     <item
         android:id="@+id/menu_tile"
