@@ -8,7 +8,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -176,7 +178,17 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		boundToHotspot(marker, hotspot);
 
 		// draw it
-		Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y, false);
+		if (this.isUsingSafeCanvas()) {
+			Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y,
+					false);
+		} else {
+			canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
+				@Override
+				public void onUnsafeCanvas(Canvas canvas) {
+					Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
+				}
+			});
+		}
 	}
 
 	protected Drawable getDefaultMarker(final int state) {
