@@ -919,6 +919,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return false;
 	}
 
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		return false;
+	}
+
 	private MotionEvent rotateTouchEvent(MotionEvent ev) {
 		if (this.getMapOrientation() == 0)
 			return ev;
