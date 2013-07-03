@@ -12,7 +12,8 @@ import android.widget.AutoCompleteTextView;
 
 /**
  * AutoCompleteTextView taking its list of values from a shared preference. 
- * Use static method storePreference(value) to add an entry in these preferences
+ * 
+ * Use the static method storePreference(value) to add an entry in these preferences
  * (typically when the user "uses" a value he just entered in this edittext view). 
  * 
  * @author M.Kergall
@@ -81,11 +82,11 @@ public class AutoCompleteOnPreferences extends AutoCompleteTextView {
 	}
 	
 	/**
-	 * Add a value in the list of preferences. 
+	 * Add a value in a list of preferences referenced by an appKey and a prefName. 
 	 * @param context
 	 * @param value to add in the list. 
-	 * @param appKey
-	 * @param prefName
+	 * @param appKey application key
+	 * @param prefName name of the preferences list
 	 */
 	public static void storePreference(Context context, String value, String appKey, String prefName){
 		SharedPreferences prefs = context.getSharedPreferences(appKey, Context.MODE_PRIVATE);

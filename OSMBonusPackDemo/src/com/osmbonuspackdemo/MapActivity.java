@@ -327,14 +327,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		super.onResume();
 		boolean isOneProviderEnabled = startLocationUpdates();
 		myLocationOverlay.setEnabled(isOneProviderEnabled);
-		mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_NORMAL);
+		//TODO: not used currently
+		//mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_NORMAL);
 			//sensor listener is causing a high CPU consumption...
 	}
 
 	@Override protected void onPause() {
 		super.onPause();
 		locationManager.removeUpdates(this);
-		mSensorManager.unregisterListener(this);
+		//TODO: mSensorManager.unregisterListener(this);
 	}
 
 	/**

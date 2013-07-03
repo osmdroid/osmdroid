@@ -13,7 +13,7 @@ import android.content.Context;
  * Usage inside your map activity: <br>
  * <code>
  * ArrayList<OverlayItem> list = new ArrayList<OverlayItem>();
- * TappableItemizedOverlay<OverlayItem> overlay = new TappableItemizedOverlay(this, list);
+ * MyItemizedOverlay<OverlayItem> overlay = new MyItemizedOverlay(this, list);
  * mapView.getOverlays.add(overlay);
  * </code>
  * 
