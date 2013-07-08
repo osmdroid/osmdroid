@@ -320,6 +320,11 @@ public interface ISafeCanvas {
 	public abstract void getMatrix(Matrix ctm);
 
 	/**
+	 * Return a new matrix with a copy of the canvas' current transformation matrix.
+	 */
+	public abstract Matrix getMatrix();
+
+	/**
 	 * Modify the current clip with the specified rectangle, which is expressed in local
 	 * coordinates.
 	 * 
@@ -504,6 +509,13 @@ public interface ISafeCanvas {
 	 * @return true if the current clip is non-empty.
 	 */
 	public abstract boolean getClipBounds(Rect bounds);
+
+	/**
+	 * Retrieve the clip bounds.
+	 * 
+	 * @return the clip bounds, or [0, 0, 0, 0] if the clip is empty.
+	 */
+	public abstract Rect getClipBounds();
 
 	/**
 	 * Fill the entire canvas' bitmap (restricted to the current clip) with the specified RGB color,
