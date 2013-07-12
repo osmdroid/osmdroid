@@ -82,7 +82,6 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
     private boolean mOptionsMenuEnabled = true;
 
     // to avoid allocations during onDraw
-    private final Matrix mDirectionRotater = new Matrix();
     private final float[] mMatrixValues = new float[9];
     private final Matrix mMatrix = new Matrix();
     private final Rect mMyLocationRect = new Rect();
@@ -201,24 +200,32 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
             canvas.drawText("Acc: " + lastFix.getAccuracy(), tx, ty + 50, mPaint);
         }
 
-        mDirectionRotater.reset();
-        if (lastFix.hasBearing()) {
-            /*
-             * Rotate the direction-Arrow according to the bearing we are driving. And draw it to the canvas.
-             */
-            mDirectionRotater.setRotate(lastFix.getBearing(), mDirectionArrowCenterX, mDirectionArrowCenterY);
-
-            mDirectionRotater.postTranslate(-mDirectionArrowCenterX, -mDirectionArrowCenterY);
-            mDirectionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
-                    1 / mMatrixValues[Matrix.MSCALE_Y]);
-            mDirectionRotater.postTranslate(mMapCoords.x >> zoomDiff, mMapCoords.y >> zoomDiff);
-            canvas.drawBitmap(mDirectionArrowBitmap, mDirectionRotater, mPaint);
+		// Calculate real scale including accounting for rotation
+		float scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]
+				* mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]
+				* mMatrixValues[Matrix.MSKEW_Y]);
+		float scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
+				* mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
+				* mMatrixValues[Matrix.MSKEW_X]);
+		final double x = mMapCoords.x >> zoomDiff;
+		final double y = mMapCoords.y >> zoomDiff;
+		if (lastFix.hasBearing()) {
+			canvas.save();
+			// Rotate the icon
+			canvas.rotate(lastFix.getBearing(), x, y);
+			// Counteract any scaling that may be happening so the icon stays the same size
+			canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+			// Draw the bitmap
+			canvas.drawBitmap(mDirectionArrowBitmap, x - mDirectionArrowCenterX, y
+					- mDirectionArrowCenterY, mPaint);
+			canvas.restore();
         } else {
-            mDirectionRotater.setTranslate(-mPersonHotspot.x, -mPersonHotspot.y);
-            mDirectionRotater.postScale(1 / mMatrixValues[Matrix.MSCALE_X],
-                    1 / mMatrixValues[Matrix.MSCALE_Y]);
-            mDirectionRotater.postTranslate(mMapCoords.x >> zoomDiff, mMapCoords.y >> zoomDiff);
-            canvas.drawBitmap(mPersonBitmap, mDirectionRotater, mPaint);
+			canvas.save();
+			// Counteract any scaling that may be happening so the icon stays the same size
+			canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+			// Draw the bitmap
+			canvas.drawBitmap(mPersonBitmap, x - mPersonHotspot.x, y - mPersonHotspot.y, mPaint);
+			canvas.restore();
         }
     }
 

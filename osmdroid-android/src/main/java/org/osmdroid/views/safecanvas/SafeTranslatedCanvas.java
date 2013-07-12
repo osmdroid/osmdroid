@@ -449,10 +449,7 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 
 	@Override
 	public void rotate(float degrees, double px, double py) {
-		getWrappedCanvas().translate(this.xOffset, this.yOffset);
-		getWrappedCanvas().rotate(degrees, (float) px, (float) py);
-		// getWrappedCanvas().rotate(degrees, (float) (px + xOffset), (float) (py + yOffset));
-		getWrappedCanvas().translate(-this.xOffset, -this.yOffset);
+		getWrappedCanvas().rotate(degrees, (float) (px + xOffset), (float) (py + yOffset));
 	}
 
 	@Override
