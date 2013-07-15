@@ -74,8 +74,8 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
     /** Coordinates the feet of the person are located scaled for display density. */
     protected final PointF mPersonHotspot;
 
-    protected final float mDirectionArrowCenterX;
-    protected final float mDirectionArrowCenterY;
+	protected final double mDirectionArrowCenterX;
+	protected final double mDirectionArrowCenterY;
 
     public static final int MENU_MY_LOCATION = getSafeMenuId();
 
@@ -115,8 +115,8 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
         mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
         mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
-        mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2 - 0.5f;
-        mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2 - 0.5f;
+		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0 - 0.5;
+		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0 - 0.5;
 
         // Calculate position of person icon's feet, scaled to screen density
         mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
@@ -249,7 +249,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
             reuse.offset((int) -widestEdge / 2, (int) -widestEdge / 2);
         } else {
             reuse.set(posX, posY, posX + mPersonBitmap.getWidth(), posY + mPersonBitmap.getHeight());
-            reuse.offset((int) -mPersonHotspot.x, (int) -mPersonHotspot.y);
+			reuse.offset((int) (-mPersonHotspot.x + 0.5f), (int) (-mPersonHotspot.y + 0.5f));
         }
 
         // Add in the accuracy circle if enabled
@@ -261,8 +261,6 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
                     : mCirclePaint.getStrokeWidth());
             reuse.inset(-strokeWidth, -strokeWidth);
         }
-
-        reuse.offset(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
 
         return reuse;
     }
@@ -457,10 +455,19 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
                     mMyLocationRect.union(mMyLocationPreviousRect);
                 }
 
+				final int left = mMyLocationRect.left;
+				final int top = mMyLocationRect.top;
+				final int right = mMyLocationRect.right;
+				final int bottom = mMyLocationRect.bottom;
+
                 // Invalidate the bounds
-                mMapView.postInvalidate(mMyLocationRect.left, mMyLocationRect.top, mMyLocationRect.right,
-                        mMyLocationRect.bottom);
-            }
+                mMapView.post(new Runnable() {
+					@Override
+					public void run() {
+						mMapView.invalidateMapCoordinates(left, top, right, bottom);
+					}
+				});
+			}
         }
 
         for (final Runnable runnable : mRunOnFirstFix) {

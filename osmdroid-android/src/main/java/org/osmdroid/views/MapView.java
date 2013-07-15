@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import microsoft.mappoint.TileSystem;
+
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
@@ -57,8 +59,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
-
-import microsoft.mappoint.TileSystem;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -649,9 +649,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-
 	public void invalidateMapCoordinates(Rect dirty) {
-		mInvalidateRect.set(dirty);
+		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom);
+	}
+
+	public void invalidateMapCoordinates(int left, int top, int right, int bottom) {
+		mInvalidateRect.set(left, top, right, bottom);
 		final int width_2 = this.getWidth() / 2;
 		final int height_2 = this.getHeight() / 2;
 
