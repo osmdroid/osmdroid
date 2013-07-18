@@ -1057,8 +1057,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				mMultiTouchScalePoint.y);
 
 		/* rotate Canvas */
-		c.rotate(mapOrientation, mProjection.getScreenRect().centerX(), mProjection.getScreenRect()
-				.centerY());
+		c.rotate(mapOrientation, mProjection.getScreenRect().exactCenterX(), mProjection
+				.getScreenRect().exactCenterY());
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);

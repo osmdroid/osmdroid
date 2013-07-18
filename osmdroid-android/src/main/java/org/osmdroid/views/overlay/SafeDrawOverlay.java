@@ -21,7 +21,6 @@ public abstract class SafeDrawOverlay extends Overlay {
 
 	private static final SafeTranslatedCanvas sSafeCanvas = new SafeTranslatedCanvas();
 	private static final Matrix sMatrix = new Matrix();
-	private static final float[] sMatrixValues = new float[9];
 	private boolean mUseSafeCanvas = true;
 
 	protected abstract void drawSafe(final ISafeCanvas c, final MapView osmv, final boolean shadow);
@@ -48,6 +47,12 @@ public abstract class SafeDrawOverlay extends Overlay {
 			// Save the canvas state
 			c.save();
 
+			if (osmv.getMapOrientation() != 0) {
+				// Un-rotate the maps so we can rotate them accurately using the safe canvas
+				c.rotate(-osmv.getMapOrientation(), screenRect.exactCenterX(),
+						screenRect.exactCenterY());
+			}
+
 			// Since the translate calls still take a float, there can be rounding errors
 			// Let's calculate the error, and adjust for it.
 			final int floatErrorX = screenRect.left - (int) (float) screenRect.left;
@@ -65,6 +70,13 @@ public abstract class SafeDrawOverlay extends Overlay {
 				sMatrix.preTranslate(floatErrorX, floatErrorY);
 				c.setMatrix(sMatrix);
 			}
+
+			if (osmv.getMapOrientation() != 0) {
+				// Safely re-rotate the maps
+				sSafeCanvas.rotate(osmv.getMapOrientation(), (double) screenRect.exactCenterX(),
+						(double) screenRect.exactCenterY());
+			}
+
 		} else {
 			sSafeCanvas.xOffset = 0;
 			sSafeCanvas.yOffset = 0;
