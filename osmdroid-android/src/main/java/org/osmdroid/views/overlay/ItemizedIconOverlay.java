@@ -74,6 +74,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 	public void addItem(final int location, final Item item) {
 		mItemList.add(location, item);
+		populate();
 	}
 
 	public boolean addItems(final List<Item> items) {
