@@ -6,8 +6,8 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Point;
 import android.util.Log;
 
@@ -133,7 +133,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		hideBubble();
 	}
 
-	@Override public synchronized void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	@Override public synchronized void drawSafe(final ISafeCanvas canvas, final MapView mapView, final boolean shadow) {
 		//1. Fixing drawing focused item on top in ItemizedOverlay (osmdroid issue 354):
 		//2. Fixing lack of synchronization on mItemList
 		if (shadow) {
@@ -148,13 +148,13 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	        final Item item = getItem(i);
 			if (item != mItemWithBubble){
 		        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
-		        onDrawItem(canvas, item, mCurScreenCoords);
+		        onDrawItem(canvas.getSafeCanvas(), item, mCurScreenCoords);
 			}
 		}
 		//draw focused item last:
 		if (mItemWithBubble != null){
 	        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
-	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords);
+	        onDrawItem(canvas.getSafeCanvas(), (Item)mItemWithBubble, mCurScreenCoords);
 		}
     }
 	

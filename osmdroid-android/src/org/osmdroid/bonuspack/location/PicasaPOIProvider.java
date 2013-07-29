@@ -112,6 +112,7 @@ class PicasaXMLHandler extends DefaultHandler {
 			String rel = attributes.getValue("rel");
 			if ("http://schemas.google.com/photos/2007#canonical".equals(rel)){
 				mPOI.mUrl = attributes.getValue("href");
+				mPOI.mUrl = mPOI.mUrl.replaceFirst("https://", "http://");
 			}
 		}
 		mString = new String();
@@ -123,6 +124,7 @@ class PicasaXMLHandler extends DefaultHandler {
 		mString = mString.concat(chars);
 	}
 
+	final static int MAX_DESC_SIZE = 250;
 	@Override public void endElement(String uri, String localName, String qName)
 	throws SAXException {
 		if (qName.equals("gml:pos")) {
@@ -135,6 +137,8 @@ class PicasaXMLHandler extends DefaultHandler {
 			mPOI.mType = mString;
 		} else if (qName.equals("summary")){
 			mPOI.mDescription = mString;
+			if (mPOI.mDescription.length()>MAX_DESC_SIZE)
+				mPOI.mDescription = mPOI.mDescription.substring(0, MAX_DESC_SIZE)+" (...)";
 		} else if (qName.equals("gphoto:albumtitle")){
 			mPOI.mCategory = mString;
 		} else if (qName.equals("entry")) {

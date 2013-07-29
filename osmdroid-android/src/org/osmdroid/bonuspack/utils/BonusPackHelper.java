@@ -71,6 +71,8 @@ public class BonusPackHelper {
 		Bitmap bitmap = null;
 		try {
 			InputStream is = (InputStream) new URL(url).getContent();
+			if (is == null)
+				return null;
 			bitmap = BitmapFactory.decodeStream(new FlushedInputStream(is));
 			//Alternative providing better handling on loading errors?
 			/*

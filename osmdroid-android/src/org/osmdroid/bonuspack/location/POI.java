@@ -130,9 +130,12 @@ public class POI implements Parcelable {
 		}
 
 		@Override protected void onPostExecute(ImageView iv) {
-			if (mThumbnailPath.equals(iv.getTag().toString()))
-				iv.setImageBitmap(mThumbnail);
-				iv.setVisibility(View.VISIBLE);
+			if (iv.getTag() != null && mThumbnailPath != null){
+				if (mThumbnailPath.equals(iv.getTag().toString())){
+					iv.setImageBitmap(mThumbnail);
+					iv.setVisibility(View.VISIBLE);
+				}
+			}
 		}
 	}
 	
