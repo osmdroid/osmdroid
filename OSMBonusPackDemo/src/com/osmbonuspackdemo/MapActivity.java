@@ -687,7 +687,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 					poi.mLocation, this);
 				Drawable marker = null;
 				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
-					marker = getResources().getDrawable(R.drawable.marker_poi_default);
+					marker = getResources().getDrawable(R.drawable.marker_poi);
 				} else if (poi.mServiceId == POI.POI_SERVICE_GEONAMES_WIKIPEDIA){
 					if (poi.mRank < 90)
 						marker = getResources().getDrawable(R.drawable.marker_poi_wikipedia_16);
@@ -700,7 +700,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 					poiMarker.setSubDescription(poi.mCategory);
 				}
 				poiMarker.setMarker(marker);
-				poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
+					poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+				} else {
+					poiMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+				}
 				//thumbnail loading moved in POIInfoWindow.onOpen for better performances. 
 				poiMarker.setRelatedObject(poi);
 				poiMarkers.addItem(poiMarker);
