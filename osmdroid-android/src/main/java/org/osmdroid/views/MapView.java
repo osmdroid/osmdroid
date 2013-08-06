@@ -308,7 +308,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		final Point coords = TileSystem.LatLongToPixelXY(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6,
-				getZoomLevel(), null);
+				getZoomLevel(false), null);
 		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(false)) / 2;
 		if (getAnimation() == null || getAnimation().hasEnded()) {
 			logger.debug("StartScroll");
@@ -488,7 +488,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (mZoomLevel >= maxZoomLevel) {
 			return false;
 		}
-		if (mIsAnimating.get() & mTargetZoomLevel.get() >= maxZoomLevel) {
+		if (mIsAnimating.get() && mTargetZoomLevel.get() >= maxZoomLevel) {
 			return false;
 		}
 		return true;
