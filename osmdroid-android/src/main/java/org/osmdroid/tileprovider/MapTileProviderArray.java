@@ -83,9 +83,6 @@ public class MapTileProviderArray extends MapTileProviderBase {
 	public Drawable getMapTile(final MapTile pTile) {
 		final Drawable tile = mTileCache.getMapTile(pTile);
 		if (tile != null && !ExpirableBitmapDrawable.isDrawableExpired(tile)) {
-			if (DEBUGMODE) {
-				logger.debug("MapTileCache succeeded for: " + pTile);
-			}
 			return tile;
 		} else {
 			boolean alreadyInProgress = false;
@@ -94,8 +91,9 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 
 			if (!alreadyInProgress) {
-				if (DEBUGMODE) {
-					logger.debug("Cache failed, trying from async providers: " + pTile);
+				if (DEBUG_TILE_PROVIDERS) {
+					logger.debug("MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
+							+ pTile);
 				}
 
 				final MapTileRequestState state;

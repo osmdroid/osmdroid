@@ -119,8 +119,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
 		}
 
-		if (DEBUGMODE) {
-			logger.debug("MapTile request complete: " + pState.getMapTile());
+		if (DEBUG_TILE_PROVIDERS) {
+			logger.debug("MapTileProviderBase.mapTileRequestCompleted(): " + pState.getMapTile());
 		}
 	}
 
@@ -137,8 +137,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_FAIL_ID);
 		}
 
-		if (DEBUGMODE) {
-			logger.debug("MapTile request failed: " + pState.getMapTile());
+		if (DEBUG_TILE_PROVIDERS) {
+			logger.debug("MapTileProviderBase.mapTileRequestFailed(): " + pState.getMapTile());
 		}
 	}
 
@@ -162,8 +162,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
 		}
 
-		if (DEBUGMODE) {
-			logger.debug("MapTile request complete: " + pState.getMapTile());
+		if (DEBUG_TILE_PROVIDERS) {
+			logger.debug("MapTileProviderBase.mapTileRequestExpiredTile(): " + pState.getMapTile());
 		}
 	}
 

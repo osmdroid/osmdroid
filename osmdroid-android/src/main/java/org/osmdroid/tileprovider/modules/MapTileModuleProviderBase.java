@@ -130,6 +130,15 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	public void loadMapTileAsync(final MapTileRequestState pState) {
 		synchronized (mQueueLockObject) {
+			if (DEBUG_TILE_PROVIDERS) {
+				logger.debug("MapTileModuleProviderBase.loadMaptileAsync() on provider: "
+						+ getName() + " for tile: " + pState.getMapTile());
+				if (mPending.containsKey(pState.getMapTile()))
+					logger.debug("MapTileModuleProviderBase.loadMaptileAsync() tile already exists in request queue for modular provider. Moving to front of queue.");
+				else
+					logger.debug("MapTileModuleProviderBase.loadMaptileAsync() adding tile to request queue for modular provider.");
+			}
+
 			// this will put the tile in the queue, or move it to the front of
 			// the queue if it's already present
 			mPending.put(pState.getMapTile(), pState);
@@ -158,6 +167,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mQueueLockObject) {
+			if (DEBUG_TILE_PROVIDERS) {
+				logger.debug("MapTileModuleProviderBase.removeTileFromQueues() on provider: "
+						+ getName() + " for tile: " + mapTile);
+			}
 			mPending.remove(mapTile);
 			mWorking.remove(mapTile);
 		}
@@ -203,11 +216,19 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 				while (iterator.hasNext()) {
 					final MapTile tile = iterator.next();
 					if (!mWorking.containsKey(tile)) {
+						if (DEBUG_TILE_PROVIDERS) {
+							logger.debug("TileLoader.nextTile() on provider: " + getName()
+									+ " found tile in working queue: " + tile);
+						}
 						result = tile;
 					}
 				}
 
 				if (result != null) {
+					if (DEBUG_TILE_PROVIDERS) {
+						logger.debug("TileLoader.nextTile() on provider: " + getName()
+								+ " adding tile to working queue: " + result);
+					}
 					mWorking.put(result, mPending.get(result));
 				}
 
@@ -219,6 +240,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * A tile has loaded.
 		 */
 		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
+			if (DEBUG_TILE_PROVIDERS) {
+				logger.debug("TileLoader.tileLoaded() on provider: " + getName() + " with tile: "
+						+ pState.getMapTile());
+			}
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestCompleted(pState, pDrawable);
 		}
@@ -228,11 +253,19 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * Return it <b>and</b> send request to next provider.
 		 */
 		protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
+			if (DEBUG_TILE_PROVIDERS) {
+				logger.debug("TileLoader.tileLoadedExpired() on provider: " + getName()
+						+ " with tile: " + pState.getMapTile());
+			}
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestExpiredTile(pState, pDrawable);
 		}
 
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
+			if (DEBUG_TILE_PROVIDERS) {
+				logger.debug("TileLoader.tileLoadedFailed() on provider: " + getName()
+						+ " with tile: " + pState.getMapTile());
+			}
 			removeTileFromQueues(pState.getMapTile());
 			pState.getCallback().mapTileRequestFailed(pState);
 		}
@@ -248,8 +281,8 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			MapTileRequestState state;
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
-				if (DEBUGMODE) {
-					logger.debug("Next tile: " + state.getMapTile());
+				if (DEBUG_TILE_PROVIDERS) {
+					logger.debug("TileLoader.run() processing next tile: " + state.getMapTile());
 				}
 				try {
 					result = null;
@@ -267,10 +300,6 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 					tileLoadedExpired(state, result);
 				} else {
 					tileLoaded(state, result);
-				}
-
-				if (DEBUGMODE) {
-					logger.debug("No more tiles");
 				}
 			}
 

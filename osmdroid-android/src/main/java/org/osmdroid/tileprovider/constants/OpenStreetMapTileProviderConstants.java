@@ -14,6 +14,7 @@ import android.os.Environment;
 public interface OpenStreetMapTileProviderConstants {
 
 	public static final boolean DEBUGMODE = false;
+	public static final boolean DEBUG_TILE_PROVIDERS = true;
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
