@@ -97,17 +97,17 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase MAPQUESTOSM =
 		new XYTileSource("MapquestOSM", ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png",
-				"http://otile1.mqcdn.com/tiles/1.0.0/osm/",
-				"http://otile2.mqcdn.com/tiles/1.0.0/osm/",
-				"http://otile3.mqcdn.com/tiles/1.0.0/osm/",
-				"http://otile4.mqcdn.com/tiles/1.0.0/osm/");
+				"http://otile1.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile2.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile3.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile4.mqcdn.com/tiles/1.0.0/map/");
 
 	public static final OnlineTileSourceBase MAPQUESTAERIAL =
 		new XYTileSource("MapquestAerial", ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".png",
-				"http://oatile1.mqcdn.com/naip/",
-				"http://oatile2.mqcdn.com/naip/",
-				"http://oatile3.mqcdn.com/naip/",
-				"http://oatile4.mqcdn.com/naip/");
+				"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
+				"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
+				"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
+				"http://otile4.mqcdn.com/tiles/1.0.0/sat/");
 
 	public static final OnlineTileSourceBase DEFAULT_TILE_SOURCE = MAPNIK;
 
