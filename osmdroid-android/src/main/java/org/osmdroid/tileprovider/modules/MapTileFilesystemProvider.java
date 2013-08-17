@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
@@ -36,7 +37,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	private final long mMaximumCachedFileAge;
 
-	private ITileSource mTileSource;
+	private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
 
 	// ===========================================================
 	// Constructors
@@ -68,7 +69,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			final ITileSource pTileSource, final long pMaximumCachedFileAge, int pThreadPoolSize,
 			int pPendingQueueSize) {
 		super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
-		mTileSource = pTileSource;
+		setTileSource(pTileSource);
 
 		mMaximumCachedFileAge = pMaximumCachedFileAge;
 	}
@@ -102,17 +103,19 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		ITileSource tileSource = mTileSource.get();
+		return tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
+		ITileSource tileSource = mTileSource.get();
+		return tileSource != null ? tileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
 	}
 
 	@Override
 	public void setTileSource(final ITileSource pTileSource) {
-		mTileSource = pTileSource;
+		mTileSource.set(pTileSource);
 	}
 
 	// ===========================================================
@@ -124,7 +127,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 		@Override
 		public Drawable loadTile(final MapTileRequestState pState) throws CantContinueException {
 
-			if (mTileSource == null) {
+			ITileSource tileSource = mTileSource.get();
+			if (tileSource == null) {
 				return null;
 			}
 
@@ -141,11 +145,11 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
 			final File file = new File(TILE_PATH_BASE,
-					mTileSource.getTileRelativeFilenameString(tile) + TILE_PATH_EXTENSION);
+					tileSource.getTileRelativeFilenameString(tile) + TILE_PATH_EXTENSION);
 			if (file.exists()) {
 
 				try {
-					final Drawable drawable = mTileSource.getDrawable(file.getPath());
+					final Drawable drawable = tileSource.getDrawable(file.getPath());
 
 					// Check to see if file has expired
 					final long now = System.currentTimeMillis();

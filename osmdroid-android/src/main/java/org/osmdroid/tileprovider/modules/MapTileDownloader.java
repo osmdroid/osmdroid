@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.UnknownHostException;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,7 +51,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	private final IFilesystemCache mFilesystemCache;
 
-	private OnlineTileSourceBase mTileSource;
+	private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<OnlineTileSourceBase>();
 
 	private final INetworkAvailablityCheck mNetworkAvailablityCheck;
 
@@ -89,7 +90,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// ===========================================================
 
 	public ITileSource getTileSource() {
-		return mTileSource;
+		return mTileSource.get();
 	}
 
 	// ===========================================================
@@ -118,22 +119,24 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+		OnlineTileSourceBase tileSource = mTileSource.get();
+		return (tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
 	}
 
 	@Override
 	public int getMaximumZoomLevel() {
-		return (mTileSource != null ? mTileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
+		OnlineTileSourceBase tileSource = mTileSource.get();
+		return (tileSource != null ? tileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL);
 	}
 
 	@Override
 	public void setTileSource(final ITileSource tileSource) {
 		// We are only interested in OnlineTileSourceBase tile sources
 		if (tileSource instanceof OnlineTileSourceBase) {
-			mTileSource = (OnlineTileSourceBase) tileSource;
+			mTileSource.set((OnlineTileSourceBase) tileSource);
 		} else {
 			// Otherwise shut down the tile downloader
-			mTileSource = null;
+			mTileSource.set(null);
 		}
 	}
 
@@ -146,7 +149,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 		@Override
 		public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {
 
-			if (mTileSource == null) {
+			OnlineTileSourceBase tileSource = mTileSource.get();
+			if (tileSource == null) {
 				return null;
 			}
 
@@ -164,7 +168,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final String tileURLString = mTileSource.getTileURLString(tile);
+				final String tileURLString = tileSource.getTileURLString(tile);
 
 				if (DEBUGMODE) {
 					logger.debug("Downloading Maptile from url: " + tileURLString);
@@ -201,10 +205,10 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				// Save the data to the filesystem cache
 				if (mFilesystemCache != null) {
-					mFilesystemCache.saveFile(mTileSource, tile, byteStream);
+					mFilesystemCache.saveFile(tileSource, tile, byteStream);
 					byteStream.reset();
 				}
-				final Drawable result = mTileSource.getDrawable(byteStream);
+				final Drawable result = tileSource.getDrawable(byteStream);
 
 				return result;
 			} catch (final UnknownHostException e) {
