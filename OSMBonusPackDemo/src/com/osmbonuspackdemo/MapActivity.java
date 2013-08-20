@@ -23,7 +23,11 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
@@ -64,6 +68,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.osmdroid.ResourceProxy;
 
 /**
  * Demo Activity using osmdroid and osmbonuspack
@@ -86,7 +91,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected SensorManager mSensorManager;
 	protected Sensor mOrientation;
 
-	protected boolean mTrackingMode = false;
+	protected boolean mTrackingMode;
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
@@ -102,23 +107,37 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
-	enum RouteProviderType {OSRM, MAPQUEST_FASTEST, MAPQUEST_BICYCLE, MAPQUEST_PEDESTRIAN, GOOGLE_FASTEST};
-	RouteProviderType whichRouteProvider = RouteProviderType.OSRM;
+	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
+	int whichRouteProvider;
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
-    @Override public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+	OnlineTileSourceBase MAPQUESTAERIAL;
+	
+	@Override public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
 
-        map = (MapView) findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.MAPNIK);
+		//Fixing osmdroid issue #462:
+		MAPQUESTAERIAL = new XYTileSource("MapquestAerial", ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".jpg",
+                "http://otile1.mqcdn.com/tiles/1.0.0/sat/",
+                "http://otile2.mqcdn.com/tiles/1.0.0/sat/",
+                "http://otile3.mqcdn.com/tiles/1.0.0/sat/",
+                "http://otile4.mqcdn.com/tiles/1.0.0/sat/");
+		TileSourceFactory.addTileSource(MAPQUESTAERIAL);
 
-        map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-        MapController mapController = map.getController();
-        
+		map = (MapView) findViewById(R.id.map);
+		if (savedInstanceState != null){
+			int tileProviderOrdinal = savedInstanceState.getInt("tile_provider");
+			map.setTileSource(TileSourceFactory.getTileSource(tileProviderOrdinal));
+		} else //default:
+			map.setTileSource(TileSourceFactory.MAPNIK);
+
+		map.setBuiltInZoomControls(true);
+		map.setMultiTouchControls(true);
+		MapController mapController = map.getController();
+		
 		//To use MapEventsReceiver methods, we add a MapEventsOverlay:
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
@@ -182,7 +201,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (savedInstanceState != null){
 			mTrackingMode = savedInstanceState.getBoolean("tracking_mode");
 			updateUIWithTrackingMode();
-		}
+		} else 
+			mTrackingMode = false;
 		
 		AutoCompleteOnPreferences departureText = (AutoCompleteOnPreferences) findViewById(R.id.editDeparture);
 		departureText.setPrefKeys(SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
@@ -225,6 +245,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//(a little bit strange, but if we register it on mapView, it will catch map drag events)
 		
 		//Route and Directions
+		if (savedInstanceState != null){
+			whichRouteProvider = savedInstanceState.getInt("route_provider");
+		} else
+			whichRouteProvider = OSRM;
+		
 		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
     	roadNodeMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
 		map.getOverlays().add(roadNodeMarkers);
@@ -281,6 +306,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		GeoPoint c = (GeoPoint) map.getMapCenter();
 		outState.putParcelable("map_center", c);
 		outState.putParcelableArrayList("poi", mPOIs);
+		MapTileProviderBase tileProvider = map.getTileProvider();
+		int tileProviderOrdinal = tileProvider.getTileSource().ordinal();
+		outState.putInt("tile_provider", tileProviderOrdinal);
+		outState.putInt("route_provider", whichRouteProvider);
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
@@ -856,6 +885,32 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.option_menu, menu);
+		
+		switch (whichRouteProvider){
+		case OSRM: 
+			menu.findItem(R.id.menu_route_osrm).setChecked(true);
+			break;
+		case MAPQUEST_FASTEST:
+			menu.findItem(R.id.menu_route_mapquest_fastest).setChecked(true);
+			break;
+		case MAPQUEST_BICYCLE:
+			menu.findItem(R.id.menu_route_mapquest_bicycle).setChecked(true);
+			break;
+		case MAPQUEST_PEDESTRIAN:
+			menu.findItem(R.id.menu_route_mapquest_pedestrian).setChecked(true);
+			break;
+		case GOOGLE_FASTEST:
+			menu.findItem(R.id.menu_route_google).setChecked(true);
+			break;
+		}
+		
+		if (map.getTileProvider().getTileSource() == TileSourceFactory.MAPNIK)
+			menu.findItem(R.id.menu_tile_mapnik).setChecked(true);
+		else if (map.getTileProvider().getTileSource() == TileSourceFactory.MAPQUESTOSM)
+			menu.findItem(R.id.menu_tile_mapquest_osm).setChecked(true);
+		else if (map.getTileProvider().getTileSource() == MAPQUESTAERIAL)
+			menu.findItem(R.id.menu_tile_mapquest_aerial).setChecked(true);
+		
 		return true;
 	}
 	
@@ -887,27 +942,27 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
 		case R.id.menu_route_osrm:
-			whichRouteProvider = RouteProviderType.OSRM;
+			whichRouteProvider = OSRM;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_fastest:
-			whichRouteProvider = RouteProviderType.MAPQUEST_FASTEST;
+			whichRouteProvider = MAPQUEST_FASTEST;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_bicycle:
-			whichRouteProvider = RouteProviderType.MAPQUEST_BICYCLE;
+			whichRouteProvider = MAPQUEST_BICYCLE;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_pedestrian:
-			whichRouteProvider = RouteProviderType.MAPQUEST_PEDESTRIAN;
+			whichRouteProvider = MAPQUEST_PEDESTRIAN;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_google:
-			whichRouteProvider = RouteProviderType.GOOGLE_FASTEST;
+			whichRouteProvider = GOOGLE_FASTEST;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
@@ -920,7 +975,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			item.setChecked(true);
 			return true;
 		case R.id.menu_tile_mapquest_aerial:
-			map.setTileSource(TileSourceFactory.MAPQUESTAERIAL);
+			map.setTileSource(MAPQUESTAERIAL);
 			item.setChecked(true);
 			return true;
 		default:
