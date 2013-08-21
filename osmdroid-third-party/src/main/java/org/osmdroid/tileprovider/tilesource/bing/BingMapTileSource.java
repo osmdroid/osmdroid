@@ -248,7 +248,11 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		} catch(final Exception e) {
 			logger.error("Error getting imagery meta data", e);
 		} finally {
-			client.getConnectionManager().shutdown();
+			try {
+				client.getConnectionManager().shutdown();
+			} catch(UnsupportedOperationException e) {
+				// OkApacheClient doesn't support this
+			}
 			logger.trace("end getMetaData");
 		}
 		return null;
