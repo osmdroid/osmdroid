@@ -147,13 +147,13 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		for (int i = size; i >= 0; i--) {
 	        final Item item = getItem(i);
 			if (item != mItemWithBubble){
-		        pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);
+		        pj.toMapPixels(item.getPoint(), mCurScreenCoords);
 		        onDrawItem(canvas.getSafeCanvas(), item, mCurScreenCoords);
 			}
 		}
 		//draw focused item last:
 		if (mItemWithBubble != null){
-	        pj.toMapPixels(mItemWithBubble.mGeoPoint, mCurScreenCoords);
+	        pj.toMapPixels(mItemWithBubble.getPoint(), mCurScreenCoords);
 	        onDrawItem(canvas.getSafeCanvas(), (Item)mItemWithBubble, mCurScreenCoords);
 		}
     }
