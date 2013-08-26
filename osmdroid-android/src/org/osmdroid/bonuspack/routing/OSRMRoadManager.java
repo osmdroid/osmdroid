@@ -139,6 +139,30 @@ public class OSRMRoadManager extends RoadManager {
 		directions.put("11-8","Wjedź na rondo i opuść je ósmym zjazdem<w %s>");
 		directions.put("11-9","Wjedź na rondo i opuść je dziewiątym zjazdem<w %s>");
 		directions.put("15","Dotarłeś do celu podróży");
+
+		directions = new HashMap<String, String>();
+        DIRECTIONS.put("de", directions);
+        directions.put("0", "Unbekannte Instruktion< auf %s>");
+        directions.put("1","Bleiben Sie< auf %s>");
+        directions.put("2","Biegen Sie leicht rechts ab< auf %s>");
+        directions.put("3","Biegen Sie rechts ab< auf %s>");
+        directions.put("4","Biegen Sie scharf rechts ab< auf %s>");
+        directions.put("5","Bitte wenden< auf %s>");
+        directions.put("6","Biegen Sie scharf links ab< auf %s>");
+        directions.put("7","Biegen Sie links ab< auf %s>");
+        directions.put("8","Biegen Sie leicht links ab< auf %s>");
+        directions.put("9","Sie haben einen Wegpunkt ihrer Reise erreicht"); 
+        directions.put("10","<Begeben Sie sich auf %s>");  
+        directions.put("11-1","Begeben Sie sich in den Kreisverkehr und nehmen die erste Ausfahrt< auf %s>");
+        directions.put("11-2","Begeben Sie sich in den Kreisverkehr und nehmen die zweite Ausfahrt< auf %s>");
+        directions.put("11-3","Begeben Sie sich in den Kreisverkehr und nehmen die dritte Ausfahrt< auf %s>");
+        directions.put("11-4","Begeben Sie sich in den Kreisverkehr und nehmen die vierte Ausfahrt< auf %s>");
+        directions.put("11-5","Begeben Sie sich in den Kreisverkehr und nehmen die fünfte Ausfahrt< auf %s>");
+        directions.put("11-6","Begeben Sie sich in den Kreisverkehr und nehmen die sechste Ausfahrt< auf %s>");
+        directions.put("11-7","Begeben Sie sich in den Kreisverkehr und nehmen die siebente Ausfahrt< auf %s>");
+        directions.put("11-8","Begeben Sie sich in den Kreisverkehr und nehmen die achte Ausfahrt< auf %s>");
+        directions.put("11-9","Begeben Sie sich in den Kreisverkehr und nehmen die neunte Ausfahrt< auf %s>");
+        directions.put("15","Sie haben ihr Ziel erreicht");
 	}
 	
 	public OSRMRoadManager(){
