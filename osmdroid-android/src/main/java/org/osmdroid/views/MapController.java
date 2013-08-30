@@ -30,7 +30,7 @@ public class MapController implements IMapController, MapViewConstants {
 	// Fields
 	// ===========================================================
 
-	private final MapView mMapView;
+	protected final MapView mMapView;
 
 	// Zoom animations
 	private final ValueAnimator mZoomInAnimation;
