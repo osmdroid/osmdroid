@@ -16,6 +16,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
@@ -54,8 +55,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
@@ -90,12 +89,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/** Handles map scrolling */
 	private final Scroller mScroller;
-	private boolean mIsFlinging;
-	private final AtomicInteger mTargetZoomLevel = new AtomicInteger();
-	private final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
+	protected boolean mIsFlinging;
 
-	private final ScaleAnimation mZoomInAnimation;
-	private final ScaleAnimation mZoomOutAnimation;
+	protected final AtomicInteger mTargetZoomLevel = new AtomicInteger();
+	protected final AtomicBoolean mIsAnimating = new AtomicBoolean(false);
 
 	protected Integer mMinimumZoomLevel;
 	protected Integer mMaximumZoomLevel;
@@ -108,8 +105,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final ResourceProxy mResourceProxy;
 
 	private MultiTouchController<Object> mMultiTouchController;
-	private float mMultiTouchScale = 1.0f;
-	private PointF mMultiTouchScalePoint = new PointF();
+	protected float mMultiTouchScale = 1.0f;
+	protected PointF mMultiTouchScalePoint = new PointF();
 
 	protected MapListener mListener;
 
@@ -159,13 +156,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		this.mZoomController = new ZoomButtonsController(this);
 		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
 
-		mZoomInAnimation = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mZoomOutAnimation = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
-		mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
-		mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
-
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
 	}
@@ -206,7 +196,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	@Override
-	public MapController getController() {
+	public IMapController getController() {
 		return this.mController;
 	}
 
@@ -303,21 +293,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	void setMapCenter(final IGeoPoint aCenter) {
-		this.setMapCenter(aCenter.getLatitudeE6(), aCenter.getLongitudeE6());
+		getController().animateTo(aCenter);
 	}
 
+	/**
+	 * @deprecated use {@link #setMapCenter(IGeoPoint)}
+	 */
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
-		final Point coords = TileSystem.LatLongToPixelXY(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6,
-				getZoomLevel(false), null);
-		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(false)) / 2;
-		if (getAnimation() == null || getAnimation().hasEnded()) {
-			logger.debug("StartScroll");
-			mIsFlinging = false;
-			mScroller.startScroll(getScrollX(), getScrollY(),
-					coords.x - worldSize_2 - getScrollX(), coords.y - worldSize_2 - getScrollY(),
-					500);
-			postInvalidate();
-		}
+		setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
 	}
 
 	public void setTileSource(final ITileSource aTileSource) {
@@ -418,11 +401,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
     			requiredLatitudeZoom < requiredLongitudeZoom ?
     			requiredLatitudeZoom : requiredLongitudeZoom));
 
-    	getController().setCenter(
-    			new GeoPoint(
-    					boundingBox.getCenter().getLatitudeE6()/1000000.0,
-    					boundingBox.getCenter().getLongitudeE6()/1000000.0
-    					));
+		getController().setCenter(
+				new GeoPoint(boundingBox.getCenter().getLatitudeE6(), boundingBox.getCenter()
+						.getLongitudeE6()));
 	}
 
 	/**
@@ -485,10 +466,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public boolean canZoomIn() {
 		final int maxZoomLevel = getMaxZoomLevel();
-		if (mZoomLevel >= maxZoomLevel) {
-			return false;
-		}
-		if (mIsAnimating.get() && mTargetZoomLevel.get() >= maxZoomLevel) {
+		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) >= maxZoomLevel) {
 			return false;
 		}
 		return true;
@@ -496,10 +474,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public boolean canZoomOut() {
 		final int minZoomLevel = getMinZoomLevel();
-		if (mZoomLevel <= minZoomLevel) {
-			return false;
-		}
-		if (mIsAnimating.get() && mTargetZoomLevel.get() <= minZoomLevel) {
+		if ((isAnimating() ? mTargetZoomLevel.get() : mZoomLevel) <= minZoomLevel) {
 			return false;
 		}
 		return true;
@@ -509,60 +484,32 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Zoom in by one zoom level.
 	 */
 	boolean zoomIn() {
-
-		if (canZoomIn()) {
-			if (mIsAnimating.get()) {
-				// TODO extend zoom (and return true)
-				return false;
-			} else {
-				mTargetZoomLevel.set(mZoomLevel + 1);
-				mIsAnimating.set(true);
-				startAnimation(mZoomInAnimation);
-				return true;
-			}
-		} else {
-			return false;
-		}
+		return getController().zoomIn();
 	}
 
 	boolean zoomInFixing(final IGeoPoint point) {
-		setMapCenter(point); // TODO should fix on point, not center on it
-		return zoomIn();
+		Point coords = getProjection().toMapPixels(point, null);
+		return getController().zoomInFixing(coords.x, coords.y);
 	}
 
 	boolean zoomInFixing(final int xPixel, final int yPixel) {
-		setMapCenter(xPixel, yPixel); // TODO should fix on point, not center on it
-		return zoomIn();
+		return getController().zoomInFixing(xPixel, yPixel);
 	}
 
 	/**
 	 * Zoom out by one zoom level.
 	 */
 	boolean zoomOut() {
-
-		if (canZoomOut()) {
-			if (mIsAnimating.get()) {
-				// TODO extend zoom (and return true)
-				return false;
-			} else {
-				mTargetZoomLevel.set(mZoomLevel - 1);
-				mIsAnimating.set(true);
-				startAnimation(mZoomOutAnimation);
-				return true;
-			}
-		} else {
-			return false;
-		}
+		return getController().zoomOut();
 	}
 
 	boolean zoomOutFixing(final IGeoPoint point) {
-		setMapCenter(point); // TODO should fix on point, not center on it
-		return zoomOut();
+		Point coords = getProjection().toMapPixels(point, null);
+		return zoomOutFixing(coords.x, coords.y);
 	}
 
 	boolean zoomOutFixing(final int xPixel, final int yPixel) {
-		setMapCenter(xPixel, yPixel); // TODO should fix on point, not center on it
-		return zoomOut();
+		return getController().zoomOutFixing(xPixel, yPixel);
 	}
 
 	/**
@@ -1106,24 +1053,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Animation
 	// ===========================================================
 
-	@Override
-	protected void onAnimationStart() {
-		mIsAnimating.set(true);
-		super.onAnimationStart();
-	}
-
-	@Override
-	protected void onAnimationEnd() {
-		mIsAnimating.set(false);
-		clearAnimation();
-		setZoomLevel(mTargetZoomLevel.get());
-		super.onAnimationEnd();
-	}
-
 	/**
-	 * Check mAnimationListener.isAnimating() to determine if view is animating. Useful for overlays
-	 * to avoid recalculating during an animation sequence.
-	 *
+	 * Check mIsAnimating to determine if view is animating. Useful for overlays to avoid
+	 * recalculating during an animation sequence.
+	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {

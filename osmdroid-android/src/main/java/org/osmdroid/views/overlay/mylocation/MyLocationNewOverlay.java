@@ -6,9 +6,9 @@ import microsoft.mappoint.TileSystem;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
@@ -59,13 +59,14 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 
 	protected final MapView mMapView;
 
-	private final MapController mMapController;
+	private final IMapController mMapController;
 	public IMyLocationProvider mMyLocationProvider;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoords = new Point();
 
 	private Location mLocation;
+	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
 	private boolean mIsLocationEnabled = false;
 	protected boolean mIsFollowing = false; // follow location updates
 	protected boolean mDrawAccuracyEnabled = true;
@@ -432,7 +433,9 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 			mMapCoords.offset(-worldSize_2, -worldSize_2);
 
 			if (mIsFollowing) {
-				mMapController.animateTo(mLocation.getLatitude(), mLocation.getLongitude());
+				mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
+				mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+				mMapController.animateTo(mGeoPoint);
 			} else {
 				// Get new drawing bounds
 				this.getMyLocationDrawingBounds(mMapView.getZoomLevel(), mLocation, mMyLocationRect);

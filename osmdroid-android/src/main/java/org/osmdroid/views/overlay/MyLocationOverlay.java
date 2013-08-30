@@ -9,12 +9,12 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.SensorEventListenerProxy;
+import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.NetworkLocationIgnorer;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
@@ -77,7 +77,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	protected final MapView mMapView;
 
-	private final MapController mMapController;
+	private final IMapController mMapController;
 	private final LocationManager mLocationManager;
 	private final SensorManager mSensorManager;
 	private final Display mDisplay;
@@ -89,6 +89,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	private final Point mMapCoords = new Point();
 
 	private Location mLocation;
+	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
 	private long mLocationUpdateMinTime = 0;
 	private float mLocationUpdateMinDistance = 0.0f;
 	protected boolean mFollow = false; // follow location updates
@@ -406,7 +407,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mMapCoords.offset(-worldSize_2, -worldSize_2);
 		
 		if (mFollow) {
-			mMapController.animateTo(location.getLatitude(), location.getLongitude());
+			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
+			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+			mMapController.animateTo(mGeoPoint);
 		} else {
 			if (mLocation != null) {
 				// Get new drawing bounds

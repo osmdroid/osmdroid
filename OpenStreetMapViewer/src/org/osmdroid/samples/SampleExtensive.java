@@ -3,12 +3,12 @@ package org.osmdroid.samples;
 import org.osmdroid.R;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
+import org.osmdroid.api.IMapController;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
@@ -46,7 +46,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 	// ===========================================================
 
 	private MapView mOsmv;
-	private MapController mOsmvController;
+	private IMapController mOsmvController;
 	private SimpleLocationOverlay mMyLocationOverlay;
 	private ResourceProxy mResourceProxy;
 	private ScaleBarOverlay mScaleBarOverlay;
@@ -208,10 +208,10 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 			return true;
 
 		case MENU_ANIMATION_ID:
-			this.mOsmv.getController().animateTo(52370816, 9735936,
-					MapController.AnimationType.MIDDLEPEAKSPEED,
-					MapController.ANIMATION_SMOOTHNESS_HIGH,
-					MapController.ANIMATION_DURATION_DEFAULT); // Hannover
+			// this.mOsmv.getController().animateTo(52370816, 9735936,
+			// MapControllerOld.AnimationType.MIDDLEPEAKSPEED,
+			// MapControllerOld.ANIMATION_SMOOTHNESS_HIGH,
+			// MapControllerOld.ANIMATION_DURATION_DEFAULT); // Hannover
 			// Stop the Animation after 500ms (just to show that it works)
 			// new Handler().postDelayed(new Runnable(){
 			// @Override
