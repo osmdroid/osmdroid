@@ -25,6 +25,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: log4j:log4j:1.2.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.2" level="project" />
+    <orderEntry type="module" module-name="osmdroid-android" />
   </component>
 </module>
 

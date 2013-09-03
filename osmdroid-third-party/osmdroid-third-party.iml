@@ -24,11 +24,11 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android.maps:maps:16_r3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpmime:4.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
+    <orderEntry type="module" module-name="osmdroid-android" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:1.6.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: log4j:log4j:1.2.16" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.8.2" level="project" />
-    <orderEntry type="module" module-name="osmdroid-android" />
   </component>
 </module>
 

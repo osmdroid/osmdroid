@@ -4,6 +4,7 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="UPDATE_PROPERTY_FILES" value="true" />
+        <option name="COMPILE_CUSTOM_GENERATED_SOURCES" value="false" />
         <notImportedProperties>
           <property>MANIFEST_FILE_PATH</property>
           <property>RESOURCES_DIR_PATH</property>
@@ -20,7 +21,11 @@
       <sourceFolder url="file://$MODULE_DIR$/gen" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/aidl" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/combined-assets" />
+      <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/combined-resources" />
+      <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/extracted-dependencies" />
+      <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/r" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
     </content>
     <orderEntry type="jdk" jdkName="Maven Android 4.1.2 Platform" jdkType="Android SDK" />
@@ -35,9 +40,9 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: xpp3:xpp3:1.1.4c" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20070829" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android.maps:maps:16_r3" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-android:1.6.1-RC1" level="project" />
     <orderEntry type="module" module-name="osmdroid-android" />
     <orderEntry type="module" module-name="osmdroid-third-party" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-android:1.6.1-RC1" level="project" />
   </component>
 </module>
 
