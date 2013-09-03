@@ -1054,8 +1054,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	/**
-	 * Check mIsAnimating to determine if view is animating. Useful for overlays to avoid
-	 * recalculating during an animation sequence.
+	 * Determines if maps are animating a zoom operation. Useful for overlays to avoid recalculating
+	 * during an animation sequence.
 	 * 
 	 * @return boolean indicating whether view is animating.
 	 */
@@ -1069,9 +1069,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public Object getDraggableObjectAtPoint(final PointInfo pt) {
-		mMultiTouchScalePoint.x = pt.getX() + getScrollX() - (this.getWidth() / 2);
-		mMultiTouchScalePoint.y = pt.getY() + getScrollY() - (this.getHeight() / 2);
-		return this;
+		if (this.isAnimating()) {
+			// Zoom animations use the mMultiTouchScale variables to perform their animations so we
+			// don't want to step on that.
+			return null;
+		} else {
+			mMultiTouchScalePoint.x = pt.getX() + getScrollX() - (this.getWidth() / 2);
+			mMultiTouchScalePoint.y = pt.getY() + getScrollY() - (this.getHeight() / 2);
+			return this;
+		}
 	}
 
 	@Override
