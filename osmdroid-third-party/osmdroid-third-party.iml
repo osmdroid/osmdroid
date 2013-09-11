@@ -22,6 +22,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: xpp3:xpp3:1.1.4c" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20070829" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.android.maps:maps:16_r3" level="project" />
+    <orderEntry type="library" name="Maven: com.google.android.gms:google-play-services:10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.httpcomponents:httpmime:4.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.james:apache-mime4j:0.6" level="project" />
     <orderEntry type="module" module-name="osmdroid-android" />

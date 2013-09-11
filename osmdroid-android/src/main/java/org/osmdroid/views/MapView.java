@@ -16,6 +16,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMap;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
@@ -1056,7 +1057,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * Determines if maps are animating a zoom operation. Useful for overlays to avoid recalculating
 	 * during an animation sequence.
-	 * 
+	 *
 	 * @return boolean indicating whether view is animating.
 	 */
 	public boolean isAnimating() {
@@ -1186,6 +1187,26 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		logger.info("Using tile source: " + tileSource);
 		return tileSource;
 	}
+
+    @Override
+    public IMap getMap() {
+        return new IMap() {
+            @Override
+            public void setZoom(final int aZoomLevel) {
+                mController.setZoom(aZoomLevel);
+            }
+
+            @Override
+            public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
+                mController.setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+            }
+
+            @Override
+            public void disableMyLocation() {
+                // TODO
+            }
+        };
+    }
 
 	// ===========================================================
 	// Inner and Anonymous Classes

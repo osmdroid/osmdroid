@@ -73,6 +73,18 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>com.google.android.gms</groupId>
+                <artifactId>google-play-services</artifactId>
+                <type>apklib</type>
+                <version>10</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.android.gms</groupId>
+                <artifactId>google-play-services</artifactId>
+                <type>jar</type>
+                <version>10</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
                 <version>1.1.1</version>

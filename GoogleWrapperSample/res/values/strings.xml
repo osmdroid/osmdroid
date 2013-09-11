@@ -3,7 +3,8 @@
     <string name="hello">Hello World, GoogleWrapperSample!</string>
     <string name="app_name">GoogleWrapperSample</string>
 
-    <string name="map_view_google">Google Map</string>
+    <string name="map_view_google_v1">Google Map v1</string>
+    <string name="map_view_google_v2">Google Map v2</string>
     <string name="map_view_osm">OpenStreetMap</string>
 
     <string name="enable_my_location">Enable MyLocation</string>
