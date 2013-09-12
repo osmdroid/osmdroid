@@ -18,7 +18,6 @@ public interface IMapView {
 	int getLatitudeSpan();
 	int getLongitudeSpan();
 	IGeoPoint getMapCenter();
-	IMap getMap();
 
 	// some methods from View
 	// (well, just one for now)

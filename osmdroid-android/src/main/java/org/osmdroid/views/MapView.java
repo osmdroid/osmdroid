@@ -1188,26 +1188,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return tileSource;
 	}
 
-	@Override
-	public IMap getMap() {
-		return new IMap() {
-			@Override
-			public void setZoom(final int aZoomLevel) {
-				mController.setZoom(aZoomLevel);
-			}
-
-			@Override
-			public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
-				mController.setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
-			}
-
-			@Override
-			public void disableMyLocation() {
-				// TODO
-			}
-		};
-	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

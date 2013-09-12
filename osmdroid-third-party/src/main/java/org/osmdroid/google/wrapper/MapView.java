@@ -68,26 +68,6 @@ public class MapView implements IMapView {
 	}
 
 	@Override
-	public IMap getMap() {
-		return new IMap() {
-			@Override
-			public void setZoom(final int aZoomLevel) {
-				mMapView.getController().setZoom(aZoomLevel);
-			}
-
-			@Override
-			public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
-				mMapView.getController().setCenter(new com.google.android.maps.GeoPoint(aLatitudeE6, aLongitudeE6));
-			}
-
-			@Override
-			public void disableMyLocation() {
-				// TODO
-			}
-		};
-	}
-
-	@Override
 	public int getMaxZoomLevel() {
 		return mMapView.getMaxZoomLevel();
 	}
