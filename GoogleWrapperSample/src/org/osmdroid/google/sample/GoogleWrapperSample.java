@@ -4,7 +4,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IMyLocationOverlay;
-import org.osmdroid.google.wrapper.MapWrapper;
+import org.osmdroid.google.wrapper.v2.MapFactory;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -141,7 +141,7 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewSelection == MapViewSelection.OSM) {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
 			setContentView(mapView);
-			mMap = MapWrapper.getInstance(mapView);
+			mMap = MapFactory.getMap(mapView);
 
 			final org.osmdroid.views.overlay.MyLocationOverlay mlo = new org.osmdroid.views.overlay.MyLocationOverlay(this, mapView);
 			mapView.getOverlays().add(mlo);
@@ -150,7 +150,7 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewSelection == MapViewSelection.GoogleV1) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, getString(R.string.google_maps_api_key));
 			setContentView(mapView);
-			mMap = MapWrapper.getInstance(mapView);
+			mMap = MapFactory.getMap(mapView);
 
 			final org.osmdroid.google.wrapper.MyLocationOverlay mlo = new org.osmdroid.google.wrapper.MyLocationOverlay(this, mapView);
 			mapView.getOverlays().add(mlo);
@@ -161,7 +161,7 @@ public class GoogleWrapperSample extends MapActivity {
 			setContentView(mMapViewV2);
 			mMapViewV2.onCreate(null);
 			mMapViewV2.onResume();
-			mMap = MapWrapper.getInstance(mMapViewV2);
+			mMap = MapFactory.getMap(mMapViewV2);
 		}
 
 		// v1 code
