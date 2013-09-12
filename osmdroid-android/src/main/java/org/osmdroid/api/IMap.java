@@ -1,14 +1,16 @@
 package org.osmdroid.api;
 
-import org.osmdroid.util.GeoPoint;
-
 /**
  * An interface that contains the common features of osmdroid and Google Maps v2.
  */
 public interface IMap {
-    void setZoom(int zoomLevel);
+	void setZoom(int zoomLevel);
 
-    void setCenter(int latitudeE6, int longitudeE6);
+	void setCenter(int latitudeE6, int longitudeE6);
 
-    void disableMyLocation();
+	void setZoomAndCenter(int zoomLevel, int latitudeE6, int longitudeE6);
+
+	void setMyLocationEnabled(boolean enabled);
+
+	boolean isMyLocationEnabled();
 }

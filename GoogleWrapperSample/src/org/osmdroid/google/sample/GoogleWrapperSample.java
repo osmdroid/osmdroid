@@ -1,9 +1,10 @@
 package org.osmdroid.google.sample;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IMap;
-import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.google.wrapper.v2.MapFactory;
 
 import android.os.Bundle;
@@ -28,7 +29,6 @@ public class GoogleWrapperSample extends MapActivity {
 
 	private IMap mMap;
 	private MapView mMapViewV2;
-	private IMyLocationOverlay mMyLocationOverlay;
 
 	@Override
 	protected boolean isRouteDisplayed() {
@@ -57,7 +57,7 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewV2 != null) {
 			mMapViewV2.onPause();
 		}
-		mMyLocationOverlay.disableMyLocation();
+		mMap.setMyLocationEnabled(false);
 		super.onPause();
 	}
 
@@ -100,8 +100,8 @@ public class GoogleWrapperSample extends MapActivity {
 		mGoogleV1MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV1);
 		mGoogleV2MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV2);
 		mOsmMenuItem.setVisible(mMapViewSelection != MapViewSelection.OSM);
-		mEnableMyLocationOverlayMenuItem.setVisible(!mMyLocationOverlay.isMyLocationEnabled());
-		mDisableMyLocationOverlayMenuItem.setVisible(mMyLocationOverlay.isMyLocationEnabled());
+		mEnableMyLocationOverlayMenuItem.setVisible(!mMap.isMyLocationEnabled());
+		mDisableMyLocationOverlayMenuItem.setVisible(mMap.isMyLocationEnabled());
 		return super.onPrepareOptionsMenu(pMenu);
 	}
 
@@ -126,10 +126,10 @@ public class GoogleWrapperSample extends MapActivity {
 			return true;
 		}
 		if (pItem == mEnableMyLocationOverlayMenuItem) {
-			mMyLocationOverlay.enableMyLocation();
+			mMap.setMyLocationEnabled(true);
 		}
 		if (pItem == mDisableMyLocationOverlayMenuItem) {
-			mMyLocationOverlay.disableMyLocation();
+			mMap.setMyLocationEnabled(false);
 		}
 
 		return false;
@@ -142,37 +142,28 @@ public class GoogleWrapperSample extends MapActivity {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);
-
-			final org.osmdroid.views.overlay.MyLocationOverlay mlo = new org.osmdroid.views.overlay.MyLocationOverlay(this, mapView);
-			mapView.getOverlays().add(mlo);
-			mMyLocationOverlay = mlo;
 		}
 		if (mMapViewSelection == MapViewSelection.GoogleV1) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, getString(R.string.google_maps_api_key));
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);
-
-			final org.osmdroid.google.wrapper.MyLocationOverlay mlo = new org.osmdroid.google.wrapper.MyLocationOverlay(this, mapView);
-			mapView.getOverlays().add(mlo);
-			mMyLocationOverlay = mlo;
 		}
 		if (mMapViewSelection == MapViewSelection.GoogleV2) {
 			mMapViewV2 = new MapView(this);
 			setContentView(mMapViewV2);
+
 			mMapViewV2.onCreate(null);
 			mMapViewV2.onResume();
 			mMap = MapFactory.getMap(mMapViewV2);
+			try {
+				MapsInitializer.initialize(this);
+			} catch (final GooglePlayServicesNotAvailableException e) {
+				e.printStackTrace();
+			}
 		}
 
-		// v1 code
-		// mMapView.getController().setZoom(14);
-		// mMapView.getController().setCenter(new GeoPoint(52370816, 9735936)); // Hannover
-		// mMyLocationOverlay.disableMyLocation();
-
-		// v2 code
-		mMap.setZoom(14);
-		mMap.setCenter(52370816, 9735936); // Hannover
-		mMap.disableMyLocation();
+		mMap.setZoomAndCenter(14, 52370816, 9735936); // Hannover
+		mMap.setMyLocationEnabled(false);
 	}
 
 	private enum MapViewSelection { GoogleV1, GoogleV2, OSM }
