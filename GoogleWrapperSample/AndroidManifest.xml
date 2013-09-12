@@ -12,8 +12,7 @@
 			</intent-filter>
 		</activity>
 		<uses-library android:name="com.google.android.maps" />
-		<!-- get your own key! -->
-		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBDBWK_elW1KKkgN0t59GLCdYOVP3oRe2I"/>
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="get your own key!"/>
 	</application>
 
 	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16" />

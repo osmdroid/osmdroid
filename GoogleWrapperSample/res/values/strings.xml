@@ -10,6 +10,6 @@
     <string name="enable_my_location">Enable MyLocation</string>
     <string name="disable_my_location">Disable MyLocation</string>
 
-    <string name="google_maps_api_key">get your own!</string>
+    <string name="google_maps_api_key">get your own key!</string>
 
 </resources>

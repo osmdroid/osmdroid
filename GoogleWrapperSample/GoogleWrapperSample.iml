@@ -27,10 +27,8 @@
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/combined-resources" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/extracted-dependencies" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/r" />
-      <excludeFolder url="file://$MODULE_DIR$/target/idea-classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/idea-test-classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/unpack" />
     </content>
     <orderEntry type="jdk" jdkName="Maven Android 4.1.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -47,6 +45,7 @@
     <orderEntry type="library" name="Maven: com.google.android.gms:google-play-services:10" level="project" />
     <orderEntry type="module" module-name="osmdroid-android" />
     <orderEntry type="module" module-name="osmdroid-third-party" />
+    <orderEntry type="library" name="Maven: com.google.android:support-v4:r7" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-android:1.6.1-RC1" level="project" />
     <orderEntry type="module" module-name="~apklib-com.google.android.gms_google-play-services_10" />
   </component>
