@@ -1,11 +1,18 @@
 package org.osmdroid.google.wrapper.v2;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import org.osmdroid.api.IMap;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.pm.ConfigurationInfo;
+
 public class MapFactory {
 
-	private MapFactory(){}
+	private MapFactory() {
+	}
 
 	public static IMap getMap(final com.google.android.gms.maps.MapView aMapView) {
 		final GoogleMap map = aMapView.getMap();
@@ -28,5 +35,21 @@ public class MapFactory {
 
 	public static IMap getMap(final com.google.android.maps.MapView aMapView) {
 		return new GoogleV1MapWrapper(aMapView);
+	}
+
+	public static boolean isGoogleMapsV2Supported(final Context aContext) {
+		try {
+			// first check if Google Play Services is available
+			int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(aContext);
+			if (resultCode == ConnectionResult.SUCCESS) {
+				// then check if OpenGL ES 2.0 is available
+				final ActivityManager activityManager =
+						(ActivityManager) aContext.getSystemService(Context.ACTIVITY_SERVICE);
+				final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+				return configurationInfo.reqGlEsVersion >= 0x20000;
+			}
+		} catch (Throwable e) {
+		}
+		return false;
 	}
 }

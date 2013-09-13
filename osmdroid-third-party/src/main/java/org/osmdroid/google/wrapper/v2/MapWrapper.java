@@ -32,12 +32,11 @@ class MapWrapper implements IMap {
 
 	@Override
 	public void setMyLocationEnabled(final boolean aEnabled) {
-		// TODO implementation
+		mGoogleMap.setMyLocationEnabled(aEnabled);
 	}
 
 	@Override
 	public boolean isMyLocationEnabled() {
-		// TODO implementation
-		return false;
+		return mGoogleMap.isMyLocationEnabled();
 	}
 }

@@ -97,8 +97,9 @@ public class GoogleWrapperSample extends MapActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(final Menu pMenu) {
+		final boolean isV2Available = MapFactory.isGoogleMapsV2Supported(this);
 		mGoogleV1MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV1);
-		mGoogleV2MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV2);
+		mGoogleV2MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV2 && isV2Available);
 		mOsmMenuItem.setVisible(mMapViewSelection != MapViewSelection.OSM);
 		mEnableMyLocationOverlayMenuItem.setVisible(!mMap.isMyLocationEnabled());
 		mDisableMyLocationOverlayMenuItem.setVisible(mMap.isMyLocationEnabled());
