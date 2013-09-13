@@ -39,7 +39,6 @@ class OsmdroidMapWrapper implements IMap {
 				mMapView.getOverlays().add(mMyLocationOverlay);
 			}
 			mMyLocationOverlay.enableMyLocation();
-			mMyLocationOverlay.enableFollowLocation();
 		}
 		if (!aEnabled && mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
