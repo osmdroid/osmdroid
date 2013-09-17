@@ -165,11 +165,6 @@ public class GoogleWrapperSample extends MapActivity {
 			mMapViewV2.onCreate(null);
 			mMapViewV2.onResume();
 			mMap = MapFactory.getMap(mMapViewV2);
-			try {
-				MapsInitializer.initialize(this);
-			} catch (final GooglePlayServicesNotAvailableException e) {
-				e.printStackTrace();
-			}
 		}
 
 		mMap.setZoomAndCenter(14, 52370816, 9735936); // Hannover

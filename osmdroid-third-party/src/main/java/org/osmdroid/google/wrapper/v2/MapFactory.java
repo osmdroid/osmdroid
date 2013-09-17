@@ -1,8 +1,10 @@
 package org.osmdroid.google.wrapper.v2;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import org.osmdroid.api.IMap;
 
 import android.app.ActivityManager;
@@ -16,6 +18,12 @@ public class MapFactory {
 
 	public static IMap getMap(final com.google.android.gms.maps.MapView aMapView) {
 		final GoogleMap map = aMapView.getMap();
+		try {
+			MapsInitializer.initialize(aMapView.getContext());
+		} catch (final GooglePlayServicesNotAvailableException e) {
+			e.printStackTrace(); // TODO logging
+			return null;
+		}
 		return map != null ? new MapWrapper(map) : null;
 	}
 
