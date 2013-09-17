@@ -28,6 +28,7 @@
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/extracted-dependencies" />
       <excludeFolder url="file://$MODULE_DIR$/target/generated-sources/r" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="jdk" jdkName="Maven Android 4.1.2 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />

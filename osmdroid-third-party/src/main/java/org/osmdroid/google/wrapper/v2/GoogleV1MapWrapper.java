@@ -32,6 +32,18 @@ class GoogleV1MapWrapper implements IMap {
 	}
 
 	@Override
+	public boolean zoomIn() {
+		final MapController controller = mMapView.getController();
+		return controller.zoomIn();
+	}
+
+	@Override
+	public boolean zoomOut() {
+		final MapController controller = mMapView.getController();
+		return controller.zoomOut();
+	}
+
+	@Override
 	public void setMyLocationEnabled(final boolean aEnabled) {
 		if (aEnabled) {
 			if (mMyLocationOverlay == null) {

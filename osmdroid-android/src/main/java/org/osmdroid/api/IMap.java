@@ -10,6 +10,10 @@ public interface IMap {
 
 	void setZoomAndCenter(int zoomLevel, int latitudeE6, int longitudeE6);
 
+	boolean zoomIn();
+
+	boolean zoomOut();
+
 	void setMyLocationEnabled(boolean enabled);
 
 	boolean isMyLocationEnabled();
