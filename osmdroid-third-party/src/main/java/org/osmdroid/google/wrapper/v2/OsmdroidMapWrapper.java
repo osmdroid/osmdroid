@@ -15,8 +15,13 @@ class OsmdroidMapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoom(final int aZoomLevel) {
-		mMapView.getController().setZoom(aZoomLevel);
+	public void setZoom(final float aZoomLevel) {
+		mMapView.getController().setZoom((int) aZoomLevel);
+	}
+
+	@Override
+	public float getZoomLevel() {
+		return mMapView.getZoomLevel();
 	}
 
 	@Override
@@ -25,9 +30,9 @@ class OsmdroidMapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoomAndCenter(final int aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
+	public void setZoomAndCenter(final float aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
 		final IMapController controller = mMapView.getController();
-		controller.setZoom(aZoomLevel);
+		controller.setZoom((int) aZoomLevel);
 		controller.setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
 	}
 

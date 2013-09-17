@@ -15,8 +15,14 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoom(final int aZoomLevel) {
+	public void setZoom(final float aZoomLevel) {
 		mGoogleMap.moveCamera(CameraUpdateFactory.zoomTo(aZoomLevel));
+	}
+
+	@Override
+	public float getZoomLevel() {
+		final CameraPosition cameraPosition = mGoogleMap.getCameraPosition();
+		return cameraPosition.zoom;
 	}
 
 	@Override
@@ -26,7 +32,7 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoomAndCenter(final int aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
+	public void setZoomAndCenter(final float aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
 		final LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
 		mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, aZoomLevel));
 	}
