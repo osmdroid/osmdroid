@@ -27,7 +27,7 @@ import android.util.Log;
  */
 public class MapQuestRoadManager extends RoadManager {
 	
-	static final String MAPQUEST_GUIDANCE_SERVICE = "http://open.mapquestapi.com/guidance/v0/route?";
+	static final String MAPQUEST_GUIDANCE_SERVICE = "http://open.mapquestapi.com/guidance/v1/route?";
 	
 	/**
 	 * Build the URL to MapQuest service returning a route in XML format
