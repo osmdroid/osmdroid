@@ -38,14 +38,12 @@ class OsmdroidMapWrapper implements IMap {
 
 	@Override
 	public boolean zoomIn() {
-		final IMapController controller = mMapView.getController();
-		return controller.zoomIn();
+		return mMapView.getController().zoomIn();
 	}
 
 	@Override
 	public boolean zoomOut() {
-		final IMapController controller = mMapView.getController();
-		return controller.zoomOut();
+		return mMapView.getController().zoomOut();
 	}
 
 	@Override

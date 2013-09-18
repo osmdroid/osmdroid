@@ -38,14 +38,12 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public boolean zoomIn() {
-		final MapController controller = mMapView.getController();
-		return controller.zoomIn();
+		return mMapView.getController().zoomIn();
 	}
 
 	@Override
 	public boolean zoomOut() {
-		final MapController controller = mMapView.getController();
-		return controller.zoomOut();
+		return mMapView.getController().zoomOut();
 	}
 
 	@Override
