@@ -29,7 +29,7 @@ class MapWrapper implements IMap {
 
 	@Override
 	public IGeoPoint getCenter() {
-		return new org.osmdroid.google.wrapper.v2.GeoPoint(mGoogleMap.getCameraPosition());
+		return new org.osmdroid.google.wrapper.v2.GeoPoint(mGoogleMap.getCameraPosition().target);
 	}
 
 	@Override
