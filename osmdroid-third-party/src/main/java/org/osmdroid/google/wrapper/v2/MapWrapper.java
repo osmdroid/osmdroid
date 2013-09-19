@@ -4,7 +4,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IProjection;
 
 class MapWrapper implements IMap {
 
@@ -23,6 +25,11 @@ class MapWrapper implements IMap {
 	public float getZoomLevel() {
 		final CameraPosition cameraPosition = mGoogleMap.getCameraPosition();
 		return cameraPosition.zoom;
+	}
+
+	@Override
+	public IGeoPoint getCenter() {
+		return new org.osmdroid.google.wrapper.v2.GeoPoint(mGoogleMap.getCameraPosition());
 	}
 
 	@Override
@@ -67,5 +74,10 @@ class MapWrapper implements IMap {
 	@Override
 	public boolean isMyLocationEnabled() {
 		return mGoogleMap.isMyLocationEnabled();
+	}
+
+	@Override
+	public IProjection getProjection() {
+		return new Projection(mGoogleMap.getProjection());
 	}
 }

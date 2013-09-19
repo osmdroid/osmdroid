@@ -4,7 +4,10 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IProjection;
+import org.osmdroid.google.wrapper.Projection;
 
 class GoogleV1MapWrapper implements IMap {
 	private final MapView mMapView;
@@ -22,6 +25,11 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public float getZoomLevel() {
 		return mMapView.getZoomLevel();
+	}
+
+	@Override
+	public IGeoPoint getCenter() {
+		return new org.osmdroid.google.wrapper.GeoPoint(mMapView.getMapCenter());
 	}
 
 	@Override
@@ -63,5 +71,10 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public boolean isMyLocationEnabled() {
 		return mMyLocationOverlay != null && mMyLocationOverlay.isMyLocationEnabled();
+	}
+
+	@Override
+	public IProjection getProjection() {
+		return new Projection(mMapView.getProjection());
 	}
 }

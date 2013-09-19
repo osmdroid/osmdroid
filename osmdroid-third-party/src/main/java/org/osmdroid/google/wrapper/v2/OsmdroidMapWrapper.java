@@ -1,7 +1,9 @@
 package org.osmdroid.google.wrapper.v2;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MyLocationOverlay;
@@ -22,6 +24,11 @@ class OsmdroidMapWrapper implements IMap {
 	@Override
 	public float getZoomLevel() {
 		return mMapView.getZoomLevel();
+	}
+
+	@Override
+	public IGeoPoint getCenter() {
+		return mMapView.getMapCenter();
 	}
 
 	@Override
@@ -63,5 +70,10 @@ class OsmdroidMapWrapper implements IMap {
 	@Override
 	public boolean isMyLocationEnabled() {
 		return mMyLocationOverlay != null && mMyLocationOverlay.isMyLocationEnabled();
+	}
+
+	@Override
+	public IProjection getProjection() {
+		return mMapView.getProjection();
 	}
 }

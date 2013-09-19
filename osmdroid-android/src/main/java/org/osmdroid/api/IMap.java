@@ -9,6 +9,8 @@ public interface IMap {
 
 	float getZoomLevel();
 
+	IGeoPoint getCenter();
+
 	void setCenter(int latitudeE6, int longitudeE6);
 
 	void setZoomAndCenter(float zoomLevel, int latitudeE6, int longitudeE6);
@@ -20,4 +22,6 @@ public interface IMap {
 	void setMyLocationEnabled(boolean enabled);
 
 	boolean isMyLocationEnabled();
+
+	IProjection getProjection();
 }
