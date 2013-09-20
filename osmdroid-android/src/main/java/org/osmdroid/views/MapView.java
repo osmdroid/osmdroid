@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import microsoft.mappoint.TileSystem;
-
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
@@ -23,8 +21,10 @@ import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -59,6 +59,8 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
+
+import microsoft.mappoint.TileSystem;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -143,19 +145,26 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		if (tileProvider == null) {
 			final ITileSource tileSource = getTileSourceFromAttributes(attrs);
-			tileProvider = new MapTileProviderBasic(context, tileSource);
+			tileProvider = isInEditMode()
+					? new MapTileProviderArray(tileSource, null, new MapTileModuleProviderBase[0])
+					: new MapTileProviderBasic(context, tileSource);
 		}
 
-		mTileRequestCompleteHandler = tileRequestCompleteHandler == null ? new SimpleInvalidationHandler(
-				this) : tileRequestCompleteHandler;
+		mTileRequestCompleteHandler = tileRequestCompleteHandler == null
+				? new SimpleInvalidationHandler(this)
+				: tileRequestCompleteHandler;
 		mTileProvider = tileProvider;
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
 		mOverlayManager = new OverlayManager(mMapOverlay);
 
-		this.mZoomController = new ZoomButtonsController(this);
-		this.mZoomController.setOnZoomListener(new MapViewZoomListener());
+		if (isInEditMode()) {
+			mZoomController = null;
+		} else {
+			mZoomController = new ZoomButtonsController(this);
+			mZoomController.setOnZoomListener(new MapViewZoomListener());
+		}
 
 		mGestureDetector = new GestureDetector(context, new MapViewGestureDetectorListener());
 		mGestureDetector.setOnDoubleTapListener(new MapViewDoubleClickListener());
