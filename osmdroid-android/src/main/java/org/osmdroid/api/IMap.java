@@ -5,13 +5,19 @@ package org.osmdroid.api;
  */
 public interface IMap {
 
-	void setZoom(float zoomLevel);
-
 	float getZoomLevel();
+
+	void setZoom(float zoomLevel);
 
 	IGeoPoint getCenter();
 
 	void setCenter(int latitudeE6, int longitudeE6);
+
+	float getBearing();
+
+	void setBearing(float bearing);
+
+	void setBearingAndCenter(float bearing, int latitudeE6, int longitudeE6);
 
 	void setZoomAndCenter(float zoomLevel, int latitudeE6, int longitudeE6);
 

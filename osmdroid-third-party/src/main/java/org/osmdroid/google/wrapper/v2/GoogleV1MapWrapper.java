@@ -18,13 +18,13 @@ class GoogleV1MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoom(final float aZoomLevel) {
-		mMapView.getController().setZoom((int) aZoomLevel);
+	public float getZoomLevel() {
+		return mMapView.getZoomLevel();
 	}
 
 	@Override
-	public float getZoomLevel() {
-		return mMapView.getZoomLevel();
+	public void setZoom(final float aZoomLevel) {
+		mMapView.getController().setZoom((int) aZoomLevel);
 	}
 
 	@Override
@@ -35,6 +35,23 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		mMapView.getController().setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+	}
+
+	@Override
+	public float getBearing() {
+		// TODO implementation
+		return 0;
+	}
+
+	@Override
+	public void setBearing(final float bearing) {
+		// TODO implementation
+	}
+
+	@Override
+	public void setBearingAndCenter(final float bearing, final int aLatitudeE6, final int aLongitudeE6) {
+		// TODO implementation of bearing
+		setCenter(aLatitudeE6, aLongitudeE6);
 	}
 
 	@Override

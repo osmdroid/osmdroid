@@ -1,5 +1,6 @@
 package org.osmdroid.google.wrapper.v2;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -17,14 +18,14 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setZoom(final float aZoomLevel) {
-		mGoogleMap.moveCamera(CameraUpdateFactory.zoomTo(aZoomLevel));
-	}
-
-	@Override
 	public float getZoomLevel() {
 		final CameraPosition cameraPosition = mGoogleMap.getCameraPosition();
 		return cameraPosition.zoom;
+	}
+
+	@Override
+	public void setZoom(final float aZoomLevel) {
+		mGoogleMap.moveCamera(CameraUpdateFactory.zoomTo(aZoomLevel));
 	}
 
 	@Override
@@ -36,6 +37,28 @@ class MapWrapper implements IMap {
 	public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		final LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
 		mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+	}
+
+	@Override
+	public float getBearing() {
+		return mGoogleMap.getCameraPosition().bearing;
+	}
+
+	@Override
+	public void setBearing(final float aBearing) {
+		CameraPosition position = mGoogleMap.getCameraPosition();
+		CameraPosition newPosition = new CameraPosition(position.target, position.zoom, position.tilt, aBearing);
+		CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
+		mGoogleMap.moveCamera(update);
+	}
+
+	@Override
+	public void setBearingAndCenter(final float aBearing, final int aLatitudeE6, final int aLongitudeE6) {
+		CameraPosition position = mGoogleMap.getCameraPosition();
+		LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
+		CameraPosition newPosition = new CameraPosition(latLng, position.zoom, position.tilt, aBearing);
+		CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
+		mGoogleMap.moveCamera(update);
 	}
 
 	@Override
