@@ -11,15 +11,13 @@ public interface IMap {
 
 	IGeoPoint getCenter();
 
-	void setCenter(int latitudeE6, int longitudeE6);
+	void setCenter(double latitude, double longitude);
 
 	float getBearing();
 
 	void setBearing(float bearing);
 
-	void setBearingAndCenter(float bearing, int latitudeE6, int longitudeE6);
-
-	void setZoomAndCenter(float zoomLevel, int latitudeE6, int longitudeE6);
+	void setPosition(IPosition position);
 
 	boolean zoomIn();
 

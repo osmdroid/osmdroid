@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 
 class MapWrapper implements IMap {
@@ -34,8 +35,8 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
-		final LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
+	public void setCenter(final double aLatitude, final double aLongitude) {
+		final LatLng latLng = new LatLng(aLatitude, aLongitude);
 		mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 	}
 
@@ -46,25 +47,21 @@ class MapWrapper implements IMap {
 
 	@Override
 	public void setBearing(final float aBearing) {
-		CameraPosition position = mGoogleMap.getCameraPosition();
-		CameraPosition newPosition = new CameraPosition(position.target, position.zoom, position.tilt, aBearing);
-		CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
+		final CameraPosition position = mGoogleMap.getCameraPosition();
+		final CameraPosition newPosition = new CameraPosition(position.target, position.zoom, position.tilt, aBearing);
+		final CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
 		mGoogleMap.moveCamera(update);
 	}
 
 	@Override
-	public void setBearingAndCenter(final float aBearing, final int aLatitudeE6, final int aLongitudeE6) {
-		CameraPosition position = mGoogleMap.getCameraPosition();
-		LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
-		CameraPosition newPosition = new CameraPosition(latLng, position.zoom, position.tilt, aBearing);
-		CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
+	public void setPosition(final IPosition aPosition) {
+		final CameraPosition position = mGoogleMap.getCameraPosition();
+		final LatLng latLng = new LatLng(aPosition.getLatitude(), aPosition.getLongitude());
+		final float bearing = aPosition.hasBearing() ? aPosition.getBearing() : position.bearing;
+		final float zoom = aPosition.hasZoomLevel() ? aPosition.getZoomLevel() : position.zoom;
+		final CameraPosition newPosition = new CameraPosition(latLng, zoom, position.tilt, bearing);
+		final CameraUpdate update = CameraUpdateFactory.newCameraPosition(newPosition);
 		mGoogleMap.moveCamera(update);
-	}
-
-	@Override
-	public void setZoomAndCenter(final float aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
-		final LatLng latLng = new LatLng(aLatitudeE6 / 1E6, aLongitudeE6 / 1E6);
-		mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, aZoomLevel));
 	}
 
 	@Override

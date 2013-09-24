@@ -7,6 +7,7 @@ import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IMap;
 import org.osmdroid.google.wrapper.v2.MapFactory;
 import org.osmdroid.util.LocationUtils;
+import org.osmdroid.util.Position;
 
 import android.content.Context;
 import android.location.Location;
@@ -167,7 +168,9 @@ public class GoogleWrapperSample extends MapActivity {
 			mMap = MapFactory.getMap(mMapViewV2);
 		}
 
-		mMap.setZoomAndCenter(14, 52370816, 9735936); // Hannover
+		final Position position = new Position(52.370816, 9.735936); // Hannover
+		position.setZoomLevel(14);
+		mMap.setPosition(position);
 		mMap.setMyLocationEnabled(false);
 	}
 

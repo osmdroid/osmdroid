@@ -1,11 +1,11 @@
 package org.osmdroid.google.wrapper.v2;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.google.wrapper.Projection;
 
@@ -33,8 +33,8 @@ class GoogleV1MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setCenter(final int aLatitudeE6, final int aLongitudeE6) {
-		mMapView.getController().setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+	public void setCenter(final double aLatitude, final double aLongitude) {
+		mMapView.getController().setCenter(new GeoPoint((int)(aLatitude * 1E6), (int)(aLongitude * 1E6)));
 	}
 
 	@Override
@@ -49,16 +49,14 @@ class GoogleV1MapWrapper implements IMap {
 	}
 
 	@Override
-	public void setBearingAndCenter(final float bearing, final int aLatitudeE6, final int aLongitudeE6) {
-		// TODO implementation of bearing
-		setCenter(aLatitudeE6, aLongitudeE6);
-	}
-
-	@Override
-	public void setZoomAndCenter(final float aZoomLevel, final int aLatitudeE6, final int aLongitudeE6) {
-		final MapController controller = mMapView.getController();
-		controller.setZoom((int) aZoomLevel);
-		controller.setCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+	public void setPosition(final IPosition aPosition) {
+		if (aPosition.hasBearing()) {
+			setBearing(aPosition.getBearing());
+		}
+		if(aPosition.hasZoomLevel()) {
+			setZoom(aPosition.getZoomLevel());
+		}
+		setCenter(aPosition.getLatitude(), aPosition.getLongitude());
 	}
 
 	@Override
