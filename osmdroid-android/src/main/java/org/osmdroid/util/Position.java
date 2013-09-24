@@ -25,10 +25,12 @@ public class Position implements IPosition {
 		return mLongitude;
 	}
 
+	@Override
 	public boolean hasBearing() {
 		return mHasBearing;
 	}
 
+	@Override
 	public float getBearing() {
 		return mBearing;
 	}
@@ -38,10 +40,12 @@ public class Position implements IPosition {
 		mBearing = aBearing;
 	}
 
+	@Override
 	public boolean hasZoomLevel() {
 		return mHasZoomLevel;
 	}
 
+	@Override
 	public float getZoomLevel() {
 		return mZoomLevel;
 	}

@@ -5,27 +5,65 @@ package org.osmdroid.api;
  */
 public interface IMap {
 
+	/**
+	 * Get the current zoom level of the map
+	 */
 	float getZoomLevel();
 
+	/**
+	 * Set the zoom level of the map
+	 */
 	void setZoom(float zoomLevel);
 
+	/**
+	 * Get the center of the map
+	 */
 	IGeoPoint getCenter();
 
+	/**
+	 * Set the center of the map
+	 */
 	void setCenter(double latitude, double longitude);
 
+	/**
+	 * Get the bearing of the map.
+	 * Zero means the top of the map is facing north.
+	 */
 	float getBearing();
 
+	/**
+	 * Set the bearing of the map.
+	 * Set to zero for the top of the map to face north.
+	 */
 	void setBearing(float bearing);
 
+	/**
+	 * Set the position of the map
+	 */
 	void setPosition(IPosition position);
 
+	/**
+	 * Increase zoom level by one
+	 */
 	boolean zoomIn();
 
+	/**
+	 * Decrease zoom level by one
+	 */
 	boolean zoomOut();
 
+	/**
+	 * Whether to show the "my location" dot on the map
+	 */
 	void setMyLocationEnabled(boolean enabled);
 
+	/**
+	 * Whether the map is currently showing the "my location" dot
+	 */
 	boolean isMyLocationEnabled();
 
+	/**
+	 * Get the map projection
+	 */
 	IProjection getProjection();
 }
