@@ -51,6 +51,8 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 		}
 		if (getTileRemovedListener() != null && aKey instanceof MapTile)
 			getTileRemovedListener().onTileRemoved((MapTile) aKey);
+		if (drawable instanceof ReusableBitmapDrawable)
+			BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
 		return drawable;
 	}
 

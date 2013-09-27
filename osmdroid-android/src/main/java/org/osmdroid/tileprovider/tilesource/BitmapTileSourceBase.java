@@ -6,8 +6,9 @@ import java.util.Random;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.string;
-import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,9 +91,11 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
-			final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath);
+			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
+			final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
-				return new ExpirableBitmapDrawable(bitmap);
+				return new ReusableBitmapDrawable(bitmap);
 			} else {
 				// if we couldn't load it then it's invalid - delete it
 				try {
@@ -127,9 +130,11 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
-			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream);
+			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
+			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
 			if (bitmap != null) {
-				return new ExpirableBitmapDrawable(bitmap);
+				return new ReusableBitmapDrawable(bitmap);
 			}
 		} catch (final OutOfMemoryError e) {
 			logger.error("OutOfMemoryError loading bitmap");
