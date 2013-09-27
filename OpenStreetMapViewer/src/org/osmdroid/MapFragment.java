@@ -132,8 +132,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         mMapView.getController().setZoom(mPrefs.getInt(PREFS_ZOOM_LEVEL, 1));
         mMapView.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
 
-        mLocationOverlay.enableMyLocation(new GpsMyLocationProvider(context));
-        mCompassOverlay.enableCompass(new InternalCompassOrientationProvider(context));
+		mLocationOverlay.enableMyLocation();
+		mCompassOverlay.enableCompass();
 
         setHasOptionsMenu(true);
     }
@@ -168,10 +168,10 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         } catch (final IllegalArgumentException ignore) {
         }
         if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
-            this.mLocationOverlay.enableMyLocation(this.mLocationOverlay.getMyLocationProvider());
+			this.mLocationOverlay.enableMyLocation();
         }
         if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
-            this.mCompassOverlay.enableCompass(this.mCompassOverlay.getOrientationProvider());
+			this.mCompassOverlay.enableCompass();
         }
     }
 
