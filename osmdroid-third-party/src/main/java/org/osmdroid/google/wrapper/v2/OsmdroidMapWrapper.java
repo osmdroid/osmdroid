@@ -39,12 +39,12 @@ class OsmdroidMapWrapper implements IMap {
 
 	@Override
 	public float getBearing() {
-		return mMapView.getMapOrientation();
+		return -mMapView.getMapOrientation();
 	}
 
 	@Override
 	public void setBearing(final float aBearing) {
-		mMapView.setMapOrientation(aBearing);
+		mMapView.setMapOrientation(-aBearing);
 	}
 
 	@Override
