@@ -67,6 +67,10 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
     // Constructors
     // ===========================================================
 
+	public CompassOverlay(Context context, MapView mapView) {
+		this(context, new InternalCompassOrientationProvider(context), mapView);
+	}
+
 	public CompassOverlay(Context context, IOrientationProvider orientationProvider, MapView mapView)
     {
         this(context, orientationProvider, mapView, new DefaultResourceProxyImpl(context));
@@ -76,6 +80,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 			MapView mapView, ResourceProxy pResourceProxy)
     {
         super(pResourceProxy);
+
         mMapView = mapView;
         final WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mDisplay = windowManager.getDefaultDisplay();
@@ -87,6 +92,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         mCompassFrameCenterY = mCompassFrame.getHeight() / 2 - 0.5f;
         mCompassRoseCenterX = mCompassRose.getWidth() / 2 - 0.5f;
         mCompassRoseCenterY = mCompassRose.getHeight() / 2 - 0.5f;
+
 		setOrientationProvider(orientationProvider);
     }
 
@@ -127,12 +133,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         return mOrientationProvider;
     }
 
-	/**
-	 * This will set a new {@link IOrientationProvider}. Note that this will stop any existing
-	 * IOrientationProvider. If you want to start the new IOrientationProvider you are settings then
-	 * you must call {@link #enableCompass()} after this call.
-	 */
-	public void setOrientationProvider(IOrientationProvider orientationProvider)
+    protected void setOrientationProvider(IOrientationProvider orientationProvider)
     {
 		if (orientationProvider == null)
 			throw new RuntimeException(
@@ -243,13 +244,20 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         this.invalidateCompass();
     }
 
+	public boolean enableCompass(IOrientationProvider orientationProvider)
+	{
+		this.setOrientationProvider(orientationProvider);
+		mIsCompassEnabled = false;
+		return enableCompass();
+	}
+
     /**
      * Enable receiving orientation updates from the provided IOrientationProvider and show a compass on the
      * map. You will likely want to call enableCompass() from your Activity's Activity.onResume() method, to
      * enable the features of this overlay. Remember to call the corresponding disableCompass() in your
      * Activity's Activity.onPause() method to turn off updates when in the background.
      */
-	public boolean enableCompass()
+    public boolean enableCompass()
     {
         boolean result = true;
 

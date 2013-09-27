@@ -91,6 +91,10 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	// Constructors
 	// ===========================================================
 
+	public MyLocationNewOverlay(Context context, MapView mapView) {
+		this(context, new GpsMyLocationProvider(context), mapView);
+	}
+
 	public MyLocationNewOverlay(Context context, IMyLocationProvider myLocationProvider,
 			MapView mapView) {
 		this(myLocationProvider, mapView, new DefaultResourceProxyImpl(context));
@@ -101,7 +105,6 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 		super(resourceProxy);
 
 		mMapView = mapView;
-
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
@@ -151,12 +154,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 		return mMyLocationProvider;
 	}
 
-	/**
-	 * This will set a new {@link MyLocationProvider}. Note that this will stop any existing
-	 * IMyLocationProvider. If you want to start the new IMyLocationProvider you are settings then
-	 * you must call {@link #enableMyLocation()} after this call.
-	 */
-	public void setMyLocationProvider(IMyLocationProvider myLocationProvider) {
+	protected void setMyLocationProvider(IMyLocationProvider myLocationProvider) {
 		if (myLocationProvider == null)
 			throw new RuntimeException(
 					"You must pass an IMyLocationProvider to setMyLocationProvider()");
@@ -471,6 +469,12 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 			new Thread(runnable).start();
 		}
 		mRunOnFirstFix.clear();
+	}
+
+	public boolean enableMyLocation(IMyLocationProvider myLocationProvider) {
+		this.setMyLocationProvider(myLocationProvider);
+		mIsLocationEnabled = false;
+		return enableMyLocation();
 	}
 
 	/**
