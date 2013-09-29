@@ -44,6 +44,15 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 	private ITileSource mTileSource;
 
+	/**
+	 * Attempts to get a Drawable that represents a {@link MapTile}. If the tile is not immediately
+	 * available this will return null and attempt to get the tile from known tile sources for
+	 * subsequent future requests. Note that this may return a {@link ReusableBitmapDrawable} in
+	 * which case you should follow proper handling procedures for using that Drawable or it may
+	 * reused while you are working with it.
+	 * 
+	 * @see ReusableBitmapDrawable
+	 */
 	public abstract Drawable getMapTile(MapTile pTile);
 
 	public abstract void detach();
@@ -293,7 +302,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			while (!mNewTiles.isEmpty()) {
 				final MapTile tile = mNewTiles.keySet().iterator().next();
 				final Bitmap bitmap = mNewTiles.remove(tile);
-				final ExpirableBitmapDrawable drawable = new ExpirableBitmapDrawable(bitmap);
+				final ExpirableBitmapDrawable drawable = new ReusableBitmapDrawable(bitmap);
 				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
 				Drawable existingTile = mTileCache.getMapTile(tile);
 				if (existingTile == null || ExpirableBitmapDrawable.isDrawableExpired(existingTile))
@@ -317,20 +326,33 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			final Drawable oldDrawable = mTileCache.getMapTile(oldTile);
 
 			if (oldDrawable instanceof BitmapDrawable) {
-				final Bitmap oldBitmap = ((BitmapDrawable)oldDrawable).getBitmap();
 				final int xx = (pX % (1 << mDiff)) * mTileSize_2;
 				final int yy = (pY % (1 << mDiff)) * mTileSize_2;
 				mSrcRect.set(xx, yy, xx + mTileSize_2, yy + mTileSize_2);
 				mDestRect.set(0, 0, pTileSizePx, pTileSizePx);
 				final Bitmap bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.RGB_565);
 				final Canvas canvas = new Canvas(bitmap);
-				canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
-				if (DEBUGMODE) {
-					logger.debug("Created scaled tile: " + pTile);
-					mDebugPaint.setTextSize(40);
-					canvas.drawText("scaled", 50, 50, mDebugPaint);
+				final boolean isReusable = oldDrawable instanceof ReusableBitmapDrawable;
+				boolean success = false;
+				if (isReusable)
+					((ReusableBitmapDrawable) oldDrawable).beginUsingDrawable();
+				try {
+					if (!isReusable || ((ReusableBitmapDrawable) oldDrawable).isBitmapValid()) {
+						final Bitmap oldBitmap = ((BitmapDrawable) oldDrawable).getBitmap();
+						canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
+						success = true;
+						if (DEBUGMODE) {
+							logger.debug("Created scaled tile: " + pTile);
+							mDebugPaint.setTextSize(40);
+							canvas.drawText("scaled", 50, 50, mDebugPaint);
+						}
+					}
+				} finally {
+					if (isReusable)
+						((ReusableBitmapDrawable) oldDrawable).finishUsingDrawable();
 				}
-				mNewTiles.put(pTile, bitmap);
+				if (success)
+					mNewTiles.put(pTile, bitmap);
 			}
 		}
 	}

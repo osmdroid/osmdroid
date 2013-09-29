@@ -91,21 +91,20 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	// Constructors
 	// ===========================================================
 
-	public MyLocationNewOverlay(final Context context, IMyLocationProvider myLocationProvider,
-			final MapView mapView) {
-		this(context, myLocationProvider, mapView, new DefaultResourceProxyImpl(context));
+	public MyLocationNewOverlay(Context context, MapView mapView) {
+		this(context, new GpsMyLocationProvider(context), mapView);
 	}
 
-	public MyLocationNewOverlay(final Context context, IMyLocationProvider myLocationProvider,
-			final MapView mapView, final ResourceProxy resourceProxy) {
+	public MyLocationNewOverlay(Context context, IMyLocationProvider myLocationProvider,
+			MapView mapView) {
+		this(myLocationProvider, mapView, new DefaultResourceProxyImpl(context));
+	}
+
+	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView,
+			ResourceProxy resourceProxy) {
 		super(resourceProxy);
 
-		if (myLocationProvider == null)
-			throw new RuntimeException("You must pass an IMyLocationProvider to enableMyLocation()");
-
-		mMyLocationProvider = myLocationProvider;
 		mMapView = mapView;
-
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
@@ -118,6 +117,8 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
+
+		setMyLocationProvider(myLocationProvider);
 	}
 
 	@Override
@@ -154,6 +155,10 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	}
 
 	protected void setMyLocationProvider(IMyLocationProvider myLocationProvider) {
+		if (myLocationProvider == null)
+			throw new RuntimeException(
+					"You must pass an IMyLocationProvider to setMyLocationProvider()");
+
 		if (mMyLocationProvider != null)
 			mMyLocationProvider.stopLocationProvider();
 
@@ -345,7 +350,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 				this.disableMyLocation();
 			} else {
 				this.enableFollowLocation();
-				this.enableMyLocation(this.getMyLocationProvider());
+				this.enableMyLocation();
 			}
 			return true;
 		} else {
@@ -466,6 +471,12 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 		mRunOnFirstFix.clear();
 	}
 
+	public boolean enableMyLocation(IMyLocationProvider myLocationProvider) {
+		this.setMyLocationProvider(myLocationProvider);
+		mIsLocationEnabled = false;
+		return enableMyLocation();
+	}
+
 	/**
 	 * Enable receiving location updates from the provided IMyLocationProvider and show your
 	 * location on the maps. You will likely want to call enableMyLocation() from your Activity's
@@ -473,13 +484,11 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	 * corresponding disableMyLocation() in your Activity's Activity.onPause() method to turn off
 	 * updates when in the background.
 	 */
-	public boolean enableMyLocation(IMyLocationProvider myLocationProvider) {
+	public boolean enableMyLocation() {
 		boolean result = true;
 
-		if (myLocationProvider == null)
-			throw new RuntimeException("You must pass an IMyLocationProvider to enableMyLocation()");
-
-		this.setMyLocationProvider(myLocationProvider);
+		if (mIsLocationEnabled)
+			mMyLocationProvider.stopLocationProvider();
 
 		result = mMyLocationProvider.startLocationProvider(this);
 		mIsLocationEnabled = result;

@@ -6,6 +6,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.TileLooper;
@@ -167,14 +168,26 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 		@Override
 		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
 			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
+			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			if (currentMapTile == null) {
 				currentMapTile = getLoadingTile();
 			}
 
 			if (currentMapTile != null) {
-				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx, pY
-						* pTileSizePx + pTileSizePx);
-				onTileReadyToDraw(pCanvas, currentMapTile, mTileRect);
+				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx,
+						pY * pTileSizePx + pTileSizePx);
+				if (isReusable)
+					((ReusableBitmapDrawable) currentMapTile).beginUsingDrawable();
+				try {
+					if (isReusable && !((ReusableBitmapDrawable) currentMapTile).isBitmapValid()) {
+						currentMapTile = getLoadingTile();
+						isReusable = false;
+					}
+					onTileReadyToDraw(pCanvas, currentMapTile, mTileRect);
+				} finally {
+					if (isReusable)
+						((ReusableBitmapDrawable) currentMapTile).finishUsingDrawable();
+				}
 			}
 
 			if (DEBUGMODE) {
