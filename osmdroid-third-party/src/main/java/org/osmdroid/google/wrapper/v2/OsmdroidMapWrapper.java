@@ -6,7 +6,6 @@ import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 class OsmdroidMapWrapper implements IMap {
@@ -72,10 +71,10 @@ class OsmdroidMapWrapper implements IMap {
 	public void setMyLocationEnabled(final boolean aEnabled) {
 		if (aEnabled) {
 			if (mMyLocationOverlay == null) {
-				mMyLocationOverlay = new MyLocationNewOverlay(mMapView.getContext(), new GpsMyLocationProvider(mMapView.getContext()), mMapView);
+				mMyLocationOverlay = new MyLocationNewOverlay(mMapView.getContext(), mMapView);
 				mMapView.getOverlays().add(mMyLocationOverlay);
 			}
-			mMyLocationOverlay.enableMyLocation(mMyLocationOverlay.getMyLocationProvider());
+			mMyLocationOverlay.enableMyLocation();
 		}
 		if (!aEnabled && mMyLocationOverlay != null) {
 			mMyLocationOverlay.disableMyLocation();
