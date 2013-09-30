@@ -149,6 +149,10 @@ public class GoogleWrapperSample extends MapActivity {
 	private void setMapView() {
 		mMapViewV2 = null;
 
+		if (mMap != null) {
+			mMap.setMyLocationEnabled(false);
+		}
+
 		if (mMapViewSelection == MapViewSelection.OSM) {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
 			setContentView(mapView);
@@ -178,7 +182,7 @@ public class GoogleWrapperSample extends MapActivity {
 		final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		final Location location = LocationUtils.getLastKnownLocation(lm);
 		if (location != null) {
-			mMap.setCenter((int)(location.getLatitude() * 1E6), (int)(location.getLongitude() * 1E6));
+			mMap.setCenter(location.getLatitude(), location.getLongitude());
 		}
 	}
 
