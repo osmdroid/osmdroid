@@ -22,8 +22,8 @@
                     android:id="@+id/menu_tile_mapquest_osm"
                     android:title="OSM by MapQuest"/>
                 <item
-                    android:id="@+id/menu_tile_mapquest_aerial"
-                    android:title="MapQuest Aerial"/>
+                    android:id="@+id/menu_tile_mapbox_satellite"
+                    android:title="MapBox Satellite"/>
             </group>
         </menu>
     </item>

@@ -87,8 +87,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	DirectedLocationOverlay myLocationOverlay;
 	//MyLocationNewOverlay myLocationNewOverlay;
 	protected LocationManager locationManager;
-	protected SensorManager mSensorManager;
-	protected Sensor mOrientation;
+	//protected SensorManager mSensorManager;
+	//protected Sensor mOrientation;
 
 	protected boolean mTrackingMode;
 	Button mTrackingModeButton;
@@ -112,20 +112,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
-	OnlineTileSourceBase MAPQUESTAERIAL;
+	OnlineTileSourceBase MAPBOXSATELLITELABELLED;
 	
 	@Override public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
-		//Fixing osmdroid issue #462:
-		MAPQUESTAERIAL = new XYTileSource("MapquestAerial", ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".jpg",
-                "http://otile1.mqcdn.com/tiles/1.0.0/sat/",
-                "http://otile2.mqcdn.com/tiles/1.0.0/sat/",
-                "http://otile3.mqcdn.com/tiles/1.0.0/sat/",
-                "http://otile4.mqcdn.com/tiles/1.0.0/sat/");
-		TileSourceFactory.addTileSource(MAPQUESTAERIAL);
-
+		
+		//Integrating MapBox Satellite map, which is really an impressive service. 
+		//We stole OSRM account at MapBox. Hope we will be forgiven... 
+		MAPBOXSATELLITELABELLED = new XYTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png",
+                "http://a.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
+                "http://b.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
+                "http://c.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
+                "http://d.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/");
+		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
+		
 		map = (MapView) findViewById(R.id.map);
 		if (savedInstanceState != null){
 			int tileProviderOrdinal = savedInstanceState.getInt("tile_provider");
@@ -143,8 +144,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
-		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		//mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		//mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 		
 		myLocationOverlay = new DirectedLocationOverlay(this);
 		map.getOverlays().add(myLocationOverlay);
@@ -907,8 +908,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			menu.findItem(R.id.menu_tile_mapnik).setChecked(true);
 		else if (map.getTileProvider().getTileSource() == TileSourceFactory.MAPQUESTOSM)
 			menu.findItem(R.id.menu_tile_mapquest_osm).setChecked(true);
-		else if (map.getTileProvider().getTileSource() == MAPQUESTAERIAL)
-			menu.findItem(R.id.menu_tile_mapquest_aerial).setChecked(true);
+		else if (map.getTileProvider().getTileSource() == MAPBOXSATELLITELABELLED)
+			menu.findItem(R.id.menu_tile_mapbox_satellite).setChecked(true);
 		
 		return true;
 	}
@@ -973,8 +974,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			map.setTileSource(TileSourceFactory.MAPQUESTOSM);
 			item.setChecked(true);
 			return true;
-		case R.id.menu_tile_mapquest_aerial:
-			map.setTileSource(MAPQUESTAERIAL);
+		case R.id.menu_tile_mapbox_satellite:
+			map.setTileSource(MAPBOXSATELLITELABELLED);
 			item.setChecked(true);
 			return true;
 		default:
