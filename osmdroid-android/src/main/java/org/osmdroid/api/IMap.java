@@ -66,4 +66,14 @@ public interface IMap {
 	 * Get the map projection
 	 */
 	IProjection getProjection();
+
+	/**
+	 * Add a marker.
+	 */
+	void addMarker(Marker marker);
+
+	/**
+	 * Removes all markers, polylines, polygons, overlays, etc from the map.
+	 */
+	void clear();
 }

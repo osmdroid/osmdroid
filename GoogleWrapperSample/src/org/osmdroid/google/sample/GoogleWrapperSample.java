@@ -1,10 +1,9 @@
 package org.osmdroid.google.sample;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.Marker;
 import org.osmdroid.google.wrapper.v2.MapFactory;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.Position;
@@ -155,13 +154,14 @@ public class GoogleWrapperSample extends MapActivity {
 
 		if (mMapViewSelection == MapViewSelection.OSM) {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
+			mapView.setBuiltInZoomControls(true);
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);
 		}
 		if (mMapViewSelection == MapViewSelection.GoogleV1) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, getString(R.string.google_maps_api_key));
 			setContentView(mapView);
-			mMap = MapFactory.getMap(mapView);
+			mMap = MapFactory.getMap(mapView, getResources().getDrawable(R.drawable.marker_default));
 		}
 		if (mMapViewSelection == MapViewSelection.GoogleV2) {
 			mMapViewV2 = new MapView(this);
@@ -176,6 +176,16 @@ public class GoogleWrapperSample extends MapActivity {
 		position.setZoomLevel(14);
 		mMap.setPosition(position);
 		mMap.setMyLocationEnabled(false);
+
+		addMarkers();
+	}
+
+	private void addMarkers() {
+		mMap.addMarker(new Marker(52.370816, 9.735936, "Hannover", "Description of Hannover", 0));
+		mMap.addMarker(new Marker(52.518333, 13.408333, "Berlin", "Description of Berlin", R.drawable.berlin));
+		mMap.addMarker(new Marker(38.895000, -77.036667, "Washington", "Description of Washington", 0));
+		mMap.addMarker(new Marker(37.779300, -122.419200, "San Francisco", "Description of San Francisco", 0));
+		mMap.addMarker(new Marker(-38.371000, 178.298000, "Tolaga Bay", "Description of Tolaga Bay", 0));
 	}
 
 	private void setLastKnownLocation() {

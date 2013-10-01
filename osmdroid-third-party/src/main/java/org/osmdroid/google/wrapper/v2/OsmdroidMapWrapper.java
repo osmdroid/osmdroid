@@ -1,16 +1,23 @@
 package org.osmdroid.google.wrapper.v2;
 
+import java.util.ArrayList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
+import org.osmdroid.api.Marker;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 class OsmdroidMapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationNewOverlay mMyLocationOverlay;
+	private ItemizedOverlayWithFocus<OverlayItem> mItemizedOverlay;
 
 	OsmdroidMapWrapper(final MapView aMapView) {
 		mMapView = aMapView;
@@ -89,5 +96,35 @@ class OsmdroidMapWrapper implements IMap {
 	@Override
 	public IProjection getProjection() {
 		return mMapView.getProjection();
+	}
+
+	@Override
+	public void addMarker(final Marker aMarker) {
+		if (mItemizedOverlay == null) {
+			// XXX this is a bit cumbersome. Maybe we should just do a simple ItemizedIconOverlay with null listener
+			mItemizedOverlay = new ItemizedOverlayWithFocus<OverlayItem>(mMapView.getContext(), new ArrayList<OverlayItem>(), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+				@Override
+				public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+					return false;
+				}
+				@Override
+				public boolean onItemLongPress(final int index, final OverlayItem item) {
+					return false;
+				}
+			});
+			mItemizedOverlay.setFocusItemsOnTap(true);
+			mMapView.getOverlays().add(mItemizedOverlay);
+		}
+		final OverlayItem item = new OverlayItem(aMarker.title, aMarker.snippet, new GeoPoint(aMarker.latitude, aMarker.longitude));
+		if (aMarker.icon != 0) {
+			item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
+		}
+		mItemizedOverlay.addItem(item);
+	}
+
+	@Override
+	public void clear() {
+		mItemizedOverlay.removeAllItems();
+		// TODO clear everything else this is supposed to clear
 	}
 }

@@ -10,6 +10,7 @@ import org.osmdroid.api.IMap;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
+import android.graphics.drawable.Drawable;
 
 public class MapFactory {
 
@@ -42,7 +43,11 @@ public class MapFactory {
 	}
 
 	public static IMap getMap(final com.google.android.maps.MapView aMapView) {
-		return new GoogleV1MapWrapper(aMapView);
+		return new GoogleV1MapWrapper(aMapView, null);
+	}
+
+	public static IMap getMap(final com.google.android.maps.MapView aMapView, final Drawable aDefaultMarker) {
+		return new GoogleV1MapWrapper(aMapView, aDefaultMarker);
 	}
 
 	public static boolean isGoogleMapsV2Supported(final Context aContext) {

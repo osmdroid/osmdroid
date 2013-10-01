@@ -3,18 +3,26 @@ package org.osmdroid.google.wrapper.v2;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.OverlayItem;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
+import org.osmdroid.api.Marker;
+import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.wrapper.Projection;
+
+import android.graphics.drawable.Drawable;
 
 class GoogleV1MapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationOverlay mMyLocationOverlay;
+	private GoogleItemizedOverlay mItemizedOverlay;
+	private final Drawable mDefaultMarker;
 
-	GoogleV1MapWrapper(final MapView aMapView) {
+	GoogleV1MapWrapper(final MapView aMapView, final Drawable aDefaultMarker) {
 		mMapView = aMapView;
+		mDefaultMarker = aDefaultMarker;
 	}
 
 	@Override
@@ -91,5 +99,24 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public IProjection getProjection() {
 		return new Projection(mMapView.getProjection());
+	}
+
+	@Override
+	public void addMarker(final Marker aMarker) {
+		if (mItemizedOverlay == null) {
+			mItemizedOverlay = new GoogleItemizedOverlay(mDefaultMarker);
+			mMapView.getOverlays().add(mItemizedOverlay);
+		}
+		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude * 1E6), (int)(aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
+		if (aMarker.icon != 0) {
+			item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
+		}
+		mItemizedOverlay.addOverlay(item);
+	}
+
+	@Override
+	public void clear() {
+		mItemizedOverlay.removeAllItems();
+		// TODO clear everything else this is supposed to clear
 	}
 }
