@@ -1443,6 +1443,16 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		@Override
+		public IGeoPoint getNorthEast() {
+			return fromPixels(getWidth(), 0);
+		}
+
+		@Override
+		public IGeoPoint getSouthWest() {
+			return fromPixels(0, getHeight());
+		}
+
+		@Override
 		public Point toPixels(final IGeoPoint in, final Point out) {
 			return toMapPixels(in, out);
 		}

@@ -2,7 +2,9 @@ package org.osmdroid.google.sample;
 
 import com.google.android.gms.maps.MapView;
 import com.google.android.maps.MapActivity;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.google.wrapper.v2.MapFactory;
 import org.osmdroid.util.LocationUtils;
@@ -26,12 +28,14 @@ public class GoogleWrapperSample extends MapActivity {
 	private static final int GOOGLE_MAP_V2_VIEW_ID = 3;
 	private static final int ENABLE_MY_LOCATION_ID = 4;
 	private static final int DISABLE_MY_LOCATION_ID = 5;
+	private static final int ROTATE_ID = 6;
 
 	private MenuItem mOsmMenuItem;
 	private MenuItem mGoogleV1MenuItem;
 	private MenuItem mGoogleV2MenuItem;
 	private MenuItem mEnableMyLocationOverlayMenuItem;
 	private MenuItem mDisableMyLocationOverlayMenuItem;
+	private MenuItem mRotateMenuItem;
 
 	private MapViewSelection mMapViewSelection = MapViewSelection.OSM;
 
@@ -100,6 +104,7 @@ public class GoogleWrapperSample extends MapActivity {
 		mGoogleV2MenuItem = pMenu.add(0, GOOGLE_MAP_V2_VIEW_ID, Menu.NONE, R.string.map_view_google_v2);
 		mEnableMyLocationOverlayMenuItem = pMenu.add(0, ENABLE_MY_LOCATION_ID, Menu.NONE, R.string.enable_my_location);
 		mDisableMyLocationOverlayMenuItem = pMenu.add(0, DISABLE_MY_LOCATION_ID, Menu.NONE, R.string.disable_my_location);
+		mRotateMenuItem = pMenu.add(0, ROTATE_ID, Menu.NONE, R.string.rotate);
 		return true;
 	}
 
@@ -140,6 +145,10 @@ public class GoogleWrapperSample extends MapActivity {
 		}
 		if (pItem == mDisableMyLocationOverlayMenuItem) {
 			mMap.setMyLocationEnabled(false);
+		}
+		if(pItem == mRotateMenuItem) {
+			mMap.setBearing(mMap.getBearing() + 45);
+			debugProjection();
 		}
 
 		return false;
@@ -194,6 +203,30 @@ public class GoogleWrapperSample extends MapActivity {
 		if (location != null) {
 			mMap.setCenter(location.getLatitude(), location.getLongitude());
 		}
+	}
+
+	/**
+	 * This is just used for debugging
+	 */
+	public void debugProjection() {
+		new Thread() {
+			@Override
+			public void run() {
+				// let the map get redrawn and a new projection calculated
+				try { sleep(1000); } catch (InterruptedException ignore) { }
+
+				// then get the projection
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						final IProjection projection = mMap.getProjection();
+						final IGeoPoint northEast = projection.getNorthEast();
+						final IGeoPoint southWest = projection.getSouthWest();
+						final IProjection breakpoint = projection;
+					}
+				});
+			}
+		}.start();
 	}
 
 	private enum MapViewSelection { OSM, GoogleV1, GoogleV2 }

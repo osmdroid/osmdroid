@@ -1,6 +1,7 @@
 package org.osmdroid.google.wrapper.v2;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.GeoPoint;
@@ -39,5 +40,17 @@ public class Projection implements IProjection {
 	@Override
 	public float metersToEquatorPixels(final float meters) {
 		return 0; // TODO implement this
+	}
+
+	@Override
+	public IGeoPoint getNorthEast() {
+		final LatLngBounds bounds = mProjection.getVisibleRegion().latLngBounds;
+		return new GeoPoint(bounds.northeast.latitude, bounds.northeast.longitude);
+	}
+
+	@Override
+	public IGeoPoint getSouthWest() {
+		final LatLngBounds bounds = mProjection.getVisibleRegion().latLngBounds;
+		return new GeoPoint(bounds.southwest.latitude, bounds.southwest.longitude);
 	}
 }

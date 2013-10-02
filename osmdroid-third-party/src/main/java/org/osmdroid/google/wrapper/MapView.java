@@ -1,7 +1,6 @@
 package org.osmdroid.google.wrapper;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMap;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IProjection;
@@ -44,7 +43,7 @@ public class MapView implements IMapView {
 
 	@Override
 	public IProjection getProjection() {
-		return new Projection(mMapView.getProjection());
+		return new Projection(mMapView);
 	}
 
 	@Override

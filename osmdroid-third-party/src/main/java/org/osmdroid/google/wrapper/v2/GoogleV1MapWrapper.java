@@ -95,7 +95,7 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public IProjection getProjection() {
-		return new Projection(mMapView.getProjection());
+		return new Projection(mMapView);
 	}
 
 	@Override

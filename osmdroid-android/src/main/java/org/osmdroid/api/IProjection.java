@@ -22,7 +22,6 @@ public interface IProjection {
 	 * @param out
 	 *            A pre-existing object to use for the output; if null, a new Point will be
 	 *            allocated and returned.
-	 * @return
 	 */
 	Point toPixels(IGeoPoint in, Point out);
 
@@ -43,5 +42,15 @@ public interface IProjection {
 	 *         the current zoom level. The return value may only be approximate.
 	 */
 	float metersToEquatorPixels(float meters);
+
+	/**
+	 * Get the coordinates of the most north-easterly visible point of the map.
+	 */
+	IGeoPoint getNorthEast();
+
+	/**
+	 * Get the coordinates of the most south-westerly visible point of the map.
+	 */
+	IGeoPoint getSouthWest();
 
 }
