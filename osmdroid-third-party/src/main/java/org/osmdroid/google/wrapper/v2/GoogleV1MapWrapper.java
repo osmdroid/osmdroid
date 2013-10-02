@@ -4,6 +4,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
@@ -100,7 +101,7 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public void addMarker(final Marker aMarker) {
 		if (mItemizedOverlay == null) {
-			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()));
+			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()).getDrawable(ResourceProxy.bitmap.marker_default));
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude * 1E6), (int)(aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
