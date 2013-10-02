@@ -43,11 +43,7 @@ public class MapFactory {
 	}
 
 	public static IMap getMap(final com.google.android.maps.MapView aMapView) {
-		return new GoogleV1MapWrapper(aMapView, null);
-	}
-
-	public static IMap getMap(final com.google.android.maps.MapView aMapView, final Drawable aDefaultMarker) {
-		return new GoogleV1MapWrapper(aMapView, aDefaultMarker);
+		return new GoogleV1MapWrapper(aMapView);
 	}
 
 	public static boolean isGoogleMapsV2Supported(final Context aContext) {

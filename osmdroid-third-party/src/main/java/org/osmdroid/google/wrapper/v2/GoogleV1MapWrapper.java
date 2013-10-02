@@ -12,17 +12,13 @@ import org.osmdroid.api.Marker;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.wrapper.Projection;
 
-import android.graphics.drawable.Drawable;
-
 class GoogleV1MapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationOverlay mMyLocationOverlay;
 	private GoogleItemizedOverlay mItemizedOverlay;
-	private final Drawable mDefaultMarker;
 
-	GoogleV1MapWrapper(final MapView aMapView, final Drawable aDefaultMarker) {
+	GoogleV1MapWrapper(final MapView aMapView) {
 		mMapView = aMapView;
-		mDefaultMarker = aDefaultMarker;
 	}
 
 	@Override
@@ -104,7 +100,7 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public void addMarker(final Marker aMarker) {
 		if (mItemizedOverlay == null) {
-			mItemizedOverlay = new GoogleItemizedOverlay(mDefaultMarker);
+			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()));
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude * 1E6), (int)(aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);

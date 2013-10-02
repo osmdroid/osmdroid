@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.OverlayItem;
 
+import org.osmdroid.ResourceProxy;
+
 import android.graphics.drawable.Drawable;
 
 public class GoogleItemizedOverlay extends ItemizedOverlay {
@@ -13,6 +15,10 @@ public class GoogleItemizedOverlay extends ItemizedOverlay {
 
 	public GoogleItemizedOverlay(final Drawable aDefaultMarker) {
 		super(boundCenterBottom(aDefaultMarker));
+	}
+
+	public GoogleItemizedOverlay(final ResourceProxy aResourceProxy) {
+		this(aResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default));
 	}
 
 	public void addOverlay(final OverlayItem aOverlayItem) {

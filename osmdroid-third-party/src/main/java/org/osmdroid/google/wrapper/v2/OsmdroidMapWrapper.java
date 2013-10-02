@@ -102,7 +102,7 @@ class OsmdroidMapWrapper implements IMap {
 	public void addMarker(final Marker aMarker) {
 		if (mItemizedOverlay == null) {
 			// XXX this is a bit cumbersome. Maybe we should just do a simple ItemizedIconOverlay with null listener
-			mItemizedOverlay = new ItemizedOverlayWithFocus<OverlayItem>(mMapView.getContext(), new ArrayList<OverlayItem>(), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+			mItemizedOverlay = new ItemizedOverlayWithFocus<OverlayItem>(new ArrayList<OverlayItem>(), new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 				@Override
 				public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 					return false;
@@ -111,7 +111,7 @@ class OsmdroidMapWrapper implements IMap {
 				public boolean onItemLongPress(final int index, final OverlayItem item) {
 					return false;
 				}
-			});
+			}, new ResourceProxyImpl(mMapView.getContext()));
 			mItemizedOverlay.setFocusItemsOnTap(true);
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}

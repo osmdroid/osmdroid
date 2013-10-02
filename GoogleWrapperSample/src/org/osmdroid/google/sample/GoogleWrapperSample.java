@@ -161,7 +161,7 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewSelection == MapViewSelection.GoogleV1) {
 			final com.google.android.maps.MapView mapView = new com.google.android.maps.MapView(this, getString(R.string.google_maps_api_key));
 			setContentView(mapView);
-			mMap = MapFactory.getMap(mapView, getResources().getDrawable(R.drawable.marker_default));
+			mMap = MapFactory.getMap(mapView);
 		}
 		if (mMapViewSelection == MapViewSelection.GoogleV2) {
 			mMapViewV2 = new MapView(this);
