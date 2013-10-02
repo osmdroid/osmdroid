@@ -13,6 +13,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -266,13 +267,18 @@ public abstract class Overlay implements OverlayConstants {
 	 *
 	 * @param shadow
 	 *            If true, draw only the drawable's shadow. Otherwise, draw the drawable itself.
+	 * @param aMapOrientation
 	 */
-	protected synchronized static void drawAt(final android.graphics.Canvas canvas,
-			final android.graphics.drawable.Drawable drawable, final int x, final int y, final boolean shadow) {
+	protected synchronized static void drawAt(final Canvas canvas, final Drawable drawable,
+											  final int x, final int y, final boolean shadow,
+											  final float aMapOrientation) {
+		canvas.save();
+		canvas.rotate(-aMapOrientation, x, y);
 		drawable.copyBounds(mRect);
 		drawable.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
 		drawable.draw(canvas);
 		drawable.setBounds(mRect);
+		canvas.restore();
 	}
 
 	// ===========================================================

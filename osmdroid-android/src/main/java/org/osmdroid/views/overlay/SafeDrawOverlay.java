@@ -14,7 +14,7 @@ import android.os.Build;
 /**
  * An overlay class that uses the safe drawing canvas to draw itself and can be zoomed in to high
  * levels without drawing issues.
- * 
+ *
  * @see {@link ISafeCanvas}
  */
 public abstract class SafeDrawOverlay extends Overlay {
@@ -33,6 +33,7 @@ public abstract class SafeDrawOverlay extends Overlay {
 		super(pResourceProxy);
 	}
 
+	@Override
 	protected void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 
 		sSafeCanvas.setCanvas(c);
