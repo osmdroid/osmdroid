@@ -113,7 +113,9 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public void clear() {
-		mItemizedOverlay.removeAllItems();
+		if (mItemizedOverlay != null) {
+			mItemizedOverlay.removeAllItems();
+		}
 		// TODO clear everything else this is supposed to clear
 	}
 }
