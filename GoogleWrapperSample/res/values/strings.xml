@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, GoogleWrapperSample!</string>
     <string name="app_name">GoogleWrapperSample</string>
 
     <string name="map_view_google_v1">Google Map v1</string>
@@ -9,7 +8,9 @@
 
     <string name="enable_my_location">Enable MyLocation</string>
     <string name="disable_my_location">Disable MyLocation</string>
+    <string name="rotate">Rotate</string>
 
     <string name="google_maps_api_key">get your own key!</string>
 
+    <string name="unknown">Unknown</string>
 </resources>
