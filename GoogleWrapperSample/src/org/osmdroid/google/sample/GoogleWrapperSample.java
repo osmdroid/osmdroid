@@ -190,11 +190,11 @@ public class GoogleWrapperSample extends MapActivity {
 	}
 
 	private void addMarkers() {
-		mMap.addMarker(new Marker(52.370816, 9.735936, "Hannover", "Description of Hannover", 0));
-		mMap.addMarker(new Marker(52.518333, 13.408333, "Berlin", "Description of Berlin", R.drawable.berlin));
-		mMap.addMarker(new Marker(38.895000, -77.036667, "Washington", "Description of Washington", 0));
-		mMap.addMarker(new Marker(37.779300, -122.419200, "San Francisco", "Description of San Francisco", 0));
-		mMap.addMarker(new Marker(-38.371000, 178.298000, "Tolaga Bay", "Description of Tolaga Bay", 0));
+		mMap.addMarker(new Marker(52.370816, 9.735936).title("Hannover").snippet("Description of Hannover"));
+		mMap.addMarker(new Marker(52.518333, 13.408333).title("Berlin").snippet("Description of Berlin").icon(R.drawable.berlin));
+		mMap.addMarker(new Marker(38.895000, -77.036667).title("Washington").snippet("Description of Washington"));
+		mMap.addMarker(new Marker(37.779300, -122.419200).title("San Francisco").snippet("Description of San Francisco"));
+		mMap.addMarker(new Marker(-38.371000, 178.298000).title("Tolaga Bay").snippet("Description of Tolaga Bay"));
 	}
 
 	private void setLastKnownLocation() {
