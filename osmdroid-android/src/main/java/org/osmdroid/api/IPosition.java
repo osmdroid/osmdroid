@@ -1,17 +1,17 @@
 package org.osmdroid.api;
 
 /**
- * An interface that is used for simultaneously setting several properties of the map
+ * An interface that is used for simultaneously accessing several properties of the map
  */
 public interface IPosition {
 
 	/**
-	 * The latitude where to position the center of the map
+	 * The latitude of the center of the map
 	 */
 	double getLatitude();
 
 	/**
-	 * The longitude where to position the center of the map
+	 * The longitude of the center of the map
 	 */
 	double getLongitude();
 
@@ -21,7 +21,7 @@ public interface IPosition {
 	boolean hasBearing();
 
 	/**
-	 * The bearing to set the map to
+	 * The bearing of the map
 	 */
 	float getBearing();
 
@@ -31,7 +31,7 @@ public interface IPosition {
 	boolean hasZoomLevel();
 
 	/**
-	 * The zoom level to set the map to
+	 * The zoom level of the map
 	 */
 	float getZoomLevel();
 }

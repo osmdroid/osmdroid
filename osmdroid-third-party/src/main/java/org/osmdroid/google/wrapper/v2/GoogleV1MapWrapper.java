@@ -3,6 +3,7 @@ package org.osmdroid.google.wrapper.v2;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
+import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
@@ -10,16 +11,31 @@ import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
+import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.wrapper.Projection;
+
+import android.view.MotionEvent;
 
 class GoogleV1MapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationOverlay mMyLocationOverlay;
 	private GoogleItemizedOverlay mItemizedOverlay;
+	private OnCameraChangeListener mOnCameraChangeListener;
 
 	GoogleV1MapWrapper(final MapView aMapView) {
 		mMapView = aMapView;
+
+		mMapView.setClickable(true);
+		mMapView.getOverlays().add(new Overlay() {
+			@Override
+			public boolean onTouchEvent(final MotionEvent aMotionEvent, final MapView aMapView) {
+				if (aMotionEvent.getAction() == MotionEvent.ACTION_UP) {
+					onCameraChange();
+				}
+				return super.onTouchEvent(aMotionEvent, aMapView);
+			}
+		});
 	}
 
 	@Override
@@ -39,7 +55,8 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public void setCenter(final double aLatitude, final double aLongitude) {
-		mMapView.getController().setCenter(new GeoPoint((int)(aLatitude * 1E6), (int)(aLongitude * 1E6)));
+		mMapView.getController().setCenter(new GeoPoint((int) (aLatitude * 1E6), (int) (aLongitude * 1E6)));
+		onCameraChange();
 	}
 
 	@Override
@@ -58,7 +75,7 @@ class GoogleV1MapWrapper implements IMap {
 		if (aPosition.hasBearing()) {
 			setBearing(aPosition.getBearing());
 		}
-		if(aPosition.hasZoomLevel()) {
+		if (aPosition.hasZoomLevel()) {
 			setZoom(aPosition.getZoomLevel());
 		}
 		setCenter(aPosition.getLatitude(), aPosition.getLongitude());
@@ -104,7 +121,7 @@ class GoogleV1MapWrapper implements IMap {
 			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()).getDrawable(ResourceProxy.bitmap.marker_default));
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
-		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude * 1E6), (int)(aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
+		final OverlayItem item = new OverlayItem(new GeoPoint((int) (aMarker.latitude * 1E6), (int) (aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
 		if (aMarker.icon != 0) {
 			item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
 		}
@@ -117,5 +134,16 @@ class GoogleV1MapWrapper implements IMap {
 			mItemizedOverlay.removeAllItems();
 		}
 		// TODO clear everything else this is supposed to clear
+	}
+
+	@Override
+	public void setOnCameraChangeListener(final OnCameraChangeListener aListener) {
+		mOnCameraChangeListener = aListener;
+	}
+
+	private void onCameraChange() {
+		if (mOnCameraChangeListener != null) {
+			mOnCameraChangeListener.onCameraChange(null); // TODO set the parameter
+		}
 	}
 }

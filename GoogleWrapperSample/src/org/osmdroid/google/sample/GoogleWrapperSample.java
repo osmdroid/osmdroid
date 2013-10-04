@@ -4,11 +4,15 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.maps.MapActivity;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
+import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
+import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.google.wrapper.v2.MapFactory;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.Position;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.location.Location;
@@ -22,6 +26,8 @@ import android.view.MenuItem;
  * to perform functions on different map types.
  */
 public class GoogleWrapperSample extends MapActivity {
+
+	private static final Logger logger = LoggerFactory.getLogger(GoogleWrapperSample.class);
 
 	private static final int OSM_MAP_VIEW_ID = 1;
 	private static final int GOOGLE_MAP_V1_VIEW_ID = 2;
@@ -187,6 +193,13 @@ public class GoogleWrapperSample extends MapActivity {
 		mMap.setMyLocationEnabled(false);
 
 		addMarkers();
+
+		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
+			@Override
+			public void onCameraChange(final IPosition position) {
+				logger.debug("onCameraChange");
+			}
+		});
 	}
 
 	private void addMarkers() {

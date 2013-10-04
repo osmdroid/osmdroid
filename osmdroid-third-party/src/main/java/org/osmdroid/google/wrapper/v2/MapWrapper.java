@@ -12,6 +12,7 @@ import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
+import org.osmdroid.api.OnCameraChangeListener;
 
 import android.text.TextUtils;
 
@@ -113,7 +114,7 @@ class MapWrapper implements IMap {
 		if (!TextUtils.isEmpty(aMarker.title)) {
 			marker.title(aMarker.title);
 		}
-		if(!TextUtils.isEmpty(aMarker.snippet)) {
+		if (!TextUtils.isEmpty(aMarker.snippet)) {
 			marker.snippet(aMarker.snippet);
 		}
 		if (aMarker.icon != 0) {
@@ -125,5 +126,19 @@ class MapWrapper implements IMap {
 	@Override
 	public void clear() {
 		mGoogleMap.clear();
+	}
+
+	@Override
+	public void setOnCameraChangeListener(final OnCameraChangeListener aListener) {
+		if (aListener == null) {
+			mGoogleMap.setOnCameraChangeListener(null);
+		} else {
+			mGoogleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+				@Override
+				public void onCameraChange(final CameraPosition aCameraPosition) {
+					aListener.onCameraChange(null); // TODO set the parameter
+				}
+			});
+		}
 	}
 }

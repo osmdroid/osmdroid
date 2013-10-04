@@ -7,20 +7,41 @@ import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
+import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
+import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 class OsmdroidMapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationNewOverlay mMyLocationOverlay;
 	private ItemizedOverlayWithFocus<OverlayItem> mItemizedOverlay;
+	private OnCameraChangeListener mOnCameraChangeListener;
 
 	OsmdroidMapWrapper(final MapView aMapView) {
 		mMapView = aMapView;
+
+		mMapView.getOverlays().add(new Overlay(mMapView.getContext()) {
+			@Override
+			protected void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+				// nothing to draw
+			}
+
+			@Override
+			public boolean onTouchEvent(final MotionEvent aMotionEvent, final MapView aMapView) {
+				if (aMotionEvent.getAction() == MotionEvent.ACTION_UP) {
+					onCameraChange();
+				}
+				return super.onTouchEvent(aMotionEvent, aMapView);
+			}
+		});
 	}
 
 	@Override
@@ -41,6 +62,7 @@ class OsmdroidMapWrapper implements IMap {
 	@Override
 	public void setCenter(final double aLatitude, final double aLongitude) {
 		mMapView.getController().setCenter(new GeoPoint(aLatitude, aLongitude));
+		onCameraChange();
 	}
 
 	@Override
@@ -58,7 +80,7 @@ class OsmdroidMapWrapper implements IMap {
 		if (aPosition.hasBearing()) {
 			setBearing(aPosition.getBearing());
 		}
-		if(aPosition.hasZoomLevel()) {
+		if (aPosition.hasZoomLevel()) {
 			setZoom(aPosition.getZoomLevel());
 		}
 		setCenter(aPosition.getLatitude(), aPosition.getLongitude());
@@ -107,6 +129,7 @@ class OsmdroidMapWrapper implements IMap {
 				public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
 					return false;
 				}
+
 				@Override
 				public boolean onItemLongPress(final int index, final OverlayItem item) {
 					return false;
@@ -128,5 +151,16 @@ class OsmdroidMapWrapper implements IMap {
 			mItemizedOverlay.removeAllItems();
 		}
 		// TODO clear everything else this is supposed to clear
+	}
+
+	@Override
+	public void setOnCameraChangeListener(final OnCameraChangeListener aListener) {
+		mOnCameraChangeListener = aListener;
+	}
+
+	private void onCameraChange() {
+		if (mOnCameraChangeListener != null) {
+			mOnCameraChangeListener.onCameraChange(null); // TODO set the parameter
+		}
 	}
 }
