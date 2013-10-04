@@ -225,6 +225,8 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 			canvas.restore();
 		} else {
 			canvas.save();
+			// Unrotate the icon if the maps are rotated so the little man stays upright
+			canvas.rotate(-mMapView.getMapOrientation(), x, y);
 			// Counteract any scaling that may be happening so the icon stays the same size
 			canvas.scale(1 / scaleX, 1 / scaleY, x, y);
 			// Draw the bitmap
