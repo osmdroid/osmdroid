@@ -136,6 +136,7 @@ class OsmdroidMapWrapper implements IMap {
 				}
 			}, new ResourceProxyImpl(mMapView.getContext()));
 			mItemizedOverlay.setFocusItemsOnTap(true);
+			mMapView.setUseSafeCanvas(false);
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(aMarker.title, aMarker.snippet, new GeoPoint(aMarker.latitude, aMarker.longitude));
