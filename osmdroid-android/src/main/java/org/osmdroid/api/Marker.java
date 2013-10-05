@@ -2,6 +2,10 @@ package org.osmdroid.api;
 
 public class Marker {
 
+	public enum Anchor {
+		NONE, CENTER, BOTTOM_CENTER
+	}
+
 	public final double latitude;
 
 	public final double longitude;
@@ -42,6 +46,21 @@ public class Marker {
 	 */
 	public Marker icon(final int aIcon) {
 		icon = aIcon;
+		return this;
+	}
+
+	/*
+	 * Anchor of marker.
+	 * Default is {@link Anchor.BOTTOM_CENTER}.
+	 * For Google v1, the first marker you add determines the anchor of all markers.
+	 */
+	public Anchor anchor;
+
+	/**
+	 * Convenience method for chaining.
+	 */
+	public Marker anchor(final Anchor aAnchor) {
+		anchor = aAnchor;
 		return this;
 	}
 

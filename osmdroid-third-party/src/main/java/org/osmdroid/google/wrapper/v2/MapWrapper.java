@@ -120,6 +120,9 @@ class MapWrapper implements IMap {
 		if (aMarker.icon != 0) {
 			marker.icon(BitmapDescriptorFactory.fromResource(aMarker.icon));
 		}
+		if (aMarker.anchor == Marker.Anchor.CENTER) {
+			marker.anchor(0.5f, 0.5f);
+		}
 		mGoogleMap.addMarker(marker);
 	}
 

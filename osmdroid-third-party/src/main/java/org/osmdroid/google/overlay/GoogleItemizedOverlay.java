@@ -15,6 +15,10 @@ public class GoogleItemizedOverlay extends ItemizedOverlay {
 		super(boundCenterBottom(aDefaultMarker));
 	}
 
+	public GoogleItemizedOverlay(final Drawable aDefaultMarker, final org.osmdroid.views.overlay.OverlayItem.HotspotPlace aHotspotPlace) {
+		super(aHotspotPlace == org.osmdroid.views.overlay.OverlayItem.HotspotPlace.CENTER ? boundCenter(aDefaultMarker) : boundCenterBottom(aDefaultMarker));
+	}
+
 	public void addOverlay(final OverlayItem aOverlayItem) {
 		mOverlays.add(aOverlayItem);
 		populate();

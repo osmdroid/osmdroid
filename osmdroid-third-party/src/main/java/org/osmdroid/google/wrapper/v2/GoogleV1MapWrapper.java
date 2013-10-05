@@ -118,7 +118,12 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public void addMarker(final Marker aMarker) {
 		if (mItemizedOverlay == null) {
-			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()).getDrawable(ResourceProxy.bitmap.marker_default));
+			mItemizedOverlay =
+					new GoogleItemizedOverlay(
+							new ResourceProxyImpl(mMapView.getContext()).getDrawable(ResourceProxy.bitmap.marker_default),
+							aMarker.anchor == Marker.Anchor.CENTER
+									? org.osmdroid.views.overlay.OverlayItem.HotspotPlace.CENTER
+									: org.osmdroid.views.overlay.OverlayItem.HotspotPlace.NONE);
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(new GeoPoint((int) (aMarker.latitude * 1E6), (int) (aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);

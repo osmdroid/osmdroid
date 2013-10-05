@@ -142,6 +142,9 @@ class OsmdroidMapWrapper implements IMap {
 		if (aMarker.icon != 0) {
 			item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
 		}
+		if (aMarker.anchor == Marker.Anchor.CENTER) {
+			item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+		}
 		mItemizedOverlay.addItem(item);
 	}
 
