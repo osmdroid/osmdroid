@@ -24,6 +24,7 @@ import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.tilesource.XYTileSource;
@@ -40,6 +41,7 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -47,7 +49,6 @@ import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
@@ -118,6 +119,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
+		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+		
 		//Integrating MapBox Satellite map, which is really an impressive service. 
 		//We stole OSRM account at MapBox. Hope we will be forgiven... 
 		MAPBOXSATELLITELABELLED = new XYTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png",
@@ -128,12 +131,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
 		
 		map = (MapView) findViewById(R.id.map);
-		if (savedInstanceState != null){
-			int tileProviderOrdinal = savedInstanceState.getInt("tile_provider");
-			map.setTileSource(TileSourceFactory.getTileSource(tileProviderOrdinal));
-		} else //default:
+		
+		String tileProviderName = prefs.getString("TILE_PROVIDER", "Mapnik");
+		try {
+			ITileSource tileSource = TileSourceFactory.getTileSource(tileProviderName);
+			map.setTileSource(tileSource);
+		} catch (IllegalArgumentException e) {
 			map.setTileSource(TileSourceFactory.MAPNIK);
-
+		}
+		
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
 		MapController mapController = map.getController();
@@ -146,6 +152,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		//mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		//mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+
+		//map prefs:
+		mapController.setZoom(prefs.getInt("MAP_ZOOM_LEVEL", 5));
+		mapController.setCenter(new GeoPoint((double)prefs.getFloat("MAP_CENTER_LAT", 48.5f), 
+				(double)prefs.getFloat("MAP_CENTER_LON", 2.5f)));
 		
 		myLocationOverlay = new DirectedLocationOverlay(this);
 		map.getOverlays().add(myLocationOverlay);
@@ -154,17 +165,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			if (location == null)
 				location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
 			if (location != null) {
 				//location known:
 				onLocationChanged(location);
-		        mapController.setZoom(13);
-				mapController.setCenter(new GeoPoint(location));
 			} else {
-				//no location known, we put a hard-coded map position:
+				//no location known: hide myLocationOverlay
 				myLocationOverlay.setEnabled(false);
-		        mapController.setZoom(5);
-				mapController.setCenter(new GeoPoint(48.5, 2.5));
 			}
 			startPoint = null;
 			destinationPoint = null;
@@ -175,8 +181,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startPoint = savedInstanceState.getParcelable("start");
 			destinationPoint = savedInstanceState.getParcelable("destination");
 			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
-			mapController.setZoom(savedInstanceState.getInt("zoom_level"));
-			mapController.setCenter((GeoPoint)savedInstanceState.getParcelable("map_center"));
 		}
 		
 		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
@@ -235,20 +239,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				}
 			}
 		});
-		if (savedInstanceState != null){
-			View searchPanel = (View)findViewById(R.id.search_panel);
-			searchPanel.setVisibility(savedInstanceState.getInt("panel_visibility"));
-		}
+		View searchPanel = (View)findViewById(R.id.search_panel);
+		searchPanel.setVisibility(prefs.getInt("PANEL_VISIBILITY", View.VISIBLE));
 
 		registerForContextMenu(searchDestButton);
 		//context menu for clicking on the map is registered on this button. 
 		//(a little bit strange, but if we register it on mapView, it will catch map drag events)
 		
 		//Route and Directions
-		if (savedInstanceState != null){
-			whichRouteProvider = savedInstanceState.getInt("route_provider");
-		} else
-			whichRouteProvider = OSRM;
+		whichRouteProvider = prefs.getInt("ROUTE_PROVIDER", OSRM);
 		
 		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
     	roadNodeMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
@@ -290,26 +289,35 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 
+	void savePrefs(){
+		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+		SharedPreferences.Editor ed = prefs.edit();
+		ed.putInt("MAP_ZOOM_LEVEL", map.getZoomLevel());
+		GeoPoint c = (GeoPoint) map.getMapCenter();
+		ed.putFloat("MAP_CENTER_LAT", c.getLatitudeE6()*1E-6f);
+		ed.putFloat("MAP_CENTER_LON", c.getLongitudeE6()*1E-6f);
+		MapTileProviderBase tileProvider = map.getTileProvider();
+		String tileProviderName = tileProvider.getTileSource().name();
+		View searchPanel = (View)findViewById(R.id.search_panel);
+		ed.putInt("PANEL_VISIBILITY", searchPanel.getVisibility());
+		ed.putString("TILE_PROVIDER", tileProviderName);
+		ed.putInt("ROUTE_PROVIDER", whichRouteProvider);
+		ed.commit();
+	}
+	
 	/**
 	 * callback to store activity status before a restart (orientation change for instance)
 	 */
 	@Override protected void onSaveInstanceState (Bundle outState){
 		outState.putParcelable("location", myLocationOverlay.getLocation());
 		outState.putBoolean("tracking_mode", mTrackingMode);
-		View searchPanel = (View)findViewById(R.id.search_panel);
-		outState.putInt("panel_visibility", searchPanel.getVisibility());
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
 		outState.putParcelableArrayList("viapoints", viaPoints);
 		outState.putParcelable("road", mRoad);
-		outState.putInt("zoom_level", map.getZoomLevel());
-		GeoPoint c = (GeoPoint) map.getMapCenter();
-		outState.putParcelable("map_center", c);
 		outState.putParcelableArrayList("poi", mPOIs);
-		MapTileProviderBase tileProvider = map.getTileProvider();
-		int tileProviderOrdinal = tileProvider.getTileSource().ordinal();
-		outState.putInt("tile_provider", tileProviderOrdinal);
-		outState.putInt("route_provider", whichRouteProvider);
+		
+		savePrefs();
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
@@ -365,6 +373,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		super.onPause();
 		locationManager.removeUpdates(this);
 		//TODO: mSensorManager.unregisterListener(this);
+		savePrefs();
 	}
 
 	/**
