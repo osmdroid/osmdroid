@@ -25,6 +25,16 @@ public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 	}
 
 	@Override
+	public String getString(final string pResId, final Object... formatArgs) {
+		try {
+			final int res = R.string.class.getDeclaredField(pResId.name()).getInt(null);
+			return mContext.getString(res, formatArgs);
+		} catch (final Exception e) {
+			return super.getString(pResId, formatArgs);
+		}
+	}
+
+	@Override
 	public Bitmap getBitmap(final bitmap pResId) {
 		try {
 			final int res = R.drawable.class.getDeclaredField(pResId.name()).getInt(null);
