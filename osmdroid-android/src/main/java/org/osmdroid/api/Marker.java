@@ -3,7 +3,8 @@ package org.osmdroid.api;
 public class Marker {
 
 	public enum Anchor {
-		NONE, CENTER, BOTTOM_CENTER
+		NONE,
+		CENTER, BOTTOM_CENTER // these are the only two supported by Google Maps v1
 	}
 
 	public final double latitude;
@@ -52,7 +53,6 @@ public class Marker {
 	/*
 	 * Anchor of marker.
 	 * Default is {@link Anchor.BOTTOM_CENTER}.
-	 * For Google v1, the first marker you add determines the anchor of all markers.
 	 */
 	public Anchor anchor;
 
