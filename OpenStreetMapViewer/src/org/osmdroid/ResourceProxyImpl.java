@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
+/**
+ * This is an extension of {@link org.osmdroid.DefaultResourceProxyImpl}
+ * that first tries to get from the resources that this class is defined in.
+ */
 public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 
 	private final Context mContext;

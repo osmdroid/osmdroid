@@ -8,7 +8,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 
-class ResourceProxyImpl extends DefaultResourceProxyImpl {
+/**
+ * This is an extension of {@link org.osmdroid.DefaultResourceProxyImpl}
+ * that first tries to get from resources by using reflection to get the id of the resource
+ * from the package that the context is in.
+ */
+public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 
 	private final Resources mResources;
 	private final String mResourceNameBase;

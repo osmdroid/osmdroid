@@ -19,7 +19,8 @@ public class Marker {
 	public String title;
 
 	/**
-	 * Convenience method for chaining.
+	 * The title of the marker. If null then marker has no title.
+	 * This method returns the marker for convenient method chaining.
 	 */
 	public Marker title(final String aTitle) {
 		title = aTitle;
@@ -32,7 +33,8 @@ public class Marker {
 	public String snippet;
 
 	/**
-	 * Convenience method for chaining.
+	 * Snippet displayed below the title. If null then marker has no snippet.
+	 * This method returns the marker for convenient method chaining.
 	 */
 	public Marker snippet(final String aSnippet) {
 		snippet = aSnippet;
@@ -45,7 +47,8 @@ public class Marker {
 	public int icon;
 
 	/**
-	 * Convenience method for chaining.
+	 * Resource id of marker. If zero then use default marker.
+	 * This method returns the marker for convenient method chaining.
 	 */
 	public Marker icon(final int aIcon) {
 		icon = aIcon;
@@ -58,7 +61,8 @@ public class Marker {
 	public Bitmap bitmap;
 
 	/**
-	 * Convenience method for chaining.
+	 * Bitmap of marker. If null then use {@link #icon}.
+	 * This method returns the marker for convenient method chaining.
 	 */
 	public Marker bitmap(final Bitmap aBitmap) {
 		bitmap = aBitmap;
@@ -66,13 +70,13 @@ public class Marker {
 	}
 
 	/*
-	 * Anchor of marker.
-	 * Default is {@link Anchor.BOTTOM_CENTER}.
+	 * Anchor of marker. Default is {@link Anchor#BOTTOM_CENTER}.
 	 */
 	public Anchor anchor;
 
 	/**
-	 * Convenience method for chaining.
+	 * Anchor of marker. Default is {@link Anchor#BOTTOM_CENTER}.
+	 * This method returns the marker for convenient method chaining.
 	 */
 	public Marker anchor(final Anchor aAnchor) {
 		anchor = aAnchor;

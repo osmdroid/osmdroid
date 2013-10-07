@@ -221,7 +221,7 @@ public class GoogleWrapperSample extends MapActivity {
 	/**
 	 * This is just used for debugging
 	 */
-	public void debugProjection() {
+	private void debugProjection() {
 		new Thread() {
 			@Override
 			public void run() {
