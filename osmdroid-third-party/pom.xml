@@ -21,12 +21,21 @@
             <artifactId>android</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>support-v4</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.android.maps</groupId>
             <artifactId>maps</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>google-play-services</artifactId>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -36,20 +45,20 @@
             <groupId>org.apache.james</groupId>
             <artifactId>apache-mime4j</artifactId>
         </dependency>
-        
+
         <!-- internal dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>osmdroid-android</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
         <!--  -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        
+
         <!-- test dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>

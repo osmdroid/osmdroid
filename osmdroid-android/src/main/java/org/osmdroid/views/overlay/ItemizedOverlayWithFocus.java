@@ -264,7 +264,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		/*
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
-		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false);
+		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, osmv.getMapOrientation());
 	}
 
 	// ===========================================================

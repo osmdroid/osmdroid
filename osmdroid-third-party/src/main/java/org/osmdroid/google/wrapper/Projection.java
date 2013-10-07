@@ -17,9 +17,13 @@ import android.graphics.Point;
 public class Projection implements IProjection {
 
 	private final com.google.android.maps.Projection mProjection;
+	private final int mWidth;
+	private final int mHeight;
 
-	public Projection(final com.google.android.maps.Projection pProjection) {
-		mProjection = pProjection;
+	public Projection(final com.google.android.maps.MapView aMapView) {
+		mProjection = aMapView.getProjection();
+		mWidth = aMapView.getWidth();
+		mHeight = aMapView.getHeight();
 	}
 
 	@Override
@@ -38,5 +42,15 @@ public class Projection implements IProjection {
 	@Override
 	public float metersToEquatorPixels(final float meters) {
 		return mProjection.metersToEquatorPixels(meters);
+	}
+
+	@Override
+	public IGeoPoint getNorthEast() {
+		return fromPixels(mWidth, 0);
+	}
+
+	@Override
+	public IGeoPoint getSouthWest() {
+		return fromPixels(0, mHeight);
 	}
 }

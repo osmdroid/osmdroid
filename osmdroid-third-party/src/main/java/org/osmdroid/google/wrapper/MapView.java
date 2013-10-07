@@ -43,7 +43,7 @@ public class MapView implements IMapView {
 
 	@Override
 	public IProjection getProjection() {
-		return new Projection(mMapView.getProjection());
+		return new Projection(mMapView);
 	}
 
 	@Override

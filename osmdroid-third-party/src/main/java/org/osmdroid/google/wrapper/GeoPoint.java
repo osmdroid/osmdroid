@@ -28,4 +28,18 @@ public class GeoPoint implements IGeoPoint {
 		return mGeoPoint.getLongitudeE6();
 	}
 
+	@Override
+	public boolean equals(final Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (obj == this) {
+			return true;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+		final GeoPoint rhs = (GeoPoint) obj;
+		return rhs.mGeoPoint.equals(this.mGeoPoint);
+	}
 }

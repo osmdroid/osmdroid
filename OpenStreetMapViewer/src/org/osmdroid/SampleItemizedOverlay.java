@@ -83,8 +83,8 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 	}
 
 	@Override
-	protected void onDrawItem(ISafeCanvas canvas, SampleOverlayItem item, Point curScreenCoords) {
-		super.onDrawItem(canvas, item, curScreenCoords);
+	protected void onDrawItem(ISafeCanvas canvas, SampleOverlayItem item, Point curScreenCoords, final float aMapOrientation) {
+		super.onDrawItem(canvas, item, curScreenCoords, aMapOrientation);
 	}
 
 	@Override

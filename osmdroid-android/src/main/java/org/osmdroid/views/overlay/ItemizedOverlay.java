@@ -112,7 +112,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		if (shadow) {
 			return;
 		}
-		
+
 		if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
 			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
 		mPendingFocusChangedEvent = false;
@@ -125,7 +125,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 			final Item item = getItem(i);
 			pj.toMapPixels(item.getPoint(), mCurScreenCoords);
 
-			onDrawItem(canvas, item, mCurScreenCoords);
+			onDrawItem(canvas, item, mCurScreenCoords, mapView.getMapOrientation());
 		}
 	}
 
@@ -166,9 +166,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	 * @param item
 	 *            the item to be drawn
 	 * @param curScreenCoords
-	 *            the screen coordinates of the item
+	 * @param aMapOrientation
 	 */
-	protected void onDrawItem(final ISafeCanvas canvas, final Item item, final Point curScreenCoords) {
+	protected void onDrawItem(final ISafeCanvas canvas, final Item item, final Point curScreenCoords, final float aMapOrientation) {
 		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
 				: 0);
 		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
@@ -179,13 +179,12 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 
 		// draw it
 		if (this.isUsingSafeCanvas()) {
-			Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y,
-					false);
+			Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);
 		} else {
 			canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
 				@Override
 				public void onUnsafeCanvas(Canvas canvas) {
-					Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false);
+					Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);
 				}
 			});
 		}
@@ -249,7 +248,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	 * Override this method to handle a "tap" on an item. This could be from a touchscreen tap on an
 	 * onscreen Item, or from a trackball click on a centered, selected Item. By default, does
 	 * nothing and returns false.
-	 * 
+	 *
 	 * @return true if you handled the tap, false if you want the event that generated it to pass to
 	 *         other overlays.
 	 */

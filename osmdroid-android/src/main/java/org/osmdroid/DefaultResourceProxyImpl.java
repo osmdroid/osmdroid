@@ -9,16 +9,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
+/**
+ * Default implementation of {@link org.osmdroid.ResourceProxy} that returns fixed string to get
+ * string resources and reads the jar package to get bitmap resources.
+ */
 public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants {
 
 	private static final Logger logger = LoggerFactory.getLogger(DefaultResourceProxyImpl.class);
 
+	private Resources mResources;
 	private DisplayMetrics mDisplayMetrics;
 
 	/**
@@ -26,11 +32,13 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 	 *
 	 * @param pContext
 	 *            Used to get the display metrics that are used for scaling the bitmaps returned by
-	 *            {@link getBitmap}. Can be null, in which case the bitmaps are not scaled.
+	 *            {@link #getBitmap} and {@link #getDrawable}.
+	 *            Can be null, in which case the bitmaps are not scaled.
 	 */
 	public DefaultResourceProxyImpl(final Context pContext) {
 		if (pContext != null) {
-			mDisplayMetrics = pContext.getResources().getDisplayMetrics();
+			mResources = pContext.getResources();
+			mDisplayMetrics = mResources.getDisplayMetrics();
 			if (DEBUGMODE) {
 				logger.debug("mDisplayMetrics=" + mDisplayMetrics);
 			}
@@ -132,6 +140,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	private BitmapFactory.Options getBitmapOptions() {
 		try {
+			// TODO I think this can all be done without reflection now because all these properties are SDK 4
 			final Field density = DisplayMetrics.class.getDeclaredField("DENSITY_DEFAULT");
 			final Field inDensity = BitmapFactory.Options.class.getDeclaredField("inDensity");
 			final Field inTargetDensity = BitmapFactory.Options.class
@@ -151,7 +160,9 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 
 	@Override
 	public Drawable getDrawable(final bitmap pResId) {
-		return new BitmapDrawable(getBitmap(pResId));
+		return mResources != null
+				? new BitmapDrawable(mResources, getBitmap(pResId))
+				: new BitmapDrawable(getBitmap(pResId));
 	}
 
 	@Override
