@@ -8,11 +8,11 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Immutable class describing a GeoPoint with a Title and a Description.
- * 
+ *
  * @author Nicolas Gramlich
  * @author Theodore Hong
  * @author Fred Eisele
- * 
+ *
  */
 public class OverlayItem {
 
@@ -52,7 +52,7 @@ public class OverlayItem {
 	/**
 	 * @param aTitle
 	 *            this should be <b>singleLine</b> (no <code>'\n'</code> )
-	 * @param aDescription
+	 * @param aSnippet
 	 *            a <b>multiLine</b> description ( <code>'\n'</code> possible)
 	 * @param aGeoPoint
 	 */
@@ -93,9 +93,9 @@ public class OverlayItem {
 	 * be returned for different states. The different markers can have different bounds. The
 	 * default behavior is to call {@link setState(android.graphics.drawable.Drawable, int)} on the
 	 * overlay item's marker, if it exists, and then return it.
-	 * 
+	 *
 	 * @param stateBitset The current state.
-	 * 
+	 *
 	 * @return The marker for the current state, or null if the default marker for the overlay
 	 * should be used.
 	 */

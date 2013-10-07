@@ -293,7 +293,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 	 * Set the color to use to draw the background while we're waiting for the tile to load.
 	 *
 	 * @param pLoadingBackgroundColor
-	 *            the color to use. If the value is {@link Color.TRANSPARENT} then there will be no
+	 *            the color to use. If the value is {@link Color#TRANSPARENT} then there will be no
 	 *            loading tile.
 	 */
 	public void setLoadingBackgroundColor(final int pLoadingBackgroundColor) {
@@ -356,7 +356,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 	 * enough to hold the minimum number of tiles necessary to draw to the screen. Setting this
 	 * value will allow you to overshoot the tile cache and allow more tiles to be cached. This
 	 * increases the memory usage, but increases drawing performance.
-	 * 
+	 *
 	 * @param overshootTileCache
 	 *            the number of tiles to overshoot the tile cache by
 	 */
@@ -366,7 +366,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 
 	/**
 	 * Get the tile cache overshoot value.
-	 * 
+	 *
 	 * @return the number of tiles to overshoot tile cache
 	 */
 	public int getOvershootTileCache() {

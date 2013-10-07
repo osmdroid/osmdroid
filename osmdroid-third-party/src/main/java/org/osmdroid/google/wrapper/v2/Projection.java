@@ -4,7 +4,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
-import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
 
@@ -34,7 +33,7 @@ public class Projection implements IProjection {
 		mPoint.x = x;
 		mPoint.y = y;
 		final LatLng latLng = mProjection.fromScreenLocation(mPoint);
-		return new GeoPoint(latLng.latitude, latLng.longitude);
+		return new GeoPoint(latLng);
 	}
 
 	@Override
@@ -45,12 +44,12 @@ public class Projection implements IProjection {
 	@Override
 	public IGeoPoint getNorthEast() {
 		final LatLngBounds bounds = mProjection.getVisibleRegion().latLngBounds;
-		return new GeoPoint(bounds.northeast.latitude, bounds.northeast.longitude);
+		return new GeoPoint(bounds.northeast);
 	}
 
 	@Override
 	public IGeoPoint getSouthWest() {
 		final LatLngBounds bounds = mProjection.getVisibleRegion().latLngBounds;
-		return new GeoPoint(bounds.southwest.latitude, bounds.southwest.longitude);
+		return new GeoPoint(bounds.southwest);
 	}
 }

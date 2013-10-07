@@ -10,7 +10,6 @@ import org.osmdroid.api.IMap;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ConfigurationInfo;
-import android.graphics.drawable.Drawable;
 
 public class MapFactory {
 
