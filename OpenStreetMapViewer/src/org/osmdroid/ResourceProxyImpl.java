@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 /**
  * This is an extension of {@link org.osmdroid.DefaultResourceProxyImpl}
  * that first tries to get from the resources that this class is defined in.
+ * If you don't want to copy this to your own app, you could instead use {@link org.osmdroid.util.ResourceProxyImpl}.
  */
 public class ResourceProxyImpl extends DefaultResourceProxyImpl {
 

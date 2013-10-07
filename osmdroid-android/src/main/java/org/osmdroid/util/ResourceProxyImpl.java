@@ -1,4 +1,4 @@
-package org.osmdroid.google.wrapper.v2;
+package org.osmdroid.util;
 
 import java.lang.reflect.Field;
 

@@ -14,6 +14,7 @@ import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.wrapper.Projection;
+import org.osmdroid.util.ResourceProxyImpl;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

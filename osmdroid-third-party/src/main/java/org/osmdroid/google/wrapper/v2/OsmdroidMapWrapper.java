@@ -9,6 +9,7 @@ import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
