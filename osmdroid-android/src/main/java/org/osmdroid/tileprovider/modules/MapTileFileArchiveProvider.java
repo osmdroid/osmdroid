@@ -186,7 +186,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final MapTileRequestState pState) {

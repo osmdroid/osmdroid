@@ -202,7 +202,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			// Do nothing by default
 		}
 
-		private MapTileRequestState nextTile() {
+		protected MapTileRequestState nextTile() {
 
 			synchronized (mQueueLockObject) {
 				MapTile result = null;

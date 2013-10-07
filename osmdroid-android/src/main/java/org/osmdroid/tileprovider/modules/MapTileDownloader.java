@@ -146,7 +146,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	private class TileLoader extends MapTileModuleProviderBase.TileLoader {
+	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
 		public Drawable loadTile(final MapTileRequestState aState) throws CantContinueException {

@@ -320,7 +320,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 				final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider
 						.getTileSource().getTileSizePixels() : 256;
 				final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize,
-						Bitmap.Config.RGB_565);
+						Bitmap.Config.ARGB_8888);
 				final Canvas canvas = new Canvas(bitmap);
 				final Paint paint = new Paint();
 				canvas.drawColor(mLoadingBackgroundColor);
