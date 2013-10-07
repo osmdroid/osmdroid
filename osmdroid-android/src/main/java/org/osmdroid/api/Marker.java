@@ -1,5 +1,7 @@
 package org.osmdroid.api;
 
+import android.graphics.Bitmap;
+
 public class Marker {
 
 	public enum Anchor {
@@ -47,6 +49,19 @@ public class Marker {
 	 */
 	public Marker icon(final int aIcon) {
 		icon = aIcon;
+		return this;
+	}
+
+	/**
+	 * Bitmap of marker. If null then use {@link #icon}.
+	 */
+	public Bitmap bitmap;
+
+	/**
+	 * Convenience method for chaining.
+	 */
+	public Marker bitmap(final Bitmap aBitmap) {
+		bitmap = aBitmap;
 		return this;
 	}
 

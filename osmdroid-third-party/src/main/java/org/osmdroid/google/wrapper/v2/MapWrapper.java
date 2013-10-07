@@ -117,8 +117,12 @@ class MapWrapper implements IMap {
 		if (!TextUtils.isEmpty(aMarker.snippet)) {
 			marker.snippet(aMarker.snippet);
 		}
-		if (aMarker.icon != 0) {
-			marker.icon(BitmapDescriptorFactory.fromResource(aMarker.icon));
+		if (aMarker.bitmap != null) {
+			marker.icon(BitmapDescriptorFactory.fromBitmap(aMarker.bitmap));
+		} else {
+			if (aMarker.icon != 0) {
+				marker.icon(BitmapDescriptorFactory.fromResource(aMarker.icon));
+			}
 		}
 		if (aMarker.anchor == Marker.Anchor.CENTER) {
 			marker.anchor(0.5f, 0.5f);

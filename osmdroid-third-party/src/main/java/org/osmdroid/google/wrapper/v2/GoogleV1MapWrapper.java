@@ -15,6 +15,7 @@ import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.wrapper.Projection;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -123,12 +124,14 @@ class GoogleV1MapWrapper implements IMap {
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(new GeoPoint((int) (aMarker.latitude * 1E6), (int) (aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
-		if (aMarker.icon != 0) {
-			final Drawable icon = mMapView.getResources().getDrawable(aMarker.icon);
+		if (aMarker.bitmap != null || aMarker.icon != 0) {
+			final Drawable drawable = aMarker.bitmap != null
+			? new BitmapDrawable(mMapView.getResources(), aMarker.bitmap)
+			: mMapView.getResources().getDrawable(aMarker.icon);
 			if (aMarker.anchor == Marker.Anchor.CENTER) {
-				mItemizedOverlay.setOverlayMarkerCentered(item, icon);
+				mItemizedOverlay.setOverlayMarkerCentered(item, drawable);
 			} else {
-				item.setMarker(icon);
+				item.setMarker(drawable);
 		}}
 		mItemizedOverlay.addOverlay(item);
 	}

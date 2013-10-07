@@ -17,6 +17,7 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.MotionEvent;
 
 class OsmdroidMapWrapper implements IMap {
@@ -140,8 +141,12 @@ class OsmdroidMapWrapper implements IMap {
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(aMarker.title, aMarker.snippet, new GeoPoint(aMarker.latitude, aMarker.longitude));
-		if (aMarker.icon != 0) {
-			item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
+		if (aMarker.bitmap != null) {
+			item.setMarker(new BitmapDrawable(mMapView.getResources(), aMarker.bitmap));
+		} else {
+			if (aMarker.icon != 0) {
+				item.setMarker(mMapView.getResources().getDrawable(aMarker.icon));
+			}
 		}
 		if (aMarker.anchor == Marker.Anchor.CENTER) {
 			item.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
