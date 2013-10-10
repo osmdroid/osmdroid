@@ -1,10 +1,9 @@
 package org.osmdroid.views.overlay;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.safecanvas.ISafeCanvas;

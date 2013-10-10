@@ -1,7 +1,5 @@
 package org.osmdroid.util;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.tileprovider.MapTile;
 
 import android.graphics.Canvas;

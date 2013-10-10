@@ -3,8 +3,6 @@ package org.osmdroid.views.overlay;
 
 import java.util.LinkedList;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
@@ -15,6 +13,7 @@ import org.osmdroid.api.IMyLocationOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.NetworkLocationIgnorer;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
@@ -51,9 +50,9 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 /**
- * 
+ *
  * @author Manuel Stahl
- * 
+ *
  * @deprecated Use {@link MyLocationNewOverlay} instead.
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
@@ -197,8 +196,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * Set the minimum interval for location updates.
-	 * See {@link LocationManager.requestLocationUpdates(String, long, float, LocationListener)}.
-	 * Note that you should call this before calling {@link enableMyLocation()}.
+	 * See {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}.
+	 * Note that you should call this before calling {@link #enableMyLocation()}.
 	 *
 	 * @param milliSeconds
 	 */
@@ -212,8 +211,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 	/**
 	 * Set the minimum distance for location updates.
-	 * See {@link LocationManager.requestLocationUpdates}.
-	 * Note that you should call this before calling {@link enableMyLocation()}.
+	 * See {@link LocationManager#requestLocationUpdates}.
+	 * Note that you should call this before calling {@link #enableMyLocation()}.
 	 *
 	 * @param meters
 	 */
@@ -304,15 +303,15 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			canvas.drawBitmap(PERSON_ICON, directionRotater, mPaint);
 		}
 	}
-	
+
 	protected Rect getMyLocationDrawingBounds(int zoomLevel, Location lastFix, Rect reuse) {
 		if (reuse == null)
 			reuse = new Rect();
-		
+
 		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - zoomLevel;
 		final int posX = mMapCoords.x >> zoomDiff;
 		final int posY = mMapCoords.y >> zoomDiff;
-		
+
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
 			// Get a square bounding box around the object, and expand by the length of the diagonal
@@ -335,9 +334,9 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 					: mCirclePaint.getStrokeWidth());
 			reuse.inset(-strokeWidth, -strokeWidth);
 		}
-		
+
 		reuse.offset(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
-		
+
 		return reuse;
 	}
 
@@ -405,7 +404,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		TileSystem.LatLongToPixelXY(location.getLatitude(), location.getLongitude(), MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
 		final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
 		mMapCoords.offset(-worldSize_2, -worldSize_2);
-		
+
 		if (mFollow) {
 			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
 			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
@@ -566,8 +565,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	}
 
 	/**
-	 * @deprecated use {@link enableFollowLocation()} and {@link disableFollowLocation()} instead.
-	 * @param follow
+	 * @deprecated use {@link #enableFollowLocation()} and {@link #disableFollowLocation()} instead.
 	 */
 	@Deprecated
 	public void followLocation(final boolean follow) {
@@ -622,8 +620,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	/**
 	 * Enable location updates and show your current location on the map. By default this will
 	 * request location updates as frequently as possible, but you can change the frequency and/or
-	 * distance by calling {@link setLocationUpdateMinTime(long)} and/or {@link
-	 * setLocationUpdateMinDistance(float)} before calling this method. You will want to call
+	 * distance by calling {@link #setLocationUpdateMinTime(long)} and/or {@link
+	 * #setLocationUpdateMinDistance(float)} before calling this method. You will want to call
 	 * enableMyLocation() probably from your Activity's Activity.onResume() method, to enable the
 	 * features of this overlay. Remember to call the corresponding disableMyLocation() in your
 	 * Activity's Activity.onPause() method to turn off updates when in the background.

@@ -1,7 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
@@ -10,6 +8,7 @@ import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.TileLooper;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.safecanvas.ISafeCanvas;

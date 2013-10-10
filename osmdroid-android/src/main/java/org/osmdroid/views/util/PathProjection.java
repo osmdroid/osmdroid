@@ -2,10 +2,9 @@ package org.osmdroid.views.util;
 
 import java.util.List;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView.Projection;
 
 import android.graphics.Path;
