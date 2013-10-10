@@ -1,13 +1,16 @@
 package org.osmdroid.google.wrapper.v2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
+import org.osmdroid.api.Polyline;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
@@ -15,6 +18,7 @@ import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import android.graphics.Canvas;
@@ -23,8 +27,10 @@ import android.view.MotionEvent;
 
 class OsmdroidMapWrapper implements IMap {
 	private final MapView mMapView;
+	private ResourceProxy mResourceProxy;
 	private MyLocationNewOverlay mMyLocationOverlay;
 	private ItemizedOverlayWithFocus<OverlayItem> mItemizedOverlay;
+	private HashMap<Long, PathOverlay> mPolylines;
 	private OnCameraChangeListener mOnCameraChangeListener;
 
 	OsmdroidMapWrapper(final MapView aMapView) {
@@ -136,7 +142,7 @@ class OsmdroidMapWrapper implements IMap {
 				public boolean onItemLongPress(final int index, final OverlayItem item) {
 					return false;
 				}
-			}, new ResourceProxyImpl(mMapView.getContext()));
+			}, getResourceProxy());
 			mItemizedOverlay.setFocusItemsOnTap(true);
 			mMapView.setUseSafeCanvas(false); // needed in case the markers are shape drawables, see issue 441
 			mMapView.getOverlays().add(mItemizedOverlay);
@@ -156,16 +162,54 @@ class OsmdroidMapWrapper implements IMap {
 	}
 
 	@Override
+	public long addPolyline(final Polyline aPolyline) {
+		if (mPolylines == null) {
+			mPolylines = new HashMap<Long, PathOverlay>();
+		}
+		final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, getResourceProxy());
+		for(final IGeoPoint point : aPolyline.points) {
+			overlay.addPoint(point);
+		}
+		mMapView.getOverlays().add(overlay);
+		mPolylines.put(aPolyline.id, overlay);
+		return aPolyline.id;
+	}
+
+	@Override
+	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+		if (mPolylines == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		final PathOverlay polyline = mPolylines.get(id);
+		if (polyline == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		polyline.addPoint(aPoint);
+	}
+
+	@Override
 	public void clear() {
 		if (mItemizedOverlay != null) {
 			mItemizedOverlay.removeAllItems();
 		}
-		// TODO clear everything else this is supposed to clear
+		if (mPolylines != null) {
+			for(PathOverlay polyline : mPolylines.values()) {
+				mMapView.getOverlays().remove(mPolylines.remove(polyline));
+			}
+			mPolylines.clear();
+		}
 	}
 
 	@Override
 	public void setOnCameraChangeListener(final OnCameraChangeListener aListener) {
 		mOnCameraChangeListener = aListener;
+	}
+
+	private ResourceProxy getResourceProxy() {
+		if (mResourceProxy == null) {
+			mResourceProxy = new ResourceProxyImpl(mMapView.getContext());
+		}
+		return mResourceProxy;
 	}
 
 	private void onCameraChange() {

@@ -1,5 +1,7 @@
 package org.osmdroid.google.wrapper.v2;
 
+import java.util.HashMap;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -12,7 +14,9 @@ import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
+import org.osmdroid.api.Polyline;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
+import org.osmdroid.google.overlay.GooglePolylineOverlay;
 import org.osmdroid.google.wrapper.Projection;
 import org.osmdroid.util.ResourceProxyImpl;
 
@@ -24,6 +28,7 @@ class GoogleV1MapWrapper implements IMap {
 	private final MapView mMapView;
 	private MyLocationOverlay mMyLocationOverlay;
 	private GoogleItemizedOverlay mItemizedOverlay;
+	private HashMap<Long, GooglePolylineOverlay> mPolylines;
 	private OnCameraChangeListener mOnCameraChangeListener;
 
 	GoogleV1MapWrapper(final MapView aMapView) {
@@ -138,11 +143,42 @@ class GoogleV1MapWrapper implements IMap {
 	}
 
 	@Override
+	public long addPolyline(final Polyline aPolyline) {
+		if (mPolylines == null) {
+			mPolylines = new HashMap<Long, GooglePolylineOverlay>();
+		}
+		final GooglePolylineOverlay overlay = new GooglePolylineOverlay(aPolyline.color, aPolyline.width);
+		for(final IGeoPoint point : aPolyline.points) {
+			overlay.addPoint(point);
+		}
+		mMapView.getOverlays().add(overlay);
+		mPolylines.put(aPolyline.id, overlay);
+		return aPolyline.id;
+	}
+
+	@Override
+	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+		if (mPolylines == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		final GooglePolylineOverlay polyline = mPolylines.get(id);
+		if (polyline == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		polyline.addPoint(aPoint);
+	}
+
+	@Override
 	public void clear() {
 		if (mItemizedOverlay != null) {
 			mItemizedOverlay.removeAllItems();
 		}
-		// TODO clear everything else this is supposed to clear
+		if (mPolylines != null) {
+			for(GooglePolylineOverlay polyline : mPolylines.values()) {
+				mMapView.getOverlays().remove(mPolylines.remove(polyline));
+			}
+			mPolylines.clear();
+		}
 	}
 
 	@Override

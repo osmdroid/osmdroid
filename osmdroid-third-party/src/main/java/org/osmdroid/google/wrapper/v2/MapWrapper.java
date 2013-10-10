@@ -1,5 +1,8 @@
 package org.osmdroid.google.wrapper.v2;
 
+import java.util.HashMap;
+import java.util.List;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -7,18 +10,21 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
+import org.osmdroid.api.Polyline;
 
 import android.text.TextUtils;
 
 class MapWrapper implements IMap {
 
 	private GoogleMap mGoogleMap;
+	private HashMap<Long, com.google.android.gms.maps.model.Polyline> mPolylines;
 
 	MapWrapper(final GoogleMap aGoogleMap) {
 		mGoogleMap = aGoogleMap;
@@ -128,6 +134,34 @@ class MapWrapper implements IMap {
 			marker.anchor(0.5f, 0.5f);
 		}
 		mGoogleMap.addMarker(marker);
+	}
+
+	@Override
+	public long addPolyline(final Polyline aPolyline) {
+		if (mPolylines == null) {
+			mPolylines = new HashMap<Long, com.google.android.gms.maps.model.Polyline>();
+		}
+		final PolylineOptions polylineOptions = new PolylineOptions().color(aPolyline.color).width(aPolyline.width);
+		for(IGeoPoint point : aPolyline.points) {
+			polylineOptions.add(new LatLng(point.getLatitude(), point.getLongitude()));
+		}
+		final com.google.android.gms.maps.model.Polyline polyline = mGoogleMap.addPolyline(polylineOptions);
+		mPolylines.put(aPolyline.id, polyline);
+		return aPolyline.id;
+	}
+
+	@Override
+	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+		if (mPolylines == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		final com.google.android.gms.maps.model.Polyline polyline = mPolylines.get(id);
+		if (polyline == null) {
+			throw new IllegalArgumentException("No such id");
+		}
+		final List<LatLng> points = polyline.getPoints();
+		points.add(new LatLng(aPoint.getLatitude(), aPoint.getLongitude()));
+		polyline.setPoints(points);
 	}
 
 	@Override

@@ -73,6 +73,19 @@ public interface IMap {
 	void addMarker(Marker marker);
 
 	/**
+	 * Add a polyline.
+	 * @return an id that can be used for adding points with {@link #addPointToPolyline}
+	 */
+	long addPolyline(Polyline polyline);
+
+	/**
+	 * Add a point to a polyline
+	 * @param id the id returned from {@link #addPolyline(Polyline)}
+	 * @param point the point to add
+	 */
+	void addPointToPolyline(long id, IGeoPoint point);
+
+	/**
 	 * Removes all markers, polylines, polygons, overlays, etc from the map.
 	 */
 	void clear();

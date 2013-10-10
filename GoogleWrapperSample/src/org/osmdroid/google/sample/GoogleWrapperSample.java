@@ -8,13 +8,16 @@ import org.osmdroid.api.IPosition;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
+import org.osmdroid.api.Polyline;
 import org.osmdroid.google.wrapper.v2.MapFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -194,6 +197,8 @@ public class GoogleWrapperSample extends MapActivity {
 
 		addMarkers();
 
+		addPolyline();
+
 		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			@Override
 			public void onCameraChange(final IPosition position) {
@@ -208,6 +213,15 @@ public class GoogleWrapperSample extends MapActivity {
 		mMap.addMarker(new Marker(38.895000, -77.036667).title("Washington").snippet("Description of Washington"));
 		mMap.addMarker(new Marker(37.779300, -122.419200).title("San Francisco").snippet("Description of San Francisco"));
 		mMap.addMarker(new Marker(-38.371000, 178.298000).title("Tolaga Bay").snippet("Description of Tolaga Bay"));
+	}
+
+	private void addPolyline() {
+		final Polyline polyline = new Polyline()
+				.color(Color.BLUE)
+				.width(5.0f)
+				.points(new GeoPoint(52370816, 9735936), new GeoPoint(52370000, 9740000), new GeoPoint(52370000, 9730000));
+		mMap.addPolyline(polyline);
+		mMap.addPointToPolyline(polyline.id, new GeoPoint(52380000, 9730000));
 	}
 
 	private void setLastKnownLocation() {
