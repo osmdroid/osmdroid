@@ -23,6 +23,7 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
+import org.osmdroid.bonuspack.kml.KmlProvider;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
@@ -69,6 +70,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.osmdroid.ResourceProxy;
+import org.w3c.dom.Document;
 
 /**
  * Demo Activity using osmdroid and osmbonuspack
@@ -287,8 +289,26 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mPOIs = savedInstanceState.getParcelableArrayList("poi");
 			updateUIWithPOI(mPOIs);
 		}
+		
+		//kmlProviderTest();
 	}
 
+	void kmlProviderTest(){
+		//Testing KMLProvider:
+		final ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
+		ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
+				kmlPointsItems, map);
+		map.getOverlays().add(kmlPointsMarkers);
+		String uri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		Document kmlDoc = KmlProvider.getKml(uri);
+		if (kmlDoc == null){
+			Toast.makeText(this, "Technical error to get KML", Toast.LENGTH_LONG).show();
+		} else {
+			Drawable marker = getResources().getDrawable(R.drawable.marker_poi);
+			KmlProvider.buildOverlays(kmlDoc, kmlPointsMarkers, this, marker);
+		}
+	}
+	
 	void savePrefs(){
 		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 		SharedPreferences.Editor ed = prefs.edit();
