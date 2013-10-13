@@ -7,6 +7,7 @@ import static org.osmdroid.util.MyMath.gudermannInverse;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.graphics.PointF;
@@ -14,9 +15,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants {
 
@@ -96,7 +97,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 	}
 
 	/**
-	 * 
+	 *
 	 * @param aLatitude
 	 * @param aLongitude
 	 * @param reuse
@@ -217,7 +218,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 		return new BoundingBoxE6(maxLat, maxLon, minLat, minLon);
 	}
 
-	public boolean contains(final GeoPoint pGeoPoint) {
+	public boolean contains(final IGeoPoint pGeoPoint) {
 		return contains(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6());
 	}
 

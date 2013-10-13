@@ -158,6 +158,15 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+		getPolyline(id).addPoint(aPoint);
+	}
+
+	@Override
+	public void clearPolyline(final long id) {
+		mMapView.getOverlays().remove(getPolyline(id));
+	}
+
+	private GooglePolylineOverlay getPolyline(final long id) {
 		if (mPolylines == null) {
 			throw new IllegalArgumentException("No such id");
 		}
@@ -165,7 +174,7 @@ class GoogleV1MapWrapper implements IMap {
 		if (polyline == null) {
 			throw new IllegalArgumentException("No such id");
 		}
-		polyline.addPoint(aPoint);
+		return polyline;
 	}
 
 	@Override

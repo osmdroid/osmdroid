@@ -152,6 +152,18 @@ class MapWrapper implements IMap {
 
 	@Override
 	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+		final com.google.android.gms.maps.model.Polyline polyline = getPolyline(id);
+		final List<LatLng> points = polyline.getPoints();
+		points.add(new LatLng(aPoint.getLatitude(), aPoint.getLongitude()));
+		polyline.setPoints(points);
+	}
+
+	@Override
+	public void clearPolyline(final long id) {
+		getPolyline(id).setVisible(false);
+	}
+
+	private com.google.android.gms.maps.model.Polyline getPolyline(final long id) {
 		if (mPolylines == null) {
 			throw new IllegalArgumentException("No such id");
 		}
@@ -159,9 +171,7 @@ class MapWrapper implements IMap {
 		if (polyline == null) {
 			throw new IllegalArgumentException("No such id");
 		}
-		final List<LatLng> points = polyline.getPoints();
-		points.add(new LatLng(aPoint.getLatitude(), aPoint.getLongitude()));
-		polyline.setPoints(points);
+		return polyline;
 	}
 
 	@Override
