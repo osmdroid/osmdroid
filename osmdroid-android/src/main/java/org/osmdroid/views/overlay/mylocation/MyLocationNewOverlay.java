@@ -2,13 +2,12 @@ package org.osmdroid.views.overlay.mylocation;
 
 import java.util.LinkedList;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
@@ -34,10 +33,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- * 
+ *
  * @author Marc Kurtz
  * @author Manuel Stahl
- * 
+ *
  */
 public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsumer,
 		IOverlayMenuProvider, Snappable {
@@ -133,7 +132,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @param drawAccuracyEnabled
 	 *            whether the accuracy circle will be enabled
 	 */
@@ -143,7 +142,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isDrawAccuracyEnabled() {
@@ -250,7 +249,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 			int widestEdge = (int) Math.ceil(Math.max(mDirectionArrowBitmap.getWidth(),
 					mDirectionArrowBitmap.getHeight()) * Math.sqrt(2));
 			reuse.set(posX, posY, posX + widestEdge, posY + widestEdge);
-			reuse.offset((int) -widestEdge / 2, (int) -widestEdge / 2);
+			reuse.offset(-widestEdge / 2, -widestEdge / 2);
 		} else {
 			reuse.set(posX, posY, posX + mPersonBitmap.getWidth(), posY + mPersonBitmap.getHeight());
 			reuse.offset((int) (-mPersonHotspot.x + 0.5f), (int) (-mPersonHotspot.y + 0.5f));
@@ -414,7 +413,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	/**
 	 * If enabled, the map will center on your current location and automatically scroll as you
 	 * move. Scrolling the map in the UI will disable.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isFollowLocationEnabled() {
@@ -487,12 +486,10 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	 * updates when in the background.
 	 */
 	public boolean enableMyLocation() {
-		boolean result = true;
-
 		if (mIsLocationEnabled)
 			mMyLocationProvider.stopLocationProvider();
 
-		result = mMyLocationProvider.startLocationProvider(this);
+		boolean result = mMyLocationProvider.startLocationProvider(this);
 		mIsLocationEnabled = result;
 
 		// set initial location when enabled
@@ -533,7 +530,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 
 	/**
 	 * If enabled, the map is receiving location updates and drawing your location on the map.
-	 * 
+	 *
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isMyLocationEnabled() {
