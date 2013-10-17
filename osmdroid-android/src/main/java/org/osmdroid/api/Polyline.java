@@ -3,24 +3,14 @@ package org.osmdroid.api;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import android.graphics.Color;
 
 public class Polyline {
 
-	private static final Random random = new Random();
-
 	public Polyline() {
-		id = random.nextLong();
 		points = new ArrayList<IGeoPoint>();
 	}
-
-	/**
-	 * The id of the polyline.
-	 * This is needed for adding points with {@link org.osmdroid.api.IMap#addPointToPolyline(long, IGeoPoint)}.
-	 */
-	public final long id;
 
 	/**
 	 * The color of the polyline. Defaults to black.

@@ -2,6 +2,7 @@ package org.osmdroid.google.wrapper.v2;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +25,8 @@ import android.text.TextUtils;
 class MapWrapper implements IMap {
 
 	private GoogleMap mGoogleMap;
-	private HashMap<Long, com.google.android.gms.maps.model.Polyline> mPolylines;
+	private HashMap<Integer, com.google.android.gms.maps.model.Polyline> mPolylines;
+	private static final Random random = new Random();
 
 	MapWrapper(final GoogleMap aGoogleMap) {
 		mGoogleMap = aGoogleMap;
@@ -137,21 +139,22 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public long addPolyline(final Polyline aPolyline) {
+	public int addPolyline(final Polyline aPolyline) {
 		if (mPolylines == null) {
-			mPolylines = new HashMap<Long, com.google.android.gms.maps.model.Polyline>();
+			mPolylines = new HashMap<Integer, com.google.android.gms.maps.model.Polyline>();
 		}
 		final PolylineOptions polylineOptions = new PolylineOptions().color(aPolyline.color).width(aPolyline.width);
 		for(IGeoPoint point : aPolyline.points) {
 			polylineOptions.add(new LatLng(point.getLatitude(), point.getLongitude()));
 		}
 		final com.google.android.gms.maps.model.Polyline polyline = mGoogleMap.addPolyline(polylineOptions);
-		mPolylines.put(aPolyline.id, polyline);
-		return aPolyline.id;
+		final int id = random.nextInt();
+		mPolylines.put(id, polyline);
+		return id;
 	}
 
 	@Override
-	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+	public void addPointToPolyline(final int id, final IGeoPoint aPoint) {
 		final com.google.android.gms.maps.model.Polyline polyline = getPolyline(id);
 		final List<LatLng> points = polyline.getPoints();
 		points.add(new LatLng(aPoint.getLatitude(), aPoint.getLongitude()));
@@ -159,11 +162,11 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void clearPolyline(final long id) {
+	public void clearPolyline(final int id) {
 		getPolyline(id).setVisible(false);
 	}
 
-	private com.google.android.gms.maps.model.Polyline getPolyline(final long id) {
+	private com.google.android.gms.maps.model.Polyline getPolyline(final int id) {
 		if (mPolylines == null) {
 			throw new IllegalArgumentException("No such id");
 		}

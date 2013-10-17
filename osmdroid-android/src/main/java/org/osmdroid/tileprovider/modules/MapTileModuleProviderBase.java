@@ -189,7 +189,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * @return the tile if it was loaded successfully, or null if failed to
 		 *         load and other tile providers need to be called
 		 * @param pState
-		 * @throws {@link CantContinueException}
+		 * @throws CantContinueException
 		 */
 		protected abstract Drawable loadTile(MapTileRequestState pState)
 				throws CantContinueException;

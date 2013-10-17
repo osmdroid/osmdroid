@@ -220,8 +220,8 @@ public class GoogleWrapperSample extends MapActivity {
 				.color(Color.BLUE)
 				.width(5.0f)
 				.points(new GeoPoint(52370816, 9735936), new GeoPoint(52370000, 9740000), new GeoPoint(52370000, 9730000));
-		mMap.addPolyline(polyline);
-		mMap.addPointToPolyline(polyline.id, new GeoPoint(52380000, 9730000));
+		final int id = mMap.addPolyline(polyline);
+		mMap.addPointToPolyline(id, new GeoPoint(52380000, 9730000));
 	}
 
 	private void setLastKnownLocation() {

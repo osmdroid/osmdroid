@@ -2,6 +2,7 @@ package org.osmdroid.google.wrapper.v2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
@@ -30,8 +31,9 @@ class OsmdroidMapWrapper implements IMap {
 	private ResourceProxy mResourceProxy;
 	private MyLocationNewOverlay mMyLocationOverlay;
 	private ItemizedOverlayWithFocus<OverlayItem> mItemizedOverlay;
-	private HashMap<Long, PathOverlay> mPolylines;
+	private HashMap<Integer, PathOverlay> mPolylines;
 	private OnCameraChangeListener mOnCameraChangeListener;
+	private static final Random random = new Random();
 
 	OsmdroidMapWrapper(final MapView aMapView) {
 		mMapView = aMapView;
@@ -162,30 +164,31 @@ class OsmdroidMapWrapper implements IMap {
 	}
 
 	@Override
-	public long addPolyline(final Polyline aPolyline) {
+	public int addPolyline(final Polyline aPolyline) {
 		if (mPolylines == null) {
-			mPolylines = new HashMap<Long, PathOverlay>();
+			mPolylines = new HashMap<Integer, PathOverlay>();
 		}
 		final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, getResourceProxy());
 		for(final IGeoPoint point : aPolyline.points) {
 			overlay.addPoint(point);
 		}
 		mMapView.getOverlays().add(overlay);
-		mPolylines.put(aPolyline.id, overlay);
-		return aPolyline.id;
+		final int id = random.nextInt();
+		mPolylines.put(id, overlay);
+		return id;
 	}
 
 	@Override
-	public void addPointToPolyline(final long id, final IGeoPoint aPoint) {
+	public void addPointToPolyline(final int id, final IGeoPoint aPoint) {
 		getPolyline(id).addPoint(aPoint);
 	}
 
 	@Override
-	public void clearPolyline(final long id) {
+	public void clearPolyline(final int id) {
 		mMapView.getOverlays().remove(getPolyline(id));
 	}
 
-	private PathOverlay getPolyline(final long id) {
+	private PathOverlay getPolyline(final int id) {
 		if (mPolylines == null) {
 			throw new IllegalArgumentException("No such id");
 		}
