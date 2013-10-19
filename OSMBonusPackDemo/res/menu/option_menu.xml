@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_menu_poi"
         android:title="POIs list"/>
     <item
+        android:id="@+id/menu_kml"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="KML layer"/>
+    <item
         android:id="@+id/menu_tile"
         android:icon="@android:drawable/ic_menu_more"
         android:title="Tile Provider">

@@ -14,6 +14,7 @@ import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
+import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -40,7 +41,9 @@ import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
@@ -56,6 +59,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -71,6 +75,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.osmdroid.ResourceProxy;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Demo Activity using osmdroid and osmbonuspack
@@ -97,20 +102,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
-	protected PathOverlay polygonOverlay; //enclosing polygon of destination location - experimental
+	protected PathOverlay polygonOverlay; //enclosing polygon of destination location
 	
 	protected Road mRoad;
 	protected PathOverlay roadOverlay;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
+	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
+	int whichRouteProvider;
 	
 	ArrayList<POI> mPOIs;
 	ItemizedOverlayWithBubble<ExtendedOverlayItem> poiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
-	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
-	int whichRouteProvider;
+	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -289,24 +295,51 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mPOIs = savedInstanceState.getParcelableArrayList("poi");
 			updateUIWithPOI(mPOIs);
 		}
-		
-		//kmlProviderTest();
+
+		kmlOverlay = null;
 	}
 
-	void kmlProviderTest(){
-		//Testing KMLProvider:
-		final ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
-		ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
-				kmlPointsItems, map);
-		map.getOverlays().add(kmlPointsMarkers);
+	void openKMLDialog(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("KML url");
+		final EditText input = new EditText(this);
+		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String uri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		Document kmlDoc = KmlProvider.getKml(uri);
+		//String uri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		input.setText(uri);
+		builder.setView(input);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+			@Override public void onClick(DialogInterface dialog, int which) {
+				String uri = input.getText().toString();
+				dialog.cancel();
+				getKml(uri);
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
+	}
+	
+	void getKml(String uri){
+		if (kmlOverlay != null){
+			kmlOverlay.removeFromOverlayManager();
+		}
+		kmlOverlay = new FolderOverlay(this, map);
+		map.getOverlays().add(kmlOverlay);
+		KmlProvider kmlProvider = new KmlProvider();
+		Document kmlDoc = kmlProvider.getKml(uri);
 		if (kmlDoc == null){
 			Toast.makeText(this, "Technical error to get KML", Toast.LENGTH_LONG).show();
 		} else {
 			Drawable marker = getResources().getDrawable(R.drawable.marker_poi);
-			KmlProvider.buildOverlays(kmlDoc, kmlPointsMarkers, this, marker);
+			Element kmlRoot = kmlDoc.getDocumentElement();
+			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, marker);
 		}
+		map.invalidate();
 	}
 	
 	void savePrefs(){
@@ -969,6 +1002,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putParcelableArrayListExtra("POI", mPOIs);
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
+			return true;
+		case R.id.menu_kml:
+			openKMLDialog();
 			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = OSRM;
