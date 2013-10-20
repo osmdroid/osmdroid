@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>4.0-SNAPSHOT</version>
+        <version>4.0</version>
     </parent>
 
     <artifactId>osmdroid-packager</artifactId>
