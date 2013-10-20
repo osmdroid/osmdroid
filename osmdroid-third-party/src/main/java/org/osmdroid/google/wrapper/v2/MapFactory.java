@@ -45,6 +45,15 @@ public class MapFactory {
 		return new GoogleV1MapWrapper(aMapView);
 	}
 
+	public static boolean isGoogleMapsV1Supported() {
+		try {
+			Class.forName("com.google.android.maps.MapActivity");
+			return true;
+		} catch (final Throwable e) {
+		}
+		return false;
+	}
+
 	public static boolean isGoogleMapsV2Supported(final Context aContext) {
 		try {
 			// first check if Google Play Services is available
