@@ -214,6 +214,7 @@ public class GoogleWrapperSample extends MapActivity {
 		mMap.addMarker(new Marker(38.895000, -77.036667).title("Washington").snippet("Description of Washington"));
 		mMap.addMarker(new Marker(37.779300, -122.419200).title("San Francisco").snippet("Description of San Francisco"));
 		mMap.addMarker(new Marker(-38.371000, 178.298000).title("Tolaga Bay").snippet("Description of Tolaga Bay"));
+		// mMap.addMarker(new Marker(52.375000, 9.730000).title("Layers").snippet("Layers"));
 	}
 
 	private void addPolyline() {
@@ -222,7 +223,7 @@ public class GoogleWrapperSample extends MapActivity {
 				.width(5.0f)
 				.points(new GeoPoint(52370816, 9735936), new GeoPoint(52370000, 9740000), new GeoPoint(52370000, 9730000));
 		final int id = mMap.addPolyline(polyline);
-		mMap.addPointToPolyline(id, new GeoPoint(52380000, 9730000));
+		mMap.addPointsToPolyline(id, new GeoPoint(52380000, 9730000));
 	}
 
 	private void setLastKnownLocation() {

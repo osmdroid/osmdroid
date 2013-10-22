@@ -169,18 +169,16 @@ class OsmdroidMapWrapper implements IMap {
 			mPolylines = new HashMap<Integer, PathOverlay>();
 		}
 		final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, getResourceProxy());
-		for(final IGeoPoint point : aPolyline.points) {
-			overlay.addPoint(point);
-		}
-		mMapView.getOverlays().add(overlay);
+		overlay.addPoints(aPolyline.points);
+		mMapView.getOverlays().add(0, overlay); // add polyline overlay below markers, etc
 		final int id = random.nextInt();
 		mPolylines.put(id, overlay);
 		return id;
 	}
 
 	@Override
-	public void addPointToPolyline(final int id, final IGeoPoint aPoint) {
-		getPolyline(id).addPoint(aPoint);
+	public void addPointsToPolyline(final int id, final IGeoPoint... aPoints) {
+		getPolyline(id).addPoints(aPoints);
 	}
 
 	@Override

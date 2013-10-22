@@ -1,6 +1,7 @@
 package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
@@ -157,12 +158,24 @@ public class PathOverlay extends Overlay {
 		this.mPointsPrecomputed = 0;
 	}
 
-	public void addPoint(final IGeoPoint pt) {
-		this.addPoint(pt.getLatitudeE6(), pt.getLongitudeE6());
+	public void addPoint(final IGeoPoint aPoint) {
+		addPoint(aPoint.getLatitudeE6(), aPoint.getLongitudeE6());
 	}
 
-	public void addPoint(final int latitudeE6, final int longitudeE6) {
-		this.mPoints.add(new Point(latitudeE6, longitudeE6));
+	public void addPoint(final int aLatitudeE6, final int aLongitudeE6) {
+		mPoints.add(new Point(aLatitudeE6, aLongitudeE6));
+	}
+
+	public void addPoints(final IGeoPoint... aPoints) {
+		for(final IGeoPoint point : aPoints) {
+			addPoint(point);
+		}
+	}
+
+	public void addPoints(final List<IGeoPoint> aPoints) {
+		for(final IGeoPoint point : aPoints) {
+			addPoint(point);
+		}
 	}
 
 	public int getNumberOfPoints() {

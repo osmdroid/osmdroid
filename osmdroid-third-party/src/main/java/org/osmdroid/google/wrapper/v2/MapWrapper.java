@@ -154,10 +154,12 @@ class MapWrapper implements IMap {
 	}
 
 	@Override
-	public void addPointToPolyline(final int id, final IGeoPoint aPoint) {
+	public void addPointsToPolyline(final int id, final IGeoPoint... aPoints) {
 		final com.google.android.gms.maps.model.Polyline polyline = getPolyline(id);
 		final List<LatLng> points = polyline.getPoints();
-		points.add(new LatLng(aPoint.getLatitude(), aPoint.getLongitude()));
+		for(final IGeoPoint point : aPoints) {
+			points.add(new LatLng(point.getLatitude(), point.getLongitude()));
+		}
 		polyline.setPoints(points);
 	}
 

@@ -1,6 +1,7 @@
 package org.osmdroid.google.overlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
@@ -41,8 +42,16 @@ public class GooglePolylineOverlay extends Overlay {
 		mPoints = new ArrayList<GeoPoint>();
 	}
 
-	public void addPoint(final IGeoPoint pt) {
-		addPoint(pt.getLatitudeE6(), pt.getLongitudeE6());
+	public void addPoints(final IGeoPoint... aPoints) {
+		for(final IGeoPoint geoPoint : aPoints) {
+			addPoint(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6());
+		}
+	}
+
+	public void addPoints(final List<IGeoPoint> aPoints) {
+		for(final IGeoPoint point : aPoints) {
+			addPoint(point.getLatitudeE6(), point.getLongitudeE6());
+		}
 	}
 
 	public void addPoint(final int latitudeE6, final int longitudeE6) {
@@ -100,5 +109,4 @@ public class GooglePolylineOverlay extends Overlay {
 
 		canvas.drawPath(mPath, mPaint);
 	}
-
 }
