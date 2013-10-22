@@ -15,6 +15,7 @@ import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.overlays.PolygonOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -102,7 +103,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
-	protected PathOverlay polygonOverlay; //enclosing polygon of destination location
+	protected PolygonOverlay polygonOverlay; //enclosing polygon of destination location
 	
 	protected Road mRoad;
 	protected PathOverlay roadOverlay;
@@ -324,6 +325,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.show();
 	}
 	
+	void setViewOn(BoundingBoxE6 bb){
+		if (bb != null){
+			int moveToLat = (bb.getLatNorthE6() + (bb.getLatSouthE6() - bb.getLatNorthE6()) / 2);
+			int moveToLong = (bb.getLonEastE6() + (bb.getLonWestE6() - bb.getLonEastE6()) / 2);
+			GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
+			map.getController().setCenter(moveTo);
+			map.getController().zoomToSpan(bb);
+		}
+	}
+	
 	void getKml(String uri){
 		if (kmlOverlay != null){
 			kmlOverlay.removeFromMap();
@@ -339,13 +350,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Element kmlRoot = kmlDoc.getDocumentElement();
 			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, marker);
 			BoundingBoxE6 bb = kmlOverlay.getBoundingBox();
-			if (bb != null){
-				int moveToLat = (bb.getLatNorthE6() + (bb.getLatSouthE6() - bb.getLatNorthE6()) / 2);
-				int moveToLong = (bb.getLonEastE6() + (bb.getLonWestE6() - bb.getLonEastE6()) / 2);
-				GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
-				map.getController().setCenter(moveTo);
-				map.getController().zoomToSpan(bb);
-			}
+			setViewOn(bb);
 		}
 		map.invalidate();
 	}
@@ -562,20 +567,24 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		int location = -1;
 		if (polygonOverlay != null)
 			location = mapOverlays.indexOf(polygonOverlay);
+		polygonOverlay = new PolygonOverlay(0x30FF0080, this);
 		Paint paint = new Paint();
-		paint.setColor(0x80FF0080);
-		paint.setStyle(Paint.Style.STROKE);
+		paint.setColor(0x800000FF);
 		paint.setStrokeWidth(5);
-		polygonOverlay = new PathOverlay(0, this);
-		polygonOverlay.setPaint(paint);
+		polygonOverlay.setOutlinePaint(paint);
+		BoundingBoxE6 bb = null;
 		if (polygon != null){
-			for (GeoPoint p:polygon)
+			for (GeoPoint p:polygon){
 				polygonOverlay.addPoint(p);
+			}
+			bb = BoundingBoxE6.fromGeoPoints(polygon);
 		}
 		if (location != -1)
 			mapOverlays.set(location, polygonOverlay);
 		else
 			mapOverlays.add(polygonOverlay);
+		if (bb != null)
+			setViewOn(bb);
 		map.invalidate();
 	}
 	
