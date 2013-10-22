@@ -183,7 +183,9 @@ class OsmdroidMapWrapper implements IMap {
 
 	@Override
 	public void clearPolyline(final int id) {
-		mMapView.getOverlays().remove(getPolyline(id));
+		final PathOverlay polyline = getPolyline(id);
+		mMapView.getOverlays().remove(polyline);
+		mPolylines.remove(polyline);
 	}
 
 	private PathOverlay getPolyline(final int id) {
@@ -203,7 +205,7 @@ class OsmdroidMapWrapper implements IMap {
 			mItemizedOverlay.removeAllItems();
 		}
 		if (mPolylines != null) {
-			for(PathOverlay polyline : mPolylines.values()) {
+			for(final PathOverlay polyline : mPolylines.values()) {
 				mMapView.getOverlays().remove(mPolylines.remove(polyline));
 			}
 			mPolylines.clear();

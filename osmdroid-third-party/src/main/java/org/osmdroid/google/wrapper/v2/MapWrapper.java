@@ -165,7 +165,7 @@ class MapWrapper implements IMap {
 
 	@Override
 	public void clearPolyline(final int id) {
-		getPolyline(id).setVisible(false);
+		getPolyline(id).remove();
 	}
 
 	private com.google.android.gms.maps.model.Polyline getPolyline(final int id) {

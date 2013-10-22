@@ -164,7 +164,9 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public void clearPolyline(final int id) {
-		mMapView.getOverlays().remove(getPolyline(id));
+		final GooglePolylineOverlay polyline = getPolyline(id);
+		mMapView.getOverlays().remove(polyline);
+		mPolylines.remove(polyline);
 	}
 
 	private GooglePolylineOverlay getPolyline(final int id) {
@@ -184,7 +186,7 @@ class GoogleV1MapWrapper implements IMap {
 			mItemizedOverlay.removeAllItems();
 		}
 		if (mPolylines != null) {
-			for(GooglePolylineOverlay polyline : mPolylines.values()) {
+			for(final GooglePolylineOverlay polyline : mPolylines.values()) {
 				mMapView.getOverlays().remove(mPolylines.remove(polyline));
 			}
 			mPolylines.clear();
