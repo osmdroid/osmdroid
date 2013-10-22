@@ -326,18 +326,26 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void getKml(String uri){
 		if (kmlOverlay != null){
-			kmlOverlay.removeFromOverlayManager();
+			kmlOverlay.removeFromMap();
 		}
 		kmlOverlay = new FolderOverlay(this, map);
 		map.getOverlays().add(kmlOverlay);
 		KmlProvider kmlProvider = new KmlProvider();
 		Document kmlDoc = kmlProvider.getKml(uri);
 		if (kmlDoc == null){
-			Toast.makeText(this, "Technical error to get KML", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Technical error to get KML content", Toast.LENGTH_LONG).show();
 		} else {
-			Drawable marker = getResources().getDrawable(R.drawable.marker_poi);
+			Drawable marker = getResources().getDrawable(R.drawable.marker_kml_point);
 			Element kmlRoot = kmlDoc.getDocumentElement();
 			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, marker);
+			BoundingBoxE6 bb = kmlOverlay.getBoundingBox();
+			if (bb != null){
+				int moveToLat = (bb.getLatNorthE6() + (bb.getLatSouthE6() - bb.getLatNorthE6()) / 2);
+				int moveToLong = (bb.getLonEastE6() + (bb.getLonWestE6() - bb.getLonEastE6()) / 2);
+				GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
+				map.getController().setCenter(moveTo);
+				map.getController().zoomToSpan(bb);
+			}
 		}
 		map.invalidate();
 	}
