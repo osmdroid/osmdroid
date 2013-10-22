@@ -7,6 +7,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
@@ -21,9 +22,10 @@ import android.graphics.drawable.Drawable;
 
 /**
  * TODO: 
- * Handle styles. 
+ * Handle styles
  * Handle polygons
- * Handle name
+ * Handle folder name
+ * Build bounding box
  * 
  * @author M.Kergall
  */
@@ -100,8 +102,8 @@ public class KmlProvider {
 	void handleSubFolders(List<Element> subFolders, FolderOverlay folderOverlay, Context context, MapView map, Drawable marker){
 		for (Element subFolder:subFolders){
 			FolderOverlay subFolderOverlay = new FolderOverlay(context, map);
-			folderOverlay.add(subFolderOverlay);
 			buildOverlays(subFolder, subFolderOverlay, context, map, marker);
+			folderOverlay.add(subFolderOverlay, subFolderOverlay.getBoundingBox());
 		}
 	}
 	
@@ -176,14 +178,16 @@ public class KmlProvider {
 				lineStringOverlay.setPaint(paint);
 				for (GeoPoint point:list)
 					lineStringOverlay.addPoint(point);
-				folderOverlay.add(lineStringOverlay);
+				BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(list);
+				folderOverlay.add(lineStringOverlay, bb);
 				break;
 			default:
 				break;
 			}
 		} //for all placemarks
 
-		if (kmlPointsOverlay.size()>0)
-			folderOverlay.add(kmlPointsOverlay);
+		if (kmlPointsOverlay.size()>0){
+			folderOverlay.add(kmlPointsOverlay, kmlPointsOverlay.getBoundingBoxE6());
+		}
 	}
 }

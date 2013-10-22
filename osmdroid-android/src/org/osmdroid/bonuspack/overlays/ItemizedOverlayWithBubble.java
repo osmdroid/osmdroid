@@ -1,7 +1,10 @@
 package org.osmdroid.bonuspack.overlays;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
@@ -66,6 +69,14 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			eItem.showBubble(mBubble, mapView, panIntoView);
 			//setFocus((Item)eItem);
 		}
+	}
+	
+	public BoundingBoxE6 getBoundingBoxE6(){
+		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(mItemList.size());
+		for (Item item:mItemList){
+			points.add(item.getPoint());
+		}
+		return BoundingBoxE6.fromGeoPoints(points);
 	}
 	
 	/**
