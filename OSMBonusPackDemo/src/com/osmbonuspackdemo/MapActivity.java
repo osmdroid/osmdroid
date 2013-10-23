@@ -578,6 +578,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				polygonOverlay.addPoint(p);
 			}
 			bb = BoundingBoxE6.fromGeoPoints(polygon);
+			//Correcting osmdroid bug #359:
+			bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
 		}
 		if (location != -1)
 			mapOverlays.set(location, polygonOverlay);
