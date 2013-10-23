@@ -76,7 +76,10 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		for (Item item:mItemList){
 			points.add(item.getPoint());
 		}
-		return BoundingBoxE6.fromGeoPoints(points);
+		BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(points);
+		//Correcting osmdroid bug #359:
+		bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
+		return bb;
 	}
 	
 	/**
