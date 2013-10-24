@@ -256,8 +256,7 @@ public class OSRMRoadManager extends RoadManager {
 			road.buildLegs(waypoints);
 			BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
 			//Correcting osmdroid bug #359:
-			road.mBoundingBox = new BoundingBoxE6(
-				bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
+			//road.mBoundingBox = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
 			road.mStatus = Road.STATUS_OK;
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad - finished");

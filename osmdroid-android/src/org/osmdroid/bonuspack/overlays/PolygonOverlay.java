@@ -1,25 +1,26 @@
 package org.osmdroid.bonuspack.overlays;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
 
 /**
- * @author Viesturs Zarins
- * @author Martin Pearman
- * @author M.Kergall
+ * @author Viesturs Zarins, Martin Pearman
+ * @author M.Kergall: conversion from PathOverlay to PolygonOverlay
  * 
- * This class draws a polygon.
+ * A polygon on the earth's surface. 
+ * Mimics Polygon from Google Maps Android API v2 as much as possible. 
  */
 public class PolygonOverlay extends Overlay {
 	// ===========================================================
@@ -33,7 +34,7 @@ public class PolygonOverlay extends Overlay {
 	/**
 	 * Stores points, converted to the map projection.
 	 */
-	private ArrayList<Point> mPoints;
+	private List<Point> mPoints;
 
 	/**
 	 * Number of points that have precomputed values.
@@ -43,8 +44,8 @@ public class PolygonOverlay extends Overlay {
 	/**
 	 * Paint settings.
 	 */
-	protected Paint mFillPaint = new Paint();
-	protected Paint mOutlinePaint = null;
+	protected Paint mFillPaint;
+	protected Paint mOutlinePaint;
 
 	private final Path mPath = new Path();
 
@@ -58,54 +59,80 @@ public class PolygonOverlay extends Overlay {
 	// Constructors
 	// ===========================================================
 
-	public PolygonOverlay(final int color, final Context ctx) {
-		this(color, new DefaultResourceProxyImpl(ctx));
+	public PolygonOverlay(final Context ctx) {
+		this(new DefaultResourceProxyImpl(ctx));
 	}
 
-	public PolygonOverlay(final int color, final ResourceProxy resourceProxy) {
+	public PolygonOverlay(final ResourceProxy resourceProxy) {
 		super(resourceProxy);
-		this.mFillPaint.setColor(color);
-		this.mFillPaint.setStyle(Paint.Style.FILL);
-		this.clearPath();
+		mFillPaint = new Paint();
+		mFillPaint.setColor(Color.TRANSPARENT);
+		mFillPaint.setStyle(Paint.Style.FILL);
+		mOutlinePaint = new Paint();
+		mOutlinePaint.setColor(Color.BLACK);
+		mOutlinePaint.setStrokeWidth(10.0f);
+		mOutlinePaint.setStyle(Paint.Style.STROKE);
+		mPoints = new ArrayList<Point>();
+		mPointsPrecomputed = 0;
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
-	public Paint getFillPaint() {
-		return mFillPaint;
+	public int getFillColor() {
+		return mFillPaint.getColor();
 	}
 
-	public Paint getOutlinePaint() {
-		return mOutlinePaint;
+	public int getStrokeColor() {
+		return mOutlinePaint.getColor();
 	}
 
-	public void setFillPaint(final Paint pPaint) {
-		mFillPaint = pPaint;
-	}
-
-	public void setOutlinePaint(final Paint pPaint) {
-		mOutlinePaint = pPaint;
-		if (mOutlinePaint != null)
-			mOutlinePaint.setStyle(Paint.Style.STROKE);
+	public float getStrokeWidth() {
+		return mOutlinePaint.getStrokeWidth();
 	}
 	
-	public void clearPath() {
-		this.mPoints = new ArrayList<Point>();
-		this.mPointsPrecomputed = 0;
+	/**
+	 * @return a copy of the list of polygon's vertices. 
+	 */
+	public List<GeoPoint> getPoints(){
+		List<GeoPoint> result = new ArrayList<GeoPoint>(mPoints.size());
+		for (Point p:mPoints){
+			result.add(new GeoPoint(p.x, p.y, 0.0));
+		}
+		return result;
 	}
 
-	public void addPoint(final IGeoPoint pt) {
-		this.addPoint(pt.getLatitudeE6(), pt.getLongitudeE6());
+	public boolean isVisible(){
+		return isEnabled();
+	}
+	
+	public void setFillColor(final int fillColor) {
+		mFillPaint.setColor(fillColor);
+	}
+
+	public void setStrokeColor(final int color) {
+		mOutlinePaint.setColor(color);
+	}
+	
+	public void setStrokeWidth(final float width) {
+		mOutlinePaint.setStrokeWidth(width);
+	}
+	
+	public void setVisible(boolean visible){
+		setEnabled(visible);
+	}
+	
+	/**
+	 * This method will take a copy of the points.
+	 */
+	public void setPoints(final List<GeoPoint> points) {
+		for (GeoPoint p:points)
+			addPoint(p.getLatitudeE6(), p.getLongitudeE6());
 	}
 
 	public void addPoint(final int latitudeE6, final int longitudeE6) {
 		this.mPoints.add(new Point(latitudeE6, longitudeE6));
-	}
-
-	public int getNumberOfPoints() {
-		return this.mPoints.size();
 	}
 
 	/**
@@ -175,9 +202,7 @@ public class PolygonOverlay extends Overlay {
 			//mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 		}
 
-		if (mFillPaint != null)
-			canvas.drawPath(mPath, this.mFillPaint);
-		if (mOutlinePaint != null)
-			canvas.drawPath(mPath, this.mOutlinePaint);
+		canvas.drawPath(mPath, mFillPaint);
+		canvas.drawPath(mPath, mOutlinePaint);
 	}
 }

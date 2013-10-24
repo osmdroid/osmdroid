@@ -1,36 +1,32 @@
 package org.osmdroid.bonuspack.overlays;
 
-import java.util.ArrayList;
+import java.util.AbstractList;
 import java.util.List;
+
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 /**
  * An overlay which is just a group of other overlays. 
- * 
- * Unfortunately, no simple and clean way to implement it, as : 
- * - Overlay.draw is protected. 
- * - And we cannot use a local OverlayManager, because OverlayManager requires a tilesOverlay in osmdroid 3.0.10. 
- * Waiting next version, with inclusion of #486 fix. 
  * 
  * @author M.Kergall
  */
 public class FolderOverlay extends Overlay {
 
-	protected List<Overlay> mItems;
 	protected OverlayManager mOverlayManager;
-	protected String mName;
+	protected String mName, mDescription;
 	protected BoundingBoxE6 mBoundingBox;
 	
-	public FolderOverlay(Context ctx, MapView mapView) {
+	public FolderOverlay(Context ctx) {
 		super(ctx);
-		mOverlayManager = mapView.getOverlayManager();
-		mItems = new ArrayList<Overlay>();
+		mOverlayManager = new OverlayManager(null);
 		mName = "";
+		mDescription = "";
 		mBoundingBox = null;
 	}
 	
@@ -42,20 +38,20 @@ public class FolderOverlay extends Overlay {
 		return mName;
 	}
 	
+	public void setDescription(String description){
+		mDescription = description;
+	}
+	
+	public String getDescription(){
+		return mDescription;
+	}
+	
 	public BoundingBoxE6 getBoundingBox(){
 		return mBoundingBox;
 	}
 	
-	/**
-	 * properly removes itself and all its components from the map overlays. 
-	 */
-	public void removeFromMap(){
-		for (Overlay item:mItems){
-			mOverlayManager.remove(item);
-			if (item.getClass()==FolderOverlay.class){
-				((FolderOverlay)item).removeFromMap();
-			}
-		}
+	public AbstractList<Overlay> getItems(){
+		return mOverlayManager;
 	}
 	
 	protected void updateBoundingBoxWith(BoundingBoxE6 itemBB){
@@ -77,28 +73,32 @@ public class FolderOverlay extends Overlay {
 	}
 	
 	public boolean add(Overlay item, BoundingBoxE6 itemBB){
-		if (item.getClass()!=FolderOverlay.class){
-			mOverlayManager.add(item);
-		}
 		updateBoundingBoxWith(itemBB);
-		return mItems.add(item);
+		return mOverlayManager.add(item);
 	}
 	
 	public boolean remove(Overlay item){
-		if (item.getClass()!=FolderOverlay.class){
-			mOverlayManager.remove(item);
-		}
 		//TODO: update bounding box...
-		return mItems.remove(item);
+		return mOverlayManager.remove(item);
 	}
 
 	@Override protected void draw(Canvas canvas, MapView osm, boolean shadow) {
-		//Nothing to do, draw of items is handled by the mOverlayManager. 
-		/*
-		for (DrawableOverlay item:items){
-			if (item.isEnabled())
-				item.draw((Canvas)canvas, osm, shadow);
-		}
-		*/
+		if (shadow)
+			return;
+		mOverlayManager.onDraw(canvas, osm);
 	}
+
+	@Override public boolean onSingleTapUp(MotionEvent e, MapView mapView){
+		return mOverlayManager.onSingleTapUp(e, mapView);
+	}
+	
+	@Override public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView){
+		return mOverlayManager.onSingleTapConfirmed(e, mapView);
+	}
+	
+	@Override public boolean onLongPress(MotionEvent e, MapView mapView){
+		return mOverlayManager.onLongPress(e, mapView);
+	}
+	
+	//TODO: implement other events
 }

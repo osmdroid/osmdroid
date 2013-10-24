@@ -78,7 +78,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		}
 		BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(points);
 		//Correcting osmdroid bug #359:
-		bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
+		//bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
 		return bb;
 	}
 	
@@ -162,13 +162,13 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 	        final Item item = getItem(i);
 			if (item != mItemWithBubble){
 		        pj.toMapPixels(item.getPoint(), mCurScreenCoords);
-		        onDrawItem(canvas.getSafeCanvas(), item, mCurScreenCoords);
+		        onDrawItem(canvas, item, mCurScreenCoords, mapView.getMapOrientation());
 			}
 		}
 		//draw focused item last:
 		if (mItemWithBubble != null){
 	        pj.toMapPixels(mItemWithBubble.getPoint(), mCurScreenCoords);
-	        onDrawItem(canvas.getSafeCanvas(), (Item)mItemWithBubble, mCurScreenCoords);
+	        onDrawItem(canvas, (Item)mItemWithBubble, mCurScreenCoords, mapView.getMapOrientation());
 		}
     }
 	
