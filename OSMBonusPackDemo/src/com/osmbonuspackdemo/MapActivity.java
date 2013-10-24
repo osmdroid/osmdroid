@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
@@ -34,7 +35,6 @@ import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
@@ -151,7 +151,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
-		MapController mapController = map.getController();
+		IMapController mapController = map.getController();
 		
 		//To use MapEventsReceiver methods, we add a MapEventsOverlay:
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
@@ -327,19 +327,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void setViewOn(BoundingBoxE6 bb){
 		if (bb != null){
-			int moveToLat = (bb.getLatNorthE6() + (bb.getLatSouthE6() - bb.getLatNorthE6()) / 2);
-			int moveToLong = (bb.getLonEastE6() + (bb.getLonWestE6() - bb.getLonEastE6()) / 2);
-			GeoPoint moveTo = new GeoPoint(moveToLat, moveToLong);
-			map.getController().setCenter(moveTo);
-			map.getController().zoomToSpan(bb);
+			map.zoomToBoundingBox(bb);
 		}
 	}
 	
 	void getKml(String uri){
 		if (kmlOverlay != null){
-			kmlOverlay.removeFromMap();
+			map.getOverlays().remove(kmlOverlay);
 		}
-		kmlOverlay = new FolderOverlay(this, map);
+		kmlOverlay = new FolderOverlay(this);
 		map.getOverlays().add(kmlOverlay);
 		KmlProvider kmlProvider = new KmlProvider();
 		Document kmlDoc = kmlProvider.getKml(uri);
@@ -567,19 +563,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		int location = -1;
 		if (polygonOverlay != null)
 			location = mapOverlays.indexOf(polygonOverlay);
-		polygonOverlay = new PolygonOverlay(0x30FF0080, this);
-		Paint paint = new Paint();
-		paint.setColor(0x800000FF);
-		paint.setStrokeWidth(5);
-		polygonOverlay.setOutlinePaint(paint);
+		polygonOverlay = new PolygonOverlay(this);
+		polygonOverlay.setFillColor(0x30FF0080);
+		polygonOverlay.setStrokeColor(0x800000FF);
+		polygonOverlay.setStrokeWidth(5.0f);
 		BoundingBoxE6 bb = null;
 		if (polygon != null){
-			for (GeoPoint p:polygon){
-				polygonOverlay.addPoint(p);
-			}
+			polygonOverlay.setPoints(polygon);
 			bb = BoundingBoxE6.fromGeoPoints(polygon);
-			//Correcting osmdroid bug #359:
-			bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
 		}
 		if (location != -1)
 			mapOverlays.set(location, polygonOverlay);
