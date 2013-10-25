@@ -49,7 +49,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -58,6 +57,7 @@ import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -298,6 +298,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 
 		kmlOverlay = null;
+		Intent onCreateIntent = getIntent();
+		String action = onCreateIntent.getAction();
+		if (action.equals(Intent.ACTION_VIEW)){
+			String uri = onCreateIntent.getDataString();
+			getKml(uri);
+		}
 	}
 
 	void openKMLDialog(){
@@ -308,6 +314,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String uri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
 		//String uri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		//String uri = "http://..."
 		input.setText(uri);
 		builder.setView(input);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
