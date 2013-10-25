@@ -46,4 +46,20 @@ public class BitmapPool {
 
 		return b;
 	}
+
+	public Bitmap obtainSizedBitmapFromPool(int width, int height) {
+		synchronized (mPool) {
+			if (mPool.size() == 0)
+				return null;
+			else {
+				for (Bitmap bitmap : mPool)
+					if (bitmap.getWidth() == width && bitmap.getHeight() == height) {
+						mPool.remove(bitmap);
+						return bitmap;
+					}
+			}
+		}
+
+		return null;
+	}
 }

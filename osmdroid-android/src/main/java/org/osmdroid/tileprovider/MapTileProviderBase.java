@@ -330,8 +330,15 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				final int yy = (pY % (1 << mDiff)) * mTileSize_2;
 				mSrcRect.set(xx, yy, xx + mTileSize_2, yy + mTileSize_2);
 				mDestRect.set(0, 0, pTileSizePx, pTileSizePx);
-				final Bitmap bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx,
+
+				// Try to get a bitmap from the pool, otherwise allocate a new one
+				Bitmap bitmap;
+				bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(pTileSizePx,
+						pTileSizePx);
+				if (bitmap == null)
+					bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx,
 						Bitmap.Config.ARGB_8888);
+
 				final Canvas canvas = new Canvas(bitmap);
 				final boolean isReusable = oldDrawable instanceof ReusableBitmapDrawable;
 				boolean success = false;
@@ -384,7 +391,11 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 						final Bitmap oldBitmap = ((BitmapDrawable)oldDrawable).getBitmap();
 						if (oldBitmap != null) {
 							if (bitmap == null) {
-								bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx,
+								// Try to get a bitmap from the pool, otherwise allocate a new one
+								bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(
+										pTileSizePx, pTileSizePx);
+								if (bitmap == null)
+									bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx,
 										Bitmap.Config.ARGB_8888);
 								canvas = new Canvas(bitmap);
 								canvas.drawColor(Color.LTGRAY);
