@@ -166,7 +166,7 @@ class GoogleV1MapWrapper implements IMap {
 	public void clearPolyline(final int id) {
 		final GooglePolylineOverlay polyline = getPolyline(id);
 		mMapView.getOverlays().remove(polyline);
-		mPolylines.remove(polyline);
+		mPolylines.remove(id);
 	}
 
 	private GooglePolylineOverlay getPolyline(final int id) {
