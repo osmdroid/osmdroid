@@ -31,8 +31,9 @@ public class ViaPointInfoWindow extends DefaultInfoWindow {
 		});
 	}
 
-	@Override public void onOpen(ExtendedOverlayItem item) {
-		mSelectedPoint = (Integer)item.getRelatedObject();
+	@Override public void onOpen(Object item) {
+		ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
+		mSelectedPoint = (Integer)eItem.getRelatedObject();
 		super.onOpen(item);
 	}
 

@@ -36,8 +36,9 @@ public class POIInfoWindow extends DefaultInfoWindow {
 		});
 	}
 
-	@Override public void onOpen(ExtendedOverlayItem item){
-		mSelectedPOI = (POI)item.getRelatedObject();
+	@Override public void onOpen(Object item){
+		ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
+		mSelectedPOI = (POI)eItem.getRelatedObject();
 		
 		super.onOpen(item);
 		

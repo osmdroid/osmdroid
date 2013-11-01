@@ -16,7 +16,7 @@ import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
-import org.osmdroid.bonuspack.overlays.PolygonOverlay;
+import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
@@ -57,7 +57,6 @@ import android.location.Address;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -103,7 +102,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
-	protected PolygonOverlay polygonOverlay; //enclosing polygon of destination location
+	protected Polygon destinationPolygon; //enclosing polygon of destination location
 	
 	protected Road mRoad;
 	protected PathOverlay roadOverlay;
@@ -310,16 +309,20 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("KML url");
 		final EditText input = new EditText(this);
-		// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
-		String uri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		//String uri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
-		//String uri = "http://..."
+		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		//String defaultUri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+		String uri = prefs.getString("KML_URI", defaultUri);
 		input.setText(uri);
 		builder.setView(input);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
 			@Override public void onClick(DialogInterface dialog, int which) {
 				String uri = input.getText().toString();
+				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+				SharedPreferences.Editor ed = prefs.edit();
+				ed.putString("KML_URI", uri);
+				ed.commit();
 				dialog.cancel();
 				getKml(uri);
 			}
@@ -345,15 +348,20 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		kmlOverlay = new FolderOverlay(this);
 		map.getOverlays().add(kmlOverlay);
 		KmlProvider kmlProvider = new KmlProvider();
+		kmlProvider.setVisibilitySupport(false);
 		Document kmlDoc = kmlProvider.getKml(uri);
 		if (kmlDoc == null){
 			Toast.makeText(this, "Technical error to get KML content", Toast.LENGTH_LONG).show();
 		} else {
-			Drawable marker = getResources().getDrawable(R.drawable.marker_kml_point);
+			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 			Element kmlRoot = kmlDoc.getDocumentElement();
-			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, marker);
+			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, defaultMarker);
 			BoundingBoxE6 bb = kmlOverlay.getBoundingBox();
 			setViewOn(bb);
+			//Examples of kmlOverlay usage:
+			//kmlOverlay.setEnabled(true);
+			//List<Overlay> items = kmlOverlay.getItems();
+			//items.get(0).setEnabled(true);
 		}
 		map.invalidate();
 	}
@@ -568,21 +576,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	public void updateUIWithPolygon(ArrayList<GeoPoint> polygon){
 		List<Overlay> mapOverlays = map.getOverlays();
 		int location = -1;
-		if (polygonOverlay != null)
-			location = mapOverlays.indexOf(polygonOverlay);
-		polygonOverlay = new PolygonOverlay(this);
-		polygonOverlay.setFillColor(0x30FF0080);
-		polygonOverlay.setStrokeColor(0x800000FF);
-		polygonOverlay.setStrokeWidth(5.0f);
+		if (destinationPolygon != null)
+			location = mapOverlays.indexOf(destinationPolygon);
+		destinationPolygon = new Polygon(this);
+		destinationPolygon.setFillColor(0x30FF0080);
+		destinationPolygon.setStrokeColor(0x800000FF);
+		destinationPolygon.setStrokeWidth(5.0f);
 		BoundingBoxE6 bb = null;
 		if (polygon != null){
-			polygonOverlay.setPoints(polygon);
+			destinationPolygon.setPoints(polygon);
 			bb = BoundingBoxE6.fromGeoPoints(polygon);
 		}
 		if (location != -1)
-			mapOverlays.set(location, polygonOverlay);
+			mapOverlays.set(location, destinationPolygon);
 		else
-			mapOverlays.add(polygonOverlay);
+			mapOverlays.add(destinationPolygon);
 		if (bb != null)
 			setViewOn(bb);
 		map.invalidate();
