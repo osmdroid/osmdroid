@@ -14,22 +14,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
+import android.graphics.Region;
+import android.view.MotionEvent;
 
 /**
- * @author Viesturs Zarins, Martin Pearman
- * @author M.Kergall: conversion from PathOverlay to PolygonOverlay
- * 
  * A polygon on the earth's surface. 
- * Mimics Polygon from Google Maps Android API v2 as much as possible. 
+ * Mimics the Polygon class from Google Maps Android API v2 as much as possible. Main differences:<br/>
+ * - Doesn't support: holes, Z-Index, Geodesic mode<br/>
+ * - Supports InfoWindow. 
+ * 
+ * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
+ * @author M.Kergall: transformation from PathOverlay to PolygonOverlay
  */
-public class PolygonOverlay extends Overlay {
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
+public class Polygon extends Overlay {
 
 	/**
 	 * Stores points, converted to the map projection.
@@ -52,18 +50,19 @@ public class PolygonOverlay extends Overlay {
 	private final Point mTempPoint1 = new Point();
 	private final Point mTempPoint2 = new Point();
 
-	// bounding rectangle for the current line segment.
-	//private final Rect mLineBounds = new Rect();
-
+	//InfoWindow handling
+	protected String mTitle, mSnippet;
+	protected InfoWindow mBubble;
+	
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public PolygonOverlay(final Context ctx) {
+	public Polygon(final Context ctx) {
 		this(new DefaultResourceProxyImpl(ctx));
 	}
 
-	public PolygonOverlay(final ResourceProxy resourceProxy) {
+	public Polygon(final ResourceProxy resourceProxy) {
 		super(resourceProxy);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
@@ -74,6 +73,9 @@ public class PolygonOverlay extends Overlay {
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
 		mPoints = new ArrayList<Point>();
 		mPointsPrecomputed = 0;
+		mTitle = ""; 
+		mSnippet = "";
+		mBubble = null;
 	}
 
 	// ===========================================================
@@ -135,12 +137,30 @@ public class PolygonOverlay extends Overlay {
 		this.mPoints.add(new Point(latitudeE6, longitudeE6));
 	}
 
+	public void setTitle(String title){
+		mTitle = title;
+	}
+	
+	public void setSnippet(String snippet){
+		mSnippet = snippet;
+	}
+	
+	/**
+	 * @param layoutResId resource id of the layout to use. Set 0 for removing the infowindow. 
+	 * @param mapView
+	 */
+	public void setInfoWindow(int layoutResId, MapView mapView){
+		if (layoutResId != 0)
+			mBubble = new DefaultInfoWindow(layoutResId, mapView);
+		else 
+			mBubble = null;
+	}
+	
 	/**
 	 * This method draws the line. Note - highly optimized to handle long paths, proceed with care.
 	 * Should be fine up to 10K points.
 	 */
-	@Override
-	protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
 			return;
@@ -204,5 +224,32 @@ public class PolygonOverlay extends Overlay {
 
 		canvas.drawPath(mPath, mFillPaint);
 		canvas.drawPath(mPath, mOutlinePaint);
+	}
+	
+	public boolean contains(MotionEvent event, MapView mapView){
+		if (mPath.isEmpty())
+			return false;
+		Projection pj = mapView.getProjection();
+		Point point = pj.fromMapPixels((int)event.getX(), (int)event.getY(), null);
+		RectF bounds = new RectF();
+		mPath.computeBounds(bounds, true);
+		Region region = new Region();
+		region.setPath(mPath, new Region((int) bounds.left, (int) bounds.top, (int) bounds.right, (int) bounds.bottom));
+		return region.contains(point.x, point.y);
+	}
+	
+	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
+		if (mBubble == null)
+			//no support for tap:
+			return false;
+		boolean touched = contains(event, mapView);
+		if (touched){
+			Projection pj = mapView.getProjection();
+			GeoPoint position = (GeoPoint)pj.fromPixels(event.getX(), event.getY());
+			//as DefaultInfoWindow expect an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
+			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position, mapView.getContext());
+			mBubble.open(item, item.getPoint(), 0, 0);
+		}
+		return touched;
 	}
 }

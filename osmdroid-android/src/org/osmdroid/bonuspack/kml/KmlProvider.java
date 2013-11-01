@@ -8,7 +8,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
-import org.osmdroid.bonuspack.overlays.PolygonOverlay;
+import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -25,12 +26,12 @@ import android.graphics.drawable.Drawable;
 /**
  * Helper class to read and parse KML content, and build related overlays. 
  * Supports KML Point, LineString and Polygon placemarks. 
- * Support KML Folder hierarchy. 
+ * Supports KML Folder hierarchy. 
  * Supports styles for LineString and Polygon (not for Point). 
  * 
  * TODO: 
- * Handle folder name and description
- * Handle visibility
+ * Objects ids
+ * colorMode=random for random colors
  * 
  * @author M.Kergall
  */
@@ -38,9 +39,10 @@ public class KmlProvider {
 
 	protected static final int NO_SHAPE=0, POINT=1, LINE_STRING=2, POLYGON=3; //KML geometry
 	HashMap<String, Style> mStyles;
+	boolean mVisibilitySupport = true;
 	
 	/**
-	 * @param uri of the KML content. Can be for instance Google Map the url of a KML layer created with Google Maps. 
+	 * @param uri of the KML content. Can be for instance the url of a KML layer created with Google Maps. 
 	 * @return DOM Document. 
 	 */
 	public Document getKml(String uri){
@@ -56,6 +58,15 @@ public class KmlProvider {
 		return kmlDoc;
 	}
 
+	/**
+	 * Define if visibility tag is handled or not. Default is true. 
+	 * Setting it to false means that the visibility tag will not be considered, so all components will be set to visible. 
+	 * @param visibilitySupport 
+	 */
+	public void setVisibilitySupport(boolean visibilitySupport){
+		mVisibilitySupport = visibilitySupport;
+	}
+	
 	protected GeoPoint parseGeoPoint(String input){
 		String[] coords = input.split(",");
 		try {
@@ -106,7 +117,7 @@ public class KmlProvider {
 	    return nodeList;
 	}
 	
-	protected void handlePlacemark(Element element, FolderOverlay folderOverlay, Context context, Drawable marker,
+	protected void handlePlacemark(Element element, FolderOverlay folderOverlay, Context context, MapView map, Drawable marker,
 			ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay){
 		List<Element> components = getChildrenByTagName(element, "*");
 		String styleUrl = "", name = "", description = "";
@@ -187,11 +198,18 @@ public class KmlProvider {
 				outlinePaint.setColor(0x90101010);
 				outlinePaint.setStrokeWidth(5);
 			}
-			PolygonOverlay polygonOverlay = new PolygonOverlay(context);
+			Polygon polygonOverlay = new Polygon(context);
 			polygonOverlay.setFillColor(fillColor);
 			polygonOverlay.setStrokeColor(outlinePaint.getColor());
 			polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
 			polygonOverlay.setPoints(list);
+			polygonOverlay.setTitle(name);
+			polygonOverlay.setSnippet(description);
+			if (!name.equals("") || !description.equals("")){
+				String packageName = context.getPackageName();
+				int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+				polygonOverlay.setInfoWindow(layoutResId, map);
+			}
 			BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(list);
 			folderOverlay.add(polygonOverlay, bb);
 			}
@@ -221,15 +239,17 @@ public class KmlProvider {
 					kmlPointsOverlay = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(context, 
 							kmlPointsItems, map);
 				}
-				handlePlacemark(child, folderOverlay, context, marker, kmlPointsOverlay);
+				handlePlacemark(child, folderOverlay, context, map, marker, kmlPointsOverlay);
 			} else if ("name".equals(childName)){
 				folderOverlay.setName(getChildText(child));
 			} else if ("description".equals(childName)){
 				folderOverlay.setDescription(getChildText(child));
 			} else if ("visibility".equals(childName)){
-				String sVisibility = getChildText(child);
-				boolean visibility = ("1".equals(sVisibility));
-				folderOverlay.setEnabled(visibility);
+				if (mVisibilitySupport){
+					String sVisibility = getChildText(child);
+					boolean visibility = ("1".equals(sVisibility));
+					folderOverlay.setEnabled(visibility);
+				}
 			}
 		}
 		

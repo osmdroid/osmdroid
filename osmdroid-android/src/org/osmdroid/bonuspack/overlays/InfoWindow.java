@@ -15,12 +15,7 @@ import android.view.ViewGroup;
  * <li>Structure and content of the view is let to the responsibility of the caller. </li>
  * <li>The same InfoWindow can be associated to many items. </li>
  * </ul>
- * Known issues:
- * <ul>
- * <li>It disappears when zooming in/out 
- * 	(osmdroid issue #259 on osmdroid 3.0.8, should be fixed in next version). </li>
- * <li>The window is displayed "above" the marker, so the queue of the bubble can hide the marker. </li>
- * </ul>
+ * Known issue: the window is displayed "above" the marker, so the queue of the bubble can hide the marker. 
  * 
  * This is an abstract class. 
  * @see DefaultInfoWindow
@@ -55,13 +50,13 @@ public abstract class InfoWindow {
 
 	/**
 	 * open the window at the specified position. 
-	 * @param item the item on which is hooked the view
+	 * @param object the graphical object on which is hooked the view
+	 * @param position to place the window on the map
 	 * @param offsetX (&offsetY) the offset of the view to the position, in pixels. 
-	 * This allows to offset the view from the marker position. 
+	 * This allows to offset the view from the object position. 
 	 */
-	public void open(ExtendedOverlayItem item, int offsetX, int offsetY) {
-		onOpen(item);
-		GeoPoint position = item.getPoint();
+	public void open(Object object, GeoPoint position, int offsetX, int offsetY) {
+		onOpen(object);
 		MapView.LayoutParams lp = new MapView.LayoutParams(
 				MapView.LayoutParams.WRAP_CONTENT,
 				MapView.LayoutParams.WRAP_CONTENT,
@@ -85,7 +80,7 @@ public abstract class InfoWindow {
 	}
 	
 	//Abstract methods to implement:
-	public abstract void onOpen(ExtendedOverlayItem item);
+	public abstract void onOpen(Object item);
 	public abstract void onClose();
 	
 }

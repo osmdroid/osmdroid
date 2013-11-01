@@ -49,20 +49,21 @@ public class DefaultInfoWindow extends InfoWindow {
 		});
 	}
 	
-	@Override public void onOpen(ExtendedOverlayItem item) {
-		String title = item.getTitle();
+	@Override public void onOpen(Object item) {
+		ExtendedOverlayItem extendedOverlayItem = (ExtendedOverlayItem)item;
+		String title = extendedOverlayItem.getTitle();
 		if (title == null)
 			title = "";
 		((TextView)mView.findViewById(mTitleId /*R.id.title*/)).setText(title);
 		
-		String snippet = item.getDescription();
+		String snippet = extendedOverlayItem.getDescription();
 		if (snippet == null)
 			snippet = "";
 		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippet);
 		
 		//handle sub-description, hidding or showing the text view:
 		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
-		String subDesc = item.getSubDescription();
+		String subDesc = extendedOverlayItem.getSubDescription();
 		if (subDesc != null && !("".equals(subDesc))){
 			subDescText.setText(subDesc);
 			subDescText.setVisibility(View.VISIBLE);
@@ -72,7 +73,7 @@ public class DefaultInfoWindow extends InfoWindow {
 
 		//handle image
 		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
-		Drawable image = item.getImage();
+		Drawable image = extendedOverlayItem.getImage();
 		if (image != null){
 			imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?
 			imageView.setVisibility(View.VISIBLE);
