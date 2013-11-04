@@ -1234,6 +1234,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		private final int mZoomLevelProjection;
 		private final Rect mScreenRectProjection;
 		private final Rect mIntrinsicScreenRectProjection;
+		private final float mMapOrientation;
 
 		private Projection() {
 
@@ -1244,6 +1245,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mBoundingBoxProjection = MapView.this.getBoundingBox();
 			mScreenRectProjection = MapView.this.getScreenRect(null);
 			mIntrinsicScreenRectProjection = MapView.this.getIntrinsicScreenRect(null);
+			mMapOrientation = MapView.this.getMapOrientation();
 		}
 
 		public int getZoomLevel() {
@@ -1260,6 +1262,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		public Rect getIntrinsicScreenRect() {
 			return mIntrinsicScreenRectProjection;
+		}
+
+		public float getMapOrientation() {
+			return mMapOrientation;
 		}
 
 		/**
