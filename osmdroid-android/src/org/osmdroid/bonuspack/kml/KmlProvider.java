@@ -9,7 +9,6 @@ import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Polygon;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -28,18 +27,19 @@ import android.graphics.drawable.Drawable;
  * Supports KML Point, LineString and Polygon placemarks. 
  * Supports KML Folder hierarchy. 
  * Supports styles for LineString and Polygon (not for Point). 
+ * Supports colorMode (normal, random)
  * 
  * TODO: 
  * Objects ids
- * colorMode=random for random colors
+ * "open" tag for Folder and Document
  * 
  * @author M.Kergall
  */
 public class KmlProvider {
 
 	protected static final int NO_SHAPE=0, POINT=1, LINE_STRING=2, POLYGON=3; //KML geometry
-	HashMap<String, Style> mStyles;
-	boolean mVisibilitySupport = true;
+	protected HashMap<String, Style> mStyles;
+	protected boolean mVisibilitySupport = true;
 	
 	/**
 	 * @param uri of the KML content. Can be for instance the url of a KML layer created with Google Maps. 
@@ -167,7 +167,7 @@ public class KmlProvider {
 			Paint paint = null;
 			Style style = mStyles.get(styleUrl);
 			if (style != null){
-				paint = style.outlinePaint;
+				paint = style.getOutlinePaint();
 			}
 			if (paint == null){ 
 				//set default:
@@ -189,8 +189,8 @@ public class KmlProvider {
 			int fillColor = 0x20101010; //default
 			Style style = mStyles.get(styleUrl);
 			if (style != null){
-				outlinePaint = style.outlinePaint;
-				fillColor = style.fillColor;
+				outlinePaint = style.getOutlinePaint();
+				fillColor = style.fillColorStyle.getColor();
 			}
 			if (outlinePaint == null){ 
 				//set default:
