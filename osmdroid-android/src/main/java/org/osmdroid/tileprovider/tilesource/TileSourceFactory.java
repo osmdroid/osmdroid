@@ -71,7 +71,7 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", ResourceProxy.string.public_transport, 0, 17, 256, ".png",
-			"http://tile.xn--pnvkarte-m4a.de/tilegen/");
+			"http://openptmap.org/tiles/");
 
 	public static final OnlineTileSourceBase BASE = new XYTileSource("Base",
 			ResourceProxy.string.base, 4, 17, 256, ".png", "http://topo.openstreetmap.de/base/");
