@@ -17,14 +17,12 @@ import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
 import org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData;
 import org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaDataResource;
+import org.osmdroid.tileprovider.util.ManifestUtil;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 
 import microsoft.mappoint.TileSystem;
 
@@ -97,26 +95,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	public static void retrieveBingKey(final Context aContext) {
 
 		// get the key from the manifest
-		final PackageManager pm = aContext.getPackageManager();
-		try {
-			final ApplicationInfo info = pm.getApplicationInfo(aContext.getPackageName(),
-					PackageManager.GET_META_DATA);
-			if (info.metaData == null) {
-				logger.info("Bing key not found in manifest");
-			} else {
-				final String key = info.metaData.getString(BING_KEY);
-				if (key == null) {
-					logger.info("Bing key not found in manifest");
-				} else {
-					if (DEBUGMODE) {
-						logger.debug("Bing key: " + key);
-					}
-					mBingMapKey = key.trim();
-				}
-			}
-		} catch (final NameNotFoundException e) {
-			logger.info("Bing key not found in manifest", e);
-		}
+		mBingMapKey = ManifestUtil.retrieveKey(aContext, BING_KEY);
 	}
 
 	public static String getBingKey() {

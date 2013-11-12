@@ -58,34 +58,15 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 	/**
 	 * Retrieve the key from the manifest and store it for later use.
 	 */
-	public static void retrieveCloudmadeKey(final Context pContext) {
+	public static void retrieveCloudmadeKey(final Context aContext) {
 
-		mAndroidId = Settings.Secure.getString(pContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+		mAndroidId = Settings.Secure.getString(aContext.getContentResolver(), Settings.Secure.ANDROID_ID);
 
 		// get the key from the manifest
-		final PackageManager pm = pContext.getPackageManager();
-		try {
-			final ApplicationInfo info = pm.getApplicationInfo(pContext.getPackageName(),
-					PackageManager.GET_META_DATA);
-			if (info.metaData == null) {
-				logger.info("Cloudmade key not found in manifest");
-			} else {
-				final String key = info.metaData.getString(CLOUDMADE_KEY);
-				if (key == null) {
-					logger.info("Cloudmade key not found in manifest");
-				} else {
-					if (DEBUGMODE) {
-						logger.debug("Cloudmade key: " + key);
-					}
-					mKey = key.trim();
-				}
-			}
-		} catch (final NameNotFoundException e) {
-			logger.info("Cloudmade key not found in manifest", e);
-		}
+		mKey = ManifestUtil.retrieveKey(aContext, CLOUDMADE_KEY);
 
 		// if the id hasn't changed then set the token to the previous token
-		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(pContext);
+		final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(aContext);
 		mPreferenceEditor = pref.edit();
 		final String id = pref.getString(CLOUDMADE_ID, "");
 		if (id.equals(mAndroidId)) {
