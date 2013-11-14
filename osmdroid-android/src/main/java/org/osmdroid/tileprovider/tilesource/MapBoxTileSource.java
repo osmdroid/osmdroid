@@ -32,14 +32,14 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     /**
      * TileSource allowing majority of options (sans url) to be user selected.
      * <br> <b>Warning, the static method {@link #retrieveMapBoxMapId(android.content.Context)} should have been invoked once before constructor invocation</b>
-     * @param name Name
-     * @param resourceId Resource Id
-     * @param zoomMinLevel Minimum Zoom Level
-     * @param zoomMaxLevel Maximum Zoom Level
-     * @param tileSizePixels Size of Tile Pixels
-     * @param imageFilenameEnding Image File Extension
-     */
-    public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId)
+	 * @param name Name
+	 * @param resourceId Resource Id
+	 * @param zoomMinLevel Minimum Zoom Level
+	 * @param zoomMaxLevel Maximum Zoom Level
+	 * @param tileSizePixels Size of Tile Pixels
+	 * @param imageFilenameEnding Image File Extension
+	 */
+    public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
         super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl);
     }
