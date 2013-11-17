@@ -6,27 +6,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
-import org.osmdroid.bonuspack.location.POI;
-import org.osmdroid.bonuspack.location.NominatimPOIProvider;
-import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlProvider;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
+import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
+import org.osmdroid.bonuspack.location.NominatimPOIProvider;
+import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
-import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
+import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.routing.GoogleRoadManager;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
-import org.osmdroid.bonuspack.kml.KmlProvider;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
@@ -41,6 +43,8 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -61,11 +65,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -73,9 +77,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.osmdroid.ResourceProxy;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Demo Activity using osmdroid and osmbonuspack
@@ -117,6 +118,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected static final int POIS_REQUEST = 2;
 	
 	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
+	protected KmlObject kmlRoot; //root container in KmlObject representation
+	protected static final int KML_TREE_REQUEST = 3;
+	KmlProvider mKmlProvider = new KmlProvider();
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -296,6 +300,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithPOI(mPOIs);
 		}
 
+		//KML handling:
 		kmlOverlay = null;
 		Intent onCreateIntent = getIntent();
 		String action = onCreateIntent.getAction();
@@ -345,23 +350,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (kmlOverlay != null){
 			map.getOverlays().remove(kmlOverlay);
 		}
-		kmlOverlay = new FolderOverlay(this);
-		map.getOverlays().add(kmlOverlay);
-		KmlProvider kmlProvider = new KmlProvider();
-		kmlProvider.setVisibilitySupport(false);
-		Document kmlDoc = kmlProvider.getKml(uri);
+		kmlRoot = null;
+		Document kmlDoc = mKmlProvider.getKml(uri);
 		if (kmlDoc == null){
 			Toast.makeText(this, "Technical error to get KML content", Toast.LENGTH_LONG).show();
 		} else {
 			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			Element kmlRoot = kmlDoc.getDocumentElement();
-			kmlProvider.buildOverlays(kmlRoot, kmlOverlay, this, map, defaultMarker);
-			BoundingBoxE6 bb = kmlOverlay.getBoundingBox();
+			Element rootElement = kmlDoc.getDocumentElement();
+			kmlRoot = mKmlProvider.parseRoot(rootElement);
+			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
+			map.getOverlays().add(kmlOverlay);
+			BoundingBoxE6 bb = kmlRoot.mBB;
 			setViewOn(bb);
-			//Examples of kmlOverlay usage:
-			//kmlOverlay.setEnabled(true);
-			//List<Overlay> items = kmlOverlay.getItems();
-			//items.get(0).setEnabled(true);
 		}
 		map.invalidate();
 	}
@@ -411,6 +411,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				int id = intent.getIntExtra("ID", 0);
 				map.getController().setCenter(mPOIs.get(id).mLocation);
 				poiMarkers.showBubbleOnItem(id, map, true);
+			}
+			break;
+		case KML_TREE_REQUEST:
+			if (resultCode == RESULT_OK) {
+				kmlRoot = intent.getParcelableExtra("KML");
+				map.getOverlays().remove(kmlOverlay);
+				Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+				kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
+				map.getOverlays().add(kmlOverlay);
+				map.invalidate();
 			}
 			break;
 		default: 
@@ -1028,8 +1038,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
-		case R.id.menu_kml:
+		case R.id.menu_kml_open:
 			openKMLDialog();
+			return true;
+		case R.id.menu_kml_tree:
+			if (kmlRoot==null)
+				return false;
+			myIntent = new Intent(this, KmlTreeActivity.class);
+			myIntent.putExtra("KML", kmlRoot);
+			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = OSRM;

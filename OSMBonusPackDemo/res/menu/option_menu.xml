@@ -53,7 +53,11 @@
         </menu>
     </item>
     <item
-        android:id="@+id/menu_kml"
+        android:id="@+id/menu_kml_open"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="KML layer"/>
+        android:title="Open KML"/>
+    <item
+        android:id="@+id/menu_kml_tree"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="KML tree"/>
 </menu>
