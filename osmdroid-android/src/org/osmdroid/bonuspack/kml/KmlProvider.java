@@ -5,25 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
-import org.osmdroid.bonuspack.overlays.FolderOverlay;
-import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
-import org.osmdroid.bonuspack.overlays.Polygon;
+
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.PathOverlay;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
-import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 
 /**
- * Helper class to read and parse KML content, and build related overlays. 
+ * Helper class to read and parse KML content, and build KML structure. 
  * Supports KML Point, LineString and Polygon placemarks. 
  * Supports KML Folder hierarchy. 
  * Supports styles for LineString and Polygon (not for Point). 
@@ -31,15 +22,20 @@ import android.graphics.drawable.Drawable;
  * 
  * TODO: 
  * Objects ids
- * "open" tag for Folder and Document
  * 
  * @author M.Kergall
  */
 public class KmlProvider {
 
-	protected static final int NO_SHAPE=0, POINT=1, LINE_STRING=2, POLYGON=3; //KML geometry
 	protected HashMap<String, Style> mStyles;
-	protected boolean mVisibilitySupport = true;
+	
+	public KmlProvider(){
+		mStyles = new HashMap<String, Style>();
+	}
+	
+	public Style getStyle(String styleUrl){
+		return mStyles.get(styleUrl);
+	}
 	
 	/**
 	 * @param uri of the KML content. Can be for instance the url of a KML layer created with Google Maps. 
@@ -56,15 +52,6 @@ public class KmlProvider {
 			return null;
 		}
 		return kmlDoc;
-	}
-
-	/**
-	 * Define if visibility tag is handled or not. Default is true. 
-	 * Setting it to false means that the visibility tag will not be considered, so all components will be set to visible. 
-	 * @param visibilitySupport 
-	 */
-	public void setVisibilitySupport(boolean visibilitySupport){
-		mVisibilitySupport = visibilitySupport;
 	}
 	
 	protected GeoPoint parseGeoPoint(String input){
@@ -117,149 +104,75 @@ public class KmlProvider {
 	    return nodeList;
 	}
 	
-	protected void handlePlacemark(Element element, FolderOverlay folderOverlay, Context context, MapView map, Drawable marker,
-			ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay){
+	protected KmlObject parsePlacemark(Element element){
+		KmlObject kmlObject = new KmlObject();
 		List<Element> components = getChildrenByTagName(element, "*");
-		String styleUrl = "", name = "", description = "";
-		int type =  NO_SHAPE;
-		ArrayList<GeoPoint> list = null;
+		kmlObject.mObjectType =  KmlObject.NO_SHAPE;
 		for (Element component:components){
 			String nodeName = component.getTagName();
 			if ("styleUrl".equals(nodeName)){
-				styleUrl = getChildText(component);
-				styleUrl = styleUrl.substring(1); //remove the #
+				String styleUrl = getChildText(component);
+				kmlObject.mStyle = styleUrl.substring(1); //remove the #
 			} else if ("name".equals(nodeName)){
-					name = getChildText(component);
+					kmlObject.mName = getChildText(component);
 			} else if ("description".equals(nodeName)){
-					description = getChildText(component);
+				kmlObject.mDescription = getChildText(component);
 			} else if ("Point".equals(nodeName)){
 				NodeList coordinates = component.getElementsByTagName("coordinates");
 				if (coordinates.getLength()>0){
-					type = POINT;
-					list = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mObjectType = KmlObject.POINT;
+					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
 				}
 			} else if ("LineString".equals(nodeName)){
 				NodeList coordinates = component.getElementsByTagName("coordinates");
 				if (coordinates.getLength()>0){
-					type = LINE_STRING;
-					list = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mObjectType = KmlObject.LINE_STRING;
+					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
 				}
 			} else if ("Polygon".equals(nodeName)){
 				//TODO: distinguish outerBoundaryIs and innerBoundaryIs
 				NodeList coordinates = component.getElementsByTagName("coordinates");
 				if (coordinates.getLength()>0){
-					type = POLYGON;
-					list = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mObjectType = KmlObject.POLYGON;
+					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
+					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
 				}
 			}
 		}
-		//Create the overlay with the placemark geometry:
-		switch (type){
-		case POINT:
-			if (list.size()>0){
-				ExtendedOverlayItem item = new ExtendedOverlayItem(name, description, list.get(0), context);
-				item.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-				item.setMarker(marker);
-				kmlPointsOverlay.addItem(item);
-			}
-			break;
-		case LINE_STRING:{
-			Paint paint = null;
-			Style style = mStyles.get(styleUrl);
-			if (style != null){
-				paint = style.getOutlinePaint();
-			}
-			if (paint == null){ 
-				//set default:
-				paint = new Paint();
-				paint.setColor(0x90101010);
-				paint.setStyle(Paint.Style.STROKE);
-				paint.setStrokeWidth(5);
-			}
-			PathOverlay lineStringOverlay = new PathOverlay(0, context);
-			lineStringOverlay.setPaint(paint);
-			for (GeoPoint point:list)
-				lineStringOverlay.addPoint(point);
-			BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(list);
-			folderOverlay.add(lineStringOverlay, bb);
-			}
-			break;
-		case POLYGON:{
-			Paint outlinePaint = null; 
-			int fillColor = 0x20101010; //default
-			Style style = mStyles.get(styleUrl);
-			if (style != null){
-				outlinePaint = style.getOutlinePaint();
-				fillColor = style.fillColorStyle.getColor();
-			}
-			if (outlinePaint == null){ 
-				//set default:
-				outlinePaint = new Paint();
-				outlinePaint.setColor(0x90101010);
-				outlinePaint.setStrokeWidth(5);
-			}
-			Polygon polygonOverlay = new Polygon(context);
-			polygonOverlay.setFillColor(fillColor);
-			polygonOverlay.setStrokeColor(outlinePaint.getColor());
-			polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
-			polygonOverlay.setPoints(list);
-			polygonOverlay.setTitle(name);
-			polygonOverlay.setSnippet(description);
-			if (!name.equals("") || !description.equals("")){
-				String packageName = context.getPackageName();
-				int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
-				polygonOverlay.setInfoWindow(layoutResId, map);
-			}
-			BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(list);
-			folderOverlay.add(polygonOverlay, bb);
-			}
-			break;
-		default:
-			break;
-		}
+		return kmlObject;
 	}
 	
-	protected void handleFolder(Element kmlElement, FolderOverlay folderOverlay, 
-			Context context, MapView map, Drawable marker){
-		
-		ArrayList<ExtendedOverlayItem> kmlPointsItems = null;
-		ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay = null;
+	protected KmlObject parseFolder(Element kmlElement){
+		KmlObject kmlObject = new KmlObject();
+		kmlObject.mObjectType = KmlObject.FOLDER;
 		
 		List<Element> children = getChildrenByTagName(kmlElement, "*");
 		for (Element child:children){
 			String childName = child.getTagName();
 			if ("Document".equals(childName) || "Folder".equals(childName)){
-				FolderOverlay subFolderOverlay = new FolderOverlay(context);
-				handleFolder(child, subFolderOverlay, context, map, marker);
-				folderOverlay.add(subFolderOverlay, subFolderOverlay.getBoundingBox());
+				KmlObject subFolder = parseFolder(child);
+				kmlObject.add(subFolder);
 			} else if ("Placemark".equals(childName)){
-				if (kmlPointsOverlay == null){
-					//we have placemarks inside this folder: initialize the overlay that will contain all points placemarks
-					kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
-					kmlPointsOverlay = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(context, 
-							kmlPointsItems, map);
-				}
-				handlePlacemark(child, folderOverlay, context, map, marker, kmlPointsOverlay);
+				KmlObject placemark = parsePlacemark(child);
+				kmlObject.add(placemark);
 			} else if ("name".equals(childName)){
-				folderOverlay.setName(getChildText(child));
+				kmlObject.mName = getChildText(child);
 			} else if ("description".equals(childName)){
-				folderOverlay.setDescription(getChildText(child));
+				kmlObject.mDescription = getChildText(child);
 			} else if ("visibility".equals(childName)){
-				if (mVisibilitySupport){
-					String sVisibility = getChildText(child);
-					boolean visibility = ("1".equals(sVisibility));
-					folderOverlay.setEnabled(visibility);
-				}
+				String sVisibility = getChildText(child);
+				kmlObject.mVisibility = ("1".equals(sVisibility));
+			} else if ("open".equals(childName)){
+				String sOpen = getChildText(child);
+				kmlObject.mOpen = ("1".equals(sOpen));
 			}
 		}
-		
-		if (kmlPointsOverlay != null && kmlPointsOverlay.size()>0){
-			BoundingBoxE6 bb = kmlPointsOverlay.getBoundingBoxE6();
-			folderOverlay.add(kmlPointsOverlay, bb);
-		}
+		return kmlObject;
 	}
 	
-	protected void getStyles(Element kmlRoot){
+	protected void parseStyles(Element kmlRoot){
 		NodeList styles = kmlRoot.getElementsByTagName("Style");
 		mStyles = new HashMap<String, Style>(styles.getLength());
 		for (int i=0; i<styles.getLength(); i++){
@@ -271,15 +184,14 @@ public class KmlProvider {
 	}
 	
 	/**
-	 * From a KML document, fill overlay with placemarks
-	 * @param kmlDoc
-	 * @param placemarksOverlay
-	 * @param context
-	 * @param marker
+	 * Parse a KML document to build the KML structure
+	 * @param kmlDomRoot root
+	 * return KML object which is the root of the whole structure
 	 */
-	public void buildOverlays(Element kmlRoot, FolderOverlay folderOverlay, Context context, MapView map, Drawable marker){
-		getStyles(kmlRoot);
+	public KmlObject parseRoot(Element kmlDomRoot){
+		parseStyles(kmlDomRoot);
 		//Recursively handle the element and all its sub-folders:
-		handleFolder(kmlRoot, folderOverlay, context, map, marker);
+		KmlObject result = parseFolder(kmlDomRoot);
+		return result;
 	}
 }

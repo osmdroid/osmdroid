@@ -145,6 +145,14 @@ public class Polygon extends Overlay {
 		mSnippet = snippet;
 	}
 	
+	public String getTitle(){
+		return mTitle;
+	}
+	
+	public String getSnippet(){
+		return mSnippet;
+	}
+
 	/**
 	 * @param layoutResId resource id of the layout to use. Set 0 for removing the infowindow. 
 	 * @param mapView

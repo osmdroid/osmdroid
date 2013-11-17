@@ -2,11 +2,11 @@ package org.osmdroid.bonuspack.overlays;
 
 import java.util.AbstractList;
 import java.util.HashMap;
-
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
@@ -99,6 +99,7 @@ public class FolderOverlay extends Overlay {
 		return mOverlayManager.remove(item);
 	}
 
+	@SuppressLint("WrongCall")
 	@Override protected void draw(Canvas canvas, MapView osm, boolean shadow) {
 		if (shadow)
 			return;
@@ -125,6 +126,6 @@ public class FolderOverlay extends Overlay {
 		else 
 			return false;
 	}
-	
 	//TODO: implement other events
+		
 }
