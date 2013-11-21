@@ -43,8 +43,6 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -184,8 +182,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				//no location known: hide myLocationOverlay
 				myLocationOverlay.setEnabled(false);
 			}
-			startPoint = null;
-			destinationPoint = null;
+			startPoint = null; //new GeoPoint(48.13,-1.63); //null;
+			destinationPoint = null; //new GeoPoint(48.4,-1.9); //null;
 			viaPoints = new ArrayList<GeoPoint>();
 		} else {
 			myLocationOverlay.setLocation((GeoPoint)savedInstanceState.getParcelable("location"));
@@ -269,6 +267,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
 		}
+		//getRoadAsync();
 		
 		//POIs:
 		//POI search interface:
@@ -350,19 +349,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (kmlOverlay != null){
 			map.getOverlays().remove(kmlOverlay);
 		}
-		kmlRoot = null;
-		Document kmlDoc = mKmlProvider.getKml(uri);
-		if (kmlDoc == null){
-			Toast.makeText(this, "Technical error to get KML content", Toast.LENGTH_LONG).show();
-		} else {
+		kmlRoot = mKmlProvider.parse(uri);
+		if (kmlRoot != null){
 			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			Element rootElement = kmlDoc.getDocumentElement();
-			kmlRoot = mKmlProvider.parseRoot(rootElement);
 			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
 			map.getOverlays().add(kmlOverlay);
 			BoundingBoxE6 bb = kmlRoot.mBB;
 			setViewOn(bb);
-		}
+		} else
+			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
 		map.invalidate();
 	}
 	
