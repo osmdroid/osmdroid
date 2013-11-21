@@ -1,27 +1,25 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+import android.util.Log;
 
 /**
  * Helper class to read and parse KML content, and build KML structure. 
  * Supports KML Point, LineString and Polygon placemarks. 
  * Supports KML Folder hierarchy. 
- * Supports styles for LineString and Polygon (not for Point). 
+ * Supports styles for LineString and Polygon (but not for Point). 
  * Supports colorMode (normal, random)
- * 
- * TODO: 
- * Objects ids
  * 
  * @author M.Kergall
  */
@@ -41,6 +39,7 @@ public class KmlProvider {
 	 * @param uri of the KML content. Can be for instance the url of a KML layer created with Google Maps. 
 	 * @return DOM Document. 
 	 */
+	/*
 	public Document getKml(String uri){
 		DocumentBuilder docBuilder;
 		Document kmlDoc = null;
@@ -53,6 +52,7 @@ public class KmlProvider {
 		}
 		return kmlDoc;
 	}
+	*/
 	
 	protected GeoPoint parseGeoPoint(String input){
 		String[] coords = input.split(",");
@@ -67,7 +67,7 @@ public class KmlProvider {
 			return null;
 		}
 	}
-	
+	/*
 	protected ArrayList<GeoPoint> getCoordinates(Element node){
 		String coords = getChildText(node);
 		String[] splitted = coords.split("\\s");
@@ -92,7 +92,8 @@ public class KmlProvider {
 		}
 		return builder.toString();
 	}
-	
+	*/
+	/*
 	public static List<Element> getChildrenByTagName(Element parent, String name) {
 		List<Element> nodeList = new ArrayList<Element>();
 		boolean getAll = name.equals("*");
@@ -103,7 +104,8 @@ public class KmlProvider {
 		}
 	    return nodeList;
 	}
-	
+	*/
+	/*
 	protected KmlObject parsePlacemark(Element element){
 		KmlObject kmlObject = new KmlObject();
 		List<Element> components = getChildrenByTagName(element, "*");
@@ -182,16 +184,151 @@ public class KmlProvider {
 			mStyles.put(id, sStyle);
 		}
 	}
+	*/
 	
 	/**
 	 * Parse a KML document to build the KML structure
 	 * @param kmlDomRoot root
 	 * return KML object which is the root of the whole structure
 	 */
+	/*
 	public KmlObject parseRoot(Element kmlDomRoot){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - start");
 		parseStyles(kmlDomRoot);
 		//Recursively handle the element and all its sub-folders:
 		KmlObject result = parseFolder(kmlDomRoot);
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - end");
 		return result;
 	}
+	*/
+	
+	/**
+	 * Parse a KML document to build the KML structure - SAX implementation
+	 * @param url
+	 * @return KML object which is the root of the whole structure - or null if any error. 
+	 */
+	public KmlObject parse(String url){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse:"+url);
+		HttpConnection connection = new HttpConnection();
+		connection.doGet(url);
+		InputStream stream = connection.getStream();
+		KmlSaxHandler handler = new KmlSaxHandler();
+		if (stream == null){
+			handler.mKmlRoot = null;
+		} else {
+			try {
+				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+				parser.parse(stream, handler);
+			} catch (Exception e) {
+				e.printStackTrace();
+				handler.mKmlRoot = null;
+			}
+		}
+		connection.close();
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - end");
+		return handler.mKmlRoot;
+	}
+	
+	// KmlSaxHandler -------------
+	
+	class KmlSaxHandler extends DefaultHandler {
+		
+		private String mString;
+		private KmlObject mKmlCurrentObject;
+		private ArrayList<KmlObject> mKmlStack;
+		KmlObject mKmlRoot;
+		Style mCurrentStyle;
+		String mCurrentStyleId;
+		ColorStyle mColorStyle;
+		
+		public KmlSaxHandler(){
+			mKmlRoot = new KmlObject();
+			mKmlRoot.mObjectType = KmlObject.FOLDER;
+			mKmlStack = new ArrayList<KmlObject>();
+			mKmlStack.add(mKmlRoot);
+		}
+		
+		public void startElement(String uri, String localName, String name,
+				Attributes attributes) throws SAXException {
+			if (localName.equals("Document")){
+				mKmlCurrentObject = mKmlRoot; //If there is a Document, it will be the root. 
+				mKmlCurrentObject.mId = attributes.getValue("id");
+			} else if (localName.equals("Folder")){
+				mKmlCurrentObject = new KmlObject();
+				mKmlCurrentObject.mObjectType = KmlObject.FOLDER;
+				mKmlCurrentObject.mId = attributes.getValue("id");
+				mKmlStack.add(mKmlCurrentObject); //push on stack
+			} else if (localName.equals("Placemark")) {
+				mKmlCurrentObject = new KmlObject();
+				mKmlCurrentObject.mObjectType = KmlObject.NO_SHAPE;
+				mKmlCurrentObject.mId = attributes.getValue("id");
+				mKmlStack.add(mKmlCurrentObject); //push on stack
+			} else if (localName.equals("Style")) {
+				mCurrentStyle = new Style();
+				mCurrentStyleId = attributes.getValue("id");
+			} else if (localName.equals("LineStyle")) {
+				mColorStyle = mCurrentStyle.outlineColorStyle;
+			} else if (localName.equals("PolyStyle")) {
+				mColorStyle = mCurrentStyle.fillColorStyle;
+			}
+			mString = new String();
+		}
+		
+		public @Override void characters(char[] ch, int start, int length)
+				throws SAXException {
+			String chars = new String(ch, start, length);
+			mString = mString.concat(chars);
+		}
+		
+		public void endElement(String uri, String localName, String name)
+				throws SAXException {
+			if (localName.equals("Document")){
+				//Document is the root, nothing to do. 
+			} else if (localName.equals("Folder") || localName.equals("Placemark")) {
+				KmlObject parent = mKmlStack.get(mKmlStack.size()-2); //get parent
+				parent.add(mKmlCurrentObject); //add current in its parent
+				mKmlStack.remove(mKmlStack.size()-1); //pop current from stack
+				mKmlCurrentObject = mKmlStack.get(mKmlStack.size()-1); //set current to top of stack
+			} else if (localName.equals("Point")){
+				mKmlCurrentObject.mObjectType = KmlObject.POINT;
+			} else if (localName.equals("LineString")){
+				mKmlCurrentObject.mObjectType = KmlObject.LINE_STRING;
+			} else if (localName.equals("Polygon")){
+				mKmlCurrentObject.mObjectType = KmlObject.POLYGON;
+			} else if (localName.equals("name")){
+				mKmlCurrentObject.mName = mString;
+			} else if (localName.equals("description")){
+				mKmlCurrentObject.mDescription = mString;
+			} else if (localName.equals("visibility")){
+				mKmlCurrentObject.mVisibility = ("1".equals(mString));
+			} else if (localName.equals("open")){
+				mKmlCurrentObject.mOpen = ("1".equals(mString));
+			} else if (localName.equals("coordinates")){
+				String[] splitted = mString.split("\\s");
+				mKmlCurrentObject.mCoordinates = new ArrayList<GeoPoint>(splitted.length);
+				for (int i=0; i<splitted.length; i++){
+					GeoPoint p = parseGeoPoint(splitted[i]);
+					if (p != null)
+						mKmlCurrentObject.mCoordinates.add(p);
+				}
+				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
+			} else if (localName.equals("styleUrl")){
+				mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
+			} else if (localName.equals("color")){
+				if (mCurrentStyle != null)
+					mColorStyle.color = mColorStyle.parseColor(mString);
+			} else if (localName.equals("colorMode")){
+				if (mCurrentStyle != null)
+					mColorStyle.colorMode = (mString.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
+			} else if (localName.equals("width")){
+				if (mCurrentStyle != null)
+					mCurrentStyle.outlineWidth = Float.parseFloat(mString);
+			} else if (localName.equals("Style")){
+				mStyles.put(mCurrentStyleId, mCurrentStyle);
+				mCurrentStyle = null;
+			}
+		}
+		
+	}
+	
 }

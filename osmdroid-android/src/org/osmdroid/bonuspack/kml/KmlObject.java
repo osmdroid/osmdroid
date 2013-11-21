@@ -120,19 +120,21 @@ public class KmlObject implements Parcelable {
 	 * Build the overlay related to this KML object. 
 	 * @param context
 	 * @param map
-	 * @param marker
+	 * @param marker to use for Points
 	 * @param kmlProvider
 	 * @return the overlay, depending on the KML object type: 
-	 * Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>PathOverlay
+	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>PathOverlay
 	 */
 	public Overlay buildOverlays(Context context, MapView map, Drawable marker, KmlProvider kmlProvider, 
 			boolean supportVisibility){
 		switch (mObjectType){
 		case FOLDER:{
 			FolderOverlay folderOverlay = new FolderOverlay(context);
-			for (KmlObject k:mItems){
-				Overlay overlay = k.buildOverlays(context, map, marker, kmlProvider, supportVisibility);
-				folderOverlay.add(overlay, null);
+			if (mItems != null){
+				for (KmlObject k:mItems){
+					Overlay overlay = k.buildOverlays(context, map, marker, kmlProvider, supportVisibility);
+					folderOverlay.add(overlay, null);
+				}
 			}
 			if (supportVisibility && !mVisibility)
 				folderOverlay.setEnabled(false);
