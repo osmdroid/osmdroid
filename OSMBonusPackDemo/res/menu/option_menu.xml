@@ -53,11 +53,28 @@
         </menu>
     </item>
     <item
-        android:id="@+id/menu_kml_open"
+        android:id="@+id/menu_kml"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="Open KML"/>
-    <item
-        android:id="@+id/menu_kml_tree"
-        android:icon="@android:drawable/ic_menu_more"
-        android:title="KML tree"/>
+        android:title="KML toolbox">
+        <menu>
+            <group>
+				<item
+				      android:id="@+id/menu_kml_url"
+				      android:icon="@android:drawable/ic_menu_more"
+				      android:title="Open KML url"/>
+				<item
+				      android:id="@+id/menu_kml_file"
+				      android:icon="@android:drawable/ic_menu_more"
+				      android:title="Open KML file"/>
+				<item
+			        android:id="@+id/menu_kml_tree"
+			        android:icon="@android:drawable/ic_menu_more"
+			        android:title="Show KML tree"/>
+				<item
+				      android:id="@+id/menu_kml_save"
+				      android:icon="@android:drawable/ic_menu_more"
+				      android:title="Save KML file"/>
+			</group>
+		</menu>
+	</item>
 </menu>

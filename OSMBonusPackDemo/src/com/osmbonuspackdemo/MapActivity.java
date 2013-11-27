@@ -305,11 +305,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String action = onCreateIntent.getAction();
 		if (action.equals(Intent.ACTION_VIEW)){
 			String uri = onCreateIntent.getDataString();
-			getKml(uri);
+			getKml(uri, false);
 		}
 	}
 
-	void openKMLDialog(){
+	void openKMLUrlDialog(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("KML url");
 		final EditText input = new EditText(this);
@@ -328,7 +328,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ed.putString("KML_URI", uri);
 				ed.commit();
 				dialog.cancel();
-				getKml(uri);
+				getKml(uri, false);
 			}
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -345,20 +345,31 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
-	void getKml(String uri){
+	void getKml(String uri, boolean fromFile){
 		if (kmlOverlay != null){
 			map.getOverlays().remove(kmlOverlay);
 		}
-		kmlRoot = mKmlProvider.parse(uri);
+		if (fromFile){
+			kmlRoot = mKmlProvider.parseFile(mKmlProvider.getAndroidPath(uri));
+		} else  {
+			kmlRoot = mKmlProvider.parseUrl(uri);
+		}
 		if (kmlRoot != null){
 			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
 			map.getOverlays().add(kmlOverlay);
-			BoundingBoxE6 bb = kmlRoot.mBB;
-			setViewOn(bb);
+			setViewOn(kmlRoot.mBB);
 		} else
 			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
 		map.invalidate();
+	}
+	
+	void saveKml(String fileName){
+		boolean result = mKmlProvider.saveAsKML(mKmlProvider.getAndroidPath(fileName), kmlRoot);
+		if (result)
+			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
+		else 
+			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
 	}
 	
 	void savePrefs(){
@@ -932,7 +943,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		tempClickedGeoPoint = new GeoPoint((GeoPoint)p);
 		Button searchButton = (Button)findViewById(R.id.buttonSearchDest);
 		openContextMenu(searchButton); 
-			//menu is hooked on the "Search Departure" button, as it must be hooked somewhere. 
+			//menu is hooked on the "Search Destination" button, as it must be hooked somewhere. 
 		return true;
 	}
 
@@ -1033,8 +1044,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
-		case R.id.menu_kml_open:
-			openKMLDialog();
+		case R.id.menu_kml_url:
+			openKMLUrlDialog();
+			return true;
+		case R.id.menu_kml_file:
+			//TODO : openKMLFileDialog();
+			getKml("current.kml", true);
 			return true;
 		case R.id.menu_kml_tree:
 			if (kmlRoot==null)
@@ -1042,6 +1057,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent = new Intent(this, KmlTreeActivity.class);
 			myIntent.putExtra("KML", kmlRoot);
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
+			return true;
+		case R.id.menu_kml_save:
+			saveKml("current.kml");
 			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = OSRM;
