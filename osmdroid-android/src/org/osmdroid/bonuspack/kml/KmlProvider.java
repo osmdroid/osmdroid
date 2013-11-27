@@ -1,6 +1,13 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.xml.parsers.SAXParser;
@@ -12,6 +19,7 @@ import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -35,25 +43,6 @@ public class KmlProvider {
 		return mStyles.get(styleUrl);
 	}
 	
-	/**
-	 * @param uri of the KML content. Can be for instance the url of a KML layer created with Google Maps. 
-	 * @return DOM Document. 
-	 */
-	/*
-	public Document getKml(String uri){
-		DocumentBuilder docBuilder;
-		Document kmlDoc = null;
-		try {
-			docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			kmlDoc = docBuilder.parse(uri);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		return kmlDoc;
-	}
-	*/
-	
 	protected GeoPoint parseGeoPoint(String input){
 		String[] coords = input.split(",");
 		try {
@@ -67,19 +56,19 @@ public class KmlProvider {
 			return null;
 		}
 	}
-	/*
-	protected ArrayList<GeoPoint> getCoordinates(Element node){
-		String coords = getChildText(node);
-		String[] splitted = coords.split("\\s");
-		ArrayList<GeoPoint> list = new ArrayList<GeoPoint>(splitted.length);
+	
+	protected ArrayList<GeoPoint> parseCoordinates(String input){
+		String[] splitted = input.split("\\s");
+		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(splitted.length);
 		for (int i=0; i<splitted.length; i++){
 			GeoPoint p = parseGeoPoint(splitted[i]);
 			if (p != null)
-				list.add(p);
+				coordinates.add(p);
 		}
-		return list;
+		return coordinates;
 	}
-
+	
+	/* nice utils for DOM parsing - to keep somewhere else
 	public static String getChildText(Element element) {
 		StringBuilder builder = new StringBuilder();
 		NodeList list = element.getChildNodes();
@@ -92,8 +81,7 @@ public class KmlProvider {
 		}
 		return builder.toString();
 	}
-	*/
-	/*
+	
 	public static List<Element> getChildrenByTagName(Element parent, String name) {
 		List<Element> nodeList = new ArrayList<Element>();
 		boolean getAll = name.equals("*");
@@ -105,110 +93,14 @@ public class KmlProvider {
 	    return nodeList;
 	}
 	*/
-	/*
-	protected KmlObject parsePlacemark(Element element){
-		KmlObject kmlObject = new KmlObject();
-		List<Element> components = getChildrenByTagName(element, "*");
-		kmlObject.mObjectType =  KmlObject.NO_SHAPE;
-		for (Element component:components){
-			String nodeName = component.getTagName();
-			if ("styleUrl".equals(nodeName)){
-				String styleUrl = getChildText(component);
-				kmlObject.mStyle = styleUrl.substring(1); //remove the #
-			} else if ("name".equals(nodeName)){
-					kmlObject.mName = getChildText(component);
-			} else if ("description".equals(nodeName)){
-				kmlObject.mDescription = getChildText(component);
-			} else if ("Point".equals(nodeName)){
-				NodeList coordinates = component.getElementsByTagName("coordinates");
-				if (coordinates.getLength()>0){
-					kmlObject.mObjectType = KmlObject.POINT;
-					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
-					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
-				}
-			} else if ("LineString".equals(nodeName)){
-				NodeList coordinates = component.getElementsByTagName("coordinates");
-				if (coordinates.getLength()>0){
-					kmlObject.mObjectType = KmlObject.LINE_STRING;
-					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
-					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
-				}
-			} else if ("Polygon".equals(nodeName)){
-				//TODO: distinguish outerBoundaryIs and innerBoundaryIs
-				NodeList coordinates = component.getElementsByTagName("coordinates");
-				if (coordinates.getLength()>0){
-					kmlObject.mObjectType = KmlObject.POLYGON;
-					kmlObject.mCoordinates = getCoordinates((Element)coordinates.item(0));
-					kmlObject.mBB = BoundingBoxE6.fromGeoPoints(kmlObject.mCoordinates);
-				}
-			}
-		}
-		return kmlObject;
-	}
-	
-	protected KmlObject parseFolder(Element kmlElement){
-		KmlObject kmlObject = new KmlObject();
-		kmlObject.mObjectType = KmlObject.FOLDER;
-		
-		List<Element> children = getChildrenByTagName(kmlElement, "*");
-		for (Element child:children){
-			String childName = child.getTagName();
-			if ("Document".equals(childName) || "Folder".equals(childName)){
-				KmlObject subFolder = parseFolder(child);
-				kmlObject.add(subFolder);
-			} else if ("Placemark".equals(childName)){
-				KmlObject placemark = parsePlacemark(child);
-				kmlObject.add(placemark);
-			} else if ("name".equals(childName)){
-				kmlObject.mName = getChildText(child);
-			} else if ("description".equals(childName)){
-				kmlObject.mDescription = getChildText(child);
-			} else if ("visibility".equals(childName)){
-				String sVisibility = getChildText(child);
-				kmlObject.mVisibility = ("1".equals(sVisibility));
-			} else if ("open".equals(childName)){
-				String sOpen = getChildText(child);
-				kmlObject.mOpen = ("1".equals(sOpen));
-			}
-		}
-		return kmlObject;
-	}
-	
-	protected void parseStyles(Element kmlRoot){
-		NodeList styles = kmlRoot.getElementsByTagName("Style");
-		mStyles = new HashMap<String, Style>(styles.getLength());
-		for (int i=0; i<styles.getLength(); i++){
-			Element eStyle = (Element)styles.item(i);
-			String id = eStyle.getAttribute("id");
-			Style sStyle = new Style(eStyle);
-			mStyles.put(id, sStyle);
-		}
-	}
-	*/
 	
 	/**
-	 * Parse a KML document to build the KML structure
-	 * @param kmlDomRoot root
-	 * return KML object which is the root of the whole structure
-	 */
-	/*
-	public KmlObject parseRoot(Element kmlDomRoot){
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - start");
-		parseStyles(kmlDomRoot);
-		//Recursively handle the element and all its sub-folders:
-		KmlObject result = parseFolder(kmlDomRoot);
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - end");
-		return result;
-	}
-	*/
-	
-	/**
-	 * Parse a KML document to build the KML structure - SAX implementation
+	 * Parse a KML document from a url, to build the KML structure. 
 	 * @param url
 	 * @return KML object which is the root of the whole structure - or null if any error. 
 	 */
-	public KmlObject parse(String url){
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse:"+url);
+	public KmlObject parseUrl(String url){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl:"+url);
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
@@ -225,7 +117,36 @@ public class KmlProvider {
 			}
 		}
 		connection.close();
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parse - end");
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
+		return handler.mKmlRoot;
+	}
+
+	public File getAndroidPath(String fileName){
+		File path = new File(Environment.getExternalStorageDirectory(), "kml");
+		path.mkdir();
+		File file = new File(path.getAbsolutePath(), fileName);
+		return file;
+	}
+	
+	/**
+	 * Parse a KML document from a file, to build the KML structure. 
+	 * @param fileName
+	 * @return KML object which is the root of the whole structure - or null if any error. 
+	 */
+	public KmlObject parseFile(File file){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile:"+file.getAbsolutePath());
+		KmlSaxHandler handler = new KmlSaxHandler();
+		InputStream stream = null;
+		try {
+			stream = new BufferedInputStream(new FileInputStream(file));
+			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			parser.parse(stream, handler);
+			stream.close();
+		} catch (Exception e){
+			e.printStackTrace();
+			handler.mKmlRoot = null;
+		}
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
 		return handler.mKmlRoot;
 	}
 	
@@ -267,9 +188,14 @@ public class KmlProvider {
 				mCurrentStyle = new Style();
 				mCurrentStyleId = attributes.getValue("id");
 			} else if (localName.equals("LineStyle")) {
+				mCurrentStyle.outlineColorStyle = new ColorStyle();
 				mColorStyle = mCurrentStyle.outlineColorStyle;
 			} else if (localName.equals("PolyStyle")) {
+				mCurrentStyle.fillColorStyle = new ColorStyle();
 				mColorStyle = mCurrentStyle.fillColorStyle;
+			} else if (localName.equals("IconStyle")) {
+				mCurrentStyle.iconColorStyle = new ColorStyle();
+				mColorStyle = mCurrentStyle.iconColorStyle;
 			}
 			mString = new String();
 		}
@@ -304,19 +230,13 @@ public class KmlProvider {
 			} else if (localName.equals("open")){
 				mKmlCurrentObject.mOpen = ("1".equals(mString));
 			} else if (localName.equals("coordinates")){
-				String[] splitted = mString.split("\\s");
-				mKmlCurrentObject.mCoordinates = new ArrayList<GeoPoint>(splitted.length);
-				for (int i=0; i<splitted.length; i++){
-					GeoPoint p = parseGeoPoint(splitted[i]);
-					if (p != null)
-						mKmlCurrentObject.mCoordinates.add(p);
-				}
+				mKmlCurrentObject.mCoordinates = parseCoordinates(mString);
 				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
 			} else if (localName.equals("styleUrl")){
 				mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null)
-					mColorStyle.color = mColorStyle.parseColor(mString);
+					mColorStyle.color = mColorStyle.parseKMLColor(mString);
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
 					mColorStyle.colorMode = (mString.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
@@ -329,6 +249,44 @@ public class KmlProvider {
 			}
 		}
 		
+	}
+
+	/**
+	 * save kmlRoot as a KML file on writer
+	 * @param writer
+	 * @param kmlRoot
+	 * @return false if error
+	 */
+	public boolean saveAsKML(Writer writer, KmlObject kmlRoot){
+		try {
+			writer.write("<?xml version='1.0' encoding='UTF-8'?>\n");
+			writer.write("<kml xmlns='http://www.opengis.net/kml/2.2'>\n");
+			boolean result = kmlRoot.writeAsKML(writer, true, mStyles);
+			writer.write("</kml>\n");
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * Save kmlRoot as a KML file on file
+	 * @param file
+	 * @param kmlRoot
+	 * @return false if error
+	 */
+	public boolean saveAsKML(File file, KmlObject kmlRoot){
+		try {
+			FileWriter fw = new FileWriter(file);
+			BufferedWriter writer = new BufferedWriter(fw);
+			boolean result = saveAsKML(writer, kmlRoot);
+			writer.close();
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

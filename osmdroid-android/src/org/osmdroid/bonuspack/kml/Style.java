@@ -1,5 +1,8 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,6 +15,7 @@ public class Style implements Parcelable {
 
 	ColorStyle outlineColorStyle;
 	ColorStyle fillColorStyle;
+	ColorStyle iconColorStyle;
 	float outlineWidth = 0.0f;
 	
 	/** 
@@ -19,16 +23,14 @@ public class Style implements Parcelable {
 	 */
 	public Paint getOutlinePaint(){
 		Paint outlinePaint = new Paint();
-		outlinePaint.setColor(outlineColorStyle.getColor());
+		outlinePaint.setColor(outlineColorStyle.getFinalColor());
 		outlinePaint.setStrokeWidth(outlineWidth);
 		outlinePaint.setStyle(Paint.Style.STROKE);
 		return outlinePaint;
 	}
 	
 	/** default constructor */
-	Style(){	
-		outlineColorStyle = new ColorStyle();
-		fillColorStyle = new ColorStyle();
+	Style(){
 	}
 	
 	//Parcelable implementation ------------
@@ -42,6 +44,23 @@ public class Style implements Parcelable {
 		out.writeParcelable(fillColorStyle, flags);
 		out.writeFloat(outlineWidth);
 	}
+	
+	public void writeAsKML(Writer writer, String styleId){
+		try {
+			writer.write("<Style id=\'"+styleId+"\'>\n");
+			if (outlineColorStyle != null)
+				outlineColorStyle.writeAsKML(writer, "LineStyle", outlineWidth);
+			if (fillColorStyle != null)
+				fillColorStyle.writeAsKML(writer, "PolyStyle", 0.0f);
+			if (iconColorStyle != null)
+				iconColorStyle.writeAsKML(writer, "IconStyle", 0.0f);
+			writer.write("</Style>\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Parcelable implementation ------------
 	
 	public static final Parcelable.Creator<Style> CREATOR = new Parcelable.Creator<Style>() {
 		@Override public Style createFromParcel(Parcel source) {

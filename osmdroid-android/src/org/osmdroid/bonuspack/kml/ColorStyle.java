@@ -1,5 +1,8 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.IOException;
+import java.io.Writer;
+
 import android.graphics.Color;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -18,7 +21,7 @@ class ColorStyle implements Parcelable {
 	ColorStyle(){
 	}
 	
-	protected int parseColor(String sColor){
+	public int parseKMLColor(String sColor){
 		sColor = sColor.trim();
 		while (sColor.length()<8)
 			sColor = "0"+sColor;
@@ -27,7 +30,7 @@ class ColorStyle implements Parcelable {
 		String gg = sColor.substring(4, 6);
 		String rr = sColor.substring(6, 8);
 		sColor = "#"+aa+rr+gg+bb;
-		int iColor = 0xFF000000;
+		int iColor = 0xFF000000; //default
 		try {
 			iColor = Color.parseColor(sColor);
 		} catch (IllegalArgumentException e){
@@ -36,26 +39,14 @@ class ColorStyle implements Parcelable {
 		return iColor;
 	}
 
-	/*
-	public ColorStyle(Element eColorStyle){
-		color = 0;
-		colorMode = MODE_NORMAL;
-		List<Element> colors = KmlProvider.getChildrenByTagName(eColorStyle, "color");
-		if (colors.size()>0){
-			String sColor = KmlProvider.getChildText(colors.get(0));
-			color = parseColor(sColor);
-		}
-		List<Element> colorModes = KmlProvider.getChildrenByTagName(eColorStyle, "colorMode");
-		if (colorModes.size()>0){
-			String sColorMode = KmlProvider.getChildText(colorModes.get(0));
-			if ("random".equals(sColorMode)){
-				colorMode = MODE_RANDOM;
-			}
-		}
+	public String colorAsKMLString(){
+		return String.format("%02X%02X%02X%02X", Color.alpha(color), Color.blue(color), Color.green(color), Color.red(color));
 	}
-	*/
 	
-	public int getColor(){
+	/**
+	 * @return the color to use on an actual object. If color mode is random, generate appropriate random color. 
+	 */
+	public int getFinalColor(){
 		if (colorMode == MODE_NORMAL)
 			return color;
 		else  { //mode random:
@@ -69,6 +60,22 @@ class ColorStyle implements Parcelable {
 		}
 	}
 
+	public void writeAsKML(Writer writer, String styleType, float width){
+		try {
+			writer.write("<"+styleType+">\n");
+			writer.write("<color>"+colorAsKMLString()+"</color>\n");
+			if (colorMode == MODE_RANDOM){
+				writer.write("<colorMode>random</colorMode>\n");
+			}
+			if (styleType.equals("LineStyle")){
+				writer.write("<width>"+width+"</width>\n");
+			}
+			writer.write("</"+styleType+">\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Parcelable implementation ------------
 
 	@Override public int describeContents() {

@@ -1,6 +1,10 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
@@ -195,7 +199,7 @@ public class KmlObject implements Parcelable {
 			Style style = kmlProvider.getStyle(mStyle);
 			if (style != null){
 				outlinePaint = style.getOutlinePaint();
-				fillColor = style.fillColorStyle.getColor();
+				fillColor = style.fillColorStyle.getFinalColor();
 			}
 			if (outlinePaint == null){ 
 				//set default:
@@ -221,6 +225,88 @@ public class KmlObject implements Parcelable {
 		}
 		default:
 			return null;	
+		}
+	}
+	
+	/**
+	 * Write the object in KML text format (= save as a KML text file)
+	 * @param writer on which the object is written. 
+	 * @param isDocument true is this object is the root of the whole hierarchy (the "Document" folder). 
+	 * @param styles the styles, that will be written if this is the root. Can be null. 
+	 */
+	public boolean writeAsKML(Writer writer, boolean isDocument, HashMap<String, Style> styles){
+		try {
+			String objectType = "";
+			String feature = null;
+			switch (mObjectType){
+			case FOLDER:
+				if (isDocument)
+					objectType = "Document";
+				else 
+					objectType = "Folder";
+				break;
+			case POINT:
+				objectType = "Placemark";
+				feature = "Point";
+				break;
+			case LINE_STRING:
+				objectType = "Placemark";
+				feature = "LineString";
+				break;
+			case POLYGON:
+				objectType = "Placemark";
+				feature = "Polygon";
+				break;
+			default:
+				break;
+			}
+			writer.write("<"+objectType);
+			if (mId != null)
+				writer.write(" id=\"mId\"");
+			writer.write(">\n");
+			if (mStyle != null){
+				writer.write("<styleUrl>#"+mStyle+"</styleUrl>\n");
+			}
+			if (mName != null)
+				writer.write("<name>"+mName+"</name>\n");
+			if (mDescription != null)
+				writer.write("<description><![CDATA["+mDescription+"]]></description>\n");
+			if (!mVisibility)
+				writer.write("<visibility>0</visibility>\n");
+			if (mObjectType == FOLDER && !mOpen)
+				writer.write("<open>0</open>\n");
+			if (feature != null){
+				writer.write("<"+feature+">\n");
+				if (mObjectType == POLYGON)
+					writer.write("<outerBoundaryIs>\n<LinearRing>\n");
+				if (mCoordinates != null){
+					writer.write("<coordinates>");
+					for (GeoPoint coord:mCoordinates){
+						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude()+" ");
+					}
+					writer.write("</coordinates>\n");
+				}
+				if (mObjectType == POLYGON)
+					writer.write("</LinearRing>\n</outerBoundaryIs>\n");
+				writer.write("</"+feature+">\n");
+			}
+			if (mItems != null){
+				for (KmlObject item:mItems){
+					item.writeAsKML(writer, false, null);
+				}
+			}
+			if (isDocument && styles != null){
+				for (HashMap.Entry<String, Style> entry : styles.entrySet()) {
+					String styleId = entry.getKey();
+					Style style = entry.getValue();
+					style.writeAsKML(writer, styleId);
+				}		
+			}
+			writer.write("</"+objectType+">\n");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
