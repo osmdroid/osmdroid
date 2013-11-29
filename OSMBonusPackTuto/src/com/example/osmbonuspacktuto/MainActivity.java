@@ -2,9 +2,12 @@ package com.example.osmbonuspacktuto;
 
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
+import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
@@ -82,24 +85,37 @@ public class MainActivity extends Activity {
 		NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
-		for (POI poi:pois){
-            ExtendedOverlayItem poiItem = new ExtendedOverlayItem(
-                                    poi.mType, poi.mDescription, 
-                                    poi.mLocation, map.getContext());
-            Drawable poiMarker = getResources().getDrawable(R.drawable.marker_poi_default);
-            poiItem.setMarker(poiMarker);
-            poiItem.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-            if (poi.mThumbnail != null){
-            	poiItem.setImage(new BitmapDrawable(poi.mThumbnail));
-            }
-            poiMarkers.addItem(poiItem);
+		if (pois != null) {
+			for (POI poi:pois){
+	            ExtendedOverlayItem poiItem = new ExtendedOverlayItem(
+	                                    poi.mType, poi.mDescription, 
+	                                    poi.mLocation, map.getContext());
+	            Drawable poiMarker = getResources().getDrawable(R.drawable.marker_poi_default);
+	            poiItem.setMarker(poiMarker);
+	            poiItem.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+	            if (poi.mThumbnail != null){
+	            	poiItem.setImage(new BitmapDrawable(poi.mThumbnail));
+	            }
+	            poiMarkers.addItem(poiItem);
+			}
+		}
+
+		//10. Working with KML content
+		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		KmlProvider kmlProvider = new KmlProvider();
+		KmlObject kmlRoot = kmlProvider.parseUrl(url);
+		if (kmlRoot != null){
+			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+			FolderOverlay kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, kmlProvider, false);
+			map.getOverlays().add(kmlOverlay);
+			if (kmlRoot.mBB != null){
+				//map.zoomToBoundingBox(kmlRoot.mBB); => not working in onCreate - this is a well-known osmdroid bug. 
+				//Workaround:
+				map.getController().setCenter(new GeoPoint(
+						kmlRoot.mBB.getLatSouthE6()+kmlRoot.mBB.getLatitudeSpanE6()/2, 
+						kmlRoot.mBB.getLonWestE6()+kmlRoot.mBB.getLongitudeSpanE6()/2));
+			}
 		}
 	}
-
-	@Override public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
+	
 }
