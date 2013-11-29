@@ -117,7 +117,7 @@ public class KmlProvider {
 			}
 		}
 		connection.close();
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
+		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
 		return handler.mKmlRoot;
 	}
 
@@ -146,7 +146,7 @@ public class KmlProvider {
 			e.printStackTrace();
 			handler.mKmlRoot = null;
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
+		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
 		return handler.mKmlRoot;
 	}
 	

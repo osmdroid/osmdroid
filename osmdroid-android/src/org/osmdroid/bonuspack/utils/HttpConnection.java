@@ -68,10 +68,10 @@ public class HttpConnection {
 	}
 	
 	public void doGet(String sUrl){
-		HttpGet request = new HttpGet(sUrl);
-		if (mUserAgent != null)
-			request.setHeader("User-Agent", mUserAgent);
 		try {
+			HttpGet request = new HttpGet(sUrl);
+			if (mUserAgent != null)
+				request.setHeader("User-Agent", mUserAgent);
 			HttpResponse response = client.execute(request);
 			StatusLine status = response.getStatusLine();
 			if (status.getStatusCode() != 200) {
@@ -79,16 +79,16 @@ public class HttpConnection {
 			} else {
 				entity = response.getEntity();
 			}
-		} catch (IOException e){
+		} catch (Exception e){
 			e.printStackTrace();
 		}
 	}
 	
 	public void doPost(String sUrl, List<NameValuePair> nameValuePairs) {
-		HttpPost request = new HttpPost(sUrl);
-		if (mUserAgent != null)
-			request.setHeader("User-Agent", mUserAgent);
 		try {
+			HttpPost request = new HttpPost(sUrl);
+			if (mUserAgent != null)
+				request.setHeader("User-Agent", mUserAgent);
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse response = client.execute(request);
 			StatusLine status = response.getStatusLine();
@@ -97,9 +97,7 @@ public class HttpConnection {
 			} else {
 				entity = response.getEntity();
 			}
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
