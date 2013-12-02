@@ -1,5 +1,6 @@
 package com.osmbonuspackdemo;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -305,71 +306,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String action = onCreateIntent.getAction();
 		if (action.equals(Intent.ACTION_VIEW)){
 			String uri = onCreateIntent.getDataString();
-			getKml(uri, false);
+			getKml(uri);
 		}
 	}
 
-	void openKMLUrlDialog(){
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("KML url");
-		final EditText input = new EditText(this);
-		input.setInputType(InputType.TYPE_CLASS_TEXT);
-		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		//String defaultUri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
-		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-		String uri = prefs.getString("KML_URI", defaultUri);
-		input.setText(uri);
-		builder.setView(input);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
-			@Override public void onClick(DialogInterface dialog, int which) {
-				String uri = input.getText().toString();
-				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-				SharedPreferences.Editor ed = prefs.edit();
-				ed.putString("KML_URI", uri);
-				ed.commit();
-				dialog.cancel();
-				getKml(uri, false);
-			}
-		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			@Override public void onClick(DialogInterface dialog, int which) {
-				dialog.cancel();
-			}
-		});
-		builder.show();
-	}
-	
 	void setViewOn(BoundingBoxE6 bb){
 		if (bb != null){
 			map.zoomToBoundingBox(bb);
 		}
-	}
-	
-	void getKml(String uri, boolean fromFile){
-		if (kmlOverlay != null){
-			map.getOverlays().remove(kmlOverlay);
-		}
-		if (fromFile){
-			kmlRoot = mKmlProvider.parseFile(mKmlProvider.getAndroidPath(uri));
-		} else  {
-			kmlRoot = mKmlProvider.parseUrl(uri);
-		}
-		if (kmlRoot != null){
-			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
-			map.getOverlays().add(kmlOverlay);
-			setViewOn(kmlRoot.mBB);
-		} else
-			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
-		map.invalidate();
-	}
-	
-	void saveKml(String fileName){
-		boolean result = mKmlProvider.saveAsKML(mKmlProvider.getAndroidPath(fileName), kmlRoot);
-		if (result)
-			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
-		else 
-			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
 	}
 	
 	void savePrefs(){
@@ -422,11 +366,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case KML_TREE_REQUEST:
 			if (resultCode == RESULT_OK) {
 				kmlRoot = intent.getParcelableExtra("KML");
-				map.getOverlays().remove(kmlOverlay);
-				Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-				kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
-				map.getOverlays().add(kmlOverlay);
-				map.invalidate();
+				updateUIWithKml();
 			}
 			break;
 		default: 
@@ -935,6 +875,94 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		new POITask().execute(tag);
 	}
 	
+	//------------ KML handling
+
+	void openKMLUrlDialog(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("KML url");
+		final EditText input = new EditText(this);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		//String defaultUri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+		String uri = prefs.getString("KML_URI", defaultUri);
+		input.setText(uri);
+		builder.setView(input);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+			@Override public void onClick(DialogInterface dialog, int which) {
+				String uri = input.getText().toString();
+				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+				SharedPreferences.Editor ed = prefs.edit();
+				ed.putString("KML_URI", uri);
+				ed.commit();
+				dialog.cancel();
+				getKml(uri);
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
+	}
+	
+	void getKml(String uri){
+		if (kmlOverlay != null){
+			map.getOverlays().remove(kmlOverlay);
+		}
+		if (uri.startsWith("file:/")){
+			uri = uri.substring("file:/".length());
+			File file = new File(uri);
+			kmlRoot = mKmlProvider.parseFile(file);
+		} else  {
+			kmlRoot = mKmlProvider.parseUrl(uri);
+		}
+		if (kmlRoot != null){
+			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
+			map.getOverlays().add(kmlOverlay);
+			if (kmlRoot.mBB != null){
+				//setViewOn(kmlRoot.mBB); KO in onCreate - Workaround:
+				map.getController().setCenter(new GeoPoint(
+						kmlRoot.mBB.getLatSouthE6()+kmlRoot.mBB.getLatitudeSpanE6()/2, 
+						kmlRoot.mBB.getLonWestE6()+kmlRoot.mBB.getLongitudeSpanE6()/2));
+			}
+		} else
+			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
+		map.invalidate();
+	}
+	
+	void saveKml(String fileName){
+		boolean result = mKmlProvider.saveAsKML(mKmlProvider.getDefaultPathForAndroid(fileName), kmlRoot);
+		if (result)
+			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
+		else 
+			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
+	}
+	
+	void updateUIWithKml(){
+		map.getOverlays().remove(kmlOverlay);
+		Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+		kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
+		map.getOverlays().add(kmlOverlay);
+		map.invalidate();
+	}
+	
+	void insertOverlaysInKml(){
+		//Ensure the root is a folder:
+		if (kmlRoot == null || kmlRoot.mObjectType != KmlObject.FOLDER){
+			kmlRoot = new KmlObject();
+			kmlRoot.createAsFolder();
+		}
+		//Insert relevant overlays inside:
+		kmlRoot.addOverlay(itineraryMarkers);
+		kmlRoot.addOverlay(roadOverlay);
+		kmlRoot.addOverlay(roadNodeMarkers);
+		kmlRoot.addOverlay(destinationPolygon);
+		kmlRoot.addOverlay(poiMarkers);
+	}
+	
 	//------------ MapEventsReceiver implementation
 
 	GeoPoint tempClickedGeoPoint; //any other way to pass the position to the menu ???
@@ -1036,7 +1064,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			myIntent = new Intent(this, RouteActivity.class);
 			myIntent.putExtra("ROAD", mRoad);
 			myIntent.putExtra("NODE_ID", roadNodeMarkers.getBubbledItemId());
-			startActivityForResult(myIntent, ROUTE_REQUEST);
+			startActivityForResult(myIntent, ROUTE_REQUEST); //TODO: crash if road is too big. Pass only needed info?
 			return true;
 		case R.id.menu_pois:
 			myIntent = new Intent(this, POIActivity.class);
@@ -1049,7 +1077,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return true;
 		case R.id.menu_kml_file:
 			//TODO : openKMLFileDialog();
-			getKml("current.kml", true);
+			File file = mKmlProvider.getDefaultPathForAndroid("current.kml");
+			getKml("file:/"+file.toString());
+			return true;
+		case R.id.menu_kml_get_overlays:
+			insertOverlaysInKml();
+			updateUIWithKml();
 			return true;
 		case R.id.menu_kml_tree:
 			if (kmlRoot==null)
@@ -1059,6 +1092,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_kml_save:
+			//TODO: openKMLSaveDialog();
 			saveKml("current.kml");
 			return true;
 		case R.id.menu_route_osrm:

@@ -60,19 +60,18 @@
             <group>
 				<item
 				      android:id="@+id/menu_kml_url"
-				      android:icon="@android:drawable/ic_menu_more"
-				      android:title="Open KML url"/>
+				      android:title="Open KML url..."/>
 				<item
 				      android:id="@+id/menu_kml_file"
-				      android:icon="@android:drawable/ic_menu_more"
 				      android:title="Open KML file"/>
 				<item
+				      android:id="@+id/menu_kml_get_overlays"
+				      android:title="Overlays as KML"/>
+				<item
 			        android:id="@+id/menu_kml_tree"
-			        android:icon="@android:drawable/ic_menu_more"
 			        android:title="Show KML tree"/>
 				<item
 				      android:id="@+id/menu_kml_save"
-				      android:icon="@android:drawable/ic_menu_more"
 				      android:title="Save KML file"/>
 			</group>
 		</menu>
