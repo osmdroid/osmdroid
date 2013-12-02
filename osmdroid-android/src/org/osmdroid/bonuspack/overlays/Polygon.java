@@ -29,19 +29,16 @@ import android.view.MotionEvent;
  */
 public class Polygon extends Overlay {
 
-	/**
-	 * Stores points, converted to the map projection.
-	 */
-	private List<Point> mPoints;
+	/** original GeoPoints */
+	private List<GeoPoint> mPoints;
+	
+	/** Stores points, converted to the map projection. */
+	private List<Point> mConvertedPoints;
 
-	/**
-	 * Number of points that have precomputed values.
-	 */
+	/** Number of points that have precomputed values. */
 	private int mPointsPrecomputed;
 
-	/**
-	 * Paint settings.
-	 */
+	/** Paint settings. */
 	protected Paint mFillPaint;
 	protected Paint mOutlinePaint;
 
@@ -71,7 +68,8 @@ public class Polygon extends Overlay {
 		mOutlinePaint.setColor(Color.BLACK);
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
-		mPoints = new ArrayList<Point>();
+		mPoints = new ArrayList<GeoPoint>();
+		mConvertedPoints = new ArrayList<Point>();
 		mPointsPrecomputed = 0;
 		mTitle = ""; 
 		mSnippet = "";
@@ -99,8 +97,9 @@ public class Polygon extends Overlay {
 	 */
 	public List<GeoPoint> getPoints(){
 		List<GeoPoint> result = new ArrayList<GeoPoint>(mPoints.size());
-		for (Point p:mPoints){
-			result.add(new GeoPoint(p.x, p.y, 0.0));
+		for (GeoPoint p:mPoints){
+			GeoPoint gp = (GeoPoint) p.clone();
+			result.add(gp);
 		}
 		return result;
 	}
@@ -134,7 +133,8 @@ public class Polygon extends Overlay {
 	}
 
 	public void addPoint(final int latitudeE6, final int longitudeE6) {
-		this.mPoints.add(new Point(latitudeE6, longitudeE6));
+		mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
+		mConvertedPoints.add(new Point(latitudeE6, longitudeE6));
 	}
 
 	public void setTitle(String title){
@@ -174,7 +174,7 @@ public class Polygon extends Overlay {
 			return;
 		}
 
-		final int size = this.mPoints.size();
+		final int size = this.mConvertedPoints.size();
 		if (size < 2) {
 			// nothing to paint
 			return;
@@ -184,7 +184,7 @@ public class Polygon extends Overlay {
 
 		// precompute new points to the intermediate projection.
 		while (this.mPointsPrecomputed < size) {
-			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
+			final Point pt = this.mConvertedPoints.get(this.mPointsPrecomputed);
 			pj.toMapPixelsProjected(pt.x, pt.y, pt);
 
 			this.mPointsPrecomputed++;
@@ -199,12 +199,12 @@ public class Polygon extends Overlay {
 		//final Rect clipBounds = pj.fromPixelsToProjected(pj.getScreenRect());
 		
 		mPath.rewind();
-		projectedPoint0 = this.mPoints.get(size - 1);
+		projectedPoint0 = this.mConvertedPoints.get(size - 1);
 		//mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 
 		for (int i = size - 2; i >= 0; i--) {
 			// compute next points
-			projectedPoint1 = this.mPoints.get(i);
+			projectedPoint1 = this.mConvertedPoints.get(i);
 			//mLineBounds.union(projectedPoint1.x, projectedPoint1.y);
 
 			// the starting point may be not calculated, because previous segment was out of clip

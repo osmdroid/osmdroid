@@ -121,11 +121,21 @@ public class KmlProvider {
 		return handler.mKmlRoot;
 	}
 
-	public File getAndroidPath(String fileName){
-		File path = new File(Environment.getExternalStorageDirectory(), "kml");
-		path.mkdir();
-		File file = new File(path.getAbsolutePath(), fileName);
-		return file;
+	/**
+	 * Get the default path for KML file on Android: on the external storage, in a "kml" directory. Creates the directory if necessary. 
+	 * @param fileName
+	 * @return full path, as a File, or null if error. 
+	 */
+	public File getDefaultPathForAndroid(String fileName){
+		try {
+			File path = new File(Environment.getExternalStorageDirectory(), "kml");
+			path.mkdir();
+			File file = new File(path.getAbsolutePath(), fileName);
+			return file;
+		} catch (NullPointerException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	/**

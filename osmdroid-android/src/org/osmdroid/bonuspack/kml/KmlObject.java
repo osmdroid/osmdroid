@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.List;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
@@ -35,7 +35,7 @@ public class KmlObject implements Parcelable {
 	public static final int NO_SHAPE=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
 	
 	/** KML object type */
-	public int mObjectType;
+	public int mObjectType = NO_SHAPE;
 	/** object id attribute, if any. Null if none. */
 	public String mId;
 	/** name tag */
@@ -57,61 +57,111 @@ public class KmlObject implements Parcelable {
 	
 	public KmlObject(){
 	}
-	/*
-	public KmlObject(OverlayItem marker){
+
+	public void createFromOverlayItem(ExtendedOverlayItem marker){
 		mObjectType = POINT;
 		mName = marker.getTitle();
-		mDescription = marker.getSnippet();
+		mDescription = marker.getDescription();
+		mCoordinates = new ArrayList<GeoPoint>(1);
+		GeoPoint p = marker.getPoint();
+		mCoordinates.add(p);
+		mBB = new BoundingBoxE6(p.getLatitudeE6(), p.getLongitudeE6(), p.getLatitudeE6(), p.getLongitudeE6());
 	}
-	*/
 
-	/**
-	 * Constructor from an overlay
+	public void createFromPolygon(Polygon polygon){
+		mObjectType = POLYGON;
+		mName = polygon.getTitle();
+		mDescription = polygon.getSnippet();
+		mCoordinates = (ArrayList)polygon.getPoints();
+		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+	}
+
+	public void createFromPathOverlay(PathOverlay path){
+		mObjectType = LINE_STRING;
+		mName = "LineString - "+path.getNumberOfPoints()+" points";
+		mCoordinates = new ArrayList<GeoPoint>(path.getNumberOfPoints());
+		//TODO: BIG ISSUE => no way to access PathOverlay points!...
+		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+	}
+	
+	public void createAsFolder(){
+		mObjectType = FOLDER;
+	}
+	
+	public void addOverlay(Overlay overlay){
+		if (overlay == null)
+			return;
+		if (mItems == null)
+			mItems = new ArrayList<KmlObject>();
+		KmlObject kmlItem = new KmlObject();
+		kmlItem.createFromOverlay(overlay);
+		if (kmlItem.mObjectType != NO_SHAPE){
+			mItems.add(kmlItem);
+			updateBoundingBoxWith(kmlItem.mBB);
+		}
+	}
+	
+	/** 
+	 * Set-up the KmlObject from a list of overlays, as a Folder containing each overlay. 
+	 * @param overlays to add
+	 */
+	public void addOverlays(List<Overlay> overlays){
+		if (overlays != null){
+			for (Overlay item:overlays){
+				addOverlay(item);
+			}
+		}
+	}
+	
+	/** Set-up the KmlObject from the overlay. 
+	 * Create a NO_SHAPE if the overlay class is not supported. 
 	 * @param overlay
 	 */
-	/*
-	public KmlObject(Overlay overlay){
+	public void createFromOverlay(Overlay overlay){
 		if (overlay.getClass() == FolderOverlay.class){
 			FolderOverlay folderOverlay = (FolderOverlay)overlay;
-			mObjectType = FOLDER;
+			createAsFolder();
+			addOverlays(folderOverlay.getItems());
 			mName = folderOverlay.getName();
 			mDescription = folderOverlay.getDescription();
-			AbstractList<Overlay> items = folderOverlay.getItems();
-			mItems = new ArrayList<KmlObject>(items.size());
-			for (int i=0; i<items.size(); i++){
-				Overlay item = items.get(i);
-				if (item.getClass()==ItemizedOverlayWithBubble.class){
-					//do not create a sub-folder - directly inject markers in this folder:
-					ItemizedOverlayWithBubble<OverlayItem> markers = (ItemizedOverlayWithBubble<OverlayItem>)item;
-					for (int j=0; j<markers.size(); j++){
-						OverlayItem marker = markers.getItem(j);
-						KmlObject kmlItem = new KmlObject(marker);
-						mItems.add(kmlItem);
-					}
-				} else {
-					KmlObject kmlItem = new KmlObject(item);
+		} else if (overlay.getClass() == ItemizedOverlayWithBubble.class){
+			ItemizedOverlayWithBubble<OverlayItem> markers = (ItemizedOverlayWithBubble<OverlayItem>)overlay;
+			if (markers.size()==1){ //only 1 item => we can create it as a KML Point:
+				ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(0);
+				createFromOverlayItem(marker);
+			} else if (markers.size()==0){
+				//if empty list, ignore => create a NO_SHAPE. 
+				mObjectType = NO_SHAPE;
+			} else { //this is a real list => we must create a KML Folder, and put items inside as Points:
+				createAsFolder();
+				mName = "Points - " + markers.size();
+				mItems = new ArrayList<KmlObject>(markers.size());
+				for (int j=0; j<markers.size(); j++){
+					ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(j);
+					KmlObject kmlItem = new KmlObject();
+					kmlItem.createFromOverlayItem(marker);
 					mItems.add(kmlItem);
+					updateBoundingBoxWith(kmlItem.mBB);
 				}
 			}
 		} else if (overlay.getClass() == Polygon.class){
 			Polygon polygon = (Polygon)overlay;
-			mObjectType = POLYGON;
-			mName = polygon.getTitle();
-			mDescription = polygon.getSnippet();
+			createFromPolygon(polygon);
 		} else if (overlay.getClass() == PathOverlay.class){
 			PathOverlay path = (PathOverlay)overlay;
-			mObjectType = LINE_STRING;
-			mName = "LineString - "+path.getNumberOfPoints()+" points";
-			mDescription = "";
-		} else { //unsupported overlay
+			createFromPathOverlay(path);
+		} else { //unsupported overlay - create an empty folder. 
 			mObjectType = NO_SHAPE;
-			mName = "Unknown object";
-			mDescription = "";
+			mName = "Unknown object - " + overlay.getClass().getName();
 		}
 	}
-	*/
 	
-	protected void updateBoundingBoxWith(BoundingBoxE6 itemBB){
+	/**
+	 * Increase the object bounding box to include an other bounding box. 
+	 * Typically needed when adding an item in the object. 
+	 * @param itemBB the bounding box to "add". 
+	 */
+	public void updateBoundingBoxWith(BoundingBoxE6 itemBB){
 		if (itemBB != null){
 			if (mBB == null){
 				mBB = new BoundingBoxE6(
