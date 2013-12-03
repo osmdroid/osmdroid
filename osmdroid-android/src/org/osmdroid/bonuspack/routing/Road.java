@@ -105,7 +105,7 @@ public class Road  implements Parcelable {
 	 * @param duration in sec
 	 * @return a human-readable length&duration text. 
 	 */
-	public String getLengthDurationText(double length, double duration){
+	public static String getLengthDurationText(double length, double duration){
 		String result;
 		if (length >= 100.0){
 			result = (int)(length) + "km, ";

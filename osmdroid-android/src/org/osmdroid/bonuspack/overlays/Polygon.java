@@ -25,7 +25,7 @@ import android.view.MotionEvent;
  * - Supports InfoWindow. 
  * 
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
- * @author M.Kergall: transformation from PathOverlay to PolygonOverlay
+ * @author M.Kergall: transformation from PathOverlay to Polygon
  */
 public class Polygon extends Overlay {
 
@@ -254,7 +254,7 @@ public class Polygon extends Overlay {
 		if (touched){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels(event.getX(), event.getY());
-			//as DefaultInfoWindow expect an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
+			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
 			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position, mapView.getContext());
 			mBubble.open(item, item.getPoint(), 0, 0);
 		}
