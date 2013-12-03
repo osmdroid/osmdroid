@@ -50,7 +50,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 * subsequent future requests. Note that this may return a {@link ReusableBitmapDrawable} in
 	 * which case you should follow proper handling procedures for using that Drawable or it may
 	 * reused while you are working with it.
-	 * 
+	 *
 	 * @see ReusableBitmapDrawable
 	 */
 	public abstract Drawable getMapTile(MapTile pTile);
@@ -155,7 +155,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 * Called by implementation class methods indicating that they have produced an expired result
 	 * that can be used but better results may be delivered later. The tile is added to the cache,
 	 * and a MAPTILE_SUCCESS_ID message is sent.
-	 * 
+	 *
 	 * @param pState
 	 *            the map tile request state object
 	 * @param pDrawable
@@ -332,9 +332,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				mDestRect.set(0, 0, pTileSizePx, pTileSizePx);
 
 				// Try to get a bitmap from the pool, otherwise allocate a new one
-				Bitmap bitmap;
-				bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(pTileSizePx,
-						pTileSizePx);
+				Bitmap bitmap = BitmapPool.getInstance().obtainSizedBitmapFromPool(
+						pTileSizePx, pTileSizePx);
 				if (bitmap == null)
 					bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx,
 						Bitmap.Config.ARGB_8888);

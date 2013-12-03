@@ -26,37 +26,43 @@ public class BitmapPool {
 			}
 	}
 
-	public void applyReusableOptions(BitmapFactory.Options bitmapOptions) {
+	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			Bitmap pooledBitmap = obtainBitmapFromPool();
-			bitmapOptions.inBitmap = pooledBitmap;
-			bitmapOptions.inSampleSize = 1;
-			bitmapOptions.inMutable = true;
+			aBitmapOptions.inBitmap = pooledBitmap;
+			aBitmapOptions.inSampleSize = 1;
+			aBitmapOptions.inMutable = true;
 		}
 	}
 
 	public Bitmap obtainBitmapFromPool() {
-		final Bitmap b;
 		synchronized (mPool) {
-			if (mPool.size() == 0)
+			if (mPool.isEmpty()) {
 				return null;
-			else
-				b = mPool.removeFirst();
+			} else {
+				final Bitmap bitmap = mPool.removeFirst();
+				if (bitmap.isRecycled()) {
+					return obtainBitmapFromPool(); // recurse
+				} else {
+					return bitmap;
+				}
+			}
 		}
-
-		return b;
 	}
 
-	public Bitmap obtainSizedBitmapFromPool(int width, int height) {
+	public Bitmap obtainSizedBitmapFromPool(final int aWidth, final int aHeight) {
 		synchronized (mPool) {
-			if (mPool.size() == 0)
+			if (mPool.isEmpty()) {
 				return null;
-			else {
-				for (Bitmap bitmap : mPool)
-					if (bitmap.getWidth() == width && bitmap.getHeight() == height) {
+			} else {
+				for (final Bitmap bitmap : mPool) {
+					if (bitmap.isRecycled()) {
+						mPool.remove(bitmap);
+					} else if (bitmap.getWidth() == aWidth && bitmap.getHeight() == aHeight) {
 						mPool.remove(bitmap);
 						return bitmap;
 					}
+				}
 			}
 		}
 
