@@ -34,7 +34,8 @@ public class POIActivity extends Activity {
 		ListView list = (ListView)findViewById(R.id.items);
 		
 		Intent myIntent = getIntent();
-		final ArrayList<POI> pois = myIntent.getParcelableArrayListExtra("POI");
+		//STATIC - final ArrayList<POI> pois = myIntent.getParcelableArrayListExtra("POI");
+		ArrayList<POI> pois = MapActivity.mPOIs;
 		final int currentNodeId = myIntent.getIntExtra("ID", -1);
 		POIAdapter adapter = new POIAdapter(this, pois);
 		

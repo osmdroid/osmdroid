@@ -104,14 +104,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	protected Polygon destinationPolygon; //enclosing polygon of destination location
 	
-	protected Road mRoad;
+	public static Road mRoad; //made static to pass between activities
 	protected PathOverlay roadOverlay;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
 	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
 	int whichRouteProvider;
 	
-	ArrayList<POI> mPOIs;
+	public static ArrayList<POI> mPOIs; //made static to pass between activities
 	ItemizedOverlayWithBubble<ExtendedOverlayItem> poiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
@@ -183,8 +183,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				//no location known: hide myLocationOverlay
 				myLocationOverlay.setEnabled(false);
 			}
-			startPoint = null; //new GeoPoint(48.13,-1.63); //null;
-			destinationPoint = null; //new GeoPoint(48.4,-1.9); //null;
+			startPoint = null;
+			destinationPoint = null;
 			viaPoints = new ArrayList<GeoPoint>();
 		} else {
 			myLocationOverlay.setLocation((GeoPoint)savedInstanceState.getParcelable("location"));
@@ -194,8 +194,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
 		}
 		
-		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
-		map.getOverlays().add(scaleBarOverlay);
+		//ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
+		//map.getOverlays().add(scaleBarOverlay);
 		
 		// Itinerary markers:
 		final ArrayList<ExtendedOverlayItem> waypointsItems = new ArrayList<ExtendedOverlayItem>();
@@ -265,10 +265,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.getOverlays().add(roadNodeMarkers);
 		
 		if (savedInstanceState != null){
-			mRoad = savedInstanceState.getParcelable("road");
+			//STATIC mRoad = savedInstanceState.getParcelable("road");
 			updateUIWithRoad(mRoad);
 		}
-		//getRoadAsync();
 		
 		//POIs:
 		//POI search interface:
@@ -296,17 +295,22 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				poiItems, map, new POIInfoWindow(map));
 		map.getOverlays().add(poiMarkers);
 		if (savedInstanceState != null){
-			mPOIs = savedInstanceState.getParcelableArrayList("poi");
+			//STATIC - mPOIs = savedInstanceState.getParcelableArrayList("poi");
 			updateUIWithPOI(mPOIs);
 		}
 
 		//KML handling:
 		kmlOverlay = null;
-		Intent onCreateIntent = getIntent();
-		String action = onCreateIntent.getAction();
-		if (action.equals(Intent.ACTION_VIEW)){
-			String uri = onCreateIntent.getDataString();
-			getKml(uri);
+		if (savedInstanceState != null){
+			kmlRoot = savedInstanceState.getParcelable("kml");
+			updateUIWithKml();
+		} else { 
+			//first launch: check if intent has been passed with a kml URI to load (url or file)
+			Intent onCreateIntent = getIntent();
+			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
+				String uri = onCreateIntent.getDataString();
+				getKml(uri);
+			}
 		}
 	}
 
@@ -341,8 +345,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		outState.putParcelable("start", startPoint);
 		outState.putParcelable("destination", destinationPoint);
 		outState.putParcelableArrayList("viapoints", viaPoints);
-		outState.putParcelable("road", mRoad);
-		outState.putParcelableArrayList("poi", mPOIs);
+		//STATIC - outState.putParcelable("road", mRoad);
+		//STATIC - outState.putParcelableArrayList("poi", mPOIs);
+		outState.putParcelable("kml", kmlRoot);
 		
 		savePrefs();
 	}
@@ -825,7 +830,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				return null;
 			} else if (mTag.equals("wikipedia")){
 				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
-				//ArrayList<POI> pois = poiProvider.getPOICloseTo(point, 30, 20.0);
 				//Get POI inside the bounding box of the current map view:
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
@@ -840,7 +844,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				BoundingBoxE6 bb = map.getBoundingBox();
 				//allow to search for keywords among picasa photos:
 				String q = mTag.substring("picasa".length());
-				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30, q);
+				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 50, q);
 				return pois;
 			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
@@ -908,9 +912,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void getKml(String uri){
-		if (kmlOverlay != null){
-			map.getOverlays().remove(kmlOverlay);
-		}
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
@@ -918,19 +919,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		} else  {
 			kmlRoot = mKmlProvider.parseUrl(uri);
 		}
-		if (kmlRoot != null){
-			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, mKmlProvider, false);
-			map.getOverlays().add(kmlOverlay);
-			if (kmlRoot.mBB != null){
+		if (kmlRoot == null)
+			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
+		updateUIWithKml();
+		if (kmlRoot != null && kmlRoot.mBB != null){
 				//setViewOn(kmlRoot.mBB); KO in onCreate - Workaround:
 				map.getController().setCenter(new GeoPoint(
 						kmlRoot.mBB.getLatSouthE6()+kmlRoot.mBB.getLatitudeSpanE6()/2, 
 						kmlRoot.mBB.getLonWestE6()+kmlRoot.mBB.getLongitudeSpanE6()/2));
-			}
-		} else
-			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
-		map.invalidate();
+		}
 	}
 	
 	void saveKml(String fileName){
@@ -942,10 +939,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void updateUIWithKml(){
-		map.getOverlays().remove(kmlOverlay);
-		Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-		kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
-		map.getOverlays().add(kmlOverlay);
+		if (kmlOverlay != null)
+			map.getOverlays().remove(kmlOverlay);
+		if (kmlRoot != null){
+			Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
+			map.getOverlays().add(kmlOverlay);
+		}
 		map.invalidate();
 	}
 	
@@ -1062,13 +1062,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		switch (item.getItemId()) {
 		case R.id.menu_itinerary:
 			myIntent = new Intent(this, RouteActivity.class);
-			myIntent.putExtra("ROAD", mRoad);
 			myIntent.putExtra("NODE_ID", roadNodeMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, ROUTE_REQUEST); //TODO: crash if road is too big. Pass only needed info?
 			return true;
 		case R.id.menu_pois:
 			myIntent = new Intent(this, POIActivity.class);
-			myIntent.putParcelableArrayListExtra("POI", mPOIs);
+			//STATIC myIntent.putParcelableArrayListExtra("POI", mPOIs);
 			myIntent.putExtra("ID", poiMarkers.getBubbledItemId());
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;

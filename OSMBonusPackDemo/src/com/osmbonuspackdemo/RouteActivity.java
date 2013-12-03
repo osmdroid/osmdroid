@@ -33,7 +33,7 @@ public class RouteActivity extends Activity {
         ListView list = (ListView) findViewById(R.id.items);
 
         Intent myIntent = getIntent();
-        final Road road = myIntent.getParcelableExtra("ROAD");
+        Road road = MapActivity.mRoad; //too big to pass safely in Extras
         final int currentNodeId = myIntent.getIntExtra("NODE_ID", -1);
         RoadNodesAdapter adapter = new RoadNodesAdapter(this, road);
 
@@ -91,7 +91,7 @@ class RoadNodesAdapter extends BaseAdapter implements OnClickListener {
         String instructions = (entry.mInstructions==null ? "" : entry.mInstructions);
         tvTitle.setText("" + (position+1) + ". " + instructions);
         TextView tvDetails = (TextView)convertView.findViewById(R.id.details);
-        tvDetails.setText(mRoad.getLengthDurationText(entry.mLength, entry.mDuration));
+        tvDetails.setText(Road.getLengthDurationText(entry.mLength, entry.mDuration));
 		int iconId = iconIds.getResourceId(entry.mManeuverType, R.drawable.ic_empty);
    		Drawable icon = mContext.getResources().getDrawable(iconId);
 		ImageView ivManeuver = (ImageView)convertView.findViewById(R.id.thumbnail);
