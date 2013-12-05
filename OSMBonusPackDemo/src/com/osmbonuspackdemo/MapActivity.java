@@ -119,7 +119,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
 	protected KmlObject kmlRoot; //root container in KmlObject representation
 	protected static final int KML_TREE_REQUEST = 3;
-	KmlProvider mKmlProvider = new KmlProvider();
+	public static KmlProvider mKmlProvider = new KmlProvider(); //made static to pass between activities
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -310,6 +310,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
 				getKml(uri);
+			} else {
+				//Empty folder by default:
+				kmlRoot = new KmlObject();
+				kmlRoot.createAsFolder();
 			}
 		}
 	}
@@ -912,6 +916,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void getKml(String uri){
+		mKmlProvider = new KmlProvider();
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
@@ -956,11 +961,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			kmlRoot.createAsFolder();
 		}
 		//Insert relevant overlays inside:
-		kmlRoot.addOverlay(itineraryMarkers);
-		kmlRoot.addOverlay(roadOverlay);
-		kmlRoot.addOverlay(roadNodeMarkers);
-		kmlRoot.addOverlay(destinationPolygon);
-		kmlRoot.addOverlay(poiMarkers);
+		kmlRoot.addOverlay(itineraryMarkers, mKmlProvider);
+		kmlRoot.addOverlay(roadOverlay, mKmlProvider);
+		kmlRoot.addOverlay(roadNodeMarkers, mKmlProvider);
+		kmlRoot.addOverlay(destinationPolygon, mKmlProvider);
+		kmlRoot.addOverlay(poiMarkers, mKmlProvider);
 	}
 	
 	//------------ MapEventsReceiver implementation
@@ -1093,6 +1098,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_kml_save:
 			//TODO: openKMLSaveDialog();
 			saveKml("current.kml");
+			return true;
+		case R.id.menu_kml_clear:
+			kmlRoot = new KmlObject();
+			kmlRoot.createAsFolder();
+			mKmlProvider = new KmlProvider();
+			updateUIWithKml();
 			return true;
 		case R.id.menu_route_osrm:
 			whichRouteProvider = OSRM;

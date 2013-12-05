@@ -1,8 +1,11 @@
 package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.Style;
+import org.osmdroid.bonuspack.kml.ColorStyle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -14,7 +17,9 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class KmlTreeActivity extends Activity {
 
@@ -23,7 +28,8 @@ public class KmlTreeActivity extends Activity {
 	KmlObject kmlObject;
 	protected static final int KML_TREE_REQUEST = 3;
 	int mItemPosition; //last item opened
-	EditText eHeader, eDescription;
+	EditText eHeader, eDescription, eOutlineColor, eFillColor;
+	ColorStyle mOutlineColorStyle, mFillColorStyle; //direct pointers on the ColorStyle, or null. 
 	
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,6 +45,28 @@ public class KmlTreeActivity extends Activity {
 		
 		eDescription = (EditText)findViewById(R.id.description);
 		eDescription.setText(kmlObject.mDescription);
+		
+		Style style = null;
+		if (kmlObject.mStyle != null)
+			style = MapActivity.mKmlProvider.getStyle(kmlObject.mStyle);
+		
+		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
+		if ((kmlObject.mObjectType == KmlObject.LINE_STRING || kmlObject.mObjectType == KmlObject.POLYGON) && style!=null){
+			mOutlineColorStyle = style.outlineColorStyle;
+			eOutlineColor.setText(mOutlineColorStyle.colorAsAndroidString());
+		} else {
+			LinearLayout lOutlineColorLayout = (LinearLayout)findViewById(R.id.outlineColorLayout);
+			lOutlineColorLayout.setVisibility(View.GONE);
+		}
+		
+		eFillColor = (EditText)findViewById(R.id.fillColor);
+		if (kmlObject.mObjectType == KmlObject.POLYGON && style!=null){
+			mFillColorStyle = style.fillColorStyle;
+			eFillColor.setText(mFillColorStyle.colorAsAndroidString());
+		} else {
+			LinearLayout lFillColorLayout = (LinearLayout)findViewById(R.id.fillColorLayout);
+			lFillColorLayout.setVisibility(View.GONE);
+		}
 		
 		listAdapter = new KmlListAdapter(this, kmlObject);
 		
@@ -61,6 +89,22 @@ public class KmlTreeActivity extends Activity {
 		    public void onClick(View view) {
 		    	kmlObject.mName = eHeader.getText().toString();
 		    	kmlObject.mDescription = eDescription.getText().toString();
+		    	if (mOutlineColorStyle != null){
+			    	String sColor = eOutlineColor.getText().toString();
+			    	try  { 
+			    		mOutlineColorStyle.color = Color.parseColor(sColor);
+			    	} catch (IllegalArgumentException e) {
+			    		Toast.makeText(view.getContext(), "Invalid outline color", Toast.LENGTH_SHORT).show();
+			    	}
+		    	}
+		    	if (mFillColorStyle != null){
+			    	String sColor = eFillColor.getText().toString();
+			    	try  { 
+			    		mFillColorStyle.color = Color.parseColor(sColor);
+			    	} catch (IllegalArgumentException e) {
+			    		Toast.makeText(view.getContext(), "Invalid fill color", Toast.LENGTH_SHORT).show();
+			    	}
+		    	}
 		        Intent intent = new Intent();
 		        intent.putExtra("KML", kmlObject);
 		        setResult(RESULT_OK, intent);
@@ -96,6 +140,20 @@ public class KmlTreeActivity extends Activity {
 				kmlObject.mItems.remove(info.position);
 				listAdapter.notifyDataSetChanged();
 	            return true;
+	        case R.id.menu_behind:
+	        	if (info.position > 0){
+	        		KmlObject kmlItem = kmlObject.mItems.remove(info.position);
+	        		kmlObject.mItems.add(info.position-1, kmlItem);
+	        		listAdapter.notifyDataSetChanged();
+	        	}
+	        	return true;
+	        case R.id.menu_front:
+	        	if (info.position < kmlObject.mItems.size()-1){
+	        		KmlObject kmlItem = kmlObject.mItems.remove(info.position);
+	        		kmlObject.mItems.add(info.position+1, kmlItem);
+					listAdapter.notifyDataSetChanged();
+	        	}
+	        	return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }

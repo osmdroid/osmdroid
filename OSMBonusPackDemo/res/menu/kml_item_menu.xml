@@ -4,6 +4,12 @@
         android:id="@+id/menu_delete"
         android:title="Delete"/>
     <item
+        android:id="@+id/menu_behind"
+        android:title="Push behind"/>
+    <item
+        android:id="@+id/menu_front"
+        android:title="Bring to front"/>
+    <item
         android:id="@+id/menu_none"
         android:title="Cancel"/>
 </menu>
