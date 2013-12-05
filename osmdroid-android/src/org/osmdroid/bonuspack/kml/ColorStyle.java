@@ -11,7 +11,7 @@ import android.os.Parcelable;
  * Handling of KML ColorStyle
  * @author M.Kergall
  */
-class ColorStyle implements Parcelable {
+public class ColorStyle implements Parcelable {
 	/** color modes */
 	static final int MODE_NORMAL=0, MODE_RANDOM=1;
 	
@@ -21,7 +21,11 @@ class ColorStyle implements Parcelable {
 	ColorStyle(){
 	}
 	
-	public int parseKMLColor(String sColor){
+	ColorStyle(int color){
+		this.color = color;
+	}
+	
+	public static int parseKMLColor(String sColor){
 		sColor = sColor.trim();
 		while (sColor.length()<8)
 			sColor = "0"+sColor;
@@ -39,8 +43,14 @@ class ColorStyle implements Parcelable {
 		return iColor;
 	}
 
+	/** return color in KML color format, which is: AABBGGRR, in hexa values*/
 	public String colorAsKMLString(){
 		return String.format("%02X%02X%02X%02X", Color.alpha(color), Color.blue(color), Color.green(color), Color.red(color));
+	}
+	
+	/** return color in usual Android color format, which is: #AARRGGBB, in hexa values*/
+	public String colorAsAndroidString(){
+		return String.format("#%08X", 0xFFFFFFFF & color);
 	}
 	
 	/**

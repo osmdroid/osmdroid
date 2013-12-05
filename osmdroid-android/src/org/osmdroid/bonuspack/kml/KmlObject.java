@@ -68,33 +68,47 @@ public class KmlObject implements Parcelable {
 		mBB = new BoundingBoxE6(p.getLatitudeE6(), p.getLongitudeE6(), p.getLatitudeE6(), p.getLongitudeE6());
 	}
 
-	public void createFromPolygon(Polygon polygon){
+	public void createFromPolygon(Polygon polygon, KmlProvider kmlDoc){
 		mObjectType = POLYGON;
 		mName = polygon.getTitle();
 		mDescription = polygon.getSnippet();
 		mCoordinates = (ArrayList)polygon.getPoints();
 		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+		mVisibility = polygon.isEnabled();
+		//Style:
+		Style style = new Style();
+		style.fillColorStyle = new ColorStyle(polygon.getFillColor());
+		style.outlineColorStyle = new ColorStyle(polygon.getStrokeColor());
+		style.outlineWidth = polygon.getStrokeWidth();
+		mStyle = kmlDoc.addStyle(style);
 	}
 
-	public void createFromPathOverlay(PathOverlay path){
+	public void createFromPathOverlay(PathOverlay path, KmlProvider kmlDoc){
 		mObjectType = LINE_STRING;
 		mName = "LineString - "+path.getNumberOfPoints()+" points";
 		mCoordinates = new ArrayList<GeoPoint>(path.getNumberOfPoints());
 		//TODO: BIG ISSUE => no way to access PathOverlay points!...
 		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+		mVisibility = path.isEnabled();
+		//Style:
+		Style style = new Style();
+		Paint paint = path.getPaint();
+		style.outlineColorStyle = new ColorStyle(paint.getColor());
+		style.outlineWidth = paint.getStrokeWidth();
+		mStyle = kmlDoc.addStyle(style);
 	}
 	
 	public void createAsFolder(){
 		mObjectType = FOLDER;
 	}
 	
-	public void addOverlay(Overlay overlay){
+	public void addOverlay(Overlay overlay, KmlProvider kmlDoc){
 		if (overlay == null)
 			return;
 		if (mItems == null)
 			mItems = new ArrayList<KmlObject>();
 		KmlObject kmlItem = new KmlObject();
-		kmlItem.createFromOverlay(overlay);
+		kmlItem.createFromOverlay(overlay, kmlDoc);
 		if (kmlItem.mObjectType != NO_SHAPE){
 			mItems.add(kmlItem);
 			updateBoundingBoxWith(kmlItem.mBB);
@@ -105,10 +119,10 @@ public class KmlObject implements Parcelable {
 	 * Set-up the KmlObject from a list of overlays, as a Folder containing each overlay. 
 	 * @param overlays to add
 	 */
-	public void addOverlays(List<Overlay> overlays){
+	public void addOverlays(List<Overlay> overlays, KmlProvider kmlDoc){
 		if (overlays != null){
 			for (Overlay item:overlays){
-				addOverlay(item);
+				addOverlay(item, kmlDoc);
 			}
 		}
 	}
@@ -117,13 +131,14 @@ public class KmlObject implements Parcelable {
 	 * Create a NO_SHAPE if the overlay class is not supported. 
 	 * @param overlay
 	 */
-	public void createFromOverlay(Overlay overlay){
+	public void createFromOverlay(Overlay overlay, KmlProvider kmlDoc){
 		if (overlay.getClass() == FolderOverlay.class){
 			FolderOverlay folderOverlay = (FolderOverlay)overlay;
 			createAsFolder();
-			addOverlays(folderOverlay.getItems());
+			addOverlays(folderOverlay.getItems(), kmlDoc);
 			mName = folderOverlay.getName();
 			mDescription = folderOverlay.getDescription();
+			mVisibility = folderOverlay.isEnabled();
 		} else if (overlay.getClass() == ItemizedOverlayWithBubble.class){
 			ItemizedOverlayWithBubble<OverlayItem> markers = (ItemizedOverlayWithBubble<OverlayItem>)overlay;
 			if (markers.size()==1){ //only 1 item => we can create it as a KML Point:
@@ -146,10 +161,10 @@ public class KmlObject implements Parcelable {
 			}
 		} else if (overlay.getClass() == Polygon.class){
 			Polygon polygon = (Polygon)overlay;
-			createFromPolygon(polygon);
+			createFromPolygon(polygon, kmlDoc);
 		} else if (overlay.getClass() == PathOverlay.class){
 			PathOverlay path = (PathOverlay)overlay;
-			createFromPathOverlay(path);
+			createFromPathOverlay(path, kmlDoc);
 		} else { //unsupported overlay - create an empty folder. 
 			mObjectType = NO_SHAPE;
 			mName = "Unknown object - " + overlay.getClass().getName();
@@ -333,6 +348,7 @@ public class KmlObject implements Parcelable {
 					writer.write("<coordinates>");
 					for (GeoPoint coord:mCoordinates){
 						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude()+" ");
+						//TODO: don't write space for last coord... 
 					}
 					writer.write("</coordinates>\n");
 				}

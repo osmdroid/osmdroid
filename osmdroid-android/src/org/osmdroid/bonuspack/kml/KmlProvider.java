@@ -34,13 +34,23 @@ import android.util.Log;
 public class KmlProvider {
 
 	protected HashMap<String, Style> mStyles;
+	protected int mMaxKey;
 	
 	public KmlProvider(){
 		mStyles = new HashMap<String, Style>();
+		mMaxKey = 0;
 	}
 	
 	public Style getStyle(String styleUrl){
 		return mStyles.get(styleUrl);
+	}
+	
+	public String addStyle(Style style){
+		//TODO: on load, check max key
+		String newKey = "S"+mMaxKey;
+		mMaxKey++;
+		mStyles.put(newKey, style);
+		return newKey;
 	}
 	
 	protected GeoPoint parseGeoPoint(String input){

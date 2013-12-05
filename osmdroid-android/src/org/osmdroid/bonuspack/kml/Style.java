@@ -13,10 +13,10 @@ import android.os.Parcelable;
  */
 public class Style implements Parcelable {
 
-	ColorStyle outlineColorStyle;
-	ColorStyle fillColorStyle;
-	ColorStyle iconColorStyle;
-	float outlineWidth = 0.0f;
+	public ColorStyle outlineColorStyle;
+	public ColorStyle fillColorStyle;
+	public ColorStyle iconColorStyle;
+	public float outlineWidth = 0.0f;
 	
 	/** 
 	 * @return a Paint corresponding to the style (for a line or a polygon outline)
