@@ -39,7 +39,11 @@ public class LocationUtils implements UtilConstants {
 	}
 
 	private static Location getLastKnownLocation(final LocationManager pLocationManager, final String pProvider) {
-		if (!pLocationManager.isProviderEnabled(pProvider)) {
+		try {
+			if (!pLocationManager.isProviderEnabled(pProvider)) {
+				return null;
+			}
+		} catch (final IllegalArgumentException e) {
 			return null;
 		}
 		return pLocationManager.getLastKnownLocation(pProvider);
