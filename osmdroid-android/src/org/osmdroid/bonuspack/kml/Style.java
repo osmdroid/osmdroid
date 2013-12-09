@@ -23,7 +23,8 @@ public class Style implements Parcelable {
 	 */
 	public Paint getOutlinePaint(){
 		Paint outlinePaint = new Paint();
-		outlinePaint.setColor(outlineColorStyle.getFinalColor());
+		if (outlineColorStyle != null)
+			outlinePaint.setColor(outlineColorStyle.getFinalColor());
 		outlinePaint.setStrokeWidth(outlineWidth);
 		outlinePaint.setStyle(Paint.Style.STROKE);
 		return outlinePaint;
@@ -31,18 +32,6 @@ public class Style implements Parcelable {
 	
 	/** default constructor */
 	Style(){
-	}
-	
-	//Parcelable implementation ------------
-	
-	@Override public int describeContents() {
-		return 0;
-	}
-
-	@Override public void writeToParcel(Parcel out, int flags) {
-		out.writeParcelable(outlineColorStyle, flags);
-		out.writeParcelable(fillColorStyle, flags);
-		out.writeFloat(outlineWidth);
 	}
 	
 	public void writeAsKML(Writer writer, String styleId){
@@ -61,6 +50,16 @@ public class Style implements Parcelable {
 	}
 	
 	//Parcelable implementation ------------
+	
+	@Override public int describeContents() {
+		return 0;
+	}
+
+	@Override public void writeToParcel(Parcel out, int flags) {
+		out.writeParcelable(outlineColorStyle, flags);
+		out.writeParcelable(fillColorStyle, flags);
+		out.writeFloat(outlineWidth);
+	}
 	
 	public static final Parcelable.Creator<Style> CREATOR = new Parcelable.Creator<Style>() {
 		@Override public Style createFromParcel(Parcel source) {

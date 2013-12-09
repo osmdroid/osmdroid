@@ -4,17 +4,18 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.PathOverlay;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -72,7 +73,7 @@ public class KmlObject implements Parcelable {
 		mObjectType = POLYGON;
 		mName = polygon.getTitle();
 		mDescription = polygon.getSnippet();
-		mCoordinates = (ArrayList)polygon.getPoints();
+		mCoordinates = (ArrayList<GeoPoint>)polygon.getPoints();
 		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
 		mVisibility = polygon.isEnabled();
 		//Style:
@@ -83,18 +84,16 @@ public class KmlObject implements Parcelable {
 		mStyle = kmlDoc.addStyle(style);
 	}
 
-	public void createFromPathOverlay(PathOverlay path, KmlProvider kmlDoc){
+	public void createFromPolyline(Polyline polyline, KmlProvider kmlDoc){
 		mObjectType = LINE_STRING;
-		mName = "LineString - "+path.getNumberOfPoints()+" points";
-		mCoordinates = new ArrayList<GeoPoint>(path.getNumberOfPoints());
-		//TODO: BIG ISSUE => no way to access PathOverlay points!...
+		mName = "LineString - "+polyline.getNumberOfPoints()+" points";
+		mCoordinates = (ArrayList<GeoPoint>)polyline.getPoints();
 		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
-		mVisibility = path.isEnabled();
+		mVisibility = polyline.isEnabled();
 		//Style:
 		Style style = new Style();
-		Paint paint = path.getPaint();
-		style.outlineColorStyle = new ColorStyle(paint.getColor());
-		style.outlineWidth = paint.getStrokeWidth();
+		style.outlineColorStyle = new ColorStyle(polyline.getColor());
+		style.outlineWidth = polyline.getWidth();
 		mStyle = kmlDoc.addStyle(style);
 	}
 	
@@ -102,9 +101,16 @@ public class KmlObject implements Parcelable {
 		mObjectType = FOLDER;
 	}
 	
-	public void addOverlay(Overlay overlay, KmlProvider kmlDoc){
+	/** 
+	 * Assuming this is a Folder, adds the overlay inside, converting it in a KmlObject. 
+	 * If there is no available conversion from this Overlay class to a KmlObject, do not add it. 
+	 * @param overlay to convert and add
+	 * @param kmlDoc for style handling. 
+	 * @return true if OK, false if the overlay has not been added. 
+	 */
+	public boolean addOverlay(Overlay overlay, KmlProvider kmlDoc){
 		if (overlay == null)
-			return;
+			return false;
 		if (mItems == null)
 			mItems = new ArrayList<KmlObject>();
 		KmlObject kmlItem = new KmlObject();
@@ -112,12 +118,15 @@ public class KmlObject implements Parcelable {
 		if (kmlItem.mObjectType != NO_SHAPE){
 			mItems.add(kmlItem);
 			updateBoundingBoxWith(kmlItem.mBB);
-		}
+			return true;		
+		} else
+			return false;
 	}
 	
 	/** 
-	 * Set-up the KmlObject from a list of overlays, as a Folder containing each overlay. 
+	 * Assuming this is a Folder, adds all overlays inside, converting them in KmlObjects. 
 	 * @param overlays to add
+	 * @param kmlDoc
 	 */
 	public void addOverlays(List<Overlay> overlays, KmlProvider kmlDoc){
 		if (overlays != null){
@@ -128,8 +137,10 @@ public class KmlObject implements Parcelable {
 	}
 	
 	/** Set-up the KmlObject from the overlay. 
-	 * Create a NO_SHAPE if the overlay class is not supported. 
+	 * Supported overlay classes are: FolderOverlay, ItemizedOverlayWithBubble, Polygon, Polyline
+	 * If the overlay class is not supported, creates a NO_SHAPE object. 
 	 * @param overlay
+	 * @param kmlDoc for style handling
 	 */
 	public void createFromOverlay(Overlay overlay, KmlProvider kmlDoc){
 		if (overlay.getClass() == FolderOverlay.class){
@@ -162,9 +173,9 @@ public class KmlObject implements Parcelable {
 		} else if (overlay.getClass() == Polygon.class){
 			Polygon polygon = (Polygon)overlay;
 			createFromPolygon(polygon, kmlDoc);
-		} else if (overlay.getClass() == PathOverlay.class){
-			PathOverlay path = (PathOverlay)overlay;
-			createFromPathOverlay(path, kmlDoc);
+		} else if (overlay.getClass() == Polyline.class){
+			Polyline polyline = (Polyline)overlay;
+			createFromPolyline(polyline, kmlDoc);
 		} else { //unsupported overlay - create an empty folder. 
 			mObjectType = NO_SHAPE;
 			mName = "Unknown object - " + overlay.getClass().getName();
@@ -202,7 +213,7 @@ public class KmlObject implements Parcelable {
 	}
 	
 	/**
-	 * Build the overlay related to this KML object. 
+	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param context
 	 * @param map
 	 * @param marker to use for Points
@@ -238,27 +249,23 @@ public class KmlObject implements Parcelable {
 			return kmlPointsOverlay;
 		}
 		case LINE_STRING:{
-			Paint paint = null;
+			Polyline lineStringOverlay = new Polyline(context);
 			Style style = kmlProvider.getStyle(mStyle);
 			if (style != null){
-				paint = style.getOutlinePaint();
-			}
-			if (paint == null){ 
+				lineStringOverlay.setPaint(style.getOutlinePaint());
+			} else { 
 				//set default:
-				paint = new Paint();
-				paint.setColor(0x90101010);
-				paint.setStyle(Paint.Style.STROKE);
-				paint.setStrokeWidth(5);
+				lineStringOverlay.setColor(0x90101010);
+				lineStringOverlay.setWidth(5.0f);
 			}
-			PathOverlay lineStringOverlay = new PathOverlay(0, context);
-			lineStringOverlay.setPaint(paint);
-			for (GeoPoint point:mCoordinates)
-				lineStringOverlay.addPoint(point);
+			lineStringOverlay.setPoints(mCoordinates);
 			if (supportVisibility && !mVisibility)
 				lineStringOverlay.setEnabled(false);
 			return lineStringOverlay;
 		}
 		case POLYGON:{
+			Polygon polygonOverlay = new Polygon(context);
+			//TODO: remove Paint mechanism, as for PolyLine
 			Paint outlinePaint = null; 
 			int fillColor = 0x20101010; //default
 			Style style = kmlProvider.getStyle(mStyle);
@@ -272,7 +279,6 @@ public class KmlObject implements Parcelable {
 				outlinePaint.setColor(0x90101010);
 				outlinePaint.setStrokeWidth(5);
 			}
-			Polygon polygonOverlay = new Polygon(context);
 			polygonOverlay.setFillColor(fillColor);
 			polygonOverlay.setStrokeColor(outlinePaint.getColor());
 			polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
@@ -297,7 +303,7 @@ public class KmlObject implements Parcelable {
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
 	 * @param isDocument true is this object is the root of the whole hierarchy (the "Document" folder). 
-	 * @param styles the styles, that will be written if this is the root. Can be null. 
+	 * @param styles the styles, that will be written if this is the root. Can be null if not root, or if you don't handle styles. 
 	 */
 	public boolean writeAsKML(Writer writer, boolean isDocument, HashMap<String, Style> styles){
 		try {
@@ -346,9 +352,12 @@ public class KmlObject implements Parcelable {
 					writer.write("<outerBoundaryIs>\n<LinearRing>\n");
 				if (mCoordinates != null){
 					writer.write("<coordinates>");
-					for (GeoPoint coord:mCoordinates){
-						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude()+" ");
-						//TODO: don't write space for last coord... 
+					Iterator<GeoPoint> it = mCoordinates.iterator();
+					while(it.hasNext()) {
+						GeoPoint coord = it.next();
+						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude());
+						if (it.hasNext())
+							writer.write(" ");
 					}
 					writer.write("</coordinates>\n");
 				}

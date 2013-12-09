@@ -34,23 +34,38 @@ import android.util.Log;
 public class KmlProvider {
 
 	protected HashMap<String, Style> mStyles;
-	protected int mMaxKey;
+	protected int mMaxStyleId;
 	
 	public KmlProvider(){
 		mStyles = new HashMap<String, Style>();
-		mMaxKey = 0;
+		mMaxStyleId = 0;
 	}
 	
-	public Style getStyle(String styleUrl){
-		return mStyles.get(styleUrl);
+	public Style getStyle(String styleId){
+		return mStyles.get(styleId);
 	}
 	
+	public void putStyle(String styleId, Style style){
+		//Check if maxStyleId needs an update:
+		try {
+			int id = Integer.parseInt(styleId);
+			mMaxStyleId = Math.max(mMaxStyleId, id);
+		} catch (NumberFormatException e){
+			//styleId was not a number: nothing to do
+		}
+		mStyles.put(styleId, style);
+	}
+	
+	/**
+	 * Add a new style
+	 * @param style
+	 * @return the style id assigned for this style
+	 */
 	public String addStyle(Style style){
-		//TODO: on load, check max key
-		String newKey = "S"+mMaxKey;
-		mMaxKey++;
-		mStyles.put(newKey, style);
-		return newKey;
+		mMaxStyleId++;
+		String newId = ""+mMaxStyleId;
+		putStyle(newId, style);
+		return newId;
 	}
 	
 	protected GeoPoint parseGeoPoint(String input){
@@ -132,7 +147,8 @@ public class KmlProvider {
 	}
 
 	/**
-	 * Get the default path for KML file on Android: on the external storage, in a "kml" directory. Creates the directory if necessary. 
+	 * Get the default path for KML file on Android: on the external storage, in a "kml" directory. 
+	 * Creates the directory if necessary. 
 	 * @param fileName
 	 * @return full path, as a File, or null if error. 
 	 */
@@ -256,7 +272,7 @@ public class KmlProvider {
 				mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null)
-					mColorStyle.color = mColorStyle.parseKMLColor(mString);
+					mColorStyle.color = ColorStyle.parseKMLColor(mString);
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
 					mColorStyle.colorMode = (mString.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
@@ -264,7 +280,7 @@ public class KmlProvider {
 				if (mCurrentStyle != null)
 					mCurrentStyle.outlineWidth = Float.parseFloat(mString);
 			} else if (localName.equals("Style")){
-				mStyles.put(mCurrentStyleId, mCurrentStyle);
+				putStyle(mCurrentStyleId, mCurrentStyle);
 				mCurrentStyle = null;
 			}
 		}

@@ -1,12 +1,9 @@
 package org.osmdroid.bonuspack.routing;
 
 import java.util.ArrayList;
-
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.PathOverlay;
-
 import android.content.Context;
-import android.graphics.Paint;
 
 /**
  * Generic class to get a route between a start and a destination point, 
@@ -50,14 +47,15 @@ public abstract class RoadManager {
 	}
 	
 	/**
-	 * Using the road high definition shape, builds and returns a PathOverlay using the Paint. 
+	 * Using the road high definition shape, builds and returns a Polyline. 
 	 * @param road
 	 * @param paint
 	 * @param context
 	 */
-	public static PathOverlay buildRoadOverlay(Road road, Paint paint, Context context){
-		PathOverlay roadOverlay = new PathOverlay(0, context);
-		roadOverlay.setPaint(paint);
+	public static Polyline buildRoadOverlay(Road road, int color, float width, Context context){
+		Polyline roadOverlay = new Polyline(context);
+		roadOverlay.setColor(color);
+		roadOverlay.setWidth(width);
 		if (road != null) {
 			ArrayList<GeoPoint> polyline = road.mRouteHigh;
 			for (GeoPoint p:polyline){
@@ -71,12 +69,8 @@ public abstract class RoadManager {
 	 * Builds an overlay for the road shape with a default (and nice!) color. 
 	 * @return route shape overlay
 	 */
-	public static PathOverlay buildRoadOverlay(Road road, Context context){
-		Paint paint = new Paint();
-		paint.setColor(0x800000FF);
-		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeWidth(5);
-		return buildRoadOverlay(road, paint, context);
+	public static Polyline buildRoadOverlay(Road road, Context context){
+		return buildRoadOverlay(road, 0x800000FF, 5.0f, context);
 	}
 
 }
