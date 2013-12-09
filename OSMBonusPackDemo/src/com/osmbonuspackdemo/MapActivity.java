@@ -24,6 +24,7 @@ import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.GoogleRoadManager;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
@@ -42,8 +43,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
-import org.osmdroid.views.overlay.PathOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -105,7 +104,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected Polygon destinationPolygon; //enclosing polygon of destination location
 	
 	public static Road mRoad; //made static to pass between activities
-	protected PathOverlay roadOverlay;
+	protected Polyline roadOverlay;
 	protected ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
 	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
