@@ -655,7 +655,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     		ExtendedOverlayItem nodeMarker = new ExtendedOverlayItem(
     				"Step " + (i+1), instructions, 
     				node.mLocation, this);
-    		nodeMarker.setSubDescription(road.getLengthDurationText(node.mLength, node.mDuration));
+    		nodeMarker.setSubDescription(Road.getLengthDurationText(node.mLength, node.mDuration));
     		nodeMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
     		nodeMarker.setMarker(marker);
     		int iconId = iconIds.getResourceId(node.mManeuverType, R.drawable.ic_empty);
@@ -665,6 +665,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     		}
     		roadNodeMarkers.addItem(nodeMarker);
     	}
+    	iconIds.recycle();
     }
     
 	void updateUIWithRoad(Road road){
