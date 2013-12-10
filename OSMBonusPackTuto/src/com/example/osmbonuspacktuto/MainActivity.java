@@ -1,5 +1,6 @@
 package com.example.osmbonuspacktuto;
 
+import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlObject;
@@ -9,6 +10,7 @@ import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
@@ -17,7 +19,6 @@ import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.os.Bundle;
 import android.app.Activity;
@@ -51,7 +52,7 @@ public class MainActivity extends Activity {
 		waypoints.add(startPoint);
 		waypoints.add(new GeoPoint(48.4, -1.9)); //end point
 		Road road = roadManager.getRoad(waypoints);
-		PathOverlay roadOverlay = RoadManager.buildRoadOverlay(road, this);
+		Polyline roadOverlay = RoadManager.buildRoadOverlay(road, this);
 		map.getOverlays().add(roadOverlay);
 		map.invalidate();
 		
@@ -69,7 +70,7 @@ public class MainActivity extends Activity {
 			
 			//4. Filling the bubbles
 			nodeMarker.setDescription(node.mInstructions);
-			nodeMarker.setSubDescription(road.getLengthDurationText(node.mLength, node.mDuration));
+			nodeMarker.setSubDescription(Road.getLengthDurationText(node.mLength, node.mDuration));
 			Drawable icon = getResources().getDrawable(R.drawable.ic_continue);
 			nodeMarker.setImage(icon);
 			//4. end
@@ -100,12 +101,12 @@ public class MainActivity extends Activity {
 			}
 		}
 
-		//10. Working with KML content
-		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
+		//10. Loading KML content
+		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlProvider kmlProvider = new KmlProvider();
 		KmlObject kmlRoot = kmlProvider.parseUrl(url);
+		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 		if (kmlRoot != null){
-			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 			FolderOverlay kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultMarker, kmlProvider, false);
 			map.getOverlays().add(kmlOverlay);
 			if (kmlRoot.mBB != null){
@@ -116,6 +117,12 @@ public class MainActivity extends Activity {
 						kmlRoot.mBB.getLonWestE6()+kmlRoot.mBB.getLongitudeSpanE6()/2));
 			}
 		}
+		
+		//11. Grab overlays in KML structure, save KML locally
+		kmlRoot.addOverlay(roadOverlay, kmlProvider);
+		kmlRoot.addOverlay(roadNodes, kmlProvider);
+		File localFile = kmlProvider.getDefaultPathForAndroid("my_routes.kml");
+		kmlProvider.saveAsKML(localFile, kmlRoot);
 	}
 	
 }
