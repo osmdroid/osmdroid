@@ -68,4 +68,13 @@ public class BitmapPool {
 
 		return null;
 	}
+
+	public void clearBitmapPool() {
+		synchronized (sInstance.mPool) {
+			while (!sInstance.mPool.isEmpty()) {
+				Bitmap bitmap = sInstance.mPool.remove();
+				bitmap.recycle();
+			}
+		}
+	}
 }
