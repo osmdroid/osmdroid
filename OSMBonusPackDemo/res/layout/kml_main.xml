@@ -5,6 +5,14 @@
 	android:orientation="vertical"
 	android:background="#f4f4f4" >
 	
+	<LinearLayout android:id="@+id/focusPicker" 
+	    android:layout_width="0dp"
+	    android:layout_height="0dp"
+	    android:orientation="horizontal"
+	    android:background="@android:color/transparent"
+	    android:focusable="true"
+	    android:focusableInTouchMode="true" />
+
     <EditText android:id="@+id/name" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
@@ -62,9 +70,7 @@
 	<ListView
 		android:id="@+id/listviewKml"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:focusable="true"
-		android:focusableInTouchMode="true" >
+		android:layout_height="wrap_content" >
 		<requestFocus />
 	</ListView>
 

@@ -48,7 +48,7 @@ public class KmlTreeActivity extends Activity {
 		
 		Style style = null;
 		if (kmlObject.mStyle != null)
-			style = MapActivity.mKmlProvider.getStyle(kmlObject.mStyle);
+			style = MapActivity.mKmlDocument.getStyle(kmlObject.mStyle);
 		
 		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
 		if ((kmlObject.mObjectType == KmlObject.LINE_STRING || kmlObject.mObjectType == KmlObject.POLYGON) && style!=null){

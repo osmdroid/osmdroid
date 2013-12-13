@@ -11,7 +11,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.kml.KmlObject;
-import org.osmdroid.bonuspack.kml.KmlProvider;
+import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
@@ -116,9 +116,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected static final int POIS_REQUEST = 2;
 	
 	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
-	protected KmlObject kmlRoot; //root container in KmlObject representation
 	protected static final int KML_TREE_REQUEST = 3;
-	public static KmlProvider mKmlProvider = new KmlProvider(); //made static to pass between activities
+	public static KmlDocument mKmlDocument = new KmlDocument(); //made static to pass between activities
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -301,7 +300,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//KML handling:
 		kmlOverlay = null;
 		if (savedInstanceState != null){
-			kmlRoot = savedInstanceState.getParcelable("kml");
+			//STATIC - mKmlDocument = savedInstanceState.getParcelable("kml");
 			updateUIWithKml();
 		} else { 
 			//first launch: check if intent has been passed with a kml URI to load (url or file)
@@ -309,10 +308,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
 				getKml(uri);
-			} else {
-				//Empty folder by default:
-				kmlRoot = new KmlObject();
-				kmlRoot.createAsFolder();
 			}
 		}
 	}
@@ -350,7 +345,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		outState.putParcelableArrayList("viapoints", viaPoints);
 		//STATIC - outState.putParcelable("road", mRoad);
 		//STATIC - outState.putParcelableArrayList("poi", mPOIs);
-		outState.putParcelable("kml", kmlRoot);
+		//STATIC - outState.putParcelable("kml", mKmlDocument);
 		
 		savePrefs();
 	}
@@ -373,7 +368,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			break;
 		case KML_TREE_REQUEST:
 			if (resultCode == RESULT_OK) {
-				kmlRoot = intent.getParcelableExtra("KML");
+				mKmlDocument.kmlRoot = intent.getParcelableExtra("KML");
 				updateUIWithKml();
 			}
 			break;
@@ -916,27 +911,28 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void getKml(String uri){
-		mKmlProvider = new KmlProvider();
+		mKmlDocument = new KmlDocument();
+		KmlObject result;
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
-			kmlRoot = mKmlProvider.parseFile(file);
+			result = mKmlDocument.parseFile(file);
 		} else  {
-			kmlRoot = mKmlProvider.parseUrl(uri);
+			result = mKmlDocument.parseUrl(uri);
 		}
-		if (kmlRoot == null)
+		if (result == null)
 			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
 		updateUIWithKml();
-		if (kmlRoot != null && kmlRoot.mBB != null){
+		if (result != null && result.mBB != null){
 				//setViewOn(kmlRoot.mBB); KO in onCreate - Workaround:
 				map.getController().setCenter(new GeoPoint(
-						kmlRoot.mBB.getLatSouthE6()+kmlRoot.mBB.getLatitudeSpanE6()/2, 
-						kmlRoot.mBB.getLonWestE6()+kmlRoot.mBB.getLongitudeSpanE6()/2));
+						result.mBB.getLatSouthE6()+result.mBB.getLatitudeSpanE6()/2, 
+						result.mBB.getLonWestE6()+result.mBB.getLongitudeSpanE6()/2));
 		}
 	}
 	
 	void saveKml(String fileName){
-		boolean result = mKmlProvider.saveAsKML(mKmlProvider.getDefaultPathForAndroid(fileName), kmlRoot);
+		boolean result = mKmlDocument.saveAsKML(mKmlDocument.getDefaultPathForAndroid(fileName));
 		if (result)
 			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
 		else 
@@ -946,9 +942,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void updateUIWithKml(){
 		if (kmlOverlay != null)
 			map.getOverlays().remove(kmlOverlay);
-		if (kmlRoot != null){
+		if (mKmlDocument.kmlRoot != null){
 			Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlProvider, true);
+			kmlOverlay = (FolderOverlay)mKmlDocument.kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlDocument, true);
 			map.getOverlays().add(kmlOverlay);
 		}
 		map.invalidate();
@@ -956,16 +952,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void insertOverlaysInKml(){
 		//Ensure the root is a folder:
-		if (kmlRoot == null || kmlRoot.mObjectType != KmlObject.FOLDER){
-			kmlRoot = new KmlObject();
-			kmlRoot.createAsFolder();
+		if (mKmlDocument.kmlRoot == null || mKmlDocument.kmlRoot.mObjectType != KmlObject.FOLDER){
+			mKmlDocument.kmlRoot = new KmlObject();
+			mKmlDocument.kmlRoot.createAsFolder();
 		}
 		//Insert relevant overlays inside:
-		kmlRoot.addOverlay(itineraryMarkers, mKmlProvider);
-		kmlRoot.addOverlay(roadOverlay, mKmlProvider);
-		kmlRoot.addOverlay(roadNodeMarkers, mKmlProvider);
-		kmlRoot.addOverlay(destinationPolygon, mKmlProvider);
-		kmlRoot.addOverlay(poiMarkers, mKmlProvider);
+		mKmlDocument.kmlRoot.addOverlay(itineraryMarkers, mKmlDocument);
+		mKmlDocument.kmlRoot.addOverlay(roadOverlay, mKmlDocument);
+		mKmlDocument.kmlRoot.addOverlay(roadNodeMarkers, mKmlDocument);
+		mKmlDocument.kmlRoot.addOverlay(destinationPolygon, mKmlDocument);
+		mKmlDocument.kmlRoot.addOverlay(poiMarkers, mKmlDocument);
 	}
 	
 	//------------ MapEventsReceiver implementation
@@ -1081,7 +1077,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return true;
 		case R.id.menu_kml_file:
 			//TODO : openKMLFileDialog();
-			File file = mKmlProvider.getDefaultPathForAndroid("current.kml");
+			File file = mKmlDocument.getDefaultPathForAndroid("current.kml");
 			getKml("file:/"+file.toString());
 			return true;
 		case R.id.menu_kml_get_overlays:
@@ -1089,10 +1085,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithKml();
 			return true;
 		case R.id.menu_kml_tree:
-			if (kmlRoot==null)
+			if (mKmlDocument.kmlRoot==null)
 				return false;
 			myIntent = new Intent(this, KmlTreeActivity.class);
-			myIntent.putExtra("KML", kmlRoot);
+			myIntent.putExtra("KML", mKmlDocument.kmlRoot);
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_kml_save:
@@ -1100,9 +1096,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			saveKml("current.kml");
 			return true;
 		case R.id.menu_kml_clear:
-			kmlRoot = new KmlObject();
-			kmlRoot.createAsFolder();
-			mKmlProvider = new KmlProvider();
+			mKmlDocument = new KmlDocument();
 			updateUIWithKml();
 			return true;
 		case R.id.menu_route_osrm:
