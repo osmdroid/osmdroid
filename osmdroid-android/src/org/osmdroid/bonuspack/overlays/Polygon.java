@@ -30,7 +30,7 @@ import android.view.MotionEvent;
 public class Polygon extends Overlay {
 
 	/** original GeoPoints */
-	private List<GeoPoint> mPoints;
+	private List<GeoPoint> mPoints; //TODO: implement as an array, to reduce object creation -> see Polyline
 	
 	/** Stores points, converted to the map projection. */
 	private List<Point> mConvertedPoints;
@@ -132,7 +132,7 @@ public class Polygon extends Overlay {
 			addPoint(p.getLatitudeE6(), p.getLongitudeE6());
 	}
 
-	public void addPoint(final int latitudeE6, final int longitudeE6) {
+	protected void addPoint(final int latitudeE6, final int longitudeE6) {
 		mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
 		mConvertedPoints.add(new Point(latitudeE6, longitudeE6));
 	}

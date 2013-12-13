@@ -70,17 +70,12 @@ public class ColorStyle implements Parcelable {
 		}
 	}
 
-	public void writeAsKML(Writer writer, String styleType, float width){
+	public void writeAsKML(Writer writer){
 		try {
-			writer.write("<"+styleType+">\n");
 			writer.write("<color>"+colorAsKMLString()+"</color>\n");
 			if (colorMode == MODE_RANDOM){
 				writer.write("<colorMode>random</colorMode>\n");
 			}
-			if (styleType.equals("LineStyle")){
-				writer.write("<width>"+width+"</width>\n");
-			}
-			writer.write("</"+styleType+">\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

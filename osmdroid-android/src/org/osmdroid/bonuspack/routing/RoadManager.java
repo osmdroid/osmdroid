@@ -58,9 +58,7 @@ public abstract class RoadManager {
 		roadOverlay.setWidth(width);
 		if (road != null) {
 			ArrayList<GeoPoint> polyline = road.mRouteHigh;
-			for (GeoPoint p:polyline){
-				roadOverlay.addPoint(p);
-			}
+			roadOverlay.setPoints(polyline);
 		}
 		return roadOverlay;
 	}

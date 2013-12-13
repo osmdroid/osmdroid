@@ -20,31 +20,47 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 /**
- * Helper class to read and parse KML content, and build KML structure. 
+ * Object handling a whole KML document. 
+ * Features are stored in the kmlRoot attribute. In most cases, kmlRoot will be a Folder. 
+ * Shared components (like styles) are stored in specific attributes. 
+ * This is the entry point to read and save KML content. 
+ * 
  * Supports KML Point, LineString and Polygon placemarks. 
- * Supports KML Folder hierarchy. 
- * Supports styles for LineString and Polygon (but not for Point). 
+ * Supports KML Document and Folder hierarchy. 
+ * Supports LineStyle, PolyStyle, and partially IconStyle. 
  * Supports colorMode (normal, random)
+ * 
+ * @see KmlObject
  * 
  * @author M.Kergall
  */
-public class KmlProvider {
+public class KmlDocument implements Parcelable {
 
+	/** root for KML features contained in this document */
+	public KmlObject kmlRoot;
+	/** list of shared Styles in this document */
 	protected HashMap<String, Style> mStyles;
 	protected int mMaxStyleId;
 	
-	public KmlProvider(){
+	/** default constructor, with the kmlRoot as an empty Folder */
+	public KmlDocument(){
 		mStyles = new HashMap<String, Style>();
 		mMaxStyleId = 0;
+		kmlRoot = new KmlObject();
+		kmlRoot.createAsFolder();
 	}
 	
+	/** @return the shared Style associated to the styleId, or null if none */
 	public Style getStyle(String styleId){
 		return mStyles.get(styleId);
 	}
 	
+	/** put the style in the list of shared Styles, associated to its styleId */
 	public void putStyle(String styleId, Style style){
 		//Check if maxStyleId needs an update:
 		try {
@@ -57,9 +73,9 @@ public class KmlProvider {
 	}
 	
 	/**
-	 * Add a new style
-	 * @param style
-	 * @return the style id assigned for this style
+	 * Add the Style in the shared Styles
+	 * @param style to add
+	 * @return the unique styleId assigned for this style
 	 */
 	public String addStyle(Style style){
 		mMaxStyleId++;
@@ -68,7 +84,19 @@ public class KmlProvider {
 		return newId;
 	}
 	
-	protected GeoPoint parseGeoPoint(String input){
+	protected static GeoPoint parseKmlCoord(String input){
+		/* TODO try to find a more efficient way, reducing object creation... 
+		Scanner s = new Scanner(input).useDelimiter("\\,");
+		try {
+			double lon = s.nextDouble();
+			double lat = s.nextDouble();
+			double alt = 0.0; //s.nextDouble();
+			GeoPoint p = new GeoPoint(lat, lon, alt);
+			return p;
+		} catch (Exception e) {
+			return null;
+		}
+		*/
 		String[] coords = input.split(",");
 		try {
 			double lon = Double.parseDouble(coords[0]);
@@ -77,16 +105,16 @@ public class KmlProvider {
 			GeoPoint p = new GeoPoint(lat, lon, alt);
 			return p;
 		} catch (NumberFormatException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
 	
-	protected ArrayList<GeoPoint> parseCoordinates(String input){
+	/** KML coordinates are: lon,lat{,alt} tuples separated by spaces. */
+	protected static ArrayList<GeoPoint> parseKmlCoordinates(String input){
 		String[] splitted = input.split("\\s");
 		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(splitted.length);
 		for (int i=0; i<splitted.length; i++){
-			GeoPoint p = parseGeoPoint(splitted[i]);
+			GeoPoint p = parseKmlCoord(splitted[i]);
 			if (p != null)
 				coordinates.add(p);
 		}
@@ -143,6 +171,7 @@ public class KmlProvider {
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
+		kmlRoot = handler.mKmlRoot;
 		return handler.mKmlRoot;
 	}
 
@@ -183,6 +212,7 @@ public class KmlProvider {
 			handler.mKmlRoot = null;
 		}
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
+		kmlRoot = handler.mKmlRoot;
 		return handler.mKmlRoot;
 	}
 	
@@ -200,7 +230,7 @@ public class KmlProvider {
 		
 		public KmlSaxHandler(){
 			mKmlRoot = new KmlObject();
-			mKmlRoot.mObjectType = KmlObject.FOLDER;
+			mKmlRoot.createAsFolder();
 			mKmlStack = new ArrayList<KmlObject>();
 			mKmlStack.add(mKmlRoot);
 		}
@@ -212,12 +242,11 @@ public class KmlProvider {
 				mKmlCurrentObject.mId = attributes.getValue("id");
 			} else if (localName.equals("Folder")){
 				mKmlCurrentObject = new KmlObject();
-				mKmlCurrentObject.mObjectType = KmlObject.FOLDER;
+				mKmlCurrentObject.createAsFolder();
 				mKmlCurrentObject.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentObject); //push on stack
 			} else if (localName.equals("Placemark")) {
 				mKmlCurrentObject = new KmlObject();
-				mKmlCurrentObject.mObjectType = KmlObject.NO_SHAPE;
 				mKmlCurrentObject.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentObject); //push on stack
 			} else if (localName.equals("Style")) {
@@ -266,7 +295,7 @@ public class KmlProvider {
 			} else if (localName.equals("open")){
 				mKmlCurrentObject.mOpen = ("1".equals(mString));
 			} else if (localName.equals("coordinates")){
-				mKmlCurrentObject.mCoordinates = parseCoordinates(mString);
+				mKmlCurrentObject.mCoordinates = parseKmlCoordinates(mString);
 				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
 			} else if (localName.equals("styleUrl")){
 				mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
@@ -279,6 +308,9 @@ public class KmlProvider {
 			} else if (localName.equals("width")){
 				if (mCurrentStyle != null)
 					mCurrentStyle.outlineWidth = Float.parseFloat(mString);
+			} else if (localName.equals("href")){
+				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null)
+					mCurrentStyle.iconHref = mString;
 			} else if (localName.equals("Style")){
 				putStyle(mCurrentStyleId, mCurrentStyle);
 				mCurrentStyle = null;
@@ -288,16 +320,17 @@ public class KmlProvider {
 	}
 
 	/**
-	 * save kmlRoot as a KML file on writer
+	 * save the document as a KML file on writer
 	 * @param writer
-	 * @param kmlRoot
 	 * @return false if error
 	 */
-	public boolean saveAsKML(Writer writer, KmlObject kmlRoot){
+	public boolean saveAsKML(Writer writer){
 		try {
 			writer.write("<?xml version='1.0' encoding='UTF-8'?>\n");
 			writer.write("<kml xmlns='http://www.opengis.net/kml/2.2'>\n");
-			boolean result = kmlRoot.writeAsKML(writer, true, mStyles);
+			boolean result = true;
+			if (kmlRoot != null)
+				result = kmlRoot.writeAsKML(writer, true, this);
 			writer.write("</kml>\n");
 			return result;
 		} catch (IOException e) {
@@ -306,17 +339,24 @@ public class KmlProvider {
 		}
 	}
 
+	public void writeStyles(Writer writer){
+		for (HashMap.Entry<String, Style> entry : mStyles.entrySet()) {
+			String styleId = entry.getKey();
+			Style style = entry.getValue();
+			style.writeAsKML(writer, styleId);
+		}
+	}
+	
 	/**
-	 * Save kmlRoot as a KML file on file
-	 * @param file
-	 * @param kmlRoot
+	 * Save the document as a KML file
+	 * @param file full path of the destination file
 	 * @return false if error
 	 */
-	public boolean saveAsKML(File file, KmlObject kmlRoot){
+	public boolean saveAsKML(File file){
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter writer = new BufferedWriter(fw);
-			boolean result = saveAsKML(writer, kmlRoot);
+			boolean result = saveAsKML(writer);
 			writer.close();
 			return result;
 		} catch (IOException e) {
@@ -324,5 +364,45 @@ public class KmlProvider {
 			return false;
 		}
 	}
+
+	//Parcelable implementation ------------
+
+	@Override public int describeContents() {
+		return 0;
+	}
+
+	@Override public void writeToParcel(Parcel out, int flags) {
+		out.writeParcelable(kmlRoot, flags);
+		//write styles map:
+		//out.writeMap(mStyles); - not recommended in the Google JavaDoc, for mysterious reasons, so: 
+		out.writeInt(mStyles.size());
+		for(String key : mStyles.keySet()){
+			out.writeString(key);
+			out.writeParcelable(mStyles.get(key), flags);
+		}
+		out.writeInt(mMaxStyleId);
+	}
 	
+	public static final Parcelable.Creator<KmlDocument> CREATOR = new Parcelable.Creator<KmlDocument>() {
+		@Override public KmlDocument createFromParcel(Parcel source) {
+			return new KmlDocument(source);
+		}
+		@Override public KmlDocument[] newArray(int size) {
+			return new KmlDocument[size];
+		}
+	};
+	
+	public KmlDocument(Parcel in){
+		kmlRoot = in.readParcelable(KmlObject.class.getClassLoader());
+		//mStyles = in.readHashMap(Style.class.getClassLoader());
+		int size = in.readInt();
+		mStyles = new HashMap<String, Style>(size);
+		for(int i=0; i<size; i++){
+			String key = in.readString();
+			Style value = in.readParcelable(Style.class.getClassLoader());
+			mStyles.put(key,value);
+		}
+		mMaxStyleId = in.readInt();
+	}
+
 }

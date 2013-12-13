@@ -17,6 +17,11 @@ public class Style implements Parcelable {
 	public ColorStyle fillColorStyle;
 	public ColorStyle iconColorStyle;
 	public float outlineWidth = 0.0f;
+	public String iconHref;
+	
+	/** default constructor */
+	Style(){
+	}
 	
 	/** 
 	 * @return a Paint corresponding to the style (for a line or a polygon outline)
@@ -30,19 +35,32 @@ public class Style implements Parcelable {
 		return outlinePaint;
 	}
 	
-	/** default constructor */
-	Style(){
+	protected void writeOneStyle(Writer writer, String styleType, ColorStyle colorStyle){
+		try {
+			writer.write("<"+styleType+">\n");
+			colorStyle.writeAsKML(writer);
+			//write the specifics:
+			if (styleType.equals("LineStyle")){
+				writer.write("<width>"+outlineWidth+"</width>\n");
+			} else if (styleType.equals("IconStyle")){
+				if (iconHref != null)
+					writer.write("<Icon><href>"+iconHref+"</href></Icon>\n");
+			}
+		writer.write("</"+styleType+">\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void writeAsKML(Writer writer, String styleId){
 		try {
 			writer.write("<Style id=\'"+styleId+"\'>\n");
 			if (outlineColorStyle != null)
-				outlineColorStyle.writeAsKML(writer, "LineStyle", outlineWidth);
+				writeOneStyle(writer, "LineStyle", outlineColorStyle);
 			if (fillColorStyle != null)
-				fillColorStyle.writeAsKML(writer, "PolyStyle", 0.0f);
+				writeOneStyle(writer, "PolyStyle", fillColorStyle);
 			if (iconColorStyle != null)
-				iconColorStyle.writeAsKML(writer, "IconStyle", 0.0f);
+				writeOneStyle(writer, "IconStyle", iconColorStyle);
 			writer.write("</Style>\n");
 		} catch (IOException e) {
 			e.printStackTrace();
