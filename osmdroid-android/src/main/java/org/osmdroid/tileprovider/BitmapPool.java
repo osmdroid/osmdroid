@@ -28,8 +28,7 @@ public class BitmapPool {
 
 	public void applyReusableOptions(final BitmapFactory.Options aBitmapOptions) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			Bitmap pooledBitmap = obtainBitmapFromPool();
-			aBitmapOptions.inBitmap = pooledBitmap;
+			aBitmapOptions.inBitmap = obtainBitmapFromPool();
 			aBitmapOptions.inSampleSize = 1;
 			aBitmapOptions.inMutable = true;
 		}
@@ -58,6 +57,7 @@ public class BitmapPool {
 				for (final Bitmap bitmap : mPool) {
 					if (bitmap.isRecycled()) {
 						mPool.remove(bitmap);
+						return obtainSizedBitmapFromPool(aWidth, aHeight); // recurse to prevent ConcurrentModificationException
 					} else if (bitmap.getWidth() == aWidth && bitmap.getHeight() == aHeight) {
 						mPool.remove(bitmap);
 						return bitmap;
