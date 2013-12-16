@@ -8,7 +8,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Handling of KML PolyStyle and LineStyle
+ * Handling of KML Style (PolyStyle, LineStyle, IconStyle)
  * @author M.Kergall
  */
 public class Style implements Parcelable {
@@ -18,6 +18,7 @@ public class Style implements Parcelable {
 	public ColorStyle iconColorStyle;
 	public float outlineWidth = 0.0f;
 	public String iconHref;
+	//TODO iconScale
 	
 	/** default constructor */
 	Style(){
@@ -76,7 +77,9 @@ public class Style implements Parcelable {
 	@Override public void writeToParcel(Parcel out, int flags) {
 		out.writeParcelable(outlineColorStyle, flags);
 		out.writeParcelable(fillColorStyle, flags);
+		out.writeParcelable(iconColorStyle, flags);
 		out.writeFloat(outlineWidth);
+		out.writeString(iconHref);
 	}
 	
 	public static final Parcelable.Creator<Style> CREATOR = new Parcelable.Creator<Style>() {
@@ -91,6 +94,8 @@ public class Style implements Parcelable {
 	public Style(Parcel in){
 		outlineColorStyle = in.readParcelable(Style.class.getClassLoader());
 		fillColorStyle = in.readParcelable(Style.class.getClassLoader());
+		iconColorStyle = in.readParcelable(Style.class.getClassLoader());
 		outlineWidth = in.readFloat();
+		iconHref = in.readString();
 	}
 }

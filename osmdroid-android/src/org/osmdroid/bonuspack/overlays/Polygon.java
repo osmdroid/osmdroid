@@ -30,7 +30,8 @@ import android.view.MotionEvent;
 public class Polygon extends Overlay {
 
 	/** original GeoPoints */
-	private List<GeoPoint> mPoints; //TODO: implement as an array, to reduce object creation -> see Polyline
+	//private List<GeoPoint> mPoints;
+	private int mOriginalPoints[][]; //as an array, to reduce object creation
 	
 	/** Stores points, converted to the map projection. */
 	private List<Point> mConvertedPoints;
@@ -68,7 +69,8 @@ public class Polygon extends Overlay {
 		mOutlinePaint.setColor(Color.BLACK);
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
-		mPoints = new ArrayList<GeoPoint>();
+		//mPoints = new ArrayList<GeoPoint>();
+		mOriginalPoints = new int[0][3];
 		mConvertedPoints = new ArrayList<Point>();
 		mPointsPrecomputed = 0;
 		mTitle = ""; 
@@ -96,9 +98,9 @@ public class Polygon extends Overlay {
 	 * @return a copy of the list of polygon's vertices. 
 	 */
 	public List<GeoPoint> getPoints(){
-		List<GeoPoint> result = new ArrayList<GeoPoint>(mPoints.size());
-		for (GeoPoint p:mPoints){
-			GeoPoint gp = (GeoPoint) p.clone();
+		List<GeoPoint> result = new ArrayList<GeoPoint>(mOriginalPoints.length);
+		for (int i=0; i<mOriginalPoints.length; i++){
+			GeoPoint gp = new GeoPoint(mOriginalPoints[i][0], mOriginalPoints[i][1], mOriginalPoints[i][2]);
 			result.add(gp);
 		}
 		return result;
@@ -128,13 +130,16 @@ public class Polygon extends Overlay {
 	 * This method will take a copy of the points.
 	 */
 	public void setPoints(final List<GeoPoint> points) {
-		for (GeoPoint p:points)
-			addPoint(p.getLatitudeE6(), p.getLongitudeE6());
-	}
-
-	protected void addPoint(final int latitudeE6, final int longitudeE6) {
-		mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
-		mConvertedPoints.add(new Point(latitudeE6, longitudeE6));
+		mOriginalPoints = new int[points.size()][3];
+		int i=0;
+		for (GeoPoint p:points){
+			//mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
+			mOriginalPoints[i][0] = p.getLatitudeE6();
+			mOriginalPoints[i][1] = p.getLongitudeE6();
+			mOriginalPoints[i][2] = p.getAltitude();
+			mConvertedPoints.add(new Point(p.getLatitudeE6(), p.getLongitudeE6()));
+			i++;
+		}
 	}
 
 	public void setTitle(String title){

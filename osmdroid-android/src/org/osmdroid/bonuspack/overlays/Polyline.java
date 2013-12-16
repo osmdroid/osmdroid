@@ -22,7 +22,7 @@ public class Polyline extends PathOverlay {
 	
 	/** original GeoPoints */
 	//private List<GeoPoint> mOriginalPoints;
-	int mOriginalPoints[][]; //as an array, to reduce object creation
+	private int mOriginalPoints[][]; //as an array, to reduce object creation
 	
 	public Polyline(Context ctx){
 		this(new DefaultResourceProxyImpl(ctx));
@@ -32,13 +32,13 @@ public class Polyline extends PathOverlay {
 		//default as defined in Google API:
 		super(Color.BLACK, 10.0f, resourceProxy);
 		//mOriginalPoints = new ArrayList<GeoPoint>();
-		mOriginalPoints = new int[0][2];
+		mOriginalPoints = new int[0][3];
 	}
 	
 	public List<GeoPoint> getPoints(){
 		List<GeoPoint> result = new ArrayList<GeoPoint>(mOriginalPoints.length);
 		for (int i=0; i<mOriginalPoints.length; i++){
-			GeoPoint gp = new GeoPoint(mOriginalPoints[i][0], mOriginalPoints[i][1]);
+			GeoPoint gp = new GeoPoint(mOriginalPoints[i][0], mOriginalPoints[i][1], mOriginalPoints[i][2]);
 			result.add(gp);
 		}
 		return result;
@@ -69,11 +69,12 @@ public class Polyline extends PathOverlay {
 	}
 	
 	public void setPoints(List<GeoPoint> points){
-		mOriginalPoints = new int[points.size()][2];
+		mOriginalPoints = new int[points.size()][3];
 		int i=0;
 		for (GeoPoint p:points){
 			mOriginalPoints[i][0] = p.getLatitudeE6();
 			mOriginalPoints[i][1] = p.getLongitudeE6();
+			mOriginalPoints[i][2] = p.getAltitude();
 			super.addPoint(p);
 			i++;
 		}

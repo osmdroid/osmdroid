@@ -22,7 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Java representation of KML Feature or Geometry objects. 
+ * Java representation of KML Feature and Geometry objects. 
  * Currently supports: Folder, Document, Point, LineString, Polygon. 
  * 
  * @see KmlDocument
@@ -64,6 +64,11 @@ public class KmlObject implements Parcelable {
 		mOpen=true;
 	}
 
+	public void createAsFolder(){
+		mObjectType = FOLDER;
+		mItems = new ArrayList<KmlObject>();
+	}
+	
 	public void createFromOverlayItem(ExtendedOverlayItem marker){
 		mObjectType = POINT;
 		mName = marker.getTitle();
@@ -102,11 +107,6 @@ public class KmlObject implements Parcelable {
 		mStyle = kmlDoc.addStyle(style);
 	}
 	
-	public void createAsFolder(){
-		mObjectType = FOLDER;
-		mItems = new ArrayList<KmlObject>();
-	}
-	
 	/** 
 	 * Assuming this is a Folder, converts the overlay to a KmlObject and add it inside. 
 	 * If there is no available conversion from this Overlay class to a KmlObject, add nothing. 
@@ -141,9 +141,12 @@ public class KmlObject implements Parcelable {
 	}
 	
 	/** Set-up the KmlObject from the overlay. 
-	 * Supported overlay classes are: <br>
-	 * FolderOverlay=>Folder, ItemizedOverlayWithBubble=>Point, Polygon=>Polygon, Polyline=>LineString
-	 * If the overlay class is not supported, creates a NO_SHAPE object. 
+	 * Conversion from Overlay subclasses to KML Objects is as follow: <br>
+	 *   FolderOverlay => Folder<br>
+	 *   ItemizedOverlayWithBubble => Point if 1 point, Folder of Points if multiple points, NO_SHAPE if no point<br>
+	 *   Polygon => Polygon<br>
+	 *   Polyline => LineString<br>
+	 * If the overlay subclass is not supported, creates a NO_SHAPE object. 
 	 * @param overlay
 	 * @param kmlDoc for style handling
 	 */
@@ -209,7 +212,9 @@ public class KmlObject implements Parcelable {
 		}
 	}
 
-	/** add an item in the Folder */
+	/** add an item in the Folder 
+	 * @return false if not a Folder
+	 * */
 	public boolean add(KmlObject item){
 		if (mObjectType != FOLDER)
 			return false;
@@ -270,10 +275,9 @@ public class KmlObject implements Parcelable {
 		}
 		case POLYGON:{
 			Polygon polygonOverlay = new Polygon(context);
-			//TODO: remove Paint mechanism, as for PolyLine
-			Paint outlinePaint = null; 
-			int fillColor = 0x20101010; //default
 			Style style = kmlDocument.getStyle(mStyle);
+			Paint outlinePaint = null;
+			int fillColor = 0x20101010; //default
 			if (style != null){
 				outlinePaint = style.getOutlinePaint();
 				fillColor = style.fillColorStyle.getFinalColor();
