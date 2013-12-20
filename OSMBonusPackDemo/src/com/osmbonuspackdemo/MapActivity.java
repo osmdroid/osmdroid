@@ -307,7 +307,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Intent onCreateIntent = getIntent();
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
-				getKml(uri);
+				getKml(uri, true);
 			}
 		}
 	}
@@ -899,7 +899,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ed.putString("KML_URI", uri);
 				ed.commit();
 				dialog.cancel();
-				getKml(uri);
+				getKml(uri, false);
 			}
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -910,7 +910,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.show();
 	}
 	
-	void getKml(String uri){
+	void getKml(String uri, boolean onCreate){
+		//TODO: use an Async task
 		mKmlDocument = new KmlDocument();
 		KmlObject result;
 		if (uri.startsWith("file:/")){
@@ -921,13 +922,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			result = mKmlDocument.parseUrl(uri);
 		}
 		if (result == null)
-			Toast.makeText(this, "Sorry, unable to read this file.", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Sorry, unable to read "+uri, Toast.LENGTH_SHORT).show();
 		updateUIWithKml();
 		if (result != null && result.mBB != null){
-				//setViewOn(kmlRoot.mBB); KO in onCreate - Workaround:
-				map.getController().setCenter(new GeoPoint(
+				if (onCreate) //KO in onCreate - Workaround:
+					map.getController().setCenter(new GeoPoint(
 						result.mBB.getLatSouthE6()+result.mBB.getLatitudeSpanE6()/2, 
 						result.mBB.getLonWestE6()+result.mBB.getLongitudeSpanE6()/2));
+				else 
+					setViewOn(result.mBB); 
 		}
 	}
 	
@@ -1078,7 +1081,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_kml_file:
 			//TODO : openKMLFileDialog();
 			File file = mKmlDocument.getDefaultPathForAndroid("current.kml");
-			getKml("file:/"+file.toString());
+			getKml("file:/"+file.toString(), false);
 			return true;
 		case R.id.menu_kml_get_overlays:
 			insertOverlaysInKml();

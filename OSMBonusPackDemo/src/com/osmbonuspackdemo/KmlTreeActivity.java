@@ -137,19 +137,19 @@ public class KmlTreeActivity extends Activity {
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	    switch (item.getItemId()) {
 	        case R.id.menu_delete:
-				kmlObject.mItems.remove(info.position);
+				kmlObject.removeItem(info.position);
 				listAdapter.notifyDataSetChanged();
 	            return true;
 	        case R.id.menu_behind:
 	        	if (info.position > 0){
-	        		KmlObject kmlItem = kmlObject.mItems.remove(info.position);
+	        		KmlObject kmlItem = kmlObject.removeItem(info.position);
 	        		kmlObject.mItems.add(info.position-1, kmlItem);
 	        		listAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
 	        case R.id.menu_front:
 	        	if (info.position < kmlObject.mItems.size()-1){
-	        		KmlObject kmlItem = kmlObject.mItems.remove(info.position);
+	        		KmlObject kmlItem = kmlObject.removeItem(info.position);
 	        		kmlObject.mItems.add(info.position+1, kmlItem);
 					listAdapter.notifyDataSetChanged();
 	        	}
