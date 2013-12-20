@@ -22,19 +22,23 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Java representation of KML Feature and Geometry objects. 
- * Currently supports: Folder, Document, Point, LineString, Polygon. 
+ * a KmlObject is the Java representation of a KML Feature. 
+ * It currently supports: Folder, Document, and the following Placemarks: Point, LineString, and Polygon. <br>
+ * Each KmlObject has an object type (mObjectType). <br>
+ * Folder feature has its object type = FOLDER. <br>
+ * Document feature is handled exactly like a Folder. <br>
+ * For a Placemark, the KmlObject has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
+ * It contains both the Placemark attributes and the Geometry attributes. 
+ * UNKNOWN object type is reserved for issues/errors/unsupported types. 
  * 
  * @see KmlDocument
+ * @see https://developers.google.com/kml/documentation/kmlreference
  * 
  * @author M.Kergall
  */
 public class KmlObject implements Parcelable {
-	/** possible KML object type. 
-	 * Document feature is handled as a Folder. 
-	 * Placemarks are the same object than their Geometry (a Placemark with a Polygon will just be a POLYGON). 
-	 * NO_SHAPE is reserved for issues/errors/unsupported types. */
-	public static final int NO_SHAPE=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
+	/** possible KML object type */
+	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
 	
 	/** KML object type */
 	public int mObjectType;
@@ -50,7 +54,7 @@ public class KmlObject implements Parcelable {
 	public boolean mVisibility;
 	/** open tag */
 	public boolean mOpen;
-	/** coordinates of the geometry. If Point, just one entry. */
+	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
 	/** styleUrl (without the #) */
 	public String mStyle;
@@ -59,7 +63,7 @@ public class KmlObject implements Parcelable {
 	
 	/** default constructor: create a NO_SHAPE object */
 	public KmlObject(){
-		mObjectType = NO_SHAPE;
+		mObjectType = UNKNOWN;
 		mVisibility=true;
 		mOpen=true;
 	}
@@ -119,7 +123,7 @@ public class KmlObject implements Parcelable {
 			return false;
 		KmlObject kmlItem = new KmlObject();
 		kmlItem.createFromOverlay(overlay, kmlDoc);
-		if (kmlItem.mObjectType != NO_SHAPE){
+		if (kmlItem.mObjectType != UNKNOWN){
 			mItems.add(kmlItem);
 			updateBoundingBoxWith(kmlItem.mBB);
 			return true;		
@@ -165,7 +169,7 @@ public class KmlObject implements Parcelable {
 				createFromOverlayItem(marker);
 			} else if (markers.size()==0){
 				//if empty list, ignore => create a NO_SHAPE. 
-				mObjectType = NO_SHAPE;
+				mObjectType = UNKNOWN;
 			} else { //we have multiple points => we must create a KML Folder, and put items inside as Points:
 				createAsFolder();
 				mName = "Points - " + markers.size();
@@ -184,7 +188,7 @@ public class KmlObject implements Parcelable {
 			Polyline polyline = (Polyline)overlay;
 			createFromPolyline(polyline, kmlDoc);
 		} else { //unsupported overlay - create a NO_SHAPE:
-			mObjectType = NO_SHAPE;
+			mObjectType = UNKNOWN;
 			mName = "Unknown object - " + overlay.getClass().getName();
 		}
 	}
@@ -192,7 +196,7 @@ public class KmlObject implements Parcelable {
 	/**
 	 * Increase the object bounding box to include an other bounding box. 
 	 * Typically needed when adding an item in the object. 
-	 * @param itemBB the bounding box to "add". 
+	 * @param itemBB the bounding box to "add". Can be null. 
 	 */
 	public void updateBoundingBoxWith(BoundingBoxE6 itemBB){
 		if (itemBB != null){
@@ -240,7 +244,7 @@ public class KmlObject implements Parcelable {
 			FolderOverlay folderOverlay = new FolderOverlay(context);
 			for (KmlObject k:mItems){
 				Overlay overlay = k.buildOverlays(context, map, marker, kmlDocument, supportVisibility);
-				folderOverlay.add(overlay, null);
+				folderOverlay.add(overlay);
 			}
 			if (supportVisibility && !mVisibility)
 				folderOverlay.setEnabled(false);
@@ -308,6 +312,21 @@ public class KmlObject implements Parcelable {
 		}
 	}
 	
+	/** 
+	 * remove the item at itemPosition. No check for bad usage (not a Folder, or itemPosition out of rank)
+	 * @param itemPosition position of the item, starting from 0. 
+	 * @return item removed
+	 */
+	public KmlObject removeItem(int itemPosition){
+		KmlObject removed = mItems.remove(itemPosition);
+		//refresh bounding box from scratch:
+		mBB = null;
+		for (KmlObject item:mItems) {
+			updateBoundingBoxWith(item.mBB);
+		}
+		return removed;
+	}
+	
 	/**
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
@@ -346,6 +365,7 @@ public class KmlObject implements Parcelable {
 			writer.write(">\n");
 			if (mStyle != null){
 				writer.write("<styleUrl>#"+mStyle+"</styleUrl>\n");
+				//TODO: if styleUrl is external, don't add the '#'
 			}
 			if (mName != null)
 				writer.write("<name>"+mName+"</name>\n");

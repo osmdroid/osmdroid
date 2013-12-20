@@ -298,7 +298,10 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentObject.mCoordinates = parseKmlCoordinates(mString);
 				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
 			} else if (localName.equals("styleUrl")){
-				mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
+				if (mString.charAt(0) == '#')
+					mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
+				else //external url: keep as is:
+					mKmlCurrentObject.mStyle = mString;
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null)
 					mColorStyle.color = ColorStyle.parseKMLColor(mString);
