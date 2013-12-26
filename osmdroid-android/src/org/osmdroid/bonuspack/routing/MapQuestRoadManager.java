@@ -28,6 +28,16 @@ import android.util.Log;
 public class MapQuestRoadManager extends RoadManager {
 	
 	static final String MAPQUEST_GUIDANCE_SERVICE = "http://open.mapquestapi.com/guidance/v1/route?";
+	protected String mApiKey;
+	
+	/**
+	 * @param apiKey MapQuest API key, mandatory to use the MapQuest Open service. 
+	 * @see http://developer.mapquest.com
+	 */
+	public MapQuestRoadManager(String apiKey){
+		super();
+		mApiKey = apiKey;
+	}
 	
 	/**
 	 * Build the URL to MapQuest service returning a route in XML format
@@ -35,7 +45,8 @@ public class MapQuestRoadManager extends RoadManager {
 	 */
 	protected String getUrl(ArrayList<GeoPoint> waypoints) {
 		StringBuffer urlString = new StringBuffer(MAPQUEST_GUIDANCE_SERVICE);
-		urlString.append("from=");
+		urlString.append("key="+mApiKey);
+		urlString.append("&from=");
 		GeoPoint p = waypoints.get(0);
 		urlString.append(geoPointAsString(p));
 		
