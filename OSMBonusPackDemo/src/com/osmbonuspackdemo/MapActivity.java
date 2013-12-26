@@ -700,16 +700,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				roadManager = new OSRMRoadManager();
 				break;
 			case MAPQUEST_FASTEST:
-				roadManager = new MapQuestRoadManager();
+				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
 				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				break;
 			case MAPQUEST_BICYCLE:
-				roadManager = new MapQuestRoadManager();
+				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
 				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				roadManager.addRequestOption("routeType=bicycle");
 				break;
 			case MAPQUEST_PEDESTRIAN:
-				roadManager = new MapQuestRoadManager();
+				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
 				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				roadManager.addRequestOption("routeType=pedestrian");
 				break;
