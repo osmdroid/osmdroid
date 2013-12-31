@@ -298,7 +298,7 @@ public class KmlObject implements Parcelable {
 			polygonOverlay.setPoints(mCoordinates);
 			polygonOverlay.setTitle(mName);
 			polygonOverlay.setSnippet(mDescription);
-			if (!mName.equals("") || !mDescription.equals("")){
+			if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
 				String packageName = context.getPackageName();
 				int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 				polygonOverlay.setInfoWindow(layoutResId, map);

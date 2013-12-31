@@ -315,7 +315,15 @@ public class KmlDocument implements Parcelable {
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null)
 					mCurrentStyle.iconHref = mString;
 			} else if (localName.equals("Style")){
-				putStyle(mCurrentStyleId, mCurrentStyle);
+				if (mCurrentStyleId != null)
+					putStyle(mCurrentStyleId, mCurrentStyle);
+				else {
+					mCurrentStyleId = addStyle(mCurrentStyle);
+					if (mKmlCurrentObject != null){
+						//this is an inline style. Set its style id to the KmlObject container:
+						mKmlCurrentObject.mStyle = mCurrentStyleId;
+					}
+				}
 				mCurrentStyle = null;
 			}
 		}
