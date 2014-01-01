@@ -85,18 +85,24 @@ public class KmlDocument implements Parcelable {
 	}
 	
 	protected static GeoPoint parseKmlCoord(String input){
-		/* TODO try to find a more efficient way, reducing object creation... 
-		Scanner s = new Scanner(input).useDelimiter("\\,");
+		/* TODO try to find a more efficient way, reducing object creation... */
+		int end1 = input.indexOf(',');
+		int end2 = input.indexOf(',', end1+1);
+		if (end2 == -1)
+			end2 = input.length();
 		try {
-			double lon = s.nextDouble();
-			double lat = s.nextDouble();
-			double alt = 0.0; //s.nextDouble();
-			GeoPoint p = new GeoPoint(lat, lon, alt);
+			String sLon = input.substring(0, end1);
+			double lon = Double.parseDouble(sLon);
+			String sLat = input.substring(end1+1, end2);
+			double lat = Double.parseDouble(sLat);
+			GeoPoint p = new GeoPoint(lat, lon);
 			return p;
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
+			return null;
+		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-		*/
+		/*
 		String[] coords = input.split(",");
 		try {
 			double lon = Double.parseDouble(coords[0]);
@@ -107,11 +113,12 @@ public class KmlDocument implements Parcelable {
 		} catch (NumberFormatException e) {
 			return null;
 		}
+		*/
 	}
 	
 	/** KML coordinates are: lon,lat{,alt} tuples separated by spaces. */
 	protected static ArrayList<GeoPoint> parseKmlCoordinates(String input){
-		String[] splitted = input.split("\\s");
+		String[] splitted = input.split("\\s"); //TODO: improve removal of additional spaces
 		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(splitted.length);
 		for (int i=0; i<splitted.length; i++){
 			GeoPoint p = parseKmlCoord(splitted[i]);
@@ -211,7 +218,7 @@ public class KmlDocument implements Parcelable {
 			e.printStackTrace();
 			handler.mKmlRoot = null;
 		}
-		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
 		kmlRoot = handler.mKmlRoot;
 		return handler.mKmlRoot;
 	}
@@ -220,7 +227,7 @@ public class KmlDocument implements Parcelable {
 	
 	class KmlSaxHandler extends DefaultHandler {
 		
-		private String mString;
+		private StringBuilder mStringBuilder;// = new StringBuilder(1024);
 		private KmlObject mKmlCurrentObject;
 		private ArrayList<KmlObject> mKmlStack;
 		KmlObject mKmlRoot;
@@ -262,13 +269,12 @@ public class KmlDocument implements Parcelable {
 				mCurrentStyle.iconColorStyle = new ColorStyle();
 				mColorStyle = mCurrentStyle.iconColorStyle;
 			}
-			mString = new String();
+			mStringBuilder = new StringBuilder(256);
 		}
 		
 		public @Override void characters(char[] ch, int start, int length)
 				throws SAXException {
-			String chars = new String(ch, start, length);
-			mString = mString.concat(chars);
+			mStringBuilder = mStringBuilder.append(ch, start, length);
 		}
 		
 		public void endElement(String uri, String localName, String name)
@@ -287,33 +293,33 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("Polygon")){
 				mKmlCurrentObject.mObjectType = KmlObject.POLYGON;
 			} else if (localName.equals("name")){
-				mKmlCurrentObject.mName = mString;
+				mKmlCurrentObject.mName = mStringBuilder.toString();
 			} else if (localName.equals("description")){
-				mKmlCurrentObject.mDescription = mString;
+				mKmlCurrentObject.mDescription = mStringBuilder.toString();
 			} else if (localName.equals("visibility")){
-				mKmlCurrentObject.mVisibility = ("1".equals(mString));
+				mKmlCurrentObject.mVisibility = ("1".equals(mStringBuilder));
 			} else if (localName.equals("open")){
-				mKmlCurrentObject.mOpen = ("1".equals(mString));
+				mKmlCurrentObject.mOpen = ("1".equals(mStringBuilder));
 			} else if (localName.equals("coordinates")){
-				mKmlCurrentObject.mCoordinates = parseKmlCoordinates(mString);
+				mKmlCurrentObject.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
 				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
 			} else if (localName.equals("styleUrl")){
-				if (mString.charAt(0) == '#')
-					mKmlCurrentObject.mStyle = mString.substring(1); //remove the #
+				if (mStringBuilder.charAt(0) == '#')
+					mKmlCurrentObject.mStyle = mStringBuilder.substring(1); //remove the #
 				else //external url: keep as is:
-					mKmlCurrentObject.mStyle = mString;
+					mKmlCurrentObject.mStyle = mStringBuilder.toString();
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null)
-					mColorStyle.color = ColorStyle.parseKMLColor(mString);
+					mColorStyle.color = ColorStyle.parseKMLColor(mStringBuilder.toString());
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
-					mColorStyle.colorMode = (mString.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
+					mColorStyle.colorMode = (mStringBuilder.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
 			} else if (localName.equals("width")){
 				if (mCurrentStyle != null)
-					mCurrentStyle.outlineWidth = Float.parseFloat(mString);
+					mCurrentStyle.outlineWidth = Float.parseFloat(mStringBuilder.toString());
 			} else if (localName.equals("href")){
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null)
-					mCurrentStyle.iconHref = mString;
+					mCurrentStyle.iconHref = mStringBuilder.toString();
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)
 					putStyle(mCurrentStyleId, mCurrentStyle);
