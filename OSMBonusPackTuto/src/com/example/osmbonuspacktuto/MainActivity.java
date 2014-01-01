@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
 		//1. "Hello, Routing World"
 		RoadManager roadManager = new OSRMRoadManager();
 		//or: 
-		//roadManager roadManager = new MapQuestRoadManager();
+		//roadManager roadManager = new MapQuestRoadManager("YOUR_API_KEY");
 		//roadManager.addRequestOption("routeType=bicycle");
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
 		waypoints.add(startPoint);
