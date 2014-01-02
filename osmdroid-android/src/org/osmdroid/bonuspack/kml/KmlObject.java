@@ -68,6 +68,7 @@ public class KmlObject implements Parcelable, Cloneable {
 		mOpen=true;
 	}
 	
+	/** the mandatory tribute to this monument of Java stupidity */
 	public KmlObject clone(){
 		KmlObject kmlObject = null;
 		try {
@@ -76,10 +77,16 @@ public class KmlObject implements Parcelable, Cloneable {
 			e.printStackTrace();
 			return null;
 		}
-		if (mItems != null)
-			kmlObject.mItems = (ArrayList<KmlObject>)mItems.clone();
-		if (mCoordinates != null)
-			kmlObject.mCoordinates = (ArrayList<GeoPoint>)mCoordinates.clone();
+		if (mItems != null){
+			kmlObject.mItems = new ArrayList<KmlObject>(mItems.size());
+			for (KmlObject item:mItems)
+				kmlObject.mItems.add(item.clone());
+		}
+		if (mCoordinates != null){
+			kmlObject.mCoordinates = new ArrayList<GeoPoint>(mCoordinates.size());
+			for (GeoPoint p:mCoordinates)
+				kmlObject.mCoordinates.add((GeoPoint)p.clone());
+		}
 		if (mBB != null)
 			kmlObject.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
 				mBB.getLatSouthE6(), mBB.getLonWestE6());
