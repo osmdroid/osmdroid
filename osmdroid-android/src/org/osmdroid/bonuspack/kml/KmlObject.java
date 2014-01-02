@@ -29,14 +29,14 @@ import android.os.Parcelable;
  * Document feature is handled exactly like a Folder. <br>
  * For a Placemark, the KmlObject has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
  * It contains both the Placemark attributes and the Geometry attributes. 
- * UNKNOWN object type is reserved for issues/errors/unsupported types. 
+ * UNKNOWN object type is reserved for issues/errors, and unsupported types. 
  * 
  * @see KmlDocument
  * @see https://developers.google.com/kml/documentation/kmlreference
  * 
  * @author M.Kergall
  */
-public class KmlObject implements Parcelable {
+public class KmlObject implements Parcelable, Cloneable {
 	/** possible KML object type */
 	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
 	
@@ -61,11 +61,29 @@ public class KmlObject implements Parcelable {
 	/** bounding box - null if no geometry */
 	public BoundingBoxE6 mBB;
 	
-	/** default constructor: create a NO_SHAPE object */
+	/** default constructor: create an UNKNOWN object */
 	public KmlObject(){
 		mObjectType = UNKNOWN;
 		mVisibility=true;
 		mOpen=true;
+	}
+	
+	public KmlObject clone(){
+		KmlObject kmlObject = null;
+		try {
+			kmlObject = (KmlObject)super.clone();
+		} catch (CloneNotSupportedException e){
+			e.printStackTrace();
+			return null;
+		}
+		if (mItems != null)
+			kmlObject.mItems = (ArrayList<KmlObject>)mItems.clone();
+		if (mCoordinates != null)
+			kmlObject.mCoordinates = (ArrayList<GeoPoint>)mCoordinates.clone();
+		if (mBB != null)
+			kmlObject.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
+				mBB.getLatSouthE6(), mBB.getLonWestE6());
+		return kmlObject;
 	}
 
 	public void createAsFolder(){
@@ -359,7 +377,7 @@ public class KmlObject implements Parcelable {
 			default:
 				break;
 			}
-			writer.write("<"+objectType);
+			writer.write('<'+objectType);
 			if (mId != null)
 				writer.write(" id=\"mId\"");
 			writer.write(">\n");
@@ -386,7 +404,7 @@ public class KmlObject implements Parcelable {
 						GeoPoint coord = it.next();
 						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude());
 						if (it.hasNext())
-							writer.write(" ");
+							writer.write(' ');
 					}
 					writer.write("</coordinates>\n");
 				}

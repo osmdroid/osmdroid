@@ -85,7 +85,7 @@ public class KmlDocument implements Parcelable {
 	}
 	
 	protected static GeoPoint parseKmlCoord(String input){
-		/* TODO try to find a more efficient way, reducing object creation... */
+		/* Trying to find an efficient way, reducing object creation:*/
 		int end1 = input.indexOf(',');
 		int end2 = input.indexOf(',', end1+1);
 		if (end2 == -1)
@@ -95,6 +95,7 @@ public class KmlDocument implements Parcelable {
 			double lon = Double.parseDouble(sLon);
 			String sLat = input.substring(end1+1, end2);
 			double lat = Double.parseDouble(sLat);
+			//TODO: read alt, if any
 			GeoPoint p = new GeoPoint(lat, lon);
 			return p;
 		} catch (NumberFormatException e) {
@@ -116,9 +117,9 @@ public class KmlDocument implements Parcelable {
 		*/
 	}
 	
-	/** KML coordinates are: lon,lat{,alt} tuples separated by spaces. */
+	/** KML coordinates are: lon,lat{,alt} tuples separated by separators (space, tab, cr). */
 	protected static ArrayList<GeoPoint> parseKmlCoordinates(String input){
-		String[] splitted = input.split("\\s"); //TODO: improve removal of additional spaces
+		String[] splitted = input.split("\\s+");
 		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(splitted.length);
 		for (int i=0; i<splitted.length; i++){
 			GeoPoint p = parseKmlCoord(splitted[i]);
@@ -227,7 +228,7 @@ public class KmlDocument implements Parcelable {
 	
 	class KmlSaxHandler extends DefaultHandler {
 		
-		private StringBuilder mStringBuilder;// = new StringBuilder(1024);
+		private StringBuilder mStringBuilder = new StringBuilder(1024);
 		private KmlObject mKmlCurrentObject;
 		private ArrayList<KmlObject> mKmlStack;
 		KmlObject mKmlRoot;
@@ -269,12 +270,12 @@ public class KmlDocument implements Parcelable {
 				mCurrentStyle.iconColorStyle = new ColorStyle();
 				mColorStyle = mCurrentStyle.iconColorStyle;
 			}
-			mStringBuilder = new StringBuilder(256);
+			mStringBuilder.setLength(0);
 		}
 		
 		public @Override void characters(char[] ch, int start, int length)
 				throws SAXException {
-			mStringBuilder = mStringBuilder.append(ch, start, length);
+			mStringBuilder.append(ch, start, length);
 		}
 		
 		public void endElement(String uri, String localName, String name)
@@ -297,9 +298,9 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("description")){
 				mKmlCurrentObject.mDescription = mStringBuilder.toString();
 			} else if (localName.equals("visibility")){
-				mKmlCurrentObject.mVisibility = ("1".equals(mStringBuilder));
+				mKmlCurrentObject.mVisibility = ("1".equals(mStringBuilder.toString()));
 			} else if (localName.equals("open")){
-				mKmlCurrentObject.mOpen = ("1".equals(mStringBuilder));
+				mKmlCurrentObject.mOpen = ("1".equals(mStringBuilder.toString()));
 			} else if (localName.equals("coordinates")){
 				mKmlCurrentObject.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
 				mKmlCurrentObject.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentObject.mCoordinates);
@@ -313,7 +314,7 @@ public class KmlDocument implements Parcelable {
 					mColorStyle.color = ColorStyle.parseKMLColor(mStringBuilder.toString());
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
-					mColorStyle.colorMode = (mStringBuilder.equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
+					mColorStyle.colorMode = (mStringBuilder.toString().equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
 			} else if (localName.equals("width")){
 				if (mCurrentStyle != null)
 					mCurrentStyle.outlineWidth = Float.parseFloat(mStringBuilder.toString());
@@ -372,7 +373,7 @@ public class KmlDocument implements Parcelable {
 	public boolean saveAsKML(File file){
 		try {
 			FileWriter fw = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fw);
+			BufferedWriter writer = new BufferedWriter(fw, 8192);
 			boolean result = saveAsKML(writer);
 			writer.close();
 			return result;
@@ -388,6 +389,7 @@ public class KmlDocument implements Parcelable {
 		return 0;
 	}
 
+	/** WARNING - Parcel mechanism doesn't work with very large objects. Refer to Android doc, and use carefully. */
 	@Override public void writeToParcel(Parcel out, int flags) {
 		out.writeParcelable(kmlRoot, flags);
 		//write styles map:
