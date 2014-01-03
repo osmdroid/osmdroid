@@ -169,8 +169,8 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	// ===========================================================
 
 	@Override
-	public Object clone() {
-		return new GeoPoint(this.mLatitudeE6, this.mLongitudeE6);
+	public GeoPoint clone() {
+		return new GeoPoint(this.mLatitudeE6, this.mLongitudeE6, this.mAltitude);
 	}
 
 	@Override
