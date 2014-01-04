@@ -3,7 +3,7 @@ package com.example.osmbonuspacktuto;
 import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
@@ -132,9 +132,11 @@ public class MainActivity extends Activity {
 		//10. Loading KML content
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
-		KmlObject result = kmlDocument.parseUrl(url);
+		boolean ok = kmlDocument.parseUrl(url);
+		//File file = kmlDocument.getDefaultPathForAndroid("my_routes.kml");
+		//boolean ok = kmlDocument.parseFile(file);
 		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-		if (result != null){
+		if (ok){
 			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.kmlRoot.buildOverlays(this, map, defaultMarker, kmlDocument, false);
 			map.getOverlays().add(kmlOverlay);
 			if (kmlDocument.kmlRoot.mBB != null){
