@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
@@ -118,6 +119,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
 	protected static final int KML_TREE_REQUEST = 3;
 	public static KmlDocument mKmlDocument = new KmlDocument(); //made static to pass between activities
+	public static Stack<KmlFeature> mKmlStack = new Stack<KmlFeature>(); //passed between activities
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -367,8 +369,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 			break;
 		case KML_TREE_REQUEST:
+			KmlFeature result = mKmlStack.pop();
 			if (resultCode == RESULT_OK) {
-				mKmlDocument.kmlRoot = intent.getParcelableExtra("KML");
+				//use the object which has been modified in KmlTreeActivity:
+				mKmlDocument.kmlRoot = result; //intent.getParcelableExtra("KML");
 				updateUIWithKml();
 			}
 			break;
@@ -913,24 +917,24 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void getKml(String uri, boolean onCreate){
 		//TODO: use an Async task
 		mKmlDocument = new KmlDocument();
-		KmlObject result;
+		boolean ok;
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
-			result = mKmlDocument.parseFile(file);
+			ok = mKmlDocument.parseFile(file);
 		} else  {
-			result = mKmlDocument.parseUrl(uri);
+			ok = mKmlDocument.parseUrl(uri);
 		}
-		if (result == null)
+		if (!ok)
 			Toast.makeText(this, "Sorry, unable to read "+uri, Toast.LENGTH_SHORT).show();
 		updateUIWithKml();
-		if (result != null && result.mBB != null){
-				if (onCreate) //KO in onCreate - Workaround:
+		if (mKmlDocument.kmlRoot != null && mKmlDocument.kmlRoot.mBB != null){
+				if (!onCreate)
+					setViewOn(mKmlDocument.kmlRoot.mBB); 
+				else  //KO in onCreate - Workaround:
 					map.getController().setCenter(new GeoPoint(
-						result.mBB.getLatSouthE6()+result.mBB.getLatitudeSpanE6()/2, 
-						result.mBB.getLonWestE6()+result.mBB.getLongitudeSpanE6()/2));
-				else 
-					setViewOn(result.mBB); 
+							mKmlDocument.kmlRoot.mBB.getLatSouthE6()+mKmlDocument.kmlRoot.mBB.getLatitudeSpanE6()/2, 
+							mKmlDocument.kmlRoot.mBB.getLonWestE6()+mKmlDocument.kmlRoot.mBB.getLongitudeSpanE6()/2));
 		}
 	}
 	
@@ -955,8 +959,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void insertOverlaysInKml(){
 		//Ensure the root is a folder:
-		if (mKmlDocument.kmlRoot == null || mKmlDocument.kmlRoot.mObjectType != KmlObject.FOLDER){
-			mKmlDocument.kmlRoot = new KmlObject();
+		if (mKmlDocument.kmlRoot == null || mKmlDocument.kmlRoot.mObjectType != KmlFeature.FOLDER){
+			mKmlDocument.kmlRoot = new KmlFeature();
 			mKmlDocument.kmlRoot.createAsFolder();
 		}
 		//Insert relevant overlays inside:
@@ -1091,7 +1095,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (mKmlDocument.kmlRoot==null)
 				return false;
 			myIntent = new Intent(this, KmlTreeActivity.class);
-			myIntent.putExtra("KML", mKmlDocument.kmlRoot);
+			//myIntent.putExtra("KML", mKmlDocument.kmlRoot);
+			mKmlStack.push(mKmlDocument.kmlRoot.clone());
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_kml_save:

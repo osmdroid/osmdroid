@@ -4,6 +4,9 @@
         android:id="@+id/menu_delete"
         android:title="Delete"/>
     <item
+        android:id="@+id/menu_duplicate"
+        android:title="Duplicate"/>
+    <item
         android:id="@+id/menu_behind"
         android:title="Push behind"/>
     <item

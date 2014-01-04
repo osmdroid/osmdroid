@@ -1,6 +1,6 @@
 package com.osmbonuspackdemo;
 
-import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlFeature;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 public class KmlListAdapter extends BaseAdapter {
 
-    protected KmlObject mRoot;
+    protected KmlFeature mRoot;
     
-    public KmlListAdapter(Context context, KmlObject root) {
+    public KmlListAdapter(Context context, KmlFeature root) {
         mRoot = root;
     }
 
@@ -35,7 +35,7 @@ public class KmlListAdapter extends BaseAdapter {
     }
 
     @Override public View getView(int position, View convertView, ViewGroup viewGroup) {
-    	KmlObject item = (KmlObject)getItem(position);
+    	KmlFeature item = (KmlFeature)getItem(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) viewGroup.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.kml_list_item, null);
@@ -50,7 +50,7 @@ public class KmlListAdapter extends BaseAdapter {
 	        checkBoxIsVisible.setOnClickListener(new OnClickListener(){
 				@Override public void onClick(View view) {
 					int position = (Integer)view.getTag();
-					KmlObject item = mRoot.mItems.get(position);
+					KmlFeature item = mRoot.mItems.get(position);
 					item.mVisibility = ((CheckBox)view).isChecked();
 				}
 	        });
@@ -59,16 +59,16 @@ public class KmlListAdapter extends BaseAdapter {
         
 		ImageView img = (ImageView)convertView.findViewById(R.id.listItemImg);
 		switch (item.mObjectType){
-		case KmlObject.FOLDER:
+		case KmlFeature.FOLDER:
 			img.setImageResource(R.drawable.moreinfo_arrow);
 			break;
-		case KmlObject.POINT:
+		case KmlFeature.POINT:
 			img.setImageResource(R.drawable.marker_kml_point);
 			break;
-		case KmlObject.LINE_STRING:
+		case KmlFeature.LINE_STRING:
 			img.setImageResource(R.drawable.kml_icon_linestring);
 			break;
-		case KmlObject.POLYGON:
+		case KmlFeature.POLYGON:
 			img.setImageResource(R.drawable.kml_icon_polygon);
 			break;
 		default:

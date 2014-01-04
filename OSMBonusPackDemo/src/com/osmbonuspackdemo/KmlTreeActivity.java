@@ -1,6 +1,6 @@
 package com.osmbonuspackdemo;
 
-import org.osmdroid.bonuspack.kml.KmlObject;
+import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.kml.ColorStyle;
 import android.app.Activity;
@@ -25,7 +25,7 @@ public class KmlTreeActivity extends Activity {
 
 	KmlListAdapter listAdapter;
 	ListView listView;
-	KmlObject kmlObject;
+	KmlFeature kmlObject;
 	protected static final int KML_TREE_REQUEST = 3;
 	int mItemPosition; //last item opened
 	EditText eHeader, eDescription, eOutlineColor, eFillColor;
@@ -37,8 +37,7 @@ public class KmlTreeActivity extends Activity {
 		listView = (ListView) findViewById(R.id.listviewKml);
 		registerForContextMenu(listView);
 		
-		Intent myIntent = getIntent();
-		kmlObject = myIntent.getParcelableExtra("KML");
+		kmlObject = MapActivity.mKmlStack.peek();
 		
 		eHeader = (EditText)findViewById(R.id.name);
 		eHeader.setText(kmlObject.mName);
@@ -51,7 +50,7 @@ public class KmlTreeActivity extends Activity {
 			style = MapActivity.mKmlDocument.getStyle(kmlObject.mStyle);
 		
 		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
-		if ((kmlObject.mObjectType == KmlObject.LINE_STRING || kmlObject.mObjectType == KmlObject.POLYGON) && style!=null){
+		if ((kmlObject.mObjectType == KmlFeature.LINE_STRING || kmlObject.mObjectType == KmlFeature.POLYGON) && style!=null){
 			mOutlineColorStyle = style.outlineColorStyle;
 			eOutlineColor.setText(mOutlineColorStyle.colorAsAndroidString());
 		} else {
@@ -60,7 +59,7 @@ public class KmlTreeActivity extends Activity {
 		}
 		
 		eFillColor = (EditText)findViewById(R.id.fillColor);
-		if (kmlObject.mObjectType == KmlObject.POLYGON && style!=null){
+		if (kmlObject.mObjectType == KmlFeature.POLYGON && style!=null){
 			mFillColorStyle = style.fillColorStyle;
 			eFillColor.setText(mFillColorStyle.colorAsAndroidString());
 		} else {
@@ -77,9 +76,10 @@ public class KmlTreeActivity extends Activity {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 			@Override public void onItemClick(AdapterView<?> arg0, View view, int position, long index) {
 				mItemPosition = position;
-				KmlObject item = kmlObject.mItems.get(position);
+				KmlFeature item = kmlObject.mItems.get(position);
 				Intent myIntent = new Intent(view.getContext(), KmlTreeActivity.class);
-				myIntent.putExtra("KML", item);
+				//myIntent.putExtra("KML", item);
+				MapActivity.mKmlStack.push(item.clone());
 				startActivityForResult(myIntent, KML_TREE_REQUEST);
 			}
 		});
@@ -105,9 +105,7 @@ public class KmlTreeActivity extends Activity {
 			    		Toast.makeText(view.getContext(), "Invalid fill color", Toast.LENGTH_SHORT).show();
 			    	}
 		    	}
-		        Intent intent = new Intent();
-		        intent.putExtra("KML", kmlObject);
-		        setResult(RESULT_OK, intent);
+		        setResult(RESULT_OK);
 		        finish();
 		    }
 		});
@@ -116,9 +114,9 @@ public class KmlTreeActivity extends Activity {
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
 		case KML_TREE_REQUEST:
+			KmlFeature result = MapActivity.mKmlStack.pop();
 			if (resultCode == RESULT_OK) {
-				KmlObject item = intent.getParcelableExtra("KML");
-				kmlObject.mItems.set(mItemPosition, item);
+				kmlObject.mItems.set(mItemPosition, result);
 				listAdapter.notifyDataSetChanged();
 			}
 			break;
@@ -140,16 +138,21 @@ public class KmlTreeActivity extends Activity {
 				kmlObject.removeItem(info.position);
 				listAdapter.notifyDataSetChanged();
 	            return true;
+	        case R.id.menu_duplicate:
+	        	KmlFeature duplicate = kmlObject.mItems.get(info.position).clone();
+	        	kmlObject.add(duplicate);
+	        	listAdapter.notifyDataSetChanged();
+	            return true;
 	        case R.id.menu_behind:
 	        	if (info.position > 0){
-	        		KmlObject kmlItem = kmlObject.removeItem(info.position);
+	        		KmlFeature kmlItem = kmlObject.removeItem(info.position);
 	        		kmlObject.mItems.add(info.position-1, kmlItem);
 	        		listAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
 	        case R.id.menu_front:
 	        	if (info.position < kmlObject.mItems.size()-1){
-	        		KmlObject kmlItem = kmlObject.removeItem(info.position);
+	        		KmlFeature kmlItem = kmlObject.removeItem(info.position);
 	        		kmlObject.mItems.add(info.position+1, kmlItem);
 					listAdapter.notifyDataSetChanged();
 	        	}
