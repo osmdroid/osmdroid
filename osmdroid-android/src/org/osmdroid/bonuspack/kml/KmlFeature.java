@@ -22,34 +22,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * a KmlObject is the Java representation of a KML Feature. 
- * It currently supports: Folder, Document, and the following Placemarks: Point, LineString, and Polygon. <br>
- * Each KmlObject has an object type (mObjectType). <br>
- * Folder feature has its object type = FOLDER. <br>
- * Document feature is handled exactly like a Folder. <br>
- * For a Placemark, the KmlObject has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
- * It contains both the Placemark attributes and the Geometry attributes. 
- * UNKNOWN object type is reserved for issues/errors, and unsupported types. 
+ * The Java representation of a KML Feature. 
+ * It currently supports: Folder, Document, and Placemarks with the following Geometry: Point, LineString, and Polygon. <br>
+ * Each KmlFeature has a type: mObjectType. <br>
+ * 	- Folder feature object type = FOLDER. <br>
+ * 	- Document feature is handled exactly like a Folder (object type = FOLDER). <br>
+ * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
+ * 	  It contains both the Placemark attributes and the Geometry attributes. 
+ * 	- UNKNOWN object type is reserved for issues/errors, or unsupported features/geometries. 
  * 
  * @see KmlDocument
  * @see https://developers.google.com/kml/documentation/kmlreference
  * 
  * @author M.Kergall
  */
-public class KmlObject implements Parcelable, Cloneable {
-	/** possible KML object type */
+public class KmlFeature implements Parcelable, Cloneable {
+	/** possible KML object types */
 	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
 	
 	/** KML object type */
 	public int mObjectType;
-	/** object id attribute, if any. Null if none. */
+	/** feature id attribute, if any. Null if none. */
 	public String mId;
 	/** name tag */
 	public String mName;
 	/** description tag */
 	public String mDescription;
-	/** if this is a Folder or Document, list of KmlObject features it contains */
-	public ArrayList<KmlObject> mItems;
+	/** if this is a Folder, list of features it contains */
+	public ArrayList<KmlFeature> mItems;
 	/** visibility tag */
 	public boolean mVisibility;
 	/** open tag */
@@ -62,40 +62,15 @@ public class KmlObject implements Parcelable, Cloneable {
 	public BoundingBoxE6 mBB;
 	
 	/** default constructor: create an UNKNOWN object */
-	public KmlObject(){
+	public KmlFeature(){
 		mObjectType = UNKNOWN;
 		mVisibility=true;
 		mOpen=true;
 	}
 	
-	/** the mandatory tribute to this monument of Java stupidity */
-	public KmlObject clone(){
-		KmlObject kmlObject = null;
-		try {
-			kmlObject = (KmlObject)super.clone();
-		} catch (CloneNotSupportedException e){
-			e.printStackTrace();
-			return null;
-		}
-		if (mItems != null){
-			kmlObject.mItems = new ArrayList<KmlObject>(mItems.size());
-			for (KmlObject item:mItems)
-				kmlObject.mItems.add(item.clone());
-		}
-		if (mCoordinates != null){
-			kmlObject.mCoordinates = new ArrayList<GeoPoint>(mCoordinates.size());
-			for (GeoPoint p:mCoordinates)
-				kmlObject.mCoordinates.add((GeoPoint)p.clone());
-		}
-		if (mBB != null)
-			kmlObject.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
-				mBB.getLatSouthE6(), mBB.getLonWestE6());
-		return kmlObject;
-	}
-
 	public void createAsFolder(){
 		mObjectType = FOLDER;
-		mItems = new ArrayList<KmlObject>();
+		mItems = new ArrayList<KmlFeature>();
 	}
 	
 	public void createFromOverlayItem(ExtendedOverlayItem marker){
@@ -137,8 +112,8 @@ public class KmlObject implements Parcelable, Cloneable {
 	}
 	
 	/** 
-	 * Assuming this is a Folder, converts the overlay to a KmlObject and add it inside. 
-	 * If there is no available conversion from this Overlay class to a KmlObject, add nothing. 
+	 * Assuming this is a Folder, converts the overlay to a KmlFeature and add it inside. 
+	 * If there is no available conversion from this Overlay class to a KmlFeature, add nothing. 
 	 * @param overlay to convert and add
 	 * @param kmlDoc for style handling. 
 	 * @return true if OK, false if the overlay has not been added. 
@@ -146,7 +121,7 @@ public class KmlObject implements Parcelable, Cloneable {
 	public boolean addOverlay(Overlay overlay, KmlDocument kmlDoc){
 		if (overlay == null || mObjectType != FOLDER)
 			return false;
-		KmlObject kmlItem = new KmlObject();
+		KmlFeature kmlItem = new KmlFeature();
 		kmlItem.createFromOverlay(overlay, kmlDoc);
 		if (kmlItem.mObjectType != UNKNOWN){
 			mItems.add(kmlItem);
@@ -157,7 +132,7 @@ public class KmlObject implements Parcelable, Cloneable {
 	}
 	
 	/** 
-	 * Assuming this is a Folder, adds all overlays inside, converting them in KmlObjects. 
+	 * Assuming this is a Folder, adds all overlays inside, converting them in KmlFeatures. 
 	 * @param overlays to add
 	 * @param kmlDoc
 	 */
@@ -169,10 +144,10 @@ public class KmlObject implements Parcelable, Cloneable {
 		}
 	}
 	
-	/** Set-up the KmlObject from the overlay. 
-	 * Conversion from Overlay subclasses to KML Objects is as follow: <br>
+	/** Set-up the KmlFeature from the overlay. 
+	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
 	 *   FolderOverlay => Folder<br>
-	 *   ItemizedOverlayWithBubble => Point if 1 point, Folder of Points if multiple points, NO_SHAPE if no point<br>
+	 *   ItemizedOverlayWithBubble => Point if 1 point, Folder of Points if multiple points, UNKNOWN if no point<br>
 	 *   Polygon => Polygon<br>
 	 *   Polyline => LineString<br>
 	 * If the overlay subclass is not supported, creates a NO_SHAPE object. 
@@ -193,14 +168,14 @@ public class KmlObject implements Parcelable, Cloneable {
 				ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(0);
 				createFromOverlayItem(marker);
 			} else if (markers.size()==0){
-				//if empty list, ignore => create a NO_SHAPE. 
+				//if empty list, ignore => create an UNKNOWN object. 
 				mObjectType = UNKNOWN;
 			} else { //we have multiple points => we must create a KML Folder, and put items inside as Points:
 				createAsFolder();
 				mName = "Points - " + markers.size();
 				for (int j=0; j<markers.size(); j++){
 					ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(j);
-					KmlObject kmlItem = new KmlObject();
+					KmlFeature kmlItem = new KmlFeature();
 					kmlItem.createFromOverlayItem(marker);
 					mItems.add(kmlItem);
 					updateBoundingBoxWith(kmlItem.mBB);
@@ -212,7 +187,7 @@ public class KmlObject implements Parcelable, Cloneable {
 		} else if (overlay.getClass() == Polyline.class){
 			Polyline polyline = (Polyline)overlay;
 			createFromPolyline(polyline, kmlDoc);
-		} else { //unsupported overlay - create a NO_SHAPE:
+		} else { //unsupported overlay - create an UNKNOWN:
 			mObjectType = UNKNOWN;
 			mName = "Unknown object - " + overlay.getClass().getName();
 		}
@@ -244,7 +219,7 @@ public class KmlObject implements Parcelable, Cloneable {
 	/** add an item in the Folder 
 	 * @return false if not a Folder
 	 * */
-	public boolean add(KmlObject item){
+	public boolean add(KmlFeature item){
 		if (mObjectType != FOLDER)
 			return false;
 		mItems.add(item);
@@ -261,13 +236,14 @@ public class KmlObject implements Parcelable, Cloneable {
 	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
 	 * @return the overlay, depending on the KML object type: <br>
 	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>Polyline
+	 * 		and return null if  object type is UNKNOWN. 
 	 */
 	public Overlay buildOverlays(Context context, MapView map, Drawable marker, KmlDocument kmlDocument, 
 			boolean supportVisibility){
 		switch (mObjectType){
 		case FOLDER:{
 			FolderOverlay folderOverlay = new FolderOverlay(context);
-			for (KmlObject k:mItems){
+			for (KmlFeature k:mItems){
 				Overlay overlay = k.buildOverlays(context, map, marker, kmlDocument, supportVisibility);
 				folderOverlay.add(overlay);
 			}
@@ -342,11 +318,11 @@ public class KmlObject implements Parcelable, Cloneable {
 	 * @param itemPosition position of the item, starting from 0. 
 	 * @return item removed
 	 */
-	public KmlObject removeItem(int itemPosition){
-		KmlObject removed = mItems.remove(itemPosition);
+	public KmlFeature removeItem(int itemPosition){
+		KmlFeature removed = mItems.remove(itemPosition);
 		//refresh bounding box from scratch:
 		mBB = null;
-		for (KmlObject item:mItems) {
+		for (KmlFeature item:mItems) {
 			updateBoundingBoxWith(item.mBB);
 		}
 		return removed;
@@ -360,8 +336,8 @@ public class KmlObject implements Parcelable, Cloneable {
 	 */
 	public boolean writeAsKML(Writer writer, boolean isDocument, KmlDocument kmlDocument){
 		try {
-			String objectType = "";
-			String feature = null;
+			String objectType;
+			String geometry = null;
 			switch (mObjectType){
 			case FOLDER:
 				if (isDocument)
@@ -371,17 +347,18 @@ public class KmlObject implements Parcelable, Cloneable {
 				break;
 			case POINT:
 				objectType = "Placemark";
-				feature = "Point";
+				geometry = "Point";
 				break;
 			case LINE_STRING:
 				objectType = "Placemark";
-				feature = "LineString";
+				geometry = "LineString";
 				break;
 			case POLYGON:
 				objectType = "Placemark";
-				feature = "Polygon";
+				geometry = "Polygon";
 				break;
 			default:
+				objectType = "Unknown"; //TODO - not a good error handling
 				break;
 			}
 			writer.write('<'+objectType);
@@ -400,8 +377,8 @@ public class KmlObject implements Parcelable, Cloneable {
 				writer.write("<visibility>0</visibility>\n");
 			if (mObjectType == FOLDER && !mOpen)
 				writer.write("<open>0</open>\n");
-			if (feature != null){
-				writer.write("<"+feature+">\n");
+			if (geometry != null){
+				writer.write("<"+geometry+">\n");
 				if (mObjectType == POLYGON)
 					writer.write("<outerBoundaryIs>\n<LinearRing>\n");
 				if (mCoordinates != null){
@@ -417,15 +394,15 @@ public class KmlObject implements Parcelable, Cloneable {
 				}
 				if (mObjectType == POLYGON)
 					writer.write("</LinearRing>\n</outerBoundaryIs>\n");
-				writer.write("</"+feature+">\n");
+				writer.write("</"+geometry+">\n");
 			}
 			if (mObjectType == FOLDER){
-				for (KmlObject item:mItems){
+				for (KmlFeature item:mItems){
 					item.writeAsKML(writer, false, null);
 				}
 			}
 			if (isDocument){
-				kmlDocument.writeStyles(writer);
+				kmlDocument.writeKMLStyles(writer);
 			}
 			writer.write("</"+objectType+">\n");
 			return true;
@@ -435,6 +412,88 @@ public class KmlObject implements Parcelable, Cloneable {
 		}
 	}
 	
+	/** mapping with object types values */
+	protected static String[] GeoJSONTypes = {"Unknown", "Point", "LineString", "Polygon", "FeatureCollection"};
+	
+	/** write the object on writer in GeoJSON format */
+	public boolean writeAsGeoJSON(Writer writer, boolean isRoot){
+		try {
+			writer.write('{');
+			if (mObjectType == FOLDER){
+				writer.write("\"type\": \"FeatureCollection\",\n");
+				writer.write("\"features\": [\n");
+				Iterator<KmlFeature> it = mItems.iterator();
+				while(it.hasNext()) {
+					KmlFeature item = it.next();
+					item.writeAsGeoJSON(writer, false);
+					if (it.hasNext())
+						writer.write(',');
+				}
+				writer.write("],\n");
+			} else if (mObjectType == POLYGON || mObjectType == POINT || mObjectType == LINE_STRING){
+				writer.write("\"type\": \"Feature\",\n");
+				writer.write("\"geometry\": {\n");
+				writer.write("\"type\": \""+GeoJSONTypes[mObjectType]+"\",\n");
+				writer.write("\"coordinates\":\n");
+				if (mObjectType == LINE_STRING)
+					writer.write("[");
+				else if (mObjectType == POLYGON)
+					writer.write("[[");
+				Iterator<GeoPoint> it = mCoordinates.iterator();
+				while(it.hasNext()) {
+					GeoPoint coord = it.next();
+					writer.write("["+coord.getLongitude()+","+coord.getLatitude()/*+","+coord.getAltitude()*/+"]");
+					if (it.hasNext())
+						writer.write(',');
+				}
+				if (mObjectType == LINE_STRING)
+					writer.write("]");
+				else if (mObjectType == POLYGON)
+					writer.write("]]");
+				writer.write("\n},\n");
+			}
+			writer.write("\"properties\":{");
+			if (mName != null)
+				writer.write("\"name\":\""+mName+"\"");
+			writer.write("}\n");
+			if (isRoot){
+				writer.write(", \"crs\":{\"type\":\"name\", \"properties\":{\"name\":\"urn:ogc:def:crs:OGC:1.3:CRS84\"}}\n");
+			}
+			writer.write("}\n");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	//Cloneable implementation ------------------------------------
+
+	/** the mandatory tribute to this monument of Java stupidity */
+	public KmlFeature clone(){
+		KmlFeature kmlFeature = null;
+		try {
+			kmlFeature = (KmlFeature)super.clone();
+		} catch (CloneNotSupportedException e){
+			e.printStackTrace();
+			return null;
+		}
+		if (mItems != null){
+			kmlFeature.mItems = new ArrayList<KmlFeature>(mItems.size());
+			for (KmlFeature item:mItems)
+				kmlFeature.mItems.add(item.clone());
+		}
+		if (mCoordinates != null){
+			kmlFeature.mCoordinates = new ArrayList<GeoPoint>(mCoordinates.size());
+			for (GeoPoint p:mCoordinates)
+				kmlFeature.mCoordinates.add((GeoPoint)p.clone());
+		}
+		if (mBB != null)
+			kmlFeature.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
+				mBB.getLatSouthE6(), mBB.getLonWestE6());
+		return kmlFeature;
+	}
+
 	//Parcelable implementation ------------
 	
 	@Override public int describeContents() {
@@ -454,21 +513,21 @@ public class KmlObject implements Parcelable, Cloneable {
 		out.writeParcelable(mBB, flags);
 	}
 	
-	public static final Parcelable.Creator<KmlObject> CREATOR = new Parcelable.Creator<KmlObject>() {
-		@Override public KmlObject createFromParcel(Parcel source) {
-			return new KmlObject(source);
+	public static final Parcelable.Creator<KmlFeature> CREATOR = new Parcelable.Creator<KmlFeature>() {
+		@Override public KmlFeature createFromParcel(Parcel source) {
+			return new KmlFeature(source);
 		}
-		@Override public KmlObject[] newArray(int size) {
-			return new KmlObject[size];
+		@Override public KmlFeature[] newArray(int size) {
+			return new KmlFeature[size];
 		}
 	};
 	
-	public KmlObject(Parcel in){
+	public KmlFeature(Parcel in){
 		mObjectType = in.readInt();
 		mId = in.readString();
 		mName = in.readString();
 		mDescription = in.readString();
-		mItems = in.readArrayList(KmlObject.class.getClassLoader());
+		mItems = in.readArrayList(KmlFeature.class.getClassLoader());
 		mVisibility = (in.readInt()==1);
 		mOpen = (in.readInt()==1);
 		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
