@@ -28,14 +28,17 @@ import android.util.Log;
  * Object handling a whole KML document. 
  * Features are stored in the kmlRoot attribute. In most cases, kmlRoot will be a Folder. 
  * Shared components (like styles) are stored in specific attributes. 
- * This is the entry point to read, handle and save KML content. 
+ * This is the entry point to read, handle and save KML content. <br>
  * 
- * Supports KML Point, LineString and Polygon placemarks. 
- * Supports KML Document and Folder hierarchy. 
- * Supports LineStyle, PolyStyle, and partially IconStyle. 
- * Supports colorMode (normal, random)
+ * Supports the following KML Geometry: Point, LineString and Polygon. <br>
+ * Supports KML Document and Folder hierarchy. <br>
+ * Supports LineStyle, PolyStyle, and partially IconStyle. <br>
+ * Supports colorMode: normal, random<br>
+ * Supports ExtendedData inside Features, with support for <Data> elements and <SimpleData> elements. 
+ * In all cases, values are stored as Java String, there is no handling of <Schema> definition. <br>
  * 
  * @see KmlFeature
+ * @see Style
  * 
  * @author M.Kergall
  */
@@ -84,37 +87,26 @@ public class KmlDocument implements Parcelable {
 		return newId;
 	}
 	
+	/** similar to GeoPoint.fromInvertedDoubleString, with exceptions handling */
 	protected static GeoPoint parseKmlCoord(String input){
-		/* Trying to find an efficient way, reducing object creation:*/
 		int end1 = input.indexOf(',');
 		int end2 = input.indexOf(',', end1+1);
-		if (end2 == -1)
-			end2 = input.length();
 		try {
-			String sLon = input.substring(0, end1);
-			double lon = Double.parseDouble(sLon);
-			String sLat = input.substring(end1+1, end2);
-			double lat = Double.parseDouble(sLat);
-			//TODO: read alt, if any
-			GeoPoint p = new GeoPoint(lat, lon);
-			return p;
+			if (end2 == -1){
+				double lon = Double.parseDouble(input.substring(0, end1));
+				double lat = Double.parseDouble(input.substring(end1+1, input.length()));
+				return new GeoPoint(lat, lon);
+			} else {
+				double lon = Double.parseDouble(input.substring(0, end1));
+				double lat = Double.parseDouble(input.substring(end1+1, end2));
+				double alt = Double.parseDouble(input.substring(end2+1, input.length()));
+				return new GeoPoint(lat, lon, alt);
+			}
 		} catch (NumberFormatException e) {
 			return null;
 		} catch (IndexOutOfBoundsException e) {
 			return null;
 		}
-		/*
-		String[] coords = input.split(",");
-		try {
-			double lon = Double.parseDouble(coords[0]);
-			double lat = Double.parseDouble(coords[1]);
-			double alt = (coords.length == 3 ? Double.parseDouble(coords[2]) : 0.0);
-			GeoPoint p = new GeoPoint(lat, lon, alt);
-			return p;
-		} catch (NumberFormatException e) {
-			return null;
-		}
-		*/
 	}
 	
 	/** KML coordinates are: lon,lat{,alt} tuples separated by separators (space, tab, cr). */
@@ -239,6 +231,7 @@ public class KmlDocument implements Parcelable {
 		Style mCurrentStyle;
 		String mCurrentStyleId;
 		ColorStyle mColorStyle;
+		String mDataName;
 		
 		public KmlSaxHandler(){
 			mKmlRoot = new KmlFeature();
@@ -273,6 +266,8 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("IconStyle")) {
 				mCurrentStyle.iconColorStyle = new ColorStyle();
 				mColorStyle = mCurrentStyle.iconColorStyle;
+			} else if (localName.equals("Data") || localName.equals("SimpleData")) {
+				mDataName = attributes.getValue("name");
 			}
 			mStringBuilder.setLength(0);
 		}
@@ -336,6 +331,13 @@ public class KmlDocument implements Parcelable {
 					}
 				}
 				mCurrentStyle = null;
+			} else if (localName.equals("SimpleData")){
+				//We don't check the schema from SchemaData. We just pick the name and the value from SimpleData:
+				mKmlCurrentFeature.setExtendedData(mDataName, mStringBuilder.toString());
+				mDataName = null;
+			} else if (localName.equals("value")){
+				mKmlCurrentFeature.setExtendedData(mDataName, mStringBuilder.toString());
+				mDataName = null;
 			}
 		}
 		

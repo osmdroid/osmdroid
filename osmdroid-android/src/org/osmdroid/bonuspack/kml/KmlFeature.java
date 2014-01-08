@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
@@ -58,6 +59,11 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public ArrayList<GeoPoint> mCoordinates;
 	/** styleUrl (without the #) */
 	public String mStyle;
+	/** ExtendedData, as a HashMap of <name, value>. 
+	 * Can be null if the feature has no ExtendedData. 
+	 * The KML displayName is not handled. 
+	 * value is always stored as a Java String. */
+	public HashMap<String, String> mExtendedData;
 	/** bounding box - null if no geometry */
 	public BoundingBoxE6 mBB;
 	
@@ -227,6 +233,18 @@ public class KmlFeature implements Parcelable, Cloneable {
 		return true;
 	}
 	
+	/** 
+	 * Set this name/value pair in the ExtendedData of the feature. 
+	 * If there is already a pair with this name, it will be replaced by the new one. 
+	 * @param name
+	 * @param value always as a String. 
+	 */
+	public void setExtendedData(String name, String value){
+		if (mExtendedData == null)
+			mExtendedData = new HashMap<String,String>();
+		mExtendedData.put(name, value);
+	}
+	
 	/**
 	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param context
@@ -328,6 +346,24 @@ public class KmlFeature implements Parcelable, Cloneable {
 		return removed;
 	}
 	
+	protected boolean writeKMLExtendedData(Writer writer){
+		if (mExtendedData == null)
+			return true;
+		try {
+			writer.write("<ExtendedData>\n");
+			for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+				String name = entry.getKey();
+				String value = entry.getValue();
+				writer.write("<Data name=\""+name+"\"><value>"+value+"</value></Data>\n");
+			}
+			writer.write("</ExtendedData>\n");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
@@ -401,6 +437,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 					item.writeAsKML(writer, false, null);
 				}
 			}
+			writeKMLExtendedData(writer);
 			if (isDocument){
 				kmlDocument.writeKMLStyles(writer);
 			}

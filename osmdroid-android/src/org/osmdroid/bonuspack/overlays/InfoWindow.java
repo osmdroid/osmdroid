@@ -24,7 +24,7 @@ import android.view.ViewGroup;
 public abstract class InfoWindow {
 
 	protected View mView;
-	protected boolean mIsVisible = false;
+	protected boolean mIsVisible;
 	protected MapView mMapView;
 	
 	/**
@@ -79,7 +79,7 @@ public abstract class InfoWindow {
 		return mIsVisible;
 	}
 	
-	//Abstract methods to implement:
+	//Abstract methods to implement in sub-classes:
 	public abstract void onOpen(Object item);
 	public abstract void onClose();
 	
