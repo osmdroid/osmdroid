@@ -130,15 +130,22 @@ public class Polygon extends Overlay {
 	 * This method will take a copy of the points.
 	 */
 	public void setPoints(final List<GeoPoint> points) {
-		mOriginalPoints = new int[points.size()][3];
+		int size = points.size();
+		mOriginalPoints = new int[size][3];
 		int i=0;
 		for (GeoPoint p:points){
-			//mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
 			mOriginalPoints[i][0] = p.getLatitudeE6();
 			mOriginalPoints[i][1] = p.getLongitudeE6();
 			mOriginalPoints[i][2] = p.getAltitude();
 			mConvertedPoints.add(new Point(p.getLatitudeE6(), p.getLongitudeE6()));
 			i++;
+		}
+		if (size>=2){
+			GeoPoint first = points.get(0);
+			if (!first.equals(points.get(size-1))){
+				//last point is not same as first: close the polygon by adding first at the end
+				mConvertedPoints.add(new Point(first.getLatitudeE6(), first.getLongitudeE6()));
+			}
 		}
 	}
 
@@ -170,7 +177,7 @@ public class Polygon extends Overlay {
 	}
 	
 	/**
-	 * This method draws the line. Note - highly optimized to handle long paths, proceed with care.
+	 * This method draws the polygon. Note - highly optimized to handle long paths, proceed with care.
 	 * Should be fine up to 10K points.
 	 */
 	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -191,38 +198,25 @@ public class Polygon extends Overlay {
 		while (this.mPointsPrecomputed < size) {
 			final Point pt = this.mConvertedPoints.get(this.mPointsPrecomputed);
 			pj.toMapPixelsProjected(pt.x, pt.y, pt);
-
 			this.mPointsPrecomputed++;
 		}
 
-		Point screenPoint0 = null; // points on screen
-		Point screenPoint1;
-		Point projectedPoint0; // points from the points list
+		Point projectedPoint0 = this.mConvertedPoints.get(0); // points from the points list
 		Point projectedPoint1;
-
-		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		//final Rect clipBounds = pj.fromPixelsToProjected(pj.getScreenRect());
+		
+		Point screenPoint0 = pj.toMapPixelsTranslated(projectedPoint0, this.mTempPoint1); // points on screen
+		Point screenPoint1;
 		
 		mPath.rewind();
-		projectedPoint0 = this.mConvertedPoints.get(size - 1);
-		//mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
+		mPath.moveTo(screenPoint0.x, screenPoint0.y);
 
-		for (int i = size - 2; i >= 0; i--) {
+		for (int i=0; i<size; i++) {
 			// compute next points
 			projectedPoint1 = this.mConvertedPoints.get(i);
-			//mLineBounds.union(projectedPoint1.x, projectedPoint1.y);
-
-			// the starting point may be not calculated, because previous segment was out of clip
-			// bounds
-			if (screenPoint0 == null) {
-				screenPoint0 = pj.toMapPixelsTranslated(projectedPoint0, this.mTempPoint1);
-				mPath.moveTo(screenPoint0.x, screenPoint0.y);
-			}
-
 			screenPoint1 = pj.toMapPixelsTranslated(projectedPoint1, this.mTempPoint2);
 
-			// skip this point, too close to previous point
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
+				// skip this point, too close to previous point
 				continue;
 			}
 
@@ -232,7 +226,6 @@ public class Polygon extends Overlay {
 			projectedPoint0 = projectedPoint1;
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
-			//mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
 		}
 
 		canvas.drawPath(mPath, mFillPaint);

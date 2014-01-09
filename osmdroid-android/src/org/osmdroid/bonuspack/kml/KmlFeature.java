@@ -525,6 +525,10 @@ public class KmlFeature implements Parcelable, Cloneable {
 			for (GeoPoint p:mCoordinates)
 				kmlFeature.mCoordinates.add((GeoPoint)p.clone());
 		}
+		if (mExtendedData != null){
+			kmlFeature.mExtendedData = new HashMap<String,String>(mExtendedData.size());
+			kmlFeature.mExtendedData.putAll(mExtendedData);
+		}
 		if (mBB != null)
 			kmlFeature.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
 				mBB.getLatSouthE6(), mBB.getLonWestE6());
@@ -547,6 +551,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		out.writeInt(mOpen?1:0);
 		out.writeList(mCoordinates);
 		out.writeString(mStyle);
+		//TODO: mExtendedData
 		out.writeParcelable(mBB, flags);
 	}
 	
@@ -569,6 +574,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mOpen = (in.readInt()==1);
 		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
 		mStyle = in.readString();
+		//TODO: mExtendedData
 		mBB = in.readParcelable(BoundingBoxE6.class.getClassLoader());
 	}
 
