@@ -3,6 +3,9 @@ package org.osmdroid.tileprovider.tilesource;
 import org.osmdroid.ResourceProxy.string;
 import org.osmdroid.tileprovider.MapTile;
 
+/**
+ * An implementation of {@link org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase}
+ */
 public class XYTileSource extends OnlineTileSourceBase {
 
 	public XYTileSource(final String aName, final string aResourceId, final int aZoomMinLevel,
