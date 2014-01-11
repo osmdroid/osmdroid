@@ -32,7 +32,7 @@ import android.util.Log;
  * 
  * Supports the following KML Geometry: Point, LineString and Polygon. <br>
  * Supports KML Document and Folder hierarchy. <br>
- * Supports LineStyle, PolyStyle, and partially IconStyle. <br>
+ * Supports LineStyle, PolyStyle and IconStyle. <br>
  * Supports colorMode: normal, random<br>
  * Supports ExtendedData inside Features, with support for <Data> elements and <SimpleData> elements. 
  * In all cases, values are stored as Java String, there is no handling of <Schema> definition. <br>
@@ -318,8 +318,9 @@ public class KmlDocument implements Parcelable {
 				if (mCurrentStyle != null)
 					mCurrentStyle.outlineWidth = Float.parseFloat(mStringBuilder.toString());
 			} else if (localName.equals("href")){
-				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null)
-					mCurrentStyle.iconHref = mStringBuilder.toString();
+				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
+					mCurrentStyle.setIcon(mStringBuilder.toString());
+				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)
 					putStyle(mCurrentStyleId, mCurrentStyle);

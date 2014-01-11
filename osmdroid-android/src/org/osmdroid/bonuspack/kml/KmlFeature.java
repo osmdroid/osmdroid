@@ -18,6 +18,8 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -245,24 +247,59 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mExtendedData.put(name, value);
 	}
 	
+	/** from a Placemark feature having a Point geometry, build a Marker overlay (ItemizedOverlayWithBubble)/
+	 * @param map
+	 * @param defaultMarker default marker to be used if no style or no icon specified
+	 * @param kmlDocument
+	 * @param supportVisibility
+	 * @return the marker overlay
+	 * @see buildOverlays
+	 */
+	public Overlay buildMarkerFromPoint(MapView map, Drawable defaultMarker, KmlDocument kmlDocument, 
+			boolean supportVisibility){
+		Context context = map.getContext();
+		ExtendedOverlayItem item = new ExtendedOverlayItem(mName, mDescription, mCoordinates.get(0), context);
+		item.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
+		Style style = kmlDocument.getStyle(mStyle);
+		if (style != null && style.mIcon != null){
+			Drawable marker = new BitmapDrawable(context.getResources(), style.mIcon);
+			if (style.iconColorStyle != null){
+				int color = style.iconColorStyle.getFinalColor();
+				if (color != 0) //there is a real color to blend with:
+					marker.setColorFilter(color, Mode.MULTIPLY);
+			}
+			//TODO: apply scale?
+			item.setMarker(marker);
+		} else {
+			item.setMarker(defaultMarker);
+		}
+		ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
+		ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(context, 
+				kmlPointsItems, map);
+		kmlPointsOverlay.addItem(item);
+		if (supportVisibility && !mVisibility)
+			kmlPointsOverlay.setEnabled(false);
+		return kmlPointsOverlay;
+	}
+	
 	/**
 	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param context
 	 * @param map
-	 * @param marker to use for Points
+	 * @param defaultMarker to use for Points if no icon specified
 	 * @param kmlDocument for styles
 	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
 	 * @return the overlay, depending on the KML object type: <br>
 	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>Polyline
 	 * 		and return null if  object type is UNKNOWN. 
 	 */
-	public Overlay buildOverlays(Context context, MapView map, Drawable marker, KmlDocument kmlDocument, 
+	public Overlay buildOverlays(Context context, MapView map, Drawable defaultMarker, KmlDocument kmlDocument, 
 			boolean supportVisibility){
 		switch (mObjectType){
 		case FOLDER:{
 			FolderOverlay folderOverlay = new FolderOverlay(context);
 			for (KmlFeature k:mItems){
-				Overlay overlay = k.buildOverlays(context, map, marker, kmlDocument, supportVisibility);
+				Overlay overlay = k.buildOverlays(context, map, defaultMarker, kmlDocument, supportVisibility);
 				folderOverlay.add(overlay);
 			}
 			if (supportVisibility && !mVisibility)
@@ -270,16 +307,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 			return folderOverlay;
 		}
 		case POINT:{
-			ExtendedOverlayItem item = new ExtendedOverlayItem(mName, mDescription, mCoordinates.get(0), context);
-			item.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
-			item.setMarker(marker);
-			ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
-			ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(context, 
-					kmlPointsItems, map);
-			kmlPointsOverlay.addItem(item);
-			if (supportVisibility && !mVisibility)
-				kmlPointsOverlay.setEnabled(false);
-			return kmlPointsOverlay;
+			return buildMarkerFromPoint(map, defaultMarker, kmlDocument, supportVisibility);
 		}
 		case LINE_STRING:{
 			Polyline lineStringOverlay = new Polyline(context);

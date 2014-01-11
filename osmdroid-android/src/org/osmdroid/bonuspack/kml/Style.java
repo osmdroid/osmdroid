@@ -3,6 +3,9 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.osmdroid.bonuspack.utils.WebImageCache;
+
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -17,8 +20,15 @@ public class Style implements Parcelable {
 	public ColorStyle fillColorStyle;
 	public ColorStyle iconColorStyle;
 	public float outlineWidth = 0.0f;
-	public String iconHref;
+	public String mIconHref;
 	//TODO iconScale
+	public Bitmap mIcon;
+	
+	private static WebImageCache mIconCache;
+	static {
+		//one common cache for all icons:
+		mIconCache = new WebImageCache(300);
+	}
 	
 	/** default constructor */
 	Style(){
@@ -36,6 +46,12 @@ public class Style implements Parcelable {
 		return outlinePaint;
 	}
 	
+	/** set the IconStyle icon */
+	public void setIcon(String iconHref){
+		mIconHref = iconHref;
+		mIcon = mIconCache.get(mIconHref);
+	}
+	
 	protected void writeOneStyle(Writer writer, String styleType, ColorStyle colorStyle){
 		try {
 			writer.write("<"+styleType+">\n");
@@ -44,8 +60,8 @@ public class Style implements Parcelable {
 			if (styleType.equals("LineStyle")){
 				writer.write("<width>"+outlineWidth+"</width>\n");
 			} else if (styleType.equals("IconStyle")){
-				if (iconHref != null)
-					writer.write("<Icon><href>"+iconHref+"</href></Icon>\n");
+				if (mIconHref != null)
+					writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
 			}
 		writer.write("</"+styleType+">\n");
 		} catch (IOException e) {
@@ -79,7 +95,7 @@ public class Style implements Parcelable {
 		out.writeParcelable(fillColorStyle, flags);
 		out.writeParcelable(iconColorStyle, flags);
 		out.writeFloat(outlineWidth);
-		out.writeString(iconHref);
+		out.writeString(mIconHref);
 	}
 	
 	public static final Parcelable.Creator<Style> CREATOR = new Parcelable.Creator<Style>() {
@@ -96,6 +112,6 @@ public class Style implements Parcelable {
 		fillColorStyle = in.readParcelable(Style.class.getClassLoader());
 		iconColorStyle = in.readParcelable(Style.class.getClassLoader());
 		outlineWidth = in.readFloat();
-		iconHref = in.readString();
+		mIconHref = in.readString();
 	}
 }

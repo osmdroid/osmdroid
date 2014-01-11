@@ -15,13 +15,16 @@ public class ColorStyle implements Parcelable {
 	/** color modes */
 	static final int MODE_NORMAL=0, MODE_RANDOM=1;
 	
-	public int color = 0;
-	public int colorMode = MODE_NORMAL;
+	public int color;
+	public int colorMode;
 	
 	ColorStyle(){
+		color = 0;
+		colorMode = MODE_NORMAL;
 	}
 	
 	ColorStyle(int color){
+		super();
 		this.color = color;
 	}
 	
