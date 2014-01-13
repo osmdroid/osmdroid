@@ -317,6 +317,10 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("width")){
 				if (mCurrentStyle != null)
 					mCurrentStyle.outlineWidth = Float.parseFloat(mStringBuilder.toString());
+			} else if (localName.equals("scale")){
+				if (mCurrentStyle != null){
+					mCurrentStyle.mIconScale = Float.parseFloat(mStringBuilder.toString());
+				}
 			} else if (localName.equals("href")){
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
 					mCurrentStyle.setIcon(mStringBuilder.toString());

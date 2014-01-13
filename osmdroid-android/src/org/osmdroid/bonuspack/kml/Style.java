@@ -5,8 +5,11 @@ import java.io.Writer;
 
 import org.osmdroid.bonuspack.utils.WebImageCache;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,7 +24,7 @@ public class Style implements Parcelable {
 	public ColorStyle iconColorStyle;
 	public float outlineWidth = 0.0f;
 	public String mIconHref;
-	//TODO iconScale
+	public float mIconScale;
 	public Bitmap mIcon;
 	
 	private static WebImageCache mIconCache;
@@ -32,6 +35,7 @@ public class Style implements Parcelable {
 	
 	/** default constructor */
 	Style(){
+		mIconScale = 1.0f;
 	}
 	
 	/** 
@@ -52,6 +56,21 @@ public class Style implements Parcelable {
 		mIcon = mIconCache.get(mIconHref);
 	}
 	
+	/** @return the icon, scaled and blended with the icon color, as specified in the IconStyle. 
+	 * Assumes the icon is already loaded. */
+	public BitmapDrawable getFinalIcon(Context context){
+		int sizeX = Math.round(mIcon.getWidth() * mIconScale);
+		int sizeY = Math.round(mIcon.getHeight() * mIconScale);
+		Bitmap scaledBitmap = Bitmap.createScaledBitmap(mIcon, sizeX, sizeY, true);
+		BitmapDrawable marker = new BitmapDrawable(context.getResources(), scaledBitmap);
+		if (iconColorStyle != null){
+			int color = iconColorStyle.getFinalColor();
+			if (color != 0) //there is a real color to blend with:
+				marker.setColorFilter(color, Mode.MULTIPLY);
+		}
+		return marker;
+	}
+	
 	protected void writeOneStyle(Writer writer, String styleType, ColorStyle colorStyle){
 		try {
 			writer.write("<"+styleType+">\n");
@@ -62,6 +81,8 @@ public class Style implements Parcelable {
 			} else if (styleType.equals("IconStyle")){
 				if (mIconHref != null)
 					writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
+				if (mIconScale != 1.0f)
+					writer.write("<scale>"+mIconScale+"</scale>\n");
 			}
 		writer.write("</"+styleType+">\n");
 		} catch (IOException e) {
@@ -96,6 +117,8 @@ public class Style implements Parcelable {
 		out.writeParcelable(iconColorStyle, flags);
 		out.writeFloat(outlineWidth);
 		out.writeString(mIconHref);
+		out.writeFloat(mIconScale);
+		out.writeParcelable(mIcon, flags);
 	}
 	
 	public static final Parcelable.Creator<Style> CREATOR = new Parcelable.Creator<Style>() {
@@ -113,5 +136,7 @@ public class Style implements Parcelable {
 		iconColorStyle = in.readParcelable(Style.class.getClassLoader());
 		outlineWidth = in.readFloat();
 		mIconHref = in.readString();
+		mIconScale = in.readFloat();
+		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
 	}
 }

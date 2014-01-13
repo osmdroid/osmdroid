@@ -17,6 +17,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
@@ -262,13 +263,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		item.setMarkerHotspot(OverlayItem.HotspotPlace.BOTTOM_CENTER);
 		Style style = kmlDocument.getStyle(mStyle);
 		if (style != null && style.mIcon != null){
-			Drawable marker = new BitmapDrawable(context.getResources(), style.mIcon);
-			if (style.iconColorStyle != null){
-				int color = style.iconColorStyle.getFinalColor();
-				if (color != 0) //there is a real color to blend with:
-					marker.setColorFilter(color, Mode.MULTIPLY);
-			}
-			//TODO: apply scale?
+			BitmapDrawable marker = style.getFinalIcon(context);
 			item.setMarker(marker);
 		} else {
 			item.setMarker(defaultMarker);
