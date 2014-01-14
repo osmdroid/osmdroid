@@ -266,6 +266,13 @@ public class MapController implements IMapController, MapViewConstants {
 			mCurrentAnimator = null;
 		}
 		mMapView.mIsAnimating.set(false);
+
+		// Fix for issue 477
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			mMapView.clearAnimation();
+			mZoomInAnimationOld.reset();
+			mZoomOutAnimationOld.reset();
+		}
 	}
 
 	protected class MyZoomAnimatorListener extends AnimatorListenerAdapter {
