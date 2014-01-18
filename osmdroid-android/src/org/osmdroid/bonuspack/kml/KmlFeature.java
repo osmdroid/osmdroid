@@ -17,9 +17,7 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
@@ -60,6 +58,9 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public boolean mOpen;
 	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
+	//public int[][] mCoordinates;
+	/** number of coordinates - can be less than mCoordinates.length */
+	//public int mNCoordinates;
 	/** styleUrl (without the #) */
 	public String mStyle;
 	/** ExtendedData, as a HashMap of <name, value>. 
@@ -67,7 +68,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	 * The KML displayName is not handled. 
 	 * value is always stored as a Java String. */
 	public HashMap<String, String> mExtendedData;
-	/** bounding box - null if no geometry */
+	/** bounding box - null if no geometry (means empty) */
 	public BoundingBoxE6 mBB;
 	
 	/** default constructor: create an UNKNOWN object */
@@ -153,13 +154,13 @@ public class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 	
-	/** Set-up the KmlFeature from the overlay. 
+	/** Set-up the KmlFeature from an overlay. 
 	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
 	 *   FolderOverlay => Folder<br>
 	 *   ItemizedOverlayWithBubble => Point if 1 point, Folder of Points if multiple points, UNKNOWN if no point<br>
 	 *   Polygon => Polygon<br>
 	 *   Polyline => LineString<br>
-	 * If the overlay subclass is not supported, creates a NO_SHAPE object. 
+	 * 	 For all other Overlay subclasses => not supported, creates a NO_SHAPE object. 
 	 * @param overlay
 	 * @param kmlDoc for style handling
 	 */
@@ -172,9 +173,9 @@ public class KmlFeature implements Parcelable, Cloneable {
 			mDescription = folderOverlay.getDescription();
 			mVisibility = folderOverlay.isEnabled();
 		} else if (overlay.getClass() == ItemizedOverlayWithBubble.class){
-			ItemizedOverlayWithBubble<OverlayItem> markers = (ItemizedOverlayWithBubble<OverlayItem>)overlay;
+			ItemizedOverlayWithBubble<ExtendedOverlayItem> markers = (ItemizedOverlayWithBubble<ExtendedOverlayItem>)overlay;
 			if (markers.size()==1){ //only 1 item => we can create it as a KML Point:
-				ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(0);
+				ExtendedOverlayItem marker = markers.getItem(0);
 				createFromOverlayItem(marker);
 			} else if (markers.size()==0){
 				//if empty list, ignore => create an UNKNOWN object. 
@@ -183,7 +184,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 				createAsFolder();
 				mName = "Points - " + markers.size();
 				for (int j=0; j<markers.size(); j++){
-					ExtendedOverlayItem marker = (ExtendedOverlayItem)markers.getItem(j);
+					ExtendedOverlayItem marker = markers.getItem(j);
 					KmlFeature kmlItem = new KmlFeature();
 					kmlItem.createFromOverlayItem(marker);
 					mItems.add(kmlItem);
@@ -203,9 +204,9 @@ public class KmlFeature implements Parcelable, Cloneable {
 	}
 	
 	/**
-	 * Increase the object bounding box to include an other bounding box. 
-	 * Typically needed when adding an item in the object. 
-	 * @param itemBB the bounding box to "add". Can be null. 
+	 * Increase the bounding box of the feature to include an other bounding box. 
+	 * Typically needed when adding an item in the feature. 
+	 * @param itemBB the bounding box to "add". null means empty. 
 	 */
 	public void updateBoundingBoxWith(BoundingBoxE6 itemBB){
 		if (itemBB != null){
@@ -277,6 +278,55 @@ public class KmlFeature implements Parcelable, Cloneable {
 		return kmlPointsOverlay;
 	}
 	
+	public Overlay buildPolylineFromLineString(MapView map, KmlDocument kmlDocument, boolean supportVisibility){
+		Context context = map.getContext();
+		Polyline lineStringOverlay = new Polyline(context);
+		Style style = kmlDocument.getStyle(mStyle);
+		if (style != null){
+			lineStringOverlay.setPaint(style.getOutlinePaint());
+		} else { 
+			//set default:
+			lineStringOverlay.setColor(0x90101010);
+			lineStringOverlay.setWidth(5.0f);
+		}
+		lineStringOverlay.setPoints(mCoordinates);
+		if (supportVisibility && !mVisibility)
+			lineStringOverlay.setEnabled(false);
+		return lineStringOverlay;
+	}
+	
+	public Overlay buildPolygonFromPolygon(MapView map, KmlDocument kmlDocument, boolean supportVisibility){
+		Context context = map.getContext();
+		Polygon polygonOverlay = new Polygon(context);
+		Style style = kmlDocument.getStyle(mStyle);
+		Paint outlinePaint = null;
+		int fillColor = 0x20101010; //default
+		if (style != null){
+			outlinePaint = style.getOutlinePaint();
+			fillColor = style.fillColorStyle.getFinalColor();
+		}
+		if (outlinePaint == null){ 
+			//set default:
+			outlinePaint = new Paint();
+			outlinePaint.setColor(0x90101010);
+			outlinePaint.setStrokeWidth(5);
+		}
+		polygonOverlay.setFillColor(fillColor);
+		polygonOverlay.setStrokeColor(outlinePaint.getColor());
+		polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
+		polygonOverlay.setPoints(mCoordinates);
+		polygonOverlay.setTitle(mName);
+		polygonOverlay.setSnippet(mDescription);
+		if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
+			String packageName = context.getPackageName();
+			int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+			polygonOverlay.setInfoWindow(layoutResId, map);
+		}
+		if (supportVisibility && !mVisibility)
+			polygonOverlay.setEnabled(false);
+		return polygonOverlay;
+	}
+	
 	/**
 	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param context
@@ -286,7 +336,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
 	 * @return the overlay, depending on the KML object type: <br>
 	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>Polyline
-	 * 		and return null if  object type is UNKNOWN. 
+	 * 		and return null if object type is UNKNOWN. 
 	 */
 	public Overlay buildOverlays(Context context, MapView map, Drawable defaultMarker, KmlDocument kmlDocument, 
 			boolean supportVisibility){
@@ -305,49 +355,10 @@ public class KmlFeature implements Parcelable, Cloneable {
 			return buildMarkerFromPoint(map, defaultMarker, kmlDocument, supportVisibility);
 		}
 		case LINE_STRING:{
-			Polyline lineStringOverlay = new Polyline(context);
-			Style style = kmlDocument.getStyle(mStyle);
-			if (style != null){
-				lineStringOverlay.setPaint(style.getOutlinePaint());
-			} else { 
-				//set default:
-				lineStringOverlay.setColor(0x90101010);
-				lineStringOverlay.setWidth(5.0f);
-			}
-			lineStringOverlay.setPoints(mCoordinates);
-			if (supportVisibility && !mVisibility)
-				lineStringOverlay.setEnabled(false);
-			return lineStringOverlay;
+			return buildPolylineFromLineString(map, kmlDocument, supportVisibility);
 		}
 		case POLYGON:{
-			Polygon polygonOverlay = new Polygon(context);
-			Style style = kmlDocument.getStyle(mStyle);
-			Paint outlinePaint = null;
-			int fillColor = 0x20101010; //default
-			if (style != null){
-				outlinePaint = style.getOutlinePaint();
-				fillColor = style.fillColorStyle.getFinalColor();
-			}
-			if (outlinePaint == null){ 
-				//set default:
-				outlinePaint = new Paint();
-				outlinePaint.setColor(0x90101010);
-				outlinePaint.setStrokeWidth(5);
-			}
-			polygonOverlay.setFillColor(fillColor);
-			polygonOverlay.setStrokeColor(outlinePaint.getColor());
-			polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
-			polygonOverlay.setPoints(mCoordinates);
-			polygonOverlay.setTitle(mName);
-			polygonOverlay.setSnippet(mDescription);
-			if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
-				String packageName = context.getPackageName();
-				int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
-				polygonOverlay.setInfoWindow(layoutResId, map);
-			}
-			if (supportVisibility && !mVisibility)
-				polygonOverlay.setEnabled(false);
-			return polygonOverlay;
+			return buildPolygonFromPolygon(map, kmlDocument, supportVisibility);
 		}
 		default:
 			return null;	
@@ -386,7 +397,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
@@ -472,10 +483,40 @@ public class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 	
+	protected boolean writeGeoJSONProperties(Writer writer, boolean isRoot){
+		try {
+			writer.write("\"properties\":{");
+			boolean isFirstProp = true; //handling of "," between properties
+			if (mName != null){
+				writer.write("\"name\":\""+mName+"\"");
+				isFirstProp = false;
+			}
+			if (mExtendedData != null){
+				for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+					String name = entry.getKey();
+					String value = entry.getValue();
+					if (isFirstProp)
+						isFirstProp = false;
+					else 
+						writer.write(", ");
+					writer.write("\""+name+"\":\""+value+"\"");
+				}
+			}
+			writer.write("}\n");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/** mapping with object types values */
 	protected static String[] GeoJSONTypes = {"Unknown", "Point", "LineString", "Polygon", "FeatureCollection"};
 	
-	/** write the object on writer in GeoJSON format */
+	/** write the object on writer in GeoJSON format
+	 * @return false if error
+	 * @see http://geojson.org
+	 */
 	public boolean writeAsGeoJSON(Writer writer, boolean isRoot){
 		try {
 			writer.write('{');
@@ -485,7 +526,8 @@ public class KmlFeature implements Parcelable, Cloneable {
 				Iterator<KmlFeature> it = mItems.iterator();
 				while(it.hasNext()) {
 					KmlFeature item = it.next();
-					item.writeAsGeoJSON(writer, false);
+					if (!item.writeAsGeoJSON(writer, false))
+						return false;
 					if (it.hasNext())
 						writer.write(',');
 				}
@@ -512,10 +554,8 @@ public class KmlFeature implements Parcelable, Cloneable {
 					writer.write("]]");
 				writer.write("\n},\n");
 			}
-			writer.write("\"properties\":{");
-			if (mName != null)
-				writer.write("\"name\":\""+mName+"\"");
-			writer.write("}\n");
+			if (!writeGeoJSONProperties(writer, isRoot))
+				return false;
 			if (isRoot){
 				writer.write(", \"crs\":{\"type\":\"name\", \"properties\":{\"name\":\"urn:ogc:def:crs:OGC:1.3:CRS84\"}}\n");
 			}

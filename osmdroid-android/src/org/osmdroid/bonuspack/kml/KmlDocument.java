@@ -10,6 +10,8 @@ import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -32,7 +34,8 @@ import android.util.Log;
  * 
  * Supports the following KML Geometry: Point, LineString and Polygon. <br>
  * Supports KML Document and Folder hierarchy. <br>
- * Supports LineStyle, PolyStyle and IconStyle. <br>
+ * Supports NetworkLink. <br>
+ * Supports LineStyle, PolyStyle and IconStyle - shared and inline. <br>
  * Supports colorMode: normal, random<br>
  * Supports ExtendedData inside Features, with support for <Data> elements and <SimpleData> elements. 
  * In all cases, values are stored as Java String, there is no handling of <Schema> definition. <br>
@@ -109,8 +112,61 @@ public class KmlDocument implements Parcelable {
 		}
 	}
 	
+	protected static boolean parseKmlCoord2(String input, int tuple[]){
+		int end1 = input.indexOf(',');
+		int end2 = input.indexOf(',', end1+1);
+		try {
+			if (end2 == -1){
+				tuple[1] = (int)(Double.parseDouble(input.substring(0, end1))*1E6); //lon
+				tuple[0] = (int)(Double.parseDouble(input.substring(end1+1, input.length()))*1E6); //lat
+			} else {
+				tuple[1] = (int)(Double.parseDouble(input.substring(0, end1))*1E6);
+				tuple[0] = (int)(Double.parseDouble(input.substring(end1+1, end2))*1E6);
+				tuple[2] = (int)(Double.parseDouble(input.substring(end2+1, input.length()))*1E6);
+			}
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		} catch (IndexOutOfBoundsException e) {
+			return false;
+		}
+	}
+	
 	/** KML coordinates are: lon,lat{,alt} tuples separated by separators (space, tab, cr). */
 	protected static ArrayList<GeoPoint> parseKmlCoordinates(String input){
+		LinkedList<GeoPoint> tmpCoords = new LinkedList<GeoPoint>();
+		int i = 0;
+		int tupleStart = 0;
+		int length = input.length();
+		boolean startReadingTuple = false;
+		while (i<length){
+			char c = input.charAt(i);
+			if (c==' '|| c=='\n' || c=='\t'){
+				if (startReadingTuple){ //just ending coords portion:
+					String tuple = input.substring(tupleStart, i);
+					GeoPoint p = parseKmlCoord(tuple);
+					if (p != null)
+						tmpCoords.add(p);
+					startReadingTuple = false;
+				}
+			} else { //data
+				if (!startReadingTuple){ //just ending space portion
+					startReadingTuple = true;
+					tupleStart = i;
+				}
+				if (i == length-1){ //at the end => handle last tuple:
+					String tuple = input.substring(tupleStart, i+1);
+					GeoPoint p = parseKmlCoord(tuple);
+					if (p != null)
+						tmpCoords.add(p);
+				}
+			}
+			i++;
+		}
+		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(tmpCoords.size());
+		coordinates.addAll(tmpCoords);
+		//Various attempts to optimize - without significant result
+		/*
 		String[] splitted = input.split("\\s+");
 		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(splitted.length);
 		for (int i=0; i<splitted.length; i++){
@@ -118,6 +174,20 @@ public class KmlDocument implements Parcelable {
 			if (p != null)
 				coordinates.add(p);
 		}
+		*/
+		/*
+		String[] splitted = input.split("\\s+");
+		int[][] coords = new int[splitted.length][3];
+		int end = 0;
+		for (int i=0; i<splitted.length; i++){
+			boolean ok = parseKmlCoord2(splitted[i], coords[end]);
+			if (ok)
+				end++;
+		}
+		ArrayList<GeoPoint> coordinates = new ArrayList<GeoPoint>(10);
+		if (end > 0)
+			coordinates.add(new GeoPoint(coords[0][0], coords[0][1], coords[0][2]));
+		*/
 		return coordinates;
 	}
 	
@@ -215,7 +285,7 @@ public class KmlDocument implements Parcelable {
 			e.printStackTrace();
 			handler.mKmlRoot = null;
 		}
-		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
 		kmlRoot = handler.mKmlRoot;
 		return (handler.mKmlRoot != null);
 	}
@@ -232,12 +302,14 @@ public class KmlDocument implements Parcelable {
 		String mCurrentStyleId;
 		ColorStyle mColorStyle;
 		String mDataName;
+		boolean mIsNetworkLink;
 		
 		public KmlSaxHandler(){
 			mKmlRoot = new KmlFeature();
 			mKmlRoot.createAsFolder();
 			mKmlStack = new ArrayList<KmlFeature>();
 			mKmlStack.add(mKmlRoot);
+			mIsNetworkLink = false;
 		}
 		
 		public void startElement(String uri, String localName, String name,
@@ -250,6 +322,12 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.createAsFolder();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
+			} else if (localName.equals("NetworkLink")){
+				mKmlCurrentFeature = new KmlFeature();
+				mKmlCurrentFeature.createAsFolder();
+				mKmlCurrentFeature.mId = attributes.getValue("id");
+				mKmlStack.add(mKmlCurrentFeature); //push on stack
+				mIsNetworkLink = true;
 			} else if (localName.equals("Placemark")) {
 				mKmlCurrentFeature = new KmlFeature();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
@@ -281,11 +359,13 @@ public class KmlDocument implements Parcelable {
 				throws SAXException {
 			if (localName.equals("Document")){
 				//Document is the root, nothing to do. 
-			} else if (localName.equals("Folder") || localName.equals("Placemark")) {
+			} else if (localName.equals("Folder") || localName.equals("Placemark") || localName.equals("NetworkLink")) {
 				KmlFeature parent = mKmlStack.get(mKmlStack.size()-2); //get parent
 				parent.add(mKmlCurrentFeature); //add current in its parent
 				mKmlStack.remove(mKmlStack.size()-1); //pop current from stack
 				mKmlCurrentFeature = mKmlStack.get(mKmlStack.size()-1); //set current to top of stack
+				if (localName.equals("NetworkLink"))
+					mIsNetworkLink = false;
 			} else if (localName.equals("Point")){
 				mKmlCurrentFeature.mObjectType = KmlFeature.POINT;
 			} else if (localName.equals("LineString")){
@@ -323,7 +403,17 @@ public class KmlDocument implements Parcelable {
 				}
 			} else if (localName.equals("href")){
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
+					//href of an Icon:
 					mCurrentStyle.setIcon(mStringBuilder.toString());
+				} else if (mIsNetworkLink){
+					//href of a NetworkLink:
+					String href = mStringBuilder.toString();
+					KmlDocument subDocument = new KmlDocument();
+					subDocument.parseUrl(href); //TODO: if local file, parseFile(href)
+					//add subDoc root to the current feature, which is -normally- the NetworkLink:
+					mKmlCurrentFeature.add(subDocument.kmlRoot);
+					//add subDoc styles to mStyles:
+					mStyles.putAll(subDocument.mStyles);
 				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)

@@ -14,7 +14,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Handling of KML Style (PolyStyle, LineStyle, IconStyle)
+ * Handling of a KML Style (PolyStyle, LineStyle, IconStyle)
  * @author M.Kergall
  */
 public class Style implements Parcelable {
