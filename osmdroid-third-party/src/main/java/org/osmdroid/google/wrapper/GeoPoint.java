@@ -30,12 +30,12 @@ public class GeoPoint implements IGeoPoint {
 
 	@Override
 	public double getLatitude() {
-		return mGeoPoint.getLatitudeE6() / 1E6;
+		return mGeoPoint.getLatitudeE6() * 1E-6;
 	}
 
 	@Override
 	public double getLongitude() {
-		return mGeoPoint.getLongitudeE6() / 1E6;
+		return mGeoPoint.getLongitudeE6() * 1E-6;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class Projection implements IProjection {
 
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point out) {
-		final LatLng latLng = new LatLng(in.getLatitudeE6() / 1E6, in.getLongitudeE6() / 1E6);
+		final LatLng latLng = new LatLng(in.getLatitude(), in.getLongitude());
 		final Point point = mProjection.toScreenLocation(latLng);
 		if (out != null) {
 			out.x = point.x;

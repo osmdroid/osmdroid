@@ -104,8 +104,8 @@ public class GoogleTilesOverlay extends Overlay {
 		final int leftLongitude = osmv.getMapCenter().getLongitudeE6() - longSpan/2;
 		final int bottomLatitude = osmv.getMapCenter().getLatitudeE6() - latSpan/2;
 		final int rightLongitude = osmv.getMapCenter().getLongitudeE6() + longSpan/2;
-		final Point leftTopXY = Mercator.projectGeoPoint(topLatitude/1E6, leftLongitude/1E6, zoomLevel, new Point(0,0));
-		final Point rightBottomXY = Mercator.projectGeoPoint(bottomLatitude/1E6, rightLongitude/1E6, zoomLevel, new Point(0,0));
+		final Point leftTopXY = Mercator.projectGeoPoint(topLatitude*1E-6, leftLongitude*1E-6, zoomLevel, new Point(0,0));
+		final Point rightBottomXY = Mercator.projectGeoPoint(bottomLatitude*1E-6, rightLongitude*1E-6, zoomLevel, new Point(0,0));
 		final int tileNeededAtLeft = leftTopXY.x;
 		final int tileNeededAtRight = rightBottomXY.x;
 		final int tileNeededAtTop = leftTopXY.y;

@@ -116,10 +116,10 @@ public class PathOverlay extends Overlay {
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
 
 		// convert to radians
-		final double lat1 = startPoint.getLatitudeE6() / 1E6 * Math.PI / 180;
-		final double lon1 = startPoint.getLongitudeE6() / 1E6 * Math.PI / 180;
-		final double lat2 = endPoint.getLatitudeE6() / 1E6 * Math.PI / 180;
-		final double lon2 = endPoint.getLongitudeE6() / 1E6 * Math.PI / 180;
+		final double lat1 = startPoint.getLatitude() * Math.PI / 180;
+		final double lon1 = startPoint.getLongitude() * Math.PI / 180;
+		final double lat2 = endPoint.getLatitude() * Math.PI / 180;
+		final double lon2 = endPoint.getLongitude() * Math.PI / 180;
 
 		final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
 				* Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
