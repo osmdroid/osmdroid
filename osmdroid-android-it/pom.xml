@@ -20,6 +20,11 @@
 			<artifactId>android-test</artifactId>
 			<scope>provided</scope>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.osmdroid</groupId>
 			<artifactId>OpenStreetMapViewer</artifactId>
@@ -30,6 +35,13 @@
         <dependency>
             <groupId>org.osmdroid</groupId>
             <artifactId>OpenStreetMapViewer</artifactId>
+            <type>jar</type>
+            <version>4.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osmdroid</groupId>
+            <artifactId>osmdroid-android</artifactId>
             <type>jar</type>
             <version>4.1-SNAPSHOT</version>
             <scope>provided</scope>
