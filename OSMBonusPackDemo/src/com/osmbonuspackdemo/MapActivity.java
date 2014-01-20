@@ -119,7 +119,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
 	protected static final int KML_TREE_REQUEST = 3;
 	public static KmlDocument mKmlDocument = new KmlDocument(); //made static to pass between activities
-	public static Stack<KmlFeature> mKmlStack = new Stack<KmlFeature>(); //passed between activities
+	public static Stack<KmlFeature> mKmlStack = new Stack<KmlFeature>(); //passed between activities, top is the current KmlFeature to edit. 
+	public static KmlFeature mKmlClipboard; //passed between activities. Folder for multiple items selection. 
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -304,8 +305,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (savedInstanceState != null){
 			//STATIC - mKmlDocument = savedInstanceState.getParcelable("kml");
 			updateUIWithKml();
-		} else { 
-			//first launch: check if intent has been passed with a kml URI to load (url or file)
+		} else { //first launch: 
+			mKmlClipboard = new KmlFeature();
+			mKmlClipboard.createAsFolder();
+			//check if intent has been passed with a kml URI to load (url or file)
 			Intent onCreateIntent = getIntent();
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
