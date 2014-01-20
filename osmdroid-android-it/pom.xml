@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.osmdroid</groupId>
+		<artifactId>osmdroid-parent</artifactId>
+		<version>4.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>osmdroid-android-it</artifactId>
+	<version>4.1-SNAPSHOT</version>
+	<packaging>apk</packaging>
+	<name>osmdroid-android-it - Integration tests</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android-test</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osmdroid</groupId>
+			<artifactId>OpenStreetMapViewer</artifactId>
+            <type>apk</type>
+			<version>4.1-SNAPSHOT</version>
+            <scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.osmdroid</groupId>
+            <artifactId>OpenStreetMapViewer</artifactId>
+            <type>jar</type>
+            <version>4.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<configuration>
+					<test>
+						<!--<skip>true|false|auto</skip> -->
+						<!--<instrumentationPackage>packageName</instrumentationPackage> -->
+						`
+						<!--<instrumentationRunner>className</instrumentationRunner> -->
+						<!--<debug>true|false</debug> -->
+						<!--<coverage>true|false</coverage> -->
+						<!--<logonly>true|false</logonly> avd -->
+						<!--<testsize>small|medium|large</testsize> -->
+						<createReport>true</createReport>
+						<!--<classes> -->
+						<!--<class>your.package.name.YourTestClass</class> -->
+						<!--</classes> -->
+						<!--<packages> -->
+						<!--<package>your.package.name</package> -->
+						<!--</packages> -->
+					</test>
+				</configuration>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

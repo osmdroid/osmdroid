@@ -215,6 +215,7 @@
 
     <modules>
         <module>osmdroid-android</module>
+        <module>osmdroid-android-it</module>
         <module>osmdroid-third-party</module>
         <module>OpenStreetMapViewer</module>
         <module>GoogleWrapperSample</module>
