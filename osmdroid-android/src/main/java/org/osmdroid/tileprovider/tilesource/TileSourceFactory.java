@@ -61,53 +61,57 @@ public class TileSourceFactory {
 	}
 
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
-			ResourceProxy.string.mapnik, 0, 18, 256, ".png", "http://tile.openstreetmap.org/");
+			ResourceProxy.string.mapnik, 0, 18, 256, ".png", "OSMDroid",
+			new String[] { "http://tile.openstreetmap.org/" });
 
 	public static final OnlineTileSourceBase CYCLEMAP = new XYTileSource("CycleMap",
-			ResourceProxy.string.cyclemap, 0, 17, 256, ".png",
-			"http://a.tile.opencyclemap.org/cycle/",
-			"http://b.tile.opencyclemap.org/cycle/",
-			"http://c.tile.opencyclemap.org/cycle/");
+			ResourceProxy.string.cyclemap, 0, 17, 256, ".png", "OSMDroid", new String[] {
+					"http://a.tile.opencyclemap.org/cycle/",
+					"http://b.tile.opencyclemap.org/cycle/",
+					"http://c.tile.opencyclemap.org/cycle/" });
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", ResourceProxy.string.public_transport, 0, 17, 256, ".png",
-			"http://openptmap.org/tiles/");
+			"OSMDroid", new String[] { "http://openptmap.org/tiles/" });
 
 	public static final OnlineTileSourceBase BASE = new XYTileSource("Base",
-			ResourceProxy.string.base, 4, 17, 256, ".png", "http://topo.openstreetmap.de/base/");
+			ResourceProxy.string.base, 4, 17, 256, ".png", "OSMDroid",
+			new String[] { "http://topo.openstreetmap.de/base/" });
 
 	public static final OnlineTileSourceBase TOPO = new XYTileSource("Topo",
-			ResourceProxy.string.topo, 4, 17, 256, ".png", "http://topo.openstreetmap.de/topo/");
+			ResourceProxy.string.topo, 4, 17, 256, ".png", "OSMDroid",
+			new String[] { "http://topo.openstreetmap.de/topo/" });
 
 	public static final OnlineTileSourceBase HILLS = new XYTileSource("Hills",
-			ResourceProxy.string.hills, 8, 17, 256, ".png", "http://topo.geofabrik.de/hills/");
+			ResourceProxy.string.hills, 8, 17, 256, ".png", "OSMDroid",
+			new String[] { "http://topo.geofabrik.de/hills/" });
 
 	public static final OnlineTileSourceBase CLOUDMADESTANDARDTILES = new CloudmadeTileSource(
 			"CloudMadeStandardTiles", ResourceProxy.string.cloudmade_standard, 0, 18, 256, ".png",
-			"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
-			"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
-			"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
+			null, new String[] { "http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
+					"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
+					"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s" });
 
 	// FYI - This tile source has a tileSize of "6"
 	public static final OnlineTileSourceBase CLOUDMADESMALLTILES = new CloudmadeTileSource(
-			"CloudMadeSmallTiles", ResourceProxy.string.cloudmade_small, 0, 21, 64, ".png",
-			"http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
-			"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
-			"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s");
+			"CloudMadeSmallTiles", ResourceProxy.string.cloudmade_small, 0, 21, 64, ".png", null,
+			new String[] { "http://a.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
+					"http://b.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s",
+					"http://c.tile.cloudmade.com/%s/%d/%d/%d/%d/%d%s?token=%s" });
 
-	public static final OnlineTileSourceBase MAPQUESTOSM =
-		new XYTileSource("MapquestOSM", ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png",
-				"http://otile1.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile2.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile3.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile4.mqcdn.com/tiles/1.0.0/map/");
+	public static final OnlineTileSourceBase MAPQUESTOSM = new XYTileSource("MapquestOSM",
+			ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png", null, new String[] {
+					"http://otile1.mqcdn.com/tiles/1.0.0/map/",
+					"http://otile2.mqcdn.com/tiles/1.0.0/map/",
+					"http://otile3.mqcdn.com/tiles/1.0.0/map/",
+					"http://otile4.mqcdn.com/tiles/1.0.0/map/" });
 
-	public static final OnlineTileSourceBase MAPQUESTAERIAL =
-		new XYTileSource("MapquestAerial", ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".png",
-				"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
-				"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
-				"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
-				"http://otile4.mqcdn.com/tiles/1.0.0/sat/");
+	public static final OnlineTileSourceBase MAPQUESTAERIAL = new XYTileSource("MapquestAerial",
+			ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".png", null, new String[] {
+					"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
+					"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
+					"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
+					"http://otile4.mqcdn.com/tiles/1.0.0/sat/" });
 
 	public static final OnlineTileSourceBase DEFAULT_TILE_SOURCE = MAPNIK;
 
@@ -115,16 +119,16 @@ public class TileSourceFactory {
 	// They are therefore not in mTileSources.
 
 	public static final OnlineTileSourceBase FIETS_OVERLAY_NL = new XYTileSource("Fiets",
-			ResourceProxy.string.fiets_nl, 3, 18, 256, ".png",
-			"http://overlay.openstreetmap.nl/openfietskaart-overlay/");
+			ResourceProxy.string.fiets_nl, 3, 18, 256, ".png", "OSMDroid",
+			new String[] { "http://overlay.openstreetmap.nl/openfietskaart-overlay/" });
 
 	public static final OnlineTileSourceBase BASE_OVERLAY_NL = new XYTileSource("BaseNL",
-			ResourceProxy.string.base_nl, 0, 18, 256, ".png",
-			"http://overlay.openstreetmap.nl/basemap/");
+			ResourceProxy.string.base_nl, 0, 18, 256, ".png", "OSMDroid",
+			new String[] { "http://overlay.openstreetmap.nl/basemap/" });
 
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
-			ResourceProxy.string.roads_nl, 0, 18, 256, ".png",
-			"http://overlay.openstreetmap.nl/roads/");
+			ResourceProxy.string.roads_nl, 0, 18, 256, ".png", "OSMDroid",
+			new String[] { "http://overlay.openstreetmap.nl/roads/" });
 
 	private static ArrayList<ITileSource> mTileSources;
 	static {

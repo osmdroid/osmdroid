@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Locale;
 
+import microsoft.mappoint.TileSystem;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,8 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
-
-import microsoft.mappoint.TileSystem;
 
 /**
  * BingMap tile source used with OSMDroid<br>
@@ -81,7 +81,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
 	public BingMapTileSource(final String aLocale) {
-		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, (String)null);
+		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, null, null);
 		mLocale = aLocale;
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();

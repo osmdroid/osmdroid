@@ -6,6 +6,7 @@ import org.osmdroid.tileprovider.MapTile;
 public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 
 	private final String mBaseUrls[];
+	private final String mUserAgent;
 
 	/**
 	 * Constructor
@@ -15,13 +16,15 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 	 * @param aZoomMaxLevel the maximum zoom level this tile source can provide
 	 * @param aTileSizePixels the tile size in pixels this tile source provides
 	 * @param aImageFilenameEnding the file name extension used when constructing the filename
+	 * @param aUserAgent the user agent used when downloading tiles or null
 	 * @param aBaseUrl the base url(s) of the tile server used when constructing the url to download the tiles
 	 */
 	public OnlineTileSourceBase(final String aName, final string aResourceId,
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
-			final String aImageFilenameEnding, final String... aBaseUrl) {
+			final String aImageFilenameEnding, final String aUserAgent, final String[] aBaseUrl) {
 		super(aName, aResourceId, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,
 				aImageFilenameEnding);
+		mUserAgent = aUserAgent;
 		mBaseUrls = aBaseUrl;
 	}
 
@@ -32,5 +35,9 @@ public abstract class OnlineTileSourceBase extends BitmapTileSourceBase {
 	 */
 	protected String getBaseUrl() {
 		return mBaseUrls[random.nextInt(mBaseUrls.length)];
+	}
+	
+	public String getUserAgent() {
+		return mUserAgent;
 	}
 }

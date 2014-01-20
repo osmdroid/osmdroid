@@ -15,6 +15,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.params.CoreProtocolPNames;
 import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
@@ -146,6 +147,15 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// Inner and Anonymous Classes
 	// ===========================================================
 
+	protected HttpClient createHttpClient(MapTile tile) {
+		OnlineTileSourceBase tileSource = mTileSource.get();
+		final HttpClient client = HttpClientFactory.createHttpClient();
+		if (!TextUtils.isEmpty(tileSource.getUserAgent()))
+			client.getParams().setParameter(CoreProtocolPNames.USER_AGENT,
+					tileSource.getUserAgent());
+		return client;
+	}
+
 	protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
 		@Override
@@ -180,7 +190,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final HttpClient client = HttpClientFactory.createHttpClient();
+				final HttpClient client = createHttpClient(tile);
 				final HttpUriRequest head = new HttpGet(tileURLString);
 				final HttpResponse response = client.execute(head);
 

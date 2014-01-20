@@ -16,7 +16,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     /** the meta data key in the manifest */
     private static final String MAPBOX_MAPID = "MAPBOX_MAPID";
 
-    private static final String mapBoxBaseUrl = "http://api.tiles.mapbox.com/v3/";
+	private static final String[] mapBoxBaseUrl = new String[] { "http://api.tiles.mapbox.com/v3/" };
 
     private static String mapBoxMapId = "";
 
@@ -26,7 +26,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource()
     {
-        super("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png", mapBoxBaseUrl);
+		super("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png", null, mapBoxBaseUrl);
     }
 
     /**
@@ -41,7 +41,8 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 	 */
     public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
-        super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxBaseUrl);
+		super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
+				null, mapBoxBaseUrl);
     }
 
     /**
@@ -57,7 +58,8 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId, String mapBoxVersionBaseUrl)
     {
-        super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding, mapBoxVersionBaseUrl);
+		super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
+				null, new String[] { mapBoxVersionBaseUrl });
     }
 
     /**
