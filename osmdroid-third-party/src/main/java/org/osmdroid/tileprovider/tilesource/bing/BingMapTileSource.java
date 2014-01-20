@@ -81,7 +81,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
 	public BingMapTileSource(final String aLocale) {
-		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, null, null);
+		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, null);
 		mLocale = aLocale;
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
