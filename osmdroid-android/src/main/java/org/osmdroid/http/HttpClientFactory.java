@@ -2,6 +2,7 @@ package org.osmdroid.http;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
 
 /**
  * Factory class for creating an instance of {@link HttpClient}.
@@ -24,7 +25,9 @@ public class HttpClientFactory {
 	private static IHttpClientFactory mFactoryInstance = new IHttpClientFactory() {
 		@Override
 		public HttpClient createHttpClient() {
-			return new DefaultHttpClient();
+			final DefaultHttpClient client = new DefaultHttpClient();
+			client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "osmdroid");
+			return client;
 		}
 	};
 

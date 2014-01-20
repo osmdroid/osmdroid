@@ -26,7 +26,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource()
     {
-		super("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png", null, mapBoxBaseUrl);
+		super("mbtiles", ResourceProxy.string.base, 1, 20, 256, ".png", mapBoxBaseUrl);
     }
 
     /**
@@ -42,7 +42,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding)
     {
 		super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
-				null, mapBoxBaseUrl);
+				mapBoxBaseUrl);
     }
 
     /**
@@ -59,7 +59,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     public MapBoxTileSource(String name, ResourceProxy.string resourceId, int zoomMinLevel, int zoomMaxLevel, int tileSizePixels, String imageFilenameEnding, String mapBoxMapId, String mapBoxVersionBaseUrl)
     {
 		super(name, resourceId, zoomMinLevel, zoomMaxLevel, tileSizePixels, imageFilenameEnding,
-				null, new String[] { mapBoxVersionBaseUrl });
+				new String[] { mapBoxVersionBaseUrl });
     }
 
     /**
