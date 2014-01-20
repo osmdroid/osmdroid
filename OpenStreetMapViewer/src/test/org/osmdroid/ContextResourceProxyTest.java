@@ -13,8 +13,8 @@ public class ContextResourceProxyTest extends AndroidTestCase {
 
 	public void test_getString() {
 		final ResourceProxy rp = new ResourceProxyImpl(getContext());
-		final String osmarender = rp.getString(ResourceProxy.string.osmarender);
-		assertEquals("Got string okay", "Osmarender", osmarender);
+		final String mapnik = rp.getString(ResourceProxy.string.mapnik);
+		assertEquals("Got string okay", "Mapnik", mapnik);
 	}
 
 	public void test_getBitmap() {

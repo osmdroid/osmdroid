@@ -33,6 +33,10 @@ public class MapTileProviderTest extends AndroidTestCase {
 		}
 
 		@Override
+		public void mapTileRequestExpiredTile(final MapTileRequestState aState, final Drawable aDrawable) {
+		}
+
+		@Override
 		public boolean useDataConnection() {
 			return false;
 		}
