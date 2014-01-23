@@ -30,7 +30,7 @@ import android.os.Parcelable;
  * 	- Folder feature object type = FOLDER. <br>
  * 	- Document feature is handled exactly like a Folder (object type = FOLDER). <br>
  * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
- * 	  It contains both the Placemark attributes and the Geometry attributes. 
+ * 	  It contains both the Placemark attributes and the Geometry attributes. <br>
  * 	- UNKNOWN object type is reserved for issues/errors, or unsupported features/geometries. 
  * 
  * @see KmlDocument
@@ -39,7 +39,7 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public class KmlFeature implements Parcelable, Cloneable {
-	/** possible KML object types */
+	/** possible KML object type */
 	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
 	
 	/** KML object type */
@@ -58,19 +58,18 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public boolean mOpen;
 	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
-	//public int[][] mCoordinates;
-	/** number of coordinates - can be less than mCoordinates.length */
-	//public int mNCoordinates;
+	/** Polygon holes - (can be null) */
+	public ArrayList<ArrayList<GeoPoint>> mHoles;
 	/** styleUrl (without the #) */
 	public String mStyle;
-	/** ExtendedData, as a HashMap of <name, value>. 
+	/** ExtendedData, as a HashMap of (name, value). 
 	 * Can be null if the feature has no ExtendedData. 
 	 * The KML displayName is not handled. 
 	 * value is always stored as a Java String. */
 	public HashMap<String, String> mExtendedData;
 	/** bounding box - null if no geometry (means empty) */
 	public BoundingBoxE6 mBB;
-	
+		
 	/** default constructor: create an UNKNOWN object */
 	public KmlFeature(){
 		mObjectType = UNKNOWN;
@@ -98,6 +97,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mName = polygon.getTitle();
 		mDescription = polygon.getSnippet();
 		mCoordinates = (ArrayList<GeoPoint>)polygon.getPoints();
+		mHoles = (ArrayList<ArrayList<GeoPoint>>)polygon.getHoles();
 		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
 		mVisibility = polygon.isEnabled();
 		//Style:
@@ -315,9 +315,12 @@ public class KmlFeature implements Parcelable, Cloneable {
 		polygonOverlay.setStrokeColor(outlinePaint.getColor());
 		polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
 		polygonOverlay.setPoints(mCoordinates);
+		if (mHoles != null)
+			polygonOverlay.setHoles(mHoles);
 		polygonOverlay.setTitle(mName);
 		polygonOverlay.setSnippet(mDescription);
 		if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
+			//TODO: cache layoutResId retrieval. 
 			String packageName = context.getPackageName();
 			int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 			polygonOverlay.setInfoWindow(layoutResId, map);
@@ -399,10 +402,31 @@ public class KmlFeature implements Parcelable, Cloneable {
 	}
 
 	/**
+	 * 
+	 * @param writer
+	 * @param coordinates
+	 * @return false if error
+	 */
+	public boolean writeKMLCoordinates(Writer writer, ArrayList<GeoPoint> coordinates){
+		try {
+			writer.write("<coordinates>");
+			for (GeoPoint coord:coordinates){
+				writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude()+" ");
+			}
+			writer.write("</coordinates>\n");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/**
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
-	 * @param isDocument true is this object is the root of the whole hierarchy (the "Document" folder). 
-	 * @param styles the styles, that will be written if this is the root. Can be null if not root, or if you don't handle styles. 
+	 * @param isDocument true is this feature is the root of the whole hierarchy (the "Document" folder). 
+	 * @param kmlDocument containing the shared styles, that will also be written if isDocument is true. 
+	 * @return false if error
 	 */
 	public boolean writeAsKML(Writer writer, boolean isDocument, KmlDocument kmlDocument){
 		try {
@@ -452,18 +476,18 @@ public class KmlFeature implements Parcelable, Cloneable {
 				if (mObjectType == POLYGON)
 					writer.write("<outerBoundaryIs>\n<LinearRing>\n");
 				if (mCoordinates != null){
-					writer.write("<coordinates>");
-					Iterator<GeoPoint> it = mCoordinates.iterator();
-					while(it.hasNext()) {
-						GeoPoint coord = it.next();
-						writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude());
-						if (it.hasNext())
-							writer.write(' ');
-					}
-					writer.write("</coordinates>\n");
+					writeKMLCoordinates(writer, mCoordinates);
 				}
-				if (mObjectType == POLYGON)
+				if (mObjectType == POLYGON){
 					writer.write("</LinearRing>\n</outerBoundaryIs>\n");
+					if (mHoles != null){
+						for (ArrayList<GeoPoint> hole:mHoles){
+							writer.write("<innerBoundaryIs>\n<LinearRing>\n");
+							writeKMLCoordinates(writer, hole);
+							writer.write("</LinearRing>\n</innerBoundaryIs>\n");
+						}
+					}
+				}
 				writer.write("</"+geometry+">\n");
 			}
 			if (mObjectType == FOLDER){
@@ -550,8 +574,10 @@ public class KmlFeature implements Parcelable, Cloneable {
 				}
 				if (mObjectType == LINE_STRING)
 					writer.write("]");
-				else if (mObjectType == POLYGON)
+				else if (mObjectType == POLYGON){
 					writer.write("]]");
+					//TODO: write holes if any
+				}
 				writer.write("\n},\n");
 			}
 			if (!writeGeoJSONProperties(writer, isRoot))
@@ -569,6 +595,13 @@ public class KmlFeature implements Parcelable, Cloneable {
 	
 	//Cloneable implementation ------------------------------------
 
+	public ArrayList<GeoPoint> cloneArrayOfGeoPoint(ArrayList<GeoPoint> coords){
+		ArrayList<GeoPoint> result = new ArrayList<GeoPoint>(coords.size());
+		for (GeoPoint p:coords)
+			result.add((GeoPoint)p.clone());
+		return result;
+	}
+	
 	/** the mandatory tribute to this monument of Java stupidity */
 	public KmlFeature clone(){
 		KmlFeature kmlFeature = null;
@@ -584,9 +617,13 @@ public class KmlFeature implements Parcelable, Cloneable {
 				kmlFeature.mItems.add(item.clone());
 		}
 		if (mCoordinates != null){
-			kmlFeature.mCoordinates = new ArrayList<GeoPoint>(mCoordinates.size());
-			for (GeoPoint p:mCoordinates)
-				kmlFeature.mCoordinates.add((GeoPoint)p.clone());
+			kmlFeature.mCoordinates = cloneArrayOfGeoPoint(mCoordinates);
+		}
+		if (mHoles != null){
+			kmlFeature.mHoles = new ArrayList<ArrayList<GeoPoint>>(mHoles.size());
+			for (ArrayList<GeoPoint> hole:mHoles){
+				kmlFeature.mHoles.add(cloneArrayOfGeoPoint(hole));
+			}
 		}
 		if (mExtendedData != null){
 			kmlFeature.mExtendedData = new HashMap<String,String>(mExtendedData.size());
@@ -614,7 +651,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		out.writeInt(mOpen?1:0);
 		out.writeList(mCoordinates);
 		out.writeString(mStyle);
-		//TODO: mExtendedData
+		//TODO: mExtendedData, mHoles
 		out.writeParcelable(mBB, flags);
 	}
 	
@@ -637,7 +674,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mOpen = (in.readInt()==1);
 		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
 		mStyle = in.readString();
-		//TODO: mExtendedData
+		//TODO: mExtendedData, mHoles
 		mBB = in.readParcelable(BoundingBoxE6.class.getClassLoader());
 	}
 

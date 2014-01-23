@@ -37,8 +37,8 @@ import android.util.Log;
  * Supports NetworkLink. <br>
  * Supports LineStyle, PolyStyle and IconStyle - shared and inline. <br>
  * Supports colorMode: normal, random<br>
- * Supports ExtendedData inside Features, with support for <Data> elements and <SimpleData> elements. 
- * In all cases, values are stored as Java String, there is no handling of <Schema> definition. <br>
+ * Supports ExtendedData inside Features, with support for Data elements and SimpleData elements. 
+ * In all cases, values are stored as Java String, there is no handling of Schema definition. <br>
  * 
  * @see KmlFeature
  * @see Style
@@ -303,6 +303,7 @@ public class KmlDocument implements Parcelable {
 		ColorStyle mColorStyle;
 		String mDataName;
 		boolean mIsNetworkLink;
+		boolean mIsInnerBoundary;
 		
 		public KmlSaxHandler(){
 			mKmlRoot = new KmlFeature();
@@ -310,6 +311,7 @@ public class KmlDocument implements Parcelable {
 			mKmlStack = new ArrayList<KmlFeature>();
 			mKmlStack.add(mKmlRoot);
 			mIsNetworkLink = false;
+			mIsInnerBoundary = false;
 		}
 		
 		public void startElement(String uri, String localName, String name,
@@ -332,6 +334,8 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature = new KmlFeature();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
+			} else if (localName.equals("innerBoundaryIs")) {
+				mIsInnerBoundary = true;
 			} else if (localName.equals("Style")) {
 				mCurrentStyle = new Style();
 				mCurrentStyleId = attributes.getValue("id");
@@ -372,6 +376,8 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.mObjectType = KmlFeature.LINE_STRING;
 			} else if (localName.equals("Polygon")){
 				mKmlCurrentFeature.mObjectType = KmlFeature.POLYGON;
+			} else if (localName.equals("innerBoundaryIs")){
+				mIsInnerBoundary = false;
 			} else if (localName.equals("name")){
 				mKmlCurrentFeature.mName = mStringBuilder.toString();
 			} else if (localName.equals("description")){
@@ -381,8 +387,16 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("open")){
 				mKmlCurrentFeature.mOpen = ("1".equals(mStringBuilder.toString()));
 			} else if (localName.equals("coordinates")){
-				mKmlCurrentFeature.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
-				mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentFeature.mCoordinates);
+				if (!mIsInnerBoundary){
+					mKmlCurrentFeature.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
+					mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentFeature.mCoordinates);
+				} else { //inside a Polygon innerBoundaryIs element: new hole
+					if (mKmlCurrentFeature.mHoles == null)
+						mKmlCurrentFeature.mHoles = new ArrayList<ArrayList<GeoPoint>>();
+					ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
+					mKmlCurrentFeature.mHoles.add(hole);
+					//no bounding box update, as holes must be inside the polygon outer boundary. 
+				}
 			} else if (localName.equals("styleUrl")){
 				if (mStringBuilder.charAt(0) == '#')
 					mKmlCurrentFeature.mStyle = mStringBuilder.substring(1); //remove the #
