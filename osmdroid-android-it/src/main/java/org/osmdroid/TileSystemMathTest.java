@@ -1,14 +1,12 @@
 package org.osmdroid;
 
-import java.util.Random;
-
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Suppress;
+
+import microsoft.mappoint.TileSystem;
 
 /**
  * @author Marc Kurtz
@@ -20,10 +18,9 @@ public class TileSystemMathTest extends AndroidTestCase {
 	@Suppress // this test is here to test timings for issue 512
 	public void test_divide() {
 		long start = System.currentTimeMillis();
-		Random r = new Random();
-		for(int i = 0; i < 1E7; i++) {
-			long l = r.nextLong();
-			double s = l / 1E6;
+		double delta = 0.0;
+		for (int i=0; i<10000000; i++){
+			delta = i/1E6;
 		}
 		long diff = System.currentTimeMillis() - start;
 		assertEquals("fail", 0, diff);
@@ -32,10 +29,9 @@ public class TileSystemMathTest extends AndroidTestCase {
 	@Suppress // this test is here to test timings for issue 512
 	public void test_multiply() {
 		long start = System.currentTimeMillis();
-		Random r = new Random();
-		for(int i = 0; i < 1E7; i++) {
-			long l = r.nextLong();
-			double s = l * 1E6;
+		double delta = 0.0;
+		for (int i=0; i<10000000; i++){
+			delta = i*1E-6;
 		}
 		long diff = System.currentTimeMillis() - start;
 		assertEquals("fail", 0, diff);
