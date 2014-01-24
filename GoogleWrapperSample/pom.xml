@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>4.1</version>
+        <version>4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>GoogleWrapperSample</artifactId>
