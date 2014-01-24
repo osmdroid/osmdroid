@@ -25,6 +25,7 @@ import android.util.Log;
  * https://developers.google.com/maps/documentation/directions/<br>
  * Note that displaying a route provided by Google on a non-Google map (like OSM) is not allowed by Google T&C. 
  * @author M.Kergall
+ * TODO: replace GoogleDirectionsHandler mString by a StringBuilder
  */
 public class GoogleRoadManager extends RoadManager {
 	

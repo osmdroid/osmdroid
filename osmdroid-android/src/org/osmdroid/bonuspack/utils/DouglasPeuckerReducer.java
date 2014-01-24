@@ -78,11 +78,11 @@ public class DouglasPeuckerReducer {
         double maxDistance = 0.0;
         int indexFarthest = 0;
 
-        GeoPoint firstPoint = (GeoPoint)shape.get(firstIdx);
-        GeoPoint lastPoint = (GeoPoint)shape.get(lastIdx);
+        GeoPoint firstPoint = shape.get(firstIdx);
+        GeoPoint lastPoint = shape.get(lastIdx);
 
         for (int idx = firstIdx + 1; idx < lastIdx; idx++) {
-            GeoPoint point = (GeoPoint)shape.get(idx);
+            GeoPoint point = shape.get(idx);
 
             double distance = orthogonalDistance(point, firstPoint, lastPoint);
 

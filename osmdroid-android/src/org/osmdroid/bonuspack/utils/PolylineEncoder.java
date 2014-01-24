@@ -3,6 +3,8 @@ package org.osmdroid.bonuspack.utils;
 import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;
 
+import android.util.Log;
+
 /**
  * Methods to encode and decode a polyline with Google polyline encoding/decoding scheme. 
  * See https://developers.google.com/maps/documentation/utilities/polylinealgorithm
@@ -56,10 +58,11 @@ public class PolylineEncoder {
      * @return the polyline. 
      */
     public static ArrayList<GeoPoint> decode(String encodedString, int precision) {
-        ArrayList<GeoPoint> polyline = new ArrayList<GeoPoint>();
         int index = 0;
         int len = encodedString.length();
         int lat = 0, lng = 0;
+        ArrayList<GeoPoint> polyline = new ArrayList<GeoPoint>(len/3);
+        	//capacity estimate: polyline size is roughly 1/3 of string length for a 5digits encoding, 1/5 for 10digits. 
 
         while (index < len) {
             int b, shift = 0, result = 0;
@@ -84,6 +87,8 @@ public class PolylineEncoder {
             GeoPoint p = new GeoPoint(lat*precision, lng*precision);
             polyline.add(p);
         }
+        
+        //Log.d("BONUSPACK", "decode:string="+len+" points="+polyline.size());
 
         return polyline;
     }
