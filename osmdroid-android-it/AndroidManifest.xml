@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.osmdroid.test" android:versionCode="1" android:versionName="4.1-SNAPSHOT">
+          package="org.osmdroid.test" android:versionCode="1" android:versionName="4.2-SNAPSHOT">
 
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16"/>
 
