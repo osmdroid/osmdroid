@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -230,7 +231,7 @@ public class KmlDocument implements Parcelable {
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
-		KmlSaxHandler handler = new KmlSaxHandler();
+		KmlSaxHandler handler = new KmlSaxHandler(url);
 		if (stream == null){
 			handler.mKmlRoot = null;
 		} else {
@@ -274,7 +275,7 @@ public class KmlDocument implements Parcelable {
 	 */
 	public boolean parseFile(File file){
 		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile:"+file.getAbsolutePath());
-		KmlSaxHandler handler = new KmlSaxHandler();
+		KmlSaxHandler handler = new KmlSaxHandler(file.getAbsolutePath());
 		InputStream stream = null;
 		try {
 			stream = new BufferedInputStream(new FileInputStream(file));
@@ -304,8 +305,10 @@ public class KmlDocument implements Parcelable {
 		String mDataName;
 		boolean mIsNetworkLink;
 		boolean mIsInnerBoundary;
+		String mFullPath; //to get the path of relative sub-files
 		
-		public KmlSaxHandler(){
+		public KmlSaxHandler(String fullPath){
+			mFullPath = fullPath;
 			mKmlRoot = new KmlFeature();
 			mKmlRoot.createAsFolder();
 			mKmlStack = new ArrayList<KmlFeature>();
@@ -418,16 +421,31 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("href")){
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
 					//href of an Icon:
-					mCurrentStyle.setIcon(mStringBuilder.toString());
+					String href = mStringBuilder.toString();
+					if (!href.startsWith("http://")){
+						File file = new File(mFullPath);
+						href = file.getParent()+'/'+href;
+					}
+					mCurrentStyle.setIcon(href);
 				} else if (mIsNetworkLink){
 					//href of a NetworkLink:
 					String href = mStringBuilder.toString();
 					KmlDocument subDocument = new KmlDocument();
-					subDocument.parseUrl(href); //TODO: if local file, parseFile(href)
-					//add subDoc root to the current feature, which is -normally- the NetworkLink:
-					mKmlCurrentFeature.add(subDocument.kmlRoot);
-					//add subDoc styles to mStyles:
-					mStyles.putAll(subDocument.mStyles);
+					if (href.startsWith("http://"))
+						subDocument.parseUrl(href);
+					else {
+						File file = new File(mFullPath);
+						File subFile = new File(file.getParent()+'/'+href);
+						subDocument.parseFile(subFile);
+					}
+					if (subDocument.kmlRoot != null){
+						//add subDoc root to the current feature, which is -normally- the NetworkLink:
+						mKmlCurrentFeature.add(subDocument.kmlRoot);
+						//add subDoc styles to mStyles:
+						mStyles.putAll(subDocument.mStyles);
+					} else {
+						Log.e(BonusPackHelper.LOG_TAG, "Error reading NetworkLink:"+href);
+					}
 				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)

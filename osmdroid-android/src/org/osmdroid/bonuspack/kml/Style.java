@@ -1,5 +1,6 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 
@@ -7,6 +8,7 @@ import org.osmdroid.bonuspack.utils.WebImageCache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
@@ -53,7 +55,13 @@ public class Style implements Parcelable {
 	/** set the IconStyle icon */
 	public void setIcon(String iconHref){
 		mIconHref = iconHref;
-		mIcon = mIconCache.get(mIconHref);
+		if (mIconHref.startsWith("http://")){
+			mIcon = mIconCache.get(mIconHref);
+		} else {
+			//local file loading:
+			File imgFile = new  File(iconHref);
+			mIcon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+		}
 	}
 	
 	/** @return the icon, scaled and blended with the icon color, as specified in the IconStyle. 
