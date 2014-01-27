@@ -11,11 +11,11 @@ import android.graphics.Point;
 /**
  * http://wiki.openstreetmap.org/index.php/Mercator
  * http://developers.cloudmade.com/projects/tiles/examples/convert-coordinates-to-tile-numbers
- * 
+ *
  * @author Nicolas Gramlich
- * 
- * @deprecated Use TileSystem instead
- * 
+ *
+ * @deprecated Use {@link org.osmdroid.util.TileSystem} instead
+ *
  */
 public class Mercator implements MapViewConstants {
 	// ===========================================================
@@ -52,51 +52,51 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
-	 * @param aLat
+	 *
+	 * @param aLatE6
 	 *            latitude in degrees [-89000000 to 89000000]
-	 * @param aLon
+	 * @param aLonE6
 	 *            longitude in degrees [-180000000 to 180000000]
-	 * @param zoom
+	 * @param aZoom
 	 *            zoom level
-	 * @param aUseAsReturnValue
+	 * @param aReuse
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
 	public static Point projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
-			final Point reuse) {
-		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, reuse);
+			final Point aReuse) {
+		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, aReuse);
 	}
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
-	 * @param pGeoPoint
-	 * @param zoom
+	 *
+	 * @param aGeoPoint
+	 * @param aZoom
 	 *            zoom level
-	 * @param pUseAsReturnValue
+	 * @param aReuse
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
-	public static Point projectGeoPoint(final IGeoPoint pGeoPoint, final int pZoom,
-			final Point pUseAsReturnValue) {
-		return projectGeoPoint(pGeoPoint.getLatitudeE6() * 1E-6, pGeoPoint.getLongitudeE6() * 1E-6,
-				pZoom, pUseAsReturnValue);
+	public static Point projectGeoPoint(final IGeoPoint aGeoPoint, final int aZoom,
+			final Point aReuse) {
+		return projectGeoPoint(aGeoPoint.getLatitudeE6() * 1E-6, aGeoPoint.getLongitudeE6() * 1E-6,
+				aZoom, aReuse);
 	}
 
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
-	 * 
+	 *
 	 * @param aLat
 	 *            latitude in degrees [-89 to 89]
 	 * @param aLon
 	 *            longitude in degrees [-180 to 180]
-	 * @param zoom
+	 * @param aZoom
 	 *            zoom level
-	 * @param aUseAsReturnValue
+	 * @param aReuse
 	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
 	 */
 	public static Point projectGeoPoint(final double aLat, final double aLon, final int aZoom,
-			final Point aUseAsReturnValue) {
-		final Point p = aUseAsReturnValue != null ? aUseAsReturnValue : new Point(0, 0);
+			final Point aReuse) {
+		final Point p = aReuse != null ? aReuse : new Point(0, 0);
 
 		p.x = ((int) Math.floor((aLon + 180) / 360 * (1 << aZoom)));
 		p.y = ((int) Math.floor((1 - Math.log(Math.tan(aLat * DEG2RAD) + 1
@@ -109,7 +109,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 * 
+	 *
 	 * @param left
 	 * @param top
 	 * @param right
@@ -125,7 +125,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Get bounding box from reverse Mercator projection.
-	 * 
+	 *
 	 * @param aMapTile
 	 * @param aZoom
 	 * @return
@@ -138,7 +138,7 @@ public class Mercator implements MapViewConstants {
 
 	/**
 	 * Reverse Mercator projection of Point at given zoom level
-	 * 
+	 *
 	 */
 	public static GeoPoint projectPoint(final int x, final int y, final int aZoom) {
 		return new GeoPoint((int) (tile2lat(y, aZoom) * 1E6), (int) (tile2lon(x, aZoom) * 1E6));
