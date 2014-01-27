@@ -168,6 +168,8 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
 			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
+			final ReusableBitmapDrawable reusableBitmapDrawable =
+					isReusable ? (ReusableBitmapDrawable) currentMapTile : null;
 			if (currentMapTile == null) {
 				currentMapTile = getLoadingTile();
 			}
@@ -175,8 +177,9 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 			if (currentMapTile != null) {
 				mTileRect.set(pX * pTileSizePx, pY * pTileSizePx, pX * pTileSizePx + pTileSizePx,
 						pY * pTileSizePx + pTileSizePx);
-				if (isReusable)
-					((ReusableBitmapDrawable) currentMapTile).beginUsingDrawable();
+				if (isReusable) {
+					reusableBitmapDrawable.beginUsingDrawable();
+				}
 				try {
 					if (isReusable && !((ReusableBitmapDrawable) currentMapTile).isBitmapValid()) {
 						currentMapTile = getLoadingTile();
@@ -185,7 +188,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 					onTileReadyToDraw(pCanvas, currentMapTile, mTileRect);
 				} finally {
 					if (isReusable)
-						((ReusableBitmapDrawable) currentMapTile).finishUsingDrawable();
+						reusableBitmapDrawable.finishUsingDrawable();
 				}
 			}
 
