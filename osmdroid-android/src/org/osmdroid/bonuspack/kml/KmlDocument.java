@@ -8,11 +8,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -498,7 +496,6 @@ public class KmlDocument implements Parcelable {
 		}
 	}
 	
-	
 	/**
 	 * Save the document as a KML file
 	 * @param file full path of the destination file
@@ -506,10 +503,12 @@ public class KmlDocument implements Parcelable {
 	 */
 	public boolean saveAsKML(File file){
 		try {
+			Log.d(BonusPackHelper.LOG_TAG, "Saving "+file.getAbsolutePath());
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter writer = new BufferedWriter(fw, 8192);
 			boolean result = saveAsKML(writer);
 			writer.close();
+			Log.d(BonusPackHelper.LOG_TAG, "Saved.");
 			return result;
 		} catch (IOException e) {
 			e.printStackTrace();

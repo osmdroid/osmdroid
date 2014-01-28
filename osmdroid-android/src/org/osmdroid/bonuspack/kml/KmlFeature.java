@@ -249,7 +249,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mExtendedData.put(name, value);
 	}
 	
-	/** from a Placemark feature having a Point geometry, build a Marker overlay (ItemizedOverlayWithBubble)/
+	/** from a Placemark feature having a Point geometry, build a Marker overlay (ItemizedOverlayWithBubble)
 	 * @param map
 	 * @param defaultMarker default marker to be used if no style or no icon specified
 	 * @param kmlDocument
@@ -269,7 +269,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		} else {
 			item.setMarker(defaultMarker);
 		}
-		ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>();
+		ArrayList<ExtendedOverlayItem> kmlPointsItems = new ArrayList<ExtendedOverlayItem>(1);
 		ItemizedOverlayWithBubble<ExtendedOverlayItem> kmlPointsOverlay = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(context, 
 				kmlPointsItems, map);
 		kmlPointsOverlay.addItem(item);
@@ -411,7 +411,8 @@ public class KmlFeature implements Parcelable, Cloneable {
 		try {
 			writer.write("<coordinates>");
 			for (GeoPoint coord:coordinates){
-				writer.write(coord.getLongitude()+","+coord.getLatitude()+","+coord.getAltitude()+" ");
+				writer.write(coord.toInvertedDoubleString());
+				writer.write(' ');
 			}
 			writer.write("</coordinates>\n");
 			return true;
@@ -569,6 +570,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 				while(it.hasNext()) {
 					GeoPoint coord = it.next();
 					writer.write("["+coord.getLongitude()+","+coord.getLatitude()/*+","+coord.getAltitude()*/+"]");
+						//don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
 					if (it.hasNext())
 						writer.write(',');
 				}
@@ -576,7 +578,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 					writer.write("]");
 				else if (mObjectType == POLYGON){
 					writer.write("]]");
-					//TODO: write holes if any
+					//TODO: write polygon holes if any
 				}
 				writer.write("\n},\n");
 			}
