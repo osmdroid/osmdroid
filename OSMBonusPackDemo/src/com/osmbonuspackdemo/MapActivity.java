@@ -33,10 +33,12 @@ import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
+import org.osmdroid.tileprovider.util.ManifestUtil;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
@@ -78,7 +80,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Demo Activity using osmdroid and osmbonuspack
+ * Demo Activity using osmdroid and OSMBonusPack
  * @see http://code.google.com/p/osmbonuspack/
  * @author M.Kergall
  *
@@ -135,11 +137,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		//Integrating MapBox Satellite map, which is really an impressive service. 
 		//We stole OSRM account at MapBox. Hope we will be forgiven... 
+		/* hand-made version:
+		String mapBoxMapId = ManifestUtil.retrieveKey(this, "MAPBOX_MAPID");
 		MAPBOXSATELLITELABELLED = new XYTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png",
-                "http://a.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
-                "http://b.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
-                "http://c.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/",
-                "http://d.tiles.mapbox.com/v3/dennisl.map-6g3jtnzm/");
+                new String[]{"http://a.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
+                "http://b.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
+                "http://c.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
+                "http://d.tiles.mapbox.com/v3/"+mapBoxMapId+"/"});
+		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
+		*/
+		//osmdroid 4.1 version:
+		MapBoxTileSource.retrieveMapBoxMapId(this);
+		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
 		
 		map = (MapView) findViewById(R.id.map);
