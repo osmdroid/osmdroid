@@ -3,7 +3,6 @@ package com.example.osmbonuspacktuto;
 import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
@@ -28,9 +27,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -133,7 +136,7 @@ public class MainActivity extends Activity {
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
-		//File file = kmlDocument.getDefaultPathForAndroid("my_routes.kml");
+		//File file = kmlDocument.getDefaultPathForAndroid("Province_test.kml");
 		//boolean ok = kmlDocument.parseFile(file);
 		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 		if (ok){
@@ -152,16 +155,37 @@ public class MainActivity extends Activity {
 		if (kmlDocument.kmlRoot != null){
 			kmlDocument.kmlRoot.addOverlay(roadOverlay, kmlDocument);
 			kmlDocument.kmlRoot.addOverlay(roadNodes, kmlDocument);
-			File localFile = kmlDocument.getDefaultPathForAndroid("my_routes.kml");
+			File localFile = kmlDocument.getDefaultPathForAndroid("my_route.kml");
 			kmlDocument.saveAsKML(localFile);
 		}
+		
 	}
+	
+	/*
+	@Override public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+			super.onCreateContextMenu(menu, v, menuInfo);
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.map_menu, menu);
+	}
+	*/
 	
 	//7. Customizing the bubble behaviour
 	class CustomInfoWindow extends DefaultInfoWindow {
 		POI selectedPoi;
 		public CustomInfoWindow(MapView mapView) {
 			super(R.layout.bonuspack_bubble, mapView);
+			/*
+			//open a context menu when clicking on the bubble:
+			((Activity) mapView.getContext()).registerForContextMenu(mView);
+			mView.setOnTouchListener(new View.OnTouchListener() {
+				@Override public boolean onTouch(View v, MotionEvent e) {
+					if (e.getAction() == MotionEvent.ACTION_UP){
+						((Activity) mapView.getContext()).openContextMenu(mView);
+					}
+					return true;
+				}
+			});
+			*/
 			Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
 			btn.setOnClickListener(new View.OnClickListener() {
 			    public void onClick(View view) {
