@@ -13,6 +13,7 @@ import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
+import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
@@ -29,8 +30,10 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -135,6 +138,7 @@ public class MainActivity extends Activity {
 		}
 		
 		//10. Loading KML content
+		/*
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
@@ -160,14 +164,13 @@ public class MainActivity extends Activity {
 			File localFile = kmlDocument.getDefaultPathForAndroid("my_route.kml");
 			kmlDocument.saveAsKML(localFile);
 		}
+		*/
 		
-		/*
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(startPoint);
-		myGroundOverlay.setImage(Bitmap.createBitmap(10, 20, Bitmap.Config.ARGB_8888));
-		myGroundOverlay.setDimensions(2000.0f);
+		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher));
+		myGroundOverlay.setDimensions(10000.0f);
 		map.getOverlays().add(myGroundOverlay);
-		*/
 	}
 	
 	/*
