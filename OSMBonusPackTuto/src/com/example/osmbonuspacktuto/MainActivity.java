@@ -11,6 +11,7 @@ import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
@@ -27,6 +28,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -159,6 +161,13 @@ public class MainActivity extends Activity {
 			kmlDocument.saveAsKML(localFile);
 		}
 		
+		/*
+		GroundOverlay myGroundOverlay = new GroundOverlay(this);
+		myGroundOverlay.setPosition(startPoint);
+		myGroundOverlay.setImage(Bitmap.createBitmap(10, 20, Bitmap.Config.ARGB_8888));
+		myGroundOverlay.setDimensions(2000.0f);
+		map.getOverlays().add(myGroundOverlay);
+		*/
 	}
 	
 	/*
