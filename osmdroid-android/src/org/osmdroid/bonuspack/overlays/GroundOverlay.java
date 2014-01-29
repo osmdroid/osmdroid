@@ -6,6 +6,8 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.SafeDrawOverlay;
+import org.osmdroid.views.safecanvas.ISafeCanvas;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,9 +17,9 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-public class GroundOverlay extends Overlay {
+public class GroundOverlay extends SafeDrawOverlay {
 
-	protected Bitmap mImage;
+	protected Drawable mImage;
 	protected GeoPoint mPosition;
 	protected float mBearing;
 	protected float mWidth, mHeight;
@@ -38,7 +40,7 @@ public class GroundOverlay extends Overlay {
 		mPositionPixels = new Point();
 	}
 
-	public void setImage(Bitmap image){
+	public void setImage(Drawable image){
 		mImage = image;
 	}
 	
@@ -64,24 +66,31 @@ public class GroundOverlay extends Overlay {
 		mTransparency = transparency;
 	}
 	
-	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 		if (mImage == null)
 			return;
 		
 		if (mHeight == UNDEFINED_DIM){
-			mHeight = mWidth * mImage.getHeight() / mImage.getWidth();
+			mHeight = mWidth * mImage.getIntrinsicHeight() / mImage.getIntrinsicWidth();
 		}
 		
 		final Projection pj = mapView.getProjection();
-		Point tmp = pj.toMapPixelsProjected(mPosition.getLatitudeE6(), mPosition.getLongitudeE6(), null);
-		pj.toMapPixelsTranslated(tmp, mPositionPixels);
+		
+		pj.toMapPixels(mPosition, mPositionPixels);
+		GeoPoint p2 = mPosition.destinationPoint(mWidth, 90.0f);
+		GeoPoint p3 = p2.destinationPoint(mHeight, -180.0f);
+		Point endPixels = pj.toMapPixels(p3, null);
+		mImage.setBounds(0, 0, endPixels.x-mPositionPixels.x, endPixels.y-mPositionPixels.y);
+		
+		/*
 		Matrix matrix = new Matrix();
 		matrix.setTranslate(mPositionPixels.x, mPositionPixels.y);
 		matrix.setRotate(mBearing);
-		matrix.setScale(pj.metersToEquatorPixels(mWidth), pj.metersToEquatorPixels(mHeight));
-		canvas.drawBitmap(mImage, matrix, null);
+		//matrix.setScale(pj.metersToEquatorPixels(mWidth), pj.metersToEquatorPixels(mHeight));
+		 */
+		drawAt(canvas.getSafeCanvas(), mImage, mPositionPixels.x, mPositionPixels.y, false, 0.0f);
 	}
 
 }
