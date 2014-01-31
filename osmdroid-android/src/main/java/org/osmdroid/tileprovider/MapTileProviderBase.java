@@ -304,7 +304,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				final Bitmap bitmap = mNewTiles.remove(tile);
 				final ExpirableBitmapDrawable drawable = new ReusableBitmapDrawable(bitmap);
 				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
-				Drawable existingTile = mTileCache.getMapTile(tile);
+				final Drawable existingTile = mTileCache.getMapTile(tile);
 				if (existingTile == null || ExpirableBitmapDrawable.isDrawableExpired(existingTile))
 					putExpiredTileIntoCache(new MapTileRequestState(tile,
 							new MapTileModuleProviderBase[0], null), drawable);
@@ -346,7 +346,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 					reusableBitmapDrawable.beginUsingDrawable();
 				try {
 					if (!isReusable || reusableBitmapDrawable.isBitmapValid()) {
-						final Bitmap oldBitmap = reusableBitmapDrawable.getBitmap();
+						final BitmapDrawable bitmapDrawable = (BitmapDrawable) oldDrawable;
+						final Bitmap oldBitmap = bitmapDrawable.getBitmap();
 						canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
 						success = true;
 						if (DEBUGMODE) {
