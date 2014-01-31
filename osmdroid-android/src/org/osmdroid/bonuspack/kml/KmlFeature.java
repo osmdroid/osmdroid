@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -17,8 +18,11 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -29,9 +33,9 @@ import android.os.Parcelable;
  * Each KmlFeature has a type: mObjectType. <br>
  * 	- Folder feature object type = FOLDER. <br>
  * 	- Document feature is handled exactly like a Folder (object type = FOLDER). <br>
- * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING or POLYGON. 
+ * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING, POLYGON or GROUND_OVERLAY. 
  * 	  It contains both the Placemark attributes and the Geometry attributes. <br>
- * 	- UNKNOWN object type is reserved for issues/errors, or unsupported features/geometries. 
+ * 	- UNKNOWN object type is reserved for default, issues/errors, or unsupported features/geometries. 
  * 
  * @see KmlDocument
  * @see https://developers.google.com/kml/documentation/kmlreference
@@ -40,7 +44,7 @@ import android.os.Parcelable;
  */
 public class KmlFeature implements Parcelable, Cloneable {
 	/** possible KML object type */
-	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, FOLDER=4;
+	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, GROUND_OVERLAY=4, FOLDER=5;
 	
 	/** KML object type */
 	public int mObjectType;
@@ -58,8 +62,14 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public boolean mOpen;
 	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
-	/** Polygon holes - (can be null) */
+	/** Polygon holes (can be null) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
+	/** Overlay Icon (can be null) */
+	public Bitmap mIcon;
+	/** Overlay color */
+	public int mColor;
+	/** GroundOverlay rotation - default = 0 */
+	public float mRotation;
 	/** styleUrl (without the #) */
 	public String mStyle;
 	/** ExtendedData, as a HashMap of (name, value). 
@@ -274,7 +284,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 				kmlPointsItems, map);
 		kmlPointsOverlay.addItem(item);
 		if (supportVisibility && !mVisibility)
-			kmlPointsOverlay.setEnabled(false);
+			kmlPointsOverlay.setEnabled(mVisibility);
 		return kmlPointsOverlay;
 	}
 	
@@ -291,7 +301,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		}
 		lineStringOverlay.setPoints(mCoordinates);
 		if (supportVisibility && !mVisibility)
-			lineStringOverlay.setEnabled(false);
+			lineStringOverlay.setEnabled(mVisibility);
 		return lineStringOverlay;
 	}
 	
@@ -326,8 +336,43 @@ public class KmlFeature implements Parcelable, Cloneable {
 			polygonOverlay.setInfoWindow(layoutResId, map);
 		}
 		if (supportVisibility && !mVisibility)
-			polygonOverlay.setEnabled(false);
+			polygonOverlay.setEnabled(mVisibility);
 		return polygonOverlay;
+	}
+	
+	public Overlay buildGroundOverlay(MapView map, KmlDocument kmlDocument){
+		Context context = map.getContext();
+		GroundOverlay overlay = new GroundOverlay(context);
+		if (mCoordinates.size()==2){
+			GeoPoint pNW = mCoordinates.get(0);
+			GeoPoint pSE = mCoordinates.get(1);
+			overlay.setPosition(GeoPoint.fromCenterBetween(pNW, pSE));
+			GeoPoint pNE = new GeoPoint(pNW.getLatitude(), pSE.getLongitude());
+			int width = pNE.distanceTo(pNW);
+			GeoPoint pSW = new GeoPoint(pSE.getLatitude(), pNW.getLongitude());
+			int height = pSW.distanceTo(pNW);
+			overlay.setDimensions((float)width, (float)height);
+		}
+		//TODO: 
+		//else if size=4, nonrectangular quadrilateral
+		//else, error
+		
+		if (mIcon != null)
+			overlay.setImage(new BitmapDrawable(mIcon));
+		else {
+			/* TODO: currently filling the canvas. 
+			ColorDrawable rect = new ColorDrawable(mColor);
+			rect.setAlpha(255); //transparency will be applied below. 
+			overlay.setImage(rect);
+			*/
+		}
+		
+		float transparency = 1.0f - Color.alpha(mColor)/255.0f;
+			//Even if not documented, KML transparency is the transparency part of "color" element. 
+		overlay.setTransparency(transparency);
+		overlay.setBearing(-mRotation); //from KML counterclockwise to Google Maps API which is clockwise
+		overlay.setEnabled(mVisibility);
+		return overlay;
 	}
 	
 	/**
@@ -338,7 +383,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	 * @param kmlDocument for styles
 	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
 	 * @return the overlay, depending on the KML object type: <br>
-	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>Polyline
+	 * 		Folder=>FolderOverlay, Point=>ItemizedOverlayWithBubble, Polygon=>Polygon, LineString=>Polyline, GroundOverlay=>GroundOverlay
 	 * 		and return null if object type is UNKNOWN. 
 	 */
 	public Overlay buildOverlays(Context context, MapView map, Drawable defaultMarker, KmlDocument kmlDocument, 
@@ -362,6 +407,9 @@ public class KmlFeature implements Parcelable, Cloneable {
 		}
 		case POLYGON:{
 			return buildPolygonFromPolygon(map, kmlDocument, supportVisibility);
+		}
+		case GROUND_OVERLAY:{
+			return buildGroundOverlay(map, kmlDocument);
 		}
 		default:
 			return null;	

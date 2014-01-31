@@ -5,18 +5,21 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.SafeDrawOverlay;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
-
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
+/**
+ * A ground overlay is an image that is fixed to a map. 
+ * Mimics the GroundOverlay class from Google Maps Android API v2 as much as possible. Main differences:<br/>
+ * - Doesn't support: Z-Index, setPositionFromBounds<br/>
+ * - image can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Maps API. <br/>
+ * 
+ * @author M.Kergall
+ *
+ */
 public class GroundOverlay extends SafeDrawOverlay {
 
 	protected Drawable mImage;
@@ -25,7 +28,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 	protected float mWidth, mHeight;
 	protected float mTransparency;
 	protected final static float UNDEFINED_DIM = -1.0f;
-	protected Point mPositionPixels;
+	protected Point mPositionPixels, mSouthEastPixels;
 	
 	public GroundOverlay(Context ctx) {
 		this(new DefaultResourceProxyImpl(ctx));
@@ -38,14 +41,23 @@ public class GroundOverlay extends SafeDrawOverlay {
 		mBearing = 0.0f;
 		mTransparency = 0.0f;
 		mPositionPixels = new Point();
+		mSouthEastPixels = new Point();
 	}
 
 	public void setImage(Drawable image){
 		mImage = image;
 	}
 	
+	public GeoPoint getPosition(){
+		return mPosition.clone();
+	}
+	
 	public void setPosition(GeoPoint position){
 		mPosition = position.clone();
+	}
+
+	public float getBearing(){
+		return mBearing;
 	}
 	
 	public void setBearing(float bearing){
@@ -62,8 +74,20 @@ public class GroundOverlay extends SafeDrawOverlay {
 		mHeight = height;
 	}
 	
+	public float getHeight(){
+		return mHeight;
+	}
+	
+	public float getWidth(){
+		return mWidth;
+	}
+	
 	public void setTransparency(float transparency){
 		mTransparency = transparency;
+	}
+	
+	public float getTransparency(){
+		return mTransparency;
 	}
 	
 	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
@@ -79,18 +103,16 @@ public class GroundOverlay extends SafeDrawOverlay {
 		final Projection pj = mapView.getProjection();
 		
 		pj.toMapPixels(mPosition, mPositionPixels);
-		GeoPoint p2 = mPosition.destinationPoint(mWidth, 90.0f);
-		GeoPoint p3 = p2.destinationPoint(mHeight, -180.0f);
-		Point endPixels = pj.toMapPixels(p3, null);
-		mImage.setBounds(0, 0, endPixels.x-mPositionPixels.x, endPixels.y-mPositionPixels.y);
+		GeoPoint pEast = mPosition.destinationPoint(mWidth, 90.0f);
+		GeoPoint pSouthEast = pEast.destinationPoint(mHeight, -180.0f);
+		pj.toMapPixels(pSouthEast, mSouthEastPixels);
+		int width = mSouthEastPixels.x-mPositionPixels.x;
+		int height = mSouthEastPixels.y-mPositionPixels.y;
+		mImage.setBounds(-width/2, -height/2, width/2, height/2);
 		
-		/*
-		Matrix matrix = new Matrix();
-		matrix.setTranslate(mPositionPixels.x, mPositionPixels.y);
-		matrix.setRotate(mBearing);
-		//matrix.setScale(pj.metersToEquatorPixels(mWidth), pj.metersToEquatorPixels(mHeight));
-		 */
-		drawAt(canvas.getSafeCanvas(), mImage, mPositionPixels.x, mPositionPixels.y, false, 0.0f);
+		mImage.setAlpha(255-(int)(mTransparency*255));
+
+		drawAt(canvas.getSafeCanvas(), mImage, mPositionPixels.x, mPositionPixels.y, false, -mBearing);
 	}
 
 }

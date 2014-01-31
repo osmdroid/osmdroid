@@ -28,6 +28,7 @@ public class ColorStyle implements Parcelable {
 		this.color = color;
 	}
 	
+	/** return color in Android int color format */
 	public static int parseKMLColor(String sColor){
 		sColor = sColor.trim();
 		while (sColor.length()<8)

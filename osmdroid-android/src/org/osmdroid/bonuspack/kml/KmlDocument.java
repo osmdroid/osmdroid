@@ -20,6 +20,7 @@ import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -31,7 +32,7 @@ import android.util.Log;
  * Shared components (like styles) are stored in specific attributes. 
  * This is the entry point to read, handle and save KML content. <br>
  * 
- * Supports the following KML Geometry: Point, LineString and Polygon. <br>
+ * Supports the following KML Geometry: Point, LineString, Polygon, GroundOverlay. <br>
  * Supports KML Document and Folder hierarchy. <br>
  * Supports NetworkLink. <br>
  * Supports LineStyle, PolyStyle and IconStyle - shared and inline. <br>
@@ -229,22 +230,14 @@ public class KmlDocument implements Parcelable {
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
-		KmlSaxHandler handler = new KmlSaxHandler(url);
 		if (stream == null){
-			handler.mKmlRoot = null;
+			kmlRoot = null;
 		} else {
-			try {
-				SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-				parser.parse(stream, handler);
-			} catch (Exception e) {
-				e.printStackTrace();
-				handler.mKmlRoot = null;
-			}
+			parseStream(stream, url);
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
-		kmlRoot = handler.mKmlRoot;
-		return (handler.mKmlRoot != null);
+		return (kmlRoot != null);
 	}
 
 	/**
@@ -273,20 +266,37 @@ public class KmlDocument implements Parcelable {
 	 */
 	public boolean parseFile(File file){
 		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile:"+file.getAbsolutePath());
-		KmlSaxHandler handler = new KmlSaxHandler(file.getAbsolutePath());
 		InputStream stream = null;
 		try {
 			stream = new BufferedInputStream(new FileInputStream(file));
-			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-			parser.parse(stream, handler);
+			parseStream(stream, file.getAbsolutePath());
 			stream.close();
 		} catch (Exception e){
 			e.printStackTrace();
-			handler.mKmlRoot = null;
+			kmlRoot = null;
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
-		kmlRoot = handler.mKmlRoot;
-		return (handler.mKmlRoot != null);
+		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
+		return (kmlRoot != null);
+	}
+	
+	/**
+	 * Parse a KML content from an InputStream. 
+	 * @param stream the InputStream
+	 * @param fullFilePath of the content, which is used inside the parser to handle "relative" files, to determine their full file path. 
+	 * Note that relative files are supported only for regular files. 
+	 * @return true if OK, false if any error. 
+	 */
+	public boolean parseStream(InputStream stream, String fullFilePath){
+		KmlSaxHandler handler = new KmlSaxHandler(fullFilePath);
+		try {
+			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+			parser.parse(stream, handler);
+			kmlRoot = handler.mKmlRoot;
+		} catch (Exception e) {
+			e.printStackTrace();
+			kmlRoot = null;
+		}
+		return (kmlRoot != null);
 	}
 	
 	// KmlSaxHandler -------------
@@ -304,6 +314,7 @@ public class KmlDocument implements Parcelable {
 		boolean mIsNetworkLink;
 		boolean mIsInnerBoundary;
 		String mFullPath; //to get the path of relative sub-files
+		double mNorth, mEast, mSouth, mWest;
 		
 		public KmlSaxHandler(String fullPath){
 			mFullPath = fullPath;
@@ -335,6 +346,14 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature = new KmlFeature();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
+			} else if (localName.equals("Point")){
+				mKmlCurrentFeature.mObjectType = KmlFeature.POINT;
+			} else if (localName.equals("LineString")){
+				mKmlCurrentFeature.mObjectType = KmlFeature.LINE_STRING;
+			} else if (localName.equals("Polygon")){
+				mKmlCurrentFeature.mObjectType = KmlFeature.POLYGON;
+			} else if (localName.equals("GroundOverlay")){
+				mKmlCurrentFeature.mObjectType = KmlFeature.GROUND_OVERLAY;
 			} else if (localName.equals("innerBoundaryIs")) {
 				mIsInnerBoundary = true;
 			} else if (localName.equals("Style")) {
@@ -371,12 +390,6 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature = mKmlStack.get(mKmlStack.size()-1); //set current to top of stack
 				if (localName.equals("NetworkLink"))
 					mIsNetworkLink = false;
-			} else if (localName.equals("Point")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.POINT;
-			} else if (localName.equals("LineString")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.LINE_STRING;
-			} else if (localName.equals("Polygon")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.POLYGON;
 			} else if (localName.equals("innerBoundaryIs")){
 				mIsInnerBoundary = false;
 			} else if (localName.equals("name")){
@@ -396,7 +409,7 @@ public class KmlDocument implements Parcelable {
 						mKmlCurrentFeature.mHoles = new ArrayList<ArrayList<GeoPoint>>();
 					ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
 					mKmlCurrentFeature.mHoles.add(hole);
-					//no bounding box update, as holes must be inside the polygon outer boundary. 
+					//no need for bounding box update, as holes must be inside the polygon outer boundary. 
 				}
 			} else if (localName.equals("styleUrl")){
 				if (mStringBuilder.charAt(0) == '#')
@@ -404,8 +417,11 @@ public class KmlDocument implements Parcelable {
 				else //external url: keep as is:
 					mKmlCurrentFeature.mStyle = mStringBuilder.toString();
 			} else if (localName.equals("color")){
-				if (mCurrentStyle != null)
+				if (mCurrentStyle != null) {
 					mColorStyle.color = ColorStyle.parseKMLColor(mStringBuilder.toString());
+				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+					mKmlCurrentFeature.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
+				}
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
 					mColorStyle.colorMode = (mStringBuilder.toString().equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
@@ -444,6 +460,33 @@ public class KmlDocument implements Parcelable {
 					} else {
 						Log.e(BonusPackHelper.LOG_TAG, "Error reading NetworkLink:"+href);
 					}
+				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+					//href of a GroundOverlay Icon:
+					String href = mStringBuilder.toString();
+					if (!href.startsWith("http://")){
+						File file = new File(mFullPath);
+						href = file.getParent()+'/'+href;
+						mKmlCurrentFeature.mIcon = BitmapFactory.decodeFile(href);
+					} else {
+						mKmlCurrentFeature.mIcon = BonusPackHelper.loadBitmap(href);
+					}
+				}
+			} else if (localName.equals("north")){
+				mNorth = Double.parseDouble(mStringBuilder.toString());
+			} else if (localName.equals("south")){
+				mSouth = Double.parseDouble(mStringBuilder.toString());
+			} else if (localName.equals("east")){
+				mEast = Double.parseDouble(mStringBuilder.toString());
+			} else if (localName.equals("west")){
+				mWest = Double.parseDouble(mStringBuilder.toString());
+			} else if (localName.equals("rotation")){
+				mKmlCurrentFeature.mRotation = Float.parseFloat(mStringBuilder.toString());
+			} else if (localName.equals("LatLonBox")){
+				if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+					mKmlCurrentFeature.mCoordinates = new ArrayList<GeoPoint>(2);
+					mKmlCurrentFeature.mCoordinates.add(new GeoPoint(mNorth, mWest));
+					mKmlCurrentFeature.mCoordinates.add(new GeoPoint(mSouth, mEast));
+					mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentFeature.mCoordinates);
 				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)
