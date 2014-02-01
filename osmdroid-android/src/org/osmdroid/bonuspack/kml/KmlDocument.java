@@ -342,6 +342,11 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 				mIsNetworkLink = true;
+			} else if (localName.equals("GroundOverlay")){
+				mKmlCurrentFeature = new KmlFeature();
+				mKmlCurrentFeature.mObjectType = KmlFeature.GROUND_OVERLAY;
+				mKmlCurrentFeature.mId = attributes.getValue("id");
+				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("Placemark")) {
 				mKmlCurrentFeature = new KmlFeature();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
@@ -352,8 +357,6 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.mObjectType = KmlFeature.LINE_STRING;
 			} else if (localName.equals("Polygon")){
 				mKmlCurrentFeature.mObjectType = KmlFeature.POLYGON;
-			} else if (localName.equals("GroundOverlay")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.GROUND_OVERLAY;
 			} else if (localName.equals("innerBoundaryIs")) {
 				mIsInnerBoundary = true;
 			} else if (localName.equals("Style")) {
@@ -383,7 +386,8 @@ public class KmlDocument implements Parcelable {
 				throws SAXException {
 			if (localName.equals("Document")){
 				//Document is the root, nothing to do. 
-			} else if (localName.equals("Folder") || localName.equals("Placemark") || localName.equals("NetworkLink")) {
+			} else if (localName.equals("Folder") || localName.equals("Placemark") 
+					|| localName.equals("NetworkLink") || localName.equals("GroundOverlay")) {
 				KmlFeature parent = mKmlStack.get(mKmlStack.size()-2); //get parent
 				parent.add(mKmlCurrentFeature); //add current in its parent
 				mKmlStack.remove(mKmlStack.size()-1); //pop current from stack
@@ -462,13 +466,13 @@ public class KmlDocument implements Parcelable {
 					}
 				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
 					//href of a GroundOverlay Icon:
-					String href = mStringBuilder.toString();
-					if (!href.startsWith("http://")){
+					mKmlCurrentFeature.mIconHref = mStringBuilder.toString();
+					if (!mKmlCurrentFeature.mIconHref.startsWith("http://")){
 						File file = new File(mFullPath);
-						href = file.getParent()+'/'+href;
-						mKmlCurrentFeature.mIcon = BitmapFactory.decodeFile(href);
+						String fullPath = file.getParent()+'/'+mKmlCurrentFeature.mIconHref;
+						mKmlCurrentFeature.mIcon = BitmapFactory.decodeFile(fullPath);
 					} else {
-						mKmlCurrentFeature.mIcon = BonusPackHelper.loadBitmap(href);
+						mKmlCurrentFeature.mIcon = BonusPackHelper.loadBitmap(mKmlCurrentFeature.mIconHref);
 					}
 				}
 			} else if (localName.equals("north")){

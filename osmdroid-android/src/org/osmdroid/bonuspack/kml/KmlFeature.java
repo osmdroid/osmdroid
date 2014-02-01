@@ -65,6 +65,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	/** Polygon holes (can be null) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
 	/** Overlay Icon (can be null) */
+	public String mIconHref;
 	public Bitmap mIcon;
 	/** Overlay color */
 	public int mColor;
@@ -450,7 +451,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	}
 
 	/**
-	 * 
+	 * Write a list of coordinates in KML format. 
 	 * @param writer
 	 * @param coordinates
 	 * @return false if error
@@ -467,6 +468,25 @@ public class KmlFeature implements Parcelable, Cloneable {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	/** write elements specific to GroundOverlay in KML format */
+	protected void saveKMLGroundOverlay(Writer writer){
+		try {
+			writer.write("<color>"+ColorStyle.colorAsKMLString(mColor)+"</color>\n");
+			writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
+			writer.write("<LatLonBox>");
+			GeoPoint pNW = mCoordinates.get(0);
+			GeoPoint pSE = mCoordinates.get(1);
+			writer.write("<north>"+pNW.getLatitude()+"</north>");
+			writer.write("<south>"+pSE.getLatitude()+"</south>");
+			writer.write("<east>"+pSE.getLongitude()+"</east>");
+			writer.write("<west>"+pNW.getLongitude()+"</west>");
+			writer.write("<rotation>"+mRotation+"</rotation>");
+			writer.write("</LatLonBox>\n");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -500,6 +520,9 @@ public class KmlFeature implements Parcelable, Cloneable {
 				objectType = "Placemark";
 				geometry = "Polygon";
 				break;
+			case GROUND_OVERLAY:
+				objectType = "GroundOverlay";
+				break;
 			default:
 				objectType = "Unknown"; //TODO - not a good error handling
 				break;
@@ -518,8 +541,6 @@ public class KmlFeature implements Parcelable, Cloneable {
 				writer.write("<description><![CDATA["+mDescription+"]]></description>\n");
 			if (!mVisibility)
 				writer.write("<visibility>0</visibility>\n");
-			if (mObjectType == FOLDER && !mOpen)
-				writer.write("<open>0</open>\n");
 			if (geometry != null){
 				writer.write("<"+geometry+">\n");
 				if (mObjectType == POLYGON)
@@ -538,11 +559,14 @@ public class KmlFeature implements Parcelable, Cloneable {
 					}
 				}
 				writer.write("</"+geometry+">\n");
-			}
-			if (mObjectType == FOLDER){
+			} else if (mObjectType == FOLDER){
+				if (!mOpen)
+					writer.write("<open>0</open>\n");
 				for (KmlFeature item:mItems){
 					item.writeAsKML(writer, false, null);
 				}
+			} else if (mObjectType == GROUND_OVERLAY){
+				saveKMLGroundOverlay(writer);
 			}
 			writeKMLExtendedData(writer);
 			if (isDocument){

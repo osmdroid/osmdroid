@@ -48,13 +48,17 @@ public class ColorStyle implements Parcelable {
 	}
 
 	/** return color in KML color format, which is: AABBGGRR, in hexa values*/
-	public String colorAsKMLString(){
-		return String.format("%02X%02X%02X%02X", Color.alpha(color), Color.blue(color), Color.green(color), Color.red(color));
+	public static String colorAsKMLString(int aColor){
+		return String.format("%02X%02X%02X%02X", Color.alpha(aColor), Color.blue(aColor), Color.green(aColor), Color.red(aColor));
 	}
 	
 	/** return color in usual Android color format, which is: #AARRGGBB, in hexa values*/
+	public static String colorAsAndroidString(int aColor){
+		return String.format("#%08X", 0xFFFFFFFF & aColor);
+	}
+	
 	public String colorAsAndroidString(){
-		return String.format("#%08X", 0xFFFFFFFF & color);
+		return colorAsAndroidString(color);
 	}
 	
 	/**
@@ -76,7 +80,7 @@ public class ColorStyle implements Parcelable {
 
 	public void writeAsKML(Writer writer){
 		try {
-			writer.write("<color>"+colorAsKMLString()+"</color>\n");
+			writer.write("<color>"+colorAsKMLString(color)+"</color>\n");
 			if (colorMode == MODE_RANDOM){
 				writer.write("<colorMode>random</colorMode>\n");
 			}
