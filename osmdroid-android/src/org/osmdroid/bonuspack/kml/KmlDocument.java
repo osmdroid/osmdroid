@@ -20,7 +20,6 @@ import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,9 +31,10 @@ import android.util.Log;
  * Shared components (like styles) are stored in specific attributes. 
  * This is the entry point to read, handle and save KML content. <br>
  * 
- * Supports the following KML Geometry: Point, LineString, Polygon, GroundOverlay. <br>
+ * Supports the following KML Geometry: Point, LineString, Polygon. <br>
  * Supports KML Document and Folder hierarchy. <br>
  * Supports NetworkLink. <br>
+ * Supports GroundOverlay. <br>
  * Supports LineStyle, PolyStyle and IconStyle - shared and inline. <br>
  * Supports colorMode: normal, random<br>
  * Supports ExtendedData inside Features, with support for Data elements and SimpleData elements. 
@@ -305,6 +305,7 @@ public class KmlDocument implements Parcelable {
 		
 		private StringBuilder mStringBuilder = new StringBuilder(1024);
 		private KmlFeature mKmlCurrentFeature;
+		private KmlGroundOverlay mKmlCurrentGroundOverlay; //if GroundOverlay, pointer to mKmlCurrentFeature
 		private ArrayList<KmlFeature> mKmlStack;
 		KmlFeature mKmlRoot;
 		Style mCurrentStyle;
@@ -343,8 +344,8 @@ public class KmlDocument implements Parcelable {
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 				mIsNetworkLink = true;
 			} else if (localName.equals("GroundOverlay")){
-				mKmlCurrentFeature = new KmlFeature();
-				mKmlCurrentFeature.mObjectType = KmlFeature.GROUND_OVERLAY;
+				mKmlCurrentGroundOverlay = new KmlGroundOverlay();
+				mKmlCurrentFeature = mKmlCurrentGroundOverlay;
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("Placemark")) {
@@ -394,6 +395,8 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature = mKmlStack.get(mKmlStack.size()-1); //set current to top of stack
 				if (localName.equals("NetworkLink"))
 					mIsNetworkLink = false;
+				else if (localName.equals("GroundOverlay"))
+					mKmlCurrentGroundOverlay = null;
 			} else if (localName.equals("innerBoundaryIs")){
 				mIsInnerBoundary = false;
 			} else if (localName.equals("name")){
@@ -424,7 +427,7 @@ public class KmlDocument implements Parcelable {
 				if (mCurrentStyle != null) {
 					mColorStyle.color = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
-					mKmlCurrentFeature.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
+					mKmlCurrentGroundOverlay.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				}
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
@@ -466,14 +469,7 @@ public class KmlDocument implements Parcelable {
 					}
 				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
 					//href of a GroundOverlay Icon:
-					mKmlCurrentFeature.mIconHref = mStringBuilder.toString();
-					if (!mKmlCurrentFeature.mIconHref.startsWith("http://")){
-						File file = new File(mFullPath);
-						String fullPath = file.getParent()+'/'+mKmlCurrentFeature.mIconHref;
-						mKmlCurrentFeature.mIcon = BitmapFactory.decodeFile(fullPath);
-					} else {
-						mKmlCurrentFeature.mIcon = BonusPackHelper.loadBitmap(mKmlCurrentFeature.mIconHref);
-					}
+					mKmlCurrentGroundOverlay.setIcon(mStringBuilder.toString(), mFullPath);
 				}
 			} else if (localName.equals("north")){
 				mNorth = Double.parseDouble(mStringBuilder.toString());
@@ -484,13 +480,10 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("west")){
 				mWest = Double.parseDouble(mStringBuilder.toString());
 			} else if (localName.equals("rotation")){
-				mKmlCurrentFeature.mRotation = Float.parseFloat(mStringBuilder.toString());
+				mKmlCurrentGroundOverlay.mRotation = Float.parseFloat(mStringBuilder.toString());
 			} else if (localName.equals("LatLonBox")){
 				if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
-					mKmlCurrentFeature.mCoordinates = new ArrayList<GeoPoint>(2);
-					mKmlCurrentFeature.mCoordinates.add(new GeoPoint(mNorth, mWest));
-					mKmlCurrentFeature.mCoordinates.add(new GeoPoint(mSouth, mEast));
-					mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentFeature.mCoordinates);
+					mKmlCurrentGroundOverlay.setLatLonBox(mNorth, mSouth, mEast, mWest);
 				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)

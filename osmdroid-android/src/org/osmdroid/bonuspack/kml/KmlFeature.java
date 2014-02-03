@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
-import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -18,26 +17,25 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
  * The Java representation of a KML Feature. 
- * It currently supports: Folder, Document, and Placemarks with the following Geometry: Point, LineString, and Polygon. <br>
+ * It currently supports: Folder, Document, GroundOverlay, and Placemarks with the following Geometry: Point, LineString, and Polygon. <br>
  * Each KmlFeature has a type: mObjectType. <br>
  * 	- Folder feature object type = FOLDER. <br>
  * 	- Document feature is handled exactly like a Folder (object type = FOLDER). <br>
- * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING, POLYGON or GROUND_OVERLAY. 
+ * 	- For a Placemark, the KmlFeature has the object type of its geometry: POINT, LINE_STRING, or POLYGON. 
  * 	  It contains both the Placemark attributes and the Geometry attributes. <br>
+ * 	- For a GroundOverlay, the KmlFeature has object type = GROUND_OVERLAY, and must be a KmlGroundOverlay. 
  * 	- UNKNOWN object type is reserved for default, issues/errors, or unsupported features/geometries. 
  * 
  * @see KmlDocument
+ * @see KmlGroundOverlay
  * @see https://developers.google.com/kml/documentation/kmlreference
  * 
  * @author M.Kergall
@@ -64,13 +62,6 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public ArrayList<GeoPoint> mCoordinates;
 	/** Polygon holes (can be null) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
-	/** Overlay Icon (can be null) */
-	public String mIconHref;
-	public Bitmap mIcon;
-	/** Overlay color */
-	public int mColor;
-	/** GroundOverlay rotation - default = 0 */
-	public float mRotation;
 	/** styleUrl (without the #) */
 	public String mStyle;
 	/** ExtendedData, as a HashMap of (name, value). 
@@ -80,7 +71,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 	public HashMap<String, String> mExtendedData;
 	/** bounding box - null if no geometry (means empty) */
 	public BoundingBoxE6 mBB;
-		
+	
 	/** default constructor: create an UNKNOWN object */
 	public KmlFeature(){
 		mObjectType = UNKNOWN;
@@ -341,41 +332,6 @@ public class KmlFeature implements Parcelable, Cloneable {
 		return polygonOverlay;
 	}
 	
-	public Overlay buildGroundOverlay(MapView map, KmlDocument kmlDocument){
-		Context context = map.getContext();
-		GroundOverlay overlay = new GroundOverlay(context);
-		if (mCoordinates.size()==2){
-			GeoPoint pNW = mCoordinates.get(0);
-			GeoPoint pSE = mCoordinates.get(1);
-			overlay.setPosition(GeoPoint.fromCenterBetween(pNW, pSE));
-			GeoPoint pNE = new GeoPoint(pNW.getLatitude(), pSE.getLongitude());
-			int width = pNE.distanceTo(pNW);
-			GeoPoint pSW = new GeoPoint(pSE.getLatitude(), pNW.getLongitude());
-			int height = pSW.distanceTo(pNW);
-			overlay.setDimensions((float)width, (float)height);
-		}
-		//TODO: 
-		//else if size=4, nonrectangular quadrilateral
-		//else, error
-		
-		if (mIcon != null)
-			overlay.setImage(new BitmapDrawable(mIcon));
-		else {
-			/* TODO: currently filling the canvas. 
-			ColorDrawable rect = new ColorDrawable(mColor);
-			rect.setAlpha(255); //transparency will be applied below. 
-			overlay.setImage(rect);
-			*/
-		}
-		
-		float transparency = 1.0f - Color.alpha(mColor)/255.0f;
-			//Even if not documented, KML transparency is the transparency part of "color" element. 
-		overlay.setTransparency(transparency);
-		overlay.setBearing(-mRotation); //from KML counterclockwise to Google Maps API which is clockwise
-		overlay.setEnabled(mVisibility);
-		return overlay;
-	}
-	
 	/**
 	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param context
@@ -410,7 +366,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 			return buildPolygonFromPolygon(map, kmlDocument, supportVisibility);
 		}
 		case GROUND_OVERLAY:{
-			return buildGroundOverlay(map, kmlDocument);
+			return ((KmlGroundOverlay)this).buildOverlay(map);
 		}
 		default:
 			return null;	
@@ -468,25 +424,6 @@ public class KmlFeature implements Parcelable, Cloneable {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		}
-	}
-	
-	/** write elements specific to GroundOverlay in KML format */
-	protected void saveKMLGroundOverlay(Writer writer){
-		try {
-			writer.write("<color>"+ColorStyle.colorAsKMLString(mColor)+"</color>\n");
-			writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
-			writer.write("<LatLonBox>");
-			GeoPoint pNW = mCoordinates.get(0);
-			GeoPoint pSE = mCoordinates.get(1);
-			writer.write("<north>"+pNW.getLatitude()+"</north>");
-			writer.write("<south>"+pSE.getLatitude()+"</south>");
-			writer.write("<east>"+pSE.getLongitude()+"</east>");
-			writer.write("<west>"+pNW.getLongitude()+"</west>");
-			writer.write("<rotation>"+mRotation+"</rotation>");
-			writer.write("</LatLonBox>\n");
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -566,7 +503,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 					item.writeAsKML(writer, false, null);
 				}
 			} else if (mObjectType == GROUND_OVERLAY){
-				saveKMLGroundOverlay(writer);
+				((KmlGroundOverlay)this).saveKMLGroundOverlaySpecifics(writer);
 			}
 			writeKMLExtendedData(writer);
 			if (isDocument){
@@ -654,6 +591,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 				}
 				writer.write("\n},\n");
 			}
+			//TODO: if GROUND_OVERLAY... not supported by GeoJSON. Output enclosing polygon with mColor?
 			if (!writeGeoJSONProperties(writer, isRoot))
 				return false;
 			if (isRoot){
