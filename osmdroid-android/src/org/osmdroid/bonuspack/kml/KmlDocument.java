@@ -327,6 +327,25 @@ public class KmlDocument implements Parcelable {
 			mIsInnerBoundary = false;
 		}
 		
+		protected void loadNetworkLink(String href){
+			KmlDocument subDocument = new KmlDocument();
+			if (href.startsWith("http://"))
+				subDocument.parseUrl(href);
+			else {
+				File file = new File(mFullPath);
+				File subFile = new File(file.getParent()+'/'+href);
+				subDocument.parseFile(subFile);
+			}
+			if (subDocument.kmlRoot != null){
+				//add subDoc root to the current feature, which is -normally- the NetworkLink:
+				mKmlCurrentFeature.add(subDocument.kmlRoot);
+				//add subDoc styles to mStyles:
+				mStyles.putAll(subDocument.mStyles);
+			} else {
+				Log.e(BonusPackHelper.LOG_TAG, "Error reading NetworkLink:"+href);
+			}
+		}
+		
 		public void startElement(String uri, String localName, String name,
 				Attributes attributes) throws SAXException {
 			if (localName.equals("Document")){
@@ -443,34 +462,26 @@ public class KmlDocument implements Parcelable {
 				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
 					//href of an Icon:
 					String href = mStringBuilder.toString();
-					if (!href.startsWith("http://")){
-						File file = new File(mFullPath);
-						href = file.getParent()+'/'+href;
-					}
-					mCurrentStyle.setIcon(href);
+					mCurrentStyle.setIcon(href, mFullPath);
 				} else if (mIsNetworkLink){
 					//href of a NetworkLink:
 					String href = mStringBuilder.toString();
-					KmlDocument subDocument = new KmlDocument();
-					if (href.startsWith("http://"))
-						subDocument.parseUrl(href);
-					else {
-						File file = new File(mFullPath);
-						File subFile = new File(file.getParent()+'/'+href);
-						subDocument.parseFile(subFile);
-					}
-					if (subDocument.kmlRoot != null){
-						//add subDoc root to the current feature, which is -normally- the NetworkLink:
-						mKmlCurrentFeature.add(subDocument.kmlRoot);
-						//add subDoc styles to mStyles:
-						mStyles.putAll(subDocument.mStyles);
-					} else {
-						Log.e(BonusPackHelper.LOG_TAG, "Error reading NetworkLink:"+href);
-					}
+					loadNetworkLink(href);
 				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
 					//href of a GroundOverlay Icon:
 					mKmlCurrentGroundOverlay.setIcon(mStringBuilder.toString(), mFullPath);
 				}
+			} else if (localName.equals("Style")){
+				if (mCurrentStyleId != null)
+					putStyle(mCurrentStyleId, mCurrentStyle);
+				else {
+					mCurrentStyleId = addStyle(mCurrentStyle);
+					if (mKmlCurrentFeature != null){
+						//this is an inline style. Set its style id to the KmlObject container:
+						mKmlCurrentFeature.mStyle = mCurrentStyleId;
+					}
+				}
+				mCurrentStyle = null;
 			} else if (localName.equals("north")){
 				mNorth = Double.parseDouble(mStringBuilder.toString());
 			} else if (localName.equals("south")){
@@ -485,17 +496,6 @@ public class KmlDocument implements Parcelable {
 				if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
 					mKmlCurrentGroundOverlay.setLatLonBox(mNorth, mSouth, mEast, mWest);
 				}
-			} else if (localName.equals("Style")){
-				if (mCurrentStyleId != null)
-					putStyle(mCurrentStyleId, mCurrentStyle);
-				else {
-					mCurrentStyleId = addStyle(mCurrentStyle);
-					if (mKmlCurrentFeature != null){
-						//this is an inline style. Set its style id to the KmlObject container:
-						mKmlCurrentFeature.mStyle = mCurrentStyleId;
-					}
-				}
-				mCurrentStyle = null;
 			} else if (localName.equals("SimpleData")){
 				//We don't check the schema from SchemaData. We just pick the name and the value from SimpleData:
 				mKmlCurrentFeature.setExtendedData(mDataName, mStringBuilder.toString());

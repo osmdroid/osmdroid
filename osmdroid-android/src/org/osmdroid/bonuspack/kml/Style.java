@@ -52,15 +52,18 @@ public class Style implements Parcelable {
 		return outlinePaint;
 	}
 	
-	/** set the IconStyle icon */
-	public void setIcon(String iconHref){
+	/** set the IconStyle icon 
+	 * @param iconHref either the full url, or a relative path to a local file. 
+	 * @param containerFullPath full path of the container file. 
+	 */
+	public void setIcon(String iconHref, String containerFullPath){
 		mIconHref = iconHref;
 		if (mIconHref.startsWith("http://")){
 			mIcon = mIconCache.get(mIconHref);
 		} else {
-			//local file loading:
-			File imgFile = new  File(iconHref);
-			mIcon = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+			File file = new File(containerFullPath);
+			String actualFullPath = file.getParent()+'/'+mIconHref;
+			mIcon = BitmapFactory.decodeFile(actualFullPath);
 		}
 	}
 	

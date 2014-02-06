@@ -27,7 +27,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 	protected float mBearing;
 	protected float mWidth, mHeight;
 	protected float mTransparency;
-	protected final static float UNDEFINED_DIM = -1.0f;
+	public final static float NO_DIMENSION = -1.0f;
 	protected Point mPositionPixels, mSouthEastPixels;
 	
 	public GroundOverlay(Context ctx) {
@@ -37,7 +37,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 	public GroundOverlay(final ResourceProxy resourceProxy) {
 		super(resourceProxy);
 		mWidth = 10.0f;
-		mHeight = UNDEFINED_DIM;
+		mHeight = NO_DIMENSION;
 		mBearing = 0.0f;
 		mTransparency = 0.0f;
 		mPositionPixels = new Point();
@@ -66,7 +66,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 	
 	public void setDimensions(float width){
 		mWidth = width;
-		mHeight = UNDEFINED_DIM;
+		mHeight = NO_DIMENSION;
 	}
 	
 	public void setDimensions(float width, float height){
@@ -96,7 +96,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 		if (mImage == null)
 			return;
 		
-		if (mHeight == UNDEFINED_DIM){
+		if (mHeight == NO_DIMENSION){
 			mHeight = mWidth * mImage.getIntrinsicHeight() / mImage.getIntrinsicWidth();
 		}
 		
