@@ -371,6 +371,8 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 			mBounds.set(mBounds);
 			c.save();
 			c.setMatrix(mIdentityMatrix);
+			// To fix offset issues in pre-honeycomb
+			c.translate(0, c.getHeight() - mapView.getHeight());
 			c.getWrappedCanvas().drawPicture(scaleBarPicture, mBounds);
 			c.restore();
 		}
