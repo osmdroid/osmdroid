@@ -30,7 +30,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource()
     {
-		super("mbtiles", ResourceProxy.string.base, 1, 18, 256, ".png", mapBoxBaseUrl);
+		super("mbtiles", ResourceProxy.string.mapbox, 1, 18, 256, ".png", mapBoxBaseUrl);
     }
 
     /**

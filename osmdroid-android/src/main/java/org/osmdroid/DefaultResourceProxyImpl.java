@@ -70,6 +70,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "Mapquest Aerial";
 		case bing:
 			return "Bing";
+		case mapbox:
+			return "MapBox";
 		case fiets_nl:
 			return "OpenFietsKaart overlay";
 		case base_nl:
