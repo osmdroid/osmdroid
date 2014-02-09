@@ -1,8 +1,8 @@
 package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.location.POI;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
-import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.views.MapView;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,7 +17,7 @@ import android.widget.ImageView;
  * 
  * @author M.Kergall
  */
-public class POIInfoWindow extends DefaultInfoWindow {
+public class POIInfoWindow extends MarkerInfoWindow {
 	
 	private POI mSelectedPOI;
 	
@@ -37,9 +37,8 @@ public class POIInfoWindow extends DefaultInfoWindow {
 	}
 
 	@Override public void onOpen(Object item){
-		ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
-		mSelectedPOI = (POI)eItem.getRelatedObject();
-		
+		Marker marker = (Marker)item;
+		mSelectedPOI = (POI)marker.getRelatedObject();
 		super.onOpen(item);
 		
 		//Fetch the thumbnail in background

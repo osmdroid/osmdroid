@@ -1,19 +1,19 @@
 package com.osmbonuspackdemo;
 
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
-import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.views.MapView;
 import android.view.View;
 import android.widget.Button;
 
 /**
  * A customized InfoWindow handling "itinerary" points (start, destination and via-points). 
- * We inherit from DefaultInfoWindow as it already provides most of what we want. 
+ * We inherit from MarkerInfoWindow as it already provides most of what we want. 
  * And we just add support for a "remove" button. 
  * 
  * @author M.Kergall
  */
-public class ViaPointInfoWindow extends DefaultInfoWindow {
+public class ViaPointInfoWindow extends MarkerInfoWindow {
 
 	int mSelectedPoint;
 	
@@ -32,7 +32,7 @@ public class ViaPointInfoWindow extends DefaultInfoWindow {
 	}
 
 	@Override public void onOpen(Object item) {
-		ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
+		Marker eItem = (Marker)item;
 		mSelectedPoint = (Integer)eItem.getRelatedObject();
 		super.onOpen(item);
 	}
