@@ -8,11 +8,10 @@ import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
-import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
-import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
@@ -24,7 +23,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.OverlayItem;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -44,6 +42,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * This is the implementation of OSMBonusPack tutorials. 
+ * Sections of code can be commented/uncommented depending on the progress in the tutorials. 
+ * @see http://code.google.com/p/osmbonuspack/
+ * @author M.Kergall
+ *
+ */
 public class MainActivity extends Activity {
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,17 @@ public class MainActivity extends Activity {
 		mapController.setZoom(9);
 		mapController.setCenter(startPoint);
 		
+		//0. Using the Marker overlay:
+		Marker startMarker = new Marker(map);
+		startMarker.setPosition(startPoint);
+		startMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
+		startMarker.setIcon(getResources().getDrawable(R.drawable.ic_launcher).mutate());
+		startMarker.setTitle("Start point");
+		startMarker.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
+		startMarker.setDraggable(true);
+		startMarker.setInfoWindow(new MarkerInfoWindow(R.layout.bonuspack_bubble_black, map));
+		map.getOverlays().add(startMarker);
+		
 		//1. "Hello, Routing World"
 		RoadManager roadManager = new OSRMRoadManager();
 		//or: 
@@ -68,41 +84,37 @@ public class MainActivity extends Activity {
 		//roadManager.addRequestOption("routeType=bicycle");
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
 		waypoints.add(startPoint);
-		waypoints.add(new GeoPoint(48.4, -1.9)); //end point
+		GeoPoint endPoint = new GeoPoint(48.4, -1.9);
+		waypoints.add(endPoint);
 		Road road = roadManager.getRoad(waypoints);
 		Polyline roadOverlay = RoadManager.buildRoadOverlay(road, this);
 		map.getOverlays().add(roadOverlay);
 		map.invalidate();
 		
 		//3. Showing the Route steps on the map
-		final ArrayList<ExtendedOverlayItem> roadItems = new ArrayList<ExtendedOverlayItem>();
-		ItemizedOverlayWithBubble<ExtendedOverlayItem> roadNodes = 
-				new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, roadItems, map);
-		map.getOverlays().add(roadNodes);
-		Drawable marker = getResources().getDrawable(R.drawable.marker_node);
+		Drawable nodeIcon = getResources().getDrawable(R.drawable.marker_node);
+		FolderOverlay roadMarkers = new FolderOverlay(this);
+		map.getOverlays().add(roadMarkers);
 		for (int i=0; i<road.mNodes.size(); i++){
 			RoadNode node = road.mNodes.get(i);
-			ExtendedOverlayItem nodeMarker = new ExtendedOverlayItem("Step "+i, "", node.mLocation, this);
-			nodeMarker.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
-			nodeMarker.setMarker(marker);
+			Marker nodeMarker = new Marker(map);
+			nodeMarker.setPosition(node.mLocation);
+			nodeMarker.setIcon(nodeIcon);
 			
 			//4. Filling the bubbles
-			nodeMarker.setDescription(node.mInstructions);
+			nodeMarker.setTitle("Step "+i);
+			nodeMarker.setSnippet(node.mInstructions);
 			nodeMarker.setSubDescription(Road.getLengthDurationText(node.mLength, node.mDuration));
-			Drawable icon = getResources().getDrawable(R.drawable.ic_continue);
-			nodeMarker.setImage(icon);
+			Drawable iconContinue = getResources().getDrawable(R.drawable.ic_continue);
+			nodeMarker.setImage(iconContinue);
 			//4. end
 			
-			roadNodes.addItem(nodeMarker);
+			roadMarkers.add(nodeMarker);
 		}
 		
 		//5. OpenStreetMap POIs with Nominatim
-		final ArrayList<ExtendedOverlayItem> poiItems = new ArrayList<ExtendedOverlayItem>();
-		ItemizedOverlayWithBubble<ExtendedOverlayItem> poiMarkers = new ItemizedOverlayWithBubble<ExtendedOverlayItem>(this, 
-		                                poiItems, map, /*7.*/new CustomInfoWindow(map));
-		map.getOverlays().add(poiMarkers);
 		
-		/* 5.
+		/* 5. 
 		NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
@@ -122,23 +134,23 @@ public class MainActivity extends Activity {
 		ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20, null);
 		
 		if (pois != null) {
+            Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
 			for (POI poi:pois){
-	            ExtendedOverlayItem poiItem = new ExtendedOverlayItem(
-	                                    poi.mType, poi.mDescription, 
-	                                    poi.mLocation, map.getContext());
-	            Drawable poiMarker = getResources().getDrawable(R.drawable.marker_poi_default);
-	            poiItem.setMarker(poiMarker);
-	            poiItem.setMarkerHotspot(OverlayItem.HotspotPlace.CENTER);
+	            Marker poiMarker = new Marker(map);
+	            poiMarker.setTitle(poi.mType);
+	            poiMarker.setSnippet(poi.mDescription);
+	            poiMarker.setPosition(poi.mLocation);
+	            poiMarker.setIcon(poiIcon);
 	            if (poi.mThumbnail != null){
-	            	poiItem.setImage(new BitmapDrawable(poi.mThumbnail));
+	            	poiMarker.setImage(new BitmapDrawable(poi.mThumbnail));
 	            }
-	            /* 7.*/ poiItem.setRelatedObject(poi);
-	            poiMarkers.addItem(poiItem);
+				/* 7.*/ 
+				poiMarker.setInfoWindow(new CustomInfoWindow(map, poi));
+	            map.getOverlays().add(poiMarker);
 			}
 		}
 		
 		//10. Loading KML content
-		/*
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
@@ -160,16 +172,18 @@ public class MainActivity extends Activity {
 		//11. Grab overlays in KML structure, save KML document locally
 		if (kmlDocument.kmlRoot != null){
 			kmlDocument.kmlRoot.addOverlay(roadOverlay, kmlDocument);
-			kmlDocument.kmlRoot.addOverlay(roadNodes, kmlDocument);
+			kmlDocument.kmlRoot.addOverlay(roadMarkers, kmlDocument);
 			File localFile = kmlDocument.getDefaultPathForAndroid("my_route.kml");
 			kmlDocument.saveAsKML(localFile);
 		}
-		*/
 		
+		//12. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
-		myGroundOverlay.setPosition(startPoint);
-		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher));
-		myGroundOverlay.setDimensions(10000.0f);
+		myGroundOverlay.setPosition(endPoint);
+		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
+		myGroundOverlay.setTransparency(0.5f);
+		myGroundOverlay.setBearing(45.0f);
+		myGroundOverlay.setDimensions(2000.0f);
 		map.getOverlays().add(myGroundOverlay);
 	}
 	
@@ -182,10 +196,11 @@ public class MainActivity extends Activity {
 	*/
 	
 	//7. Customizing the bubble behaviour
-	class CustomInfoWindow extends DefaultInfoWindow {
-		POI selectedPoi;
-		public CustomInfoWindow(MapView mapView) {
+	class CustomInfoWindow extends MarkerInfoWindow {
+		POI mSelectedPoi;
+		public CustomInfoWindow(MapView mapView, POI selectedPoi) {
 			super(R.layout.bonuspack_bubble, mapView);
+			mSelectedPoi = selectedPoi;
 			/*
 			//open a context menu when clicking on the bubble:
 			((Activity) mapView.getContext()).registerForContextMenu(mView);
@@ -201,8 +216,8 @@ public class MainActivity extends Activity {
 			Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
 			btn.setOnClickListener(new View.OnClickListener() {
 			    public void onClick(View view) {
-			        if (selectedPoi.mUrl != null){
-			            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(selectedPoi.mUrl));
+			        if (mSelectedPoi.mUrl != null){
+			            Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSelectedPoi.mUrl));
 			            view.getContext().startActivity(myIntent);
 			        } else {
 			        	Toast.makeText(view.getContext(), "Button clicked", Toast.LENGTH_LONG).show();
@@ -212,14 +227,12 @@ public class MainActivity extends Activity {
 		}
 		@Override public void onOpen(Object item){
 			super.onOpen(item);
-			ExtendedOverlayItem eItem = (ExtendedOverlayItem)item;
-			selectedPoi = (POI)eItem.getRelatedObject();
 			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
 			
 			//8. put thumbnail image in bubble, fetching the thumbnail in background:
-			if (selectedPoi.mThumbnailPath != null){
+			if (mSelectedPoi.mThumbnailPath != null){
 				ImageView imageView = (ImageView)mView.findViewById(R.id.bubble_image);
-				selectedPoi.fetchThumbnailOnThread(imageView);
+				mSelectedPoi.fetchThumbnailOnThread(imageView);
 			}
 		}	
 	}
