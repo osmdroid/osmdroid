@@ -293,7 +293,7 @@ public class Polygon extends Overlay {
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels(event.getX(), event.getY());
 			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
-			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position, mapView.getContext());
+			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position);
 			mBubble.open(item, item.getPoint(), 0, 0);
 		}
 		return touched;

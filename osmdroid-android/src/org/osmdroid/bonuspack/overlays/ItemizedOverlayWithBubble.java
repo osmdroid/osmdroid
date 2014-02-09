@@ -15,17 +15,16 @@ import android.graphics.Point;
 import android.util.Log;
 
 /**
- * An itemized overlay with an InfoWindow or "bubble" which opens 
- * when the user taps on an overlay item, and displays item attributes. <br>
+ * A collection of icons placed at particular points on the map's surface. 
+ * When the user taps on an icon, an InfoWindow or "bubble" will open and display item attributes. <br>
  * Items must be ExtendedOverlayItem. <br>
- * 
  * 
  * @see ExtendedOverlayItem
  * @see InfoWindow
- * 
+ * @deprecated now use Marker instead. 
  * @author M.Kergall
  */
-public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
+@Deprecated public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends ItemizedIconOverlay<Item> {
 	//protected List<Item> mItemsList;
 	protected InfoWindow mBubble; //only one for all items of this overlay => one at a time
 	protected OverlayItem mItemWithBubble; //the item currently showing the bubble. Null if none. 
@@ -47,8 +46,8 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 			mBubble = bubble;
 		} else {
 			//build default bubble:
-			String packageName = context.getPackageName();
 			if (layoutResId == 0){
+				String packageName = context.getPackageName();
 				layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 				if (layoutResId == 0)
 					Log.e(BonusPackHelper.LOG_TAG, "ItemizedOverlayWithBubble: layout/bonuspack_bubble not found in "+packageName);
@@ -76,10 +75,7 @@ public class ItemizedOverlayWithBubble<Item extends OverlayItem> extends Itemize
 		for (Item item:mItemList){
 			points.add(item.getPoint());
 		}
-		BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(points);
-		//Correcting osmdroid bug #359:
-		//bb = new BoundingBoxE6(bb.getLatSouthE6(), bb.getLonWestE6(), bb.getLatNorthE6(), bb.getLonEastE6());
-		return bb;
+		return BoundingBoxE6.fromGeoPoints(points);
 	}
 	
 	/**

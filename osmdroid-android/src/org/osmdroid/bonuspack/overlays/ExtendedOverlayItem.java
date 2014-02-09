@@ -3,7 +3,6 @@ package org.osmdroid.bonuspack.overlays;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem;
-import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
@@ -19,36 +18,48 @@ import android.graphics.drawable.Drawable;
  * @see ItemizedOverlayWithBubble
  * @author M.Kergall
  */
-public class ExtendedOverlayItem extends OverlayItem {
+@Deprecated public class ExtendedOverlayItem extends OverlayItem {
 
-	private String mTitle, mDescription; // now, they are modifiable
+	private String mTitle, mSnippet; // now, they are modifiable
 	private String mSubDescription; //a third field that can be displayed in the infowindow, on a third line
 	private Drawable mImage; //that will be shown in the infowindow. 
 	//private GeoPoint mGeoPoint //unfortunately, this is not so simple...
 	private Object mRelatedObject; //reference to an object (of any kind) linked to this item. 
+	private float mAlpha;
 	
-	public ExtendedOverlayItem(String aTitle, String aDescription,
-			GeoPoint aGeoPoint, Context context) {
+	public ExtendedOverlayItem(String aTitle, String aDescription, GeoPoint aGeoPoint) {
 		super(aTitle, aDescription, aGeoPoint);
 		mTitle = aTitle;
-		mDescription = aDescription;
+		mSnippet = aDescription;
 		mSubDescription = null;
 		mImage = null;
 		mRelatedObject = null;
+		mAlpha = 1.0f; //default = opaque
 	}
 
-	public void setTitle(String aTitle){
-		mTitle = aTitle;
+	public void setTitle(String title){
+		mTitle = title;
 	}
 	
-	public void setDescription(String aDescription){
-		mDescription = aDescription;
+	public void setSnippet(String snippet){
+		mSnippet = snippet;
+	}
+	
+	public void setAlpha(float alpha){
+		mAlpha = alpha;
+		mMarker.setAlpha((int)(alpha*255));
+	}
+
+	/** set the marker icon */
+	public void setIcon(Drawable icon){
+		setMarker(icon);
 	}
 	
 	public void setSubDescription(String aSubDescription){
 		mSubDescription = aSubDescription;
 	}
 	
+	/** set the image to be shown in the infowindow - this is not the marker icon. */
 	public void setImage(Drawable anImage){
 		mImage = anImage;
 	}
@@ -62,13 +73,21 @@ public class ExtendedOverlayItem extends OverlayItem {
 	}
 
 	public String getDescription() {
-		return mDescription;
+		return mSnippet;
 	}
 
 	public String getSubDescription() {
 		return mSubDescription;
 	}
 
+	public Drawable getIcon(){
+		return mMarker;
+	}
+	
+	public float getAlpha(){
+		return mAlpha;
+	}
+	
 	public Drawable getImage() {
 		return mImage;
 	}
@@ -121,10 +140,8 @@ public class ExtendedOverlayItem extends OverlayItem {
 	}
 	
 	/**
-	 * Populates this bubble with all item info:
-	 * <ul>title and description in any case, </ul>
-	 * <ul>image and sub-description if any.</ul> 
-	 * and centers the map view on the item if panIntoView is true. <br>
+	 * Open the infowindow on the item. 
+	 * Centers the map view on the item if panIntoView is true. <br>
 	 */
 	public void showBubble(InfoWindow bubble, MapView mapView, boolean panIntoView){
 		//offset the bubble to be top-centered on the marker:
@@ -133,7 +150,7 @@ public class ExtendedOverlayItem extends OverlayItem {
 		if (marker != null){
 			markerWidth = marker.getIntrinsicWidth(); 
 			markerHeight = marker.getIntrinsicHeight();
-		} //else... we don't have the default marker size => don't user default markers!!!
+		} //else... we don't have the default marker size => don't use default markers!!!
 		Point markerH = getHotspot(getMarkerHotspot(), markerWidth, markerHeight);
 		Point bubbleH = getHotspot(HotspotPlace.TOP_CENTER, markerWidth, markerHeight);
 		bubbleH.offset(-markerH.x, -markerH.y);

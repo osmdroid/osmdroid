@@ -11,14 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Default implementation of InfoWindow for an ExtendedOverlayItem. 
+ * Default implementation of InfoWindow for a Marker. 
  * It handles a text and a description. 
  * It also handles optionally a sub-description and an image. 
  * Clicking on the bubble will close it. 
  * 
  * @author M.Kergall
  */
-@Deprecated public class DefaultInfoWindow extends InfoWindow {
+public class MarkerInfoWindow extends InfoWindow {
 
 	static int mTitleId=0, mDescriptionId=0, mSubDescriptionId=0, mImageId=0; //resource ids
 
@@ -29,11 +29,11 @@ import android.widget.TextView;
 		mSubDescriptionId = context.getResources().getIdentifier("id/bubble_subdescription", null, packageName);
 		mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
 		if (mTitleId == 0 || mDescriptionId == 0 || mSubDescriptionId == 0 || mImageId == 0) {
-			Log.e(BonusPackHelper.LOG_TAG, "DefaultInfoWindow: unable to get res ids in "+packageName);
+			Log.e(BonusPackHelper.LOG_TAG, "MarkerInfoWindow: unable to get res ids in "+packageName);
 		}
 	}
 	
-	public DefaultInfoWindow(int layoutResId, MapView mapView) {
+	public MarkerInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
 		
 		if (mTitleId == 0)
@@ -44,26 +44,26 @@ import android.widget.TextView;
 			@Override public boolean onTouch(View v, MotionEvent e) {
 				if (e.getAction() == MotionEvent.ACTION_UP)
 					close();
-				return true; //From Osmdroid 3.0.10, event is properly consumed. 
+				return true;
 			}
 		});
 	}
 	
 	@Override public void onOpen(Object item) {
-		ExtendedOverlayItem extendedOverlayItem = (ExtendedOverlayItem)item;
-		String title = extendedOverlayItem.getTitle();
+		Marker marker = (Marker)item;
+		String title = marker.getTitle();
 		if (title == null)
 			title = "";
 		((TextView)mView.findViewById(mTitleId /*R.id.title*/)).setText(title);
 		
-		String snippet = extendedOverlayItem.getDescription();
+		String snippet = marker.getSnippet();
 		if (snippet == null)
 			snippet = "";
 		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippet);
 		
 		//handle sub-description, hidding or showing the text view:
 		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
-		String subDesc = extendedOverlayItem.getSubDescription();
+		String subDesc = marker.getSubDescription();
 		if (subDesc != null && !("".equals(subDesc))){
 			subDescText.setText(subDesc);
 			subDescText.setVisibility(View.VISIBLE);
@@ -73,7 +73,7 @@ import android.widget.TextView;
 
 		//handle image
 		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
-		Drawable image = extendedOverlayItem.getImage();
+		Drawable image = marker.getImage();
 		if (image != null){
 			imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?
 			imageView.setVisibility(View.VISIBLE);
