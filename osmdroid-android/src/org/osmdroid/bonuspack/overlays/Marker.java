@@ -2,6 +2,7 @@ package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -18,21 +19,22 @@ import android.view.MotionEvent;
 /**
  * An icon placed at a particular point on the map's surface. 
  * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support: Z-Index, Billboard mode<br/>
+ * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br/>
  * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br/>
- * - The icon can be changed. <br/>
- * - The InfoWindow is a standard Android View. It can handle Android widgets like buttons and so on. <br/>
+ * - The icon can be changed at any time. <br/>
+ * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br/>
  * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br/>
  * - Supports an image, to be displayed in the InfoWindow. <br/>
  * - Supports "panning to view" = when touching a marker, center the map on marker position. <br/>
+ * - Opening a Marker InfoWindow doesn't automatically close others - except if the InfoWindow is shared between Markers. 
  * 
  * TODO: 
  * Marker events - custom Listeners (onMarkerClick, onMarkerDrag)
- * check/test rotation (+impact on hitTest)
- * Default icon
- * Perfs?
+ * Impact of marker rotation on hitTest and on InfoWindow anchor
+ * When map is rotated, when panning the map, bug on the InfoWindow positioning (bug already there in ItemizedOverlayWithBubble)
  * 
  * @see MarkerInfoWindow
+ * @see http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html
  * 
  * @author M.Kergall
  *
@@ -49,6 +51,7 @@ public class Marker extends SafeDrawOverlay {
 	protected String mTitle, mSnippet;
 	protected boolean mDraggable, mIsDragged;
 	protected InfoWindow mInfoWindow;
+	protected boolean mFlat;
 	
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
@@ -69,7 +72,7 @@ public class Marker extends SafeDrawOverlay {
 	public Marker(MapView mapView, final ResourceProxy resourceProxy) {
 		super(resourceProxy);
 		mBearing = 0.0f;
-		mAlpha = 1.0f;
+		mAlpha = 1.0f; //opaque
 		mPosition = new GeoPoint(0.0, 0.0);
 		mAnchorU = ANCHOR_CENTER;
 		mAnchorV = ANCHOR_CENTER;
@@ -79,6 +82,8 @@ public class Marker extends SafeDrawOverlay {
 		mIsDragged = false;
 		mPositionPixels = new Point();
 		mPanToView = true;
+		mFlat = false; //billboard
+		mIcon = resourceProxy.getDrawable(bitmap.marker_default);
 		//build default bubble:
 		if (defaultLayoutResId == 0){
 			Context context = mapView.getContext();
@@ -152,11 +157,19 @@ public class Marker extends SafeDrawOverlay {
 		return mDraggable;
 	}
 
+	public void setFlat(boolean flat){
+		mFlat = flat;
+	}
+	
+	public boolean isFlat(){
+		return mFlat;
+	}
+	
 	public void remove(MapView mapView){
 		mapView.getOverlays().remove(this);
 	}
 
-	/** set the "sub-description", an optional text to be shown in the infowindow, below the snippet, in a smaller text size */
+	/** set the "sub-description", an optional text to be shown in the InfoWindow, below the snippet, in a smaller text size */
 	public void setSubDescription(String subDescription){
 		mSubDescription = subDescription;
 	}
@@ -165,19 +178,20 @@ public class Marker extends SafeDrawOverlay {
 		return mSubDescription;
 	}
 
-	/** set the image to be shown in the infowindow  - this is not the marker icon */
+	/** set the image to be shown in the InfoWindow  - this is not the marker icon */
 	public void setImage(Drawable image){
 		mImage = image;
 	}
 
-	/** get the image to be shown in the infowindow - this is not the marker icon */
+	/** get the image to be shown in the InfoWindow - this is not the marker icon */
 	public Drawable getImage(){
 		return mImage;
 	}
 
 	/** Set the InfoWindow to be used. 
 	 * Note that this InfoWindow will receive the Marker object, so it must be able to handle its data. 
-	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow. */
+	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow. 
+	 * If you don't want InfoWindow to open, set it to null. */
 	public void setInfoWindow(InfoWindow infoWindow){
 		mInfoWindow = infoWindow;
 	}
@@ -200,6 +214,8 @@ public class Marker extends SafeDrawOverlay {
 	}
 	
 	public void showInfoWindow(){
+		if (mInfoWindow == null)
+			return;
 		int markerWidth = 0, markerHeight = 0;
 		if (mIcon != null){
 			markerWidth = mIcon.getIntrinsicWidth(); 
@@ -215,11 +231,12 @@ public class Marker extends SafeDrawOverlay {
 	}
 	
 	public void hideInfoWindow(){
-		mInfoWindow.close();
+		if (mInfoWindow != null)
+			mInfoWindow.close();
 	}
 
 	public boolean isInfoWindowShown(){
-		return mInfoWindow.isOpen();
+		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}
 	
 	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
@@ -239,7 +256,8 @@ public class Marker extends SafeDrawOverlay {
 		
 		mIcon.setAlpha((int)(mAlpha*255));
 
-		drawAt(canvas.getSafeCanvas(), mIcon, mPositionPixels.x, mPositionPixels.y, false, mapView.getMapOrientation()-mBearing);
+		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
+		drawAt(canvas.getSafeCanvas(), mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
