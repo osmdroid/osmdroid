@@ -27,11 +27,11 @@ import android.view.MotionEvent;
  * - Supports an image, to be displayed in the InfoWindow. <br/>
  * - Supports "panning to view" = when touching a marker, center the map on marker position. <br/>
  * - Opening a Marker InfoWindow doesn't automatically close others - except if the InfoWindow is shared between Markers. 
+ * - Events listeners are set per marker, not per map. 
  * 
  * TODO: 
- * Marker events - custom Listeners (onMarkerClick, onMarkerDrag)
  * Impact of marker rotation on hitTest and on InfoWindow anchor
- * When map is rotated, when panning the map, bug on the InfoWindow positioning (bug already there in ItemizedOverlayWithBubble)
+ * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)
  * 
  * @see MarkerInfoWindow
  * @see http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html
@@ -52,6 +52,8 @@ public class Marker extends SafeDrawOverlay {
 	protected boolean mDraggable, mIsDragged;
 	protected InfoWindow mInfoWindow;
 	protected boolean mFlat;
+	protected OnMarkerClickListener mOnMarkerClickListener;
+	protected OnMarkerDragListener mOnMarkerDragListener;
 	
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
@@ -83,6 +85,8 @@ public class Marker extends SafeDrawOverlay {
 		mPositionPixels = new Point();
 		mPanToView = true;
 		mFlat = false; //billboard
+		mOnMarkerClickListener = null;
+		mOnMarkerDragListener = null;
 		mIcon = resourceProxy.getDrawable(bitmap.marker_default);
 		//build default bubble:
 		if (defaultLayoutResId == 0){
@@ -169,6 +173,14 @@ public class Marker extends SafeDrawOverlay {
 		mapView.getOverlays().remove(this);
 	}
 
+	public void setOnMarkerClickListener(OnMarkerClickListener listener){
+		mOnMarkerClickListener = listener;
+	}
+	
+	public void setOnMarkerDragListener(OnMarkerDragListener listener){
+		mOnMarkerDragListener = listener;
+	}
+	
 	/** set the "sub-description", an optional text to be shown in the InfoWindow, below the snippet, in a smaller text size */
 	public void setSubDescription(String subDescription){
 		mSubDescription = subDescription;
@@ -217,12 +229,8 @@ public class Marker extends SafeDrawOverlay {
 		if (mInfoWindow == null)
 			return;
 		int markerWidth = 0, markerHeight = 0;
-		if (mIcon != null){
-			markerWidth = mIcon.getIntrinsicWidth(); 
-			markerHeight = mIcon.getIntrinsicHeight();
-		} else {
-			//TODO: use the default marker size. 
-		}
+		markerWidth = mIcon.getIntrinsicWidth(); 
+		markerHeight = mIcon.getIntrinsicHeight();
 		
 		int offsetX = (int)(mIWAnchorU*markerWidth) - (int)(mAnchorU*markerWidth);
 		int offsetY = (int)(mIWAnchorV*markerHeight) - (int)(mAnchorV*markerHeight);
@@ -273,11 +281,19 @@ public class Marker extends SafeDrawOverlay {
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
 		boolean touched = hitTest(event, mapView);
 		if (touched){
-			showInfoWindow();
-			if (mPanToView)
-				mapView.getController().animateTo(getPosition());
-		}
-		return touched;
+			if (mOnMarkerClickListener == null){
+				return onMarkerClickDefault(this, mapView);
+			} else {
+				return mOnMarkerClickListener.onMarkerClick(this, mapView);
+			}
+		} else
+			return touched;
+	}
+
+	public void moveToEventPosition(final MotionEvent event, final MapView mapView){
+		final Projection pj = mapView.getProjection();
+		mPosition = (GeoPoint) pj.fromPixels(event.getX(), event.getY());
+		mapView.invalidate();
 	}
 	
 	@Override public boolean onLongPress(final MotionEvent event, final MapView mapView) {
@@ -287,6 +303,9 @@ public class Marker extends SafeDrawOverlay {
 				//starts dragging mode:
 				mIsDragged = true;
 				hideInfoWindow();
+				if (mOnMarkerDragListener != null)
+					mOnMarkerDragListener.onMarkerDragStart(this);
+				moveToEventPosition(event, mapView);
 			}
 		}
 		return touched;
@@ -296,16 +315,38 @@ public class Marker extends SafeDrawOverlay {
 		if (mDraggable && mIsDragged){
 			if (event.getAction() == MotionEvent.ACTION_UP) {
 				mIsDragged = false;
+				if (mOnMarkerDragListener != null)
+					mOnMarkerDragListener.onMarkerDragEnd(this);
 				return true;
 			} else if (event.getAction() == MotionEvent.ACTION_MOVE){
-				final Projection pj = mapView.getProjection();
-				mPosition = (GeoPoint) pj.fromPixels(event.getX(), event.getY());
-				mapView.invalidate();
+				moveToEventPosition(event, mapView);
+				if (mOnMarkerDragListener != null)
+						mOnMarkerDragListener.onMarkerDrag(this);
 				return true;
 			} else 
 				return false;
 		} else 
 			return false;
+	}
+	
+	//-- Marker events listener interfaces ------------------------------------
+	
+	public interface OnMarkerClickListener{
+		abstract boolean onMarkerClick(Marker marker, MapView mapView); 
+	}
+	
+	public interface OnMarkerDragListener{
+		abstract void onMarkerDrag(Marker marker);
+		abstract void onMarkerDragEnd(Marker marker);
+		abstract void onMarkerDragStart(Marker marker);
+	}
+	
+	/** default behaviour when no click listener is set */
+	protected boolean onMarkerClickDefault(Marker marker, MapView mapView) {
+		marker.showInfoWindow();
+		if (marker.mPanToView)
+			mapView.getController().animateTo(marker.getPosition());
+		return true;
 	}
 	
 }

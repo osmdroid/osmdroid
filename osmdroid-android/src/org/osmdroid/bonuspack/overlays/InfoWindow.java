@@ -15,10 +15,9 @@ import android.view.ViewGroup;
  * <li>Structure and content of the view is let to the responsibility of the caller. </li>
  * <li>The same InfoWindow can be associated to many items. </li>
  * </ul>
- * Known issue: the window is displayed "above" the marker, so the queue of the bubble can hide the marker. 
  * 
  * This is an abstract class. 
- * @see DefaultInfoWindow
+ * @see MarkerInfoWindow
  * @author M.Kergall
  */
 public abstract class InfoWindow {
