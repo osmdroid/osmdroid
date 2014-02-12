@@ -23,6 +23,7 @@ import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -206,7 +207,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		// Itinerary markers:
 		itineraryMarkers = new FolderOverlay(this);
-				//new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
 		map.getOverlays().add(itineraryMarkers);
 		updateUIWithItineraryMarkers();
 		
@@ -501,12 +501,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Address address = foundAdresses.get(0); //get first address
 				if (index == START_INDEX){
 					startPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
-					markerStart = putMarkerItem(markerStart, startPoint, START_INDEX,
+					markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
 						R.string.departure, R.drawable.marker_departure, -1);
 					map.getController().setCenter(startPoint);
 				} else if (index == DEST_INDEX){
 					destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
-					markerDestination = putMarkerItem(markerDestination, destinationPoint, DEST_INDEX,
+					markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
 						R.string.destination, R.drawable.marker_destination, -1);
 					map.getController().setCenter(destinationPoint);
 				}
@@ -564,24 +564,44 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
     //------------ Itinerary markers
+
+	class OnItineraryMarkerDragListener implements OnMarkerDragListener {
+		@Override public void onMarkerDrag(Marker marker) {}
+		@Override public void onMarkerDragEnd(Marker marker) {
+			int index = (Integer)marker.getRelatedObject();
+			if (index == START_INDEX)
+				startPoint = marker.getPosition();
+			else if (index == DEST_INDEX)
+				destinationPoint = marker.getPosition();
+			else 
+				viaPoints.set(index, marker.getPosition());
+			//update route:
+			getRoadAsync();
+		}
+		@Override public void onMarkerDragStart(Marker marker) {}		
+	}
 	
-	/** add or update an item in itineraryOverlays. */
-    public Marker putMarkerItem(Marker item, GeoPoint p, int index,
-    		int titleResId, int markerResId, int iconResId) {
+	final OnItineraryMarkerDragListener mItineraryListener = new OnItineraryMarkerDragListener();
+	
+	/** Update (or create if null) a marker in itineraryMarkers. */
+    public Marker updateItineraryMarker(Marker item, GeoPoint p, int index,
+    		int titleResId, int markerResId, int imageResId) {
 		Drawable icon = getResources().getDrawable(markerResId);
 		String title = getResources().getString(titleResId);
 		if (item == null){
 			item = new Marker(map);
+			item.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
+			item.setInfoWindow(new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
+			item.setDraggable(true);
+			item.setOnMarkerDragListener(mItineraryListener);
 			itineraryMarkers.add(item);
 		}
 		item.setTitle(title);
 		item.setPosition(p);
-		item.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
 		item.setIcon(icon);
-		if (iconResId != -1)
-			item.setImage(getResources().getDrawable(iconResId));
+		if (imageResId != -1)
+			item.setImage(getResources().getDrawable(imageResId));
 		item.setRelatedObject(index);
-		item.setInfoWindow(new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
 		map.invalidate();
 		//Start geocoding task to update the description of the marker with its address:
 		new GeocodingTask().execute(item);
@@ -590,7 +610,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	public void addViaPoint(GeoPoint p){
 		viaPoints.add(p);
-		putMarkerItem(null, p, viaPoints.size()-1,
+		updateItineraryMarker(null, p, viaPoints.size()-1,
 			R.string.viapoint, R.drawable.marker_via, -1);
 	}
     
@@ -618,17 +638,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		itineraryMarkers.getItems().clear();
 		//Start marker:
 		if (startPoint != null){
-			markerStart = putMarkerItem(null, startPoint, START_INDEX, 
+			markerStart = updateItineraryMarker(null, startPoint, START_INDEX, 
 				R.string.departure, R.drawable.marker_departure, -1);
 		}
 		//Via-points markers if any:
 		for (int index=0; index<viaPoints.size(); index++){
-			putMarkerItem(null, viaPoints.get(index), index, 
+			updateItineraryMarker(null, viaPoints.get(index), index, 
 				R.string.viapoint, R.drawable.marker_via, -1);
 		}
 		//Destination marker if any:
 		if (destinationPoint != null){
-			markerDestination = putMarkerItem(null, destinationPoint, DEST_INDEX,
+			markerDestination = updateItineraryMarker(null, destinationPoint, DEST_INDEX,
 				R.string.destination, R.drawable.marker_destination, -1);
 		}
 	}
@@ -994,13 +1014,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		switch (item.getItemId()) {
 		case R.id.menu_departure:
 			startPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
-			markerStart = putMarkerItem(markerStart, startPoint, START_INDEX,
+			markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
 				R.string.departure, R.drawable.marker_departure, -1);
 			getRoadAsync();
 			return true;
 		case R.id.menu_destination:
 			destinationPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
-			markerDestination = putMarkerItem(markerDestination, destinationPoint, DEST_INDEX,
+			markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
 				R.string.destination, R.drawable.marker_destination, -1);
 			getRoadAsync();
 			return true;
