@@ -8,9 +8,12 @@ import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
+import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
+import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -51,35 +54,37 @@ import android.widget.Toast;
  */
 public class MainActivity extends Activity {
 
+	MapView map;
+	
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		
 		//Introduction
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		MapView map = (MapView) findViewById(R.id.map);
+		map = (MapView) findViewById(R.id.map);
 		map.setTileSource(TileSourceFactory.MAPNIK);
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
-		
 		GeoPoint startPoint = new GeoPoint(48.13, -1.63);
 		IMapController mapController = map.getController();
 		mapController.setZoom(9);
 		mapController.setCenter(startPoint);
-		
-		//0. Using the Marker overlay:
+
+		//0. Using the Marker overlay
 		Marker startMarker = new Marker(map);
 		startMarker.setPosition(startPoint);
 		startMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
-		startMarker.setIcon(getResources().getDrawable(R.drawable.ic_launcher).mutate());
 		startMarker.setTitle("Start point");
-		startMarker.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
-		startMarker.setDraggable(true);
-		startMarker.setInfoWindow(new MarkerInfoWindow(R.layout.bonuspack_bubble_black, map));
+		//startMarker.setIcon(getResources().getDrawable(R.drawable.marker_kml_point).mutate());
+		//startMarker.setImage(getResources().getDrawable(R.drawable.ic_launcher));
+		//startMarker.setInfoWindow(new MarkerInfoWindow(R.layout.bonuspack_bubble_black, map));
+		//startMarker.setDraggable(true);
+		//startMarker.setOnMarkerDragListener(new OnMarkerDragListenerDrawer());
 		map.getOverlays().add(startMarker);
 		
 		//1. "Hello, Routing World"
 		RoadManager roadManager = new OSRMRoadManager();
-		//or: 
+		//2. Playing with the RoadManager
 		//roadManager roadManager = new MapQuestRoadManager("YOUR_API_KEY");
 		//roadManager.addRequestOption("routeType=bicycle");
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>();
@@ -113,12 +118,9 @@ public class MainActivity extends Activity {
 		}
 		
 		//5. OpenStreetMap POIs with Nominatim
-		
-		/* 5. 
 		NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
-		*/
 		
 		/* 6. Wikipedia POIs with GeoNames 
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
@@ -128,10 +130,12 @@ public class MainActivity extends Activity {
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, 30, 20.0);
 		*/
 		
-		/*8. Quick overview of the Flickr and Picasa POIs */
+		//8. Quick overview of the Flickr and Picasa POIs */
+		/*
 		PicasaPOIProvider poiProvider = new PicasaPOIProvider(null);
 		BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(waypoints);
 		ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20, null);
+		*/
 		
 		if (pois != null) {
             Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
@@ -144,7 +148,7 @@ public class MainActivity extends Activity {
 	            if (poi.mThumbnail != null){
 	            	poiMarker.setImage(new BitmapDrawable(poi.mThumbnail));
 	            }
-				/* 7.*/ 
+				// 7.
 				poiMarker.setInfoWindow(new CustomInfoWindow(map, poi));
 	            map.getOverlays().add(poiMarker);
 			}
@@ -154,8 +158,6 @@ public class MainActivity extends Activity {
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
-		//File file = kmlDocument.getDefaultPathForAndroid("Province_test.kml");
-		//boolean ok = kmlDocument.parseFile(file);
 		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 		if (ok){
 			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.kmlRoot.buildOverlays(this, map, defaultMarker, kmlDocument, false);
@@ -181,19 +183,30 @@ public class MainActivity extends Activity {
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(endPoint);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
-		myGroundOverlay.setTransparency(0.5f);
-		myGroundOverlay.setBearing(45.0f);
 		myGroundOverlay.setDimensions(2000.0f);
+		//myGroundOverlay.setTransparency(0.5f);
+		//myGroundOverlay.setBearing(45.0f);
 		map.getOverlays().add(myGroundOverlay);
 	}
 	
-	/*
-	@Override public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-			super.onCreateContextMenu(menu, v, menuInfo);
-			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.map_menu, menu);
+	//0. Using the Marker overlay
+	class OnMarkerDragListenerDrawer implements OnMarkerDragListener {
+		ArrayList<GeoPoint> mTrace = new ArrayList<GeoPoint>(200);
+		@Override public void onMarkerDrag(Marker marker) {
+			mTrace.add(marker.getPosition());
+		}
+		@Override public void onMarkerDragEnd(Marker marker) {
+			Polyline p = new Polyline(map.getContext());
+			p.setColor(0xAA0000FF);
+			p.setWidth(2.0f);
+			p.setPoints(mTrace);
+			map.getOverlays().add(p);
+			map.invalidate();
+		}
+		@Override public void onMarkerDragStart(Marker marker) {
+			mTrace.add(marker.getPosition());
+		}
 	}
-	*/
 	
 	//7. Customizing the bubble behaviour
 	class CustomInfoWindow extends MarkerInfoWindow {
@@ -201,18 +214,6 @@ public class MainActivity extends Activity {
 		public CustomInfoWindow(MapView mapView, POI selectedPoi) {
 			super(R.layout.bonuspack_bubble, mapView);
 			mSelectedPoi = selectedPoi;
-			/*
-			//open a context menu when clicking on the bubble:
-			((Activity) mapView.getContext()).registerForContextMenu(mView);
-			mView.setOnTouchListener(new View.OnTouchListener() {
-				@Override public boolean onTouch(View v, MotionEvent e) {
-					if (e.getAction() == MotionEvent.ACTION_UP){
-						((Activity) mapView.getContext()).openContextMenu(mView);
-					}
-					return true;
-				}
-			});
-			*/
 			Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
 			btn.setOnClickListener(new View.OnClickListener() {
 			    public void onClick(View view) {
