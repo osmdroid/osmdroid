@@ -85,6 +85,13 @@ public class FolderOverlay extends Overlay {
 		else 
 			return false;
 	}
-	//TODO: implement other events
-		
+
+	@Override public boolean onTouchEvent(MotionEvent e, MapView mapView){
+		if (isEnabled())
+			return mOverlayManager.onTouchEvent(e, mapView);
+		else 
+			return false;
+	}
+	
+	//TODO: implement other events... 
 }
