@@ -966,7 +966,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			map.getOverlays().remove(kmlOverlay);
 		if (mKmlDocument.kmlRoot != null){
 			Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)mKmlDocument.kmlRoot.buildOverlays(this, map, defaultKmlMarker, mKmlDocument, true);
+			kmlOverlay = (FolderOverlay)mKmlDocument.kmlRoot.buildOverlays(map, defaultKmlMarker, mKmlDocument, true);
 			map.getOverlays().add(kmlOverlay);
 		}
 		map.invalidate();
@@ -979,11 +979,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mKmlDocument.kmlRoot.createAsFolder();
 		}
 		//Insert relevant overlays inside:
-		mKmlDocument.kmlRoot.addOverlay(itineraryMarkers, mKmlDocument);
+		if (itineraryMarkers.getItems().size()>0)
+			mKmlDocument.kmlRoot.addOverlay(itineraryMarkers, mKmlDocument);
 		mKmlDocument.kmlRoot.addOverlay(roadOverlay, mKmlDocument);
-		mKmlDocument.kmlRoot.addOverlay(roadNodeMarkers, mKmlDocument);
+		if (roadNodeMarkers.getItems().size()>0)
+			mKmlDocument.kmlRoot.addOverlay(roadNodeMarkers, mKmlDocument);
 		mKmlDocument.kmlRoot.addOverlay(destinationPolygon, mKmlDocument);
-		mKmlDocument.kmlRoot.addOverlay(poiMarkers, mKmlDocument);
+		if (poiMarkers.getItems().size()>0)
+			mKmlDocument.kmlRoot.addOverlay(poiMarkers, mKmlDocument);
 	}
 	
 	//------------ MapEventsReceiver implementation

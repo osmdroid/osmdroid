@@ -1,6 +1,7 @@
 package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.LineStyle;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.kml.ColorStyle;
 import android.app.Activity;
@@ -30,7 +31,8 @@ public class KmlTreeActivity extends Activity {
 	protected static final int KML_TREE_REQUEST = 3;
 	int mItemPosition; //last item opened
 	EditText eHeader, eDescription, eOutlineColor, eFillColor;
-	ColorStyle mOutlineColorStyle, mFillColorStyle; //direct pointers on the ColorStyle, or null. 
+	LineStyle mLineStyle;  //direct pointer to the LineStyle, or null. 
+	ColorStyle mPolyStyle; //direct pointer to the PolyStyle, or null. 
 	
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,8 +55,8 @@ public class KmlTreeActivity extends Activity {
 		
 		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
 		if ((currentKmlFeature.mObjectType == KmlFeature.LINE_STRING || currentKmlFeature.mObjectType == KmlFeature.POLYGON) && style!=null){
-			mOutlineColorStyle = style.outlineColorStyle;
-			eOutlineColor.setText(mOutlineColorStyle.colorAsAndroidString());
+			mLineStyle = style.mLineStyle;
+			eOutlineColor.setText(mLineStyle.colorAsAndroidString());
 		} else {
 			LinearLayout lOutlineColorLayout = (LinearLayout)findViewById(R.id.outlineColorLayout);
 			lOutlineColorLayout.setVisibility(View.GONE);
@@ -62,8 +64,8 @@ public class KmlTreeActivity extends Activity {
 		
 		eFillColor = (EditText)findViewById(R.id.fillColor);
 		if (currentKmlFeature.mObjectType == KmlFeature.POLYGON && style!=null){
-			mFillColorStyle = style.fillColorStyle;
-			eFillColor.setText(mFillColorStyle.colorAsAndroidString());
+			mPolyStyle = style.mPolyStyle;
+			eFillColor.setText(mPolyStyle.colorAsAndroidString());
 		} else {
 			LinearLayout lFillColorLayout = (LinearLayout)findViewById(R.id.fillColorLayout);
 			lFillColorLayout.setVisibility(View.GONE);
@@ -91,18 +93,18 @@ public class KmlTreeActivity extends Activity {
 		    public void onClick(View view) {
 		    	currentKmlFeature.mName = eHeader.getText().toString();
 		    	currentKmlFeature.mDescription = eDescription.getText().toString();
-		    	if (mOutlineColorStyle != null){
+		    	if (mLineStyle != null){
 			    	String sColor = eOutlineColor.getText().toString();
 			    	try  { 
-			    		mOutlineColorStyle.color = Color.parseColor(sColor);
+			    		mLineStyle.mColor = Color.parseColor(sColor);
 			    	} catch (IllegalArgumentException e) {
 			    		Toast.makeText(view.getContext(), "Invalid outline color", Toast.LENGTH_SHORT).show();
 			    	}
 		    	}
-		    	if (mFillColorStyle != null){
+		    	if (mPolyStyle != null){
 			    	String sColor = eFillColor.getText().toString();
 			    	try  { 
-			    		mFillColorStyle.color = Color.parseColor(sColor);
+			    		mPolyStyle.mColor = Color.parseColor(sColor);
 			    	} catch (IllegalArgumentException e) {
 			    		Toast.makeText(view.getContext(), "Invalid fill color", Toast.LENGTH_SHORT).show();
 			    	}
