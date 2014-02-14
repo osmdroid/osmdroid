@@ -383,14 +383,19 @@ public class KmlDocument implements Parcelable {
 				mCurrentStyle = new Style();
 				mCurrentStyleId = attributes.getValue("id");
 			} else if (localName.equals("LineStyle")) {
-				mCurrentStyle.outlineColorStyle = new ColorStyle();
-				mColorStyle = mCurrentStyle.outlineColorStyle;
+				mCurrentStyle.mLineStyle = new LineStyle();
+				mColorStyle = mCurrentStyle.mLineStyle;
 			} else if (localName.equals("PolyStyle")) {
-				mCurrentStyle.fillColorStyle = new ColorStyle();
-				mColorStyle = mCurrentStyle.fillColorStyle;
+				mCurrentStyle.mPolyStyle = new ColorStyle();
+				mColorStyle = mCurrentStyle.mPolyStyle;
 			} else if (localName.equals("IconStyle")) {
-				mCurrentStyle.iconColorStyle = new ColorStyle();
-				mColorStyle = mCurrentStyle.iconColorStyle;
+				mCurrentStyle.mIconStyle = new IconStyle();
+				mColorStyle = mCurrentStyle.mIconStyle;
+			} else if (localName.equals("hotSpot")){
+				if (mCurrentStyle != null && mCurrentStyle.mIconStyle != null){
+					mCurrentStyle.mIconStyle.mHotSpotX = Float.parseFloat(attributes.getValue("x"));
+					mCurrentStyle.mIconStyle.mHotSpotY = Float.parseFloat(attributes.getValue("y"));
+				}
 			} else if (localName.equals("Data") || localName.equals("SimpleData")) {
 				mDataName = attributes.getValue("name");
 			}
@@ -444,23 +449,27 @@ public class KmlDocument implements Parcelable {
 					mKmlCurrentFeature.mStyle = mStringBuilder.toString();
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null) {
-					mColorStyle.color = ColorStyle.parseKMLColor(mStringBuilder.toString());
+					mColorStyle.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
 					mKmlCurrentGroundOverlay.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				}
 			} else if (localName.equals("colorMode")){
 				if (mCurrentStyle != null)
-					mColorStyle.colorMode = (mStringBuilder.toString().equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
+					mColorStyle.mColorMode = (mStringBuilder.toString().equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
 			} else if (localName.equals("width")){
-				if (mCurrentStyle != null)
-					mCurrentStyle.outlineWidth = Float.parseFloat(mStringBuilder.toString());
+				if (mCurrentStyle != null && mCurrentStyle.mLineStyle != null)
+					mCurrentStyle.mLineStyle.mWidth = Float.parseFloat(mStringBuilder.toString());
 			} else if (localName.equals("scale")){
-				if (mCurrentStyle != null){
-					mCurrentStyle.mIconScale = Float.parseFloat(mStringBuilder.toString());
+				if (mCurrentStyle != null && mCurrentStyle.mIconStyle != null){
+					mCurrentStyle.mIconStyle.mScale = Float.parseFloat(mStringBuilder.toString());
+				}
+			} else if (localName.equals("heading")){
+				if (mCurrentStyle != null && mCurrentStyle.mIconStyle != null){
+					mCurrentStyle.mIconStyle.mHeading = Float.parseFloat(mStringBuilder.toString());
 				}
 			} else if (localName.equals("href")){
-				if (mCurrentStyle != null && mCurrentStyle.iconColorStyle != null){
-					//href of an Icon:
+				if (mCurrentStyle != null && mCurrentStyle.mIconStyle != null){
+					//href of an Icon in an IconStyle:
 					String href = mStringBuilder.toString();
 					mCurrentStyle.setIcon(href, mFullPath);
 				} else if (mIsNetworkLink){

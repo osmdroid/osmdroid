@@ -10,13 +10,13 @@ import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -90,6 +90,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		GeoPoint p = marker.getPosition();
 		mCoordinates.add(p);
 		mBB = new BoundingBoxE6(p.getLatitudeE6(), p.getLongitudeE6(), p.getLatitudeE6(), p.getLongitudeE6());
+		//TODO: Style / IconStyle => transparency, hotspot, bearing. 
 	}
 
 	public void createFromPolygon(Polygon polygon, KmlDocument kmlDoc){
@@ -102,9 +103,8 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mVisibility = polygon.isEnabled();
 		//Style:
 		Style style = new Style();
-		style.fillColorStyle = new ColorStyle(polygon.getFillColor());
-		style.outlineColorStyle = new ColorStyle(polygon.getStrokeColor());
-		style.outlineWidth = polygon.getStrokeWidth();
+		style.mPolyStyle = new ColorStyle(polygon.getFillColor());
+		style.mLineStyle = new LineStyle(polygon.getStrokeColor(), polygon.getStrokeWidth());
 		mStyle = kmlDoc.addStyle(style);
 	}
 
@@ -116,8 +116,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		mVisibility = polyline.isEnabled();
 		//Style:
 		Style style = new Style();
-		style.outlineColorStyle = new ColorStyle(polyline.getColor());
-		style.outlineWidth = polyline.getWidth();
+		style.mLineStyle = new LineStyle(polyline.getColor(), polyline.getWidth());
 		mStyle = kmlDoc.addStyle(style);
 	}
 	
@@ -232,10 +231,21 @@ public class KmlFeature implements Parcelable, Cloneable {
 			mExtendedData = new HashMap<String,String>();
 		mExtendedData.put(name, value);
 	}
+
+	/** default listener for dragging a marker built from a KML Point */
+	public class OnKMLMarkerDragListener implements OnMarkerDragListener {
+		@Override public void onMarkerDrag(Marker marker) {}
+		@Override public void onMarkerDragEnd(Marker marker) {
+			KmlFeature feature = (KmlFeature)marker.getRelatedObject();
+			if (feature != null && feature.mObjectType == POINT)
+				feature.mCoordinates.set(0, marker.getPosition());
+		}
+		@Override public void onMarkerDragStart(Marker marker) {}		
+	}
 	
 	/** from a Placemark feature having a Point geometry, build a Marker overlay
 	 * @param map
-	 * @param defaultIcon default icon to be used if no style or no icon specified
+	 * @param defaultIcon default icon to be used if no style or no icon specified. If null, default osmdroid marker icon will be used. 
 	 * @param kmlDocument
 	 * @param supportVisibility
 	 * @return the Marker overlay
@@ -248,14 +258,19 @@ public class KmlFeature implements Parcelable, Cloneable {
 		marker.setTitle(mName);
 		marker.setSnippet(mDescription);
 		marker.setPosition(mCoordinates.get(0));
-		marker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
 		Style style = kmlDocument.getStyle(mStyle);
-		if (style != null && style.mIcon != null){
-			BitmapDrawable icon = style.getFinalIcon(context);
-			marker.setIcon(icon);
+		if (style != null && style.mIconStyle != null){
+			style.mIconStyle.styleMarker(marker, context);
 		} else {
-			marker.setIcon(defaultIcon);
+			if (defaultIcon != null)
+				marker.setIcon(defaultIcon);
+			marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 		}
+		//keep the link from the marker to the KML feature:
+		marker.setRelatedObject(this);
+		//allow marker drag, acting on KML Point:
+		marker.setDraggable(true);
+		marker.setOnMarkerDragListener(new OnKMLMarkerDragListener());
 		if (supportVisibility && !mVisibility)
 			marker.setEnabled(mVisibility);
 		return marker;
@@ -286,7 +301,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		int fillColor = 0x20101010; //default
 		if (style != null){
 			outlinePaint = style.getOutlinePaint();
-			fillColor = style.fillColorStyle.getFinalColor();
+			fillColor = style.mPolyStyle.getFinalColor();
 		}
 		if (outlinePaint == null){ 
 			//set default:
@@ -314,28 +329,39 @@ public class KmlFeature implements Parcelable, Cloneable {
 	}
 	
 	/**
-	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
-	 * @param context
 	 * @param map
-	 * @param defaultIcon to use for Points if no icon specified
+	 * @param defaultIcon
+	 * @param kmlDocument
+	 * @param supportVisibility
+	 * @return the FolderOverlay built
+	 */
+	public FolderOverlay buildFolderOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, boolean supportVisibility){
+		Context context = map.getContext();
+		FolderOverlay folderOverlay = new FolderOverlay(context);
+		for (KmlFeature k:mItems){
+			Overlay overlay = k.buildOverlays(map, defaultIcon, kmlDocument, supportVisibility);
+			folderOverlay.add(overlay);
+		}
+		if (!mVisibility)
+			folderOverlay.setEnabled(false);
+		return folderOverlay;
+	}
+	
+	/**
+	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
+	 * @param map
+	 * @param defaultIcon to use for Points if no icon specified. If null, default osmdroid marker icon will be used. 
 	 * @param kmlDocument for styles
 	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
 	 * @return the overlay, depending on the KML object type: <br>
 	 * 		Folder=>FolderOverlay, Point=>Marker, Polygon=>Polygon, LineString=>Polyline, GroundOverlay=>GroundOverlay
 	 * 		and return null if object type is UNKNOWN. 
 	 */
-	public Overlay buildOverlays(Context context, MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
+	public Overlay buildOverlays(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
 			boolean supportVisibility){
 		switch (mObjectType){
 		case FOLDER:{
-			FolderOverlay folderOverlay = new FolderOverlay(context);
-			for (KmlFeature k:mItems){
-				Overlay overlay = k.buildOverlays(context, map, defaultIcon, kmlDocument, supportVisibility);
-				folderOverlay.add(overlay);
-			}
-			if (supportVisibility && !mVisibility)
-				folderOverlay.setEnabled(false);
-			return folderOverlay;
+			return buildFolderOverlay(map, defaultIcon, kmlDocument, supportVisibility);
 		}
 		case POINT:{
 			return buildMarkerFromPoint(map, defaultIcon, kmlDocument, supportVisibility);

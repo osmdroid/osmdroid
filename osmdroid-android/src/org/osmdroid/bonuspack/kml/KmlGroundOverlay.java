@@ -15,6 +15,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * KML GroundOverlay. 
@@ -23,7 +25,7 @@ import android.graphics.drawable.BitmapDrawable;
  * 
  * @author M.Kergall
  */
-public class KmlGroundOverlay extends KmlFeature implements Cloneable {
+public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelable {
 	/** Overlay Icon href */
 	public String mIconHref;
 	/** Overlay Icon bitmap (can be null) */
@@ -120,5 +122,36 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable {
 		KmlGroundOverlay kmlGroundOverlay = (KmlGroundOverlay)super.clone();
 		//nothing else to clone???
 		return kmlGroundOverlay;
+	}
+	
+	//Parcelable implementation ------------
+	
+	@Override public int describeContents() {
+		return 0;
+	}
+
+	@Override public void writeToParcel(Parcel out, int flags) {
+		super.writeToParcel(out, flags);
+		out.writeString(mIconHref);
+		out.writeParcelable(mIcon, flags);
+		out.writeInt(mColor);
+		out.writeFloat(mRotation);
+	}
+	
+	public static final Parcelable.Creator<KmlGroundOverlay> CREATOR = new Parcelable.Creator<KmlGroundOverlay>() {
+		@Override public KmlGroundOverlay createFromParcel(Parcel source) {
+			return new KmlGroundOverlay(source);
+		}
+		@Override public KmlGroundOverlay[] newArray(int size) {
+			return new KmlGroundOverlay[size];
+		}
+	};
+	
+	public KmlGroundOverlay(Parcel in){
+		super(in);
+		mIconHref = in.readString();
+		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
+		mColor = in.readInt();
+		mRotation = in.readFloat();
 	}
 }
