@@ -26,12 +26,12 @@ import android.view.MotionEvent;
  * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br/>
  * - Supports an image, to be displayed in the InfoWindow. <br/>
  * - Supports "panning to view" = when touching a marker, center the map on marker position. <br/>
- * - Opening a Marker InfoWindow doesn't automatically close others - except if the InfoWindow is shared between Markers. <br/>
+ * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br/>
  * - Events listeners are set per marker, not per map. <br/>
  * 
- * TODO: 
- * Impact of marker rotation on hitTest and on InfoWindow anchor
- * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)
+ * TODO: <br/>
+ * Impact of marker rotation on hitTest and on InfoWindow anchor<br/>
+ * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
  * 
  * @see MarkerInfoWindow
  * @see http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html
@@ -61,13 +61,13 @@ public class Marker extends SafeDrawOverlay {
 	protected boolean mPanToView;
 	protected Object mRelatedObject;
 	
+	/*internals*/
 	protected Point mPositionPixels;
 	protected ResourceProxy mResourceProxy;
+	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
-	
-	protected static int defaultLayoutResId = 0;
 	
 	public Marker(MapView mapView) {
 		this(mapView, new DefaultResourceProxyImpl(mapView.getContext()));
@@ -91,15 +91,17 @@ public class Marker extends SafeDrawOverlay {
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
 		mIcon = resourceProxy.getDrawable(bitmap.marker_default);
-		//build default bubble:
-		if (defaultLayoutResId == 0){
+		if (mDefaultInfoWindow == null){
+			//build default bubble, that will be shared between all markers using the default one:
 			Context context = mapView.getContext();
 			String packageName = context.getPackageName();
-			defaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+			int defaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 			if (defaultLayoutResId == 0)
 				Log.e(BonusPackHelper.LOG_TAG, "Marker: layout/bonuspack_bubble not found in "+packageName);
+			else 
+				mDefaultInfoWindow = new MarkerInfoWindow(defaultLayoutResId, mapView);
 		}
-		mInfoWindow = new MarkerInfoWindow(defaultLayoutResId, mapView);
+		mInfoWindow = mDefaultInfoWindow;
 	}
 
 	/** Sets the icon for the marker. Can be changed at any time. 
