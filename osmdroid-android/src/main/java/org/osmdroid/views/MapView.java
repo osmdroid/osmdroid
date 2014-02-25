@@ -129,8 +129,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/* a point that will be reused to design added views */
 	private final Point mPoint = new Point();
 
-	private final Matrix mCanvasIdentityMatrix = new Matrix();
-
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -1001,24 +999,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		invalidate();
 	}
 
-	/**
-	 * This will set a {@link Matrix} to values that represent an identity matrix for this Canvas.
-	 * By setting the canvas to this Matrix, you will be able to draw with (0, 0) being the upper
-	 * left corner of the screen regardless of the current map viewport.
-	 * 
-	 * @param identityMatrix
-	 *            A Matrix that will be set to the canvas identity matrix.
-	 */
-	public void getCanvasIdentityMatrix(final Matrix identityMatrix) {
-		identityMatrix.set(mCanvasIdentityMatrix);
-	}
-
 	@Override
 	protected void dispatchDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
-
-		mCanvasIdentityMatrix.set(c.getMatrix());
-		mCanvasIdentityMatrix.postTranslate(getScrollX(), getScrollY());
 
 		mProjection = new Projection();
 
