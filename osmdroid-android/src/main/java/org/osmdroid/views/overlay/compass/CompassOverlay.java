@@ -151,24 +151,21 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 		final float centerX = mCompassCenterX * mScale;
 		final float centerY = mCompassCenterY * mScale;
 
-		canvas.getMatrix(mCanvasIdentityMatrix);
-		mCanvasIdentityMatrix.invert(mCanvasIdentityMatrix);
+		mMapView.getCanvasIdentityMatrix(mCanvasIdentityMatrix);
 
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
 		canvas.save();
-		canvas.concat(mCanvasIdentityMatrix);
+		canvas.setMatrix(mCanvasIdentityMatrix);
 		canvas.concat(mCompassMatrix);
 		canvas.drawPicture(mCompassFrame);
-		canvas.restore();
 
 		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.concat(mCanvasIdentityMatrix);
+		canvas.setMatrix(mCanvasIdentityMatrix);
 		canvas.concat(mCompassMatrix);
 		canvas.drawPicture(mCompassRose);
 		canvas.restore();
