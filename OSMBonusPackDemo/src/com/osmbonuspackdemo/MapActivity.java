@@ -52,6 +52,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -799,43 +802,52 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
 					poiMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
 				}
-				//thumbnail loading moved in POIInfoWindow.onOpen for better performances. 
 				poiMarker.setRelatedObject(poi);
 				poiMarker.setInfoWindow(poiInfoWindow);
+				//thumbnail loading moved in async task for better performances. 
 				poiMarkers.add(poiMarker);
 			}
 		}
 		map.invalidate();
 	}
 	
-	ExecutorService mThreadPool = Executors.newFixedThreadPool(5);
+	void setMarkerIconAsPhoto(Marker marker, Bitmap thumbnail){
+		int borderSize = 2;
+		thumbnail = Bitmap.createScaledBitmap(thumbnail, 48, 48, true);
+	    Bitmap withBorder = Bitmap.createBitmap(thumbnail.getWidth() + borderSize * 2, thumbnail.getHeight() + borderSize * 2, thumbnail.getConfig());
+	    Canvas canvas = new Canvas(withBorder);
+	    canvas.drawColor(Color.WHITE);
+	    canvas.drawBitmap(thumbnail, borderSize, borderSize, null);
+		BitmapDrawable icon = new BitmapDrawable(getResources(), withBorder);
+		marker.setIcon(icon);
+	}
+	
+	ExecutorService mThreadPool = Executors.newFixedThreadPool(3);
+	
+	class ThumbnailLoaderTask implements Runnable {
+		POI mPoi; Marker mMarker;
+		ThumbnailLoaderTask(POI poi, Marker marker){
+			mPoi = poi; mMarker = marker;
+		}
+		@Override public void run(){
+			Bitmap thumbnail = mPoi.getThumbnail();
+			if (thumbnail != null){
+				setMarkerIconAsPhoto(mMarker, thumbnail);
+			}
+		}
+	}
+	
 	/** Loads all thumbnails in background */
 	void startAsyncThumbnailsLoading(ArrayList<POI> pois){
-		/* Try to stop existing threads:
-		 * not sure it has any effect... 
-		if (mThreadPool != null){
-			//Stop threads if any:
-			mThreadPool.shutdownNow();
-		}
-		mThreadPool = Executors.newFixedThreadPool(5);
-		*/
+		if (pois == null)
+			return;
+		//Try to stop existing threads:
+		mThreadPool.shutdownNow();
+		mThreadPool = Executors.newFixedThreadPool(3);
 		for (int i=0; i<pois.size(); i++){
-			final int index = i;
-			final POI poi = pois.get(index);
-			mThreadPool.submit(new Runnable(){
-				@Override public void run(){
-					Bitmap b = poi.getThumbnail();
-					if (b != null){
-						/*
-						//Change POI marker:
-						ExtendedOverlayItem item = poiMarkers.getItem(index);
-						b = Bitmap.createScaledBitmap(b, 48, 48, true);
-						BitmapDrawable bd = new BitmapDrawable(getResources(), b);
-						item.setMarker(bd);
-						*/
-					}
-				}
-			});
+			final POI poi = pois.get(i);
+			final Marker marker = (Marker)poiMarkers.getItems().get(i);
+			mThreadPool.submit(new ThumbnailLoaderTask(poi, marker));
 		}
 	}
 	
@@ -885,10 +897,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " entries found", Toast.LENGTH_LONG).show();
-				if (mTag.equals("flickr")||mTag.startsWith("picasa")||mTag.equals("wikipedia"))
-					startAsyncThumbnailsLoading(mPOIs);
 			}
 			updateUIWithPOI(mPOIs);
+			if (mTag.equals("flickr")||mTag.startsWith("picasa")||mTag.equals("wikipedia"))
+				startAsyncThumbnailsLoading(mPOIs);
 		}
 	}
 	
