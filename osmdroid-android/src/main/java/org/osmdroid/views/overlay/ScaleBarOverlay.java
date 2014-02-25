@@ -15,10 +15,6 @@ package org.osmdroid.views.overlay;
  * Change Log:
  * 		2010-10-08: Inclusion to osmdroid trunk
  *
- * License:
- * 		LGPL version 3
- * 		http://www.gnu.org/licenses/lgpl.html
- *
  * Usage:
  * <code>
  * MapView map = new MapView(...);
@@ -97,7 +93,7 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 	private Projection projection;
 
 	final private Rect mBounds = new Rect();
-	final private Matrix mIdentityMatrix = new Matrix();
+	final private Matrix mCanvasIdentityMatrix = new Matrix();
 
 	private boolean centred = false;
 	private boolean adjustLength = false;
@@ -369,10 +365,9 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 				mBounds.offset(0, -scaleBarPicture.getHeight() / 2);
 
 			mBounds.set(mBounds);
+			mapView.getCanvasIdentityMatrix(mCanvasIdentityMatrix);
 			c.save();
-			c.setMatrix(mIdentityMatrix);
-			// To fix offset issues in pre-honeycomb
-			c.translate(0, c.getHeight() - mapView.getHeight());
+			c.setMatrix(mCanvasIdentityMatrix);
 			c.getWrappedCanvas().drawPicture(scaleBarPicture, mBounds);
 			c.restore();
 		}

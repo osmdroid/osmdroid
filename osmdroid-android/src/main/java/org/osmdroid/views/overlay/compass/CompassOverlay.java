@@ -43,6 +43,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
     protected final Picture mCompassFrame = new Picture();
     protected final Picture mCompassRose = new Picture();
     private final Matrix mCompassMatrix = new Matrix();
+	private final Matrix mCanvasIdentityMatrix = new Matrix();
     private boolean mIsCompassEnabled;
 
     /**
@@ -147,23 +148,27 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 
     protected void drawCompass(final ISafeCanvas canvas, final float bearing, final Rect screenRect)
     {
-        final float centerX = mCompassCenterX * mScale;
-        final float centerY = mCompassCenterY * mScale + (canvas.getHeight() - mMapView.getHeight());
+		final float centerX = mCompassCenterX * mScale;
+		final float centerY = mCompassCenterY * mScale;
 
-        mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
-        mCompassMatrix.postTranslate(centerX, centerY);
+		mMapView.getCanvasIdentityMatrix(mCanvasIdentityMatrix);
 
-        canvas.save();
-        canvas.setMatrix(mCompassMatrix);
-        canvas.drawPicture(mCompassFrame);
+		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
+		mCompassMatrix.postTranslate(centerX, centerY);
 
-        mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
-        mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
-        mCompassMatrix.postTranslate(centerX, centerY);
+		canvas.save();
+		canvas.setMatrix(mCanvasIdentityMatrix);
+		canvas.concat(mCompassMatrix);
+		canvas.drawPicture(mCompassFrame);
 
-        canvas.setMatrix(mCompassMatrix);
-        canvas.drawPicture(mCompassRose);
-        canvas.restore();
+		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
+		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
+		mCompassMatrix.postTranslate(centerX, centerY);
+
+		canvas.setMatrix(mCanvasIdentityMatrix);
+		canvas.concat(mCompassMatrix);
+		canvas.drawPicture(mCompassRose);
+		canvas.restore();
     }
 
     // ===========================================================
