@@ -10,10 +10,16 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -50,6 +56,10 @@ public abstract class Overlay implements OverlayConstants {
 	protected final float mScale;
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
+	private Bitmap mBackingBitmap;
+	private Canvas mBackingCanvas;
+	private final Matrix mBackingMatrix = new Matrix();
+	private final Matrix mCanvasIdentityMatrix = new Matrix();
 
 	// ===========================================================
 	// Constructors
@@ -88,6 +98,27 @@ public abstract class Overlay implements OverlayConstants {
 	}
 
 	/**
+	 * Specifies if the Overlay is hardware accelerated. If false, a backing Bitmap will be
+	 * constructed to draw the Overlay's contents to.
+	 */
+	public boolean isHardwareAccelerated() {
+		return true;
+	}
+	
+	/**
+	 * Specfies if this Overlay will draw anything when drawing the shadow layer. If true,
+	 * {@link #draw(Canvas, MapView, boolean)} will get called twice, once with shadow as true and
+	 * once as false. If false, it will only be called with shadow as false.<br />
+	 * <br />
+	 * Note: If {@link #isHardwareAccelerated()} is false and this Overlay is not drawing on the
+	 * shadow layer then returning false here will eliminate unnecssary overhead and provide a
+	 * significant performance boost.
+	 */
+	public boolean isDrawingShadowLayer() {
+		return true;
+	}
+
+	/**
 	 * Since the menu-chain will pass through several independent Overlays, menu IDs cannot be fixed
 	 * at compile time. Overlays should use this method to obtain and store a menu id for each menu
 	 * item at construction time. This will ensure that two overlays don't use the same id.
@@ -111,6 +142,32 @@ public abstract class Overlay implements OverlayConstants {
 	// ===========================================================
 	// Methods for SuperClass/Interfaces
 	// ===========================================================
+
+	/**
+	 * Call this method to draw the Overlays. This will call {@link #draw(Canvas, MapView, boolean)}
+	 */
+	protected final void onDraw(Canvas c, MapView osmv, boolean shadow) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && !this.isHardwareAccelerated()
+				&& c.isHardwareAccelerated()) {
+			if (mBackingBitmap == null || c.getWidth() != c.getWidth()
+					|| mBackingBitmap.getHeight() != c.getHeight()) {
+				mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(), Config.ARGB_8888);
+				mBackingCanvas = new Canvas(mBackingBitmap);
+			}
+
+			mBackingCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
+			c.getMatrix(mBackingMatrix);
+			mBackingCanvas.setMatrix(mBackingMatrix);
+			this.draw(mBackingCanvas, osmv, shadow);
+			c.save();
+			c.getMatrix(mCanvasIdentityMatrix);
+			mCanvasIdentityMatrix.invert(mCanvasIdentityMatrix);
+			c.concat(mCanvasIdentityMatrix);
+			c.drawBitmap(mBackingBitmap, 0, 0, null);
+			c.restore();
+		} else
+			this.draw(c, osmv, shadow);
+	}
 
 	/**
 	 * Draw the overlay over the map. This will be called on all active overlays with shadow=true,

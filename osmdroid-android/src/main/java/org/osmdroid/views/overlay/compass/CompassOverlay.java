@@ -97,6 +97,16 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 		setOrientationProvider(orientationProvider);
     }
 
+	@Override
+	public boolean isHardwareAccelerated() {
+		return false;
+	}
+
+	@Override
+	public boolean isDrawingShadowLayer() {
+		return false;
+	}
+
     @Override
     public void onDetach(MapView mapView) {
         this.disableCompass();

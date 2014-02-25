@@ -163,6 +163,16 @@ public class ScaleBarOverlay extends SafeDrawOverlay implements GeoConstants {
 		maxLength = 2.54f;
 	}
 
+	@Override
+	public boolean isHardwareAccelerated() {
+		return false;
+	}
+
+	@Override
+	public boolean isDrawingShadowLayer() {
+		return false;
+	}
+
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
