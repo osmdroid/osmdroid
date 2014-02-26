@@ -64,10 +64,12 @@ public abstract class SafeDrawOverlay extends Overlay {
 				c.translate(screenRect.left, screenRect.top);
 				c.translate(floatErrorX, floatErrorY);
 			} else {
-				c.getMatrix(sMatrix);
-				sMatrix.preTranslate(screenRect.left, screenRect.top);
-				sMatrix.preTranslate(floatErrorX, floatErrorY);
-				c.setMatrix(sMatrix);
+				c.translate(screenRect.left, screenRect.top);
+				c.translate(floatErrorX, floatErrorY);
+				// c.getMatrix(sMatrix);
+				// sMatrix.preTranslate(screenRect.left, screenRect.top);
+				// sMatrix.preTranslate(floatErrorX, floatErrorY);
+				// c.setMatrix(sMatrix);
 			}
 
 			if (osmv.getMapOrientation() != 0) {
