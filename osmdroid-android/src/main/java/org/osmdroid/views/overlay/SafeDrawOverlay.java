@@ -61,9 +61,7 @@ public abstract class SafeDrawOverlay extends Overlay {
 
 			// Translate the coordinates
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				final float scaleX = osmv.getScaleX();
-				final float scaleY = osmv.getScaleY();
-				c.translate(screenRect.left * scaleX, screenRect.top * scaleY);
+				c.translate(screenRect.left, screenRect.top);
 				c.translate(floatErrorX, floatErrorY);
 			} else {
 				c.getMatrix(sMatrix);
