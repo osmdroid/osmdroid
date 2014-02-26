@@ -149,7 +149,7 @@ public abstract class Overlay implements OverlayConstants {
 	protected final void onDraw(Canvas c, MapView osmv, boolean shadow) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && !this.isHardwareAccelerated()
 				&& c.isHardwareAccelerated()) {
-			if (mBackingBitmap == null || c.getWidth() != c.getWidth()
+			if (mBackingBitmap == null || mBackingBitmap.getWidth() != c.getWidth()
 					|| mBackingBitmap.getHeight() != c.getHeight()) {
 				mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(), Config.ARGB_8888);
 				mBackingCanvas = new Canvas(mBackingBitmap);
