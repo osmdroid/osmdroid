@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.graphics.Region.Op;
+import android.os.Build;
 
 /**
  * An implementation of {@link ISafeCanvas} that wraps a {@link Canvas} and adjusts drawing calls to
@@ -62,7 +63,20 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 
 	public void getUnsafeCanvas(UnsafeCanvasHandler handler) {
 		this.save();
-		this.setMatrix(this.getOriginalMatrix());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && this.isHardwareAccelerated()) {
+			// When using hardware acceleration, setting the Matrix does not produce expected
+			// results. So instead, we calculate what it will take to get back to
+			// getOriginalMatrix() and concatenate it to the canvas.
+			Matrix invMatrix = new Matrix(this.getMatrix());
+			invMatrix.invert(invMatrix);
+			invMatrix.preConcat(getOriginalMatrix());
+			this.concat(invMatrix);
+		} else {
+			// For some reason - using the above approach on non-hardware accelerated canvases
+			// produces an offset for all drawing. Since setting the Matrix works in this instance
+			// we can just replace it.
+			this.setMatrix(this.getOriginalMatrix());
+		}
 		handler.onUnsafeCanvas(mCanvas);
 		this.restore();
 	}
@@ -73,6 +87,12 @@ public class SafeTranslatedCanvas extends Canvas implements ISafeCanvas {
 
 	public Matrix getOriginalMatrix() {
 		return mMatrix;
+	}
+
+	@Override
+	public boolean isHardwareAccelerated() {
+		// The Canvas constructor calls this so we need to do a null check
+		return getWrappedCanvas() != null ? getWrappedCanvas().isHardwareAccelerated() : false;
 	}
 
 	@Override

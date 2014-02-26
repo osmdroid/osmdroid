@@ -38,6 +38,8 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
+import org.osmdroid.views.safecanvas.SafeTranslatedCanvas;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,8 +130,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/* a point that will be reused to design added views */
 	private final Point mPoint = new Point();
-
-	private final Matrix mCanvasIdentityMatrix = new Matrix();
 
 	// ===========================================================
 	// Constructors
@@ -1002,25 +1002,29 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * This will set a {@link Matrix} to values that represent an identity matrix for this Canvas.
-	 * By setting the canvas to this Matrix, you will be able to draw with (0, 0) being the upper
-	 * left corner of the screen regardless of the current map viewport. Note this is only usable
-	 * for non-HW accelerated overlays. HW-accelerated overlays should simply get the Canvas's
-	 * matrix, invert it, and concat it to Canvas.
+	 * This will "invert" the canvas for an overlay so that it is appropriate for fixed-screen
+	 * drawing where (0, 0) is the upper-left corner of the screen. You can use this to draw to a
+	 * fixed position on the screen regardless of the scroll position.<br/>
+	 * <br/>
+	 * <b>Note:</b> You should save the state of your canvas before calling this method and restore
+	 * it when you are done drawing. To use this with a {@link SafeTranslatedCanvas} you should use
+	 * it with {@link SafeTranslatedCanvas#getUnsafeCanvas(UnsafeCanvasHandler)}.
 	 * 
-	 * @param identityMatrix
-	 *            A Matrix that will be set to the canvas identity matrix.
+	 * @param c
+	 *            a canvas which will be modified
 	 */
-	public void getCanvasIdentityMatrix(final Matrix identityMatrix) {
-		identityMatrix.set(mCanvasIdentityMatrix);
+	public void invertCanvas(final Canvas c) {
+		c.rotate(-mapOrientation, mProjection.getScreenRect().exactCenterX(), mProjection
+				.getScreenRect().exactCenterY());
+		c.scale(1 / mMultiTouchScale, 1 / mMultiTouchScale, mMultiTouchScalePoint.x,
+				mMultiTouchScalePoint.y);
+		c.translate(getScrollX(), getScrollY());
+		c.translate(-getWidth() / 2, -getHeight() / 2);
 	}
 
 	@Override
 	protected void dispatchDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
-
-		mCanvasIdentityMatrix.set(c.getMatrix());
-		mCanvasIdentityMatrix.postTranslate(getScrollX(), getScrollY());
 
 		mProjection = new Projection();
 

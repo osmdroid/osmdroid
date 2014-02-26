@@ -7,16 +7,18 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.SafeDrawOverlay;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 import org.osmdroid.views.safecanvas.SafePaint;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.FloatMath;
@@ -40,8 +42,8 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
     public IOrientationProvider mOrientationProvider;
 
     protected final SafePaint mPaint = new SafePaint();
-    protected final Picture mCompassFrame = new Picture();
-    protected final Picture mCompassRose = new Picture();
+	protected Bitmap mCompassFrameBitmap;
+	protected Bitmap mCompassRoseBitmap;
     private final Matrix mCompassMatrix = new Matrix();
 	private final Matrix mCanvasIdentityMatrix = new Matrix();
     private boolean mIsCompassEnabled;
@@ -89,23 +91,13 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         createCompassFramePicture();
         createCompassRosePicture();
 
-        mCompassFrameCenterX = mCompassFrame.getWidth() / 2 - 0.5f;
-        mCompassFrameCenterY = mCompassFrame.getHeight() / 2 - 0.5f;
-        mCompassRoseCenterX = mCompassRose.getWidth() / 2 - 0.5f;
-        mCompassRoseCenterY = mCompassRose.getHeight() / 2 - 0.5f;
+		mCompassFrameCenterX = mCompassFrameBitmap.getWidth() / 2 - 0.5f;
+		mCompassFrameCenterY = mCompassFrameBitmap.getHeight() / 2 - 0.5f;
+		mCompassRoseCenterX = mCompassRoseBitmap.getWidth() / 2 - 0.5f;
+		mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2 - 0.5f;
 
 		setOrientationProvider(orientationProvider);
     }
-
-	@Override
-	public boolean isHardwareAccelerated() {
-		return false;
-	}
-
-	@Override
-	public boolean isDrawingShadowLayer() {
-		return false;
-	}
 
     @Override
     public void onDetach(MapView mapView) {
@@ -156,30 +148,42 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         mOrientationProvider = orientationProvider;
     }
 
-    protected void drawCompass(final ISafeCanvas canvas, final float bearing, final Rect screenRect)
-    {
+	protected void drawCompass(final ISafeCanvas canvas, final float bearing, final Rect screenRect) {
 		final float centerX = mCompassCenterX * mScale;
 		final float centerY = mCompassCenterY * mScale;
 
-		mMapView.getCanvasIdentityMatrix(mCanvasIdentityMatrix);
+		canvas.getMatrix(mCanvasIdentityMatrix);
+		mCanvasIdentityMatrix.invert(mCanvasIdentityMatrix);
 
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.save();
-		canvas.setMatrix(mCanvasIdentityMatrix);
-		canvas.concat(mCompassMatrix);
-		canvas.drawPicture(mCompassFrame);
+		canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
+			@Override
+			public void onUnsafeCanvas(Canvas canvas) {
+				canvas.save();
+				mMapView.invertCanvas(canvas);
+				canvas.concat(mCompassMatrix);
+				canvas.drawBitmap(mCompassFrameBitmap, 0, 0, null);
+				canvas.restore();
+			}
+		});
 
 		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.setMatrix(mCanvasIdentityMatrix);
-		canvas.concat(mCompassMatrix);
-		canvas.drawPicture(mCompassRose);
-		canvas.restore();
-    }
+		canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
+			@Override
+			public void onUnsafeCanvas(Canvas canvas) {
+				canvas.save();
+				mMapView.invertCanvas(canvas);
+				canvas.concat(mCompassMatrix);
+				canvas.drawBitmap(mCompassRoseBitmap, 0, 0, null);
+				canvas.restore();
+			}
+		});
+	}
 
     // ===========================================================
     // Methods from SuperClass/Interfaces
@@ -191,6 +195,9 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         if (shadow) {
             return;
         }
+
+		mAzimuth = 100;
+		mIsCompassEnabled = true;
 
         if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
             drawCompass(canvas, mAzimuth + getDisplayOrientation(), mapView.getProjection().getScreenRect());
@@ -388,10 +395,12 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         outerPaint.setStrokeWidth(2.0f);
         outerPaint.setAlpha(200);
 
-        final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
+		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassFrame.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
+		mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
+				Config.ARGB_8888);
+		final Canvas canvas = new Canvas(mCompassFrameBitmap);
 
         // draw compass inner circle and border
         canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
@@ -404,8 +413,6 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
         drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
         drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
-
-        mCompassFrame.endRecording();
     }
 
     private void createCompassRosePicture()
@@ -431,11 +438,12 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         centerPaint.setStyle(Style.FILL);
         centerPaint.setAlpha(220);
 
-        // final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
-        final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2);
+		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
         final int center = picBorderWidthAndHeight / 2;
 
-        final Canvas canvas = mCompassRose.beginRecording(picBorderWidthAndHeight, picBorderWidthAndHeight);
+		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
+				Config.ARGB_8888);
+		final Canvas canvas = new Canvas(mCompassRoseBitmap);
 
         // Blue triangle pointing north
         final Path pathNorth = new Path();
@@ -457,7 +465,5 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 
         // Draw a little white dot in the middle
         canvas.drawCircle(center, center, 2, centerPaint);
-
-        mCompassRose.endRecording();
     }
 }
