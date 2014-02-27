@@ -196,9 +196,6 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
             return;
         }
 
-		mAzimuth = 100;
-		mIsCompassEnabled = true;
-
         if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
             drawCompass(canvas, mAzimuth + getDisplayOrientation(), mapView.getProjection().getScreenRect());
         }
