@@ -15,7 +15,7 @@
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="get your own key!"/>
 	</application>
 
-	<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="16" />
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="16" />
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
