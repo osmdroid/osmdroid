@@ -36,6 +36,7 @@ import android.view.WindowManager;
  */
 public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvider, IOrientationConsumer
 {
+	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
     protected final MapView mMapView;
     private final Display mDisplay;
 
@@ -164,7 +165,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 				canvas.save();
 				mMapView.invertCanvas(canvas);
 				canvas.concat(mCompassMatrix);
-				canvas.drawBitmap(mCompassFrameBitmap, 0, 0, null);
+				canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
 				canvas.restore();
 			}
 		});
@@ -179,7 +180,7 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 				canvas.save();
 				mMapView.invertCanvas(canvas);
 				canvas.concat(mCompassMatrix);
-				canvas.drawBitmap(mCompassRoseBitmap, 0, 0, null);
+				canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
 				canvas.restore();
 			}
 		});
