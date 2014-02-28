@@ -82,13 +82,13 @@
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>10</version>
+                <version>13</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>10</version>
+                <version>13</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
