@@ -264,7 +264,7 @@ public class Marker extends SafeDrawOverlay {
 		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}
 	
-	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	@Override public void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 		if (mIcon == null)
