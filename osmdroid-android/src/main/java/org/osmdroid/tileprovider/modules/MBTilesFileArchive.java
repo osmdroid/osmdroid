@@ -67,6 +67,11 @@ public class MBTilesFileArchive implements IArchiveFile {
 	}
 
 	@Override
+	public void close() {
+		mDatabase.close();
+	}
+
+	@Override
 	public String toString() {
 		return "DatabaseFileArchive [mDatabase=" + mDatabase.getPath() + "]";
 	}

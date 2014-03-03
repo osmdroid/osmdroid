@@ -13,4 +13,9 @@ public interface IArchiveFile {
 	 */
 	InputStream getInputStream(ITileSource tileSource, MapTile tile);
 
+	/**
+	 * Closes the archive file and releases resources.
+	 */
+	void close();
+
 }

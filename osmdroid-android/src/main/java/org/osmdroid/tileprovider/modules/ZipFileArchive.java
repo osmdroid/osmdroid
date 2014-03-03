@@ -41,6 +41,13 @@ public class ZipFileArchive implements IArchiveFile {
 	}
 
 	@Override
+	public void close() {
+		try {
+			mZipFile.close();
+		} catch (IOException e) { }
+	}
+
+	@Override
 	public String toString() {
 		return "ZipFileArchive [mZipFile=" + mZipFile.getName() + "]";
 	}

@@ -138,6 +138,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public void detach() {
 		while(!mArchiveFiles.isEmpty()) {
+			mArchiveFiles.get(0).close();
 			mArchiveFiles.remove(0);
 		}
 		super.detach();
