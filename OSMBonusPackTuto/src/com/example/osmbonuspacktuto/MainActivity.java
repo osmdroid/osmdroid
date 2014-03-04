@@ -3,6 +3,7 @@ package com.example.osmbonuspacktuto;
 import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
@@ -26,6 +27,9 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.PathOverlay;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -73,13 +77,13 @@ public class MainActivity extends Activity {
 		//0. Using the Marker overlay
 		Marker startMarker = new Marker(map);
 		startMarker.setPosition(startPoint);
-		startMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
+		startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 		startMarker.setTitle("Start point");
 		//startMarker.setIcon(getResources().getDrawable(R.drawable.marker_kml_point).mutate());
 		//startMarker.setImage(getResources().getDrawable(R.drawable.ic_launcher));
 		//startMarker.setInfoWindow(new MarkerInfoWindow(R.layout.bonuspack_bubble_black, map));
-		//startMarker.setDraggable(true);
-		//startMarker.setOnMarkerDragListener(new OnMarkerDragListenerDrawer());
+		startMarker.setDraggable(true);
+		startMarker.setOnMarkerDragListener(new OnMarkerDragListenerDrawer());
 		map.getOverlays().add(startMarker);
 		
 		//1. "Hello, Routing World"
@@ -97,9 +101,9 @@ public class MainActivity extends Activity {
 		map.invalidate();
 		
 		//3. Showing the Route steps on the map
-		Drawable nodeIcon = getResources().getDrawable(R.drawable.marker_node);
 		FolderOverlay roadMarkers = new FolderOverlay(this);
 		map.getOverlays().add(roadMarkers);
+		Drawable nodeIcon = getResources().getDrawable(R.drawable.marker_node);
 		for (int i=0; i<road.mNodes.size(); i++){
 			RoadNode node = road.mNodes.get(i);
 			Marker nodeMarker = new Marker(map);
@@ -122,7 +126,8 @@ public class MainActivity extends Activity {
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
 		
-		/* 6. Wikipedia POIs with GeoNames 
+		//6. Wikipedia POIs with GeoNames 
+		/*
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
 		//BoundingBoxE6 bb = map.getBoundingBox(); 
 		//ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
@@ -137,6 +142,14 @@ public class MainActivity extends Activity {
 		ArrayList<POI> pois = poiProvider.getPOIInside(bb, 20, null);
 		*/
 		
+		//FolderOverlay poiMarkers = new FolderOverlay(this);
+		//10. Marker Clustering
+		MarkerClusterer poiMarkers = new MarkerClusterer(this);
+		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
+		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
+		poiMarkers.setIcon(clusterIcon);
+		//end of 10.
+		map.getOverlays().add(poiMarkers);
 		if (pois != null) {
             Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
 			for (POI poi:pois){
@@ -149,18 +162,19 @@ public class MainActivity extends Activity {
 	            	poiMarker.setImage(new BitmapDrawable(poi.mThumbnail));
 	            }
 				// 7.
-				poiMarker.setInfoWindow(new CustomInfoWindow(map, poi));
-	            map.getOverlays().add(poiMarker);
+				poiMarker.setInfoWindow(new CustomInfoWindow(map));
+	            poiMarker.setRelatedObject(poi);
+	            poiMarkers.add(poiMarker);
 			}
 		}
-		
-		//10. Loading KML content
+
+		//11. Loading KML content
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
 		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 		if (ok){
-			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.kmlRoot.buildOverlays(this, map, defaultMarker, kmlDocument, false);
+			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.kmlRoot.buildOverlays(map, defaultMarker, kmlDocument, false);
 			map.getOverlays().add(kmlOverlay);
 			if (kmlDocument.kmlRoot.mBB != null){
 				//map.zoomToBoundingBox(kmlRoot.mBB); => not working in onCreate - this is a well-known osmdroid bug. 
@@ -171,7 +185,7 @@ public class MainActivity extends Activity {
 			}
 		}
 		
-		//11. Grab overlays in KML structure, save KML document locally
+		//12. Grab overlays in KML structure, save KML document locally
 		if (kmlDocument.kmlRoot != null){
 			kmlDocument.kmlRoot.addOverlay(roadOverlay, kmlDocument);
 			kmlDocument.kmlRoot.addOverlay(roadMarkers, kmlDocument);
@@ -179,41 +193,47 @@ public class MainActivity extends Activity {
 			kmlDocument.saveAsKML(localFile);
 		}
 		
-		//12. Using GroundOverlay
+		//13. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(endPoint);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
 		myGroundOverlay.setDimensions(2000.0f);
-		//myGroundOverlay.setTransparency(0.5f);
-		//myGroundOverlay.setBearing(45.0f);
-		map.getOverlays().add(myGroundOverlay);
+		myGroundOverlay.setTransparency(0.5f);
+		myGroundOverlay.setBearing(90.0f);
+		Overlay removed = map.getOverlays().set(0, myGroundOverlay);
+		map.getOverlays().add(removed);
 	}
 	
-	//0. Using the Marker overlay
+	//0. Using the Marker and Polyline overlays - advanced options
 	class OnMarkerDragListenerDrawer implements OnMarkerDragListener {
-		ArrayList<GeoPoint> mTrace = new ArrayList<GeoPoint>(200);
+		ArrayList<GeoPoint> mTrace;
+		Polyline mPolyline;
+		OnMarkerDragListenerDrawer() {
+			mTrace = new ArrayList<GeoPoint>(100);
+			mPolyline = new Polyline(map.getContext());
+			mPolyline.setColor(0xAA0000FF);
+			mPolyline.setWidth(2.0f);
+			mPolyline.setGeodesic(true);
+			map.getOverlays().add(mPolyline);
+		}
 		@Override public void onMarkerDrag(Marker marker) {
-			mTrace.add(marker.getPosition());
+			//mTrace.add(marker.getPosition());
 		}
 		@Override public void onMarkerDragEnd(Marker marker) {
-			Polyline p = new Polyline(map.getContext());
-			p.setColor(0xAA0000FF);
-			p.setWidth(2.0f);
-			p.setPoints(mTrace);
-			map.getOverlays().add(p);
+			mTrace.add(marker.getPosition());
+			mPolyline.setPoints(mTrace);
 			map.invalidate();
 		}
 		@Override public void onMarkerDragStart(Marker marker) {
-			mTrace.add(marker.getPosition());
+			//mTrace.add(marker.getPosition());
 		}
 	}
 	
 	//7. Customizing the bubble behaviour
 	class CustomInfoWindow extends MarkerInfoWindow {
 		POI mSelectedPoi;
-		public CustomInfoWindow(MapView mapView, POI selectedPoi) {
+		public CustomInfoWindow(MapView mapView) {
 			super(R.layout.bonuspack_bubble, mapView);
-			mSelectedPoi = selectedPoi;
 			Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
 			btn.setOnClickListener(new View.OnClickListener() {
 			    public void onClick(View view) {
@@ -229,6 +249,8 @@ public class MainActivity extends Activity {
 		@Override public void onOpen(Object item){
 			super.onOpen(item);
 			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
+			Marker marker = (Marker)item;
+			mSelectedPoi = (POI)marker.getRelatedObject();
 			
 			//8. put thumbnail image in bubble, fetching the thumbnail in background:
 			if (mSelectedPoi.mThumbnailPath != null){
