@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
@@ -115,7 +116,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	int whichRouteProvider;
 	
 	public static ArrayList<POI> mPOIs; //made static to pass between activities
-	FolderOverlay poiMarkers;
+	MarkerClusterer poiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
@@ -297,7 +298,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 		});
 		//POI markers:
-		poiMarkers = new FolderOverlay(this); //new POIInfoWindow(map));
+		poiMarkers = new MarkerClusterer(this);
+		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
+		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
+		poiMarkers.setIcon(clusterIcon);
 		map.getOverlays().add(poiMarkers);
 		if (savedInstanceState != null){
 			//STATIC - mPOIs = savedInstanceState.getParcelableArrayList("poi");
@@ -373,7 +377,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (resultCode == RESULT_OK) {
 				int id = intent.getIntExtra("ID", 0);
 				map.getController().setCenter(mPOIs.get(id).mLocation);
-				Marker poiMarker = (Marker)poiMarkers.getItems().get(id);
+				Marker poiMarker = (Marker)poiMarkers.getItem(id);
 				poiMarker.showInfoWindow();
 			}
 			break;
@@ -846,7 +850,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mThreadPool = Executors.newFixedThreadPool(3);
 		for (int i=0; i<pois.size(); i++){
 			final POI poi = pois.get(i);
-			final Marker marker = (Marker)poiMarkers.getItems().get(i);
+			final Marker marker = (Marker)poiMarkers.getItem(i);
 			mThreadPool.submit(new ThumbnailLoaderTask(poi, marker));
 		}
 	}
