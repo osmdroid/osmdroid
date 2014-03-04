@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
@@ -90,6 +91,7 @@ public class KmlFeature implements Parcelable, Cloneable {
 		GeoPoint p = marker.getPosition();
 		mCoordinates.add(p);
 		mBB = new BoundingBoxE6(p.getLatitudeE6(), p.getLongitudeE6(), p.getLatitudeE6(), p.getLongitudeE6());
+		mVisibility = marker.isEnabled();
 		//TODO: Style / IconStyle => transparency, hotspot, bearing. 
 	}
 
@@ -142,10 +144,10 @@ public class KmlFeature implements Parcelable, Cloneable {
 	
 	/** 
 	 * Assuming this is a Folder, adds all overlays inside, converting them in KmlFeatures. 
-	 * @param overlays to add
+	 * @param list of overlays to add
 	 * @param kmlDoc
 	 */
-	public void addOverlays(List<Overlay> overlays, KmlDocument kmlDoc){
+	public void addOverlays(List<? extends Overlay> overlays, KmlDocument kmlDoc){
 		if (overlays != null){
 			for (Overlay item:overlays){
 				addOverlay(item, kmlDoc);
@@ -155,11 +157,11 @@ public class KmlFeature implements Parcelable, Cloneable {
 	
 	/** Set-up the KmlFeature from an overlay. 
 	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
-	 *   FolderOverlay => Folder<br>
-	 *   ItemizedOverlayWithBubble => Point if 1 point, Folder of Points if multiple points, UNKNOWN if no point<br>
+	 *   FolderOverlay, MarkerClusterer => Folder<br>
+	 *   Marker => Point<br>
 	 *   Polygon => Polygon<br>
 	 *   Polyline => LineString<br>
-	 * 	 For all other Overlay subclasses => not supported, creates a NO_SHAPE object. 
+	 * 	 For all other Overlay subclasses => not supported, creates an UNKNOWN object. 
 	 * @param overlay
 	 * @param kmlDoc for style handling
 	 */
@@ -170,7 +172,12 @@ public class KmlFeature implements Parcelable, Cloneable {
 			addOverlays(folderOverlay.getItems(), kmlDoc);
 			mName = folderOverlay.getName();
 			mDescription = folderOverlay.getDescription();
-			mVisibility = folderOverlay.isEnabled();
+			mVisibility = overlay.isEnabled();
+		} else if (overlay.getClass() == MarkerClusterer.class){
+			MarkerClusterer cluster = (MarkerClusterer)overlay;
+			createAsFolder();
+			addOverlays(cluster.getItems(), kmlDoc);
+			mVisibility = overlay.isEnabled();
 		} else if (overlay.getClass() == Marker.class){
 			Marker marker = (Marker)overlay;
 			createFromMarker(marker);
