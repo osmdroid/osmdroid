@@ -1,0 +1,13 @@
+* text=auto
+
+*.java text
+*.txt text
+*.xml text
+*.gradle text
+*.php text
+*.properties text
+.classpath text
+.project text
+
+*.png binary
+*.jpg binary

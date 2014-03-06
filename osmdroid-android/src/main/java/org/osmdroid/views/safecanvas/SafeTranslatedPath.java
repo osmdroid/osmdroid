@@ -291,7 +291,7 @@ public class SafeTranslatedPath extends Path {
 	}
 
 	/**
-	 * @deprecated use {@link #addOval(Rect, Direction)
+	 * @deprecated use {@link #addOval(Rect, Direction)
 	 */
 	@Override
 	public void addOval(RectF oval, Direction dir) {
@@ -301,7 +301,7 @@ public class SafeTranslatedPath extends Path {
 	}
 
 	/**
-	 * @see {@link #addOval(RectF, Direction)
+	 * @see {@link #addOval(RectF, Direction)
 	 */
 	public void addOval(Rect oval, Direction dir) {
 		oval.offset(xOffset, yOffset);
