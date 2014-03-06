@@ -3,7 +3,6 @@ package org.osmdroid.bonuspack.clustering;
 import java.util.ArrayList;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.SafeDrawOverlay;
 import org.osmdroid.views.safecanvas.ISafeCanvas;
@@ -21,24 +20,30 @@ import android.view.MotionEvent;
 /** 
  * An overlay allowing to perform markers clustering. 
  * Usage: put your markers inside with add(Marker), and add the MarkerClusterer to the map overlays. 
- * Depending on the zoom level, markers will be displayed separately, or grouped. 
+ * Depending on the zoom level, markers will be displayed separately, or grouped as a single Marker. <br/>
  * 
  * Clustering algorithm is grid-based : all markers inside the same cell belong to the same cluster. 
- * The grid size is specified in screen pixels. 
+ * The grid size is specified in screen pixels. <br/>
  * 
- * TODO: handle map rotation. 
+ * TODO: handle map rotation. <br/>
+ * TODO: clustering is not perfectly stable: if you zoom in then out, the mapview lat/lon span may change a little bit,
+ * potentially changing the grid positioning. <br/>
  * 
  * Largely inspired from (open source) Google Maps Android utility library. 
+ * 
  * @see https://github.com/googlemaps/android-maps-utils
  * @author M.Kergall
  *
  */
 public class MarkerClusterer extends SafeDrawOverlay {
 
+	/** impossible value for zoom level, to force clustering */
+	protected static final int FORCE_CLUSTERING = -1;
+	
 	protected ArrayList<Marker> mItems = new ArrayList<Marker>();
 	protected Point mPoint = new Point();
 	protected ArrayList<StaticCluster> mClusters = new ArrayList<StaticCluster>();;
-	protected int mLastZoomLevel = -1; //impossible value, to force clustering
+	protected int mLastZoomLevel = FORCE_CLUSTERING;
 	protected Bitmap mClusterIcon;
 	protected int mGridSize = 50; //in pixels
 	protected Paint mTextPaint;
@@ -48,40 +53,6 @@ public class MarkerClusterer extends SafeDrawOverlay {
 	/** anchor point to draw the number of markers inside the cluster icon */
 	public float mTextAnchorU = Marker.ANCHOR_CENTER, mTextAnchorV = Marker.ANCHOR_CENTER;
 
-	class StaticCluster {
-		private final ArrayList<Marker> mItems = new ArrayList<Marker>();
-		private final GeoPoint mCenter;
-		Marker mMarker;
-		
-	    public StaticCluster(GeoPoint center) {
-	        mCenter = center;
-	    }
-	    
-	    public GeoPoint getPosition() {
-	        return mCenter;
-	    }
-	    
-	    public int getSize() {
-	        return mItems.size();
-	    }
-	    
-	    public Marker getItem(int index) {
-	        return mItems.get(index);
-	    }
-	    
-	    public boolean add(Marker t) {
-	        return mItems.add(t);
-	    }
-	    
-	    public void setMarker(Marker marker){
-	    	mMarker = marker;
-	    }
-
-	    public Marker getMarker(){
-	    	return mMarker;
-	    }
-	}
-	
 	public MarkerClusterer(Context ctx) {
 		super(ctx);
 		mTextPaint = new Paint();
@@ -111,7 +82,7 @@ public class MarkerClusterer extends SafeDrawOverlay {
 	
 	/** Force a rebuild of clusters at next draw */
 	public void invalidate(){
-		mLastZoomLevel = -1; 
+		mLastZoomLevel = FORCE_CLUSTERING; 
 	}
 	
 	/** @return the Marker at id (starting at 0) */
@@ -169,7 +140,7 @@ public class MarkerClusterer extends SafeDrawOverlay {
 	}
 	
 	/** build the marker for a cluster. 
-	 * Uses the cluster icon, and adds the number of markers contained. */
+	 * Uses the cluster icon, and displays inside the number of markers contained. */
 	public Marker buildClusterMarker(StaticCluster cluster, MapView mapView){
 		Marker m = new Marker(mapView);
 		m.setPosition(cluster.getPosition());
