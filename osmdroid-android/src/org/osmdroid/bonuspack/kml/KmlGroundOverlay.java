@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -34,12 +35,34 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	public int mColor;
 	/** GroundOverlay rotation - default = 0 */
 	public float mRotation;
+	/** NW and SE points - TODO: not the simplest way to handle that... */
+	public ArrayList<GeoPoint> mCoordinates;
 
 	public KmlGroundOverlay(){
+		super();
 		mObjectType = GROUND_OVERLAY;
 		mColor = 0xFF000000;
 	}
 
+	/** Constructs the KML feature from a GroundOverlay. */
+	public KmlGroundOverlay(GroundOverlay overlay){
+		this();
+		GeoPoint p = overlay.getPosition();
+		GeoPoint pN = p.destinationPoint(overlay.getHeight()/2, 0.0f);
+		GeoPoint pS = p.destinationPoint(overlay.getHeight()/2, 180.0f);
+		GeoPoint pE = p.destinationPoint(overlay.getWidth()/2, 90.0f);
+		GeoPoint pW = p.destinationPoint(overlay.getWidth()/2, -90.0f);
+		mCoordinates = new ArrayList<GeoPoint>(2);
+		mCoordinates.add(new GeoPoint(pN.getLatitudeE6(), pW.getLongitudeE6())); //NW
+		mCoordinates.add(new GeoPoint(pS.getLatitudeE6(), pE.getLongitudeE6())); //SE
+		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+		//mIconHref = ???
+		mIcon = ((BitmapDrawable)overlay.getImage()).getBitmap();
+		mRotation = -overlay.getBearing();
+		mColor = 255 - Color.alpha((int)(overlay.getTransparency()*255));
+		mVisibility = overlay.isEnabled();
+	}
+	
 	/** load the icon from its href. 
 	 * @param href either the full url, or a relative path to a local file. 
 	 * @param containerFullPath full path of the container file. 
@@ -63,7 +86,8 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	}
 
 	/** @return the corresponding GroundOverlay ready to display on the map */
-	public Overlay buildOverlay(MapView map){
+	@Override public Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
+			boolean supportVisibility){
 		Context context = map.getContext();
 		GroundOverlay overlay = new GroundOverlay(context);
 		if (mCoordinates.size()==2){
@@ -93,12 +117,13 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		float transparency = 1.0f - Color.alpha(mColor)/255.0f; //KML transparency is the transparency part of the "color" element. 
 		overlay.setTransparency(transparency);
 		overlay.setBearing(-mRotation); //from KML counterclockwise to Google Maps API which is clockwise
-		overlay.setEnabled(mVisibility);
+		if (supportVisibility)
+			overlay.setEnabled(mVisibility);
 		return overlay;
 	}
 	
 	/** write elements specific to GroundOverlay in KML format */
-	protected void saveKMLGroundOverlaySpecifics(Writer writer){
+	protected void saveKMLSpecifics(Writer writer){
 		try {
 			writer.write("<color>"+ColorStyle.colorAsKMLString(mColor)+"</color>\n");
 			writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
@@ -114,6 +139,11 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override public boolean writeGeoJSONSpecifics(Writer writer) {
+		//TODO: GroundOverlay ... is not supported by GeoJSON. Output enclosing polygon with mColor?
+		return true;
 	}
 	
 	//Cloneable implementation ------------------------------------
@@ -154,4 +184,5 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		mColor = in.readInt();
 		mRotation = in.readFloat();
 	}
+
 }

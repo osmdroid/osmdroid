@@ -48,6 +48,10 @@ public class GroundOverlay extends SafeDrawOverlay {
 		mImage = image;
 	}
 	
+	public Drawable getImage(){
+		return mImage;
+	}
+	
 	public GeoPoint getPosition(){
 		return mPosition.clone();
 	}

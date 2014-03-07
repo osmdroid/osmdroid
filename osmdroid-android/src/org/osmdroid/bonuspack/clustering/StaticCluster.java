@@ -8,7 +8,7 @@ import org.osmdroid.util.GeoPoint;
  * Cluster of Markers. 
  * @author M.Kergall
  */
-class StaticCluster {
+public class StaticCluster {
 	protected final ArrayList<Marker> mItems = new ArrayList<Marker>();
 	protected GeoPoint mCenter;
 	protected Marker mMarker;

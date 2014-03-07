@@ -25,7 +25,7 @@ import android.view.MotionEvent;
  * Clustering algorithm is grid-based : all markers inside the same cell belong to the same cluster. 
  * The grid size is specified in screen pixels. <br/>
  * 
- * TODO: handle map rotation. <br/>
+ * TODO: check what happens with map rotation. <br/>
  * TODO: clustering is not perfectly stable: if you zoom in then out, the mapview lat/lon span may change a little bit,
  * potentially changing the grid positioning. <br/>
  * 
@@ -74,13 +74,14 @@ public class MarkerClusterer extends SafeDrawOverlay {
 		return mTextPaint;
 	}
 	
-	/** Add the Marker. Do not add this Marker in the map overlays. */
+	/** Add the Marker. 
+	 * Important: Markers added in a MarkerClusterer should not be added in the map overlays. */
 	public void add(Marker marker){
 		mItems.add(marker);
-		invalidate();
 	}
 	
-	/** Force a rebuild of clusters at next draw */
+	/** Force a rebuild of clusters at next draw, even without a zooming action. 
+	 * Should be done when you changed the content of a MarkerClusterer. */
 	public void invalidate(){
 		mLastZoomLevel = FORCE_CLUSTERING; 
 	}
@@ -90,13 +91,12 @@ public class MarkerClusterer extends SafeDrawOverlay {
 		return mItems.get(id);
 	}
 	
-	/** @return the list of Markers. 
-	 * If you then make changes to the items in the list, call invalidate() to force a rebuild of clusters. */
+	/** @return the list of Markers. */
 	public ArrayList<Marker> getItems(){
 		return mItems;
 	}
 	
-	/** Set the grid size in pixels. */
+	/** Change the size of the clustering grid, in pixels. Default is 50px. */
 	public void setGridSize(int gridSize){
 		mGridSize = gridSize;
 	}
@@ -139,8 +139,12 @@ public class MarkerClusterer extends SafeDrawOverlay {
 		return clusters;
 	}
 	
-	/** build the marker for a cluster. 
-	 * Uses the cluster icon, and displays inside the number of markers contained. */
+	/** Build the marker for a cluster. 
+	 * Uses the cluster icon, and displays inside the number of markers it contains. <br/>
+	 * In the standard Google coordinate system for Marker icons: <br/>
+	 * - The cluster icon is anchored at mAnchorU, mAnchorV. <br/>
+	 * - The text showing the number of markers is anchored at mTextAnchorU, mTextAnchorV. 
+	 * This text is centered horizontally and vertically. */
 	public Marker buildClusterMarker(StaticCluster cluster, MapView mapView){
 		Marker m = new Marker(mapView);
 		m.setPosition(cluster.getPosition());

@@ -27,7 +27,7 @@ import android.util.Log;
 
 /**
  * Object handling a whole KML document. 
- * Features are stored in the kmlRoot attribute. In most cases, kmlRoot will be a Folder. 
+ * Features are stored in the kmlRoot attribute, which is a KmlFolder. 
  * Shared components (like styles) are stored in specific attributes. 
  * This is the entry point to read, handle and save KML content. <br>
  * 
@@ -48,7 +48,7 @@ import android.util.Log;
 public class KmlDocument implements Parcelable {
 
 	/** the root of KML features contained in this document */
-	public KmlFeature kmlRoot;
+	public KmlFolder mKmlRoot;
 	/** list of shared Styles in this document */
 	protected HashMap<String, Style> mStyles;
 	protected int mMaxStyleId;
@@ -57,8 +57,7 @@ public class KmlDocument implements Parcelable {
 	public KmlDocument(){
 		mStyles = new HashMap<String, Style>();
 		mMaxStyleId = 0;
-		kmlRoot = new KmlFeature();
-		kmlRoot.createAsFolder();
+		mKmlRoot = new KmlFolder();
 	}
 	
 	/** @return the shared Style associated to the styleId, or null if none */
@@ -112,6 +111,7 @@ public class KmlDocument implements Parcelable {
 		}
 	}
 	
+	/*
 	protected static boolean parseKmlCoord2(String input, int tuple[]){
 		int end1 = input.indexOf(',');
 		int end2 = input.indexOf(',', end1+1);
@@ -131,6 +131,7 @@ public class KmlDocument implements Parcelable {
 			return false;
 		}
 	}
+	*/
 	
 	/** KML coordinates are: lon,lat{,alt} tuples separated by separators (space, tab, cr). */
 	protected static ArrayList<GeoPoint> parseKmlCoordinates(String input){
@@ -221,7 +222,6 @@ public class KmlDocument implements Parcelable {
 	 * Parse a KML document from a url, and build the KML structure in kmlRoot. 
 	 * If the KML file has a "Document" node, kmlRoot will be a Folder "mapping" to this Document. 
 	 * In all other cases, kmlRoot will be a Folder, containing the features of the KML file. 
-	 * (In all cases, kmlRoot will be a Folder object)
 	 * @param url
 	 * @return true if OK, false if any error. 
 	 */
@@ -231,13 +231,13 @@ public class KmlDocument implements Parcelable {
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
 		if (stream == null){
-			kmlRoot = null;
+			mKmlRoot = null;
 		} else {
 			parseStream(stream, url);
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
-		return (kmlRoot != null);
+		return (mKmlRoot != null);
 	}
 
 	/**
@@ -273,10 +273,10 @@ public class KmlDocument implements Parcelable {
 			stream.close();
 		} catch (Exception e){
 			e.printStackTrace();
-			kmlRoot = null;
+			mKmlRoot = null;
 		}
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
-		return (kmlRoot != null);
+		return (mKmlRoot != null);
 	}
 	
 	/**
@@ -291,12 +291,12 @@ public class KmlDocument implements Parcelable {
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(stream, handler);
-			kmlRoot = handler.mKmlRoot;
+			mKmlRoot = handler.mKmlRoot;
 		} catch (Exception e) {
 			e.printStackTrace();
-			kmlRoot = null;
+			mKmlRoot = null;
 		}
-		return (kmlRoot != null);
+		return (mKmlRoot != null);
 	}
 	
 	// KmlSaxHandler -------------
@@ -307,7 +307,7 @@ public class KmlDocument implements Parcelable {
 		private KmlFeature mKmlCurrentFeature;
 		private KmlGroundOverlay mKmlCurrentGroundOverlay; //if GroundOverlay, pointer to mKmlCurrentFeature
 		private ArrayList<KmlFeature> mKmlStack;
-		KmlFeature mKmlRoot;
+		public KmlFolder mKmlRoot;
 		Style mCurrentStyle;
 		String mCurrentStyleId;
 		ColorStyle mColorStyle;
@@ -319,8 +319,7 @@ public class KmlDocument implements Parcelable {
 		
 		public KmlSaxHandler(String fullPath){
 			mFullPath = fullPath;
-			mKmlRoot = new KmlFeature();
-			mKmlRoot.createAsFolder();
+			mKmlRoot = new KmlFolder();
 			mKmlStack = new ArrayList<KmlFeature>();
 			mKmlStack.add(mKmlRoot);
 			mIsNetworkLink = false;
@@ -336,9 +335,9 @@ public class KmlDocument implements Parcelable {
 				File subFile = new File(file.getParent()+'/'+href);
 				subDocument.parseFile(subFile);
 			}
-			if (subDocument.kmlRoot != null){
+			if (subDocument.mKmlRoot != null){
 				//add subDoc root to the current feature, which is -normally- the NetworkLink:
-				mKmlCurrentFeature.add(subDocument.kmlRoot);
+				((KmlFolder)mKmlCurrentFeature).add(subDocument.mKmlRoot);
 				//add subDoc styles to mStyles:
 				mStyles.putAll(subDocument.mStyles);
 			} else {
@@ -352,13 +351,11 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature = mKmlRoot; //If there is a Document, it will be the root. 
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 			} else if (localName.equals("Folder")){
-				mKmlCurrentFeature = new KmlFeature();
-				mKmlCurrentFeature.createAsFolder();
+				mKmlCurrentFeature = new KmlFolder();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("NetworkLink")){
-				mKmlCurrentFeature = new KmlFeature();
-				mKmlCurrentFeature.createAsFolder();
+				mKmlCurrentFeature = new KmlFolder();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 				mIsNetworkLink = true;
@@ -368,7 +365,7 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("Placemark")) {
-				mKmlCurrentFeature = new KmlFeature();
+				mKmlCurrentFeature = new KmlPlacemark();
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("Point")){
@@ -413,7 +410,8 @@ public class KmlDocument implements Parcelable {
 				//Document is the root, nothing to do. 
 			} else if (localName.equals("Folder") || localName.equals("Placemark") 
 					|| localName.equals("NetworkLink") || localName.equals("GroundOverlay")) {
-				KmlFeature parent = mKmlStack.get(mKmlStack.size()-2); //get parent
+				//this was a Feature:
+				KmlFolder parent = (KmlFolder)mKmlStack.get(mKmlStack.size()-2); //get parent
 				parent.add(mKmlCurrentFeature); //add current in its parent
 				mKmlStack.remove(mKmlStack.size()-1); //pop current from stack
 				mKmlCurrentFeature = mKmlStack.get(mKmlStack.size()-1); //set current to top of stack
@@ -432,15 +430,18 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("open")){
 				mKmlCurrentFeature.mOpen = ("1".equals(mStringBuilder.toString()));
 			} else if (localName.equals("coordinates")){
-				if (!mIsInnerBoundary){
-					mKmlCurrentFeature.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
-					mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentFeature.mCoordinates);
-				} else { //inside a Polygon innerBoundaryIs element: new hole
-					if (mKmlCurrentFeature.mHoles == null)
-						mKmlCurrentFeature.mHoles = new ArrayList<ArrayList<GeoPoint>>();
-					ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
-					mKmlCurrentFeature.mHoles.add(hole);
-					//no need for bounding box update, as holes must be inside the polygon outer boundary. 
+				if (mKmlCurrentFeature.isAPlacemark()){
+					KmlPlacemark kmlPlacemark = (KmlPlacemark)mKmlCurrentFeature;
+					if (!mIsInnerBoundary){
+						kmlPlacemark.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
+						mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(kmlPlacemark.mCoordinates);
+					} else { //inside a Polygon innerBoundaryIs element: new hole
+						if (kmlPlacemark.mHoles == null)
+							kmlPlacemark.mHoles = new ArrayList<ArrayList<GeoPoint>>();
+						ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
+						kmlPlacemark.mHoles.add(hole);
+						//no need for bounding box update, as holes must be inside the polygon outer boundary. 
+					}
 				}
 			} else if (localName.equals("styleUrl")){
 				if (mStringBuilder.charAt(0) == '#')
@@ -450,7 +451,7 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null) {
 					mColorStyle.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
-				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+				} else if (mKmlCurrentFeature.isA(KmlFeature.GROUND_OVERLAY)){
 					mKmlCurrentGroundOverlay.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				}
 			} else if (localName.equals("colorMode")){
@@ -476,7 +477,7 @@ public class KmlDocument implements Parcelable {
 					//href of a NetworkLink:
 					String href = mStringBuilder.toString();
 					loadNetworkLink(href);
-				} else if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+				} else if (mKmlCurrentFeature.isA(KmlFeature.GROUND_OVERLAY)){
 					//href of a GroundOverlay Icon:
 					mKmlCurrentGroundOverlay.setIcon(mStringBuilder.toString(), mFullPath);
 				}
@@ -502,7 +503,7 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("rotation")){
 				mKmlCurrentGroundOverlay.mRotation = Float.parseFloat(mStringBuilder.toString());
 			} else if (localName.equals("LatLonBox")){
-				if (mKmlCurrentFeature.mObjectType == KmlFeature.GROUND_OVERLAY){
+				if (mKmlCurrentFeature.isA(KmlFeature.GROUND_OVERLAY)){
 					mKmlCurrentGroundOverlay.setLatLonBox(mNorth, mSouth, mEast, mWest);
 				}
 			} else if (localName.equals("SimpleData")){
@@ -527,8 +528,8 @@ public class KmlDocument implements Parcelable {
 			writer.write("<?xml version='1.0' encoding='UTF-8'?>\n");
 			writer.write("<kml xmlns='http://www.opengis.net/kml/2.2'>\n");
 			boolean result = true;
-			if (kmlRoot != null)
-				result = kmlRoot.writeAsKML(writer, true, this);
+			if (mKmlRoot != null)
+				result = mKmlRoot.writeAsKML(writer, true, this);
 			writer.write("</kml>\n");
 			return result;
 		} catch (IOException e) {
@@ -566,7 +567,7 @@ public class KmlDocument implements Parcelable {
 	}
 
 	public boolean saveAsGeoJSON(Writer writer){
-		return kmlRoot.writeAsGeoJSON(writer, true);
+		return mKmlRoot.writeAsGeoJSON(writer, true);
 	}
 	
 	/**
@@ -596,7 +597,7 @@ public class KmlDocument implements Parcelable {
 
 	/** WARNING - Parcel mechanism doesn't work with very large objects. Refer to Android doc, and use carefully. */
 	@Override public void writeToParcel(Parcel out, int flags) {
-		out.writeParcelable(kmlRoot, flags);
+		out.writeParcelable(mKmlRoot, flags);
 		//write styles map:
 		//out.writeMap(mStyles); - not recommended in the Google JavaDoc, for mysterious reasons, so: 
 		out.writeInt(mStyles.size());
@@ -617,7 +618,7 @@ public class KmlDocument implements Parcelable {
 	};
 	
 	public KmlDocument(Parcel in){
-		kmlRoot = in.readParcelable(KmlFeature.class.getClassLoader());
+		mKmlRoot = in.readParcelable(KmlFeature.class.getClassLoader());
 		//mStyles = in.readHashMap(Style.class.getClassLoader());
 		int size = in.readInt();
 		mStyles = new HashMap<String, Style>(size);
