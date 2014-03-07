@@ -10,6 +10,9 @@
         android:id="@+id/menu_viapoint"
         android:title="Add Via-Point"/>
     <item
+        android:id="@+id/menu_kmlpoint"
+        android:title="Add KML Point"/>
+    <item
         android:id="@+id/menu_none"
         android:title="Cancel"/>
 </menu>

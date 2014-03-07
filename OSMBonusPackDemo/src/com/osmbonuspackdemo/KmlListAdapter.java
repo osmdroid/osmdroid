@@ -1,6 +1,8 @@
 package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +15,9 @@ import android.widget.TextView;
 
 public class KmlListAdapter extends BaseAdapter {
 
-    protected KmlFeature mRoot;
+    protected KmlFolder mRoot;
     
-    public KmlListAdapter(Context context, KmlFeature root) {
+    public KmlListAdapter(Context context, KmlFolder root) {
         mRoot = root;
     }
 

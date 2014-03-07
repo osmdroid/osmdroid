@@ -1,6 +1,7 @@
 package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.kml.LineStyle;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.kml.ColorStyle;
@@ -24,10 +25,10 @@ import android.widget.Toast;
 
 public class KmlTreeActivity extends Activity {
 
-	KmlListAdapter listAdapter;
-	ListView listView;
-	KmlFeature currentKmlFeature; //feature currently edited. 
-	KmlFeature kmlClipboard; //link to the global KML clipboard. 
+	KmlListAdapter mListAdapter;
+	ListView mListView;
+	KmlFeature mCurrentKmlFeature; //feature currently edited. 
+	KmlFolder mKmlClipboard; //link to the global KML clipboard. 
 	protected static final int KML_TREE_REQUEST = 3;
 	int mItemPosition; //last item opened
 	EditText eHeader, eDescription, eOutlineColor, eFillColor;
@@ -37,24 +38,24 @@ public class KmlTreeActivity extends Activity {
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kml_main);
-		listView = (ListView) findViewById(R.id.listviewKml);
-		registerForContextMenu(listView);
+		mListView = (ListView) findViewById(R.id.listviewKml);
+		registerForContextMenu(mListView);
 		
-		currentKmlFeature = MapActivity.mKmlStack.peek();
-		kmlClipboard = MapActivity.mKmlClipboard;
+		mCurrentKmlFeature = MapActivity.mKmlStack.peek();
+		mKmlClipboard = MapActivity.mKmlClipboard;
 		
 		eHeader = (EditText)findViewById(R.id.name);
-		eHeader.setText(currentKmlFeature.mName);
+		eHeader.setText(mCurrentKmlFeature.mName);
 		
 		eDescription = (EditText)findViewById(R.id.description);
-		eDescription.setText(currentKmlFeature.mDescription);
+		eDescription.setText(mCurrentKmlFeature.mDescription);
 		
 		Style style = null;
-		if (currentKmlFeature.mStyle != null)
-			style = MapActivity.mKmlDocument.getStyle(currentKmlFeature.mStyle);
+		if (mCurrentKmlFeature.mStyle != null)
+			style = MapActivity.mKmlDocument.getStyle(mCurrentKmlFeature.mStyle);
 		
 		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
-		if ((currentKmlFeature.mObjectType == KmlFeature.LINE_STRING || currentKmlFeature.mObjectType == KmlFeature.POLYGON) && style!=null){
+		if ((mCurrentKmlFeature.mObjectType == KmlFeature.LINE_STRING || mCurrentKmlFeature.mObjectType == KmlFeature.POLYGON) && style!=null){
 			mLineStyle = style.mLineStyle;
 			eOutlineColor.setText(mLineStyle.colorAsAndroidString());
 		} else {
@@ -63,7 +64,7 @@ public class KmlTreeActivity extends Activity {
 		}
 		
 		eFillColor = (EditText)findViewById(R.id.fillColor);
-		if (currentKmlFeature.mObjectType == KmlFeature.POLYGON && style!=null){
+		if (mCurrentKmlFeature.isA(KmlFeature.POLYGON) && style!=null){
 			mPolyStyle = style.mPolyStyle;
 			eFillColor.setText(mPolyStyle.colorAsAndroidString());
 		} else {
@@ -71,28 +72,28 @@ public class KmlTreeActivity extends Activity {
 			lFillColorLayout.setVisibility(View.GONE);
 		}
 		
-		listAdapter = new KmlListAdapter(this, currentKmlFeature);
-		
-		// setting list adapter
-		listView.setAdapter(listAdapter);
-		
-		// Listview on child click listener
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			@Override public void onItemClick(AdapterView<?> arg0, View view, int position, long index) {
-				mItemPosition = position;
-				KmlFeature item = currentKmlFeature.mItems.get(position);
-				Intent myIntent = new Intent(view.getContext(), KmlTreeActivity.class);
-				//myIntent.putExtra("KML", item);
-				MapActivity.mKmlStack.push(item.clone());
-				startActivityForResult(myIntent, KML_TREE_REQUEST);
-			}
-		});
+		if (mCurrentKmlFeature.isA(KmlFeature.FOLDER)){
+			mListAdapter = new KmlListAdapter(this, (KmlFolder)mCurrentKmlFeature);
+			// setting list adapter
+			mListView.setAdapter(mListAdapter);
+			// Listview on child click listener
+			mListView.setOnItemClickListener(new OnItemClickListener() {
+				@Override public void onItemClick(AdapterView<?> arg0, View view, int position, long index) {
+					mItemPosition = position;
+					KmlFeature item = ((KmlFolder)mCurrentKmlFeature).mItems.get(position);
+					Intent myIntent = new Intent(view.getContext(), KmlTreeActivity.class);
+					//myIntent.putExtra("KML", item);
+					MapActivity.mKmlStack.push(item.clone());
+					startActivityForResult(myIntent, KML_TREE_REQUEST);
+				}
+			});
+		}
 		
 		Button btnOk = (Button) findViewById(R.id.btnOK);
 		btnOk.setOnClickListener( new View.OnClickListener() {
 		    public void onClick(View view) {
-		    	currentKmlFeature.mName = eHeader.getText().toString();
-		    	currentKmlFeature.mDescription = eDescription.getText().toString();
+		    	mCurrentKmlFeature.mName = eHeader.getText().toString();
+		    	mCurrentKmlFeature.mDescription = eDescription.getText().toString();
 		    	if (mLineStyle != null){
 			    	String sColor = eOutlineColor.getText().toString();
 			    	try  { 
@@ -120,8 +121,8 @@ public class KmlTreeActivity extends Activity {
 		case KML_TREE_REQUEST:
 			KmlFeature result = MapActivity.mKmlStack.pop();
 			if (resultCode == RESULT_OK) {
-				currentKmlFeature.mItems.set(mItemPosition, result);
-				listAdapter.notifyDataSetChanged();
+				((KmlFolder)mCurrentKmlFeature).mItems.set(mItemPosition, result);
+				mListAdapter.notifyDataSetChanged();
 			}
 			break;
 		default:
@@ -137,36 +138,37 @@ public class KmlTreeActivity extends Activity {
 
 	@Override public boolean onContextItemSelected(MenuItem item) {
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+	    KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
 	    switch (item.getItemId()) {
 	        case R.id.menu_cut: //=move to the emptied clipboard
-	        	kmlClipboard.mItems.clear();
-	        	kmlClipboard.add(currentKmlFeature.mItems.get(info.position));
-				currentKmlFeature.removeItem(info.position);
-				listAdapter.notifyDataSetChanged();
+	        	mKmlClipboard.mItems.clear();
+	        	mKmlClipboard.add(currentKmlFolder.mItems.get(info.position));
+	        	currentKmlFolder.removeItem(info.position);
+				mListAdapter.notifyDataSetChanged();
 	            return true;
 	        case R.id.menu_copy:
-	        	KmlFeature copy = currentKmlFeature.mItems.get(info.position).clone();
-	        	kmlClipboard.mItems.clear();
-	        	kmlClipboard.mItems.add(copy);
+	        	KmlFeature copy = currentKmlFolder.mItems.get(info.position).clone();
+	        	mKmlClipboard.mItems.clear();
+	        	mKmlClipboard.mItems.add(copy);
 	            return true;
 	        case R.id.menu_paste: 
-	        	for (KmlFeature kmlItem:kmlClipboard.mItems){
-		        	currentKmlFeature.add(kmlItem.clone());
+	        	for (KmlFeature kmlItem:mKmlClipboard.mItems){
+	        		currentKmlFolder.add(kmlItem.clone());
 	        	}
-	        	listAdapter.notifyDataSetChanged();
+	        	mListAdapter.notifyDataSetChanged();
 	            return true;
 	        case R.id.menu_behind:
 	        	if (info.position > 0){
-	        		KmlFeature kmlItem = currentKmlFeature.removeItem(info.position);
-	        		currentKmlFeature.mItems.add(info.position-1, kmlItem);
-	        		listAdapter.notifyDataSetChanged();
+	        		KmlFeature kmlItem = currentKmlFolder.removeItem(info.position);
+	        		currentKmlFolder.mItems.add(info.position-1, kmlItem);
+	        		mListAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
 	        case R.id.menu_front:
-	        	if (info.position < currentKmlFeature.mItems.size()-1){
-	        		KmlFeature kmlItem = currentKmlFeature.removeItem(info.position);
-	        		currentKmlFeature.mItems.add(info.position+1, kmlItem);
-					listAdapter.notifyDataSetChanged();
+	        	if (info.position < currentKmlFolder.mItems.size()-1){
+	        		KmlFeature kmlItem = currentKmlFolder.removeItem(info.position);
+	        		currentKmlFolder.mItems.add(info.position+1, kmlItem);
+					mListAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
 	        default:

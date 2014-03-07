@@ -14,6 +14,8 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFolder;
+import org.osmdroid.bonuspack.kml.KmlPlacemark;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
@@ -124,7 +126,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected static final int KML_TREE_REQUEST = 3;
 	public static KmlDocument mKmlDocument = new KmlDocument(); //made static to pass between activities
 	public static Stack<KmlFeature> mKmlStack = new Stack<KmlFeature>(); //passed between activities, top is the current KmlFeature to edit. 
-	public static KmlFeature mKmlClipboard; //passed between activities. Folder for multiple items selection. 
+	public static KmlFolder mKmlClipboard; //passed between activities. Folder for multiple items selection. 
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
@@ -314,8 +316,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			//STATIC - mKmlDocument = savedInstanceState.getParcelable("kml");
 			updateUIWithKml();
 		} else { //first launch: 
-			mKmlClipboard = new KmlFeature();
-			mKmlClipboard.createAsFolder();
+			mKmlClipboard = new KmlFolder();
 			//check if intent has been passed with a kml URI to load (url or file)
 			Intent onCreateIntent = getIntent();
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
@@ -382,10 +383,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 			break;
 		case KML_TREE_REQUEST:
-			KmlFeature result = mKmlStack.pop();
+			KmlFolder result = (KmlFolder)mKmlStack.pop();
 			if (resultCode == RESULT_OK) {
 				//use the object which has been modified in KmlTreeActivity:
-				mKmlDocument.kmlRoot = result; //intent.getParcelableExtra("KML");
+				mKmlDocument.mKmlRoot = result; //intent.getParcelableExtra("KML");
 				updateUIWithKml();
 			}
 			break;
@@ -597,7 +598,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String title = getResources().getString(titleResId);
 		if (item == null){
 			item = new Marker(map);
-			item.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
+			item.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
 			item.setInfoWindow(new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
 			item.setDraggable(true);
 			item.setOnMarkerDragListener(mItineraryListener);
@@ -959,13 +960,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (!ok)
 			Toast.makeText(this, "Sorry, unable to read "+uri, Toast.LENGTH_SHORT).show();
 		updateUIWithKml();
-		if (mKmlDocument.kmlRoot != null && mKmlDocument.kmlRoot.mBB != null){
+		if (mKmlDocument.mKmlRoot != null && mKmlDocument.mKmlRoot.mBB != null){
 				if (!onCreate)
-					setViewOn(mKmlDocument.kmlRoot.mBB); 
+					setViewOn(mKmlDocument.mKmlRoot.mBB); 
 				else  //KO in onCreate - Workaround:
 					map.getController().setCenter(new GeoPoint(
-							mKmlDocument.kmlRoot.mBB.getLatSouthE6()+mKmlDocument.kmlRoot.mBB.getLatitudeSpanE6()/2, 
-							mKmlDocument.kmlRoot.mBB.getLonWestE6()+mKmlDocument.kmlRoot.mBB.getLongitudeSpanE6()/2));
+							mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
+							mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
 		}
 	}
 	
@@ -980,9 +981,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void updateUIWithKml(){
 		if (kmlOverlay != null)
 			map.getOverlays().remove(kmlOverlay);
-		if (mKmlDocument.kmlRoot != null){
+		if (mKmlDocument.mKmlRoot != null){
 			Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)mKmlDocument.kmlRoot.buildOverlays(map, defaultKmlMarker, mKmlDocument, true);
+			kmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, defaultKmlMarker, mKmlDocument, true);
 			map.getOverlays().add(kmlOverlay);
 		}
 		map.invalidate();
@@ -990,19 +991,25 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void insertOverlaysInKml(){
 		//Ensure the root is a folder:
-		if (mKmlDocument.kmlRoot == null || mKmlDocument.kmlRoot.mObjectType != KmlFeature.FOLDER){
-			mKmlDocument.kmlRoot = new KmlFeature();
-			mKmlDocument.kmlRoot.createAsFolder();
+		if (mKmlDocument.mKmlRoot == null){
+			mKmlDocument.mKmlRoot = new KmlFolder();
 		}
+		KmlFolder root = mKmlDocument.mKmlRoot;
 		//Insert relevant overlays inside:
 		if (itineraryMarkers.getItems().size()>0)
-			mKmlDocument.kmlRoot.addOverlay(itineraryMarkers, mKmlDocument);
-		mKmlDocument.kmlRoot.addOverlay(roadOverlay, mKmlDocument);
+			root.addOverlay(itineraryMarkers, mKmlDocument);
+		root.addOverlay(roadOverlay, mKmlDocument);
 		if (roadNodeMarkers.getItems().size()>0)
-			mKmlDocument.kmlRoot.addOverlay(roadNodeMarkers, mKmlDocument);
-		mKmlDocument.kmlRoot.addOverlay(destinationPolygon, mKmlDocument);
+			root.addOverlay(roadNodeMarkers, mKmlDocument);
+		root.addOverlay(destinationPolygon, mKmlDocument);
 		if (poiMarkers.getItems().size()>0)
-			mKmlDocument.kmlRoot.addOverlay(poiMarkers, mKmlDocument);
+			root.addOverlay(poiMarkers, mKmlDocument);
+	}
+	
+	void addKmlPoint(GeoPoint position){
+		KmlFeature kmlPoint = new KmlPlacemark(position);
+		mKmlDocument.mKmlRoot.add(kmlPoint);
+		updateUIWithKml();
 	}
 	
 	//------------ MapEventsReceiver implementation
@@ -1032,21 +1039,25 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_departure:
-			startPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			startPoint = new GeoPoint(tempClickedGeoPoint);
 			markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
 				R.string.departure, R.drawable.marker_departure, -1);
 			getRoadAsync();
 			return true;
 		case R.id.menu_destination:
-			destinationPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			destinationPoint = new GeoPoint(tempClickedGeoPoint);
 			markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
 				R.string.destination, R.drawable.marker_destination, -1);
 			getRoadAsync();
 			return true;
 		case R.id.menu_viapoint:
-			GeoPoint viaPoint = new GeoPoint((GeoPoint)tempClickedGeoPoint);
+			GeoPoint viaPoint = new GeoPoint(tempClickedGeoPoint);
 			addViaPoint(viaPoint);
 			getRoadAsync();
+			return true;
+		case R.id.menu_kmlpoint:
+			GeoPoint kmlPoint = new GeoPoint(tempClickedGeoPoint);
+			addKmlPoint(kmlPoint);
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -1125,11 +1136,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithKml();
 			return true;
 		case R.id.menu_kml_tree:
-			if (mKmlDocument.kmlRoot==null)
+			if (mKmlDocument.mKmlRoot==null)
 				return false;
 			myIntent = new Intent(this, KmlTreeActivity.class);
 			//myIntent.putExtra("KML", mKmlDocument.kmlRoot);
-			mKmlStack.push(mKmlDocument.kmlRoot.clone());
+			mKmlStack.push(mKmlDocument.mKmlRoot.clone());
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_kml_save:
