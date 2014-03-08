@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
@@ -300,7 +301,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 		});
 		//POI markers:
-		poiMarkers = new MarkerClusterer(this);
+		poiMarkers = new GridMarkerClusterer(this);
 		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 		poiMarkers.setIcon(clusterIcon);
@@ -813,6 +814,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				poiMarkers.add(poiMarker);
 			}
 		}
+		poiMarkers.invalidate();
 		map.invalidate();
 	}
 	
