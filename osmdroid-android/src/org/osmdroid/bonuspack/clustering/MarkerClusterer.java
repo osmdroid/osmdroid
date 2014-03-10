@@ -3,10 +3,10 @@ package org.osmdroid.bonuspack.clustering;
 import java.util.ArrayList;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.view.MotionEvent;
 
@@ -21,7 +21,7 @@ import android.view.MotionEvent;
  * @author M.Kergall
  *
  */
-public abstract class MarkerClusterer extends SafeDrawOverlay {
+public abstract class MarkerClusterer extends Overlay {
 
 	/** impossible value for zoom level, to force clustering */
 	protected static final int FORCE_CLUSTERING = -1;
@@ -39,7 +39,7 @@ public abstract class MarkerClusterer extends SafeDrawOverlay {
 	/** Build the marker for a cluster. */
 	public abstract Marker buildClusterMarker(StaticCluster cluster, MapView mapView);
 	/** build clusters markers to be used at next draw */
-	public abstract void renderer(ArrayList<StaticCluster> clusters, ISafeCanvas canvas, MapView mapView);
+	public abstract void renderer(ArrayList<StaticCluster> clusters, Canvas canvas, MapView mapView);
 	
 	public MarkerClusterer(Context ctx) {
 		super(ctx);
@@ -74,7 +74,7 @@ public abstract class MarkerClusterer extends SafeDrawOverlay {
 		return mItems;
 	}
 	
-	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		//if zoom has changed and mapView is now stable, rebuild clusters:
 		int zoomLevel = mapView.getZoomLevel();
 		if (zoomLevel != mLastZoomLevel && !mapView.isAnimating()){
@@ -90,14 +90,14 @@ public abstract class MarkerClusterer extends SafeDrawOverlay {
 		*/
 		
 		for (StaticCluster cluster:mClusters){
-			cluster.getMarker().drawSafe(canvas, mapView, shadow);
+			cluster.getMarker().draw(canvas, mapView, shadow);
 			
 			/*
 			if (cluster.getSize()>1){
 				GeoPoint p1 = cluster.getPosition();
 				GeoPoint p2 = new GeoPoint(p1.getLatitude()+gridSizeY, p1.getLongitude()-gridSizeX);
 				Point p2Pixels= pj.toMapPixels(p2, null);
-				drawAt(canvas.getSafeCanvas(), dd, p2Pixels.x, p2Pixels.y, false, 0.0f);
+				drawAt(canvas, dd, p2Pixels.x, p2Pixels.y, false, 0.0f);
 			}
 			*/
 		}

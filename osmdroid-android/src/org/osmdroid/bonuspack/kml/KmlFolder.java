@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
+import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
@@ -51,7 +51,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	/** 
 	 * Converts the overlay to a KmlFeature and add it inside this. 
 	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
-	 *   FolderOverlay, MarkerClusterer => Folder<br>
+	 *   FolderOverlay, GridMarkerClusterer => Folder<br>
 	 *   Marker => Point<br>
 	 *   Polygon => Polygon<br>
 	 *   Polyline => LineString<br>
@@ -69,7 +69,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 			kmlItem = new KmlGroundOverlay((GroundOverlay)overlay);
 		} else if (overlay.getClass() == FolderOverlay.class){
 			kmlItem = new KmlFolder((FolderOverlay)overlay, kmlDoc);
-		} else if (overlay.getClass() == MarkerClusterer.class){
+		} else if (overlay.getClass() == GridMarkerClusterer.class){
 			kmlItem = new KmlFolder((MarkerClusterer)overlay, kmlDoc);
 		} else if (overlay.getClass() == Marker.class){
 			Marker marker = (Marker)overlay;
@@ -101,10 +101,25 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		}
 	}
 	
-	/** Add an item in the KML Folder. */
+	/** Add an item in the KML Folder, at the end. */
 	public void add(KmlFeature item){
 		mItems.add(item);
 		updateBoundingBoxWith(item.mBB);
+	}
+	
+	/** 
+	 * remove the item at itemPosition. No check for bad usage (itemPosition out of rank)
+	 * @param itemPosition position of the item, starting from 0. 
+	 * @return item removed
+	 */
+	public KmlFeature removeItem(int itemPosition){
+		KmlFeature removed = mItems.remove(itemPosition);
+		//refresh bounding box from scratch:
+		mBB = null;
+		for (KmlFeature item:mItems) {
+			updateBoundingBoxWith(item.mBB);
+		}
+		return removed;
 	}
 	
 	/**
@@ -125,21 +140,6 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		if (!mVisibility)
 			folderOverlay.setEnabled(false);
 		return folderOverlay;
-	}
-	
-	/** 
-	 * remove the item at itemPosition. No check for bad usage (itemPosition out of rank)
-	 * @param itemPosition position of the item, starting from 0. 
-	 * @return item removed
-	 */
-	public KmlFeature removeItem(int itemPosition){
-		KmlFeature removed = mItems.remove(itemPosition);
-		//refresh bounding box from scratch:
-		mBB = null;
-		for (KmlFeature item:mItems) {
-			updateBoundingBoxWith(item.mBB);
-		}
-		return removed;
 	}
 	
 	public void saveKMLSpecifics(Writer writer){

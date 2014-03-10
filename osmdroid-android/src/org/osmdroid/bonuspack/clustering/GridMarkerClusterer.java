@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -121,7 +120,7 @@ public class GridMarkerClusterer extends MarkerClusterer {
 	}
 	
 	/** Build clusters markers to be used at next draw */
-	@Override public void renderer(ArrayList<StaticCluster> clusters, ISafeCanvas canvas, MapView mapView){
+	@Override public void renderer(ArrayList<StaticCluster> clusters, Canvas canvas, MapView mapView){
 		for  (StaticCluster cluster:clusters){
 			if (cluster.getSize()==1){
 				//cluster has only 1 marker => use it as it is:

@@ -7,9 +7,9 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -39,7 +39,7 @@ import android.view.MotionEvent;
  * @author M.Kergall
  *
  */
-public class Marker extends SafeDrawOverlay {
+public class Marker extends Overlay {
 
 	/*attributes for standard features:*/
 	protected Drawable mIcon;
@@ -264,7 +264,7 @@ public class Marker extends SafeDrawOverlay {
 		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}
 	
-	@Override public void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 		if (mIcon == null)
@@ -280,9 +280,9 @@ public class Marker extends SafeDrawOverlay {
 		mIcon.setBounds(rect);
 		
 		mIcon.setAlpha((int)(mAlpha*255));
-
+		
 		float rotationOnScreen = (mFlat ? -mBearing : mapView.getMapOrientation()-mBearing);
-		drawAt(canvas.getSafeCanvas(), mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
+		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
 	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
