@@ -3,7 +3,6 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -24,14 +23,13 @@ import android.os.Parcelable;
  */
 public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	
-	/** coordinates of the geometry. If Point, one and only one entry. */
-	public ArrayList<GeoPoint> mCoordinates;
-	/** Polygon holes (can be null) */
-	public ArrayList<ArrayList<GeoPoint>> mHoles;
+	/** the KML Geometry of the Placemark. Null if none. */
+	public KmlGeometry mGeometry;
 
 	/** constructs a Placemark of unknown Geometry */
 	public KmlPlacemark(){
 		super();
+		mObjectType = PLACEMARK;
 	}
 	
 	/**
@@ -39,14 +37,12 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	 * @param position position of the point
 	 */
 	public KmlPlacemark(GeoPoint position){
-		super();
-		mObjectType = POINT;
-		mCoordinates = new ArrayList<GeoPoint>(1);
-		GeoPoint p = position;
-		mCoordinates.add(p);
-		mBB = new BoundingBoxE6(p.getLatitudeE6(), p.getLongitudeE6(), p.getLatitudeE6(), p.getLongitudeE6());
+		this();
+		mGeometry = new KmlPoint(position);
+		mBB = new BoundingBoxE6(position.getLatitudeE6(), position.getLongitudeE6(), position.getLatitudeE6(), position.getLongitudeE6());
 	}
 	
+	/** Create the KML Placemark from a Marker, as a KML Point */
 	public KmlPlacemark(Marker marker){
 		this(marker.getPosition());
 		mName = marker.getTitle();
@@ -55,13 +51,15 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		//TODO: Style / IconStyle => transparency, hotspot, bearing. 
 	}
 
+	/** Create the KML Placemark from a Polygon overlay, as a KML Polygon */
 	public KmlPlacemark(Polygon polygon, KmlDocument kmlDoc){
-		mObjectType = POLYGON;
+		this();
 		mName = polygon.getTitle();
 		mDescription = polygon.getSnippet();
-		mCoordinates = (ArrayList<GeoPoint>)polygon.getPoints();
-		mHoles = (ArrayList<ArrayList<GeoPoint>>)polygon.getHoles();
-		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+		mGeometry = new KmlPolygon();
+		mGeometry.mCoordinates = (ArrayList<GeoPoint>)polygon.getPoints();
+		((KmlPolygon)mGeometry).mHoles = (ArrayList<ArrayList<GeoPoint>>)polygon.getHoles();
+		mBB = BoundingBoxE6.fromGeoPoints(mGeometry.mCoordinates);
 		mVisibility = polygon.isEnabled();
 		//Style:
 		Style style = new Style();
@@ -70,11 +68,13 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		mStyle = kmlDoc.addStyle(style);
 	}
 
+	/** Create the KML Placemark from a Polyline overlay, as a KML LineString */
 	public KmlPlacemark(Polyline polyline, KmlDocument kmlDoc){
-		mObjectType = LINE_STRING;
+		this();
 		mName = "LineString - "+polyline.getNumberOfPoints()+" points";
-		mCoordinates = (ArrayList<GeoPoint>)polyline.getPoints();
-		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
+		mGeometry = new KmlLineString();
+		mGeometry.mCoordinates = (ArrayList<GeoPoint>)polyline.getPoints();
+		mBB = BoundingBoxE6.fromGeoPoints(mGeometry.mCoordinates);
 		mVisibility = polyline.isEnabled();
 		//Style:
 		Style style = new Style();
@@ -87,8 +87,13 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		@Override public void onMarkerDrag(Marker marker) {}
 		@Override public void onMarkerDragEnd(Marker marker) {
 			KmlFeature feature = (KmlFeature)marker.getRelatedObject();
-			if (feature != null && feature.isA(POINT))
-				((KmlPlacemark)feature).mCoordinates.set(0, marker.getPosition());
+			if (feature != null && feature.isA(PLACEMARK)){
+				KmlPlacemark placemark = (KmlPlacemark)feature;
+				if (placemark.isA(KmlGeometry.POINT)){
+					KmlPoint point = (KmlPoint)placemark.mGeometry;
+					point.setPosition(marker.getPosition());
+				}
+			}
 		}
 		@Override public void onMarkerDragStart(Marker marker) {}		
 	}
@@ -99,7 +104,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	 * @param kmlDocument
 	 * @param supportVisibility
 	 * @return the Marker overlay
-	 * @see buildOverlays
+	 * @see buildOverlay
 	 */
 	public Overlay buildMarkerFromPoint(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
 			boolean supportVisibility){
@@ -107,7 +112,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		Marker marker = new Marker(map);
 		marker.setTitle(mName);
 		marker.setSnippet(mDescription);
-		marker.setPosition(mCoordinates.get(0));
+		marker.setPosition(((KmlPoint)mGeometry).getPosition());
 		Style style = kmlDocument.getStyle(mStyle);
 		if (style != null && style.mIconStyle != null){
 			style.mIconStyle.styleMarker(marker, context);
@@ -137,7 +142,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 			lineStringOverlay.setColor(0x90101010);
 			lineStringOverlay.setWidth(5.0f);
 		}
-		lineStringOverlay.setPoints(mCoordinates);
+		lineStringOverlay.setPoints(mGeometry.mCoordinates);
 		if (supportVisibility && !mVisibility)
 			lineStringOverlay.setEnabled(mVisibility);
 		return lineStringOverlay;
@@ -162,9 +167,9 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		polygonOverlay.setFillColor(fillColor);
 		polygonOverlay.setStrokeColor(outlinePaint.getColor());
 		polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
-		polygonOverlay.setPoints(mCoordinates);
-		if (mHoles != null)
-			polygonOverlay.setHoles(mHoles);
+		polygonOverlay.setPoints(mGeometry.mCoordinates);
+		if (((KmlPolygon)mGeometry).mHoles != null)
+			polygonOverlay.setHoles(((KmlPolygon)mGeometry).mHoles);
 		polygonOverlay.setTitle(mName);
 		polygonOverlay.setSnippet(mDescription);
 		if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
@@ -180,94 +185,27 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	
 	@Override public Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
 			boolean supportVisibility){
-		switch (mObjectType){
-			case POINT:
+		switch (mGeometry.mType){
+			case KmlGeometry.POINT:
 				return buildMarkerFromPoint(map, defaultIcon, kmlDocument, supportVisibility);
-			case LINE_STRING:
+			case KmlGeometry.LINE_STRING:
 				return buildPolylineFromLineString(map, kmlDocument, supportVisibility);
-			case POLYGON:
+			case KmlGeometry.POLYGON:
 				return buildPolygonFromPolygon(map, kmlDocument, supportVisibility);
 			default:
 				return null;
 		}
 	}
 	
-	/**
-	 * Write a list of coordinates in KML format. 
-	 * @param writer
-	 * @param coordinates
-	 * @return false if error
-	 */
-	public boolean writeKMLCoordinates(Writer writer, ArrayList<GeoPoint> coordinates){
-		try {
-			writer.write("<coordinates>");
-			for (GeoPoint coord:coordinates){
-				writer.write(coord.toInvertedDoubleString());
-				writer.write(' ');
-			}
-			writer.write("</coordinates>\n");
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/** Warning, indexes must match with KML object types */
-	protected static String[] KMLGeometries = {"Unknown", "Point", "LineString", "Polygon"};
-	
 	public void saveKMLSpecifics(Writer writer){
-		try {
-			writer.write("<"+KMLGeometries[mObjectType]+">\n");
-			if (mObjectType == POLYGON)
-				writer.write("<outerBoundaryIs>\n<LinearRing>\n");
-			if (mCoordinates != null){
-				writeKMLCoordinates(writer, mCoordinates);
-			}
-			if (mObjectType == POLYGON){
-				writer.write("</LinearRing>\n</outerBoundaryIs>\n");
-				if (mHoles != null){
-					for (ArrayList<GeoPoint> hole:mHoles){
-						writer.write("<innerBoundaryIs>\n<LinearRing>\n");
-						writeKMLCoordinates(writer, hole);
-						writer.write("</LinearRing>\n</innerBoundaryIs>\n");
-					}
-				}
-			}
-			writer.write("</"+KMLGeometries[mObjectType]+">\n");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		if (mGeometry != null)
+			mGeometry.saveAsKML(writer);
 	}
-	
-	/** mapping with object types values */
-	protected static String[] GeoJSONTypes = {"Unknown", "Point", "LineString", "Polygon"};
 	
 	public boolean writeGeoJSONSpecifics(Writer writer){
 		try {
 			writer.write("\"type\": \"Feature\",\n");
-			writer.write("\"geometry\": {\n");
-			writer.write("\"type\": \""+GeoJSONTypes[mObjectType]+"\",\n");
-			writer.write("\"coordinates\":\n");
-			if (isA(LINE_STRING))
-				writer.write("[");
-			else if (isA(POLYGON))
-				writer.write("[[");
-			Iterator<GeoPoint> it = mCoordinates.iterator();
-			while(it.hasNext()) {
-				GeoPoint coord = it.next();
-				writer.write("["+coord.getLongitude()+","+coord.getLatitude()/*+","+coord.getAltitude()*/+"]");
-					//don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
-				if (it.hasNext())
-					writer.write(',');
-			}
-			if (isA(LINE_STRING))
-				writer.write("]");
-			else if (isA(POLYGON)){
-				writer.write("]]");
-				//TODO: write polygon holes if any
-			}
-			writer.write("\n},\n");
+			mGeometry.writeAsGeoJSON(writer);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -277,17 +215,10 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	
 	//Cloneable implementation ------------------------------------
 
-	public KmlPlacemark clone(){
+	@Override public KmlPlacemark clone(){
 		KmlPlacemark kmlPlacemark = (KmlPlacemark)super.clone();
-		if (mCoordinates != null){
-			kmlPlacemark.mCoordinates = cloneArrayOfGeoPoint(mCoordinates);
-		}
-		if (mHoles != null){
-			kmlPlacemark.mHoles = new ArrayList<ArrayList<GeoPoint>>(mHoles.size());
-			for (ArrayList<GeoPoint> hole:mHoles){
-				kmlPlacemark.mHoles.add(cloneArrayOfGeoPoint(hole));
-			}
-		}
+		if (mGeometry != null)
+			kmlPlacemark.mGeometry = mGeometry.clone();
 		return kmlPlacemark;
 	}
 	
@@ -299,8 +230,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 
 	@Override public void writeToParcel(Parcel out, int flags) {
 		super.writeToParcel(out, flags);
-		out.writeList(mCoordinates);
-		//TODO: mHoles
+		out.writeParcelable(mGeometry, flags);
 	}
 	
 	public static final Parcelable.Creator<KmlPlacemark> CREATOR = new Parcelable.Creator<KmlPlacemark>() {
@@ -314,7 +244,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	
 	public KmlPlacemark(Parcel in){
 		super(in);
-		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
-		//TODO: mHoles
+		in.readParcelable(KmlGeometry.class.getClassLoader());
 	}
 }

@@ -369,11 +369,11 @@ public class KmlDocument implements Parcelable {
 				mKmlCurrentFeature.mId = attributes.getValue("id");
 				mKmlStack.add(mKmlCurrentFeature); //push on stack
 			} else if (localName.equals("Point")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.POINT;
+				((KmlPlacemark)mKmlCurrentFeature).mGeometry = new KmlPoint();
 			} else if (localName.equals("LineString")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.LINE_STRING;
+				((KmlPlacemark)mKmlCurrentFeature).mGeometry = new KmlLineString();
 			} else if (localName.equals("Polygon")){
-				mKmlCurrentFeature.mObjectType = KmlFeature.POLYGON;
+				((KmlPlacemark)mKmlCurrentFeature).mGeometry = new KmlPolygon();
 			} else if (localName.equals("innerBoundaryIs")) {
 				mIsInnerBoundary = true;
 			} else if (localName.equals("Style")) {
@@ -430,16 +430,18 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("open")){
 				mKmlCurrentFeature.mOpen = ("1".equals(mStringBuilder.toString()));
 			} else if (localName.equals("coordinates")){
-				if (mKmlCurrentFeature.isAPlacemark()){
+				if (mKmlCurrentFeature.isA(KmlFeature.PLACEMARK)){
 					KmlPlacemark kmlPlacemark = (KmlPlacemark)mKmlCurrentFeature;
+					KmlGeometry geometry = kmlPlacemark.mGeometry;
 					if (!mIsInnerBoundary){
-						kmlPlacemark.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
-						mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(kmlPlacemark.mCoordinates);
+						geometry.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
+						mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(geometry.mCoordinates);
 					} else { //inside a Polygon innerBoundaryIs element: new hole
-						if (kmlPlacemark.mHoles == null)
-							kmlPlacemark.mHoles = new ArrayList<ArrayList<GeoPoint>>();
+						KmlPolygon polygon = (KmlPolygon)geometry;
+						if (polygon.mHoles == null)
+							polygon.mHoles = new ArrayList<ArrayList<GeoPoint>>();
 						ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
-						kmlPlacemark.mHoles.add(hole);
+						polygon.mHoles.add(hole);
 						//no need for bounding box update, as holes must be inside the polygon outer boundary. 
 					}
 				}

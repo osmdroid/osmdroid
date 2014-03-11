@@ -150,7 +150,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 
 	public KmlGroundOverlay clone(){
 		KmlGroundOverlay kmlGroundOverlay = (KmlGroundOverlay)super.clone();
-		//nothing else to clone???
+		kmlGroundOverlay.mCoordinates = KmlGeometry.cloneArrayOfGeoPoint(mCoordinates);
 		return kmlGroundOverlay;
 	}
 	
@@ -166,6 +166,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		out.writeParcelable(mIcon, flags);
 		out.writeInt(mColor);
 		out.writeFloat(mRotation);
+		out.writeList(mCoordinates);
 	}
 	
 	public static final Parcelable.Creator<KmlGroundOverlay> CREATOR = new Parcelable.Creator<KmlGroundOverlay>() {
@@ -183,6 +184,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
 		mColor = in.readInt();
 		mRotation = in.readFloat();
+		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
 	}
 
 }

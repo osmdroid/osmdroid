@@ -2,10 +2,8 @@ package org.osmdroid.bonuspack.kml;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import android.graphics.drawable.Drawable;
@@ -20,9 +18,9 @@ import android.os.Parcelable;
  * 	- Folder feature is a KmlFolder, and its object type = FOLDER. <br>
  * 	- Document feature is handled exactly like a Folder (KmlFolder, object type = FOLDER). <br>
  * 	- GroundOverlay feature is a KmlGroundOverlay, and its object type = GROUND_OVERLAY. 
- * 	- Placemark feature is a KmlPlacemark, its object type is according to its geometry: POINT, LINE_STRING, or POLYGON. 
- * 	  It contains both the Placemark attributes and the Geometry attributes. <br>
- * 	- UNKNOWN object type is reserved for default, issues/errors, or unsupported features/geometries. 
+ * 	- Placemark feature is a KmlPlacemark, its object type is a PLACEMARK. 
+ * 	  It contains both the Placemark attributes and the Geometry. <br>
+ * 	- UNKNOWN object type is reserved for default, issues/errors, or unsupported features. 
  * 
  * @see KmlDocument
  * @see https://developers.google.com/kml/documentation/kmlreference
@@ -30,10 +28,10 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public abstract class KmlFeature implements Parcelable, Cloneable {
-	/** possible KML object type */
-	public static final int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, GROUND_OVERLAY=4, FOLDER=5;
-	
-	/** KML object type */
+	/** possible KML Feature type */
+	public static final int UNKNOWN=0, PLACEMARK=1, GROUND_OVERLAY=4, FOLDER=5;
+
+	/** KML Feature type */
 	public int mObjectType;
 	/** feature id attribute, if any. Null if none. */
 	public String mId;
@@ -66,8 +64,15 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		return(mObjectType == objectType);
 	}
 	
-	public boolean isAPlacemark(){
-		return (isA(POLYGON) || isA(POINT) || isA(LINE_STRING));
+	/** return true only if this a KML Placemark containing KML Geometry geomType. */
+	public boolean hasGeometry(int geomType){
+		if (!isA(PLACEMARK))
+			return false;
+		KmlPlacemark placemark = (KmlPlacemark)this;
+		KmlGeometry geometry = placemark.mGeometry;
+		if (geometry == null)
+			return false;
+		return geometry.isA(geomType);
 	}
 	
 	/**
@@ -105,6 +110,8 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		mExtendedData.put(name, value);
 	}
 
+	//abstract methods
+	
 	/**
 	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
 	 * @param map
@@ -116,6 +123,10 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	 * 		and return null if object type is UNKNOWN. 
 	 */
 	public abstract Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, boolean supportVisibility);
+	/** write KML content specific to its type */
+	abstract void saveKMLSpecifics(Writer writer);
+	abstract public boolean writeGeoJSONSpecifics(Writer writer);
+
 	
 	protected boolean writeKMLExtendedData(Writer writer){
 		if (mExtendedData == null)
@@ -135,9 +146,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 
-	/** write KML content specific to its type */
-	abstract void saveKMLSpecifics(Writer writer);
-	
 	/**
 	 * Write the object in KML text format (= save as a KML text file)
 	 * @param writer on which the object is written. 
@@ -155,9 +163,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 				else 
 					objectType = "Folder";
 				break;
-			case POINT:
-			case LINE_STRING:
-			case POLYGON:
+			case PLACEMARK:
 				objectType = "Placemark";
 				break;
 			case GROUND_OVERLAY:
@@ -221,7 +227,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 	
-	abstract public boolean writeGeoJSONSpecifics(Writer writer);
 	
 	/** write the object on writer in GeoJSON format
 	 * @return false if error
@@ -246,13 +251,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	
 	//Cloneable implementation ------------------------------------
 
-	public ArrayList<GeoPoint> cloneArrayOfGeoPoint(ArrayList<GeoPoint> coords){
-		ArrayList<GeoPoint> result = new ArrayList<GeoPoint>(coords.size());
-		for (GeoPoint p:coords)
-			result.add((GeoPoint)p.clone());
-		return result;
-	}
-	
 	/** the mandatory tribute to this monument of Java stupidity */
 	public KmlFeature clone(){
 		KmlFeature kmlFeature = null;
