@@ -992,7 +992,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void insertOverlaysInKml(){
-		//Ensure the root is a folder:
+		//Ensure the root exist:
 		if (mKmlDocument.mKmlRoot == null){
 			mKmlDocument.mKmlRoot = new KmlFolder();
 		}
@@ -1009,6 +1009,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void addKmlPoint(GeoPoint position){
+		//Ensure the root exist:
+		if (mKmlDocument.mKmlRoot == null){
+			mKmlDocument.mKmlRoot = new KmlFolder();
+		}
 		KmlFeature kmlPoint = new KmlPlacemark(position);
 		mKmlDocument.mKmlRoot.add(kmlPoint);
 		updateUIWithKml();
