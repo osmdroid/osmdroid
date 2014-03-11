@@ -14,7 +14,7 @@
 
     <name>OSMdroid parent</name>
     <description>An Android library to display OpenStreetMap views.</description>
-    <url>http://code.google.com/p/osmdroid</url>
+    <url>https://github.com/osmdroid/osmdroid</url>
 
     <licenses>
         <license>
@@ -25,14 +25,14 @@
     </licenses>
 
     <scm>
-        <url>http://osmdroid.googlecode.com/svn/trunk</url>
-        <connection>scm:svn:http://osmdroid.googlecode.com/svn/trunk</connection>
-        <developerConnection>scm:svn:https://osmdroid.googlecode.com/svn/trunk</developerConnection>
+        <connection>scm:git:git@github.com:osmdroid/osmdroid.git</connection>
+        <url>scm:git:git@github.com:osmdroid/osmdroid.git</url>
+        <developerConnection>scm:git:git@github.com:osmdroid/osmdroid.git</developerConnection>
     </scm>
 
     <issueManagement>
-        <system>Google Project</system>
-        <url>http://code.google.com/p/osmdroid/issues/list</url>
+        <system>GitHub Issues</system>
+        <url>https://github.com/osmdroid/osmdroid/issues</url>
     </issueManagement>
 
     <developers>
