@@ -72,7 +72,10 @@
 			        android:title="Edit..."/>
 				<item
 				      android:id="@+id/menu_kml_save"
-				      android:title="Save"/>
+				      android:title="Save as KML"/>
+				<item
+				      android:id="@+id/menu_geojson_save"
+				      android:title="Save as GeoJSON"/>
 				<item
 				      android:id="@+id/menu_kml_clear"
 				      android:title="Clear"/>

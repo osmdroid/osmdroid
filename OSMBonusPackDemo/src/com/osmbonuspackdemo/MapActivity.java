@@ -322,7 +322,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Intent onCreateIntent = getIntent();
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
-				getKml(uri, true);
+				openFile(uri, true);
 			}
 		}
 	}
@@ -937,7 +937,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ed.putString("KML_URI", uri);
 				ed.commit();
 				dialog.cancel();
-				getKml(uri, false);
+				openFile(uri, false);
 			}
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -948,14 +948,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.show();
 	}
 	
-	void getKml(String uri, boolean onCreate){
+	void openFile(String uri, boolean onCreate){
 		//TODO: use an Async task
 		mKmlDocument = new KmlDocument();
 		boolean ok;
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
-			ok = mKmlDocument.parseFile(file);
+			if (uri.endsWith(".json"))
+				ok = mKmlDocument.parseGeoJSON(file);
+			else //assume KML
+				ok = mKmlDocument.parseFile(file);
 		} else  {
 			ok = mKmlDocument.parseUrl(uri);
 		}
@@ -974,6 +977,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void saveKml(String fileName){
 		boolean result = mKmlDocument.saveAsKML(mKmlDocument.getDefaultPathForAndroid(fileName));
+		if (result)
+			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
+		else 
+			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
+	}
+	
+	void saveGeoJSON(String fileName){
+		boolean result = mKmlDocument.saveAsGeoJSON(mKmlDocument.getDefaultPathForAndroid(fileName));
 		if (result)
 			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
 		else 
@@ -1135,7 +1146,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_kml_file:
 			//TODO : openKMLFileDialog();
 			File file = mKmlDocument.getDefaultPathForAndroid("current.kml");
-			getKml("file:/"+file.toString(), false);
+			openFile("file:/"+file.toString(), false);
 			return true;
 		case R.id.menu_kml_get_overlays:
 			insertOverlaysInKml();
@@ -1150,8 +1161,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
 		case R.id.menu_kml_save:
-			//TODO: openKMLSaveDialog();
+			//TODO: openSaveDialog();
 			saveKml("current.kml");
+			return true;
+		case R.id.menu_geojson_save:
+			//TODO: openSaveDialog();
+			saveGeoJSON("current.json");
 			return true;
 		case R.id.menu_kml_clear:
 			mKmlDocument = new KmlDocument();
