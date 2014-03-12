@@ -5,6 +5,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import android.os.Parcel;
@@ -17,6 +20,22 @@ public class KmlPolygon extends KmlGeometry {
 
 	public KmlPolygon(){
 		mType = POLYGON;
+	}
+
+	/** GeoJSON constructor */
+	public KmlPolygon(JSONObject json){
+		this();
+		JSONArray rings = json.optJSONArray("coordinates");
+		//ring #0 is the polygon border:
+		mCoordinates = KmlGeometry.parseGeoJSONPositions(rings.optJSONArray(0));
+		//next rings are the holes:
+		if (rings.length() > 1){
+			mHoles = new ArrayList<ArrayList<GeoPoint>>(rings.length()-1);
+			for (int i=1; i<rings.length(); i++){
+				ArrayList<GeoPoint> hole = KmlGeometry.parseGeoJSONPositions(rings.optJSONArray(i));
+				mHoles.add(hole);
+			}
+		}
 	}
 	
 	@Override public void saveAsKML(Writer writer){
@@ -38,21 +57,23 @@ public class KmlPolygon extends KmlGeometry {
 		}
 	}
 	
-	@Override public boolean writeAsGeoJSON(Writer writer){
+	@Override public JSONObject asGeoJSON(){
 		try {
-			writer.write("\"geometry\": {\n");
-			writer.write("\"type\": \"Polygon\",\n");
-			writer.write("\"coordinates\":\n");
-			writer.write("[[");
-			KmlGeometry.writeGeoJSONCoordinates(writer, mCoordinates);
-			writer.write("]]");
-			//TODO: write polygon holes if any
-			writer.write("\n},\n");
-		} catch (IOException e) {
+			JSONObject json = new JSONObject();
+			json.put("type", "Polygon");
+			JSONArray coords = new JSONArray();
+			coords.put(KmlGeometry.geoJSONCoordinates(mCoordinates));
+			if (mHoles != null) {
+				for (ArrayList<GeoPoint> hole:mHoles){
+					coords.put(KmlGeometry.geoJSONCoordinates(hole));
+				}
+			}
+			json.put("coordinates", coords);
+			return json;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return true;
 	}
 	
 	//Cloneable implementation ------------------------------------

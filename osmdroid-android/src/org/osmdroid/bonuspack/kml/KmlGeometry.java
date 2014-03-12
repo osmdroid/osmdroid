@@ -5,6 +5,9 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import android.os.Parcel;
@@ -55,27 +58,32 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 		}
 	}
 
+	public static JSONArray geoJSONPosition(GeoPoint position){
+		try {
+			JSONArray json = new JSONArray();
+			json.put(position.getLongitude());
+			json.put(position.getLatitude());
+			//json.put(coord.getAltitude()); //don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
+			return json;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	/**
 	 * Write a list of coordinates in GeoJSON format. 
 	 * @param writer
 	 * @param coordinates
 	 * @return false if error
 	 */
-	public static boolean writeGeoJSONCoordinates(Writer writer, ArrayList<GeoPoint> coordinates){
-		try {
-			Iterator<GeoPoint> it = coordinates.iterator();
-			while(it.hasNext()) {
-				GeoPoint coord = it.next();
-				writer.write("["+coord.getLongitude()+","+coord.getLatitude()/*+","+coord.getAltitude()*/+"]");
-					//don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
-				if (it.hasNext())
-					writer.write(',');
-			}
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
+	public static JSONArray geoJSONCoordinates(ArrayList<GeoPoint> coordinates){
+		JSONArray json = new JSONArray();
+		Iterator<GeoPoint> it = coordinates.iterator();
+		while(it.hasNext()) {
+			GeoPoint position = it.next();
+			json.put(KmlGeometry.geoJSONPosition(position));
 		}
+		return json;
 	}
 	
 	public static ArrayList<GeoPoint> cloneArrayOfGeoPoint(ArrayList<GeoPoint> coords){
@@ -87,7 +95,40 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	
 	// abstract methods
 	public abstract void saveAsKML(Writer writer);
-	public abstract boolean writeAsGeoJSON(Writer writer);
+	public abstract JSONObject asGeoJSON();
+
+	public static GeoPoint parseGeoJSONPosition(JSONArray json){
+		return new GeoPoint(json.optDouble(1, 0.0), 
+				json.optDouble(0, 0.0), 
+				json.optDouble(2, 0.0));
+	}
+	
+	public static ArrayList<GeoPoint> parseGeoJSONPositions(JSONArray json){
+		if (json == null)
+			return null;
+		ArrayList<GeoPoint> coordinates = new  ArrayList<GeoPoint>(json.length());
+		for (int i=0; i<json.length(); i++){
+			JSONArray position = json.optJSONArray(i);
+			GeoPoint p = KmlGeometry.parseGeoJSONPosition(position);
+			if (p != null)
+				coordinates.add(p);
+		}
+		return coordinates;
+	}
+	
+	public static KmlGeometry parseGeoJSON(JSONObject json){
+		if (json == null)
+			return null;
+		String type = json.optString("type");
+		if ("Point".equals(type)){
+			return new KmlPoint(json);
+		} else if ("LineString".equals(type)){
+			return new KmlLineString(json);
+		} else if ("Polygon".equals(type)){
+			return new KmlPolygon(json);
+		} else 
+			return null;
+	}
 	
 	//Cloneable implementation ------------------------------------
 	

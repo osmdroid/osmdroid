@@ -2,10 +2,9 @@ package org.osmdroid.bonuspack.kml;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
-
-import org.osmdroid.util.GeoPoint;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -13,6 +12,12 @@ public class KmlLineString extends KmlGeometry {
 	
 	public KmlLineString(){
 		mType = LINE_STRING;
+	}
+	
+	public KmlLineString(JSONObject json){
+		this();
+		JSONArray coordinates = json.optJSONArray("coordinates");
+		mCoordinates = KmlGeometry.parseGeoJSONPositions(coordinates);
 	}
 	
 	@Override public void saveAsKML(Writer writer){
@@ -25,20 +30,16 @@ public class KmlLineString extends KmlGeometry {
 		}
 	}
 	
-	@Override public boolean writeAsGeoJSON(Writer writer){
+	@Override public JSONObject asGeoJSON(){
 		try {
-			writer.write("\"geometry\": {\n");
-			writer.write("\"type\": \"LineString\",\n");
-			writer.write("\"coordinates\":\n");
-			writer.write("[");
-			KmlGeometry.writeGeoJSONCoordinates(writer, mCoordinates);
-			writer.write("]");
-			writer.write("\n},\n");
-		} catch (IOException e) {
+			JSONObject json = new JSONObject();
+			json.put("type", "LineString");
+			json.put("coordinates", KmlGeometry.geoJSONCoordinates(mCoordinates));
+			return json;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return true;
 	}
 	
 	//Cloneable implementation ------------------------------------

@@ -5,6 +5,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
@@ -46,6 +50,20 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		this();
 		addOverlays(overlay.getItems(), kmlDoc);
 		mVisibility = overlay.isEnabled();
+	}
+	
+	/** GeoJSON constructor */
+	public KmlFolder(JSONObject json){
+		this();
+		JSONArray features = json.optJSONArray("features");
+        if (features != null) {
+            for (int i = 0; i < features.length(); i++) {
+                JSONObject featureJSON = features.optJSONObject(i);
+                if (featureJSON != null) {
+                    mItems.add(KmlFeature.parseGeoJSON(featureJSON));
+                }
+            }
+        }
 	}
 	
 	/** 
@@ -142,7 +160,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		return folderOverlay;
 	}
 	
-	public void saveKMLSpecifics(Writer writer){
+	@Override public void writeKMLSpecifics(Writer writer){
 		try {
 			if (!mOpen)
 				writer.write("<open>0</open>\n");
@@ -153,25 +171,50 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 			e.printStackTrace();
 		}
 	}
-	
-	public boolean writeGeoJSONSpecifics(Writer writer){
+
+	/**
+	 * Set isRoot to true if this is the root of saved structure. This will save this as a FeatureCollection. 
+	 * Set isRoot to false if this is not the root of the saved structure (there is an enclosing FeatureCollection). 
+	 * As GeoJSON doesn't support nested FeatureCollection, items will be pushed directly inside the enclosing FeatureCollection. 
+	 * This is flattening the KmlFolder hierarchy. 
+	 * @return this as a GeoJSON object. 
+	 */
+	@Override public JSONObject asGeoJSON(boolean isRoot){
 		try {
-			writer.write("\"type\": \"FeatureCollection\",\n");
-			writer.write("\"features\": [\n");
-			Iterator<KmlFeature> it = mItems.iterator();
-			while(it.hasNext()) {
-				KmlFeature item = it.next();
-				if (!item.writeAsGeoJSON(writer, false))
-					return false;
-				if (it.hasNext())
-					writer.write(',');
+			JSONObject json = new JSONObject();
+			if (isRoot){
+				json.put("type", "FeatureCollection");
 			}
-			writer.write("],\n");
-		} catch (IOException e) {
+			JSONArray features = new JSONArray();
+			for (KmlFeature item:mItems){
+				JSONObject subJson = item.asGeoJSON(false);
+				if (item.isA(FOLDER)){
+					//Flatten it:
+					JSONArray subFeatures = subJson.optJSONArray("features");
+					if (features != null){
+						for (int i=0; i<subFeatures.length(); i++){
+							JSONObject j = subFeatures.getJSONObject(i);
+							features.put(j);
+						}
+					}
+				} else if (subJson != null) {
+					features.put(subJson);
+				}
+			}
+			json.put("features", features);
+			if (isRoot){
+				JSONObject crs = new JSONObject();
+				crs.put("type", "name");
+				JSONObject properties = new JSONObject();
+				properties.put("name", "urn:ogc:def:crs:OGC:1.3:CRS84");
+				crs.put("properties", properties);
+				json.put("crs", crs);
+			}
+			return json;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return true;
 	}
 	
 	//Cloneable implementation ------------------------------------

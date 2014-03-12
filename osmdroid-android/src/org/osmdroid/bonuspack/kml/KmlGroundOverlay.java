@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+
+import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
@@ -123,7 +125,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	}
 	
 	/** write elements specific to GroundOverlay in KML format */
-	protected void saveKMLSpecifics(Writer writer){
+	@Override public void writeKMLSpecifics(Writer writer){
 		try {
 			writer.write("<color>"+ColorStyle.colorAsKMLString(mColor)+"</color>\n");
 			writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
@@ -141,9 +143,9 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		}
 	}
 	
-	@Override public boolean writeGeoJSONSpecifics(Writer writer) {
+	@Override public JSONObject asGeoJSON(boolean isRoot) {
 		//TODO: GroundOverlay ... is not supported by GeoJSON. Output enclosing polygon with mColor?
-		return true;
+		return null;
 	}
 	
 	//Cloneable implementation ------------------------------------

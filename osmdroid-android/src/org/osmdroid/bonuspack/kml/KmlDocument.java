@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.util.BoundingBoxE6;
@@ -519,7 +521,7 @@ public class KmlDocument implements Parcelable {
 		}
 		
 	}
-
+	
 	/**
 	 * save the document as a KML file on writer
 	 * @param writer
@@ -569,7 +571,16 @@ public class KmlDocument implements Parcelable {
 	}
 
 	public boolean saveAsGeoJSON(Writer writer){
-		return mKmlRoot.writeAsGeoJSON(writer, true);
+		JSONObject json = mKmlRoot.asGeoJSON(true);
+		if (json == null)
+			return false;
+		try {
+			writer.write(json.toString(2));
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**
@@ -586,6 +597,43 @@ public class KmlDocument implements Parcelable {
 			writer.close();
 			return result;
 		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/** Parse a GeoJSON object. */
+	public boolean parseGeoJSON(JSONObject json){
+		KmlFeature feature = KmlFeature.parseGeoJSON(json);
+		if (feature.isA(KmlFeature.FOLDER))
+			mKmlRoot = (KmlFolder) feature;
+		else {
+			//
+			mKmlRoot = new KmlFolder();
+			mKmlRoot.add(feature);
+		}
+		return true;
+	}
+	
+	/** Parse a GeoJSON String */
+	public boolean parseGeoJSON(String jsonString){
+		try {
+			return parseGeoJSON(new JSONObject(jsonString));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	/** Parse a GeoJSON File */
+	public boolean parseGeoJSON(File file){
+		FileInputStream input;
+		try {
+			input = new FileInputStream(file);
+			String s = BonusPackHelper.convertStreamToString(input);
+			input.close();
+			return parseGeoJSON(s);
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}

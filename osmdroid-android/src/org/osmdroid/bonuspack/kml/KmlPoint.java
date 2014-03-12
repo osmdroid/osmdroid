@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
 
 import android.os.Parcel;
@@ -20,6 +23,16 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		this();
 		mCoordinates = new ArrayList<GeoPoint>(1);
 		mCoordinates.add(position);
+	}
+	
+	/** GeoJSON constructor */
+	public KmlPoint(JSONObject json){
+		this();
+		mCoordinates = new ArrayList<GeoPoint>(1);
+		JSONArray coordinates = json.optJSONArray("coordinates");
+		if (coordinates != null){
+			mCoordinates.add(KmlGeometry.parseGeoJSONPosition(coordinates));
+		}
 	}
 	
 	public void setPosition(GeoPoint position){
@@ -40,18 +53,16 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		}
 	}
 	
-	@Override public boolean writeAsGeoJSON(Writer writer){
+	@Override public JSONObject asGeoJSON(){
 		try {
-			writer.write("\"geometry\": {\n");
-			writer.write("\"type\": \"Point\",\n");
-			writer.write("\"coordinates\":\n");
-			KmlGeometry.writeGeoJSONCoordinates(writer, mCoordinates);
-			writer.write("\n},\n");
-		} catch (IOException e) {
+			JSONObject json = new JSONObject();
+			json.put("type", "Point");
+			json.put("coordinates", KmlGeometry.geoJSONPosition(mCoordinates.get(0)));
+			return json;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
-		return true;
 	}
 
 	//Cloneable implementation ------------------------------------

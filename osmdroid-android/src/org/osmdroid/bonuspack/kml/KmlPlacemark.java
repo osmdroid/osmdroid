@@ -3,6 +3,11 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -80,6 +85,30 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		Style style = new Style();
 		style.mLineStyle = new LineStyle(polyline.getColor(), polyline.getWidth());
 		mStyle = kmlDoc.addStyle(style);
+	}
+
+	/** GeoJSON constructor */
+	public KmlPlacemark(JSONObject json){
+		this();
+		mId = json.optString("id");
+		JSONObject geometry = json.optJSONObject("geometry");
+		if (geometry != null) {
+			mGeometry = KmlGeometry.parseGeoJSON(geometry);
+        }
+		//Parse properties:
+		JSONObject properties = json.optJSONObject("properties");
+		Iterator<?> keys = properties.keys();
+		while (keys.hasNext()){
+			String key = (String)keys.next();
+			String value = properties.optString(key);
+			if (key!=null && value!=null)
+				setExtendedData(key, value);
+		}
+		//Put "name" property in standard KML format:
+		if (mExtendedData!=null && mExtendedData.containsKey("name")){
+			mName = mExtendedData.get("name");
+			mExtendedData.remove("name");
+		}
 	}
 	
 	/** default listener for dragging a marker built from a KML Point */
@@ -197,19 +226,44 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		}
 	}
 	
-	public void saveKMLSpecifics(Writer writer){
+	@Override public void writeKMLSpecifics(Writer writer){
 		if (mGeometry != null)
 			mGeometry.saveAsKML(writer);
 	}
 	
-	public boolean writeGeoJSONSpecifics(Writer writer){
+	protected JSONObject geoJSONProperties(){
 		try {
-			writer.write("\"type\": \"Feature\",\n");
-			mGeometry.writeAsGeoJSON(writer);
-			return true;
-		} catch (IOException e) {
+			JSONObject json = new JSONObject();
+			if (mName != null){
+				json.put("name", mName);
+			}
+			if (mExtendedData != null){
+				for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+					String name = entry.getKey();
+					String value = entry.getValue();
+					json.put(name, value);
+				}
+			}
+			return json;
+		} catch (JSONException e) {
 			e.printStackTrace();
-			return false;
+			return null;
+		}
+	}
+
+	/** @return this as a GeoJSON object. */
+	@Override public JSONObject asGeoJSON(boolean isRoot){
+		JSONObject json = new JSONObject();
+		try {
+			json.put("type", "Feature");
+			if (mId != null)
+				json.put("id", mId);
+			json.put("geometry", mGeometry.asGeoJSON());
+			json.put("properties", geoJSONProperties());
+			return json;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 	

@@ -3,6 +3,8 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+
+import org.json.JSONObject;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -123,10 +125,13 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	 * 		and return null if object type is UNKNOWN. 
 	 */
 	public abstract Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, boolean supportVisibility);
+	
 	/** write KML content specific to its type */
-	abstract void saveKMLSpecifics(Writer writer);
-	abstract public boolean writeGeoJSONSpecifics(Writer writer);
+	public abstract void writeKMLSpecifics(Writer writer);
 
+	/** return this as GeoJSON object */
+	public abstract JSONObject asGeoJSON(boolean isRoot);
+	
 	
 	protected boolean writeKMLExtendedData(Writer writer){
 		if (mExtendedData == null)
@@ -187,7 +192,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 				writer.write("<description><![CDATA["+mDescription+"]]></description>\n");
 			if (!mVisibility)
 				writer.write("<visibility>0</visibility>\n");
-			saveKMLSpecifics(writer);
+			writeKMLSpecifics(writer);
 			writeKMLExtendedData(writer);
 			if (isDocument){
 				kmlDocument.writeKMLStyles(writer);
@@ -200,53 +205,16 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 	
-	protected boolean writeGeoJSONProperties(Writer writer, boolean isRoot){
-		try {
-			writer.write("\"properties\":{");
-			boolean isFirstProp = true; //handling of "," between properties
-			if (mName != null){
-				writer.write("\"name\":\""+mName+"\"");
-				isFirstProp = false;
-			}
-			if (mExtendedData != null){
-				for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
-					String name = entry.getKey();
-					String value = entry.getValue();
-					if (isFirstProp)
-						isFirstProp = false;
-					else 
-						writer.write(", ");
-					writer.write("\""+name+"\":\""+value+"\"");
-				}
-			}
-			writer.write("}\n");
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-	
-	/** write the object on writer in GeoJSON format
-	 * @return false if error
-	 * @see http://geojson.org
-	 */
-	public boolean writeAsGeoJSON(Writer writer, boolean isRoot){
-		try {
-			writer.write('{');
-			writeGeoJSONSpecifics(writer);
-			if (!writeGeoJSONProperties(writer, isRoot))
-				return false;
-			if (isRoot){
-				writer.write(", \"crs\":{\"type\":\"name\", \"properties\":{\"name\":\"urn:ogc:def:crs:OGC:1.3:CRS84\"}}\n");
-			}
-			writer.write("}\n");
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public static KmlFeature parseGeoJSON(JSONObject json){
+		if (json == null)
+			return null;
+		String type = json.optString("type");
+		if ("FeatureCollection".equals(type)){
+			return new KmlFolder(json);
+		} else if ("Feature".equals(type)){
+			return new KmlPlacemark(json);
+		} else 
+			return null;
 	}
 	
 	//Cloneable implementation ------------------------------------
