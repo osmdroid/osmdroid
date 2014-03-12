@@ -8,6 +8,7 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import android.graphics.Bitmap;
@@ -45,7 +46,7 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		assertNull("Expect tile to be null", drawable);
 	}
 
-	public void test_getMapTile_found() throws RemoteException, FileNotFoundException {
+	public void test_getMapTile_found() throws RemoteException, FileNotFoundException, BitmapTileSourceBase.LowMemoryException {
 		final MapTile tile = new MapTile(2, 3, 4);
 
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
