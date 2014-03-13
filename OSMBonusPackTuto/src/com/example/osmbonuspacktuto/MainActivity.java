@@ -3,8 +3,10 @@ package com.example.osmbonuspacktuto;
 import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
@@ -144,14 +146,21 @@ public class MainActivity extends Activity {
 		
 		//FolderOverlay poiMarkers = new FolderOverlay(this);
 		//10. Marker Clustering
-		MarkerClusterer poiMarkers = new MarkerClusterer(this);
-		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
+		GridMarkerClusterer poiMarkers = new GridMarkerClusterer(this);
+		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster_custo);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 		poiMarkers.setIcon(clusterIcon);
 		//end of 10.
+		//11. Customize the design:
+		poiMarkers.getTextPaint().setColor(Color.DKGRAY);
+		poiMarkers.getTextPaint().setTextSize(12.0f);
+		poiMarkers.mAnchorU = Marker.ANCHOR_RIGHT;
+		poiMarkers.mAnchorV = Marker.ANCHOR_BOTTOM;
+		poiMarkers.mTextAnchorV = 0.40f;
+		//end of 11.
 		map.getOverlays().add(poiMarkers);
+        Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
 		if (pois != null) {
-            Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
 			for (POI poi:pois){
 	            Marker poiMarker = new Marker(map);
 	            poiMarker.setTitle(poi.mType);
@@ -168,32 +177,42 @@ public class MainActivity extends Activity {
 			}
 		}
 
-		//11. Loading KML content
+		/* the "Too Many Markers" test
+		for (int i=0; i<2000; i++){
+            Marker poiMarker = new Marker(map);
+            poiMarker.setPosition(new GeoPoint(Math.random()*5+45, Math.random()*5));
+            poiMarker.setIcon(poiIcon);
+            poiMarkers.add(poiMarker);
+		}
+		*/
+		
+		//12. Loading KML content
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		KmlDocument kmlDocument = new KmlDocument();
 		boolean ok = kmlDocument.parseUrl(url);
 		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 		if (ok){
-			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.kmlRoot.buildOverlays(map, defaultMarker, kmlDocument, false);
+			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.mKmlRoot.buildOverlay(map, defaultMarker, kmlDocument, false);
 			map.getOverlays().add(kmlOverlay);
-			if (kmlDocument.kmlRoot.mBB != null){
+			if (kmlDocument.mKmlRoot.mBB != null){
 				//map.zoomToBoundingBox(kmlRoot.mBB); => not working in onCreate - this is a well-known osmdroid bug. 
 				//Workaround:
 				map.getController().setCenter(new GeoPoint(
-						kmlDocument.kmlRoot.mBB.getLatSouthE6()+kmlDocument.kmlRoot.mBB.getLatitudeSpanE6()/2, 
-						kmlDocument.kmlRoot.mBB.getLonWestE6()+kmlDocument.kmlRoot.mBB.getLongitudeSpanE6()/2));
+						kmlDocument.mKmlRoot.mBB.getLatSouthE6()+kmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
+						kmlDocument.mKmlRoot.mBB.getLonWestE6()+kmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
 			}
 		}
 		
-		//12. Grab overlays in KML structure, save KML document locally
-		if (kmlDocument.kmlRoot != null){
-			kmlDocument.kmlRoot.addOverlay(roadOverlay, kmlDocument);
-			kmlDocument.kmlRoot.addOverlay(roadMarkers, kmlDocument);
+		//13. Grab overlays in KML structure, save KML document locally
+		if (kmlDocument.mKmlRoot != null){
+			KmlFolder root = (KmlFolder)kmlDocument.mKmlRoot;
+			root.addOverlay(roadOverlay, kmlDocument);
+			root.addOverlay(roadMarkers, kmlDocument);
 			File localFile = kmlDocument.getDefaultPathForAndroid("my_route.kml");
 			kmlDocument.saveAsKML(localFile);
 		}
 		
-		//13. Using GroundOverlay
+		//15. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(endPoint);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
