@@ -2,7 +2,6 @@
 package org.osmdroid.samples;
 
 import org.osmdroid.R;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 
@@ -15,9 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SampleWithMinimapZoomcontrols extends Activity {
 
@@ -40,8 +39,6 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 		super.onCreate(savedInstanceState);
 
 		final RelativeLayout rl = new RelativeLayout(this);
-
-		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
 		this.mOsmv = new MapView(this, 256);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
