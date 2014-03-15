@@ -3,7 +3,6 @@ package org.osmdroid.google.wrapper.v2;
 import java.lang.reflect.Method;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -21,12 +20,7 @@ public class MapFactory {
 
 	public static IMap getMap(final com.google.android.gms.maps.MapView aMapView) {
 		final GoogleMap map = aMapView.getMap();
-		try {
-			MapsInitializer.initialize(aMapView.getContext());
-		} catch (final GooglePlayServicesNotAvailableException e) {
-			e.printStackTrace(); // TODO logging
-			return null;
-		}
+		MapsInitializer.initialize(aMapView.getContext());
 		return map != null ? new MapWrapper(map) : null;
 	}
 
