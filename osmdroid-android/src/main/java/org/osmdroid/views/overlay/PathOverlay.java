@@ -3,6 +3,7 @@ package org.osmdroid.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
+import microsoft.mappoint.TileSystem;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
@@ -242,6 +243,14 @@ public class PathOverlay extends Overlay {
 
 			screenPoint1 = pj.toMapPixelsTranslated(projectedPoint1, this.mTempPoint2);
 
+            // skip this line, move to next point
+            if (wrapsTooFar(screenPoint1.x, screenPoint0.x, mapView.getZoomLevel())) {
+                projectedPoint0 = projectedPoint1;
+                screenPoint0 = null;
+                mPath.moveTo(screenPoint1.x, screenPoint1.y);
+                continue;
+            }
+
 			// skip this point, too close to previous point
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
 				continue;
@@ -258,4 +267,15 @@ public class PathOverlay extends Overlay {
 
 		canvas.drawPath(mPath, this.mPaint);
 	}
+
+    public boolean wrapsTooFar(final int destination, final int reference, final int zoomLevel) {
+
+        //120 degrees longitude in pixels
+        final int oneTwentyDegrees = TileSystem.MapSize(zoomLevel) / 3;
+
+        return (destination < -oneTwentyDegrees && reference > 0) ||
+                (destination > oneTwentyDegrees && reference < 0)  ||
+                (reference < -oneTwentyDegrees && destination > 0) ||
+                (reference > oneTwentyDegrees && destination < 0);
+    }
 }
