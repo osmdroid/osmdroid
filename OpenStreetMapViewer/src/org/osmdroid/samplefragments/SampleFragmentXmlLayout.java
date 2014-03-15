@@ -37,27 +37,4 @@ public class SampleFragmentXmlLayout extends BaseSampleFragment {
 		// return mMapView;
 	}
 
-	// @Override
-	// public void onActivityCreated(Bundle savedInstanceState) {
-	// super.onActivityCreated(savedInstanceState);
-	//
-	// final Context context = this.getActivity();
-	//
-	// // only do static initialisation if needed
-	// if (CloudmadeUtil.getCloudmadeKey().length() == 0) {
-	// CloudmadeUtil.retrieveCloudmadeKey(context.getApplicationContext());
-	// }
-	//
-	// addOverlays();
-	//
-	// mMapView.setBuiltInZoomControls(true);
-	// mMapView.setMultiTouchControls(true);
-	// }
-	//
-	// /**
-	// * An appropriate place to override and add overlays.
-	// */
-	// protected void addOverlays() {
-	// //
-	// }
 }

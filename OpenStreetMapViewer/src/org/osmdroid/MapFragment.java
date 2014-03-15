@@ -6,7 +6,6 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
@@ -34,10 +33,10 @@ import android.view.ViewGroup;
 
 /**
  * Default map view activity.
- * 
+ *
  * @author Marc Kurtz
  * @author Manuel Stahl
- * 
+ *
  */
 public class MapFragment extends Fragment implements OpenStreetMapConstants
 {
@@ -101,11 +100,6 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
 
         mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        // only do static initialisation if needed
-        if (CloudmadeUtil.getCloudmadeKey().length() == 0) {
-            CloudmadeUtil.retrieveCloudmadeKey(context.getApplicationContext());
-        }
-
         this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
                 mMapView);
         this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
@@ -166,7 +160,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         try {
             final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
             mMapView.setTileSource(tileSource);
-        } catch (final IllegalArgumentException ignore) {
+        } catch (final IllegalArgumentException e) {
+            mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
         }
         if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
 			this.mLocationOverlay.enableMyLocation();

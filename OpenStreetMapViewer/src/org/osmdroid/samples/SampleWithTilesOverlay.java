@@ -2,7 +2,6 @@ package org.osmdroid.samples;
 
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.TilesOverlay;
@@ -13,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Alex van der Linden
- * 
+ *
  */
 public class SampleWithTilesOverlay extends Activity {
 
@@ -41,8 +40,6 @@ public class SampleWithTilesOverlay extends Activity {
 
 		// Setup base map
 		final RelativeLayout rl = new RelativeLayout(this);
-
-		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
 		this.mOsmv = new MapView(this, 256);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,

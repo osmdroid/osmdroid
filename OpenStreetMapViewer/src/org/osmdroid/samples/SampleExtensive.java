@@ -7,7 +7,6 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
@@ -26,9 +25,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
 public class SampleExtensive extends SampleMapActivity implements OpenStreetMapConstants {
 	// ===========================================================
@@ -64,8 +63,6 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 		mResourceProxy = new ResourceProxyImpl(getApplicationContext());
 
 		final RelativeLayout rl = new RelativeLayout(this);
-
-		CloudmadeUtil.retrieveCloudmadeKey(getApplicationContext());
 
 		this.mOsmv = new MapView(this, 256);
 		this.mOsmvController = this.mOsmv.getController();

@@ -2,10 +2,8 @@ package org.osmdroid.samplefragments;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.tileprovider.util.CloudmadeUtil;
 import org.osmdroid.views.MapView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -39,13 +37,6 @@ public abstract class BaseSampleFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		final Context context = this.getActivity();
-
-		// only do static initialisation if needed
-		if (CloudmadeUtil.getCloudmadeKey().length() == 0) {
-			CloudmadeUtil.retrieveCloudmadeKey(context.getApplicationContext());
-		}
 
 		addOverlays();
 
