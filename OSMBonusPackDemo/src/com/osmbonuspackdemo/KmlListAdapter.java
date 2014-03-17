@@ -3,7 +3,12 @@ package com.osmbonuspackdemo;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.kml.KmlGeometry;
+import org.osmdroid.bonuspack.kml.KmlGroundOverlay;
+import org.osmdroid.bonuspack.kml.KmlLineString;
+import org.osmdroid.bonuspack.kml.KmlMultiGeometry;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
+import org.osmdroid.bonuspack.kml.KmlPolygon;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -62,22 +67,24 @@ public class KmlListAdapter extends BaseAdapter {
         }
         
 		ImageView img = (ImageView)convertView.findViewById(R.id.listItemImg);
-		if (item.isA(KmlFeature.FOLDER)) {
+		if (item instanceof KmlFolder) {
 			img.setImageResource(R.drawable.moreinfo_arrow);
-		} else if (item.isA(KmlFeature.PLACEMARK)){
-			int geomType = ((KmlPlacemark)item).mGeometry.mType;
-			switch (geomType){
-				case KmlGeometry.POINT:
-					img.setImageResource(R.drawable.marker_kml_point);
-					break;
-				case KmlGeometry.LINE_STRING:
-					img.setImageResource(R.drawable.kml_icon_linestring);
-					break;
-				case KmlGeometry.POLYGON:
-					img.setImageResource(R.drawable.kml_icon_polygon);
-					break;
-			}
-		}
+		} else if (item instanceof KmlPlacemark){
+			KmlGeometry geometry = ((KmlPlacemark)item).mGeometry;
+			if (geometry instanceof KmlPoint)
+				img.setImageResource(R.drawable.marker_kml_point);
+			else if (geometry instanceof KmlLineString)
+				img.setImageResource(R.drawable.kml_icon_linestring);
+			else if (geometry instanceof KmlPolygon)
+				img.setImageResource(R.drawable.kml_icon_polygon);
+			else if (geometry instanceof KmlMultiGeometry)
+				img.setImageResource(R.drawable.kml_icon_multigeometry);
+			else
+				img.setImageDrawable(null);
+		} else if (item instanceof KmlGroundOverlay){
+			img.setImageResource(R.drawable.kml_icon_groundoverlay);
+		} else
+			img.setImageDrawable(null);
 		
         return convertView;
     }

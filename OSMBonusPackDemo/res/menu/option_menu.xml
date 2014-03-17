@@ -62,8 +62,8 @@
 				      android:id="@+id/menu_kml_url"
 				      android:title="Open url..."/>
 				<item
-				      android:id="@+id/menu_kml_file"
-				      android:title="Open file"/>
+				      android:id="@+id/menu_open_file"
+				      android:title="Open file..."/>
 				<item
 				      android:id="@+id/menu_kml_get_overlays"
 				      android:title="Pick Overlays"/>
@@ -71,11 +71,8 @@
 			        android:id="@+id/menu_kml_tree"
 			        android:title="Edit..."/>
 				<item
-				      android:id="@+id/menu_kml_save"
-				      android:title="Save as KML"/>
-				<item
-				      android:id="@+id/menu_geojson_save"
-				      android:title="Save as GeoJSON"/>
+				      android:id="@+id/menu_save_file"
+				      android:title="Save as..."/>
 				<item
 				      android:id="@+id/menu_kml_clear"
 				      android:title="Clear"/>

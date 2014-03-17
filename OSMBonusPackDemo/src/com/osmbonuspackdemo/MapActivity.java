@@ -12,11 +12,11 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
-import org.osmdroid.bonuspack.clustering.MarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
@@ -119,14 +119,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	int whichRouteProvider;
 	
 	public static ArrayList<POI> mPOIs; //made static to pass between activities
-	MarkerClusterer poiMarkers;
+	GridMarkerClusterer poiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
-	protected FolderOverlay kmlOverlay; //root container of overlays from KML reading
+	protected FolderOverlay mKmlOverlay; //root container of overlays from KML reading
 	protected static final int KML_TREE_REQUEST = 3;
-	public static KmlDocument mKmlDocument = new KmlDocument(); //made static to pass between activities
-	public static Stack<KmlFeature> mKmlStack = new Stack<KmlFeature>(); //passed between activities, top is the current KmlFeature to edit. 
+	public static KmlDocument mKmlDocument; //made static to pass between activities
+	public static Stack<KmlFeature> mKmlStack; //passed between activities, top is the current KmlFeature to edit. 
 	public static KmlFolder mKmlClipboard; //passed between activities. Folder for multiple items selection. 
 	
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
@@ -140,18 +140,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 		
-		//Integrating MapBox Satellite map, which is really an impressive service. 
-		//We stole OSRM account at MapBox. Hope we will be forgiven... 
-		/* hand-made version:
-		String mapBoxMapId = ManifestUtil.retrieveKey(this, "MAPBOX_MAPID");
-		MAPBOXSATELLITELABELLED = new XYTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png",
-                new String[]{"http://a.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
-                "http://b.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
-                "http://c.tiles.mapbox.com/v3/"+mapBoxMapId+"/",
-                "http://d.tiles.mapbox.com/v3/"+mapBoxMapId+"/"});
-		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
-		*/
-		//osmdroid 4.1 version:
 		MapBoxTileSource.retrieveMapBoxMapId(this);
 		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
@@ -302,9 +290,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		});
 		//POI markers:
 		poiMarkers = new GridMarkerClusterer(this);
-		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
+		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_poi_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 		poiMarkers.setIcon(clusterIcon);
+		poiMarkers.mAnchorV = Marker.ANCHOR_BOTTOM;
+		poiMarkers.mTextAnchorU = 0.70f;
+		poiMarkers.mTextAnchorV = 0.27f;
+		poiMarkers.getTextPaint().setTextSize(12.0f);
 		map.getOverlays().add(poiMarkers);
 		if (savedInstanceState != null){
 			//STATIC - mPOIs = savedInstanceState.getParcelableArrayList("poi");
@@ -312,7 +304,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 
 		//KML handling:
-		kmlOverlay = null;
+		mKmlDocument = new KmlDocument();
+		mKmlStack = new Stack<KmlFeature>();
+		mKmlClipboard = null;
+		mKmlOverlay = null;
 		if (savedInstanceState != null){
 			//STATIC - mKmlDocument = savedInstanceState.getParcelable("kml");
 			updateUIWithKml();
@@ -918,7 +913,37 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	//------------ KML handling
 
-	void openKMLUrlDialog(){
+	boolean mDialogForOpen;
+	String mLocalFileName = "current.kml";
+	
+	void openLocalFileDialog(boolean open){
+		mDialogForOpen = open;
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("File (.kml or .json)");
+		final EditText input = new EditText(this);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		input.setText(mLocalFileName);
+		builder.setView(input);
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			@Override public void onClick(DialogInterface dialog, int which) {
+				mLocalFileName = input.getText().toString();
+				dialog.cancel();
+				if (mDialogForOpen){
+					File file = mKmlDocument.getDefaultPathForAndroid(mLocalFileName);
+					openFile("file:/"+file.toString(), false);
+				} else 
+					saveFile(mLocalFileName);
+			}
+		});
+		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
+	}
+	
+	void openUrlDialog(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("KML url");
 		final EditText input = new EditText(this);
@@ -951,7 +976,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void openFile(String uri, boolean onCreate){
 		//TODO: use an Async task
 		mKmlDocument = new KmlDocument();
-		boolean ok;
+		boolean ok = false;
 		if (uri.startsWith("file:/")){
 			uri = uri.substring("file:/".length());
 			File file = new File(uri);
@@ -959,7 +984,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ok = mKmlDocument.parseGeoJSON(file);
 			else //assume KML
 				ok = mKmlDocument.parseFile(file);
-		} else  {
+		} else if (uri.startsWith("http")) {
 			ok = mKmlDocument.parseUrl(uri);
 		}
 		if (!ok)
@@ -975,29 +1000,33 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
-	void saveKml(String fileName){
-		boolean result = mKmlDocument.saveAsKML(mKmlDocument.getDefaultPathForAndroid(fileName));
+	/** save fileName locally, as KML or GeoJSON depending on the extension */
+	void saveFile(String fileName){
+		boolean result;
+		File file = mKmlDocument.getDefaultPathForAndroid(fileName);
+		if (fileName.endsWith(".json"))
+			result = mKmlDocument.saveAsGeoJSON(file);
+		else
+			result = mKmlDocument.saveAsKML(file);
 		if (result)
 			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
 		else 
 			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
 	}
 	
-	void saveGeoJSON(String fileName){
-		boolean result = mKmlDocument.saveAsGeoJSON(mKmlDocument.getDefaultPathForAndroid(fileName));
-		if (result)
-			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
-		else 
-			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
+	Style buildDefaultStyle(){
+		Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+		Bitmap bitmap = ((BitmapDrawable)defaultKmlMarker).getBitmap();
+		Style defaultStyle = new Style(bitmap, 0x901010AA, 3.0f, 0x20AA1010);
+		return defaultStyle;
 	}
 	
 	void updateUIWithKml(){
-		if (kmlOverlay != null)
-			map.getOverlays().remove(kmlOverlay);
+		if (mKmlOverlay != null)
+			map.getOverlays().remove(mKmlOverlay);
 		if (mKmlDocument.mKmlRoot != null){
-			Drawable defaultKmlMarker = getResources().getDrawable(R.drawable.marker_kml_point);
-			kmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, defaultKmlMarker, mKmlDocument, true);
-			map.getOverlays().add(kmlOverlay);
+			mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), mKmlDocument, true);
+			map.getOverlays().add(mKmlOverlay);
 		}
 		map.invalidate();
 	}
@@ -1141,12 +1170,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
 		case R.id.menu_kml_url:
-			openKMLUrlDialog();
+			openUrlDialog();
 			return true;
-		case R.id.menu_kml_file:
-			//TODO : openKMLFileDialog();
-			File file = mKmlDocument.getDefaultPathForAndroid("current.kml");
-			openFile("file:/"+file.toString(), false);
+		case R.id.menu_open_file:
+			openLocalFileDialog(true);
 			return true;
 		case R.id.menu_kml_get_overlays:
 			insertOverlaysInKml();
@@ -1160,13 +1187,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mKmlStack.push(mKmlDocument.mKmlRoot.clone());
 			startActivityForResult(myIntent, KML_TREE_REQUEST);
 			return true;
-		case R.id.menu_kml_save:
-			//TODO: openSaveDialog();
-			saveKml("current.kml");
-			return true;
-		case R.id.menu_geojson_save:
-			//TODO: openSaveDialog();
-			saveGeoJSON("current.json");
+		case R.id.menu_save_file:
+			openLocalFileDialog(false);
 			return true;
 		case R.id.menu_kml_clear:
 			mKmlDocument = new KmlDocument();

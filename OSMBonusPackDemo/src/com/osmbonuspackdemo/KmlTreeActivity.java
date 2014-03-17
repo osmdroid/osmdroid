@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -131,6 +132,7 @@ public class KmlTreeActivity extends Activity {
 		}
     }
 	
+	//------------ Context Menu implementation
 	@Override public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
@@ -152,12 +154,6 @@ public class KmlTreeActivity extends Activity {
 	        	mKmlClipboard.mItems.clear();
 	        	mKmlClipboard.mItems.add(copy);
 	            return true;
-	        case R.id.menu_paste: 
-	        	for (KmlFeature kmlItem:mKmlClipboard.mItems){
-	        		currentKmlFolder.add(kmlItem.clone());
-	        	}
-	        	mListAdapter.notifyDataSetChanged();
-	            return true;
 	        case R.id.menu_behind:
 	        	if (info.position > 0){
 	        		KmlFeature kmlItem = currentKmlFolder.removeItem(info.position);
@@ -175,5 +171,29 @@ public class KmlTreeActivity extends Activity {
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
+	}
+	
+	//------------ Option Menu implementation
+	
+	@Override public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.kml_option_menu, menu);	
+		return true;
+	}
+	
+	@Override public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+        case R.id.menu_paste: 
+        	if (mCurrentKmlFeature instanceof KmlFolder){
+	    	    KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
+	        	for (KmlFeature kmlItem:mKmlClipboard.mItems){
+	        		currentKmlFolder.add(kmlItem.clone());
+	        	}
+	        	mListAdapter.notifyDataSetChanged();
+        	}
+            return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 }

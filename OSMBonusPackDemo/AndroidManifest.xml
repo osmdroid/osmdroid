@@ -21,22 +21,23 @@
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="*" android:scheme="http" android:pathPattern=".*\\.kml" />
-                <data android:host="*" android:scheme="https" android:pathPattern=".*\\.kml" />
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:host="*" android:scheme="http" android:pathPattern=".*\\.kml" />
+				<data android:host="*" android:scheme="https" android:pathPattern=".*\\.kml" />
 			</intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.kml" />
-			</intent-filter>
-        </activity>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.kml" />
+				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.json" />
+            </intent-filter>
+            </activity>
         <activity
             android:name=".RouteActivity"
             android:label="@string/app_name" 
