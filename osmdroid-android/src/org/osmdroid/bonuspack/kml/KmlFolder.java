@@ -3,14 +3,11 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.clustering.MarkerClusterer;
-import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
@@ -19,7 +16,6 @@ import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -60,7 +56,8 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
             for (int i = 0; i < features.length(); i++) {
                 JSONObject featureJSON = features.optJSONObject(i);
                 if (featureJSON != null) {
-                    mItems.add(KmlFeature.parseGeoJSON(featureJSON));
+                	KmlFeature feature = KmlFeature.parseGeoJSON(featureJSON);
+                    add(feature);
                 }
             }
         }
@@ -69,7 +66,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	/** 
 	 * Converts the overlay to a KmlFeature and add it inside this. 
 	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
-	 *   FolderOverlay, GridMarkerClusterer => Folder<br>
+	 *   FolderOverlay, MarkerClusterer => Folder<br>
 	 *   Marker => Point<br>
 	 *   Polygon => Polygon<br>
 	 *   Polyline => LineString<br>
@@ -83,19 +80,19 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		if (overlay == null)
 			return false;
 		KmlFeature kmlItem;
-		if (overlay.getClass() == GroundOverlay.class){
+		if (overlay instanceof GroundOverlay){
 			kmlItem = new KmlGroundOverlay((GroundOverlay)overlay);
-		} else if (overlay.getClass() == FolderOverlay.class){
+		} else if (overlay instanceof FolderOverlay){
 			kmlItem = new KmlFolder((FolderOverlay)overlay, kmlDoc);
-		} else if (overlay.getClass() == GridMarkerClusterer.class){
+		} else if (overlay instanceof MarkerClusterer){
 			kmlItem = new KmlFolder((MarkerClusterer)overlay, kmlDoc);
-		} else if (overlay.getClass() == Marker.class){
+		} else if (overlay instanceof Marker){
 			Marker marker = (Marker)overlay;
 			kmlItem = new KmlPlacemark(marker);
-		} else if (overlay.getClass() == Polygon.class){
+		} else if (overlay instanceof Polygon){
 			Polygon polygon = (Polygon)overlay;
 			kmlItem = new KmlPlacemark(polygon, kmlDoc);
-		} else if (overlay.getClass() == Polyline.class){
+		} else if (overlay instanceof Polyline){
 			Polyline polyline = (Polyline)overlay;
 			kmlItem = new KmlPlacemark(polyline, kmlDoc);
 		} else {
@@ -143,19 +140,19 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	/**
 	 * Build a FolderOverlay, containing (recursively) overlays from all items of this Folder. 
 	 * @param map
-	 * @param defaultIcon to build Markers from Points with no icon
+	 * @param defaultStyle to apply when an item has no Style defined. 
 	 * @param kmlDocument for Styles
 	 * @param supportVisibility
 	 * @return the FolderOverlay built
 	 */
-	@Override public FolderOverlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, boolean supportVisibility){
+	@Override public FolderOverlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, boolean supportVisibility){
 		Context context = map.getContext();
 		FolderOverlay folderOverlay = new FolderOverlay(context);
 		for (KmlFeature k:mItems){
-			Overlay overlay = k.buildOverlay(map, defaultIcon, kmlDocument, supportVisibility);
+			Overlay overlay = k.buildOverlay(map, defaultStyle, kmlDocument, supportVisibility);
 			folderOverlay.add(overlay);
 		}
-		if (!mVisibility)
+		if (supportVisibility && !mVisibility)
 			folderOverlay.setEnabled(false);
 		return folderOverlay;
 	}
@@ -172,24 +169,36 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 		}
 	}
 
+	public JSONObject geoJSONNamedCRS(String crsName){
+		try {
+			JSONObject crs = new JSONObject();
+			crs.put("type", "name");
+			JSONObject properties = new JSONObject();
+			properties.put("name", crsName);
+			crs.put("properties", properties);
+			return crs;
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	/**
-	 * Set isRoot to true if this is the root of saved structure. This will save this as a FeatureCollection. 
-	 * Set isRoot to false if this is not the root of the saved structure (there is an enclosing FeatureCollection). 
-	 * As GeoJSON doesn't support nested FeatureCollection, items will be pushed directly inside the enclosing FeatureCollection. 
-	 * This is flattening the KmlFolder hierarchy. 
-	 * @return this as a GeoJSON object. 
+	 * Set isRoot to true if this is the root of the final GeoJSON structure. 
+	 * Set isRoot to false if there is an enclosing FeatureCollection. 
+	 * As GeoJSON doesn't support nested FeatureCollection, sub-items will be inserted directly in the result. 
+	 * This is flattening the resulting GeoJSON hierarchy. 
+	 * @return this as a GeoJSON FeatureCollection object. 
 	 */
 	@Override public JSONObject asGeoJSON(boolean isRoot){
 		try {
 			JSONObject json = new JSONObject();
-			if (isRoot){
-				json.put("type", "FeatureCollection");
-			}
+			json.put("type", "FeatureCollection");
 			JSONArray features = new JSONArray();
 			for (KmlFeature item:mItems){
 				JSONObject subJson = item.asGeoJSON(false);
-				if (item.isA(FOLDER)){
-					//Flatten it:
+				if (item instanceof KmlFolder){
+					//Flatten the item contents:
 					JSONArray subFeatures = subJson.optJSONArray("features");
 					if (features != null){
 						for (int i=0; i<subFeatures.length(); i++){
@@ -203,12 +212,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 			}
 			json.put("features", features);
 			if (isRoot){
-				JSONObject crs = new JSONObject();
-				crs.put("type", "name");
-				JSONObject properties = new JSONObject();
-				properties.put("name", "urn:ogc:def:crs:OGC:1.3:CRS84");
-				crs.put("properties", properties);
-				json.put("crs", crs);
+				json.put("crs", geoJSONNamedCRS("urn:ogc:def:crs:OGC:1.3:CRS84"));
 			}
 			return json;
 		} catch (JSONException e) {

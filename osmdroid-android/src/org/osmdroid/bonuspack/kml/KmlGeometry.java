@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -20,7 +22,7 @@ import android.os.Parcelable;
  */
 public abstract class KmlGeometry implements Cloneable, Parcelable {
 	/** possible KML Geometry type */
-	public final static int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3;
+	public final static int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, MULTI_GEOMETRY=4;
 	
 	/** KML Geometry type */
 	public int mType;
@@ -28,6 +30,14 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	public String mId;
 	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
+	
+	//-----------------------------------------------------
+	// abstract methods
+	public abstract void saveAsKML(Writer writer);
+	public abstract JSONObject asGeoJSON();
+	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, KmlDocument kmlDocument, boolean supportVisibility);
+
+	//-----------------------------------------------------
 	
 	public KmlGeometry(){
 		mType = UNKNOWN;
@@ -43,7 +53,7 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	 * @param coordinates
 	 * @return false if error
 	 */
-	public boolean writeKMLCoordinates(Writer writer, ArrayList<GeoPoint> coordinates){
+	public static boolean writeKMLCoordinates(Writer writer, ArrayList<GeoPoint> coordinates){
 		try {
 			writer.write("<coordinates>");
 			for (GeoPoint coord:coordinates){
@@ -58,6 +68,11 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 		}
 	}
 
+	/**
+	 * Build a Position in GeoJSON format. 
+	 * @param position
+	 * @return the GeoJSON position. 
+	 */
 	public static JSONArray geoJSONPosition(GeoPoint position){
 		try {
 			JSONArray json = new JSONArray();
@@ -70,11 +85,11 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 			return null;
 		}
 	}
+	
 	/**
-	 * Write a list of coordinates in GeoJSON format. 
-	 * @param writer
+	 * Build an array of Positions in GeoJSON format. 
 	 * @param coordinates
-	 * @return false if error
+	 * @return the GeoJSON array of Positions. 
 	 */
 	public static JSONArray geoJSONCoordinates(ArrayList<GeoPoint> coordinates){
 		JSONArray json = new JSONArray();
@@ -93,16 +108,14 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 		return result;
 	}
 	
-	// abstract methods
-	public abstract void saveAsKML(Writer writer);
-	public abstract JSONObject asGeoJSON();
-
+	/** parse a GeoJSON Position: [longitude, latitude, altitude] */
 	public static GeoPoint parseGeoJSONPosition(JSONArray json){
 		return new GeoPoint(json.optDouble(1, 0.0), 
 				json.optDouble(0, 0.0), 
 				json.optDouble(2, 0.0));
 	}
 	
+	/** parse a GeoJSON array of Positions: [ [lon, lat, alt],... [lon, lat, alt] ] */
 	public static ArrayList<GeoPoint> parseGeoJSONPositions(JSONArray json){
 		if (json == null)
 			return null;
@@ -116,6 +129,10 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 		return coordinates;
 	}
 	
+	/** parse a GeoJSON Geometry. 
+	 * Supports: Point, LineString, Polygon, GeometryCollection and MultiPoint. 
+	 * @return the corresponding KmlGeometry, or null for not supported Geometry. 
+	 */
 	public static KmlGeometry parseGeoJSON(JSONObject json){
 		if (json == null)
 			return null;
@@ -126,6 +143,8 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 			return new KmlLineString(json);
 		} else if ("Polygon".equals(type)){
 			return new KmlPolygon(json);
+		} else if ("GeometryCollection".equals(type) || "MultiPoint".equals(type)){
+			return new KmlMultiGeometry(json);
 		} else 
 			return null;
 	}

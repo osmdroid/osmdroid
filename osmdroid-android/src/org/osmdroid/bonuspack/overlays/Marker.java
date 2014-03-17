@@ -63,8 +63,8 @@ public class Marker extends Overlay {
 	
 	/*internals*/
 	protected Point mPositionPixels;
-	protected ResourceProxy mResourceProxy;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
+	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -75,7 +75,6 @@ public class Marker extends Overlay {
 
 	public Marker(MapView mapView, final ResourceProxy resourceProxy) {
 		super(resourceProxy);
-		mResourceProxy = resourceProxy;
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
 		mPosition = new GeoPoint(0.0, 0.0);
@@ -90,7 +89,9 @@ public class Marker extends Overlay {
 		mFlat = false; //billboard
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
-		mIcon = resourceProxy.getDrawable(bitmap.marker_default);
+		if (mDefaultIcon == null)
+			mDefaultIcon = resourceProxy.getDrawable(bitmap.marker_default);
+		mIcon = mDefaultIcon;
 		if (mDefaultInfoWindow == null){
 			//build default bubble, that will be shared between all markers using the default one:
 			Context context = mapView.getContext();
@@ -111,7 +112,7 @@ public class Marker extends Overlay {
 		if (icon != null)
 			mIcon = icon;
 		else 
-			mIcon = mResourceProxy.getDrawable(bitmap.marker_default);
+			mIcon = mDefaultIcon;
 	}
 	
 	public GeoPoint getPosition(){
@@ -181,9 +182,10 @@ public class Marker extends Overlay {
 	}
 	
 	/** 
-	 * Removes this marker from the map. 
-	 * Note that this method will not operate if the Marker is in a FolderOverlay. 
-	 * @param mapView the map
+	 * Removes this Marker from the MapView. 
+	 * Note that this method will operate only if the Marker is in the MapView overlays 
+	 * (it should not be included in a container like a FolderOverlay). 
+	 * @param mapView
 	 */
 	public void remove(MapView mapView){
 		mapView.getOverlays().remove(this);

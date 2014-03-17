@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -17,7 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -88,7 +86,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	}
 
 	/** @return the corresponding GroundOverlay ready to display on the map */
-	@Override public Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, 
 			boolean supportVisibility){
 		Context context = map.getContext();
 		GroundOverlay overlay = new GroundOverlay(context);

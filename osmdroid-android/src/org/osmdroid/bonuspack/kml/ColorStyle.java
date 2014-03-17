@@ -18,7 +18,7 @@ public class ColorStyle implements Parcelable {
 	public int mColor;
 	public int mColorMode;
 	
-	ColorStyle(){
+	public ColorStyle(){
 		this(0);
 	}
 	

@@ -3,15 +3,21 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.util.GeoPoint;
-
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Overlay;
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * @author M.Kergall
+ */
 public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 
 	public KmlPoint(){
@@ -21,26 +27,65 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 	
 	public KmlPoint(GeoPoint position){
 		this();
-		mCoordinates = new ArrayList<GeoPoint>(1);
-		mCoordinates.add(position);
+		setPosition(position);
 	}
 	
 	/** GeoJSON constructor */
 	public KmlPoint(JSONObject json){
 		this();
-		mCoordinates = new ArrayList<GeoPoint>(1);
 		JSONArray coordinates = json.optJSONArray("coordinates");
 		if (coordinates != null){
-			mCoordinates.add(KmlGeometry.parseGeoJSONPosition(coordinates));
+			setPosition(KmlGeometry.parseGeoJSONPosition(coordinates));
 		}
 	}
 	
 	public void setPosition(GeoPoint position){
-		mCoordinates.set(0, position);
+		if (mCoordinates == null){
+			mCoordinates = new ArrayList<GeoPoint>(1);
+			mCoordinates.add(position);
+		} else
+			mCoordinates.set(0, position);
 	}
 	
 	public GeoPoint getPosition(){
 		return mCoordinates.get(0);
+	}
+	
+	/** default listener for dragging a Marker built from a KML Point */
+	public class OnKMLMarkerDragListener implements OnMarkerDragListener {
+		@Override public void onMarkerDrag(Marker marker) {}
+		@Override public void onMarkerDragEnd(Marker marker) {
+			Object object = marker.getRelatedObject();
+			if (object != null && object instanceof KmlPoint){
+				KmlPoint point = (KmlPoint)object;
+				point.setPosition(marker.getPosition());
+			}
+		}
+		@Override public void onMarkerDragStart(Marker marker) {}		
+	}
+	
+	/** Build the corresponding Marker overlay */	
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, 
+			KmlDocument kmlDocument, boolean supportVisibility){
+		Context context = map.getContext();
+		Marker marker = new Marker(map);
+		marker.setTitle(kmlPlacemark.mName);
+		marker.setSnippet(kmlPlacemark.mDescription);
+		marker.setPosition(getPosition());
+		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
+		if (style != null && style.mIconStyle != null){
+			style.mIconStyle.styleMarker(marker, context);
+		} else if (defaultStyle!=null && defaultStyle.mIconStyle!=null){
+			defaultStyle.mIconStyle.styleMarker(marker, context);
+		}
+		//keep the link from the marker to the KML feature:
+		marker.setRelatedObject(this);
+		//allow marker drag, acting on KML Point:
+		marker.setDraggable(true);
+		marker.setOnMarkerDragListener(new OnKMLMarkerDragListener());
+		if (supportVisibility && !kmlPlacemark.mVisibility)
+			marker.setEnabled(kmlPlacemark.mVisibility);
+		return marker;
 	}
 	
 	@Override public void saveAsKML(Writer writer){

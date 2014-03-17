@@ -1,24 +1,18 @@
 package org.osmdroid.bonuspack.kml;
 
-import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
-import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -94,6 +88,11 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		JSONObject geometry = json.optJSONObject("geometry");
 		if (geometry != null) {
 			mGeometry = KmlGeometry.parseGeoJSON(geometry);
+			if (mGeometry instanceof KmlMultiGeometry){
+				//TODO: compute mGeometry bounding box recursively...
+			} else {
+				mBB = BoundingBoxE6.fromGeoPoints(mGeometry.mCoordinates);
+			}
         }
 		//Parse properties:
 		JSONObject properties = json.optJSONObject("properties");
@@ -111,119 +110,12 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		}
 	}
 	
-	/** default listener for dragging a marker built from a KML Point */
-	public class OnKMLMarkerDragListener implements OnMarkerDragListener {
-		@Override public void onMarkerDrag(Marker marker) {}
-		@Override public void onMarkerDragEnd(Marker marker) {
-			KmlFeature feature = (KmlFeature)marker.getRelatedObject();
-			if (feature != null && feature.isA(PLACEMARK)){
-				KmlPlacemark placemark = (KmlPlacemark)feature;
-				if (placemark.isA(KmlGeometry.POINT)){
-					KmlPoint point = (KmlPoint)placemark.mGeometry;
-					point.setPosition(marker.getPosition());
-				}
-			}
-		}
-		@Override public void onMarkerDragStart(Marker marker) {}		
-	}
-	
-	/** from a Placemark feature having a Point geometry, build a Marker overlay
-	 * @param map
-	 * @param defaultIcon default icon to be used if no style or no icon specified. If null, default osmdroid marker icon will be used. 
-	 * @param kmlDocument
-	 * @param supportVisibility
-	 * @return the Marker overlay
-	 * @see buildOverlay
-	 */
-	public Overlay buildMarkerFromPoint(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, 
 			boolean supportVisibility){
-		Context context = map.getContext();
-		Marker marker = new Marker(map);
-		marker.setTitle(mName);
-		marker.setSnippet(mDescription);
-		marker.setPosition(((KmlPoint)mGeometry).getPosition());
-		Style style = kmlDocument.getStyle(mStyle);
-		if (style != null && style.mIconStyle != null){
-			style.mIconStyle.styleMarker(marker, context);
-		} else {
-			if (defaultIcon != null)
-				marker.setIcon(defaultIcon);
-			marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-		}
-		//keep the link from the marker to the KML feature:
-		marker.setRelatedObject(this);
-		//allow marker drag, acting on KML Point:
-		marker.setDraggable(true);
-		marker.setOnMarkerDragListener(new OnKMLMarkerDragListener());
-		if (supportVisibility && !mVisibility)
-			marker.setEnabled(mVisibility);
-		return marker;
-	}
-	
-	public Overlay buildPolylineFromLineString(MapView map, KmlDocument kmlDocument, boolean supportVisibility){
-		Context context = map.getContext();
-		Polyline lineStringOverlay = new Polyline(context);
-		Style style = kmlDocument.getStyle(mStyle);
-		if (style != null){
-			lineStringOverlay.setPaint(style.getOutlinePaint());
-		} else { 
-			//set default:
-			lineStringOverlay.setColor(0x90101010);
-			lineStringOverlay.setWidth(5.0f);
-		}
-		lineStringOverlay.setPoints(mGeometry.mCoordinates);
-		if (supportVisibility && !mVisibility)
-			lineStringOverlay.setEnabled(mVisibility);
-		return lineStringOverlay;
-	}
-	
-	public Overlay buildPolygonFromPolygon(MapView map, KmlDocument kmlDocument, boolean supportVisibility){
-		Context context = map.getContext();
-		Polygon polygonOverlay = new Polygon(context);
-		Style style = kmlDocument.getStyle(mStyle);
-		Paint outlinePaint = null;
-		int fillColor = 0x20101010; //default
-		if (style != null){
-			outlinePaint = style.getOutlinePaint();
-			fillColor = style.mPolyStyle.getFinalColor();
-		}
-		if (outlinePaint == null){ 
-			//set default:
-			outlinePaint = new Paint();
-			outlinePaint.setColor(0x90101010);
-			outlinePaint.setStrokeWidth(5);
-		}
-		polygonOverlay.setFillColor(fillColor);
-		polygonOverlay.setStrokeColor(outlinePaint.getColor());
-		polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
-		polygonOverlay.setPoints(mGeometry.mCoordinates);
-		if (((KmlPolygon)mGeometry).mHoles != null)
-			polygonOverlay.setHoles(((KmlPolygon)mGeometry).mHoles);
-		polygonOverlay.setTitle(mName);
-		polygonOverlay.setSnippet(mDescription);
-		if ((mName!=null && !"".equals(mName)) || (mDescription!=null && !"".equals(mDescription))){
-			//TODO: cache layoutResId retrieval. 
-			String packageName = context.getPackageName();
-			int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
-			polygonOverlay.setInfoWindow(layoutResId, map);
-		}
-		if (supportVisibility && !mVisibility)
-			polygonOverlay.setEnabled(mVisibility);
-		return polygonOverlay;
-	}
-	
-	@Override public Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, 
-			boolean supportVisibility){
-		switch (mGeometry.mType){
-			case KmlGeometry.POINT:
-				return buildMarkerFromPoint(map, defaultIcon, kmlDocument, supportVisibility);
-			case KmlGeometry.LINE_STRING:
-				return buildPolylineFromLineString(map, kmlDocument, supportVisibility);
-			case KmlGeometry.POLYGON:
-				return buildPolygonFromPolygon(map, kmlDocument, supportVisibility);
-			default:
-				return null;
-		}
+		if (mGeometry != null)
+			return mGeometry.buildOverlay(map, defaultStyle, this, kmlDocument, supportVisibility);
+		else 
+			return null;
 	}
 	
 	@Override public void writeKMLSpecifics(Writer writer){

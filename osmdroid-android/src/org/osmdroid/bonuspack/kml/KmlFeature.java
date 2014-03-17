@@ -55,6 +55,28 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	/** bounding box - null if no geometry (means empty) */
 	public BoundingBoxE6 mBB;
 	
+	//-----------------------------------------------------
+	//abstract methods
+	
+	/**
+	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
+	 * @param map
+	 * @param defaultStyle to apply when an item has no Style defined.
+	 * @param kmlDocument for styles
+	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
+	 * @return the overlay, depending on the KML object type: <br>
+	 * 		Folder=>FolderOverlay, Point=>Marker, Polygon=>Polygon, LineString=>Polyline, GroundOverlay=>GroundOverlay
+	 */
+	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, boolean supportVisibility);
+	
+	/** write KML content specific to its type */
+	public abstract void writeKMLSpecifics(Writer writer);
+
+	/** return this as GeoJSON object */
+	public abstract JSONObject asGeoJSON(boolean isRoot);
+	
+	//-----------------------------------------------------
+	
 	/** default constructor: create an UNKNOWN object */
 	public KmlFeature(){
 		mObjectType = UNKNOWN;
@@ -112,27 +134,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		mExtendedData.put(name, value);
 	}
 
-	//abstract methods
-	
-	/**
-	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
-	 * @param map
-	 * @param defaultIcon to use for Points if no icon specified. If null, default osmdroid marker icon will be used. 
-	 * @param kmlDocument for styles
-	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
-	 * @return the overlay, depending on the KML object type: <br>
-	 * 		Folder=>FolderOverlay, Point=>Marker, Polygon=>Polygon, LineString=>Polyline, GroundOverlay=>GroundOverlay
-	 * 		and return null if object type is UNKNOWN. 
-	 */
-	public abstract Overlay buildOverlay(MapView map, Drawable defaultIcon, KmlDocument kmlDocument, boolean supportVisibility);
-	
-	/** write KML content specific to its type */
-	public abstract void writeKMLSpecifics(Writer writer);
-
-	/** return this as GeoJSON object */
-	public abstract JSONObject asGeoJSON(boolean isRoot);
-	
-	
 	protected boolean writeKMLExtendedData(Writer writer){
 		if (mExtendedData == null)
 			return true;

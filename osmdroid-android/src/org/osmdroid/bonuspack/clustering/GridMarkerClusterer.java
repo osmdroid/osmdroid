@@ -112,8 +112,8 @@ public class GridMarkerClusterer extends MarkerClusterer {
 		String text = ""+cluster.getSize();
 	    int textHeight = (int) (mTextPaint.descent() + mTextPaint.ascent());
 		iconCanvas.drawText(text, 
-				mTextAnchorU*mClusterIcon.getWidth(), 
-				mTextAnchorV*mClusterIcon.getHeight() - textHeight/2, 
+				mTextAnchorU*finalIcon.getWidth(), 
+				mTextAnchorV*finalIcon.getHeight() - textHeight/2, 
 				mTextPaint);
 		m.setIcon(new BitmapDrawable(mapView.getContext().getResources(), finalIcon));
 		return m;

@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Parcel;
@@ -19,10 +20,23 @@ public class Style implements Parcelable {
 	public IconStyle mIconStyle;
 	
 	/** default constructor */
-	Style(){
+	public Style(){
+	}
+	
+	/** simple constructor */
+	public Style(Bitmap icon, int lineColor, float lineWidth, int fillColor){
+		mIconStyle = new IconStyle();
+		mIconStyle.mIcon = icon;
+		mLineStyle = new LineStyle();
+		mLineStyle.mColor = lineColor;
+		mLineStyle.mWidth = lineWidth;
+		mPolyStyle = new ColorStyle();
+		mPolyStyle.mColor = fillColor;
 	}
 	
 	public void setIcon(String iconHref, String containerFullPath){
+		if (mIconStyle == null)
+			mIconStyle = new IconStyle();
 		mIconStyle.setIcon(iconHref, containerFullPath);
 	}
 	
