@@ -61,6 +61,13 @@
 			android:textColor="#000000" />
 	</LinearLayout>
 	
+    <CheckBox android:id="@+id/checkbox_visible" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:text="Visible" 
+		android:textColor="#000000"
+		android:onClick="onCheckboxClicked"/>
+	
 	<Button 
 	    android:id="@+id/btnOK"
 		android:layout_width="fill_parent"

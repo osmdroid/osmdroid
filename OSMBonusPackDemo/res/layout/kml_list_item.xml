@@ -22,11 +22,11 @@
 		android:text="Item"
 		android:textColor="#336699"/>
 
-	<CheckBox 
+	<!-- CheckBox 
 	    android:id="@+id/listItemCheckbox"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_weight="0"
 		android:layout_gravity="right"
-	    android:focusable="false" />
+	    android:focusable="false" / -->
 </LinearLayout>

@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -74,7 +75,10 @@ public class KmlTreeActivity extends Activity {
 			lFillColorLayout.setVisibility(View.GONE);
 		}
 		
-		if (mCurrentKmlFeature.isA(KmlFeature.FOLDER)){
+		CheckBox cVisible = (CheckBox)findViewById(R.id.checkbox_visible);
+		cVisible.setChecked(mCurrentKmlFeature.mVisibility);
+		
+		if (mCurrentKmlFeature instanceof KmlFolder){
 			mListAdapter = new KmlListAdapter(this, (KmlFolder)mCurrentKmlFeature);
 			// setting list adapter
 			mListView.setAdapter(mListAdapter);
@@ -117,6 +121,15 @@ public class KmlTreeActivity extends Activity {
 		    }
 		});
     }
+
+	public void onCheckboxClicked(View view) {
+		boolean checked = ((CheckBox)view).isChecked();
+		switch(view.getId()) {
+		case R.id.checkbox_visible:
+			mCurrentKmlFeature.mVisibility = checked;
+			break;
+		}
+	}
 
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {

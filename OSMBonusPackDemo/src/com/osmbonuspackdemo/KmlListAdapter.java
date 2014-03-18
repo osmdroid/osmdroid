@@ -9,14 +9,11 @@ import org.osmdroid.bonuspack.kml.KmlMultiGeometry;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
 import org.osmdroid.bonuspack.kml.KmlPoint;
 import org.osmdroid.bonuspack.kml.KmlPolygon;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,6 +50,7 @@ public class KmlListAdapter extends BaseAdapter {
         itemText.setText(item.mName);
         
         //Handle checkbox:
+        /*
         CheckBox checkBoxIsVisible = (CheckBox)convertView.findViewById(R.id.listItemCheckbox);
         checkBoxIsVisible.setChecked(mRoot.mItems.get(position).mVisibility);
         if (checkBoxIsVisible != null) {
@@ -65,6 +63,7 @@ public class KmlListAdapter extends BaseAdapter {
 	        });
 	        checkBoxIsVisible.setTag(position);
         }
+        */
         
 		ImageView img = (ImageView)convertView.findViewById(R.id.listItemImg);
 		if (item instanceof KmlFolder) {
