@@ -30,7 +30,6 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 
 	public KmlFolder(){
 		super();
-		mObjectType = FOLDER;
 		mItems = new ArrayList<KmlFeature>();
 	}
 	

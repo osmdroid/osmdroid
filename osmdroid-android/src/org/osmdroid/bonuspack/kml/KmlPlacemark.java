@@ -28,7 +28,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	/** constructs a Placemark of unknown Geometry */
 	public KmlPlacemark(){
 		super();
-		mObjectType = PLACEMARK;
 	}
 	
 	/**

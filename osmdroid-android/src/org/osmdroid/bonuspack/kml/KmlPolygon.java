@@ -17,15 +17,16 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * KML and/or GeoJSON Polygon
  * @author M.Kergall
  */
 public class KmlPolygon extends KmlGeometry {
 	
-	/** Polygon holes (can be null) */
+	/** Polygon holes (can be null if none) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
 
 	public KmlPolygon(){
-		mType = POLYGON;
+		super();
 	}
 
 	/** Build the corresponding Polygon overlay */	

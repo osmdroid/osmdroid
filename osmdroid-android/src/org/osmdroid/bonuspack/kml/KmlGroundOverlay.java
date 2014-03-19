@@ -40,7 +40,6 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 
 	public KmlGroundOverlay(){
 		super();
-		mObjectType = GROUND_OVERLAY;
 		mColor = 0xFF000000;
 	}
 

@@ -3,26 +3,21 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
-
 import org.json.JSONObject;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
  * The Java representation of a KML Feature. 
  * It currently supports: Folder, Document, GroundOverlay, and Placemark with the following Geometry: Point, LineString, or Polygon. <br>
- * This is an abstract class, real Features must use sub-classes. 
- * Each KmlFeature has an object type (mObjectType). <br>
- * 	- Folder feature is a KmlFolder, and its object type = FOLDER. <br>
- * 	- Document feature is handled exactly like a Folder (KmlFolder, object type = FOLDER). <br>
- * 	- GroundOverlay feature is a KmlGroundOverlay, and its object type = GROUND_OVERLAY. 
- * 	- Placemark feature is a KmlPlacemark, its object type is a PLACEMARK. 
- * 	  It contains both the Placemark attributes and the Geometry. <br>
- * 	- UNKNOWN object type is reserved for default, issues/errors, or unsupported features. 
+ * This is an abstract class, actual Features must use sub-classes:
+ * 	- Folder feature is a KmlFolder. <br>
+ * 	- Document feature is a KmlFolder, handled exactly like a Folder. <br>
+ * 	- GroundOverlay feature is a KmlGroundOverlay. 
+ * 	- Placemark feature is a KmlPlacemark. <br>
  * 
  * @see KmlDocument
  * @see https://developers.google.com/kml/documentation/kmlreference
@@ -30,11 +25,7 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public abstract class KmlFeature implements Parcelable, Cloneable {
-	/** possible KML Feature type */
-	public static final int UNKNOWN=0, PLACEMARK=1, GROUND_OVERLAY=4, FOLDER=5;
 
-	/** KML Feature type */
-	public int mObjectType;
 	/** feature id attribute, if any. Null if none. */
 	public String mId;
 	/** name tag */
@@ -79,24 +70,19 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	
 	/** default constructor: create an UNKNOWN object */
 	public KmlFeature(){
-		mObjectType = UNKNOWN;
 		mVisibility=true;
 		mOpen=true;
 	}
-	
-	public boolean isA(int objectType){
-		return(mObjectType == objectType);
-	}
-	
-	/** return true only if this a KML Placemark containing KML Geometry geomType. */
-	public boolean hasGeometry(int geomType){
-		if (!isA(PLACEMARK))
+
+	/** return true only if this a KML Placemark containing a KML Geometry of class C. */
+	public boolean hasGeometry(Class<? extends KmlGeometry> C){
+		if (!(this instanceof KmlPlacemark))
 			return false;
 		KmlPlacemark placemark = (KmlPlacemark)this;
 		KmlGeometry geometry = placemark.mGeometry;
 		if (geometry == null)
 			return false;
-		return geometry.isA(geomType);
+		return C.isInstance(geometry);
 	}
 	
 	/**
@@ -161,24 +147,19 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	 */
 	public boolean writeAsKML(Writer writer, boolean isDocument, KmlDocument kmlDocument){
 		try {
+			//TODO: push this code in each subclass
 			String objectType;
-			switch (mObjectType){
-			case FOLDER:
+			if (this instanceof KmlFolder){
 				if (isDocument)
 					objectType = "Document";
 				else 
 					objectType = "Folder";
-				break;
-			case PLACEMARK:
+			} else if (this instanceof KmlPlacemark)
 				objectType = "Placemark";
-				break;
-			case GROUND_OVERLAY:
+			else if (this instanceof KmlGroundOverlay)
 				objectType = "GroundOverlay";
-				break;
-			default:
-				objectType = "Unknown"; //TODO - not a good error handling
-				break;
-			}
+			else
+				return false;
 			writer.write('<'+objectType);
 			if (mId != null)
 				writer.write(" id=\"mId\"");
@@ -246,7 +227,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	}
 
 	@Override public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(mObjectType);
 		out.writeString(mId);
 		out.writeString(mName);
 		out.writeString(mDescription);
@@ -269,7 +249,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	*/
 	
 	public KmlFeature(Parcel in){
-		mObjectType = in.readInt();
 		mId = in.readString();
 		mName = in.readString();
 		mDescription = in.readString();

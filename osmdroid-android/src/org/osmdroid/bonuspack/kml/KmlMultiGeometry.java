@@ -17,16 +17,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * KML MultiGeometry. 
+ * KML MultiGeometry and/or GeoJSON GeometryCollection. 
+ * It can also parse GeoJSON MultiPoint. 
  * @author M.Kergall
  */
 public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelable {
 
+	/** list of KmlGeometry items. Can be empty if none, but is not null */
 	public ArrayList<KmlGeometry> mItems;
 	
 	public KmlMultiGeometry(){
 		super();
-		mType = MULTI_GEOMETRY;
 		mItems = new ArrayList<KmlGeometry>();
 	}
 
@@ -115,7 +116,6 @@ public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelab
 	@Override public void writeToParcel(Parcel out, int flags) {
 		super.writeToParcel(out, flags);
 		out.writeList(mItems);
-		//TODO
 	}
 	
 	public static final Parcelable.Creator<KmlMultiGeometry> CREATOR = new Parcelable.Creator<KmlMultiGeometry>() {

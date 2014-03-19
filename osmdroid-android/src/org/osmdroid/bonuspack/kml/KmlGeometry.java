@@ -17,16 +17,13 @@ import android.os.Parcelable;
 
 /**
  * KML Geometry. This is an abstract class. 
+ * Supported subclasses are: KmlPoint, KmlLineString, KmlPolygon and KmlMultiGeometry
  * @author M.Kergall
  *
  */
 public abstract class KmlGeometry implements Cloneable, Parcelable {
-	/** possible KML Geometry type */
-	public final static int UNKNOWN=0, POINT=1, LINE_STRING=2, POLYGON=3, MULTI_GEOMETRY=4;
 	
-	/** KML Geometry type */
-	public int mType;
-	/** id attribute, if any. Null if none. */
+	/** KML id attribute, if any. Null if none. */
 	public String mId;
 	/** coordinates of the geometry. If Point, one and only one entry. */
 	public ArrayList<GeoPoint> mCoordinates;
@@ -40,11 +37,6 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	//-----------------------------------------------------
 	
 	public KmlGeometry(){
-		mType = UNKNOWN;
-	}
-	
-	public boolean isA(int geomType){
-		return (mType == geomType);
 	}
 
 	/**
@@ -108,7 +100,7 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 		return result;
 	}
 	
-	/** parse a GeoJSON Position: [longitude, latitude, altitude] */
+	/** parse a GeoJSON Position: [longitude, latitude, altitude(optional)] */
 	public static GeoPoint parseGeoJSONPosition(JSONArray json){
 		return new GeoPoint(json.optDouble(1, 0.0), 
 				json.optDouble(0, 0.0), 
@@ -171,13 +163,11 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	}
 
 	@Override public void writeToParcel(Parcel out, int flags) {
-		out.writeInt(mType);
 		out.writeString(mId);
 		out.writeList(mCoordinates);
 	}
 	
 	public KmlGeometry(Parcel in){
-		mType = in.readInt();
 		mId = in.readString();
 		mCoordinates = in.readArrayList(GeoPoint.class.getClassLoader());
 	}

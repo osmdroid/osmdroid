@@ -25,7 +25,7 @@ import android.view.MotionEvent;
  * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br/>
  * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br/>
  * - Supports an image, to be displayed in the InfoWindow. <br/>
- * - Supports "panning to view" = when touching a marker, center the map on marker position. <br/>
+ * - Supports "panning to view" on/off option (when touching a marker, center the map on marker position). <br/>
  * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br/>
  * - Events listeners are set per marker, not per map. <br/>
  * 
@@ -92,7 +92,7 @@ public class Marker extends Overlay {
 		if (mDefaultIcon == null)
 			mDefaultIcon = resourceProxy.getDrawable(bitmap.marker_default);
 		mIcon = mDefaultIcon;
-		if (mDefaultInfoWindow == null){
+		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
 			Context context = mapView.getContext();
 			String packageName = context.getPackageName();
@@ -116,7 +116,7 @@ public class Marker extends Overlay {
 	}
 	
 	public GeoPoint getPosition(){
-		return mPosition.clone();
+		return mPosition;
 	}
 	
 	public void setPosition(GeoPoint position){

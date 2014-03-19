@@ -16,13 +16,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * KML and/or GeoJSON Point
  * @author M.Kergall
  */
 public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 
 	public KmlPoint(){
 		super();
-		mType = POINT;
 	}
 	
 	public KmlPoint(GeoPoint position){

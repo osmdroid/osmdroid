@@ -14,12 +14,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
+ * KML and/or GeoJSON LineString
  * @author M.Kergall
  */
 public class KmlLineString extends KmlGeometry {
 	
 	public KmlLineString(){
-		mType = LINE_STRING;
+		super();
 	}
 	
 	public KmlLineString(JSONObject json){
