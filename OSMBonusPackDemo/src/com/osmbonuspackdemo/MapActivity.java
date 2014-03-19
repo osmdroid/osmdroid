@@ -304,14 +304,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 
 		//KML handling:
-		mKmlDocument = new KmlDocument();
-		mKmlStack = new Stack<KmlFeature>();
-		mKmlClipboard = null;
 		mKmlOverlay = null;
 		if (savedInstanceState != null){
 			//STATIC - mKmlDocument = savedInstanceState.getParcelable("kml");
 			updateUIWithKml();
 		} else { //first launch: 
+			mKmlDocument = new KmlDocument();
+			mKmlStack = new Stack<KmlFeature>();
 			mKmlClipboard = new KmlFolder();
 			//check if intent has been passed with a kml URI to load (url or file)
 			Intent onCreateIntent = getIntent();

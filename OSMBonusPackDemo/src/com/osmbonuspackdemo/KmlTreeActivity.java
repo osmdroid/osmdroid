@@ -2,7 +2,8 @@ package com.osmbonuspackdemo;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;
-import org.osmdroid.bonuspack.kml.KmlGeometry;
+import org.osmdroid.bonuspack.kml.KmlLineString;
+import org.osmdroid.bonuspack.kml.KmlPolygon;
 import org.osmdroid.bonuspack.kml.LineStyle;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.kml.ColorStyle;
@@ -58,7 +59,7 @@ public class KmlTreeActivity extends Activity {
 			style = MapActivity.mKmlDocument.getStyle(mCurrentKmlFeature.mStyle);
 		
 		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
-		if ((mCurrentKmlFeature.hasGeometry(KmlGeometry.LINE_STRING) || mCurrentKmlFeature.hasGeometry(KmlGeometry.POLYGON)) && style!=null){
+		if ((mCurrentKmlFeature.hasGeometry(KmlLineString.class) || mCurrentKmlFeature.hasGeometry(KmlPolygon.class)) && style!=null){
 			mLineStyle = style.mLineStyle;
 			eOutlineColor.setText(mLineStyle.colorAsAndroidString());
 		} else {
@@ -67,7 +68,7 @@ public class KmlTreeActivity extends Activity {
 		}
 		
 		eFillColor = (EditText)findViewById(R.id.fillColor);
-		if (mCurrentKmlFeature.hasGeometry(KmlGeometry.POLYGON) && style!=null){
+		if (mCurrentKmlFeature.hasGeometry(KmlPolygon.class) && style!=null){
 			mPolyStyle = style.mPolyStyle;
 			eFillColor.setText(mPolyStyle.colorAsAndroidString());
 		} else {
