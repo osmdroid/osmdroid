@@ -122,24 +122,23 @@ public class OverlayManager extends AbstractList<Overlay> {
 	}
 
 	public void onDraw(final Canvas c, final MapView pMapView) {
-		if (mTilesOverlay != null && mTilesOverlay.isEnabled()
-				&& mTilesOverlay.isDrawingShadowLayer()) {
-			mTilesOverlay.onDraw(c, pMapView, true);
+		if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
+			mTilesOverlay.draw(c, pMapView, true);
 		}
 
 		if (mTilesOverlay != null && mTilesOverlay.isEnabled()) {
-			mTilesOverlay.onDraw(c, pMapView, false);
+			mTilesOverlay.draw(c, pMapView, false);
 		}
 
 		for (final Overlay overlay : mOverlayList) {
-			if (overlay.isEnabled() && overlay.isDrawingShadowLayer()) {
-				overlay.onDraw(c, pMapView, true);
+			if (overlay.isEnabled()) {
+				overlay.draw(c, pMapView, true);
 			}
 		}
 
 		for (final Overlay overlay : mOverlayList) {
 			if (overlay.isEnabled()) {
-				overlay.onDraw(c, pMapView, false);
+				overlay.draw(c, pMapView, false);
 			}
 		}
 
