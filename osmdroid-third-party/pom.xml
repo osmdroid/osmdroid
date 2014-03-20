@@ -17,16 +17,12 @@
     <dependencies>
         <!-- Android included libraries -->
         <dependency>
-            <groupId>com.google.android</groupId>
+            <groupId>android</groupId>
             <artifactId>android</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.android</groupId>
-            <artifactId>support-v4</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
+            <groupId>android.support</groupId>
+            <artifactId>compatibility-v4</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.android.maps</groupId>
@@ -36,6 +32,10 @@
             <groupId>com.google.android.gms</groupId>
             <artifactId>google-play-services</artifactId>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
