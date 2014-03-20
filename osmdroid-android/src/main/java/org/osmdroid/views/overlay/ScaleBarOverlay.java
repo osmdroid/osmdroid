@@ -46,8 +46,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Picture;
+import android.graphics.Path;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 public class ScaleBarOverlay extends Overlay implements GeoConstants {
@@ -56,12 +57,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Fields
 	// ===========================================================
 
+	private static final Rect sTextBoundsRect = new Rect();
+
 	// Defaults
 
 	float xOffset = 10;
 	float yOffset = 10;
-	float lineWidth = 2;
-	final int textSize = 12;
 	int minZoom = 0;
 
 	boolean imperial = false;
@@ -74,7 +75,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	private final Context context;
 
-	protected final Picture scaleBarPicture = new Picture();
+	protected final Path barPath = new Path();
+	protected final Rect latitudeBarRect = new Rect();
+	protected final Rect longitudeBarRect = new Rect();
 
 	private int lastZoomLevel = -1;
 	private float lastLatitude = 0;
@@ -88,9 +91,6 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	private Paint barPaint;
 	private Paint bgPaint;
 	private Paint textPaint;
-	private Projection projection;
-
-	final private Rect mBounds = new Rect();
 
 	private boolean centred = false;
 	private boolean adjustLength = false;
@@ -108,12 +108,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		super(pResourceProxy);
 		this.resourceProxy = pResourceProxy;
 		this.context = context;
+		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 		this.barPaint = new Paint();
 		this.barPaint.setColor(Color.BLACK);
 		this.barPaint.setAntiAlias(true);
-		this.barPaint.setStyle(Style.FILL);
+		this.barPaint.setStyle(Style.STROKE);
 		this.barPaint.setAlpha(255);
+		this.barPaint.setStrokeWidth(2 * dm.density);
 		this.bgPaint = null;
 
 		this.textPaint = new Paint();
@@ -121,13 +123,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		this.textPaint.setAntiAlias(true);
 		this.textPaint.setStyle(Style.FILL);
 		this.textPaint.setAlpha(255);
-		this.textPaint.setTextSize(textSize);
+		this.textPaint.setTextSize(10 * dm.density);
 
-		this.xdpi = this.context.getResources().getDisplayMetrics().xdpi;
-		this.ydpi = this.context.getResources().getDisplayMetrics().ydpi;
+		this.xdpi = dm.xdpi;
+		this.ydpi = dm.ydpi;
 
-		this.screenWidth = this.context.getResources().getDisplayMetrics().widthPixels;
-		this.screenHeight = this.context.getResources().getDisplayMetrics().heightPixels;
+		this.screenWidth = dm.widthPixels;
+		this.screenHeight = dm.heightPixels;
 
 		// DPI corrections for specific models
 		String manufacturer = null;
@@ -160,23 +162,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		maxLength = 2.54f;
 	}
 
-	@Override
-	public boolean isHardwareAccelerated() {
-		return false;
-	}
-
-	@Override
-	public boolean isDrawingShadowLayer() {
-		return false;
-	}
-
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
 
 	/**
 	 * Sets the minimum zoom level for the scale bar to be drawn.
-	 * @param minimum zoom level
+	 * @param zoom minimum zoom level
 	 */
 	public void setMinZoom(final int zoom) {
 		this.minZoom = zoom;
@@ -197,7 +189,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param width the new line width
 	 */
 	public void setLineWidth(final float width) {
-		this.lineWidth = width;
+		this.barPaint.setStrokeWidth(width);
 	}
 
 	/**
@@ -360,20 +352,35 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
 				lastZoomLevel = zoomLevel;
 				lastLatitude = center.getLatitudeE6();
-				createScaleBarPicture(mapView);
+				rebuildBarPath(projection);
 			}
 
-			mBounds.set(0, 0, scaleBarPicture.getWidth(), scaleBarPicture.getHeight());
-			mBounds.offset((int) xOffset, (int) yOffset);
+			int offsetX = (int) xOffset;
+			int offsetY = (int) yOffset;
 			if (centred && latitudeBar)
-				mBounds.offset(-scaleBarPicture.getWidth() / 2, 0);
+				offsetX += -latitudeBarRect.width() / 2;
 			if (centred && longitudeBar)
-				mBounds.offset(0, -scaleBarPicture.getHeight() / 2);
+				offsetY += -longitudeBarRect.height() / 2;
 
-			mBounds.set(mBounds);
 			c.save();
 			mapView.invertCanvas(c);
-			c.drawPicture(scaleBarPicture, mBounds);
+			c.translate(offsetX, offsetY);
+
+			if (latitudeBar && bgPaint != null)
+				c.drawRect(latitudeBarRect, bgPaint);
+			if (longitudeBar && bgPaint != null) {
+				// Don't draw on top of latitude background...
+				int offsetTop = latitudeBar ? latitudeBarRect.height() : 0;
+				c.drawRect(longitudeBarRect.left, longitudeBarRect.top + offsetTop,
+						longitudeBarRect.right, longitudeBarRect.bottom, bgPaint);
+			}
+			c.drawPath(barPath, barPaint);
+			if (latitudeBar) {
+				drawLatitudeText(c, projection);
+			}
+			if (longitudeBar) {
+				drawLongitudeText(c, projection);
+			}
 			c.restore();
 		}
 	}
@@ -390,15 +397,68 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		setEnabled(true);
 	}
 
-	private void createScaleBarPicture(final MapView mapView) {
+	private void drawLatitudeText(final Canvas canvas, final Projection projection) {
+		// calculate dots per centimeter
+		int xdpcm = (int) ((float) xdpi / 2.54);
+
+		// get length in pixel
+		int xLen = (int) (maxLength * xdpcm);
+
+		// Two points, xLen apart, at scale bar screen location
+		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xLen / 2), yOffset);
+		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset);
+
+		// get distance in meters between points
+		final int xMeters = ((GeoPoint) p1).distanceTo(p2);
+		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
+		final double xMetersAdjusted = this.adjustLength ? adjustScaleBarLength(xMeters) : xMeters;
+		// get adjusted length in pixels
+		final int xBarLengthPixels = (int) (xLen * xMetersAdjusted / xMeters);
+
+		// create text
+		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
+		textPaint.getTextBounds(xMsg, 0, xMsg.length(), sTextBoundsRect);
+		final int xTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
+
+		float x = xBarLengthPixels / 2 - sTextBoundsRect.width() / 2;
+		float y = sTextBoundsRect.height() + xTextSpacing;
+		canvas.drawText(xMsg, x, y, textPaint);
+	}
+
+	private void drawLongitudeText(final Canvas canvas, final Projection projection) {
+		// calculate dots per centimeter
+		int ydpcm = (int) ((float) ydpi / 2.54);
+
+		// get length in pixel
+		int yLen = (int) (maxLength * ydpcm);
+
+		// Two points, yLen apart, at scale bar screen location
+		IGeoPoint p1 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) - (yLen / 2));
+		IGeoPoint p2 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2));
+
+		// get distance in meters between points
+		final int yMeters = ((GeoPoint) p1).distanceTo(p2);
+		// get adjusted distance, shortened to the next lower number starting with 1, 2 or 5
+		final double yMetersAdjusted = this.adjustLength ? adjustScaleBarLength(yMeters) : yMeters;
+		// get adjusted length in pixels
+		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
+
+		// create text
+		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
+		textPaint.getTextBounds(yMsg, 0, yMsg.length(), sTextBoundsRect);
+		final int yTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
+
+		final float x = sTextBoundsRect.height() + yTextSpacing;
+		final float y = yBarLengthPixels / 2 + sTextBoundsRect.width() / 2;
+		canvas.save();
+		canvas.rotate(-90, x, y);
+		canvas.drawText(yMsg, x, y, textPaint);
+		canvas.restore();
+	}
+
+	private void rebuildBarPath(final Projection projection) {
 		// We want the scale bar to be as long as the closest round-number miles/kilometers
 		// to 1-inch at the latitude at the current center of the screen.
-
-		projection = mapView.getProjection();
-
-		if (projection == null) {
-			return;
-		}
 
 		// calculate dots per centimeter
 		int xdpcm = (int) ((float) xdpi / 2.54);
@@ -430,67 +490,44 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		// get adjusted length in pixels
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
-		final Canvas canvas = scaleBarPicture.beginRecording(xBarLengthPixels, yBarLengthPixels);
-
 		// create text
 		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
 		final Rect xTextRect = new Rect();
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
 		final int xTextSpacing = (int) (xTextRect.height() / 5.0);
 
+		// create text
 		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
 		final Rect yTextRect = new Rect();
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
 		final int yTextSpacing = (int) (yTextRect.height() / 5.0);
 
-		// paint background
-		if (bgPaint != null) {
-			canvas.drawRect(0, 0, yTextRect.height() + 2 * lineWidth + yTextSpacing,
-					xTextRect.height() + 2 * lineWidth + xTextSpacing, bgPaint);
-			if (latitudeBar)
-				canvas.drawRect(yTextRect.height() + 2 * lineWidth + yTextSpacing, 0,
-						xBarLengthPixels + lineWidth, xTextRect.height() + 2 * lineWidth
-								+ xTextSpacing, bgPaint);
-			if (longitudeBar)
-				canvas.drawRect(0, xTextRect.height() + 2 * lineWidth + xTextSpacing,
-						yTextRect.height() + 2 * lineWidth + yTextSpacing, yBarLengthPixels
-								+ lineWidth, bgPaint);
-		}
+		barPath.rewind();
 
-		// draw latitude bar
 		if (latitudeBar) {
-			canvas.drawRect(0, 0, xBarLengthPixels, lineWidth, barPaint);
-			canvas.drawRect(xBarLengthPixels, 0, xBarLengthPixels + lineWidth, xTextRect.height()
-					+ lineWidth + xTextSpacing, barPaint);
+			// draw latitude bar
+			barPath.moveTo(xBarLengthPixels, xTextRect.height() + xTextSpacing * 2);
+			barPath.lineTo(xBarLengthPixels, 0);
+			barPath.lineTo(0, 0);
 
 			if (!longitudeBar) {
-				canvas.drawRect(0, 0, lineWidth, xTextRect.height() + lineWidth + xTextSpacing,
-						barPaint);
+				barPath.lineTo(0, xTextRect.height() + xTextSpacing * 2);
 			}
-
-			canvas.drawText(xMsg, xBarLengthPixels / 2 - xTextRect.width() / 2, xTextRect.height()
-					+ lineWidth + xTextSpacing, textPaint);
+			latitudeBarRect.set(0, 0, xBarLengthPixels, xTextRect.height() + xTextSpacing * 2);
 		}
 
-		// draw longitude bar
 		if (longitudeBar) {
-			canvas.drawRect(0, 0, lineWidth, yBarLengthPixels, barPaint);
-			canvas.drawRect(0, yBarLengthPixels, yTextRect.height() + lineWidth + yTextSpacing,
-					yBarLengthPixels + lineWidth, barPaint);
-
+			// draw longitude bar
 			if (!latitudeBar) {
-				canvas.drawRect(0, 0, yTextRect.height() + lineWidth + yTextSpacing, lineWidth,
-						barPaint);
+				barPath.moveTo(yTextRect.height() + yTextSpacing * 2, 0);
+				barPath.lineTo(0, 0);
 			}
 
-			final float x = yTextRect.height() + lineWidth + yTextSpacing;
-			final float y = yBarLengthPixels / 2 + yTextRect.width() / 2;
+			barPath.lineTo(0, yBarLengthPixels);
+			barPath.lineTo(yTextRect.height() + yTextSpacing * 2, yBarLengthPixels);
 
-			canvas.rotate(-90, x, y);
-			canvas.drawText(yMsg, x, y, textPaint);
+			longitudeBarRect.set(0, 0, yTextRect.height() + yTextSpacing * 2, yBarLengthPixels);
 		}
-
-		scaleBarPicture.endRecording();
 	}
 
 	/**
