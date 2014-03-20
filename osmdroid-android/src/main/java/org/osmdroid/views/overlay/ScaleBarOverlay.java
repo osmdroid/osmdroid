@@ -171,16 +171,22 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the minimum zoom level for the scale bar to be drawn.
-	 * @param zoom minimum zoom level
+	 * 
+	 * @param zoom
+	 *            minimum zoom level
 	 */
 	public void setMinZoom(final int zoom) {
 		this.minZoom = zoom;
 	}
 
 	/**
-	 * Sets the scale bar screen offset for the bar. Note: if the bar is set to be drawn centered, this will be the middle of the bar, otherwise the top left corner.   
-	 * @param x x screen offset
-	 * @param y z screen offset
+	 * Sets the scale bar screen offset for the bar. Note: if the bar is set to be drawn centered,
+	 * this will be the middle of the bar, otherwise the top left corner.
+	 * 
+	 * @param x
+	 *            x screen offset
+	 * @param y
+	 *            z screen offset
 	 */
 	public void setScaleBarOffset(final float x, final float y) {
 		xOffset = x;
@@ -189,7 +195,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the bar's line width. (the default is 2)
-	 * @param width the new line width
+	 * 
+	 * @param width
+	 *            the new line width
 	 */
 	public void setLineWidth(final float width) {
 		this.barPaint.setStrokeWidth(width);
@@ -197,7 +205,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the text size. (the default is 12)
-	 * @param size the new text size
+	 * 
+	 * @param size
+	 *            the new text size
 	 */
 	public void setTextSize(final float size) {
 		this.textPaint.setTextSize(size);
@@ -220,6 +230,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Latitudinal / horizontal scale bar flag
+	 * 
 	 * @param latitude
 	 */
 	public void drawLatitudeScale(final boolean latitude) {
@@ -229,6 +240,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Longitudinal / vertical scale bar flag
+	 * 
 	 * @param longitude
 	 */
 	public void drawLongitudeScale(final boolean longitude) {
@@ -237,8 +249,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Flag to draw the bar centered around the set offset coordinates or to the right/bottom of the coordinates (default)
-	 * @param centred set true to centre the bar around the given screen coordinates
+	 * Flag to draw the bar centered around the set offset coordinates or to the right/bottom of the
+	 * coordinates (default)
+	 * 
+	 * @param centred
+	 *            set true to centre the bar around the given screen coordinates
 	 */
 	public void setCentred(final boolean centred) {
 		this.centred = centred;
@@ -247,6 +262,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Return's the paint used to draw the bar
+	 * 
 	 * @return the paint used to draw the bar
 	 */
 	public Paint getBarPaint() {
@@ -255,7 +271,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the paint for drawing the bar
-	 * @param pBarPaint bar drawing paint
+	 * 
+	 * @param pBarPaint
+	 *            bar drawing paint
 	 */
 	public void setBarPaint(final Paint pBarPaint) {
 		if (pBarPaint == null) {
@@ -267,6 +285,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Returns the paint used to draw the text
+	 * 
 	 * @return the paint used to draw the text
 	 */
 	public Paint getTextPaint() {
@@ -275,7 +294,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the paint for drawing the text
-	 * @param pTextPaint text drawing paint
+	 * 
+	 * @param pTextPaint
+	 *            text drawing paint
 	 */
 	public void setTextPaint(final Paint pTextPaint) {
 		if (pTextPaint == null) {
@@ -287,7 +308,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the background paint. Set to null to disable drawing of background (default)
-	 * @param pBgPaint the paint for colouring the bar background
+	 * 
+	 * @param pBgPaint
+	 *            the paint for colouring the bar background
 	 */
 	public void setBackgroundPaint(final Paint pBgPaint) {
 		bgPaint = pBgPaint;
@@ -305,9 +328,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Sets the maximum bar length. If adjustLength is disabled this will match exactly the length of the bar.
-	 * If adjustLength is enabled, the bar will be shortened to reflect a round number in length. 
-	 * @param pMaxLengthInCm maximum length of the bar in the screen in cm. Default is 2.54 (=1 inch)
+	 * Sets the maximum bar length. If adjustLength is disabled this will match exactly the length
+	 * of the bar. If adjustLength is enabled, the bar will be shortened to reflect a round number
+	 * in length.
+	 * 
+	 * @param pMaxLengthInCm
+	 *            maximum length of the bar in the screen in cm. Default is 2.54 (=1 inch)
 	 */
 	public void setMaxLength(final float pMaxLengthInCm) {
 		this.maxLength = pMaxLengthInCm;
@@ -522,9 +548,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Returns a reduced length that starts with 1, 2 or 5 and trailing zeros. If set to nautical or imperial the 
-	 * input will be transformed before and after the reduction so that the result holds in that respective unit.
-	 * @param length length to round
+	 * Returns a reduced length that starts with 1, 2 or 5 and trailing zeros. If set to nautical or
+	 * imperial the input will be transformed before and after the reduction so that the result
+	 * holds in that respective unit.
+	 * 
+	 * @param length
+	 *            length to round
 	 * @return reduced, rounded (in m, nm or mi depending on setting) result
 	 */
 	private double adjustScaleBarLength(double length) {
