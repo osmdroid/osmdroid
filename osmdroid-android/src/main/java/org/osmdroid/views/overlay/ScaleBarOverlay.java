@@ -59,14 +59,17 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	private static final Rect sTextBoundsRect = new Rect();
 
+	public enum UnitsOfMeasure {
+		metric, imperial, nautical
+	}
+
 	// Defaults
 
 	float xOffset = 10;
 	float yOffset = 10;
 	int minZoom = 0;
 
-	boolean imperial = false;
-	boolean nautical = false;
+	UnitsOfMeasure unitsOfMeasure = UnitsOfMeasure.metric;
 
 	boolean latitudeBar = true;
 	boolean longitudeBar = false;
@@ -201,30 +204,18 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Sets the length to be shown in imperial units (mi/ft)
+	 * Sets the units of measure to be shown in the scale bar
 	 */
-	public void setImperial() {
-		this.imperial = true;
-		this.nautical = false;
+	public void setUnitsOfMeasure(UnitsOfMeasure unitsOfMeasure) {
+		this.unitsOfMeasure = unitsOfMeasure;
 		lastZoomLevel = -1; // Force redraw of scalebar
 	}
 
 	/**
-	 * Sets the length to be shown in nautical units (nm/ft)
+	 * Gets the units of measure to be shown in the scale bar
 	 */
-	public void setNautical() {
-		this.nautical = true;
-		this.imperial = false;
-		lastZoomLevel = -1; // Force redraw of scalebar
-	}
-
-	/**
-	 * Sets the length to be shown in metric units (km/m)
-	 */
-	public void setMetric() {
-		this.nautical = false;
-		this.imperial = false;
-		lastZoomLevel = -1; // Force redraw of scalebar
+	public UnitsOfMeasure getUnitsOfMeasure() {
+		return unitsOfMeasure;
 	}
 
 	/**
@@ -416,7 +407,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int xBarLengthPixels = (int) (xLen * xMetersAdjusted / xMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
+		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), sTextBoundsRect);
 		final int xTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -444,7 +435,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
+		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), sTextBoundsRect);
 		final int yTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -491,13 +482,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
+		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
 		final Rect xTextRect = new Rect();
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
 		final int xTextSpacing = (int) (xTextRect.height() / 5.0);
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
+		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
 		final Rect yTextRect = new Rect();
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
 		final int yTextSpacing = (int) (yTextRect.height() / 5.0);
@@ -539,14 +530,14 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	private double adjustScaleBarLength(double length) {
 		long pow = 0;
 		boolean feet = false;
-		if (this.imperial) {
+		if (unitsOfMeasure == UnitsOfMeasure.imperial) {
 			if (length >= GeoConstants.METERS_PER_STATUTE_MILE / 5)
 				length = length / GeoConstants.METERS_PER_STATUTE_MILE;
 			else {
 				length = length * GeoConstants.FEET_PER_METER;
 				feet = true;
 			}
-		} else if (this.nautical) {
+		} else if (unitsOfMeasure == UnitsOfMeasure.nautical) {
 			if (length >= GeoConstants.METERS_PER_NAUTICAL_MILE / 5)
 				length = length / GeoConstants.METERS_PER_NAUTICAL_MILE;
 			else {
@@ -573,17 +564,28 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		}
 		if (feet)
 			length = length / GeoConstants.FEET_PER_METER;
-		else if (this.imperial)
+		else if (unitsOfMeasure == UnitsOfMeasure.imperial)
 			length = length * GeoConstants.METERS_PER_STATUTE_MILE;
-		else if (this.nautical)
+		else if (unitsOfMeasure == UnitsOfMeasure.nautical)
 			length = length * GeoConstants.METERS_PER_NAUTICAL_MILE;
 		length *= Math.pow(10, pow);
 		return length;
 	}
 
-	protected String scaleBarLengthText(final int meters, final boolean imperial,
-			final boolean nautical) {
-		if (this.imperial) {
+	protected String scaleBarLengthText(final int meters) {
+		switch (unitsOfMeasure) {
+		default:
+		case metric:
+			if (meters >= 1000 * 5) {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
+						(meters / 1000));
+			} else if (meters >= 1000 / 5) {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
+						(int) (meters / 100.0) / 10.0);
+			} else {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);
+			}
+		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_miles,
 						(int) (meters / METERS_PER_STATUTE_MILE));
@@ -595,7 +597,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
 						(int) (meters * FEET_PER_METER));
 			}
-		} else if (this.nautical) {
+		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,
 						((int) (meters / METERS_PER_NAUTICAL_MILE)));
@@ -605,16 +607,6 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			} else {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
 						((int) (meters * FEET_PER_METER)));
-			}
-		} else {
-			if (meters >= 1000 * 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
-						(meters / 1000));
-			} else if (meters >= 1000 / 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
-						(int) (meters / 100.0) / 10.0);
-			} else {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);
 			}
 		}
 	}
