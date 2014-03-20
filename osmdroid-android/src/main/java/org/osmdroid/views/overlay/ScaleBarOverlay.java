@@ -59,14 +59,17 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	private static final Rect sTextBoundsRect = new Rect();
 
+	public enum UnitsOfMeasure {
+		metric, imperial, nautical
+	}
+
 	// Defaults
 
 	float xOffset = 10;
 	float yOffset = 10;
 	int minZoom = 0;
 
-	boolean imperial = false;
-	boolean nautical = false;
+	UnitsOfMeasure unitsOfMeasure = UnitsOfMeasure.metric;
 
 	boolean latitudeBar = true;
 	boolean longitudeBar = false;
@@ -168,16 +171,22 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the minimum zoom level for the scale bar to be drawn.
-	 * @param zoom minimum zoom level
+	 * 
+	 * @param zoom
+	 *            minimum zoom level
 	 */
 	public void setMinZoom(final int zoom) {
 		this.minZoom = zoom;
 	}
 
 	/**
-	 * Sets the scale bar screen offset for the bar. Note: if the bar is set to be drawn centered, this will be the middle of the bar, otherwise the top left corner.   
-	 * @param x x screen offset
-	 * @param y z screen offset
+	 * Sets the scale bar screen offset for the bar. Note: if the bar is set to be drawn centered,
+	 * this will be the middle of the bar, otherwise the top left corner.
+	 * 
+	 * @param x
+	 *            x screen offset
+	 * @param y
+	 *            z screen offset
 	 */
 	public void setScaleBarOffset(final float x, final float y) {
 		xOffset = x;
@@ -186,7 +195,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the bar's line width. (the default is 2)
-	 * @param width the new line width
+	 * 
+	 * @param width
+	 *            the new line width
 	 */
 	public void setLineWidth(final float width) {
 		this.barPaint.setStrokeWidth(width);
@@ -194,41 +205,32 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the text size. (the default is 12)
-	 * @param size the new text size
+	 * 
+	 * @param size
+	 *            the new text size
 	 */
 	public void setTextSize(final float size) {
 		this.textPaint.setTextSize(size);
 	}
 
 	/**
-	 * Sets the length to be shown in imperial units (mi/ft)
+	 * Sets the units of measure to be shown in the scale bar
 	 */
-	public void setImperial() {
-		this.imperial = true;
-		this.nautical = false;
+	public void setUnitsOfMeasure(UnitsOfMeasure unitsOfMeasure) {
+		this.unitsOfMeasure = unitsOfMeasure;
 		lastZoomLevel = -1; // Force redraw of scalebar
 	}
 
 	/**
-	 * Sets the length to be shown in nautical units (nm/ft)
+	 * Gets the units of measure to be shown in the scale bar
 	 */
-	public void setNautical() {
-		this.nautical = true;
-		this.imperial = false;
-		lastZoomLevel = -1; // Force redraw of scalebar
-	}
-
-	/**
-	 * Sets the length to be shown in metric units (km/m)
-	 */
-	public void setMetric() {
-		this.nautical = false;
-		this.imperial = false;
-		lastZoomLevel = -1; // Force redraw of scalebar
+	public UnitsOfMeasure getUnitsOfMeasure() {
+		return unitsOfMeasure;
 	}
 
 	/**
 	 * Latitudinal / horizontal scale bar flag
+	 * 
 	 * @param latitude
 	 */
 	public void drawLatitudeScale(final boolean latitude) {
@@ -238,6 +240,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Longitudinal / vertical scale bar flag
+	 * 
 	 * @param longitude
 	 */
 	public void drawLongitudeScale(final boolean longitude) {
@@ -246,8 +249,11 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Flag to draw the bar centered around the set offset coordinates or to the right/bottom of the coordinates (default)
-	 * @param centred set true to centre the bar around the given screen coordinates
+	 * Flag to draw the bar centered around the set offset coordinates or to the right/bottom of the
+	 * coordinates (default)
+	 * 
+	 * @param centred
+	 *            set true to centre the bar around the given screen coordinates
 	 */
 	public void setCentred(final boolean centred) {
 		this.centred = centred;
@@ -256,6 +262,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Return's the paint used to draw the bar
+	 * 
 	 * @return the paint used to draw the bar
 	 */
 	public Paint getBarPaint() {
@@ -264,7 +271,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the paint for drawing the bar
-	 * @param pBarPaint bar drawing paint
+	 * 
+	 * @param pBarPaint
+	 *            bar drawing paint
 	 */
 	public void setBarPaint(final Paint pBarPaint) {
 		if (pBarPaint == null) {
@@ -276,6 +285,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Returns the paint used to draw the text
+	 * 
 	 * @return the paint used to draw the text
 	 */
 	public Paint getTextPaint() {
@@ -284,7 +294,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the paint for drawing the text
-	 * @param pTextPaint text drawing paint
+	 * 
+	 * @param pTextPaint
+	 *            text drawing paint
 	 */
 	public void setTextPaint(final Paint pTextPaint) {
 		if (pTextPaint == null) {
@@ -296,7 +308,9 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	/**
 	 * Sets the background paint. Set to null to disable drawing of background (default)
-	 * @param pBgPaint the paint for colouring the bar background
+	 * 
+	 * @param pBgPaint
+	 *            the paint for colouring the bar background
 	 */
 	public void setBackgroundPaint(final Paint pBgPaint) {
 		bgPaint = pBgPaint;
@@ -314,9 +328,12 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Sets the maximum bar length. If adjustLength is disabled this will match exactly the length of the bar.
-	 * If adjustLength is enabled, the bar will be shortened to reflect a round number in length. 
-	 * @param pMaxLengthInCm maximum length of the bar in the screen in cm. Default is 2.54 (=1 inch)
+	 * Sets the maximum bar length. If adjustLength is disabled this will match exactly the length
+	 * of the bar. If adjustLength is enabled, the bar will be shortened to reflect a round number
+	 * in length.
+	 * 
+	 * @param pMaxLengthInCm
+	 *            maximum length of the bar in the screen in cm. Default is 2.54 (=1 inch)
 	 */
 	public void setMaxLength(final float pMaxLengthInCm) {
 		this.maxLength = pMaxLengthInCm;
@@ -416,7 +433,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int xBarLengthPixels = (int) (xLen * xMetersAdjusted / xMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
+		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), sTextBoundsRect);
 		final int xTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -444,7 +461,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
+		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), sTextBoundsRect);
 		final int yTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
@@ -491,13 +508,13 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int yBarLengthPixels = (int) (yLen * yMetersAdjusted / yMeters);
 
 		// create text
-		final String xMsg = scaleBarLengthText((int) xMetersAdjusted, imperial, nautical);
+		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
 		final Rect xTextRect = new Rect();
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
 		final int xTextSpacing = (int) (xTextRect.height() / 5.0);
 
 		// create text
-		final String yMsg = scaleBarLengthText((int) yMetersAdjusted, imperial, nautical);
+		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
 		final Rect yTextRect = new Rect();
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
 		final int yTextSpacing = (int) (yTextRect.height() / 5.0);
@@ -531,22 +548,25 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	/**
-	 * Returns a reduced length that starts with 1, 2 or 5 and trailing zeros. If set to nautical or imperial the 
-	 * input will be transformed before and after the reduction so that the result holds in that respective unit.
-	 * @param length length to round
+	 * Returns a reduced length that starts with 1, 2 or 5 and trailing zeros. If set to nautical or
+	 * imperial the input will be transformed before and after the reduction so that the result
+	 * holds in that respective unit.
+	 * 
+	 * @param length
+	 *            length to round
 	 * @return reduced, rounded (in m, nm or mi depending on setting) result
 	 */
 	private double adjustScaleBarLength(double length) {
 		long pow = 0;
 		boolean feet = false;
-		if (this.imperial) {
+		if (unitsOfMeasure == UnitsOfMeasure.imperial) {
 			if (length >= GeoConstants.METERS_PER_STATUTE_MILE / 5)
 				length = length / GeoConstants.METERS_PER_STATUTE_MILE;
 			else {
 				length = length * GeoConstants.FEET_PER_METER;
 				feet = true;
 			}
-		} else if (this.nautical) {
+		} else if (unitsOfMeasure == UnitsOfMeasure.nautical) {
 			if (length >= GeoConstants.METERS_PER_NAUTICAL_MILE / 5)
 				length = length / GeoConstants.METERS_PER_NAUTICAL_MILE;
 			else {
@@ -573,17 +593,28 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		}
 		if (feet)
 			length = length / GeoConstants.FEET_PER_METER;
-		else if (this.imperial)
+		else if (unitsOfMeasure == UnitsOfMeasure.imperial)
 			length = length * GeoConstants.METERS_PER_STATUTE_MILE;
-		else if (this.nautical)
+		else if (unitsOfMeasure == UnitsOfMeasure.nautical)
 			length = length * GeoConstants.METERS_PER_NAUTICAL_MILE;
 		length *= Math.pow(10, pow);
 		return length;
 	}
 
-	protected String scaleBarLengthText(final int meters, final boolean imperial,
-			final boolean nautical) {
-		if (this.imperial) {
+	protected String scaleBarLengthText(final int meters) {
+		switch (unitsOfMeasure) {
+		default:
+		case metric:
+			if (meters >= 1000 * 5) {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
+						(meters / 1000));
+			} else if (meters >= 1000 / 5) {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
+						(int) (meters / 100.0) / 10.0);
+			} else {
+				return resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);
+			}
+		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_miles,
 						(int) (meters / METERS_PER_STATUTE_MILE));
@@ -595,7 +626,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
 						(int) (meters * FEET_PER_METER));
 			}
-		} else if (this.nautical) {
+		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,
 						((int) (meters / METERS_PER_NAUTICAL_MILE)));
@@ -605,16 +636,6 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 			} else {
 				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
 						((int) (meters * FEET_PER_METER)));
-			}
-		} else {
-			if (meters >= 1000 * 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
-						(meters / 1000));
-			} else if (meters >= 1000 / 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
-						(int) (meters / 100.0) / 10.0);
-			} else {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);
 			}
 		}
 	}
