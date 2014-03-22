@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -60,12 +61,12 @@ public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelab
 	}
 	
 	/** Build a FolderOverlay containing all overlays from this MultiGeometry items */
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, 
-			KmlDocument kmlDocument, boolean supportVisibility){
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, 
+			KmlDocument kmlDocument){
 		Context context = map.getContext();
 		FolderOverlay folderOverlay = new FolderOverlay(context);
 		for (KmlGeometry k:mItems){
-			Overlay overlay = k.buildOverlay(map, defaultStyle, kmlPlacemark, kmlDocument, supportVisibility);
+			Overlay overlay = k.buildOverlay(map, defaultStyle, styler, kmlPlacemark, kmlDocument);
 			folderOverlay.add(overlay);
 		}
 		return folderOverlay;

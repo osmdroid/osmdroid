@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -24,16 +26,16 @@ public class KmlPolygon extends KmlGeometry {
 	
 	/** Polygon holes (can be null if none) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
-
+	
+	static int mDefaultLayoutResId; 
+	
 	public KmlPolygon(){
 		super();
 	}
-
-	/** Build the corresponding Polygon overlay */	
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, 
-			KmlDocument kmlDocument, boolean supportVisibility){
+	
+	public void applyDefaultStyling(Polygon polygonOverlay, Style defaultStyle, KmlPlacemark kmlPlacemark,
+			KmlDocument kmlDocument, MapView map){
 		Context context = map.getContext();
-		Polygon polygonOverlay = new Polygon(context);
 		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
 		if (style != null){
 			Paint outlinePaint = style.getOutlinePaint();
@@ -48,20 +50,31 @@ public class KmlPolygon extends KmlGeometry {
 			int fillColor = defaultStyle.mPolyStyle.getFinalColor();
 			polygonOverlay.setFillColor(fillColor);
 		}
+		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
+				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
+			if (mDefaultLayoutResId == 0){
+				String packageName = context.getPackageName();
+				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+			}
+			polygonOverlay.setInfoWindow(mDefaultLayoutResId, map);
+		}
+		polygonOverlay.setEnabled(kmlPlacemark.mVisibility);
+	}
+	
+	/** Build the corresponding Polygon overlay */
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, 
+			KmlDocument kmlDocument){
+		Context context = map.getContext();
+		Polygon polygonOverlay = new Polygon(context);
 		polygonOverlay.setPoints(mCoordinates);
 		if (mHoles != null)
 			polygonOverlay.setHoles(mHoles);
 		polygonOverlay.setTitle(kmlPlacemark.mName);
 		polygonOverlay.setSnippet(kmlPlacemark.mDescription);
-		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
-				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
-			//TODO: cache layoutResId retrieval. 
-			String packageName = context.getPackageName();
-			int layoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
-			polygonOverlay.setInfoWindow(layoutResId, map);
-		}
-		if (supportVisibility && !kmlPlacemark.mVisibility)
-			polygonOverlay.setEnabled(kmlPlacemark.mVisibility);
+		if (styler == null)
+			applyDefaultStyling(polygonOverlay, defaultStyle, kmlPlacemark, kmlDocument, map);
+		else
+			styler.onPolygon(polygonOverlay, kmlPlacemark, this);
 		return polygonOverlay;
 	}
 	

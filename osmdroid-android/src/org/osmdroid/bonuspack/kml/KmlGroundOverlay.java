@@ -85,8 +85,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	}
 
 	/** @return the corresponding GroundOverlay ready to display on the map */
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, 
-			boolean supportVisibility){
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument){
 		Context context = map.getContext();
 		GroundOverlay overlay = new GroundOverlay(context);
 		if (mCoordinates.size()==2){
@@ -116,8 +115,10 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		float transparency = 1.0f - Color.alpha(mColor)/255.0f; //KML transparency is the transparency part of the "color" element. 
 		overlay.setTransparency(transparency);
 		overlay.setBearing(-mRotation); //from KML counterclockwise to Google Maps API which is clockwise
-		if (supportVisibility)
+		if (styler == null)
 			overlay.setEnabled(mVisibility);
+		else 
+			styler.onFeature(overlay, this);
 		return overlay;
 	}
 	

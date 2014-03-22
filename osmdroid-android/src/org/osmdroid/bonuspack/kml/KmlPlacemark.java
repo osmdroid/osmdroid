@@ -109,10 +109,9 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		}
 	}
 	
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, 
-			boolean supportVisibility){
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument){
 		if (mGeometry != null)
-			return mGeometry.buildOverlay(map, defaultStyle, this, kmlDocument, supportVisibility);
+			return mGeometry.buildOverlay(map, defaultStyle, styler, this, kmlDocument);
 		else 
 			return null;
 	}

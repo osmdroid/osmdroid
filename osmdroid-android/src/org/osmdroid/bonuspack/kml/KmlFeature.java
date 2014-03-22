@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -50,15 +54,32 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	//abstract methods
 	
 	/**
-	 * Build the overlay related to this KML object. If this is a Folder, recursively build overlays from folder items. 
+	 * Build the Overlay related to this KML object. If this is a Folder, recursively build overlays from Folder items. 
+	 * Styling strategy is following this order of priority: 
+	 *  1) styler, or if null 2) style of the Feature, or if not defined 3) defaultStyle or if null 4) hard-coded default values. 
 	 * @param map
-	 * @param defaultStyle to apply when an item has no Style defined.
+	 * @param defaultStyle to apply when an Feature has no Style defined. 
+	 * @param styler Styler that will be applied to Features and Geometries. 
 	 * @param kmlDocument for styles
-	 * @param supportVisibility if true, set overlays visibility according to KML visibility. If false, always set overlays as visible. 
-	 * @return the overlay, depending on the KML object type: <br>
-	 * 		Folder=>FolderOverlay, Point=>Marker, Polygon=>Polygon, LineString=>Polyline, GroundOverlay=>GroundOverlay
+	 * @return the Overlay related to this KML object class. 
 	 */
-	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, boolean supportVisibility);
+	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument);
+
+	/** 
+	 * When building Overlays, a custom Styler can be defined to perform specific actions on specific objects. 
+	 * Each method is called just after Overlay creation. 
+	 * If a Styler is defined, no styling is applied by default. 
+	 * Note that an applyDefaultStyling method is available, to perform default styling if needed. */
+	 public interface Styler {
+		/** called on each KmlFeature, except KmlPlacemark */
+		abstract void onFeature(Overlay overlay, KmlFeature kmlFeature);
+		/** called on each KmlPoint */
+		abstract void onPoint(Marker marker, KmlPlacemark kmlPlacemark, KmlPoint kmlPoint);
+		/** called on each KmlPoint */
+		abstract void onLineString(Polyline polyline, KmlPlacemark kmlPlacemark, KmlLineString kmlLineString);
+		/** called on each KmlPoint */
+		abstract void onPolygon(Polygon polygon, KmlPlacemark kmlPlacemark, KmlPolygon kmlPolygon);
+	}
 	
 	/** write KML content specific to its type */
 	public abstract void writeKMLSpecifics(Writer writer);
@@ -93,17 +114,9 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	public void updateBoundingBoxWith(BoundingBoxE6 itemBB){
 		if (itemBB != null){
 			if (mBB == null){
-				mBB = new BoundingBoxE6(
-						itemBB.getLatNorthE6(), 
-						itemBB.getLonEastE6(), 
-						itemBB.getLatSouthE6(), 
-						itemBB.getLonWestE6());
+				mBB = BonusPackHelper.cloneBoundingBoxE6(itemBB);
 			} else {
-				mBB = new BoundingBoxE6(
-						Math.max(itemBB.getLatNorthE6(), mBB.getLatNorthE6()), 
-						Math.max(itemBB.getLonEastE6(), mBB.getLonEastE6()),
-						Math.min(itemBB.getLatSouthE6(), mBB.getLatSouthE6()),
-						Math.min(itemBB.getLonWestE6(), mBB.getLonWestE6()));
+				mBB = BonusPackHelper.concatBoundingBoxE6(itemBB, mBB);
 			}
 		}
 	}
@@ -215,8 +228,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 			kmlFeature.mExtendedData.putAll(mExtendedData);
 		}
 		if (mBB != null)
-			kmlFeature.mBB = new BoundingBoxE6(mBB.getLatNorthE6(), mBB.getLonEastE6(), 
-				mBB.getLatSouthE6(), mBB.getLonWestE6());
+			kmlFeature.mBB = BonusPackHelper.cloneBoundingBoxE6(mBB);
 		return kmlFeature;
 	}
 
@@ -236,17 +248,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		//TODO: mExtendedData
 		out.writeParcelable(mBB, flags);
 	}
-	
-	/*
-	public static final Parcelable.Creator<KmlFeature> CREATOR = new Parcelable.Creator<KmlFeature>() {
-		@Override public KmlFeature createFromParcel(Parcel source) {
-			return new KmlFeature(source);
-		}
-		@Override public KmlFeature[] newArray(int size) {
-			return new KmlFeature[size];
-		}
-	};
-	*/
 	
 	public KmlFeature(Parcel in){
 		mId = in.readString();

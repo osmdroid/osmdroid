@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -64,27 +66,34 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		@Override public void onMarkerDragStart(Marker marker) {}		
 	}
 	
-	/** Build the corresponding Marker overlay */	
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, 
-			KmlDocument kmlDocument, boolean supportVisibility){
+	public void applyDefaultStyling(Marker marker, Style defaultStyle, KmlPlacemark kmlPlacemark,
+			KmlDocument kmlDocument, MapView map){
 		Context context = map.getContext();
-		Marker marker = new Marker(map);
-		marker.setTitle(kmlPlacemark.mName);
-		marker.setSnippet(kmlPlacemark.mDescription);
-		marker.setPosition(getPosition());
 		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
 		if (style != null && style.mIconStyle != null){
 			style.mIconStyle.styleMarker(marker, context);
 		} else if (defaultStyle!=null && defaultStyle.mIconStyle!=null){
 			defaultStyle.mIconStyle.styleMarker(marker, context);
 		}
-		//keep the link from the marker to the KML feature:
-		marker.setRelatedObject(this);
 		//allow marker drag, acting on KML Point:
 		marker.setDraggable(true);
 		marker.setOnMarkerDragListener(new OnKMLMarkerDragListener());
-		if (supportVisibility && !kmlPlacemark.mVisibility)
-			marker.setEnabled(kmlPlacemark.mVisibility);
+		marker.setEnabled(kmlPlacemark.mVisibility);
+	}
+	
+	/** Build the corresponding Marker overlay */	
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, 
+			KmlDocument kmlDocument){
+		Marker marker = new Marker(map);
+		marker.setTitle(kmlPlacemark.mName);
+		marker.setSnippet(kmlPlacemark.mDescription);
+		marker.setPosition(getPosition());
+		//keep the link from the marker to the KML feature:
+		marker.setRelatedObject(this);
+		if (styler == null){
+			applyDefaultStyling(marker, defaultStyle, kmlPlacemark, kmlDocument, map);
+		} else
+			styler.onPoint(marker, kmlPlacemark, this);
 		return marker;
 	}
 	

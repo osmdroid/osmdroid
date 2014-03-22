@@ -5,6 +5,7 @@ import java.io.Writer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -29,20 +30,28 @@ public class KmlLineString extends KmlGeometry {
 		mCoordinates = KmlGeometry.parseGeoJSONPositions(coordinates);
 	}
 	
-	/** Build the corresponding Polyline overlay */	
-	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, KmlPlacemark kmlPlacemark, 
-			KmlDocument kmlDocument, boolean supportVisibility){
-		Context context = map.getContext();
-		Polyline lineStringOverlay = new Polyline(context);
+	public void applyDefaultStyling(Polyline lineStringOverlay, Style defaultStyle, KmlPlacemark kmlPlacemark,
+			KmlDocument kmlDocument){
 		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
 		if (style != null){
 			lineStringOverlay.setPaint(style.getOutlinePaint());
 		} else if (defaultStyle!=null && defaultStyle.mLineStyle!=null){ 
 			lineStringOverlay.setPaint(defaultStyle.getOutlinePaint());
 		}
+		lineStringOverlay.setEnabled(kmlPlacemark.mVisibility);
+	}
+	
+	/** Build the corresponding Polyline overlay */	
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, 
+			KmlDocument kmlDocument){
+		Context context = map.getContext();
+		Polyline lineStringOverlay = new Polyline(context);
 		lineStringOverlay.setPoints(mCoordinates);
-		if (supportVisibility && !kmlPlacemark.mVisibility)
-			lineStringOverlay.setEnabled(kmlPlacemark.mVisibility);
+		if (styler != null)
+			styler.onLineString(lineStringOverlay, kmlPlacemark, this);
+		else {
+			applyDefaultStyling(lineStringOverlay, defaultStyle, kmlPlacemark, kmlDocument);
+		}
 		return lineStringOverlay;
 	}
 	

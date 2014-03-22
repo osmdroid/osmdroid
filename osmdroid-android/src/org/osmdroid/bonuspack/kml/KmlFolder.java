@@ -144,15 +144,17 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	 * @param supportVisibility
 	 * @return the FolderOverlay built
 	 */
-	@Override public FolderOverlay buildOverlay(MapView map, Style defaultStyle, KmlDocument kmlDocument, boolean supportVisibility){
+	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument){
 		Context context = map.getContext();
 		FolderOverlay folderOverlay = new FolderOverlay(context);
 		for (KmlFeature k:mItems){
-			Overlay overlay = k.buildOverlay(map, defaultStyle, kmlDocument, supportVisibility);
+			Overlay overlay = k.buildOverlay(map, defaultStyle, styler, kmlDocument);
 			folderOverlay.add(overlay);
 		}
-		if (supportVisibility && !mVisibility)
-			folderOverlay.setEnabled(false);
+		if (styler == null)
+			folderOverlay.setEnabled(mVisibility);
+		else 
+			styler.onFeature(folderOverlay, this);
 		return folderOverlay;
 	}
 	
