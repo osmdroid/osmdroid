@@ -1,11 +1,18 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".MainActivity" >
-
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:orientation="vertical" 
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
 	<org.osmdroid.views.MapView android:id="@+id/map"
 	        android:layout_width="fill_parent" 
-	        android:layout_height="fill_parent" />
-	
-</RelativeLayout>
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1" />
+		
+	<!-- org.osmdroid.views.MapView android:id="@+id/map2"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="fill_parent" 
+	        android:layout_weight="1"/ -->
+		
+</LinearLayout>

@@ -4,17 +4,21 @@ import java.io.File;
 import java.util.ArrayList;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
-import org.osmdroid.bonuspack.clustering.MarkerClusterer;
+import org.osmdroid.bonuspack.clustering.StaticCluster;
 import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;
+import org.osmdroid.bonuspack.kml.KmlLineString;
+import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
+import org.osmdroid.bonuspack.kml.KmlPolygon;
+import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.ExtendedOverlayItem;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
-import org.osmdroid.bonuspack.overlays.ItemizedOverlayWithBubble;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
@@ -30,14 +34,16 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.PathOverlay;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
@@ -61,6 +67,7 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
 	MapView map;
+	KmlDocument mKmlDocument;
 	
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		
@@ -147,16 +154,16 @@ public class MainActivity extends Activity {
 		//FolderOverlay poiMarkers = new FolderOverlay(this);
 		//10. Marker Clustering
 		GridMarkerClusterer poiMarkers = new GridMarkerClusterer(this);
-		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster_custo);
+		//Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
+		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_poi_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 		poiMarkers.setIcon(clusterIcon);
 		//end of 10.
-		//11. Customize the design:
-		poiMarkers.getTextPaint().setColor(Color.DKGRAY);
+		//11. Customizing the clusters design
 		poiMarkers.getTextPaint().setTextSize(12.0f);
-		poiMarkers.mAnchorU = Marker.ANCHOR_RIGHT;
 		poiMarkers.mAnchorV = Marker.ANCHOR_BOTTOM;
-		poiMarkers.mTextAnchorV = 0.40f;
+		poiMarkers.mTextAnchorU = 0.70f;
+		poiMarkers.mTextAnchorV = 0.27f;
 		//end of 11.
 		map.getOverlays().add(poiMarkers);
         Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
@@ -177,39 +184,48 @@ public class MainActivity extends Activity {
 			}
 		}
 
-		/* the "Too Many Markers" test
-		for (int i=0; i<2000; i++){
-            Marker poiMarker = new Marker(map);
-            poiMarker.setPosition(new GeoPoint(Math.random()*5+45, Math.random()*5));
-            poiMarker.setIcon(poiIcon);
-            poiMarkers.add(poiMarker);
+		/* the "Too Many Markers" test:
+		for (int i=0; i<5000; i++){
+			Marker poiMarker = new Marker(map);
+			poiMarker.setPosition(new GeoPoint(Math.random()*5+45, Math.random()*5));
+			poiMarker.setIcon(poiIcon);
+			poiMarkers.add(poiMarker);
 		}
 		*/
-		
+
 		//12. Loading KML content
 		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
-		KmlDocument kmlDocument = new KmlDocument();
-		boolean ok = kmlDocument.parseUrl(url);
-		Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+		//url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=5.0";
+		//url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		mKmlDocument = new KmlDocument();
+		boolean ok = mKmlDocument.parseUrl(url);
 		if (ok){
-			FolderOverlay kmlOverlay = (FolderOverlay)kmlDocument.mKmlRoot.buildOverlay(map, defaultMarker, kmlDocument, false);
+			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
+			Bitmap defaultBitmap = ((BitmapDrawable)defaultMarker).getBitmap();
+			//Simple styling:
+			Style defaultStyle = new Style(defaultBitmap, 0x901010AA, 3.0f, 0x20AA1010);
+			//Advanced styling:
+			KmlFeature.Styler styler = new MyKmlStyler(defaultStyle);
+			FolderOverlay kmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, defaultStyle, styler, mKmlDocument);
 			map.getOverlays().add(kmlOverlay);
-			if (kmlDocument.mKmlRoot.mBB != null){
+			if (mKmlDocument.mKmlRoot.mBB != null){
 				//map.zoomToBoundingBox(kmlRoot.mBB); => not working in onCreate - this is a well-known osmdroid bug. 
 				//Workaround:
 				map.getController().setCenter(new GeoPoint(
-						kmlDocument.mKmlRoot.mBB.getLatSouthE6()+kmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
-						kmlDocument.mKmlRoot.mBB.getLonWestE6()+kmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
+						mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
+						mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
 			}
-		}
+		} else
+			Toast.makeText(this, "Error when loading KML", Toast.LENGTH_SHORT).show();
 		
 		//13. Grab overlays in KML structure, save KML document locally
-		if (kmlDocument.mKmlRoot != null){
-			KmlFolder root = (KmlFolder)kmlDocument.mKmlRoot;
-			root.addOverlay(roadOverlay, kmlDocument);
-			root.addOverlay(roadMarkers, kmlDocument);
-			File localFile = kmlDocument.getDefaultPathForAndroid("my_route.kml");
-			kmlDocument.saveAsKML(localFile);
+		if (mKmlDocument.mKmlRoot != null){
+			KmlFolder root = (KmlFolder)mKmlDocument.mKmlRoot;
+			root.addOverlay(roadOverlay, mKmlDocument);
+			root.addOverlay(roadMarkers, mKmlDocument);
+			mKmlDocument.saveAsKML(mKmlDocument.getDefaultPathForAndroid("my_route.kml"));
+			//14. Loading and saving of GeoJSON content
+			mKmlDocument.saveAsGeoJSON(mKmlDocument.getDefaultPathForAndroid("my_route.json"));
 		}
 		
 		//15. Using GroundOverlay
@@ -217,7 +233,7 @@ public class MainActivity extends Activity {
 		myGroundOverlay.setPosition(endPoint);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
 		myGroundOverlay.setDimensions(2000.0f);
-		myGroundOverlay.setTransparency(0.5f);
+		myGroundOverlay.setTransparency(0.25f);
 		myGroundOverlay.setBearing(90.0f);
 		Overlay removed = map.getOverlays().set(0, myGroundOverlay);
 		map.getOverlays().add(removed);
@@ -277,6 +293,62 @@ public class MainActivity extends Activity {
 				mSelectedPoi.fetchThumbnailOnThread(imageView);
 			}
 		}	
+	}
+	
+	//11. Customizing the clusters design - and beyond
+	class CirclesGridMarkerClusterer extends GridMarkerClusterer{
+
+		public CirclesGridMarkerClusterer(Context ctx) {
+			super(ctx);
+		}
+		
+		@Override public Marker buildClusterMarker(StaticCluster cluster, MapView mapView){
+			Marker m = new Marker(mapView);
+			m.setPosition(cluster.getPosition());
+			m.setInfoWindow(null);
+			m.setAnchor(0.5f, 0.5f);
+			int radius = (int) Math.sqrt(cluster.getSize()*3);
+			radius = Math.max(radius, 10);
+			radius = Math.min(radius, 30);
+			Bitmap finalIcon = Bitmap.createBitmap(radius*2, radius*2, mClusterIcon.getConfig());
+			Canvas iconCanvas = new Canvas(finalIcon);
+			Paint circlePaint = new Paint();
+			if (cluster.getSize() < 20)
+				circlePaint.setColor(Color.BLUE);
+			else 
+				circlePaint.setColor(Color.RED);
+			circlePaint.setAlpha(200);
+			iconCanvas.drawCircle(radius, radius, radius, circlePaint);
+			String text = ""+cluster.getSize();
+		    int textHeight = (int) (mTextPaint.descent() + mTextPaint.ascent());
+			iconCanvas.drawText(text, 
+					mTextAnchorU*finalIcon.getWidth(), 
+					mTextAnchorV*finalIcon.getHeight() - textHeight/2, 
+					mTextPaint);
+			m.setIcon(new BitmapDrawable(mapView.getContext().getResources(), finalIcon));
+			return m;
+		}
+	}
+
+	//12. Loading KML content - Advanced styling
+	class MyKmlStyler implements KmlFeature.Styler {
+		Style mDefaultStyle;
+		
+		MyKmlStyler(Style defaultStyle){
+			mDefaultStyle = defaultStyle;
+		}
+		
+		@Override public void onPoint(Marker marker, KmlPlacemark kmlPlacemark, KmlPoint kmlPoint) {
+			kmlPoint.applyDefaultStyling(marker, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
+		}
+		@Override public void onLineString(Polyline polyline, KmlPlacemark kmlPlacemark, KmlLineString kmlLineString) {
+			polyline.setWidth(Math.max(kmlLineString.mCoordinates.size()/200.0f, 3.0f));
+			polyline.setColor(Color.GREEN);
+		}
+		@Override public void onPolygon(Polygon polygon, KmlPlacemark kmlPlacemark, KmlPolygon kmlPolygon) {
+			kmlPolygon.applyDefaultStyling(polygon, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
+		}
+		@Override public void onFeature(Overlay overlay, KmlFeature kmlFeature) {}
 	}
 	
 }
