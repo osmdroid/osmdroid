@@ -1024,7 +1024,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (mKmlOverlay != null)
 			map.getOverlays().remove(mKmlOverlay);
 		if (mKmlDocument.mKmlRoot != null){
-			mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), mKmlDocument, true);
+			mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), null, mKmlDocument);
 			map.getOverlays().add(mKmlOverlay);
 		}
 		map.invalidate();
