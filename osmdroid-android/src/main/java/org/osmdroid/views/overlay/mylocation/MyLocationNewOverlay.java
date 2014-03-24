@@ -287,11 +287,13 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
 			final IMapView mapView) {
 		if (this.mLocation != null) {
-			snapPoint.x = mMapCoordsProjected.x;
-			snapPoint.y = mMapCoordsProjected.y;
-			final double xDiff = x - mMapCoordsProjected.x;
-			final double yDiff = y - mMapCoordsProjected.y;
-			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
+			Projection pj = mMapView.getProjection();
+			pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
+			snapPoint.x = mMapCoordsTranslated.x;
+			snapPoint.y = mMapCoordsTranslated.y;
+			final double xDiff = x - mMapCoordsTranslated.x;
+			final double yDiff = y - mMapCoordsTranslated.y;
+			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
 				logger.debug("snap=" + snap);
 			}

@@ -266,13 +266,13 @@ public class MapController implements IMapController, MapViewConstants {
 		Point p = mMapView.getProjection().toMercatorPixels((int) pts[0], (int) pts[1], null);
 		// The points provided are "center", we want relative to upper-left for scrolling
 		p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
+		mMapView.mIsAnimating.set(false);
 		mMapView.scrollTo(p.x, p.y);
 		setZoom(mMapView.mTargetZoomLevel.get());
 		mMapView.mMultiTouchScale = 1f;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			mCurrentAnimator = null;
 		}
-		mMapView.mIsAnimating.set(false);
 
 		// Fix for issue 477
 		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
