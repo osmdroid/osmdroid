@@ -852,7 +852,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
-	private class POITask extends AsyncTask<Object, Void, ArrayList<POI>> {
+	private class POILoadingTask extends AsyncTask<Object, Void, ArrayList<POI>> {
 		String mTag;
 		protected ArrayList<POI> doInBackground(Object... params) {
 			mTag = (String)params[0];
@@ -907,7 +907,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void getPOIAsync(String tag){
 		poiMarkers.getItems().clear();
-		new POITask().execute(tag);
+		new POILoadingTask().execute(tag);
 	}
 	
 	//------------ KML handling
@@ -971,32 +971,45 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		});
 		builder.show();
 	}
+
+	class KmlLoadingTask extends AsyncTask<Object, Void, Boolean>{
+		String mUri;
+		boolean mOnCreate;
+		protected Boolean doInBackground(Object... params) {
+			mUri = (String)params[0];
+			mOnCreate = (Boolean)params[1];
+			mKmlDocument = new KmlDocument();
+			boolean ok = false;
+			if (mUri.startsWith("file:/")){
+				mUri = mUri.substring("file:/".length());
+				File file = new File(mUri);
+				if (mUri.endsWith(".json"))
+					ok = mKmlDocument.parseGeoJSON(file);
+				else //assume KML
+					ok = mKmlDocument.parseFile(file);
+			} else if (mUri.startsWith("http")) {
+				ok = mKmlDocument.parseUrl(mUri);
+			}
+			return ok;
+		}
+		protected void onPostExecute(Boolean ok) {
+			if (!ok)
+				Toast.makeText(getApplicationContext(), "Sorry, unable to read "+mUri, Toast.LENGTH_SHORT).show();
+			updateUIWithKml();
+			if (mKmlDocument.mKmlRoot != null && mKmlDocument.mKmlRoot.mBB != null){
+					if (!mOnCreate)
+						setViewOn(mKmlDocument.mKmlRoot.mBB); 
+					else  //KO in onCreate - Workaround:
+						map.getController().setCenter(new GeoPoint(
+								mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
+								mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
+			}
+		}
+	}
 	
 	void openFile(String uri, boolean onCreate){
-		//TODO: use an Async task
-		mKmlDocument = new KmlDocument();
-		boolean ok = false;
-		if (uri.startsWith("file:/")){
-			uri = uri.substring("file:/".length());
-			File file = new File(uri);
-			if (uri.endsWith(".json"))
-				ok = mKmlDocument.parseGeoJSON(file);
-			else //assume KML
-				ok = mKmlDocument.parseFile(file);
-		} else if (uri.startsWith("http")) {
-			ok = mKmlDocument.parseUrl(uri);
-		}
-		if (!ok)
-			Toast.makeText(this, "Sorry, unable to read "+uri, Toast.LENGTH_SHORT).show();
-		updateUIWithKml();
-		if (mKmlDocument.mKmlRoot != null && mKmlDocument.mKmlRoot.mBB != null){
-				if (!onCreate)
-					setViewOn(mKmlDocument.mKmlRoot.mBB); 
-				else  //KO in onCreate - Workaround:
-					map.getController().setCenter(new GeoPoint(
-							mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
-							mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
-		}
+		Toast.makeText(this, "Loading "+uri, Toast.LENGTH_SHORT).show();
+		new KmlLoadingTask().execute(uri, onCreate);
 	}
 	
 	/** save fileName locally, as KML or GeoJSON depending on the extension */
