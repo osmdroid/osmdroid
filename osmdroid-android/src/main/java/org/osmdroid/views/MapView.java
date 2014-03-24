@@ -18,7 +18,6 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.api.IProjection;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -33,13 +32,9 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
-import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
-import org.osmdroid.views.safecanvas.SafeTranslatedCanvas;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -246,22 +241,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public BoundingBoxE6 getBoundingBox() {
-		return getBoundingBox(getWidth(), getHeight());
-	}
-
-	public BoundingBoxE6 getBoundingBox(final int pViewWidth, final int pViewHeight) {
-
-		final int world_2 = TileSystem.MapSize(mZoomLevel) / 2;
-		final Rect screenRect = getScreenRect(null);
-		screenRect.offset(world_2, world_2);
-
-		final IGeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(screenRect.right, screenRect.top,
-				mZoomLevel, null);
-		final IGeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(screenRect.left,
-				screenRect.bottom, mZoomLevel, null);
-
-		return new BoundingBoxE6(neGeoPoint.getLatitudeE6(), neGeoPoint.getLongitudeE6(),
-				swGeoPoint.getLatitudeE6(), swGeoPoint.getLongitudeE6());
+		return getProjection().getBoundingBox();
 	}
 
 	/**
@@ -270,11 +250,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public Rect getScreenRect(final Rect reuse) {
 		final Rect out = getIntrinsicScreenRect(reuse);
 		if (this.getMapOrientation() != 0 && this.getMapOrientation() != 180) {
-			// Since the canvas is shifted by getWidth/2, we can just return our natural scrollX/Y
-			// value since that is the same as the shifted center.
-			int centerX = this.getScrollX();
-			int centerY = this.getScrollY();
-			GeometryMath.getBoundingBoxForRotatatedRectangle(out, centerX, centerY,
+			GeometryMath.getBoundingBoxForRotatatedRectangle(out, out.centerX(), out.centerY(),
 					this.getMapOrientation(), out);
 		}
 		return out;
@@ -282,8 +258,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public Rect getIntrinsicScreenRect(final Rect reuse) {
 		final Rect out = reuse == null ? new Rect() : reuse;
-		out.set(getScrollX() - getWidth() / 2, getScrollY() - getHeight() / 2, getScrollX()
-				+ getWidth() / 2, getScrollY() + getHeight() / 2);
+		out.set(0, 0, getWidth(), getHeight());
 		return out;
 	}
 
@@ -298,7 +273,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public Projection getProjection() {
 		if (mProjection == null) {
-			mProjection = new Projection();
+			mProjection = new Projection(this);
 		}
 		return mProjection;
 	}
@@ -338,32 +313,22 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mIsFlinging = false;
 		}
 
+		// Get our current center point
+		final IGeoPoint centerGeoPoint = getMapCenter();
+
 		this.mZoomLevel = newZoomLevel;
+		mProjection = null;
 		this.checkZoomButtons();
 
-		if (newZoomLevel > curZoomLevel) {
-			// We are going from a lower-resolution plane to a higher-resolution plane, so we have
-			// to do it the hard way.
-			final int worldSize_current_2 = TileSystem.MapSize(curZoomLevel) / 2;
-			final int worldSize_new_2 = TileSystem.MapSize(newZoomLevel) / 2;
-			final IGeoPoint centerGeoPoint = TileSystem.PixelXYToLatLong(getScrollX()
-					+ worldSize_current_2, getScrollY() + worldSize_current_2, curZoomLevel, null);
-			final Point centerPoint = TileSystem.LatLongToPixelXY(
-					centerGeoPoint.getLatitude(), centerGeoPoint.getLongitude(),
-					newZoomLevel, null);
-			scrollTo(centerPoint.x - worldSize_new_2, centerPoint.y - worldSize_new_2);
-		} else if (newZoomLevel < curZoomLevel) {
-			// We are going from a higher-resolution plane to a lower-resolution plane, so we can do
-			// it the easy way.
-			scrollTo(getScrollX() >> curZoomLevel - newZoomLevel,
-					 getScrollY() >> curZoomLevel - newZoomLevel);
-		}
+		getController().setCenter(centerGeoPoint);
 
 		// snap for all snappables
 		final Point snapPoint = new Point();
-		mProjection = new Projection();
-		if (this.getOverlayManager().onSnapToItem(getScrollX(), getScrollY(), snapPoint, this)) {
-			scrollTo(snapPoint.x, snapPoint.y);
+		final Projection pj = getProjection();
+		if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScalePoint.x,
+				(int) mMultiTouchScalePoint.y, snapPoint, this)) {
+			IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null);
+			getController().animateTo(geoPoint);
 		}
 
 		mTileProvider.rescaleCache(newZoomLevel, curZoomLevel, getScreenRect(null));
@@ -499,7 +464,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	boolean zoomInFixing(final IGeoPoint point) {
-		Point coords = getProjection().toMapPixels(point, null);
+		Point coords = getProjection().toPixels(point, null);
 		return getController().zoomInFixing(coords.x, coords.y);
 	}
 
@@ -515,7 +480,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	boolean zoomOutFixing(final IGeoPoint point) {
-		Point coords = getProjection().toMapPixels(point, null);
+		Point coords = getProjection().toPixels(point, null);
 		return zoomOutFixing(coords.x, coords.y);
 	}
 
@@ -530,11 +495,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	@Override
 	public IGeoPoint getMapCenter() {
-		final int world_2 = TileSystem.MapSize(mZoomLevel) / 2;
-		final Rect screenRect = getScreenRect(null);
-		screenRect.offset(world_2, world_2);
-		return TileSystem.PixelXYToLatLong(screenRect.centerX(), screenRect.centerY(), mZoomLevel,
-				null);
+		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, null);
 	}
 
 	public ResourceProxy getResourceProxy() {
@@ -578,8 +539,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 *            limitations
 	 */
 	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
-		final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
-
 		mScrollableAreaBoundingBox = boundingBox;
 
 		// Clear scrollable area limit if null passed.
@@ -591,12 +550,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Get NW/upper-left
 		final Point upperLeft = TileSystem.LatLongToPixelXY(boundingBox.getLatNorthE6() / 1E6,
 				boundingBox.getLonWestE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
-		upperLeft.offset(-worldSize_2, -worldSize_2);
 
 		// Get SE/lower-right
 		final Point lowerRight = TileSystem.LatLongToPixelXY(boundingBox.getLatSouthE6() / 1E6,
 				boundingBox.getLonEastE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
-		lowerRight.offset(-worldSize_2, -worldSize_2);
 		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
 	}
 
@@ -613,18 +570,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public void invalidateMapCoordinates(int left, int top, int right, int bottom) {
 		mInvalidateRect.set(left, top, right, bottom);
-		final int width_2 = this.getWidth() / 2;
-		final int height_2 = this.getHeight() / 2;
+		mInvalidateRect.offset(getScrollX(), getScrollY());
 
-		// Since the canvas is shifted by getWidth/2, we can just return our natural scrollX/Y value
-		// since that is the same as the shifted center.
-		int centerX = this.getScrollX();
-		int centerY = this.getScrollY();
+		int centerX = this.getScrollX() + getWidth() / 2;
+		int centerY = this.getScrollY() + getHeight() / 2;
 
 		if (this.getMapOrientation() != 0)
 			GeometryMath.getBoundingBoxForRotatatedRectangle(mInvalidateRect, centerX, centerY,
 					this.getMapOrientation() + 180, mInvalidateRect);
-		mInvalidateRect.offset(width_2, height_2);
 
 		super.invalidate(mInvalidateRect);
 	}
@@ -675,7 +628,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
 				final int childHeight = child.getMeasuredHeight();
 				final int childWidth = child.getMeasuredWidth();
-				getProjection().toMapPixels(lp.geoPoint, mPoint);
+				getProjection().toPixels(lp.geoPoint, mPoint);
 				final int x = mPoint.x + getWidth() / 2;
 				final int y = mPoint.y + getHeight() / 2;
 				int childRight = x;
@@ -750,7 +703,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
 				final int childHeight = child.getMeasuredHeight();
 				final int childWidth = child.getMeasuredWidth();
-				getProjection().toMapPixels(lp.geoPoint, mPoint);
+				getProjection().toPixels(lp.geoPoint, mPoint);
 				final int x = mPoint.x + getWidth() / 2;
 				final int y = mPoint.y + getHeight() / 2;
 				int childLeft = x;
@@ -933,25 +886,25 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			} else {
 				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
 			}
-			postInvalidate(); // Keep on drawing until the animation has
-			// finished.
+			// Keep on drawing until the animation has finished.
+			postInvalidate();
 		}
 	}
 
 	@Override
 	public void scrollTo(int x, int y) {
-		final int worldSize_2 = TileSystem.MapSize(this.getZoomLevel(false)) / 2;
-		while (x < -worldSize_2) {
-			x += worldSize_2 * 2;
+		final int worldSize = TileSystem.MapSize(this.getZoomLevel(false));
+		while (x < 0) {
+			x += worldSize;
 		}
-		while (x > worldSize_2) {
-			x -= worldSize_2 * 2;
+		while (x >= worldSize) {
+			x -= worldSize;
 		}
-		while (y < -worldSize_2) {
-			y += worldSize_2 * 2;
+		while (y < 0) {
+			y += worldSize;
 		}
-		while (y > worldSize_2) {
-			y -= worldSize_2 * 2;
+		while (y >= worldSize) {
+			y -= worldSize;
 		}
 
 		if (mScrollableAreaLimit != null) {
@@ -988,6 +941,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				y = maxY - (height / 2);
 		}
 		super.scrollTo(x, y);
+		mProjection = null;
 
 		// do callback on listener
 		if (mListener != null) {
@@ -1019,20 +973,18 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				.getScreenRect().exactCenterY());
 		c.scale(1 / mMultiTouchScale, 1 / mMultiTouchScale, mMultiTouchScalePoint.x,
 				mMultiTouchScalePoint.y);
-		c.translate(getScrollX(), getScrollY());
-		c.translate(-getWidth() / 2, -getHeight() / 2);
 	}
 
 	@Override
 	protected void dispatchDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
 
-		mProjection = new Projection();
+		mProjection = new Projection(this);
 
 		// Save the current canvas matrix
 		c.save();
 
-		c.translate(getWidth() / 2, getHeight() / 2);
+		c.translate(getScrollX(), getScrollY());
 		c.scale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
 				mMultiTouchScalePoint.y);
 
@@ -1055,24 +1007,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final long endMs = System.currentTimeMillis();
 			logger.debug("Rendering overall: " + (endMs - startMs) + "ms");
 		}
-	}
-
-	/**
-	 * Returns true if the safe drawing canvas is being used.
-	 *
-	 * @see {@link ISafeCanvas}
-	 */
-	public boolean isUsingSafeCanvas() {
-		return this.getOverlayManager().isUsingSafeCanvas();
-	}
-
-	/**
-	 * Sets whether the safe drawing canvas is being used.
-	 *
-	 * @see {@link ISafeCanvas}
-	 */
-	public void setUseSafeCanvas(boolean useSafeCanvas) {
-		this.getOverlayManager().setUseSafeCanvas(useSafeCanvas);
 	}
 
 	@Override
@@ -1107,8 +1041,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// don't want to step on that.
 			return null;
 		} else {
-			mMultiTouchScalePoint.x = pt.getX() + getScrollX() - (this.getWidth() / 2);
-			mMultiTouchScalePoint.y = pt.getY() + getScrollY() - (this.getHeight() / 2);
+			mMultiTouchScalePoint.x = pt.getX();
+			mMultiTouchScalePoint.y = pt.getY();
 			return this;
 		}
 	}
@@ -1128,16 +1062,17 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// If we are changing zoom levels,
 			// adjust the center point in respect to the scaling point
 			if (scaleDiffInt != 0) {
+				final Rect screenRect = getProjection().getScreenRect();
 				Matrix m = new Matrix();
 				m.setScale(1 / mMultiTouchScale, 1 / mMultiTouchScale, mMultiTouchScalePoint.x,
 						mMultiTouchScalePoint.y);
-				m.postRotate(-mapOrientation, mProjection.getScreenRect().centerX(), mProjection
-						.getScreenRect().centerY());
+				m.postRotate(-mapOrientation, screenRect.exactCenterX(), screenRect.exactCenterY());
 				float[] pts = new float[2];
-				pts[0] = getScrollX();
-				pts[1] = getScrollY();
+				pts[0] = screenRect.exactCenterX();
+				pts[1] = screenRect.exactCenterY();
 				m.mapPoints(pts);
-				scrollTo((int) pts[0], (int) pts[1]);
+				Point p = getProjection().toMercatorPixels((int) pts[0], (int) pts[1], null);
+				scrollTo(p.x - getWidth() / 2, p.y - getHeight() / 2);
 			}
 
 			// Adjust the zoomLevel
@@ -1224,280 +1159,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	/**
-	 * A Projection serves to translate between the coordinate system of x/y on-screen pixel
-	 * coordinates and that of latitude/longitude points on the surface of the earth. You obtain a
-	 * Projection from MapView.getProjection(). You should not hold on to this object for more than
-	 * one draw, since the projection of the map could change. <br />
-	 * <br />
-	 * <I>Screen coordinates</I> are in the coordinate system of the screen's Canvas. The origin is
-	 * in the center of the plane. <I>Screen coordinates</I> are appropriate for using to draw to
-	 * the screen.<br />
-	 * <br />
-	 * <I>Map coordinates</I> are in the coordinate system of the standard Mercator projection. The
-	 * origin is in the upper-left corner of the plane. <I>Map coordinates</I> are appropriate for
-	 * use in the TileSystem class.<br />
-	 * <br />
-	 * <I>Intermediate coordinates</I> are used to cache the computationally heavy part of the
-	 * projection. They aren't suitable for use until translated into <I>screen coordinates</I> or
-	 * <I>map coordinates</I>.
-	 *
-	 * @author Nicolas Gramlich
-	 * @author Manuel Stahl
-	 */
-	public class Projection implements IProjection, GeoConstants {
-
-		private final int viewWidth_2 = getWidth() / 2;
-		private final int viewHeight_2 = getHeight() / 2;
-		private final int worldSize_2 = TileSystem.MapSize(mZoomLevel) / 2;
-		private final int offsetX = -worldSize_2;
-		private final int offsetY = -worldSize_2;
-
-		private final BoundingBoxE6 mBoundingBoxProjection;
-		private final int mZoomLevelProjection;
-		private final Rect mScreenRectProjection;
-		private final Rect mIntrinsicScreenRectProjection;
-		private final float mMapOrientation;
-
-		private Projection() {
-
-			/*
-			 * Do some calculations and drag attributes to local variables to save some performance.
-			 */
-			mZoomLevelProjection = MapView.this.mZoomLevel;
-			mBoundingBoxProjection = MapView.this.getBoundingBox();
-			mScreenRectProjection = MapView.this.getScreenRect(null);
-			mIntrinsicScreenRectProjection = MapView.this.getIntrinsicScreenRect(null);
-			mMapOrientation = MapView.this.getMapOrientation();
-		}
-
-		public int getZoomLevel() {
-			return mZoomLevelProjection;
-		}
-
-		public BoundingBoxE6 getBoundingBox() {
-			return mBoundingBoxProjection;
-		}
-
-		public Rect getScreenRect() {
-			return mScreenRectProjection;
-		}
-
-		public Rect getIntrinsicScreenRect() {
-			return mIntrinsicScreenRectProjection;
-		}
-
-		public float getMapOrientation() {
-			return mMapOrientation;
-		}
-
-		/**
-		 * @deprecated Use TileSystem.getTileSize() instead.
-		 */
-		@Deprecated
-		public int getTileSizePixels() {
-			return TileSystem.getTileSize();
-		}
-
-		/**
-		 * @deprecated Use
-		 *             <code>Point out = TileSystem.PixelXYToTileXY(screenRect.centerX(), screenRect.centerY(), null);</code>
-		 *             instead.
-		 */
-		@Deprecated
-		public Point getCenterMapTileCoords() {
-			final Rect rect = getScreenRect();
-			return TileSystem.PixelXYToTileXY(rect.centerX(), rect.centerY(), null);
-		}
-
-		/**
-		 * @deprecated Use
-		 *             <code>final Point out = TileSystem.TileXYToPixelXY(centerMapTileCoords.x, centerMapTileCoords.y, null);</code>
-		 *             instead.
-		 */
-		@Deprecated
-		public Point getUpperLeftCornerOfCenterMapTile() {
-			final Point centerMapTileCoords = getCenterMapTileCoords();
-			return TileSystem.TileXYToPixelXY(centerMapTileCoords.x, centerMapTileCoords.y, null);
-		}
-
-		/**
-		 * Converts <I>screen coordinates</I> to the underlying GeoPoint.
-		 *
-		 * @param x
-		 * @param y
-		 * @return GeoPoint under x/y.
-		 */
-		public IGeoPoint fromPixels(final float x, final float y) {
-			final Rect screenRect = getIntrinsicScreenRect();
-			return TileSystem.PixelXYToLatLong(screenRect.left + (int) x + worldSize_2,
-					screenRect.top + (int) y + worldSize_2, mZoomLevelProjection, null);
-		}
-
-		public Point fromMapPixels(final int x, final int y, final Point reuse) {
-			final Point out = reuse != null ? reuse : new Point();
-			out.set(x - viewWidth_2, y - viewHeight_2);
-			out.offset(getScrollX(), getScrollY());
-			return out;
-		}
-
-		/**
-		 * Converts a GeoPoint to its <I>screen coordinates</I>.
-		 *
-		 * @param in
-		 *            the GeoPoint you want the <I>screen coordinates</I> of
-		 * @param reuse
-		 *            just pass null if you do not have a Point to be 'recycled'.
-		 * @return the Point containing the <I>screen coordinates</I> of the GeoPoint passed.
-		 */
-		public Point toMapPixels(final IGeoPoint in, final Point reuse) {
-			final Point out = reuse != null ? reuse : new Point();
-			TileSystem.LatLongToPixelXY(
-							in.getLatitude(),
-							in.getLongitude(),
-							getZoomLevel(), out);
-			out.offset(offsetX, offsetY);
-			if (Math.abs(out.x - getScrollX()) >
-					Math.abs(out.x - TileSystem.MapSize(getZoomLevel()) - getScrollX())) {
-				out.x -= TileSystem.MapSize(getZoomLevel());
-			}
-			if (Math.abs(out.x - getScrollX()) >
-					Math.abs(out.x + TileSystem.MapSize(getZoomLevel()) - getScrollX())) {
-				out.x += TileSystem.MapSize(getZoomLevel());
-			}
-			if (Math.abs(out.y - getScrollY()) >
-					Math.abs(out.y - TileSystem.MapSize(getZoomLevel()) - getScrollY())) {
-				out.y -= TileSystem.MapSize(getZoomLevel());
-			}
-			if (Math.abs(out.y - getScrollY()) >
-					Math.abs(out.y + TileSystem.MapSize(getZoomLevel()) - getScrollY())) {
-				out.y += TileSystem.MapSize(getZoomLevel());
-			}
-			return out;
-		}
-
-		/**
-		 * Performs only the first computationally heavy part of the projection. Call
-		 * toMapPixelsTranslated to get the final position.
-		 *
-		 * @param latituteE6
-		 *            the latitute of the point
-		 * @param longitudeE6
-		 *            the longitude of the point
-		 * @param reuse
-		 *            just pass null if you do not have a Point to be 'recycled'.
-		 * @return intermediate value to be stored and passed to toMapPixelsTranslated.
-		 */
-		public Point toMapPixelsProjected(final int latituteE6, final int longitudeE6, final Point reuse) {
-			final Point out = reuse != null ? reuse : new Point();
-
-			TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6, MAXIMUM_ZOOMLEVEL, out);
-			return out;
-		}
-
-		/**
-		 * Performs the second computationally light part of the projection. Returns results in
-		 * <I>screen coordinates</I>.
-		 *
-		 * @param in
-		 *            the Point calculated by the toMapPixelsProjected
-		 * @param reuse
-		 *            just pass null if you do not have a Point to be 'recycled'.
-		 * @return the Point containing the <I>Screen coordinates</I> of the initial GeoPoint passed
-		 *         to the toMapPixelsProjected.
-		 */
-		public Point toMapPixelsTranslated(final Point in, final Point reuse) {
-			final Point out = reuse != null ? reuse : new Point();
-
-			final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
-			out.set((in.x >> zoomDifference) + offsetX, (in.y >> zoomDifference) + offsetY);
-			return out;
-		}
-
-		/**
-		 * Translates a rectangle from <I>screen coordinates</I> to <I>intermediate coordinates</I>.
-		 *
-		 * @param in
-		 *            the rectangle in <I>screen coordinates</I>
-		 * @return a rectangle in </I>intermediate coordindates</I>.
-		 */
-		public Rect fromPixelsToProjected(final Rect in) {
-			final Rect result = new Rect();
-
-			final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
-
-			final int x0 = in.left - offsetX << zoomDifference;
-			final int x1 = in.right - offsetX << zoomDifference;
-			final int y0 = in.bottom - offsetY << zoomDifference;
-			final int y1 = in.top - offsetY << zoomDifference;
-
-			result.set(Math.min(x0, x1), Math.min(y0, y1), Math.max(x0, x1), Math.max(y0, y1));
-			return result;
-		}
-
-		/**
-		 * @deprecated Use TileSystem.TileXYToPixelXY
-		 */
-		@Deprecated
-		public Point toPixels(final Point tileCoords, final Point reuse) {
-			return toPixels(tileCoords.x, tileCoords.y, reuse);
-		}
-
-		/**
-		 * @deprecated Use TileSystem.TileXYToPixelXY
-		 */
-		@Deprecated
-		public Point toPixels(final int tileX, final int tileY, final Point reuse) {
-			return TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
-		}
-
-		// not presently used
-		public Rect toPixels(final BoundingBoxE6 pBoundingBoxE6) {
-			final Rect rect = new Rect();
-
-			final Point reuse = new Point();
-
-			toMapPixels(
-					new GeoPoint(pBoundingBoxE6.getLatNorthE6(), pBoundingBoxE6.getLonWestE6()),
-					reuse);
-			rect.left = reuse.x;
-			rect.top = reuse.y;
-
-			toMapPixels(
-					new GeoPoint(pBoundingBoxE6.getLatSouthE6(), pBoundingBoxE6.getLonEastE6()),
-					reuse);
-			rect.right = reuse.x;
-			rect.bottom = reuse.y;
-
-			return rect;
-		}
-
-		@Override
-		public float metersToEquatorPixels(final float meters) {
-			return meters / (float) TileSystem.GroundResolution(0, mZoomLevelProjection);
-		}
-
-		@Override
-		public IGeoPoint getNorthEast() {
-			return fromPixels(getWidth(), 0);
-		}
-
-		@Override
-		public IGeoPoint getSouthWest() {
-			return fromPixels(0, getHeight());
-		}
-
-		@Override
-		public Point toPixels(final IGeoPoint in, final Point out) {
-			return toMapPixels(in, out);
-		}
-
-		@Override
-		public IGeoPoint fromPixels(final int x, final int y) {
-			return fromPixels((float) x, (float) y);
-		}
-	}
-
 	private class MapViewGestureDetectorListener implements OnGestureListener {
 
 		@Override
@@ -1575,8 +1236,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final IGeoPoint center = getProjection().fromPixels(e.getX(), e.getY());
-			return zoomInFixing(center);
+			// final IGeoPoint center = getProjection().fromPixels((int) e.getX(), (int) e.getY(),
+			// null);
+			return zoomInFixing((int) e.getX(), (int) e.getY());
 		}
 
 		@Override
