@@ -8,11 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Polygon;
-import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Parcel;
@@ -130,6 +129,13 @@ public class KmlPolygon extends KmlGeometry {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@Override public BoundingBoxE6 getBoundingBox(){
+		if (mCoordinates!=null)
+			return BoundingBoxE6.fromGeoPoints(mCoordinates);
+		else 
+			return null;
 	}
 	
 	//Cloneable implementation ------------------------------------

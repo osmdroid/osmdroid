@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -34,6 +35,7 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	public abstract void saveAsKML(Writer writer);
 	public abstract JSONObject asGeoJSON();
 	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, KmlDocument kmlDocument);
+	public abstract BoundingBoxE6 getBoundingBox();
 
 	//-----------------------------------------------------
 	

@@ -56,7 +56,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	/**
 	 * Build the Overlay related to this KML object. If this is a Folder, recursively build overlays from Folder items. 
 	 * Styling strategy is following this order of priority: 
-	 *  1) styler, or if null 2) style of the Feature, or if not defined 3) defaultStyle or if null 4) hard-coded default values. 
+	 *  1) the styler 2) or if null, style of the Feature, 3) or if not defined, defaultStyle 4) or if null, hard-coded default values. 
 	 * @param map
 	 * @param defaultStyle to apply when an Feature has no Style defined. 
 	 * @param styler Styler that will be applied to Features and Geometries. 
@@ -89,13 +89,16 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	
 	//-----------------------------------------------------
 	
-	/** default constructor: create an UNKNOWN object */
+	/** default constructor */
 	public KmlFeature(){
-		mVisibility=true;
-		mOpen=true;
+		mVisibility = true;
+		mOpen = true;
 	}
 
-	/** return true only if this a KML Placemark containing a KML Geometry of class C. */
+	/**
+	 * @param C KmlGeometry subclass to compare
+	 * @return true if this a KML Placemark containing a KML Geometry of class C. 
+	 */
 	public boolean hasGeometry(Class<? extends KmlGeometry> C){
 		if (!(this instanceof KmlPlacemark))
 			return false;
@@ -119,6 +122,17 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 				mBB = BonusPackHelper.concatBoundingBoxE6(itemBB, mBB);
 			}
 		}
+	}
+
+	/**
+	 * @param name
+	 * @return the value associated to this name, or null if none. 
+	 */
+	public String getExtendedData(String name){
+		if (mExtendedData == null)
+			return null;
+		else 
+			return mExtendedData.get(name);
 	}
 
 	/** 

@@ -194,7 +194,9 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	@Override public JSONObject asGeoJSON(boolean isRoot){
 		try {
 			JSONObject json = new JSONObject();
-			json.put("type", "FeatureCollection");
+			if (isRoot){
+				json.put("crs", geoJSONNamedCRS("urn:ogc:def:crs:OGC:1.3:CRS84"));
+			}
 			JSONArray features = new JSONArray();
 			for (KmlFeature item:mItems){
 				JSONObject subJson = item.asGeoJSON(false);
@@ -212,9 +214,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 				}
 			}
 			json.put("features", features);
-			if (isRoot){
-				json.put("crs", geoJSONNamedCRS("urn:ogc:def:crs:OGC:1.3:CRS84"));
-			}
+			json.put("type", "FeatureCollection");
 			return json;
 		} catch (JSONException e) {
 			e.printStackTrace();

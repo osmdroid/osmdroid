@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -98,6 +100,21 @@ public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelab
 		}
 	}
 
+	@Override public BoundingBoxE6 getBoundingBox(){
+		BoundingBoxE6 finalBB = null;
+		for (KmlGeometry item:mItems){
+			BoundingBoxE6 itemBB = item.getBoundingBox();
+			if (itemBB != null){
+				if (finalBB == null){
+					finalBB = BonusPackHelper.cloneBoundingBoxE6(itemBB);
+				} else {
+					finalBB = BonusPackHelper.concatBoundingBoxE6(itemBB, finalBB);
+				}
+			}
+		}
+		return finalBB;
+	}
+	
 	//Cloneable implementation ------------------------------------
 	
 	@Override public KmlMultiGeometry clone(){

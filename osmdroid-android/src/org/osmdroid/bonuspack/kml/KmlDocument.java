@@ -592,12 +592,14 @@ public class KmlDocument implements Parcelable {
 		}
 	}
 
+	public int mGeoJSONIdentFactor = 0;
+	
 	public boolean saveAsGeoJSON(Writer writer){
 		JSONObject json = mKmlRoot.asGeoJSON(true);
 		if (json == null)
 			return false;
 		try {
-			writer.write(json.toString(2));
+			writer.write(json.toString(mGeoJSONIdentFactor));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

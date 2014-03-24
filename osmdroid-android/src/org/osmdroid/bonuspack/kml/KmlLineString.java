@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -75,6 +76,13 @@ public class KmlLineString extends KmlGeometry {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@Override public BoundingBoxE6 getBoundingBox(){
+		if (mCoordinates!=null)
+			return BoundingBoxE6.fromGeoPoints(mCoordinates);
+		else 
+			return null;
 	}
 	
 	//Cloneable implementation ------------------------------------

@@ -8,8 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Marker;
-import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -119,6 +119,10 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		}
 	}
 
+	@Override public BoundingBoxE6 getBoundingBox(){
+		return BoundingBoxE6.fromGeoPoints(mCoordinates);
+	}
+	
 	//Cloneable implementation ------------------------------------
 	
 	@Override public KmlPoint clone(){
