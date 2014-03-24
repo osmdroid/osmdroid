@@ -3,7 +3,7 @@ package org.osmdroid.samplefragments;
 
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
@@ -33,7 +33,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	private static final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
 
 	private static final BoundingBoxE6 sCentralParkBoundingBox;
-	private static final SafePaint sPaint;
+	private static final Paint sPaint;
 
 	// ===========================================================
 	// Fields
@@ -140,7 +140,13 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		@Override
 		protected void draw(Canvas c, MapView osmv, boolean shadow) {
 			final Projection proj = osmv.getProjection();
-			Rect area = proj.toPixels(sCentralParkBoundingBox);
+
+			Point topLeft = proj.toPixelsProjected(sCentralParkBoundingBox.getLatNorthE6(),
+					sCentralParkBoundingBox.getLonWestE6(), null);
+			Point bottomRight = proj.toPixelsProjected(sCentralParkBoundingBox.getLatSouthE6(),
+					sCentralParkBoundingBox.getLonEastE6(), null);
+
+			Rect area = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 			c.drawRect(area, sPaint);
 		}
 	}

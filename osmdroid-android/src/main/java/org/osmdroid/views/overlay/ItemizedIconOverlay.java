@@ -7,7 +7,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -19,7 +19,6 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	protected final List<Item> mItemList;
 	protected OnItemGestureListener<Item> mOnItemGestureListener;
 	private int mDrawnItemsLimit = Integer.MAX_VALUE;
-	private final Point mTouchScreenPoint = new Point();
 	private final Point mItemPoint = new Point();
 
 	public ItemizedIconOverlay(
@@ -164,9 +163,6 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 		final int eventX = (int) event.getX();
 		final int eventY = (int) event.getY();
 
-		/* These objects are created to avoid construct new ones every cycle. */
-		pj.fromMapPixels(eventX, eventY, mTouchScreenPoint);
-
 		for (int i = 0; i < this.mItemList.size(); ++i) {
 			final Item item = getItem(i);
 			final Drawable marker = (item.getMarker(0) == null) ? this.mDefaultMarker : item
@@ -174,8 +170,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 			pj.toPixels(item.getPoint(), mItemPoint);
 
-			if (hitTest(item, marker, mTouchScreenPoint.x - mItemPoint.x, mTouchScreenPoint.y
-					- mItemPoint.y)) {
+			if (hitTest(item, marker, eventX - mItemPoint.x, eventY - mItemPoint.y)) {
 				if (task.run(i)) {
 					return true;
 				}

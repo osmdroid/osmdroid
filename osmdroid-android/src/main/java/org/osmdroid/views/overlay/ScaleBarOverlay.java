@@ -39,7 +39,7 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -64,9 +64,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 	// Defaults
-
-	float xOffset = 10;
-	float yOffset = 10;
+	int xOffset = 10;
+	int yOffset = 10;
 	int minZoom = 0;
 
 	UnitsOfMeasure unitsOfMeasure = UnitsOfMeasure.metric;
@@ -188,7 +187,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param y
 	 *            z screen offset
 	 */
-	public void setScaleBarOffset(final float x, final float y) {
+	public void setScaleBarOffset(final int x, final int y) {
 		xOffset = x;
 		yOffset = y;
 	}
@@ -364,7 +363,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return;
 			}
 
-			final IGeoPoint center = projection.fromPixels((screenWidth / 2), screenHeight / 2);
+			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
 			if (zoomLevel != lastZoomLevel
 					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
 				lastZoomLevel = zoomLevel;
@@ -422,8 +421,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		int xLen = (int) (maxLength * xdpcm);
 
 		// Two points, xLen apart, at scale bar screen location
-		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xLen / 2), yOffset);
-		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset);
+		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xLen / 2), yOffset, null);
+		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset, null);
 
 		// get distance in meters between points
 		final int xMeters = ((GeoPoint) p1).distanceTo(p2);
@@ -450,8 +449,10 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		int yLen = (int) (maxLength * ydpcm);
 
 		// Two points, yLen apart, at scale bar screen location
-		IGeoPoint p1 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) - (yLen / 2));
-		IGeoPoint p2 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2));
+		IGeoPoint p1 = projection
+				.fromPixels(screenWidth / 2, (screenHeight / 2) - (yLen / 2), null);
+		IGeoPoint p2 = projection
+				.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2), null);
 
 		// get distance in meters between points
 		final int yMeters = ((GeoPoint) p1).distanceTo(p2);
@@ -486,8 +487,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		int yLen = (int) (maxLength * ydpcm);
 
 		// Two points, xLen apart, at scale bar screen location
-		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xLen / 2), yOffset);
-		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset);
+		IGeoPoint p1 = projection.fromPixels((screenWidth / 2) - (xLen / 2), yOffset, null);
+		IGeoPoint p2 = projection.fromPixels((screenWidth / 2) + (xLen / 2), yOffset, null);
 
 		// get distance in meters between points
 		final int xMeters = ((GeoPoint) p1).distanceTo(p2);
@@ -497,8 +498,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int xBarLengthPixels = (int) (xLen * xMetersAdjusted / xMeters);
 
 		// Two points, yLen apart, at scale bar screen location
-		p1 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) - (yLen / 2));
-		p2 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2));
+		p1 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) - (yLen / 2), null);
+		p2 = projection.fromPixels(screenWidth / 2, (screenHeight / 2) + (yLen / 2), null);
 
 		// get distance in meters between points
 		final int yMeters = ((GeoPoint) p1).distanceTo(p2);

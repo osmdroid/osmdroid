@@ -5,7 +5,7 @@ import java.util.List;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.graphics.Path;
 import android.graphics.Point;

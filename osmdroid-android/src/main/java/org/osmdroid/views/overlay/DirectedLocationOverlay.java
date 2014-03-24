@@ -5,7 +5,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -114,7 +114,7 @@ public class DirectedLocationOverlay extends Overlay {
 
 		if (this.mLocation != null) {
 			final Projection pj = osmv.getProjection();
-			pj.toMapPixels(this.mLocation, screenCoords);
+			pj.toPixels(this.mLocation, screenCoords);
 
 			if (this.mShowAccuracy && this.mAccuracy > 10) {
 				final float accuracyRadius = pj.metersToEquatorPixels(this.mAccuracy);

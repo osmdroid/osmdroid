@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import android.graphics.Canvas;
@@ -121,9 +121,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for (int i = size; i >= 0; i--) {
 			final Item item = getItem(i);
-			pj.toMapPixels(item.getPoint(), mCurScreenCoords);
+			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			onDrawItem(canvas, item, mCurScreenCoords, mapView.getMapOrientation());
+			onDrawItem(c, item, mCurScreenCoords, mapView.getMapOrientation());
 		}
 	}
 
@@ -166,7 +166,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @param curScreenCoords
 	 * @param aMapOrientation
 	 */
-	protected void onDrawItem(final ISafeCanvas canvas, final Item item, final Point curScreenCoords, final float aMapOrientation) {
+	protected void onDrawItem(final Canvas canvas, final Item item, final Point curScreenCoords,
+			final float aMapOrientation) {
 		final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
 				: 0);
 		final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
@@ -213,7 +214,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		for (int i = 0; i < size; i++) {
 			final Item item = getItem(i);
-			pj.toMapPixels(item.getPoint(), mCurScreenCoords);
+			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
 			final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
 					: 0);

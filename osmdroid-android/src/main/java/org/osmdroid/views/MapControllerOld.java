@@ -63,8 +63,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 			return;
 		}
 
-		final BoundingBoxE6 bb = this.mOsmv.getBoundingBox();
-		final int curZoomLevel = this.mOsmv.getZoomLevel();
+		final BoundingBoxE6 bb = this.mOsmv.getProjection().getBoundingBox();
+		final int curZoomLevel = this.mOsmv.getProjection().getZoomLevel();
 
 		final int curLatSpan = bb.getLatitudeSpanE6();
 		final int curLonSpan = bb.getLongitudeSpanE6();

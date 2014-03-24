@@ -160,7 +160,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		}
 
 		/* Calculate and set the bounds of the marker. */
-		osmv.getProjection().toMapPixels(focusedItem.getPoint(), mFocusedScreenCoords);
+		osmv.getProjection().toPixels(focusedItem.getPoint(), mFocusedScreenCoords);
 
 		markerFocusedBase.copyBounds(mRect);
 		mRect.offset(mFocusedScreenCoords.x, mFocusedScreenCoords.y);

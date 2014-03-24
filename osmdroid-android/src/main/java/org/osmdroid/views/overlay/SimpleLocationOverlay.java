@@ -5,7 +5,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -70,7 +70,7 @@ public class SimpleLocationOverlay extends Overlay {
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 		if (!shadow && this.mLocation != null) {
 			final Projection pj = osmv.getProjection();
-			pj.toMapPixels(this.mLocation, screenCoords);
+			pj.toPixels(this.mLocation, screenCoords);
 
 			c.drawBitmap(PERSON_ICON, screenCoords.x - PERSON_HOTSPOT.x, screenCoords.y
 					- PERSON_HOTSPOT.y, this.mPaint);

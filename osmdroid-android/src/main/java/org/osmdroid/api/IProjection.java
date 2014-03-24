@@ -1,6 +1,7 @@
 package org.osmdroid.api;
 
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.Projection;
 
 import android.graphics.Point;
 
@@ -14,9 +15,9 @@ import android.graphics.Point;
 public interface IProjection {
 
 	/**
-	 * Converts the given GeoPoint to onscreen pixel coordinates, relative to the top-left of the
-	 * MapView that provided this Projection.
-	 *
+	 * Converts the given {@link IGeoPoint} to onscreen pixel coordinates, relative to the top-left
+	 * of the {@link #MapView} that provided this Projection.
+	 * 
 	 * @param in
 	 *            The latitude/longitude pair to convert.
 	 * @param out
@@ -29,7 +30,7 @@ public interface IProjection {
 	 * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
 	 * provided this PixelConverter.
 	 */
-	IGeoPoint fromPixels(int x, int y);
+	IGeoPoint fromPixels(int x, int y, GeoPoint out);
 
 	/**
 	 * Converts a distance in meters (along the equator) to one in (horizontal) pixels at the

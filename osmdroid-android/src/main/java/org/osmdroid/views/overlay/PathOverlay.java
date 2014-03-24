@@ -6,9 +6,10 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -204,7 +205,7 @@ public class PathOverlay extends Overlay {
 		// precompute new points to the intermediate projection.
 		while (this.mPointsPrecomputed < size) {
 			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
-			pj.toMapPixelsProjected(pt.x, pt.y, pt);
+			pj.toPixelsProjected(pt.x, pt.y, pt);
 
 			this.mPointsPrecomputed++;
 		}
@@ -215,7 +216,12 @@ public class PathOverlay extends Overlay {
 		Point projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		final Rect clipBounds = pj.fromPixelsToProjected(pj.getScreenRect());
+		BoundingBoxE6 boundingBox = pj.getBoundingBox();
+		Point topLeft = pj.toPixelsProjected(boundingBox.getLatNorthE6(),
+				boundingBox.getLonWestE6(), null);
+		Point bottomRight = pj.toPixelsProjected(boundingBox.getLatSouthE6(),
+				boundingBox.getLonEastE6(), null);
+		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
@@ -236,11 +242,11 @@ public class PathOverlay extends Overlay {
 			// the starting point may be not calculated, because previous segment was out of clip
 			// bounds
 			if (screenPoint0 == null) {
-				screenPoint0 = pj.toMapPixelsTranslated(projectedPoint0, this.mTempPoint1);
+				screenPoint0 = pj.toPixelsTranslated(projectedPoint0, this.mTempPoint1);
 				mPath.moveTo(screenPoint0.x, screenPoint0.y);
 			}
 
-			screenPoint1 = pj.toMapPixelsTranslated(projectedPoint1, this.mTempPoint2);
+			screenPoint1 = pj.toPixelsTranslated(projectedPoint1, this.mTempPoint2);
 
 			// skip this point, too close to previous point
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {

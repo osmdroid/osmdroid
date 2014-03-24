@@ -9,7 +9,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
@@ -73,8 +73,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	/** Coordinates the feet of the person are located scaled for display density. */
 	protected final PointF mPersonHotspot;
 
-	protected final double mDirectionArrowCenterX;
-	protected final double mDirectionArrowCenterY;
+	protected final float mDirectionArrowCenterX;
+	protected final float mDirectionArrowCenterY;
 
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 
@@ -111,8 +111,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 		mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
-		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0 - 0.5;
-		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0 - 0.5;
+		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
+		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
 
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
@@ -209,8 +209,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		float scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
 				* mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
 				* mMatrixValues[Matrix.MSKEW_X]);
-		final double x = mMapCoords.x >> zoomDiff;
-		final double y = mMapCoords.y >> zoomDiff;
+		final float x = mMapCoords.x >> zoomDiff;
+		final float y = mMapCoords.y >> zoomDiff;
 		if (lastFix.hasBearing()) {
 			canvas.save();
 			// Rotate the icon
