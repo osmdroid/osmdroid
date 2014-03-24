@@ -194,18 +194,18 @@ public class MainActivity extends Activity {
 		*/
 
 		//12. Loading KML content
-		String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
-		//url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=5.0";
-		//url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		String url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		//String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		mKmlDocument = new KmlDocument();
 		boolean ok = mKmlDocument.parseUrl(url);
 		if (ok){
+			//13.1 Simple styling
 			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
 			Bitmap defaultBitmap = ((BitmapDrawable)defaultMarker).getBitmap();
-			//Simple styling:
 			Style defaultStyle = new Style(defaultBitmap, 0x901010AA, 3.0f, 0x20AA1010);
-			//Advanced styling:
+			//13.2 Advanced styling with Styler
 			KmlFeature.Styler styler = new MyKmlStyler(defaultStyle);
+			
 			FolderOverlay kmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, defaultStyle, styler, mKmlDocument);
 			map.getOverlays().add(kmlOverlay);
 			if (mKmlDocument.mKmlRoot.mBB != null){
@@ -218,17 +218,17 @@ public class MainActivity extends Activity {
 		} else
 			Toast.makeText(this, "Error when loading KML", Toast.LENGTH_SHORT).show();
 		
-		//13. Grab overlays in KML structure, save KML document locally
+		//14. Grab overlays in KML structure, save KML document locally
 		if (mKmlDocument.mKmlRoot != null){
 			KmlFolder root = (KmlFolder)mKmlDocument.mKmlRoot;
 			root.addOverlay(roadOverlay, mKmlDocument);
 			root.addOverlay(roadMarkers, mKmlDocument);
 			mKmlDocument.saveAsKML(mKmlDocument.getDefaultPathForAndroid("my_route.kml"));
-			//14. Loading and saving of GeoJSON content
+			//15. Loading and saving of GeoJSON content
 			mKmlDocument.saveAsGeoJSON(mKmlDocument.getDefaultPathForAndroid("my_route.json"));
 		}
 		
-		//15. Using GroundOverlay
+		//16. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(endPoint);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
@@ -330,7 +330,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	//12. Loading KML content - Advanced styling
+	//13.1 Loading KML content - Advanced styling with Styler
 	class MyKmlStyler implements KmlFeature.Styler {
 		Style mDefaultStyle;
 		
@@ -338,17 +338,26 @@ public class MainActivity extends Activity {
 			mDefaultStyle = defaultStyle;
 		}
 		
-		@Override public void onPoint(Marker marker, KmlPlacemark kmlPlacemark, KmlPoint kmlPoint) {
-			kmlPoint.applyDefaultStyling(marker, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
-		}
 		@Override public void onLineString(Polyline polyline, KmlPlacemark kmlPlacemark, KmlLineString kmlLineString) {
-			polyline.setWidth(Math.max(kmlLineString.mCoordinates.size()/200.0f, 3.0f));
+			//Custom styling:
 			polyline.setColor(Color.GREEN);
+			polyline.setWidth(Math.max(kmlLineString.mCoordinates.size()/200.0f, 3.0f));
 		}
 		@Override public void onPolygon(Polygon polygon, KmlPlacemark kmlPlacemark, KmlPolygon kmlPolygon) {
+			//Keeping default styling:
 			kmlPolygon.applyDefaultStyling(polygon, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
 		}
-		@Override public void onFeature(Overlay overlay, KmlFeature kmlFeature) {}
+		@Override public void onPoint(Marker marker, KmlPlacemark kmlPlacemark, KmlPoint kmlPoint) {
+			//Styling based on ExtendedData properties: 
+			if ("city".equals(kmlPlacemark.getExtendedData("category")))
+				kmlPlacemark.mStyle = "city_style";
+			else if ("village".equals(kmlPlacemark.getExtendedData("category")))
+				kmlPlacemark.mStyle = "village_style";
+			kmlPoint.applyDefaultStyling(marker, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
+		}
+		@Override public void onFeature(Overlay overlay, KmlFeature kmlFeature) {
+			//If nothing to do, do nothing. 
+		}
 	}
 	
 }
