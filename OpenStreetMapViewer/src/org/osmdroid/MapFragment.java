@@ -75,7 +75,6 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
     {
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
         mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
-        mMapView.setUseSafeCanvas(true);
         // Call this method to turn off hardware acceleration at the View level.
         // setHardwareAccelerationOff();
         return mMapView;

@@ -11,17 +11,17 @@ import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.SafePaint;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.PointF;
@@ -38,7 +38,7 @@ import android.view.MotionEvent;
  * @author Manuel Stahl
  *
  */
-public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocationConsumer,
+public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 		IOverlayMenuProvider, Snappable {
 	private static final Logger logger = LoggerFactory.getLogger(MyLocationNewOverlay.class);
 
@@ -50,8 +50,8 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	// Fields
 	// ===========================================================
 
-	protected final SafePaint mPaint = new SafePaint();
-	protected final SafePaint mCirclePaint = new SafePaint();
+	protected final Paint mPaint = new Paint();
+	protected final Paint mCirclePaint = new Paint();
 
 	protected final Bitmap mPersonBitmap;
 	protected final Bitmap mDirectionArrowBitmap;
@@ -168,8 +168,7 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 		mPersonHotspot.set(x, y);
 	}
 
-	protected void drawMyLocation(final ISafeCanvas canvas, final MapView mapView,
-			final Location lastFix) {
+	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
 		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - pj.getZoomLevel();
 
@@ -273,12 +272,12 @@ public class MyLocationNewOverlay extends SafeDrawOverlay implements IMyLocation
 	// ===========================================================
 
 	@Override
-	protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	protected void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 
 		if (mLocation != null && isMyLocationEnabled()) {
-			drawMyLocation(canvas, mapView, mLocation);
+			drawMyLocation(c, mapView, mLocation);
 		}
 	}
 

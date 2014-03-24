@@ -2,15 +2,15 @@ package org.osmdroid;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 
-public class RotationGestureOverlay extends SafeDrawOverlay implements
+public class RotationGestureOverlay extends Overlay implements
         RotationGestureDetector.RotationListener, IOverlayMenuProvider
 {
 	private final static boolean SHOW_ROTATE_MENU_ITEMS = false;
@@ -31,8 +31,7 @@ public class RotationGestureOverlay extends SafeDrawOverlay implements
     }
 
     @Override
-    protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow)
-    {
+	protected void draw(Canvas c, MapView osmv, boolean shadow) {
         // No drawing necessary
     }
 

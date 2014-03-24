@@ -30,7 +30,6 @@ public abstract class BaseSampleFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
 		mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
-		mMapView.setUseSafeCanvas(true);
 		return mMapView;
 	}
 

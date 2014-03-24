@@ -4,12 +4,13 @@ package org.osmdroid.samplefragments;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.SafePaint;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Menu;
@@ -43,7 +44,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	static {
 		sCentralParkBoundingBox = new BoundingBoxE6(40.796788,
 			-73.949232, 40.768094, -73.981762);
-		sPaint = new SafePaint();
+		sPaint = new Paint();
 		sPaint.setColor(Color.argb(50, 255, 0, 0));
 	}
 	@Override
@@ -130,14 +131,14 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
-	class ShadeAreaOverlay extends SafeDrawOverlay {
+	class ShadeAreaOverlay extends Overlay {
 
 		public ShadeAreaOverlay(Context ctx) {
 			super(ctx);
 		}
 
 		@Override
-		protected void drawSafe(ISafeCanvas c, MapView osmv, boolean shadow) {
+		protected void draw(Canvas c, MapView osmv, boolean shadow) {
 			final Projection proj = osmv.getProjection();
 			Rect area = proj.toPixels(sCentralParkBoundingBox);
 			c.drawRect(area, sPaint);

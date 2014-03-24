@@ -11,7 +11,6 @@ import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +35,7 @@ import android.view.SubMenu;
  *
  */
 
-public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvider {
+public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
 
@@ -110,7 +109,7 @@ public class TilesOverlay extends SafeDrawOverlay implements IOverlayMenuProvide
 	}
 
 	@Override
-	protected void drawSafe(final ISafeCanvas c, final MapView osmv, final boolean shadow) {
+	protected void draw(Canvas c, MapView osmv, boolean shadow) {
 
 		if (DEBUGMODE) {
 			logger.trace("onDraw(" + shadow + ")");

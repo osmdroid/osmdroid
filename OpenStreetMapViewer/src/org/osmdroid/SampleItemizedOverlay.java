@@ -7,9 +7,9 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -54,8 +54,9 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 		return true;
 	}
 
+
 	@Override
-	protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	protected void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (mFocusChanged) {
 			mFocusChanged = false;
 
@@ -72,7 +73,7 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 				mapView.addView(mPopupView, lp);
 			}
 		}
-		super.drawSafe(canvas, mapView, shadow);
+		super.draw(c, mapView, shadow);
 	}
 
 	protected View getPopupView(Context context, SampleOverlayItem item) {
@@ -83,7 +84,8 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 	}
 
 	@Override
-	protected void onDrawItem(ISafeCanvas canvas, SampleOverlayItem item, Point curScreenCoords, final float aMapOrientation) {
+	protected void onDrawItem(Canvas canvas, SampleOverlayItem item, Point curScreenCoords,
+			final float aMapOrientation) {
 		super.onDrawItem(canvas, item, curScreenCoords, aMapOrientation);
 	}
 

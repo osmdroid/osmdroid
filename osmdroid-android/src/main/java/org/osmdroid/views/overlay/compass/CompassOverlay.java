@@ -5,10 +5,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
-import org.osmdroid.views.safecanvas.SafePaint;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,7 +31,7 @@ import android.view.WindowManager;
  * @author Manuel Stahl
  * 
  */
-public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvider, IOrientationConsumer
+public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer
 {
 	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
     protected final MapView mMapView;
@@ -42,11 +39,10 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
 
     public IOrientationProvider mOrientationProvider;
 
-    protected final SafePaint mPaint = new SafePaint();
+	protected final Paint mPaint = new Paint();
 	protected Bitmap mCompassFrameBitmap;
 	protected Bitmap mCompassRoseBitmap;
     private final Matrix mCompassMatrix = new Matrix();
-	private final Matrix mCanvasIdentityMatrix = new Matrix();
     private boolean mIsCompassEnabled;
 
     /**
@@ -149,56 +145,43 @@ public class CompassOverlay extends SafeDrawOverlay implements IOverlayMenuProvi
         mOrientationProvider = orientationProvider;
     }
 
-	protected void drawCompass(final ISafeCanvas canvas, final float bearing, final Rect screenRect) {
+	protected void drawCompass(final Canvas canvas, final float bearing, final Rect screenRect) {
 		final float centerX = mCompassCenterX * mScale;
 		final float centerY = mCompassCenterY * mScale;
-
-		canvas.getMatrix(mCanvasIdentityMatrix);
-		mCanvasIdentityMatrix.invert(mCanvasIdentityMatrix);
 
 		mCompassMatrix.setTranslate(-mCompassFrameCenterX, -mCompassFrameCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
-			@Override
-			public void onUnsafeCanvas(Canvas canvas) {
-				canvas.save();
-				mMapView.invertCanvas(canvas);
-				canvas.concat(mCompassMatrix);
-				canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
-				canvas.restore();
-			}
-		});
+		canvas.save();
+		mMapView.invertCanvas(canvas);
+		canvas.concat(mCompassMatrix);
+		canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
+		canvas.restore();
 
 		mCompassMatrix.setRotate(-bearing, mCompassRoseCenterX, mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(-mCompassRoseCenterX, -mCompassRoseCenterY);
 		mCompassMatrix.postTranslate(centerX, centerY);
 
-		canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
-			@Override
-			public void onUnsafeCanvas(Canvas canvas) {
-				canvas.save();
-				mMapView.invertCanvas(canvas);
-				canvas.concat(mCompassMatrix);
-				canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
-				canvas.restore();
-			}
-		});
+		canvas.save();
+		mMapView.invertCanvas(canvas);
+		canvas.concat(mCompassMatrix);
+		canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
+		canvas.restore();
 	}
 
     // ===========================================================
     // Methods from SuperClass/Interfaces
     // ===========================================================
 
-    @Override
-    protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow)
-    {
+	@Override
+	protected void draw(Canvas c, MapView mapView, boolean shadow) {
         if (shadow) {
             return;
         }
 
         if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
-            drawCompass(canvas, mAzimuth + getDisplayOrientation(), mapView.getProjection().getScreenRect());
+			drawCompass(c, mAzimuth + getDisplayOrientation(), mapView.getProjection()
+					.getScreenRect());
         }
     }
 

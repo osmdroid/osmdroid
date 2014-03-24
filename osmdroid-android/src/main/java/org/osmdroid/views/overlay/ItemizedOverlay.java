@@ -7,8 +7,6 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.ISafeCanvas.UnsafeCanvasHandler;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -28,7 +26,7 @@ import android.view.MotionEvent;
  *
  * @param <Item>
  */
-public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDrawOverlay implements
+public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay implements
 		Overlay.Snappable {
 
 	// ===========================================================
@@ -107,7 +105,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-	protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	protected void draw(Canvas c, MapView mapView, boolean shadow) {
 
 		if (shadow) {
 			return;
@@ -178,16 +176,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends SafeDraw
 		boundToHotspot(marker, hotspot);
 
 		// draw it
-		if (this.isUsingSafeCanvas()) {
-			Overlay.drawAt(canvas.getSafeCanvas(), marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);
-		} else {
-			canvas.getUnsafeCanvas(new UnsafeCanvasHandler() {
-				@Override
-				public void onUnsafeCanvas(Canvas canvas) {
-					Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);
-				}
-			});
-		}
+		Overlay.drawAt(canvas, marker, curScreenCoords.x, curScreenCoords.y, false, aMapOrientation);
 	}
 
 	protected Drawable getDefaultMarker(final int state) {

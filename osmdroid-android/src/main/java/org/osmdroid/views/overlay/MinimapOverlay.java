@@ -6,12 +6,11 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
-import org.osmdroid.views.safecanvas.SafePaint;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -32,7 +31,7 @@ public class MinimapOverlay extends TilesOverlay {
 	private int mHeight = 100;
 	private int mPadding = 10;
 	private int mZoomDifference;
-	private final SafePaint mPaint;
+	private final Paint mPaint;
 	private int mWorldSize_2;
 
 	// The Mercator coordinates of what is on the screen
@@ -75,7 +74,7 @@ public class MinimapOverlay extends TilesOverlay {
 		mWidth *= density;
 		mHeight *= density;
 
-		mPaint = new SafePaint();
+		mPaint = new Paint();
 		mPaint.setColor(Color.GRAY);
 		mPaint.setStyle(Style.FILL);
 		mPaint.setStrokeWidth(2);
@@ -126,19 +125,18 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void drawSafe(final ISafeCanvas pC, final MapView pOsmv, final boolean shadow) {
-
+	protected void draw(Canvas c, MapView osmv, boolean shadow) {
 		if (shadow) {
 			return;
 		}
 
 		// Don't draw if we are animating
-		if (pOsmv.isAnimating()) {
+		if (osmv.isAnimating()) {
 			return;
 		}
 
 		// Calculate the half-world size
-		final Projection projection = pOsmv.getProjection();
+		final Projection projection = osmv.getProjection();
 		final int zoomLevel = projection.getZoomLevel();
 		mWorldSize_2 = TileSystem.MapSize(zoomLevel) / 2;
 
