@@ -13,7 +13,6 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,7 +61,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public IMyLocationProvider mMyLocationProvider;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
-	private final Point mMapCoords = new Point();
+	private final Point mMapCoordsProjected = new Point();
+	private final Point mMapCoordsTranslated = new Point();
 
 	private Location mLocation;
 	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
@@ -170,22 +170,21 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
-		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - pj.getZoomLevel();
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(),
 							mapView.getZoomLevel());
 
+			pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
+
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);
-			canvas.drawCircle(mMapCoords.x >> zoomDiff, mMapCoords.y >> zoomDiff, radius,
-					mCirclePaint);
+			canvas.drawCircle(mMapCoordsTranslated.x, mMapCoordsTranslated.y, radius, mCirclePaint);
 
 			mCirclePaint.setAlpha(150);
 			mCirclePaint.setStyle(Style.STROKE);
-			canvas.drawCircle(mMapCoords.x >> zoomDiff, mMapCoords.y >> zoomDiff, radius,
-					mCirclePaint);
+			canvas.drawCircle(mMapCoordsTranslated.x, mMapCoordsTranslated.y, radius, mCirclePaint);
 		}
 
 		canvas.getMatrix(mMatrix);
@@ -209,26 +208,27 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		float scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
 				* mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
 				* mMatrixValues[Matrix.MSKEW_X]);
-		final float x = mMapCoords.x >> zoomDiff;
-		final float y = mMapCoords.y >> zoomDiff;
 		if (lastFix.hasBearing()) {
 			canvas.save();
 			// Rotate the icon
-			canvas.rotate(lastFix.getBearing(), x, y);
+			canvas.rotate(lastFix.getBearing(), mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Counteract any scaling that may be happening so the icon stays the same size
-			canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
-			canvas.drawBitmap(mDirectionArrowBitmap, x - mDirectionArrowCenterX, y
+			canvas.drawBitmap(mDirectionArrowBitmap, mMapCoordsTranslated.x
+					- mDirectionArrowCenterX, mMapCoordsTranslated.y
 					- mDirectionArrowCenterY, mPaint);
 			canvas.restore();
 		} else {
 			canvas.save();
 			// Unrotate the icon if the maps are rotated so the little man stays upright
-			canvas.rotate(-mMapView.getMapOrientation(), x, y);
+			canvas.rotate(-mMapView.getMapOrientation(), mMapCoordsTranslated.x,
+					mMapCoordsTranslated.y);
 			// Counteract any scaling that may be happening so the icon stays the same size
-			canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
-			canvas.drawBitmap(mPersonBitmap, x - mPersonHotspot.x, y - mPersonHotspot.y, mPaint);
+			canvas.drawBitmap(mPersonBitmap, mMapCoordsTranslated.x - mPersonHotspot.x,
+					mMapCoordsTranslated.y - mPersonHotspot.y, mPaint);
 			canvas.restore();
 		}
 	}
@@ -237,9 +237,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (reuse == null)
 			reuse = new Rect();
 
-		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - zoomLevel;
-		final int posX = mMapCoords.x >> zoomDiff;
-		final int posY = mMapCoords.y >> zoomDiff;
+		final Projection pj = mMapView.getProjection();
+		pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
 
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
@@ -247,10 +246,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			// so as to allow for extra space for rotating
 			int widestEdge = (int) Math.ceil(Math.max(mDirectionArrowBitmap.getWidth(),
 					mDirectionArrowBitmap.getHeight()) * Math.sqrt(2));
-			reuse.set(posX, posY, posX + widestEdge, posY + widestEdge);
+			reuse.set(mMapCoordsTranslated.x, mMapCoordsTranslated.y, mMapCoordsTranslated.x
+					+ widestEdge, mMapCoordsTranslated.y + widestEdge);
 			reuse.offset(-widestEdge / 2, -widestEdge / 2);
 		} else {
-			reuse.set(posX, posY, posX + mPersonBitmap.getWidth(), posY + mPersonBitmap.getHeight());
+			reuse.set(mMapCoordsTranslated.x, mMapCoordsTranslated.y, mMapCoordsTranslated.x
+					+ mPersonBitmap.getWidth(), mMapCoordsTranslated.y + mPersonBitmap.getHeight());
 			reuse.offset((int) (-mPersonHotspot.x + 0.5f), (int) (-mPersonHotspot.y + 0.5f));
 		}
 
@@ -258,7 +259,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (mDrawAccuracyEnabled) {
 			final int radius = (int) FloatMath.ceil(lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(), zoomLevel));
-			reuse.union(posX - radius, posY - radius, posX + radius, posY + radius);
+			reuse.union(mMapCoordsTranslated.x - radius, mMapCoordsTranslated.y - radius,
+					mMapCoordsTranslated.x + radius, mMapCoordsTranslated.y + radius);
 			final int strokeWidth = (int) FloatMath.ceil(mCirclePaint.getStrokeWidth() == 0 ? 1
 					: mCirclePaint.getStrokeWidth());
 			reuse.inset(-strokeWidth, -strokeWidth);
@@ -285,10 +287,10 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public boolean onSnapToItem(final int x, final int y, final Point snapPoint,
 			final IMapView mapView) {
 		if (this.mLocation != null) {
-			snapPoint.x = mMapCoords.x;
-			snapPoint.y = mMapCoords.y;
-			final double xDiff = x - mMapCoords.x;
-			final double yDiff = y - mMapCoords.y;
+			snapPoint.x = mMapCoordsProjected.x;
+			snapPoint.y = mMapCoordsProjected.y;
+			final double xDiff = x - mMapCoordsProjected.x;
+			final double yDiff = y - mMapCoordsProjected.y;
 			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
 				logger.debug("snap=" + snap);
@@ -386,13 +388,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 		// set initial location when enabled
 		if (isMyLocationEnabled()) {
-			mLocation = mMyLocationProvider.getLastKnownLocation();
-			if (mLocation != null) {
-				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-						MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
-				mMapCoords.offset(-worldSize_2, -worldSize_2);
-				mMapController.animateTo(new GeoPoint(mLocation));
+			Location location = mMyLocationProvider.getLastKnownLocation();
+			if (location != null) {
+				setLocation(location);
 			}
 		}
 
@@ -420,7 +418,25 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	@Override
-	public void onLocationChanged(Location location, IMyLocationProvider source) {
+	public void onLocationChanged(final Location location, IMyLocationProvider source) {
+
+		if (location != null) {
+			// These location updates can come in from different threads
+			mMapView.post(new Runnable() {
+				@Override
+				public void run() {
+					setLocation(location);
+				}
+			});
+		}
+
+		for (final Runnable runnable : mRunOnFirstFix) {
+			new Thread(runnable).start();
+		}
+		mRunOnFirstFix.clear();
+	}
+
+	protected void setLocation(Location location) {
 		// If we had a previous location, let's get those bounds
 		Location oldLocation = mLocation;
 		if (oldLocation != null) {
@@ -429,46 +445,32 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 
 		mLocation = location;
-		mMapCoords.set(0, 0);
+		
+		// Cache location point
+		mMapView.getProjection().toPixelsProjected((int) (mLocation.getLatitude() * 1E6),
+				(int) (mLocation.getLongitude() * 1E6), mMapCoordsProjected);
 
-		if (mLocation != null) {
-			TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-					MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-			final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
-			mMapCoords.offset(-worldSize_2, -worldSize_2);
+		if (mIsFollowing) {
+			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
+			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+			mMapController.animateTo(mGeoPoint);
+		} else {
+			// Get new drawing bounds
+			this.getMyLocationDrawingBounds(mMapView.getZoomLevel(), mLocation, mMyLocationRect);
 
-			if (mIsFollowing) {
-				mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
-				mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
-				mMapController.animateTo(mGeoPoint);
-			} else {
-				// Get new drawing bounds
-				this.getMyLocationDrawingBounds(mMapView.getZoomLevel(), mLocation, mMyLocationRect);
-
-				// If we had a previous location, merge in those bounds too
-				if (oldLocation != null) {
-					mMyLocationRect.union(mMyLocationPreviousRect);
-				}
-
-				final int left = mMyLocationRect.left;
-				final int top = mMyLocationRect.top;
-				final int right = mMyLocationRect.right;
-				final int bottom = mMyLocationRect.bottom;
-
-				// Invalidate the bounds
-				mMapView.post(new Runnable() {
-					@Override
-					public void run() {
-						mMapView.invalidateMapCoordinates(left, top, right, bottom);
-					}
-				});
+			// If we had a previous location, merge in those bounds too
+			if (oldLocation != null) {
+				mMyLocationRect.union(mMyLocationPreviousRect);
 			}
-		}
 
-		for (final Runnable runnable : mRunOnFirstFix) {
-			new Thread(runnable).start();
+			final int left = mMyLocationRect.left;
+			final int top = mMyLocationRect.top;
+			final int right = mMyLocationRect.right;
+			final int bottom = mMyLocationRect.bottom;
+
+			// Invalidate the bounds
+			mMapView.invalidateMapCoordinates(left, top, right, bottom);
 		}
-		mRunOnFirstFix.clear();
 	}
 
 	public boolean enableMyLocation(IMyLocationProvider myLocationProvider) {
@@ -488,18 +490,14 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (mIsLocationEnabled)
 			mMyLocationProvider.stopLocationProvider();
 
-		boolean result = mMyLocationProvider.startLocationProvider(this);
-		mIsLocationEnabled = result;
+		boolean success = mMyLocationProvider.startLocationProvider(this);
+		mIsLocationEnabled = success;
 
 		// set initial location when enabled
-		if (result && isFollowLocationEnabled()) {
-			mLocation = mMyLocationProvider.getLastKnownLocation();
-			if (mLocation != null) {
-				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-						MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
-				mMapCoords.offset(-worldSize_2, -worldSize_2);
-				mMapController.animateTo(new GeoPoint(mLocation));
+		if (success) {
+			Location location = mMyLocationProvider.getLastKnownLocation();
+			if (location != null) {
+				setLocation(location);
 			}
 		}
 
@@ -508,7 +506,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			mMapView.postInvalidate();
 		}
 
-		return result;
+		return success;
 	}
 
 	/**
