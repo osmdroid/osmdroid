@@ -433,11 +433,12 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("innerBoundaryIs")){
 				mIsInnerBoundary = false;
 			} else if (localName.equals("Point") || localName.equals("LineString") || localName.equals("Polygon")
-					|| localName.equals("MultiGeometry") || localName.equals("MultiPoint")){
+					|| localName.equals("MultiGeometry") ){
 				//this was a Geometry:
 				if (mKmlGeometryStack.size() == 1){
-					//no MultiGeometry parent: add it in current Feature:
+					//no MultiGeometry parent: add this Geometry in the current Feature:
 					((KmlPlacemark)mKmlCurrentFeature).mGeometry = mKmlCurrentGeometry;
+					mKmlCurrentFeature.mBB = mKmlCurrentGeometry.getBoundingBox();
 					mKmlGeometryStack.remove(mKmlGeometryStack.size()-1); //pop current from stack
 					mKmlCurrentGeometry = null;
 				} else {
@@ -458,15 +459,13 @@ public class KmlDocument implements Parcelable {
 				if (mKmlCurrentFeature instanceof KmlPlacemark){
 					if (!mIsInnerBoundary){
 						mKmlCurrentGeometry.mCoordinates = parseKmlCoordinates(mStringBuilder.toString());
-						mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentGeometry.mCoordinates);
-						//TODO: handle MultiGeometry bb. 
+						//mKmlCurrentFeature.mBB = BoundingBoxE6.fromGeoPoints(mKmlCurrentGeometry.mCoordinates);
 					} else { //inside a Polygon innerBoundaryIs element: new hole
 						KmlPolygon polygon = (KmlPolygon)mKmlCurrentGeometry;
 						if (polygon.mHoles == null)
 							polygon.mHoles = new ArrayList<ArrayList<GeoPoint>>();
 						ArrayList<GeoPoint> hole = parseKmlCoordinates(mStringBuilder.toString());
 						polygon.mHoles.add(hole);
-						//no need for bounding box update, as holes must be inside the polygon outer boundary. 
 					}
 				}
 			} else if (localName.equals("styleUrl")){
