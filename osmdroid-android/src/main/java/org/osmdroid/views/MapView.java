@@ -921,24 +921,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			// Adjust if we are outside the scrollable area
 			if (scrollableWidth <= width) {
-				if (x - (width / 2) > minX)
-					x = minX + (width / 2);
-				else if (x + (width / 2) < maxX)
-					x = maxX - (width / 2);
-			} else if (x - (width / 2) < minX)
-				x = minX + (width / 2);
-			else if (x + (width / 2) > maxX)
-				x = maxX - (width / 2);
+				if (x > minX)
+					x = minX;
+				else if (x + width < maxX)
+					x = maxX - width;
+			} else if (x < minX)
+				x = minX;
+			else if (x + width > maxX)
+				x = maxX - width;
 
 			if (scrollableHeight <= height) {
-				if (y - (height / 2) > minY)
-					y = minY + (height / 2);
-				else if (y + (height / 2) < maxY)
-					y = maxY - (height / 2);
-			} else if (y - (height / 2) < minY)
-				y = minY + (height / 2);
-			else if (y + (height / 2) > maxY)
-				y = maxY - (height / 2);
+				if (y > minY)
+					y = minY;
+				else if (y + height < maxY)
+					y = maxY - height;
+			} else if (y - (0) < minY)
+				y = minY + (0);
+			else if (y + (height) > maxY)
+				y = maxY - (height);
 		}
 		super.scrollTo(x, y);
 		mProjection = null;

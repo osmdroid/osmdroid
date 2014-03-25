@@ -2,6 +2,7 @@
 package org.osmdroid.samplefragments;
 
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -133,20 +134,27 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// ===========================================================
 	class ShadeAreaOverlay extends Overlay {
 
+		final GeoPoint mTopLeft;
+		final GeoPoint mBottomRight;
+		final Point mTopLeftPoint = new Point();
+		final Point mBottomRightPoint = new Point();
 		public ShadeAreaOverlay(Context ctx) {
 			super(ctx);
+			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorthE6(),
+					sCentralParkBoundingBox.getLonWestE6());
+			mBottomRight = new GeoPoint(sCentralParkBoundingBox.getLatSouthE6(),
+					sCentralParkBoundingBox.getLonEastE6());
 		}
 
 		@Override
 		protected void draw(Canvas c, MapView osmv, boolean shadow) {
 			final Projection proj = osmv.getProjection();
 
-			Point topLeft = proj.toPixelsProjected(sCentralParkBoundingBox.getLatNorthE6(),
-					sCentralParkBoundingBox.getLonWestE6(), null);
-			Point bottomRight = proj.toPixelsProjected(sCentralParkBoundingBox.getLatSouthE6(),
-					sCentralParkBoundingBox.getLonEastE6(), null);
+			proj.toPixels(mTopLeft, mTopLeftPoint);
+			proj.toPixels(mBottomRight, mBottomRightPoint);
 
-			Rect area = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+			Rect area = new Rect(mTopLeftPoint.x, mTopLeftPoint.y, mBottomRightPoint.x,
+					mBottomRightPoint.y);
 			c.drawRect(area, sPaint);
 		}
 	}
