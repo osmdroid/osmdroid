@@ -50,6 +50,7 @@ import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -972,10 +973,29 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.show();
 	}
 
+	ProgressDialog createSpinningDialog(String title){
+		ProgressDialog pd = new ProgressDialog(map.getContext());
+		pd.setTitle(title);
+		pd.setMessage("Please wait.");
+		pd.setCancelable(false);
+		pd.setIndeterminate(true);
+		return pd;
+	}
+	
 	class KmlLoadingTask extends AsyncTask<Object, Void, Boolean>{
 		String mUri;
 		boolean mOnCreate;
-		protected Boolean doInBackground(Object... params) {
+		ProgressDialog mPD;
+		String mMessage;
+		KmlLoadingTask(String message){
+			super();
+			mMessage = message;
+		}
+		@Override protected void onPreExecute() {
+			mPD = createSpinningDialog(mMessage);
+			mPD.show();
+		}
+		@Override protected Boolean doInBackground(Object... params) {
 			mUri = (String)params[0];
 			mOnCreate = (Boolean)params[1];
 			mKmlDocument = new KmlDocument();
@@ -992,7 +1012,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 			return ok;
 		}
-		protected void onPostExecute(Boolean ok) {
+		@Override protected void onPostExecute(Boolean ok) {
+			if (mPD != null)
+				mPD.dismiss();
 			if (!ok)
 				Toast.makeText(getApplicationContext(), "Sorry, unable to read "+mUri, Toast.LENGTH_SHORT).show();
 			updateUIWithKml();
@@ -1008,8 +1030,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void openFile(String uri, boolean onCreate){
-		Toast.makeText(this, "Loading "+uri, Toast.LENGTH_SHORT).show();
-		new KmlLoadingTask().execute(uri, onCreate);
+		//Toast.makeText(this, "Loading "+uri, Toast.LENGTH_SHORT).show();
+		new KmlLoadingTask("Loading "+uri).execute(uri, onCreate);
 	}
 	
 	/** save fileName locally, as KML or GeoJSON depending on the extension */
