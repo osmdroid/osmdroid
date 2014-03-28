@@ -379,7 +379,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				offsetY += -longitudeBarRect.height() / 2;
 
 			c.save();
-			mapView.invertCanvas(c);
+			c.concat(projection.getInvertedScaleRotateCanvasMatrix());
 			c.translate(offsetX, offsetY);
 
 			if (latitudeBar && bgPaint != null)

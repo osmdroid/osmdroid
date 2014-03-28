@@ -121,8 +121,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final Handler mTileRequestCompleteHandler;
 
-	private final Matrix mCanvasScaleRotateMatrix = new Matrix();
-	private final Matrix mCanvasInvertedScaleRotateMatrix = new Matrix();
+	final Matrix mCanvasScaleRotateMatrix = new Matrix();
 	private final float[] mCanvasScaleRotatePoints = new float[2];
 
 	/* a point that will be reused to lay out added views */
@@ -851,7 +850,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
 			mCanvasScaleRotatePoints[0] = ev.getX();
 			mCanvasScaleRotatePoints[1] = ev.getY();
-			mCanvasInvertedScaleRotateMatrix.mapPoints(mCanvasScaleRotatePoints);
+			getProjection().getInvertedScaleRotateCanvasMatrix()
+					.mapPoints(mCanvasScaleRotatePoints);
 			rotatedEvent.setLocation(mCanvasScaleRotatePoints[0], mCanvasScaleRotatePoints[1]);
 		} else {
 			// This method is preferred since it will rotate historical touch events too
@@ -860,7 +860,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					sMotionEventTransformMethod = MotionEvent.class.getDeclaredMethod("transform",
 							new Class[] { Matrix.class });
 				}
-				sMotionEventTransformMethod.invoke(rotatedEvent, mCanvasInvertedScaleRotateMatrix);
+				sMotionEventTransformMethod.invoke(rotatedEvent, getProjection()
+						.getInvertedScaleRotateCanvasMatrix());
 			} catch (SecurityException e) {
 				e.printStackTrace();
 			} catch (NoSuchMethodException e) {
@@ -958,27 +959,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		invalidate();
 	}
 
-	/**
-	 * This will "invert" the canvas for an overlay so that it is appropriate for fixed-screen
-	 * drawing where (0, 0) is the upper-left corner of the screen. You can use this to draw to a
-	 * fixed position on the screen regardless of the scroll position.<br/>
-	 * <br/>
-	 * <b>Note:</b> You should save the state of your canvas before calling this method and restore
-	 * it when you are done drawing. To use this with a {@link SafeTranslatedCanvas} you should use
-	 * it with {@link SafeTranslatedCanvas#getUnsafeCanvas(UnsafeCanvasHandler)}.
-	 * 
-	 * @param c
-	 *            a canvas which will be modified
-	 */
-	public void invertCanvas(final Canvas c) {
-		c.concat(mCanvasInvertedScaleRotateMatrix);
-	}
-
 	@Override
 	protected void dispatchDraw(final Canvas c) {
 		final long startMs = System.currentTimeMillis();
-
-		mProjection = new Projection(this);
 
 		// Save the current canvas matrix
 		c.save();
@@ -996,10 +979,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mCanvasScaleRotateMatrix.preRotate(mapOrientation, mProjection.getScreenRect().exactCenterX(),
 				mProjection.getScreenRect().exactCenterY());
 
-		// Get the inverse matrix for unscaling/unrotating later
-		mCanvasScaleRotateMatrix.invert(mCanvasInvertedScaleRotateMatrix);
-
+		// Apply the scale and rotate operations
 		c.concat(mCanvasScaleRotateMatrix);
+
+		// Make the projection
+		mProjection = new Projection(this);
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
@@ -1074,7 +1058,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final Rect screenRect = getProjection().getScreenRect();
 				mCanvasScaleRotatePoints[0] = screenRect.exactCenterX();
 				mCanvasScaleRotatePoints[1] = screenRect.exactCenterY();
-				mCanvasInvertedScaleRotateMatrix.mapPoints(mCanvasScaleRotatePoints);
+				getProjection().getInvertedScaleRotateCanvasMatrix().mapPoints(
+						mCanvasScaleRotatePoints);
 				Point p = getProjection().toMercatorPixels((int) mCanvasScaleRotatePoints[0],
 						(int) mCanvasScaleRotatePoints[1], null);
 				scrollTo(p.x - getWidth() / 2, p.y - getHeight() / 2);
@@ -1409,9 +1394,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			this.alignment = BOTTOM_CENTER;
 		}
 
-		/**
-		 * {@inheritDoc}
-		 */
 		public LayoutParams(final ViewGroup.LayoutParams source) {
 			super(source);
 		}

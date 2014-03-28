@@ -4,6 +4,7 @@ package org.osmdroid.views.overlay.compass;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 
@@ -146,6 +147,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
     }
 
 	protected void drawCompass(final Canvas canvas, final float bearing, final Rect screenRect) {
+		final Projection proj = mMapView.getProjection();
 		final float centerX = mCompassCenterX * mScale;
 		final float centerY = mCompassCenterY * mScale;
 
@@ -153,7 +155,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassMatrix.postTranslate(centerX, centerY);
 
 		canvas.save();
-		mMapView.invertCanvas(canvas);
+		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassFrameBitmap, 0, 0, sSmoothPaint);
 		canvas.restore();
@@ -163,7 +165,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassMatrix.postTranslate(centerX, centerY);
 
 		canvas.save();
-		mMapView.invertCanvas(canvas);
+		canvas.concat(proj.getInvertedScaleRotateCanvasMatrix());
 		canvas.concat(mCompassMatrix);
 		canvas.drawBitmap(mCompassRoseBitmap, 0, 0, sSmoothPaint);
 		canvas.restore();

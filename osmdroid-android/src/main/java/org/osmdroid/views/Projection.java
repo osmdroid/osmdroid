@@ -8,6 +8,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 
@@ -33,6 +34,8 @@ public class Projection implements IProjection, MapViewConstants {
 	protected final int mOffsetX;
 	protected final int mOffsetY;
 
+	private final Matrix mInvertedScaleRotateCanvasMatrix = new Matrix();
+
 	private final BoundingBoxE6 mBoundingBoxProjection;
 	private final int mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
@@ -50,6 +53,8 @@ public class Projection implements IProjection, MapViewConstants {
 		mMapViewHeight = mapView.getHeight();
 		mOffsetX = -mapView.getScrollX();
 		mOffsetY = -mapView.getScrollY();
+
+		mapView.mCanvasScaleRotateMatrix.invert(mInvertedScaleRotateCanvasMatrix);
 
 		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
 		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
@@ -154,5 +159,13 @@ public class Projection implements IProjection, MapViewConstants {
 	@Override
 	public IGeoPoint getSouthWest() {
 		return fromPixels(0, mMapViewHeight, null);
+	}
+
+	/**
+	 * This will provide a Matrix that will revert the current map's scaling and rotation. This can
+	 * be useful when drawing to a fixed location on the screen.
+	 */
+	public Matrix getInvertedScaleRotateCanvasMatrix() {
+		return mInvertedScaleRotateCanvasMatrix;
 	}
 }
