@@ -3,6 +3,7 @@ package org.osmdroid.samplefragments;
 
 import java.util.ArrayList;
 
+import org.osmdroid.RotationGestureOverlay;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -31,12 +32,14 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 
 	private static final int MENU_ZOOMIN_ID = Menu.FIRST;
 	private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
+	private static final int MENU_LAST_ID = MENU_ZOOMOUT_ID + 1; // Always set to last unused id
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
 	private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+	private RotationGestureOverlay mRotationGestureOverlay;
 
 	@Override
 	public String getSampleTitle() {
@@ -98,6 +101,10 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 			mMyLocationOverlay.setFocusedItem(0);
 
 			mMapView.getOverlays().add(mMyLocationOverlay);
+
+			mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+			mRotationGestureOverlay.setEnabled(false);
+			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}
 
 		/* MiniMap */
@@ -125,6 +132,9 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// Put overlay items first
+		mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
+
 		menu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
 		menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
 
@@ -132,7 +142,16 @@ public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragmen
 	}
 
 	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		mMapView.getOverlayManager().onPrepareOptionsMenu(menu, MENU_LAST_ID, mMapView);
+		super.onPrepareOptionsMenu(menu);
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		if (mMapView.getOverlayManager().onOptionsItemSelected(item, MENU_LAST_ID, mMapView))
+			return true;
+
 		switch (item.getItemId()) {
 		case MENU_ZOOMIN_ID:
 			mMapView.getController().zoomIn();
