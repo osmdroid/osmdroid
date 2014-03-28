@@ -123,8 +123,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final Handler mTileRequestCompleteHandler;
 
-	/* a point that will be reused to design added views */
-	private final Point mPoint = new Point();
+	/* a point that will be reused to lay out added views */
+	private final Point mLayoutPoint = new Point();
 
 	// ===========================================================
 	// Constructors
@@ -628,9 +628,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
 				final int childHeight = child.getMeasuredHeight();
 				final int childWidth = child.getMeasuredWidth();
-				getProjection().toPixels(lp.geoPoint, mPoint);
-				final int x = mPoint.x + getWidth() / 2;
-				final int y = mPoint.y + getHeight() / 2;
+				getProjection().toPixels(lp.geoPoint, mLayoutPoint);
+				getProjection().toMercatorPixels(mLayoutPoint.x, mLayoutPoint.y, mLayoutPoint);
+				final int x = mLayoutPoint.x;
+				final int y = mLayoutPoint.y;
 				int childRight = x;
 				int childBottom = y;
 				switch (lp.alignment) {
@@ -703,9 +704,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
 				final int childHeight = child.getMeasuredHeight();
 				final int childWidth = child.getMeasuredWidth();
-				getProjection().toPixels(lp.geoPoint, mPoint);
-				final int x = mPoint.x + getWidth() / 2;
-				final int y = mPoint.y + getHeight() / 2;
+				getProjection().toPixels(lp.geoPoint, mLayoutPoint);
+				getProjection().toMercatorPixels(mLayoutPoint.x, mLayoutPoint.y, mLayoutPoint);
+				final int x = mLayoutPoint.x;
+				final int y = mLayoutPoint.y;
 				int childLeft = x;
 				int childTop = y;
 				switch (lp.alignment) {
