@@ -333,7 +333,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			getController().animateTo(geoPoint);
 		}
 
-		mTileProvider.rescaleCache(newZoomLevel, curZoomLevel, getScreenRect(null));
+		mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(null));
 
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel && mListener != null) {

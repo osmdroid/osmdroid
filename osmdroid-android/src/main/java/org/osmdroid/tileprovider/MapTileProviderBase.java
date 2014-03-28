@@ -3,12 +3,11 @@ package org.osmdroid.tileprovider;
 
 import java.util.HashMap;
 
-import microsoft.mappoint.TileSystem;
-
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.TileLooper;
+import org.osmdroid.views.Projection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -227,7 +227,8 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 	 * @param pOldZoomLevel the previous zoom level that we should get the tiles to rescale
 	 * @param pViewPort the view port we need tiles for
 	 */
-	public void rescaleCache(final int pNewZoomLevel, final int pOldZoomLevel, final Rect pViewPort) {
+	public void rescaleCache(final Projection pProjection, final int pNewZoomLevel,
+			final int pOldZoomLevel, final Rect pViewPort) {
 
 		if (pNewZoomLevel == pOldZoomLevel) {
 			return;
@@ -238,9 +239,12 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		logger.info("rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
 
 		final int tileSize = getTileSource().getTileSizePixels();
-		final int worldSize_2 = TileSystem.MapSize(pNewZoomLevel) >> 1;
-		final Rect viewPort = new Rect(pViewPort);
-		viewPort.offset(worldSize_2, worldSize_2);
+
+		Point topLeftMercator = pProjection.toMercatorPixels(pViewPort.left, pViewPort.top, null);
+		Point bottomRightMercator = pProjection.toMercatorPixels(pViewPort.right, pViewPort.bottom,
+				null);
+		final Rect viewPort = new Rect(topLeftMercator.x, topLeftMercator.y, bottomRightMercator.x,
+				bottomRightMercator.y);
 
 		final ScaleTileLooper tileLooper = pNewZoomLevel > pOldZoomLevel
 				? new ZoomInTileLooper(pOldZoomLevel)
