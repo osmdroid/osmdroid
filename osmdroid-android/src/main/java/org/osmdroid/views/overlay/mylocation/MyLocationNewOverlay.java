@@ -170,13 +170,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
+		pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(),
 							mapView.getZoomLevel());
-
-			pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
 
 			mCirclePaint.setAlpha(50);
 			mCirclePaint.setStyle(Style.FILL);
