@@ -27,6 +27,8 @@ import android.graphics.Rect;
  */
 public class Projection implements IProjection, MapViewConstants {
 
+	private Point sPoint = new Point();
+
 	private final int mMapViewWidth;
 	private final int mMapViewHeight;
 	// The offsets will take us from the MapView's current coordinate system
@@ -34,7 +36,9 @@ public class Projection implements IProjection, MapViewConstants {
 	protected final int mOffsetX;
 	protected final int mOffsetY;
 
-	private final Matrix mInvertedScaleRotateCanvasMatrix = new Matrix();
+	private final Matrix mRotateAndScaleMatrix = new Matrix();
+	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
+	private final float[] mRotateScalePoints = new float[2];
 
 	private final BoundingBoxE6 mBoundingBoxProjection;
 	private final int mZoomLevelProjection;
@@ -54,7 +58,8 @@ public class Projection implements IProjection, MapViewConstants {
 		mOffsetX = -mapView.getScrollX();
 		mOffsetY = -mapView.getScrollY();
 
-		mapView.mCanvasScaleRotateMatrix.invert(mInvertedScaleRotateCanvasMatrix);
+		mRotateAndScaleMatrix.set(mapView.mRotateScaleMatrix);
+		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
 
 		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
 		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
@@ -166,6 +171,42 @@ public class Projection implements IProjection, MapViewConstants {
 	 * be useful when drawing to a fixed location on the screen.
 	 */
 	public Matrix getInvertedScaleRotateCanvasMatrix() {
-		return mInvertedScaleRotateCanvasMatrix;
+		return mUnrotateAndScaleMatrix;
+	}
+
+	/**
+	 * This will revert the current map's scaling and rotation for a point. This can be useful when
+	 * drawing to a fixed location on the screen.
+	 */
+	public Point unrotateAndScalePoint(int x, int y, Point reuse) {
+		if (reuse == null)
+			reuse = new Point();
+
+		if (getMapOrientation() != 0) {
+			mRotateScalePoints[0] = x;
+			mRotateScalePoints[1] = y;
+			mUnrotateAndScaleMatrix.mapPoints(mRotateScalePoints);
+			reuse.set((int) mRotateScalePoints[0], (int) mRotateScalePoints[1]);
+		} else
+			reuse.set(x, y);
+		return reuse;
+	}
+
+	/**
+	 * This will apply the current map's scaling and rotation for a point. This can be useful when
+	 * converting MotionEvents to a sceren point.
+	 */
+	public Point rotateAndScalePoint(int x, int y, Point reuse) {
+		if (reuse == null)
+			reuse = new Point();
+
+		if (getMapOrientation() != 0) {
+			mRotateScalePoints[0] = x;
+			mRotateScalePoints[1] = y;
+			mRotateAndScaleMatrix.mapPoints(mRotateScalePoints);
+			reuse.set((int) mRotateScalePoints[0], (int) mRotateScalePoints[1]);
+		} else
+			reuse.set(x, y);
+		return reuse;
 	}
 }

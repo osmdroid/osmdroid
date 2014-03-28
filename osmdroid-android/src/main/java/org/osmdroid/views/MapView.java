@@ -121,8 +121,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final Handler mTileRequestCompleteHandler;
 
-	final Matrix mCanvasScaleRotateMatrix = new Matrix();
-	private final float[] mCanvasScaleRotatePoints = new float[2];
+	final Matrix mRotateScaleMatrix = new Matrix();
+	final Point mRotateScalePoint = new Point();
 
 	/* a point that will be reused to lay out added views */
 	private final Point mLayoutPoint = new Point();
@@ -848,11 +848,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		MotionEvent rotatedEvent = MotionEvent.obtain(ev);
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-			mCanvasScaleRotatePoints[0] = ev.getX();
-			mCanvasScaleRotatePoints[1] = ev.getY();
-			getProjection().getInvertedScaleRotateCanvasMatrix()
-					.mapPoints(mCanvasScaleRotatePoints);
-			rotatedEvent.setLocation(mCanvasScaleRotatePoints[0], mCanvasScaleRotatePoints[1]);
+			getProjection().unrotateAndScalePoint((int) ev.getX(), (int) ev.getY(),
+					mRotateScalePoint);
+			rotatedEvent.setLocation(mRotateScalePoint.x, mRotateScalePoint.y);
 		} else {
 			// This method is preferred since it will rotate historical touch events too
 			try {
@@ -966,21 +964,20 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Save the current canvas matrix
 		c.save();
 
-		mCanvasScaleRotateMatrix.reset();
+		mRotateScaleMatrix.reset();
 
 		// Make the upper-left corner 0,0
 		c.translate(getScrollX(), getScrollY());
 
 		// Scale the canvas
-		mCanvasScaleRotateMatrix.preScale(mMultiTouchScale, mMultiTouchScale, mMultiTouchScalePoint.x,
-				mMultiTouchScalePoint.y);
+		mRotateScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale,
+				mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 
 		// Rotate the canvas
-		mCanvasScaleRotateMatrix.preRotate(mapOrientation, mProjection.getScreenRect().exactCenterX(),
-				mProjection.getScreenRect().exactCenterY());
+		mRotateScaleMatrix.preRotate(mapOrientation, getWidth() / 2, getHeight() / 2);
 
 		// Apply the scale and rotate operations
-		c.concat(mCanvasScaleRotateMatrix);
+		c.concat(mRotateScaleMatrix);
 
 		// Make the projection
 		mProjection = new Projection(this);
@@ -1056,12 +1053,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			// adjust the center point in respect to the scaling point
 			if (scaleDiffInt != 0) {
 				final Rect screenRect = getProjection().getScreenRect();
-				mCanvasScaleRotatePoints[0] = screenRect.exactCenterX();
-				mCanvasScaleRotatePoints[1] = screenRect.exactCenterY();
-				getProjection().getInvertedScaleRotateCanvasMatrix().mapPoints(
-						mCanvasScaleRotatePoints);
-				Point p = getProjection().toMercatorPixels((int) mCanvasScaleRotatePoints[0],
-						(int) mCanvasScaleRotatePoints[1], null);
+				getProjection().unrotateAndScalePoint(screenRect.centerX(), screenRect.centerY(),
+						mRotateScalePoint);
+				Point p = getProjection().toMercatorPixels(mRotateScalePoint.x,
+						mRotateScalePoint.y, null);
 				scrollTo(p.x - getWidth() / 2, p.y - getHeight() / 2);
 			}
 
@@ -1228,18 +1223,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			// final IGeoPoint center = getProjection().fromPixels((int) e.getX(), (int) e.getY(),
 			// null);
-			int x = (int) e.getX();
-			int y = (int) e.getY();
-			if (getMapOrientation() != 0) {
-				// float[] pts = new float[2];
-				mCanvasScaleRotatePoints[0] = x;
-				mCanvasScaleRotatePoints[1] = y;
-				mCanvasScaleRotateMatrix.mapPoints(mCanvasScaleRotatePoints);
-				x = (int) mCanvasScaleRotatePoints[0];
-				y = (int) mCanvasScaleRotatePoints[1];
-			}
-
-			return zoomInFixing(x, y);
+			getProjection().rotateAndScalePoint((int) e.getX(), (int) e.getY(), mRotateScalePoint);
+			return zoomInFixing(mRotateScalePoint.x, mRotateScalePoint.y);
 		}
 
 		@Override
