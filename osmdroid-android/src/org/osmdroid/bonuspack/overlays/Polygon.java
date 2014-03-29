@@ -29,7 +29,7 @@ import android.view.MotionEvent;
  */
 public class Polygon extends Overlay {
 
-	/** inner class holding a list of coordinates */
+	/** inner class holding one ring: the polygon outline, or a hole inside the polygon */
 	class LinearRing {
 		/** original GeoPoints */
 		int mOriginalPoints[][]; //as an array, to reduce object creation
@@ -70,7 +70,7 @@ public class Polygon extends Overlay {
 			mPrecomputed = false;
 		}
 		
-		/**
+		/** 
 		 * Note - highly optimized to handle long paths, proceed with care.
 		 * Should be fine up to 10K points.
 		 */
@@ -133,7 +133,7 @@ public class Polygon extends Overlay {
 
 	//InfoWindow handling
 	protected String mTitle, mSnippet;
-	protected InfoWindow mBubble;
+	protected InfoWindow mInfoWindow;
 	
 	// ===========================================================
 	// Constructors
@@ -159,7 +159,7 @@ public class Polygon extends Overlay {
 		mSnippet = null;
 		mBubble = null;
 		*/
-		mPath.setFillType(Path.FillType.EVEN_ODD); //for holes
+		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 	}
 
 	// ===========================================================
@@ -245,20 +245,16 @@ public class Polygon extends Overlay {
 		return mSnippet;
 	}
 
-	/**
-	 * @param layoutResId resource id of the layout to use. Set 0 for removing the infowindow. 
-	 * @param mapView
+	/** By default, Polygon has no InfoWindow and do not react to a tap. 
+	 * @param infoWindow the InfoWindow to be opened when tapping the Polygon. 
+	 * Note that this InfoWindow will receive an ExtendedOverlayItem (not a Polygon) as an input, 
+	 * so it MUST be able to handle ExtendedOverlayItem attributes. It will be typically a DefaultInfoWindow. 
+	 * Set it to null to remove an existing InfoWindow. 
 	 */
-	public void setInfoWindow(int layoutResId, MapView mapView){
-		if (layoutResId != 0)
-			mBubble = new DefaultInfoWindow(layoutResId, mapView);
-		else 
-			mBubble = null;
+	public void setInfoWindow(InfoWindow infoWindow){
+		mInfoWindow = infoWindow; //new DefaultInfoWindow(layoutResId, mapView);
 	}
 	
-	/**
-	 * This method draws the polygon. 
-	 */
 	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
@@ -305,7 +301,7 @@ public class Polygon extends Overlay {
 	}
 	
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
-		if (mBubble == null)
+		if (mInfoWindow == null)
 			//no support for tap:
 			return false;
 		boolean touched = contains(event, mapView);
@@ -314,7 +310,7 @@ public class Polygon extends Overlay {
 			GeoPoint position = (GeoPoint)pj.fromPixels(event.getX(), event.getY());
 			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
 			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position);
-			mBubble.open(item, item.getPoint(), 0, 0);
+			mInfoWindow.open(item, item.getPoint(), 0, 0);
 		}
 		return touched;
 	}

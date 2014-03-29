@@ -20,7 +20,10 @@ import android.widget.TextView;
  */
 @Deprecated public class DefaultInfoWindow extends InfoWindow {
 
-	static int mTitleId=0, mDescriptionId=0, mSubDescriptionId=0, mImageId=0; //resource ids
+	static int mTitleId=BonusPackHelper.UNDEFINED_RES_ID, 
+			mDescriptionId=BonusPackHelper.UNDEFINED_RES_ID, 
+			mSubDescriptionId=BonusPackHelper.UNDEFINED_RES_ID, 
+			mImageId=BonusPackHelper.UNDEFINED_RES_ID; //resource ids
 
 	private static void setResIds(Context context){
 		String packageName = context.getPackageName(); //get application package name
@@ -28,7 +31,8 @@ import android.widget.TextView;
 		mDescriptionId = context.getResources().getIdentifier("id/bubble_description", null, packageName);
 		mSubDescriptionId = context.getResources().getIdentifier("id/bubble_subdescription", null, packageName);
 		mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
-		if (mTitleId == 0 || mDescriptionId == 0 || mSubDescriptionId == 0 || mImageId == 0) {
+		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID || mDescriptionId == BonusPackHelper.UNDEFINED_RES_ID 
+				|| mSubDescriptionId == BonusPackHelper.UNDEFINED_RES_ID || mImageId == BonusPackHelper.UNDEFINED_RES_ID) {
 			Log.e(BonusPackHelper.LOG_TAG, "DefaultInfoWindow: unable to get res ids in "+packageName);
 		}
 	}
@@ -36,7 +40,7 @@ import android.widget.TextView;
 	public DefaultInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
 		
-		if (mTitleId == 0)
+		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID)
 			setResIds(mapView.getContext());
 		
 		//default behavior: close it when clicking on the bubble:
@@ -44,7 +48,7 @@ import android.widget.TextView;
 			@Override public boolean onTouch(View v, MotionEvent e) {
 				if (e.getAction() == MotionEvent.ACTION_UP)
 					close();
-				return true; //From Osmdroid 3.0.10, event is properly consumed. 
+				return true;
 			}
 		});
 	}

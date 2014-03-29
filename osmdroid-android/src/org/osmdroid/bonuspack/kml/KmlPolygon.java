@@ -7,7 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -26,7 +28,7 @@ public class KmlPolygon extends KmlGeometry {
 	/** Polygon holes (can be null if none) */
 	public ArrayList<ArrayList<GeoPoint>> mHoles;
 	
-	static int mDefaultLayoutResId; 
+	static int mDefaultLayoutResId = BonusPackHelper.UNDEFINED_RES_ID; 
 	
 	public KmlPolygon(){
 		super();
@@ -51,11 +53,11 @@ public class KmlPolygon extends KmlGeometry {
 		}
 		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
 				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
-			if (mDefaultLayoutResId == 0){
+			if (mDefaultLayoutResId == BonusPackHelper.UNDEFINED_RES_ID){
 				String packageName = context.getPackageName();
 				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 			}
-			polygonOverlay.setInfoWindow(mDefaultLayoutResId, map);
+			polygonOverlay.setInfoWindow(new DefaultInfoWindow(mDefaultLayoutResId, map));
 		}
 		polygonOverlay.setEnabled(kmlPlacemark.mVisibility);
 	}
