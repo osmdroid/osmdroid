@@ -11,7 +11,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -254,16 +253,9 @@ public class MapController implements IMapController, MapViewConstants {
 
 	protected void onAnimationEnd() {
 		final Rect screenRect = mMapView.getProjection().getScreenRect();
-		final Matrix m = new Matrix();
-		m.setScale(1 / mMapView.mMultiTouchScale, 1 / mMapView.mMultiTouchScale,
-				mMapView.mMultiTouchScalePoint.x, mMapView.mMultiTouchScalePoint.y);
-		m.postRotate(-mMapView.getMapOrientation(), screenRect.exactCenterX(),
-				screenRect.exactCenterY());
-		float[] pts = new float[2];
-		pts[0] = screenRect.exactCenterX();
-		pts[1] = screenRect.exactCenterY();
-		m.mapPoints(pts);
-		Point p = mMapView.getProjection().toMercatorPixels((int) pts[0], (int) pts[1], null);
+		Point p = mMapView.getProjection().unrotateAndScalePoint(screenRect.centerX(),
+				screenRect.centerY(), null);
+		p = mMapView.getProjection().toMercatorPixels(p.x, p.y, p);
 		// The points provided are "center", we want relative to upper-left for scrolling
 		p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
 		mMapView.mIsAnimating.set(false);

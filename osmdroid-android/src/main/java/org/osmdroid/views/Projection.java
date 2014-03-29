@@ -35,6 +35,7 @@ public class Projection implements IProjection, MapViewConstants {
 	// to a 0,0 coordinate system
 	protected final int mOffsetX;
 	protected final int mOffsetY;
+	protected final float mMultiTouchScale;
 
 	private final Matrix mRotateAndScaleMatrix = new Matrix();
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
@@ -60,6 +61,7 @@ public class Projection implements IProjection, MapViewConstants {
 
 		mRotateAndScaleMatrix.set(mapView.mRotateScaleMatrix);
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
+		mMultiTouchScale = mapView.mMultiTouchScale;
 
 		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
 		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
@@ -182,7 +184,7 @@ public class Projection implements IProjection, MapViewConstants {
 		if (reuse == null)
 			reuse = new Point();
 
-		if (getMapOrientation() != 0) {
+		if (getMapOrientation() != 0 || mMultiTouchScale != 1.0f) {
 			mRotateScalePoints[0] = x;
 			mRotateScalePoints[1] = y;
 			mUnrotateAndScaleMatrix.mapPoints(mRotateScalePoints);
@@ -194,13 +196,13 @@ public class Projection implements IProjection, MapViewConstants {
 
 	/**
 	 * This will apply the current map's scaling and rotation for a point. This can be useful when
-	 * converting MotionEvents to a sceren point.
+	 * converting MotionEvents to a screen point.
 	 */
 	public Point rotateAndScalePoint(int x, int y, Point reuse) {
 		if (reuse == null)
 			reuse = new Point();
 
-		if (getMapOrientation() != 0) {
+		if (getMapOrientation() != 0 || mMultiTouchScale != 1.0f) {
 			mRotateScalePoints[0] = x;
 			mRotateScalePoints[1] = y;
 			mRotateAndScaleMatrix.mapPoints(mRotateScalePoints);
