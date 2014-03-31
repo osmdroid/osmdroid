@@ -9,7 +9,6 @@ import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.kml.KmlFeature;
@@ -100,7 +99,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected FolderOverlay itineraryMarkers; 
 		//for departure, destination and viapoints
 	protected Marker markerStart, markerDestination;
-	DirectedLocationOverlay myLocationOverlay;
+	protected ViaPointInfoWindow mViaPointInfoWindow;
+	protected DirectedLocationOverlay myLocationOverlay;
 	//MyLocationNewOverlay myLocationNewOverlay;
 	protected LocationManager locationManager;
 	//protected SensorManager mSensorManager;
@@ -110,7 +110,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	Button mTrackingModeButton;
 	float mAzimuthAngleSpeed = 0.0f;
 
-	protected Polygon destinationPolygon; //enclosing polygon of destination location
+	protected Polygon mDestinationPolygon; //enclosing polygon of destination location
 	
 	public static Road mRoad; //made static to pass between activities
 	protected Polyline roadOverlay;
@@ -204,6 +204,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		// Itinerary markers:
 		itineraryMarkers = new FolderOverlay(this);
 		map.getOverlays().add(itineraryMarkers);
+		mViaPointInfoWindow = new ViaPointInfoWindow(R.layout.itinerary_bubble, map);
 		updateUIWithItineraryMarkers();
 		
 		//Tracking system:
@@ -534,21 +535,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	public void updateUIWithPolygon(ArrayList<GeoPoint> polygon){
 		List<Overlay> mapOverlays = map.getOverlays();
 		int location = -1;
-		if (destinationPolygon != null)
-			location = mapOverlays.indexOf(destinationPolygon);
-		destinationPolygon = new Polygon(this);
-		destinationPolygon.setFillColor(0x30FF0080);
-		destinationPolygon.setStrokeColor(0x800000FF);
-		destinationPolygon.setStrokeWidth(5.0f);
+		if (mDestinationPolygon != null)
+			location = mapOverlays.indexOf(mDestinationPolygon);
+		mDestinationPolygon = new Polygon(this);
+		mDestinationPolygon.setFillColor(0x30FF0080);
+		mDestinationPolygon.setStrokeColor(0x800000FF);
+		mDestinationPolygon.setStrokeWidth(5.0f);
 		BoundingBoxE6 bb = null;
 		if (polygon != null){
-			destinationPolygon.setPoints(polygon);
+			mDestinationPolygon.setPoints(polygon);
 			bb = BoundingBoxE6.fromGeoPoints(polygon);
 		}
 		if (location != -1)
-			mapOverlays.set(location, destinationPolygon);
+			mapOverlays.set(location, mDestinationPolygon);
 		else
-			mapOverlays.add(destinationPolygon);
+			mapOverlays.add(mDestinationPolygon);
 		if (bb != null)
 			setViewOn(bb);
 		map.invalidate();
@@ -579,6 +580,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				destinationPoint = marker.getPosition();
 			else 
 				viaPoints.set(index, marker.getPosition());
+			//update location:
+			new GeocodingTask().execute(marker);
 			//update route:
 			getRoadAsync();
 		}
@@ -595,7 +598,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (item == null){
 			item = new Marker(map);
 			item.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-			item.setInfoWindow(new ViaPointInfoWindow(R.layout.itinerary_bubble, map));
+			item.setInfoWindow(mViaPointInfoWindow);
 			item.setDraggable(true);
 			item.setOnMarkerDragListener(mItineraryListener);
 			itineraryMarkers.add(item);
@@ -1077,7 +1080,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		root.addOverlay(roadOverlay, mKmlDocument);
 		if (roadNodeMarkers.getItems().size()>0)
 			root.addOverlay(roadNodeMarkers, mKmlDocument);
-		root.addOverlay(destinationPolygon, mKmlDocument);
+		root.addOverlay(mDestinationPolygon, mKmlDocument);
 		if (poiMarkers.getItems().size()>0)
 			root.addOverlay(poiMarkers, mKmlDocument);
 	}
@@ -1094,17 +1097,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	//------------ MapEventsReceiver implementation
 
-	GeoPoint tempClickedGeoPoint; //any other way to pass the position to the menu ???
+	GeoPoint mClickedGeoPoint; //any other way to pass the position to the menu ???
 	
-	@Override public boolean longPressHelper(IGeoPoint p) {
-		tempClickedGeoPoint = new GeoPoint((GeoPoint)p);
+	@Override public boolean longPressHelper(GeoPoint p) {
+		mClickedGeoPoint = p;
 		Button searchButton = (Button)findViewById(R.id.buttonSearchDest);
 		openContextMenu(searchButton); 
 			//menu is hooked on the "Search Destination" button, as it must be hooked somewhere. 
 		return true;
 	}
 
-	@Override public boolean singleTapUpHelper(IGeoPoint p) {
+	@Override public boolean singleTapConfirmedHelper(GeoPoint p) {
 		return false;
 	}
 
@@ -1119,24 +1122,24 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onContextItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_departure:
-			startPoint = new GeoPoint(tempClickedGeoPoint);
+			startPoint = new GeoPoint(mClickedGeoPoint);
 			markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
 				R.string.departure, R.drawable.marker_departure, -1);
 			getRoadAsync();
 			return true;
 		case R.id.menu_destination:
-			destinationPoint = new GeoPoint(tempClickedGeoPoint);
+			destinationPoint = new GeoPoint(mClickedGeoPoint);
 			markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
 				R.string.destination, R.drawable.marker_destination, -1);
 			getRoadAsync();
 			return true;
 		case R.id.menu_viapoint:
-			GeoPoint viaPoint = new GeoPoint(tempClickedGeoPoint);
+			GeoPoint viaPoint = new GeoPoint(mClickedGeoPoint);
 			addViaPoint(viaPoint);
 			getRoadAsync();
 			return true;
 		case R.id.menu_kmlpoint:
-			GeoPoint kmlPoint = new GeoPoint(tempClickedGeoPoint);
+			GeoPoint kmlPoint = new GeoPoint(mClickedGeoPoint);
 			addKmlPoint(kmlPoint);
 			return true;
 		default:
