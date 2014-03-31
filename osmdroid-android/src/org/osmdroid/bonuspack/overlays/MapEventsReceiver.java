@@ -1,6 +1,6 @@
 package org.osmdroid.bonuspack.overlays;
 
-import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
 
 /**
  * Interface for objects that need to handle map events thrown by a MapEventsOverlay. 
@@ -13,11 +13,11 @@ public interface MapEventsReceiver {
 	 * @param p the position where the event occurred. 
 	 * @return true if the event has been "consumed" and should not be handled by other objects. 
 	 */
-	boolean singleTapUpHelper(IGeoPoint p);
+	boolean singleTapConfirmedHelper(GeoPoint p);
 	
 	/**
 	 * @param p the position where the event occurred. 
 	 * @return true if the event has been "consumed" and should not be handled by other objects. 
 	 */
-	boolean longPressHelper(IGeoPoint p);	
+	boolean longPressHelper(GeoPoint p);	
 }

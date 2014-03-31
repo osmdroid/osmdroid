@@ -1,6 +1,6 @@
 package org.osmdroid.bonuspack.overlays;
 
-import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -32,15 +32,15 @@ public class MapEventsOverlay extends Overlay {
 		//Nothing to draw
 	}
 	
-	@Override public boolean onSingleTapUp(MotionEvent e, MapView mapView){
+	@Override public boolean onSingleTapConfirmed(MotionEvent e, MapView mapView){
 		Projection proj = mapView.getProjection();
-		IGeoPoint p = proj.fromPixels(e.getX(), e.getY());
-		return mReceiver.singleTapUpHelper(p);
+		GeoPoint p = (GeoPoint)proj.fromPixels(e.getX(), e.getY());
+		return mReceiver.singleTapConfirmedHelper(p);
 	}
 	
 	@Override public boolean onLongPress(MotionEvent e, MapView mapView) {
 		Projection proj = mapView.getProjection();
-		IGeoPoint p = proj.fromPixels(e.getX(), e.getY());
+		GeoPoint p = (GeoPoint)proj.fromPixels(e.getX(), e.getY());
 		//throw event to the receiver:
 		return mReceiver.longPressHelper(p);
     }

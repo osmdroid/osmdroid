@@ -96,7 +96,7 @@ public class Marker extends Overlay {
 			//build default bubble, that will be shared between all markers using the default one:
 			Context context = mapView.getContext();
 			String packageName = context.getPackageName();
-			int defaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+			int defaultLayoutResId = context.getResources().getIdentifier("bonuspack_bubble", "layout", packageName);
 			if (defaultLayoutResId == 0)
 				Log.e(BonusPackHelper.LOG_TAG, "Marker: layout/bonuspack_bubble not found in "+packageName);
 			else 
