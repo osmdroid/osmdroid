@@ -126,6 +126,13 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 	
 	/**
+	 * A wrapper for {@link #toPixelsProjected(int, int, Point)}
+	 */
+	public Point toPixelsProjected(final GeoPoint geoPoint, final Point reuse) {
+		return toPixelsProjected(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
+	}
+
+	/**
 	 * Performs only the first computationally heavy part of the projection. Call
 	 * {@link #toPixelsTranslated(Point, Point)} to get the final position.
 	 * 
