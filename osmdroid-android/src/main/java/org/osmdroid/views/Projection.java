@@ -27,8 +27,6 @@ import android.graphics.Rect;
  */
 public class Projection implements IProjection, MapViewConstants {
 
-	private Point sPoint = new Point();
-
 	private final int mMapViewWidth;
 	private final int mMapViewHeight;
 	// The offsets will take us from the MapView's current coordinate system
@@ -100,10 +98,33 @@ public class Projection implements IProjection, MapViewConstants {
 	public Point toPixels(final IGeoPoint in, final Point reuse) {
 		Point out = TileSystem.LatLongToPixelXY(in.getLatitude(), in.getLongitude(),
 				getZoomLevel(), reuse);
+
 		out = fromMercatorPixels(out.x, out.y, out);
+		out = adjustForDateLine(out.x, out.y, out);
 		return out;
 	}
 
+	protected Point adjustForDateLine(int x, int y, Point reuse) {
+		final Point out = reuse != null ? reuse : new Point();
+		final int worldsize_2 = TileSystem.MapSize(getZoomLevel() - 1);
+		out.set(x, y);
+		out.offset(-worldsize_2, -worldsize_2);
+		if (Math.abs(out.x) > Math.abs(out.x - TileSystem.MapSize(getZoomLevel()))) {
+			out.x -= TileSystem.MapSize(getZoomLevel());
+		}
+		if (Math.abs(out.x) > Math.abs(out.x + TileSystem.MapSize(getZoomLevel()))) {
+			out.x += TileSystem.MapSize(getZoomLevel());
+		}
+		if (Math.abs(out.y) > Math.abs(out.y - TileSystem.MapSize(getZoomLevel()))) {
+			out.y -= TileSystem.MapSize(getZoomLevel());
+		}
+		if (Math.abs(out.y) > Math.abs(out.y + TileSystem.MapSize(getZoomLevel()))) {
+			out.y += TileSystem.MapSize(getZoomLevel());
+		}
+		out.offset(worldsize_2, worldsize_2);
+		return out;
+	}
+	
 	/**
 	 * Performs only the first computationally heavy part of the projection. Call
 	 * {@link #toPixelsTranslated(Point, Point)} to get the final position.
@@ -132,11 +153,15 @@ public class Projection implements IProjection, MapViewConstants {
 	 *         {@link #toPixelsProjected(int, int, Point)}.
 	 */
 	public Point toPixelsTranslated(final Point in, final Point reuse) {
-		final Point out = reuse != null ? reuse : new Point();
+		Point out = reuse != null ? reuse : new Point();
 
 		final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
 		out.set(in.x >> zoomDifference, in.y >> zoomDifference);
-		return fromMercatorPixels(out.x, out.y, out);
+
+		out = fromMercatorPixels(out.x, out.y, out);
+		out = adjustForDateLine(out.x, out.y, out);
+
+		return out;
 	}
 
 	public Point fromMercatorPixels(int x, int y, Point reuse) {
