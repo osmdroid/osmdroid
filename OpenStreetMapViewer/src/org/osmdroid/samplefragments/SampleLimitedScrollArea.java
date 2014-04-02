@@ -138,6 +138,9 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 		@Override
 		protected void drawSafe(ISafeCanvas c, MapView osmv, boolean shadow) {
+			if (shadow)
+				return;
+
 			final Projection proj = osmv.getProjection();
 			Rect area = proj.toPixels(sCentralParkBoundingBox);
 			c.drawRect(area, sPaint);
