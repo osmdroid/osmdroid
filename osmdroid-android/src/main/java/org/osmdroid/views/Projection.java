@@ -189,6 +189,21 @@ public class Projection implements IProjection, MapViewConstants {
 		return meters / (float) TileSystem.GroundResolution(0, mZoomLevelProjection);
 	}
 
+	/**
+	 * Converts a distance in meters to one in (horizontal) pixels at the current zoomlevel and at
+	 * the current latitude at the center of the screen.
+	 * 
+	 * @param meters
+	 *            the distance in meters
+	 * @return The number of pixels corresponding to the distance, if measured at the center of the
+	 *         screen, at the current zoom level. The return value may only be approximate.
+	 */
+	public float metersToPixels(final float meters) {
+		return meters
+				/ (float) TileSystem.GroundResolution(getBoundingBox().getCenter().getLatitude(),
+						mZoomLevelProjection);
+	}
+
 	@Override
 	public IGeoPoint getNorthEast() {
 		return fromPixels(mMapViewWidth, 0, null);
