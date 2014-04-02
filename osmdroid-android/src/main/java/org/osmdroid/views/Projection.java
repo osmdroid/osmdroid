@@ -106,9 +106,8 @@ public class Projection implements IProjection, MapViewConstants {
 
 	protected Point adjustForDateLine(int x, int y, Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
-		final int worldsize_2 = TileSystem.MapSize(getZoomLevel() - 1);
 		out.set(x, y);
-		out.offset(-worldsize_2, -worldsize_2);
+		out.offset(-mMapViewWidth / 2, -mMapViewHeight / 2);
 		if (Math.abs(out.x) > Math.abs(out.x - TileSystem.MapSize(getZoomLevel()))) {
 			out.x -= TileSystem.MapSize(getZoomLevel());
 		}
@@ -121,7 +120,7 @@ public class Projection implements IProjection, MapViewConstants {
 		if (Math.abs(out.y) > Math.abs(out.y + TileSystem.MapSize(getZoomLevel()))) {
 			out.y += TileSystem.MapSize(getZoomLevel());
 		}
-		out.offset(worldsize_2, worldsize_2);
+		out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
 		return out;
 	}
 	
