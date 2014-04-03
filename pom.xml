@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
-                <version>19.0.1</version>
+                <version>19.1.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -76,13 +76,13 @@
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>15.0.0</version>
+                <version>16.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>15.0.0</version>
+                <version>16.0.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
