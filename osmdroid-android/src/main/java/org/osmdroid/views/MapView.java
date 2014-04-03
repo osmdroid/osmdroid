@@ -659,83 +659,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-		final int count = getChildCount();
-
-		int maxHeight = 0;
-		int maxWidth = 0;
-
-		// Find out how big everyone wants to be
+		// Get the children to measure themselves so we know their size in onLayout()
 		measureChildren(widthMeasureSpec, heightMeasureSpec);
 
-		// Find rightmost and bottom-most child
-		for (int i = 0; i < count; i++) {
-			final View child = getChildAt(i);
-			if (child.getVisibility() != GONE) {
-
-				final MapView.LayoutParams lp = (MapView.LayoutParams) child.getLayoutParams();
-				final int childHeight = child.getMeasuredHeight();
-				final int childWidth = child.getMeasuredWidth();
-				getProjection().toMapPixels(lp.geoPoint, mPoint);
-				final int x = mPoint.x + getWidth() / 2;
-				final int y = mPoint.y + getHeight() / 2;
-				int childRight = x;
-				int childBottom = y;
-				switch (lp.alignment) {
-				case MapView.LayoutParams.TOP_LEFT:
-					childRight = x + childWidth;
-					childBottom = y;
-					break;
-				case MapView.LayoutParams.TOP_CENTER:
-					childRight = x + childWidth / 2;
-					childBottom = y;
-					break;
-				case MapView.LayoutParams.TOP_RIGHT:
-					childRight = x;
-					childBottom = y;
-					break;
-				case MapView.LayoutParams.CENTER_LEFT:
-					childRight = x + childWidth;
-					childBottom = y + childHeight / 2;
-					break;
-				case MapView.LayoutParams.CENTER:
-					childRight = x + childWidth / 2;
-					childBottom = y + childHeight / 2;
-					break;
-				case MapView.LayoutParams.CENTER_RIGHT:
-					childRight = x;
-					childBottom = y + childHeight / 2;
-					break;
-				case MapView.LayoutParams.BOTTOM_LEFT:
-					childRight = x + childWidth;
-					childBottom = y + childHeight;
-					break;
-				case MapView.LayoutParams.BOTTOM_CENTER:
-					childRight = x + childWidth / 2;
-					childBottom = y + childHeight;
-					break;
-				case MapView.LayoutParams.BOTTOM_RIGHT:
-					childRight = x;
-					childBottom = y + childHeight;
-					break;
-				}
-				childRight += lp.offsetX;
-				childBottom += lp.offsetY;
-
-				maxWidth = Math.max(maxWidth, childRight);
-				maxHeight = Math.max(maxHeight, childBottom);
-			}
-		}
-
-		// Account for padding too
-		maxWidth += getPaddingLeft() + getPaddingRight();
-		maxHeight += getPaddingTop() + getPaddingBottom();
-
-		// Check against minimum height and width
-		maxHeight = Math.max(maxHeight, getSuggestedMinimumHeight());
-		maxWidth = Math.max(maxWidth, getSuggestedMinimumWidth());
-
-		setMeasuredDimension(resolveSize(maxWidth, widthMeasureSpec),
-				resolveSize(maxHeight, heightMeasureSpec));
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
