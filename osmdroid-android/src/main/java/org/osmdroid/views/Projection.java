@@ -108,17 +108,20 @@ public class Projection implements IProjection, MapViewConstants {
 		final Point out = reuse != null ? reuse : new Point();
 		out.set(x, y);
 		out.offset(-mMapViewWidth / 2, -mMapViewHeight / 2);
-		if (Math.abs(out.x) > Math.abs(out.x - TileSystem.MapSize(getZoomLevel()))) {
-			out.x -= TileSystem.MapSize(getZoomLevel());
+		final int mapSize = TileSystem.MapSize(getZoomLevel());
+		final int absX = Math.abs(out.x);
+		final int absY = Math.abs(out.y);
+		if (absX > Math.abs(out.x - mapSize)) {
+			out.x -= mapSize;
 		}
-		if (Math.abs(out.x) > Math.abs(out.x + TileSystem.MapSize(getZoomLevel()))) {
-			out.x += TileSystem.MapSize(getZoomLevel());
+		if (absX > Math.abs(out.x + mapSize)) {
+			out.x += mapSize;
 		}
-		if (Math.abs(out.y) > Math.abs(out.y - TileSystem.MapSize(getZoomLevel()))) {
-			out.y -= TileSystem.MapSize(getZoomLevel());
+		if (absY > Math.abs(out.y - mapSize)) {
+			out.y -= mapSize;
 		}
-		if (Math.abs(out.y) > Math.abs(out.y + TileSystem.MapSize(getZoomLevel()))) {
-			out.y += TileSystem.MapSize(getZoomLevel());
+		if (absY > Math.abs(out.y + mapSize)) {
+			out.y += mapSize;
 		}
 		out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
 		return out;
