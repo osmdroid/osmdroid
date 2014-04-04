@@ -170,7 +170,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	protected void drawMyLocation(final Canvas canvas, final MapView mapView, final Location lastFix) {
 		final Projection pj = mapView.getProjection();
-		pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
+		pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy()
@@ -237,7 +237,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			reuse = new Rect();
 
 		final Projection pj = mMapView.getProjection();
-		pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
+		pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
 
 		// Start with the bitmap bounds
 		if (lastFix.hasBearing()) {
@@ -287,7 +287,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final IMapView mapView) {
 		if (this.mLocation != null) {
 			Projection pj = mMapView.getProjection();
-			pj.toPixelsTranslated(mMapCoordsProjected, mMapCoordsTranslated);
+			pj.toPixelsFromProjected(mMapCoordsProjected, mMapCoordsTranslated);
 			snapPoint.x = mMapCoordsTranslated.x;
 			snapPoint.y = mMapCoordsTranslated.y;
 			final double xDiff = x - mMapCoordsTranslated.x;
@@ -448,7 +448,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mLocation = location;
 		
 		// Cache location point
-		mMapView.getProjection().toPixelsProjected((int) (mLocation.getLatitude() * 1E6),
+		mMapView.getProjection().toProjectedPixels((int) (mLocation.getLatitude() * 1E6),
 				(int) (mLocation.getLongitude() * 1E6), mMapCoordsProjected);
 
 		if (mIsFollowing) {

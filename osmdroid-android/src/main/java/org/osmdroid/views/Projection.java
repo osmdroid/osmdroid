@@ -90,6 +90,10 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	@Override
+	public IGeoPoint fromPixels(int x, int y) {
+		return fromPixels(x, y, null);
+	}
+
 	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
 		return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
 	}
@@ -99,7 +103,7 @@ public class Projection implements IProjection, MapViewConstants {
 		Point out = TileSystem.LatLongToPixelXY(in.getLatitude(), in.getLongitude(),
 				getZoomLevel(), reuse);
 
-		out = fromMercatorPixels(out.x, out.y, out);
+		out = toPixelsFromMercator(out.x, out.y, out);
 		out = adjustForDateLine(out.x, out.y, out);
 		return out;
 	}
@@ -128,15 +132,15 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 	
 	/**
-	 * A wrapper for {@link #toPixelsProjected(int, int, Point)}
+	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}
 	 */
-	public Point toPixelsProjected(final GeoPoint geoPoint, final Point reuse) {
-		return toPixelsProjected(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
+	public Point toProjectedPixels(final GeoPoint geoPoint, final Point reuse) {
+		return toProjectedPixels(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
 	}
 
 	/**
 	 * Performs only the first computationally heavy part of the projection. Call
-	 * {@link #toPixelsTranslated(Point, Point)} to get the final position.
+	 * {@link #toPixelsFromProjected(Point, Point)} to get the final position.
 	 * 
 	 * @param latituteE6
 	 *            the latitute of the point
@@ -146,7 +150,7 @@ public class Projection implements IProjection, MapViewConstants {
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return intermediate value to be stored and passed to toMapPixelsTranslated.
 	 */
-	public Point toPixelsProjected(final int latituteE6, final int longitudeE6, final Point reuse) {
+	public Point toProjectedPixels(final int latituteE6, final int longitudeE6, final Point reuse) {
 		return TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6,
 				MAXIMUM_ZOOMLEVEL, reuse);
 	}
@@ -155,25 +159,25 @@ public class Projection implements IProjection, MapViewConstants {
 	 * Performs the second computationally light part of the projection.
 	 * 
 	 * @param in
-	 *            the Point calculated by the {@link #toPixelsProjected(int, int, Point)}
+	 *            the Point calculated by the {@link #toProjectedPixels(int, int, Point)}
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return the Point containing the coordinates of the initial GeoPoint passed to the
-	 *         {@link #toPixelsProjected(int, int, Point)}.
+	 *         {@link #toProjectedPixels(int, int, Point)}.
 	 */
-	public Point toPixelsTranslated(final Point in, final Point reuse) {
+	public Point toPixelsFromProjected(final Point in, final Point reuse) {
 		Point out = reuse != null ? reuse : new Point();
 
 		final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
 		out.set(in.x >> zoomDifference, in.y >> zoomDifference);
 
-		out = fromMercatorPixels(out.x, out.y, out);
+		out = toPixelsFromMercator(out.x, out.y, out);
 		out = adjustForDateLine(out.x, out.y, out);
 
 		return out;
 	}
 
-	public Point fromMercatorPixels(int x, int y, Point reuse) {
+	public Point toPixelsFromMercator(int x, int y, Point reuse) {
 		final Point out = reuse != null ? reuse : new Point();
 		out.set(x, y);
 		out.offset(mOffsetX, mOffsetY);

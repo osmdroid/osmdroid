@@ -205,7 +205,7 @@ public class PathOverlay extends Overlay {
 		// precompute new points to the intermediate projection.
 		while (this.mPointsPrecomputed < size) {
 			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
-			pj.toPixelsProjected(pt.x, pt.y, pt);
+			pj.toProjectedPixels(pt.x, pt.y, pt);
 
 			this.mPointsPrecomputed++;
 		}
@@ -217,9 +217,9 @@ public class PathOverlay extends Overlay {
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
 		BoundingBoxE6 boundingBox = pj.getBoundingBox();
-		Point topLeft = pj.toPixelsProjected(boundingBox.getLatNorthE6(),
+		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorthE6(),
 				boundingBox.getLonWestE6(), null);
-		Point bottomRight = pj.toPixelsProjected(boundingBox.getLatSouthE6(),
+		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
 				boundingBox.getLonEastE6(), null);
 		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 
@@ -242,11 +242,11 @@ public class PathOverlay extends Overlay {
 			// the starting point may be not calculated, because previous segment was out of clip
 			// bounds
 			if (screenPoint0 == null) {
-				screenPoint0 = pj.toPixelsTranslated(projectedPoint0, this.mTempPoint1);
+				screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, this.mTempPoint1);
 				mPath.moveTo(screenPoint0.x, screenPoint0.y);
 			}
 
-			screenPoint1 = pj.toPixelsTranslated(projectedPoint1, this.mTempPoint2);
+			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
 
 			// skip this point, too close to previous point
 			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
