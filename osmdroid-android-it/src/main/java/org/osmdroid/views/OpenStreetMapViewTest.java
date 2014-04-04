@@ -3,7 +3,7 @@ package org.osmdroid.views;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -59,7 +59,7 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		mOpenStreetMapView.getController().setZoom(8);
 		final Projection projection = mOpenStreetMapView.getProjection();
 
-		final Point point = projection.toMapPixels(zz, null);
+		final Point point = projection.toPixels(zz, null);
 
 		final Point expected = new Point(0, 0);
 		assertEquals("TODO describe test", expected, point);
@@ -76,9 +76,10 @@ public class OpenStreetMapViewTest extends AndroidTestCase {
 		mOpenStreetMapView.getController().setZoom(8);
 		final Projection projection = mOpenStreetMapView.getProjection();
 
-		final Point point = projection.toMapPixels(hannover, null);
+		final Point point = projection.toPixels(hannover, null);
+		projection.toMercatorPixels(point.x, point.y, point);
 
-		final Point expected = new Point(1772, -11231);
+		final Point expected = new Point(34540, 21537);
 		assertEquals("TODO describe test", expected, point);
 	}
 }
