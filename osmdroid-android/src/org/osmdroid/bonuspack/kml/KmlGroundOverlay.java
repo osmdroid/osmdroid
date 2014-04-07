@@ -2,8 +2,12 @@ package org.osmdroid.bonuspack.kml;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -65,15 +69,24 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	/** load the icon from its href. 
 	 * @param href either the full url, or a relative path to a local file. 
 	 * @param containerFullPath full path of the container file. 
+	 * @param kmzContainer current KMZ file (as a ZipFile) - or null if irrelevant. 
 	 */
-	public void setIcon(String href, String containerFullPath){
+	public void setIcon(String href, String containerFullPath, ZipFile kmzContainer){
 		mIconHref = href;
 		if (mIconHref.startsWith("http://") || mIconHref.startsWith("https://")){
 			mIcon = BonusPackHelper.loadBitmap(mIconHref);
-		} else {
+		} else if (kmzContainer == null) {
 			File file = new File(containerFullPath);
 			String actualFullPath = file.getParent()+'/'+mIconHref;
 			mIcon = BitmapFactory.decodeFile(actualFullPath);
+		} else {
+			try {
+				final ZipEntry fileEntry = kmzContainer.getEntry(href);
+				InputStream stream = kmzContainer.getInputStream(fileEntry);
+				mIcon = BitmapFactory.decodeStream(stream);
+			} catch (Exception e) {
+				mIcon = null;
+			}
 		}
 	}
 	

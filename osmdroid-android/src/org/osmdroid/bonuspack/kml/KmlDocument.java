@@ -9,8 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.json.JSONException;
@@ -28,11 +31,11 @@ import android.util.Log;
 
 /**
  * Object handling a whole KML document. 
- * Features are stored in the kmlRoot attribute, which is a KmlFolder. 
- * Shared components (like styles) are stored in specific attributes. 
  * This is the entry point to read, handle and save KML content. <br>
+ * Features are stored in the kmlRoot attribute, which is a KmlFolder. 
+ * Shared components (like styles) are stored in specific attributes. <br>
  * 
- * Supports the following KML Geometry: Point, LineString, Polygon. <br>
+ * Supports the following KML Geometry: Point, LineString, Polygon and MultiGeometry. <br>
  * Supports KML Document and Folder hierarchy. <br>
  * Supports NetworkLink. <br>
  * Supports GroundOverlay. <br>
@@ -53,7 +56,7 @@ public class KmlDocument implements Parcelable {
 	/** list of shared Styles in this document */
 	protected HashMap<String, Style> mStyles;
 	protected int mMaxStyleId;
-	
+
 	/** default constructor, with the kmlRoot as an empty Folder */
 	public KmlDocument(){
 		mStyles = new HashMap<String, Style>();
@@ -234,7 +237,7 @@ public class KmlDocument implements Parcelable {
 		if (stream == null){
 			mKmlRoot = null;
 		} else {
-			parseStream(stream, url);
+			parseStream(stream, url, null);
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
@@ -265,12 +268,12 @@ public class KmlDocument implements Parcelable {
 	 * @return true if OK, false if any error. 
 	 * @see parseUrl
 	 */
-	public boolean parseFile(File file){
-		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile:"+file.getAbsolutePath());
+	public boolean parseKMLFile(File file){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseKMLFile:"+file.getAbsolutePath());
 		InputStream stream = null;
 		try {
 			stream = new BufferedInputStream(new FileInputStream(file));
-			parseStream(stream, file.getAbsolutePath());
+			parseStream(stream, file.getAbsolutePath(), null);
 			stream.close();
 		} catch (Exception e){
 			e.printStackTrace();
@@ -280,15 +283,53 @@ public class KmlDocument implements Parcelable {
 		return (mKmlRoot != null);
 	}
 	
+	/** 
+	 * Parse a local KMZ document. 
+	 * @param file full file path
+	 * @return true if OK. 
+	 */
+	public boolean parseKMZFile(File file){
+		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseKMZFile:"+file.getAbsolutePath());
+		try {
+			ZipFile kmzFile = new ZipFile(file);
+			String rootFileName = null;
+			//Iterate in the KMZ to find the first ".kml" file:
+			Enumeration<? extends ZipEntry> list = kmzFile.entries();
+			while (list.hasMoreElements() && rootFileName == null){
+				ZipEntry ze = list.nextElement();
+				String name = ze.getName();
+				if (name.endsWith(".kml") && !name.contains("/"))
+					rootFileName = name;
+			}
+			boolean result;
+			if (rootFileName != null){
+				ZipEntry rootEntry = kmzFile.getEntry(rootFileName);
+				InputStream stream = kmzFile.getInputStream(rootEntry);
+				String fullFilePath = file.getAbsolutePath();
+				Log.d(BonusPackHelper.LOG_TAG, "KML root:"+rootFileName);
+				result = parseStream(stream, fullFilePath, kmzFile);
+			} else {
+				Log.d(BonusPackHelper.LOG_TAG, "No .kml entry found.");
+				result = false;
+			}
+			kmzFile.close();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	/**
 	 * Parse a KML content from an InputStream. 
 	 * @param stream the InputStream
 	 * @param fullFilePath of the content, which is used inside the parser to handle "relative" files, to determine their full file path. 
 	 * Note that relative files are supported only for regular files. 
+	 * @param kmzContainer KMZ file containing this KML file - or null if not applicable. 
 	 * @return true if OK, false if any error. 
 	 */
-	public boolean parseStream(InputStream stream, String fullFilePath){
-		KmlSaxHandler handler = new KmlSaxHandler(fullFilePath);
+	public boolean parseStream(InputStream stream, String fullFilePath, ZipFile kmzContainer){
+		KmlSaxHandler handler = new KmlSaxHandler(fullFilePath, kmzContainer);
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(stream, handler);
@@ -318,10 +359,12 @@ public class KmlDocument implements Parcelable {
 		boolean mIsNetworkLink;
 		boolean mIsInnerBoundary;
 		String mFullPath; //to get the path of relative sub-files
+		ZipFile mKMZFile;
 		double mNorth, mEast, mSouth, mWest;
 		
-		public KmlSaxHandler(String fullPath){
+		public KmlSaxHandler(String fullPath, ZipFile kmzContainer){
 			mFullPath = fullPath;
+			mKMZFile = kmzContainer;
 			mKmlRoot = new KmlFolder();
 			mKmlFeatureStack = new ArrayList<KmlFeature>();
 			mKmlFeatureStack.add(mKmlRoot);
@@ -330,19 +373,28 @@ public class KmlDocument implements Parcelable {
 			mIsInnerBoundary = false;
 		}
 		
-		protected void loadNetworkLink(String href){
+		protected void loadNetworkLink(String href, ZipFile kmzContainer){
 			KmlDocument subDocument = new KmlDocument();
-			if (href.startsWith("http://"))
+			if (href.startsWith("http://") || href.startsWith("https://") )
 				subDocument.parseUrl(href);
-			else {
+			else if (kmzContainer == null){
 				File file = new File(mFullPath);
 				File subFile = new File(file.getParent()+'/'+href);
-				subDocument.parseFile(subFile);
+				subDocument.parseKMLFile(subFile);
+			} else {
+				try {
+					final ZipEntry fileEntry = kmzContainer.getEntry(href);
+					InputStream stream = kmzContainer.getInputStream(fileEntry);
+					Log.d(BonusPackHelper.LOG_TAG, "Load NetworkLink:"+href);
+					subDocument.parseStream(stream, mFullPath, kmzContainer);
+				} catch (Exception e) {
+					subDocument.mKmlRoot = null;
+				}
 			}
 			if (subDocument.mKmlRoot != null){
 				//add subDoc root to the current feature, which is -normally- the NetworkLink:
 				((KmlFolder)mKmlCurrentFeature).add(subDocument.mKmlRoot);
-				//add subDoc styles to mStyles:
+				//add all subDocument styles to mStyles:
 				mStyles.putAll(subDocument.mStyles);
 			} else {
 				Log.e(BonusPackHelper.LOG_TAG, "Error reading NetworkLink:"+href);
@@ -496,14 +548,14 @@ public class KmlDocument implements Parcelable {
 				if (mCurrentStyle != null && mCurrentStyle.mIconStyle != null){
 					//href of an Icon in an IconStyle:
 					String href = mStringBuilder.toString();
-					mCurrentStyle.setIcon(href, mFullPath);
+					mCurrentStyle.setIcon(href, mFullPath, mKMZFile);
 				} else if (mIsNetworkLink){
 					//href of a NetworkLink:
 					String href = mStringBuilder.toString();
-					loadNetworkLink(href);
+					loadNetworkLink(href, mKMZFile);
 				} else if (mKmlCurrentGroundOverlay != null){
 					//href of a GroundOverlay Icon:
-					mKmlCurrentGroundOverlay.setIcon(mStringBuilder.toString(), mFullPath);
+					mKmlCurrentGroundOverlay.setIcon(mStringBuilder.toString(), mFullPath, mKMZFile);
 				}
 			} else if (localName.equals("Style")){
 				if (mCurrentStyleId != null)

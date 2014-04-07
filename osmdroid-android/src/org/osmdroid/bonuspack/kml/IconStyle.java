@@ -2,7 +2,11 @@ package org.osmdroid.bonuspack.kml;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.utils.WebImageCache;
 import android.content.Context;
@@ -39,15 +43,24 @@ public class IconStyle extends ColorStyle implements Parcelable {
 	/** Load and set the icon bitmap, from a url or from a local file. 
 	 * @param href either the full url, or a relative path to a local file. 
 	 * @param containerFullPath full path of the container file. 
+	 * @param kmzContainer current KMZ file (as a ZipFile) - or null if irrelevant. 
 	 */
-	public void setIcon(String href, String containerFullPath){
+	public void setIcon(String href, String containerFullPath, ZipFile kmzContainer){
 		mHref = href;
-		if (mHref.startsWith("http://")){
+		if (mHref.startsWith("http://") || mHref.startsWith("https://")){
 			mIcon = mIconCache.get(mHref);
-		} else {
+		} else if (kmzContainer == null){
 			File file = new File(containerFullPath);
 			String actualFullPath = file.getParent()+'/'+mHref;
 			mIcon = BitmapFactory.decodeFile(actualFullPath);
+		} else {
+			try {
+				final ZipEntry fileEntry = kmzContainer.getEntry(href);
+				InputStream stream = kmzContainer.getInputStream(fileEntry);
+				mIcon = BitmapFactory.decodeStream(stream);
+			} catch (Exception e) {
+				mIcon = null;
+			}
 		}
 	}
 	

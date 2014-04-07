@@ -2,6 +2,8 @@ package org.osmdroid.bonuspack.kml;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.zip.ZipFile;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
@@ -34,10 +36,10 @@ public class Style implements Parcelable {
 		mPolyStyle.mColor = fillColor;
 	}
 	
-	public void setIcon(String iconHref, String containerFullPath){
+	public void setIcon(String iconHref, String containerFullPath, ZipFile kmzContainer){
 		if (mIconStyle == null)
 			mIconStyle = new IconStyle();
-		mIconStyle.setIcon(iconHref, containerFullPath);
+		mIconStyle.setIcon(iconHref, containerFullPath, kmzContainer);
 	}
 	
 	public BitmapDrawable getFinalIcon(Context context){

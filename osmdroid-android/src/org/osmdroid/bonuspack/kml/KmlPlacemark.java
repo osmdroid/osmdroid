@@ -30,8 +30,8 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	}
 	
 	/**
-	 * Create the KmlFeature as a KML Point.  
-	 * @param position position of the point
+	 * constructs a Placemark with a Point Geometry.  
+	 * @param position position of the Point
 	 */
 	public KmlPlacemark(GeoPoint position){
 		this();
@@ -39,7 +39,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		mBB = mGeometry.getBoundingBox();
 	}
 	
-	/** Create the KML Placemark from a Marker, as a KML Point */
+	/** constructs a Placemark from a Marker, as a KML Point */
 	public KmlPlacemark(Marker marker){
 		this(marker.getPosition());
 		mName = marker.getTitle();
@@ -48,7 +48,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		//TODO: Style / IconStyle => transparency, hotspot, bearing. 
 	}
 
-	/** Create the KML Placemark from a Polygon overlay, as a KML Polygon */
+	/** constructs a Placemark from a Polygon overlay, as a KML Polygon */
 	public KmlPlacemark(Polygon polygon, KmlDocument kmlDoc){
 		this();
 		mName = polygon.getTitle();
@@ -65,7 +65,7 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		mStyle = kmlDoc.addStyle(style);
 	}
 
-	/** Create the KML Placemark from a Polyline overlay, as a KML LineString */
+	/** constructs a Placemark from a Polyline overlay, as a KML LineString */
 	public KmlPlacemark(Polyline polyline, KmlDocument kmlDoc){
 		this();
 		mName = "LineString - "+polyline.getNumberOfPoints()+" points";
