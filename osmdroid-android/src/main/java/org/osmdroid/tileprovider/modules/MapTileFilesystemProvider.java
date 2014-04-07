@@ -156,7 +156,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					final long lastModified = file.lastModified();
 					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
-					if (fileExpired) {
+					if (fileExpired && drawable != null) {
 						if (DEBUGMODE) {
 							logger.debug("Tile expired: " + tile);
 						}
