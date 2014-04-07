@@ -922,7 +922,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void openLocalFileDialog(boolean open){
 		mDialogForOpen = open;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("File (.kml or .json)");
+		builder.setTitle("File (.kml, .kmz or .json)");
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		input.setText(mLocalFileName);
@@ -1008,8 +1008,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				File file = new File(mUri);
 				if (mUri.endsWith(".json"))
 					ok = mKmlDocument.parseGeoJSON(file);
+				else if (mUri.endsWith(".kmz"))
+					ok = mKmlDocument.parseKMZFile(file);
 				else //assume KML
-					ok = mKmlDocument.parseFile(file);
+					ok = mKmlDocument.parseKMLFile(file);
 			} else if (mUri.startsWith("http")) {
 				ok = mKmlDocument.parseUrl(mUri);
 			}

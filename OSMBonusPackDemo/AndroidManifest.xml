@@ -35,6 +35,7 @@
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.kml" />
+				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.kmz" />
 				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.json" />
             </intent-filter>
             </activity>
