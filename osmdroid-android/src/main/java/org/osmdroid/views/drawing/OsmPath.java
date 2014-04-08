@@ -10,7 +10,7 @@ public class OsmPath extends Path {
 
 	private final static GeoPoint sReferenceGeoPoint = new GeoPoint(0, 0);
 	protected final Point mReferencePoint = new Point();
-	private boolean mFirstDraw = true;
+	private int mLastZoomLevel = -1;
 	
     public OsmPath() {
 		super();
@@ -21,9 +21,9 @@ public class OsmPath extends Path {
 	}
 
 	public void onDrawCycle(Projection proj) {
-		if (mFirstDraw) {
+		if (mLastZoomLevel != proj.getZoomLevel()) {
 			proj.toPixels(sReferenceGeoPoint, mReferencePoint);
-			mFirstDraw = false;
+			mLastZoomLevel = proj.getZoomLevel();
 		} else {
 			int x = mReferencePoint.x;
 			int y = mReferencePoint.y;
