@@ -2,6 +2,8 @@ package com.example.osmbonuspacktuto;
 
 import java.io.File;
 import java.util.ArrayList;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
 import org.osmdroid.bonuspack.clustering.StaticCluster;
@@ -19,6 +21,9 @@ import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
+import org.osmdroid.bonuspack.overlays.InfoWindow;
+import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
+import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
 import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
@@ -30,11 +35,11 @@ import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
@@ -64,7 +69,7 @@ import android.widget.Toast;
  * @author M.Kergall
  *
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements MapEventsReceiver {
 
 	MapView map;
 	KmlDocument mKmlDocument;
@@ -75,12 +80,22 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		map = (MapView) findViewById(R.id.map);
-		map.setTileSource(TileSourceFactory.MAPNIK);
+		//map.setTileSource(TileSourceFactory.MAPNIK);
+		/* or using local file archives (zip, sqlite or mbtiles) built with MOBAC:
+		map.setTileSource(new XYTileSource("MapQuest",
+				ResourceProxy.string.mapquest_osm, 9, 13, 256, ".jpg", new String[] {
+				"http://otile1.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile2.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile3.mqcdn.com/tiles/1.0.0/map/",
+				"http://otile4.mqcdn.com/tiles/1.0.0/map/" }));
+		map.setUseDataConnection(false);
+		map.setScrollableAreaLimit(new BoundingBoxE6(47.4, -1.05, 46.9, -1.93));
+		*/
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
 		GeoPoint startPoint = new GeoPoint(48.13, -1.63);
 		IMapController mapController = map.getController();
-		mapController.setZoom(9);
+		mapController.setZoom(10);
 		mapController.setCenter(startPoint);
 
 		//0. Using the Marker overlay
@@ -105,9 +120,11 @@ public class MainActivity extends Activity {
 		GeoPoint endPoint = new GeoPoint(48.4, -1.9);
 		waypoints.add(endPoint);
 		Road road = roadManager.getRoad(waypoints);
+		if (road.mStatus != Road.STATUS_OK)
+			Toast.makeText(this, "Error when loading the road - status="+road.mStatus, Toast.LENGTH_SHORT).show();
+		
 		Polyline roadOverlay = RoadManager.buildRoadOverlay(road, this);
 		map.getOverlays().add(roadOverlay);
-		map.invalidate();
 		
 		//3. Showing the Route steps on the map
 		FolderOverlay roadMarkers = new FolderOverlay(this);
@@ -228,14 +245,9 @@ public class MainActivity extends Activity {
 			mKmlDocument.saveAsGeoJSON(mKmlDocument.getDefaultPathForAndroid("my_route.json"));
 		}
 		
-		//16. Using GroundOverlay
-		GroundOverlay myGroundOverlay = new GroundOverlay(this);
-		myGroundOverlay.setPosition(endPoint);
-		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
-		myGroundOverlay.setDimensions(2000.0f);
-		myGroundOverlay.setTransparency(0.25f);
-		myGroundOverlay.setBearing(90.0f);
-		Overlay removed = map.getOverlays().set(0, myGroundOverlay);
+		//16. Handling Map events
+		MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
+		Overlay removed = map.getOverlays().set(0, mapEventsOverlay);
 		map.getOverlays().add(removed);
 	}
 	
@@ -330,7 +342,7 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	//13.1 Loading KML content - Advanced styling with Styler
+	//13.2 Loading KML content - Advanced styling with Styler
 	class MyKmlStyler implements KmlFeature.Styler {
 		Style mDefaultStyle;
 		
@@ -349,15 +361,37 @@ public class MainActivity extends Activity {
 		}
 		@Override public void onPoint(Marker marker, KmlPlacemark kmlPlacemark, KmlPoint kmlPoint) {
 			//Styling based on ExtendedData properties: 
-			if ("city".equals(kmlPlacemark.getExtendedData("category")))
-				kmlPlacemark.mStyle = "city_style";
-			else if ("village".equals(kmlPlacemark.getExtendedData("category")))
-				kmlPlacemark.mStyle = "village_style";
+			if ("panda_area".equals(kmlPlacemark.getExtendedData("category")))
+				kmlPlacemark.mStyle = "panda_area";
+			else if ("gorilla_area".equals(kmlPlacemark.getExtendedData("category")))
+				kmlPlacemark.mStyle = "gorilla_area";
 			kmlPoint.applyDefaultStyling(marker, mDefaultStyle, kmlPlacemark, mKmlDocument, map);
 		}
 		@Override public void onFeature(Overlay overlay, KmlFeature kmlFeature) {
 			//If nothing to do, do nothing. 
 		}
+	}
+
+	//16. Handling Map events
+	@Override public boolean singleTapConfirmedHelper(GeoPoint p) {
+		Toast.makeText(this, "Tap on ("+p.getLatitude()+","+p.getLongitude()+")", Toast.LENGTH_SHORT).show();
+		InfoWindow.closeAllInfoWindowsOn(map);
+		return true;
+	}
+	float mGroundOverlayBearing = 0.0f;
+	@Override public boolean longPressHelper(GeoPoint p) {
+		//Toast.makeText(this, "Long press", Toast.LENGTH_SHORT).show();
+		//17. Using GroundOverlay
+		GroundOverlay myGroundOverlay = new GroundOverlay(this);
+		myGroundOverlay.setPosition(p);
+		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
+		myGroundOverlay.setDimensions(2000.0f);
+		myGroundOverlay.setTransparency(0.25f);
+		myGroundOverlay.setBearing(mGroundOverlayBearing);
+		mGroundOverlayBearing += 20.0f;
+		map.getOverlays().add(myGroundOverlay);
+		map.invalidate();
+		return true;
 	}
 	
 }
