@@ -119,6 +119,8 @@ public class RecordedRouteGPXFormatter implements OpenStreetMapContributorConsta
 				f.format(GPX_TAG_TRACK_SEGMENT_POINT_SAT, rgp.mNumSatellites);
 			sb.append(GPX_TAG_TRACK_SEGMENT_POINT_CLOSE);
 		}
+		
+		f.close();
 
 		sb.append(GPX_TAG_TRACK_SEGMENT_CLOSE).append(GPX_TAG_TRACK_CLOSE).append(GPX_TAG_CLOSE);
 
