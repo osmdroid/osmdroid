@@ -216,6 +216,7 @@ public class OSRMRoadManager extends RoadManager {
 		Road road = new Road();
 		try {
 			JSONObject jObject = new JSONObject(jString);
+			road.mStatus = jObject.getInt("status");
 			String route_geometry = jObject.getString("route_geometry");
 			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1);
 			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
@@ -247,11 +248,12 @@ public class OSRMRoadManager extends RoadManager {
 			road.mDuration = jSummary.getInt("total_time");
 		} catch (JSONException e) {
 			e.printStackTrace();
-			return new Road(waypoints);
 		}
-		if (road.mRouteHigh.size()==0){
+		if (road.mStatus != Road.STATUS_OK){
 			//Create default road:
+			int status = road.mStatus;
 			road = new Road(waypoints);
+			road.mStatus = status;
 		} else {
 			road.buildLegs(waypoints);
 			road.mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);

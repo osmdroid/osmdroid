@@ -1,9 +1,7 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -88,11 +86,7 @@ public class MapQuestRoadManager extends RoadManager {
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
 		if (stream != null)
-				road = getRoadXML(stream, waypoints);
-		if (road == null || road.mRouteHigh.size()==0){
-			//Create default road:
-			road = new Road(waypoints);
-		}
+			road = getRoadXML(stream, waypoints);
 		connection.close();
 		Log.d(BonusPackHelper.LOG_TAG, "MapQuestRoadManager.getRoute - finished");
 		return road;
@@ -108,19 +102,20 @@ public class MapQuestRoadManager extends RoadManager {
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(is, handler);
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		Road road = handler.mRoad;
-		if (road != null && road.mRouteHigh.size()>0){
+		if (road != null && road.mStatus == Road.STATUS_OK){
 			road.mNodes = finalizeNodes(road.mNodes, handler.mLinks, road.mRouteHigh);
 			road.mRouteHigh = finalizeRoadShape(road, handler.mLinks);
 			road.buildLegs(waypoints);
 			road.mStatus = Road.STATUS_OK;
+		} else {
+			int status = (road != null ? road.mStatus : Road.STATUS_TECHNICAL_ISSUE);
+			//Create default road:
+			road = new Road(waypoints);
+			road.mStatus = status;
 		}
 		return road;
 	}
@@ -283,6 +278,8 @@ class MapQuestGuidanceHandler extends DefaultHandler {
 		} else if (localName.equals("boundingBox")){
 			mRoad.mBoundingBox = new BoundingBoxE6(mNorth, mEast, mSouth, mWest);
 			isBB = false;
+		} else if (localName.equals("statusCode")){
+			mRoad.mStatus = Integer.parseInt(mStringBuilder.toString());
 		}
 	}
 }

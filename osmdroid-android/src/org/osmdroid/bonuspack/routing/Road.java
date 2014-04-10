@@ -13,7 +13,7 @@ import android.util.Log;
 
 
 /** describes the way to go from a position to an other. 
- * Normally returned by a call to a Directions API (from MapQuest, GoogleMaps or other)
+ * Normally returned by a call to a Directions API (from MapQuest, GoogleMaps, OSRM or other)
  * @see MapQuestRoadManager
  * @see GoogleRoadManager
  * @see OSRMRoadManager
@@ -22,9 +22,10 @@ import android.util.Log;
  */
 public class Road  implements Parcelable {
 	/** 
-	 * @see #STATUS_INVALID STATUS_INVALID
-	 * @see #STATUS_OK STATUS_OK
-	 * @see #STATUS_DEFAULT STATUS_DEFAULT
+	 * STATUS_OK = road properly retrieved and built. 
+	 * STATUS_INVALID = road has not been built yet ()
+	 * STATUS_TECHNICAL_ISSUE = technical issue, no answer from the service provider. 
+	 * All other values: functional errors/issues, depending on the service provider. 
 	 * */
 	public int mStatus;
 
@@ -32,7 +33,8 @@ public class Road  implements Parcelable {
 	public double mLength; 
 	/** duration of the whole trip in sec. */
 	public double mDuration;
-	public ArrayList<RoadNode> mNodes; /** */
+	/** list of intersections or "nodes" */
+	public ArrayList<RoadNode> mNodes;
 	/** there is one leg between each waypoint */
 	public ArrayList<RoadLeg> mLegs; 
 	/** full shape: polyline, as an array of GeoPoints */
@@ -42,12 +44,9 @@ public class Road  implements Parcelable {
 	/** road bounding box */
 	public BoundingBoxE6 mBoundingBox; 
 	
-	/** STATUS_INVALID = road not built */
-	public static final int STATUS_INVALID=0;
-	/** STATUS_OK = road properly retrieved and built*/
-	public static final int STATUS_OK=1;
-	/** STATUS_DEFAULT = any issue (technical issue, or no possible route) led to build a default road */
-	public static final int STATUS_DEFAULT=2;
+	public static final int STATUS_INVALID=-1;
+	public static final int STATUS_OK=0;
+	public static final int STATUS_TECHNICAL_ISSUE=2;
 	
 	private void init(){
 		mStatus = STATUS_INVALID;
@@ -66,7 +65,7 @@ public class Road  implements Parcelable {
 	
 	/** default constructor when normal loading failed: 
 	 * the road shape only contains the waypoints; All distances and times are at 0;
-	 * there is no node; mStatus equals DEFAULT. 
+	 * there is no node; mStatus set to TECHNICAL_ISSUE. 
 	 */
 	public Road(ArrayList<GeoPoint> waypoints){
 		init();
@@ -80,7 +79,7 @@ public class Road  implements Parcelable {
 			mLegs.add(leg);
 		}
 		mBoundingBox = BoundingBoxE6.fromGeoPoints(mRouteHigh);
-		mStatus = STATUS_DEFAULT;
+		mStatus = STATUS_TECHNICAL_ISSUE;
 	}
 	
 	/**

@@ -50,7 +50,7 @@ public class Marker extends Overlay {
 	protected float mAlpha;
 	protected String mTitle, mSnippet;
 	protected boolean mDraggable, mIsDragged;
-	protected InfoWindow mInfoWindow;
+	protected MarkerInfoWindow mInfoWindow;
 	protected boolean mFlat;
 	protected OnMarkerClickListener mOnMarkerClickListener;
 	protected OnMarkerDragListener mOnMarkerDragListener;
@@ -223,7 +223,7 @@ public class Marker extends Overlay {
 	 * You can use this method either to use your own layout, or to use your own sub-class of InfoWindow. 
 	 * Note that this InfoWindow will receive the Marker object as an input, so it MUST be able to handle Marker attributes. 
 	 * If you don't want any InfoWindow to open, you can set it to null. */
-	public void setInfoWindow(InfoWindow infoWindow){
+	public void setInfoWindow(MarkerInfoWindow infoWindow){
 		mInfoWindow = infoWindow;
 	}
 
@@ -263,7 +263,7 @@ public class Marker extends Overlay {
 	}
 
 	public boolean isInfoWindowShown(){
-		return (mInfoWindow != null) && mInfoWindow.isOpen();
+		return (mInfoWindow != null) && mInfoWindow.isOpen() && (mInfoWindow.mMarkerRef==this);
 	}
 	
 	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
