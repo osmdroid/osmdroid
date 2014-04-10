@@ -2,6 +2,7 @@ package com.osmbonuspackdemo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.overlays.InfoWindow;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
 import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
 import org.osmdroid.bonuspack.overlays.Marker;
@@ -698,7 +700,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		if (road == null)
 			return;
-		if (road.mStatus == Road.STATUS_DEFAULT)
+		if (road.mStatus != Road.STATUS_OK)
 			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
 		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
 		Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
@@ -923,6 +925,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mDialogForOpen = open;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("File (.kml, .kmz or .json)");
+		builder.setMessage(""+mKmlDocument.getDefaultPathForAndroid(""));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		input.setText(mLocalFileName);
@@ -1110,7 +1113,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 
 	@Override public boolean singleTapConfirmedHelper(GeoPoint p) {
-		return false;
+		InfoWindow.closeAllInfoWindowsOn(map);
+		return true;
 	}
 
 	//----------- Context Menu when clicking on the map
@@ -1194,18 +1198,32 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			menu.findItem(R.id.menu_pois).setEnabled(false);
 		return true;
 	}
+
+	/** return the index of the first Marker having its bubble opened, -1 if none */
+	int getIndexOfBubbledMarker(AbstractList<? extends Overlay> list){
+		for (int i=0; i<list.size(); i++){
+			Overlay item = list.get(i);
+			if (item instanceof Marker){
+				Marker marker = (Marker)item;
+				if (marker.isInfoWindowShown())
+					return i;
+			}
+		}
+		return -1;
+	}
 	
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		Intent myIntent;
 		switch (item.getItemId()) {
 		case R.id.menu_itinerary:
 			myIntent = new Intent(this, RouteActivity.class);
-			myIntent.putExtra("NODE_ID", -1 /*TODO - default to roadNodeMarkers.getBubbledItemId()*/);
+			int currentNodeId = getIndexOfBubbledMarker(roadNodeMarkers.getItems());
+			myIntent.putExtra("NODE_ID", currentNodeId);
 			startActivityForResult(myIntent, ROUTE_REQUEST);
 			return true;
 		case R.id.menu_pois:
 			myIntent = new Intent(this, POIActivity.class);
-			myIntent.putExtra("ID", -1 /*TODO - default to poiMarkers.getBubbledItemId()*/);
+			myIntent.putExtra("ID", getIndexOfBubbledMarker(poiMarkers.getItems()));
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
 		case R.id.menu_kml_url:
