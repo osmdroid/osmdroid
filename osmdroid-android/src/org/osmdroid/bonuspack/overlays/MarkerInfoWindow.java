@@ -4,6 +4,8 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.views.MapView;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
  * Default implementation of InfoWindow for a Marker. 
  * It handles a text and a description. 
  * It also handles optionally a sub-description and an image. 
+ * Description and sub-description interpret HTML tags (in the limits of the Html.fromHtml(String) API). 
  * Clicking on the bubble will close it. 
  * 
  * @author M.Kergall
@@ -65,13 +68,14 @@ public class MarkerInfoWindow extends InfoWindow {
 		String snippet = mMarkerRef.getSnippet();
 		if (snippet == null)
 			snippet = "";
-		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippet);
+		Spanned snippetHtml = Html.fromHtml(snippet);
+		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippetHtml);
 		
 		//handle sub-description, hidding or showing the text view:
 		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
 		String subDesc = mMarkerRef.getSubDescription();
 		if (subDesc != null && !("".equals(subDesc))){
-			subDescText.setText(subDesc);
+			subDescText.setText(Html.fromHtml(subDesc));
 			subDescText.setVisibility(View.VISIBLE);
 		} else {
 			subDescText.setVisibility(View.GONE);

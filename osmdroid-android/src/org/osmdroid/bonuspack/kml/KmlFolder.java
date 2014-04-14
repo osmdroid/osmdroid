@@ -13,6 +13,8 @@ import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
@@ -62,6 +64,21 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
         }
 	}
 	
+	@Override public BoundingBoxE6 getBoundingBox(){
+		BoundingBoxE6 BB = null;
+		for (KmlFeature item:mItems) {
+			BoundingBoxE6 itemBB = item.getBoundingBox();
+			if (itemBB != null){
+				if (BB == null){
+					BB = BonusPackHelper.cloneBoundingBoxE6(itemBB);
+				} else {
+					BB = BonusPackHelper.concatBoundingBoxE6(itemBB, BB);
+				}
+			}
+		}
+		return BB;
+	}
+	
 	/** 
 	 * Converts the overlay to a KmlFeature and add it inside this. 
 	 * Conversion from Overlay subclasses to KML Features is as follow: <br>
@@ -98,7 +115,6 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 			return false;
 		}
 		mItems.add(kmlItem);
-		updateBoundingBoxWith(kmlItem.mBB);
 		return true;
 	}
 	
@@ -118,7 +134,6 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	/** Add an item in the KML Folder, at the end. */
 	public void add(KmlFeature item){
 		mItems.add(item);
-		updateBoundingBoxWith(item.mBB);
 	}
 	
 	/** 
@@ -128,11 +143,6 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	 */
 	public KmlFeature removeItem(int itemPosition){
 		KmlFeature removed = mItems.remove(itemPosition);
-		//refresh bounding box from scratch:
-		mBB = null;
-		for (KmlFeature item:mItems) {
-			updateBoundingBoxWith(item.mBB);
-		}
 		return removed;
 	}
 	

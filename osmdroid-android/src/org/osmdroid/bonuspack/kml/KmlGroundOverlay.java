@@ -58,12 +58,15 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		mCoordinates = new ArrayList<GeoPoint>(2);
 		mCoordinates.add(new GeoPoint(pN.getLatitudeE6(), pW.getLongitudeE6())); //NW
 		mCoordinates.add(new GeoPoint(pS.getLatitudeE6(), pE.getLongitudeE6())); //SE
-		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
 		//mIconHref = ???
 		mIcon = ((BitmapDrawable)overlay.getImage()).getBitmap();
 		mRotation = -overlay.getBearing();
 		mColor = 255 - Color.alpha((int)(overlay.getTransparency()*255));
 		mVisibility = overlay.isEnabled();
+	}
+	
+	@Override public BoundingBoxE6 getBoundingBox(){
+		return BoundingBoxE6.fromGeoPoints(mCoordinates);
 	}
 	
 	/** load the icon from its href. 
@@ -94,7 +97,6 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		mCoordinates = new ArrayList<GeoPoint>(2);
 		mCoordinates.add(new GeoPoint(north, west));
 		mCoordinates.add(new GeoPoint(south, east));
-		mBB = BoundingBoxE6.fromGeoPoints(mCoordinates);
 	}
 
 	/** @return the corresponding GroundOverlay ready to display on the map */
@@ -155,7 +157,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	}
 	
 	@Override public JSONObject asGeoJSON(boolean isRoot) {
-		//TODO: GroundOverlay ... is not supported by GeoJSON. Output enclosing polygon with mColor?
+		//TODO: GroundOverlay is not supported by GeoJSON. Output enclosing polygon with mColor?
 		return null;
 	}
 	

@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -36,7 +37,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	public KmlPlacemark(GeoPoint position){
 		this();
 		mGeometry = new KmlPoint(position);
-		mBB = mGeometry.getBoundingBox();
 	}
 	
 	/** constructs a Placemark from a Marker, as a KML Point */
@@ -56,7 +56,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		mGeometry = new KmlPolygon();
 		mGeometry.mCoordinates = (ArrayList<GeoPoint>)polygon.getPoints();
 		((KmlPolygon)mGeometry).mHoles = (ArrayList<ArrayList<GeoPoint>>)polygon.getHoles();
-		mBB = mGeometry.getBoundingBox();
 		mVisibility = polygon.isEnabled();
 		//Style:
 		Style style = new Style();
@@ -71,7 +70,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		mName = "LineString - "+polyline.getNumberOfPoints()+" points";
 		mGeometry = new KmlLineString();
 		mGeometry.mCoordinates = (ArrayList<GeoPoint>)polyline.getPoints();
-		mBB = mGeometry.getBoundingBox();
 		mVisibility = polyline.isEnabled();
 		//Style:
 		Style style = new Style();
@@ -86,8 +84,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 		JSONObject geometry = json.optJSONObject("geometry");
 		if (geometry != null) {
 			mGeometry = KmlGeometry.parseGeoJSON(geometry);
-			if (mGeometry != null)
-				mBB = mGeometry.getBoundingBox();
         }
 		//Parse properties:
 		JSONObject properties = json.optJSONObject("properties");
@@ -103,6 +99,13 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 			mName = mExtendedData.get("name");
 			mExtendedData.remove("name");
 		}
+	}
+	
+	@Override public BoundingBoxE6 getBoundingBox(){
+		if (mGeometry != null)
+			return mGeometry.getBoundingBox();
+		else
+			return null;
 	}
 	
 	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument){

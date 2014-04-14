@@ -47,11 +47,12 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	 * The KML displayName is not handled. 
 	 * value is always stored as a Java String. */
 	public HashMap<String, String> mExtendedData;
-	/** bounding box - null if no geometry (means empty) */
-	public BoundingBoxE6 mBB;
 	
 	//-----------------------------------------------------
 	//abstract methods
+	
+	/** @return the bounding box of all contained geometries - null if no geometry */
+	public abstract BoundingBoxE6 getBoundingBox();
 	
 	/**
 	 * Build the Overlay related to this KML object. If this is a Folder, recursively build overlays from Folder items. 
@@ -109,21 +110,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		return C.isInstance(geometry);
 	}
 	
-	/**
-	 * Increase the bounding box of the feature to include an other bounding box. 
-	 * Typically needed when adding an item in the feature. 
-	 * @param itemBB the bounding box to "add". null means empty. 
-	 */
-	public void updateBoundingBoxWith(BoundingBoxE6 itemBB){
-		if (itemBB != null){
-			if (mBB == null){
-				mBB = BonusPackHelper.cloneBoundingBoxE6(itemBB);
-			} else {
-				mBB = BonusPackHelper.concatBoundingBoxE6(itemBB, mBB);
-			}
-		}
-	}
-
 	/**
 	 * @param name
 	 * @return the value associated to this name, or null if none. 
@@ -241,8 +227,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 			kmlFeature.mExtendedData = new HashMap<String,String>(mExtendedData.size());
 			kmlFeature.mExtendedData.putAll(mExtendedData);
 		}
-		if (mBB != null)
-			kmlFeature.mBB = BonusPackHelper.cloneBoundingBoxE6(mBB);
 		return kmlFeature;
 	}
 
@@ -260,7 +244,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		out.writeInt(mOpen?1:0);
 		out.writeString(mStyle);
 		//TODO: mExtendedData
-		out.writeParcelable(mBB, flags);
 	}
 	
 	public KmlFeature(Parcel in){
@@ -271,7 +254,6 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		mOpen = (in.readInt()==1);
 		mStyle = in.readString();
 		//TODO: mExtendedData
-		mBB = in.readParcelable(BoundingBoxE6.class.getClassLoader());
 	}
 
 }

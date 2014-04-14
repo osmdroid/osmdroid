@@ -182,8 +182,8 @@ class GoogleDirectionsHandler extends DefaultHandler {
 		} else if (localName.equals("html_instructions")) {
 			if (isStep){
 				String value = mStringBuilder.toString();
-				value = value.replaceAll("<[^>]*>", " "); //remove everything in <...>
-				value = value.replaceAll("&nbsp;", " ");
+				//value = value.replaceAll("<[^>]*>", " "); //remove everything in <...>
+				//value = value.replaceAll("&nbsp;", " ");
 				mNode.mInstructions = value;
 				//Log.d(BonusPackHelper.LOG_TAG, mString);
 			}

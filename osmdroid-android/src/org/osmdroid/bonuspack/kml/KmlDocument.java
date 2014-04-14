@@ -489,7 +489,6 @@ public class KmlDocument implements Parcelable {
 				if (mKmlGeometryStack.size() == 1){
 					//no MultiGeometry parent: add this Geometry in the current Feature:
 					((KmlPlacemark)mKmlCurrentFeature).mGeometry = mKmlCurrentGeometry;
-					mKmlCurrentFeature.mBB = mKmlCurrentGeometry.getBoundingBox();
 					mKmlGeometryStack.remove(mKmlGeometryStack.size()-1); //pop current from stack
 					mKmlCurrentGeometry = null;
 				} else {
