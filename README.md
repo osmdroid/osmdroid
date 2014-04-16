@@ -20,7 +20,7 @@ The preferred method is by using Maven. See [HowToMaven](https://github.com/osmd
 
 First check the [FAQ](https://code.google.com/p/osmdroid/wiki/FAQ) page for answers.
 
-Then check the [Changelog](https://code.google.com/p/osmdroid/wiki/Changelog) page to see if this issue is fixed in a newer or upcoming version of osmdroid.
+Then check the [Changelog](https://github.com/osmdroid/osmdroid/wiki/Changelog) page to see if this issue is fixed in a newer or upcoming version of osmdroid.
 
 If think you have a legitimate bug to report then go to the [Issues](https://code.google.com/p/osmdroid/issues/list) page. If your issue already exists then contribute any additional information you may have that will help us track down the source of the issue. If your issue does not exist then create a new issue report. Include what version of osmdroid you are using, what version of Android you are using, a detailed description of the problem and any relevant code. It is particularly helpful if you can reproduce the problem using our [OpenStreetMapViewer](https://code.google.com/p/osmdroid/source/browse/#svn/trunk/OpenStreetMapViewer) sample project as your starting point.
 
