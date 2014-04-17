@@ -107,6 +107,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mMapController = mapView.getController();
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
+		mPaint.setFilterBitmap(true);
 
 		mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
 		mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
