@@ -562,14 +562,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mScrollableAreaBoundingBox;
 	}
 
-	// ===========================================================
-	// Methods from SuperClass/Interfaces
-	// ===========================================================
 	public void invalidateMapCoordinates(Rect dirty) {
-		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom);
+		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
 	}
 
 	public void invalidateMapCoordinates(int left, int top, int right, int bottom) {
+		invalidateMapCoordinates(left, top, right, bottom, false);
+	}
+
+	public void postInvalidateMapCoordinates(int left, int top, int right, int bottom) {
+		invalidateMapCoordinates(left, top, right, bottom, true);
+	}
+
+	private void invalidateMapCoordinates(int left, int top, int right, int bottom, boolean post) {
 		mInvalidateRect.set(left, top, right, bottom);
 		mInvalidateRect.offset(getScrollX(), getScrollY());
 
@@ -580,7 +585,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			GeometryMath.getBoundingBoxForRotatatedRectangle(mInvalidateRect, centerX, centerY,
 					this.getMapOrientation() + 180, mInvalidateRect);
 
-		super.invalidate(mInvalidateRect);
+		if (post)
+			super.postInvalidate(mInvalidateRect.left, mInvalidateRect.top, mInvalidateRect.right,
+					mInvalidateRect.bottom);
+		else
+			super.invalidate(mInvalidateRect);
 	}
 
 	/**

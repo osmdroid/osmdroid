@@ -116,7 +116,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 				+ (int) FloatMath.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
 
 		// Expand by 2 to cover stroke width
-		mMapView.invalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
+		mMapView.postInvalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
 				frameBottom + 2);
     }
 
