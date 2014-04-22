@@ -10,7 +10,13 @@ Before you add osmdroid to your project make sure you check the [Prerequisites](
 
 ##I want to use osmdroid in my project
 
-You can include osmdroid using Maven or by adding a jar file to your project. See [HowToIncludeInYourProject](https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject).
+You can include osmdroid using Maven or by adding a jar file to your project. See [HowToIncludeInYourProject](https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject). If you use Gradle you can add the following dependency to your `build.gradle` file:
+
+```groovy
+dependencies {
+    compile 'org.osmdroid:osmdroid-android:4.1'
+}
+```
 
 ##I want to compile the source
 
