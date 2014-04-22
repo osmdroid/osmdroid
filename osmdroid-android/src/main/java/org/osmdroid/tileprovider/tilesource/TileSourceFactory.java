@@ -78,11 +78,11 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase BASE = new XYTileSource("Base",
 			ResourceProxy.string.base, 4, 17, 256, ".png",
-			new String[] { "http://topo.openstreetmap.de/base/" });
+			new String[] { "http://www.wanderreitkarte.de/base/" });
 
 	public static final OnlineTileSourceBase TOPO = new XYTileSource("Topo",
 			ResourceProxy.string.topo, 4, 17, 256, ".png",
-			new String[] { "http://topo.openstreetmap.de/topo/" });
+			new String[] { "http://www.wanderreitkarte.de/topo/" });
 
 	public static final OnlineTileSourceBase HILLS = new XYTileSource("Hills",
 			ResourceProxy.string.hills, 8, 17, 256, ".png",
