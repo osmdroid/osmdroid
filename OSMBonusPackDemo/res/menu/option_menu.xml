@@ -24,7 +24,10 @@
                 <item
                     android:id="@+id/menu_tile_mapbox_satellite"
                     android:title="MapBox Satellite"/>
-            </group>
+                <item
+                    android:id="@+id/menu_tile_mapsforge"
+                    android:title="MapsForge"/>
+			</group>
         </menu>
     </item>
     <item

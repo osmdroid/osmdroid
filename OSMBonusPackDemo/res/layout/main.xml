@@ -103,7 +103,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
-		<org.osmdroid.views.MapView android:id="@+id/map"
+		<org.osmdroid.bonuspack.mapsforge.GenericMapView android:id="@+id/map"
 	        android:layout_width="fill_parent" 
 	        android:layout_height="fill_parent" />
         <Button

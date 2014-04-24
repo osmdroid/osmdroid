@@ -39,16 +39,20 @@ import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
 import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.bonuspack.mapsforge.GenericMapView;
+import org.osmdroid.bonuspack.mapsforge.MapsForgeTileProvider;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -71,6 +75,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -147,7 +152,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
 		
-		map = (MapView) findViewById(R.id.map);
+		//map = (MapView) findViewById(R.id.map);
+		GenericMapView genericMap = (GenericMapView) findViewById(R.id.map);
+		MapTileProviderBasic bitmapProvider = new MapTileProviderBasic(getApplicationContext());
+		genericMap.setTileProvider(bitmapProvider);
+		map = genericMap.getMapView();
 		
 		String tileProviderName = prefs.getString("TILE_PROVIDER", "Mapnik");
 		try {
@@ -336,12 +345,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		SharedPreferences.Editor ed = prefs.edit();
 		ed.putInt("MAP_ZOOM_LEVEL", map.getZoomLevel());
 		GeoPoint c = (GeoPoint) map.getMapCenter();
-		ed.putFloat("MAP_CENTER_LAT", c.getLatitudeE6()*1E-6f);
-		ed.putFloat("MAP_CENTER_LON", c.getLongitudeE6()*1E-6f);
-		MapTileProviderBase tileProvider = map.getTileProvider();
-		String tileProviderName = tileProvider.getTileSource().name();
+		ed.putFloat("MAP_CENTER_LAT", (float)c.getLatitude());
+		ed.putFloat("MAP_CENTER_LON", (float)c.getLongitude());
 		View searchPanel = (View)findViewById(R.id.search_panel);
 		ed.putInt("PANEL_VISIBILITY", searchPanel.getVisibility());
+		MapTileProviderBase tileProvider = map.getTileProvider();
+		String tileProviderName = tileProvider.getTileSource().name();
 		ed.putString("TILE_PROVIDER", tileProviderName);
 		ed.putInt("ROUTE_PROVIDER", whichRouteProvider);
 		ed.commit();
@@ -451,10 +460,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
      */
     public String getAddress(GeoPoint p){
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
+    	//GisgraphyGeocoder geocoder = new GisgraphyGeocoder(this);
 		String theAddress;
 		try {
-			double dLatitude = p.getLatitudeE6() * 1E-6;
-			double dLongitude = p.getLongitudeE6() * 1E-6;
+			double dLatitude = p.getLatitude();
+			double dLongitude = p.getLongitude();
 			List<Address> addresses = geocoder.getFromLocation(dLatitude, dLongitude, 1);
 			StringBuilder sb = new StringBuilder(); 
 			if (addresses.size() > 0) {
@@ -500,6 +510,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
+    	//GeocoderGisgraphy geocoder = new GeocoderGisgraphy(this);
 		try {
 			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1);
 			if (foundAdresses.size() == 0) { //if no address found, display an error
@@ -1026,13 +1037,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (!ok)
 				Toast.makeText(getApplicationContext(), "Sorry, unable to read "+mUri, Toast.LENGTH_SHORT).show();
 			updateUIWithKml();
-			if (mKmlDocument.mKmlRoot != null && mKmlDocument.mKmlRoot.mBB != null){
+			if (ok){
+				BoundingBoxE6 bb = mKmlDocument.mKmlRoot.getBoundingBox();
+				if (bb !=  null){
 					if (!mOnCreate)
-						setViewOn(mKmlDocument.mKmlRoot.mBB); 
+						setViewOn(bb);
 					else  //KO in onCreate - Workaround:
 						map.getController().setCenter(new GeoPoint(
-								mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
-								mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
+								bb.getLatSouthE6()+bb.getLatitudeSpanE6()/2, 
+								bb.getLonWestE6()+bb.getLongitudeSpanE6()/2));
+				}
 			}
 		}
 	}
@@ -1066,18 +1080,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void updateUIWithKml(){
 		if (mKmlOverlay != null)
 			map.getOverlays().remove(mKmlOverlay);
-		if (mKmlDocument.mKmlRoot != null){
-			mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), null, mKmlDocument);
-			map.getOverlays().add(mKmlOverlay);
-		}
+		mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), null, mKmlDocument);
+		map.getOverlays().add(mKmlOverlay);
 		map.invalidate();
 	}
 	
 	void insertOverlaysInKml(){
-		//Ensure the root exist:
-		if (mKmlDocument.mKmlRoot == null){
-			mKmlDocument.mKmlRoot = new KmlFolder();
-		}
 		KmlFolder root = mKmlDocument.mKmlRoot;
 		//Insert relevant overlays inside:
 		if (itineraryMarkers.getItems().size()>0)
@@ -1091,10 +1099,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void addKmlPoint(GeoPoint position){
-		//Ensure the root exist:
-		if (mKmlDocument.mKmlRoot == null){
-			mKmlDocument.mKmlRoot = new KmlFolder();
-		}
 		KmlFeature kmlPoint = new KmlPlacemark(position);
 		mKmlDocument.mKmlRoot.add(kmlPoint);
 		updateUIWithKml();
@@ -1212,6 +1216,36 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		return -1;
 	}
 	
+	void setStdTileProvider(){
+		if (!(map.getTileProvider() instanceof MapTileProviderBasic)){
+			GenericMapView genericMap = (GenericMapView) findViewById(R.id.map);
+			MapTileProviderBasic bitmapProvider = new MapTileProviderBasic(this);
+			genericMap.setTileProvider(bitmapProvider);
+			map = genericMap.getMapView();
+		}
+	}
+	
+	boolean setMapsForgeTileProvider(){
+		String path = Environment.getExternalStorageDirectory().getPath()+"/mapsforge/";
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+		if (listOfFiles == null)
+			return false;
+		File mapFile = null;
+		for (File file:listOfFiles){
+			if (file.isFile() && file.getName().endsWith(".map")){
+				mapFile = file;
+			}
+		}
+		if (mapFile == null)
+			return false;
+		MapsForgeTileProvider mfProvider = new MapsForgeTileProvider(new SimpleRegisterReceiver(this), mapFile);
+		GenericMapView genericMap = (GenericMapView) findViewById(R.id.map);
+		genericMap.setTileProvider(mfProvider);
+		map = genericMap.getMapView();
+		return true;
+	}
+	
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		Intent myIntent;
 		switch (item.getItemId()) {
@@ -1237,8 +1271,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithKml();
 			return true;
 		case R.id.menu_kml_tree:
-			if (mKmlDocument.mKmlRoot==null)
-				return false;
 			myIntent = new Intent(this, KmlTreeActivity.class);
 			//myIntent.putExtra("KML", mKmlDocument.kmlRoot);
 			mKmlStack.push(mKmlDocument.mKmlRoot.clone());
@@ -1277,16 +1309,26 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			getRoadAsync();
 			return true;
 		case R.id.menu_tile_mapnik:
+			setStdTileProvider();
 			map.setTileSource(TileSourceFactory.MAPNIK);
 			item.setChecked(true);
 			return true;
 		case R.id.menu_tile_mapquest_osm:
+			setStdTileProvider();
 			map.setTileSource(TileSourceFactory.MAPQUESTOSM);
 			item.setChecked(true);
 			return true;
 		case R.id.menu_tile_mapbox_satellite:
+			setStdTileProvider();
 			map.setTileSource(MAPBOXSATELLITELABELLED);
 			item.setChecked(true);
+			return true;
+		case R.id.menu_tile_mapsforge:
+			boolean result = setMapsForgeTileProvider();
+			if (result)
+				item.setChecked(true);
+			else 
+				Toast.makeText(this, "No MapsForge map found", Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
