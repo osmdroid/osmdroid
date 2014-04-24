@@ -32,18 +32,14 @@ public class GeocoderNominatim {
 	protected String mServiceUrl;
 	protected boolean mPolygon;
 	
-	protected void init(Context context, Locale locale){
+	public GeocoderNominatim(Context context, Locale locale){
 		mLocale = locale;
 		setOptions(false);
 		setService(NOMINATIM_SERVICE_URL); //default service
 	}
 	
-	public GeocoderNominatim(Context context, Locale locale){
-		init(context, locale);
-	}
-	
 	public GeocoderNominatim(Context context){
-		init(context, Locale.getDefault());
+		this(context, Locale.getDefault());
 	}
 
 	static public boolean isPresent(){
@@ -179,7 +175,7 @@ public class GeocoderNominatim {
 		try {
 			JSONObject jResult = new JSONObject(result);
 			Address gAddress = buildAndroidAddress(jResult);
-			List<Address> list = new ArrayList<Address>();
+			List<Address> list = new ArrayList<Address>(1);
 			list.add(gAddress);
 			return list;
 		} catch (JSONException e) {
@@ -220,7 +216,7 @@ public class GeocoderNominatim {
 			throw new IOException();
 		try {
 			JSONArray jResults = new JSONArray(result);
-			List<Address> list = new ArrayList<Address>();
+			List<Address> list = new ArrayList<Address>(jResults.length());
 			for (int i=0; i<jResults.length(); i++){
 				JSONObject jResult = jResults.getJSONObject(i);
 				Address gAddress = buildAndroidAddress(jResult);

@@ -234,14 +234,15 @@ public class KmlDocument implements Parcelable {
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
+		boolean ok;
 		if (stream == null){
-			mKmlRoot = null;
+			ok = false;
 		} else {
-			parseStream(stream, url, null);
+			ok = parseStream(stream, url, null);
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
-		return (mKmlRoot != null);
+		return ok;
 	}
 
 	/**
@@ -271,16 +272,17 @@ public class KmlDocument implements Parcelable {
 	public boolean parseKMLFile(File file){
 		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseKMLFile:"+file.getAbsolutePath());
 		InputStream stream = null;
+		boolean ok;
 		try {
 			stream = new BufferedInputStream(new FileInputStream(file));
-			parseStream(stream, file.getAbsolutePath(), null);
+			ok = parseStream(stream, file.getAbsolutePath(), null);
 			stream.close();
 		} catch (Exception e){
 			e.printStackTrace();
-			mKmlRoot = null;
+			ok = false;
 		}
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseFile - end");
-		return (mKmlRoot != null);
+		return ok;
 	}
 	
 	/** 
@@ -330,15 +332,17 @@ public class KmlDocument implements Parcelable {
 	 */
 	public boolean parseStream(InputStream stream, String fullFilePath, ZipFile kmzContainer){
 		KmlSaxHandler handler = new KmlSaxHandler(fullFilePath, kmzContainer);
+		boolean ok;
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(stream, handler);
 			mKmlRoot = handler.mKmlRoot;
+			ok = true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			mKmlRoot = null;
+			ok = false;
 		}
-		return (mKmlRoot != null);
+		return ok;
 	}
 	
 	// KmlSaxHandler -------------
@@ -375,23 +379,24 @@ public class KmlDocument implements Parcelable {
 		
 		protected void loadNetworkLink(String href, ZipFile kmzContainer){
 			KmlDocument subDocument = new KmlDocument();
+			boolean ok;
 			if (href.startsWith("http://") || href.startsWith("https://") )
-				subDocument.parseUrl(href);
+				ok = subDocument.parseUrl(href);
 			else if (kmzContainer == null){
 				File file = new File(mFullPath);
 				File subFile = new File(file.getParent()+'/'+href);
-				subDocument.parseKMLFile(subFile);
+				ok = subDocument.parseKMLFile(subFile);
 			} else {
 				try {
 					final ZipEntry fileEntry = kmzContainer.getEntry(href);
 					InputStream stream = kmzContainer.getInputStream(fileEntry);
 					Log.d(BonusPackHelper.LOG_TAG, "Load NetworkLink:"+href);
-					subDocument.parseStream(stream, mFullPath, kmzContainer);
+					ok = subDocument.parseStream(stream, mFullPath, kmzContainer);
 				} catch (Exception e) {
-					subDocument.mKmlRoot = null;
+					ok = false;
 				}
 			}
-			if (subDocument.mKmlRoot != null){
+			if (ok){
 				//add subDoc root to the current feature, which is -normally- the NetworkLink:
 				((KmlFolder)mKmlCurrentFeature).add(subDocument.mKmlRoot);
 				//add all subDocument styles to mStyles:

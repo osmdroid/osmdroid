@@ -10,6 +10,7 @@
 			<attribute name="javadoc_location" value="file:/D:/documents/S235698/My Documents/Projets/CoMob/OSMBonusPack/osmdroid/osmdroid-android-4.1-javadoc/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/mapsforge-map-0.3.1-SNAPSHOT-jar-with-dependencies.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
