@@ -8,7 +8,7 @@ public interface ResourceProxy {
 	public static enum string {
 
 		// tile sources
-		mapnik, cyclemap, public_transport, base, topo, hills, cloudmade_small, cloudmade_standard, mapquest_osm, mapquest_aerial, bing, mapbox,
+		mapnik, cyclemap, public_transport, cloudmade_small, cloudmade_standard, mapquest_osm, mapquest_aerial, bing, mapbox,
 
 		// overlays
 		fiets_nl, base_nl, roads_nl,
@@ -37,10 +37,6 @@ public interface ResourceProxy {
 
 	/**
 	 * Use a string resource as a format definition, and format using the supplied format arguments.
-	 *
-	 * @param pResId
-	 * @param formatArgs
-	 * @return
 	 */
 	String getString(string pResId, Object... formatArgs);
 
@@ -48,9 +44,6 @@ public interface ResourceProxy {
 
 	/**
 	 * Get a bitmap as a {@link Drawable}
-	 *
-	 * @param pResId
-	 * @return
 	 */
 	Drawable getDrawable(bitmap pResId);
 

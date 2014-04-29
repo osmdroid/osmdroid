@@ -76,18 +76,6 @@ public class TileSourceFactory {
 			"OSMPublicTransport", ResourceProxy.string.public_transport, 0, 17, 256, ".png",
 			new String[] { "http://openptmap.org/tiles/" });
 
-	public static final OnlineTileSourceBase BASE = new XYTileSource("Base",
-			ResourceProxy.string.base, 4, 17, 256, ".png",
-			new String[] { "http://www.wanderreitkarte.de/base/" });
-
-	public static final OnlineTileSourceBase TOPO = new XYTileSource("Topo",
-			ResourceProxy.string.topo, 4, 17, 256, ".png",
-			new String[] { "http://www.wanderreitkarte.de/topo/" });
-
-	public static final OnlineTileSourceBase HILLS = new XYTileSource("Hills",
-			ResourceProxy.string.hills, 8, 17, 256, ".png",
-			new String[] { "http://topo.geofabrik.de/hills/" });
-
 	public static final OnlineTileSourceBase MAPQUESTOSM = new XYTileSource("MapquestOSM",
 			ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png", new String[] {
 					"http://otile1.mqcdn.com/tiles/1.0.0/map/",
@@ -141,9 +129,6 @@ public class TileSourceFactory {
 		mTileSources.add(MAPNIK);
 		mTileSources.add(CYCLEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);
-		mTileSources.add(BASE);
-		mTileSources.add(TOPO);
-		mTileSources.add(HILLS);
 		mTileSources.add(MAPQUESTOSM);
 		mTileSources.add(MAPQUESTAERIAL);
 	}
