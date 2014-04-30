@@ -40,6 +40,7 @@ public class InternalCompassOrientationProvider implements SensorEventListener, 
     @Override
     public void stopOrientationProvider()
     {
+		mOrientationConsumer = null;
         mSensorManager.unregisterListener(this);
     }
 

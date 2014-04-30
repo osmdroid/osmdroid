@@ -159,7 +159,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			throw new RuntimeException(
 					"You must pass an IMyLocationProvider to setMyLocationProvider()");
 
-		if (mMyLocationProvider != null)
+		if (isMyLocationEnabled())
 			mMyLocationProvider.stopLocationProvider();
 
 		mMyLocationProvider = myLocationProvider;
@@ -476,21 +476,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	public boolean enableMyLocation(IMyLocationProvider myLocationProvider) {
-		this.setMyLocationProvider(myLocationProvider);
-		mIsLocationEnabled = false;
-		return enableMyLocation();
-	}
-
-	/**
-	 * Enable receiving location updates from the provided IMyLocationProvider and show your
-	 * location on the maps. You will likely want to call enableMyLocation() from your Activity's
-	 * Activity.onResume() method, to enable the features of this overlay. Remember to call the
-	 * corresponding disableMyLocation() in your Activity's Activity.onPause() method to turn off
-	 * updates when in the background.
-	 */
-	public boolean enableMyLocation() {
-		if (mIsLocationEnabled)
-			mMyLocationProvider.stopLocationProvider();
+		// Set the location provider. This will call stopLocationProvider().
+		setMyLocationProvider(myLocationProvider);
 
 		boolean success = mMyLocationProvider.startLocationProvider(this);
 		mIsLocationEnabled = success;
@@ -509,6 +496,17 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 
 		return success;
+	}
+
+	/**
+	 * Enable receiving location updates from the provided IMyLocationProvider and show your
+	 * location on the maps. You will likely want to call enableMyLocation() from your Activity's
+	 * Activity.onResume() method, to enable the features of this overlay. Remember to call the
+	 * corresponding disableMyLocation() in your Activity's Activity.onPause() method to turn off
+	 * updates when in the background.
+	 */
+	public boolean enableMyLocation() {
+		return enableMyLocation(mMyLocationProvider);
 	}
 
 	/**

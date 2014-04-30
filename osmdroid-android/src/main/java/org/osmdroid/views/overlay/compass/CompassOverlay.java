@@ -141,7 +141,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 			throw new RuntimeException(
 					"You must pass an IOrientationProvider to setOrientationProvider()");
 
-        if (mOrientationProvider != null)
+		if (isCompassEnabled())
             mOrientationProvider.stopOrientationProvider();
 
         mOrientationProvider = orientationProvider;
@@ -250,11 +250,19 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
         this.invalidateCompass();
     }
 
-	public boolean enableCompass(IOrientationProvider orientationProvider)
-	{
-		this.setOrientationProvider(orientationProvider);
-		mIsCompassEnabled = false;
-		return enableCompass();
+	public boolean enableCompass(IOrientationProvider orientationProvider) {
+		// Set the orientation provider. This will call stopOrientationProvider().
+		setOrientationProvider(orientationProvider);
+
+		boolean success = mOrientationProvider.startOrientationProvider(this);
+		mIsCompassEnabled = success;
+
+		// Update the screen to see changes take effect
+		if (mMapView != null) {
+			this.invalidateCompass();
+		}
+
+		return success;
 	}
 
     /**
@@ -265,20 +273,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
      */
     public boolean enableCompass()
     {
-        boolean result = true;
-
-		if (mIsCompassEnabled)
-			mOrientationProvider.stopOrientationProvider();
-
-        result = mOrientationProvider.startOrientationProvider(this);
-        mIsCompassEnabled = result;
-
-        // Update the screen to see changes take effect
-        if (mMapView != null) {
-            this.invalidateCompass();
-        }
-
-        return result;
+		return enableCompass(mOrientationProvider);
     }
 
     /**
