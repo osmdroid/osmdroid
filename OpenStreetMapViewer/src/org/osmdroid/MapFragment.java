@@ -64,6 +64,11 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
     private RotationGestureOverlay mRotationGestureOverlay;
     private ResourceProxy mResourceProxy;
 
+	public static MapFragment newInstance() {
+		MapFragment fragment = new MapFragment();
+		return fragment;
+	}
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

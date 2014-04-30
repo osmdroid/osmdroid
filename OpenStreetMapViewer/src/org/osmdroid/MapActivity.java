@@ -18,6 +18,7 @@ public class MapActivity extends FragmentActivity
 {
 
     private static final int DIALOG_ABOUT_ID = 1;
+	private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
 
     // ===========================================================
     // Constructors
@@ -30,13 +31,12 @@ public class MapActivity extends FragmentActivity
 
         this.setContentView(R.layout.main);
 
-        // FrameLayout mapContainer = (FrameLayout) findViewById(R.id.map_container);
-        // RelativeLayout parentContainer = (RelativeLayout) findViewById(R.id.parent_container);
         FragmentManager fm = this.getSupportFragmentManager();
 
-        MapFragment mapFragment = new MapFragment();
-
-        fm.beginTransaction().add(R.id.map_container, mapFragment).commit();
+		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
+			MapFragment mapFragment = MapFragment.newInstance();
+			fm.beginTransaction().add(R.id.map_container, mapFragment, MAP_FRAGMENT_TAG).commit();
+		}
     }
 
     @Override
