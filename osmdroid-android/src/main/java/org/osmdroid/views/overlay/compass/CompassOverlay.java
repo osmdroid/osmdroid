@@ -32,62 +32,60 @@ import android.view.WindowManager;
  * @author Manuel Stahl
  * 
  */
-public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer
-{
+public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer {
 	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
-    protected final MapView mMapView;
-    private final Display mDisplay;
+	protected final MapView mMapView;
+	private final Display mDisplay;
 
-    public IOrientationProvider mOrientationProvider;
+	public IOrientationProvider mOrientationProvider;
 
 	protected final Paint mPaint = new Paint();
 	protected Bitmap mCompassFrameBitmap;
 	protected Bitmap mCompassRoseBitmap;
-    private final Matrix mCompassMatrix = new Matrix();
-    private boolean mIsCompassEnabled;
+	private final Matrix mCompassMatrix = new Matrix();
+	private boolean mIsCompassEnabled;
 
-    /**
-     * The bearing, in degrees east of north, or NaN if none has been set.
-     */
-    private float mAzimuth = Float.NaN;
+	/**
+	 * The bearing, in degrees east of north, or NaN if none has been set.
+	 */
+	private float mAzimuth = Float.NaN;
 
-    private float mCompassCenterX = 35.0f;
-    private float mCompassCenterY = 35.0f;
-    private final float mCompassRadius = 20.0f;
+	private float mCompassCenterX = 35.0f;
+	private float mCompassCenterY = 35.0f;
+	private final float mCompassRadius = 20.0f;
 
-    protected final float mCompassFrameCenterX;
-    protected final float mCompassFrameCenterY;
-    protected final float mCompassRoseCenterX;
-    protected final float mCompassRoseCenterY;
+	protected final float mCompassFrameCenterX;
+	protected final float mCompassFrameCenterY;
+	protected final float mCompassRoseCenterX;
+	protected final float mCompassRoseCenterY;
 
-    public static final int MENU_COMPASS = getSafeMenuId();
+	public static final int MENU_COMPASS = getSafeMenuId();
 
-    private boolean mOptionsMenuEnabled = true;
+	private boolean mOptionsMenuEnabled = true;
 
-    // ===========================================================
-    // Constructors
-    // ===========================================================
+	// ===========================================================
+	// Constructors
+	// ===========================================================
 
 	public CompassOverlay(Context context, MapView mapView) {
 		this(context, new InternalCompassOrientationProvider(context), mapView);
 	}
 
-	public CompassOverlay(Context context, IOrientationProvider orientationProvider, MapView mapView)
-    {
-        this(context, orientationProvider, mapView, new DefaultResourceProxyImpl(context));
-    }
+	public CompassOverlay(Context context, IOrientationProvider orientationProvider, MapView mapView) {
+		this(context, orientationProvider, mapView, new DefaultResourceProxyImpl(context));
+	}
 
 	public CompassOverlay(Context context, IOrientationProvider orientationProvider,
-			MapView mapView, ResourceProxy pResourceProxy)
-    {
-        super(pResourceProxy);
+			MapView mapView, ResourceProxy pResourceProxy) {
+		super(pResourceProxy);
 
-        mMapView = mapView;
-        final WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        mDisplay = windowManager.getDefaultDisplay();
+		mMapView = mapView;
+		final WindowManager windowManager = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+		mDisplay = windowManager.getDefaultDisplay();
 
-        createCompassFramePicture();
-        createCompassRosePicture();
+		createCompassFramePicture();
+		createCompassRosePicture();
 
 		mCompassFrameCenterX = mCompassFrameBitmap.getWidth() / 2 - 0.5f;
 		mCompassFrameCenterY = mCompassFrameBitmap.getHeight() / 2 - 0.5f;
@@ -95,16 +93,15 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		mCompassRoseCenterY = mCompassRoseBitmap.getHeight() / 2 - 0.5f;
 
 		setOrientationProvider(orientationProvider);
-    }
+	}
 
-    @Override
-    public void onDetach(MapView mapView) {
-        this.disableCompass();
-        super.onDetach(mapView);
-    }
+	@Override
+	public void onDetach(MapView mapView) {
+		this.disableCompass();
+		super.onDetach(mapView);
+	}
 
-    private void invalidateCompass()
-    {
+	private void invalidateCompass() {
 		Rect screenRect = mMapView.getProjection().getScreenRect();
 		final int frameLeft = screenRect.left
 				+ (int) FloatMath.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
@@ -118,34 +115,31 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		// Expand by 2 to cover stroke width
 		mMapView.postInvalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
 				frameBottom + 2);
-    }
+	}
 
-    // ===========================================================
-    // Getter & Setter
-    // ===========================================================
+	// ===========================================================
+	// Getter & Setter
+	// ===========================================================
 
-    public void setCompassCenter(final float x, final float y)
-    {
-        mCompassCenterX = x;
-        mCompassCenterY = y;
-    }
+	public void setCompassCenter(final float x, final float y) {
+		mCompassCenterX = x;
+		mCompassCenterY = y;
+	}
 
-    public IOrientationProvider getOrientationProvider()
-    {
-        return mOrientationProvider;
-    }
+	public IOrientationProvider getOrientationProvider() {
+		return mOrientationProvider;
+	}
 
-    protected void setOrientationProvider(IOrientationProvider orientationProvider)
-    {
+	protected void setOrientationProvider(IOrientationProvider orientationProvider) {
 		if (orientationProvider == null)
 			throw new RuntimeException(
 					"You must pass an IOrientationProvider to setOrientationProvider()");
 
 		if (isCompassEnabled())
-            mOrientationProvider.stopOrientationProvider();
+			mOrientationProvider.stopOrientationProvider();
 
-        mOrientationProvider = orientationProvider;
-    }
+		mOrientationProvider = orientationProvider;
+	}
 
 	protected void drawCompass(final Canvas canvas, final float bearing, final Rect screenRect) {
 		final Projection proj = mMapView.getProjection();
@@ -172,42 +166,39 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		canvas.restore();
 	}
 
-    // ===========================================================
-    // Methods from SuperClass/Interfaces
-    // ===========================================================
+	// ===========================================================
+	// Methods from SuperClass/Interfaces
+	// ===========================================================
 
 	@Override
 	protected void draw(Canvas c, MapView mapView, boolean shadow) {
-        if (shadow) {
-            return;
-        }
+		if (shadow) {
+			return;
+		}
 
-        if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
+		if (isCompassEnabled() && !Float.isNaN(mAzimuth)) {
 			drawCompass(c, mAzimuth + getDisplayOrientation(), mapView.getProjection()
 					.getScreenRect());
-        }
-    }
+		}
+	}
 
-    // ===========================================================
-    // Menu handling methods
-    // ===========================================================
+	// ===========================================================
+	// Menu handling methods
+	// ===========================================================
 
-    @Override
-    public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled)
-    {
-        this.mOptionsMenuEnabled = pOptionsMenuEnabled;
-    }
+	@Override
+	public void setOptionsMenuEnabled(final boolean pOptionsMenuEnabled) {
+		this.mOptionsMenuEnabled = pOptionsMenuEnabled;
+	}
 
-    @Override
-    public boolean isOptionsMenuEnabled()
-    {
-        return this.mOptionsMenuEnabled;
-    }
+	@Override
+	public boolean isOptionsMenuEnabled() {
+		return this.mOptionsMenuEnabled;
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
-			final MapView pMapView)
-	{
+			final MapView pMapView) {
 		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
 				mResourceProxy.getString(ResourceProxy.string.compass))
 				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass))
@@ -216,39 +207,38 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		return true;
 	}
 
-    @Override
-    public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset, final MapView pMapView)
-    {
+	@Override
+	public boolean onPrepareOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
+			final MapView pMapView) {
 		pMenu.findItem(MENU_COMPASS + pMenuIdOffset).setChecked(this.isCompassEnabled());
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset, final MapView pMapView)
-    {
-        final int menuId = pItem.getItemId() - pMenuIdOffset;
-        if (menuId == MENU_COMPASS) {
-            if (this.isCompassEnabled()) {
-                this.disableCompass();
-            } else {
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem pItem, final int pMenuIdOffset,
+			final MapView pMapView) {
+		final int menuId = pItem.getItemId() - pMenuIdOffset;
+		if (menuId == MENU_COMPASS) {
+			if (this.isCompassEnabled()) {
+				this.disableCompass();
+			} else {
 				this.enableCompass();
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    // ===========================================================
-    // Methods
-    // ===========================================================
+	// ===========================================================
+	// Methods
+	// ===========================================================
 
-    @Override
-    public void onOrientationChanged(float orientation, IOrientationProvider source)
-    {
-        mAzimuth = orientation;
-        this.invalidateCompass();
-    }
+	@Override
+	public void onOrientationChanged(float orientation, IOrientationProvider source) {
+		mAzimuth = orientation;
+		this.invalidateCompass();
+	}
 
 	public boolean enableCompass(IOrientationProvider orientationProvider) {
 		// Set the orientation provider. This will call stopOrientationProvider().
@@ -265,184 +255,176 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		return success;
 	}
 
-    /**
-     * Enable receiving orientation updates from the provided IOrientationProvider and show a compass on the
-     * map. You will likely want to call enableCompass() from your Activity's Activity.onResume() method, to
-     * enable the features of this overlay. Remember to call the corresponding disableCompass() in your
-     * Activity's Activity.onPause() method to turn off updates when in the background.
-     */
-    public boolean enableCompass()
-    {
+	/**
+	 * Enable receiving orientation updates from the provided IOrientationProvider and show a
+	 * compass on the map. You will likely want to call enableCompass() from your Activity's
+	 * Activity.onResume() method, to enable the features of this overlay. Remember to call the
+	 * corresponding disableCompass() in your Activity's Activity.onPause() method to turn off
+	 * updates when in the background.
+	 */
+	public boolean enableCompass() {
 		return enableCompass(mOrientationProvider);
-    }
+	}
 
-    /**
-     * Disable orientation updates
-     */
-    public void disableCompass()
-    {
-        mIsCompassEnabled = false;
+	/**
+	 * Disable orientation updates
+	 */
+	public void disableCompass() {
+		mIsCompassEnabled = false;
 
-        if (mOrientationProvider != null) {
-            mOrientationProvider.stopOrientationProvider();
-        }
+		if (mOrientationProvider != null) {
+			mOrientationProvider.stopOrientationProvider();
+		}
 
-        // Reset values
-        mAzimuth = Float.NaN;
+		// Reset values
+		mAzimuth = Float.NaN;
 
-        // Update the screen to see changes take effect
-        if (mMapView != null) {
-            this.invalidateCompass();
-        }
-    }
+		// Update the screen to see changes take effect
+		if (mMapView != null) {
+			this.invalidateCompass();
+		}
+	}
 
-    /**
-     * If enabled, the map is receiving orientation updates and drawing your location on the map.
-     * 
-     * @return true if enabled, false otherwise
-     */
-    public boolean isCompassEnabled()
-    {
-        return mIsCompassEnabled;
-    }
+	/**
+	 * If enabled, the map is receiving orientation updates and drawing your location on the map.
+	 * 
+	 * @return true if enabled, false otherwise
+	 */
+	public boolean isCompassEnabled() {
+		return mIsCompassEnabled;
+	}
 
-    public float getOrientation()
-    {
-        return mAzimuth;
-    }
+	public float getOrientation() {
+		return mAzimuth;
+	}
 
-    // ===========================================================
-    // Inner and Anonymous Classes
-    // ===========================================================
+	// ===========================================================
+	// Inner and Anonymous Classes
+	// ===========================================================
 
-    private Point calculatePointOnCircle(final float centerX, final float centerY, final float radius,
-            final float degrees)
-    {
-        // for trigonometry, 0 is pointing east, so subtract 90
-        // compass degrees are the wrong way round
-        final double dblRadians = Math.toRadians(-degrees + 90);
+	private Point calculatePointOnCircle(final float centerX, final float centerY,
+			final float radius, final float degrees) {
+		// for trigonometry, 0 is pointing east, so subtract 90
+		// compass degrees are the wrong way round
+		final double dblRadians = Math.toRadians(-degrees + 90);
 
-        final int intX = (int) (radius * Math.cos(dblRadians));
-        final int intY = (int) (radius * Math.sin(dblRadians));
+		final int intX = (int) (radius * Math.cos(dblRadians));
+		final int intY = (int) (radius * Math.sin(dblRadians));
 
-        return new Point((int) centerX + intX, (int) centerY - intY);
-    }
+		return new Point((int) centerX + intX, (int) centerY - intY);
+	}
 
-    private void drawTriangle(final Canvas canvas, final float x, final float y, final float radius,
-            final float degrees, final Paint paint)
-    {
-        canvas.save();
-        final Point point = this.calculatePointOnCircle(x, y, radius, degrees);
-        canvas.rotate(degrees, point.x, point.y);
-        final Path p = new Path();
-        p.moveTo(point.x - 2 * mScale, point.y);
-        p.lineTo(point.x + 2 * mScale, point.y);
-        p.lineTo(point.x, point.y - 5 * mScale);
-        p.close();
-        canvas.drawPath(p, paint);
-        canvas.restore();
-    }
+	private void drawTriangle(final Canvas canvas, final float x, final float y,
+			final float radius, final float degrees, final Paint paint) {
+		canvas.save();
+		final Point point = this.calculatePointOnCircle(x, y, radius, degrees);
+		canvas.rotate(degrees, point.x, point.y);
+		final Path p = new Path();
+		p.moveTo(point.x - 2 * mScale, point.y);
+		p.lineTo(point.x + 2 * mScale, point.y);
+		p.lineTo(point.x, point.y - 5 * mScale);
+		p.close();
+		canvas.drawPath(p, paint);
+		canvas.restore();
+	}
 
-    private int getDisplayOrientation()
-    {
-        switch (mDisplay.getOrientation()) {
-            case Surface.ROTATION_90:
-                return 90;
-            case Surface.ROTATION_180:
-                return 180;
-            case Surface.ROTATION_270:
-                return 270;
-            default:
-                return 0;
-        }
-    }
+	private int getDisplayOrientation() {
+		switch (mDisplay.getOrientation()) {
+		case Surface.ROTATION_90:
+			return 90;
+		case Surface.ROTATION_180:
+			return 180;
+		case Surface.ROTATION_270:
+			return 270;
+		default:
+			return 0;
+		}
+	}
 
-    private void createCompassFramePicture()
-    {
-        // The inside of the compass is white and transparent
-        final Paint innerPaint = new Paint();
-        innerPaint.setColor(Color.WHITE);
-        innerPaint.setAntiAlias(true);
-        innerPaint.setStyle(Style.FILL);
-        innerPaint.setAlpha(200);
+	private void createCompassFramePicture() {
+		// The inside of the compass is white and transparent
+		final Paint innerPaint = new Paint();
+		innerPaint.setColor(Color.WHITE);
+		innerPaint.setAntiAlias(true);
+		innerPaint.setStyle(Style.FILL);
+		innerPaint.setAlpha(200);
 
-        // The outer part (circle and little triangles) is gray and transparent
-        final Paint outerPaint = new Paint();
-        outerPaint.setColor(Color.GRAY);
-        outerPaint.setAntiAlias(true);
-        outerPaint.setStyle(Style.STROKE);
-        outerPaint.setStrokeWidth(2.0f);
-        outerPaint.setAlpha(200);
+		// The outer part (circle and little triangles) is gray and transparent
+		final Paint outerPaint = new Paint();
+		outerPaint.setColor(Color.GRAY);
+		outerPaint.setAntiAlias(true);
+		outerPaint.setStyle(Style.STROKE);
+		outerPaint.setStrokeWidth(2.0f);
+		outerPaint.setAlpha(200);
 
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
-        final int center = picBorderWidthAndHeight / 2;
+		final int center = picBorderWidthAndHeight / 2;
 
 		mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassFrameBitmap);
 
-        // draw compass inner circle and border
-        canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
-        canvas.drawCircle(center, center, mCompassRadius * mScale, outerPaint);
+		// draw compass inner circle and border
+		canvas.drawCircle(center, center, mCompassRadius * mScale, innerPaint);
+		canvas.drawCircle(center, center, mCompassRadius * mScale, outerPaint);
 
-        // Draw little triangles north, south, west and east (don't move)
-        // to make those move use "-bearing + 0" etc. (Note: that would mean to draw the triangles
-        // in the onDraw() method)
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 0, outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
-        drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
-    }
+		// Draw little triangles north, south, west and east (don't move)
+		// to make those move use "-bearing + 0" etc. (Note: that would mean to draw the triangles
+		// in the onDraw() method)
+		drawTriangle(canvas, center, center, mCompassRadius * mScale, 0, outerPaint);
+		drawTriangle(canvas, center, center, mCompassRadius * mScale, 90, outerPaint);
+		drawTriangle(canvas, center, center, mCompassRadius * mScale, 180, outerPaint);
+		drawTriangle(canvas, center, center, mCompassRadius * mScale, 270, outerPaint);
+	}
 
-    private void createCompassRosePicture()
-    {
-        // Paint design of north triangle (it's common to paint north in red color)
-        final Paint northPaint = new Paint();
-        northPaint.setColor(0xFFA00000);
-        northPaint.setAntiAlias(true);
-        northPaint.setStyle(Style.FILL);
-        northPaint.setAlpha(220);
+	private void createCompassRosePicture() {
+		// Paint design of north triangle (it's common to paint north in red color)
+		final Paint northPaint = new Paint();
+		northPaint.setColor(0xFFA00000);
+		northPaint.setAntiAlias(true);
+		northPaint.setStyle(Style.FILL);
+		northPaint.setAlpha(220);
 
-        // Paint design of south triangle (black)
-        final Paint southPaint = new Paint();
-        southPaint.setColor(Color.BLACK);
-        southPaint.setAntiAlias(true);
-        southPaint.setStyle(Style.FILL);
-        southPaint.setAlpha(220);
+		// Paint design of south triangle (black)
+		final Paint southPaint = new Paint();
+		southPaint.setColor(Color.BLACK);
+		southPaint.setAntiAlias(true);
+		southPaint.setStyle(Style.FILL);
+		southPaint.setAlpha(220);
 
-        // Create a little white dot in the middle of the compass rose
-        final Paint centerPaint = new Paint();
-        centerPaint.setColor(Color.WHITE);
-        centerPaint.setAntiAlias(true);
-        centerPaint.setStyle(Style.FILL);
-        centerPaint.setAlpha(220);
+		// Create a little white dot in the middle of the compass rose
+		final Paint centerPaint = new Paint();
+		centerPaint.setColor(Color.WHITE);
+		centerPaint.setAntiAlias(true);
+		centerPaint.setStyle(Style.FILL);
+		centerPaint.setAlpha(220);
 
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
-        final int center = picBorderWidthAndHeight / 2;
+		final int center = picBorderWidthAndHeight / 2;
 
 		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassRoseBitmap);
 
-        // Blue triangle pointing north
-        final Path pathNorth = new Path();
-        pathNorth.moveTo(center, center - (mCompassRadius - 3) * mScale);
-        pathNorth.lineTo(center + 4 * mScale, center);
-        pathNorth.lineTo(center - 4 * mScale, center);
-        pathNorth.lineTo(center, center - (mCompassRadius - 3) * mScale);
-        pathNorth.close();
-        canvas.drawPath(pathNorth, northPaint);
+		// Blue triangle pointing north
+		final Path pathNorth = new Path();
+		pathNorth.moveTo(center, center - (mCompassRadius - 3) * mScale);
+		pathNorth.lineTo(center + 4 * mScale, center);
+		pathNorth.lineTo(center - 4 * mScale, center);
+		pathNorth.lineTo(center, center - (mCompassRadius - 3) * mScale);
+		pathNorth.close();
+		canvas.drawPath(pathNorth, northPaint);
 
-        // Red triangle pointing south
-        final Path pathSouth = new Path();
-        pathSouth.moveTo(center, center + (mCompassRadius - 3) * mScale);
-        pathSouth.lineTo(center + 4 * mScale, center);
-        pathSouth.lineTo(center - 4 * mScale, center);
-        pathSouth.lineTo(center, center + (mCompassRadius - 3) * mScale);
-        pathSouth.close();
-        canvas.drawPath(pathSouth, southPaint);
+		// Red triangle pointing south
+		final Path pathSouth = new Path();
+		pathSouth.moveTo(center, center + (mCompassRadius - 3) * mScale);
+		pathSouth.lineTo(center + 4 * mScale, center);
+		pathSouth.lineTo(center - 4 * mScale, center);
+		pathSouth.lineTo(center, center + (mCompassRadius - 3) * mScale);
+		pathSouth.close();
+		canvas.drawPath(pathSouth, southPaint);
 
-        // Draw a little white dot in the middle
-        canvas.drawCircle(center, center, 2, centerPaint);
-    }
+		// Draw a little white dot in the middle
+		canvas.drawCircle(center, center, 2, centerPaint);
+	}
 }

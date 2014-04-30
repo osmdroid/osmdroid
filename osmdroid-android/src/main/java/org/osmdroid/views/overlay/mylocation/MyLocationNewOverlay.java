@@ -32,10 +32,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 
 /**
- *
+ * 
  * @author Marc Kurtz
  * @author Manuel Stahl
- *
+ * 
  */
 public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 		IOverlayMenuProvider, Snappable {
@@ -133,7 +133,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 *
+	 * 
 	 * @param drawAccuracyEnabled
 	 *            whether the accuracy circle will be enabled
 	 */
@@ -143,7 +143,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	/**
 	 * If enabled, an accuracy circle will be drawn around your current position.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isDrawAccuracyEnabled() {
@@ -216,8 +216,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
 			canvas.drawBitmap(mDirectionArrowBitmap, mMapCoordsTranslated.x
-					- mDirectionArrowCenterX, mMapCoordsTranslated.y
-					- mDirectionArrowCenterY, mPaint);
+					- mDirectionArrowCenterX, mMapCoordsTranslated.y - mDirectionArrowCenterY,
+					mPaint);
 			canvas.restore();
 		} else {
 			canvas.save();
@@ -412,7 +412,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	/**
 	 * If enabled, the map will center on your current location and automatically scroll as you
 	 * move. Scrolling the map in the UI will disable.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isFollowLocationEnabled() {
@@ -447,7 +447,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 
 		mLocation = location;
-		
+
 		// Cache location point
 		mMapView.getProjection().toProjectedPixels((int) (mLocation.getLatitude() * 1E6),
 				(int) (mLocation.getLongitude() * 1E6), mMapCoordsProjected);
@@ -527,7 +527,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	/**
 	 * If enabled, the map is receiving location updates and drawing your location on the map.
-	 *
+	 * 
 	 * @return true if enabled, false otherwise
 	 */
 	public boolean isMyLocationEnabled() {
