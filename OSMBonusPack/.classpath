@@ -11,6 +11,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/mapsforge-map-0.3.1-SNAPSHOT-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

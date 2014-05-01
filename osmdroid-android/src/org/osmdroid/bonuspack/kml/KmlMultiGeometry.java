@@ -3,10 +3,6 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -14,7 +10,9 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -35,21 +33,18 @@ public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelab
 	}
 
 	/** GeoJSON constructor */
-	public KmlMultiGeometry(JSONObject json){
+	public KmlMultiGeometry(JsonObject json){
 		this();
-		String type = json.optString("type");
+		String type = json.get("type").getAsString();
 		if ("GeometryCollection".equals(type)){
-			JSONArray geometries = json.optJSONArray("geometries");
+			JsonArray geometries = json.get("geometries").getAsJsonArray();
 	        if (geometries != null) {
-	            for (int i=0; i<geometries.length(); i++) {
-	                JSONObject geometrieJSON = geometries.optJSONObject(i);
-	                if (geometrieJSON != null) {
-	                    mItems.add(KmlGeometry.parseGeoJSON(geometrieJSON));
-	                }
+	            for (JsonElement geometrieJSON:geometries) {
+	            	mItems.add(parseGeoJSON(geometrieJSON.getAsJsonObject()));
 	            }
 	        }
 		} else if ("MultiPoint".equals(type)){
-			JSONArray coordinates = json.optJSONArray("coordinates");
+			JsonArray coordinates = json.get("coordinates").getAsJsonArray();
 			ArrayList<GeoPoint> positions = parseGeoJSONPositions(coordinates);
 			for (GeoPoint p:positions){
 				KmlPoint kmlPoint = new KmlPoint(p);
@@ -85,19 +80,14 @@ public class KmlMultiGeometry extends KmlGeometry implements Cloneable, Parcelab
 		}
 	}
 
-	@Override public JSONObject asGeoJSON() {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("type", "GeometryCollection");
-			JSONArray geometries = new JSONArray();
-			for (KmlGeometry item:mItems)
-				geometries.put(item.asGeoJSON());
-			json.put("geometries", geometries);
-			return json;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
+	@Override public JsonObject asGeoJSON() {
+		JsonObject json = new JsonObject();
+		json.addProperty("type", "GeometryCollection");
+		JsonArray geometries = new JsonArray();
+		for (KmlGeometry item:mItems)
+			geometries.add(item.asGeoJSON());
+		json.add("geometries", geometries);
+		return json;
 	}
 
 	@Override public BoundingBoxE6 getBoundingBox(){

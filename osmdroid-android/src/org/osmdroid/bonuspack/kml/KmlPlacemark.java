@@ -3,9 +3,8 @@ package org.osmdroid.bonuspack.kml;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Map;
+import java.util.Set;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -13,6 +12,8 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -78,26 +79,29 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	}
 
 	/** GeoJSON constructor */
-	public KmlPlacemark(JSONObject json){
+	public KmlPlacemark(JsonObject json){
 		this();
-		mId = json.optString("id");
-		JSONObject geometry = json.optJSONObject("geometry");
+		if (json.has("id"))
+				mId = json.get("id").getAsString();
+		JsonObject geometry = json.getAsJsonObject("geometry");
 		if (geometry != null) {
 			mGeometry = KmlGeometry.parseGeoJSON(geometry);
         }
-		//Parse properties:
-		JSONObject properties = json.optJSONObject("properties");
-		Iterator<?> keys = properties.keys();
-		while (keys.hasNext()){
-			String key = (String)keys.next();
-			String value = properties.optString(key);
-			if (key!=null && value!=null)
-				setExtendedData(key, value);
-		}
-		//Put "name" property in standard KML format:
-		if (mExtendedData!=null && mExtendedData.containsKey("name")){
-			mName = mExtendedData.get("name");
-			mExtendedData.remove("name");
+		if (json.has("properties")){
+			//Parse properties:
+			JsonObject properties = json.getAsJsonObject("properties");
+			Set<Map.Entry<String,JsonElement>> entrySet = properties.entrySet();
+			for (Map.Entry<String,JsonElement> entry:entrySet){
+				String key = entry.getKey();
+				String value = entry.getValue().getAsString();
+				if (key!=null && value!=null)
+					setExtendedData(key, value);
+			}
+			//Put "name" property in standard KML format:
+			if (mExtendedData!=null && mExtendedData.containsKey("name")){
+				mName = mExtendedData.get("name");
+				mExtendedData.remove("name");
+			}
 		}
 	}
 	
@@ -120,40 +124,35 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 			mGeometry.saveAsKML(writer);
 	}
 	
-	protected JSONObject geoJSONProperties(){
+	protected JsonObject geoJSONProperties(){
 		try {
-			JSONObject json = new JSONObject();
+			JsonObject json = new JsonObject();
 			if (mName != null){
-				json.put("name", mName);
+				json.addProperty("name", mName);
 			}
 			if (mExtendedData != null){
 				for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
 					String name = entry.getKey();
 					String value = entry.getValue();
-					json.put(name, value);
+					json.addProperty(name, value);
 				}
 			}
 			return json;
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
 	/** @return this as a GeoJSON object. */
-	@Override public JSONObject asGeoJSON(boolean isRoot){
-		JSONObject json = new JSONObject();
-		try {
-			json.put("type", "Feature");
-			if (mId != null)
-				json.put("id", mId);
-			json.put("geometry", mGeometry.asGeoJSON());
-			json.put("properties", geoJSONProperties());
-			return json;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
+	@Override public JsonObject asGeoJSON(boolean isRoot){
+		JsonObject json = new JsonObject();
+		json.addProperty("type", "Feature");
+		if (mId != null)
+			json.addProperty("id", mId);
+		json.add("geometry", mGeometry.asGeoJSON());
+		json.add("properties", geoJSONProperties());
+		return json;
 	}
 	
 	//Cloneable implementation ------------------------------------

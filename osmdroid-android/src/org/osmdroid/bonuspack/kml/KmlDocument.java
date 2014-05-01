@@ -16,14 +16,19 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.stream.JsonWriter;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -238,7 +243,7 @@ public class KmlDocument implements Parcelable {
 		if (stream == null){
 			ok = false;
 		} else {
-			ok = parseStream(stream, url, null);
+			ok = parseKMLStream(stream, url, null);
 		}
 		connection.close();
 		//Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl - end");
@@ -275,7 +280,7 @@ public class KmlDocument implements Parcelable {
 		boolean ok;
 		try {
 			stream = new BufferedInputStream(new FileInputStream(file));
-			ok = parseStream(stream, file.getAbsolutePath(), null);
+			ok = parseKMLStream(stream, file.getAbsolutePath(), null);
 			stream.close();
 		} catch (Exception e){
 			e.printStackTrace();
@@ -309,7 +314,7 @@ public class KmlDocument implements Parcelable {
 				InputStream stream = kmzFile.getInputStream(rootEntry);
 				String fullFilePath = file.getAbsolutePath();
 				Log.d(BonusPackHelper.LOG_TAG, "KML root:"+rootFileName);
-				result = parseStream(stream, fullFilePath, kmzFile);
+				result = parseKMLStream(stream, fullFilePath, kmzFile);
 			} else {
 				Log.d(BonusPackHelper.LOG_TAG, "No .kml entry found.");
 				result = false;
@@ -330,7 +335,7 @@ public class KmlDocument implements Parcelable {
 	 * @param kmzContainer KMZ file containing this KML file - or null if not applicable. 
 	 * @return true if OK, false if any error. 
 	 */
-	public boolean parseStream(InputStream stream, String fullFilePath, ZipFile kmzContainer){
+	public boolean parseKMLStream(InputStream stream, String fullFilePath, ZipFile kmzContainer){
 		KmlSaxHandler handler = new KmlSaxHandler(fullFilePath, kmzContainer);
 		boolean ok;
 		try {
@@ -391,7 +396,7 @@ public class KmlDocument implements Parcelable {
 					final ZipEntry fileEntry = kmzContainer.getEntry(href);
 					InputStream stream = kmzContainer.getInputStream(fileEntry);
 					Log.d(BonusPackHelper.LOG_TAG, "Load NetworkLink:"+href);
-					ok = subDocument.parseStream(stream, mFullPath, kmzContainer);
+					ok = subDocument.parseKMLStream(stream, mFullPath, kmzContainer);
 				} catch (Exception e) {
 					ok = false;
 				}
@@ -646,14 +651,14 @@ public class KmlDocument implements Parcelable {
 		}
 	}
 
-	public int mGeoJSONIdentFactor = 0;
-	
 	public boolean saveAsGeoJSON(Writer writer){
-		JSONObject json = mKmlRoot.asGeoJSON(true);
+		JsonObject json = mKmlRoot.asGeoJSON(true);
 		if (json == null)
 			return false;
 		try {
-			writer.write(json.toString(mGeoJSONIdentFactor));
+			Gson gson = new GsonBuilder().create();
+			JsonWriter jsonWriter = new JsonWriter(writer);
+			gson.toJson(json, jsonWriter);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -681,7 +686,7 @@ public class KmlDocument implements Parcelable {
 	}
 	
 	/** Parse a GeoJSON object. */
-	public boolean parseGeoJSON(JSONObject json){
+	public boolean parseGeoJSON(JsonObject json){
 		KmlFeature feature = KmlFeature.parseGeoJSON(json);
 		if (feature instanceof KmlFolder)
 			mKmlRoot = (KmlFolder)feature;
@@ -695,9 +700,10 @@ public class KmlDocument implements Parcelable {
 	/** Parse a GeoJSON String */
 	public boolean parseGeoJSON(String jsonString){
 		try {
-			JSONObject json = new JSONObject(jsonString);
-			return parseGeoJSON(json);
-		} catch (JSONException e) {
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(jsonString);
+			return parseGeoJSON(json.getAsJsonObject());
+		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -705,9 +711,8 @@ public class KmlDocument implements Parcelable {
 	
 	/** Parse a GeoJSON File */
 	public boolean parseGeoJSON(File file){
-		FileInputStream input;
 		try {
-			input = new FileInputStream(file);
+			FileInputStream input = new FileInputStream(file);
 			String s = BonusPackHelper.convertStreamToString(input);
 			input.close();
 			return parseGeoJSON(s);

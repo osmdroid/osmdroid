@@ -3,14 +3,13 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
+import com.google.gson.JsonObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -86,7 +85,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 	public abstract void writeKMLSpecifics(Writer writer);
 
 	/** return this as GeoJSON object */
-	public abstract JSONObject asGeoJSON(boolean isRoot);
+	public abstract JsonObject asGeoJSON(boolean isRoot);
 	
 	//-----------------------------------------------------
 	
@@ -200,10 +199,10 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		}
 	}
 	
-	public static KmlFeature parseGeoJSON(JSONObject json){
+	public static KmlFeature parseGeoJSON(JsonObject json){
 		if (json == null)
 			return null;
-		String type = json.optString("type");
+		String type = json.get("type").getAsString();
 		if ("FeatureCollection".equals(type)){
 			return new KmlFolder(json);
 		} else if ("Feature".equals(type)){

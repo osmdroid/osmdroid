@@ -5,6 +5,7 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.MapView.Projection;
 import org.osmdroid.views.overlay.Overlay;
@@ -227,6 +228,20 @@ public class Polygon extends Overlay {
 			result.add(hole.getPoints());
 		}
 		return result;
+	}
+
+	/**
+	 * Set the points of the Polygon as a circle. 
+	 * @param center center of the circle
+	 * @param radiusInMeters
+	 */
+	public void setPointsAsCircle(GeoPoint center, double radiusInMeters){
+		ArrayList<GeoPoint> circlePoints = new ArrayList<GeoPoint>(360/6);
+		for (int f = 0; f < 360; f += 6){
+			GeoPoint onCircle = center.destinationPoint(radiusInMeters, f);
+			circlePoints.add(onCircle);
+		}
+		setPoints(circlePoints);
 	}
 	
 	public void setTitle(String title){

@@ -7,14 +7,13 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
+import com.google.gson.JsonObject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -156,7 +155,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 		}
 	}
 	
-	@Override public JSONObject asGeoJSON(boolean isRoot) {
+	@Override public JsonObject asGeoJSON(boolean isRoot) {
 		//TODO: GroundOverlay is not supported by GeoJSON. Output enclosing polygon with mColor?
 		return null;
 	}

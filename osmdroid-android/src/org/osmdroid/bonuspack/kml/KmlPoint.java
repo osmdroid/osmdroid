@@ -3,9 +3,6 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
@@ -13,6 +10,8 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -33,11 +32,11 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 	}
 	
 	/** GeoJSON constructor */
-	public KmlPoint(JSONObject json){
+	public KmlPoint(JsonObject json){
 		this();
-		JSONArray coordinates = json.optJSONArray("coordinates");
+		JsonElement coordinates = json.get("coordinates");
 		if (coordinates != null){
-			setPosition(KmlGeometry.parseGeoJSONPosition(coordinates));
+			setPosition(KmlGeometry.parseGeoJSONPosition(coordinates.getAsJsonArray()));
 		}
 	}
 	
@@ -107,16 +106,11 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		}
 	}
 	
-	@Override public JSONObject asGeoJSON(){
-		try {
-			JSONObject json = new JSONObject();
-			json.put("type", "Point");
-			json.put("coordinates", KmlGeometry.geoJSONPosition(mCoordinates.get(0)));
-			return json;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
+	@Override public JsonObject asGeoJSON(){
+		JsonObject json = new JsonObject();
+		json.addProperty("type", "Point");
+		json.add("coordinates", KmlGeometry.geoJSONPosition(mCoordinates.get(0)));
+		return json;
 	}
 
 	@Override public BoundingBoxE6 getBoundingBox(){

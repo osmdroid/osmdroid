@@ -3,9 +3,6 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
@@ -14,6 +11,8 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import android.content.Context;
 import android.graphics.Paint;
 import android.os.Parcel;
@@ -80,16 +79,16 @@ public class KmlPolygon extends KmlGeometry {
 	}
 	
 	/** GeoJSON constructor */
-	public KmlPolygon(JSONObject json){
+	public KmlPolygon(JsonObject json){
 		this();
-		JSONArray rings = json.optJSONArray("coordinates");
+		JsonArray rings = json.get("coordinates").getAsJsonArray();
 		//ring #0 is the polygon border:
-		mCoordinates = KmlGeometry.parseGeoJSONPositions(rings.optJSONArray(0));
+		mCoordinates = KmlGeometry.parseGeoJSONPositions(rings.get(0).getAsJsonArray());
 		//next rings are the holes:
-		if (rings.length() > 1){
-			mHoles = new ArrayList<ArrayList<GeoPoint>>(rings.length()-1);
-			for (int i=1; i<rings.length(); i++){
-				ArrayList<GeoPoint> hole = KmlGeometry.parseGeoJSONPositions(rings.optJSONArray(i));
+		if (rings.size() > 1){
+			mHoles = new ArrayList<ArrayList<GeoPoint>>(rings.size()-1);
+			for (int i=1; i<rings.size(); i++){
+				ArrayList<GeoPoint> hole = KmlGeometry.parseGeoJSONPositions(rings.get(i).getAsJsonArray());
 				mHoles.add(hole);
 			}
 		}
@@ -114,23 +113,18 @@ public class KmlPolygon extends KmlGeometry {
 		}
 	}
 	
-	@Override public JSONObject asGeoJSON(){
-		try {
-			JSONObject json = new JSONObject();
-			json.put("type", "Polygon");
-			JSONArray coords = new JSONArray();
-			coords.put(KmlGeometry.geoJSONCoordinates(mCoordinates));
-			if (mHoles != null) {
-				for (ArrayList<GeoPoint> hole:mHoles){
-					coords.put(KmlGeometry.geoJSONCoordinates(hole));
-				}
+	@Override public JsonObject asGeoJSON(){
+		JsonObject json = new JsonObject();
+		json.addProperty("type", "Polygon");
+		JsonArray coords = new JsonArray();
+		coords.add(KmlGeometry.geoJSONCoordinates(mCoordinates));
+		if (mHoles != null) {
+			for (ArrayList<GeoPoint> hole:mHoles){
+				coords.add(KmlGeometry.geoJSONCoordinates(hole));
 			}
-			json.put("coordinates", coords);
-			return json;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
 		}
+		json.add("coordinates", coords);
+		return json;
 	}
 	
 	@Override public BoundingBoxE6 getBoundingBox(){

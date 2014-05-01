@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -33,7 +31,7 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	//-----------------------------------------------------
 	// abstract methods
 	public abstract void saveAsKML(Writer writer);
-	public abstract JSONObject asGeoJSON();
+	public abstract JsonObject asGeoJSON();
 	public abstract Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlPlacemark kmlPlacemark, KmlDocument kmlDocument);
 	public abstract BoundingBoxE6 getBoundingBox();
 
@@ -68,17 +66,12 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	 * @param position
 	 * @return the GeoJSON position. 
 	 */
-	public static JSONArray geoJSONPosition(GeoPoint position){
-		try {
-			JSONArray json = new JSONArray();
-			json.put(position.getLongitude());
-			json.put(position.getLatitude());
-			//json.put(coord.getAltitude()); //don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
-			return json;
-		} catch (JSONException e) {
-			e.printStackTrace();
-			return null;
-		}
+	public static JsonArray geoJSONPosition(GeoPoint position){
+		JsonArray json = new JsonArray();
+		json.add(new JsonPrimitive(position.getLongitude()));
+		json.add(new JsonPrimitive(position.getLatitude()));
+		//json.add(new JsonPrimitive(coord.getAltitude())); //don't add altitude, as OpenLayers doesn't supports it... (vertigo?)
+		return json;
 	}
 	
 	/**
@@ -86,12 +79,12 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	 * @param coordinates
 	 * @return the GeoJSON array of Positions. 
 	 */
-	public static JSONArray geoJSONCoordinates(ArrayList<GeoPoint> coordinates){
-		JSONArray json = new JSONArray();
+	public static JsonArray geoJSONCoordinates(ArrayList<GeoPoint> coordinates){
+		JsonArray json = new JsonArray();
 		Iterator<GeoPoint> it = coordinates.iterator();
 		while(it.hasNext()) {
 			GeoPoint position = it.next();
-			json.put(KmlGeometry.geoJSONPosition(position));
+			json.add(KmlGeometry.geoJSONPosition(position));
 		}
 		return json;
 	}
@@ -104,19 +97,20 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	}
 	
 	/** parse a GeoJSON Position: [longitude, latitude, altitude(optional)] */
-	public static GeoPoint parseGeoJSONPosition(JSONArray json){
-		return new GeoPoint(json.optDouble(1, 0.0), 
-				json.optDouble(0, 0.0), 
-				json.optDouble(2, 0.0));
+	public static GeoPoint parseGeoJSONPosition(JsonArray json){
+		double alt = (json.size()>=3 ? json.get(2).getAsDouble() : 0.0);
+		return new GeoPoint(json.get(1).getAsDouble(), 
+				json.get(0).getAsDouble(), 
+				alt);
 	}
 	
 	/** parse a GeoJSON array of Positions: [ [lon, lat, alt],... [lon, lat, alt] ] */
-	public static ArrayList<GeoPoint> parseGeoJSONPositions(JSONArray json){
+	public static ArrayList<GeoPoint> parseGeoJSONPositions(JsonArray json){
 		if (json == null)
 			return null;
-		ArrayList<GeoPoint> coordinates = new  ArrayList<GeoPoint>(json.length());
-		for (int i=0; i<json.length(); i++){
-			JSONArray position = json.optJSONArray(i);
+		ArrayList<GeoPoint> coordinates = new  ArrayList<GeoPoint>(json.size());
+		for (int i=0; i<json.size(); i++){
+			JsonArray position = json.get(i).getAsJsonArray();
 			GeoPoint p = KmlGeometry.parseGeoJSONPosition(position);
 			if (p != null)
 				coordinates.add(p);
@@ -128,10 +122,10 @@ public abstract class KmlGeometry implements Cloneable, Parcelable {
 	 * Supports: Point, LineString, Polygon, GeometryCollection and MultiPoint. 
 	 * @return the corresponding KmlGeometry, or null for not supported Geometry. 
 	 */
-	public static KmlGeometry parseGeoJSON(JSONObject json){
+	public static KmlGeometry parseGeoJSON(JsonObject json){
 		if (json == null)
 			return null;
-		String type = json.optString("type");
+		String type = json.get("type").getAsString();
 		if ("Point".equals(type)){
 			return new KmlPoint(json);
 		} else if ("LineString".equals(type)){
