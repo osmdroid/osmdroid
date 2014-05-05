@@ -512,7 +512,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
     	//GeocoderGisgraphy geocoder = new GeocoderGisgraphy(this);
 		try {
-			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1);
+			BoundingBoxE6 viewbox = map.getBoundingBox();
+			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1, 
+					viewbox.getLatSouthE6()*1E-6, viewbox.getLonEastE6()*1E-6, 
+					viewbox.getLatNorthE6()*1E-6, viewbox.getLonWestE6()*1E-6, false);
 			if (foundAdresses.size() == 0) { //if no address found, display an error
 				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
 			} else {
@@ -551,7 +554,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (mDestinationPolygon != null)
 			location = mapOverlays.indexOf(mDestinationPolygon);
 		mDestinationPolygon = new Polygon(this);
-		mDestinationPolygon.setFillColor(0x30FF0080);
+		mDestinationPolygon.setFillColor(0x15FF0080);
 		mDestinationPolygon.setStrokeColor(0x800000FF);
 		mDestinationPolygon.setStrokeWidth(5.0f);
 		BoundingBoxE6 bb = null;
