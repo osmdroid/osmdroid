@@ -535,12 +535,13 @@ public class KmlDocument implements Parcelable {
 					mKmlCurrentFeature.mStyle = mStringBuilder.toString();
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null) {
-					mColorStyle.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
+					if (mColorStyle != null)
+						mColorStyle.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				} else if (mKmlCurrentGroundOverlay != null){
 					mKmlCurrentGroundOverlay.mColor = ColorStyle.parseKMLColor(mStringBuilder.toString());
 				}
 			} else if (localName.equals("colorMode")){
-				if (mCurrentStyle != null)
+				if (mCurrentStyle != null && mColorStyle != null)
 					mColorStyle.mColorMode = (mStringBuilder.toString().equals("random")?ColorStyle.MODE_RANDOM:ColorStyle.MODE_NORMAL);
 			} else if (localName.equals("width")){
 				if (mCurrentStyle != null && mCurrentStyle.mLineStyle != null)

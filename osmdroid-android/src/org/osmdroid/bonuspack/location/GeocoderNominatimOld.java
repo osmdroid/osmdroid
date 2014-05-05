@@ -5,14 +5,13 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+
 import android.content.Context;
 import android.location.Address;
 import android.os.Bundle;
@@ -25,7 +24,7 @@ import android.util.Log;
  * 
  * @author M.Kergall
  */
-public class GeocoderNominatim {
+public class GeocoderNominatimOld {
 	public static final String NOMINATIM_SERVICE_URL = "http://nominatim.openstreetmap.org/";
 	public static final String MAPQUEST_SERVICE_URL = "http://open.mapquestapi.com/nominatim/v1/";
 	
@@ -33,13 +32,13 @@ public class GeocoderNominatim {
 	protected String mServiceUrl;
 	protected boolean mPolygon;
 	
-	public GeocoderNominatim(Context context, Locale locale){
+	public GeocoderNominatimOld(Context context, Locale locale){
 		mLocale = locale;
 		setOptions(false);
 		setService(NOMINATIM_SERVICE_URL); //default service
 	}
 	
-	public GeocoderNominatim(Context context){
+	public GeocoderNominatimOld(Context context){
 		this(context, Locale.getDefault());
 	}
 
@@ -68,51 +67,51 @@ public class GeocoderNominatim {
 	 * Current implementation is mainly targeting french addresses,
 	 * and will be quite basic on other countries. 
 	 */
-	protected Address buildAndroidAddress(JsonObject jResult) throws JsonSyntaxException{
+	protected Address buildAndroidAddress(JSONObject jResult) throws JSONException{
 		Address gAddress = new Address(mLocale);
-		gAddress.setLatitude(jResult.get("lat").getAsDouble());
-		gAddress.setLongitude(jResult.get("lon").getAsDouble());
+		gAddress.setLatitude(jResult.getDouble("lat"));
+		gAddress.setLongitude(jResult.getDouble("lon"));
 
-		JsonObject jAddress = jResult.get("address").getAsJsonObject();
+		JSONObject jAddress = jResult.getJSONObject("address");
 
 		int addressIndex = 0;
 		if (jAddress.has("road")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("road").getAsString());
-			gAddress.setThoroughfare(jAddress.get("road").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("road"));
+			gAddress.setThoroughfare(jAddress.getString("road"));
 		}
 		if (jAddress.has("suburb")){
 			//gAddress.setAddressLine(addressIndex++, jAddress.getString("suburb"));
 				//not kept => often introduce "noise" in the address.
-			gAddress.setSubLocality(jAddress.get("suburb").getAsString());
+			gAddress.setSubLocality(jAddress.getString("suburb"));
 		}
 		if (jAddress.has("postcode")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("postcode").getAsString());
-			gAddress.setPostalCode(jAddress.get("postcode").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("postcode"));
+			gAddress.setPostalCode(jAddress.getString("postcode"));
 		}
 		
 		if (jAddress.has("city")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("city").getAsString());
-			gAddress.setLocality(jAddress.get("city").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("city"));
+			gAddress.setLocality(jAddress.getString("city"));
 		} else if (jAddress.has("town")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("town").getAsString());
-			gAddress.setLocality(jAddress.get("town").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("town"));
+			gAddress.setLocality(jAddress.getString("town"));
 		} else if (jAddress.has("village")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("village").getAsString());
-			gAddress.setLocality(jAddress.get("village").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("village"));
+			gAddress.setLocality(jAddress.getString("village"));
 		}
 		
 		if (jAddress.has("county")){ //France: departement
-			gAddress.setSubAdminArea(jAddress.get("county").getAsString());
+			gAddress.setSubAdminArea(jAddress.getString("county"));
 		}
 		if (jAddress.has("state")){ //France: region
-			gAddress.setAdminArea(jAddress.get("state").getAsString());
+			gAddress.setAdminArea(jAddress.getString("state"));
 		}
 		if (jAddress.has("country")){
-			gAddress.setAddressLine(addressIndex++, jAddress.get("country").getAsString());
-			gAddress.setCountryName(jAddress.get("country").getAsString());
+			gAddress.setAddressLine(addressIndex++, jAddress.getString("country"));
+			gAddress.setCountryName(jAddress.getString("country"));
 		}
 		if (jAddress.has("country_code"))
-			gAddress.setCountryCode(jAddress.get("country_code").getAsString());
+			gAddress.setCountryCode(jAddress.getString("country_code"));
 		
 		/* Other possible OSM tags in Nominatim results not handled yet: 
 		 * subway, golf_course, bus_stop, parking,...
@@ -126,30 +125,30 @@ public class GeocoderNominatim {
 		//Add non-standard (but very useful) information in Extras bundle:
 		Bundle extras = new Bundle();
 		if (jResult.has("polygonpoints")){
-			JsonArray jPolygonPoints = jResult.get("polygonpoints").getAsJsonArray();
-			ArrayList<GeoPoint> polygonPoints = new ArrayList<GeoPoint>(jPolygonPoints.size());
-			for (int i=0; i<jPolygonPoints.size(); i++){
-				JsonArray jCoords = jPolygonPoints.get(i).getAsJsonArray();
-				double lon = jCoords.get(0).getAsDouble();
-				double lat = jCoords.get(1).getAsDouble();
+			JSONArray jPolygonPoints = jResult.getJSONArray("polygonpoints");
+			ArrayList<GeoPoint> polygonPoints = new ArrayList<GeoPoint>(jPolygonPoints.length());
+			for (int i=0; i<jPolygonPoints.length(); i++){
+				JSONArray jCoords = jPolygonPoints.getJSONArray(i);
+				double lon = jCoords.getDouble(0);
+				double lat = jCoords.getDouble(1);
 				GeoPoint p = new GeoPoint(lat, lon);
 				polygonPoints.add(p);
 			}
 			extras.putParcelableArrayList("polygonpoints", polygonPoints);
 		}
 		if (jResult.has("boundingbox")){
-			JsonArray jBoundingBox = jResult.get("boundingbox").getAsJsonArray();
+			JSONArray jBoundingBox = jResult.getJSONArray("boundingbox");
 			BoundingBoxE6 bb = new BoundingBoxE6(
-					jBoundingBox.get(1).getAsDouble(), jBoundingBox.get(2).getAsDouble(), 
-					jBoundingBox.get(0).getAsDouble(), jBoundingBox.get(3).getAsDouble());
+					jBoundingBox.getDouble(1), jBoundingBox.getDouble(2), 
+					jBoundingBox.getDouble(0), jBoundingBox.getDouble(3));
 			extras.putParcelable("boundingbox", bb);
 		}
 		if (jResult.has("osm_id")){
-			long osm_id = jResult.get("osm_id").getAsLong();
+			long osm_id = jResult.getLong("osm_id");
 			extras.putLong("osm_id", osm_id);
 		}
 		if (jResult.has("osm_type")){
-			String osm_type = jResult.get("osm_type").getAsString();
+			String osm_type = jResult.getString("osm_type");
 			extras.putString("osm_type", osm_type);
 		}
 		gAddress.setExtras(extras);
@@ -174,14 +173,12 @@ public class GeocoderNominatim {
 		if (result == null)
 			throw new IOException();
 		try {
-			JsonParser parser = new JsonParser();
-			JsonElement json = parser.parse(result);
-			JsonObject jResult = json.getAsJsonObject();
+			JSONObject jResult = new JSONObject(result);
 			Address gAddress = buildAndroidAddress(jResult);
 			List<Address> list = new ArrayList<Address>(1);
 			list.add(gAddress);
 			return list;
-		} catch (JsonSyntaxException e) {
+		} catch (JSONException e) {
 			throw new IOException();
 		}
 	}
@@ -223,18 +220,16 @@ public class GeocoderNominatim {
 		if (result == null)
 			throw new IOException();
 		try {
-			JsonParser parser = new JsonParser();
-			JsonElement json = parser.parse(result);
-			JsonArray jResults = json.getAsJsonArray();
-			List<Address> list = new ArrayList<Address>(jResults.size());
-			for (int i=0; i<jResults.size(); i++){
-				JsonObject jResult = jResults.get(i).getAsJsonObject();
+			JSONArray jResults = new JSONArray(result);
+			List<Address> list = new ArrayList<Address>(jResults.length());
+			for (int i=0; i<jResults.length(); i++){
+				JSONObject jResult = jResults.getJSONObject(i);
 				Address gAddress = buildAndroidAddress(jResult);
 				list.add(gAddress);
 			}
 			Log.d(BonusPackHelper.LOG_TAG, "done");
 			return list;
-		} catch (JsonSyntaxException e) {
+		} catch (JSONException e) {
 			throw new IOException();
 		}
 	}
