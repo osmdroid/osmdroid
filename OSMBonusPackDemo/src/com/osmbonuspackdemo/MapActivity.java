@@ -51,6 +51,7 @@ import org.osmdroid.util.NetworkLocationIgnorer;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.DirectedLocationOverlay;
 import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.bonuspack.mapsforge.GenericMapView;
 import org.osmdroid.bonuspack.mapsforge.MapsForgeTileProvider;
 import android.app.Activity;
@@ -209,8 +210,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			viaPoints = savedInstanceState.getParcelableArrayList("viapoints");
 		}
 		
-		//ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
-		//map.getOverlays().add(scaleBarOverlay);
+		ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(this);
+		map.getOverlays().add(scaleBarOverlay);
 		
 		// Itinerary markers:
 		itineraryMarkers = new FolderOverlay(this);
