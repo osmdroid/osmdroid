@@ -4,10 +4,10 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
-import org.osmdroid.views.overlay.SafeDrawOverlay;
-import org.osmdroid.views.safecanvas.ISafeCanvas;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
@@ -20,7 +20,7 @@ import android.graphics.drawable.Drawable;
  * @author M.Kergall
  *
  */
-public class GroundOverlay extends SafeDrawOverlay {
+public class GroundOverlay extends Overlay {
 
 	protected Drawable mImage;
 	protected GeoPoint mPosition;
@@ -94,7 +94,7 @@ public class GroundOverlay extends SafeDrawOverlay {
 		return mTransparency;
 	}
 	
-	@Override protected void drawSafe(ISafeCanvas canvas, MapView mapView, boolean shadow) {
+	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 		if (mImage == null)
@@ -106,17 +106,17 @@ public class GroundOverlay extends SafeDrawOverlay {
 		
 		final Projection pj = mapView.getProjection();
 		
-		pj.toMapPixels(mPosition, mPositionPixels);
+		pj.toPixels(mPosition, mPositionPixels);
 		GeoPoint pEast = mPosition.destinationPoint(mWidth, 90.0f);
 		GeoPoint pSouthEast = pEast.destinationPoint(mHeight, -180.0f);
-		pj.toMapPixels(pSouthEast, mSouthEastPixels);
+		pj.toPixels(pSouthEast, mSouthEastPixels);
 		int width = mSouthEastPixels.x-mPositionPixels.x;
 		int height = mSouthEastPixels.y-mPositionPixels.y;
 		mImage.setBounds(-width/2, -height/2, width/2, height/2);
 		
 		mImage.setAlpha(255-(int)(mTransparency*255));
 
-		drawAt(canvas.getSafeCanvas(), mImage, mPositionPixels.x, mPositionPixels.y, false, -mBearing);
+		drawAt(canvas, mImage, mPositionPixels.x, mPositionPixels.y, false, -mBearing);
 	}
 
 }

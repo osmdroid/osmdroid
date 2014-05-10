@@ -6,7 +6,7 @@ import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.MapView.Projection;
+import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -274,7 +274,7 @@ public class Marker extends Overlay {
 		
 		final Projection pj = mapView.getProjection();
 		
-		pj.toMapPixels(mPosition, mPositionPixels);
+		pj.toPixels(mPosition, mPositionPixels);
 		int width = mIcon.getIntrinsicWidth();
 		int height = mIcon.getIntrinsicHeight();
 		Rect rect = new Rect(0, 0, width, height);
@@ -289,7 +289,7 @@ public class Marker extends Overlay {
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
-		pj.toMapPixels(mPosition, mPositionPixels);
+		pj.toPixels(mPosition, mPositionPixels);
 		final Rect screenRect = pj.getIntrinsicScreenRect();
 		int x = -mPositionPixels.x + screenRect.left + (int) event.getX();
 		int y = -mPositionPixels.y + screenRect.top + (int) event.getY();
@@ -311,7 +311,7 @@ public class Marker extends Overlay {
 
 	public void moveToEventPosition(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
-		mPosition = (GeoPoint) pj.fromPixels(event.getX(), event.getY());
+		mPosition = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
 		mapView.invalidate();
 	}
 	
