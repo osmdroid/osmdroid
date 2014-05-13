@@ -225,12 +225,13 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 			
 			FolderOverlay kmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, defaultStyle, styler, mKmlDocument);
 			map.getOverlays().add(kmlOverlay);
-			if (mKmlDocument.mKmlRoot.mBB != null){
-				//map.zoomToBoundingBox(kmlRoot.mBB); => not working in onCreate - this is a well-known osmdroid bug. 
+			BoundingBoxE6 bb = mKmlDocument.mKmlRoot.getBoundingBox();
+			if (bb != null){
+				//map.zoomToBoundingBox(bb); => not working in onCreate - this is a well-known osmdroid bug. 
 				//Workaround:
 				map.getController().setCenter(new GeoPoint(
-						mKmlDocument.mKmlRoot.mBB.getLatSouthE6()+mKmlDocument.mKmlRoot.mBB.getLatitudeSpanE6()/2, 
-						mKmlDocument.mKmlRoot.mBB.getLonWestE6()+mKmlDocument.mKmlRoot.mBB.getLongitudeSpanE6()/2));
+						bb.getLatSouthE6()+bb.getLatitudeSpanE6()/2, 
+						bb.getLonWestE6()+bb.getLongitudeSpanE6()/2));
 			}
 		} else
 			Toast.makeText(this, "Error when loading KML", Toast.LENGTH_SHORT).show();
@@ -381,7 +382,15 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 	float mGroundOverlayBearing = 0.0f;
 	@Override public boolean longPressHelper(GeoPoint p) {
 		//Toast.makeText(this, "Long press", Toast.LENGTH_SHORT).show();
-		//17. Using GroundOverlay
+		//17. Using Polygon, defined as a circle:
+		Polygon circle = new Polygon(this);
+		circle.setPointsAsCircle(p, 10000.0);
+		circle.setFillColor(0x12121212);
+		circle.setStrokeColor(Color.RED);
+		circle.setStrokeWidth(2);
+		map.getOverlays().add(circle);
+		
+		//18. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(p);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
@@ -390,6 +399,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		myGroundOverlay.setBearing(mGroundOverlayBearing);
 		mGroundOverlayBearing += 20.0f;
 		map.getOverlays().add(myGroundOverlay);
+		
 		map.invalidate();
 		return true;
 	}
