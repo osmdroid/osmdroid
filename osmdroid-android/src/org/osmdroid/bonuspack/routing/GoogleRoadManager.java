@@ -60,7 +60,7 @@ public class GoogleRoadManager extends RoadManager {
 	}
 	
 	/** 
-	 * @param waypoints: list of GeoPoints. Must have at least 2 entries, start and end points. 
+	 * @param waypoints list of GeoPoints. Must have at least 2 entries, start and end points. 
 	 * @return the road
 	 */
 	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {

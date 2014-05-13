@@ -30,7 +30,7 @@ import android.view.MotionEvent;
  * - Events listeners are set per marker, not per map. <br/>
  * 
  * TODO: <br/>
- * Impact of marker rotation on hitTest and on InfoWindow anchor<br/>
+ * Impact of marker rotation on hitTest<br/>
  * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
  * 
  * @see MarkerInfoWindow

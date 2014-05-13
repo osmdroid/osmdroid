@@ -7,7 +7,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -42,10 +41,6 @@ public class HttpConnection {
 	private final static int TIMEOUT_CONNECTION=3000; //ms 
 	private final static int TIMEOUT_SOCKET=8000; //ms
 	
-	/** Constructor. 
-	 * Opens the url with an HttpURLConnection, then opens a stream on it. 
-	 * @param String sUrl: url to open
-	 */
 	public HttpConnection(){
 		stream = null;
 		entity = null;
@@ -67,6 +62,9 @@ public class HttpConnection {
 		mUserAgent = userAgent;
 	}
 	
+	/**
+	 * @param sUrl url to get
+	 */
 	public void doGet(String sUrl){
 		try {
 			HttpGet request = new HttpGet(sUrl);

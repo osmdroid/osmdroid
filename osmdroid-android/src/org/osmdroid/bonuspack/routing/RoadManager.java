@@ -49,7 +49,8 @@ public abstract class RoadManager {
 	/**
 	 * Using the road high definition shape, builds and returns a Polyline. 
 	 * @param road
-	 * @param paint
+	 * @param color
+	 * @param width
 	 * @param context
 	 */
 	public static Polyline buildRoadOverlay(Road road, int color, float width, Context context){

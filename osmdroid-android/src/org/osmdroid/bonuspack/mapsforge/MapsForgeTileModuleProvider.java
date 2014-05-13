@@ -20,7 +20,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
 	/**
 	 * Constructor
 	 * 
-	 * @param pRegisterReceiver
+	 * @param receiverRegistrar
 	 * @param file
 	 * @param tileSource
 	 */

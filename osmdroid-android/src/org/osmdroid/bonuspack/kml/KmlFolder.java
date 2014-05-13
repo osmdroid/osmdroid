@@ -117,7 +117,7 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	
 	/** 
 	 * Adds all overlays inside this, converting them in KmlFeatures. 
-	 * @param list of overlays to add
+	 * @param overlays list of overlays to add
 	 * @param kmlDoc
 	 */
 	public void addOverlays(List<? extends Overlay> overlays, KmlDocument kmlDoc){
@@ -147,8 +147,8 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	 * Build a FolderOverlay, containing (recursively) overlays from all items of this Folder. 
 	 * @param map
 	 * @param defaultStyle to apply when an item has no Style defined. 
+	 * @param styler to apply
 	 * @param kmlDocument for Styles
-	 * @param supportVisibility
 	 * @return the FolderOverlay built
 	 */
 	@Override public Overlay buildOverlay(MapView map, Style defaultStyle, Styler styler, KmlDocument kmlDocument){
