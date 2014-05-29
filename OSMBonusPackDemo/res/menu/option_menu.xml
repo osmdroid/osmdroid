@@ -9,24 +9,42 @@
         android:icon="@drawable/ic_menu_poi"
         android:title="POIs list"/>
     <item
+        android:id="@+id/menu_cache"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="Cache Manager">
+		<menu>
+			<group>
+				<item
+				    android:id="@+id/menu_download_view_area"
+				    android:title="Download view area"/>
+				<item
+				    android:id="@+id/menu_clear_view_area"
+				    android:title="Clear view area"/>
+				<item
+				    android:id="@+id/menu_cache_usage"
+				    android:title="Cache usage"/>
+			</group>
+		</menu>
+    </item>
+    <item
         android:id="@+id/menu_tile"
         android:icon="@android:drawable/ic_menu_more"
         android:title="Tile Provider">
-        <menu>
-            <group android:checkableBehavior="single" >
-                <item
-                    android:id="@+id/menu_tile_mapnik"
-                    android:title="OSM Standard"
-                    android:checked="true"/>
-                <item
-                    android:id="@+id/menu_tile_mapquest_osm"
-                    android:title="OSM by MapQuest"/>
-                <item
-                    android:id="@+id/menu_tile_mapbox_satellite"
-                    android:title="MapBox Satellite"/>
-                <item
-                    android:id="@+id/menu_tile_mapsforge"
-                    android:title="MapsForge"/>
+		<menu>
+			<group android:checkableBehavior="single" >
+				<item
+				    android:id="@+id/menu_tile_mapnik"
+				    android:title="OSM Standard"
+				    android:checked="true"/>
+				<item
+				    android:id="@+id/menu_tile_mapquest_osm"
+				    android:title="OSM by MapQuest"/>
+				<item
+				    android:id="@+id/menu_tile_mapbox_satellite"
+				    android:title="MapBox Satellite"/>
+				<item
+				    android:id="@+id/menu_tile_mapsforge"
+				    android:title="MapsForge"/>
 			</group>
         </menu>
     </item>

@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
+import org.osmdroid.bonuspack.cachemanager.CacheManager;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFolder;
@@ -1334,6 +1335,29 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			else 
 				Toast.makeText(this, "No MapsForge map found", Toast.LENGTH_SHORT).show();
 			return true;
+		case R.id.menu_download_view_area:{
+			CacheManager cacheManager = new CacheManager(map);
+			int zoomMin = map.getZoomLevel();
+			int zoomMax = map.getZoomLevel()+4;
+			cacheManager.downloadAreaAsync(this, map.getBoundingBox(), zoomMin, zoomMax);
+			return true;
+			}
+		case R.id.menu_clear_view_area:{
+			CacheManager cacheManager = new CacheManager(map);
+			int zoomMin = map.getZoomLevel();
+			int zoomMax = map.getZoomLevel()+7;
+			cacheManager.cleanAreaAsync(this, map.getBoundingBox(), zoomMin, zoomMax);
+			return true;
+			}
+		case R.id.menu_cache_usage:{
+			CacheManager cacheManager = new CacheManager(map);
+			long cacheUsage = cacheManager.currentCacheUsage()/(1024*1024);
+			long cacheCapacity = cacheManager.cacheCapacity()/(1024*1024);
+			float percent = 100.0f*cacheUsage/cacheCapacity;
+			String message = "Cache usage:\n"+cacheUsage+" Mo / "+cacheCapacity+" Mo = "+(int)percent + "%";
+			Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+			return true;
+			}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
