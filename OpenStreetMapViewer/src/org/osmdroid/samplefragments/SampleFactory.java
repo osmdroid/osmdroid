@@ -14,7 +14,7 @@ public final class SampleFactory {
 	}
 
 	private SampleFactory() {
-		mSamples = new BaseSampleFragment[] { new SampleWithMinimapItemizedoverlayWithFocus(),
+		mSamples = new BaseSampleFragment[] { new SampleWithMinimapItemizedOverlayWithFocus(),
 				new SampleLimitedScrollArea(), new SampleFragmentXmlLayout() };
 	}
 

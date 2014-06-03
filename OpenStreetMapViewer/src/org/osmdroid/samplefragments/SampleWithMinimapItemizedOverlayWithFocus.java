@@ -18,11 +18,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 /**
- * 
+ *
  * @author Nicolas Gramlich
- * 
+ *
  */
-public class SampleWithMinimapItemizedoverlayWithFocus extends BaseSampleFragment {
+public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragment {
 
 	// ===========================================================
 	// Constants

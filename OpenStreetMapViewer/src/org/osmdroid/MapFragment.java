@@ -109,7 +109,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
                 mMapView);
 
-        mMinimapOverlay = new MinimapOverlay(getActivity(), mMapView.getTileRequestCompleteHandler());
+        mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());
 		mMinimapOverlay.setWidth(dm.widthPixels / 5);
 		mMinimapOverlay.setHeight(dm.heightPixels / 5);
 

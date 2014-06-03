@@ -15,7 +15,7 @@ public class RotationGestureDetector {
 		mListener = listener;
 	}
 
-	private float rotation(MotionEvent event) {
+	private static float rotation(MotionEvent event) {
 		double delta_x = (event.getX(0) - event.getX(1));
 		double delta_y = (event.getY(0) - event.getY(1));
 		double radians = Math.atan2(delta_y, delta_x);
