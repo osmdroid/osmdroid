@@ -77,14 +77,14 @@ public class TileSourceFactory {
 			new String[] { "http://openptmap.org/tiles/" });
 
 	public static final OnlineTileSourceBase MAPQUESTOSM = new XYTileSource("MapquestOSM",
-			ResourceProxy.string.mapquest_osm, 0, 18, 256, ".png", new String[] {
+			ResourceProxy.string.mapquest_osm, 0, 18, 256, ".jpg", new String[] {
 					"http://otile1.mqcdn.com/tiles/1.0.0/map/",
 					"http://otile2.mqcdn.com/tiles/1.0.0/map/",
 					"http://otile3.mqcdn.com/tiles/1.0.0/map/",
 					"http://otile4.mqcdn.com/tiles/1.0.0/map/" });
 
 	public static final OnlineTileSourceBase MAPQUESTAERIAL = new XYTileSource("MapquestAerial",
-			ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".png", new String[] {
+			ResourceProxy.string.mapquest_aerial, 0, 11, 256, ".jpg", new String[] {
 					"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
 					"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
 					"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
