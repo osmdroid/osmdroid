@@ -1,4 +1,4 @@
-package com.osmbonuspackdemo;
+package com.osmnavigator;
 
 import java.io.File;
 import java.io.IOException;

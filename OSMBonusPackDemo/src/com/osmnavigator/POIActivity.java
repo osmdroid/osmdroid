@@ -1,4 +1,4 @@
-package com.osmbonuspackdemo;
+package com.osmnavigator;
 
 import java.util.ArrayList;
 import org.osmdroid.bonuspack.location.POI;

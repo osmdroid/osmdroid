@@ -1,4 +1,4 @@
-package com.osmbonuspackdemo;
+package com.osmnavigator;
 
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadNode;

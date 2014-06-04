@@ -1,4 +1,4 @@
-package com.osmbonuspackdemo;
+package com.osmnavigator;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;

@@ -1,4 +1,4 @@
-package com.osmbonuspackdemo;
+package com.osmnavigator;
 
 import java.util.LinkedList;
 import org.json.JSONArray;

@@ -16,7 +16,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
-        <com.osmbonuspackdemo.AutoCompleteOnPreferences
+        <com.osmnavigator.AutoCompleteOnPreferences
             android:id="@+id/editDeparture"
 			android:hint="@string/my_position"
             android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal" >
-        <com.osmbonuspackdemo.AutoCompleteOnPreferences
+        <com.osmnavigator.AutoCompleteOnPreferences
             android:id="@+id/editDestination"
 			android:hint="@string/destination"
             android:layout_width="wrap_content"
