@@ -38,14 +38,13 @@ public class OsmPath extends Path {
 		if (mLastZoomLevel != proj.getZoomLevel()) {
 			proj.toPixels(sReferenceGeoPoint, mReferencePoint);
 			mLastZoomLevel = proj.getZoomLevel();
-		} else {
-			int x = mReferencePoint.x;
-			int y = mReferencePoint.y;
-			proj.toPixels(sReferenceGeoPoint, mReferencePoint);
-			int deltaX = mReferencePoint.x - x;
-			int deltaY = mReferencePoint.y - y;
-
-			offset(deltaX, deltaY);
 		}
+		int x = mReferencePoint.x;
+		int y = mReferencePoint.y;
+		proj.toPixels(sReferenceGeoPoint, mReferencePoint);
+		int deltaX = mReferencePoint.x - x;
+		int deltaY = mReferencePoint.y - y;
+
+		offset(deltaX, deltaY);
 	}
 }

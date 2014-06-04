@@ -1,4 +1,3 @@
-// Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid.samplefragments;
 
 import org.osmdroid.util.BoundingBoxE6;
@@ -20,7 +19,7 @@ import android.view.MenuItem;
 
 /**
  * 
- * @author Nicolas Gramlich
+ * @author Marc Kurtz
  * 
  */
 public class SampleLimitedScrollArea extends BaseSampleFragment {
