@@ -94,9 +94,8 @@ public class TileSourceFactory {
 	// Please also note that global coverage is provided at zoom levels 0-11. Zoom Levels 12+ are
 	// provided only in the United States (lower 48).
 	public static final OnlineTileSourceBase MAPQUESTAERIAL_US = new XYTileSource(
-			"MapquestAerialUSA",
-			ResourceProxy.string.mapquest_aerial, 0, 21, 256, ".jpg", new String[] {
-					"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
+			"MapquestAerialUSA", ResourceProxy.string.mapquest_aerial, 0, 18, 256, ".jpg",
+			new String[] { "http://otile1.mqcdn.com/tiles/1.0.0/sat/",
 					"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
 					"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
 					"http://otile4.mqcdn.com/tiles/1.0.0/sat/" });
