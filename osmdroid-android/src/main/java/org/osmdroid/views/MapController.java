@@ -1,6 +1,8 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
+import java.util.LinkedList;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBoxE6;
@@ -14,6 +16,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
@@ -23,7 +26,8 @@ import android.view.animation.ScaleAnimation;
  * @author Nicolas Gramlich
  * @author Marc Kurtz
  */
-public class MapController implements IMapController, MapViewConstants {
+public class MapController implements IMapController, MapViewConstants,
+		ViewTreeObserver.OnGlobalLayoutListener {
 
 	// ===========================================================
 	// Constants
@@ -43,12 +47,24 @@ public class MapController implements IMapController, MapViewConstants {
 
 	private Animator mCurrentAnimator;
 
+	// Keep track of calls before initial layout
+	private boolean mMapViewHasLayout;
+	private ReplayController mReplayController;
+
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
 	public MapController(MapView mapView) {
 		mMapView = mapView;
+
+		// Keep track of initial layout
+		mReplayController = new ReplayController();
+		mMapViewHasLayout = mMapView.getWidth() != 0 || mMapView.getHeight() != 0;
+		if (!mMapViewHasLayout) {
+			ViewTreeObserver vto = mMapView.getViewTreeObserver();
+			vto.addOnGlobalLayoutListener(this);
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			mZoomInAnimation = ValueAnimator.ofFloat(1f, 2f);
@@ -72,6 +88,18 @@ public class MapController implements IMapController, MapViewConstants {
 		}
 	}
 
+	@Override
+	public void onGlobalLayout() {
+		mMapViewHasLayout = true;
+		mReplayController.replayCalls();
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			mMapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+		} else {
+			mMapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+		}
+	}
+
 	public void zoomToSpan(final BoundingBoxE6 bb) {
 		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
 	}
@@ -80,6 +108,12 @@ public class MapController implements IMapController, MapViewConstants {
 	@Override
 	public void zoomToSpan(int latSpanE6, int lonSpanE6) {
 		if (latSpanE6 <= 0 || lonSpanE6 <= 0) {
+			return;
+		}
+
+		// If no layout, delay this call
+		if (!mMapViewHasLayout) {
+			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
 			return;
 		}
 
@@ -107,6 +141,11 @@ public class MapController implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void animateTo(final IGeoPoint point) {
+		// If no layout, delay this call
+		if (!mMapViewHasLayout) {
+			mReplayController.animateTo(point);
+			return;
+		}
 		Point p = mMapView.getProjection().toPixels(point, null);
 		animateTo(p.x, p.y);
 	}
@@ -115,6 +154,12 @@ public class MapController implements IMapController, MapViewConstants {
 	 * Start animating the map towards the given point.
 	 */
 	public void animateTo(int x, int y) {
+		// If no layout, delay this call
+		if (!mMapViewHasLayout) {
+			mReplayController.animateTo(x, y);
+			return;
+		}
+
 		if (!mMapView.isAnimating()) {
 			mMapView.mIsFlinging = false;
 			Point mercatorPoint = mMapView.getProjection().toMercatorPixels(x, y, null);
@@ -138,6 +183,12 @@ public class MapController implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void setCenter(final IGeoPoint point) {
+		// If no layout, delay this call
+		if (!mMapViewHasLayout) {
+			mReplayController.setCenter(point);
+			return;
+		}
+
 		Point p = mMapView.getProjection().toPixels(point, null);
 		p = mMapView.getProjection().toMercatorPixels(p.x, p.y, p);
 		// The points provided are "center", we want relative to upper-left for scrolling
@@ -153,7 +204,7 @@ public class MapController implements IMapController, MapViewConstants {
 
 	/**
 	 * Stops a running animation.
-	 *
+	 * 
 	 * @param jumpToTarget
 	 */
 	@Override
@@ -311,6 +362,63 @@ public class MapController implements IMapController, MapViewConstants {
 		@Override
 		public void onAnimationRepeat(Animation animation) {
 			// Nothing to do here...
+		}
+	}
+
+	private enum ReplayType {
+		ZoomToSpanPoint, AnimateToPoint, AnimateToGeoPoint, SetCenterPoint
+	};
+
+	private class ReplayController {
+		private LinkedList<ReplayClass> mReplayList = new LinkedList<ReplayClass>();
+
+		public void animateTo(IGeoPoint geoPoint) {
+			mReplayList.add(new ReplayClass(ReplayType.AnimateToGeoPoint, null, geoPoint));
+		}
+
+		public void animateTo(int x, int y) {
+			mReplayList.add(new ReplayClass(ReplayType.AnimateToPoint, new Point(x, y), null));
+		}
+
+		public void setCenter(IGeoPoint geoPoint) {
+			mReplayList.add(new ReplayClass(ReplayType.SetCenterPoint, null, geoPoint));
+		}
+
+		public void zoomToSpan(int x, int y) {
+			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point(x, y), null));
+		}
+
+		public void replayCalls() {
+			for (ReplayClass replay : mReplayList) {
+				switch (replay.mReplayType) {
+				case AnimateToGeoPoint:
+					MapController.this.animateTo(replay.mGeoPoint);
+					break;
+				case AnimateToPoint:
+					MapController.this.animateTo(replay.mPoint.x, replay.mPoint.y);
+					break;
+				case SetCenterPoint:
+					MapController.this.setCenter(replay.mGeoPoint);
+					break;
+				case ZoomToSpanPoint:
+					MapController.this.zoomToSpan(replay.mPoint.x, replay.mPoint.y);
+					break;
+				}
+			}
+			mReplayList.clear();
+		}
+
+		private class ReplayClass {
+			private ReplayType mReplayType;
+			private Point mPoint;
+			private IGeoPoint mGeoPoint;
+
+			public ReplayClass(ReplayType mReplayType, Point mPoint, IGeoPoint mGeoPoint) {
+				super();
+				this.mReplayType = mReplayType;
+				this.mPoint = mPoint;
+				this.mGeoPoint = mGeoPoint;
+			}
 		}
 	}
 }
