@@ -3,7 +3,7 @@
 		package="org.osmdroid"
 		android:versionCode="15" android:versionName="4.3-SNAPSHOT">
 
-	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="18" />
+	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19" />
 	<supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
