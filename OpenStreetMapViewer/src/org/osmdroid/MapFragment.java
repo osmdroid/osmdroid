@@ -231,6 +231,10 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
 		return super.onOptionsItemSelected(item);
 	}
 
+	public MapView getMapView() {
+		return mMapView;
+	}
+
     // @Override
     // public boolean onTrackballEvent(final MotionEvent event) {
     // return this.mMapView.onTrackballEvent(event);
