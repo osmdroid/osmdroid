@@ -58,7 +58,7 @@
             <dependency>
                 <groupId>android</groupId>
                 <artifactId>android</artifactId>
-                <version>4.3_r2</version>
+                <version>4.4.2_r3</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -69,7 +69,7 @@
             <dependency>
                 <groupId>com.google.android.maps</groupId>
                 <artifactId>maps</artifactId>
-                <version>18_r3</version>
+                <version>19_r5</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
