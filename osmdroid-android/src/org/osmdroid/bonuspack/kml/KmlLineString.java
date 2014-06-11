@@ -33,9 +33,11 @@ public class KmlLineString extends KmlGeometry {
 			KmlDocument kmlDocument){
 		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
 		if (style != null){
-			lineStringOverlay.setPaint(style.getOutlinePaint());
+			lineStringOverlay.setColor(style.getOutlinePaint().getColor());
+			lineStringOverlay.setWidth(style.getOutlinePaint().getStrokeWidth());
 		} else if (defaultStyle!=null && defaultStyle.mLineStyle!=null){ 
-			lineStringOverlay.setPaint(defaultStyle.getOutlinePaint());
+			lineStringOverlay.setColor(defaultStyle.getOutlinePaint().getColor());
+			lineStringOverlay.setWidth(defaultStyle.getOutlinePaint().getStrokeWidth());
 		}
 		lineStringOverlay.setEnabled(kmlPlacemark.mVisibility);
 	}

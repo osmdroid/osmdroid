@@ -4,40 +4,75 @@ import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.overlay.PathOverlay;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.NonAcceleratedOverlay;
 import org.osmdroid.views.util.constants.MathConstants;
-
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Point;
+import android.graphics.Rect;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points. 
  *  Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * 
- * Implementation: inherits from PathOverlay, then adds Google API compatibility and Geodesic mode. 
+ * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode. 
  * 
  * @author M.Kergall
  */
-public class Polyline extends PathOverlay {
+public class Polyline extends NonAcceleratedOverlay {
 	
 	/** original GeoPoints */
 	private int mOriginalPoints[][]; //as an array, to reduce object creation
 	protected boolean mGeodesic;
+	private final Path mPath = new Path();
+	protected Paint mPaint = new Paint();
+	/** points, converted to the map projection */
+	private ArrayList<Point> mPoints;
+	/** Number of points that have precomputed values */
+	private int mPointsPrecomputed;
 	
+	/** bounding rectangle for the current line segment */
+	private final Rect mLineBounds = new Rect();
+	private final Point mTempPoint1 = new Point();
+	private final Point mTempPoint2 = new Point();
+
 	public Polyline(Context ctx){
 		this(new DefaultResourceProxyImpl(ctx));
 	}
 	
 	public Polyline(final ResourceProxy resourceProxy){
+		super(resourceProxy);
 		//default as defined in Google API:
-		super(Color.BLACK, 10.0f, resourceProxy);
+		this.mPaint.setColor(Color.BLACK);
+		this.mPaint.setStrokeWidth(10.0f);
+		this.mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setAntiAlias(true);
+		this.clearPath();
 		mOriginalPoints = new int[0][2];
 		mGeodesic = false;
 	}
 	
+	protected void clearPath() {
+		this.mPoints = new ArrayList<Point>();
+		this.mPointsPrecomputed = 0;
+	}
+
+	protected void addPoint(final GeoPoint aPoint) {
+		addPoint(aPoint.getLatitudeE6(), aPoint.getLongitudeE6());
+	}
+
+	protected void addPoint(final int aLatitudeE6, final int aLongitudeE6) {
+		mPoints.add(new Point(aLatitudeE6, aLongitudeE6));
+	}
+
 	public List<GeoPoint> getPoints(){
 		List<GeoPoint> result = new ArrayList<GeoPoint>(mOriginalPoints.length);
 		for (int i=0; i<mOriginalPoints.length; i++){
@@ -45,6 +80,10 @@ public class Polyline extends PathOverlay {
 			result.add(gp);
 		}
 		return result;
+	}
+	
+	public int getNumberOfPoints(){
+		return mOriginalPoints.length;
 	}
 	
 	public int getColor(){
@@ -75,7 +114,7 @@ public class Polyline extends PathOverlay {
 		setEnabled(visible);
 	}
 	
-	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
+	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
 
@@ -115,7 +154,7 @@ public class Polyline extends PathOverlay {
 			mOriginalPoints[i][0] = p.getLatitudeE6();
 			mOriginalPoints[i][1] = p.getLongitudeE6();
 			if (!mGeodesic){
-				super.addPoint(p);
+				addPoint(p);
 			} else {
 				if (i>0){
 					//add potential intermediate points:
@@ -125,13 +164,92 @@ public class Polyline extends PathOverlay {
 					final int numberOfPoints = greatCircleLength/100000;
 					addGreatCircle(prev, p, numberOfPoints);
 				}
-				super.addPoint(p);
+				addPoint(p);
 			}
 		}
 	}
 	
+	/** Sets whether to draw each segment of the line as a geodesic or not. 
+	 * Warning: it takes effect only if set before setting the points in the Polyline. */
 	public void setGeodesic(boolean geodesic){
 		mGeodesic = geodesic;
+	}
+
+	@Override protected void onDraw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+
+		if (shadow) {
+			return;
+		}
+
+		final int size = this.mPoints.size();
+		if (size < 2) {
+			// nothing to paint
+			return;
+		}
+
+		final Projection pj = mapView.getProjection();
+
+		// precompute new points to the intermediate projection.
+		while (this.mPointsPrecomputed < size) {
+			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
+			pj.toProjectedPixels(pt.x, pt.y, pt);
+
+			this.mPointsPrecomputed++;
+		}
+
+		Point screenPoint0 = null; // points on screen
+		Point screenPoint1;
+		Point projectedPoint0; // points from the points list
+		Point projectedPoint1;
+
+		// clipping rectangle in the intermediate projection, to avoid performing projection.
+		BoundingBoxE6 boundingBox = pj.getBoundingBox();
+		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorthE6(),
+				boundingBox.getLonWestE6(), null);
+		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
+				boundingBox.getLonEastE6(), null);
+		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+
+		mPath.rewind();
+		projectedPoint0 = this.mPoints.get(size - 1);
+		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
+
+		for (int i = size - 2; i >= 0; i--) {
+			// compute next points
+			projectedPoint1 = this.mPoints.get(i);
+			mLineBounds.union(projectedPoint1.x, projectedPoint1.y);
+
+			if (!Rect.intersects(clipBounds, mLineBounds)) {
+				// skip this line, move to next point
+				projectedPoint0 = projectedPoint1;
+				screenPoint0 = null;
+				continue;
+			}
+
+			// the starting point may be not calculated, because previous segment was out of clip
+			// bounds
+			if (screenPoint0 == null) {
+				screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, this.mTempPoint1);
+				mPath.moveTo(screenPoint0.x, screenPoint0.y);
+			}
+
+			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
+
+			// skip this point, too close to previous point
+			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
+				continue;
+			}
+
+			mPath.lineTo(screenPoint1.x, screenPoint1.y);
+
+			// update starting point to next position
+			projectedPoint0 = projectedPoint1;
+			screenPoint0.x = screenPoint1.x;
+			screenPoint0.y = screenPoint1.y;
+			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
+		}
+
+		canvas.drawPath(mPath, mPaint);
 	}
 	
 }
