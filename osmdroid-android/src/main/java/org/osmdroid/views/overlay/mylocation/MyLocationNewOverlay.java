@@ -26,6 +26,8 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.location.Location;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.FloatMath;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +65,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoordsProjected = new Point();
 	private final Point mMapCoordsTranslated = new Point();
+	private final Handler mHandler;
+	private final Object mHandlerToken = new Object();
 
 	private Location mLocation;
 	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
@@ -118,6 +122,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
 
+		mHandler = new Handler(Looper.getMainLooper());
 		setMyLocationProvider(myLocationProvider);
 	}
 
@@ -160,7 +165,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 					"You must pass an IMyLocationProvider to setMyLocationProvider()");
 
 		if (isMyLocationEnabled())
-			mMyLocationProvider.stopLocationProvider();
+			stopLocationProvider();
 
 		mMyLocationProvider = myLocationProvider;
 	}
@@ -424,12 +429,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 		if (location != null) {
 			// These location updates can come in from different threads
-			mMapView.post(new Runnable() {
+			mHandler.postAtTime(new Runnable() {
 				@Override
 				public void run() {
 					setLocation(location);
 				}
-			});
+			}, mHandlerToken, 0);
 		}
 
 		for (final Runnable runnable : mRunOnFirstFix) {
@@ -515,14 +520,19 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public void disableMyLocation() {
 		mIsLocationEnabled = false;
 
-		if (mMyLocationProvider != null) {
-			mMyLocationProvider.stopLocationProvider();
-		}
+		stopLocationProvider();
 
 		// Update the screen to see changes take effect
 		if (mMapView != null) {
 			mMapView.postInvalidate();
 		}
+	}
+
+	protected void stopLocationProvider() {
+		if (mMyLocationProvider != null) {
+			mMyLocationProvider.stopLocationProvider();
+		}
+		mHandler.removeCallbacksAndMessages(mHandlerToken);
 	}
 
 	/**
