@@ -19,11 +19,14 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 /**
- *
+ * 
  * @author Viesturs Zarins
  * @author Martin Pearman
- *
- *         This class draws a path line in given color.
+ * 
+ * @deprecated This class is no longer maintained and has various issues. Instead you should use the
+ *             Polygon in OSMBonusPack.
+ * 
+ *             This class draws a path line in given color.
  */
 public class PathOverlay extends Overlay {
 	// ===========================================================
