@@ -59,23 +59,30 @@ public class KmlDocument implements Parcelable {
 	/** the root of KML features contained in this document */
 	public KmlFolder mKmlRoot;
 	/** list of shared Styles in this document */
-	protected HashMap<String, Style> mStyles;
+	protected HashMap<String, StyleSelector> mStyles;
 	protected int mMaxStyleId;
 
 	/** default constructor, with the kmlRoot as an empty Folder */
 	public KmlDocument(){
-		mStyles = new HashMap<String, Style>();
+		mStyles = new HashMap<String, StyleSelector>();
 		mMaxStyleId = 0;
 		mKmlRoot = new KmlFolder();
 	}
 	
-	/** @return the shared Style associated to the styleId, or null if none */
+	/** @return the shared Style associated to the styleId, or null if none.
+	 *  If this is a StyleMap, returns its "normal" Style (if any). */
 	public Style getStyle(String styleId){
-		return mStyles.get(styleId);
+		StyleSelector s = mStyles.get(styleId);
+		if (s == null)
+			return null;
+		else if (s instanceof StyleMap)
+			return ((StyleMap)s).getNormalStyle(this);
+		else //if (s instanceof Style)
+			return (Style)s;
 	}
 	
-	/** put the style in the list of shared Styles, associated to its styleId */
-	public void putStyle(String styleId, Style style){
+	/** put the StyleSelector (Style or StyleMap) in the list of shared Styles, associated to its styleId */
+	public void putStyle(String styleId, StyleSelector styleSelector){
 		//Check if maxStyleId needs an update:
 		try {
 			int id = Integer.parseInt(styleId);
@@ -83,18 +90,18 @@ public class KmlDocument implements Parcelable {
 		} catch (NumberFormatException e){
 			//styleId was not a number: nothing to do
 		}
-		mStyles.put(styleId, style);
+		mStyles.put(styleId, styleSelector);
 	}
 	
 	/**
-	 * Add the Style in the shared Styles
+	 * Add the StyleSelector in the shared Styles
 	 * @param style to add
 	 * @return the unique styleId assigned for this style
 	 */
-	public String addStyle(Style style){
+	public String addStyle(StyleSelector styleSelector){
 		mMaxStyleId++;
 		String newId = ""+mMaxStyleId;
-		putStyle(newId, style);
+		putStyle(newId, styleSelector);
 		return newId;
 	}
 	
@@ -363,6 +370,8 @@ public class KmlDocument implements Parcelable {
 		public KmlFolder mKmlRoot;
 		Style mCurrentStyle;
 		String mCurrentStyleId;
+		StyleMap mCurrentStyleMap; //for StyleSelector: "normal" or "highlight"
+		String mCurrentStyleKey;
 		ColorStyle mColorStyle;
 		String mDataName;
 		boolean mIsNetworkLink;
@@ -451,6 +460,9 @@ public class KmlDocument implements Parcelable {
 			} else if (localName.equals("Style")) {
 				mCurrentStyle = new Style();
 				mCurrentStyleId = attributes.getValue("id");
+			} else if (localName.equals("StyleMap")) {
+				mCurrentStyleMap = new StyleMap();
+				mCurrentStyleId = attributes.getValue("id");
 			} else if (localName.equals("LineStyle")) {
 				mCurrentStyle.mLineStyle = new LineStyle();
 				mColorStyle = mCurrentStyle.mLineStyle;
@@ -529,10 +541,19 @@ public class KmlDocument implements Parcelable {
 					}
 				}
 			} else if (localName.equals("styleUrl")){
+				String styleUrl;
 				if (mStringBuilder.charAt(0) == '#')
-					mKmlCurrentFeature.mStyle = mStringBuilder.substring(1); //remove the #
+					styleUrl = mStringBuilder.substring(1); //remove the #
 				else //external url: keep as is:
-					mKmlCurrentFeature.mStyle = mStringBuilder.toString();
+					styleUrl = mStringBuilder.toString();
+				
+				if (mCurrentStyleMap != null){
+					mCurrentStyleMap.setPair(mCurrentStyleKey, styleUrl);
+				} else if (mKmlCurrentFeature != null){
+					mKmlCurrentFeature.mStyle = styleUrl;
+				}
+			} else if (localName.equals("key")){
+				mCurrentStyleKey = mStringBuilder.toString();
 			} else if (localName.equals("color")){
 				if (mCurrentStyle != null) {
 					if (mColorStyle != null)
@@ -578,6 +599,14 @@ public class KmlDocument implements Parcelable {
 					}
 				}
 				mCurrentStyle = null;
+				mCurrentStyleId = null;
+			} else if (localName.equals("StyleMap")){
+				if (mCurrentStyleId != null)
+					putStyle(mCurrentStyleId, mCurrentStyleMap);
+				//TODO: inline StyleMap ???
+				mCurrentStyleMap = null;
+				mCurrentStyleId = null;
+				mCurrentStyleKey = null;
 			} else if (localName.equals("north")){
 				mNorth = Double.parseDouble(mStringBuilder.toString());
 			} else if (localName.equals("south")){
@@ -625,10 +654,10 @@ public class KmlDocument implements Parcelable {
 	}
 
 	public void writeKMLStyles(Writer writer){
-		for (HashMap.Entry<String, Style> entry : mStyles.entrySet()) {
+		for (HashMap.Entry<String, StyleSelector> entry : mStyles.entrySet()) {
 			String styleId = entry.getKey();
-			Style style = entry.getValue();
-			style.writeAsKML(writer, styleId);
+			StyleSelector styleSelector = entry.getValue();
+			styleSelector.writeAsKML(writer, styleId);
 		}
 	}
 	
@@ -755,7 +784,7 @@ public class KmlDocument implements Parcelable {
 		mKmlRoot = in.readParcelable(KmlFeature.class.getClassLoader());
 		//mStyles = in.readHashMap(Style.class.getClassLoader());
 		int size = in.readInt();
-		mStyles = new HashMap<String, Style>(size);
+		mStyles = new HashMap<String, StyleSelector>(size);
 		for(int i=0; i<size; i++){
 			String key = in.readString();
 			Style value = in.readParcelable(Style.class.getClassLoader());

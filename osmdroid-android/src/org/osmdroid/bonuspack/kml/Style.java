@@ -15,7 +15,7 @@ import android.os.Parcelable;
  * Handling of a KML Style, which may contain one PolyStyle, one LineStyle, and one IconStyle. 
  * @author M.Kergall
  */
-public class Style implements Parcelable {
+public class Style extends StyleSelector implements Parcelable {
 
 	public ColorStyle mPolyStyle;
 	public LineStyle mLineStyle;
@@ -23,10 +23,12 @@ public class Style implements Parcelable {
 	
 	/** default constructor */
 	public Style(){
+		super();
 	}
 	
 	/** simple constructor */
 	public Style(Bitmap icon, int lineColor, float lineWidth, int fillColor){
+		this();
 		mIconStyle = new IconStyle();
 		mIconStyle.mIcon = icon;
 		mLineStyle = new LineStyle();
@@ -69,7 +71,7 @@ public class Style implements Parcelable {
 		}
 	}
 	
-	public void writeAsKML(Writer writer, String styleId){
+	@Override public void writeAsKML(Writer writer, String styleId){
 		try {
 			writer.write("<Style id=\'"+styleId+"\'>\n");
 			if (mLineStyle != null)

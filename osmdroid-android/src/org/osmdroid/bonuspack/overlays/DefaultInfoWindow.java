@@ -4,6 +4,8 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.views.MapView;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,13 +65,14 @@ import android.widget.TextView;
 		String snippet = extendedOverlayItem.getDescription();
 		if (snippet == null)
 			snippet = "";
-		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippet);
+		Spanned snippetHtml = Html.fromHtml(snippet);
+		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippetHtml);
 		
 		//handle sub-description, hidding or showing the text view:
 		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
 		String subDesc = extendedOverlayItem.getSubDescription();
 		if (subDesc != null && !("".equals(subDesc))){
-			subDescText.setText(subDesc);
+			subDescText.setText(Html.fromHtml(subDesc));
 			subDescText.setVisibility(View.VISIBLE);
 		} else {
 			subDescText.setVisibility(View.GONE);
