@@ -152,6 +152,10 @@ public class GeocoderNominatim {
 			String osm_type = jResult.get("osm_type").getAsString();
 			extras.putString("osm_type", osm_type);
 		}
+		if (jResult.has("display_name")){
+			String display_name = jResult.get("display_name").getAsString();
+			extras.putString("display_name", display_name);
+		}
 		gAddress.setExtras(extras);
 		
 		return gAddress;
@@ -259,8 +263,8 @@ public class GeocoderNominatim {
 	 * "boundingbox": the enclosing bounding box, as a BoundingBoxE6<br>
 	 * "osm_id": the OSM id, as a long<br>
 	 * "osm_type": one of the 3 OSM types, as a string (node, way, or relation). <br>
+	 * "display_name": the address, as a single String
 	 * "polygonpoints": the enclosing polygon of the location (depending on setOptions usage), as an ArrayList of GeoPoint<br>
-	 * (others could be added if needed)
 	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults)
 	throws IOException {

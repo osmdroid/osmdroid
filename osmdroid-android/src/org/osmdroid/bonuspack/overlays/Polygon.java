@@ -8,6 +8,8 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.NonAcceleratedOverlay;
+import org.osmdroid.views.overlay.Overlay;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -27,7 +29,7 @@ import android.view.MotionEvent;
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
  * @author M.Kergall: transformation from PathOverlay to Polygon
  */
-public class Polygon extends NonAcceleratedOverlay {
+public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 
 	/** inner class holding one ring: the polygon outline, or a hole inside the polygon */
 	class LinearRing {
@@ -268,7 +270,7 @@ public class Polygon extends NonAcceleratedOverlay {
 		mInfoWindow = infoWindow; //new DefaultInfoWindow(layoutResId, mapView);
 	}
 	
-	@Override protected void onDraw(Canvas canvas, MapView mapView, boolean shadow) {
+	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
 			return;

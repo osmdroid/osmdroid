@@ -9,6 +9,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.NonAcceleratedOverlay;
+import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.util.constants.MathConstants;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -27,7 +28,7 @@ import android.graphics.Rect;
  * 
  * @author M.Kergall
  */
-public class Polyline extends NonAcceleratedOverlay {
+public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	
 	/** original GeoPoints */
 	private int mOriginalPoints[][]; //as an array, to reduce object creation
@@ -175,7 +176,7 @@ public class Polyline extends NonAcceleratedOverlay {
 		mGeodesic = geodesic;
 	}
 
-	@Override protected void onDraw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	@Override protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;
