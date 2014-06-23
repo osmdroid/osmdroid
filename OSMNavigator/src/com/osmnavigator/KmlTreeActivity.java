@@ -197,17 +197,24 @@ public class KmlTreeActivity extends Activity {
 	
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-        case R.id.menu_paste: 
-        	if (mCurrentKmlFeature instanceof KmlFolder){
-	    	    KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
-	        	for (KmlFeature kmlItem:mKmlClipboard.mItems){
-	        		currentKmlFolder.add(kmlItem.clone());
-	        	}
-	        	mListAdapter.notifyDataSetChanged();
-        	}
-            return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.menu_paste: 
+				if (mCurrentKmlFeature instanceof KmlFolder){
+					KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
+					for (KmlFeature kmlItem:mKmlClipboard.mItems){
+						currentKmlFolder.add(kmlItem.clone());
+					}
+					mListAdapter.notifyDataSetChanged();
+				}
+				return true;
+			case R.id.menu_new_folder: 
+				if (mCurrentKmlFeature instanceof KmlFolder){
+					KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
+					currentKmlFolder.add(new KmlFolder());
+					mListAdapter.notifyDataSetChanged();
+				}
+				return true;
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 }

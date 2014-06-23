@@ -462,7 +462,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
      */
     public String getAddress(GeoPoint p){
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
-    	//GisgraphyGeocoder geocoder = new GisgraphyGeocoder(this);
 		String theAddress;
 		try {
 			double dLatitude = p.getLatitude();
@@ -512,7 +511,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		GeocoderNominatim geocoder = new GeocoderNominatim(this);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
-    	//GeocoderGisgraphy geocoder = new GeocoderGisgraphy(this);
 		try {
 			BoundingBoxE6 viewbox = map.getBoundingBox();
 			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1, 
@@ -522,15 +520,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
 			} else {
 				Address address = foundAdresses.get(0); //get first address
+				String addressDisplayName = address.getExtras().getString("display_name");
 				if (index == START_INDEX){
 					startPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
 					markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
-						R.string.departure, R.drawable.marker_departure, -1);
+						R.string.departure, R.drawable.marker_departure, -1, addressDisplayName);
 					map.getController().setCenter(startPoint);
 				} else if (index == DEST_INDEX){
 					destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
 					markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
-						R.string.destination, R.drawable.marker_destination, -1);
+						R.string.destination, R.drawable.marker_destination, -1, addressDisplayName);
 					map.getController().setCenter(destinationPoint);
 				}
 				getRoadAsync();
@@ -609,34 +608,37 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	final OnItineraryMarkerDragListener mItineraryListener = new OnItineraryMarkerDragListener();
 	
 	/** Update (or create if null) a marker in itineraryMarkers. */
-    public Marker updateItineraryMarker(Marker item, GeoPoint p, int index,
-    		int titleResId, int markerResId, int imageResId) {
+    public Marker updateItineraryMarker(Marker marker, GeoPoint p, int index,
+    		int titleResId, int markerResId, int imageResId, String address) {
 		Drawable icon = getResources().getDrawable(markerResId);
 		String title = getResources().getString(titleResId);
-		if (item == null){
-			item = new Marker(map);
-			item.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-			item.setInfoWindow(mViaPointInfoWindow);
-			item.setDraggable(true);
-			item.setOnMarkerDragListener(mItineraryListener);
-			itineraryMarkers.add(item);
+		if (marker == null){
+			marker = new Marker(map);
+			marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+			marker.setInfoWindow(mViaPointInfoWindow);
+			marker.setDraggable(true);
+			marker.setOnMarkerDragListener(mItineraryListener);
+			itineraryMarkers.add(marker);
 		}
-		item.setTitle(title);
-		item.setPosition(p);
-		item.setIcon(icon);
+		marker.setTitle(title);
+		marker.setPosition(p);
+		marker.setIcon(icon);
 		if (imageResId != -1)
-			item.setImage(getResources().getDrawable(imageResId));
-		item.setRelatedObject(index);
+			marker.setImage(getResources().getDrawable(imageResId));
+		marker.setRelatedObject(index);
 		map.invalidate();
-		//Start geocoding task to update the description of the marker with its address:
-		new GeocodingTask().execute(item);
-		return item;
+		if (address != null)
+			marker.setSnippet(address);
+		else
+			//Start geocoding task to get the address and update the Marker description:
+			new GeocodingTask().execute(marker);
+		return marker;
 	}
 
 	public void addViaPoint(GeoPoint p){
 		viaPoints.add(p);
 		updateItineraryMarker(null, p, viaPoints.size()-1,
-			R.string.viapoint, R.drawable.marker_via, -1);
+			R.string.viapoint, R.drawable.marker_via, -1, null);
 	}
     
 	public void removePoint(int index){
@@ -664,17 +666,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//Start marker:
 		if (startPoint != null){
 			markerStart = updateItineraryMarker(null, startPoint, START_INDEX, 
-				R.string.departure, R.drawable.marker_departure, -1);
+				R.string.departure, R.drawable.marker_departure, -1, null);
 		}
 		//Via-points markers if any:
 		for (int index=0; index<viaPoints.size(); index++){
 			updateItineraryMarker(null, viaPoints.get(index), index, 
-				R.string.viapoint, R.drawable.marker_via, -1);
+				R.string.viapoint, R.drawable.marker_via, -1, null);
 		}
 		//Destination marker if any:
 		if (destinationPoint != null){
 			markerDestination = updateItineraryMarker(null, destinationPoint, DEST_INDEX,
-				R.string.destination, R.drawable.marker_destination, -1);
+				R.string.destination, R.drawable.marker_destination, -1, null);
 		}
 	}
 	
@@ -1139,13 +1141,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_departure:
 			startPoint = new GeoPoint(mClickedGeoPoint);
 			markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
-				R.string.departure, R.drawable.marker_departure, -1);
+				R.string.departure, R.drawable.marker_departure, -1, null);
 			getRoadAsync();
 			return true;
 		case R.id.menu_destination:
 			destinationPoint = new GeoPoint(mClickedGeoPoint);
 			markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
-				R.string.destination, R.drawable.marker_destination, -1);
+				R.string.destination, R.drawable.marker_destination, -1, null);
 			getRoadAsync();
 			return true;
 		case R.id.menu_viapoint:
