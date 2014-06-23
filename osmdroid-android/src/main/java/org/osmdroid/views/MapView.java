@@ -3,6 +3,7 @@ package org.osmdroid.views;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -80,7 +81,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final OverlayManager mOverlayManager;
 
-	Projection mProjection;
+	private Projection mProjection;
 
 	private final TilesOverlay mMapOverlay;
 
@@ -126,6 +127,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	/* a point that will be reused to lay out added views */
 	private final Point mLayoutPoint = new Point();
+
+	// Keep a set of listeners for when the maps have a layout
+	private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<MapView.OnFirstLayoutListener>();
+	private boolean mLayoutOccurred = false;
+
+	public interface OnFirstLayoutListener {
+		void onFirstLayout(View v, int left, int top, int right, int bottom);
+	}
 
 	// ===========================================================
 	// Constructors
@@ -321,18 +330,20 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mProjection = null;
 		this.checkZoomButtons();
 
-		getController().setCenter(centerGeoPoint);
+		if (isLayoutOccurred()) {
+			getController().setCenter(centerGeoPoint);
 
-		// snap for all snappables
-		final Point snapPoint = new Point();
-		final Projection pj = getProjection();
-		if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScalePoint.x,
-				(int) mMultiTouchScalePoint.y, snapPoint, this)) {
-			IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null);
-			getController().animateTo(geoPoint);
+			// snap for all snappables
+			final Point snapPoint = new Point();
+			final Projection pj = getProjection();
+			if (this.getOverlayManager().onSnapToItem((int) mMultiTouchScalePoint.x,
+					(int) mMultiTouchScalePoint.y, snapPoint, this)) {
+				IGeoPoint geoPoint = pj.fromPixels(snapPoint.x, snapPoint.y, null);
+				getController().animateTo(geoPoint);
+			}
+
+			mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(null));
 		}
-
-		mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(null));
 
 		// do callback on listener
 		if (newZoomLevel != curZoomLevel && mListener != null) {
@@ -689,6 +700,27 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				child.layout(childLeft, childTop, childLeft + childWidth, childTop + childHeight);
 			}
 		}
+		if (!isLayoutOccurred()) {
+			mLayoutOccurred = true;
+			for (OnFirstLayoutListener listener : mOnFirstLayoutListeners)
+				listener.onFirstLayout(this, l, t, r, b);
+			mOnFirstLayoutListeners.clear();
+		}
+		mProjection = null;
+	}
+
+	public void addOnFirstLayoutListener(OnFirstLayoutListener listener) {
+		// Don't add if we already have a layout
+		if (!isLayoutOccurred())
+			mOnFirstLayoutListeners.add(listener);
+	}
+
+	public void removeOnFirstLayoutListener(OnFirstLayoutListener listener) {
+		mOnFirstLayoutListeners.remove(listener);
+	}
+
+	public boolean isLayoutOccurred() {
+		return mLayoutOccurred;
 	}
 
 	public void onDetach() {

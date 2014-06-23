@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
@@ -16,7 +17,7 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import android.view.ViewTreeObserver;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
@@ -26,8 +27,7 @@ import android.view.animation.ScaleAnimation;
  * @author Nicolas Gramlich
  * @author Marc Kurtz
  */
-public class MapController implements IMapController, MapViewConstants,
-		ViewTreeObserver.OnGlobalLayoutListener {
+public class MapController implements IMapController, MapViewConstants, OnFirstLayoutListener {
 
 	// ===========================================================
 	// Constants
@@ -48,7 +48,6 @@ public class MapController implements IMapController, MapViewConstants,
 	private Animator mCurrentAnimator;
 
 	// Keep track of calls before initial layout
-	private boolean mMapViewHasLayout;
 	private ReplayController mReplayController;
 
 	// ===========================================================
@@ -60,10 +59,8 @@ public class MapController implements IMapController, MapViewConstants,
 
 		// Keep track of initial layout
 		mReplayController = new ReplayController();
-		mMapViewHasLayout = mMapView.getWidth() != 0 || mMapView.getHeight() != 0;
-		if (!mMapViewHasLayout) {
-			ViewTreeObserver vto = mMapView.getViewTreeObserver();
-			vto.addOnGlobalLayoutListener(this);
+		if (!mMapView.isLayoutOccurred()) {
+			mMapView.addOnFirstLayoutListener(this);
 		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -87,18 +84,10 @@ public class MapController implements IMapController, MapViewConstants,
 			mZoomOutAnimationOld.setAnimationListener(new MyZoomAnimationListener());
 		}
 	}
-
+	
 	@Override
-	public void onGlobalLayout() {
-		mMapViewHasLayout = true;
-		mMapView.mProjection = null;
+	public void onFirstLayout(View v, int left, int top, int right, int bottom) {
 		mReplayController.replayCalls();
-
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			mMapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-		} else {
-			mMapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-		}
 	}
 
 	public void zoomToSpan(final BoundingBoxE6 bb) {
@@ -113,7 +102,7 @@ public class MapController implements IMapController, MapViewConstants,
 		}
 
 		// If no layout, delay this call
-		if (!mMapViewHasLayout) {
+		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
 			return;
 		}
@@ -143,7 +132,7 @@ public class MapController implements IMapController, MapViewConstants,
 	@Override
 	public void animateTo(final IGeoPoint point) {
 		// If no layout, delay this call
-		if (!mMapViewHasLayout) {
+		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.animateTo(point);
 			return;
 		}
@@ -156,7 +145,7 @@ public class MapController implements IMapController, MapViewConstants,
 	 */
 	public void animateTo(int x, int y) {
 		// If no layout, delay this call
-		if (!mMapViewHasLayout) {
+		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.animateTo(x, y);
 			return;
 		}
@@ -185,7 +174,7 @@ public class MapController implements IMapController, MapViewConstants,
 	@Override
 	public void setCenter(final IGeoPoint point) {
 		// If no layout, delay this call
-		if (!mMapViewHasLayout) {
+		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.setCenter(point);
 			return;
 		}
