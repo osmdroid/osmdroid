@@ -91,6 +91,7 @@ public class MapController implements IMapController, MapViewConstants,
 	@Override
 	public void onGlobalLayout() {
 		mMapViewHasLayout = true;
+		mMapView.mProjection = null;
 		mReplayController.replayCalls();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

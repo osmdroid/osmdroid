@@ -80,7 +80,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private final OverlayManager mOverlayManager;
 
-	private Projection mProjection;
+	Projection mProjection;
 
 	private final TilesOverlay mMapOverlay;
 
