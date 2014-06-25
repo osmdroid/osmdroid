@@ -433,14 +433,14 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				@Override
 				public void run() {
 					setLocation(location);
+
+					for (final Runnable runnable : mRunOnFirstFix) {
+						new Thread(runnable).start();
+					}
+					mRunOnFirstFix.clear();
 				}
 			}, mHandlerToken, 0);
 		}
-
-		for (final Runnable runnable : mRunOnFirstFix) {
-			new Thread(runnable).start();
-		}
-		mRunOnFirstFix.clear();
 	}
 
 	protected void setLocation(Location location) {
@@ -544,6 +544,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		return mIsLocationEnabled;
 	}
 
+	/**
+	 * Queues a runnable to be executed as soon as we have a location fix. If we already have a fix,
+	 * we'll execute the runnable immediately and return true. If not, we'll hang on to the runnable
+	 * and return false; as soon as we get a location fix, we'll run it in in a new thread.
+	 */
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mMyLocationProvider != null && mLocation != null) {
 			new Thread(runnable).start();
