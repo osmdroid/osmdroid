@@ -52,12 +52,12 @@ public class MapView implements IMapView {
 	}
 
 	@Override
-	public int getLatitudeSpan() {
+	public double getLatitudeSpan() {
 		return mMapView.getLatitudeSpan();
 	}
 
 	@Override
-	public int getLongitudeSpan() {
+	public double getLongitudeSpan() {
 		return mMapView.getLongitudeSpan();
 	}
 

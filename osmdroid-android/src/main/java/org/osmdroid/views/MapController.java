@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -90,39 +90,39 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 		mReplayController.replayCalls();
 	}
 
-	public void zoomToSpan(final BoundingBoxE6 bb) {
-		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
+	public void zoomToSpan(final BoundingBox bb) {
+		zoomToSpan(bb.getLatitudeSpan(), bb.getLongitudeSpan());
 	}
 
 	// TODO rework zoomToSpan
 	@Override
-	public void zoomToSpan(int latSpanE6, int lonSpanE6) {
-		if (latSpanE6 <= 0 || lonSpanE6 <= 0) {
+	public void zoomToSpan(double latSpan, double lonSpan) {
+		if (latSpan <= 0.0 || lonSpan <= 0.0) {
 			return;
 		}
 
 		// If no layout, delay this call
 		if (!mMapView.isLayoutOccurred()) {
-			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
+			mReplayController.zoomToSpan(latSpan, lonSpan);
 			return;
 		}
 
-		final BoundingBoxE6 bb = this.mMapView.getProjection().getBoundingBox();
+		final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
 		final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
-		final int curLatSpan = bb.getLatitudeSpanE6();
-		final int curLonSpan = bb.getLongitudeSpanE6();
+		final double curLatSpan = bb.getLatitudeSpan();
+		final double curLonSpan = bb.getLongitudeSpan();
 
-		final float diffNeededLat = (float) latSpanE6 / curLatSpan; // i.e. 600/500 = 1,2
-		final float diffNeededLon = (float) lonSpanE6 / curLonSpan; // i.e. 300/400 = 0,75
+		final double diffNeededLat = latSpan / curLatSpan; // i.e. 600/500 = 1,2
+		final double diffNeededLon = lonSpan / curLonSpan; // i.e. 300/400 = 0,75
 
-		final float diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
+		final double diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
 
 		if (diffNeeded > 1) { // Zoom Out
-			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
+			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove((float)diffNeeded));
 		} else if (diffNeeded < 0.5) { // Can Zoom in
 			this.mMapView.setZoomLevel(curZoomLevel
-					+ MyMath.getNextSquareNumberAbove(1 / diffNeeded) - 1);
+					+ MyMath.getNextSquareNumberAbove(1 / (float)diffNeeded) - 1);
 		}
 	}
 
@@ -374,8 +374,8 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 			mReplayList.add(new ReplayClass(ReplayType.SetCenterPoint, null, geoPoint));
 		}
 
-		public void zoomToSpan(int x, int y) {
-			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point(x, y), null));
+		public void zoomToSpan(double x, double y) {
+			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point((int)x, (int)y), null));
 		}
 
 		public void replayCalls() {

@@ -28,7 +28,7 @@ public class Projection implements IProjection {
 	@Override
 	public Point toPixels(final IGeoPoint in, final Point out) {
 		final com.google.android.maps.GeoPoint googleGeoPoint =
-			new com.google.android.maps.GeoPoint(in.getLatitudeE6(), in.getLongitudeE6());
+			new com.google.android.maps.GeoPoint((int)(in.getLatitude()*1E6), (int)(in.getLongitude()*1E6));
 		return mProjection.toPixels(googleGeoPoint, out);
 	}
 

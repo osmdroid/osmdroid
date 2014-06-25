@@ -454,12 +454,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mLocation = location;
 
 		// Cache location point
-		mMapView.getProjection().toProjectedPixels((int) (mLocation.getLatitude() * 1E6),
-				(int) (mLocation.getLongitude() * 1E6), mMapCoordsProjected);
+		mMapView.getProjection().toProjectedPixels(mLocation.getLatitude(),
+				mLocation.getLongitude(), mMapCoordsProjected);
 
 		if (mIsFollowing) {
-			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
-			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+			mGeoPoint.setLatitude(mLocation.getLatitude());
+			mGeoPoint.setLongitude(mLocation.getLongitude());
 			mMapController.animateTo(mGeoPoint);
 		} else {
 			// Get new drawing bounds

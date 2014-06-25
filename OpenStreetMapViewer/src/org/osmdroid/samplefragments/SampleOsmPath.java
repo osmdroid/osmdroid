@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -24,13 +24,13 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 	public static final String TITLE = "OsmPath drawing";
 
-	private static final BoundingBoxE6 sCentralParkBoundingBox;
+	private static final BoundingBox sCentralParkBoundingBox;
 	private static final Paint sPaint;
 
 	private OsmPathOverlay mOsmPathOverlay;
 
 	static {
-		sCentralParkBoundingBox = new BoundingBoxE6(40.796788, -73.949232, 40.768094, -73.981762);
+		sCentralParkBoundingBox = new BoundingBox(40.796788, -73.949232, 40.768094, -73.981762);
 
 		sPaint = new Paint();
 		sPaint.setColor(Color.argb(175, 255, 0, 0));
@@ -93,17 +93,17 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 			final Projection proj = mMapView.getProjection();
 			Point p = null;
-			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatNorthE6(),
-					sCentralParkBoundingBox.getLonWestE6()), p);
+			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatNorth(),
+					sCentralParkBoundingBox.getLonWest()), p);
 			path.moveTo(p.x, p.y);
-			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatNorthE6(),
-					sCentralParkBoundingBox.getLonEastE6()), p);
+			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatNorth(),
+					sCentralParkBoundingBox.getLonEast()), p);
 			path.lineTo(p.x, p.y);
-			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatSouthE6(),
-					sCentralParkBoundingBox.getLonEastE6()), p);
+			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatSouth(),
+					sCentralParkBoundingBox.getLonEast()), p);
 			path.lineTo(p.x, p.y);
-			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatSouthE6(),
-					sCentralParkBoundingBox.getLonWestE6()), p);
+			p = proj.toPixels(new GeoPoint(sCentralParkBoundingBox.getLatSouth(),
+					sCentralParkBoundingBox.getLonWest()), p);
 			path.lineTo(p.x, p.y);
 			path.close();
 

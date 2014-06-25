@@ -46,13 +46,13 @@ public class RouteRecorder {
 
 	public void add(final Location aLocation, final int aNumSatellites) {
 		this.mRecords
-				.add(new RecordedGeoPoint((int) (aLocation.getLatitude() * 1E6), (int) (aLocation
-						.getLongitude() * 1E6), System.currentTimeMillis(), aNumSatellites));
+				.add(new RecordedGeoPoint(aLocation.getLatitude(), aLocation.getLongitude(),
+                        System.currentTimeMillis(), aNumSatellites));
 	}
 
 	public void add(final GeoPoint aGeoPoint, final int aNumSatellites) {
-		this.mRecords.add(new RecordedGeoPoint(aGeoPoint.getLatitudeE6(), aGeoPoint
-				.getLongitudeE6(), System.currentTimeMillis(), aNumSatellites));
+		this.mRecords.add(new RecordedGeoPoint(aGeoPoint.getLatitude(), aGeoPoint
+				.getLongitude(), System.currentTimeMillis(), aNumSatellites));
 	}
 
 	// ===========================================================
