@@ -24,7 +24,7 @@ import android.graphics.Rect;
  * @author Martin Pearman
  * 
  * @deprecated This class is no longer maintained and has various issues. Instead you should use the
- *             Polygon in OSMBonusPack.
+ *             Polyline class in OSMBonusPack.
  * 
  *             This class draws a path line in given color.
  */
