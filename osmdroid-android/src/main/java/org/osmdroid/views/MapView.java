@@ -515,8 +515,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public void setMapOrientation(float degrees) {
-		this.mapOrientation = degrees % 360.0f;
-		this.invalidate();
+		mapOrientation = degrees % 360.0f;
+		// Request a layout, so that children are correctly positioned according to map orientation
+		requestLayout();
+		invalidate();
 	}
 
 	public float getMapOrientation() {
@@ -652,6 +654,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				final int childHeight = child.getMeasuredHeight();
 				final int childWidth = child.getMeasuredWidth();
 				getProjection().toPixels(lp.geoPoint, mLayoutPoint);
+				// Apply rotation of mLayoutPoint around the center of the map
+				if (getMapOrientation() != 0) {
+					Point p = getProjection().rotateAndScalePoint(mLayoutPoint.x, mLayoutPoint.y,
+							null);
+					mLayoutPoint.x = p.x;
+					mLayoutPoint.y = p.y;
+				}
 				getProjection().toMercatorPixels(mLayoutPoint.x, mLayoutPoint.y, mLayoutPoint);
 				final int x = mLayoutPoint.x;
 				final int y = mLayoutPoint.y;
@@ -911,6 +920,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		super.scrollTo(x, y);
 		mProjection = null;
 
+		// Force a layout, so that children are correctly positioned according to map orientation
+		if (getMapOrientation() != 0f)
+			onLayout(true, getLeft(), getTop(), getRight(), getBottom());
+
 		// do callback on listener
 		if (mListener != null) {
 			final ScrollEvent event = new ScrollEvent(this, x, y);
@@ -1047,6 +1060,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			multiTouchScale = 1;
 		}
 		mMultiTouchScale = multiTouchScale;
+		// Request a layout, so that children are correctly positioned according to scale
+		requestLayout();
 		invalidate(); // redraw
 		return true;
 	}
