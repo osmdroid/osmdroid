@@ -7,7 +7,7 @@
     <item
         android:id="@+id/menu_pois"
         android:icon="@drawable/ic_menu_poi"
-        android:title="POIs list"/>
+        android:title="Features list"/>
     <item
         android:id="@+id/menu_cache"
         android:icon="@android:drawable/ic_menu_more"
@@ -91,6 +91,9 @@
 				<item
 			        android:id="@+id/menu_kml_tree"
 			        android:title="Edit..."/>
+				<item
+			        android:id="@+id/menu_kml_styles"
+			        android:title="Edit Styles..."/>
 				<item
 				      android:id="@+id/menu_save_file"
 				      android:title="Save as..."/>

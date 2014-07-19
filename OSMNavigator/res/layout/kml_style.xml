@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="#f4f4f4" >
+	
+	<EditText android:id="@+id/style_id" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:hint="Style ID"
+		android:textColor="#000000" />
+    
+	<EditText android:id="@+id/icon" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:hint="Icon Href"
+		android:textColor="#000000" />
+    
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+	    <TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="left"
+			android:layout_weight="0"
+			android:textColor="#000000" 
+			android:text="Line color:" />
+	    <EditText android:id="@+id/outlineColor" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="right"
+			android:layout_weight="1"
+			android:textColor="#000000" 
+			android:hint="#AARRGGBB" />
+	</LinearLayout>
+	
+	<LinearLayout 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+		<TextView 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="left"
+			android:layout_weight="0"
+			android:textColor="#000000" 
+			android:text="Line width:" />
+		<TextView android:id="@+id/outlineWidthValue"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="right"
+			android:layout_weight="1"
+			android:textColor="#000000" />
+	</LinearLayout>
+	
+	<SeekBar android:id="@+id/outlineWidth"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:max="11" />
+	
+	<LinearLayout android:id="@+id/fillColorLayout" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal" >
+	    <TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="left"
+			android:layout_weight="0"
+			android:textColor="#000000" 
+			android:text="Fill color:" />
+	    <EditText android:id="@+id/fillColor" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:layout_gravity="right"
+			android:layout_weight="1"
+			android:textColor="#000000" 
+			android:hint="#AARRGGBB" />
+	</LinearLayout>
+	
+	<Button 
+	    android:id="@+id/btnOK"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+	    android:text="OK" />
+	
+</LinearLayout>

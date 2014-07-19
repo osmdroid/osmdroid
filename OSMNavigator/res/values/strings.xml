@@ -5,4 +5,5 @@
     <string name="departure">Departure</string>
     <string name="destination">Destination</string>
     <string name="viapoint">Via-Point</string>
+    <string name="style_prompt">Styles</string>
 </resources>

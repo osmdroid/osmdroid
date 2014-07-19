@@ -6,73 +6,36 @@
 	android:background="#f4f4f4" >
 	
 	<LinearLayout android:id="@+id/focusPicker" 
-	    android:layout_width="0dp"
-	    android:layout_height="0dp"
-	    android:orientation="horizontal"
-	    android:background="@android:color/transparent"
-	    android:focusable="true"
-	    android:focusableInTouchMode="true" />
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:orientation="horizontal"
+		android:background="@android:color/transparent"
+		android:focusable="true"
+		android:focusableInTouchMode="true" />
 
-    <EditText android:id="@+id/name" 
+	<EditText android:id="@+id/name" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:hint="Name"
 		android:textColor="#000000" />
-    
-    <EditText android:id="@+id/description" 
+
+	<EditText android:id="@+id/description" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
 		android:hint="Description"
 		android:textColor="#000000" />
 
-	<LinearLayout android:id="@+id/outlineColorLayout" 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-	    <TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_gravity="left"
-			android:layout_weight="0"
-			android:textColor="#000000" 
-			android:text="Outline color:" />
-	    <EditText android:id="@+id/outlineColor" 
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_gravity="right"
-			android:layout_weight="1"
-			android:textColor="#000000" />
-	</LinearLayout>
-	
-	<LinearLayout android:id="@+id/fillColorLayout" 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal" >
-	    <TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_gravity="left"
-			android:layout_weight="0"
-			android:textColor="#000000" 
-			android:text="Fill color:" />
-	    <EditText android:id="@+id/fillColor" 
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:layout_gravity="right"
-			android:layout_weight="1"
-			android:textColor="#000000" />
-	</LinearLayout>
-	
-    <CheckBox android:id="@+id/checkbox_visible" 
+	<CheckBox android:id="@+id/checkbox_visible" 
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content" 
 		android:text="Visible" 
 		android:textColor="#000000"
 		android:onClick="onCheckboxClicked"/>
 	
-	<Button 
-	    android:id="@+id/btnOK"
+	<Spinner android:id="@+id/styleSpinner"
 		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-	    android:text="OK" />
+		android:layout_height="wrap_content" 
+		android:prompt="@string/style_prompt" />
 	
 	<ListView
 		android:id="@+id/listviewKml"

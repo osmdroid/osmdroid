@@ -134,7 +134,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected static final int POIS_REQUEST = 2;
 	
 	protected FolderOverlay mKmlOverlay; //root container of overlays from KML reading
-	protected static final int KML_TREE_REQUEST = 3;
 	public static KmlDocument mKmlDocument; //made static to pass between activities
 	public static Stack<KmlFeature> mKmlStack; //passed between activities, top is the current KmlFeature to edit. 
 	public static KmlFolder mKmlClipboard; //passed between activities. Folder for multiple items selection. 
@@ -392,13 +391,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				poiMarker.showInfoWindow();
 			}
 			break;
-		case KML_TREE_REQUEST:
-			KmlFolder result = (KmlFolder)mKmlStack.pop();
-			if (resultCode == RESULT_OK) {
-				//use the object which has been modified in KmlTreeActivity:
-				mKmlDocument.mKmlRoot = result; //intent.getParcelableExtra("KML");
-				updateUIWithKml();
-			}
+		case KmlTreeActivity.KML_TREE_REQUEST:
+			mKmlStack.pop();
+			updateUIWithKml();
+			if (intent == null)
+				break;
+			KmlFeature selectedFeature = intent.getParcelableExtra("KML_FEATURE");
+			if (selectedFeature == null)
+				break;
+			BoundingBoxE6 bb = selectedFeature.getBoundingBox();
+			if (bb == null)
+				break;
+			map.zoomToBoundingBox(bb);
+			break;
+		case KmlStylesActivity.KML_STYLES_REQUEST:
+			updateUIWithKml();
 			break;
 		default: 
 			break;
@@ -1280,8 +1287,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_kml_tree:
 			myIntent = new Intent(this, KmlTreeActivity.class);
 			//myIntent.putExtra("KML", mKmlDocument.kmlRoot);
-			mKmlStack.push(mKmlDocument.mKmlRoot.clone());
-			startActivityForResult(myIntent, KML_TREE_REQUEST);
+			mKmlStack.push(mKmlDocument.mKmlRoot);
+			startActivityForResult(myIntent, KmlTreeActivity.KML_TREE_REQUEST);
+			return true;
+		case R.id.menu_kml_styles:
+			myIntent = new Intent(this, KmlStylesActivity.class);
+			startActivityForResult(myIntent, KmlStylesActivity.KML_STYLES_REQUEST);
 			return true;
 		case R.id.menu_save_file:
 			openLocalFileDialog(false);

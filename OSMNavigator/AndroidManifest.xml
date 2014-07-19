@@ -51,6 +51,14 @@
             android:name="com.osmnavigator.KmlTreeActivity"
             android:label="@string/app_name" 
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.osmnavigator.KmlStylesActivity"
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.osmnavigator.KmlStyleActivity"
+            android:label="@string/app_name" 
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         
     </application>
     

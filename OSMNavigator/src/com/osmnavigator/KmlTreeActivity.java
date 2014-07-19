@@ -2,14 +2,8 @@ package com.osmnavigator;
 
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlFolder;
-import org.osmdroid.bonuspack.kml.KmlLineString;
-import org.osmdroid.bonuspack.kml.KmlPolygon;
-import org.osmdroid.bonuspack.kml.LineStyle;
-import org.osmdroid.bonuspack.kml.Style;
-import org.osmdroid.bonuspack.kml.ColorStyle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -20,25 +14,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 public class KmlTreeActivity extends Activity {
 
+	/* request codes */
+	public static final int KML_TREE_REQUEST = 3;
+	
 	KmlListAdapter mListAdapter;
 	ListView mListView;
 	KmlFeature mCurrentKmlFeature; //feature currently edited. 
 	KmlFolder mKmlClipboard; //link to the global KML clipboard. 
-	protected static final int KML_TREE_REQUEST = 3;
 	int mItemPosition; //last item opened
-	EditText eHeader, eDescription, eOutlineColor, eFillColor;
-	LineStyle mLineStyle;  //direct pointer to the LineStyle, or null. 
-	ColorStyle mPolyStyle; //direct pointer to the PolyStyle, or null. 
-	
+	EditText eHeader, eDescription;
+	Spinner sStyleSpinner;
+
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kml_main);
@@ -54,26 +48,13 @@ public class KmlTreeActivity extends Activity {
 		eDescription = (EditText)findViewById(R.id.description);
 		eDescription.setText(mCurrentKmlFeature.mDescription);
 		
-		Style style = null;
-		if (mCurrentKmlFeature.mStyle != null)
-			style = MapActivity.mKmlDocument.getStyle(mCurrentKmlFeature.mStyle);
-		
-		eOutlineColor = (EditText)findViewById(R.id.outlineColor);
-		if ((mCurrentKmlFeature.hasGeometry(KmlLineString.class) || mCurrentKmlFeature.hasGeometry(KmlPolygon.class)) && style!=null){
-			mLineStyle = style.mLineStyle;
-			eOutlineColor.setText(mLineStyle.colorAsAndroidString());
-		} else {
-			LinearLayout lOutlineColorLayout = (LinearLayout)findViewById(R.id.outlineColorLayout);
-			lOutlineColorLayout.setVisibility(View.GONE);
-		}
-		
-		eFillColor = (EditText)findViewById(R.id.fillColor);
-		if (mCurrentKmlFeature.hasGeometry(KmlPolygon.class) && style!=null){
-			mPolyStyle = style.mPolyStyle;
-			eFillColor.setText(mPolyStyle.colorAsAndroidString());
-		} else {
-			LinearLayout lFillColorLayout = (LinearLayout)findViewById(R.id.fillColorLayout);
-			lFillColorLayout.setVisibility(View.GONE);
+		sStyleSpinner = (Spinner) findViewById(R.id.styleSpinner);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, stylesWithEmpty());
+		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		sStyleSpinner.setAdapter(spinnerAdapter);
+		if (mCurrentKmlFeature.mStyle != null){
+			int spinnerPosition = spinnerAdapter.getPosition(mCurrentKmlFeature.mStyle);
+			sStyleSpinner.setSelection(spinnerPosition);
 		}
 		
 		CheckBox cVisible = (CheckBox)findViewById(R.id.checkbox_visible);
@@ -90,39 +71,41 @@ public class KmlTreeActivity extends Activity {
 					KmlFeature item = ((KmlFolder)mCurrentKmlFeature).mItems.get(position);
 					Intent myIntent = new Intent(view.getContext(), KmlTreeActivity.class);
 					//myIntent.putExtra("KML", item);
-					MapActivity.mKmlStack.push(item.clone());
+					MapActivity.mKmlStack.push(item);
 					startActivityForResult(myIntent, KML_TREE_REQUEST);
 				}
 			});
 		}
 		
-		Button btnOk = (Button) findViewById(R.id.btnOK);
-		btnOk.setOnClickListener( new View.OnClickListener() {
-		    public void onClick(View view) {
-		    	mCurrentKmlFeature.mName = eHeader.getText().toString();
-		    	mCurrentKmlFeature.mDescription = eDescription.getText().toString();
-		    	if (mLineStyle != null){
-			    	String sColor = eOutlineColor.getText().toString();
-			    	try  { 
-			    		mLineStyle.mColor = Color.parseColor(sColor);
-			    	} catch (IllegalArgumentException e) {
-			    		Toast.makeText(view.getContext(), "Invalid outline color", Toast.LENGTH_SHORT).show();
-			    	}
-		    	}
-		    	if (mPolyStyle != null){
-			    	String sColor = eFillColor.getText().toString();
-			    	try  { 
-			    		mPolyStyle.mColor = Color.parseColor(sColor);
-			    	} catch (IllegalArgumentException e) {
-			    		Toast.makeText(view.getContext(), "Invalid fill color", Toast.LENGTH_SHORT).show();
-			    	}
-		    	}
-		        setResult(RESULT_OK);
-		        finish();
-		    }
-		});
-    }
+	}
+	
+	/** @return an array with all shared styles ids, plus one empty entry at the beginning */
+	String[] stylesWithEmpty(){
+		String[] styles = MapActivity.mKmlDocument.getStylesList();
+		String[] stylesPlusEmpty = new String[styles.length+1];
+		stylesPlusEmpty[0] = "";
+		System.arraycopy(styles, 0, stylesPlusEmpty, 1, styles.length);
+		return stylesPlusEmpty;
+	}
 
+	@Override protected void onStop(){
+		saveCurrentFeature();
+		//setResult(RESULT_OK);
+		//finish();
+		super.onStop();
+	}
+	
+	protected void saveCurrentFeature(){
+		mCurrentKmlFeature.mName = eHeader.getText().toString();
+		mCurrentKmlFeature.mDescription = eDescription.getText().toString();
+		Object item = sStyleSpinner.getSelectedItem();
+		if (item != null && !"".equals(item.toString()))
+			mCurrentKmlFeature.mStyle = item.toString();
+		else 
+			mCurrentKmlFeature.mStyle = null;
+	}
+	
+	/* method assigned to the checkbox in the layout */
 	public void onCheckboxClicked(View view) {
 		boolean checked = ((CheckBox)view).isChecked();
 		switch(view.getId()) {
@@ -135,10 +118,12 @@ public class KmlTreeActivity extends Activity {
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
 		case KML_TREE_REQUEST:
-			KmlFeature result = MapActivity.mKmlStack.pop();
-			if (resultCode == RESULT_OK) {
-				((KmlFolder)mCurrentKmlFeature).mItems.set(mItemPosition, result);
-				mListAdapter.notifyDataSetChanged();
+			MapActivity.mKmlStack.pop();
+			mListAdapter.notifyDataSetChanged();
+			if (intent != null && intent.getParcelableExtra("KML_FEATURE") != null){
+				saveCurrentFeature();
+				setResult(RESULT_OK, intent);
+				finish();
 			}
 			break;
 		default:
@@ -182,6 +167,14 @@ public class KmlTreeActivity extends Activity {
 					mListAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
+	        case R.id.menu_show_on_map:
+	        	Intent intent = new Intent();
+	        	//TODO: is it the right way to pass a handle to an object?
+	        	intent.putExtra("KML_FEATURE", currentKmlFolder.mItems.get(info.position));
+				saveCurrentFeature();
+				setResult(RESULT_OK, intent);
+				finish();
+	        	return true;
 	        default:
 	            return super.onContextItemSelected(item);
 	    }
@@ -206,7 +199,7 @@ public class KmlTreeActivity extends Activity {
 					mListAdapter.notifyDataSetChanged();
 				}
 				return true;
-			case R.id.menu_new_folder: 
+			case R.id.menu_new: 
 				if (mCurrentKmlFeature instanceof KmlFolder){
 					KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
 					currentKmlFolder.add(new KmlFolder());

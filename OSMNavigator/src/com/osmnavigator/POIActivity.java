@@ -29,7 +29,7 @@ public class POIActivity extends Activity {
 		setContentView(R.layout.items_list);
 		
 		TextView title = (TextView)findViewById(R.id.title);
-		title.setText("Points of Interest");
+		title.setText("Features");
 		
 		ListView list = (ListView)findViewById(R.id.items);
 		
