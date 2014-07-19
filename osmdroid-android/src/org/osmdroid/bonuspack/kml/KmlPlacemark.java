@@ -186,6 +186,6 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	
 	public KmlPlacemark(Parcel in){
 		super(in);
-		in.readParcelable(KmlGeometry.class.getClassLoader());
+		mGeometry = in.readParcelable(KmlGeometry.class.getClassLoader());
 	}
 }

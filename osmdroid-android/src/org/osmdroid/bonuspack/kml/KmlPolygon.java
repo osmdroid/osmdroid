@@ -41,8 +41,10 @@ public class KmlPolygon extends KmlGeometry {
 			Paint outlinePaint = style.getOutlinePaint();
 			polygonOverlay.setStrokeColor(outlinePaint.getColor());
 			polygonOverlay.setStrokeWidth(outlinePaint.getStrokeWidth());
-			int fillColor = style.mPolyStyle.getFinalColor();
-			polygonOverlay.setFillColor(fillColor);
+			if (style.mPolyStyle != null){
+				int fillColor = style.mPolyStyle.getFinalColor();
+				polygonOverlay.setFillColor(fillColor);
+			}
 		} else if (defaultStyle!=null){
 			Paint outlinePaint = defaultStyle.getOutlinePaint();
 			polygonOverlay.setStrokeColor(outlinePaint.getColor());

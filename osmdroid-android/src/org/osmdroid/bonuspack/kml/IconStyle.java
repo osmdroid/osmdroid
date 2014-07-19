@@ -41,18 +41,23 @@ public class IconStyle extends ColorStyle implements Parcelable {
 	}
 	
 	/** Load and set the icon bitmap, from a url or from a local file. 
-	 * @param href either the full url, or a relative path to a local file. 
+	 * @param href either the full url, or a relative path to a local file. Set null for none. 
 	 * @param containerFullPath full path of the container file. 
 	 * @param kmzContainer current KMZ file (as a ZipFile) - or null if irrelevant. 
 	 */
 	public void setIcon(String href, String containerFullPath, ZipFile kmzContainer){
 		mHref = href;
+		if (mHref == null)
+			mIcon = null;
 		if (mHref.startsWith("http://") || mHref.startsWith("https://")){
 			mIcon = mIconCache.get(mHref);
 		} else if (kmzContainer == null){
-			File file = new File(containerFullPath);
-			String actualFullPath = file.getParent()+'/'+mHref;
-			mIcon = BitmapFactory.decodeFile(actualFullPath);
+			if (containerFullPath != null){
+				File file = new File(containerFullPath);
+				String actualFullPath = file.getParent()+'/'+mHref;
+				mIcon = BitmapFactory.decodeFile(actualFullPath);
+			} else
+				mIcon = null;
 		} else {
 			try {
 				final ZipEntry fileEntry = kmzContainer.getEntry(href);

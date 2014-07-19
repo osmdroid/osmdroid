@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import javax.xml.parsers.SAXParser;
@@ -37,8 +38,8 @@ import android.util.Log;
 /**
  * Object handling a whole KML document. 
  * This is the entry point to read, handle and save KML content. <br>
- * Features are stored in the kmlRoot attribute, which is a KmlFolder. 
- * Shared components (like styles) are stored in specific attributes. <br>
+ * Features are stored in the kmlRoot attribute, which is a KmlFolder. <br>
+ * Also contains the Shared Styles, referenced in Features using a styleId. <br>
  * 
  * Supports the following KML Geometry: Point, LineString, Polygon and MultiGeometry. <br>
  * Supports KML Document and Folder hierarchy. <br>
@@ -58,7 +59,7 @@ public class KmlDocument implements Parcelable {
 
 	/** the root of KML features contained in this document */
 	public KmlFolder mKmlRoot;
-	/** list of shared Styles in this document */
+	/** Shared Styles in this document. String key is the styleId. */
 	protected HashMap<String, StyleSelector> mStyles;
 	protected int mMaxStyleId;
 
@@ -68,8 +69,20 @@ public class KmlDocument implements Parcelable {
 		mMaxStyleId = 0;
 		mKmlRoot = new KmlFolder();
 	}
+
+	/** @return the Shared Styles */
+	public HashMap<String, StyleSelector> getStyles(){
+		return mStyles;
+	}
+
+	/** @return the list of all Shared Styles ids */
+	public String[] getStylesList(){
+		Set<String> set = mStyles.keySet();
+		String[] array = new String[0];
+		return set.toArray(array);
+	}
 	
-	/** @return the shared Style associated to the styleId, or null if none.
+	/** @return the Shared Style associated to the styleId, or null if none.
 	 *  If this is a StyleMap, returns its "normal" Style (if any). */
 	public Style getStyle(String styleId){
 		StyleSelector s = mStyles.get(styleId);
@@ -81,7 +94,7 @@ public class KmlDocument implements Parcelable {
 			return (Style)s;
 	}
 	
-	/** put the StyleSelector (Style or StyleMap) in the list of shared Styles, associated to its styleId */
+	/** put the StyleSelector (Style or StyleMap) in the list of Shared Styles, associated to its styleId */
 	public void putStyle(String styleId, StyleSelector styleSelector){
 		//Check if maxStyleId needs an update:
 		try {
@@ -94,7 +107,7 @@ public class KmlDocument implements Parcelable {
 	}
 	
 	/**
-	 * Add the StyleSelector in the shared Styles
+	 * Add the StyleSelector in the Shared Styles
 	 * @param style to add
 	 * @return the unique styleId assigned for this style
 	 */
