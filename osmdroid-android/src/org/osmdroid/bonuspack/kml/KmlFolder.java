@@ -46,6 +46,8 @@ public class KmlFolder extends KmlFeature implements Cloneable, Parcelable {
 	public KmlFolder(MarkerClusterer overlay, KmlDocument kmlDoc){
 		this();
 		addOverlays(overlay.getItems(), kmlDoc);
+		mName = overlay.getName();
+		mDescription = overlay.getDescription();
 		mVisibility = overlay.isEnabled();
 	}
 	

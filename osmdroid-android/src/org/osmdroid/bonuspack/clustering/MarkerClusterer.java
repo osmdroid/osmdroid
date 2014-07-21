@@ -31,6 +31,7 @@ public abstract class MarkerClusterer extends Overlay {
 	protected ArrayList<StaticCluster> mClusters = new ArrayList<StaticCluster>();;
 	protected int mLastZoomLevel;
 	protected Bitmap mClusterIcon;
+	protected String mName, mDescription;
 	
 	// abstract methods: 
 	
@@ -46,6 +47,22 @@ public abstract class MarkerClusterer extends Overlay {
 		mLastZoomLevel = FORCE_CLUSTERING;
 	}
 
+	public void setName(String name){
+		mName = name;
+	}
+	
+	public String getName(){
+		return mName;
+	}
+	
+	public void setDescription(String description){
+		mDescription = description;
+	}
+	
+	public String getDescription(){
+		return mDescription;
+	}
+	
 	/** Set the cluster icon to be drawn when a cluster contains more than 1 marker. 
 	 * If not set, default will be the default osmdroid marker icon (which is really inappropriate as a cluster icon). */
 	public void setIcon(Bitmap icon){

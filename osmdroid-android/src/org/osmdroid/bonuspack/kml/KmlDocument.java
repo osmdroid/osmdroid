@@ -4,9 +4,11 @@ import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -682,8 +684,9 @@ public class KmlDocument implements Parcelable {
 	public boolean saveAsKML(File file){
 		try {
 			Log.d(BonusPackHelper.LOG_TAG, "Saving "+file.getAbsolutePath());
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fw, 8192);
+			//FileWriter fw = new FileWriter(file);
+			OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+			BufferedWriter writer = new BufferedWriter(out, 8192);
 			boolean result = saveAsKML(writer);
 			writer.close();
 			Log.d(BonusPackHelper.LOG_TAG, "Saved.");

@@ -3,6 +3,8 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -12,6 +14,7 @@ import org.osmdroid.views.overlay.Overlay;
 import com.google.gson.JsonObject;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * The Java representation of a KML Feature. 
@@ -140,7 +143,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 			for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
 				String name = entry.getKey();
 				String value = entry.getValue();
-				writer.write("<Data name=\""+name+"\"><value>"+value+"</value></Data>\n");
+				writer.write("<Data name=\""+name+"\"><value>"+StringEscapeUtils.escapeXml10(value)+"</value></Data>\n");
 			}
 			writer.write("</ExtendedData>\n");
 			return true;
@@ -180,12 +183,15 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 				writer.write("<styleUrl>#"+mStyle+"</styleUrl>\n");
 				//TODO: if styleUrl is external, don't add the '#'
 			}
-			if (mName != null)
-				writer.write("<name>"+mName+"</name>\n");
-			if (mDescription != null)
+			if (mName != null){
+				writer.write("<name>"+StringEscapeUtils.escapeXml10(mName)+"</name>\n");
+			}
+			if (mDescription != null){
 				writer.write("<description><![CDATA["+mDescription+"]]></description>\n");
-			if (!mVisibility)
+			}
+			if (!mVisibility){
 				writer.write("<visibility>0</visibility>\n");
+			}
 			writeKMLSpecifics(writer);
 			writeKMLExtendedData(writer);
 			if (isDocument){

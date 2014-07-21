@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.utils.WebImageCache;
 import android.content.Context;
@@ -102,7 +103,7 @@ public class IconStyle extends ColorStyle implements Parcelable {
 			if (mHeading != 0.0f)
 				writer.write("<heading>"+mHeading+"</heading>\n");
 			if (mHref != null)
-				writer.write("<Icon><href>"+mHref+"</href></Icon>\n");
+				writer.write("<Icon><href>"+StringEscapeUtils.escapeXml10(mHref)+"</href></Icon>\n");
 			writer.write("<hotSpot x=\"" + mHotSpotX + "\" y=\"" + mHotSpotY + "\" xunits=\"fraction\" yunits=\"fraction\"/>\n");
 			writer.write("</IconStyle>\n");
 		} catch (IOException e) {

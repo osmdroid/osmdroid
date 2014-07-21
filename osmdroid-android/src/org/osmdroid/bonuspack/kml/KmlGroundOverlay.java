@@ -7,6 +7,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
@@ -140,7 +142,7 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	@Override public void writeKMLSpecifics(Writer writer){
 		try {
 			writer.write("<color>"+ColorStyle.colorAsKMLString(mColor)+"</color>\n");
-			writer.write("<Icon><href>"+mIconHref+"</href></Icon>\n");
+			writer.write("<Icon><href>"+StringEscapeUtils.escapeXml10(mIconHref)+"</href></Icon>\n");
 			writer.write("<LatLonBox>");
 			GeoPoint pNW = mCoordinates.get(0);
 			GeoPoint pSE = mCoordinates.get(1);
