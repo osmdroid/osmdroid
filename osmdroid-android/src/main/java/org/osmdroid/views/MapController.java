@@ -101,17 +101,17 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 			return;
 		}
 
-		// If no layout, delay this call
-		if (!mMapView.isLayoutOccurred()) {
-			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
-			return;
-		}
-
 		final BoundingBoxE6 bb = this.mMapView.getProjection().getBoundingBox();
 		final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
 		final int curLatSpan = bb.getLatitudeSpanE6();
 		final int curLonSpan = bb.getLongitudeSpanE6();
+
+		// If no layout or either current span is not greater than 0, delay this call
+		if (!mMapView.isLayoutOccurred() || curLatSpan <= 0 || curLonSpan <= 0) {
+			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
+			return;
+		}
 
 		final float diffNeededLat = (float) latSpanE6 / curLatSpan; // i.e. 600/500 = 1,2
 		final float diffNeededLon = (float) lonSpanE6 / curLonSpan; // i.e. 300/400 = 0,75
