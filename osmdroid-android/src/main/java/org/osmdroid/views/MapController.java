@@ -119,10 +119,10 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 		final float diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
 
 		if (diffNeeded > 1) { // Zoom Out
-			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
+			this.mMapView.setZoomLevel(curZoomLevel - MyMath.nextHigherPow2Exp(diffNeeded));
 		} else if (diffNeeded < 0.5) { // Can Zoom in
 			this.mMapView.setZoomLevel(curZoomLevel
-					+ MyMath.getNextSquareNumberAbove(1 / diffNeeded) - 1);
+					+ MyMath.nextHigherPow2Exp(1 / diffNeeded) - 1);
 		}
 	}
 
