@@ -19,6 +19,7 @@ import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.InfoWindow;
@@ -248,8 +249,9 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		
 		//16. Handling Map events
 		MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
-		Overlay removed = map.getOverlays().set(0, mapEventsOverlay);
-		map.getOverlays().add(removed);
+		map.getOverlays().add(0, mapEventsOverlay); //inserted at the "bottom" of all overlays
+		
+		//map.setMapOrientation(45.0f);
 	}
 	
 	//0. Using the Marker and Polyline overlays - advanced options
@@ -384,18 +386,20 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		//Toast.makeText(this, "Long press", Toast.LENGTH_SHORT).show();
 		//17. Using Polygon, defined as a circle:
 		Polygon circle = new Polygon(this);
-		circle.setPointsAsCircle(p, 10000.0);
+		circle.setPoints(Polygon.pointsAsCircle(p, 2000.0));
 		circle.setFillColor(0x12121212);
 		circle.setStrokeColor(Color.RED);
 		circle.setStrokeWidth(2);
 		map.getOverlays().add(circle);
+		circle.setInfoWindow(new DefaultInfoWindow(R.layout.bonuspack_bubble, map));
+		circle.setTitle("Centered on "+p.getLatitude()+","+p.getLongitude());
 		
 		//18. Using GroundOverlay
 		GroundOverlay myGroundOverlay = new GroundOverlay(this);
 		myGroundOverlay.setPosition(p);
 		myGroundOverlay.setImage(getResources().getDrawable(R.drawable.ic_launcher).mutate());
 		myGroundOverlay.setDimensions(2000.0f);
-		myGroundOverlay.setTransparency(0.25f);
+		//myGroundOverlay.setTransparency(0.25f);
 		myGroundOverlay.setBearing(mGroundOverlayBearing);
 		mGroundOverlayBearing += 20.0f;
 		map.getOverlays().add(myGroundOverlay);
