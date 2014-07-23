@@ -275,10 +275,10 @@ public class CacheManager {
 	
 	/**
 	 * Remove all cached tiles in the specified area. 
+	 * @param ctx
 	 * @param bb
 	 * @param zoomMin
 	 * @param zoomMax
-	 * @param tileSource
 	 */
 	public void cleanAreaAsync(Context ctx, BoundingBoxE6 bb, int zoomMin, int zoomMax){
 		new CleaningTask(ctx, bb, zoomMin, zoomMax).execute();
@@ -347,10 +347,10 @@ public class CacheManager {
 	} //CleaningTask
 	
 	/** @return volume currently use in the osmdroid local filesystem cache, in bytes. 
-	 * Unfortunately, due to lack of visibility in osmdroid classes, we cannot reuse the TileWriter.mUsedCacheSpace
 	 * Note that this method currently takes a while. 
 	 * */
 	public long currentCacheUsage(){
+		//return TileWriter.getUsedCacheSpace(); //returned value is not stable! Increase and decrease, for unknown reasons. 
 		return directorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
 	}
 

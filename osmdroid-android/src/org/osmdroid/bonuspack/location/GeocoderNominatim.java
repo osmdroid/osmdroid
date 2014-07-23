@@ -20,8 +20,8 @@ import android.util.Log;
 
 /**
  * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. <br>
- * See http://wiki.openstreetmap.org/wiki/Nominatim
- * or http://open.mapquestapi.com/nominatim/
+ * @see <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim Reference</a>
+ * @see <a href="http://open.mapquestapi.com/nominatim/">Nominatim at MapQuest Open</a>
  * 
  * @author M.Kergall
  */
@@ -245,7 +245,7 @@ public class GeocoderNominatim {
 	
 	/**
 	 * Equivalent to Geocoder::getFromLocation(String locationName, int maxResults, double lowerLeftLatitude, double lowerLeftLongitude, double upperRightLatitude, double upperRightLongitude)
-	 * @see getFromLocationName(String locationName, int maxResults), about extra data added in Address results. 
+	 * @see #getFromLocationName(String locationName, int maxResults) about extra data added in Address results. 
 	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults, 
 			double lowerLeftLatitude, double lowerLeftLongitude, 

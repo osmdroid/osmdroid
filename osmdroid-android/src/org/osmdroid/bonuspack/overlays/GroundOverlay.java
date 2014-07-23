@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
  * - image can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Maps API. <br/>
  * 
  * @author M.Kergall
+ * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/GroundOverlay.html">Google Maps GroundOverlay</a>
  *
  */
 public class GroundOverlay extends Overlay {

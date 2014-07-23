@@ -1,5 +1,6 @@
 package org.osmdroid.bonuspack.kml;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.zip.ZipFile;
@@ -38,10 +39,10 @@ public class Style extends StyleSelector implements Parcelable {
 		mPolyStyle.mColor = fillColor;
 	}
 	
-	public void setIcon(String iconHref, String containerFullPath, ZipFile kmzContainer){
+	public void setIcon(String iconHref, File containerFile, ZipFile kmzContainer){
 		if (mIconStyle == null)
 			mIconStyle = new IconStyle();
-		mIconStyle.setIcon(iconHref, containerFullPath, kmzContainer);
+		mIconStyle.setIcon(iconHref, containerFile, kmzContainer);
 	}
 	
 	public BitmapDrawable getFinalIcon(Context context){

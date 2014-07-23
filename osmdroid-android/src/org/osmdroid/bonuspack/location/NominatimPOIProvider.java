@@ -13,8 +13,8 @@ import android.util.Log;
 
 /**
  * POI Provider using Nominatim service. <br>
- * See http://wiki.openstreetmap.org/wiki/Nominatim<br>
- * and http://open.mapquestapi.com/nominatim/<br>
+ * @see <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim Reference</a>
+ * @see <a href="http://open.mapquestapi.com/nominatim/">Nominatim at MapQuest Open</a>
  * 
  * @author M.Kergall
  */
@@ -117,7 +117,7 @@ public class NominatimPOIProvider {
 	 * Note that Nominatim facility search uses Special Phrases instead of OSM tags. 
 	 * See http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
 	 * and http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/EN
-	 * or http://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPackDemo/res/values/poi_tags.xml
+	 * or http://code.google.com/p/osmbonuspack/source/browse/trunk/OSMNavigator/res/values/poi_tags.xml
 	 * @param maxResults the maximum number of POI returned. 
 	 * Note that in any case, Nominatim will have an absolute maximum of 50. 
 	 * @param maxDistance to the position, in degrees. 
@@ -144,11 +144,12 @@ public class NominatimPOIProvider {
 	/**
 	 * @param path
 	 * Warning: a very long path may cause a failure due to the url to be too long. 
-	 * Using a simplified route may help (see Road.getRouteLow()). 
+	 * Using a simplified route may help
 	 * @param facility Nominatim feature
 	 * @param maxResults
 	 * @param maxWidth to the path. Certainly not in degrees. Probably in km. 
 	 * @return list of POIs, null if technical issue. 
+	 * @see org.osmdroid.bonuspack.routing.Road#getRouteLow for simplifying a route path
 	 */
 	public ArrayList<POI> getPOIAlong(ArrayList<GeoPoint> path, String facility, 
 		int maxResults, double maxWidth){

@@ -22,7 +22,7 @@ import android.util.Log;
 /**
  * POI Provider using GeoNames services. 
  * Currently, "find Nearby Wikipedia" and "Wikipedia Articles in Bounding Box" services. 
- * @see http://www.geonames.org
+ * @see <a href="http://www.geonames.org">GeoNames API</a>
  * @author M.Kergall
  */
 public class GeoNamesPOIProvider {
@@ -31,7 +31,7 @@ public class GeoNamesPOIProvider {
 	
 	/**
 	 * @param account the registered "username" to give to GeoNames service. 
-	 * @see http://www.geonames.org/login
+	 * @see <a href="http://www.geonames.org/login">GeoNames Account</a>
 	 */
 	public GeoNamesPOIProvider(String account){
 		mUserName = account;

@@ -6,9 +6,9 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.NonAcceleratedOverlay;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.util.constants.MathConstants;
 import android.content.Context;
@@ -26,6 +26,7 @@ import android.graphics.Rect;
  * 
  * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode. 
  * 
+ * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  * @author M.Kergall
  */
 public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
@@ -74,6 +75,7 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		mPoints.add(new Point(aLatitudeE6, aLongitudeE6));
 	}
 
+	/** @return a copy of the points. */
 	public List<GeoPoint> getPoints(){
 		List<GeoPoint> result = new ArrayList<GeoPoint>(mOriginalPoints.length);
 		for (int i=0; i<mOriginalPoints.length; i++){
@@ -93,6 +95,11 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	
 	public float getWidth(){
 		return mPaint.getStrokeWidth();
+	}
+	
+	/** @return the Paint used. This allows to set advanced Paint settings. */
+	public Paint getPaint(){
+		return mPaint;
 	}
 	
 	public boolean isVisible(){
@@ -146,6 +153,10 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		}
 	}
 	
+	/** Set the points. 
+	 * Note that a later change in the original points List will have no effect. 
+	 * To add/remove/change points, you must call setPoints again. 
+	 * If geodesic mode has been set, the long segments will follow the earth "great circle". */
 	public void setPoints(List<GeoPoint> points){
 		clearPath();
 		int size = points.size();
@@ -210,7 +221,10 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
 				boundingBox.getLonEastE6(), null);
 		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
-
+		// take into account map orientation:
+		if (mapView.getMapOrientation() != 0.0f)
+			GeometryMath.getBoundingBoxForRotatatedRectangle(clipBounds, mapView.getMapOrientation(), clipBounds);
+		
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
 		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);

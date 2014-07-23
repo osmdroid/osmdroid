@@ -23,7 +23,7 @@ import android.support.v4.util.LongSparseArray;
  * 
  * Largely inspired from (open source) Google Maps Android utility library. 
  * 
- * @see https://github.com/googlemaps/android-maps-utils
+ * @see <a href="https://github.com/googlemaps/android-maps-utils">android-maps-utils</a>
  * @author M.Kergall
  *
  */

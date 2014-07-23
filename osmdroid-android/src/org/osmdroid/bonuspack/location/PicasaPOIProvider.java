@@ -18,7 +18,7 @@ import android.util.Log;
 
 /**
  * POI Provider using Picasa service. 
- * @see https://developers.google.com/picasa-web/docs/2.0/reference
+ * @see <a href="https://developers.google.com/picasa-web/docs/2.0/reference">Picasa API</a>
  * @author M.Kergall
  */
 public class PicasaPOIProvider {
@@ -27,7 +27,7 @@ public class PicasaPOIProvider {
 	
 	/**
 	 * @param accessToken the account to give to the service. Null for public access. 
-	 * @see https://developers.google.com/picasa-web/docs/2.0/developers_guide_protocol#CreatingAccount
+	 * @see <a href="https://developers.google.com/picasa-web/docs/2.0/developers_guide_protocol#CreatingAccount">Picasa Accounts</a>
 	 */
 	public PicasaPOIProvider(String accessToken){
 		mAccessToken = accessToken;

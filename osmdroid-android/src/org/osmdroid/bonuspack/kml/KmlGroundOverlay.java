@@ -7,7 +7,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -72,17 +71,19 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 	
 	/** load the icon from its href. 
 	 * @param href either the full url, or a relative path to a local file. 
-	 * @param containerFullPath full path of the container file. 
+	 * @param containerFile the KML container file - or null if irrelevant. 
 	 * @param kmzContainer current KMZ file (as a ZipFile) - or null if irrelevant. 
 	 */
-	public void setIcon(String href, String containerFullPath, ZipFile kmzContainer){
+	public void setIcon(String href, File containerFile, ZipFile kmzContainer){
 		mIconHref = href;
 		if (mIconHref.startsWith("http://") || mIconHref.startsWith("https://")){
 			mIcon = BonusPackHelper.loadBitmap(mIconHref);
 		} else if (kmzContainer == null) {
-			File file = new File(containerFullPath);
-			String actualFullPath = file.getParent()+'/'+mIconHref;
-			mIcon = BitmapFactory.decodeFile(actualFullPath);
+			if (containerFile != null){
+				String actualFullPath = containerFile.getParent()+'/'+mIconHref;
+				mIcon = BitmapFactory.decodeFile(actualFullPath);
+			} else
+				mIcon = null;
 		} else {
 			try {
 				final ZipEntry fileEntry = kmzContainer.getEntry(href);
@@ -114,22 +115,20 @@ public class KmlGroundOverlay extends KmlFeature implements Cloneable, Parcelabl
 			int height = pSW.distanceTo(pNW);
 			overlay.setDimensions((float)width, (float)height);
 		}
-		//TODO: 
-		//else if size=4, nonrectangular quadrilateral
-		//else, error
+		//TODO: else if size=4, nonrectangular quadrilateral
 		
-		if (mIcon != null)
+		if (mIcon != null){
 			overlay.setImage(new BitmapDrawable(mIcon));
-		else {
-			/* TODO: currently filling the canvas. 
-			ColorDrawable rect = new ColorDrawable(mColor);
-			rect.setAlpha(255); //transparency will be applied below. 
-			overlay.setImage(rect);
-			*/
+			//TODO: not clearly defined in KML spec, but color is supposed to be blended with the image. 
+			float transparency = 1.0f - Color.alpha(mColor)/255.0f; //KML transparency is the transparency part of the "color" element. 
+			overlay.setTransparency(transparency);
+		} else {
+			//when no image available, set it as a rectangle filled with the KML color
+			Bitmap bitmap = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
+			bitmap.eraseColor(mColor);
+			overlay.setImage(new BitmapDrawable(bitmap));
 		}
 		
-		float transparency = 1.0f - Color.alpha(mColor)/255.0f; //KML transparency is the transparency part of the "color" element. 
-		overlay.setTransparency(transparency);
 		overlay.setBearing(-mRotation); //from KML counterclockwise to Google Maps API which is clockwise
 		if (styler == null)
 			overlay.setEnabled(mVisibility);

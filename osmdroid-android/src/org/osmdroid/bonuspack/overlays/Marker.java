@@ -34,7 +34,7 @@ import android.view.MotionEvent;
  * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
  * 
  * @see MarkerInfoWindow
- * @see http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html
+ * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
  * 
  * @author M.Kergall
  *

@@ -236,7 +236,7 @@ public class GeocoderNominatimOld {
 	
 	/**
 	 * Equivalent to Geocoder::getFromLocation(String locationName, int maxResults, double lowerLeftLatitude, double lowerLeftLongitude, double upperRightLatitude, double upperRightLongitude)
-	 * @see getFromLocationName(String locationName, int maxResults) about extra data added in Address results. 
+	 * @see #getFromLocationName(String locationName, int maxResults) about extra data added in Address results. 
 	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults, 
 			double lowerLeftLatitude, double lowerLeftLongitude, 

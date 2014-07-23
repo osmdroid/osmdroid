@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.NonAcceleratedOverlay;
 import org.osmdroid.views.overlay.Overlay;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -28,6 +27,7 @@ import android.view.MotionEvent;
  * 
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
  * @author M.Kergall: transformation from PathOverlay to Polygon
+ * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polygon.html">Google Maps Polygon</a>
  */
 public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 
@@ -153,6 +153,7 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		mOutlinePaint.setColor(Color.BLACK);
 		mOutlinePaint.setStrokeWidth(10.0f);
 		mOutlinePaint.setStyle(Paint.Style.STROKE);
+		mOutlinePaint.setAntiAlias(true);
 		mOutline = new LinearRing();
 		mHoles = new ArrayList<LinearRing>(0);
 		/*
@@ -177,6 +178,11 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 
 	public float getStrokeWidth() {
 		return mOutlinePaint.getStrokeWidth();
+	}
+	
+	/** @return the Paint used for the outline. This allows to set advanced Paint settings. */
+	public Paint getOutlinePaint(){
+		return mOutlinePaint;
 	}
 	
 	/**
@@ -230,18 +236,49 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		return result;
 	}
 
-	/**
-	 * Set the points of the Polygon as a circle. 
+	/** Build a list of GeoPoint as a circle. 
 	 * @param center center of the circle
 	 * @param radiusInMeters
+	 * @return the list of GeoPoint
 	 */
-	public void setPointsAsCircle(GeoPoint center, double radiusInMeters){
+	public static ArrayList<GeoPoint> pointsAsCircle(GeoPoint center, double radiusInMeters){
 		ArrayList<GeoPoint> circlePoints = new ArrayList<GeoPoint>(360/6);
 		for (int f = 0; f < 360; f += 6){
 			GeoPoint onCircle = center.destinationPoint(radiusInMeters, f);
 			circlePoints.add(onCircle);
 		}
-		setPoints(circlePoints);
+		return circlePoints;
+	}
+	
+	/** Build a list of GeoPoint as a rectangle. 
+	 * @param rectangle defined as a BoundingBox 
+	 * @return the list of 4 GeoPoint */
+	public static ArrayList<GeoPoint> pointsAsRect(BoundingBoxE6 rectangle){
+		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(4);
+		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonWestE6()));
+		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonEastE6()));
+		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonEastE6()));
+		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonWestE6()));
+		return points;
+	}
+	
+	/** Build a list of GeoPoint as a rectangle. 
+	 * @param center of the rectangle
+	 * @param lengthInMeters on longitude
+	 * @param widthInMeters on latitude
+	 * @return the list of 4 GeoPoint
+	 */
+	public static ArrayList<GeoPoint> pointsAsRect(GeoPoint center, double lengthInMeters, double widthInMeters){
+		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(4);
+		GeoPoint east = center.destinationPoint(lengthInMeters*0.5, 90.0f);
+		GeoPoint south = center.destinationPoint(widthInMeters*0.5, 180.0f);
+		int westLon = center.getLongitudeE6()*2 - east.getLongitudeE6();
+		int northLat = center.getLatitudeE6()*2 - south.getLatitudeE6();
+		points.add(new GeoPoint(south.getLatitudeE6(), east.getLongitudeE6()));
+		points.add(new GeoPoint(south.getLatitudeE6(), westLon));
+		points.add(new GeoPoint(northLat, westLon));
+		points.add(new GeoPoint(northLat, east.getLongitudeE6()));
+		return points;
 	}
 	
 	public void setTitle(String title){

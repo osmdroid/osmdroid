@@ -18,9 +18,9 @@ import android.util.Log;
  * going through a list of waypoints. 
  * 
  * It uses MapQuest open, public and free API, based on OpenStreetMap data. <br>
- * See http://open.mapquestapi.com/guidance
- * @return a "Road" object. 
- * 
+ * Return a "Road" object. 
+ * @see Road
+ * @see <a href="http://open.mapquestapi.com/guidance">MapQuest Guidance API</a>
  * @author M.Kergall
  */
 public class MapQuestRoadManager extends RoadManager {
@@ -30,7 +30,7 @@ public class MapQuestRoadManager extends RoadManager {
 	
 	/**
 	 * @param apiKey MapQuest API key, mandatory to use the MapQuest Open service. 
-	 * @see http://developer.mapquest.com
+	 * @see <a href="http://developer.mapquest.com">MapQuest API</a>
 	 */
 	public MapQuestRoadManager(String apiKey){
 		super();

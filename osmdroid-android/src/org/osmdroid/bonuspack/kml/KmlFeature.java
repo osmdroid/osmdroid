@@ -26,7 +26,7 @@ import android.util.Log;
  * 	- Placemark feature is a KmlPlacemark. <br>
  * 
  * @see KmlDocument
- * @see https://developers.google.com/kml/documentation/kmlreference
+ * @see <a href="https://developers.google.com/kml/documentation/kmlreference">KML Reference</a>
  * 
  * @author M.Kergall
  */

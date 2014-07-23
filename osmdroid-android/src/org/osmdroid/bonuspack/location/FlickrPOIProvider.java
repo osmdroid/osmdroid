@@ -11,7 +11,7 @@ import android.util.Log;
 
 /**
  * POI Provider using Flickr service to get geolocalized photos. 
- * @see http://www.flickr.com/services/api/flickr.photos.search.html
+ * @see <a href="http://www.flickr.com/services/api/flickr.photos.search.html">Flickr API</a>
  * @author M.Kergall
  */
 public class FlickrPOIProvider {
@@ -20,7 +20,7 @@ public class FlickrPOIProvider {
 	
 	/**
 	 * @param apiKey the registered API key to give to Flickr service. 
-	 * @see http://www.flickr.com/help/api/
+	 * @see <a href="http://www.flickr.com/help/api/">Flickr registration</a>
 	 */
 	public FlickrPOIProvider(String apiKey){
 		mApiKey = apiKey;

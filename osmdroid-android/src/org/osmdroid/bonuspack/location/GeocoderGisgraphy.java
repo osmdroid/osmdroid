@@ -28,7 +28,7 @@ import android.util.Log;
  * where Nominatim perfectly geocodes them. 
  * - there is no "maxresults/limit" parameter. 10 results are usually returned, a lot of them completely irrelevant. 
  * 
- * @see http://www.gisgraphy.com/documentation/user-guide.htm#geocodingservice
+ * @see <a href="http://www.gisgraphy.com/documentation/user-guide.htm#geocodingservice">Gisgraphy API</a>
  * @author M.Kergall
  *
  */
