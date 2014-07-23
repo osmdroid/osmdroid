@@ -76,7 +76,7 @@
     <item
         android:id="@+id/menu_kml"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="KML toolbox">
+        android:title="KML Toolbox">
         <menu>
             <group>
 				<item
@@ -90,10 +90,10 @@
 				      android:title="Pick Overlays"/>
 				<item
 			        android:id="@+id/menu_kml_tree"
-			        android:title="Edit..."/>
+			        android:title="Edit Features..."/>
 				<item
 			        android:id="@+id/menu_kml_styles"
-			        android:title="Edit Styles..."/>
+			        android:title="Edit Shared Styles..."/>
 				<item
 				      android:id="@+id/menu_save_file"
 				      android:title="Save as..."/>

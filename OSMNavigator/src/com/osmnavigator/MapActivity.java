@@ -66,6 +66,8 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -105,13 +107,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected GeoPoint startPoint, destinationPoint;
 	protected ArrayList<GeoPoint> viaPoints;
 	protected static int START_INDEX=-2, DEST_INDEX=-1;
-	protected FolderOverlay itineraryMarkers; 
+	protected FolderOverlay mItineraryMarkers;
 		//for departure, destination and viapoints
 	protected Marker markerStart, markerDestination;
 	protected ViaPointInfoWindow mViaPointInfoWindow;
 	protected DirectedLocationOverlay myLocationOverlay;
 	//MyLocationNewOverlay myLocationNewOverlay;
-	protected LocationManager locationManager;
+	protected LocationManager mLocationManager;
 	//protected SensorManager mSensorManager;
 	//protected Sensor mOrientation;
 
@@ -122,14 +124,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected Polygon mDestinationPolygon; //enclosing polygon of destination location
 	
 	public static Road mRoad; //made static to pass between activities
-	protected Polyline roadOverlay;
-	protected FolderOverlay roadNodeMarkers;
+	protected Polyline mRoadOverlay;
+	protected FolderOverlay mRoadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
 	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
 	int whichRouteProvider;
 	
 	public static ArrayList<POI> mPOIs; //made static to pass between activities
-	GridMarkerClusterer poiMarkers;
+	GridMarkerClusterer mPoiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
@@ -175,7 +177,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MapEventsOverlay overlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(overlay);
 		
-		locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
+		mLocationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 		
 		//mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		//mOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
@@ -189,9 +191,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.getOverlays().add(myLocationOverlay);
 
 		if (savedInstanceState == null){
-			Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			Location location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			if (location == null)
-				location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+				location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 			if (location != null) {
 				//location known:
 				onLocationChanged(location);
@@ -214,8 +216,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.getOverlays().add(scaleBarOverlay);
 		
 		// Itinerary markers:
-		itineraryMarkers = new FolderOverlay(this);
-		map.getOverlays().add(itineraryMarkers);
+		mItineraryMarkers = new FolderOverlay(this);
+		mItineraryMarkers.setName("Route Via-Points");
+		map.getOverlays().add(mItineraryMarkers);
 		mViaPointInfoWindow = new ViaPointInfoWindow(R.layout.itinerary_bubble, map);
 		updateUIWithItineraryMarkers();
 		
@@ -274,8 +277,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//Route and Directions
 		whichRouteProvider = prefs.getInt("ROUTE_PROVIDER", OSRM);
 		
-    	roadNodeMarkers = new FolderOverlay(this);
-		map.getOverlays().add(roadNodeMarkers);
+		mRoadNodeMarkers = new FolderOverlay(this);
+		mRoadNodeMarkers.setName("Route Steps");
+		map.getOverlays().add(mRoadNodeMarkers);
 		
 		if (savedInstanceState != null){
 			//STATIC mRoad = savedInstanceState.getParcelable("road");
@@ -303,18 +307,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 		});
 		//POI markers:
-		poiMarkers = new GridMarkerClusterer(this);
+		mPoiMarkers = new GridMarkerClusterer(this);
 		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_poi_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
-		poiMarkers.setIcon(clusterIcon);
-		poiMarkers.mAnchorV = Marker.ANCHOR_BOTTOM;
-		poiMarkers.mTextAnchorU = 0.70f;
-		poiMarkers.mTextAnchorV = 0.27f;
-		poiMarkers.getTextPaint().setTextSize(12.0f);
-		map.getOverlays().add(poiMarkers);
+		mPoiMarkers.setIcon(clusterIcon);
+		mPoiMarkers.mAnchorV = Marker.ANCHOR_BOTTOM;
+		mPoiMarkers.mTextAnchorU = 0.70f;
+		mPoiMarkers.mTextAnchorV = 0.27f;
+		mPoiMarkers.getTextPaint().setTextSize(12.0f);
+		map.getOverlays().add(mPoiMarkers);
 		if (savedInstanceState != null){
 			//STATIC - mPOIs = savedInstanceState.getParcelableArrayList("poi");
-			updateUIWithPOI(mPOIs);
+			updateUIWithPOI(mPOIs, "");
 		}
 
 		//KML handling:
@@ -379,7 +383,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
 				map.getController().setCenter(mRoad.mNodes.get(nodeId).mLocation);
-				Marker roadMarker = (Marker)roadNodeMarkers.getItems().get(nodeId);
+				Marker roadMarker = (Marker)mRoadNodeMarkers.getItems().get(nodeId);
 				roadMarker.showInfoWindow();
 			}
 			break;
@@ -387,7 +391,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (resultCode == RESULT_OK) {
 				int id = intent.getIntExtra("ID", 0);
 				map.getController().setCenter(mPOIs.get(id).mLocation);
-				Marker poiMarker = (Marker)poiMarkers.getItem(id);
+				Marker poiMarker = (Marker)mPoiMarkers.getItem(id);
 				poiMarker.showInfoWindow();
 			}
 			break;
@@ -424,8 +428,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	boolean startLocationUpdates(){
 		boolean result = false;
-		for (final String provider : locationManager.getProviders(true)) {
-			locationManager.requestLocationUpdates(provider, 2*1000, 0.0f, this);
+		for (final String provider : mLocationManager.getProviders(true)) {
+			mLocationManager.requestLocationUpdates(provider, 2*1000, 0.0f, this);
 			result = true;
 		}
 		return result;
@@ -442,7 +446,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	@Override protected void onPause() {
 		super.onPause();
-		locationManager.removeUpdates(this);
+		mLocationManager.removeUpdates(this);
 		//TODO: mSensorManager.unregisterListener(this);
 		savePrefs();
 	}
@@ -545,9 +549,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				if (extras != null && extras.containsKey("polygonpoints")){
 					ArrayList<GeoPoint> polygon = extras.getParcelableArrayList("polygonpoints");
 					//Log.d("DEBUG", "polygon:"+polygon.size());
-					updateUIWithPolygon(polygon);
+					updateUIWithPolygon(polygon, addressDisplayName);
 				} else {
-					updateUIWithPolygon(null);
+					updateUIWithPolygon(null, "");
 				}
 			}
 		} catch (Exception e) {
@@ -556,7 +560,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	//add or replace the polygon overlay
-	public void updateUIWithPolygon(ArrayList<GeoPoint> polygon){
+	public void updateUIWithPolygon(ArrayList<GeoPoint> polygon, String name){
 		List<Overlay> mapOverlays = map.getOverlays();
 		int location = -1;
 		if (mDestinationPolygon != null)
@@ -565,6 +569,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mDestinationPolygon.setFillColor(0x15FF0080);
 		mDestinationPolygon.setStrokeColor(0x800000FF);
 		mDestinationPolygon.setStrokeWidth(5.0f);
+		mDestinationPolygon.setTitle(name);
 		BoundingBoxE6 bb = null;
 		if (polygon != null){
 			mDestinationPolygon.setPoints(polygon);
@@ -573,7 +578,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (location != -1)
 			mapOverlays.set(location, mDestinationPolygon);
 		else
-			mapOverlays.add(mDestinationPolygon);
+			mapOverlays.add(1, mDestinationPolygon); //insert just above the MapEventsOverlay. 
 		if (bb != null)
 			setViewOn(bb);
 		map.invalidate();
@@ -625,7 +630,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			marker.setInfoWindow(mViaPointInfoWindow);
 			marker.setDraggable(true);
 			marker.setOnMarkerDragListener(mItineraryListener);
-			itineraryMarkers.add(marker);
+			mItineraryMarkers.add(marker);
 		}
 		marker.setTitle(title);
 		marker.setPosition(p);
@@ -652,13 +657,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (index == START_INDEX){
 			startPoint = null;
 			if (markerStart != null){
-				itineraryMarkers.remove(markerStart);
+				mItineraryMarkers.remove(markerStart);
 				markerStart = null;
 			}
 		} else if (index == DEST_INDEX){
 			destinationPoint = null;
 			if (markerDestination != null){
-				itineraryMarkers.remove(markerDestination);
+				mItineraryMarkers.remove(markerDestination);
 				markerDestination = null;
 			}
 		} else {
@@ -669,7 +674,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	public void updateUIWithItineraryMarkers(){
-		itineraryMarkers.getItems().clear();
+		mItineraryMarkers.getItems().clear();
 		//Start marker:
 		if (startPoint != null){
 			markerStart = updateItineraryMarker(null, startPoint, START_INDEX, 
@@ -690,7 +695,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     //------------ Route and Directions
     
     private void putRoadNodes(Road road){
-		roadNodeMarkers.getItems().clear();
+		mRoadNodeMarkers.getItems().clear();
 		Drawable icon = getResources().getDrawable(R.drawable.marker_node);
 		int n = road.mNodes.size();
 		MarkerInfoWindow infoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, map);
@@ -710,28 +715,32 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	    		Drawable image = getResources().getDrawable(iconId);
 	    		nodeMarker.setImage(image);
     		}
-    		roadNodeMarkers.add(nodeMarker);
+    		mRoadNodeMarkers.add(nodeMarker);
     	}
     	iconIds.recycle();
-    }
-    
+	}
+
 	void updateUIWithRoad(Road road){
-		roadNodeMarkers.getItems().clear();
+		mRoadNodeMarkers.getItems().clear();
 		TextView textView = (TextView)findViewById(R.id.routeInfo);
 		textView.setText("");
 		List<Overlay> mapOverlays = map.getOverlays();
-		if (roadOverlay != null){
-			mapOverlays.remove(roadOverlay);
+		if (mRoadOverlay != null){
+			mapOverlays.remove(mRoadOverlay);
+			mRoadOverlay = null;
 		}
 		if (road == null)
 			return;
 		if (road.mStatus != Road.STATUS_OK)
 			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
-		roadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
-		Overlay removedOverlay = mapOverlays.set(1, roadOverlay);
-			//we set the road overlay at the "bottom", just above the MapEventsOverlay,
+		mRoadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
+		if (whichRouteProvider == MAPQUEST_BICYCLE || whichRouteProvider == MAPQUEST_PEDESTRIAN){
+			Paint p = mRoadOverlay.getPaint();
+			p.setPathEffect(new DashPathEffect(new float[] {10,5}, 0));
+		}
+		mapOverlays.add(1, mRoadOverlay);
+			//we insert the road overlay at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
-		mapOverlays.add(removedOverlay);
 		putRoadNodes(road);
 		map.invalidate();
 		//Set route info in the text view:
@@ -807,7 +816,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	//----------------- POIs
 	
-	void updateUIWithPOI(ArrayList<POI> pois){
+	void updateUIWithPOI(ArrayList<POI> pois, String featureTag){
 		if (pois != null){
 			POIInfoWindow poiInfoWindow = new POIInfoWindow(map);
 			for (POI poi:pois){
@@ -836,10 +845,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				poiMarker.setRelatedObject(poi);
 				poiMarker.setInfoWindow(poiInfoWindow);
 				//thumbnail loading moved in async task for better performances. 
-				poiMarkers.add(poiMarker);
+				mPoiMarkers.add(poiMarker);
 			}
 		}
-		poiMarkers.invalidate();
+		mPoiMarkers.setName(featureTag);
+		mPoiMarkers.invalidate();
 		map.invalidate();
 	}
 	
@@ -878,34 +888,34 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mThreadPool = Executors.newFixedThreadPool(3);
 		for (int i=0; i<pois.size(); i++){
 			final POI poi = pois.get(i);
-			final Marker marker = (Marker)poiMarkers.getItem(i);
+			final Marker marker = (Marker)mPoiMarkers.getItem(i);
 			mThreadPool.submit(new ThumbnailLoaderTask(poi, marker));
 		}
 	}
 	
 	private class POILoadingTask extends AsyncTask<Object, Void, ArrayList<POI>> {
-		String mTag;
+		String mFeatureTag;
 		protected ArrayList<POI> doInBackground(Object... params) {
-			mTag = (String)params[0];
+			mFeatureTag = (String)params[0];
 			
-			if (mTag == null || mTag.equals("")){
+			if (mFeatureTag == null || mFeatureTag.equals("")){
 				return null;
-			} else if (mTag.equals("wikipedia")){
+			} else if (mFeatureTag.equals("wikipedia")){
 				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
 				//Get POI inside the bounding box of the current map view:
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 				return pois;
-			} else if (mTag.equals("flickr")){
+			} else if (mFeatureTag.equals("flickr")){
 				FlickrPOIProvider poiProvider = new FlickrPOIProvider("c39be46304a6c6efda8bc066c185cd7e");
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 				return pois;
-			} else if (mTag.startsWith("picasa")){
+			} else if (mFeatureTag.startsWith("picasa")){
 				PicasaPOIProvider poiProvider = new PicasaPOIProvider(null);
 				BoundingBoxE6 bb = map.getBoundingBox();
 				//allow to search for keywords among picasa photos:
-				String q = mTag.substring("picasa".length());
+				String q = mFeatureTag.substring("picasa".length());
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 50, q);
 				return pois;
 			} else {
@@ -914,30 +924,30 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ArrayList<POI> pois;
 				if (mRoad == null){
 					BoundingBoxE6 bb = map.getBoundingBox();
-					pois = poiProvider.getPOIInside(bb, mTag, 100);
+					pois = poiProvider.getPOIInside(bb, mFeatureTag, 100);
 				} else {
-					pois = poiProvider.getPOIAlong(mRoad.getRouteLow(), mTag, 100, 2.0);
+					pois = poiProvider.getPOIAlong(mRoad.getRouteLow(), mFeatureTag, 100, 2.0);
 				}
 				return pois;
 			}
 		}
 		protected void onPostExecute(ArrayList<POI> pois) {
 			mPOIs = pois;
-			if (mTag.equals("")){
+			if (mFeatureTag.equals("")){
 				//no search, no message
 			} else if (mPOIs == null){
-				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mTag+ " POI.", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mFeatureTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mTag+ " entries found", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mFeatureTag+ " entries found", Toast.LENGTH_LONG).show();
 			}
-			updateUIWithPOI(mPOIs);
-			if (mTag.equals("flickr")||mTag.startsWith("picasa")||mTag.equals("wikipedia"))
+			updateUIWithPOI(mPOIs, mFeatureTag);
+			if (mFeatureTag.equals("flickr")||mFeatureTag.startsWith("picasa")||mFeatureTag.equals("wikipedia"))
 				startAsyncThumbnailsLoading(mPOIs);
 		}
 	}
 	
 	void getPOIAsync(String tag){
-		poiMarkers.getItems().clear();
+		mPoiMarkers.getItems().clear();
 		new POILoadingTask().execute(tag);
 	}
 	
@@ -1102,14 +1112,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void insertOverlaysInKml(){
 		KmlFolder root = mKmlDocument.mKmlRoot;
 		//Insert relevant overlays inside:
-		if (itineraryMarkers.getItems().size()>0)
-			root.addOverlay(itineraryMarkers, mKmlDocument);
-		root.addOverlay(roadOverlay, mKmlDocument);
-		if (roadNodeMarkers.getItems().size()>0)
-			root.addOverlay(roadNodeMarkers, mKmlDocument);
+		if (mItineraryMarkers.getItems().size()>0)
+			root.addOverlay(mItineraryMarkers, mKmlDocument);
+		root.addOverlay(mRoadOverlay, mKmlDocument);
+		if (mRoadNodeMarkers.getItems().size()>0)
+			root.addOverlay(mRoadNodeMarkers, mKmlDocument);
 		root.addOverlay(mDestinationPolygon, mKmlDocument);
-		if (poiMarkers.getItems().size()>0)
-			root.addOverlay(poiMarkers, mKmlDocument);
+		if (mPoiMarkers.getItems().size()>0){
+			root.addOverlay(mPoiMarkers, mKmlDocument);
+		}
 	}
 	
 	void addKmlPoint(GeoPoint position){
@@ -1265,13 +1276,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		switch (item.getItemId()) {
 		case R.id.menu_itinerary:
 			myIntent = new Intent(this, RouteActivity.class);
-			int currentNodeId = getIndexOfBubbledMarker(roadNodeMarkers.getItems());
+			int currentNodeId = getIndexOfBubbledMarker(mRoadNodeMarkers.getItems());
 			myIntent.putExtra("NODE_ID", currentNodeId);
 			startActivityForResult(myIntent, ROUTE_REQUEST);
 			return true;
 		case R.id.menu_pois:
 			myIntent = new Intent(this, POIActivity.class);
-			myIntent.putExtra("ID", getIndexOfBubbledMarker(poiMarkers.getItems()));
+			myIntent.putExtra("ID", getIndexOfBubbledMarker(mPoiMarkers.getItems()));
 			startActivityForResult(myIntent, POIS_REQUEST);
 			return true;
 		case R.id.menu_kml_url:

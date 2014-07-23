@@ -85,7 +85,7 @@ public class KmlStyleActivity extends Activity {
 		styles.put(newStyleId, mStyle);
 		
 		String iconHref = eIconHref.getText().toString();
-		mStyle.mIconStyle.setIcon(iconHref, null /*MapActivity.mKmlDocument.getFile()*/, null);
+		mStyle.mIconStyle.setIcon(iconHref, MapActivity.mKmlDocument.getLocalFile(), null);
 		
 		String sColor = eOutlineColor.getText().toString();
 		try  { 
