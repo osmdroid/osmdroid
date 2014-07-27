@@ -16,11 +16,12 @@ import android.util.Log;
 
 /** get a route between a start and a destination point.
  * It uses OSRM, a free open source routing service based on OpenSteetMap data. <br>
- * See https://github.com/DennisOSRM/Project-OSRM/wiki/Server-api<br>
- * 
  * It requests by default the OSRM demo site. 
  * Use setService() to request an other (for instance your own) OSRM service. <br> 
  * TODO: improve internationalization of instructions
+ * 
+ * @see <a href="https://github.com/DennisOSRM/Project-OSRM/wiki/Server-api">OSRM</a>
+ * 
  * @author M.Kergall
  */
 public class OSRMRoadManager extends RoadManager {
