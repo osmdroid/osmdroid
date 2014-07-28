@@ -14,8 +14,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
 
-/** class to get a route between a start and a destination point, 
- * going through a list of waypoints. 
+/** class to get a route between a start and a destination point, going through a list of waypoints. 
  * 
  * It uses MapQuest open, public and free API, based on OpenStreetMap data. <br>
  * Return a "Road" object. 

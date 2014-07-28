@@ -14,10 +14,12 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import android.util.Log;
 
-/** get a route between a start and a destination point.
+/** get a route between a start and a destination point, going through a list of waypoints.
  * It uses OSRM, a free open source routing service based on OpenSteetMap data. <br>
+ * 
  * It requests by default the OSRM demo site. 
  * Use setService() to request an other (for instance your own) OSRM service. <br> 
+ * 
  * TODO: improve internationalization of instructions
  * 
  * @see <a href="https://github.com/DennisOSRM/Project-OSRM/wiki/Server-api">OSRM</a>
@@ -26,9 +28,7 @@ import android.util.Log;
  */
 public class OSRMRoadManager extends RoadManager {
 
-	static final String OSRM_SERVICE = "http://router.project-osrm.org/viaroute?";
-	//Note that the result of OSRM is quite close to Cloudmade NavEngine format:
-	//http://developers.cloudmade.com/wiki/navengine/JSON_format
+	static final String SERVICE = "http://router.project-osrm.org/viaroute?";
 
 	protected String mServiceUrl;
 	protected String mUserAgent;
@@ -168,7 +168,7 @@ public class OSRMRoadManager extends RoadManager {
 	
 	public OSRMRoadManager(){
 		super();
-		mServiceUrl = OSRM_SERVICE;
+		mServiceUrl = SERVICE;
 		mUserAgent = BonusPackHelper.DEFAULT_USER_AGENT; //set user agent to the default one. 
 	}
 	
@@ -248,6 +248,7 @@ public class OSRMRoadManager extends RoadManager {
 			road.mLength = jSummary.getInt("total_distance")/1000.0;
 			road.mDuration = jSummary.getInt("total_time");
 		} catch (JSONException e) {
+			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
 			e.printStackTrace();
 		}
 		if (road.mStatus != Road.STATUS_OK){

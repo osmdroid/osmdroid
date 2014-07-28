@@ -20,12 +20,10 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
-/** class to get a route between a start and a destination point, 
- * going through a list of waypoints. <br>
- * https://developers.google.com/maps/documentation/directions/<br>
+/** class to get a route between a start and a destination point, going through a list of waypoints. <br>
  * Note that displaying a route provided by Google on a non-Google map (like OSM) is not allowed by Google T&C. 
+ * @see <a href="https://developers.google.com/maps/documentation/directions">Google Maps Directions API</a>
  * @author M.Kergall
- * TODO: replace GoogleDirectionsHandler mString by a StringBuilder
  */
 public class GoogleRoadManager extends RoadManager {
 	

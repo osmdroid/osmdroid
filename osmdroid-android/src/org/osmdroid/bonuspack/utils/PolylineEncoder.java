@@ -3,8 +3,6 @@ package org.osmdroid.bonuspack.utils;
 import java.util.ArrayList;
 import org.osmdroid.util.GeoPoint;
 
-import android.util.Log;
-
 /**
  * Methods to encode and decode a polyline with Google polyline encoding/decoding scheme. 
  * See https://developers.google.com/maps/documentation/utilities/polylinealgorithm
