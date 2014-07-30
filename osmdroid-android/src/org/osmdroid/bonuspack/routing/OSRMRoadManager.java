@@ -219,7 +219,7 @@ public class OSRMRoadManager extends RoadManager {
 			JSONObject jObject = new JSONObject(jString);
 			road.mStatus = jObject.getInt("status");
 			String route_geometry = jObject.getString("route_geometry");
-			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1);
+			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
 			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
 			int n = jInstructions.length();
 			RoadNode lastNode = null;

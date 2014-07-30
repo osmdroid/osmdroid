@@ -5,12 +5,16 @@ import org.osmdroid.util.GeoPoint;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/** Road intersection, with instructions to continue. 
+/** Road intersection, with instructions about what to do at this intersection. 
  * 
  * @author M.Kergall
  */
 public class RoadNode implements Parcelable {
-	/** @see <a href="http://open.mapquestapi.com/guidance/#maneuvertypes">Maneuver Types</a> */
+	/** A common reference has been chosen for maneuver types. 
+	 * The MapQuest Open Maneuver Types list has been selected, as it was the most precise and seems stable. 
+	 * All road managers convert the service-specific values to this common reference. 
+	 * @see <a href="http://open.mapquestapi.com/guidance/#maneuvertypes">MapQuest Maneuver Types</a> 
+	 * */
 	public int mManeuverType; 
 	/** textual information on what to do at this intersection */
 	public String mInstructions;

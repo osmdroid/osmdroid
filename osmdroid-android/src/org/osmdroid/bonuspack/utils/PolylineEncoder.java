@@ -5,7 +5,7 @@ import org.osmdroid.util.GeoPoint;
 
 /**
  * Methods to encode and decode a polyline with Google polyline encoding/decoding scheme. 
- * See https://developers.google.com/maps/documentation/utilities/polylinealgorithm
+ * @see <a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">Google polyline algorithm</a>
  */
 public class PolylineEncoder {
 	
@@ -52,18 +52,20 @@ public class PolylineEncoder {
     /**
      * Decode a "Google-encoded" polyline
      * @param encodedString
-     * @param precision 1 for a 6 digits encoding, 10 for a 5 digits encoding. 
+     * @param precision 1 for a 6 digits encoding of lat and lon, 10 for a 5 digits encoding. 
+     * @param hasAltitude if the polyline also contains altitude (GraphHopper routes, with altitude in cm). 
      * @return the polyline. 
      */
-    public static ArrayList<GeoPoint> decode(String encodedString, int precision) {
+    public static ArrayList<GeoPoint> decode(String encodedString, int precision, boolean hasAltitude) {
         int index = 0;
         int len = encodedString.length();
-        int lat = 0, lng = 0;
+        int lat = 0, lng = 0, alt = 0;
         ArrayList<GeoPoint> polyline = new ArrayList<GeoPoint>(len/3);
         	//capacity estimate: polyline size is roughly 1/3 of string length for a 5digits encoding, 1/5 for 10digits. 
 
         while (index < len) {
-            int b, shift = 0, result = 0;
+            int b, shift, result;
+            shift = result = 0;
             do {
                 b = encodedString.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
@@ -72,8 +74,7 @@ public class PolylineEncoder {
             int dlat = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
             lat += dlat;
 
-            shift = 0;
-            result = 0;
+            shift = result = 0;
             do {
                 b = encodedString.charAt(index++) - 63;
                 result |= (b & 0x1f) << shift;
@@ -82,7 +83,18 @@ public class PolylineEncoder {
             int dlng = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
             lng += dlng;
 
-            GeoPoint p = new GeoPoint(lat*precision, lng*precision);
+            if (hasAltitude){
+                shift = result = 0;
+                do {
+                    b = encodedString.charAt(index++) - 63;
+                    result |= (b & 0x1f) << shift;
+                    shift += 5;
+                } while (b >= 0x20);
+                int dalt = ((result & 1) != 0 ? ~(result >> 1) : (result >> 1));
+                alt += dalt;
+            }
+            
+            GeoPoint p = new GeoPoint(lat*precision, lng*precision, alt/100);
             polyline.add(p);
         }
         

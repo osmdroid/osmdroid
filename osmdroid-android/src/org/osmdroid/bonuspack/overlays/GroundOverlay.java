@@ -2,6 +2,7 @@ package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -93,6 +94,19 @@ public class GroundOverlay extends Overlay {
 	
 	public float getTransparency(){
 		return mTransparency;
+	}
+	
+	/** @return the bounding box, 
+	 * not taking into account the bearing => TODO... */
+	public BoundingBoxE6 getBoundingBox(){
+		if (mHeight == NO_DIMENSION && mImage != null){
+			mHeight = mWidth * mImage.getIntrinsicHeight() / mImage.getIntrinsicWidth();
+		}
+		GeoPoint pEast = mPosition.destinationPoint(mWidth, 90.0f);
+		GeoPoint pSouthEast = pEast.destinationPoint(mHeight, -180.0f);
+		int north = mPosition.getLatitudeE6()*2 - pSouthEast.getLatitudeE6();
+		int west = mPosition.getLongitudeE6()*2 - pEast.getLongitudeE6();
+		return new BoundingBoxE6(north, pEast.getLongitudeE6(), pSouthEast.getLatitudeE6(), west);
 	}
 	
 	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {

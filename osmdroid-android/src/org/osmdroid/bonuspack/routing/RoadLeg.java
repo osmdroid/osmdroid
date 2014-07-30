@@ -33,7 +33,7 @@ public class RoadLeg implements Parcelable {
 		mStartNodeIndex = startNodeIndex;
 		mEndNodeIndex = endNodeIndex;
 		mLength = mDuration = 0.0;
-		for (int i=startNodeIndex; i<=endNodeIndex; i++){
+		for (int i=startNodeIndex; i<=endNodeIndex; i++){ //TODO: <= or < ??? To check. 
 			RoadNode node = nodes.get(i);
 			mLength += node.mLength;
 			mDuration += node.mDuration;

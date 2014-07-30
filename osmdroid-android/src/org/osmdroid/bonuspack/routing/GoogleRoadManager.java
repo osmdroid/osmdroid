@@ -153,11 +153,11 @@ class GoogleDirectionsHandler extends DefaultHandler {
 		if (localName.equals("points")) {
 			if (isPolyline) {
 				//detailed piece of road for the step, to add:
-				ArrayList<GeoPoint> polyLine = PolylineEncoder.decode(mStringBuilder.toString(), 10);
+				ArrayList<GeoPoint> polyLine = PolylineEncoder.decode(mStringBuilder.toString(), 10, false);
 				mRoad.mRouteHigh.addAll(polyLine);
 			} else if (isOverviewPolyline){
 				//low-def polyline for the whole road:
-				mRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10));
+				mRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10, false));
 			}
 		} else if (localName.equals("polyline")) {
 			isPolyline = false;

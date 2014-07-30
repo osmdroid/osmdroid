@@ -125,8 +125,8 @@ public class BonusPackHelper {
 	}
 
 	/**
-	 * Workaround on Android issue
-	 * see http://stackoverflow.com/questions/4601352/createfromstream-in-android-returning-null-for-certain-url
+	 * Workaround on Android issue on bitmap loading
+	 * @see <a href="http://stackoverflow.com/questions/4601352/createfromstream-in-android-returning-null-for-certain-url">Issue</a>
 	 */
 	static class FlushedInputStream extends FilterInputStream {
 	    public FlushedInputStream(InputStream inputStream) {

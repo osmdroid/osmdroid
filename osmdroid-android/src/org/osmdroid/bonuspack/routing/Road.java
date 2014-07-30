@@ -23,7 +23,7 @@ import android.util.Log;
 public class Road  implements Parcelable {
 	/** 
 	 * STATUS_OK = road properly retrieved and built. 
-	 * STATUS_INVALID = road has not been built yet ()
+	 * STATUS_INVALID = road has not been built yet. 
 	 * STATUS_TECHNICAL_ISSUE = technical issue, no answer from the service provider. 
 	 * All other values: functional errors/issues, depending on the service provider. 
 	 * */

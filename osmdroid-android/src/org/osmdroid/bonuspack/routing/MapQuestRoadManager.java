@@ -29,7 +29,7 @@ public class MapQuestRoadManager extends RoadManager {
 	
 	/**
 	 * @param apiKey MapQuest API key, mandatory to use the MapQuest Open service. 
-	 * @see <a href="http://developer.mapquest.com">MapQuest API</a>
+	 * @see <a href="http://developer.mapquest.com">MapQuest API</a> for registration. 
 	 */
 	public MapQuestRoadManager(String apiKey){
 		super();
@@ -224,10 +224,10 @@ class MapQuestGuidanceHandler extends DefaultHandler {
 		} else if (localName.equals("lng")) {
 			mLng = Double.parseDouble(mStringBuilder.toString());
 		} else if (localName.equals("shapePoints")) {
-			mRoad.mRouteHigh = PolylineEncoder.decode(mStringBuilder.toString(), 10);
+			mRoad.mRouteHigh = PolylineEncoder.decode(mStringBuilder.toString(), 10, false);
 			//Log.d("DD", "High="+mRoad.mRouteHigh.size());
 		} else if (localName.equals("generalizedShape")) {
-			mRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10));
+			mRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10, false));
 			//Log.d("DD", "Low="+mRoad.mRouteLow.size());
 	    } else if (localName.equals("length")) {
 			mLink.mLength = Double.parseDouble(mStringBuilder.toString());
