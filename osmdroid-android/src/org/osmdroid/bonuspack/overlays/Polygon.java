@@ -156,7 +156,7 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		mOutlinePaint.setAntiAlias(true);
 		mOutline = new LinearRing();
 		mHoles = new ArrayList<LinearRing>(0);
-		/*
+		/* already done by default:
 		mTitle = null;
 		mSnippet = null;
 		mBubble = null;
