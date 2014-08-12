@@ -24,6 +24,7 @@ import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.InfoWindow;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -34,7 +35,7 @@ import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.GoogleRoadManager;
-import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
+import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -96,7 +97,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Demo Activity using osmdroid and OSMBonusPack
+ * Simple and general-purpose map application based on osmdroid and OSMBonusPack
  * @see http://code.google.com/p/osmbonuspack/
  * @author M.Kergall
  *
@@ -127,8 +128,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	protected Polyline mRoadOverlay;
 	protected FolderOverlay mRoadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
-	static final int OSRM=0, MAPQUEST_FASTEST=1, MAPQUEST_BICYCLE=2, MAPQUEST_PEDESTRIAN=3, GOOGLE_FASTEST=4;
-	int whichRouteProvider;
+	static final int OSRM=0, GRAPHHOPPER_FASTEST=1, GRAPHHOPPER_BICYCLE=2, GRAPHHOPPER_PEDESTRIAN=3, GOOGLE_FASTEST=4;
+	int mWhichRouteProvider;
 	
 	public static ArrayList<POI> mPOIs; //made static to pass between activities
 	GridMarkerClusterer mPoiMarkers;
@@ -144,6 +145,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
 	OnlineTileSourceBase MAPBOXSATELLITELABELLED;
+	
+	/** IMPORTANT - these API keys and accounts have been provided EXCLUSIVELY to OSMNavigator application. 
+	 * Developers of other applications must request their own API key from the corresponding service provider. */
+	static final String graphHopperApiKey = "AMFmC5P8s958tcjfFRJmefNboJ5H0HN6PLFyvdm3";
+	static final String mapQuestApiKey = "Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6";
+	static final String flickrApiKey = "c39be46304a6c6efda8bc066c185cd7e";
+	static final String geonamesAccount = "mkergall";
 	
 	@Override public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -275,7 +283,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//(a little bit strange, but if we register it on mapView, it will catch map drag events)
 		
 		//Route and Directions
-		whichRouteProvider = prefs.getInt("ROUTE_PROVIDER", OSRM);
+		mWhichRouteProvider = prefs.getInt("ROUTE_PROVIDER", OSRM);
 		
 		mRoadNodeMarkers = new FolderOverlay(this);
 		mRoadNodeMarkers.setName("Route Steps");
@@ -357,7 +365,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MapTileProviderBase tileProvider = map.getTileProvider();
 		String tileProviderName = tileProvider.getTileSource().name();
 		ed.putString("TILE_PROVIDER", tileProviderName);
-		ed.putInt("ROUTE_PROVIDER", whichRouteProvider);
+		ed.putInt("ROUTE_PROVIDER", mWhichRouteProvider);
 		ed.commit();
 	}
 	
@@ -579,8 +587,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			mapOverlays.set(location, mDestinationPolygon);
 		else
 			mapOverlays.add(1, mDestinationPolygon); //insert just above the MapEventsOverlay. 
-		if (bb != null)
-			setViewOn(bb);
+		setViewOn(bb);
 		map.invalidate();
 	}
 	
@@ -731,20 +738,24 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		if (road == null)
 			return;
-		if (road.mStatus != Road.STATUS_OK)
-			Toast.makeText(map.getContext(), "We have a problem to get the route", Toast.LENGTH_SHORT).show();
+		if (road.mStatus == Road.STATUS_TECHNICAL_ISSUE)
+			Toast.makeText(map.getContext(), "Technical issue when getting the route", Toast.LENGTH_SHORT).show();
+		else if (road.mStatus > Road.STATUS_TECHNICAL_ISSUE) //functional issues
+			Toast.makeText(map.getContext(), "No possible route here", Toast.LENGTH_SHORT).show();
 		mRoadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
-		if (whichRouteProvider == MAPQUEST_BICYCLE || whichRouteProvider == MAPQUEST_PEDESTRIAN){
+		if (mWhichRouteProvider == GRAPHHOPPER_BICYCLE || mWhichRouteProvider == GRAPHHOPPER_PEDESTRIAN){
 			Paint p = mRoadOverlay.getPaint();
 			p.setPathEffect(new DashPathEffect(new float[] {10,5}, 0));
 		}
+		String routeDesc = road.getLengthDurationText(-1);
+		mRoadOverlay.setTitle("Route - "+routeDesc);
 		mapOverlays.add(1, mRoadOverlay);
 			//we insert the road overlay at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
 		putRoadNodes(road);
 		map.invalidate();
 		//Set route info in the text view:
-		textView.setText(road.getLengthDurationText(-1));
+		textView.setText(routeDesc);
     }
     
 	/**
@@ -756,27 +767,30 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
 			RoadManager roadManager = null;
 			Locale locale = Locale.getDefault();
-			switch (whichRouteProvider){
+			switch (mWhichRouteProvider){
 			case OSRM:
 				roadManager = new OSRMRoadManager();
 				break;
-			case MAPQUEST_FASTEST:
-				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
-				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
+			case GRAPHHOPPER_FASTEST:
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager.addRequestOption("locale="+locale.getLanguage());
+				//roadManager = new MapQuestRoadManager(mapQuestApiKey);
+				//roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				break;
-			case MAPQUEST_BICYCLE:
-				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
-				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
-				roadManager.addRequestOption("routeType=bicycle");
+			case GRAPHHOPPER_BICYCLE:
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager.addRequestOption("locale="+locale.getLanguage());
+				roadManager.addRequestOption("vehicle=bike");
+				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
-			case MAPQUEST_PEDESTRIAN:
-				roadManager = new MapQuestRoadManager("Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6");
-				roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
-				roadManager.addRequestOption("routeType=pedestrian");
+			case GRAPHHOPPER_PEDESTRIAN:
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager.addRequestOption("locale="+locale.getLanguage());
+				roadManager.addRequestOption("vehicle=foot");
+				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GOOGLE_FASTEST:
 				roadManager = new GoogleRoadManager();
-				//roadManager.addRequestOption("mode=driving"); //default
 				break;
 			default:
 				return null;
@@ -901,13 +915,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (mFeatureTag == null || mFeatureTag.equals("")){
 				return null;
 			} else if (mFeatureTag.equals("wikipedia")){
-				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
+				GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider(geonamesAccount);
 				//Get POI inside the bounding box of the current map view:
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 				return pois;
 			} else if (mFeatureTag.equals("flickr")){
-				FlickrPOIProvider poiProvider = new FlickrPOIProvider("c39be46304a6c6efda8bc066c185cd7e");
+				FlickrPOIProvider poiProvider = new FlickrPOIProvider(flickrApiKey);
 				BoundingBoxE6 bb = map.getBoundingBox();
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 				return pois;
@@ -954,7 +968,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	//------------ KML handling
 
 	boolean mDialogForOpen;
-	String mLocalFileName = "current.kml";
 	
 	void openLocalFileDialog(boolean open){
 		mDialogForOpen = open;
@@ -963,17 +976,22 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.setMessage(""+mKmlDocument.getDefaultPathForAndroid(""));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
-		input.setText(mLocalFileName);
+		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+		String localFileName = prefs.getString("KML_LOCAL_FILE", "current.kml");
+		input.setText(localFileName);
 		builder.setView(input);
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			@Override public void onClick(DialogInterface dialog, int which) {
-				mLocalFileName = input.getText().toString();
+				String localFileName = input.getText().toString();
+				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+				SharedPreferences.Editor ed = prefs.edit();
+				ed.putString("KML_LOCAL_FILE", localFileName).commit();
 				dialog.cancel();
 				if (mDialogForOpen){
-					File file = mKmlDocument.getDefaultPathForAndroid(mLocalFileName);
+					File file = mKmlDocument.getDefaultPathForAndroid(localFileName);
 					openFile("file:/"+file.toString(), false);
 				} else 
-					saveFile(mLocalFileName);
+					saveFile(localFileName);
 			}
 		});
 		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -990,7 +1008,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		//String defaultUri = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=52.215676&flon=5.963946&tlat=52.2573&tlon=6.1799";
 		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 		String uri = prefs.getString("KML_URI", defaultUri);
 		input.setText(uri);
@@ -1000,8 +1017,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				String uri = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 				SharedPreferences.Editor ed = prefs.edit();
-				ed.putString("KML_URI", uri);
-				ed.commit();
+				ed.putString("KML_URI", uri).commit();
 				dialog.cancel();
 				openFile(uri, false);
 			}
@@ -1063,13 +1079,11 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithKml();
 			if (ok){
 				BoundingBoxE6 bb = mKmlDocument.mKmlRoot.getBoundingBox();
-				if (bb !=  null){
+				if (bb != null){
 					if (!mOnCreate)
 						setViewOn(bb);
 					else  //KO in onCreate - Workaround:
-						map.getController().setCenter(new GeoPoint(
-								bb.getLatSouthE6()+bb.getLatitudeSpanE6()/2, 
-								bb.getLonWestE6()+bb.getLongitudeSpanE6()/2));
+						map.getController().setCenter(bb.getCenter());
 				}
 			}
 		}
@@ -1188,17 +1202,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.option_menu, menu);
 		
-		switch (whichRouteProvider){
+		switch (mWhichRouteProvider){
 		case OSRM: 
 			menu.findItem(R.id.menu_route_osrm).setChecked(true);
 			break;
-		case MAPQUEST_FASTEST:
+		case GRAPHHOPPER_FASTEST:
 			menu.findItem(R.id.menu_route_mapquest_fastest).setChecked(true);
 			break;
-		case MAPQUEST_BICYCLE:
+		case GRAPHHOPPER_BICYCLE:
 			menu.findItem(R.id.menu_route_mapquest_bicycle).setChecked(true);
 			break;
-		case MAPQUEST_PEDESTRIAN:
+		case GRAPHHOPPER_PEDESTRIAN:
 			menu.findItem(R.id.menu_route_mapquest_pedestrian).setChecked(true);
 			break;
 		case GOOGLE_FASTEST:
@@ -1313,27 +1327,27 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			updateUIWithKml();
 			return true;
 		case R.id.menu_route_osrm:
-			whichRouteProvider = OSRM;
+			mWhichRouteProvider = OSRM;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_fastest:
-			whichRouteProvider = MAPQUEST_FASTEST;
+			mWhichRouteProvider = GRAPHHOPPER_FASTEST;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_bicycle:
-			whichRouteProvider = MAPQUEST_BICYCLE;
+			mWhichRouteProvider = GRAPHHOPPER_BICYCLE;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_mapquest_pedestrian:
-			whichRouteProvider = MAPQUEST_PEDESTRIAN;
+			mWhichRouteProvider = GRAPHHOPPER_PEDESTRIAN;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
 		case R.id.menu_route_google:
-			whichRouteProvider = GOOGLE_FASTEST;
+			mWhichRouteProvider = GOOGLE_FASTEST;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;

@@ -60,13 +60,13 @@
                     android:checked="true"/>
                 <item
                     android:id="@+id/menu_route_mapquest_fastest"
-                    android:title="MapQuest-Fastest"/>
+                    android:title="GraphHopper-Fastest"/>
                 <item
                     android:id="@+id/menu_route_mapquest_bicycle"
-                    android:title="MapQuest-Bicycle"/>
+                    android:title="GraphHopper-Bicycle"/>
                 <item
                     android:id="@+id/menu_route_mapquest_pedestrian"
-                    android:title="MapQuest-Pedestrian"/>
+                    android:title="GraphHopper-Pedestrian"/>
                 <item
                     android:id="@+id/menu_route_google"
                     android:title="Google-Fastest"/>
