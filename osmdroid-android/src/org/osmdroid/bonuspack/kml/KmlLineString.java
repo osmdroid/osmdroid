@@ -3,7 +3,9 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
+import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
@@ -18,7 +20,8 @@ import android.os.Parcelable;
  * @author M.Kergall
  */
 public class KmlLineString extends KmlGeometry {
-	
+	static int mDefaultLayoutResId = BonusPackHelper.UNDEFINED_RES_ID; 
+
 	public KmlLineString(){
 		super();
 	}
@@ -30,7 +33,8 @@ public class KmlLineString extends KmlGeometry {
 	}
 	
 	public void applyDefaultStyling(Polyline lineStringOverlay, Style defaultStyle, KmlPlacemark kmlPlacemark,
-			KmlDocument kmlDocument){
+			KmlDocument kmlDocument, MapView map){
+		Context context = map.getContext();
 		Style style = kmlDocument.getStyle(kmlPlacemark.mStyle);
 		if (style != null){
 			lineStringOverlay.setColor(style.getOutlinePaint().getColor());
@@ -38,6 +42,14 @@ public class KmlLineString extends KmlGeometry {
 		} else if (defaultStyle!=null && defaultStyle.mLineStyle!=null){ 
 			lineStringOverlay.setColor(defaultStyle.getOutlinePaint().getColor());
 			lineStringOverlay.setWidth(defaultStyle.getOutlinePaint().getStrokeWidth());
+		}
+		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
+				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
+			if (mDefaultLayoutResId == BonusPackHelper.UNDEFINED_RES_ID){
+				String packageName = context.getPackageName();
+				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
+			}
+			lineStringOverlay.setInfoWindow(new DefaultInfoWindow(mDefaultLayoutResId, map));
 		}
 		lineStringOverlay.setEnabled(kmlPlacemark.mVisibility);
 	}
@@ -48,10 +60,12 @@ public class KmlLineString extends KmlGeometry {
 		Context context = map.getContext();
 		Polyline lineStringOverlay = new Polyline(context);
 		lineStringOverlay.setPoints(mCoordinates);
+		lineStringOverlay.setTitle(kmlPlacemark.mName);
+		lineStringOverlay.setSnippet(kmlPlacemark.mDescription);
 		if (styler != null)
 			styler.onLineString(lineStringOverlay, kmlPlacemark, this);
 		else {
-			applyDefaultStyling(lineStringOverlay, defaultStyle, kmlPlacemark, kmlDocument);
+			applyDefaultStyling(lineStringOverlay, defaultStyle, kmlPlacemark, kmlDocument, map);
 		}
 		return lineStringOverlay;
 	}

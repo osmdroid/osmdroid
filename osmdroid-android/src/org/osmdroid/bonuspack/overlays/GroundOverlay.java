@@ -16,7 +16,7 @@ import android.graphics.drawable.Drawable;
  * A ground overlay is an image that is fixed to a map. 
  * Mimics the GroundOverlay class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support: Z-Index, setPositionFromBounds<br/>
- * - image can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Maps API. <br/>
+ * - image is a standard Android BitmapDrawable, instead of the BitmapDescriptor introduced in Maps API. <br/>
  * 
  * @author M.Kergall
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/GroundOverlay.html">Google Maps GroundOverlay</a>

@@ -68,7 +68,8 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 	/** constructs a Placemark from a Polyline overlay, as a KML LineString */
 	public KmlPlacemark(Polyline polyline, KmlDocument kmlDoc){
 		this();
-		mName = "LineString - "+polyline.getNumberOfPoints()+" points";
+		mName = polyline.getTitle();
+		mDescription = polyline.getSnippet();
 		mGeometry = new KmlLineString();
 		mGeometry.mCoordinates = (ArrayList<GeoPoint>)polyline.getPoints();
 		mVisibility = polyline.isEnabled();
