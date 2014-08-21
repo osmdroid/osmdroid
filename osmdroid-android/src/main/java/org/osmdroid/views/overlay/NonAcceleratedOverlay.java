@@ -73,6 +73,10 @@ public abstract class NonAcceleratedOverlay extends Overlay
             if (shadow)
                 return;
 
+			// If we don't have any drawing area, then don't draw
+			if (c.getWidth() == 0 || c.getHeight() == 0)
+				return;
+
             if (mBackingBitmap == null || mBackingBitmap.getWidth() != c.getWidth()
                     || mBackingBitmap.getHeight() != c.getHeight()) {
                 mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(), Config.ARGB_8888);
