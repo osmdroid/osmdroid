@@ -39,8 +39,8 @@ public class GeoNamesPOIProvider {
 	
 	private String getUrlCloseTo(GeoPoint p, int maxResults, double maxDistance){
 		StringBuffer url = new StringBuffer("http://api.geonames.org/findNearbyWikipediaJSON?");
-		url.append("lat="+p.getLatitudeE6()*1E-6);
-		url.append("&lng="+p.getLongitudeE6()*1E-6);
+		url.append("lat="+p.getLatitude());
+		url.append("&lng="+p.getLongitude());
 		url.append("&maxRows="+maxResults);
 		url.append("&radius="+maxDistance); //km
 		url.append("&lang="+Locale.getDefault().getLanguage());

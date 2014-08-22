@@ -162,12 +162,12 @@ public class NominatimPOIProvider {
 				isFirst = false;
 			else 
 				url.append(",");
-			String lat = Double.toString(p.getLatitudeE6()*1E-6);
+			String lat = Double.toString(p.getLatitude());
 			lat = lat.substring(0, Math.min(lat.length(), 7));
-			String lon = Double.toString(p.getLongitudeE6()*1E-6);
+			String lon = Double.toString(p.getLongitude());
 			lon = lon.substring(0, Math.min(lon.length(), 7));
 			url.append(lat+","+lon);
-				//limit the size of url as much as possible, as post method is not supported. 
+				//limit the url length as much as possible, as post method is not supported. 
 		}
 		return getThem(url.toString());
 	}

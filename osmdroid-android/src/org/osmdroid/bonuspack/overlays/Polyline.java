@@ -26,8 +26,6 @@ import android.view.MotionEvent;
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * - Supports InfoWindow. <br/>
  * 
- * TODO: need to improve line tap detection: geodesic mode, work in pixels coords instead of degrees. <br/>
- * 
  * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode. 
  * 
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
@@ -226,6 +224,15 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		mGeodesic = geodesic;
 	}
 
+	protected void precomputePoints(Projection pj){
+		final int size = this.mPoints.size();
+		while (this.mPointsPrecomputed < size) {
+			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
+			pj.toProjectedPixels(pt.x, pt.y, pt);
+			this.mPointsPrecomputed++;
+		}
+	}
+	
 	@Override protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
@@ -241,12 +248,7 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		final Projection pj = mapView.getProjection();
 
 		// precompute new points to the intermediate projection.
-		while (this.mPointsPrecomputed < size) {
-			final Point pt = this.mPoints.get(this.mPointsPrecomputed);
-			pj.toProjectedPixels(pt.x, pt.y, pt);
-
-			this.mPointsPrecomputed++;
-		}
+		precomputePoints(pj);
 
 		Point screenPoint0 = null; // points on screen
 		Point screenPoint1;
@@ -306,52 +308,59 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		canvas.drawPath(mPath, mPaint);
 	}
 	
-	/**
+	/** Detection is done is screen coordinates. 
 	 * @param point
-	 * @param tolerance in degrees
+	 * @param tolerance in pixels
 	 * @return true if the Polyline is close enough to the point. 
-	 * TODO: should handle Geodesic mode (additional points). 
 	 */
-	public boolean isCloseTo(GeoPoint point, double tolerance) {
-		boolean found = false;
-		int n = getNumberOfPoints();
-		GeoPoint a = new GeoPoint(0, 0);
-		GeoPoint b = new GeoPoint(0, 0);
+	public boolean isCloseTo(GeoPoint point, double tolerance, MapView mapView) {
+		final Projection pj = mapView.getProjection();
+		precomputePoints(pj);
+		Point p = pj.toPixels(point, null);
 		int i = 0;
-		while (i < n - 1 && !found) {
-			a.setCoordsE6(mOriginalPoints[i][0], mOriginalPoints[i][1]);
-			b.setCoordsE6(mOriginalPoints[i+1][0], mOriginalPoints[i+1][1]);
-			found = (linePointDist(a, b, point, true) <= tolerance);
+		boolean found = false;
+		while (i < mPointsPrecomputed - 1 && !found) {
+			Point projectedPoint1 = mPoints.get(i);
+			if (i == 0){
+				pj.toPixelsFromProjected(projectedPoint1, mTempPoint1);
+			} else {
+				//reuse last b:
+				mTempPoint1.set(mTempPoint2.x, mTempPoint2.y);
+			}
+			Point projectedPoint2 = mPoints.get(i+1);
+			pj.toPixelsFromProjected(projectedPoint2, mTempPoint2);
+			found = (linePointDist(mTempPoint1, mTempPoint2, p, true) <= tolerance);
+			//TODO: if found, compute and return the point ON the line. 
 			i++;
 		}
 		return found;
 	}
 	
 	// Compute the dot product AB x AC
-	private double dot(GeoPoint A, GeoPoint B, GeoPoint C) {
-		double AB_0 = B.getLongitude() - A.getLongitude();
-		double AB_1 = B.getLatitude() - A.getLatitude();
-		double BC_0 = C.getLongitude() - B.getLongitude();
-		double BC_1 = C.getLatitude() - B.getLatitude();
-		double dot = AB_0 * BC_0 + AB_1 * BC_1;
+	private double dot(Point A, Point B, Point C) {
+		double AB_X = B.x - A.x;
+		double AB_Y = B.y - A.y;
+		double BC_X = C.x - B.x;
+		double BC_Y = C.y - B.y;
+		double dot = AB_X * BC_X + AB_Y * BC_Y;
 		return dot;
 	}
 
 	// Compute the cross product AB x AC
-	private double cross(GeoPoint A, GeoPoint B, GeoPoint C) {
-		double AB_0 = B.getLongitude() - A.getLongitude();
-		double AB_1 = B.getLatitude() - A.getLatitude();
-		double AC_0 = C.getLongitude() - A.getLongitude();
-		double AC_1 = C.getLatitude() - A.getLatitude();
-		double cross = AB_0 * AC_1 - AB_1 * AC_0;
+	private double cross(Point A, Point B, Point C) {
+		double AB_X = B.x - A.x;
+		double AB_Y = B.y - A.y;
+		double AC_X = C.x - A.x;
+		double AC_Y = C.y - A.y;
+		double cross = AB_X * AC_Y - AB_Y * AC_X;
 		return cross;
 	}
 
 	// Compute the distance from A to B
-	private double distance(GeoPoint A, GeoPoint B) {
-		double d1 = A.getLongitude() - B.getLongitude();
-		double d2 = A.getLatitude() - B.getLatitude();
-		return Math.sqrt(d1 * d1 + d2 * d2);
+	private double distance(Point A, Point B) {
+		double dX = A.x - B.x;
+		double dY = A.y - B.y;
+		return Math.sqrt(dX * dX + dY * dY);
 	}
 
 	/** 
@@ -361,7 +370,7 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	 * @param isSegment true if AB is a segment, not a line. 
 	 * @return the distance from AB to C. 
 	 */
-	private double linePointDist(GeoPoint A, GeoPoint B, GeoPoint C, boolean isSegment) {
+	private double linePointDist(Point A, Point B, Point C, boolean isSegment) {
 		double dist = cross(A, B, C) / distance(A, B);
 		if (isSegment) {
 			double dot1 = dot(A, B, C);
@@ -380,8 +389,8 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 			return false;
 		final Projection pj = mapView.getProjection();
 		GeoPoint eventPos = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
-		boolean touched = isCloseTo(eventPos, 0.0005);
-			//TODO: tolerance should vary with the zoom level
+		double tolerance = mPaint.getStrokeWidth();
+		boolean touched = isCloseTo(eventPos, tolerance, mapView);
 		if (touched){
 			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
 			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, eventPos);

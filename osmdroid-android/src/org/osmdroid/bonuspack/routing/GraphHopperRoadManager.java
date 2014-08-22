@@ -46,7 +46,7 @@ public class GraphHopperRoadManager extends RoadManager {
 	
 	/**
 	 * @param apiKey GraphHopper API key, mandatory to use the public GraphHopper service. 
-	 * @see Contact <a href="http://graphhopper.com/#enterprise">GraphHopper</a> to obtain an API key. 
+	 * @see <a href="http://graphhopper.com/#enterprise">GraphHopper</a> to obtain an API key. 
 	 */
 	public GraphHopperRoadManager(String apiKey){
 		super();
