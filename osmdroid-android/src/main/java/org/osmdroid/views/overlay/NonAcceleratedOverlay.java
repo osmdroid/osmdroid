@@ -2,6 +2,8 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,6 +29,8 @@ import android.os.Build;
  */
 public abstract class NonAcceleratedOverlay extends Overlay
 {
+    private static final Logger logger = LoggerFactory.getLogger(NonAcceleratedOverlay.class);
+
     private Bitmap mBackingBitmap;
     private Canvas mBackingCanvas;
     private final Matrix mBackingMatrix = new Matrix();
@@ -62,6 +66,13 @@ public abstract class NonAcceleratedOverlay extends Overlay
         return true;
     }
 
+	@Override
+	public void onDetach(MapView mapView) {
+		mBackingBitmap = null;
+		mBackingCanvas = null;
+		super.onDetach(mapView);
+	}
+
     @Override
     protected final void draw(Canvas c, MapView osmv, boolean shadow)
     {
@@ -79,9 +90,19 @@ public abstract class NonAcceleratedOverlay extends Overlay
 
             if (mBackingBitmap == null || mBackingBitmap.getWidth() != c.getWidth()
                     || mBackingBitmap.getHeight() != c.getHeight()) {
-                mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(), Config.ARGB_8888);
-                mBackingCanvas = new Canvas(mBackingBitmap);
-            }
+				mBackingBitmap = null;
+				mBackingCanvas = null;
+				try {
+					mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(),
+							Config.ARGB_8888);
+				} catch (OutOfMemoryError e) {
+					logger.error("OutOfMemoryError creating backing bitmap in NonAcceleratedOverlay.");
+					System.gc();
+					return;
+				}
+
+				mBackingCanvas = new Canvas(mBackingBitmap);
+			}
 
             mBackingCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
             c.getMatrix(mBackingMatrix);
