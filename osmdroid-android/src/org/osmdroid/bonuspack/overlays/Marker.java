@@ -7,7 +7,6 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -39,7 +38,7 @@ import android.view.MotionEvent;
  * @author M.Kergall
  *
  */
-public class Marker extends Overlay {
+public class Marker extends OverlayWithIW {
 
 	/*attributes for standard features:*/
 	protected Drawable mIcon;
@@ -48,9 +47,7 @@ public class Marker extends Overlay {
 	protected float mAnchorU, mAnchorV;
 	protected float mIWAnchorU, mIWAnchorV;
 	protected float mAlpha;
-	protected String mTitle, mSnippet;
 	protected boolean mDraggable, mIsDragged;
-	protected MarkerInfoWindow mInfoWindow;
 	protected boolean mFlat;
 	protected OnMarkerClickListener mOnMarkerClickListener;
 	protected OnMarkerDragListener mOnMarkerDragListener;
@@ -102,7 +99,7 @@ public class Marker extends Overlay {
 			else 
 				mDefaultInfoWindow = new MarkerInfoWindow(defaultLayoutResId, mapView);
 		}
-		mInfoWindow = mDefaultInfoWindow;
+		setInfoWindow(mDefaultInfoWindow);
 	}
 
 	/** Sets the icon for the marker. Can be changed at any time. 
@@ -149,22 +146,6 @@ public class Marker extends Overlay {
 		return mAlpha;
 	}
 	
-	public void setTitle(String title){
-		mTitle = title;
-	}
-	
-	public String getTitle(){
-		return mTitle;
-	}
-	
-	public void setSnippet(String snippet){
-		mSnippet= snippet;
-	}
-	
-	public String getSnippet(){
-		return mSnippet;
-	}
-
 	public void setDraggable(boolean draggable){
 		mDraggable = draggable;
 	}
@@ -257,13 +238,12 @@ public class Marker extends Overlay {
 		mInfoWindow.open(this, mPosition, offsetX, offsetY);
 	}
 	
-	public void hideInfoWindow(){
-		if (mInfoWindow != null)
-			mInfoWindow.close();
-	}
-
 	public boolean isInfoWindowShown(){
-		return (mInfoWindow != null) && mInfoWindow.isOpen() && (mInfoWindow.mMarkerRef==this);
+		if (mInfoWindow instanceof MarkerInfoWindow){
+			MarkerInfoWindow iw = (MarkerInfoWindow)mInfoWindow;
+			return (iw != null) && iw.isOpen() && (iw.mMarkerRef==this);
+		} else
+			return super.isInfoWindowShown();
 	}
 	
 	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {

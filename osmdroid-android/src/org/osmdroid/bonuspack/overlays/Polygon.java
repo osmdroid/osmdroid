@@ -8,7 +8,6 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -29,7 +28,7 @@ import android.view.MotionEvent;
  * @author M.Kergall: transformation from PathOverlay to Polygon
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polygon.html">Google Maps Polygon</a>
  */
-public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
+public class Polygon extends OverlayWithIW {
 
 	/** inner class holding one ring: the polygon outline, or a hole inside the polygon */
 	class LinearRing {
@@ -131,10 +130,6 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 
 	private final Point mTempPoint1 = new Point();
 	private final Point mTempPoint2 = new Point();
-
-	//InfoWindow handling
-	protected String mTitle, mSnippet;
-	protected InfoWindow mInfoWindow;
 	
 	// ===========================================================
 	// Constructors
@@ -156,11 +151,6 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		mOutlinePaint.setAntiAlias(true);
 		mOutline = new LinearRing();
 		mHoles = new ArrayList<LinearRing>(0);
-		/* already done by default:
-		mTitle = null;
-		mSnippet = null;
-		mBubble = null;
-		*/
 		mPath.setFillType(Path.FillType.EVEN_ODD); //for correct support of holes
 	}
 
@@ -281,32 +271,6 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		return points;
 	}
 	
-	public void setTitle(String title){
-		mTitle = title;
-	}
-	
-	public void setSnippet(String snippet){
-		mSnippet = snippet;
-	}
-	
-	public String getTitle(){
-		return mTitle;
-	}
-	
-	public String getSnippet(){
-		return mSnippet;
-	}
-
-	/** By default, Polygon has no InfoWindow and do not react to a tap. 
-	 * @param infoWindow the InfoWindow to be opened when tapping the Polygon. 
-	 * Note that this InfoWindow will receive an ExtendedOverlayItem (not a Polygon) as an input, 
-	 * so it MUST be able to handle ExtendedOverlayItem attributes. It will be typically a DefaultInfoWindow. 
-	 * Set it to null to remove an existing InfoWindow. 
-	 */
-	public void setInfoWindow(InfoWindow infoWindow){
-		mInfoWindow = infoWindow; //new DefaultInfoWindow(layoutResId, mapView);
-	}
-	
 	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
@@ -329,10 +293,9 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 	/** Important note: this function returns correct results only if the Polygon has been drawn before, 
 	 * and if the MapView positioning has not changed. 
 	 * @param event
-	 * @param mapView
 	 * @return true if the Polygon contains the event position. 
 	 */
-	public boolean contains(MotionEvent event, MapView mapView){
+	public boolean contains(MotionEvent event){
 		if (mPath.isEmpty())
 			return false;
 		RectF bounds = new RectF(); //bounds of the Path
@@ -348,15 +311,13 @@ public class Polygon extends Overlay /*NonAcceleratedOverlay */ {
 		if (mInfoWindow == null)
 			//no support for tap:
 			return false;
-		boolean touched = contains(event, mapView);
-		if (touched){
+		boolean tapped = contains(event);
+		if (tapped){
 			Projection pj = mapView.getProjection();
 			GeoPoint position = (GeoPoint)pj.fromPixels((int)event.getX(), (int)event.getY());
-			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
-			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, position);
-			mInfoWindow.open(item, item.getPoint(), 0, 0);
+			mInfoWindow.open(this, position, 0, 0);
 		}
-		return touched;
+		return tapped;
 	}
 
 }

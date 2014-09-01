@@ -3,7 +3,7 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
+import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
@@ -49,7 +49,7 @@ public class KmlLineString extends KmlGeometry {
 				String packageName = context.getPackageName();
 				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
 			}
-			lineStringOverlay.setInfoWindow(new DefaultInfoWindow(mDefaultLayoutResId, map));
+			lineStringOverlay.setInfoWindow(new BasicInfoWindow(mDefaultLayoutResId, map));
 		}
 		lineStringOverlay.setEnabled(kmlPlacemark.mVisibility);
 	}

@@ -3,24 +3,21 @@ package org.osmdroid.bonuspack.overlays;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.views.MapView;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Default implementation of InfoWindow for an ExtendedOverlayItem. 
+ * Default implementation of InfoWindow for a TapOverlay. 
  * It handles a text and a description. 
- * It also handles optionally a sub-description and an image. 
  * Clicking on the bubble will close it. 
  * 
  * @author M.Kergall
  */
-@Deprecated public class DefaultInfoWindow extends InfoWindow {
+public class BasicInfoWindow extends InfoWindow {
 
 	static int mTitleId=BonusPackHelper.UNDEFINED_RES_ID, 
 			mDescriptionId=BonusPackHelper.UNDEFINED_RES_ID, 
@@ -35,11 +32,11 @@ import android.widget.TextView;
 		mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
 		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID || mDescriptionId == BonusPackHelper.UNDEFINED_RES_ID 
 				|| mSubDescriptionId == BonusPackHelper.UNDEFINED_RES_ID || mImageId == BonusPackHelper.UNDEFINED_RES_ID) {
-			Log.e(BonusPackHelper.LOG_TAG, "DefaultInfoWindow: unable to get res ids in "+packageName);
+			Log.e(BonusPackHelper.LOG_TAG, "BasicInfoWindow: unable to get res ids in "+packageName);
 		}
 	}
 	
-	public DefaultInfoWindow(int layoutResId, MapView mapView) {
+	public BasicInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
 		
 		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID)
@@ -56,36 +53,17 @@ import android.widget.TextView;
 	}
 	
 	@Override public void onOpen(Object item) {
-		ExtendedOverlayItem extendedOverlayItem = (ExtendedOverlayItem)item;
-		String title = extendedOverlayItem.getTitle();
+		OverlayWithIW overlay = (OverlayWithIW)item;
+		String title = overlay.getTitle();
 		if (title == null)
 			title = "";
 		((TextView)mView.findViewById(mTitleId /*R.id.title*/)).setText(title);
 		
-		String snippet = extendedOverlayItem.getDescription();
+		String snippet = overlay.getSnippet();
 		if (snippet == null)
 			snippet = "";
 		Spanned snippetHtml = Html.fromHtml(snippet);
 		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippetHtml);
-		
-		//handle sub-description, hidding or showing the text view:
-		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
-		String subDesc = extendedOverlayItem.getSubDescription();
-		if (subDesc != null && !("".equals(subDesc))){
-			subDescText.setText(Html.fromHtml(subDesc));
-			subDescText.setVisibility(View.VISIBLE);
-		} else {
-			subDescText.setVisibility(View.GONE);
-		}
-
-		//handle image
-		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
-		Drawable image = extendedOverlayItem.getImage();
-		if (image != null){
-			imageView.setImageDrawable(image); //or setBackgroundDrawable(image)?
-			imageView.setVisibility(View.VISIBLE);
-		} else
-			imageView.setVisibility(View.GONE);
 	}
 
 	@Override public void onClose() {

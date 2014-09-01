@@ -9,7 +9,6 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.util.constants.MathConstants;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -24,14 +23,14 @@ import android.view.MotionEvent;
  * A polyline is a list of points, where line segments are drawn between consecutive points. 
  *  Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
- * - Supports InfoWindow. <br/>
+ * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
  * 
  * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode. 
  * 
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  * @author M.Kergall
  */
-public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
+public class Polyline extends OverlayWithIW {
 	
 	/** original GeoPoints */
 	private int mOriginalPoints[][]; //as an array, to reduce object creation
@@ -47,10 +46,6 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	private final Rect mLineBounds = new Rect();
 	private final Point mTempPoint1 = new Point();
 	private final Point mTempPoint2 = new Point();
-
-	//InfoWindow handling
-	protected String mTitle, mSnippet;
-	protected InfoWindow mInfoWindow;
 	
 	public Polyline(Context ctx){
 		this(new DefaultResourceProxyImpl(ctx));
@@ -66,11 +61,6 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		this.clearPath();
 		mOriginalPoints = new int[0][2];
 		mGeodesic = false;
-		/* already done by default:
-		mTitle = null;
-		mSnippet = null;
-		mBubble = null;
-		*/
 	}
 	
 	protected void clearPath() {
@@ -131,32 +121,6 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	
 	public void setVisible(boolean visible){
 		setEnabled(visible);
-	}
-	
-	public void setTitle(String title){
-		mTitle = title;
-	}
-	
-	public void setSnippet(String snippet){
-		mSnippet = snippet;
-	}
-	
-	public String getTitle(){
-		return mTitle;
-	}
-	
-	public String getSnippet(){
-		return mSnippet;
-	}
-
-	/** By default, Polyline has no InfoWindow and do not react to a tap. 
-	 * @param infoWindow the InfoWindow to be opened when tapping the Polyline. 
-	 * Note that this InfoWindow will receive an ExtendedOverlayItem (not a Polyline) as an input, 
-	 * so it MUST be able to handle ExtendedOverlayItem attributes. It will be typically a DefaultInfoWindow. 
-	 * Set it to null to remove an existing InfoWindow. 
-	 */
-	public void setInfoWindow(InfoWindow infoWindow){
-		mInfoWindow = infoWindow; //new DefaultInfoWindow(layoutResId, mapView);
 	}
 	
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
@@ -371,7 +335,10 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 	 * @return the distance from AB to C. 
 	 */
 	private double linePointDist(Point A, Point B, Point C, boolean isSegment) {
-		double dist = cross(A, B, C) / distance(A, B);
+		double dAB = distance(A, B);
+		if (dAB == 0.0)
+			return distance(A, C);
+		double dist = cross(A, B, C) / dAB;
 		if (isSegment) {
 			double dot1 = dot(A, B, C);
 			if (dot1 > 0)
@@ -390,13 +357,11 @@ public class Polyline extends Overlay /*NonAcceleratedOverlay*/ {
 		final Projection pj = mapView.getProjection();
 		GeoPoint eventPos = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
 		double tolerance = mPaint.getStrokeWidth();
-		boolean touched = isCloseTo(eventPos, tolerance, mapView);
-		if (touched){
-			//as DefaultInfoWindow is expecting an ExtendedOverlayItem, build an ExtendedOverlayItem with needed information:
-			ExtendedOverlayItem item = new ExtendedOverlayItem(mTitle, mSnippet, eventPos);
-			mInfoWindow.open(item, item.getPoint(), 0, 0);
+		boolean tapped = isCloseTo(eventPos, tolerance, mapView);
+		if (tapped){
+			mInfoWindow.open(this, eventPos, 0, 0);
 		}
-		return touched;
+		return tapped;
 	}
 
 }
