@@ -142,32 +142,32 @@ public class KmlTreeActivity extends Activity {
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	    KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
 	    switch (item.getItemId()) {
-	        case R.id.menu_cut: //=move to the emptied clipboard
+	        case R.id.kml_item_menu_cut: //=move to the emptied clipboard
 	        	mKmlClipboard.mItems.clear();
 	        	mKmlClipboard.add(currentKmlFolder.mItems.get(info.position));
 	        	currentKmlFolder.removeItem(info.position);
 				mListAdapter.notifyDataSetChanged();
 	            return true;
-	        case R.id.menu_copy:
+	        case R.id.kml_item_menu_copy:
 	        	KmlFeature copy = currentKmlFolder.mItems.get(info.position).clone();
 	        	mKmlClipboard.mItems.clear();
 	        	mKmlClipboard.mItems.add(copy);
 	            return true;
-	        case R.id.menu_behind:
+	        case R.id.kml_item_menu_behind:
 	        	if (info.position > 0){
 	        		KmlFeature kmlItem = currentKmlFolder.removeItem(info.position);
 	        		currentKmlFolder.mItems.add(info.position-1, kmlItem);
 	        		mListAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
-	        case R.id.menu_front:
+	        case R.id.kml_item_menu_front:
 	        	if (info.position < currentKmlFolder.mItems.size()-1){
 	        		KmlFeature kmlItem = currentKmlFolder.removeItem(info.position);
 	        		currentKmlFolder.mItems.add(info.position+1, kmlItem);
 					mListAdapter.notifyDataSetChanged();
 	        	}
 	        	return true;
-	        case R.id.menu_show_on_map:
+	        case R.id.kml_item_menu_show_on_map:
 	        	Intent intent = new Intent();
 	        	//TODO: is it the right way to pass a handle to an object?
 	        	intent.putExtra("KML_FEATURE", currentKmlFolder.mItems.get(info.position));
@@ -190,7 +190,7 @@ public class KmlTreeActivity extends Activity {
 	
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_paste: 
+			case R.id.kml_option_menu_paste: 
 				if (mCurrentKmlFeature instanceof KmlFolder){
 					KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
 					for (KmlFeature kmlItem:mKmlClipboard.mItems){
@@ -199,7 +199,7 @@ public class KmlTreeActivity extends Activity {
 					mListAdapter.notifyDataSetChanged();
 				}
 				return true;
-			case R.id.menu_new: 
+			case R.id.kml_option_menu_new: 
 				if (mCurrentKmlFeature instanceof KmlFolder){
 					KmlFolder currentKmlFolder = (KmlFolder)mCurrentKmlFeature;
 					currentKmlFolder.add(new KmlFolder());

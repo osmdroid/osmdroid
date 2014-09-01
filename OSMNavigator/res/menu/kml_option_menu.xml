@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<item
-		android:id="@+id/menu_paste"
-		android:title="Paste"/>
+		android:id="@+id/kml_option_menu_paste"
+		android:title="@string/kml_option_menu_paste"/>
 	<item
-		android:id="@+id/menu_new"
-		android:title="New Folder"/>
+		android:id="@+id/kml_option_menu_new"
+		android:title="@string/kml_option_menu_new"/>
 </menu>

@@ -6,13 +6,14 @@ import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
 import org.osmdroid.views.MapView;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 /**
  * A customized InfoWindow handling POIs. 
- * We inherit from DefaultInfoWindow as it already provides most of what we want. 
+ * We inherit from MarkerInfoWindow as it already provides most of what we want. 
  * And we just add support for a "more info" button. 
  * 
  * @author M.Kergall

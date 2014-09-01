@@ -86,7 +86,7 @@ public class KmlStylesActivity extends Activity {
 	@Override public boolean onContextItemSelected(MenuItem item) {
 	    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 	    switch (item.getItemId()) {
-	        case R.id.menu_cut:
+	        case R.id.style_item_menu_cut:
 	        	String style = mStyleList.get(info.position);
 	        	mStyles.remove(style);
 	        	buildStyleList();
@@ -107,7 +107,7 @@ public class KmlStylesActivity extends Activity {
 	
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_new: 
+			case R.id.style_option_menu_new: 
 				MapActivity.mKmlDocument.addStyle(new Style());
 	        	buildStyleList();
 				mListAdapter.notifyDataSetChanged();

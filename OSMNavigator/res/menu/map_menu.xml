@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
         android:id="@+id/menu_departure"
-        android:title="Set Departure"/>
+        android:title="@string/menu_departure"/>
     <item
         android:id="@+id/menu_destination"
-        android:title="Set Destination"/>
+        android:title="@string/menu_destination"/>
     <item
         android:id="@+id/menu_viapoint"
-        android:title="Add Via-Point"/>
+        android:title="@string/menu_viapoint"/>
     <item
         android:id="@+id/menu_kmlpoint"
-        android:title="Add KML Point"/>
+        android:title="@string/menu_kmlpoint"/>
     <item
         android:id="@+id/menu_none"
-        android:title="Cancel"/>
+        android:title="@string/menu_none"/>
 </menu>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<!-- MapActivity -->
+	<string name="my_position">Ma Position</string>
+	<string name="departure">Départ</string>
+	<string name="destination">Destination</string>
+	<string name="viapoint">Etape</string>
+	<string name="itinerary_markers_title">Etapes</string>
+	
+	<string name="ok">OK</string>
+	<string name="cancel">Annuler</string>
+	<string name="wait">Veuillez patienter</string>
+	
+	<string name="step">Etape</string>
+	<string name="route">Route</string>
+	<string name="file_kml_open">Fichier (.kml, .kmz ou .json)</string>
+	<string name="url_kml_open">Url KML</string>
+	<string name="loading">Chargement de </string>
+
+	<!-- main.xml-->
+	<string name="search">Chercher</string>
+	<string name="feature">Point d\'intérêt</string>
+	
+	<!--  kml_main.xml -->
+	<string name="kml_main_name">Nom</string>
+	<string name="kml_main_description">Description</string>
+	<string name="kml_main_style_prompt">Styles</string>
+	<string name="kml_main_visible">Visible</string>
+	
+	<!--  kml_style.xml -->
+	<string name="kml_style_styleID">ID du Style</string>
+	<string name="kml_style_icon_href">URL Icône</string>
+	<string name="kml_style_line_color">Couleur trait :</string>
+	<string name="kml_style_line_width">Largeur trait :</string>
+	<string name="kml_style_fill_color">Couleur remplissage :</string>
+
+	<!--  items_list.xml -->
+	<string name="items_list_title">Itinéraire :</string>
+	
+	<!--  kml_styles.xml -->
+	<string name="kml_styles_title">Styles Partagés :</string>
+	
+	<!-- map_menu-->
+	<string name="menu_departure">Départ</string>
+	<string name="menu_destination">Destination</string>
+	<string name="menu_viapoint">Ajouter Etape</string>
+	<string name="menu_kmlpoint">Ajouter Point KML</string>
+	<string name="menu_none">Annuler</string>
+
+	<!-- option_menu-->
+	<string name="menu_itinerary">Itinéraire</string>
+	<string name="menu_pois">Points d\'intérêt</string>
+	<string name="menu_cache">Gestion du Cache</string>
+	<string name="menu_download_view_area">Télécharger la vue</string>
+	<string name="menu_clear_view_area">Vider la vue du cache</string>
+	<string name="menu_cache_usage">Utilisation du cache</string>
+	<string name="menu_tile">Choix de la carte</string>
+	<string name="menu_route">Options sur les routes</string>
+	<string name="menu_route_osrm">OSRM - Voiture</string>
+	<string name="menu_route_graphhopper_fastest">GraphHopper - Voiture</string>
+	<string name="menu_route_graphhopper_bicycle">GraphHopper - Vélo</string>
+	<string name="menu_route_graphhopper_pedestrian">GraphHopper - Piéton</string>
+	<string name="menu_route_google">Google - Voiture</string>
+	<string name="menu_kml">Boîte à outils KML</string>
+	<string name="menu_kml_url">Ouvrir url...</string>
+	<string name="menu_open_file">Ouvrir fichier...</string>
+	<string name="menu_kml_get_overlays">Récupérer les overlays</string>
+	<string name="menu_kml_tree">Editer les objets...</string>
+	<string name="menu_kml_styles">Editer les styles...</string>
+	<string name="menu_save_file">Sauver sous...</string>
+	<string name="menu_kml_clear">Enlever tout</string>
+
+	<!-- kml_item_menu-->
+	<string name="kml_item_menu_cut">Couper</string>
+	<string name="kml_item_menu_copy">Copier</string>
+	<string name="kml_item_menu_behind">En arrière</string>
+	<string name="kml_item_menu_front">En avant</string>
+	<string name="kml_item_menu_show_on_map">Centrer sur la carte</string>
+	<string name="kml_item_menu_none">Annuler</string>
+	
+	<!-- kml_option_menu-->
+	<string name="kml_option_menu_paste">Coller</string>
+	<string name="kml_option_menu_new">Nouveau Dossier</string>
+
+	<!-- style_item_menu-->
+	<string name="style_item_menu_cut">Supprimer</string>
+	<string name="style_item_menu_none">Annuler</string>
+	
+	<!-- style_option_menu-->
+	<string name="style_option_menu_new">Nouveau Style</string>
+
+</resources>

@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OSMNavigator</string>
-    <string name="my_position">My Position</string>
-    <string name="departure">Departure</string>
-    <string name="destination">Destination</string>
-    <string name="viapoint">Via-Point</string>
-    <string name="style_prompt">Styles</string>
+	<!-- MapActivity.java -->
+	<string name="app_name">OSMNavigator</string>
+	<string name="my_position">My Position</string>
+	<string name="departure">Departure</string>
+	<string name="destination">Destination</string>
+	<string name="viapoint">Via-Point</string>
+	<string name="itinerary_markers_title">Route Via-Points</string>
+	
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+	<string name="wait">Please wait</string>
+	
+	<string name="step">Step</string>
+	<string name="route">Route</string>
+	<string name="file_kml_open">File (.kml, .kmz or .json)</string>
+	<string name="url_kml_open">KML url</string>
+	<string name="loading">Loading</string>
+
+	<!-- main.xml-->
+	<string name="search">Search</string>
+	<string name="feature">Feature</string>
+	
+	<!--  kml_main.xml -->
+	<string name="kml_main_name">Name</string>
+	<string name="kml_main_description">Description</string>
+	<string name="kml_main_style_prompt">Styles</string>
+	<string name="kml_main_visible">Visible</string>
+
+	<!--  kml_style.xml -->
+	<string name="kml_style_styleID">Style ID</string>
+	<string name="kml_style_icon_href">Icon Href</string>
+	<string name="kml_style_line_color">Line color:</string>
+	<string name="kml_style_line_width">Line width:</string>
+	<string name="kml_style_fill_color">Fill color:</string>
+	
+	<!--  items_list.xml -->
+	<string name="items_list_title">Itinerary:</string>
+	
+	<!--  kml_styles.xml -->
+	<string name="kml_styles_title">Shared Styles:</string>
+	
+	<!-- map_menu-->
+	<string name="menu_departure">Set Departure</string>
+	<string name="menu_destination">Set Destination</string>
+	<string name="menu_viapoint">Add Via-Point</string>
+	<string name="menu_kmlpoint">Add KML Point</string>
+	<string name="menu_none">Cancel</string>
+
+	<!-- option_menu-->
+	<string name="menu_itinerary">Itinerary</string>
+	<string name="menu_pois">Features list</string>
+	<string name="menu_cache">Cache Manager</string>
+	<string name="menu_download_view_area">Download view area</string>
+	<string name="menu_clear_view_area">Clear view area</string>
+	<string name="menu_cache_usage">Cache usage</string>
+	<string name="menu_tile">Tile Provider</string>
+	<string name="menu_route">Route Provider</string>
+	<string name="menu_route_osrm">OSRM - Car</string>
+	<string name="menu_route_graphhopper_fastest">GraphHopper - Car</string>
+	<string name="menu_route_graphhopper_bicycle">GraphHopper - Bicycle</string>
+	<string name="menu_route_graphhopper_pedestrian">GraphHopper - Pedestrian</string>
+	<string name="menu_route_google">Google - Car</string>
+	<string name="menu_kml">KML Toolbox</string>
+	<string name="menu_kml_url">Open url...</string>
+	<string name="menu_open_file">Open file...</string>
+	<string name="menu_kml_get_overlays">Pick Overlays</string>
+	<string name="menu_kml_tree">Edit Features...</string>
+	<string name="menu_kml_styles">Edit Shared Styles...</string>
+	<string name="menu_save_file">Save as...</string>
+	<string name="menu_kml_clear">Clear</string>
+
+	<!-- kml_item_menu-->
+	<string name="kml_item_menu_cut">Cut</string>
+	<string name="kml_item_menu_copy">Copy</string>
+	<string name="kml_item_menu_behind">Push behind</string>
+	<string name="kml_item_menu_front">Bring to front</string>
+	<string name="kml_item_menu_show_on_map">Show on map</string>
+	<string name="kml_item_menu_none">Cancel</string>
+	
+	<!-- kml_option_menu-->
+	<string name="kml_option_menu_paste">Paste</string>
+	<string name="kml_option_menu_new">New Folder</string>
+
+	<!-- style_item_menu-->
+	<string name="style_item_menu_cut">Delete</string>
+	<string name="style_item_menu_none">Cancel</string>
+	
+	<!-- style_option_menu-->
+	<string name="style_option_menu_new">New Style</string>
+
 </resources>

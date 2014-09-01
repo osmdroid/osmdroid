@@ -8,13 +8,13 @@
 	<EditText android:id="@+id/style_id" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:hint="Style ID"
+		android:hint="@string/kml_style_styleID"
 		android:textColor="#000000" />
     
 	<EditText android:id="@+id/icon" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
-		android:hint="Icon Href"
+		android:hint="@string/kml_style_icon_href"
 		android:textColor="#000000" />
     
 	<LinearLayout 
@@ -26,7 +26,7 @@
 			android:layout_gravity="left"
 			android:layout_weight="0"
 			android:textColor="#000000" 
-			android:text="Line color:" 
+			android:text="@string/kml_style_line_color" 
 			android:textSize="16sp" />
 	    <EditText android:id="@+id/outlineColor" 
 			android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
 			android:layout_gravity="left"
 			android:layout_weight="0"
 			android:textColor="#000000" 
-			android:text="Line width:" 
+			android:text="@string/kml_style_line_width" 
 			android:textSize="16sp" />
 		<TextView android:id="@+id/outlineWidthValue"
 			android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
 			android:layout_weight="0"
 			android:textColor="#000000" 
 			android:textSize="16sp"
-			android:text="Fill color:" />
+			android:text="@string/kml_style_fill_color" />
 	    <EditText android:id="@+id/fillColor" 
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content" 
@@ -87,6 +87,6 @@
 	    android:id="@+id/btnOK"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
-	    android:text="OK" />
+	    android:text="@string/ok" />
 	
 </LinearLayout>

@@ -3,33 +3,33 @@
     <item
         android:id="@+id/menu_itinerary"
         android:icon="@drawable/ic_menu_itinerary"
-        android:title="Itinerary"/>
+        android:title="@string/menu_itinerary"/>
     <item
         android:id="@+id/menu_pois"
         android:icon="@drawable/ic_menu_poi"
-        android:title="Features list"/>
+        android:title="@string/menu_pois"/>
     <item
         android:id="@+id/menu_cache"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="Cache Manager">
+        android:title="@string/menu_cache">
 		<menu>
 			<group>
 				<item
 				    android:id="@+id/menu_download_view_area"
-				    android:title="Download view area"/>
+				    android:title="@string/menu_download_view_area"/>
 				<item
 				    android:id="@+id/menu_clear_view_area"
-				    android:title="Clear view area"/>
+				    android:title="@string/menu_clear_view_area"/>
 				<item
 				    android:id="@+id/menu_cache_usage"
-				    android:title="Cache usage"/>
+				    android:title="@string/menu_cache_usage"/>
 			</group>
 		</menu>
     </item>
     <item
         android:id="@+id/menu_tile"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="Tile Provider">
+        android:title="@string/menu_tile">
 		<menu>
 			<group android:checkableBehavior="single" >
 				<item
@@ -51,55 +51,55 @@
     <item
         android:id="@+id/menu_route"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="Route Provider">
+        android:title="@string/menu_route">
         <menu>
             <group android:checkableBehavior="single" >
                 <item
                     android:id="@+id/menu_route_osrm"
-                    android:title="OSRM-Fastest"
+                    android:title="@string/menu_route_osrm"
                     android:checked="true"/>
                 <item
-                    android:id="@+id/menu_route_mapquest_fastest"
-                    android:title="GraphHopper-Fastest"/>
+                    android:id="@+id/menu_route_graphhopper_fastest"
+                    android:title="@string/menu_route_graphhopper_fastest"/>
                 <item
-                    android:id="@+id/menu_route_mapquest_bicycle"
-                    android:title="GraphHopper-Bicycle"/>
+                    android:id="@+id/menu_route_graphhopper_bicycle"
+                    android:title="@string/menu_route_graphhopper_bicycle"/>
                 <item
-                    android:id="@+id/menu_route_mapquest_pedestrian"
-                    android:title="GraphHopper-Pedestrian"/>
+                    android:id="@+id/menu_route_graphhopper_pedestrian"
+                    android:title="@string/menu_route_graphhopper_pedestrian"/>
                 <item
                     android:id="@+id/menu_route_google"
-                    android:title="Google-Fastest"/>
+                    android:title="@string/menu_route_google"/>
             </group>
         </menu>
     </item>
     <item
         android:id="@+id/menu_kml"
         android:icon="@android:drawable/ic_menu_more"
-        android:title="KML Toolbox">
+        android:title="@string/menu_kml">
         <menu>
             <group>
 				<item
 				      android:id="@+id/menu_kml_url"
-				      android:title="Open url..."/>
+				      android:title="@string/menu_kml_url"/>
 				<item
 				      android:id="@+id/menu_open_file"
-				      android:title="Open file..."/>
+				      android:title="@string/menu_open_file"/>
 				<item
 				      android:id="@+id/menu_kml_get_overlays"
-				      android:title="Pick Overlays"/>
+				      android:title="@string/menu_kml_get_overlays"/>
 				<item
 			        android:id="@+id/menu_kml_tree"
-			        android:title="Edit Features..."/>
+			        android:title="@string/menu_kml_tree"/>
 				<item
 			        android:id="@+id/menu_kml_styles"
-			        android:title="Edit Shared Styles..."/>
+			        android:title="@string/menu_kml_styles"/>
 				<item
 				      android:id="@+id/menu_save_file"
-				      android:title="Save as..."/>
+				      android:title="@string/menu_save_file"/>
 				<item
 				      android:id="@+id/menu_kml_clear"
-				      android:title="Clear"/>
+				      android:title="@string/menu_kml_clear"/>
 			</group>
 		</menu>
 	</item>

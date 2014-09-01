@@ -30,7 +30,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:layout_weight="0"
-			android:text="Search" />
+			android:text="@string/search" />
 	</LinearLayout>
 
 	<LinearLayout
@@ -51,7 +51,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:layout_weight="0"
-			android:text="Search" />
+			android:text="@string/search" />
 	</LinearLayout>
     
 	<LinearLayout
@@ -60,7 +60,7 @@
         android:orientation="horizontal" >
 		<AutoCompleteTextView
 			android:id="@+id/poiTag"
-			android:hint="Feature"
+			android:hint="@string/feature"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -72,7 +72,7 @@
 			android:layout_height="wrap_content"
 			android:layout_gravity="right"
 			android:layout_weight="0"
-			android:text="Search" />
+			android:text="@string/search" />
 	</LinearLayout>
 	</LinearLayout>
 	

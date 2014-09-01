@@ -24,7 +24,6 @@ import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.InfoWindow;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -97,7 +96,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Simple and general-purpose map application based on osmdroid and OSMBonusPack
+ * Simple and general-purpose map/navigation Android application, including a KML viewer and editor. 
+ * It is based on osmdroid and OSMBonusPack
  * @see http://code.google.com/p/osmbonuspack/
  * @author M.Kergall
  *
@@ -225,7 +225,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		// Itinerary markers:
 		mItineraryMarkers = new FolderOverlay(this);
-		mItineraryMarkers.setName("Route Via-Points");
+		mItineraryMarkers.setName(getString(R.string.itinerary_markers_title));
 		map.getOverlays().add(mItineraryMarkers);
 		mViaPointInfoWindow = new ViaPointInfoWindow(R.layout.itinerary_bubble, map);
 		updateUIWithItineraryMarkers();
@@ -711,7 +711,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     		RoadNode node = road.mNodes.get(i);
     		String instructions = (node.mInstructions==null ? "" : node.mInstructions);
     		Marker nodeMarker = new Marker(map);
-    		nodeMarker.setTitle("Step " + (i+1));
+    		nodeMarker.setTitle(getString(R.string.step)+ " " + (i+1));
     		nodeMarker.setSnippet(instructions);
     		nodeMarker.setSubDescription(Road.getLengthDurationText(node.mLength, node.mDuration));
     		nodeMarker.setPosition(node.mLocation);
@@ -748,7 +748,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			p.setPathEffect(new DashPathEffect(new float[] {10,5}, 0));
 		}
 		String routeDesc = road.getLengthDurationText(-1);
-		mRoadOverlay.setTitle("Route - "+routeDesc);
+		mRoadOverlay.setTitle(getString(R.string.route) + " - " + routeDesc);
 		mapOverlays.add(1, mRoadOverlay);
 			//we insert the road overlay at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
@@ -952,7 +952,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			} else if (mPOIs == null){
 				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mFeatureTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
-				Toast.makeText(getApplicationContext(), ""+mPOIs.size()+" "+mFeatureTag+ " entries found", Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), mFeatureTag+ " found:"+mPOIs.size(), Toast.LENGTH_LONG).show();
 			}
 			updateUIWithPOI(mPOIs, mFeatureTag);
 			if (mFeatureTag.equals("flickr")||mFeatureTag.startsWith("picasa")||mFeatureTag.equals("wikipedia"))
@@ -972,7 +972,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	void openLocalFileDialog(boolean open){
 		mDialogForOpen = open;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("File (.kml, .kmz or .json)");
+		builder.setTitle(getString(R.string.file_kml_open));
 		builder.setMessage(""+mKmlDocument.getDefaultPathForAndroid(""));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -980,7 +980,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String localFileName = prefs.getString("KML_LOCAL_FILE", "current.kml");
 		input.setText(localFileName);
 		builder.setView(input);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 			@Override public void onClick(DialogInterface dialog, int which) {
 				String localFileName = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
@@ -994,7 +994,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 					saveFile(localFileName);
 			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 			@Override public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
@@ -1004,7 +1004,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void openUrlDialog(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("KML url");
+		builder.setTitle(getString(R.string.url_kml_open));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
@@ -1012,7 +1012,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String uri = prefs.getString("KML_URI", defaultUri);
 		input.setText(uri);
 		builder.setView(input);
-		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() { 
 			@Override public void onClick(DialogInterface dialog, int which) {
 				String uri = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
@@ -1022,7 +1022,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				openFile(uri, false);
 			}
 		});
-		builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
 			@Override public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
@@ -1033,7 +1033,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	ProgressDialog createSpinningDialog(String title){
 		ProgressDialog pd = new ProgressDialog(map.getContext());
 		pd.setTitle(title);
-		pd.setMessage("Please wait.");
+		pd.setMessage(getString(R.string.wait));
 		pd.setCancelable(false);
 		pd.setIndeterminate(true);
 		return pd;
@@ -1091,7 +1091,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	
 	void openFile(String uri, boolean onCreate){
 		//Toast.makeText(this, "Loading "+uri, Toast.LENGTH_SHORT).show();
-		new KmlLoadingTask("Loading "+uri).execute(uri, onCreate);
+		new KmlLoadingTask(getString(R.string.loading)+" "+uri).execute(uri, onCreate);
 	}
 	
 	/** save fileName locally, as KML or GeoJSON depending on the extension */
@@ -1207,13 +1207,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			menu.findItem(R.id.menu_route_osrm).setChecked(true);
 			break;
 		case GRAPHHOPPER_FASTEST:
-			menu.findItem(R.id.menu_route_mapquest_fastest).setChecked(true);
+			menu.findItem(R.id.menu_route_graphhopper_fastest).setChecked(true);
 			break;
 		case GRAPHHOPPER_BICYCLE:
-			menu.findItem(R.id.menu_route_mapquest_bicycle).setChecked(true);
+			menu.findItem(R.id.menu_route_graphhopper_bicycle).setChecked(true);
 			break;
 		case GRAPHHOPPER_PEDESTRIAN:
-			menu.findItem(R.id.menu_route_mapquest_pedestrian).setChecked(true);
+			menu.findItem(R.id.menu_route_graphhopper_pedestrian).setChecked(true);
 			break;
 		case GOOGLE_FASTEST:
 			menu.findItem(R.id.menu_route_google).setChecked(true);
@@ -1331,17 +1331,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
-		case R.id.menu_route_mapquest_fastest:
+		case R.id.menu_route_graphhopper_fastest:
 			mWhichRouteProvider = GRAPHHOPPER_FASTEST;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
-		case R.id.menu_route_mapquest_bicycle:
+		case R.id.menu_route_graphhopper_bicycle:
 			mWhichRouteProvider = GRAPHHOPPER_BICYCLE;
 			item.setChecked(true);
 			getRoadAsync();
 			return true;
-		case R.id.menu_route_mapquest_pedestrian:
+		case R.id.menu_route_graphhopper_pedestrian:
 			mWhichRouteProvider = GRAPHHOPPER_PEDESTRIAN;
 			item.setChecked(true);
 			getRoadAsync();
