@@ -166,7 +166,7 @@ public class NominatimPOIProvider {
 			lat = lat.substring(0, Math.min(lat.length(), 7));
 			String lon = Double.toString(p.getLongitude());
 			lon = lon.substring(0, Math.min(lon.length(), 7));
-			url.append(lat+","+lon);
+			url.append(lon+","+lat);
 				//limit the url length as much as possible, as post method is not supported. 
 		}
 		return getThem(url.toString());
