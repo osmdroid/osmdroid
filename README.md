@@ -16,6 +16,12 @@ You can include osmdroid using Maven or by adding a jar file to your project. Se
 
 The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/HowToMaven#how-to-build-osmdroid-using-eclipse).
 
+##I have a question
+
+See if it's already been answered in the
+[Discussion Group](http://groups.google.com/group/osmdroid).
+If not, please ask there.
+
 ##I want to report a bug
 
 First check the [FAQ](https://code.google.com/p/osmdroid/wiki/FAQ) page for answers.
