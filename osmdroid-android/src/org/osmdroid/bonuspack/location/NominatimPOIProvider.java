@@ -28,7 +28,7 @@ public class NominatimPOIProvider {
 		 * offset= to offset the result ?... <br>
 		 * polygon=1 to get the border of the poi as a polygon<br>
 		 * nearlat & nearlon = ???<br>
-		 * routewidth/69 and routewidth/30 ???<br>
+		 * routewidth. routewidth/69 and routewidth/30 ???<br>
 */	
 	public static final String MAPQUEST_POI_SERVICE = "http://open.mapquestapi.com/nominatim/v1/";
 	public static final String NOMINATIM_POI_SERVICE = "http://nominatim.openstreetmap.org/";
@@ -166,7 +166,7 @@ public class NominatimPOIProvider {
 			lat = lat.substring(0, Math.min(lat.length(), 7));
 			String lon = Double.toString(p.getLongitude());
 			lon = lon.substring(0, Math.min(lon.length(), 7));
-			url.append(lon+","+lat);
+			url.append(lat+","+lon);
 				//limit the url length as much as possible, as post method is not supported. 
 		}
 		return getThem(url.toString());

@@ -21,6 +21,7 @@ public class POI implements Parcelable {
 	public static int POI_SERVICE_GEONAMES_WIKIPEDIA = 200;
 	public static int POI_SERVICE_FLICKR = 300;
 	public static int POI_SERVICE_PICASA = 400;
+	public static int POI_SERVICE_OVERPASS_API = 500;
 	
 	private static WebImageCache mThumbnailCache;
 	static {

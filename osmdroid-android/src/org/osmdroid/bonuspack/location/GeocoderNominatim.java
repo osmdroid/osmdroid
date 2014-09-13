@@ -263,7 +263,7 @@ public class GeocoderNominatim {
 	 * "boundingbox": the enclosing bounding box, as a BoundingBoxE6<br>
 	 * "osm_id": the OSM id, as a long<br>
 	 * "osm_type": one of the 3 OSM types, as a string (node, way, or relation). <br>
-	 * "display_name": the address, as a single String
+	 * "display_name": the address, as a single String<br>
 	 * "polygonpoints": the enclosing polygon of the location (depending on setOptions usage), as an ArrayList of GeoPoint<br>
 	 */
 	public List<Address> getFromLocationName(String locationName, int maxResults)
