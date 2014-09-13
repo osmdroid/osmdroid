@@ -2,6 +2,11 @@ package com.example.osmbonuspacktuto;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -17,9 +22,11 @@ import org.osmdroid.bonuspack.kml.KmlPolygon;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
+import org.osmdroid.bonuspack.location.OverpassAPIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.DefaultInfoWindow;
+import org.osmdroid.bonuspack.location.OverpassAPIProvider.Element;
+import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
 import org.osmdroid.bonuspack.overlays.InfoWindow;
@@ -79,19 +86,8 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		
 		//Introduction
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.main);
 		map = (MapView) findViewById(R.id.map);
-		//map.setTileSource(TileSourceFactory.MAPNIK);
-		/* or using local file archives (zip, sqlite or mbtiles) built with MOBAC:
-		map.setTileSource(new XYTileSource("MapQuest",
-				ResourceProxy.string.mapquest_osm, 9, 13, 256, ".jpg", new String[] {
-				"http://otile1.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile2.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile3.mqcdn.com/tiles/1.0.0/map/",
-				"http://otile4.mqcdn.com/tiles/1.0.0/map/" }));
-		map.setUseDataConnection(false);
-		map.setScrollableAreaLimit(new BoundingBoxE6(47.4, -1.05, 46.9, -1.93));
-		*/
 		map.setBuiltInZoomControls(true);
 		map.setMultiTouchControls(true);
 		GeoPoint startPoint = new GeoPoint(48.13, -1.63);
@@ -153,10 +149,20 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
 		
+		//!NEW from v4.9! OpenStreetMap POIs with Overpass API
+		/*
+		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+		BoundingBoxE6 oBB = new BoundingBoxE6(startPoint.getLatitude()+0.5, startPoint.getLongitude()+0.5,
+			startPoint.getLatitude()-0.5, startPoint.getLongitude()-0.5);
+		String oUrl = overpassProvider.urlForAmenitySearch("cinema", oBB, 100, 30);
+		HashMap<Long, Element> elements = overpassProvider.getThemAsJson(oUrl);
+		ArrayList<POI> pois = overpassProvider.asPOIs(elements);
+		*/
+		
 		//6. Wikipedia POIs with GeoNames 
 		/*
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
-		//BoundingBoxE6 bb = map.getBoundingBox(); 
+		//BoundingBoxE6 bb = map.getBoundingBox();
 		//ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 		//=> not possible in onCreate, as map bounding box is not correct until a draw occurs (osmdroid issue). 
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, 30, 20.0);
@@ -202,20 +208,12 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 			}
 		}
 
-		/* the "Too Many Markers" test:
-		for (int i=0; i<5000; i++){
-			Marker poiMarker = new Marker(map);
-			poiMarker.setPosition(new GeoPoint(Math.random()*5+45, Math.random()*5));
-			poiMarker.setIcon(poiIcon);
-			poiMarkers.add(poiMarker);
-		}
-		*/
-
 		//12. Loading KML content
 		String url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
 		//String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
 		mKmlDocument = new KmlDocument();
 		boolean ok = mKmlDocument.parseUrl(url);
+		
 		if (ok){
 			//13.1 Simple styling
 			Drawable defaultMarker = getResources().getDrawable(R.drawable.marker_kml_point);
@@ -391,7 +389,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		circle.setStrokeColor(Color.RED);
 		circle.setStrokeWidth(2);
 		map.getOverlays().add(circle);
-		circle.setInfoWindow(new DefaultInfoWindow(R.layout.bonuspack_bubble, map));
+		circle.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
 		circle.setTitle("Centered on "+p.getLatitude()+","+p.getLongitude());
 		
 		//18. Using GroundOverlay
