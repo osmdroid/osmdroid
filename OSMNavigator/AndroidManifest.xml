@@ -38,8 +38,8 @@
 				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.kmz" />
 				<data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern=".*\\.json" />
             </intent-filter>
-            </activity>
-        <activity
+		</activity>
+		<activity
             android:name="com.osmnavigator.RouteActivity"
             android:label="@string/app_name" 
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

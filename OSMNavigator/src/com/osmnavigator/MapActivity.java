@@ -22,6 +22,7 @@ import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
 import org.osmdroid.bonuspack.location.NominatimPOIProvider;
+import org.osmdroid.bonuspack.location.OverpassAPIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
@@ -839,8 +840,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				poiMarker.setSnippet(poi.mDescription);
 				poiMarker.setPosition(poi.mLocation);
 				Drawable icon = null;
-				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
+				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM || poi.mServiceId == POI.POI_SERVICE_OVERPASS_API){
 					icon = getResources().getDrawable(R.drawable.marker_poi);
+					poiMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
 				} else if (poi.mServiceId == POI.POI_SERVICE_GEONAMES_WIKIPEDIA){
 					if (poi.mRank < 90)
 						icon = getResources().getDrawable(R.drawable.marker_poi_wikipedia_16);
@@ -853,9 +855,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 					poiMarker.setSubDescription(poi.mCategory);
 				}
 				poiMarker.setIcon(icon);
-				if (poi.mServiceId == POI.POI_SERVICE_NOMINATIM){
-					poiMarker.setAnchor(Marker.ANCHOR_CENTER, 1.0f);
-				}
 				poiMarker.setRelatedObject(poi);
 				poiMarker.setInfoWindow(poiInfoWindow);
 				//thumbnail loading moved in async task for better performances. 
@@ -934,14 +933,17 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				return pois;
 			} else {
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
-				//poiProvider.setService(NominatimPOIProvider.MAPQUEST_POI_SERVICE);
 				ArrayList<POI> pois;
 				if (mRoad == null){
-					BoundingBoxE6 bb = map.getBoundingBox();
-					pois = poiProvider.getPOIInside(bb, mFeatureTag, 100);
+					pois = poiProvider.getPOIInside(map.getBoundingBox(), mFeatureTag, 100);
 				} else {
 					pois = poiProvider.getPOIAlong(mRoad.getRouteLow(), mFeatureTag, 100, 2.0);
 				}
+				/* TODO: convert human-readable mFeatureTag to corresponding OSM tag (k=v). 
+				OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+				String oUrl = overpassProvider.urlForPOISearch(mFeatureTag, map.getBoundingBox(), 500, 30);
+				ArrayList<POI> pois = overpassProvider.getPOIsFromUrl(oUrl);
+				*/
 				return pois;
 			}
 		}
@@ -976,16 +978,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.setMessage(""+mKmlDocument.getDefaultPathForAndroid(""));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
-		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-		String localFileName = prefs.getString("KML_LOCAL_FILE", "current.kml");
+		String localFileName = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("KML_LOCAL_FILE", "current.kml");
 		input.setText(localFileName);
 		builder.setView(input);
 		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 			@Override public void onClick(DialogInterface dialog, int which) {
 				String localFileName = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-				SharedPreferences.Editor ed = prefs.edit();
-				ed.putString("KML_LOCAL_FILE", localFileName).commit();
+				prefs.edit().putString("KML_LOCAL_FILE", localFileName).commit();
 				dialog.cancel();
 				if (mDialogForOpen){
 					File file = mKmlDocument.getDefaultPathForAndroid(localFileName);
@@ -1008,16 +1008,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-		String uri = prefs.getString("KML_URI", defaultUri);
+		String uri = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("KML_URI", defaultUri);
 		input.setText(uri);
 		builder.setView(input);
 		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() { 
 			@Override public void onClick(DialogInterface dialog, int which) {
 				String uri = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-				SharedPreferences.Editor ed = prefs.edit();
-				ed.putString("KML_URI", uri).commit();
+				prefs.edit().putString("KML_URI", uri).commit();
 				dialog.cancel();
 				openFile(uri, false);
 			}
@@ -1030,6 +1028,31 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.show();
 	}
 
+	void openOverpassAPIWizard(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Overpass API Wizard");
+		final EditText input = new EditText(this);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		String query = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("OVERPASS_QUERY", "amenity=cinema");
+		input.setText(query);
+		builder.setView(input);
+		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() { 
+			@Override public void onClick(DialogInterface dialog, int which) {
+				String query = input.getText().toString();
+				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
+				prefs.edit().putString("OVERPASS_QUERY", query).commit();
+				dialog.cancel();
+				getKMLFromOverpass(query);
+			}
+		});
+		builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+			@Override public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
+		builder.show();
+	}
+	
 	ProgressDialog createSpinningDialog(String title){
 		ProgressDialog pd = new ProgressDialog(map.getContext());
 		pd.setTitle(title);
@@ -1067,7 +1090,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				else //assume KML
 					ok = mKmlDocument.parseKMLFile(file);
 			} else if (mUri.startsWith("http")) {
-				ok = mKmlDocument.parseUrl(mUri);
+				ok = mKmlDocument.parseKMLUrl(mUri);
 			}
 			return ok;
 		}
@@ -1106,6 +1129,18 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
 		else 
 			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
+	}
+	
+	void getKMLFromOverpass(String query){
+		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+		String oUrl = overpassProvider.urlForTagSearchKml(query, map.getBoundingBox(), 500, 30);
+		boolean result = overpassProvider.addInKmlFolder(mKmlDocument.mKmlRoot, oUrl);
+		if (!result)
+			Toast.makeText(this, "Query failed: "+query, Toast.LENGTH_SHORT).show();
+		else {
+			updateUIWithKml();
+			setViewOn(mKmlDocument.mKmlRoot.getBoundingBox());
+		}
 	}
 	
 	Style buildDefaultStyle(){
@@ -1304,6 +1339,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return true;
 		case R.id.menu_open_file:
 			openLocalFileDialog(true);
+			return true;
+		case R.id.menu_overpass_api:
+			openOverpassAPIWizard();
 			return true;
 		case R.id.menu_kml_get_overlays:
 			insertOverlaysInKml();
