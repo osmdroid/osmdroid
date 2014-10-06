@@ -8,7 +8,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -194,7 +196,7 @@ public class KmlDocument implements Parcelable {
 	 * @param url
 	 * @return true if OK, false if any error. 
 	 */
-	public boolean parseUrl(String url){
+	public boolean parseKMLUrl(String url){
 		Log.d(BonusPackHelper.LOG_TAG, "KmlProvider.parseUrl:"+url);
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
@@ -347,7 +349,7 @@ public class KmlDocument implements Parcelable {
 			KmlDocument subDocument = new KmlDocument();
 			boolean ok;
 			if (href.startsWith("http://") || href.startsWith("https://") )
-				ok = subDocument.parseUrl(href);
+				ok = subDocument.parseKMLUrl(href);
 			else if (kmzContainer == null){
 				File subFile = new File(mFile.getParent()+'/'+href);
 				ok = subDocument.parseKMLFile(subFile);
@@ -696,9 +698,10 @@ public class KmlDocument implements Parcelable {
 		mLocalFile = file;
 		try {
 			FileInputStream input = new FileInputStream(mLocalFile);
-			String s = BonusPackHelper.convertStreamToString(input);
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(new InputStreamReader(input));
 			input.close();
-			return parseGeoJSON(s);
+			return parseGeoJSON(json.getAsJsonObject());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

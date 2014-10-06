@@ -2,15 +2,15 @@ package org.osmdroid.bonuspack.location;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
-
 import org.osmdroid.bonuspack.kml.KmlFolder;
+import org.osmdroid.bonuspack.kml.KmlGeometry;
 import org.osmdroid.bonuspack.kml.KmlLineString;
+import org.osmdroid.bonuspack.kml.KmlMultiGeometry;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
+import org.osmdroid.bonuspack.kml.KmlPolygon;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -22,9 +22,17 @@ import com.google.gson.JsonSyntaxException;
 import android.util.Log;
 
 /**
- * Access to Overpass API, a powerful search API on OpenStreetMap data. 
- * @see <a href="http://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API Reference</a>
+ * Access to Overpass API, a super-powerful search API on OpenStreetMap data. <br>
  * 
+ * Two strategies are implemented: <br>
+ * - Get result as POIs, as simplified content and geometry (one point), using {@link #getPOIsFromUrl(String)}<br>
+ * - Get results with full content and geometry as KML, using {@link #addInKmlFolder(KmlFolder, String)}<br>
+ * 
+ * Helper methods are provided to build URLs for usual search requests. <br>
+ * 
+ * TODO Improve/revise the API => add an API targeting boundaries? <br>
+ * 
+ * @see <a href="http://wiki.openstreetmap.org/wiki/Overpass_API">Overpass API Reference</a>
  * @author M.Kergall
  */
 public class OverpassAPIProvider {
@@ -34,7 +42,7 @@ public class OverpassAPIProvider {
 	protected String mService;
 	
 	public OverpassAPIProvider(){
-		setService(OVERPASS_API_DE_SERVICE); //seems fast and reliable. 
+		setService(OVERPASS_API_DE_SERVICE); //good default, as it seems fast and reliable. 
 	}
 	
 	/**
@@ -46,134 +54,103 @@ public class OverpassAPIProvider {
 	}
 	
 	/**
-	 * Build the url to search for an amenity within a bounding box. 
-	 * @param amenity OpenStreetMap amenity value
+	 * Build the URL to search for elements having a specific OSM Tag (key=value), within a bounding box. 
+	 * Elements will be OSM nodes, ways and relations. Ways and relations will have no geometry, only their center. <br>
+	 * Usage: urlForPOISearch("amenity=cinema", map.getBoundingBox(), 200, 30);<br>
+	 * @param tag OpenStreetMap tag to search. Can be either "key=value", or "key". 
 	 * @param bb bounding box
-	 * @param limit max number of results - warning, this is not reliable. 
+	 * @param limit max number of results. 
 	 * @param timeout in seconds
-	 * @return the url
+	 * @return the url for this request. 
+	 * @see <a href="http://wiki.openstreetmap.org/wiki/Tags">OSM Tags</a>
 	 */
-	public String urlForAmenitySearch(String amenity, BoundingBoxE6 bb, int limit, int timeout){
+	public String urlForPOISearch(String tag, BoundingBoxE6 bb, int limit, int timeout){
 		StringBuffer s = new StringBuffer();
 		s.append(mService+"?data=");
 		String sBB = "("+bb.getLatSouthE6()*1E-6+","+bb.getLonWestE6()*1E-6+","+bb.getLatNorthE6()*1E-6+","+bb.getLonEastE6()*1E-6+")";
 		String data = 
 			"[out:json][timeout:"+timeout+"];("
-			+ "node[\"amenity\"=\""+amenity+"\"]"+sBB+";"
-			+ "way[\"amenity\"=\""+amenity+"\"]"+sBB+";"
-			+ "relation[\"amenity\"=\""+amenity+"\"]"+sBB+";"
-			+ ");out "+ limit + " body;>;out qt;";
+			+ "node["+tag+"]"+sBB+";"
+			+ "way["+tag+"]"+sBB+";"
+			+ "relation["+tag+"]"+sBB+";"
+			+ ");out qt center "+ limit + ";";
+		Log.d(BonusPackHelper.LOG_TAG, "data="+data);
 		s.append(URLEncoder.encode(data));
 		return s.toString();
 	}
 	
-	public class Element {
-		public static final int TYPE_NODE=0, TYPE_WAY=1, TYPE_RELATION=2;
-		public int mType;
-		public long mId;
-		public GeoPoint mPosition; //if node
-		protected long[] mNodes; //if way: related nodes
-		public ArrayList<GeoPoint> mCoords; //if way: polyline coordinates
-		public HashMap<String, String> mTags;
-		protected boolean mToRemove;
-		
-		protected Element(JsonObject jo){
-			mId = jo.get("id").getAsLong();
-			String type = jo.get("type").getAsString();
-			if ("node".equals(type)){
-				mType = TYPE_NODE;
-				double lat = jo.get("lat").getAsDouble();
-				double lon = jo.get("lon").getAsDouble();
-				mPosition = new GeoPoint(lat, lon);
-			} else if ("way".equals(type) ){
-				mType = TYPE_WAY;
-				if (jo.has("nodes")){
-					JsonArray jNodes = jo.get("nodes").getAsJsonArray();
-					int n = jNodes.size();
-					mNodes = new long[n];
-					for (int i=0; i<n; i++){
-						mNodes[i] = jNodes.get(i).getAsLong();
-					}
-				}
-			} else if ("relation".equals(type) ){
-				mType = TYPE_RELATION;
-			}
-			if (jo.has("tags")){
-				//Parse JSON tags to build element tags:
-				JsonObject jTags = jo.get("tags").getAsJsonObject();
-				Set<Map.Entry<String,JsonElement>> entrySet = jTags.entrySet();
-				mTags = new HashMap<String, String>(entrySet.size());
-				for (Map.Entry<String,JsonElement> entry:entrySet){
-					String key = entry.getKey();
-					String value = entry.getValue().getAsString();
-					if (key!=null && value!=null)
-						mTags.put(key, value);
-				}
-			}
-			//mToRemove = false; - done by default. 
-		}
+	protected GeoPoint geoPointFromJson(JsonObject jLatLon){
+		double lat = jLatLon.get("lat").getAsDouble();
+		double lon = jLatLon.get("lon").getAsDouble();
+		GeoPoint p = new GeoPoint(lat, lon);
+		return p;
 	}
 	
-	protected void removeRemovableElements(HashMap<Long, Element> elements){
-		Iterator<Entry<Long, Element>> it = elements.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Long, Element> pair = (Map.Entry<Long, Element>)it.next();
-			Element e = pair.getValue();
-			if (e.mToRemove)
-				it.remove();
-		}		
+	protected String tagValueFromJson(String key, JsonObject jTags){
+		JsonElement jTag = jTags.get(key);
+		if (jTag == null)
+			return "";
+		String v = jTag.getAsString();
+		return (v != null ? v : "");
 	}
-	
-	protected void fulfillWaysWithCoords(HashMap<Long, Element> elements){
-		Iterator<Entry<Long, Element>> it = elements.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Long, Element> pair = (Map.Entry<Long, Element>)it.next();
-			Element e = pair.getValue();
-			if (e.mType == Element.TYPE_WAY){
-				e.mCoords = new ArrayList<GeoPoint>(e.mNodes.length);
-				for (int i=0; i<e.mNodes.length; i++){
-					long relatedNodeId = e.mNodes[i];
-					Element relatedNode = elements.get(relatedNodeId);
-					if (relatedNode != null)
-						e.mCoords.add(relatedNode.mPosition);
-					//mark for removal the related node, as it should be present only for the geometry of its way:
-					relatedNode.mToRemove = true;
-				}
-			}
-		}
-	}
-	
-	/**
-	 * @param url full URL request
-	 * @return the Elements, of null if technical issue. 
+
+	/** 
+	 * Search for POI. 
+	 * @param url full URL request, built with #urlForPOISearch or equivalent. 
+	 * Main requirements: <br>
+	 * - Content must be in JSON format<br>
+	 * - ways and relations must contain the "center" element. <br>
+	 * @return elements as a list of POI
 	 */
-	public HashMap<Long, Element> getThemAsJson(String url){
-		Log.d(BonusPackHelper.LOG_TAG, "OverpassAPIProvider:get:"+url);
+	public ArrayList<POI> getPOIsFromUrl(String url){
+		Log.d(BonusPackHelper.LOG_TAG, "OverpassAPIProvider:getPOIsFromUrl:"+url);
 		String jString = BonusPackHelper.requestStringFromUrl(url);
 		if (jString == null) {
 			Log.e(BonusPackHelper.LOG_TAG, "OverpassAPIProvider: request failed.");
 			return null;
 		}
 		try {
-			//parse and build elements
+			//parse JSON and build POIs
 			JsonParser parser = new JsonParser();
 			JsonElement json = parser.parse(jString);
 			JsonObject jResult = json.getAsJsonObject();
 			JsonArray jElements = jResult.get("elements").getAsJsonArray();
-			HashMap<Long, Element> elements = new HashMap<Long, Element>(jElements.size());
+			ArrayList<POI> pois = new ArrayList<POI>(jElements.size());
 			for (JsonElement j:jElements){
 				JsonObject jo = j.getAsJsonObject();
-				Element e = new Element(jo);
-				elements.put(e.mId, e);
+				POI poi = new POI(POI.POI_SERVICE_OVERPASS_API);
+				poi.mId = jo.get("id").getAsLong();
+				poi.mCategory = jo.get("type").getAsString();
+				if (jo.has("tags")){
+					JsonObject jTags = jo.get("tags").getAsJsonObject();
+					//Try to set a relevant POI type by searching for an OSM commonly used tag key, and getting its value:
+					poi.mType = tagValueFromJson("amenity", jTags)
+							+ tagValueFromJson("boundary", jTags) 
+							+ tagValueFromJson("building", jTags) 
+							+ tagValueFromJson("craft", jTags) 
+							+ tagValueFromJson("emergency", jTags) 
+							+ tagValueFromJson("highway", jTags) 
+							+ tagValueFromJson("historic", jTags) 
+							+ tagValueFromJson("landuse", jTags) 
+							+ tagValueFromJson("leisure", jTags) 
+							+ tagValueFromJson("natural", jTags) 
+							+ tagValueFromJson("shop", jTags) 
+							+ tagValueFromJson("sport", jTags) 
+							+ tagValueFromJson("tourism", jTags); 
+					poi.mDescription = tagValueFromJson("name", jTags);
+				}
+				if ("node".equals(poi.mCategory)){
+					poi.mLocation = geoPointFromJson(jo);
+				} else {
+					if (jo.has("center")){
+						JsonObject jCenter = jo.get("center").getAsJsonObject();
+						poi.mLocation = geoPointFromJson(jCenter);
+					}
+				}
+				if (poi.mLocation != null)
+					pois.add(poi);
 			}
-			
-			//fulfill Elements ways with their nodes coords:
-			fulfillWaysWithCoords(elements);
-			
-			//remove elements marked for removal:
-			removeRemovableElements(elements);
-			
-			return elements;
+			return pois;
 		} catch (JsonSyntaxException e) {
 			Log.e(BonusPackHelper.LOG_TAG, "OverpassAPIProvider: parsing error.");
 			return null;
@@ -181,52 +158,126 @@ public class OverpassAPIProvider {
 	}
 	
 	/**
-	 * Add the elements in kmlFolder, as KML Placemarks (Point or LineString)
-	 * @param kmlFolder
-	 * @param elements
+	 * Build the URL to search for elements having a specific OSM Tag (key=value), within a bounding box. 
+	 * Similar to {@link #urlForPOISearch}, but here the request is built to retrieve the full geometry. 
+	 * @param tag
+	 * @param bb bounding box
+	 * @param limit max number of results. 
+	 * @param timeout in seconds
+	 * @return the url for this request. 
 	 */
-	public void addInKmlFolder(KmlFolder kmlFolder, HashMap<Long, Element> elements){
-		Iterator<Entry<Long, Element>> it = elements.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry<Long, Element> pair = (Map.Entry<Long, Element>)it.next();
-			Element e = pair.getValue();
-			KmlPlacemark placemark;
-			if (e.mType == Element.TYPE_NODE){
-				placemark = new KmlPlacemark(e.mPosition);
-			} else /*if (e.mType == Element.TYPE_WAY) */{
-				placemark = new KmlPlacemark();
-				placemark.mGeometry = new KmlLineString();
-				placemark.mGeometry.mCoordinates = e.mCoords;
+	public String urlForTagSearchKml(String tag, BoundingBoxE6 bb, int limit, int timeout){
+		StringBuffer s = new StringBuffer();
+		s.append(mService+"?data=");
+		String sBB = "("+bb.getLatSouthE6()*1E-6+","+bb.getLonWestE6()*1E-6+","+bb.getLatNorthE6()*1E-6+","+bb.getLonEastE6()*1E-6+")";
+		String data = 
+			"[out:json][timeout:"+timeout+"];("
+			+ "node["+tag+"]"+sBB+";"
+			+ "way["+tag+"]"+sBB+";"
+			+ "relation["+tag+"]"+sBB+";"
+			+ ");out qt geom "+ limit + ";";
+		Log.d(BonusPackHelper.LOG_TAG, "data="+data);
+		s.append(URLEncoder.encode(data));
+		return s.toString();
+	}
+	
+	/**
+	 * Attempt to detect if a way is an area. 
+	 * Assume that a closed way is an area, without handling very specific OSM exceptions. 
+	 */
+	protected boolean isAnArea(ArrayList<GeoPoint> coords){
+		return (coords!=null) && (coords.size()>=3) && (coords.get(0).equals(coords.get(coords.size()-1)));
+	}
+	
+	protected ArrayList<GeoPoint> parseGeometry(JsonObject jo){
+		JsonArray jGeometry = jo.get("geometry").getAsJsonArray();
+		ArrayList<GeoPoint> coords = new ArrayList<GeoPoint>(jGeometry.size());
+		for (JsonElement j:jGeometry){
+			JsonObject jLatLon = j.getAsJsonObject();
+			GeoPoint p = geoPointFromJson(jLatLon);
+			coords.add(p);
+		}
+		return coords;
+	}
+	
+	protected KmlMultiGeometry buildMultiGeometry(JsonArray jMembers){
+		KmlMultiGeometry geometry = new KmlMultiGeometry();
+		for (JsonElement j:jMembers){
+			JsonObject jMember = j.getAsJsonObject();
+			KmlGeometry item = buildGeometry(jMember);
+			geometry.addItem(item);
+		}
+		return geometry;
+	}
+	
+	protected KmlGeometry buildGeometry(JsonObject jo){
+		KmlGeometry geometry = null;
+		String type = jo.get("type").getAsString();
+		if ("node".equals(type)){
+			geometry = new KmlPoint(geoPointFromJson(jo));
+		} else if ("way".equals(type)){
+			ArrayList<GeoPoint> coords = parseGeometry(jo);
+			if (isAnArea(coords)){
+				geometry = new KmlPolygon();
+				geometry.mCoordinates = coords;
+			} else {
+				geometry = new KmlLineString();
+				geometry.mCoordinates = coords;
 			}
-			placemark.mName = e.mTags.get("name");
-			//TODO: copy tags to KML properties
-			kmlFolder.add(placemark);
+		} else { //relation:
+			JsonArray jMembers = jo.get("members").getAsJsonArray();
+			geometry = buildMultiGeometry(jMembers);
+		}
+		return geometry;
+	}
+	
+	/**
+	 * Retrieve elements from url, and add them in a KML Folder, as KML Placemarks: Point, LineString, Polygon, or MultiGeometry. 
+	 * @param kmlFolder KML folder in which elements will be added
+	 * @param url OverPass API url to retrieve elements. 
+	 * Main requirements:<br>
+	 * - Content must be in JSON format<br>
+	 * - ways and relations must have the "geometry" element<br>
+	 * @return true if ok, false if technical error. 
+	 */
+	public boolean addInKmlFolder(KmlFolder kmlFolder, String url){
+		Log.d(BonusPackHelper.LOG_TAG, "OverpassAPIProvider:addInKmlFolder:"+url);
+		String jString = BonusPackHelper.requestStringFromUrl(url);
+		if (jString == null) {
+			Log.e(BonusPackHelper.LOG_TAG, "OverpassAPIProvider: request failed.");
+			return false;
+		}
+		try {
+			//parse JSON and build KML
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(jString);
+			JsonObject jResult = json.getAsJsonObject();
+			JsonArray jElements = jResult.get("elements").getAsJsonArray();
+			for (JsonElement j:jElements){
+				JsonObject jo = j.getAsJsonObject();
+				KmlPlacemark placemark = new KmlPlacemark();
+				placemark.mGeometry = buildGeometry(jo);
+				placemark.mId = jo.get("id").getAsString();
+				//Tags:
+				if (jo.has("tags")){
+					JsonObject jTags = jo.get("tags").getAsJsonObject();
+					if (jTags.has("name"))
+						placemark.mName = jTags.get("name").getAsString();
+					//copy all tags as KML Extended Data:
+					Set<Map.Entry<String,JsonElement>> entrySet = jTags.entrySet();
+					for (Map.Entry<String,JsonElement> entry:entrySet){
+						String key = entry.getKey();
+						String value = entry.getValue().getAsString();
+						placemark.setExtendedData(key, value);
+					}
+				}
+				kmlFolder.add(placemark);
+			}
+			return true;
+		} catch (JsonSyntaxException e) {
+			Log.e(BonusPackHelper.LOG_TAG, "OverpassAPIProvider: parsing error.");
+			return false;
 		}
 	}
 
-	/**
-	 * @param elements
-	 * @return elements as an ArrayList of POI
-	 */
-	public ArrayList<POI> asPOIs(HashMap<Long, Element> elements){
-		Iterator<Entry<Long, Element>> it = elements.entrySet().iterator();
-		ArrayList<POI> pois = new ArrayList<POI>(elements.entrySet().size());
-		while (it.hasNext()) {
-			Map.Entry<Long, Element> pair = (Map.Entry<Long, Element>)it.next();
-			Element e = pair.getValue();
-			POI poi = new POI(POI.POI_SERVICE_OVERPASS_API);
-			poi.mId = e.mId;
-			poi.mCategory = (e.mType==Element.TYPE_NODE?"node":"way");
-			poi.mType = e.mTags.get("amenity");
-			poi.mDescription = e.mTags.get("name");
-			if (e.mType == Element.TYPE_NODE){
-				poi.mLocation = e.mPosition;
-			} else /*if (e.mType == Element.TYPE_WAY) */{
-				BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(e.mCoords);
-				poi.mLocation = bb.getCenter();
-			}
-			pois.add(poi);
-		}
-		return pois;
-	}
 }

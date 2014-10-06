@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * Default implementation of InfoWindow for a TapOverlay. 
+ * Default implementation of InfoWindow for an OverlayWithIW. 
  * It handles a text and a description. 
  * Clicking on the bubble will close it. 
  * 
