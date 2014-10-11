@@ -73,7 +73,7 @@ public class OverpassAPIProvider {
 			+ "node["+tag+"]"+sBB+";"
 			+ "way["+tag+"]"+sBB+";"
 			+ "relation["+tag+"]"+sBB+";"
-			+ ");out qt center "+ limit + ";";
+			+ ");out qt center "+ limit + " tags;";
 		Log.d(BonusPackHelper.LOG_TAG, "data="+data);
 		s.append(URLEncoder.encode(data));
 		return s.toString();
@@ -89,11 +89,16 @@ public class OverpassAPIProvider {
 	protected String tagValueFromJson(String key, JsonObject jTags){
 		JsonElement jTag = jTags.get(key);
 		if (jTag == null)
-			return "";
-		String v = jTag.getAsString();
-		return (v != null ? v : "");
+			return null;
+		else
+			return jTag.getAsString();
 	}
 
+	protected String tagValueFromJsonNotNull(String key, JsonObject jTags){
+		String v = tagValueFromJson(key, jTags);
+		return (v != null ? v : "");
+	}
+	
 	/** 
 	 * Search for POI. 
 	 * @param url full URL request, built with #urlForPOISearch or equivalent. 
@@ -124,20 +129,28 @@ public class OverpassAPIProvider {
 				if (jo.has("tags")){
 					JsonObject jTags = jo.get("tags").getAsJsonObject();
 					//Try to set a relevant POI type by searching for an OSM commonly used tag key, and getting its value:
-					poi.mType = tagValueFromJson("amenity", jTags)
-							+ tagValueFromJson("boundary", jTags) 
-							+ tagValueFromJson("building", jTags) 
-							+ tagValueFromJson("craft", jTags) 
-							+ tagValueFromJson("emergency", jTags) 
-							+ tagValueFromJson("highway", jTags) 
-							+ tagValueFromJson("historic", jTags) 
-							+ tagValueFromJson("landuse", jTags) 
-							+ tagValueFromJson("leisure", jTags) 
-							+ tagValueFromJson("natural", jTags) 
-							+ tagValueFromJson("shop", jTags) 
-							+ tagValueFromJson("sport", jTags) 
-							+ tagValueFromJson("tourism", jTags); 
+					poi.mType = tagValueFromJsonNotNull("amenity", jTags)
+							+ tagValueFromJsonNotNull("boundary", jTags) 
+							+ tagValueFromJsonNotNull("building", jTags) 
+							+ tagValueFromJsonNotNull("craft", jTags) 
+							+ tagValueFromJsonNotNull("emergency", jTags) 
+							+ tagValueFromJsonNotNull("highway", jTags) 
+							+ tagValueFromJsonNotNull("historic", jTags) 
+							+ tagValueFromJsonNotNull("landuse", jTags) 
+							+ tagValueFromJsonNotNull("leisure", jTags) 
+							+ tagValueFromJsonNotNull("natural", jTags) 
+							+ tagValueFromJsonNotNull("shop", jTags) 
+							+ tagValueFromJsonNotNull("sport", jTags) 
+							+ tagValueFromJsonNotNull("tourism", jTags); 
 					poi.mDescription = tagValueFromJson("name", jTags);
+					//TODO: try to set a relevant thumbnail image, according to key/value tags. 
+					//We could try to replicate Nominatim/lib/lib.php/getClassTypes(), but it sounds crazy for the added value. 
+					poi.mUrl = tagValueFromJson("website", jTags);
+					if (poi.mUrl != null){
+						//normalize the url (often needed):
+						if (!poi.mUrl.startsWith("http://") && !poi.mUrl.startsWith("https://"))
+							poi.mUrl = "http://" + poi.mUrl;
+					}
 				}
 				if ("node".equals(poi.mCategory)){
 					poi.mLocation = geoPointFromJson(jo);

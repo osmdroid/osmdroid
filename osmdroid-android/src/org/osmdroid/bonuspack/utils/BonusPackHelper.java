@@ -6,10 +6,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.osmdroid.util.BoundingBoxE6;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -149,5 +151,21 @@ public class BonusPackHelper {
 	        }
 	        return totalBytesSkipped;
 	    }
+	}
+
+	/**
+	 * Parse a string-array resource with items like this: <item>key|value</item>
+	 * @param ctx
+	 * @param stringArrayResourceId
+	 * @return the keys=>values as an HashMap
+	 */
+	public static HashMap<String, String> parseStringMapResource(Context ctx, int stringArrayResourceId) {
+	    String[] stringArray = ctx.getResources().getStringArray(stringArrayResourceId);
+	    HashMap<String, String> map = new HashMap<String, String>(stringArray.length);
+	    for (String entry : stringArray) {
+	        String[] splitResult = entry.split("\\|", 2);
+	        map.put(splitResult[0], splitResult[1]);
+	    }
+	    return map;
 	}
 }
