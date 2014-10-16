@@ -30,16 +30,6 @@ public class MarkerInfoWindow extends BasicInfoWindow {
 		
 		mMarkerRef = (Marker)item;
 		
-		//handle sub-description, hidding or showing the text view:
-		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
-		String subDesc = mMarkerRef.getSubDescription();
-		if (subDesc != null && !("".equals(subDesc))){
-			subDescText.setText(Html.fromHtml(subDesc));
-			subDescText.setVisibility(View.VISIBLE);
-		} else {
-			subDescText.setVisibility(View.GONE);
-		}
-
 		//handle image
 		ImageView imageView = (ImageView)mView.findViewById(mImageId /*R.id.image*/);
 		Drawable image = mMarkerRef.getImage();

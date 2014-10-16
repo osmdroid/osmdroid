@@ -86,6 +86,7 @@ public class KmlPoint extends KmlGeometry implements Parcelable, Cloneable {
 		Marker marker = new Marker(map);
 		marker.setTitle(kmlPlacemark.mName);
 		marker.setSnippet(kmlPlacemark.mDescription);
+		marker.setSubDescription(kmlPlacemark.getExtendedDataAsText());
 		marker.setPosition(getPosition());
 		//keep the link from the marker to the KML feature:
 		marker.setRelatedObject(this);

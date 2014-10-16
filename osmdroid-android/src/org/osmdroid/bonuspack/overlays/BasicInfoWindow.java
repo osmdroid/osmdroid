@@ -64,6 +64,17 @@ public class BasicInfoWindow extends InfoWindow {
 			snippet = "";
 		Spanned snippetHtml = Html.fromHtml(snippet);
 		((TextView)mView.findViewById(mDescriptionId /*R.id.description*/)).setText(snippetHtml);
+		
+		//handle sub-description, hidding or showing the text view:
+		TextView subDescText = (TextView)mView.findViewById(mSubDescriptionId);
+		String subDesc = overlay.getSubDescription();
+		if (subDesc != null && !("".equals(subDesc))){
+			subDescText.setText(Html.fromHtml(subDesc));
+			subDescText.setVisibility(View.VISIBLE);
+		} else {
+			subDescText.setVisibility(View.GONE);
+		}
+
 	}
 
 	@Override public void onClose() {

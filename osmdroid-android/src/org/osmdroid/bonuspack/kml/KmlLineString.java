@@ -44,7 +44,9 @@ public class KmlLineString extends KmlGeometry {
 			lineStringOverlay.setWidth(defaultStyle.getOutlinePaint().getStrokeWidth());
 		}
 		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
-				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
+				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))
+				|| (lineStringOverlay.getSubDescription()!=null && !"".equals(lineStringOverlay.getSubDescription()))
+				){
 			if (mDefaultLayoutResId == BonusPackHelper.UNDEFINED_RES_ID){
 				String packageName = context.getPackageName();
 				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
@@ -62,6 +64,7 @@ public class KmlLineString extends KmlGeometry {
 		lineStringOverlay.setPoints(mCoordinates);
 		lineStringOverlay.setTitle(kmlPlacemark.mName);
 		lineStringOverlay.setSnippet(kmlPlacemark.mDescription);
+		lineStringOverlay.setSubDescription(kmlPlacemark.getExtendedDataAsText());
 		if (styler != null)
 			styler.onLineString(lineStringOverlay, kmlPlacemark, this);
 		else {

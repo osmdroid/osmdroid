@@ -16,7 +16,7 @@ import android.content.Context;
 public abstract class OverlayWithIW extends Overlay {
  
 	//InfoWindow handling
-	protected String mTitle, mSnippet;
+	protected String mTitle, mSnippet, mSubDescription;
 	protected InfoWindow mInfoWindow;
 	
 	public OverlayWithIW(final Context ctx) {
@@ -28,6 +28,7 @@ public abstract class OverlayWithIW extends Overlay {
 		/* already done by default:
 		mTitle = null; 
 		mSnippet = null;
+		mSubDescription = null;
 		mInfoWindow = null;
 		*/
 	}
@@ -48,10 +49,19 @@ public abstract class OverlayWithIW extends Overlay {
 		return mSnippet;
 	}
 
-	/** By default, TapOverlay has no InfoWindow. 
+	/** set the "sub-description", an optional text to be shown in the InfoWindow, below the snippet, in a smaller text size */
+	public void setSubDescription(String subDescription){
+		mSubDescription = subDescription;
+	}
+	
+	public String getSubDescription(){
+		return mSubDescription;
+	}
+
+	/** By default, OverlayWithIW has no InfoWindow. 
 	 * Usage: setInfoWindow(new BasicInfoWindow(layoutResId, mapView));
 	 * @param infoWindow the InfoWindow to be opened when tapping the overlay. 
-	 * This InfoWindow MUST be able to handle a TapOverlay (as BasicInfoWindow does). 
+	 * This InfoWindow MUST be able to handle an OverlayWithIW (as BasicInfoWindow does). 
 	 * Set it to null to remove an existing InfoWindow. 
 	 */
 	public void setInfoWindow(InfoWindow infoWindow){

@@ -53,7 +53,9 @@ public class KmlPolygon extends KmlGeometry {
 			polygonOverlay.setFillColor(fillColor);
 		}
 		if ((kmlPlacemark.mName!=null && !"".equals(kmlPlacemark.mName)) 
-				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))){
+				|| (kmlPlacemark.mDescription!=null && !"".equals(kmlPlacemark.mDescription))
+				|| (polygonOverlay.getSubDescription()!=null && !"".equals(polygonOverlay.getSubDescription()))
+				){
 			if (mDefaultLayoutResId == BonusPackHelper.UNDEFINED_RES_ID){
 				String packageName = context.getPackageName();
 				mDefaultLayoutResId = context.getResources().getIdentifier("layout/bonuspack_bubble", null, packageName);
@@ -73,6 +75,7 @@ public class KmlPolygon extends KmlGeometry {
 			polygonOverlay.setHoles(mHoles);
 		polygonOverlay.setTitle(kmlPlacemark.mName);
 		polygonOverlay.setSnippet(kmlPlacemark.mDescription);
+		polygonOverlay.setSubDescription(kmlPlacemark.getExtendedDataAsText());
 		if (styler == null)
 			applyDefaultStyling(polygonOverlay, defaultStyle, kmlPlacemark, kmlDocument, map);
 		else

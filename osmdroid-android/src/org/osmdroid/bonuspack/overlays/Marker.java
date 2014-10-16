@@ -54,7 +54,6 @@ public class Marker extends OverlayWithIW {
 	
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
-	protected String mSubDescription;
 	protected boolean mPanToView;
 	protected Object mRelatedObject;
 	
@@ -180,15 +179,6 @@ public class Marker extends OverlayWithIW {
 		mOnMarkerDragListener = listener;
 	}
 	
-	/** set the "sub-description", an optional text to be shown in the InfoWindow, below the snippet, in a smaller text size */
-	public void setSubDescription(String subDescription){
-		mSubDescription = subDescription;
-	}
-	
-	public String getSubDescription(){
-		return mSubDescription;
-	}
-
 	/** set an image to be shown in the InfoWindow  - this is not the marker icon */
 	public void setImage(Drawable image){
 		mImage = image;

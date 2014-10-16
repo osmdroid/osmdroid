@@ -184,11 +184,13 @@ public class OverpassAPIProvider {
 		s.append(mService+"?data=");
 		String sBB = "("+bb.getLatSouthE6()*1E-6+","+bb.getLonWestE6()*1E-6+","+bb.getLatNorthE6()*1E-6+","+bb.getLonEastE6()*1E-6+")";
 		String data = 
-			"[out:json][timeout:"+timeout+"];("
-			+ "node["+tag+"]"+sBB+";"
-			+ "way["+tag+"]"+sBB+";"
-			+ "relation["+tag+"]"+sBB+";"
-			+ ");out qt geom "+ limit + ";";
+			"[out:json][timeout:"+timeout+"];"
+			+ "(node["+tag+"]"+sBB+";"
+			+ "way["+tag+"]"+sBB+";);"
+			+ "out qt geom tags "+ limit + ";"
+			+ "relation["+tag+"]"+sBB+";out qt geom body "+ limit+";"; //relation isolated to get geometry with body option
+		//TODO: see issue https://github.com/drolbr/Overpass-API/issues/134#issuecomment-58847362
+		//When solved, simplify. 
 		Log.d(BonusPackHelper.LOG_TAG, "data="+data);
 		s.append(URLEncoder.encode(data));
 		return s.toString();

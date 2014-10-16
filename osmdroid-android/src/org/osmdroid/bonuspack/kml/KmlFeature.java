@@ -121,6 +121,24 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 			return mExtendedData.get(name);
 	}
 
+	/**
+	 * @return Extended Data as a list of lines: "name=value". Return null if none. 
+	 */
+	public String getExtendedDataAsText(){
+		if (mExtendedData == null)
+			return null;
+		StringBuilder result = new StringBuilder();
+		for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+			String name = entry.getKey();
+			String value = entry.getValue();
+			result.append(name+"="+value+"<br>\n");
+		}
+		if (result.length() > 0)
+			return result.toString();
+		else 
+			return null;
+	}
+
 	/** 
 	 * Set this name/value pair in the ExtendedData of the feature. 
 	 * If there is already a pair with this name, it will be replaced by the new one. 
