@@ -20,18 +20,15 @@
 		<item>Laverie</item>
 		<item>Casino</item>
 		<item>Cinéma</item>
-		<!--  <item>Clinique</item> -->
-		<!--  <item>Club</item> -->
 		<item>Salle polyvalente</item>
 		<item>Crématorium</item>
 		<item>Dentiste</item>
 		<item>Médecin</item>
 		<item>Docteur</item>
-		<item>Auto-école"</item>
+		<item>Auto-école</item>
 		<item>Ecole de conduite</item>
 		<item>Restauration rapide</item>
 		<item>Caserne de pompiers</item>
-		<item>Carburant</item>
 		<item>Station service</item>
 		<item>Cimetière</item>
 		<!--  <item>Fitness</item> -->
@@ -62,7 +59,6 @@
 		<item>Mairie</item>
 		<item>Université</item>
 		<item>Vétérinaire</item>
-		<!-- <item>Accès WiFi</item> -->
 		<item>Eglise</item>
 		<item>Lieu de culte</item>
 		<!-- Historic -->
@@ -72,16 +68,15 @@
 		<item>Musée</item>
 		<item>Ruines</item>
 		<!-- Land use -->
-		<!--  <item>Décharge</item> -->
-		<!--  <item>Mine</item> -->
+		<item>Mine</item>
 		<item>Parc</item>
 		<item>Aire de jeux</item>
-		<!--  <item>Bois</item> -->
 		<!-- Leisure -->
 		<item>Terrain de golf</item>
 		<item>Terrain de sport</item>
 		<item>Stade</item>
 		<item>Piscine</item>
+		<item>Parc Aquatique</item>
 		<!-- Natural -->
 		<item>Plage</item>
 		<!-- Public Transport -->
@@ -90,7 +85,6 @@
 		<item>Gare ferroviaire</item>
 		<item>Station de métro</item>
 		<!-- Shop -->
-		<!--  <item>Magasin d\'habillement</item> -->
 		<item>Boulangerie</item>
 		<item>Librairie</item>
 		<item>Boucher</item>
@@ -98,19 +92,16 @@
 		<item>Charcuterie</item>
 		<item>Magasin de voitures</item>
 		<item>Garage Automobile</item>
-		<item>Réparation de voitures</item>
 		<item>Magasin de vêtements</item>
 		<item>Magasin informatique</item>
 		<item>Confiserie</item>
 		<item>Epicerie</item>
-		<!-- <item>Magasin discount</item> -->
 		<item>Magasin de bricolage</item>
-		<item>Nettoyage à sec</item>
 		<item>Teinturerie</item>
 		<item>Pressing</item>
 		<item>Magasin d\'électronique</item>
 		<!--  <item>Agent immobilier</item> -->
-		<!--  <item>Poissonnerie</item> -->
+		<item>Poissonnerie</item>
 		<item>Fleuriste</item>
 		<!--  <item>Magasin d\'alimentation</item> -->
 		<item>Pompes funèbres</item>

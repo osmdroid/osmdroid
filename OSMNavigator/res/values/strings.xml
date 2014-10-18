@@ -65,6 +65,7 @@
 	<string name="menu_kml">KML Toolbox</string>
 	<string name="menu_kml_url">Open url...</string>
 	<string name="menu_open_file">Open file...</string>
+	<string name="menu_overpassapi_wizard">OverpassAPI Wizard...</string>
 	<string name="menu_kml_get_overlays">Pick Overlays</string>
 	<string name="menu_kml_tree">Edit Features...</string>
 	<string name="menu_kml_styles">Edit Shared Styles...</string>

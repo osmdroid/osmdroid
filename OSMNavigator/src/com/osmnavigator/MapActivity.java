@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Stack;
@@ -40,6 +41,7 @@ import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
 import org.osmdroid.bonuspack.routing.RoadNode;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -906,8 +908,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 	}
 	
+	/**
+	 * Convert human readable feature to an OSM tag. 
+	 * @param humanReadableFeature
+	 * @return OSM tag string: "k=v"
+	 */
+	String getOSMTag(String humanReadableFeature){
+		HashMap<String,String> map = BonusPackHelper.parseStringMapResource(getApplicationContext(), R.array.osm_poi_tags);
+		return map.get(humanReadableFeature.toLowerCase(Locale.getDefault()));
+	}
+	
 	private class POILoadingTask extends AsyncTask<Object, Void, ArrayList<POI>> {
 		String mFeatureTag;
+		String message;
 		protected ArrayList<POI> doInBackground(Object... params) {
 			mFeatureTag = (String)params[0];
 			
@@ -932,6 +945,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				ArrayList<POI> pois = poiProvider.getPOIInside(bb, 50, q);
 				return pois;
 			} else {
+				/*
 				NominatimPOIProvider poiProvider = new NominatimPOIProvider();
 				ArrayList<POI> pois;
 				if (mRoad == null){
@@ -939,20 +953,27 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				} else {
 					pois = poiProvider.getPOIAlong(mRoad.getRouteLow(), mFeatureTag, 100, 2.0);
 				}
-				/* TODO: convert human-readable mFeatureTag to corresponding OSM tag (k=v). 
-				OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
-				String oUrl = overpassProvider.urlForPOISearch(mFeatureTag, map.getBoundingBox(), 500, 30);
-				ArrayList<POI> pois = overpassProvider.getPOIsFromUrl(oUrl);
 				*/
+				OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+				String osmTag = getOSMTag(mFeatureTag);
+				if (osmTag == null){
+					message = mFeatureTag + " is not a valid feature.";
+					return null;
+				}
+				String oUrl = overpassProvider.urlForPOISearch(osmTag, map.getBoundingBox(), 100, 10);
+				ArrayList<POI> pois = overpassProvider.getPOIsFromUrl(oUrl);
 				return pois;
 			}
 		}
 		protected void onPostExecute(ArrayList<POI> pois) {
 			mPOIs = pois;
-			if (mFeatureTag.equals("")){
+			if (mFeatureTag == null || mFeatureTag.equals("")){
 				//no search, no message
 			} else if (mPOIs == null){
-				Toast.makeText(getApplicationContext(), "Technical issue when getting "+mFeatureTag+ " POI.", Toast.LENGTH_LONG).show();
+				if (message != null)
+					Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+				else 
+					Toast.makeText(getApplicationContext(), "Technical issue when getting "+mFeatureTag+ " POI.", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getApplicationContext(), mFeatureTag+ " found:"+mPOIs.size(), Toast.LENGTH_LONG).show();
 			}

@@ -87,7 +87,7 @@
 				      android:title="@string/menu_open_file"/>
 				<item
 				      android:id="@+id/menu_overpass_api"
-				      android:title="OverpassAPI Wizard..."/>
+				      android:title="@string/menu_overpassapi_wizard"/>
 				<item
 				      android:id="@+id/menu_kml_get_overlays"
 				      android:title="@string/menu_kml_get_overlays"/>

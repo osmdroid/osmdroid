@@ -64,7 +64,8 @@
 	<string name="menu_kml">Boîte à outils KML</string>
 	<string name="menu_kml_url">Ouvrir url...</string>
 	<string name="menu_open_file">Ouvrir fichier...</string>
-	<string name="menu_kml_get_overlays">Récupérer les overlays</string>
+	<string name="menu_overpassapi_wizard">OverpassAPI Wizard...</string>
+	<string name="menu_kml_get_overlays">Récupérer les Overlays</string>
 	<string name="menu_kml_tree">Editer les objets...</string>
 	<string name="menu_kml_styles">Editer les styles...</string>
 	<string name="menu_save_file">Sauver sous...</string>
