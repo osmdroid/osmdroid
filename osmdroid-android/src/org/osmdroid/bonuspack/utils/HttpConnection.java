@@ -39,7 +39,7 @@ public class HttpConnection {
 	private String mUserAgent;
 	
 	private final static int TIMEOUT_CONNECTION=3000; //ms 
-	private final static int TIMEOUT_SOCKET=8000; //ms
+	private final static int TIMEOUT_SOCKET=10000; //ms
 	
 	public HttpConnection(){
 		stream = null;

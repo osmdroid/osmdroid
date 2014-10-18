@@ -96,7 +96,7 @@ public class OverpassAPIProvider {
 
 	protected String tagValueFromJsonNotNull(String key, JsonObject jTags){
 		String v = tagValueFromJson(key, jTags);
-		return (v != null ? v : "");
+		return (v != null ? ","+v : "");
 	}
 	
 	/** 
@@ -141,7 +141,10 @@ public class OverpassAPIProvider {
 							+ tagValueFromJsonNotNull("natural", jTags) 
 							+ tagValueFromJsonNotNull("shop", jTags) 
 							+ tagValueFromJsonNotNull("sport", jTags) 
-							+ tagValueFromJsonNotNull("tourism", jTags); 
+							+ tagValueFromJsonNotNull("tourism", jTags);
+					//remove first "," (quite ugly, I know)
+					if (poi.mType.length()>0)
+						poi.mType = poi.mType.substring(1);
 					poi.mDescription = tagValueFromJson("name", jTags);
 					//TODO: try to set a relevant thumbnail image, according to key/value tags. 
 					//We could try to replicate Nominatim/lib/lib.php/getClassTypes(), but it sounds crazy for the added value. 
