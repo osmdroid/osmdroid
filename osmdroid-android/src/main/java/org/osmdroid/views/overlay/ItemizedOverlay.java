@@ -121,6 +121,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for (int i = size; i >= 0; i--) {
 			final Item item = getItem(i);
+            if (item == null)
+                continue;
 			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
 			onDrawItem(c, item, mCurScreenCoords, mapView.getMapOrientation());
@@ -153,7 +155,14 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * @return the Item of the given index.
 	 */
 	public final Item getItem(final int position) {
-		return mInternalItemList.get(position);
+        Item item = null;
+        try {
+            item = mInternalItemList.get(position);
+        } catch ( IndexOutOfBoundsException e) {
+            return null;
+        }
+        return item;
+
 	}
 
 	/**
@@ -214,6 +223,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		for (int i = 0; i < size; i++) {
 			final Item item = getItem(i);
+            if (item == null)
+                continue;
 			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
 			final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
