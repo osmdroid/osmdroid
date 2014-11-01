@@ -121,6 +121,10 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
 		for (int i = size; i >= 0; i--) {
 			final Item item = getItem(i);
+			if (item == null) {
+				continue;
+			}
+
 			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
 			onDrawItem(c, item, mCurScreenCoords, mapView.getMapOrientation());
@@ -150,10 +154,14 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *
 	 * @param position
 	 *            the position of the item to return
-	 * @return the Item of the given index.
+	 * @return the Item of the given index, or null if not found at position
 	 */
 	public final Item getItem(final int position) {
-		return mInternalItemList.get(position);
+		try {
+			return mInternalItemList.get(position);
+		}catch(final IndexOutOfBoundsException e) {
+			return null;
+		}
 	}
 
 	/**
@@ -214,12 +222,16 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 		for (int i = 0; i < size; i++) {
 			final Item item = getItem(i);
+			if (item == null) {
+				continue;
+			}
+
 			pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
-					: 0);
-			final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state)
-					: item.getMarker(state);
+			final int state = (mDrawFocusedItem && (mFocusedItem == item) ?
+					OverlayItem.ITEM_STATE_FOCUSED_MASK : 0);
+			final Drawable marker = (item.getMarker(state) == null) ?
+					getDefaultMarker(state) : item.getMarker(state);
 			boundToHotspot(marker, item.getMarkerHotspot());
 			if (hitTest(item, marker, -mCurScreenCoords.x + screenRect.left + (int) e.getX(),
 					-mCurScreenCoords.y + screenRect.top + (int) e.getY())) {

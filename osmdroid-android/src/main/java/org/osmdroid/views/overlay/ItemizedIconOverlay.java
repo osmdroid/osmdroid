@@ -165,8 +165,12 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 		for (int i = 0; i < this.mItemList.size(); ++i) {
 			final Item item = getItem(i);
-			final Drawable marker = (item.getMarker(0) == null) ? this.mDefaultMarker : item
-					.getMarker(0);
+			if (item == null) {
+				continue;
+			}
+
+			final Drawable marker = (item.getMarker(0) == null) ?
+					this.mDefaultMarker : item.getMarker(0);
 
 			pj.toPixels(item.getPoint(), mItemPoint);
 
