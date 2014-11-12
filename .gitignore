@@ -35,3 +35,6 @@ proguard/
 build/
 .gradle
 
+# vim swap files
+*.swp
+*.swo
