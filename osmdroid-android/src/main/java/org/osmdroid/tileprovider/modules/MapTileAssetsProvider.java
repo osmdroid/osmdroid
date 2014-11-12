@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
+import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -153,7 +154,11 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 
 			try {
 				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
-				return tileSource.getDrawable(is);
+				final Drawable drawable = tileSource.getDrawable(is);
+				if (drawable != null) {
+					drawable.setState(new int[]{ExpirableBitmapDrawable.EXPIRED});
+				}
+				return drawable;
 			} catch (IOException e) {
 			} catch (final LowMemoryException e) {
 				throw new CantContinueException(e);
