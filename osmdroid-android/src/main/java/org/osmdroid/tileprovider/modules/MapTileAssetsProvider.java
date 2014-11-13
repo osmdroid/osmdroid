@@ -43,9 +43,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	// Fields
 	// ===========================================================
 
-	private final long mMaximumCachedFileAge;
-
-	private AssetManager mAssets;
+	private final AssetManager mAssets;
 
 	private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
 
@@ -58,34 +56,21 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	}
 
 	public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
-			final AssetManager pAssets,
-			final ITileSource aTileSource) {
-		this(pRegisterReceiver, pAssets, aTileSource, DEFAULT_MAXIMUM_CACHED_FILE_AGE);
-	}
-
-	public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
-			final AssetManager pAssets,
-			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-		this(pRegisterReceiver, pAssets, pTileSource, pMaximumCachedFileAge,
+								 final AssetManager pAssets,
+								 final ITileSource pTileSource) {
+		this(pRegisterReceiver, pAssets, pTileSource,
 				NUMBER_OF_TILE_FILESYSTEM_THREADS,
 				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 	}
 
-	/**
-	 * Provides a file system based cache tile provider. Other providers can register and store data
-	 * in the cache.
-	 *
-	 * @param pRegisterReceiver
-	 */
 	public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
-			final AssetManager pAssets,
-			final ITileSource pTileSource, final long pMaximumCachedFileAge, int pThreadPoolSize,
-			int pPendingQueueSize) {
+								 final AssetManager pAssets,
+								 final ITileSource pTileSource, int pThreadPoolSize,
+								 int pPendingQueueSize) {
 		super(pRegisterReceiver, pThreadPoolSize, pPendingQueueSize);
 		setTileSource(pTileSource);
 
 		mAssets = pAssets;
-		mMaximumCachedFileAge = pMaximumCachedFileAge;
 	}
 	// ===========================================================
 	// Getter & Setter
