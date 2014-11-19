@@ -49,15 +49,16 @@ public final class TileSystem {
 	}
 
 	/**
-	 * Determines the map width and height (in pixels) at a specified level of detail.
+	 * Determines the map width and height (in pixels) at a specified level of
+	 * detail. This is calculated with values of type long (64 bit) to support
+	 * even tile sizes of 512px and more.
 	 * 
 	 * @param levelOfDetail
 	 *            Level of detail, from 1 (lowest detail) to 23 (highest detail)
 	 * @return The map width and height in pixels
 	 */
-
-	public static int MapSize(final int levelOfDetail) {
-		return mTileSize << levelOfDetail;
+	public static long MapSize(final int levelOfDetail) {
+		return ((long) mTileSize) << levelOfDetail;
 	}
 
 	/**
@@ -117,7 +118,7 @@ public final class TileSystem {
 		final double sinLatitude = Math.sin(latitude * Math.PI / 180);
 		final double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);
 
-		final int mapSize = MapSize(levelOfDetail);
+		final long mapSize = MapSize(levelOfDetail);
 		out.x = (int) Clip(x * mapSize + 0.5, 0, mapSize - 1);
 		out.y = (int) Clip(y * mapSize + 0.5, 0, mapSize - 1);
 		return out;
