@@ -95,7 +95,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * <br/>
 	 * The focused item is always drawn last, which puts it visually on top of the other items.<br/>
 	 *
-	 * @param canvas
+	 * @param c
 	 *            the Canvas upon which to draw. Note that this may already have a transformation
 	 *            applied, so be sure to leave it the way you found it
 	 * @param mapView

@@ -3,7 +3,7 @@ package org.osmdroid.views;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -39,7 +39,7 @@ public class Projection implements IProjection, MapViewConstants {
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
 	private final float[] mRotateScalePoints = new float[2];
 
-	private final BoundingBoxE6 mBoundingBoxProjection;
+	private final BoundingBox mBoundingBoxProjection;
 	private final int mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
@@ -64,16 +64,16 @@ public class Projection implements IProjection, MapViewConstants {
 		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
 		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
 
-		mBoundingBoxProjection = new BoundingBoxE6(neGeoPoint.getLatitudeE6(),
-				neGeoPoint.getLongitudeE6(), swGeoPoint.getLatitudeE6(),
-				swGeoPoint.getLongitudeE6());
+		mBoundingBoxProjection = new BoundingBox(neGeoPoint.getLatitude(),
+				neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
+				swGeoPoint.getLongitude());
 	}
 
 	public int getZoomLevel() {
 		return mZoomLevelProjection;
 	}
 
-	public BoundingBoxE6 getBoundingBox() {
+	public BoundingBox getBoundingBox() {
 		return mBoundingBoxProjection;
 	}
 
@@ -132,26 +132,26 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 	
 	/**
-	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}
+	 * A wrapper for {@link #toProjectedPixels(double, double, Point)}
 	 */
 	public Point toProjectedPixels(final GeoPoint geoPoint, final Point reuse) {
-		return toProjectedPixels(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
+		return toProjectedPixels(geoPoint.getLatitude(), geoPoint.getLongitude(), reuse);
 	}
 
 	/**
 	 * Performs only the first computationally heavy part of the projection. Call
 	 * {@link #toPixelsFromProjected(Point, Point)} to get the final position.
 	 * 
-	 * @param latituteE6
+	 * @param latitude
 	 *            the latitute of the point
-	 * @param longitudeE6
+	 * @param longitude
 	 *            the longitude of the point
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return intermediate value to be stored and passed to toMapPixelsTranslated.
 	 */
-	public Point toProjectedPixels(final int latituteE6, final int longitudeE6, final Point reuse) {
-		return TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6,
+	public Point toProjectedPixels(final double latitude, final double longitude, final Point reuse) {
+		return TileSystem.LatLongToPixelXY(latitude, longitude,
 				MAXIMUM_ZOOMLEVEL, reuse);
 	}
 
@@ -159,11 +159,11 @@ public class Projection implements IProjection, MapViewConstants {
 	 * Performs the second computationally light part of the projection.
 	 * 
 	 * @param in
-	 *            the Point calculated by the {@link #toProjectedPixels(int, int, Point)}
+	 *            the Point calculated by the {@link #toProjectedPixels(double, double, Point)}
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return the Point containing the coordinates of the initial GeoPoint passed to the
-	 *         {@link #toProjectedPixels(int, int, Point)}.
+	 *         {@link #toProjectedPixels(double, double, Point)}.
 	 */
 	public Point toPixelsFromProjected(final Point in, final Point reuse) {
 		Point out = reuse != null ? reuse : new Point();

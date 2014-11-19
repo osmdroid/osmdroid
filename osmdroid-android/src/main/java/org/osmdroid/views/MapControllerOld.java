@@ -5,7 +5,7 @@ import microsoft.mappoint.TileSystem;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -52,32 +52,32 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	// Methods
 	// ===========================================================
 
-	public void zoomToSpan(final BoundingBoxE6 bb) {
-		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
+	public void zoomToSpan(final BoundingBox bb) {
+		zoomToSpan(bb.getLatitudeSpan(), bb.getLongitudeSpan());
 	}
 
 	// TODO rework zoomToSpan
 	@Override
-	public void zoomToSpan(final int reqLatSpan, final int reqLonSpan) {
+	public void zoomToSpan(final double reqLatSpan, final double reqLonSpan) {
 		if (reqLatSpan <= 0 || reqLonSpan <= 0) {
 			return;
 		}
 
-		final BoundingBoxE6 bb = this.mOsmv.getProjection().getBoundingBox();
+		final BoundingBox bb  = this.mOsmv.getProjection().getBoundingBox();
 		final int curZoomLevel = this.mOsmv.getProjection().getZoomLevel();
 
-		final int curLatSpan = bb.getLatitudeSpanE6();
-		final int curLonSpan = bb.getLongitudeSpanE6();
+		final double curLatSpan = bb.getLatitudeSpan();
+		final double curLonSpan = bb.getLongitudeSpan();
 
-		final float diffNeededLat = (float) reqLatSpan / curLatSpan; // i.e. 600/500 = 1,2
-		final float diffNeededLon = (float) reqLonSpan / curLonSpan; // i.e. 300/400 = 0,75
+		final double diffNeededLat = reqLatSpan / curLatSpan; // i.e. 600/500 = 1,2
+		final double diffNeededLon = reqLonSpan / curLonSpan; // i.e. 300/400 = 0,75
 
-		final float diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
+		final double diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
 
 		if (diffNeeded > 1) { // Zoom Out
-			this.mOsmv.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
+			this.mOsmv.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove((float)diffNeeded));
 		} else if (diffNeeded < 0.5) { // Can Zoom in
-			this.mOsmv.setZoomLevel(curZoomLevel + MyMath.getNextSquareNumberAbove(1 / diffNeeded)
+			this.mOsmv.setZoomLevel(curZoomLevel + MyMath.getNextSquareNumberAbove(1 / (float)diffNeeded)
 					- 1);
 		}
 	}
@@ -87,7 +87,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void animateTo(final IGeoPoint point) {
-		animateTo(point.getLatitudeE6() / 1E6, point.getLongitudeE6() / 1E6);
+		animateTo(point.getLatitude(), point.getLongitude());
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 * @param gp
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
-		animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType,
+		animateTo(gp.getLatitude(), gp.getLongitude(), aAnimationType,
 				ANIMATION_DURATION_DEFAULT, ANIMATION_SMOOTHNESS_DEFAULT);
 	}
 
@@ -132,7 +132,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType,
 			final int aSmoothness, final int aDuration) {
-		animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType, aSmoothness, aDuration);
+		animateTo(gp.getLatitude(), gp.getLongitude(), aAnimationType, aSmoothness, aDuration);
 	}
 
 	/**
@@ -140,20 +140,20 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 * Uses: {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT} and
 	 * {@link MapControllerOld.ANIMATION_DURATION_DEFAULT}.
 	 *
-	 * @param aLatitudeE6
-	 * @param aLongitudeE6
+	 * @param aLatitude
+	 * @param aLongitude
 	 */
-	public void animateTo(final int aLatitudeE6, final int aLongitudeE6,
+	public void animateTo(final double aLatitude, final double aLongitude,
 			final AnimationType aAnimationType) {
-		animateTo(aLatitudeE6, aLongitudeE6, aAnimationType, ANIMATION_SMOOTHNESS_DEFAULT,
+		animateTo(aLatitude, aLongitude, aAnimationType, ANIMATION_SMOOTHNESS_DEFAULT,
 				ANIMATION_DURATION_DEFAULT);
 	}
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
 	 *
-	 * @param aLatitudeE6
-	 * @param aLongitudeE6
+	 * @param aLatitude
+	 * @param aLongitude
 	 * @param aSmoothness
 	 *            steps made during animation. I.e.: {@link MapControllerOld.ANIMATION_SMOOTHNESS_LOW},
 	 *            {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT},
@@ -163,30 +163,30 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 *            {@link MapControllerOld.ANIMATION_DURATION_DEFAULT},
 	 *            {@link MapControllerOld.ANIMATION_DURATION_LONG}
 	 */
-	public void animateTo(final int aLatitudeE6, final int aLongitudeE6,
+	public void animateTo(final double aLatitude, final double aLongitude,
 			final AnimationType aAnimationType, final int aSmoothness, final int aDuration) {
 		this.stopAnimation(false);
 
 		switch (aAnimationType) {
 		case LINEAR:
-			this.mCurrentAnimationRunner = new LinearAnimationRunner(aLatitudeE6, aLongitudeE6,
+			this.mCurrentAnimationRunner = new LinearAnimationRunner(aLatitude, aLongitude,
 					aSmoothness, aDuration);
 			break;
 		case EXPONENTIALDECELERATING:
-			this.mCurrentAnimationRunner = new ExponentialDeceleratingAnimationRunner(aLatitudeE6,
-					aLongitudeE6, aSmoothness, aDuration);
+			this.mCurrentAnimationRunner = new ExponentialDeceleratingAnimationRunner(aLatitude,
+					aLongitude, aSmoothness, aDuration);
 			break;
 		case QUARTERCOSINUSALDECELERATING:
 			this.mCurrentAnimationRunner = new QuarterCosinusalDeceleratingAnimationRunner(
-					aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+					aLatitude, aLongitude, aSmoothness, aDuration);
 			break;
 		case HALFCOSINUSALDECELERATING:
 			this.mCurrentAnimationRunner = new HalfCosinusalDeceleratingAnimationRunner(
-					aLatitudeE6, aLongitudeE6, aSmoothness, aDuration);
+					aLatitude, aLongitude, aSmoothness, aDuration);
 			break;
 		case MIDDLEPEAKSPEED:
-			this.mCurrentAnimationRunner = new MiddlePeakSpeedAnimationRunner(aLatitudeE6,
-					aLongitudeE6, aSmoothness, aDuration);
+			this.mCurrentAnimationRunner = new MiddlePeakSpeedAnimationRunner(aLatitude,
+					aLongitude, aSmoothness, aDuration);
 			break;
 		}
 
@@ -202,8 +202,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 */
 	@Override
 	public void setCenter(final IGeoPoint point) {
-		final Point p = TileSystem.LatLongToPixelXY(point.getLatitudeE6() / 1E6,
-				point.getLongitudeE6() / 1E6, this.mOsmv.getZoomLevel(), null);
+		final Point p = TileSystem.LatLongToPixelXY(point.getLatitude(),
+				point.getLongitude(), this.mOsmv.getZoomLevel(), null);
 		final int worldSize_2 = TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
@@ -219,8 +219,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		if (currentAnimationRunner != null && !currentAnimationRunner.isDone()) {
 			currentAnimationRunner.interrupt();
 			if (jumpToTarget) {
-				setCenter(new GeoPoint(currentAnimationRunner.mTargetLatitudeE6,
-						currentAnimationRunner.mTargetLongitudeE6));
+				setCenter(new GeoPoint(currentAnimationRunner.mTargetLatitude,
+						currentAnimationRunner.mTargetLongitude));
 			}
 		}
 	}
@@ -387,12 +387,12 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// ===========================================================
 
 		protected final int mSmoothness;
-		protected final int mTargetLatitudeE6, mTargetLongitudeE6;
+		protected final double mTargetLatitude, mTargetLongitude;
 		protected boolean mDone = false;
 
 		protected final int mStepDuration;
 
-		protected final int mPanTotalLatitudeE6, mPanTotalLongitudeE6;
+		protected final double mPanTotalLatitude, mPanTotalLongitude;
 
 		// ===========================================================
 		// Constructors
@@ -400,16 +400,16 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 
 		@SuppressWarnings("unused")
 		public AbstractAnimationRunner(final MapControllerOld mapViewController,
-				final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6,
+				final double aTargetLatitude, final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude,
 					MapViewConstants.ANIMATION_SMOOTHNESS_DEFAULT,
 					MapViewConstants.ANIMATION_DURATION_DEFAULT);
 		}
 
-		public AbstractAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6,
+		public AbstractAnimationRunner(final double aTargetLatitude, final double aTargetLongitude,
 				final int aSmoothness, final int aDuration) {
-			this.mTargetLatitudeE6 = aTargetLatitudeE6;
-			this.mTargetLongitudeE6 = aTargetLongitudeE6;
+			this.mTargetLatitude = aTargetLatitude;
+			this.mTargetLongitude = aTargetLongitude;
 			this.mSmoothness = aSmoothness;
 			this.mStepDuration = aDuration / aSmoothness;
 
@@ -417,8 +417,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 			final MapView mapview = MapControllerOld.this.mOsmv;
 			final IGeoPoint mapCenter = mapview.getMapCenter();
 
-			this.mPanTotalLatitudeE6 = mapCenter.getLatitudeE6() - aTargetLatitudeE6;
-			this.mPanTotalLongitudeE6 = mapCenter.getLongitudeE6() - aTargetLongitudeE6;
+			this.mPanTotalLatitude = mapCenter.getLatitude() - aTargetLatitude;
+			this.mPanTotalLongitude = mapCenter.getLongitude() - aTargetLongitude;
 		}
 
 		@Override
@@ -440,29 +440,29 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// Fields
 		// ===========================================================
 
-		protected final int mPanPerStepLatitudeE6, mPanPerStepLongitudeE6;
+		protected final double mPanPerStepLatitude, mPanPerStepLongitude;
 
 		// ===========================================================
 		// Constructors
 		// ===========================================================
 
 		@SuppressWarnings("unused")
-		public LinearAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+		public LinearAnimationRunner(final double aTargetLatitude, final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT);
 		}
 
-		public LinearAnimationRunner(final int aTargetLatitudeE6, final int aTargetLongitudeE6,
+		public LinearAnimationRunner(final double aTargetLatitude, final double aTargetLongitude,
 				final int aSmoothness, final int aDuration) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration);
 
 			/* Get the current mapview-center. */
 			final MapView mapview = MapControllerOld.this.mOsmv;
 			final IGeoPoint mapCenter = mapview.getMapCenter();
 
-			this.mPanPerStepLatitudeE6 = (mapCenter.getLatitudeE6() - aTargetLatitudeE6)
+			this.mPanPerStepLatitude = (mapCenter.getLatitude() - aTargetLatitude)
 					/ aSmoothness;
-			this.mPanPerStepLongitudeE6 = (mapCenter.getLongitudeE6() - aTargetLongitudeE6)
+			this.mPanPerStepLongitude = (mapCenter.getLongitude() - aTargetLongitude)
 					/ aSmoothness;
 
 			this.setName("LinearAnimationRunner");
@@ -476,18 +476,18 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		public void onRunAnimation() {
 			final MapView mapview = MapControllerOld.this.mOsmv;
 			final IGeoPoint mapCenter = mapview.getMapCenter();
-			final int panPerStepLatitudeE6 = this.mPanPerStepLatitudeE6;
-			final int panPerStepLongitudeE6 = this.mPanPerStepLongitudeE6;
+			final double panPerStepLatitude = this.mPanPerStepLatitude;
+			final double panPerStepLongitude = this.mPanPerStepLongitude;
 			final int stepDuration = this.mStepDuration;
 			try {
-				int newMapCenterLatE6;
-				int newMapCenterLonE6;
+                double newMapCenterLat;
+                double newMapCenterLon;
 
 				for (int i = this.mSmoothness; i > 0; i--) {
 
-					newMapCenterLatE6 = mapCenter.getLatitudeE6() - panPerStepLatitudeE6;
-					newMapCenterLonE6 = mapCenter.getLongitudeE6() - panPerStepLongitudeE6;
-					mapview.setMapCenter(new GeoPoint(newMapCenterLatE6, newMapCenterLonE6));
+					newMapCenterLat = mapCenter.getLatitude() - panPerStepLatitude;
+					newMapCenterLon = mapCenter.getLongitude() - panPerStepLongitude;
+					mapview.setMapCenter(new GeoPoint(newMapCenterLat, newMapCenterLon));
 
 					Thread.sleep(stepDuration);
 				}
@@ -508,15 +508,15 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// ===========================================================
 
 		@SuppressWarnings("unused")
-		public ExponentialDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+		public ExponentialDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT);
 		}
 
-		public ExponentialDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
+		public ExponentialDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final int aSmoothness, final int aDuration) {
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration);
 
 			this.setName("ExponentialDeceleratingAnimationRunner");
 		}
@@ -531,22 +531,22 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 			final IGeoPoint mapCenter = mapview.getMapCenter();
 			final int stepDuration = this.mStepDuration;
 			try {
-				int newMapCenterLatE6;
-				int newMapCenterLonE6;
+				double newMapCenterLat;
+                double newMapCenterLon;
 
 				for (int i = 0; i < this.mSmoothness; i++) {
 
 					final double delta = Math.pow(0.5, i + 1);
-					final int deltaLatitudeE6 = (int) (this.mPanTotalLatitudeE6 * delta);
-					final int detlaLongitudeE6 = (int) (this.mPanTotalLongitudeE6 * delta);
+					final double deltaLatitude = this.mPanTotalLatitude * delta;
+					final double detlaLongitude = this.mPanTotalLongitude * delta;
 
-					newMapCenterLatE6 = mapCenter.getLatitudeE6() - deltaLatitudeE6;
-					newMapCenterLonE6 = mapCenter.getLongitudeE6() - detlaLongitudeE6;
-					mapview.setMapCenter(new GeoPoint(newMapCenterLatE6, newMapCenterLonE6));
+					newMapCenterLat = mapCenter.getLatitude() - deltaLatitude;
+					newMapCenterLon = mapCenter.getLongitude() - detlaLongitude;
+					mapview.setMapCenter(new GeoPoint(newMapCenterLat, newMapCenterLon));
 
 					Thread.sleep(stepDuration);
 				}
-				mapview.setMapCenter(new GeoPoint(super.mTargetLatitudeE6, super.mTargetLongitudeE6));
+				mapview.setMapCenter(new GeoPoint(super.mTargetLatitude, super.mTargetLongitude));
 			} catch (final Exception e) {
 				this.interrupt();
 			}
@@ -567,17 +567,17 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// ===========================================================
 
 		@SuppressWarnings("unused")
-		public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final float aStart, final float aRange,
+		public CosinusalBasedAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final float aStart, final float aRange,
 				final float aYOffset) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT, aStart, aRange, aYOffset);
 		}
 
-		public CosinusalBasedAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final int aSmoothness, final int aDuration,
+		public CosinusalBasedAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final int aSmoothness, final int aDuration,
 				final float aStart, final float aRange, final float aYOffset) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration);
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration);
 			this.mYOffset = aYOffset;
 			this.mStart = aStart;
 
@@ -605,24 +605,24 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 			final int stepDuration = this.mStepDuration;
 			final float amountStretch = this.mAmountStretch;
 			try {
-				int newMapCenterLatE6;
-				int newMapCenterLonE6;
+				double newMapCenterLat;
+                double newMapCenterLon;
 
 				for (int i = 0; i < this.mSmoothness; i++) {
 
 					final double delta = (this.mYOffset + Math.cos(this.mStepIncrement * i
 							+ this.mStart))
 							* amountStretch;
-					final int deltaLatitudeE6 = (int) (this.mPanTotalLatitudeE6 * delta);
-					final int deltaLongitudeE6 = (int) (this.mPanTotalLongitudeE6 * delta);
+					final double deltaLatitude =this.mPanTotalLatitude * delta;
+					final double deltaLongitude = this.mPanTotalLongitude * delta;
 
-					newMapCenterLatE6 = mapCenter.getLatitudeE6() - deltaLatitudeE6;
-					newMapCenterLonE6 = mapCenter.getLongitudeE6() - deltaLongitudeE6;
-					mapview.setMapCenter(new GeoPoint(newMapCenterLatE6, newMapCenterLonE6));
+					newMapCenterLat = mapCenter.getLatitude() - deltaLatitude;
+					newMapCenterLon = mapCenter.getLongitude() - deltaLongitude;
+					mapview.setMapCenter(new GeoPoint(newMapCenterLat, newMapCenterLon));
 
 					Thread.sleep(stepDuration);
 				}
-				mapview.setMapCenter(new GeoPoint(super.mTargetLatitudeE6, super.mTargetLongitudeE6));
+				mapview.setMapCenter(new GeoPoint(super.mTargetLatitude, super.mTargetLongitude));
 			} catch (final Exception e) {
 				this.interrupt();
 			}
@@ -635,15 +635,15 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// Constructors
 		// ===========================================================
 
-		protected QuarterCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+		protected QuarterCosinusalDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT);
 		}
 
-		protected QuarterCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, 0, PI_2, 0);
+		protected QuarterCosinusalDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final int aSmoothness, final int aDuration) {
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration, 0, PI_2, 0);
 		}
 	}
 
@@ -653,15 +653,15 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// Constructors
 		// ===========================================================
 
-		protected HalfCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+		protected HalfCosinusalDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT);
 		}
 
-		protected HalfCosinusalDeceleratingAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, 0, PI, 1);
+		protected HalfCosinusalDeceleratingAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final int aSmoothness, final int aDuration) {
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration, 0, PI, 1);
 		}
 	}
 
@@ -671,15 +671,15 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		// Constructors
 		// ===========================================================
 
-		protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6) {
-			this(aTargetLatitudeE6, aTargetLongitudeE6, ANIMATION_SMOOTHNESS_DEFAULT,
+		protected MiddlePeakSpeedAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude) {
+			this(aTargetLatitude, aTargetLongitude, ANIMATION_SMOOTHNESS_DEFAULT,
 					ANIMATION_DURATION_DEFAULT);
 		}
 
-		protected MiddlePeakSpeedAnimationRunner(final int aTargetLatitudeE6,
-				final int aTargetLongitudeE6, final int aSmoothness, final int aDuration) {
-			super(aTargetLatitudeE6, aTargetLongitudeE6, aSmoothness, aDuration, -PI_2, PI, 0);
+		protected MiddlePeakSpeedAnimationRunner(final double aTargetLatitude,
+				final double aTargetLongitude, final int aSmoothness, final int aDuration) {
+			super(aTargetLatitude, aTargetLongitude, aSmoothness, aDuration, -PI_2, PI, 0);
 		}
 	}
 }

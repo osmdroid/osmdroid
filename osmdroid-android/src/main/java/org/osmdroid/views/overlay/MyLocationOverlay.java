@@ -406,8 +406,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mMapCoords.offset(-worldSize_2, -worldSize_2);
 
 		if (mFollow) {
-			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
-			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+			mGeoPoint.setLatitude(mLocation.getLatitude());
+			mGeoPoint.setLongitude(mLocation.getLongitude());
 			mMapController.animateTo(mGeoPoint);
 		} else {
 			if (mLocation != null) {

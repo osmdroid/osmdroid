@@ -79,20 +79,6 @@ public class GeoPointTest {
 	}
 
 	@Test
-	public void test_toFromString_withoutAltitude() {
-		final GeoPoint in = new GeoPoint(52387524, 4891604);
-		final GeoPoint out = GeoPoint.fromIntString("52387524,4891604");
-		assertEquals("toFromString without altitude", in, out);
-	}
-
-	@Test
-	public void test_toFromString_withAltitude() {
-		final GeoPoint in = new GeoPoint(52387524, 4891604, 12345);
-		final GeoPoint out = GeoPoint.fromIntString(in.toString());
-		assertEquals("toFromString with altitude", in, out);
-	}
-
-	@Test
 	public void test_toFromDoubleString_withoutAltitude() {
 		final GeoPoint in = new GeoPoint(-117.123, 33.123);
 		final GeoPoint out = GeoPoint.fromDoubleString("-117.123,33.123", ',');

@@ -28,13 +28,13 @@ public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContribut
 	// Constructors
 	// ===========================================================
 
-	public RecordedGeoPoint(final int latitudeE6, final int longitudeE6) {
-		this(latitudeE6, longitudeE6, System.currentTimeMillis(), NOT_SET);
+	public RecordedGeoPoint(final double latitude, final double longitude) {
+		this(latitude, longitude, System.currentTimeMillis(), NOT_SET);
 	}
 
-	public RecordedGeoPoint(final int latitudeE6, final int longitudeE6, final long aTimeStamp,
+	public RecordedGeoPoint(final double latitude, final double longitude, final long aTimeStamp,
 			final int aNumSatellites) {
-		super(latitudeE6, longitudeE6);
+		super(latitude, longitude);
 		this.mTimeStamp = aTimeStamp;
 		this.mNumSatellites = aNumSatellites;
 	}
@@ -48,11 +48,11 @@ public class RecordedGeoPoint extends GeoPoint implements OpenStreetMapContribut
 	}
 
 	public double getLatitudeAsDouble() {
-		return this.getLatitudeE6() / 1E6;
+		return this.getLatitude();
 	}
 
 	public double getLongitudeAsDouble() {
-		return this.getLongitudeE6() / 1E6;
+		return this.getLongitude();
 	}
 
 	public int getNumSatellites() {

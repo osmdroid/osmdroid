@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.osmdroid.contributor.util.constants.OpenStreetMapContributorConstants;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 
 /**
  * 
@@ -64,8 +64,8 @@ public class Util implements OpenStreetMapContributorConstants {
 		if (recordedGeoPoints.size() < MINGEOPOINTS_FOR_OSM_CONTRIBUTION)
 			return false;
 
-		final BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(recordedGeoPoints);
-		final int diagMeters = bb.getDiagonalLengthInMeters();
+		final BoundingBox bb = BoundingBox.fromGeoPoints(recordedGeoPoints);
+		final double diagMeters = bb.getDiagonalLengthInMeters();
 		if (diagMeters < MINDIAGONALMETERS_FOR_OSM_CONTRIBUTION)
 			return false;
 
