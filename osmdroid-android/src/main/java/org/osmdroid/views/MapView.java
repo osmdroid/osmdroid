@@ -356,10 +356,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
-	 * Zoom the map to enclose the specified bounding box, as closely as possible.
-	 * Must be called after display layout is complete, or screen dimensions are not known, and
-	 * will always zoom to center of zoom  level 0.
-	 * Suggestion: Check getScreenRect(null).getHeight() > 0
+	 * Zoom the map to enclose the specified bounding box, as closely as possible. Must be called
+	 * after display layout is complete, or screen dimensions are not known, and will always zoom to
+	 * center of zoom level 0.<br>
+	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
 	 */
 	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
 		final BoundingBoxE6 currentBox = getBoundingBox();

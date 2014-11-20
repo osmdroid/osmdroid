@@ -83,19 +83,19 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// ===========================================================
 
 	/**
-	 * Draw a marker on each of our items. populate() must have been called first.<br/>
-	 * <br/>
+	 * Draw a marker on each of our items. populate() must have been called first.<br>
+	 * <br>
 	 * The marker will be drawn twice for each Item in the Overlay--once in the shadow phase, skewed
 	 * and darkened, then again in the non-shadow phase. The bottom-center of the marker will be
-	 * aligned with the geographical coordinates of the Item.<br/>
-	 * <br/>
+	 * aligned with the geographical coordinates of the Item.<br>
+	 * <br>
 	 * The order of drawing may be changed by overriding the getIndexToDraw(int) method. An item may
 	 * provide an alternate marker via its OverlayItem.getMarker(int) method. If that method returns
-	 * null, the default marker is used.<br/>
-	 * <br/>
-	 * The focused item is always drawn last, which puts it visually on top of the other items.<br/>
+	 * null, the default marker is used.<br>
+	 * <br>
+	 * The focused item is always drawn last, which puts it visually on top of the other items.<br>
 	 *
-	 * @param canvas
+	 * @param c
 	 *            the Canvas upon which to draw. Note that this may already have a transformation
 	 *            applied, so be sure to leave it the way you found it
 	 * @param mapView
@@ -268,9 +268,9 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 
 	/**
 	 * If the given Item is found in the overlay, force it to be the current focus-bearer. Any
-	 * registered {@link ItemizedOverlay#OnFocusChangeListener} will be notified. This does not move
-	 * the map, so if the Item isn't already centered, the user may get confused. If the Item is not
-	 * found, this is a no-op. You can also pass null to remove focus.
+	 * registered {@link OnFocusChangeListener} will be notified. This does not move the map, so if
+	 * the Item isn't already centered, the user may get confused. If the Item is not found, this is
+	 * a no-op. You can also pass null to remove focus.
 	 */
 	public void setFocus(final Item item) {
 		mPendingFocusChangedEvent = item != mFocusedItem;

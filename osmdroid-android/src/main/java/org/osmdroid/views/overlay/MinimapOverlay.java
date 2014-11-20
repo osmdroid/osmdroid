@@ -56,7 +56,7 @@ public class MinimapOverlay extends TilesOverlay {
 	 * 
 	 * @param pContext
 	 *            a context
-	 * @param tileRequestCompleteHandler
+	 * @param pTileRequestCompleteHandler
 	 *            a handler for the tile request complete notifications
 	 * @param pTileProvider
 	 *            a tile provider
@@ -90,7 +90,7 @@ public class MinimapOverlay extends TilesOverlay {
 	 * 
 	 * @param pContext
 	 *            a context
-	 * @param tileRequestCompleteHandler
+	 * @param pTileRequestCompleteHandler
 	 *            a handler for the tile request complete notifications
 	 * @param pTileProvider
 	 *            a tile provider
@@ -107,7 +107,7 @@ public class MinimapOverlay extends TilesOverlay {
 	 * 
 	 * @param pContext
 	 *            a context
-	 * @param tileRequestCompleteHandler
+	 * @param pTileRequestCompleteHandler
 	 *            a handler for tile request complete notifications
 	 */
 	public MinimapOverlay(final Context pContext, final Handler pTileRequestCompleteHandler) {

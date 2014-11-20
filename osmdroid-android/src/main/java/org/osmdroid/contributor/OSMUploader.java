@@ -72,9 +72,8 @@ public class OSMUploader implements OpenStreetMapContributorConstants {
 	 * Description will be <code>DEFAULT_DESCRIPTION</code>, tags will be automatically generated
 	 * (i.e. "<code>October 2008</code>") NOTE: This method is not blocking!
 	 * 
-	 * @param gpxInputStream
-	 *            the InputStream containing the gpx-data.
-	 * @throws IOException
+	 * @param recordedGeoPoints
+	 *            the recorded points
 	 */
 	public static void uploadAsync(final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
 		uploadAsync(DEFAULT_DESCRIPTION, DEFAULT_TAGS, true, recordedGeoPoints);
@@ -91,9 +90,8 @@ public class OSMUploader implements OpenStreetMapContributorConstants {
 	 *            <code>not null</code>
 	 * @param addDateTags
 	 *            adds Date Tags to the existing Tags (i.e. "October 2008")
-	 * @param gpxInputStreaman
-	 *            the InputStream containing the gpx-data.
-	 * @throws IOException
+	 * @param recordedGeoPoints
+	 *            the recorded points
 	 */
 	public static void uploadAsync(final String description, final String tags,
 			final boolean addDateTags, final ArrayList<RecordedGeoPoint> recordedGeoPoints) {
@@ -116,11 +114,10 @@ public class OSMUploader implements OpenStreetMapContributorConstants {
 	 *            if <code>null</code> addDateTags is treated as <code>true</code>
 	 * @param addDateTags
 	 *            adds Date Tags to the existing Tags (i.e. "<code>October 2008</code>")
-	 * @param gpxInputStream
-	 *            the InputStream containing the gpx-data.
+	 * @param recordedGeoPoints
+	 *            the recorded points
 	 * @param pseudoFileName
 	 *            ending with "<code>.gpx</code>"
-	 * @throws IOException
 	 */
 	public static void uploadAsync(final String username, final String password,
 			final String description, final String tags, final boolean addDateTags,
@@ -220,7 +217,7 @@ public class OSMUploader implements OpenStreetMapContributorConstants {
 	/**
 	 * @param out
 	 * @param string
-	 * @param gpxFile
+	 * @param gpxInputStream
 	 * @throws IOException
 	 */
 	private static void writeContentDispositionFile(final DataOutputStream out, final String name,
@@ -247,8 +244,6 @@ public class OSMUploader implements OpenStreetMapContributorConstants {
 	}
 
 	/**
-	 * @param string
-	 * @param urlDesc
 	 * @throws IOException
 	 */
 	private static void writeContentDisposition(final DataOutputStream out, final String name,
