@@ -667,12 +667,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		if (index == START_INDEX){
 			startPoint = null;
 			if (markerStart != null){
+				markerStart.closeInfoWindow();
 				mItineraryMarkers.remove(markerStart);
 				markerStart = null;
 			}
 		} else if (index == DEST_INDEX){
 			destinationPoint = null;
 			if (markerDestination != null){
+				markerDestination.closeInfoWindow();
 				mItineraryMarkers.remove(markerDestination);
 				markerDestination = null;
 			}
@@ -684,6 +686,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	public void updateUIWithItineraryMarkers(){
+		mItineraryMarkers.closeAllInfoWindows();
 		mItineraryMarkers.getItems().clear();
 		//Start marker:
 		if (startPoint != null){
@@ -1172,8 +1175,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	void updateUIWithKml(){
-		if (mKmlOverlay != null)
+		if (mKmlOverlay != null){
+			mKmlOverlay.closeAllInfoWindows();
 			map.getOverlays().remove(mKmlOverlay);
+		}
 		mKmlOverlay = (FolderOverlay)mKmlDocument.mKmlRoot.buildOverlay(map, buildDefaultStyle(), null, mKmlDocument);
 		map.getOverlays().add(mKmlOverlay);
 		map.invalidate();
