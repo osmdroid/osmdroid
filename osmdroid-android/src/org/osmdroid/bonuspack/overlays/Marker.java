@@ -233,7 +233,7 @@ public class Marker extends OverlayWithIW {
 			MarkerInfoWindow iw = (MarkerInfoWindow)mInfoWindow;
 			return (iw != null) && iw.isOpen() && (iw.mMarkerRef==this);
 		} else
-			return super.isInfoWindowShown();
+			return super.isInfoWindowOpen();
 	}
 	
 	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
@@ -291,7 +291,7 @@ public class Marker extends OverlayWithIW {
 			if (mDraggable){
 				//starts dragging mode:
 				mIsDragged = true;
-				hideInfoWindow();
+				closeInfoWindow();
 				if (mOnMarkerDragListener != null)
 					mOnMarkerDragListener.onMarkerDragStart(this);
 				moveToEventPosition(event, mapView);

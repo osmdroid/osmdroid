@@ -128,8 +128,9 @@ public class OverpassAPIProvider {
 				poi.mCategory = jo.get("type").getAsString();
 				if (jo.has("tags")){
 					JsonObject jTags = jo.get("tags").getAsJsonObject();
+					poi.mType = tagValueFromJson("name", jTags);
 					//Try to set a relevant POI type by searching for an OSM commonly used tag key, and getting its value:
-					poi.mType = tagValueFromJsonNotNull("amenity", jTags)
+					poi.mDescription = tagValueFromJsonNotNull("amenity", jTags)
 							+ tagValueFromJsonNotNull("boundary", jTags) 
 							+ tagValueFromJsonNotNull("building", jTags) 
 							+ tagValueFromJsonNotNull("craft", jTags) 
@@ -143,9 +144,8 @@ public class OverpassAPIProvider {
 							+ tagValueFromJsonNotNull("sport", jTags) 
 							+ tagValueFromJsonNotNull("tourism", jTags);
 					//remove first "," (quite ugly, I know)
-					if (poi.mType.length()>0)
-						poi.mType = poi.mType.substring(1);
-					poi.mDescription = tagValueFromJson("name", jTags);
+					if (poi.mDescription.length()>0)
+						poi.mDescription = poi.mDescription.substring(1);
 					//TODO: try to set a relevant thumbnail image, according to key/value tags. 
 					//We could try to replicate Nominatim/lib/lib.php/getClassTypes(), but it sounds crazy for the added value. 
 					poi.mUrl = tagValueFromJson("website", jTags);

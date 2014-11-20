@@ -94,4 +94,19 @@ public class FolderOverlay extends Overlay {
 	}
 	
 	//TODO: implement other events... 
+	
+	/**
+	 * Close all opened InfoWindows of overlays it contains. 
+	 * This only operates on overlays that inherit from OverlayWithIW. 
+	 */
+	public void closeAllInfoWindows(){
+		for (Overlay overlay:mOverlayManager){
+			if (overlay instanceof FolderOverlay){
+				((FolderOverlay)overlay).closeAllInfoWindows();
+			} else if (overlay instanceof OverlayWithIW){
+				((OverlayWithIW)overlay).closeInfoWindow();
+			}
+		}
+	}
+
 }

@@ -6,7 +6,8 @@ import org.osmdroid.views.overlay.Overlay;
 import android.content.Context;
 
 /**
- * Overlay able to open an InfoWindow (a bubble). 
+ * Overlay able to open an InfoWindow (a bubble), displaying: a title, a snippet or description, 
+ * and optionally a "sub-description". 
  * Handling tap event and showing the InfoWindow at a relevant position is let to sub-classes. 
  * 
  * @see BasicInfoWindow
@@ -72,12 +73,12 @@ public abstract class OverlayWithIW extends Overlay {
 		return mInfoWindow;
 	}
 	
-	public void hideInfoWindow(){
+	public void closeInfoWindow(){
 		if (mInfoWindow != null)
 			mInfoWindow.close();
 	}
 
-	public boolean isInfoWindowShown(){
+	public boolean isInfoWindowOpen(){
 		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}
 	

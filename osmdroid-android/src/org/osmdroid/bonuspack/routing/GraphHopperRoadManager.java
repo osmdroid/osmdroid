@@ -22,7 +22,7 @@ import android.util.Log;
  */
 public class GraphHopperRoadManager extends RoadManager {
 
-	protected static final String SERVICE = "http://graphhopper.com/api/1/route?";
+	protected static final String SERVICE = "https://graphhopper.com/api/1/route?";
 	public static final int STATUS_NO_ROUTE = Road.STATUS_TECHNICAL_ISSUE+1;
 	
 	protected String mServiceUrl;
