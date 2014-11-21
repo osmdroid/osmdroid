@@ -301,7 +301,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public void setTileSource(final ITileSource aTileSource) {
 		mTileProvider.setTileSource(aTileSource);
-		TileSystem.setTileSize(aTileSource.getTileSizePixels());
+		float density = getResources().getDisplayMetrics().density;
+		TileSystem.setTileSize((int) (aTileSource.getTileSizePixels() * density));
 		this.checkZoomButtons();
 		this.setZoomLevel(mZoomLevel); // revalidate zoom level
 		postInvalidate();
