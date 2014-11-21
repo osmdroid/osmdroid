@@ -1,7 +1,8 @@
 package org.osmdroid.tileprovider.modules;
 
-import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
@@ -13,9 +14,8 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.concurrent.atomic.AtomicReference;
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -109,7 +109,8 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
-		return tileSource != null ? tileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
+		return tileSource != null ? tileSource.getMaximumZoomLevel()
+				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override

@@ -110,7 +110,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
-		return tileSource != null ? tileSource.getMaximumZoomLevel() : MAXIMUM_ZOOMLEVEL;
+		return tileSource != null ? tileSource.getMaximumZoomLevel()
+				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override

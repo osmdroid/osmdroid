@@ -18,7 +18,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -249,7 +248,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
             final Location lastFix) {
 
 		final Projection pj = mapView.getProjection();
-		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - pj.getZoomLevel();
+		final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+				- pj.getZoomLevel();
 
 		if (mDrawAccuracyEnabled) {
 			final float radius = lastFix.getAccuracy() / (float) TileSystem.GroundResolution(lastFix.getLatitude(), mapView.getZoomLevel());
@@ -308,7 +308,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		if (reuse == null)
 			reuse = new Rect();
 
-		final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - zoomLevel;
+		final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel() - zoomLevel;
 		final int posX = mMapCoords.x >> zoomDiff;
 		final int posY = mMapCoords.y >> zoomDiff;
 
@@ -401,8 +401,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		}
 
 		mLocation = location;
-		TileSystem.LatLongToPixelXY(location.getLatitude(), location.getLongitude(), MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-		final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+		TileSystem.LatLongToPixelXY(location.getLatitude(), location.getLongitude(),
+				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
+		final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+				.getMaximumZoomLevel()) / 2;
 		mMapCoords.offset(-worldSize_2, -worldSize_2);
 
 		if (mFollow) {
@@ -587,8 +589,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		if (isMyLocationEnabled()) {
 			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
 			if (mLocation != null) {
-				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(), MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
+						microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
+				final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+						.getMaximumZoomLevel()) / 2;
 				mMapCoords.offset(-worldSize_2, -worldSize_2);
 				mMapController.animateTo(new GeoPoint(mLocation));
 			}
@@ -640,8 +644,10 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		if (isFollowLocationEnabled()) {
 			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
 			if (mLocation != null) {
-				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(), MapViewConstants.MAXIMUM_ZOOMLEVEL, mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(MapViewConstants.MAXIMUM_ZOOMLEVEL) / 2;
+				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
+						microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
+				final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+						.getMaximumZoomLevel()) / 2;
 				mMapCoords.offset(-worldSize_2, -worldSize_2);
 				mMapController.animateTo(new GeoPoint(mLocation));
 			}
