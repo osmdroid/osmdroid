@@ -147,7 +147,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
-		TileSystem.setTileSize(tileSizePixels);
+		float density = getResources().getDisplayMetrics().density;
+		TileSystem.setTileSize((int) (tileSizePixels * density));
 
 		if (tileProvider == null) {
 			final ITileSource tileSource = getTileSourceFromAttributes(attrs);
