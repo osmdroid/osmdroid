@@ -30,9 +30,9 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	}
 
 	/**
-	 * Set the minimum interval for location updates. See {@link
-	 * LocationManager.requestLocationUpdates(String, long, float, LocationListener)}. Note that you
-	 * should call this before calling {@link enableMyLocation()}.
+	 * Set the minimum interval for location updates. See
+	 * {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}. Note
+	 * that you should call this before calling {@link MyLocationNewOverlay#enableMyLocation()}.
 	 * 
 	 * @param milliSeconds
 	 */
@@ -46,8 +46,8 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 
 	/**
 	 * Set the minimum distance for location updates. See
-	 * {@link LocationManager.requestLocationUpdates}. Note that you should call this before calling
-	 * {@link enableMyLocation()}.
+	 * {@link LocationManager#requestLocationUpdates(String, long, float, LocationListener)}. Note
+	 * that you should call this before calling {@link MyLocationNewOverlay#enableMyLocation()}.
 	 * 
 	 * @param meters
 	 */

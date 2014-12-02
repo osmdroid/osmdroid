@@ -7,13 +7,12 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
-import android.location.Location;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +28,7 @@ import android.widget.RelativeLayout.LayoutParams;
  * @author Nicolas Gramlich
  *
  */
-public class SampleExtensive extends SampleMapActivity implements OpenStreetMapConstants {
+public class SampleExtensive extends Activity implements OpenStreetMapConstants {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -58,7 +57,7 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState, false); // Pass true here to actually contribute to OSM!
+		super.onCreate(savedInstanceState);
 
 		mResourceProxy = new ResourceProxyImpl(getApplicationContext());
 
@@ -154,16 +153,6 @@ public class SampleExtensive extends SampleMapActivity implements OpenStreetMapC
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
-
-	@Override
-	public void onLocationChanged(final Location pLoc) {
-		this.mMyLocationOverlay.setLocation(new GeoPoint(pLoc));
-	}
-
-	@Override
-	public void onLocationLost() {
-		// We'll do nothing here.
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu pMenu) {

@@ -101,7 +101,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 	 * @param aLatitude
 	 * @param aLongitude
 	 * @param reuse
-	 * @return relative position determined from the upper left corner.<br />
+	 * @return relative position determined from the upper left corner.<br>
 	 *         {0,0} would be the upper left corner. {1,1} would be the lower right corner. {1,0}
 	 *         would be the lower left corner. {0,1} would be the upper right corner.
 	 */

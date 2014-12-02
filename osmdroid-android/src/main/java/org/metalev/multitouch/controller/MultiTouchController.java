@@ -558,7 +558,7 @@ public class MultiTouchController<T> {
 
 		// -------------------------------------------------------------------------------------------------------------------------------------------
 
-		/** True if number of touch points >= 2. */
+		/** True if number of touch points &gt;= 2. */
 		public boolean isMultiTouch() {
 			return isMultiTouch;
 		}

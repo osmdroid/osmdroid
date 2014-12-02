@@ -20,8 +20,8 @@ import android.os.Build;
  * then will draw the Bitmap to the HW accelerated canvas. Due to the extra work, it does not draw
  * the shadow layer. If the Canvas passed into the Overlay is not HW accelerated or if
  * {@link #isUsingBackingBitmap()} returns false then it draws normally (including the shadow layer)
- * without the backing Bitmap. <br/>
- * <br/>
+ * without the backing Bitmap. <br>
+ * <br>
  * TODO:
  * <ol>
  * <li>Implement a flag to determine if the drawing has actually changed. If not, then reuse the

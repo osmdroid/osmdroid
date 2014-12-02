@@ -129,6 +129,10 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	}
 
 	public void loadMapTileAsync(final MapTileRequestState pState) {
+		// Make sure we're not detached
+		if (mExecutor.isShutdown())
+			return;
+
 		synchronized (mQueueLockObject) {
 			if (DEBUG_TILE_PROVIDERS) {
 				logger.debug("MapTileModuleProviderBase.loadMaptileAsync() on provider: "

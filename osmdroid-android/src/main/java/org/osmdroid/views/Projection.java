@@ -16,8 +16,8 @@ import android.graphics.Rect;
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
  * and that of latitude/longitude points on the surface of the earth. You obtain a Projection from
  * MapView.getProjection(). You should not hold on to this object for more than one draw, since the
- * projection of the map could change. <br />
- * <br />
+ * projection of the map could change. <br>
+ * <br>
  * <b>Note:</b> This class will "wrap" all pixel and lat/long values that overflow their bounds
  * (rather than clamping to their bounds).
  * 

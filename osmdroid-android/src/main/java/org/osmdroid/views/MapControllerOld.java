@@ -105,8 +105,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed {@link GeoPoint} in the
-	 * end. Uses: {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT} and
-	 * {@link MapControllerOld.ANIMATION_DURATION_DEFAULT}.
+	 * end. Uses: {@link MapViewConstants#ANIMATION_SMOOTHNESS_DEFAULT} and
+	 * {@link MapViewConstants#ANIMATION_DURATION_DEFAULT}.
 	 *
 	 * @param gp
 	 */
@@ -122,13 +122,14 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 * @param gp
 	 *            GeoPoint to be centered in the end.
 	 * @param aSmoothness
-	 *            steps made during animation. I.e.: {@link MapControllerOld.ANIMATION_SMOOTHNESS_LOW},
-	 *            {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT},
-	 *            {@link MapControllerOld.ANIMATION_SMOOTHNESS_HIGH}
+	 *            steps made during animation. I.e.:
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_LOW},
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_DEFAULT},
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_HIGH}
 	 * @param aDuration
-	 *            in Milliseconds. I.e.: {@link MapControllerOld.ANIMATION_DURATION_SHORT},
-	 *            {@link MapControllerOld.ANIMATION_DURATION_DEFAULT},
-	 *            {@link MapControllerOld.ANIMATION_DURATION_LONG}
+	 *            in Milliseconds. I.e.: {@link MapViewConstants#ANIMATION_DURATION_SHORT},
+	 *            {@link MapViewConstants#ANIMATION_DURATION_DEFAULT},
+	 *            {@link MapViewConstants#ANIMATION_DURATION_LONG}
 	 */
 	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType,
 			final int aSmoothness, final int aDuration) {
@@ -137,8 +138,8 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 
 	/**
 	 * Animates the underlying {@link MapView} that it centers the passed coordinates in the end.
-	 * Uses: {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT} and
-	 * {@link MapControllerOld.ANIMATION_DURATION_DEFAULT}.
+	 * Uses: {@link MapViewConstants#ANIMATION_SMOOTHNESS_DEFAULT} and
+	 * {@link MapViewConstants#ANIMATION_DURATION_DEFAULT}.
 	 *
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
@@ -155,13 +156,14 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 * @param aLatitudeE6
 	 * @param aLongitudeE6
 	 * @param aSmoothness
-	 *            steps made during animation. I.e.: {@link MapControllerOld.ANIMATION_SMOOTHNESS_LOW},
-	 *            {@link MapControllerOld.ANIMATION_SMOOTHNESS_DEFAULT},
-	 *            {@link MapControllerOld.ANIMATION_SMOOTHNESS_HIGH}
+	 *            steps made during animation. I.e.:
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_LOW},
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_DEFAULT},
+	 *            {@link MapViewConstants#ANIMATION_SMOOTHNESS_HIGH}
 	 * @param aDuration
-	 *            in Milliseconds. I.e.: {@link MapControllerOld.ANIMATION_DURATION_SHORT},
-	 *            {@link MapControllerOld.ANIMATION_DURATION_DEFAULT},
-	 *            {@link MapControllerOld.ANIMATION_DURATION_LONG}
+	 *            in Milliseconds. I.e.: {@link MapViewConstants#ANIMATION_DURATION_SHORT},
+	 *            {@link MapViewConstants#ANIMATION_DURATION_DEFAULT},
+	 *            {@link MapViewConstants#ANIMATION_DURATION_LONG}
 	 */
 	public void animateTo(final int aLatitudeE6, final int aLongitudeE6,
 			final AnimationType aAnimationType, final int aSmoothness, final int aDuration) {
@@ -274,7 +276,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	// ===========================================================
 
 	/**
-	 * Choose on of the Styles of approacing the target Coordinates.
+	 * Choose one of the Styles of approaching the target Coordinates.
 	 * <ul>
 	 * <li><code>LINEAR</code>
 	 * <ul>
@@ -285,7 +287,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 * </li>
 	 * <li><code>EXPONENTIALDECELERATING</code>
 	 * <ul>
-	 * <li>Uses a exponential interpolation/li>
+	 * <li>Uses a exponential interpolation</li>
 	 * <li>Values produced: 50%, 75%, 87.5%, 93.5%, ...</li>
 	 * <li>Style: Starts very fast, really slow in the end.</li>
 	 * </ul>
@@ -330,7 +332,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		 * <ul>
 		 * <li><code>EXPONENTIALDECELERATING</code>
 		 * <ul>
-		 * <li>Uses a exponential interpolation/li>
+		 * <li>Uses a exponential interpolation</li>
 		 * <li>Values produced: 50%, 75%, 87.5%, 93.5%, ...</li>
 		 * <li>Style: Starts very fast, really slow in the end.</li>
 		 * </ul>
