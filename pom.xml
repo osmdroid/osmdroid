@@ -69,20 +69,20 @@
             <dependency>
                 <groupId>com.google.android.maps</groupId>
                 <artifactId>maps</artifactId>
-                <version>19_r7</version>
+                <version>21_r1</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>19.0.0</version>
+                <version>21.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>19.0.0</version>
+                <version>21.0.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
