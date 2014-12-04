@@ -170,7 +170,7 @@ public class TileSystemMathTest extends AndroidTestCase {
 		final int px = (int) Math.round((mx + originShift) / res);
 		int py = (int) Math.round((my + originShift) / res);
 		// This converts from TMS to Google tiles by flipping the Y-axis
-		py = TileSystem.MapSize(zoom) - py;
+		py = (int)TileSystem.MapSize(zoom) - py;
 		return new Point(px, py);
 	}
 

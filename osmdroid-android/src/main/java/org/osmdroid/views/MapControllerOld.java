@@ -97,7 +97,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		final int x = mOsmv.getScrollX();
 		final int y = mOsmv.getScrollY();
 		final Point p = TileSystem.LatLongToPixelXY(latitude, longitude, mOsmv.getZoomLevel(), null);
-		final int worldSize_2 = TileSystem.MapSize(mOsmv.getZoomLevel()) / 2;
+		final int worldSize_2 = (int)TileSystem.MapSize(mOsmv.getZoomLevel()) / 2;
 		mOsmv.getScroller().startScroll(x, y, p.x - worldSize_2 - x, p.y - worldSize_2 - y,
 				ANIMATION_DURATION_DEFAULT);
 		mOsmv.postInvalidate();
@@ -206,7 +206,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	public void setCenter(final IGeoPoint point) {
 		final Point p = TileSystem.LatLongToPixelXY(point.getLatitudeE6() / 1E6,
 				point.getLongitudeE6() / 1E6, this.mOsmv.getZoomLevel(), null);
-		final int worldSize_2 = TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
+		final int worldSize_2 = (int)TileSystem.MapSize(this.mOsmv.getZoomLevel()) / 2;
 		this.mOsmv.scrollTo(p.x - worldSize_2, p.y - worldSize_2);
 	}
 

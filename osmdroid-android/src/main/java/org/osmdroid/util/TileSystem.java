@@ -27,7 +27,7 @@ public final class TileSystem {
 
 	/** @see microsoft.mappoint.TileSystem#MapSize(int) */
 	public static int MapSize(final int levelOfDetail) {
-		return microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
+		return (int)microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
 	}
 
 	/** @see microsoft.mappoint.TileSystem#GroundResolution(double, int) */

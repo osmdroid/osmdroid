@@ -884,7 +884,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void scrollTo(int x, int y) {
-		final int worldSize = TileSystem.MapSize(this.getZoomLevel(false));
+		final int worldSize = (int)TileSystem.MapSize(this.getZoomLevel(false));
 		while (x < 0) {
 			x += worldSize;
 		}
@@ -1168,7 +1168,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
-			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
+			final int worldSize = (int)TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
 			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
 					-worldSize, worldSize, -worldSize, worldSize);
