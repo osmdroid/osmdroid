@@ -117,10 +117,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
-	// for speed (avoiding allocations)
 	private final MapTileProviderBase mTileProvider;
-
 	private final Handler mTileRequestCompleteHandler;
+	private boolean mTilesScaledToDpi = false;
 
 	final Matrix mRotateScaleMatrix = new Matrix();
 	final Point mRotateScalePoint = new Point();
@@ -147,8 +146,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
-		float density = getResources().getDisplayMetrics().density;
-		TileSystem.setTileSize((int) (tileSizePixels * density));
 
 		if (tileProvider == null) {
 			final ITileSource tileSource = getTileSourceFromAttributes(attrs);
@@ -300,10 +297,23 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
 	}
 
+	public boolean isTilesScaledToDpi() {
+		return mTilesScaledToDpi;
+	}
+
+	public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
+		mTilesScaledToDpi = tilesScaledToDpi;
+		updateTileSizeForDensity(getTileProvider().getTileSource());
+	}
+
+	private void updateTileSizeForDensity(final ITileSource aTileSource) {
+		float density = isTilesScaledToDpi() ? getResources().getDisplayMetrics().density : 1;
+		TileSystem.setTileSize((int) (aTileSource.getTileSizePixels() * density));
+	}
+
 	public void setTileSource(final ITileSource aTileSource) {
 		mTileProvider.setTileSource(aTileSource);
-		float density = getResources().getDisplayMetrics().density;
-		TileSystem.setTileSize((int) (aTileSource.getTileSizePixels() * density));
+		updateTileSizeForDensity(aTileSource);
 		this.checkZoomButtons();
 		this.setZoomLevel(mZoomLevel); // revalidate zoom level
 		postInvalidate();
