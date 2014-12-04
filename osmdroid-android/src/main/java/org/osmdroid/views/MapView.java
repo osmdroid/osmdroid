@@ -803,19 +803,23 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				return true;
 			}
 
+			boolean handled = false;
 			if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 				if (DEBUGMODE) {
 					logger.debug("mMultiTouchController handled onTouchEvent");
 				}
-				return true;
+				handled = true;
 			}
 
 			if (mGestureDetector.onTouchEvent(rotatedEvent)) {
 				if (DEBUGMODE) {
 					logger.debug("mGestureDetector handled onTouchEvent");
 				}
-				return true;
+				handled = true;
 			}
+
+			if (handled)
+				return true;
 		} finally {
 			if (rotatedEvent != event)
 				rotatedEvent.recycle();
