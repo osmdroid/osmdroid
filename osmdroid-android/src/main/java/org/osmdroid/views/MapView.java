@@ -117,10 +117,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
-	// for speed (avoiding allocations)
 	private final MapTileProviderBase mTileProvider;
-
 	private final Handler mTileRequestCompleteHandler;
+	private boolean mTilesScaledToDpi = false;
 
 	final Matrix mRotateScaleMatrix = new Matrix();
 	final Point mRotateScalePoint = new Point();
@@ -147,7 +146,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
-		TileSystem.setTileSize(tileSizePixels);
 
 		if (tileProvider == null) {
 			final ITileSource tileSource = getTileSourceFromAttributes(attrs);
@@ -299,9 +297,23 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
 	}
 
+	public boolean isTilesScaledToDpi() {
+		return mTilesScaledToDpi;
+	}
+
+	public void setTilesScaledToDpi(boolean tilesScaledToDpi) {
+		mTilesScaledToDpi = tilesScaledToDpi;
+		updateTileSizeForDensity(getTileProvider().getTileSource());
+	}
+
+	private void updateTileSizeForDensity(final ITileSource aTileSource) {
+		float density = isTilesScaledToDpi() ? getResources().getDisplayMetrics().density : 1;
+		TileSystem.setTileSize((int) (aTileSource.getTileSizePixels() * density));
+	}
+
 	public void setTileSource(final ITileSource aTileSource) {
 		mTileProvider.setTileSource(aTileSource);
-		TileSystem.setTileSize(aTileSource.getTileSizePixels());
+		updateTileSizeForDensity(aTileSource);
 		this.checkZoomButtons();
 		this.setZoomLevel(mZoomLevel); // revalidate zoom level
 		postInvalidate();
@@ -563,11 +575,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Get NW/upper-left
 		final Point upperLeft = TileSystem.LatLongToPixelXY(boundingBox.getLatNorthE6() / 1E6,
-				boundingBox.getLonWestE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+				boundingBox.getLonWestE6() / 1E6,
+				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
 
 		// Get SE/lower-right
 		final Point lowerRight = TileSystem.LatLongToPixelXY(boundingBox.getLatSouthE6() / 1E6,
-				boundingBox.getLonEastE6() / 1E6, MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+				boundingBox.getLonEastE6() / 1E6,
+				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
 		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
 	}
 
@@ -885,7 +899,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		if (mScrollableAreaLimit != null) {
-			final int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel(false);
+			final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+					- getZoomLevel(false);
 			final int minX = (mScrollableAreaLimit.left >> zoomDiff);
 			final int minY = (mScrollableAreaLimit.top >> zoomDiff);
 			final int maxX = (mScrollableAreaLimit.right >> zoomDiff);

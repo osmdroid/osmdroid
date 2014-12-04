@@ -152,7 +152,7 @@ public class Projection implements IProjection, MapViewConstants {
 	 */
 	public Point toProjectedPixels(final int latituteE6, final int longitudeE6, final Point reuse) {
 		return TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6,
-				MAXIMUM_ZOOMLEVEL, reuse);
+				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), reuse);
 	}
 
 	/**
@@ -168,7 +168,8 @@ public class Projection implements IProjection, MapViewConstants {
 	public Point toPixelsFromProjected(final Point in, final Point reuse) {
 		Point out = reuse != null ? reuse : new Point();
 
-		final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
+		final int zoomDifference = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+				- getZoomLevel();
 		out.set(in.x >> zoomDifference, in.y >> zoomDifference);
 
 		out = toPixelsFromMercator(out.x, out.y, out);
