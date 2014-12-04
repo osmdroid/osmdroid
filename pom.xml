@@ -65,6 +65,7 @@
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
                 <version>20.0.0</version>
+                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
