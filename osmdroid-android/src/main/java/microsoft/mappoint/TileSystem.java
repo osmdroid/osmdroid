@@ -70,7 +70,8 @@ public final class TileSystem {
 	 */
 
 	public static int MapSize(final int levelOfDetail) {
-		return mTileSize << levelOfDetail;
+		return mTileSize << (levelOfDetail < getMaximumZoomLevel() ? levelOfDetail
+				: getMaximumZoomLevel());
 	}
 
 	/**
