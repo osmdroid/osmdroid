@@ -19,7 +19,8 @@ import android.support.v4.util.LongSparseArray;
  * 
  * TODO: check what happens with map rotation. <br/>
  * TODO: clustering is not perfectly stable: if you zoom in then out, the mapview lat/lon span may change a little bit,
- * potentially changing the grid positioning. <br/>
+ * potentially changing the grid positioning 
+ * => Considering this issue, this class is deprecated. Use RadiusMarkerClusterer instead. <br>
  * 
  * Largely inspired from (open source) Google Maps Android utility library. 
  * 
@@ -27,7 +28,7 @@ import android.support.v4.util.LongSparseArray;
  * @author M.Kergall
  *
  */
-public class GridMarkerClusterer extends MarkerClusterer {
+@Deprecated public class GridMarkerClusterer extends MarkerClusterer {
 
 	protected int mGridSize = 50; //in pixels
 	protected Paint mTextPaint;

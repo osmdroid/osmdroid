@@ -95,29 +95,14 @@ public abstract class MarkerClusterer extends Overlay {
 		//if zoom has changed and mapView is now stable, rebuild clusters:
 		int zoomLevel = mapView.getZoomLevel();
 		if (zoomLevel != mLastZoomLevel && !mapView.isAnimating()){
-			mClusters = clusterer(mapView);
-			renderer(mClusters, canvas, mapView);
+        	mClusters = clusterer(mapView);
+        	renderer(mClusters, canvas, mapView);
 			mLastZoomLevel = zoomLevel;
 		}
 		
-		/*
-		final Projection pj = mapView.getProjection();
-		Drawable dd = new BitmapDrawable(mClusterIcon);
-		dd.setBounds(-15, -15, 15, 15);
-		*/
-		
 		for (StaticCluster cluster:mClusters){
 			cluster.getMarker().draw(canvas, mapView, shadow);
-			
-			/*
-			if (cluster.getSize()>1){
-				GeoPoint p1 = cluster.getPosition();
-				GeoPoint p2 = new GeoPoint(p1.getLatitude()+gridSizeY, p1.getLongitude()-gridSizeX);
-				Point p2Pixels= pj.toMapPixels(p2, null);
-				drawAt(canvas, dd, p2Pixels.x, p2Pixels.y, false, 0.0f);
-			}
-			*/
-		}
+        }
 	}
 
 	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
