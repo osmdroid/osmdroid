@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.bonuspack.cachemanager.CacheManager;
 import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
@@ -135,7 +135,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	int mWhichRouteProvider;
 	
 	public static ArrayList<POI> mPOIs; //made static to pass between activities
-	GridMarkerClusterer mPoiMarkers;
+	RadiusMarkerClusterer mPoiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
 	
@@ -318,7 +318,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			}
 		});
 		//POI markers:
-		mPoiMarkers = new GridMarkerClusterer(this);
+		mPoiMarkers = new RadiusMarkerClusterer(this);
 		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_poi_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
 		mPoiMarkers.setIcon(clusterIcon);
