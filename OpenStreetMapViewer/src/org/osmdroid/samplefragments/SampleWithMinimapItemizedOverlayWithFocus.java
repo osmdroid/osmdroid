@@ -4,6 +4,7 @@ package org.osmdroid.samplefragments;
 import java.util.ArrayList;
 
 import org.osmdroid.RotationGestureOverlay;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -116,7 +117,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);
-		GeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
+        IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
 		mMapView.getController().animateTo(geoPoint);
 
 		setHasOptionsMenu(true);
