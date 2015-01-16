@@ -1,16 +1,8 @@
 package com.example.osmbonuspacktuto;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.GridMarkerClusterer;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
 import org.osmdroid.bonuspack.clustering.StaticCluster;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFeature;
@@ -25,7 +17,6 @@ import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.OverpassAPIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.location.OverpassAPIProvider.Element;
 import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.GroundOverlay;
@@ -59,12 +50,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -149,16 +134,6 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
 		
-		//!NEW from v4.9! OpenStreetMap POIs with Overpass API
-		/*
-		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
-		BoundingBoxE6 oBB = new BoundingBoxE6(startPoint.getLatitude()+0.5, startPoint.getLongitude()+0.5,
-			startPoint.getLatitude()-0.5, startPoint.getLongitude()-0.5);
-		String oUrl = overpassProvider.urlForAmenitySearch("cinema", oBB, 100, 30);
-		HashMap<Long, Element> elements = overpassProvider.getThemAsJson(oUrl);
-		ArrayList<POI> pois = overpassProvider.asPOIs(elements);
-		*/
-		
 		//6. Wikipedia POIs with GeoNames 
 		/*
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
@@ -177,7 +152,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		
 		//FolderOverlay poiMarkers = new FolderOverlay(this);
 		//10. Marker Clustering
-		GridMarkerClusterer poiMarkers = new GridMarkerClusterer(this);
+		RadiusMarkerClusterer poiMarkers = new RadiusMarkerClusterer(this);
 		//Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_cluster);
 		Drawable clusterIconD = getResources().getDrawable(R.drawable.marker_poi_cluster);
 		Bitmap clusterIcon = ((BitmapDrawable)clusterIconD).getBitmap();
@@ -209,10 +184,16 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		}
 
 		//12. Loading KML content
-		String url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
-		//String url = "http://www.yournavigation.org/api/1.0/gosmore.php?format=kml&flat=48.13&flon=-1.63&tlat=48.1&tlon=-1.26";
+		//String url = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
 		mKmlDocument = new KmlDocument();
-		boolean ok = mKmlDocument.parseUrl(url);
+		//boolean ok = mKmlDocument.parseKMLUrl(url);
+
+		//Get OpenStreetMap content as KML with Overpass API:
+		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+		BoundingBoxE6 oBB = new BoundingBoxE6(startPoint.getLatitude()+0.25, startPoint.getLongitude()+0.25,
+			startPoint.getLatitude()-0.25, startPoint.getLongitude()-0.25);
+		String oUrl = overpassProvider.urlForTagSearchKml("highway=speed_camera", oBB, 500, 30);
+		boolean ok = overpassProvider.addInKmlFolder(mKmlDocument.mKmlRoot, oUrl);
 		
 		if (ok){
 			//13.1 Simple styling
@@ -248,8 +229,6 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		//16. Handling Map events
 		MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
 		map.getOverlays().add(0, mapEventsOverlay); //inserted at the "bottom" of all overlays
-		
-		//map.setMapOrientation(45.0f);
 	}
 	
 	//0. Using the Marker and Polyline overlays - advanced options
@@ -309,7 +288,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 	}
 	
 	//11. Customizing the clusters design - and beyond
-	class CirclesGridMarkerClusterer extends GridMarkerClusterer{
+	class CirclesGridMarkerClusterer extends RadiusMarkerClusterer{
 
 		public CirclesGridMarkerClusterer(Context ctx) {
 			super(ctx);
