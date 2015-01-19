@@ -2,10 +2,8 @@ package org.osmdroid.bonuspack.overlays;
 
 import org.osmdroid.views.MapView;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * Default implementation of InfoWindow for a Marker. 
