@@ -94,7 +94,13 @@ public class KmlPlacemark extends KmlFeature implements Cloneable, Parcelable {
 			Set<Map.Entry<String,JsonElement>> entrySet = properties.entrySet();
 			for (Map.Entry<String,JsonElement> entry:entrySet){
 				String key = entry.getKey();
-				String value = entry.getValue().getAsString();
+				JsonElement je = entry.getValue();
+				String value;
+				try {
+					value = je.getAsString();
+				} catch (Exception e){
+					value = je.toString();
+				}
 				if (key!=null && value!=null)
 					setExtendedData(key, value);
 			}
