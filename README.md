@@ -12,6 +12,8 @@ Before you add osmdroid to your project make sure you check the [Prerequisites](
 
 You can include osmdroid using Maven or by adding a jar file to your project. See [HowToIncludeInYourProject](https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject).
 
+You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
+
 ##I want to compile the source
 
 The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/HowToMaven#how-to-build-osmdroid-using-eclipse).
