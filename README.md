@@ -20,40 +20,40 @@ The [OSMNavigator](OSMNavigator) application demonstrates the use of these class
 # Examples
 
 Geocoding, route display, bubble on the destination with the address and an image
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_1_1.png"  width="368"><br/>
+![1](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_1_1.png)
 
 Turn-by-turn instructions shown in bubbles (with instructions in the default language of the phone):
 
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_2_1.png" ><br/>
+![2](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_2_1.png)
 
 The same turn-by-turn instructions shown in list view:<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_3_1.png" ><br/>
+![3](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_3_1.png)
 
 Searching for fuel stations along the route:<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_1.png">
+![4_1](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_1.png)
 
 Searching fo cinemas inside an area, with clustered markers:<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_2.png" height="530"><br/>
+![4_2](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_2.png)
 
-Showing Wikipedia POIs related to the current map view. In the bubble, the "more info" button will open the full Wikipedia page: <br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_5_3.png" ><br/>
+Showing Wikipedia POIs related to the current map view. In the bubble, the "more info" button will open the full Wikipedia page: 
+![5_3](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_5_3.png)
 
 Showing geolocalized Flickr photos related to the current map view:<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_6_1.png" ><br/>
+![6](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_6_1.png)
 
 Showing geolocalized Picasa photos related to the current map view: 1) on the map, and 2) as a list view<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_7_1.png"  width="368"> 
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_8_1.png"  width="368"><br/>
+![7](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_7_1.png)
+![8](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_8_1.png)
 
 When searching a place by name, shows its enclosing polygon<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_9_2.png" width="368"><br/>
+![9](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_9_2.png)
 
 MapBox Satellite maps in OSMNavigator:<br/>
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_10_1.png" width="368"><br/>
+![10](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_10_1.png)
 
 Support for KML content. Example: on the left, a Google Maps "My Places", rendered with OSMBonusPack on the right:<br/> 
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_12.png" height="530">  
-<img src="http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_11.png" height="530"><br/>
+![12](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_12.png)
+![11](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_11.png)
 
 # How to use it
 Start with the [installation guide](HowToInclude), then follow the [Tutorials](Tutorial_0). 
