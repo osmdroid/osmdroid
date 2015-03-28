@@ -20,30 +20,30 @@ The [OSMNavigator](OSMNavigator) application demonstrates the use of these class
 # Examples
 
 Geocoding, route display, bubble on the destination with the address and an image
-![1](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_1_1.png)
+[[images/osmnavigator_1_1.png]]
 
 Turn-by-turn instructions shown in bubbles (with instructions in the default language of the phone):
 
-![2](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_2_1.png)
+[[images/osmbonuspackdemo_2_1.png]]
 
 The same turn-by-turn instructions shown in list view:<br/>
-![3](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_3_1.png)
+[[images/osmbonuspackdemo_3_1.png]]
 
 Searching for fuel stations along the route:<br/>
-![4_1](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_1.png)
+[[images/osmbonuspackdemo_4_1.png]]
 
 Searching fo cinemas inside an area, with clustered markers:<br/>
-![4_2](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_4_2.png)
+[[images/osmbonuspackdemo_4_2.png]]
 
 Showing Wikipedia POIs related to the current map view. In the bubble, the "more info" button will open the full Wikipedia page: 
-![5_3](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_5_3.png)
+[[images/osmbonuspackdemo_5_3.png]]
 
 Showing geolocalized Flickr photos related to the current map view:<br/>
-![6](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_6_1.png)
+[[images/osmbonuspackdemo_6_1.png]]
 
 Showing geolocalized Picasa photos related to the current map view: 1) on the map, and 2) as a list view<br/>
-![7](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_7_1.png)
-![8](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmnavigator_8_1.png)
+[[images/osmnavigator_7_1.png]]
+[[images/osmnavigator_8_1.png]]
 
 When searching a place by name, shows its enclosing polygon<br/>
 ![9](http://osmbonuspack.googlecode.com/svn/BonusPackDownloads/img/osmbonuspackdemo_9_2.png)
