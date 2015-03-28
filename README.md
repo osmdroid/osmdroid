@@ -15,7 +15,7 @@ This "OSMBonusPack" library complements osmdroid with (very) useful classes:
 
 Have a look to the [Features](https://github.com/MKergall/osmbonuspack/wiki/features).
 
-The [OSMNavigator](OSMNavigator) application demonstrates the use of these classes. This is a generic-purpose Map/Navigation tool, including a KML viewer and editor.
+The [[OSMNavigator]] application demonstrates the use of these classes. This is a generic-purpose Map/Navigation tool, including a KML viewer and editor.
 
 # Examples
 
