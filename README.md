@@ -46,11 +46,11 @@ Showing geolocalized Flickr photos related to the current map view:
 
 ![Geolocalized Flickr photos](https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_6_1.png)
 
-Showing geolocalized Picasa photos related to the current map view: 1) on the map, and 2) as a list view
+Showing geolocalized Picasa photos related to the current map view: 
 
-![Picasa photos on the map](https://github.com/MKergall/osmbonuspack/wiki/images/osmnavigator_7_1.png)
-
-![Picasa photos as a list view](https://github.com/MKergall/osmbonuspack/wiki/images/osmnavigator_8_1.png)
+on the map | as a list view
+------------- | -------------
+<img src="https://github.com/MKergall/osmbonuspack/wiki/images/osmnavigator_7_1.png" width="368" /> | <img src="https://github.com/MKergall/osmbonuspack/wiki/images/osmnavigator_8_1.png" width="368" />
 
 When searching a place by name, shows its enclosing polygon
 
@@ -64,7 +64,7 @@ Support for KML content.
 
 Google Maps "My Places"  | rendered with OSMBonusPack
 ------------- | -------------
-![My Places](https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_12.png)  | <img src="https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_11.png" height="398" />
+<img src="https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_12.png" width="368" /> | <img src="https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_11.png" width="368" />
 
 # How to use it
 Start with the [installation guide](https://github.com/MKergall/osmbonuspack/wiki/HowToInclude), then follow the [Tutorials](https://github.com/MKergall/osmbonuspack/wiki/Tutorial_0).
