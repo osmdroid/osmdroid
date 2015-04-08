@@ -13,7 +13,7 @@ This "OSMBonusPack" library complements osmdroid with (very) useful classes:
 *  Integrated Cache Management tools for off-line maps
 *  and more...
 
-Have a look to the [samples](https://github.com/MKergall/osmbonuspack/wiki/Home), and to the [features](https://github.com/MKergall/osmbonuspack/wiki/features).
+Have a look to the examples below, and to the [features](https://github.com/MKergall/osmbonuspack/wiki/features). 
 
 The [OSMNavigator](https://github.com/MKergall/osmbonuspack/wiki/OSMNavigator) application demonstrates the use of these classes. This is a generic-purpose Map/Navigation tool, including a KML viewer and editor.
 
