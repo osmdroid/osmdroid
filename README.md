@@ -40,7 +40,7 @@ Great! Osmdroid continues to improve from the contributions of its users. This c
 
 ##I want more!
 
-Maybe take a look at the fine [osmbonuspack project](https://code.google.com/p/osmbonuspack/) that acts as a companion to osmdroid and adds a lot of useful functionality. 
+Maybe take a look at the fine [osmbonuspack project](https://github.com/MKergall/osmbonuspack) that acts as a companion to osmdroid and adds a lot of useful functionality. 
 
 ##Screenshots
 
