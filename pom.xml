@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
-                <version>21.0.3</version>
+                <version>22.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -76,13 +76,13 @@
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>22.0.0</version>
+                <version>23.0.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>22.0.0</version>
+                <version>23.0.0</version>
             </dependency>
             <dependency>
                 <groupId>commons-logging</groupId>
