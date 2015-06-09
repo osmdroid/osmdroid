@@ -58,7 +58,7 @@ import android.widget.Toast;
 /**
  * This is the implementation of OSMBonusPack tutorials. 
  * Sections of code can be commented/uncommented depending on the progress in the tutorials. 
- * @see http://code.google.com/p/osmbonuspack/
+ * @see https://github.com/MKergall/osmbonuspack
  * @author M.Kergall
  *
  */
@@ -165,7 +165,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		poiMarkers.mTextAnchorV = 0.27f;
 		//end of 11.
 		map.getOverlays().add(poiMarkers);
-        Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
+		Drawable poiIcon = getResources().getDrawable(R.drawable.marker_poi_default);
 		if (pois != null) {
 			for (POI poi:pois){
 	            Marker poiMarker = new Marker(map);
