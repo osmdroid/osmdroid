@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<!--  
+	  Nominatim keywords that can be used for facility search in French. 
+	  See http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/FR
+	  In comment, keywords with no significant result on 11/04/2013. 
+	-->
+	<string-array name="poi_tags">
+		<!-- Aeroway -->
+		<item>Aéroport</item>
+		<!-- Amenity -->
+		<item>Distributeur automatique de billets</item>
+		<item>DAB</item>
+		<item>Banque</item>
+		<item>Bar</item>
+		<item>Parking à vélos</item>
+		<item>Café</item>
+		<item>Location de voitures</item>
+		<item>Lavage de voitures</item>
+		<item>Laverie</item>
+		<item>Casino</item>
+		<item>Cinéma</item>
+		<item>Salle polyvalente</item>
+		<item>Crématorium</item>
+		<item>Dentiste</item>
+		<item>Médecin</item>
+		<item>Docteur</item>
+		<item>Auto-école</item>
+		<item>Ecole de conduite</item>
+		<item>Restauration rapide</item>
+		<item>Caserne de pompiers</item>
+		<item>Station service</item>
+		<item>Cimetière</item>
+		<!--  <item>Fitness</item> -->
+		<item>Hôpital</item>
+		<item>Hôtel</item>
+		<item>Stand de tir</item>
+		<item>Jardin d\'enfants</item>
+		<item>Bibliothèque</item>
+		<item>Marché</item>
+		<item>Boîte de nuit</item>
+		<item>Parking</item>
+		<item>Pharmacie</item>
+		<item>Police</item>
+		<item>Boîte aux lettres</item>
+		<item>Bureau de poste</item>
+		<item>Prison</item>
+		<item>Point de recyclage</item>
+		<item>Restaurant</item>
+		<item>Maison de retraite</item>
+		<item>Ecole</item>
+		<item>Refuge</item>
+		<!--  <item>Magasin</item> -->
+		<item>Taxi</item>
+		<item>Téléphone public</item>
+		<item>Théâtre</item>
+		<item>Toilettes</item>
+		<item>Hôtel de ville</item>
+		<item>Mairie</item>
+		<item>Université</item>
+		<item>Vétérinaire</item>
+		<item>Eglise</item>
+		<item>Lieu de culte</item>
+		<!-- Historic -->
+		<item>Château</item>
+		<item>Mémorial</item>
+		<item>Monument</item>
+		<item>Musée</item>
+		<item>Ruines</item>
+		<!-- Land use -->
+		<item>Mine</item>
+		<item>Parc</item>
+		<item>Aire de jeux</item>
+		<!-- Leisure -->
+		<item>Terrain de golf</item>
+		<item>Terrain de sport</item>
+		<item>Stade</item>
+		<item>Piscine</item>
+		<item>Parc Aquatique</item>
+		<!-- Natural -->
+		<item>Plage</item>
+		<!-- Public Transport -->
+		<item>Arrêt de bus</item>
+		<item>Arrêt de tram</item>
+		<item>Gare ferroviaire</item>
+		<item>Station de métro</item>
+		<!-- Shop -->
+		<item>Boulangerie</item>
+		<item>Librairie</item>
+		<item>Boucher</item>
+		<item>Boucherie</item>
+		<item>Charcuterie</item>
+		<item>Magasin de voitures</item>
+		<item>Garage Automobile</item>
+		<item>Magasin de vêtements</item>
+		<item>Magasin informatique</item>
+		<item>Confiserie</item>
+		<item>Epicerie</item>
+		<item>Magasin de bricolage</item>
+		<item>Teinturerie</item>
+		<item>Pressing</item>
+		<item>Magasin d\'électronique</item>
+		<!--  <item>Agent immobilier</item> -->
+		<item>Poissonnerie</item>
+		<item>Fleuriste</item>
+		<!--  <item>Magasin d\'alimentation</item> -->
+		<item>Pompes funèbres</item>
+		<item>Magasin d\'ameublement</item>
+		<item>Jardinerie</item>
+		<!--  <item>Boutique de cadeaux</item> -->
+		<item>Marchand de fruits et légumes</item>
+		<item>Coiffeur</item>
+		<item>Quincaillerie</item>
+		<item>Magasin Hi-Fi</item>
+		<!--  <item>Assurance</item> -->
+		<item>Bijouterie</item>
+		<item>Kiosque</item>
+		<item>Blanchisserie</item>
+		<item>Galerie marchande</item>
+		<!-- <item>Marché</item> -->
+		<!-- <item>Magasin de téléphones mobiles</item> -->
+		<item>Magasin de moto</item>
+		<!-- <item>Magasin de musique</item> -->
+		<!-- <item>Marchand de journaux</item> -->
+		<item>Opticien</item>
+		<item>Magasin bio</item>
+		<item>Magasin d\'animaux</item>
+		<item>Magasin de chaussures</item>
+		<!-- <item>Centre commercial</item> -->
+		<item>Magasin de sport</item>
+		<item>Papeterie</item>
+		<item>Supermarché</item>
+		<item>Magasin de jouets</item>
+		<!-- <item>Agence de voyage</item> -->
+		<!-- <item>Magasin de vidéos</item> -->
+		<!-- <item>Caviste</item> -->
+		<!-- Tourism -->
+		<item>Attraction</item>
+		<!-- <item>Gîte</item> -->
+		<item>Camping</item>
+		<item>Site de caravane</item>
+		<item>Office de tourisme</item>
+		<item>Informations</item>
+		<item>Site de pique-nique</item>
+		<item>Parc à thème</item>
+		<item>Point de vue</item>
+		<item>Zoo</item>
+		<!-- Non-Nominatim tags, for other services: -->
+		<item>wikipedia</item>
+		<item>flickr</item>
+		<item>picasa</item>
+	</string-array>
+</resources>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_departure"
+        android:title="@string/menu_departure"/>
+    <item
+        android:id="@+id/menu_destination"
+        android:title="@string/menu_destination"/>
+    <item
+        android:id="@+id/menu_viapoint"
+        android:title="@string/menu_viapoint"/>
+    <item
+        android:id="@+id/menu_kmlpoint"
+        android:title="@string/menu_kmlpoint"/>
+    <item
+        android:id="@+id/menu_none"
+        android:title="@string/menu_none"/>
+</menu>

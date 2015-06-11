@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="#f4f4f4" >
+	
+	<TextView android:id="@+id/title"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textColor="#000000"
+		android:textSize="20sp"
+		android:text="@string/kml_styles_title" />
+
+	<ListView
+		android:id="@+id/listviewKml"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" >
+	</ListView>
+
+</LinearLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<!--  
+	  Mapping from human-friendly facility to OSM tag. 
+	  Used to search for facilities using Overpass API. 
+	  See http://wiki.openstreetmap.org/wiki/Map_Features
+	-->
+   	<string-array name="osm_poi_tags">
+		<!-- Aeroway -->
+		<item>airport|aeroway=aerodrome</item>
+		<!-- Amenity -->
+		<item>atm|amenity=atm</item>
+		<item>bank|amenity=bank</item>
+		<item>bar|amenity=bar</item>
+		<item>bus station|public_transport=station</item>
+		<item>cafe|amenity=cafe</item>
+		<item>casino|amenity=casino</item>
+		<item>car rental|amenity=car_rental</item>
+		<item>car wash|amenity=car_wash</item>
+		<item>cinema|amenity=cinema</item>
+		<item>community centre|amenity=community_center</item>
+		<item>cycle parking|amenity=bicycle_parking</item>
+		<item>dentist|amenity=dentist</item>
+		<item>doctors|amenity=doctors</item>
+		<item>fast food|amenity=fast_food</item>
+		<item>fire station|amenity=fire_station</item>
+		<item>fuel|amenity=fuel</item>
+		<item>hospital|amenity=hospital</item>
+		<item>kindergarten|amenity=kindergarten</item>
+		<item>library|amenity=library</item>
+		<item>marketplace|amenity=marketplace</item>
+		<item>night club|amenity=nightclub</item>
+		<item>nursery|amenity=nursery</item>
+		<item>parking|amenity=parking</item>
+		<item>pharmacy|amenity=pharmacy</item>
+		<item>phone booth|amenity=telephone</item>
+		<item>police|amenity=police</item>
+		<item>post box|amenity=post_box</item>
+		<item>post office|amenity=post_office</item>
+		<item>pub|amenity=pub</item>
+		<item>recycling point|amenity=recycling</item>
+		<item>restaurant|amenity=restaurant</item>
+		<item>retirement home|amenity=retirement_home</item>
+		<item>school|amenity=school</item>
+		<item>shelter|amenity=shelter</item>
+		<item>taxi|amenity=taxi</item>
+		<item>telephone|amenity=telephone</item>
+		<item>theatre|amenity=theatre</item>
+		<item>toilets|amenity=toilets</item>
+		<item>town hall|amenity=townhall</item>
+		<item>university|amenity=university</item>
+		<item>veterinary surgery|amenity=veterinary</item>
+		<!-- Building -->
+		<item>church|building=church</item>
+		<item>hotel|building=hotel</item>
+		<!-- Historic -->
+		<item>castle|historic=castle</item>
+		<item>monument|historic=monument</item>
+		<item>ruin|historic=ruin</item>
+		<!-- Land use -->
+		<item>cemetery|landuse=cemetery</item>
+		<item>mine|landuse=mine</item>
+		<!-- Leisure -->
+		<item>golf course|leisure=golf</item>
+		<item>park|leisure=park</item>
+		<item>stadium|leisure=stadium</item>
+		<item>swimming pool|leisure=swimming_pool</item>
+		<item>sports pitch|leisure=pitch</item>
+		<item>water park|leisure=water_park</item>
+		<!-- Natural -->
+		<item>beach|natural=beach</item>
+		<!-- Public Transport -->
+		<item>station|railway=station</item>
+		<!-- Shop -->
+		<item>bakery|shop=bakery</item>
+		<item>book shop|shop=books</item>
+		<item>butcher|shop=butcher</item>
+		<item>car shop|shop=car</item>
+		<item>car dealer|shop=car_dealer</item>
+		<item>car parts|shop=car_parts</item>
+		<item>car repair|shop=car_repair</item>
+		<item>clothes shop|shop=clothes</item>
+		<item>convenience store|shop=convenience</item>
+		<item>do-it-yourself|shop=doityourself</item>
+		<item>drugstore|shop=drugstore</item>
+		<item>dry cleaning|shop=dry_cleaning</item>
+		<item>fish shop|shop=fish</item>
+		<item>florist|shop=florist</item>
+		<item>furniture|shop=furniture</item>
+		<item>garden center|shop=garden_centre</item>
+		<item>gift shop|shop=gift</item>
+		<item>grocery shop|shop=grocery</item>
+		<item>haidresser|shop=hairdresser</item>
+		<item>jewelry shop|shop=jewelry</item>
+		<item>kiosk|shop=kiosk</item>
+		<item>laundry|shop=laundry</item>
+		<item>mall|shop=mall</item>
+		<item>optician|shop=optician</item>
+		<item>shoe shop|shop=shoes</item>
+		<item>sports shop|shop=sports</item>
+		<item>supermarket|shop=supermarket</item>
+		<item>toy shop|shop=toys</item>
+		<item>travel agency|shop=travel_agency</item>
+		<!-- Tourism -->
+		<item>attraction|tourism=attraction</item>
+		<item>camp site|tourism=camp_site</item>
+		<item>caravan site|tourism=caravan_site</item>
+		<item>information|tourism=information</item>
+		<item>museum|tourism=museum</item>
+		<item>picnic site|tourism=picnic_site</item>
+		<item>theme park|tourism=theme_park</item>
+		<item>viewpoint|tourism=viewpoint</item>
+		<item>zoo|tourism=zoo</item>
+	</string-array>
+</resources>

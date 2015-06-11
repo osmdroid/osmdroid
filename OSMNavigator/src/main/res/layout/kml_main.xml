@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:background="#f4f4f4" >
+	
+	<LinearLayout android:id="@+id/focusPicker" 
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:orientation="horizontal"
+		android:background="@android:color/transparent"
+		android:focusable="true"
+		android:focusableInTouchMode="true" />
+
+	<EditText android:id="@+id/name" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:hint="@string/kml_main_name"
+		android:textColor="#000000" 
+		android:maxLines="3" />
+
+	<EditText android:id="@+id/description" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:hint="@string/kml_main_description"
+		android:textColor="#000000" 
+		android:maxLines="6" />
+
+	<CheckBox android:id="@+id/checkbox_visible" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:text="@string/kml_main_visible" 
+		android:textColor="#000000"
+		android:onClick="onCheckboxClicked"/>
+	
+	<Spinner android:id="@+id/styleSpinner"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:prompt="@string/kml_main_style_prompt" />
+	
+	<ListView
+		android:id="@+id/listviewKml"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" >
+		<requestFocus />
+	</ListView>
+
+</LinearLayout>

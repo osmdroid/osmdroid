@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/kml_item_menu_cut"
+        android:title="@string/kml_item_menu_cut"/>
+    <item
+        android:id="@+id/kml_item_menu_copy"
+        android:title="@string/kml_item_menu_copy"/>
+    <item
+        android:id="@+id/kml_item_menu_behind"
+        android:title="@string/kml_item_menu_behind"/>
+    <item
+        android:id="@+id/kml_item_menu_front"
+        android:title="@string/kml_item_menu_front"/>
+    <item
+        android:id="@+id/kml_item_menu_show_on_map"
+        android:title="@string/kml_item_menu_show_on_map"/>
+    <item
+        android:id="@+id/kml_item_menu_none"
+        android:title="@string/kml_item_menu_none"/>
+</menu>

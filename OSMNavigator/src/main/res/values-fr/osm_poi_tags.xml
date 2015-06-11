@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<!--  
+	  Mapping from human-friendly facility to OSM tag. 
+	  Used to search for facilities using Overpass API. 
+	  See http://wiki.openstreetmap.org/wiki/Map_Features
+	-->
+	<string-array name="osm_poi_tags">
+		<!-- Aeroway -->
+		<item>aéroport|aeroway=aerodrome</item>
+		<!-- Amenity -->
+		<item>distributeur automatique de billets|amenity=atm</item>
+		<item>dab|amenity=atm</item>
+		<item>banque|amenity=bank</item>
+		<item>bar|amenity=bar</item>
+		<item>parking à vélos|amenity=bicycle_parking</item>
+		<item>café|amenity=cafe</item>
+		<item>location de voitures|amenity=car_rental</item>
+		<item>lavage de voitures|amenity=car_wash</item>
+		<item>laverie|shop=laundry</item>
+		<item>casino|amenity=casino</item>
+		<item>cinéma|amenity=cinema</item>
+		<item>salle polyvalente|amenity=community_center</item>
+		<item>crématorium|amenity=crematorium</item>
+		<item>dentiste|amenity=dentist</item>
+		<item>médecin|amenity=doctors</item>
+		<item>docteur|amenity=doctors</item>
+		<item>auto-école|amenity=driving_school</item>
+		<item>ecole de conduite|amenity=driving_school</item>
+		<item>restauration rapide|amenity=fast_food</item>
+		<item>caserne de pompiers|amenity=fire_station</item>
+		<item>station service|amenity=fuel</item>
+		<item>cimetière|landuse=cemetery</item>
+		<item>hôpital|amenity=hospital</item>
+		<item>hôtel|amenity=hotel</item>
+		<item>stand de tir|amenity=hunting_stand</item>
+		<item>jardin d\'enfants|amenity=kindergarten</item>
+		<item>bibliothèque|amenity=library</item>
+		<item>marché|amenity=marketplace</item>
+		<item>boîte de nuit|amenity=nightclub</item>
+		<item>parking|amenity=parking</item>
+		<item>pharmacie|amenity=pharmacy</item>
+		<item>téléphone public|amenity=telephone</item>
+		<item>police|amenity=police</item>
+		<item>boîte aux lettres|amenity=post_box</item>
+		<item>bureau de poste|amenity=post_office</item>
+		<item>prison|amenity=prison</item>
+		<item>point de recyclage|amenity=recycling</item>
+		<item>restaurant|amenity=restaurant</item>
+		<item>maison de retraite|amenity=retirement_home</item>
+		<item>ecole|amenity=school</item>
+		<item>refuge|amenity=shelter</item>
+		<item>taxi|amenity=taxi</item>
+		<item>téléphone public|amenity=telephone</item>
+		<item>théâtre|amenity=theatre</item>
+		<item>toilettes|amenity=toilets</item>
+		<item>hôtel de ville|amenity=townhall</item>
+		<item>mairie|amenity=townhall</item>
+		<item>université|amenity=university</item>
+		<item>vétérinaire|amenity=veterinary</item>
+		<!-- Building -->
+		<item>eglise|building=church</item>
+		<item>lieu de culte|amenity=place_of_worship</item>
+		<!-- Historic -->
+		<item>château|historic=castle</item>
+		<item>mémorial|historic=memorial</item>
+		<item>monument|historic=monument</item>
+		<item>musée|historic=museum</item>
+		<item>ruines|historic=ruin</item>
+		<!-- Land use -->
+		<item>mine|landuse=mine</item>
+		<item>parc|leisure=park</item>
+		<item>aire de jeux|leisure=playground</item>
+		<!-- Leisure -->
+		<item>terrain de golf|leisure=golf</item>
+		<item>terrain de sport|leisure=pitch</item>
+		<item>stade|leisure=stadium</item>
+		<item>piscine|leisure=swimming_pool</item>
+		<item>parc aquatique|leisure=water_park</item>
+		<!-- Natural -->
+		<item>plage|natural=beach</item>
+		<!-- Public Transport -->
+		<item>arrêt de bus|public_transport=station</item>
+		<item>arrêt de tram|railway=tram_stop</item>
+		<item>gare ferroviaire|railway=station</item>
+		<item>station de métro|railway=subway</item>
+		<!-- Shop -->
+		<item>boulangerie|shop=bakery</item>
+		<item>librairie|shop=books</item>
+		<item>boucher|shop=butcher</item>
+		<item>boucherie|shop=butcher</item>
+		<item>charcuterie|shop=butcher</item>
+		<item>magasin de voitures|shop=car</item>
+		<item>garage automobile|shop=car_repair</item>
+		<item>magasin de vêtements|shop=clothes</item>
+		<item>magasin informatique|shop=computer</item>
+		<item>confiserie|shop=confectionery</item>
+		<item>epicerie|shop=convenience</item>
+		<item>magasin de bricolage|shop=doityourself</item>
+		<item>teinturerie|shop=dry_cleaning</item>
+		<item>pressing|shop=dry_cleaning</item>
+		<item>magasin d\'électronique|shop=electronics</item>
+		<item>poissonnerie|shop=fish</item>
+		<item>fleuriste|shop=florist</item>
+		<item>pompes funèbres|shop=funeral_directors</item>
+		<item>magasin d\'ameublement|shop=furniture</item>
+		<item>jardinerie|shop=garden_centre</item>
+		<item>marchand de fruits et légumes|shop=grocery</item>
+		<item>coiffeur|shop=hairdresser</item>
+		<item>quincaillerie|shop=hardware</item>
+		<item>magasin hi-fi|shop=hifi</item>
+		<item>bijouterie|shop=jewelry</item>
+		<item>kiosque|shop=kiosk</item>
+		<item>blanchisserie|shop=laundry</item>
+		<item>galerie marchande|shop=mall</item>
+		<item>magasin de moto|shop=motorcycle</item>
+		<item>opticien|shop=optician</item>
+		<item>magasin bio|shop=organic</item>
+		<item>magasin d\'animaux|shop=pet</item>
+		<item>magasin de chaussures|shop=shoes</item>
+		<item>magasin de sport|shop=sports</item>
+		<item>papeterie|shop=stationery</item>
+		<item>supermarché|shop=supermarket</item>
+		<item>magasin de jouets|shop=toys</item>
+		<!-- Tourism -->
+		<item>attraction|tourism=attraction</item>
+		<item>camping|tourism=camp_site</item>
+		<item>site de caravane|tourism=caravan_site</item>
+		<item>office de tourisme|tourism=information</item>
+		<item>informations|tourism=information</item>
+		<item>site de pique-nique|tourism=picnic_site</item>
+		<item>parc à thème|tourism=theme_park</item>
+		<item>point de vue|tourism=viewpoint</item>
+		<item>zoo|tourism=zoo</item>
+	</string-array>
+</resources>

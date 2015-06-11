@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+		<!--  
+		  Nominatim keywords that can be used for facility search. 
+		  Note that Nominatim facility search uses Special Phrases instead of OSM tags. 
+		  See http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
+		  and http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/EN
+		  In comment, keywords with no significant result for Paris area on 8/04/2013
+		-->
+		<!-- 
+		  For OSM tags, see http://wiki.openstreetmap.org/wiki/Map_Features
+		  But, again, note that keywords for Nominatim are not the OSM features. 
+		-->
+    	<string-array name="poi_tags">
+		<!-- Aeroway -->
+		<item>Airport</item>
+		<!-- Amenity -->
+		<item>ATM</item>
+		<item>Bank</item>
+		<item>Bar</item>
+		<item>Bus station</item>
+		<item>Cafe</item>
+		<item>Casino</item>
+		<item>Car rental</item>
+		<!-- <item>car sharing</item> -->
+		<item>Car wash</item>
+		<item>Cinema</item>
+		<item>Community Centre</item>
+		<item>Cycle parking</item>
+		<item>Dentist</item>
+		<item>Doctors</item>
+		<item>Fast food</item>
+		<item>Fire station</item>
+		<item>Fuel</item>
+		<item>Hospital</item>
+		<item>Kindergarten</item>
+		<item>Library</item>
+		<item>Marketplace</item>
+		<item>Night club</item>
+		<item>Nursery</item>
+		<item>Parking</item>
+		<item>Pharmacy</item>
+		<item>Phone booth</item>
+		<item>Police</item>
+		<item>Post box</item>
+		<item>Post office</item>
+		<item>Pub</item>
+		<item>Recycling point</item>
+		<item>Restaurant</item>
+		<item>Retirement home</item>
+		<item>School</item>
+		<item>Shelter</item>
+		<item>Taxi</item>
+		<item>Telephone</item>
+		<item>Theatre</item>
+		<item>Toilets</item>
+		<item>Town Hall</item>
+		<item>University</item>
+		<item>Veterinary surgery</item>
+		<!-- Building -->
+		<item>Church</item>
+		<item>Hotel</item>
+		<!-- Historic -->
+		<item>Castle</item>
+		<item>Monument</item>
+		<!-- Land use -->
+		<item>Cemetery</item>
+		<item>Landfill</item>
+		<item>Mine</item>
+		<item>Wood</item>
+		<!-- Leisure -->
+		<item>Golf course</item>
+		<item>Park</item>
+		<item>Stadium</item>
+		<item>Swimming pool</item>
+		<!-- Natural -->
+		<item>Beach</item>
+		<!-- Public Transport -->
+		<item>Station</item>
+		<!-- Shop -->
+		<item>Bakery</item>
+		<item>Book shop</item>
+		<item>Butcher</item>
+		<item>Car shop</item>
+		<item>Car dealer</item>
+		<item>Car parts</item>
+		<item>Car repair</item>
+		<item>Clothes shop</item>
+		<item>Convenience store</item>
+		<!-- <item>Copy shop</item> -->
+		<!-- <item>Discount items shop</item> -->
+		<item>Do-It-Yourself</item>
+		<item>Drugstore</item>
+		<item>Dry Cleaning</item>
+		<item>Fish shop</item>
+		<item>Florist</item>
+		<item>Furniture</item>
+		<item>Garden center</item>
+		<item>Gift shop</item>
+		<item>Grocery shop</item>
+		<item>Haidresser</item>
+		<item>Jewelry shop</item>
+		<item>Kiosk</item>
+		<item>Laundry</item>
+		<item>Mall</item>
+		<item>Optician</item>
+		<item>Shoe shop</item>
+		<item>Sports shop</item>
+		<item>Supermarket</item>
+		<item>Toy shop</item>
+		<item>Travel agency</item>
+		<!-- Sport -->
+		<item>Sports pitch</item>
+		<!-- Tourism -->
+		<item>Attraction</item>
+		<item>Camp site</item>
+		<item>Caravan site</item>
+		<item>Information</item>
+		<item>Museum</item>
+		<item>Picnic site</item>
+		<item>Theme park</item>
+		<item>Viewpoint</item>
+		<item>Ruin</item>
+		<item>Water park</item>
+		<item>Zoo</item>
+		<!-- Non-Nominatim tags, for other services: -->
+		<item>wikipedia</item>
+		<item>flickr</item>
+		<item>picasa</item>
+	</string-array>
+</resources>
