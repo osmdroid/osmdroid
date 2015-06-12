@@ -1031,7 +1031,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		builder.setTitle(getString(R.string.url_kml_open));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
-		String defaultUri = "http://mapsengine.google.com/map/kml?mid=z6IJfj90QEd4.kUUY9FoHFRdE";
+		String defaultUri = "http://gmaps-samples.googlecode.com/svn/trunk/ggeoxml/cta.kml";
 		String uri = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("KML_URI", defaultUri);
 		input.setText(uri);
 		builder.setView(input);

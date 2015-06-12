@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 4
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.osmnavigator"
         minSdkVersion 4
-        targetSdkVersion 22
+        targetSdkVersion 4
         versionCode 1
         versionName "1.0"
     }
