@@ -1,4 +1,4 @@
-package bonuspack.osmdroid.org.osmnavigator;
+package com.osmnavigator;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package bonuspack.osmdroid.org.osmbonuspack;
+package com.example.osmbonuspacktuto;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

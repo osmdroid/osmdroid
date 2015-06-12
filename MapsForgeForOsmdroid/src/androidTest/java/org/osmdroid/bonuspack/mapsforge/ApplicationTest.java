@@ -1,4 +1,4 @@
-package bonuspack.osmdroid.org.osmbonuspacktutorial;
+package org.osmdroid.bonuspack.mapsforge;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
