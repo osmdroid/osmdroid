@@ -547,7 +547,7 @@ public class KmlDocument implements Parcelable {
 				else {
 					mCurrentStyleId = addStyle(mCurrentStyle);
 				}
-				if (mKmlCurrentFeature != null && mKmlCurrentFeature != null){
+				if (mKmlCurrentFeature != null && mKmlCurrentFeature != mKmlRoot){
 					//this is an inline style. Set its style id to the KmlObject container:
 					mKmlCurrentFeature.mStyle = mCurrentStyleId;
 				}
