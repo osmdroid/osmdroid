@@ -101,7 +101,7 @@ import android.widget.Toast;
 /**
  * Simple and general-purpose map/navigation Android application, including a KML viewer and editor. 
  * It is based on osmdroid and OSMBonusPack
- * @see http://code.google.com/p/osmbonuspack/
+ * @see https://github.com/MKergall/osmbonuspack
  * @author M.Kergall
  *
  */
