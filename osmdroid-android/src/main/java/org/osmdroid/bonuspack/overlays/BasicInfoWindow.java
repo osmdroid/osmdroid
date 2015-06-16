@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 /**
  * Default implementation of InfoWindow for an OverlayWithIW. 
- * It handles a text and a description. 
+ * It handles a title, a description and a sub-description.
  * Clicking on the bubble will close it. 
  * 
  * @author M.Kergall

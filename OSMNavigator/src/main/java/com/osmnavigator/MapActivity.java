@@ -402,7 +402,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			if (resultCode == RESULT_OK) {
 				int id = intent.getIntExtra("ID", 0);
 				map.getController().setCenter(mPOIs.get(id).mLocation);
-				Marker poiMarker = (Marker)mPoiMarkers.getItem(id);
+				Marker poiMarker = mPoiMarkers.getItem(id);
 				poiMarker.showInfoWindow();
 			}
 			break;
@@ -498,7 +498,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 						sb.append(", ");
 					sb.append(address.getAddressLine(i));
 				}
-				theAddress = new String(sb.toString());
+				theAddress = sb.toString();
 			} else {
 				theAddress = null;
 			}
@@ -711,7 +711,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mRoadNodeMarkers.getItems().clear();
 		Drawable icon = getResources().getDrawable(R.drawable.marker_node);
 		int n = road.mNodes.size();
-		MarkerInfoWindow infoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, map);
+		MarkerInfoWindow infoWindow = new MarkerInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map);
 		TypedArray iconIds = getResources().obtainTypedArray(R.array.direction_icons);
     	for (int i=0; i<n; i++){
     		RoadNode node = road.mNodes.get(i);
@@ -771,7 +771,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		protected Road doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
-			RoadManager roadManager = null;
+			RoadManager roadManager;
 			Locale locale = Locale.getDefault();
 			switch (mWhichRouteProvider){
 			case OSRM:
@@ -906,7 +906,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mThreadPool = Executors.newFixedThreadPool(3);
 		for (int i=0; i<pois.size(); i++){
 			final POI poi = pois.get(i);
-			final Marker marker = (Marker)mPoiMarkers.getItem(i);
+			final Marker marker = mPoiMarkers.getItem(i);
 			mThreadPool.submit(new ThumbnailLoaderTask(poi, marker));
 		}
 	}

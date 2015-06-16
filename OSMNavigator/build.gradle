@@ -26,5 +26,5 @@ dependencies {
     compile project(":MapsForgeForOsmdroid")
 
     compile 'org.osmdroid:osmdroid-android:4.3'
-    compile 'org.slf4j:slf4j-simple:1.5.8'
+    compile 'org.slf4j:slf4j-android:1.6.1-RC1'
 }

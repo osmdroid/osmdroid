@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.overlays;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxy.bitmap;
+import org.osmdroid.bonuspack.R;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -90,13 +91,17 @@ public class Marker extends OverlayWithIW {
 		mIcon = mDefaultIcon;
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
+			/*
 			Context context = mapView.getContext();
 			String packageName = context.getPackageName();
 			int defaultLayoutResId = context.getResources().getIdentifier("bonuspack_bubble", "layout", packageName);
 			if (defaultLayoutResId == 0)
 				Log.e(BonusPackHelper.LOG_TAG, "Marker: layout/bonuspack_bubble not found in "+packageName);
-			else 
+			else
 				mDefaultInfoWindow = new MarkerInfoWindow(defaultLayoutResId, mapView);
+			*/
+			//get the default layout now included in the aar library
+			mDefaultInfoWindow = new MarkerInfoWindow(R.layout.bonuspack_bubble, mapView);
 		}
 		setInfoWindow(mDefaultInfoWindow);
 	}

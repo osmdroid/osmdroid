@@ -23,10 +23,9 @@ public class POIInfoWindow extends MarkerInfoWindow {
 	private POI mSelectedPOI;
 	
 	public POIInfoWindow(MapView mapView) {
-		super(R.layout.bonuspack_bubble, mapView);
+		super(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapView);
 		
-		Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
-			//bonuspack_bubble layouts already contain a "more info" button. 
+		Button btn = (Button)(mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_moreinfo));
 		btn.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View view) {
 				if (mSelectedPOI.mUrl != null){
@@ -44,15 +43,15 @@ public class POIInfoWindow extends MarkerInfoWindow {
 		
 		//Fetch the thumbnail in background
 		if (mSelectedPOI.mThumbnailPath != null){
-			ImageView imageView = (ImageView)mView.findViewById(R.id.bubble_image);
+			ImageView imageView = (ImageView)mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_image);
 			mSelectedPOI.fetchThumbnailOnThread(imageView);
 		}
 		
 		//Show or hide "more info" button:
 		if (mSelectedPOI.mUrl != null)
-			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
+			mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
 		else
-			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.GONE);
+			mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_moreinfo).setVisibility(View.GONE);
 		
 	}
 }

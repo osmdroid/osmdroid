@@ -130,18 +130,18 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		}
 		
 		//5. OpenStreetMap POIs with Nominatim
-		NominatimPOIProvider poiProvider = new NominatimPOIProvider();
-		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
+		//NominatimPOIProvider poiProvider = new NominatimPOIProvider();
+		//ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
 		
 		//6. Wikipedia POIs with GeoNames 
-		/*
+
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
 		//BoundingBoxE6 bb = map.getBoundingBox();
 		//ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 		//=> not possible in onCreate, as map bounding box is not correct until a draw occurs (osmdroid issue). 
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, 30, 20.0);
-		*/
+
 		
 		//8. Quick overview of the Flickr and Picasa POIs */
 		/*
@@ -209,9 +209,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 			if (bb != null){
 				//map.zoomToBoundingBox(bb); => not working in onCreate - this is a well-known osmdroid bug. 
 				//Workaround:
-				map.getController().setCenter(new GeoPoint(
-						bb.getLatSouthE6()+bb.getLatitudeSpanE6()/2, 
-						bb.getLonWestE6()+bb.getLongitudeSpanE6()/2));
+				map.getController().setCenter(bb.getCenter());
 			}
 		} else
 			Toast.makeText(this, "Error when loading KML", Toast.LENGTH_SHORT).show();
@@ -260,8 +258,8 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 	class CustomInfoWindow extends MarkerInfoWindow {
 		POI mSelectedPoi;
 		public CustomInfoWindow(MapView mapView) {
-			super(R.layout.bonuspack_bubble, mapView);
-			Button btn = (Button)(mView.findViewById(R.id.bubble_moreinfo));
+			super(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, mapView);
+			Button btn = (Button)(mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_moreinfo));
 			btn.setOnClickListener(new View.OnClickListener() {
 			    public void onClick(View view) {
 			        if (mSelectedPoi.mUrl != null){
@@ -275,13 +273,13 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		}
 		@Override public void onOpen(Object item){
 			super.onOpen(item);
-			mView.findViewById(R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
+			mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_moreinfo).setVisibility(View.VISIBLE);
 			Marker marker = (Marker)item;
 			mSelectedPoi = (POI)marker.getRelatedObject();
 			
 			//8. put thumbnail image in bubble, fetching the thumbnail in background:
 			if (mSelectedPoi.mThumbnailPath != null){
-				ImageView imageView = (ImageView)mView.findViewById(R.id.bubble_image);
+				ImageView imageView = (ImageView)mView.findViewById(org.osmdroid.bonuspack.R.id.bubble_image);
 				mSelectedPoi.fetchThumbnailOnThread(imageView);
 			}
 		}	
@@ -368,7 +366,7 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		circle.setStrokeColor(Color.RED);
 		circle.setStrokeWidth(2);
 		map.getOverlays().add(circle);
-		circle.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, map));
+		circle.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
 		circle.setTitle("Centered on "+p.getLatitude()+","+p.getLongitude());
 		
 		//18. Using GroundOverlay
