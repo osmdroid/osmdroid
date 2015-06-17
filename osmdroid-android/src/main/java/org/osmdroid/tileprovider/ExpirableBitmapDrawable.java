@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
  */
 public class ExpirableBitmapDrawable extends BitmapDrawable {
 
-	public static final int EXPIRED = -1;
+	private static final int EXPIRED = -1;
 
 	private int[] mState;
 
@@ -45,6 +45,10 @@ public class ExpirableBitmapDrawable extends BitmapDrawable {
 			}
 		}
 		return false;
+	}
+
+	public static void setDrawableExpired(final Drawable pTile) {
+		pTile.setState(new int[]{ExpirableBitmapDrawable.EXPIRED});
 	}
 
 }

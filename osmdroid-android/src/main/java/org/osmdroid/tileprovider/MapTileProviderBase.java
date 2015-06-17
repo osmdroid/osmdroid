@@ -307,7 +307,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				final MapTile tile = mNewTiles.keySet().iterator().next();
 				final Bitmap bitmap = mNewTiles.remove(tile);
 				final ExpirableBitmapDrawable drawable = new ReusableBitmapDrawable(bitmap);
-				drawable.setState(new int[] { ExpirableBitmapDrawable.EXPIRED });
+				ExpirableBitmapDrawable.setDrawableExpired(drawable);
 				final Drawable existingTile = mTileCache.getMapTile(tile);
 				if (existingTile == null || ExpirableBitmapDrawable.isDrawableExpired(existingTile))
 					putExpiredTileIntoCache(new MapTileRequestState(tile,

@@ -161,7 +161,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 						if (DEBUGMODE) {
 							logger.debug("Tile expired: " + tile);
 						}
-						drawable.setState(new int[] {ExpirableBitmapDrawable.EXPIRED });
+						ExpirableBitmapDrawable.setDrawableExpired(drawable);
 					}
 
 					return drawable;
