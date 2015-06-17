@@ -63,7 +63,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		this.mOsmv = new MapView(this, 256);
+		this.mOsmv = new MapView(this);
 		this.mOsmvController = this.mOsmv.getController();
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));

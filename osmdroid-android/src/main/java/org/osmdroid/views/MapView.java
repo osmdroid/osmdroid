@@ -139,9 +139,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Constructors
 	// ===========================================================
 
-	protected MapView(final Context context, final int tileSizePixels,
-			final ResourceProxy resourceProxy, MapTileProviderBase tileProvider,
-			final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
+	protected MapView(final Context context,
+					  final ResourceProxy resourceProxy, MapTileProviderBase tileProvider,
+					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
 		super(context, attrs);
 		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
@@ -179,30 +179,30 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Constructor used by XML layout resource (uses default tile source).
 	 */
 	public MapView(final Context context, final AttributeSet attrs) {
-		this(context, 256, new DefaultResourceProxyImpl(context), null, null, attrs);
+		this(context, new DefaultResourceProxyImpl(context), null, null, attrs);
 	}
 
 	/**
 	 * Standard Constructor.
 	 */
-	public MapView(final Context context, final int tileSizePixels) {
-		this(context, tileSizePixels, new DefaultResourceProxyImpl(context));
+	public MapView(final Context context) {
+		this(context, new DefaultResourceProxyImpl(context));
 	}
 
-	public MapView(final Context context, final int tileSizePixels,
-			final ResourceProxy resourceProxy) {
-		this(context, tileSizePixels, resourceProxy, null);
+	public MapView(final Context context,
+				   final ResourceProxy resourceProxy) {
+		this(context, resourceProxy, null);
 	}
 
-	public MapView(final Context context, final int tileSizePixels,
-			final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider) {
-		this(context, tileSizePixels, resourceProxy, aTileProvider, null);
+	public MapView(final Context context,
+				   final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider) {
+		this(context, resourceProxy, aTileProvider, null);
 	}
 
-	public MapView(final Context context, final int tileSizePixels,
-			final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider,
-			final Handler tileRequestCompleteHandler) {
-		this(context, tileSizePixels, resourceProxy, aTileProvider, tileRequestCompleteHandler,
+	public MapView(final Context context,
+				   final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider,
+				   final Handler tileRequestCompleteHandler) {
+		this(context, resourceProxy, aTileProvider, tileRequestCompleteHandler,
 				null);
 	}
 

@@ -172,7 +172,7 @@ public class GoogleWrapperSample extends MapActivity {
 		}
 
 		if (mMapViewSelection == MapViewSelection.OSM) {
-			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this, 256);
+			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this);
 			mapView.setBuiltInZoomControls(true);
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);

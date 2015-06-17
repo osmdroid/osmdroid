@@ -29,7 +29,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-		mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
+		mMapView = new MapView(inflater.getContext(), mResourceProxy);
 		return mMapView;
 	}
 

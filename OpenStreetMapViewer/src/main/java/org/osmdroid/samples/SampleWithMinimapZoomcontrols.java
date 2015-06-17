@@ -40,7 +40,7 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		this.mOsmv = new MapView(this, 256);
+		this.mOsmv = new MapView(this);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 

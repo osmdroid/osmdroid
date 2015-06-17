@@ -39,7 +39,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		// Setup base map
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		final MapView osmv = new MapView(this, 256);
+		final MapView osmv = new MapView(this);
 		rl.addView(osmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		osmv.setBuiltInZoomControls(true);

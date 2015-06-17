@@ -79,7 +79,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-        mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);
+        mMapView = new MapView(inflater.getContext(), mResourceProxy);
         // Call this method to turn off hardware acceleration at the View level.
         // setHardwareAccelerationOff();
         return mMapView;
