@@ -108,7 +108,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 					// Check again
 					alreadyInProgress = mWorking.containsKey(pTile);
 					if (alreadyInProgress) {
-						return null;
+						return tile;
 					}
 
 					mWorking.put(pTile, state);
