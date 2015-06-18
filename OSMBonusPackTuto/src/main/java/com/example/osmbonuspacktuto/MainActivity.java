@@ -130,18 +130,18 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 		}
 		
 		//5. OpenStreetMap POIs with Nominatim
-		//NominatimPOIProvider poiProvider = new NominatimPOIProvider();
-		//ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
+		NominatimPOIProvider poiProvider = new NominatimPOIProvider("OsmNavigator/1.0");
+		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, "cinema", 50, 0.1);
 		//or : ArrayList<POI> pois = poiProvider.getPOIAlong(road.getRouteLow(), "fuel", 50, 2.0);
 		
 		//6. Wikipedia POIs with GeoNames 
-
+		/*
 		GeoNamesPOIProvider poiProvider = new GeoNamesPOIProvider("mkergall");
 		//BoundingBoxE6 bb = map.getBoundingBox();
 		//ArrayList<POI> pois = poiProvider.getPOIInside(bb, 30);
 		//=> not possible in onCreate, as map bounding box is not correct until a draw occurs (osmdroid issue). 
 		ArrayList<POI> pois = poiProvider.getPOICloseTo(startPoint, 30, 20.0);
-
+		*/
 		
 		//8. Quick overview of the Flickr and Picasa POIs */
 		/*

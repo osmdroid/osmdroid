@@ -31,16 +31,18 @@ public class GeocoderNominatim {
 	
 	protected Locale mLocale;
 	protected String mServiceUrl;
+	protected String mUserAgent;
 	protected boolean mPolygon;
 	
-	public GeocoderNominatim(Context context, Locale locale){
+	public GeocoderNominatim(Context context, Locale locale, String userAgent){
 		mLocale = locale;
 		setOptions(false);
 		setService(NOMINATIM_SERVICE_URL); //default service
+		mUserAgent = userAgent;
 	}
 	
-	public GeocoderNominatim(Context context){
-		this(context, Locale.getDefault());
+	public GeocoderNominatim(Context context, String userAgent){
+		this(context, Locale.getDefault(), userAgent);
 	}
 
 	static public boolean isPresent(){
@@ -174,7 +176,7 @@ public class GeocoderNominatim {
 			+ "&lat=" + latitude 
 			+ "&lon=" + longitude;
 		Log.d(BonusPackHelper.LOG_TAG, "GeocoderNominatim::getFromLocation:"+url);
-		String result = BonusPackHelper.requestStringFromUrl(url);
+		String result = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
 		if (result == null)
 			throw new IOException();
 		try {
@@ -222,7 +224,7 @@ public class GeocoderNominatim {
 			//Upgrade is on hold, waiting for MapQuest service to become compatible. 
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "GeocoderNominatim::getFromLocationName:"+url);
-		String result = BonusPackHelper.requestStringFromUrl(url);
+		String result = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
 		//Log.d(BonusPackHelper.LOG_TAG, result);
 		if (result == null)
 			throw new IOException();

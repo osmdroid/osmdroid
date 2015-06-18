@@ -29,13 +29,15 @@ public class NominatimPOIProvider {
 		 * polygon=1 to get the border of the poi as a polygon<br>
 		 * nearlat & nearlon = ???<br>
 		 * routewidth. routewidth/69 and routewidth/30 ???<br>
-*/	
-	public static final String MAPQUEST_POI_SERVICE = "http://open.mapquestapi.com/nominatim/v1/";
+*/
 	public static final String NOMINATIM_POI_SERVICE = "http://nominatim.openstreetmap.org/";
+	public static final String MAPQUEST_POI_SERVICE = "http://open.mapquestapi.com/nominatim/v1/";
 	protected String mService;
+	protected String mUserAgent;
 	
-	public NominatimPOIProvider(){
+	public NominatimPOIProvider(String userAgent){
 		mService = NOMINATIM_POI_SERVICE;
+		mUserAgent = userAgent;
 	}
 	
 	public void setService(String serviceUrl){
@@ -64,20 +66,20 @@ public class NominatimPOIProvider {
 	private String getUrlCloseTo(GeoPoint p, String type, 
 			int maxResults, double maxDistance){
 		int maxD = (int)(maxDistance*1E6);
-		BoundingBoxE6 bb = new BoundingBoxE6(p.getLatitudeE6()+maxD, 
+		BoundingBoxE6 bb = new BoundingBoxE6(p.getLatitudeE6()+maxD,
 				p.getLongitudeE6()+maxD,
 				p.getLatitudeE6()-maxD,
 				p.getLongitudeE6()-maxD);
 		return getUrlInside(bb, type, maxResults);
 	}
 	
-	/**
-	 * @param url full URL request
+	/** Low-level API to get a list of POI.
+	 * @param url full URL request. Assumes
 	 * @return the list of POI, of null if technical issue. 
 	 */
 	public ArrayList<POI> getThem(String url){
 		Log.d(BonusPackHelper.LOG_TAG, "NominatimPOIProvider:get:"+url);
-		String jString = BonusPackHelper.requestStringFromUrl(url);
+		String jString = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
 		if (jString == null) {
 			Log.e(BonusPackHelper.LOG_TAG, "NominatimPOIProvider: request failed.");
 			return null;
@@ -122,7 +124,7 @@ public class NominatimPOIProvider {
 	 * Note that in any case, Nominatim will have an absolute maximum of 50. 
 	 * @param maxDistance to the position, in degrees. 
 	 * Note that it is used to build a bounding box around the position, not a circle. 
-	 * @return the list of POI, null if technical issue. 
+	 * @return the list of POI close to position, null if technical issue.
 	 */
 	public ArrayList<POI> getPOICloseTo(GeoPoint position, String facility, 
 			int maxResults, double maxDistance){
@@ -134,7 +136,7 @@ public class NominatimPOIProvider {
 	 * @param boundingBox
 	 * @param facility Nominatim facility
 	 * @param maxResults
-	 * @return list of POIs, null if technical issue. 
+	 * @return list of POIs inside the bounding box, null if technical issue.
 	 */
 	public ArrayList<POI> getPOIInside(BoundingBoxE6 boundingBox, String facility, int maxResults){
 		String url = getUrlInside(boundingBox, facility, maxResults);
@@ -148,7 +150,7 @@ public class NominatimPOIProvider {
 	 * @param facility Nominatim feature
 	 * @param maxResults
 	 * @param maxWidth to the path. Certainly not in degrees. Probably in km. 
-	 * @return list of POIs, null if technical issue. 
+	 * @return list of POIs along the path, null if technical issue.
 	 * @see org.osmdroid.bonuspack.routing.Road#getRouteLow for simplifying a route path
 	 */
 	public ArrayList<POI> getPOIAlong(ArrayList<GeoPoint> path, String facility, 

@@ -155,7 +155,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	static final String mapQuestApiKey = "Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6";
 	static final String flickrApiKey = "c39be46304a6c6efda8bc066c185cd7e";
 	static final String geonamesAccount = "mkergall";
-	
+	static final String userAgent = "OsmNavigator/1.0";
+
 	@Override public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -483,7 +484,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
      * Reverse Geocoding
      */
     public String getAddress(GeoPoint p){
-		GeocoderNominatim geocoder = new GeocoderNominatim(this);
+		GeocoderNominatim geocoder = new GeocoderNominatim(this, userAgent);
 		String theAddress;
 		try {
 			double dLatitude = p.getLatitude();
@@ -531,7 +532,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		Toast.makeText(this, "Searching:\n"+locationAddress, Toast.LENGTH_LONG).show();
 		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
-		GeocoderNominatim geocoder = new GeocoderNominatim(this);
+		GeocoderNominatim geocoder = new GeocoderNominatim(this, userAgent);
 		geocoder.setOptions(true); //ask for enclosing polygon (if any)
 		try {
 			BoundingBoxE6 viewbox = map.getBoundingBox();

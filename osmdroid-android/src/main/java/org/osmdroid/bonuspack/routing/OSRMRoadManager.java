@@ -199,13 +199,7 @@ public class OSRMRoadManager extends RoadManager {
 		String url = getUrl(waypoints);
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad:"+url);
 
-		//String jString = BonusPackHelper.requestStringFromUrl(url);
-		HttpConnection connection = new HttpConnection();
-		connection.setUserAgent(mUserAgent);
-		connection.doGet(url);
-		String jString = connection.getContentAsString();
-		connection.close();
-
+		String jString = BonusPackHelper.requestStringFromUrl(mUserAgent);
 		if (jString == null) {
 			Log.e(BonusPackHelper.LOG_TAG, "OSRMRoadManager::getRoad: request failed.");
 			return new Road(waypoints);

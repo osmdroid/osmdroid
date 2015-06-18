@@ -53,8 +53,8 @@ public class BonusPackHelper {
 				Math.min(bb1.getLatSouthE6(), bb2.getLatSouthE6()),
 				Math.min(bb1.getLonWestE6(), bb2.getLonWestE6()));
 	}
-	
-	/** 
+
+	/**
 	 * @return the whole content of the http request, as a string
 	 */
 	private static String readStream(HttpConnection connection){
@@ -62,19 +62,30 @@ public class BonusPackHelper {
 		return result;
 	}
 
-	/** sends an http request, and returns the whole content result in a String. 
+	/** sends an http request, and returns the whole content result in a String
 	 * @param url
-	 * @return the whole content, or null if any issue. 
+	 * @param userAgent
+	 * @return the whole content, or null if any issue.
 	 */
-	public static String requestStringFromUrl(String url) {
+	public static String requestStringFromUrl(String url, String userAgent) {
 		HttpConnection connection = new HttpConnection();
+		if (userAgent != null)
+			connection.setUserAgent(userAgent);
 		connection.doGet(url);
 		String result = readStream(connection);
 		connection.close();
 		return result;
 	}
 
-	/** requestStringFromPost: do a post request to a url with name-value pairs, 
+	/** sends an http request, and returns the whole content result in a String.
+	 * @param url
+	 * @return the whole content, or null if any issue. 
+	 */
+	public static String requestStringFromUrl(String url) {
+		return requestStringFromUrl(url, null);
+	}
+
+	/** requestStringFromPost: do a post request to a url with name-value pairs,
 	 * and returns the whole content result in a String. 
 	 * @param url
 	 * @param nameValuePairs
