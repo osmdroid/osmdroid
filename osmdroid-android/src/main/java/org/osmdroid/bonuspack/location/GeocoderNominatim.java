@@ -22,7 +22,10 @@ import android.util.Log;
  * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. <br>
  * @see <a href="http://wiki.openstreetmap.org/wiki/Nominatim">Nominatim Reference</a>
  * @see <a href="http://open.mapquestapi.com/nominatim/">Nominatim at MapQuest Open</a>
- * 
+ *
+ * Important: to use the public Nominatim service, you will have to define a user agent,
+ * and adhere to the <a href="http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy">Nominatim usage policy</a>.
+ *
  * @author M.Kergall
  */
 public class GeocoderNominatim {
