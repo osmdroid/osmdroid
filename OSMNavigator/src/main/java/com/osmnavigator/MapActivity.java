@@ -18,6 +18,7 @@ import org.osmdroid.bonuspack.kml.KmlFeature;
 import org.osmdroid.bonuspack.kml.KmlDocument;
 import org.osmdroid.bonuspack.kml.KmlFolder;
 import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
 import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
@@ -1198,10 +1199,25 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			root.addOverlay(mPoiMarkers, mKmlDocument);
 		}
 	}
-	
+
+	//Async task to reverse-geocode the KML point in a separate thread:
+	private class KMLGeocodingTask extends AsyncTask<Object, Void, String> {
+		KmlPlacemark kmlPoint;
+		protected String doInBackground(Object... params) {
+			kmlPoint = (KmlPlacemark)params[0];
+			return getAddress(((KmlPoint) kmlPoint.mGeometry).getPosition());
+		}
+		protected void onPostExecute(String result) {
+			kmlPoint.mName = result;
+			updateUIWithKml();
+			// marker.showInfoWindow();
+		}
+	}
+
 	void addKmlPoint(GeoPoint position){
 		KmlFeature kmlPoint = new KmlPlacemark(position);
 		mKmlDocument.mKmlRoot.add(kmlPoint);
+		new KMLGeocodingTask().execute(kmlPoint);
 		updateUIWithKml();
 	}
 	
