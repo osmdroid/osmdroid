@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string-array name="direction_icons">
+    <string-array name="direction_icons" translatable="false">
     	<!-- this list must match exactly with maneuver IDs of
     	http://open.mapquestapi.com/guidance/#maneuvertypes -->
         <item>@drawable/ic_empty</item> <!-- 0 -->
