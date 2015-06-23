@@ -5,6 +5,8 @@ import java.util.LinkedList;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
@@ -174,6 +176,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	@Override
 	public void setCenter(final IGeoPoint point) {
 		// If no layout, delay this call
+		if (mMapView.mListener != null) {
+			mMapView.mListener.onScroll(new ScrollEvent(mMapView,0,0));
+		}
 		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.setCenter(point);
 			return;
@@ -240,6 +245,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	public boolean zoomInFixing(final int xPixel, final int yPixel) {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomIn()) {
+			if (mMapView.mListener != null) {
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()+1));
+			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
@@ -270,6 +278,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	public boolean zoomOutFixing(final int xPixel, final int yPixel) {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomOut()) {
+			if (mMapView.mListener != null) {
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()-1));
+			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
