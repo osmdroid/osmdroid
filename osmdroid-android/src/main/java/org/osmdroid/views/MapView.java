@@ -1143,13 +1143,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 
-    private boolean enablefling=true;
-    public void setFlingEnabled(boolean b){
-        enablefling=b;
-    }
-    public boolean isFlingEnabled(){
-        return enablefling;
-    }
+	private boolean enableFling = true;
+	public void setFlingEnabled(final boolean b){
+		enableFling = b;
+	}
+	public boolean isFlingEnabled(){
+		return enableFling;
+	}
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
@@ -1174,10 +1174,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		@Override
-		public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX,
-				final float velocityY) {
-            if (!enablefling)
-                return false;
+		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
+					final float velocityX, final float velocityY) {
+			if (!enableFling) {
+				return false;
+			}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {
