@@ -11,15 +11,30 @@ import android.content.Context;
  * @see MapQuestRoadManager
  * @see GoogleRoadManager
  * @see OSRMRoadManager
- * 
+ * @see GraphHopperRoadManager
+ *
  * @author M.Kergall
  */
 public abstract class RoadManager {
 	
 	protected String mOptions;
-	
+
+	/**
+	 * @param waypoints
+	 * @return the road found.
+	 * In case of error, road status is set to error, and the shape has just straight lines between waypoints.
+	 */
 	public abstract Road getRoad(ArrayList<GeoPoint> waypoints);
-	
+
+	/**
+	 * @param waypoints
+	 * @return the list of roads found.
+	 * Road at index 0 is the shortest (in time).
+	 * The array may contain more entries, for alternate routes - assuming the routing service used supports alternate routes.
+	 * In case of error, return 1 road with its status set to error, and its shape with just straight lines between waypoints.
+	 */
+	public abstract Road[] getRoads(ArrayList<GeoPoint> waypoints);
+
 	public RoadManager(){
 		mOptions = "";
 	}

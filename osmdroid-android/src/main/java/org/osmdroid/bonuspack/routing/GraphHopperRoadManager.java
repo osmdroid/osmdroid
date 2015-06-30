@@ -133,7 +133,14 @@ public class GraphHopperRoadManager extends RoadManager {
 		Log.d(BonusPackHelper.LOG_TAG, "GraphHopper.getRoad - finished");
 		return road;
 	}
-	
+
+	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
+		Road road = getRoad(waypoints);
+		Road[] roads = new Road[1];
+		roads[0] = road;
+		return roads;
+	}
+
 	protected int getManeuverCode(int direction){
 		Integer code = MANEUVERS.get(direction);
 		if (code != null)

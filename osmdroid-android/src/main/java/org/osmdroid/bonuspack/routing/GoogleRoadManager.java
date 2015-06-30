@@ -63,7 +63,7 @@ public class GoogleRoadManager extends RoadManager {
 	 */
 	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
 		String url = getUrl(waypoints);
-		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad:"+url);
+		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad:" + url);
 		Road road = null;
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
@@ -84,6 +84,13 @@ public class GoogleRoadManager extends RoadManager {
 		}
 		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad - finished");
 		return road;
+	}
+
+	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
+		Road road = getRoad(waypoints);
+		Road[] roads = new Road[1];
+		roads[0] = road;
+		return roads;
 	}
 
 	protected Road getRoadXML(InputStream is) {

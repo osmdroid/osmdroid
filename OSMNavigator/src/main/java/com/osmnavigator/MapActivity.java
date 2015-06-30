@@ -27,6 +27,7 @@ import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.OverpassAPIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
+import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.InfoWindow;
 import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
@@ -38,6 +39,7 @@ import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.GoogleRoadManager;
 import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
+import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -128,8 +130,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	protected Polygon mDestinationPolygon; //enclosing polygon of destination location
 	
-	public static Road mRoad; //made static to pass between activities
-	protected Polyline mRoadOverlay;
+	public static Road[] mRoads; //made static to pass between activities
+	protected Polyline[] mRoadOverlays;
 	protected FolderOverlay mRoadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
 	static final int OSRM=0, GRAPHHOPPER_FASTEST=1, GRAPHHOPPER_BICYCLE=2, GRAPHHOPPER_PEDESTRIAN=3, GOOGLE_FASTEST=4;
@@ -296,7 +298,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		if (savedInstanceState != null){
 			//STATIC mRoad = savedInstanceState.getParcelable("road");
-			updateUIWithRoad(mRoad);
+			updateUIWithRoad(mRoads);
 		}
 		
 		//POIs:
@@ -395,7 +397,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case ROUTE_REQUEST : 
 			if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
-				map.getController().setCenter(mRoad.mNodes.get(nodeId).mLocation);
+				map.getController().setCenter(mRoads[0].mNodes.get(nodeId).mLocation);
 				Marker roadMarker = (Marker)mRoadNodeMarkers.getItems().get(nodeId);
 				roadMarker.showInfoWindow();
 			}
@@ -428,7 +430,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			break;
 		}
 	}
-	
+
 	/* String getBestProvider(){
 		String bestProvider = null;
 		//bestProvider = locationManager.getBestProvider(new Criteria(), true); // => returns "Network Provider"! 
@@ -661,8 +663,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	public void addViaPoint(GeoPoint p){
 		viaPoints.add(p);
-		updateItineraryMarker(null, p, viaPoints.size()-1,
-			R.string.viapoint, R.drawable.marker_via, -1, null);
+		updateItineraryMarker(null, p, viaPoints.size() - 1,
+				R.string.viapoint, R.drawable.marker_via, -1, null);
 	}
     
 	public void removePoint(int index){
@@ -735,42 +737,59 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     	iconIds.recycle();
 	}
 
-	void updateUIWithRoad(Road road){
+	void selectRoad(int roadIndex){
+		putRoadNodes(mRoads[roadIndex]);
+		//Set route info in the text view:
+		TextView textView = (TextView)findViewById(R.id.routeInfo);
+		textView.setText(mRoads[roadIndex].getLengthDurationText(-1));
+		for (int i=0; i<mRoadOverlays.length; i++){
+			Paint p = mRoadOverlays[i].getPaint();
+			if (i == roadIndex)
+				p.setColor(0x800000FF); //blue
+			else
+				p.setColor(0x90666666); //grey
+		}
+		map.invalidate();
+	}
+
+	void updateUIWithRoad(Road[] roads){
 		mRoadNodeMarkers.getItems().clear();
 		TextView textView = (TextView)findViewById(R.id.routeInfo);
 		textView.setText("");
 		List<Overlay> mapOverlays = map.getOverlays();
-		if (mRoadOverlay != null){
-			mapOverlays.remove(mRoadOverlay);
-			mRoadOverlay = null;
+		if (mRoadOverlays != null){
+			for (int i=0; i<mRoadOverlays.length; i++)
+				mapOverlays.remove(mRoadOverlays[i]);
+			mRoadOverlays = null;
 		}
-		if (road == null)
+		if (roads == null)
 			return;
-		if (road.mStatus == Road.STATUS_TECHNICAL_ISSUE)
+		if (roads[0].mStatus == Road.STATUS_TECHNICAL_ISSUE)
 			Toast.makeText(map.getContext(), "Technical issue when getting the route", Toast.LENGTH_SHORT).show();
-		else if (road.mStatus > Road.STATUS_TECHNICAL_ISSUE) //functional issues
+		else if (roads[0].mStatus > Road.STATUS_TECHNICAL_ISSUE) //functional issues
 			Toast.makeText(map.getContext(), "No possible route here", Toast.LENGTH_SHORT).show();
-		mRoadOverlay = RoadManager.buildRoadOverlay(road, map.getContext());
-		if (mWhichRouteProvider == GRAPHHOPPER_BICYCLE || mWhichRouteProvider == GRAPHHOPPER_PEDESTRIAN){
-			Paint p = mRoadOverlay.getPaint();
-			p.setPathEffect(new DashPathEffect(new float[] {10,5}, 0));
-		}
-		String routeDesc = road.getLengthDurationText(-1);
-		mRoadOverlay.setTitle(getString(R.string.route) + " - " + routeDesc);
-		mapOverlays.add(1, mRoadOverlay);
+		mRoadOverlays = new Polyline[roads.length];
+		for (int i=0; i<roads.length; i++) {
+			mRoadOverlays[i] = RoadManager.buildRoadOverlay(roads[i], map.getContext());
+			if (mWhichRouteProvider == GRAPHHOPPER_BICYCLE || mWhichRouteProvider == GRAPHHOPPER_PEDESTRIAN) {
+				Paint p = mRoadOverlays[i].getPaint();
+				p.setPathEffect(new DashPathEffect(new float[]{10, 5}, 0));
+			}
+			String routeDesc = roads[i].getLengthDurationText(-1);
+			mRoadOverlays[i].setTitle(getString(R.string.route) + " - " + routeDesc);
+			mRoadOverlays[i].setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
+			mapOverlays.add(1, mRoadOverlays[i]);
 			//we insert the road overlay at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
-		putRoadNodes(road);
-		map.invalidate();
-		//Set route info in the text view:
-		textView.setText(routeDesc);
+		}
+		selectRoad(0);
     }
     
 	/**
 	 * Async task to get the road in a separate thread. 
 	 */
-	private class UpdateRoadTask extends AsyncTask<Object, Void, Road> {
-		protected Road doInBackground(Object... params) {
+	private class UpdateRoadTask extends AsyncTask<Object, Void, Road[]> {
+		protected Road[] doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
 			RoadManager roadManager;
@@ -800,21 +819,21 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			case GOOGLE_FASTEST:
 				roadManager = new GoogleRoadManager();
 				break;
-			default:
+				default:
 				return null;
 			}
-			return roadManager.getRoad(waypoints);
+			return roadManager.getRoads(waypoints);
 		}
 
-		protected void onPostExecute(Road result) {
-			mRoad = result;
+		protected void onPostExecute(Road[] result) {
+			mRoads = result;
 			updateUIWithRoad(result);
 			getPOIAsync(poiTagText.getText().toString());
 		}
 	}
 	
 	public void getRoadAsync(){
-		mRoad = null;
+		mRoads = null;
 		GeoPoint roadStartPoint = null;
 		if (startPoint != null){
 			roadStartPoint = startPoint;
@@ -823,7 +842,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			roadStartPoint = myLocationOverlay.getLocation();
 		}
 		if (roadStartPoint == null || destinationPoint == null){
-			updateUIWithRoad(mRoad);
+			updateUIWithRoad(mRoads);
 			return;
 		}
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
@@ -1191,7 +1210,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//Insert relevant overlays inside:
 		if (mItineraryMarkers.getItems().size()>0)
 			root.addOverlay(mItineraryMarkers, mKmlDocument);
-		root.addOverlay(mRoadOverlay, mKmlDocument);
+		for (int i=0; i<mRoadOverlays.length; i++)
+			root.addOverlay(mRoadOverlays[i], mKmlDocument);
 		if (mRoadNodeMarkers.getItems().size()>0)
 			root.addOverlay(mRoadNodeMarkers, mKmlDocument);
 		root.addOverlay(mDestinationPolygon, mKmlDocument);
@@ -1309,7 +1329,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	@Override public boolean onPrepareOptionsMenu(Menu menu) {
-		if (mRoad != null && mRoad.mNodes.size()>0)
+		if (mRoads != null && mRoads[0].mNodes.size()>0)
 			menu.findItem(R.id.menu_itinerary).setEnabled(true);
 		else
 			menu.findItem(R.id.menu_itinerary).setEnabled(false);

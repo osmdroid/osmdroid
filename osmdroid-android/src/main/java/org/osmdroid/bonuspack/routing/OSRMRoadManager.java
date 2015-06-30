@@ -184,37 +184,19 @@ public class OSRMRoadManager extends RoadManager {
 		mUserAgent = userAgent;
 	}
 	
-	protected String getUrl(ArrayList<GeoPoint> waypoints){
+	protected String getUrl(ArrayList<GeoPoint> waypoints, boolean getAlternate){
 		StringBuffer urlString = new StringBuffer(mServiceUrl);
 		for (int i=0; i<waypoints.size(); i++){
 			GeoPoint p = waypoints.get(i);
 			urlString.append("&loc="+geoPointAsString(p));
 		}
-		urlString.append("&instructions=true&alt=false");
+		urlString.append("&instructions=true&alt="+(getAlternate?"true":"false"));
 		urlString.append(mOptions);
 		return urlString.toString();
 	}
 
-	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
-		String url = getUrl(waypoints);
-		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad:"+url);
-
-		String jString = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
-		if (jString == null) {
-			Log.e(BonusPackHelper.LOG_TAG, "OSRMRoadManager::getRoad: request failed.");
-			return new Road(waypoints);
-		}
-		Locale l = Locale.getDefault();
-		HashMap<String, String> directions = (HashMap<String, String>)DIRECTIONS.get(l.getLanguage());
-		if (directions == null)
-			directions = (HashMap<String, String>)DIRECTIONS.get("en");
-		Road road = new Road();
+	protected void getInstructions(Road road, JSONArray jInstructions, HashMap<String, String> directions){
 		try {
-			JSONObject jObject = new JSONObject(jString);
-			road.mStatus = jObject.getInt("status");
-			String route_geometry = jObject.getString("route_geometry");
-			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
-			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
 			int n = jInstructions.length();
 			RoadNode lastNode = null;
 			for (int i=0; i<n; i++){
@@ -238,9 +220,70 @@ public class OSRMRoadManager extends RoadManager {
 					lastNode = node;
 				}
 			}
+		} catch (JSONException e) {
+			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
+			e.printStackTrace();
+		}
+	}
+
+	protected void getAlternateRoad(Road road, int altRoadIndex, JSONObject jObject, HashMap<String, String> directions){
+		try {
+			JSONArray alternative_geometries = jObject.getJSONArray("alternative_geometries");
+			String route_geometry = alternative_geometries.getString(altRoadIndex);
+			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
+			JSONArray jInstructions = jObject.getJSONArray("alternative_instructions");
+			getInstructions(road, jInstructions.getJSONArray(altRoadIndex), directions);
+			JSONArray jSummaries = jObject.getJSONArray("alternative_summaries");
+			JSONObject jSummary = jSummaries.getJSONObject(altRoadIndex);
+			road.mLength = jSummary.getInt("total_distance")/1000.0;
+			road.mDuration = jSummary.getInt("total_time");
+		} catch (JSONException e) {
+			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
+			e.printStackTrace();
+		}
+	}
+
+	protected Road[] getRoads(ArrayList<GeoPoint> waypoints, boolean getAlternate) {
+		String url = getUrl(waypoints, getAlternate);
+		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoads:"+url);
+
+		String jString = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
+		if (jString == null) {
+			Log.e(BonusPackHelper.LOG_TAG, "OSRMRoadManager::getRoad: request failed.");
+			Road[] roads = new Road[1];
+			roads[0] = new Road(waypoints);
+			return roads;
+		}
+		Locale l = Locale.getDefault();
+		HashMap<String, String> directions = (HashMap<String, String>)DIRECTIONS.get(l.getLanguage());
+		if (directions == null)
+			directions = (HashMap<String, String>)DIRECTIONS.get("en");
+		Road roads[] = new Road[0];
+		Road road = new Road();
+		try {
+			JSONObject jObject = new JSONObject(jString);
+			road.mStatus = jObject.getInt("status");
+			String route_geometry = jObject.getString("route_geometry");
+			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
+			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
+			getInstructions(road, jInstructions, directions);
 			JSONObject jSummary = jObject.getJSONObject("route_summary");
 			road.mLength = jSummary.getInt("total_distance")/1000.0;
 			road.mDuration = jSummary.getInt("total_time");
+			String found_alternative = jObject.getString("found_alternative");
+			if ("true".equals(found_alternative)) {
+				JSONArray alternative_geometries = jObject.getJSONArray("alternative_geometries");
+				int nbAltRoads = alternative_geometries.length();
+				roads = new Road[nbAltRoads+1];
+				roads[0] = road;
+				for (int i=0; i<nbAltRoads; i++){
+					roads[i+1] = new Road(waypoints);
+					getAlternateRoad(roads[i+1], i, jObject, directions);
+				}
+			} else {
+				roads = new Road[1];
+				roads[0] = road;
+			}
 		} catch (JSONException e) {
 			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
 			e.printStackTrace();
@@ -250,15 +293,28 @@ public class OSRMRoadManager extends RoadManager {
 			int status = road.mStatus;
 			road = new Road(waypoints);
 			road.mStatus = status;
+			roads = new Road[1];
+			roads[0] = road;
 		} else {
-			road.buildLegs(waypoints);
-			road.mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
-			road.mStatus = Road.STATUS_OK;
+			for (int i = 0; i < roads.length; i++){
+				roads[i].buildLegs(waypoints);
+				roads[i].mBoundingBox = BoundingBoxE6.fromGeoPoints(road.mRouteHigh);
+				roads[i].mStatus = Road.STATUS_OK;
+			}
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoad - finished");
-		return road;
+		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoads - finished");
+		return roads;
 	}
-	
+
+	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
+		return getRoads(waypoints, true);
+	}
+
+	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
+		Road[] roads = getRoads(waypoints, false);
+		return roads[0];
+	}
+
 	protected int getManeuverCode(String direction){
 		Integer code = MANEUVERS.get(direction);
 		if (code != null)

@@ -91,7 +91,14 @@ public class MapQuestRoadManager extends RoadManager {
 		return road;
 	}
 
-	/** 
+	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
+		Road road = getRoad(waypoints);
+		Road[] roads = new Road[1];
+		roads[0] = road;
+		return roads;
+	}
+
+	/**
 	 * XML implementation
 	 * @param is: input stream to parse
 	 * @return the road
