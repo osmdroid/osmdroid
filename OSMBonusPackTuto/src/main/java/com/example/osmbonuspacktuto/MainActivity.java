@@ -50,6 +50,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,6 +69,11 @@ public class MainActivity extends Activity implements MapEventsReceiver {
 	KmlDocument mKmlDocument;
 	
 	@Override protected void onCreate(Bundle savedInstanceState) {
+
+		//Disable StrictMode.ThreadPolicy to perform network calls in the UI thread.
+		//Yes, it's not the good practice, but this is just a tutorial!
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 
 		//Introduction
 		super.onCreate(savedInstanceState);

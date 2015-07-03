@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 4
+    compileSdkVersion 15
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.example.osmbonuspacktuto"
-        minSdkVersion 4
-        targetSdkVersion 4
+        minSdkVersion 10
+        targetSdkVersion 15
         versionCode 1
         versionName "1.0"
     }
