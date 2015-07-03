@@ -23,7 +23,6 @@ import org.osmdroid.bonuspack.kml.Style;
 import org.osmdroid.bonuspack.location.FlickrPOIProvider;
 import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
 import org.osmdroid.bonuspack.location.GeocoderNominatim;
-import org.osmdroid.bonuspack.location.NominatimPOIProvider;
 import org.osmdroid.bonuspack.location.OverpassAPIProvider;
 import org.osmdroid.bonuspack.location.POI;
 import org.osmdroid.bonuspack.location.PicasaPOIProvider;
@@ -39,7 +38,6 @@ import org.osmdroid.bonuspack.overlays.Polygon;
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.bonuspack.routing.GoogleRoadManager;
 import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
-import org.osmdroid.bonuspack.routing.MapQuestRoadManager;
 import org.osmdroid.bonuspack.routing.OSRMRoadManager;
 import org.osmdroid.bonuspack.routing.Road;
 import org.osmdroid.bonuspack.routing.RoadManager;
@@ -515,8 +513,58 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			return "";
 		}
     }
-    
-    /**
+
+	private class GeocodingTask extends AsyncTask<Object, Void, List<Address>> {
+		int mIndex;
+		protected List<Address> doInBackground(Object... params) {
+			String locationAddress = (String)params[0];
+			mIndex = (Integer)params[1];
+			GeocoderNominatim geocoder = new GeocoderNominatim(getApplicationContext(), userAgent);
+			geocoder.setOptions(true); //ask for enclosing polygon (if any)
+			try {
+				BoundingBoxE6 viewbox = map.getBoundingBox();
+				List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1,
+						viewbox.getLatSouthE6()*1E-6, viewbox.getLonEastE6()*1E-6,
+						viewbox.getLatNorthE6()*1E-6, viewbox.getLonWestE6()*1E-6, false);
+				return foundAdresses;
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		protected void onPostExecute(List<Address> foundAdresses) {
+			if (foundAdresses == null) {
+				Toast.makeText(getApplicationContext(), "Geocoding error", Toast.LENGTH_SHORT).show();
+			} else if (foundAdresses.size() == 0) { //if no address found, display an error
+				Toast.makeText(getApplicationContext(), "Address not found.", Toast.LENGTH_SHORT).show();
+			} else {
+				Address address = foundAdresses.get(0); //get first address
+				String addressDisplayName = address.getExtras().getString("display_name");
+				if (mIndex == START_INDEX){
+					startPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
+					markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
+							R.string.departure, R.drawable.marker_departure, -1, addressDisplayName);
+					map.getController().setCenter(startPoint);
+				} else if (mIndex == DEST_INDEX){
+					destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
+					markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
+							R.string.destination, R.drawable.marker_destination, -1, addressDisplayName);
+					map.getController().setCenter(destinationPoint);
+				}
+				getRoadAsync();
+				//get and display enclosing polygon:
+				Bundle extras = address.getExtras();
+				if (extras != null && extras.containsKey("polygonpoints")){
+					ArrayList<GeoPoint> polygon = extras.getParcelableArrayList("polygonpoints");
+					//Log.d("DEBUG", "polygon:"+polygon.size());
+					updateUIWithPolygon(polygon, addressDisplayName);
+				} else {
+					updateUIWithPolygon(null, "");
+				}
+			}
+		}
+	}
+
+	/**
      * Geocoding of the departure or destination address
      */
 	public void handleSearchButton(int index, int editResId){
@@ -535,43 +583,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		Toast.makeText(this, "Searching:\n"+locationAddress, Toast.LENGTH_LONG).show();
 		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
-		GeocoderNominatim geocoder = new GeocoderNominatim(this, userAgent);
-		geocoder.setOptions(true); //ask for enclosing polygon (if any)
-		try {
-			BoundingBoxE6 viewbox = map.getBoundingBox();
-			List<Address> foundAdresses = geocoder.getFromLocationName(locationAddress, 1, 
-					viewbox.getLatSouthE6()*1E-6, viewbox.getLonEastE6()*1E-6, 
-					viewbox.getLatNorthE6()*1E-6, viewbox.getLonWestE6()*1E-6, false);
-			if (foundAdresses.size() == 0) { //if no address found, display an error
-				Toast.makeText(this, "Address not found.", Toast.LENGTH_SHORT).show();
-			} else {
-				Address address = foundAdresses.get(0); //get first address
-				String addressDisplayName = address.getExtras().getString("display_name");
-				if (index == START_INDEX){
-					startPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
-					markerStart = updateItineraryMarker(markerStart, startPoint, START_INDEX,
-						R.string.departure, R.drawable.marker_departure, -1, addressDisplayName);
-					map.getController().setCenter(startPoint);
-				} else if (index == DEST_INDEX){
-					destinationPoint = new GeoPoint(address.getLatitude(), address.getLongitude());
-					markerDestination = updateItineraryMarker(markerDestination, destinationPoint, DEST_INDEX,
-						R.string.destination, R.drawable.marker_destination, -1, addressDisplayName);
-					map.getController().setCenter(destinationPoint);
-				}
-				getRoadAsync();
-				//get and display enclosing polygon:
-				Bundle extras = address.getExtras();
-				if (extras != null && extras.containsKey("polygonpoints")){
-					ArrayList<GeoPoint> polygon = extras.getParcelableArrayList("polygonpoints");
-					//Log.d("DEBUG", "polygon:"+polygon.size());
-					updateUIWithPolygon(polygon, addressDisplayName);
-				} else {
-					updateUIWithPolygon(null, "");
-				}
-			}
-		} catch (Exception e) {
-			Toast.makeText(this, "Geocoding error", Toast.LENGTH_SHORT).show();
-		}
+		new GeocodingTask().execute(locationAddress, index);
+
 	}
 	
 	//add or replace the polygon overlay
@@ -597,9 +610,9 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		setViewOn(bb);
 		map.invalidate();
 	}
-	
+
 	//Async task to reverse-geocode the marker position in a separate thread:
-	private class GeocodingTask extends AsyncTask<Object, Void, String> {
+	private class ReverseGeocodingTask extends AsyncTask<Object, Void, String> {
 		Marker marker;
 		protected String doInBackground(Object... params) {
 			marker = (Marker)params[0];
@@ -624,7 +637,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			else 
 				viaPoints.set(index, marker.getPosition());
 			//update location:
-			new GeocodingTask().execute(marker);
+			new ReverseGeocodingTask().execute(marker);
 			//update route:
 			getRoadAsync();
 		}
@@ -657,7 +670,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			marker.setSnippet(address);
 		else
 			//Start geocoding task to get the address and update the Marker description:
-			new GeocodingTask().execute(marker);
+			new ReverseGeocodingTask().execute(marker);
 		return marker;
 	}
 
