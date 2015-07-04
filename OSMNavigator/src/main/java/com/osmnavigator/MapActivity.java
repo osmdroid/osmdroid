@@ -296,7 +296,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		
 		if (savedInstanceState != null){
 			//STATIC mRoad = savedInstanceState.getParcelable("road");
-			updateUIWithRoad(mRoads);
+			updateUIWithRoads(mRoads);
 		}
 		
 		//POIs:
@@ -584,7 +584,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		Toast.makeText(this, "Searching:\n"+locationAddress, Toast.LENGTH_LONG).show();
 		AutoCompleteOnPreferences.storePreference(this, locationAddress, SHARED_PREFS_APPKEY, PREF_LOCATIONS_KEY);
 		new GeocodingTask().execute(locationAddress, index);
-
 	}
 	
 	//add or replace the polygon overlay
@@ -765,7 +764,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.invalidate();
 	}
 
-	void updateUIWithRoad(Road[] roads){
+	void updateUIWithRoads(Road[] roads){
 		mRoadNodeMarkers.getItems().clear();
 		TextView textView = (TextView)findViewById(R.id.routeInfo);
 		textView.setText("");
@@ -840,7 +839,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 		protected void onPostExecute(Road[] result) {
 			mRoads = result;
-			updateUIWithRoad(result);
+			updateUIWithRoads(result);
 			getPOIAsync(poiTagText.getText().toString());
 		}
 	}
@@ -855,7 +854,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			roadStartPoint = myLocationOverlay.getLocation();
 		}
 		if (roadStartPoint == null || destinationPoint == null){
-			updateUIWithRoad(mRoads);
+			updateUIWithRoads(mRoads);
 			return;
 		}
 		ArrayList<GeoPoint> waypoints = new ArrayList<GeoPoint>(2);
@@ -1223,8 +1222,10 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//Insert relevant overlays inside:
 		if (mItineraryMarkers.getItems().size()>0)
 			root.addOverlay(mItineraryMarkers, mKmlDocument);
-		for (int i=0; i<mRoadOverlays.length; i++)
-			root.addOverlay(mRoadOverlays[i], mKmlDocument);
+		if (mRoadOverlays != null){
+			for (int i=0; i<mRoadOverlays.length; i++)
+				root.addOverlay(mRoadOverlays[i], mKmlDocument);
+		}
 		if (mRoadNodeMarkers.getItems().size()>0)
 			root.addOverlay(mRoadNodeMarkers, mKmlDocument);
 		root.addOverlay(mDestinationPolygon, mKmlDocument);
