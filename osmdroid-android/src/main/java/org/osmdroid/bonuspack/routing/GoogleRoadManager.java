@@ -32,7 +32,7 @@ public class GoogleRoadManager extends RoadManager {
 	/**
 	 * Build the URL to Google Directions service returning a route in XML format
 	 */
-	protected String getUrl(ArrayList<GeoPoint> waypoints) {
+	protected String getUrl(ArrayList<GeoPoint> waypoints, boolean getAlternates) {
 		StringBuffer urlString = new StringBuffer(GOOGLE_DIRECTIONS_SERVICE);
 		urlString.append("origin=");
 		GeoPoint p = waypoints.get(0);
@@ -50,7 +50,8 @@ public class GoogleRoadManager extends RoadManager {
 			p = waypoints.get(i);
 			urlString.append(geoPointAsString(p));
 		}
-		urlString.append("&units=metric&sensor=false");
+		urlString.append("&alternatives="+(getAlternates?"true":"false"));
+		urlString.append("&units=metric");
 		Locale locale = Locale.getDefault();
 		urlString.append("&language="+locale.getLanguage());
 		urlString.append(mOptions);
@@ -59,41 +60,48 @@ public class GoogleRoadManager extends RoadManager {
 	
 	/** 
 	 * @param waypoints list of GeoPoints. Must have at least 2 entries, start and end points. 
-	 * @return the road
+	 * @return the roads
 	 */
-	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
-		String url = getUrl(waypoints);
-		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad:" + url);
-		Road road = null;
+	protected Road[] getRoads(ArrayList<GeoPoint> waypoints, boolean getAlternate) {
+		String url = getUrl(waypoints, getAlternate);
+		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoads:" + url);
+		Road[] roads = null;
 		HttpConnection connection = new HttpConnection();
 		connection.doGet(url);
 		InputStream stream = connection.getStream();
 		if (stream != null)
-				road = getRoadXML(stream);
+			roads = getRoadsXML(stream);
 		connection.close();
-		if (road == null || road.mRouteHigh.size()==0){
+		if (roads == null || roads.length==0){
 			//Create default road:
-			road = new Road(waypoints);
+			roads = new Road[1];
+			roads[0] = new Road(waypoints);
 		} else {
-			//finalize road data update:
-			for (RoadLeg leg : road.mLegs){
-				road.mDuration += leg.mDuration;
-				road.mLength += leg.mLength;
+			for (int i=0; i<roads.length; i++){
+				Road road = roads[i];
+				//finalize road data update:
+				for (RoadLeg leg : road.mLegs){
+					road.mDuration += leg.mDuration;
+					road.mLength += leg.mLength;
+				}
+				road.mStatus = Road.STATUS_OK;
 			}
-			road.mStatus = Road.STATUS_OK;
 		}
-		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoad - finished");
-		return road;
-	}
-
-	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
-		Road road = getRoad(waypoints);
-		Road[] roads = new Road[1];
-		roads[0] = road;
+		Log.d(BonusPackHelper.LOG_TAG, "GoogleRoadManager.getRoads - finished");
 		return roads;
 	}
 
-	protected Road getRoadXML(InputStream is) {
+	@Override public Road[] getRoads(ArrayList<GeoPoint> waypoints) {
+		Road[] roads = getRoads(waypoints, true);
+		return roads;
+	}
+
+	@Override public Road getRoad(ArrayList<GeoPoint> waypoints) {
+		Road[] roads = getRoads(waypoints, false);
+		return roads[0];
+	}
+
+	protected Road[] getRoadsXML(InputStream is) {
 		GoogleDirectionsHandler handler = new GoogleDirectionsHandler();
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
@@ -105,13 +113,17 @@ public class GoogleRoadManager extends RoadManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return handler.mRoad;
+		Road[] roads = new Road[handler.mRoads.size()];
+		for (int i=0; i<roads.length; i++)
+			roads[i] = handler.mRoads.get(i);
+		return roads;
 	}
 
 }
 
 class GoogleDirectionsHandler extends DefaultHandler {
-	Road mRoad;
+	ArrayList<Road> mRoads;
+	Road mCurrentRoad;
 	RoadLeg mLeg;
 	RoadNode mNode;
 	boolean isPolyline, isOverviewPolyline, isLeg, isStep, isDuration, isDistance, isBB;
@@ -122,12 +134,15 @@ class GoogleDirectionsHandler extends DefaultHandler {
 	
 	public GoogleDirectionsHandler() {
 		isOverviewPolyline = isBB = isPolyline = isLeg = isStep = isDuration = isDistance = false;
-		mRoad = new Road();
+		mRoads = new ArrayList<Road>();
 	}
 
 	public void startElement(String uri, String localName, String name,
 			Attributes attributes) throws SAXException {
-		if (localName.equals("polyline")) {
+		if (localName.equals("route")) {
+			mCurrentRoad = new Road();
+			mRoads.add(mCurrentRoad);
+		} else if (localName.equals("polyline")) {
 			isPolyline = true;
 		} else if (localName.equals("overview_polyline")) {
 			isOverviewPolyline = true;
@@ -161,10 +176,10 @@ class GoogleDirectionsHandler extends DefaultHandler {
 			if (isPolyline) {
 				//detailed piece of road for the step, to add:
 				ArrayList<GeoPoint> polyLine = PolylineEncoder.decode(mStringBuilder.toString(), 10, false);
-				mRoad.mRouteHigh.addAll(polyLine);
+				mCurrentRoad.mRouteHigh.addAll(polyLine);
 			} else if (isOverviewPolyline){
 				//low-def polyline for the whole road:
-				mRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10, false));
+				mCurrentRoad.setRouteLow(PolylineEncoder.decode(mStringBuilder.toString(), 10, false));
 			}
 		} else if (localName.equals("polyline")) {
 			isPolyline = false;
@@ -196,10 +211,10 @@ class GoogleDirectionsHandler extends DefaultHandler {
 			if (isStep)
 				mNode.mLocation = new GeoPoint(mLat, mLng);
 		} else if (localName.equals("step")) {
-			mRoad.mNodes.add(mNode);
+			mCurrentRoad.mNodes.add(mNode);
 			isStep = false;
 		} else if (localName.equals("leg")) {
-			mRoad.mLegs.add(mLeg);
+			mCurrentRoad.mLegs.add(mLeg);
 			isLeg = false;
 		} else if (localName.equals("lat")) {
 				mLat = Double.parseDouble(mStringBuilder.toString());
@@ -216,7 +231,7 @@ class GoogleDirectionsHandler extends DefaultHandler {
 				mWest = mLng;
 			}
 		} else if (localName.equals("bounds")){
-			mRoad.mBoundingBox = new BoundingBoxE6(mNorth, mEast, mSouth, mWest);
+			mCurrentRoad.mBoundingBox = new BoundingBoxE6(mNorth, mEast, mSouth, mWest);
 			isBB = false;
 		}
 	}
