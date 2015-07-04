@@ -347,7 +347,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Intent onCreateIntent = getIntent();
 			if (onCreateIntent.getAction().equals(Intent.ACTION_VIEW)){
 				String uri = onCreateIntent.getDataString();
-				openFile(uri, true);
+				openFile(uri, true, false);
 			}
 		}
 	}
@@ -1032,7 +1032,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		mDialogForOpen = open;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getString(R.string.file_kml_open));
-		builder.setMessage(""+mKmlDocument.getDefaultPathForAndroid(""));
+		builder.setMessage("" + mKmlDocument.getDefaultPathForAndroid(""));
 		final EditText input = new EditText(this);
 		input.setInputType(InputType.TYPE_CLASS_TEXT);
 		String localFileName = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("KML_LOCAL_FILE", "current.kml");
@@ -1046,7 +1046,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				dialog.cancel();
 				if (mDialogForOpen){
 					File file = mKmlDocument.getDefaultPathForAndroid(localFileName);
-					openFile("file:/"+file.toString(), false);
+					openFile("file:/"+file.toString(), false, false);
 				} else 
 					saveFile(localFileName);
 			}
@@ -1074,7 +1074,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 				prefs.edit().putString("KML_URI", uri).commit();
 				dialog.cancel();
-				openFile(uri, false);
+				openFile(uri, false, false);
 			}
 		});
 		builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -1093,23 +1093,31 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		String query = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE).getString("OVERPASS_QUERY", "amenity=cinema");
 		input.setText(query);
 		builder.setView(input);
-		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() { 
-			@Override public void onClick(DialogInterface dialog, int which) {
+		builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
 				String query = input.getText().toString();
 				SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 				prefs.edit().putString("OVERPASS_QUERY", query).commit();
 				dialog.cancel();
-				getKMLFromOverpass(query);
+				openFile(query, false, true);
 			}
 		});
 		builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-			@Override public void onClick(DialogInterface dialog, int which) {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
 				dialog.cancel();
 			}
 		});
 		builder.show();
 	}
-	
+
+	boolean getKMLFromOverpass(String query){
+		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
+		String oUrl = overpassProvider.urlForTagSearchKml(query, map.getBoundingBox(), 500, 30);
+		return overpassProvider.addInKmlFolder(mKmlDocument.mKmlRoot, oUrl);
+	}
+
 	ProgressDialog createSpinningDialog(String title){
 		ProgressDialog pd = new ProgressDialog(map.getContext());
 		pd.setTitle(title);
@@ -1135,9 +1143,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		@Override protected Boolean doInBackground(Object... params) {
 			mUri = (String)params[0];
 			mOnCreate = (Boolean)params[1];
+			boolean isOverpassRequest = (Boolean)params[2];
 			mKmlDocument = new KmlDocument();
 			boolean ok = false;
-			if (mUri.startsWith("file:/")){
+			if (isOverpassRequest){
+				//mUri contains the query
+				ok = getKMLFromOverpass(mUri);
+			} else if (mUri.startsWith("file:/")){
 				mUri = mUri.substring("file:/".length());
 				File file = new File(mUri);
 				if (mUri.endsWith(".json"))
@@ -1162,16 +1174,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				if (bb != null){
 					if (!mOnCreate)
 						setViewOn(bb);
-					else  //KO in onCreate - Workaround:
+					else  //KO in onCreate (osmdroid bug) - Workaround:
 						map.getController().setCenter(bb.getCenter());
 				}
 			}
 		}
 	}
 	
-	void openFile(String uri, boolean onCreate){
+	void openFile(String uri, boolean onCreate, boolean isOverpassRequest){
 		//Toast.makeText(this, "Loading "+uri, Toast.LENGTH_SHORT).show();
-		new KmlLoadingTask(getString(R.string.loading)+" "+uri).execute(uri, onCreate);
+		new KmlLoadingTask(getString(R.string.loading)+" "+uri).execute(uri, onCreate, isOverpassRequest);
 	}
 	
 	/** save fileName locally, as KML or GeoJSON depending on the extension */
@@ -1186,18 +1198,6 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
 		else 
 			Toast.makeText(this, "Unable to save "+fileName, Toast.LENGTH_SHORT).show();
-	}
-	
-	void getKMLFromOverpass(String query){
-		OverpassAPIProvider overpassProvider = new OverpassAPIProvider();
-		String oUrl = overpassProvider.urlForTagSearchKml(query, map.getBoundingBox(), 500, 30);
-		boolean result = overpassProvider.addInKmlFolder(mKmlDocument.mKmlRoot, oUrl);
-		if (!result)
-			Toast.makeText(this, "Query failed: "+query, Toast.LENGTH_SHORT).show();
-		else {
-			updateUIWithKml();
-			setViewOn(mKmlDocument.mKmlRoot.getBoundingBox());
-		}
 	}
 	
 	Style buildDefaultStyle(){
