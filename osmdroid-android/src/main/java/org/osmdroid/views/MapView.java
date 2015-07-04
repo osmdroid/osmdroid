@@ -289,6 +289,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	void setMapCenter(final IGeoPoint aCenter) {
 		getController().animateTo(aCenter);
+        if (mListener!=null)
+            mListener.onScroll(new ScrollEvent(this,0,0));
 	}
 
 	/**
@@ -494,6 +496,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	boolean zoomInFixing(final int xPixel, final int yPixel) {
+        if (mListener!=null)
+            mListener.onZoom(new ZoomEvent(this, getZoomLevel()+1));
 		return getController().zoomInFixing(xPixel, yPixel);
 	}
 
@@ -1142,7 +1146,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return tileSource;
 	}
 
-
     private boolean enablefling=true;
     public void setFlingEnabled(boolean b){
         enablefling=b;
@@ -1267,6 +1270,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			} else {
 				getController().zoomOut();
 			}
+            if (mListener!=null)
+                mListener.onZoom(new ZoomEvent(MapView.this, getZoomLevel()+(zoomIn ? 1 : -1 )));
 		}
 
 		@Override

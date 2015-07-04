@@ -1,7 +1,7 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
-import microsoft.mappoint.TileSystem;
+import android.graphics.Point;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -11,7 +11,7 @@ import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
 import org.osmdroid.views.util.constants.MathConstants;
 
-import android.graphics.Point;
+import microsoft.mappoint.TileSystem;
 
 /**
  * 
@@ -82,7 +82,18 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		}
 	}
 
-	/**
+    boolean invert=false;
+    @Override
+    public boolean isInvertedTiles() {
+        return invert;
+    }
+
+    @Override
+    public void setInvertedTiles(boolean b) {
+        invert=b;
+    }
+
+    /**
 	 * Start animating the map towards the given point.
 	 */
 	@Override

@@ -1,17 +1,6 @@
 // Created by plusminus on 21:37:08 - 27.09.2008
 package org.osmdroid.views;
 
-import java.util.LinkedList;
-
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.events.ScrollEvent;
-import org.osmdroid.events.ZoomEvent;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.views.MapView.OnFirstLayoutListener;
-import org.osmdroid.views.util.MyMath;
-import org.osmdroid.views.util.constants.MapViewConstants;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -23,6 +12,17 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.views.MapView.OnFirstLayoutListener;
+import org.osmdroid.views.util.MyMath;
+import org.osmdroid.views.util.constants.MapViewConstants;
+
+import java.util.LinkedList;
 
 /**
  * 
@@ -51,6 +51,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 
 	// Keep track of calls before initial layout
 	private ReplayController mReplayController;
+
+    //inverted colors mode
+    private boolean mInvertedTiles=false;
 
 	// ===========================================================
 	// Constructors
@@ -176,8 +179,8 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	@Override
 	public void setCenter(final IGeoPoint point) {
 		// If no layout, delay this call
-                if (mMapView.mListener!=null)
-                    mMapView.mListener.onScroll(new ScrollEvent(mMapView,0,0));
+        if (mMapView.mListener!=null)
+            mMapView.mListener.onScroll(new ScrollEvent(mMapView,0,0));
 		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.setCenter(point);
 			return;
@@ -244,8 +247,8 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	public boolean zoomInFixing(final int xPixel, final int yPixel) {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomIn()) {
-                        if (mMapView.mListener!=null)
-                                mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()+1));
+            if (mMapView.mListener!=null)
+                mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()+1));
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
@@ -274,10 +277,11 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 
 	@Override
 	public boolean zoomOutFixing(final int xPixel, final int yPixel) {
+
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomOut()) {
-                        if (mMapView.mListener!=null)
-                                mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()-1));
+            if (mMapView.mListener!=null)
+                mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()-1));
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
@@ -419,4 +423,27 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 			}
 		}
 	}
+
+    /**
+     * returns true if we're in image/color inverted mode, useful for night time
+     * This is an Osmdroid specific feature
+     * @return
+     * @since 4.4
+     * @author Alex
+     */
+    public boolean isInvertedTiles(){
+        return mInvertedTiles;
+    }
+
+    /**
+     * sets inverted tile mode. true = inverted colors, false = normal rendering
+     * This is an Osmdroid specific feature
+     * @param b
+     * @since 4.4
+     * @author Alex
+     */
+    public void setInvertedTiles(boolean b){
+        mInvertedTiles=b;
+        mMapView.invalidate();
+    }
 }
