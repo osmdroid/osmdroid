@@ -1,14 +1,24 @@
 // Created by plusminus on 17:45:56 - 25.09.2008
 package org.osmdroid.views;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import microsoft.mappoint.TileSystem;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.os.Build;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.OnGestureListener;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Scroller;
+import android.widget.ZoomButtonsController;
+import android.widget.ZoomButtonsController.OnZoomListener;
 
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
@@ -40,24 +50,14 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Point;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.os.Build;
-import android.os.Handler;
-import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Scroller;
-import android.widget.ZoomButtonsController;
-import android.widget.ZoomButtonsController.OnZoomListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import microsoft.mappoint.TileSystem;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -79,11 +79,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	private final OverlayManager mOverlayManager;
+	private OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
-	private final TilesOverlay mMapOverlay;
+	private TilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector;
 
@@ -117,7 +117,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
-	private final MapTileProviderBase mTileProvider;
+	protected MapTileProviderBase mTileProvider;
 	private final Handler mTileRequestCompleteHandler;
 	private boolean mTilesScaledToDpi = false;
 
@@ -1402,4 +1402,16 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 	}
 
+    public void setTileProvider(MapTileProviderBase base){
+        this.mTileProvider.detach();
+        mTileProvider.clearTileCache();
+        this.mTileProvider=base;
+        mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+        updateTileSizeForDensity(mTileProvider.getTileSource());
+
+        this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
+        mOverlayManager.setTilesOverlay(mMapOverlay);
+        //mOverlayManager = new OverlayManager(mMapOverlay);
+        invalidate();
+    }
 }
