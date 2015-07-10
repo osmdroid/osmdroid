@@ -83,7 +83,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private Projection mProjection;
 
-	private final TilesOverlay mMapOverlay;
+	private TilesOverlay mMapOverlay;
 
 	private final GestureDetector mGestureDetector;
 
@@ -117,7 +117,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
-	private final MapTileProviderBase mTileProvider;
+	private MapTileProviderBase mTileProvider;
 	private final Handler mTileRequestCompleteHandler;
 	private boolean mTilesScaledToDpi = false;
 
@@ -1396,6 +1396,26 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		public LayoutParams(final ViewGroup.LayoutParams source) {
 			super(source);
 		}
+	}
+	
+	
+	/**
+	 * enables you to programmatically set the tile profile (zip, assets, sqlite, etc)
+	 * @since 4.4
+	 * @param base 
+	 * @see MapTileProviderBasic
+	 */
+	public void setTileProvider(MapTileProviderBase base){
+		this.mTileProvider.detach();
+		mTileProvider.clearTileCache();
+		this.mTileProvider=base;
+		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
+		updateTileSizeForDensity(mTileProvider.getTileSource());
+
+		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
+		
+		mOverlayManager.setTilesOverlay(mMapOverlay);
+		invalidate();
 	}
 
 }
