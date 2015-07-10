@@ -24,7 +24,9 @@ public class DatabaseFileArchive implements IArchiveFile {
 	}
 
 	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
-		return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
+		//return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
+		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
+
 	}
 
 	@Override
