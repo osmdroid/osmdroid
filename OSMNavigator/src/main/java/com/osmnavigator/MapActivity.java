@@ -128,7 +128,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 
 	protected Polygon mDestinationPolygon; //enclosing polygon of destination location
 	
-	public static Road[] mRoads; //made static to pass between activities
+	public static Road[] mRoads;  //made static to pass between activities
+	protected int mSelectedRoad;
 	protected Polyline[] mRoadOverlays;
 	protected FolderOverlay mRoadNodeMarkers;
 	protected static final int ROUTE_REQUEST = 1;
@@ -395,7 +396,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case ROUTE_REQUEST : 
 			if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
-				map.getController().setCenter(mRoads[0].mNodes.get(nodeId).mLocation);
+				map.getController().setCenter(mRoads[mSelectedRoad].mNodes.get(nodeId).mLocation);
 				Marker roadMarker = (Marker)mRoadNodeMarkers.getItems().get(nodeId);
 				roadMarker.showInfoWindow();
 			}
@@ -750,6 +751,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 
 	void selectRoad(int roadIndex){
+		mSelectedRoad = roadIndex;
 		putRoadNodes(mRoads[roadIndex]);
 		//Set route info in the text view:
 		TextView textView = (TextView)findViewById(R.id.routeInfo);
@@ -763,6 +765,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		}
 		map.invalidate();
 	}
+
+	class RoadOnClickListener implements Polyline.OnClickListener{
+		@Override public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos){
+			int selectedRoad = (Integer)polyline.getRelatedObject();
+			selectRoad(selectedRoad);
+			polyline.showInfoWindow(eventPos);
+			return true;
+		}
+	};
 
 	void updateUIWithRoads(Road[] roads){
 		mRoadNodeMarkers.getItems().clear();
@@ -782,16 +793,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Toast.makeText(map.getContext(), "No possible route here", Toast.LENGTH_SHORT).show();
 		mRoadOverlays = new Polyline[roads.length];
 		for (int i=0; i<roads.length; i++) {
-			mRoadOverlays[i] = RoadManager.buildRoadOverlay(roads[i], map.getContext());
+			Polyline roadPolyline = RoadManager.buildRoadOverlay(roads[i], this);
+			mRoadOverlays[i] = roadPolyline;
 			if (mWhichRouteProvider == GRAPHHOPPER_BICYCLE || mWhichRouteProvider == GRAPHHOPPER_PEDESTRIAN) {
-				Paint p = mRoadOverlays[i].getPaint();
+				Paint p = roadPolyline.getPaint();
 				p.setPathEffect(new DashPathEffect(new float[]{10, 5}, 0));
 			}
 			String routeDesc = roads[i].getLengthDurationText(-1);
-			mRoadOverlays[i].setTitle(getString(R.string.route) + " - " + routeDesc);
-			mRoadOverlays[i].setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
-			mapOverlays.add(1, mRoadOverlays[i]);
-			//we insert the road overlay at the "bottom", just above the MapEventsOverlay,
+			roadPolyline.setTitle(getString(R.string.route) + " - " + routeDesc);
+			roadPolyline.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
+			roadPolyline.setRelatedObject(i);
+			roadPolyline.setOnClickListener(new RoadOnClickListener());
+			mapOverlays.add(1, roadPolyline);
+			//we insert the road overlays at the "bottom", just above the MapEventsOverlay,
 			//to avoid covering the other overlays. 
 		}
 		selectRoad(0);
@@ -1343,7 +1357,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	@Override public boolean onPrepareOptionsMenu(Menu menu) {
-		if (mRoads != null && mRoads[0].mNodes.size()>0)
+		if (mRoads != null && mRoads[mSelectedRoad].mNodes.size()>0)
 			menu.findItem(R.id.menu_itinerary).setEnabled(true);
 		else
 			menu.findItem(R.id.menu_itinerary).setEnabled(false);
@@ -1403,6 +1417,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		case R.id.menu_itinerary:
 			myIntent = new Intent(this, RouteActivity.class);
 			int currentNodeId = getIndexOfBubbledMarker(mRoadNodeMarkers.getItems());
+			myIntent.putExtra("SELECTED_ROAD", mSelectedRoad);
 			myIntent.putExtra("NODE_ID", currentNodeId);
 			startActivityForResult(myIntent, ROUTE_REQUEST);
 			return true;

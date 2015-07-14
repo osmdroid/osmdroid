@@ -33,7 +33,8 @@ public class RouteActivity extends Activity {
         ListView list = (ListView) findViewById(R.id.items);
 
         Intent myIntent = getIntent();
-        Road road = MapActivity.mRoads[0]; //too big to pass safely in Extras
+        final int selectedRoad = myIntent.getIntExtra("SELECTED_ROAD", 0);
+        Road road = MapActivity.mRoads[selectedRoad]; //too big to pass safely in Extras
         final int currentNodeId = myIntent.getIntExtra("NODE_ID", -1);
         RoadNodesAdapter adapter = new RoadNodesAdapter(this, road);
 
