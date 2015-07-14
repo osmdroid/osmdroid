@@ -19,7 +19,8 @@ public abstract class OverlayWithIW extends Overlay {
 	//InfoWindow handling
 	protected String mTitle, mSnippet, mSubDescription;
 	protected InfoWindow mInfoWindow;
-	
+	protected Object mRelatedObject;
+
 	public OverlayWithIW(final Context ctx) {
 		this(new DefaultResourceProxyImpl(ctx));
 	}
@@ -59,7 +60,18 @@ public abstract class OverlayWithIW extends Overlay {
 		return mSubDescription;
 	}
 
-	/** By default, OverlayWithIW has no InfoWindow. 
+	/** Allows to link an Object (any Object) to this marker.
+	 * This is particularly useful to handle custom InfoWindow. */
+	public void setRelatedObject(Object relatedObject){
+		mRelatedObject = relatedObject;
+	}
+
+	/** @return the related object. */
+	public Object getRelatedObject(){
+		return mRelatedObject;
+	}
+
+	/** By default, OverlayWithIW has no InfoWindow.
 	 * Usage: setInfoWindow(new BasicInfoWindow(layoutResId, mapView));
 	 * @param infoWindow the InfoWindow to be opened when tapping the overlay. 
 	 * This InfoWindow MUST be able to handle an OverlayWithIW (as BasicInfoWindow does). 

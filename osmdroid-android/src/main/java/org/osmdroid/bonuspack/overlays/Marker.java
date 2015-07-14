@@ -56,8 +56,7 @@ public class Marker extends OverlayWithIW {
 	/*attributes for non-standard features:*/
 	protected Drawable mImage;
 	protected boolean mPanToView;
-	protected Object mRelatedObject;
-	
+
 	/*internals*/
 	protected Point mPositionPixels;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
@@ -91,7 +90,7 @@ public class Marker extends OverlayWithIW {
 		mIcon = mDefaultIcon;
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
-			/*
+			/* pre-aar version
 			Context context = mapView.getContext();
 			String packageName = context.getPackageName();
 			int defaultLayoutResId = context.getResources().getIdentifier("bonuspack_bubble", "layout", packageName);
@@ -207,17 +206,6 @@ public class Marker extends OverlayWithIW {
 	 * Default is true. */
 	public void setPanToView(boolean panToView){
 		mPanToView = panToView;
-	}
-	
-	/** Allows to link an Object (any Object) to this marker. 
-	 * This is particularly useful to handle custom InfoWindow. */
-	public void setRelatedObject(Object relatedObject){
-		mRelatedObject = relatedObject;
-	}
-
-	/** @return the related object. */
-	public Object getRelatedObject(){
-		return mRelatedObject;
 	}
 	
 	public void showInfoWindow(){

@@ -46,7 +46,9 @@ public class Polyline extends OverlayWithIW {
 	private final Rect mLineBounds = new Rect();
 	private final Point mTempPoint1 = new Point();
 	private final Point mTempPoint2 = new Point();
-	
+
+	protected OnClickListener mOnClickListener;
+
 	public Polyline(Context ctx){
 		this(new DefaultResourceProxyImpl(ctx));
 	}
@@ -122,7 +124,11 @@ public class Polyline extends OverlayWithIW {
 	public void setVisible(boolean visible){
 		setEnabled(visible);
 	}
-	
+
+	public void setOnClickListener(OnClickListener listener){
+		mOnClickListener = listener;
+	}
+
 	protected void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
@@ -349,19 +355,38 @@ public class Polyline extends OverlayWithIW {
 		}
 		return Math.abs(dist);
 	}
-	
-	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
+
+	public void showInfoWindow(GeoPoint position){
 		if (mInfoWindow == null)
-			//no support for tap:
-			return false;
+			return;
+		mInfoWindow.open(this, position, 0, 0);
+	}
+
+	@Override public boolean onSingleTapConfirmed(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
 		GeoPoint eventPos = (GeoPoint) pj.fromPixels((int)event.getX(), (int)event.getY());
 		double tolerance = mPaint.getStrokeWidth();
-		boolean tapped = isCloseTo(eventPos, tolerance, mapView);
-		if (tapped){
-			mInfoWindow.open(this, eventPos, 0, 0);
-		}
-		return tapped;
+		boolean touched = isCloseTo(eventPos, tolerance, mapView);
+		if (touched){
+			if (mOnClickListener == null){
+				return onClickDefault(this, mapView, eventPos);
+			} else {
+				return mOnClickListener.onClick(this, mapView, eventPos);
+			}
+		} else
+			return touched;
+	}
+
+	//-- Polyline events listener interfaces ------------------------------------
+
+	public interface OnClickListener{
+		abstract boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos);
+	}
+
+	/** default behaviour when no click listener is set */
+	protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
+		polyline.showInfoWindow(eventPos);
+		return true;
 	}
 
 }
