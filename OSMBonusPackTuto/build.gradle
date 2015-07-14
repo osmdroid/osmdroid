@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.osmbonuspacktuto"
-        minSdkVersion 10
+        minSdkVersion 15
         targetSdkVersion 15
         versionCode 1
         versionName "1.0"
