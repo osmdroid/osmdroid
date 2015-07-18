@@ -8,6 +8,8 @@ package microsoft.mappoint;
  *
  */
 
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.util.GeoPoint;
 
 import android.graphics.Point;

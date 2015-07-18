@@ -2,8 +2,8 @@ package org.osmdroid.views.util;
 
 import java.util.List;
 
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
 
@@ -14,12 +14,12 @@ import android.graphics.Rect;
 
 public class PathProjection {
 
-	public static Path toPixels(Projection projection, final List<? extends GeoPoint> in,
+	public static Path toPixels(Projection projection, final List<? extends IGeoPointE6> in,
 			final Path reuse) {
 		return toPixels(projection, in, reuse, true);
 	}
 
-	public static Path toPixels(Projection projection, final List<? extends GeoPoint> in,
+	public static Path toPixels(Projection projection, final List<? extends IGeoPointE6> in,
 			final Path reuse, final boolean doGudermann) throws IllegalArgumentException {
 		if (in.size() < 2) {
 			throw new IllegalArgumentException("List of GeoPoints needs to be at least 2.");
@@ -29,7 +29,7 @@ public class PathProjection {
 		out.incReserve(in.size());
 
 		boolean first = true;
-		for (final GeoPoint gp : in) {
+		for (final IGeoPointE6 gp : in) {
 			final Point underGeopointTileCoords = TileSystem.LatLongToPixelXY(
 					gp.getLatitudeE6() / 1E6, gp.getLongitudeE6() / 1E6, projection.getZoomLevel(),
 					null);
@@ -44,9 +44,9 @@ public class PathProjection {
 			final Point lowerLeft = TileSystem.TileXYToPixelXY(underGeopointTileCoords.x
 					+ TileSystem.getTileSize(),
 					underGeopointTileCoords.y + TileSystem.getTileSize(), null);
-			final GeoPoint neGeoPoint = TileSystem.PixelXYToLatLong(upperRight.x, upperRight.y,
+			final IGeoPointE6 neGeoPoint = TileSystem.PixelXYToLatLong(upperRight.x, upperRight.y,
 					projection.getZoomLevel(), null);
-			final GeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(lowerLeft.x, lowerLeft.y,
+			final IGeoPointE6 swGeoPoint = TileSystem.PixelXYToLatLong(lowerLeft.x, lowerLeft.y,
 					projection.getZoomLevel(), null);
 			final BoundingBoxE6 bb = new BoundingBoxE6(neGeoPoint.getLatitudeE6(),
 					neGeoPoint.getLongitudeE6(), swGeoPoint.getLatitudeE6(),

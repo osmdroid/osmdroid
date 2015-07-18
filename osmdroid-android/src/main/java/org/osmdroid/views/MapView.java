@@ -17,6 +17,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.events.MapListener;
@@ -400,7 +401,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			if (DEBUGMODE) {
 				logger.debug("zoomToBoundingBox(" + boundingBox + ") executed");
 			}
-			
+
 			final BoundingBoxE6 currentBox = getBoundingBox();
 
 			// Calculated required zoom based on latitude span

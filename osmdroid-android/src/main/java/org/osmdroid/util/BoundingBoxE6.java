@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.graphics.PointF;
@@ -171,7 +172,7 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 	}
 
 	public BoundingBoxE6 increaseByScale(final float pBoundingboxPaddingRelativeScale) {
-		final GeoPoint pCenter = this.getCenter();
+		final IGeoPointE6 pCenter = this.getCenter();
 		final int mLatSpanE6Padded_2 = (int) ((this.getLatitudeSpanE6() * pBoundingboxPaddingRelativeScale) / 2);
 		final int mLonSpanE6Padded_2 = (int) ((this.getLongitudeSpanE6() * pBoundingboxPaddingRelativeScale) / 2);
 
@@ -200,12 +201,12 @@ public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants
 				Math.max(this.mLonWestE6, Math.min(this.mLonEastE6, aLongitudeE6)));
 	}
 
-	public static BoundingBoxE6 fromGeoPoints(final ArrayList<? extends GeoPoint> partialPolyLine) {
+	public static BoundingBoxE6 fromGeoPoints(final ArrayList<? extends IGeoPointE6> partialPolyLine) {
 		int minLat = Integer.MAX_VALUE;
 		int minLon = Integer.MAX_VALUE;
 		int maxLat = Integer.MIN_VALUE;
 		int maxLon = Integer.MIN_VALUE;
-		for (final GeoPoint gp : partialPolyLine) {
+		for (final IGeoPointE6 gp : partialPolyLine) {
 			final int latitudeE6 = gp.getLatitudeE6();
 			final int longitudeE6 = gp.getLongitudeE6();
 

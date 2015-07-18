@@ -2,6 +2,7 @@ package org.osmdroid.views;
 
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -134,7 +135,7 @@ public class Projection implements IProjection, MapViewConstants {
 	/**
 	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}
 	 */
-	public Point toProjectedPixels(final GeoPoint geoPoint, final Point reuse) {
+	public Point toProjectedPixels(final IGeoPointE6 geoPoint, final Point reuse) {
 		return toProjectedPixels(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
 	}
 
@@ -208,7 +209,7 @@ public class Projection implements IProjection, MapViewConstants {
 	 */
 	public float metersToPixels(final float meters) {
 		return meters
-				/ (float) TileSystem.GroundResolution(getBoundingBox().getCenter().getLatitude(),
+				/ (float) TileSystem.GroundResolution(getBoundingBox().getCenter().getLatitudeE6()  * 1E-6,
 						mZoomLevelProjection);
 	}
 
