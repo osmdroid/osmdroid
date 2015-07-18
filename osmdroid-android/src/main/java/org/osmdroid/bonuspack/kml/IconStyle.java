@@ -9,6 +9,7 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.WebImageCache;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /** Handling of KML IconStyle */
 public class IconStyle extends ColorStyle implements Parcelable {
@@ -76,6 +78,10 @@ public class IconStyle extends ColorStyle implements Parcelable {
 			return null;
 		int sizeX = Math.round(mIcon.getWidth() * mScale);
 		int sizeY = Math.round(mIcon.getHeight() * mScale);
+		if (sizeX == 0 || sizeY == 0) {
+			Log.w(BonusPackHelper.LOG_TAG, "KML icon has size=0");
+			return null;
+		}
 		Bitmap scaledBitmap = Bitmap.createScaledBitmap(mIcon, sizeX, sizeY, true);
 		BitmapDrawable marker = new BitmapDrawable(context.getResources(), scaledBitmap);
 		int color = getFinalColor();
