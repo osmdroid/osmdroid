@@ -1,5 +1,6 @@
 package org.osmdroid.api;
 
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -15,7 +16,7 @@ import android.graphics.Point;
 public interface IProjection {
 
 	/**
-	 * Converts the given {@link IGeoPoint} to onscreen pixel coordinates, relative to the top-left
+	 * Converts the given {@link IGeoPointE6} to onscreen pixel coordinates, relative to the top-left
 	 * of the {@link MapView} that provided this Projection.
 	 * 
 	 * @param in
@@ -24,13 +25,13 @@ public interface IProjection {
 	 *            A pre-existing object to use for the output; if null, a new Point will be
 	 *            allocated and returned.
 	 */
-	Point toPixels(IGeoPoint in, Point out);
+	Point toPixels(IGeoPointE6 in, Point out);
 
 	/**
 	 * Create a new GeoPoint from pixel coordinates relative to the top-left of the MapView that
 	 * provided this PixelConverter.
 	 */
-	IGeoPoint fromPixels(int x, int y);
+	GeoPoint fromPixels(int x, int y);
 
 	/**
 	 * Converts a distance in meters (along the equator) to one in (horizontal) pixels at the
@@ -47,11 +48,11 @@ public interface IProjection {
 	/**
 	 * Get the coordinates of the most north-easterly visible point of the map.
 	 */
-	IGeoPoint getNorthEast();
+	GeoPoint getNorthEast();
 
 	/**
 	 * Get the coordinates of the most south-westerly visible point of the map.
 	 */
-	IGeoPoint getSouthWest();
+	GeoPoint getSouthWest();
 
 }

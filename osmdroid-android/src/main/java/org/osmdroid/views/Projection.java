@@ -1,7 +1,5 @@
 package org.osmdroid.views;
 
-
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.BoundingBoxE6;
@@ -62,8 +60,8 @@ public class Projection implements IProjection, MapViewConstants {
 		mRotateAndScaleMatrix.invert(mUnrotateAndScaleMatrix);
 		mMultiTouchScale = mapView.mMultiTouchScale;
 
-		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
-		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
+		final IGeoPointE6 neGeoPoint = fromPixels(mMapViewWidth, 0, null);
+		final IGeoPointE6 swGeoPoint = fromPixels(0, mMapViewHeight, null);
 
 		mBoundingBoxProjection = new BoundingBoxE6(neGeoPoint.getLatitudeE6(),
 				neGeoPoint.getLongitudeE6(), swGeoPoint.getLatitudeE6(),
@@ -91,17 +89,17 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	@Override
-	public IGeoPoint fromPixels(int x, int y) {
+	public GeoPoint fromPixels(int x, int y) {
 		return fromPixels(x, y, null);
 	}
 
-	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
+	public GeoPoint fromPixels(int x, int y, GeoPoint reuse) {
 		return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
 	}
 
 	@Override
-	public Point toPixels(final IGeoPoint in, final Point reuse) {
-		Point out = TileSystem.LatLongToPixelXY(in.getLatitude(), in.getLongitude(),
+	public Point toPixels(final IGeoPointE6 in, final Point reuse) {
+		Point out = TileSystem.LatLongToPixelXY(in.getLatitudeE6() * 1E-6, in.getLongitudeE6() * 1E-6,
 				getZoomLevel(), reuse);
 
 		out = toPixelsFromMercator(out.x, out.y, out);
@@ -214,12 +212,12 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	@Override
-	public IGeoPoint getNorthEast() {
+	public GeoPoint getNorthEast() {
 		return fromPixels(mMapViewWidth, 0, null);
 	}
 
 	@Override
-	public IGeoPoint getSouthWest() {
+	public GeoPoint getSouthWest() {
 		return fromPixels(0, mMapViewHeight, null);
 	}
 
