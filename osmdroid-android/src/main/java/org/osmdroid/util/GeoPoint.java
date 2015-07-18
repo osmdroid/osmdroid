@@ -4,6 +4,7 @@ package org.osmdroid.util;
 import java.io.Serializable;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.util.constants.MathConstants;
 
@@ -42,6 +43,10 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		this.mLongitudeE6 = aLongitudeE6;
 	}
 
+	public GeoPoint(final IGeoPointE6 aGeoPoin) {
+		this(aGeoPoin.getLatitudeE6(), aGeoPoin.getLongitudeE6());
+
+	}
 	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6, final int aAltitude) {
 		this.mLatitudeE6 = aLatitudeE6;
 		this.mLongitudeE6 = aLongitudeE6;
@@ -309,7 +314,7 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 		return new GeoPoint(lat2deg, lon2deg);
 	}
 
-	public static GeoPoint fromCenterBetween(final GeoPoint geoPointA, final GeoPoint geoPointB) {
+	public static GeoPoint fromCenterBetween(final IGeoPointE6 geoPointA, final IGeoPointE6 geoPointB) {
 		return new GeoPoint((geoPointA.getLatitudeE6() + geoPointB.getLatitudeE6()) / 2,
 				(geoPointA.getLongitudeE6() + geoPointB.getLongitudeE6()) / 2);
 	}

@@ -4,6 +4,7 @@ package org.osmdroid.views;
 import microsoft.mappoint.TileSystem;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -110,7 +111,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 *
 	 * @param gp
 	 */
-	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType) {
+	public void animateTo(final IGeoPointE6 gp, final AnimationType aAnimationType) {
 		animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType,
 				ANIMATION_DURATION_DEFAULT, ANIMATION_SMOOTHNESS_DEFAULT);
 	}
@@ -131,7 +132,7 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 	 *            {@link MapViewConstants#ANIMATION_DURATION_DEFAULT},
 	 *            {@link MapViewConstants#ANIMATION_DURATION_LONG}
 	 */
-	public void animateTo(final GeoPoint gp, final AnimationType aAnimationType,
+	public void animateTo(final IGeoPointE6 gp, final AnimationType aAnimationType,
 			final int aSmoothness, final int aDuration) {
 		animateTo(gp.getLatitudeE6(), gp.getLongitudeE6(), aAnimationType, aSmoothness, aDuration);
 	}

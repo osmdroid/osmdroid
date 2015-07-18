@@ -7,6 +7,7 @@ import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.SensorEventListenerProxy;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;

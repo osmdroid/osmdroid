@@ -17,6 +17,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.events.MapListener;
@@ -368,43 +369,70 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return this.mZoomLevel;
 	}
 
+	private BoundingBoxE6 mDelayedZoomToBoundingBox = null;
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (this.mDelayedZoomToBoundingBox != null) {
+			// zoomToBoundingBox does not work in onCreate() because getHeight() and getWidth() return 0;
+			// initial center must be set later when getHeight() and getWith() are set (i.e. in onWindowFocusChanged()).
+			// see http://stackoverflow.com/questions/10411975/how-to-get-the-width-and-height-of-an-image-view-in-android/10412209#10412209
+			final BoundingBoxE6 boundingBox = this.mDelayedZoomToBoundingBox;
+			this.mDelayedZoomToBoundingBox = null; // donot call it again
+			this.zoomToBoundingBox(boundingBox);
+
+		}
+	}
+
 	/**
-	 * Zoom the map to enclose the specified bounding box, as closely as possible. Must be called
-	 * after display layout is complete, or screen dimensions are not known, and will always zoom to
-	 * center of zoom level 0.<br>
-	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
+	 * Zoom the map to enclose the specified bounding box, as closely as possible.
+	 * Since org.osmdroid:osmdroid-android:4.4 this can be done in onCreate
 	 */
 	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		final BoundingBoxE6 currentBox = getBoundingBox();
+		if (this.getWidth() == 0) {
+			// MapView not fully initialized. do it later in onWindowFocusChanged
+			if (DEBUGMODE) {
+				logger.debug("zoomToBoundingBox(" + boundingBox + ") delayed");
+			}
 
-		// Calculated required zoom based on latitude span
-		final double maxZoomLatitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLatitudeSpanE6() :
-				currentBox.getLatitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
+			this.mDelayedZoomToBoundingBox = boundingBox;
+		} else {
+			// can execute immediately
+			if (DEBUGMODE) {
+				logger.debug("zoomToBoundingBox(" + boundingBox + ") executed");
+			}
 
-		final double requiredLatitudeZoom =
-			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLatitudeSpanE6() / maxZoomLatitudeSpan) / Math.log(2));
+			final BoundingBoxE6 currentBox = getBoundingBox();
+
+			// Calculated required zoom based on latitude span
+			final double maxZoomLatitudeSpan = mZoomLevel == getMaxZoomLevel() ?
+					currentBox.getLatitudeSpanE6() :
+					currentBox.getLatitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
+
+			final double requiredLatitudeZoom =
+					getMaxZoomLevel() -
+							Math.ceil(Math.log(boundingBox.getLatitudeSpanE6() / maxZoomLatitudeSpan) / Math.log(2));
 
 
-		// Calculated required zoom based on longitude span
-		final double maxZoomLongitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLongitudeSpanE6() :
-				currentBox.getLongitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
+			// Calculated required zoom based on longitude span
+			final double maxZoomLongitudeSpan = mZoomLevel == getMaxZoomLevel() ?
+					currentBox.getLongitudeSpanE6() :
+					currentBox.getLongitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
-		final double requiredLongitudeZoom =
-			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLongitudeSpanE6() / maxZoomLongitudeSpan) / Math.log(2));
+			final double requiredLongitudeZoom =
+					getMaxZoomLevel() -
+							Math.ceil(Math.log(boundingBox.getLongitudeSpanE6() / maxZoomLongitudeSpan) / Math.log(2));
 
 
-		// Zoom to boundingBox center, at calculated maximum allowed zoom level
-		getController().setZoom((int)(
-				requiredLatitudeZoom < requiredLongitudeZoom ?
-				requiredLatitudeZoom : requiredLongitudeZoom));
+			// Zoom to boundingBox center, at calculated maximum allowed zoom level
+			getController().setZoom((int) (
+					requiredLatitudeZoom < requiredLongitudeZoom ?
+							requiredLatitudeZoom : requiredLongitudeZoom));
 
-		getController().setCenter(
-				new GeoPoint(boundingBox.getCenter().getLatitudeE6(), boundingBox.getCenter()
-						.getLongitudeE6()));
+			getController().setCenter(
+					new GeoPoint(boundingBox.getCenter().getLatitudeE6(), boundingBox.getCenter()
+							.getLongitudeE6()));
+		}
 	}
 
 	/**

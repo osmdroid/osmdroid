@@ -6,6 +6,7 @@ import java.util.List;
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.api.IGeoPointE6;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -115,15 +116,15 @@ public class PathOverlay extends Overlay {
 	 * @param endPoint end point of the great circle
 	 * @param numberOfPoints number of points to calculate along the path
 	 */
-	public void addGreatCircle(final GeoPoint startPoint, final GeoPoint endPoint, final int numberOfPoints) {
+	public void addGreatCircle(final IGeoPointE6 startPoint, final IGeoPointE6 endPoint, final int numberOfPoints) {
 		//	adapted from page http://compastic.blogspot.co.uk/2011/07/how-to-draw-great-circle-on-map-in.html
 		//	which was adapted from page http://maps.forum.nu/gm_flight_path.html
 
 		// convert to radians
-		final double lat1 = startPoint.getLatitude() * Math.PI / 180;
-		final double lon1 = startPoint.getLongitude() * Math.PI / 180;
-		final double lat2 = endPoint.getLatitude() * Math.PI / 180;
-		final double lon2 = endPoint.getLongitude() * Math.PI / 180;
+		final double lat1 = startPoint.getLatitudeE6() * 1E-6 * Math.PI / 180;
+		final double lon1 = startPoint.getLongitudeE6() * 1E-6 * Math.PI / 180;
+		final double lat2 = endPoint.getLatitudeE6() * 1E-6 * Math.PI / 180;
+		final double lon2 = endPoint.getLongitudeE6() * 1E-6 * Math.PI / 180;
 
 		final double d = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin((lat1 - lat2) / 2), 2) + Math.cos(lat1) * Math.cos(lat2)
 				* Math.pow(Math.sin((lon1 - lon2) / 2), 2)));
