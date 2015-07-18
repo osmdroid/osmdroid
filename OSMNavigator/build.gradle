@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.osmnavigator"
-        minSdkVersion 15
+        minSdkVersion 10
         targetSdkVersion 15
         versionCode 1
         versionName "1.0"
