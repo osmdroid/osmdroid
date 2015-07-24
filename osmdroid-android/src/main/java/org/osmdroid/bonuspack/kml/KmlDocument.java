@@ -427,11 +427,18 @@ public class KmlDocument implements Parcelable {
 				mColorStyle = mCurrentStyle.mIconStyle;
 			} else if (localName.equals("hotSpot")){
 				if (mCurrentStyle != null && mColorStyle != null && mColorStyle instanceof IconStyle){
+					mCurrentStyle.mIconStyle.mHotSpot = new HotSpot(
+							Float.parseFloat(attributes.getValue("x")),
+							Float.parseFloat(attributes.getValue("y")),
+							attributes.getValue("xunits"),
+							attributes.getValue("yunits")
+					);
+					/*
 					if ("fraction".equals(attributes.getValue("xunits")))
 						mCurrentStyle.mIconStyle.mHotSpotX = Float.parseFloat(attributes.getValue("x"));
 					if ("fraction".equals(attributes.getValue("yunits")))
 						mCurrentStyle.mIconStyle.mHotSpotY = Float.parseFloat(attributes.getValue("y"));
-					//TODO: support pixels & insetPixels units
+					*/
 				}
 			} else if (localName.equals("Data") || localName.equals("SimpleData")) {
 				mDataName = attributes.getValue("name");

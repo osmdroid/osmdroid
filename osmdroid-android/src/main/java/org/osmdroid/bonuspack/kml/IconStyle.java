@@ -14,6 +14,7 @@ import org.osmdroid.bonuspack.utils.WebImageCache;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Parcel;
@@ -27,8 +28,8 @@ public class IconStyle extends ColorStyle implements Parcelable {
 	public float mHeading;
 	public String mHref;
 	public Bitmap mIcon;
-	public float mHotSpotX, mHotSpotY;
-	
+	public HotSpot mHotSpot;
+
 	private static WebImageCache mIconCache;
 	static {
 		//one common memory cache for all icons:
@@ -39,8 +40,7 @@ public class IconStyle extends ColorStyle implements Parcelable {
 		super();
 		mScale = 1.0f;
 		mHeading = 0.0f;
-		mHotSpotX = 0.5f;
-		mHotSpotY = 1.0f;
+		mHotSpot = new HotSpot();
 	}
 	
 	/** Load and set the icon bitmap, from a url or from a local file. 
@@ -94,7 +94,9 @@ public class IconStyle extends ColorStyle implements Parcelable {
 	public void styleMarker(Marker marker, Context context){
 		BitmapDrawable icon = getFinalIcon(context);
 		marker.setIcon(icon);
-		marker.setAnchor(mHotSpotX, mHotSpotY);
+		marker.setAnchor(mHotSpot.getX(icon.getIntrinsicWidth()/mScale),
+				1.0f-mHotSpot.getY(icon.getIntrinsicHeight()/mScale));
+				//Y coords are top->bottom for Marker Anchor, and bottom->up for KML hotSpot
 		marker.setRotation(mHeading);
 	}
 	
@@ -109,7 +111,7 @@ public class IconStyle extends ColorStyle implements Parcelable {
 				writer.write("<heading>"+mHeading+"</heading>\n");
 			if (mHref != null)
 				writer.write("<Icon><href>"+StringEscapeUtils.escapeXml10(mHref)+"</href></Icon>\n");
-			writer.write("<hotSpot x=\"" + mHotSpotX + "\" y=\"" + mHotSpotY + "\" xunits=\"fraction\" yunits=\"fraction\"/>\n");
+			mHotSpot.writeAsKML(writer);
 			writer.write("</IconStyle>\n");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -128,8 +130,7 @@ public class IconStyle extends ColorStyle implements Parcelable {
 		out.writeFloat(mHeading);
 		out.writeString(mHref);
 		out.writeParcelable(mIcon, flags);
-		out.writeFloat(mHotSpotX);
-		out.writeFloat(mHotSpotY);
+		out.writeParcelable(mHotSpot, flags);
 	}
 	
 	public static final Creator<IconStyle> CREATOR = new Creator<IconStyle>() {
@@ -147,8 +148,7 @@ public class IconStyle extends ColorStyle implements Parcelable {
 		mHeading = in.readFloat();
 		mHref = in.readString();
 		mIcon = in.readParcelable(Bitmap.class.getClassLoader());
-		mHotSpotX = in.readFloat();
-		mHotSpotY = in.readFloat();
+		mHotSpot = in.readParcelable(HotSpot.class.getClassLoader());
 	}
 	
 }
