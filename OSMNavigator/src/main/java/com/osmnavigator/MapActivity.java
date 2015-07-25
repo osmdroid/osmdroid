@@ -1,64 +1,5 @@
 package com.osmnavigator;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Stack;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
-import org.osmdroid.bonuspack.cachemanager.CacheManager;
-import org.osmdroid.bonuspack.kml.KmlFeature;
-import org.osmdroid.bonuspack.kml.KmlDocument;
-import org.osmdroid.bonuspack.kml.KmlFolder;
-import org.osmdroid.bonuspack.kml.KmlPlacemark;
-import org.osmdroid.bonuspack.kml.KmlPoint;
-import org.osmdroid.bonuspack.kml.Style;
-import org.osmdroid.bonuspack.location.FlickrPOIProvider;
-import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
-import org.osmdroid.bonuspack.location.GeocoderNominatim;
-import org.osmdroid.bonuspack.location.OverpassAPIProvider;
-import org.osmdroid.bonuspack.location.POI;
-import org.osmdroid.bonuspack.location.PicasaPOIProvider;
-import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
-import org.osmdroid.bonuspack.overlays.FolderOverlay;
-import org.osmdroid.bonuspack.overlays.InfoWindow;
-import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
-import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
-import org.osmdroid.bonuspack.overlays.Marker;
-import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
-import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
-import org.osmdroid.bonuspack.overlays.Polygon;
-import org.osmdroid.bonuspack.overlays.Polyline;
-import org.osmdroid.bonuspack.routing.GoogleRoadManager;
-import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
-import org.osmdroid.bonuspack.routing.OSRMRoadManager;
-import org.osmdroid.bonuspack.routing.Road;
-import org.osmdroid.bonuspack.routing.RoadManager;
-import org.osmdroid.bonuspack.routing.RoadNode;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
-import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.MapTileProviderBasic;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.NetworkLocationIgnorer;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.DirectedLocationOverlay;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.bonuspack.mapsforge.GenericMapView;
-import org.osmdroid.bonuspack.mapsforge.MapsForgeTileProvider;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -98,6 +39,68 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.bonuspack.cachemanager.CacheManager;
+import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
+import org.osmdroid.bonuspack.kml.KmlDocument;
+import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
+import org.osmdroid.bonuspack.kml.KmlPlacemark;
+import org.osmdroid.bonuspack.kml.KmlPoint;
+import org.osmdroid.bonuspack.kml.Style;
+import org.osmdroid.bonuspack.location.FlickrPOIProvider;
+import org.osmdroid.bonuspack.location.GeoNamesPOIProvider;
+import org.osmdroid.bonuspack.location.GeocoderNominatim;
+import org.osmdroid.bonuspack.location.OverpassAPIProvider;
+import org.osmdroid.bonuspack.location.POI;
+import org.osmdroid.bonuspack.location.PicasaPOIProvider;
+import org.osmdroid.bonuspack.mapsforge.GenericMapView;
+import org.osmdroid.bonuspack.mapsforge.MapsForgeTileProvider;
+import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
+import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.bonuspack.overlays.InfoWindow;
+import org.osmdroid.bonuspack.overlays.MapEventsOverlay;
+import org.osmdroid.bonuspack.overlays.MapEventsReceiver;
+import org.osmdroid.bonuspack.overlays.Marker;
+import org.osmdroid.bonuspack.overlays.Marker.OnMarkerDragListener;
+import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
+import org.osmdroid.bonuspack.overlays.Polygon;
+import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.bonuspack.routing.GoogleRoadManager;
+import org.osmdroid.bonuspack.routing.GraphHopperRoadManager;
+import org.osmdroid.bonuspack.routing.OSRMRoadManager;
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadManager;
+import org.osmdroid.bonuspack.routing.RoadNode;
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.tileprovider.MapTileProviderBase;
+import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.util.ManifestUtil;
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.NetworkLocationIgnorer;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.DirectedLocationOverlay;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Stack;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Simple and general-purpose map/navigation Android application, including a KML viewer and editor. 
@@ -150,14 +153,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
 	OnlineTileSourceBase MAPBOXSATELLITELABELLED;
-	
-	/** IMPORTANT - these API keys and accounts have been provided EXCLUSIVELY to OSMNavigator application. 
-	 * Developers of other applications must request their own API key from the corresponding service provider. */
-	static final String graphHopperApiKey = "AMFmC5P8s958tcjfFRJmefNboJ5H0HN6PLFyvdm3";
-	static final String mapQuestApiKey = "Fmjtd%7Cluubn10zn9%2C8s%3Do5-90rnq6";
-	static final String flickrApiKey = "c39be46304a6c6efda8bc066c185cd7e";
-	static final String geonamesAccount = "mkergall";
+
 	static final String userAgent = "OsmNavigator/1.0";
+
+	static String graphHopperApiKey;
+	static String mapQuestApiKey;
+	static String flickrApiKey;
+	static String geonamesAccount;
 
 	@Override public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -168,7 +170,12 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		MapBoxTileSource.retrieveMapBoxMapId(this);
 		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
-		
+
+		graphHopperApiKey = ManifestUtil.retrieveKey(this, "GRAPHHOPPER_API_KEY");
+		mapQuestApiKey = ManifestUtil.retrieveKey(this, "MAPQUEST_API_KEY");
+		flickrApiKey = ManifestUtil.retrieveKey(this, "FLICKR_API_KEY");
+		geonamesAccount = ManifestUtil.retrieveKey(this, "GEONAMES_ACCOUNT");
+
 		//map = (MapView) findViewById(R.id.map);
 		GenericMapView genericMap = (GenericMapView) findViewById(R.id.map);
 		MapTileProviderBasic bitmapProvider = new MapTileProviderBasic(getApplicationContext());
