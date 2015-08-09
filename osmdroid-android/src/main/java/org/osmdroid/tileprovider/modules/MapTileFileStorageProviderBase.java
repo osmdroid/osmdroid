@@ -1,18 +1,15 @@
 package org.osmdroid.tileprovider.modules;
 
 import org.osmdroid.tileprovider.IRegisterReceiver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
+import android.util.Log;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
-
-	private static final Logger logger = LoggerFactory.getLogger(MapTileFileStorageProviderBase.class);
 
 	/** whether the sdcard is mounted read/write */
 	private boolean mSdCardAvailable = true;
@@ -38,7 +35,7 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 
 	private void checkSdCard() {
 		final String state = Environment.getExternalStorageState();
-		logger.info("sdcard state: " + state);
+          Log.i(MapTileFileStorageProviderBase.class.getSimpleName(),"sdcard state: " + state);
 		mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
 	}
 

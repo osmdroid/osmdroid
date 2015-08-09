@@ -13,14 +13,13 @@ import org.osmdroid.google.wrapper.v2.MapFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.Position;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -29,8 +28,6 @@ import android.view.MenuItem;
  * to perform functions on different map types.
  */
 public class GoogleWrapperSample extends MapActivity {
-
-	private static final Logger logger = LoggerFactory.getLogger(GoogleWrapperSample.class);
 
 	private static final int OSM_MAP_VIEW_ID = 1;
 	private static final int GOOGLE_MAP_V1_VIEW_ID = 2;
@@ -203,7 +200,7 @@ public class GoogleWrapperSample extends MapActivity {
 		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			@Override
 			public void onCameraChange(final IPosition position) {
-				logger.debug("onCameraChange");
+                    Log.d(this.getClass().getSimpleName(), "onCameraChange");
 			}
 		});
 	}

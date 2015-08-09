@@ -24,11 +24,10 @@ import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryExcept
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -44,8 +43,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final Logger logger = LoggerFactory.getLogger(MapTileDownloader.class);
 
 	// ===========================================================
 	// Fields
@@ -166,7 +163,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				if (mNetworkAvailablityCheck != null
 						&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
 					if (DEBUGMODE) {
-						logger.debug("Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
+						Log.d(MapTileDownloader.class.getSimpleName(),"Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
 					}
 					return null;
 				}
@@ -174,7 +171,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final String tileURLString = tileSource.getTileURLString(tile);
 
 				if (DEBUGMODE) {
-					logger.debug("Downloading Maptile from url: " + tileURLString);
+					Log.d(MapTileDownloader.class.getSimpleName(),"Downloading Maptile from url: " + tileURLString);
 				}
 
 				if (TextUtils.isEmpty(tileURLString)) {
@@ -188,13 +185,13 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				// Check to see if we got success
 				final org.apache.http.StatusLine line = response.getStatusLine();
 				if (line.getStatusCode() != 200) {
-					logger.warn("Problem downloading MapTile: " + tile + " HTTP response: " + line);
+					Log.w(MapTileDownloader.class.getSimpleName(),"Problem downloading MapTile: " + tile + " HTTP response: " + line);
 					return null;
 				}
 
 				final HttpEntity entity = response.getEntity();
 				if (entity == null) {
-					logger.warn("No content downloading MapTile: " + tile);
+					Log.w(MapTileDownloader.class.getSimpleName(),"No content downloading MapTile: " + tile);
 					return null;
 				}
 				in = entity.getContent();
@@ -216,18 +213,18 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				return result;
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
-				logger.warn("UnknownHostException downloading MapTile: " + tile + " : " + e);
+				Log.w(MapTileDownloader.class.getSimpleName(),"UnknownHostException downloading MapTile: " + tile + " : " + e);
 				throw new CantContinueException(e);
 			} catch (final LowMemoryException e) {
 				// low memory so empty the queue
-				logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
+				Log.w(MapTileDownloader.class.getSimpleName(),"LowMemoryException downloading MapTile: " + tile + " : " + e);
 				throw new CantContinueException(e);
 			} catch (final FileNotFoundException e) {
-				logger.warn("Tile not found: " + tile + " : " + e);
+				Log.w(MapTileDownloader.class.getSimpleName(),"Tile not found: " + tile + " : " + e);
 			} catch (final IOException e) {
-				logger.warn("IOException downloading MapTile: " + tile + " : " + e);
+				Log.w(MapTileDownloader.class.getSimpleName(),"IOException downloading MapTile: " + tile + " : " + e);
 			} catch (final Throwable e) {
-				logger.error("Error downloading MapTile: " + tile, e);
+				Log.e(MapTileDownloader.class.getSimpleName(),"Error downloading MapTile: " + tile, e);
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);

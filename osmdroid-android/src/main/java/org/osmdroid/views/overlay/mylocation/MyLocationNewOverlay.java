@@ -13,8 +13,6 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,6 +27,7 @@ import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.FloatMath;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -41,7 +40,6 @@ import android.view.MotionEvent;
  */
 public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 		IOverlayMenuProvider, Snappable {
-	private static final Logger logger = LoggerFactory.getLogger(MyLocationNewOverlay.class);
 
 	// ===========================================================
 	// Constants
@@ -300,7 +298,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final double yDiff = y - mMapCoordsTranslated.y;
 			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
-				logger.debug("snap=" + snap);
+                    Log.d(this.getClass().getSimpleName(), "snap=" + snap);
 			}
 			return snap;
 		} else {
