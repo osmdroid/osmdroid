@@ -1,6 +1,5 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.R;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.api.IMapController;
@@ -93,7 +92,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 		{
 			/* Create a ImageView with a zoomIn-Icon. */
 			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(R.drawable.zoom_in);
+			ivZoomIn.setImageResource(org.osmdroid.example.R.drawable.zoom_in);
 			/* Create RelativeLayoutParams, that position it in the top right corner. */
 			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -111,7 +110,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 
 			/* Create a ImageView with a zoomOut-Icon. */
 			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(R.drawable.zoom_out);
+			ivZoomOut.setImageResource(org.osmdroid.example.R.drawable.zoom_out);
 
 			/* Create RelativeLayoutParams, that position it in the top left corner. */
 			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(

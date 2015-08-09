@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
-                <version>22.2.0</version>
+                <version>22.2.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -153,7 +153,7 @@
                 <plugin>
                     <groupId>com.simpligility.maven.plugins</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>4.2.1</version>
+                    <version>4.3.0</version>
                     <configuration>
                         <sdk>
                             <platform>19</platform>
@@ -207,11 +207,12 @@
 
     <modules>
         <module>osmdroid-android</module>
-        <module>osmdroid-android-it</module>
+       
         <module>osmdroid-third-party</module>
         <module>OpenStreetMapViewer</module>
         <module>GoogleWrapperSample</module>
         <module>OSMMapTilePackager</module>
+         <module>osmdroid-android-it</module>
     </modules>
 
     <profiles>
