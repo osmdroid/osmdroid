@@ -18,6 +18,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * Utility class for implementing Cloudmade authorization. See
@@ -103,7 +104,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 						httpPost.setEntity(new StringEntity("", "utf-8"));
 						final HttpResponse response = httpClient.execute(httpPost);
 						if (DEBUGMODE) {
-							Log.d(CloudmadeUtil.class.getSimpleName(),"Response from Cloudmade auth: " + response.getStatusLine());
+							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + response.getStatusLine());
 						}
 						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 							final BufferedReader br =
@@ -112,7 +113,7 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 										StreamUtils.IO_BUFFER_SIZE);
 							final String line = br.readLine();
 							if (DEBUGMODE) {
-								Log.d(CloudmadeUtil.class.getSimpleName(),"First line from Cloudmade auth: " + line);
+								Log.d(IMapView.LOGTAG,"First line from Cloudmade auth: " + line);
 							}
 							mToken = line.trim();
 							if (mToken.length() > 0) {
@@ -121,11 +122,11 @@ public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
 								// we don't need the editor any more
 								mPreferenceEditor = null;
 							} else {
-								Log.e(CloudmadeUtil.class.getSimpleName(),"No authorization token received from Cloudmade");
+								Log.e(IMapView.LOGTAG,"No authorization token received from Cloudmade");
 							}
 						}
 					} catch (final IOException e) {
-						Log.e(CloudmadeUtil.class.getSimpleName(),"No authorization token received from Cloudmade: " + e);
+						Log.e(IMapView.LOGTAG,"No authorization token received from Cloudmade: " + e);
 					}
 				}
 			}

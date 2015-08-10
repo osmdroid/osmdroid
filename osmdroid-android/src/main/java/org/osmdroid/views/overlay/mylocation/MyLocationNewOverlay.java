@@ -298,7 +298,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final double yDiff = y - mMapCoordsTranslated.y;
 			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
-                    Log.d(this.getClass().getSimpleName(), "snap=" + snap);
+                    Log.d(IMapView.LOGTAG, "snap=" + snap);
 			}
 			return snap;
 		} else {

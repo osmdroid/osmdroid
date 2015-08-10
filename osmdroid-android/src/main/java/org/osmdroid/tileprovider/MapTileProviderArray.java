@@ -10,6 +10,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -89,7 +90,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 			if (!alreadyInProgress) {
 				if (DEBUG_TILE_PROVIDERS) {
-                         Log.d(MapTileProviderArray.class.getSimpleName(),"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
+                         Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
 							+ pTile);
 				}
 

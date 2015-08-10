@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import org.osmdroid.thirdparty.Constants;
 
 /**
  * This is a simple app that demonstrates how to use a common interface ({@link org.osmdroid.api.IMap})
@@ -200,7 +201,7 @@ public class GoogleWrapperSample extends MapActivity {
 		mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 			@Override
 			public void onCameraChange(final IPosition position) {
-                    Log.d(this.getClass().getSimpleName(), "onCameraChange");
+                    Log.d(Constants.LOGTAG, "onCameraChange");
 			}
 		});
 	}

@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
+import org.osmdroid.DefaultResourceProxyImpl;
 
 public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> implements
 		ItemizedOverlay.OnFocusChangeListener {

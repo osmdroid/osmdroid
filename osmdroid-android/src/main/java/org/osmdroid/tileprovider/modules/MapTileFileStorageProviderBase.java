@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Environment;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
@@ -35,7 +36,7 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 
 	private void checkSdCard() {
 		final String state = Environment.getExternalStorageState();
-          Log.i(MapTileFileStorageProviderBase.class.getSimpleName(),"sdcard state: " + state);
+          Log.i(IMapView.LOGTAG,"sdcard state: " + state);
 		mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
 	}
 

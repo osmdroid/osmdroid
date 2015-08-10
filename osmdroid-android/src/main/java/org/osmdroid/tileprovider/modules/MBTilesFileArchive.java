@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class MBTilesFileArchive implements IArchiveFile {
 
@@ -57,7 +58,7 @@ public class MBTilesFileArchive implements IArchiveFile {
 				return ret;
 			}
 		} catch(final Throwable e) {
-               Log.w(MBTilesFileArchive.class.getSimpleName(),"Error getting db stream: " + pTile, e);
+               Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
 		}
 
 		return null;

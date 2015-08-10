@@ -779,7 +779,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public boolean dispatchTouchEvent(final MotionEvent event) {
 
 		if (DEBUGMODE) {
-			Log.d(this.getClass().getSimpleName(),"dispatchTouchEvent(" + event + ")");
+			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
 		if (mZoomController.isVisible() && mZoomController.onTouch(this, event)) {
@@ -792,7 +792,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		try {
 			if (super.dispatchTouchEvent(event)) {
 				if (DEBUGMODE) {
-					Log.d(this.getClass().getSimpleName(),"super handled onTouchEvent");
+					Log.d(IMapView.LOGTAG,"super handled onTouchEvent");
 				}
 				return true;
 			}
@@ -804,14 +804,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			boolean handled = false;
 			if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
 				if (DEBUGMODE) {
-					Log.d(this.getClass().getSimpleName(),"mMultiTouchController handled onTouchEvent");
+					Log.d(IMapView.LOGTAG,"mMultiTouchController handled onTouchEvent");
 				}
 				handled = true;
 			}
 
 			if (mGestureDetector.onTouchEvent(rotatedEvent)) {
 				if (DEBUGMODE) {
-					Log.d(this.getClass().getSimpleName(),"mGestureDetector handled onTouchEvent");
+					Log.d(IMapView.LOGTAG,"mGestureDetector handled onTouchEvent");
 				}
 				handled = true;
 			}
@@ -824,7 +824,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		if (DEBUGMODE) {
-			Log.d(this.getClass().getSimpleName(),"no-one handled onTouchEvent");
+			Log.d(IMapView.LOGTAG,"no-one handled onTouchEvent");
 		}
 		return false;
 	}
@@ -992,7 +992,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		if (DEBUGMODE) {
 			final long endMs = System.currentTimeMillis();
-			Log.d(this.getClass().getSimpleName(),"Rendering overall: " + (endMs - startMs) + "ms");
+			Log.d(IMapView.LOGTAG,"Rendering overall: " + (endMs - startMs) + "ms");
 		}
 	}
 
@@ -1117,10 +1117,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			if (tileSourceAttr != null) {
 				try {
 					final ITileSource r = TileSourceFactory.getTileSource(tileSourceAttr);
-					Log.i(this.getClass().getSimpleName(),"Using tile source specified in layout attributes: " + r);
+					Log.i(IMapView.LOGTAG,"Using tile source specified in layout attributes: " + r);
 					tileSource = r;
 				} catch (final IllegalArgumentException e) {
-					Log.w(this.getClass().getSimpleName(),"Invalid tile source specified in layout attributes: " + tileSource);
+					Log.w(IMapView.LOGTAG,"Invalid tile source specified in layout attributes: " + tileSource);
 				}
 			}
 		}
@@ -1128,14 +1128,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		if (aAttributeSet != null && tileSource instanceof IStyledTileSource) {
 			final String style = aAttributeSet.getAttributeValue(null, "style");
 			if (style == null) {
-				Log.i(this.getClass().getSimpleName(),"Using default style: 1");
+				Log.i(IMapView.LOGTAG,"Using default style: 1");
 			} else {
-				Log.i(this.getClass().getSimpleName(),"Using style specified in layout attributes: " + style);
+				Log.i(IMapView.LOGTAG,"Using style specified in layout attributes: " + style);
 				((IStyledTileSource<?>) tileSource).setStyle(style);
 			}
 		}
 
-		Log.i(this.getClass().getSimpleName(),"Using tile source: " + tileSource);
+		Log.i(IMapView.LOGTAG,"Using tile source: " + tileSource);
 		return tileSource;
 	}
 

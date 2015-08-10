@@ -9,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 	implements OpenStreetMapTileProviderConstants {
@@ -29,7 +30,7 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 
 	public void ensureCapacity(final int aCapacity) {
 		if (aCapacity > mCapacity) {
-               Log.i(LRUMapTileCache.class.getSimpleName(), "Tile cache increased from " + mCapacity + " to " + aCapacity);
+               Log.i(IMapView.LOGTAG, "Tile cache increased from " + mCapacity + " to " + aCapacity);
 			mCapacity = aCapacity;
 		}
 	}
@@ -69,7 +70,7 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable>
 		if (size() > mCapacity) {
 			final MapTile eldest = aEldest.getKey();
 			if (DEBUGMODE) {
-                    Log.d(LRUMapTileCache.class.getSimpleName(),"Remove old tile: " + eldest);
+                    Log.d(IMapView.LOGTAG,"Remove old tile: " + eldest);
 			}
 			remove(eldest);
 			// don't return true because we've already removed it

@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class ArchiveFileFactory {
 
@@ -18,7 +19,7 @@ public class ArchiveFileFactory {
 			try {
 				return ZipFileArchive.getZipFileArchive(pFile);
 			} catch (final IOException e) {
-				Log.e(ArchiveFileFactory.class.getSimpleName(),"Error opening ZIP file", e);
+				Log.e(IMapView.LOGTAG,"Error opening ZIP file", e);
 			}
 		}
 
@@ -26,7 +27,7 @@ public class ArchiveFileFactory {
 			try {
 				return DatabaseFileArchive.getDatabaseFileArchive(pFile);
 			} catch (final SQLiteException e) {
-				Log.e(ArchiveFileFactory.class.getSimpleName(),"Error opening SQL file", e);
+				Log.e(IMapView.LOGTAG,"Error opening SQL file", e);
 			}
 		}
 
@@ -34,7 +35,7 @@ public class ArchiveFileFactory {
 			try {
 				return MBTilesFileArchive.getDatabaseFileArchive(pFile);
 			} catch (final SQLiteException e) {
-				Log.e(ArchiveFileFactory.class.getSimpleName(),"Error opening MBTiles SQLite file", e);
+				Log.e(IMapView.LOGTAG,"Error opening MBTiles SQLite file", e);
 			}
 		}
 		
@@ -42,7 +43,7 @@ public class ArchiveFileFactory {
 			try {
 				return GEMFFileArchive.getGEMFFileArchive(pFile);
 			} catch (final IOException e) {
-				Log.e(ArchiveFileFactory.class.getSimpleName(),"Error opening GEMF file", e);
+				Log.e(IMapView.LOGTAG,"Error opening GEMF file", e);
 			}
 		}
 

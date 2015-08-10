@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
@@ -173,7 +174,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			final InputStream in = archiveFile.getInputStream(tileSource, pTile);
 			if (in != null) {
 				if (DEBUGMODE) {
-					Log.d(MapTileFileArchiveProvider.class.getSimpleName(),"Found tile " + pTile + " in " + archiveFile);
+					Log.d(IMapView.LOGTAG,"Found tile " + pTile + " in " + archiveFile);
 				}
 				return in;
 			}
@@ -201,7 +202,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
 				if (DEBUGMODE) {
-					Log.d(MapTileFileArchiveProvider.class.getSimpleName(),"No sdcard - do nothing for tile: " + pTile);
+					Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
 				}
 				return null;
 			}
@@ -209,19 +210,19 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			InputStream inputStream = null;
 			try {
 				if (DEBUGMODE) {
-					Log.d(MapTileFileArchiveProvider.class.getSimpleName(),"Tile doesn't exist: " + pTile);
+					Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
 				}
 
 				inputStream = getInputStream(pTile, tileSource);
 				if (inputStream != null) {
 					if (DEBUGMODE) {
-						Log.d(MapTileFileArchiveProvider.class.getSimpleName(),"Use tile from archive: " + pTile);
+						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
 					final Drawable drawable = tileSource.getDrawable(inputStream);
 					return drawable;
 				}
 			} catch (final Throwable e) {
-				Log.e(MapTileFileArchiveProvider.class.getSimpleName(),"Error loading tile", e);
+				Log.e(IMapView.LOGTAG,"Error loading tile", e);
 			} finally {
 				if (inputStream != null) {
 					StreamUtils.closeStream(inputStream);

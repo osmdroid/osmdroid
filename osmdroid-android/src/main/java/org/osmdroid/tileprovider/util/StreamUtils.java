@@ -6,6 +6,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import org.osmdroid.api.IMapView;
 
 public class StreamUtils {
 
@@ -76,7 +77,7 @@ public class StreamUtils {
 			try {
 				stream.close();
 			} catch (final IOException e) {
-				Log.e(StreamUtils.class.getSimpleName(),"Could not close stream", e);
+				Log.e(IMapView.LOGTAG,"Could not close stream", e);
 			}
 		}
 	}

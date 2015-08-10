@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import org.osmdroid.api.IMapView;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -32,7 +33,7 @@ public class ZipFileArchive implements IArchiveFile {
 				return mZipFile.getInputStream(entry);
 			}
 		} catch (final IOException e) {
-			Log.w(ZipFileArchive.class.getSimpleName(),"Error getting zip stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + pTile, e);
 		}
 		return null;
 	}

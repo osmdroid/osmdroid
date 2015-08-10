@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public abstract class BitmapTileSourceBase implements ITileSource,
 		OpenStreetMapTileProviderConstants {
@@ -107,11 +108,11 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 				try {
 					new File(aFilePath).delete();
 				} catch (final Throwable e) {
-					Log.e(this.getClass().getSimpleName(),"Error deleting invalid file: " + aFilePath, e);
+					Log.e(IMapView.LOGTAG,"Error deleting invalid file: " + aFilePath, e);
 				}
 			}
 		} catch (final OutOfMemoryError e) {
-			Log.e(this.getClass().getSimpleName(),"OutOfMemoryError loading bitmap: " + aFilePath);
+			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap: " + aFilePath);
 			System.gc();
 		}
 		return null;
@@ -143,7 +144,7 @@ public abstract class BitmapTileSourceBase implements ITileSource,
 				return new ReusableBitmapDrawable(bitmap);
 			}
 		} catch (final OutOfMemoryError e) {
-			Log.e(this.getClass().getSimpleName(),"OutOfMemoryError loading bitmap");
+			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap");
 			System.gc();
 			throw new LowMemoryException(e);
 		}

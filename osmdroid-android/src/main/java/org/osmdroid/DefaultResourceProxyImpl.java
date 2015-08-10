@@ -14,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * Default implementation of {@link org.osmdroid.ResourceProxy} that returns fixed string to get
@@ -38,7 +39,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			mResources = pContext.getResources();
 			mDisplayMetrics = mResources.getDisplayMetrics();
 			if (DEBUGMODE) {
-                    Log.d(DefaultResourceProxyImpl.class.getSimpleName(), "mDisplayMetrics=" + mDisplayMetrics);
+                    Log.d(IMapView.LOGTAG, "mDisplayMetrics=" + mDisplayMetrics);
 			}
 		}
 	}
@@ -117,7 +118,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			}
 			return BitmapFactory.decodeStream(is, null, options);
 		} catch (final OutOfMemoryError e) {
-               Log.e(DefaultResourceProxyImpl.class.getSimpleName(),"OutOfMemoryError getting bitmap resource: " + pResId);
+               Log.e(IMapView.LOGTAG,"OutOfMemoryError getting bitmap resource: " + pResId);
 			System.gc();
 			// there's not much we can do here
 			// - when we load a bitmap from resources we expect it to be found

@@ -24,6 +24,7 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.content.Context;
 import android.util.Log;
+import org.osmdroid.thirdparty.Constants;
 
 /**
  * BingMap tile source used with OSMDroid<br>
@@ -198,18 +199,18 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	private ImageryMetaDataResource getMetaData()
 	{
-		Log.d(this.getClass().getSimpleName(),"getMetaData");
+		Log.d(Constants.LOGTAG,"getMetaData");
 
 		final HttpClient client = HttpClientFactory.createHttpClient();
 		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
-		Log.d(this.getClass().getSimpleName(),"make request "+head.getURI().toString());
+		Log.d(Constants.LOGTAG,"make request "+head.getURI().toString());
 		try {
 			final HttpResponse response = client.execute(head);
 
 			final HttpEntity entity = response.getEntity();
 
 			if (entity == null) {
-				Log.e(this.getClass().getSimpleName(),"Cannot get response for url "+head.getURI().toString());
+				Log.e(Constants.LOGTAG,"Cannot get response for url "+head.getURI().toString());
 				return null;
 			}
 
@@ -222,14 +223,14 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			return ImageryMetaData.getInstanceFromJSON(dataStream.toString());
 
 		} catch(final Exception e) {
-			Log.e(this.getClass().getSimpleName(),"Error getting imagery meta data", e);
+			Log.e(Constants.LOGTAG,"Error getting imagery meta data", e);
 		} finally {
 			try {
 				client.getConnectionManager().shutdown();
 			} catch(UnsupportedOperationException e) {
 				// OkApacheClient doesn't support this
 			}
-			Log.d(this.getClass().getSimpleName(),"end getMetaData");
+			Log.d(Constants.LOGTAG,"end getMetaData");
 		}
 		return null;
 	}
@@ -240,7 +241,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 */
 	protected void updateBaseUrl()
 	{
-		Log.d(this.getClass().getSimpleName(),"updateBaseUrl");
+		Log.d(Constants.LOGTAG,"updateBaseUrl");
 		final String subDomain = mImageryData.getSubDomain();
 		final int idx = mImageryData.m_imageUrl.lastIndexOf("/");
 		if(idx>0) {
@@ -255,8 +256,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			mBaseUrl = String.format(mBaseUrl, subDomain);
 			mUrl = String.format(mUrl, subDomain,"%s",mLocale);
 		}
-		Log.d(this.getClass().getSimpleName(),"updated url = "+mUrl);
-		Log.d(this.getClass().getSimpleName(),"end updateBaseUrl");
+		Log.d(Constants.LOGTAG,"updated url = "+mUrl);
+		Log.d(Constants.LOGTAG,"end updateBaseUrl");
 	}
 
 }

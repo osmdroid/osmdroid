@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.osmdroid.api.IMapView;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -54,7 +55,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					cutCurrentCache();
 				}
 				if (DEBUGMODE) {
-					Log.d(TileWriter.class.getSimpleName(),"Finished init thread");
+					Log.d(IMapView.LOGTAG,"Finished init thread");
 				}
 			}
 		};
@@ -121,7 +122,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			return true;
 		}
 		if (DEBUGMODE) {
-			Log.d(TileWriter.class.getSimpleName(),"Failed to create " + pFile + " - wait and check again");
+			Log.d(IMapView.LOGTAG,"Failed to create " + pFile + " - wait and check again");
 		}
 
 		// if create failed, wait a bit in case another thread created it
@@ -132,12 +133,12 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		// and then check again
 		if (pFile.exists()) {
 			if (DEBUGMODE) {
-				Log.d(TileWriter.class.getSimpleName(),"Seems like another thread created " + pFile);
+				Log.d(IMapView.LOGTAG,"Seems like another thread created " + pFile);
 			}
 			return true;
 		} else {
 			if (DEBUGMODE) {
-				Log.d(TileWriter.class.getSimpleName(),"File still doesn't exist: " + pFile);
+				Log.d(IMapView.LOGTAG,"File still doesn't exist: " + pFile);
 			}
 			return false;
 		}
@@ -208,7 +209,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 
 			if (mUsedCacheSpace > TILE_TRIM_CACHE_SIZE_BYTES) {
 
-				Log.d(TileWriter.class.getSimpleName(),"Trimming tile cache from " + mUsedCacheSpace + " to "
+				Log.d(IMapView.LOGTAG,"Trimming tile cache from " + mUsedCacheSpace + " to "
 						+ TILE_TRIM_CACHE_SIZE_BYTES);
 
 				final List<File> z = getDirectoryFileList(TILE_PATH_BASE);
@@ -233,7 +234,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					}
 				}
 
-				Log.d(TileWriter.class.getSimpleName(),"Finished trimming tile cache");
+				Log.d(IMapView.LOGTAG,"Finished trimming tile cache");
 			}
 		}
 	}

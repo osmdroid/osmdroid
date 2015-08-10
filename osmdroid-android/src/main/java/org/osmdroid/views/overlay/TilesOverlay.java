@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import org.osmdroid.api.IMapView;
 
 /**
  * These objects are the principle consumer of map tiles.
@@ -114,7 +115,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected void draw(Canvas c, MapView osmv, boolean shadow) {
 
 		if (DEBUGMODE) {
-               Log.d(TilesOverlay.class.getSimpleName(),"onDraw(" + shadow + ")");
+               Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
 		}
 
 		if (shadow) {
@@ -335,7 +336,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				}
 				mLoadingTile = new BitmapDrawable(bitmap);
 			} catch (final OutOfMemoryError e) {
-				Log.e(this.getClass().getSimpleName(), "OutOfMemoryError getting loading tile");
+				Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
 				System.gc();
 			}
 		}

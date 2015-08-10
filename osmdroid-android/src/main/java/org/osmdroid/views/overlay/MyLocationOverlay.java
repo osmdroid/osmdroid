@@ -381,12 +381,12 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public void onLocationChanged(final Location location) {
 		if (DEBUGMODE) {
-			Log.i(this.getClass().getSimpleName(),"onLocationChanged(" + location + ")");
+			Log.i(IMapView.LOGTAG,"onLocationChanged(" + location + ")");
 		}
 
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis())) {
-			Log.i(this.getClass().getSimpleName(),"Ignore temporary non-gps location");
+			Log.i(IMapView.LOGTAG,"Ignore temporary non-gps location");
 			return;
 		}
 
@@ -452,7 +452,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			final double yDiff = y - mMapCoords.y;
 			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
-				Log.i(this.getClass().getSimpleName(),"snap=" + snap);
+				Log.i(IMapView.LOGTAG,"snap=" + snap);
 			}
 			return snap;
 		} else {

@@ -2,6 +2,7 @@ package org.osmdroid.events;
 
 import android.os.Handler;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /*
  * A MapListener that aggregates multiple events called in quick succession.
@@ -89,7 +90,7 @@ public class DelayedMapListener implements MapListener {
 				wrappedListener.onZoom((ZoomEvent) event);
 			} else {
 				// unknown event; discard
-                    Log.d(DelayedMapListener.class.getSimpleName(),"Unknown event received: " + event);
+                    Log.d(IMapView.LOGTAG,"Unknown event received: " + event);
 			}
 		}
 	}

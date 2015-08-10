@@ -12,6 +12,7 @@ import android.graphics.Matrix;
 import android.graphics.PorterDuff.Mode;
 import android.os.Build;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * This will allow an {@link Overlay} that is not HW acceleration compatible to work in a HW
@@ -91,7 +92,7 @@ public abstract class NonAcceleratedOverlay extends Overlay {
 					mBackingBitmap = Bitmap.createBitmap(c.getWidth(), c.getHeight(),
 							Config.ARGB_8888);
 				} catch (OutOfMemoryError e) {
-					Log.e(NonAcceleratedOverlay.class.getSimpleName(),"OutOfMemoryError creating backing bitmap in NonAcceleratedOverlay.");
+					Log.e(IMapView.LOGTAG,"OutOfMemoryError creating backing bitmap in NonAcceleratedOverlay.");
 					System.gc();
 					return;
 				}

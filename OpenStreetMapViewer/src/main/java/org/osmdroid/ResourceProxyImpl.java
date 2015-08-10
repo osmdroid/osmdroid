@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import org.osmdroid.DefaultResourceProxyImpl;
 
 /**
  * This is an extension of {@link org.osmdroid.DefaultResourceProxyImpl}

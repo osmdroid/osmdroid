@@ -19,6 +19,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
+import org.osmdroid.thirdparty.Constants;
 
 /**
  * This class represents an OSM Tiles Overlay at a Google Map. It is a copy from
@@ -87,7 +88,7 @@ public class GoogleTilesOverlay extends Overlay {
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 		if (DEBUGMODE) {
-               Log.d(GoogleTilesOverlay.class.getSimpleName(), "draw");
+               Log.d(Constants.LOGTAG, "draw");
 		}
 
 		// Calculate the half-world size

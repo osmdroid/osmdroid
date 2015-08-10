@@ -8,6 +8,7 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.content.Context;
 import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  *
@@ -22,7 +23,7 @@ public class MapTileProviderFactory implements MapViewConstants {
 	 * the tile provider parameter in the {@link MapView} constructor.
 	 */
 	public static MapTileProviderBase getInstance(final Context aContext) {
-          Log.i(MapTileProviderFactory.class.getSimpleName(),"Using direct tile provider");
+          Log.i(IMapView.LOGTAG,"Using direct tile provider");
 		return new MapTileProviderBasic(aContext.getApplicationContext());
 	}
 
