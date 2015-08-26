@@ -3,6 +3,8 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polygon;
@@ -128,7 +130,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 		if (mExtendedData == null)
 			return null;
 		StringBuilder result = new StringBuilder();
-		for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+		for (Map.Entry<String, String> entry : mExtendedData.entrySet()) {
 			String name = entry.getKey();
 			String value = entry.getValue();
 			result.append(name+"="+value+"<br>\n");
@@ -156,7 +158,7 @@ public abstract class KmlFeature implements Parcelable, Cloneable {
 			return true;
 		try {
 			writer.write("<ExtendedData>\n");
-			for (HashMap.Entry<String, String> entry : mExtendedData.entrySet()) {
+			for (Map.Entry<String, String> entry : mExtendedData.entrySet()) {
 				String name = entry.getKey();
 				String value = entry.getValue();
 				writer.write("<Data name=\""+name+"\"><value>"+StringEscapeUtils.escapeXml10(value)+"</value></Data>\n");

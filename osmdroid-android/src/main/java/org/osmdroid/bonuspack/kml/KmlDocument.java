@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -623,7 +624,7 @@ public class KmlDocument implements Parcelable {
 	}
 
 	public void writeKMLStyles(Writer writer){
-		for (HashMap.Entry<String, StyleSelector> entry : mStyles.entrySet()) {
+		for (Map.Entry<String, StyleSelector> entry : mStyles.entrySet()) {
 			String styleId = entry.getKey();
 			StyleSelector styleSelector = entry.getValue();
 			styleSelector.writeAsKML(writer, styleId);

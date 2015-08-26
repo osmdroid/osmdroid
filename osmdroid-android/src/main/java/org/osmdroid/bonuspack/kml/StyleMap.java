@@ -3,6 +3,7 @@ package org.osmdroid.bonuspack.kml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Map;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -37,7 +38,7 @@ public class StyleMap extends StyleSelector implements Parcelable {
 	@Override public void writeAsKML(Writer writer, String styleId){
 		try {
 			writer.write("<StyleMap id=\'"+styleId+"\'>\n");
-			for (HashMap.Entry<String, String> entry : mPairs.entrySet()) {
+			for (Map.Entry<String, String> entry : mPairs.entrySet()) {
 				String key = entry.getKey();
 				String styleUrl = entry.getValue();
 				writer.write("<Pair><key>"+key+"</key><styleUrl>"+styleUrl+"</styleUrl></Pair>\n");
