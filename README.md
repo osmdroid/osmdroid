@@ -77,3 +77,11 @@ If you need help to use osmdroid or OSMBonusPack, go to [StackOverflow](http://s
 If you think there is an issue with OSMBonusPack, or want to raise a request related to OSMBonusPack, post an issue in [OSMBonusPack Issues](https://github.com/MKergall/osmbonuspack/issues). 
 
 If you think there is an issue with osmdroid, or want to raise a request related to osmdroid, read [osmdroid](https://github.com/osmdroid/osmdroid) advices. 
+
+# Licence
+The components inside this GitHub project are under LGPL licence, with an important simplification: 
+The constraints described in Section 5.d and 5.e of the [LGPL LICENCE](LICENCE.md) are DISCARDED. 
+
+This means that you are allowed to convey a Combined Work without providing the user any way to recombine or relink the application, and without providing any shared library mechanism. 
+
+In other terms, you are allowed to include the OSMBonusPack library in your Android application, without making your application open source. 
