@@ -80,7 +80,7 @@ If you think there is an issue with osmdroid, or want to raise a request related
 
 # Licence
 The components inside this GitHub project are under LGPL licence, with an important simplification: 
-The constraints described in Section 5.d and 5.e of the [LGPL LICENCE](LICENCE.md) are DISCARDED. 
+The constraints described in Section 5.d and 5.e of the [LGPL LICENCE](https://github.com/MKergall/osmbonuspack/blob/master/LICENSE.md) are DISCARDED. 
 
 This means that you are allowed to convey a Combined Work without providing the user any way to recombine or relink the application, and without providing any shared library mechanism. 
 
