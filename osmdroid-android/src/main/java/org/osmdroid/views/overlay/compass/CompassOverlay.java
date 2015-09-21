@@ -19,6 +19,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.FloatMath;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -103,13 +104,13 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	private void invalidateCompass() {
 		Rect screenRect = mMapView.getProjection().getScreenRect();
 		final int frameLeft = screenRect.left
-				+ (int) Math.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
+				+ (int) FloatMath.ceil((mCompassCenterX - mCompassFrameCenterX) * mScale);
 		final int frameTop = screenRect.top
-				+ (int) Math.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
+				+ (int) FloatMath.ceil((mCompassCenterY - mCompassFrameCenterY) * mScale);
 		final int frameRight = screenRect.left
-				+ (int) Math.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
+				+ (int) FloatMath.ceil((mCompassCenterX + mCompassFrameCenterX) * mScale);
 		final int frameBottom = screenRect.top
-				+ (int) Math.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
+				+ (int) FloatMath.ceil((mCompassCenterY + mCompassFrameCenterY) * mScale);
 
 		// Expand by 2 to cover stroke width
 		mMapView.postInvalidateMapCoordinates(frameLeft - 2, frameTop - 2, frameRight + 2,
