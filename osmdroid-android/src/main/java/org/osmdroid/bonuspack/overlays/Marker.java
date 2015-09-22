@@ -250,6 +250,14 @@ public class Marker extends OverlayWithIW {
 		drawAt(canvas, mIcon, mPositionPixels.x, mPositionPixels.y, false, rotationOnScreen);
 	}
 
+    /** Null out the static references when the MapView is detached to prevent memory leaks. */
+    @Override
+    public void onDetach(MapView mapView) {
+        mDefaultIcon = null;
+        mDefaultInfoWindow = null;
+        super.onDetach(mapView);
+    }
+
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
 		pj.toPixels(mPosition, mPositionPixels);
