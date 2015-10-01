@@ -1,5 +1,7 @@
 package org.osmdroid.api;
 
+import android.graphics.Point;
+
 import org.osmdroid.views.MapController;
 
 /**
@@ -11,6 +13,7 @@ import org.osmdroid.views.MapController;
  */
 public interface IMapController {
 	void animateTo(IGeoPoint geoPoint);
+	void animateTo(IGeoPoint geoPoint, Point screenPoint, int animationDuration);
 	void scrollBy(int x, int y);
 	void setCenter(IGeoPoint point);
 	int setZoom(int zoomLevel);
