@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.osmdroid">
+
+    <application android:allowBackup="true">
+    </application>
+
+</manifest>

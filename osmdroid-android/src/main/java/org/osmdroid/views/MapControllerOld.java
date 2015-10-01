@@ -90,6 +90,12 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		animateTo(point.getLatitudeE6() / 1E6, point.getLongitudeE6() / 1E6);
 	}
 
+
+	@Override
+	public void animateTo(IGeoPoint geoPoint, Point screenPoint, int animationDuration) {
+		//todo too old for Override
+	}
+
 	/**
 	 * Start animating the map towards the given point.
 	 */
