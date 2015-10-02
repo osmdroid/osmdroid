@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.9.+'
+        classpath 'com.android.tools.build:gradle:1.0.+'
     }
 }
 
@@ -17,34 +17,34 @@ allprojects {
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 19
-        versionCode 14
-        versionName "4.2-SNAPSHOT"
+        versionCode 16
+        versionName "4.4-SNAPSHOT"
     }
 
-    sourceSets {
+   /* sourceSets {
         main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
+           // manifest.srcFile 'AndroidManifest.xml'
+            //java.srcDirs = ['src']
+            //esources.srcDirs = ['src']
+            //aidl.srcDirs = ['src']
+            //renderscript.srcDirs = ['src']
+            //res.srcDirs = ['res']
+            //assets.srcDirs = ['assets']
         }
         instrumentTest.setRoot('tests')
-    }
+    }*/
 }
 
 dependencies {
-    compile 'android.support:compatibility-v4:19.1.+'
+    compile 'android.support:compatibility-v4:22.2.+'
     compile 'commons-logging:commons-logging:1.1.+'
-    compile 'org.osmdroid:osmdroid-android:4.2-SNAPSHOT'
-    compile 'org.osmdroid:osmdroid-third-party:4.2-SNAPSHOT'
+    compile 'org.osmdroid:osmdroid-android:4.4-SNAPSHOT'
+    compile 'org.osmdroid:osmdroid-third-party:4.4-SNAPSHOT'
     compile 'org.slf4j:slf4j-android:1.6.1-RC1'
 }
