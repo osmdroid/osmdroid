@@ -64,7 +64,7 @@
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
-                <version>22.2.0</version>
+                <version>22.2.1</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>

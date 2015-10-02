@@ -36,7 +36,7 @@ public abstract class BaseSampleFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+          this.mMapView.getController().setInvertedTiles(false);
 		addOverlays();
 
 		mMapView.setBuiltInZoomControls(true);
