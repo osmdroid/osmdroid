@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
@@ -14,7 +9,7 @@ import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 
 /**
  * Causes Osmdroid to load from tiles from only the referenced file source and
- * no where else. online sources are not even attempted
+ * no where else. online sources are not even attempted.
  *
  * @since 4.4 Created by alex on 6/14/2015.
  */
