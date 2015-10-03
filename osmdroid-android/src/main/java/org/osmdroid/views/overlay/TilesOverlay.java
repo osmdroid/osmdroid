@@ -354,6 +354,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			} catch (final OutOfMemoryError e) {
 				Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
 				System.gc();
+			} catch (final NullPointerException e) {
+				Log.e(IMapView.LOGTAG, "NullPointerException getting loading tile");
+				System.gc();
 			}
 		}
 		return mLoadingTile;
