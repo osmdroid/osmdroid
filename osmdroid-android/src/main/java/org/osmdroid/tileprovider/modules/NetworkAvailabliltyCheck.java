@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 
 /**
  * A straightforward network check implementation. NOTE: Requires
@@ -16,16 +17,18 @@ import android.net.NetworkInfo;
 public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 
 	private final ConnectivityManager mConnectionManager;
+     final boolean isX86;
 
 	public NetworkAvailabliltyCheck(final Context aContext) {
 		mConnectionManager = (ConnectivityManager) aContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
+          isX86= Build.HARDWARE.contains("android_x86");
 	}
 
 	@Override
 	public boolean getNetworkAvailable() {
 		final NetworkInfo networkInfo = mConnectionManager.getActiveNetworkInfo();
-		return networkInfo != null && networkInfo.isAvailable();
+		return networkInfo != null && (networkInfo.isAvailable() || (networkInfo.getType()==ConnectivityManager.TYPE_ETHERNET && isX86));
 	}
 
 	@Override
