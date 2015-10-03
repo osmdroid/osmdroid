@@ -17,12 +17,10 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     private static final String MAPBOX_MAPID = "MAPBOX_MAPID";
 
 	private static final String[] mapBoxBaseUrl = new String[]{
-			"http://a.tiles.mapbox.com/v3/",
-			"http://b.tiles.mapbox.com/v3/",
-			"http://c.tiles.mapbox.com/v3/",
-			"http://d.tiles.mapbox.com/v3/"};
+			"http://api.tiles.mapbox.com/v4/"};
 
 	private static String mapBoxMapId = "";
+     private String accessToken;
 
 	/**
      * TileSource with configuration defaults set.
@@ -83,7 +81,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     @Override
     public String getTileURLString(final MapTile aMapTile)
     {
-        StringBuffer url = new StringBuffer(getBaseUrl());
+        StringBuilder url = new StringBuilder(getBaseUrl());
         url.append(getMapBoxMapId());
         url.append("/");
         url.append(aMapTile.getZoomLevel());
@@ -92,9 +90,16 @@ public class MapBoxTileSource extends OnlineTileSourceBase
         url.append("/");
         url.append(aMapTile.getY());
         url.append(".png");
-
+        url.append("?access_token=").append(getAccessToken());
         String res = url.toString();
 
         return res;
+    }
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 }
