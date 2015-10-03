@@ -74,12 +74,12 @@ public class MapController implements IMapController {
 		mController.stopPanning();
 	}
 
-     @Override
+     //@Override
      public boolean isInvertedTiles() {
           return false;
      }
 
-     @Override
+     //@Override
      public void setInvertedTiles(boolean value) {
           
      }
