@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		package="org.osmdroid"
+		package="org.osmdroid.example"
 		android:versionCode="16" android:versionName="4.4-SNAPSHOT">
 
 	<uses-sdk android:minSdkVersion="7" android:targetSdkVersion="19" />
@@ -29,49 +29,49 @@
 		<uses-library android:name="com.google.android.maps" android:required="false" />
 
 		<activity android:icon="@drawable/icon"
-			android:label="Open Map" android:name="MapActivity">
+			android:label="Open Map" android:name="org.osmdroid.MapActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"></action>
 				<category android:name="android.intent.category.LAUNCHER"></category>
 			</intent-filter>
 		</activity>
-		<activity android:label="OSMSamples" android:name=".samples.SampleLoader">
+		<activity android:label="OSMSamples" android:name="org.osmdroid.samples.SampleLoader">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithMinimapItemizedoverlay">
+		<activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleExtensive">
+		<activity android:name="org.osmdroid.samples.SampleExtensive">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithMinimapZoomcontrols">
+		<activity android:name="org.osmdroid.samples.SampleWithMinimapZoomcontrols">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleOSMContributor">
+		<activity android:name="org.osmdroid.samples.SampleOSMContributor">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithTilesOverlay">
+		<activity android:name="org.osmdroid.samples.SampleWithTilesOverlay">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
-		<activity android:name=".samples.SampleWithTilesOverlayAndCustomTileSource">
+		<activity android:name="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW"></action>
 				<category android:name="android.intent.category.DEFAULT"></category>

@@ -10,7 +10,7 @@ import org.osmdroid.views.MapView;
  *
  */
 public interface IMapView {
-
+     public static String LOGTAG="OsmDroid";
 	IMapController getController();
 	IProjection getProjection();
 	int getZoomLevel();

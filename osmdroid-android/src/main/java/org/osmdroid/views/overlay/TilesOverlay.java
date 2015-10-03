@@ -11,8 +11,6 @@ import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -26,9 +24,11 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import org.osmdroid.api.IMapView;
 
 /**
  * These objects are the principle consumer of map tiles.
@@ -39,7 +39,6 @@ import android.view.SubMenu;
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
 
 	public static final int MENU_MAP_MODE = getSafeMenuId();
 	public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
@@ -129,7 +128,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected void draw(Canvas c, MapView osmv, boolean shadow) {
 
 		if (DEBUGMODE) {
-			logger.trace("onDraw(" + shadow + ")");
+               Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
 		}
 		isInvert=osmv.getController().isInvertedTiles();
 
@@ -353,7 +352,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				}
 				mLoadingTile = new BitmapDrawable(bitmap);
 			} catch (final OutOfMemoryError e) {
-				logger.error("OutOfMemoryError getting loading tile");
+				Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
 				System.gc();
 			}
 		}

@@ -13,10 +13,10 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * An abstract base class for modular tile providers
@@ -81,15 +81,13 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	private final ExecutorService mExecutor;
 
-	private static final Logger logger = LoggerFactory.getLogger(MapTileModuleProviderBase.class);
-
 	protected final Object mQueueLockObject = new Object();
 	protected final HashMap<MapTile, MapTileRequestState> mWorking;
 	protected final LinkedHashMap<MapTile, MapTileRequestState> mPending;
 
 	public MapTileModuleProviderBase(int pThreadPoolSize, final int pPendingQueueSize) {
 		if (pPendingQueueSize < pThreadPoolSize) {
-			logger.warn("The pending queue size is smaller than the thread pool size. Automatically reducing the thread pool size.");
+               Log.w(IMapView.LOGTAG,"The pending queue size is smaller than the thread pool size. Automatically reducing the thread pool size.");
 			pThreadPoolSize = pPendingQueueSize;
 		}
 		mExecutor = Executors.newFixedThreadPool(pThreadPoolSize,
@@ -135,12 +133,12 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 		synchronized (mQueueLockObject) {
 			if (DEBUG_TILE_PROVIDERS) {
-				logger.debug("MapTileModuleProviderBase.loadMaptileAsync() on provider: "
+				Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.loadMaptileAsync() on provider: "
 						+ getName() + " for tile: " + pState.getMapTile());
 				if (mPending.containsKey(pState.getMapTile()))
-					logger.debug("MapTileModuleProviderBase.loadMaptileAsync() tile already exists in request queue for modular provider. Moving to front of queue.");
+					Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.loadMaptileAsync() tile already exists in request queue for modular provider. Moving to front of queue.");
 				else
-					logger.debug("MapTileModuleProviderBase.loadMaptileAsync() adding tile to request queue for modular provider.");
+					Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.loadMaptileAsync() adding tile to request queue for modular provider.");
 			}
 
 			// this will put the tile in the queue, or move it to the front of
@@ -150,7 +148,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		try {
 			mExecutor.execute(getTileLoader());
 		} catch (final RejectedExecutionException e) {
-			logger.warn("RejectedExecutionException", e);
+			Log.w(IMapView.LOGTAG,"RejectedExecutionException", e);
 		}
 	}
 
@@ -172,7 +170,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 	void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mQueueLockObject) {
 			if (DEBUG_TILE_PROVIDERS) {
-				logger.debug("MapTileModuleProviderBase.removeTileFromQueues() on provider: "
+				Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.removeTileFromQueues() on provider: "
 						+ getName() + " for tile: " + mapTile);
 			}
 			mPending.remove(mapTile);
@@ -221,7 +219,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 					final MapTile tile = iterator.next();
 					if (!mWorking.containsKey(tile)) {
 						if (DEBUG_TILE_PROVIDERS) {
-							logger.debug("TileLoader.nextTile() on provider: " + getName()
+							Log.d(IMapView.LOGTAG,"TileLoader.nextTile() on provider: " + getName()
 									+ " found tile in working queue: " + tile);
 						}
 						result = tile;
@@ -230,7 +228,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 				if (result != null) {
 					if (DEBUG_TILE_PROVIDERS) {
-						logger.debug("TileLoader.nextTile() on provider: " + getName()
+						Log.d(IMapView.LOGTAG,"TileLoader.nextTile() on provider: " + getName()
 								+ " adding tile to working queue: " + result);
 					}
 					mWorking.put(result, mPending.get(result));
@@ -245,7 +243,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 */
 		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
 			if (DEBUG_TILE_PROVIDERS) {
-				logger.debug("TileLoader.tileLoaded() on provider: " + getName() + " with tile: "
+				Log.d(IMapView.LOGTAG,"TileLoader.tileLoaded() on provider: " + getName() + " with tile: "
 						+ pState.getMapTile());
 			}
 			removeTileFromQueues(pState.getMapTile());
@@ -258,7 +256,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 */
 		protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
 			if (DEBUG_TILE_PROVIDERS) {
-				logger.debug("TileLoader.tileLoadedExpired() on provider: " + getName()
+				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedExpired() on provider: " + getName()
 						+ " with tile: " + pState.getMapTile());
 			}
 			removeTileFromQueues(pState.getMapTile());
@@ -267,7 +265,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
 			if (DEBUG_TILE_PROVIDERS) {
-				logger.debug("TileLoader.tileLoadedFailed() on provider: " + getName()
+				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedFailed() on provider: " + getName()
 						+ " with tile: " + pState.getMapTile());
 			}
 			removeTileFromQueues(pState.getMapTile());
@@ -286,16 +284,16 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
 				if (DEBUG_TILE_PROVIDERS) {
-					logger.debug("TileLoader.run() processing next tile: " + state.getMapTile());
+					Log.d(IMapView.LOGTAG,"TileLoader.run() processing next tile: " + state.getMapTile());
 				}
 				try {
 					result = null;
 					result = loadTile(state);
 				} catch (final CantContinueException e) {
-					logger.info("Tile loader can't continue: " + state.getMapTile(), e);
+					Log.i(IMapView.LOGTAG,"Tile loader can't continue: " + state.getMapTile(), e);
 					clearQueue();
 				} catch (final Throwable e) {
-					logger.error("Error downloading tile: " + state.getMapTile(), e);
+					Log.i(IMapView.LOGTAG,"Error downloading tile: " + state.getMapTile(), e);
 				}
 
 				if (result == null) {

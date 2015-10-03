@@ -1,9 +1,8 @@
 package org.osmdroid.events;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.os.Handler;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /*
  * A MapListener that aggregates multiple events called in quick succession.
@@ -14,8 +13,6 @@ import android.os.Handler;
  * @author Theodore Hong
  */
 public class DelayedMapListener implements MapListener {
-
-	private static final Logger logger = LoggerFactory.getLogger(DelayedMapListener.class);
 
 	/** Default listening delay */
 	protected static final int DEFAULT_DELAY = 100;
@@ -93,7 +90,7 @@ public class DelayedMapListener implements MapListener {
 				wrappedListener.onZoom((ZoomEvent) event);
 			} else {
 				// unknown event; discard
-				logger.debug("Unknown event received: " + event);
+                    Log.d(IMapView.LOGTAG,"Unknown event received: " + event);
 			}
 		}
 	}

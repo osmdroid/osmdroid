@@ -10,10 +10,10 @@ import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -28,8 +28,6 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final Logger logger = LoggerFactory.getLogger(MapTileFilesystemProvider.class);
 
 	// ===========================================================
 	// Fields
@@ -138,7 +136,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
 				if (DEBUGMODE) {
-					logger.debug("No sdcard - do nothing for tile: " + tile);
+                         Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
 				}
 				return null;
 			}
@@ -159,7 +157,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 					if (fileExpired && drawable != null) {
 						if (DEBUGMODE) {
-							logger.debug("Tile expired: " + tile);
+							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
 						}
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);
 					}
@@ -167,7 +165,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					return drawable;
 				} catch (final LowMemoryException e) {
 					// low memory so empty the queue
-					logger.warn("LowMemoryException downloading MapTile: " + tile + " : " + e);
+					Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
 					throw new CantContinueException(e);
 				}
 			}

@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.util.Log;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,13 +11,12 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.osmdroid.api.IMapView;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * An implementation of {@link IFilesystemCache}. It writes tiles to the file system cache. If the
@@ -31,7 +31,6 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	// Constants
 	// ===========================================================
 
-	private static final Logger logger = LoggerFactory.getLogger(TileWriter.class);
 
 	// ===========================================================
 	// Fields
@@ -56,7 +55,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					cutCurrentCache();
 				}
 				if (DEBUGMODE) {
-					logger.debug("Finished init thread");
+					Log.d(IMapView.LOGTAG,"Finished init thread");
 				}
 			}
 		};
@@ -123,7 +122,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			return true;
 		}
 		if (DEBUGMODE) {
-			logger.debug("Failed to create " + pFile + " - wait and check again");
+			Log.d(IMapView.LOGTAG,"Failed to create " + pFile + " - wait and check again");
 		}
 
 		// if create failed, wait a bit in case another thread created it
@@ -134,12 +133,12 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		// and then check again
 		if (pFile.exists()) {
 			if (DEBUGMODE) {
-				logger.debug("Seems like another thread created " + pFile);
+				Log.d(IMapView.LOGTAG,"Seems like another thread created " + pFile);
 			}
 			return true;
 		} else {
 			if (DEBUGMODE) {
-				logger.debug("File still doesn't exist: " + pFile);
+				Log.d(IMapView.LOGTAG,"File still doesn't exist: " + pFile);
 			}
 			return false;
 		}
@@ -210,7 +209,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 
 			if (mUsedCacheSpace > TILE_TRIM_CACHE_SIZE_BYTES) {
 
-				logger.info("Trimming tile cache from " + mUsedCacheSpace + " to "
+				Log.d(IMapView.LOGTAG,"Trimming tile cache from " + mUsedCacheSpace + " to "
 						+ TILE_TRIM_CACHE_SIZE_BYTES);
 
 				final List<File> z = getDirectoryFileList(TILE_PATH_BASE);
@@ -235,7 +234,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 					}
 				}
 
-				logger.info("Finished trimming tile cache");
+				Log.d(IMapView.LOGTAG,"Finished trimming tile cache");
 			}
 		}
 	}

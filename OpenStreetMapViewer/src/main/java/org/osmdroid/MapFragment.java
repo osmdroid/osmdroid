@@ -30,6 +30,7 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import org.osmdroid.ResourceProxy;
 
 /**
  * Default map view activity.
@@ -182,7 +183,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
         mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
         // Put samples next
-		SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, R.string.samples)
+		SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.example.R.string.samples)
 				.setIcon(android.R.drawable.ic_menu_gallery);
 		SampleFactory sampleFactory = SampleFactory.getInstance();
 		for (int a = 0; a < sampleFactory.count(); a++) {
@@ -198,7 +199,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants
 		}
 
         // Put "About" menu item last
-        menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, R.string.about).setIcon(
+        menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.example.R.string.about).setIcon(
                 android.R.drawable.ic_menu_info_details);
 
         super.onCreateOptionsMenu(menu, inflater);

@@ -1,20 +1,18 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
+import org.osmdroid.api.IMapView;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ZipFileArchive implements IArchiveFile {
-
-	private static final Logger logger = LoggerFactory.getLogger(ZipFileArchive.class);
 
 	private final ZipFile mZipFile;
 
@@ -35,7 +33,7 @@ public class ZipFileArchive implements IArchiveFile {
 				return mZipFile.getInputStream(entry);
 			}
 		} catch (final IOException e) {
-			logger.warn("Error getting zip stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + pTile, e);
 		}
 		return null;
 	}

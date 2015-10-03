@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.R;
+
 import org.osmdroid.views.MapView;
 
 import android.os.Bundle;
@@ -28,8 +28,8 @@ public class SampleFragmentXmlLayout extends BaseSampleFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.mapview, null);
-		mMapView = (MapView) v.findViewById(R.id.mapview);
+		View v = inflater.inflate(org.osmdroid.example.R.layout.mapview, null);
+		mMapView = (MapView) v.findViewById(org.osmdroid.example.R.id.mapview);
 		return v;
 		// mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
 		// mMapView = new MapView(inflater.getContext(), 256, mResourceProxy);

@@ -11,8 +11,6 @@ import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -36,8 +34,6 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final Logger logger = LoggerFactory.getLogger(MapTileAssetsProvider.class);
 
 	// ===========================================================
 	// Fields

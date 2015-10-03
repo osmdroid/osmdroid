@@ -109,26 +109,9 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!--  -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.6.1</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-android</artifactId>
-                <version>1.6.1-RC1</version>
-            </dependency>
+          
 
             <!-- test dependencies -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>1.6.1</version>
-                <scope>test</scope>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -153,7 +136,7 @@
                 <plugin>
                     <groupId>com.simpligility.maven.plugins</groupId>
                     <artifactId>android-maven-plugin</artifactId>
-                    <version>4.2.1</version>
+                    <version>4.3.0</version>
                     <configuration>
                         <sdk>
                             <platform>19</platform>
@@ -207,11 +190,12 @@
 
     <modules>
         <module>osmdroid-android</module>
-        <module>osmdroid-android-it</module>
+       
         <module>osmdroid-third-party</module>
         <module>OpenStreetMapViewer</module>
         <module>GoogleWrapperSample</module>
         <module>OSMMapTilePackager</module>
+         <module>osmdroid-android-it</module>
     </modules>
 
     <profiles>

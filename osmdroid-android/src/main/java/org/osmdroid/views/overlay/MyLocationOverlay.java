@@ -18,8 +18,6 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.Overlay.Snappable;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -41,6 +39,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,8 +55,6 @@ import android.view.WindowManager;
  */
 public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IOverlayMenuProvider,
 		SensorEventListener, LocationListener, Snappable {
-
-	private static final Logger logger = LoggerFactory.getLogger(MyLocationOverlay.class);
 
 	// ===========================================================
 	// Constants
@@ -384,12 +381,12 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	@Override
 	public void onLocationChanged(final Location location) {
 		if (DEBUGMODE) {
-			logger.debug("onLocationChanged(" + location + ")");
+			Log.i(IMapView.LOGTAG,"onLocationChanged(" + location + ")");
 		}
 
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis())) {
-			logger.debug("Ignore temporary non-gps location");
+			Log.i(IMapView.LOGTAG,"Ignore temporary non-gps location");
 			return;
 		}
 
@@ -455,7 +452,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			final double yDiff = y - mMapCoords.y;
 			final boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
-				logger.debug("snap=" + snap);
+				Log.i(IMapView.LOGTAG,"snap=" + snap);
 			}
 			return snap;
 		} else {

@@ -8,8 +8,6 @@ import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.views.Projection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -20,6 +18,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  * This is an abstract class. The tile provider is responsible for:
@@ -36,7 +36,6 @@ import android.os.Handler;
 public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		OpenStreetMapTileProviderConstants {
 
-	private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBase.class);
 
 	protected final MapTileCache mTileCache;
 	protected Handler mTileRequestCompleteHandler;
@@ -129,7 +128,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		if (DEBUG_TILE_PROVIDERS) {
-			logger.debug("MapTileProviderBase.mapTileRequestCompleted(): " + pState.getMapTile());
+               Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestCompleted(): " + pState.getMapTile());
 		}
 	}
 
@@ -147,7 +146,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		if (DEBUG_TILE_PROVIDERS) {
-			logger.debug("MapTileProviderBase.mapTileRequestFailed(): " + pState.getMapTile());
+			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestFailed(): " + pState.getMapTile());
 		}
 	}
 
@@ -172,7 +171,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		}
 
 		if (DEBUG_TILE_PROVIDERS) {
-			logger.debug("MapTileProviderBase.mapTileRequestExpiredTile(): " + pState.getMapTile());
+			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestExpiredTile(): " + pState.getMapTile());
 		}
 	}
 
@@ -236,7 +235,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 
 		final long startMs = System.currentTimeMillis();
 
-		logger.info("rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
+		Log.i(IMapView.LOGTAG,"rescale tile cache from "+ pOldZoomLevel + " to " + pNewZoomLevel);
 
 		final int tileSize = getTileSource().getTileSizePixels();
 
@@ -252,7 +251,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 		tileLooper.loop(null, pNewZoomLevel, tileSize, viewPort);
 
 		final long endMs = System.currentTimeMillis();
-		logger.info("Finished rescale in " + (endMs - startMs) + "ms");
+		Log.i(IMapView.LOGTAG,"Finished rescale in " + (endMs - startMs) + "ms");
 	}
 
 	private abstract class ScaleTileLooper extends TileLooper {
@@ -295,7 +294,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 				try {
 					handleTile(pTileSizePx, pTile, pX, pY);
 				} catch(final OutOfMemoryError e) {
-					logger.error("OutOfMemoryError rescaling cache");
+					Log.e(IMapView.LOGTAG,"OutOfMemoryError rescaling cache");
 				}
 			}
 		}
@@ -355,7 +354,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 						canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
 						success = true;
 						if (DEBUGMODE) {
-							logger.debug("Created scaled tile: " + pTile);
+							Log.d(IMapView.LOGTAG,"Created scaled tile: " + pTile);
 							mDebugPaint.setTextSize(40);
 							canvas.drawText("scaled", 50, 50, mDebugPaint);
 						}
@@ -420,7 +419,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback,
 			if (bitmap != null) {
 				mNewTiles.put(pTile, bitmap);
 				if (DEBUGMODE) {
-					logger.debug("Created scaled tile: " + pTile);
+					Log.d(IMapView.LOGTAG,"Created scaled tile: " + pTile);
 					mDebugPaint.setTextSize(40);
 					canvas.drawText("scaled", 50, 50, mDebugPaint);
 				}

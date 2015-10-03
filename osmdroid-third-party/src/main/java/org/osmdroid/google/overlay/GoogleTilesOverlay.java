@@ -6,8 +6,6 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.views.util.Mercator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,11 +13,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.Projection;
+import org.osmdroid.thirdparty.Constants;
 
 /**
  * This class represents an OSM Tiles Overlay at a Google Map. It is a copy from
@@ -31,7 +31,6 @@ import com.google.android.maps.Projection;
 public class GoogleTilesOverlay extends Overlay {
 
 	private static final boolean DEBUGMODE = false;
-	private static final Logger logger = LoggerFactory.getLogger(GoogleTilesOverlay.class);
 
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
@@ -89,7 +88,7 @@ public class GoogleTilesOverlay extends Overlay {
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 		if (DEBUGMODE) {
-			logger.trace("draw");
+               Log.d(Constants.LOGTAG, "draw");
 		}
 
 		// Calculate the half-world size
