@@ -1,9 +1,10 @@
 package org.osmdroid.bonuspack.overlays;
 
+import android.content.Context;
+
 import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.overlay.Overlay;
-import android.content.Context;
 
 /**
  * Overlay able to open an InfoWindow (a bubble), displaying: a title, a snippet or description, 
@@ -93,5 +94,5 @@ public abstract class OverlayWithIW extends Overlay {
 	public boolean isInfoWindowOpen(){
 		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}
-	
+
 }
