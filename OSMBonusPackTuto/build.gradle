@@ -29,7 +29,7 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile(name: 'osmbonuspack_v5.3', ext: 'aar')
+    compile(name: 'osmbonuspack_v5.4', ext: 'aar')
 //    compile project(":OSMBonusPack")
 
     compile 'org.osmdroid:osmdroid-android:4.3'
