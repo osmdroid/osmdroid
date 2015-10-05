@@ -15,12 +15,13 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 {
     /** the meta data key in the manifest */
     private static final String MAPBOX_MAPID = "MAPBOX_MAPID";
+    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
 	private static final String[] mapBoxBaseUrl = new String[]{
 			"http://api.tiles.mapbox.com/v4/"};
 
 	private static String mapBoxMapId = "";
-     private String accessToken;
+     private static String accessToken;
 
 	/**
      * TileSource with configuration defaults set.
@@ -72,6 +73,16 @@ public class MapBoxTileSource extends OnlineTileSourceBase
         // Retrieve the MapId from the Manifest
         mapBoxMapId = ManifestUtil.retrieveKey(aContext, MAPBOX_MAPID);
     }
+    
+    /**
+     * Read the API key from the manifest.<br>
+     * This method should be invoked before class instantiation.<br>
+     */
+    public static void retrieveAccessToken(final Context aContext)
+    {
+        // Retrieve the MapId from the Manifest
+        accessToken = ManifestUtil.retrieveKey(aContext, ACCESS_TOKEN);
+    }
 
     public static String getMapBoxMapId()
     {
@@ -99,7 +110,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
         return accessToken;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setAccessToken(String accessTokeninput) {
+        accessToken = accessTokeninput;
     }
 }
