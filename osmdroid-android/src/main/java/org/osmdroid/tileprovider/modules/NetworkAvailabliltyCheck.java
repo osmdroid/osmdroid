@@ -22,7 +22,7 @@ public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 	public NetworkAvailabliltyCheck(final Context aContext) {
 		mConnectionManager = (ConnectivityManager) aContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-          isX86= Build.HARDWARE.contains("android_x86");
+          isX86= "Android-x86".equalsIgnoreCase(Build.BRAND);
 	}
 
 	@Override
