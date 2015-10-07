@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -47,14 +48,14 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource aTileSource) {
-		this(pRegisterReceiver, aTileSource, DEFAULT_MAXIMUM_CACHED_FILE_AGE);
+		this(pRegisterReceiver, aTileSource, OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
 	}
 
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
 		this(pRegisterReceiver, pTileSource, pMaximumCachedFileAge,
-				NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public int getMinimumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
-		return tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		return tileSource != null ? tileSource.getMinimumZoomLevel() : OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
@@ -135,7 +136,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                          Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
 				}
 				return null;
@@ -143,8 +144,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
-			final File file = new File(TILE_PATH_BASE,
-					tileSource.getTileRelativeFilenameString(tile) + TILE_PATH_EXTENSION);
+			final File file = new File(OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR,
+					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 			if (file.exists()) {
 
 				try {
@@ -156,7 +157,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
 					if (fileExpired && drawable != null) {
-						if (DEBUGMODE) {
+						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
 						}
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);

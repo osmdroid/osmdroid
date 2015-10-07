@@ -10,7 +10,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.osmdroid.http.HttpClientFactory;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,8 +28,9 @@ import org.osmdroid.api.IMapView;
  * "you will always get the same token for the unique user id"
  *
  */
-public class CloudmadeUtil implements OpenStreetMapTileProviderConstants {
+public class CloudmadeUtil  {
 
+     public static boolean DEBUGMODE=false;
 	/** the meta data key in the manifest */
 	private static final String CLOUDMADE_KEY = "CLOUDMADE_KEY";
 

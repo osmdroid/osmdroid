@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -55,8 +56,8 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 								 final AssetManager pAssets,
 								 final ITileSource pTileSource) {
 		this(pRegisterReceiver, pAssets, pTileSource,
-				NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 	}
 
 	public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
@@ -99,7 +100,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public int getMinimumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
-		return tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		return tileSource != null ? tileSource.getMinimumZoomLevel() : OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override

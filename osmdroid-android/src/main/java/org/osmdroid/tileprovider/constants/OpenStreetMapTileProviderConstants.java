@@ -5,6 +5,8 @@ import java.io.File;
 import org.osmdroid.tileprovider.LRUMapTileCache;
 
 import android.os.Environment;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,21 +15,36 @@ import android.os.Environment;
  * @author Neil Boyd
  *
  */
-public interface OpenStreetMapTileProviderConstants {
+public class OpenStreetMapTileProviderConstants {
 
-	public static final boolean DEBUGMODE = false;
+	public static boolean DEBUGMODE = false;
 	public static final boolean DEBUG_TILE_PROVIDERS = false;
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
 
-	/** Base path for osmdroid files. Zip files are in this folder. */
-	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+	/** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. */
+     @Deprecated
+	final static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");
+     
+     private final static List<File> OSMDROID_PATHS = new ArrayList<File>();
+     static{
+          OSMDROID_PATHS.add(OSMDROID_PATH);
+          File f=new File("/storage/extSdCard/",
+			"osmdroid");
+          if (f.exists())
+               OSMDROID_PATHS.add(f);
+     }
+     
+	/** Base path for tiles. 
+      /sdcard/osmdroid
+      */
+     @Deprecated
+	public static File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
 
-	/** Base path for tiles. */
-	public static final File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
-
+     public static File DEFAULT_CACHE_DIR=TILE_PATH_BASE;
+      
 	/** add an extension to files on sdcard so that gallery doesn't index them */
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
@@ -59,10 +76,33 @@ public interface OpenStreetMapTileProviderConstants {
 	/** 30 days */
 	public static final long TILE_EXPIRY_TIME_MILLISECONDS = 1000L * 60 * 60 * 24 * 30;
 
-	/** 600 Mb */
-	public static final long TILE_MAX_CACHE_SIZE_BYTES = 600L * 1024 * 1024;
+	/** default is 600 Mb */
+	public static long TILE_MAX_CACHE_SIZE_BYTES = 600L * 1024 * 1024;
 
-	/** 500 Mb */
-	public static final long TILE_TRIM_CACHE_SIZE_BYTES = 500L * 1024 * 1024;
+	/** default is 500 Mb */
+	public static long TILE_TRIM_CACHE_SIZE_BYTES = 500L * 1024 * 1024;
 
+     /** Change the root path of the osmdroid cache. 
+     * By default, it is defined in SD card, osmdroid directory. 
+     * @param newFullPath
+     */
+     public static void addCachePath(String newFullPath){
+         File f=new File(newFullPath);
+         if (f.exists())
+               OSMDROID_PATHS.add(f);
+         TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
+     }
+     
+     public static List<File> getCachePaths(){
+          return OSMDROID_PATHS;
+     }
+
+     /** Change the osmdroid tiles cache sizes
+      * @param maxCacheSize in Mb. Default is 600 Mb. 
+      * @param trimCacheSize When the cache size exceeds maxCacheSize, tiles will be automatically removed to reach this target. In Mb. Default is 500 Mb. 
+      */
+     public static void setCacheSizes(long maxCacheSize, long trimCacheSize){
+         TILE_MAX_CACHE_SIZE_BYTES = maxCacheSize * 1024 * 1024;
+         TILE_TRIM_CACHE_SIZE_BYTES = trimCacheSize * 1024 * 1024;
+     }     
 }

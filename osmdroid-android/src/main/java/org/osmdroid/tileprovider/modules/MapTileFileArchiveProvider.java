@@ -15,7 +15,9 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import java.util.List;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
@@ -53,8 +55,8 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 */
 	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final IArchiveFile[] pArchives) {
-		super(pRegisterReceiver, NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		super(pRegisterReceiver, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
 		setTileSource(pTileSource);
 
@@ -106,7 +108,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public int getMinimumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
-		return tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL;
+		return tileSource != null ? tileSource.getMinimumZoomLevel() : OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL;
 	}
 
 	@Override
@@ -156,16 +158,19 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			return;
 		}
 
-		// path should be optionally configurable
-		final File[] files = OSMDROID_PATH.listFiles();
-		if (files != null) {
-			for (final File file : files) {
-				final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
-				if (archiveFile != null) {
-					mArchiveFiles.add(archiveFile);
-				}
-			}
-		}
+          // path should be optionally configurable
+          List<File> cachePaths = OpenStreetMapTileProviderConstants.getCachePaths();
+          for (int i=0; i <cachePaths.size(); i++){
+               final File[] files = cachePaths.get(i).listFiles();
+               if (files != null) {
+                    for (final File file : files) {
+                         final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
+                         if (archiveFile != null) {
+                              mArchiveFiles.add(archiveFile);
+                         }
+                    }
+               }
+          }
 	}
 
 	private synchronized InputStream getInputStream(final MapTile pTile,
@@ -173,7 +178,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		for (final IArchiveFile archiveFile : mArchiveFiles) {
 			final InputStream in = archiveFile.getInputStream(tileSource, pTile);
 			if (in != null) {
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"Found tile " + pTile + " in " + archiveFile);
 				}
 				return in;
@@ -201,7 +206,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 			// if there's no sdcard then don't do anything
 			if (!getSdCardAvailable()) {
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
 				}
 				return null;
@@ -209,13 +214,13 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 			InputStream inputStream = null;
 			try {
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
 				}
 
 				inputStream = getInputStream(pTile, tileSource);
 				if (inputStream != null) {
-					if (DEBUGMODE) {
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
 					final Drawable drawable = tileSource.getDrawable(inputStream);

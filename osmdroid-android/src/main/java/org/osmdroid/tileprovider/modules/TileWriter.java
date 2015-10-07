@@ -25,7 +25,7 @@ import org.osmdroid.tileprovider.util.StreamUtils;
  * @author Neil Boyd
  *
  */
-public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderConstants {
+public class TileWriter implements IFilesystemCache {
 
 	// ===========================================================
 	// Constants
@@ -50,11 +50,14 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			@Override
 			public void run() {
 				mUsedCacheSpace = 0; // because it's static
-				calculateDirectorySize(TILE_PATH_BASE);
-				if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
+                    for (int i=0; i < OpenStreetMapTileProviderConstants.getCachePaths().size(); i++){
+                         calculateDirectorySize(OpenStreetMapTileProviderConstants.getCachePaths().get(i));
+                    }
+				
+				if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
 					cutCurrentCache();
 				}
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"Finished init thread");
 				}
 			}
@@ -85,8 +88,8 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
-				+ TILE_PATH_EXTENSION);
+		final File file = new File(OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR, pTileSource.getTileRelativeFilenameString(pTile)
+				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 
 		final File parent = file.getParentFile();
 		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
@@ -100,7 +103,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 			final long length = StreamUtils.copy(pStream, outputStream);
 
 			mUsedCacheSpace += length;
-			if (mUsedCacheSpace > TILE_MAX_CACHE_SIZE_BYTES) {
+			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
 				cutCurrentCache(); // TODO perhaps we should do this in the background
 			}
 		} catch (final IOException e) {
@@ -121,7 +124,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		if (pFile.mkdirs()) {
 			return true;
 		}
-		if (DEBUGMODE) {
+		if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 			Log.d(IMapView.LOGTAG,"Failed to create " + pFile + " - wait and check again");
 		}
 
@@ -132,12 +135,12 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 		}
 		// and then check again
 		if (pFile.exists()) {
-			if (DEBUGMODE) {
+			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 				Log.d(IMapView.LOGTAG,"Seems like another thread created " + pFile);
 			}
 			return true;
 		} else {
-			if (DEBUGMODE) {
+			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 				Log.d(IMapView.LOGTAG,"File still doesn't exist: " + pFile);
 			}
 			return false;
@@ -205,14 +208,14 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 	 */
 	private void cutCurrentCache() {
 
-		synchronized (TILE_PATH_BASE) {
+		synchronized (OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR) {
 
-			if (mUsedCacheSpace > TILE_TRIM_CACHE_SIZE_BYTES) {
+			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES) {
 
 				Log.d(IMapView.LOGTAG,"Trimming tile cache from " + mUsedCacheSpace + " to "
-						+ TILE_TRIM_CACHE_SIZE_BYTES);
+						+ OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES);
 
-				final List<File> z = getDirectoryFileList(TILE_PATH_BASE);
+				final List<File> z = getDirectoryFileList(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
 
 				// order list by files day created from old to new
 				final File[] files = z.toArray(new File[0]);
@@ -224,7 +227,7 @@ public class TileWriter implements IFilesystemCache, OpenStreetMapTileProviderCo
 				});
 
 				for (final File file : files) {
-					if (mUsedCacheSpace <= TILE_TRIM_CACHE_SIZE_BYTES) {
+					if (mUsedCacheSpace <= OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES) {
 						break;
 					}
 

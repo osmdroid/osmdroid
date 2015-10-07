@@ -11,6 +11,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -89,7 +90,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 
 			if (!alreadyInProgress) {
-				if (DEBUG_TILE_PROVIDERS) {
+				if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
                          Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
 							+ pTile);
 				}
@@ -209,7 +210,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public int getMaximumZoomLevel() {
-		int result = MINIMUM_ZOOMLEVEL;
+		int result = OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL;
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMaximumZoomLevel() > result) {
