@@ -24,7 +24,6 @@ public class OpenStreetMapTileProviderConstants {
 	public static final int MINIMUM_ZOOMLEVEL = 0;
 
 	/** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. */
-     @Deprecated
 	final static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");
      
@@ -40,9 +39,12 @@ public class OpenStreetMapTileProviderConstants {
 	/** Base path for tiles. 
       /sdcard/osmdroid
       */
-     @Deprecated
 	public static File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
 
+     /**
+      * this is the path where all downloaded tiles are stored to
+      * @since 4.4
+      */
      public static File DEFAULT_CACHE_DIR=TILE_PATH_BASE;
       
 	/** add an extension to files on sdcard so that gallery doesn't index them */
@@ -92,7 +94,11 @@ public class OpenStreetMapTileProviderConstants {
                OSMDROID_PATHS.add(f);
          TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
      }
-     
+     /**
+      * all internal components now reference this call to find all cache paths
+      * @since 4.4
+      * @return all known default and user defined cache paths
+      */
      public static List<File> getCachePaths(){
           return OSMDROID_PATHS;
      }
@@ -100,6 +106,8 @@ public class OpenStreetMapTileProviderConstants {
      /** Change the osmdroid tiles cache sizes
       * @param maxCacheSize in Mb. Default is 600 Mb. 
       * @param trimCacheSize When the cache size exceeds maxCacheSize, tiles will be automatically removed to reach this target. In Mb. Default is 500 Mb. 
+      * @since 4.4
+      * @author MKer
       */
      public static void setCacheSizes(long maxCacheSize, long trimCacheSize){
          TILE_MAX_CACHE_SIZE_BYTES = maxCacheSize * 1024 * 1024;
