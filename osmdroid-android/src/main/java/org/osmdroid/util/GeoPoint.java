@@ -37,6 +37,17 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	// Constructors
 	// ===========================================================
 
+	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6) {
+		this.mLatitude = aLatitudeE6 / 1E6;
+		this.mLongitude = aLongitudeE6 / 1E6;
+	}
+
+	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6, final int aAltitude) {
+		this.mLatitude = aLatitudeE6 / 1E6;
+		this.mLongitude = aLongitudeE6 / 1E6;
+		this.mAltitude = aAltitude;
+	}
+
 	public GeoPoint(final double aLatitude, final double aLongitude) {
 		this.mLatitude = aLatitude;
 		this.mLongitude = aLongitude;

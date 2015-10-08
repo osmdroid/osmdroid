@@ -11,6 +11,7 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import org.osmdroid.util.BoundingBoxE6;
 
 /**
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
@@ -75,6 +76,14 @@ public class Projection implements IProjection, MapViewConstants {
 
 	public BoundingBox getBoundingBox() {
 		return mBoundingBoxProjection;
+	}
+     
+     @Deprecated
+     public BoundingBoxE6 getBoundingBoxE6() {
+          BoundingBoxE6 x = new BoundingBoxE6(mBoundingBoxProjection.getLatNorth(),
+               mBoundingBoxProjection.getLonEast(), mBoundingBoxProjection.getLatSouth(),
+               mBoundingBoxProjection.getLonWest());
+		return x;
 	}
 
 	public Rect getScreenRect() {

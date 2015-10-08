@@ -15,8 +15,10 @@ public interface IMapView {
 	IProjection getProjection();
 	int getZoomLevel();
 	int getMaxZoomLevel();
-	double getLatitudeSpan();
-	double getLongitudeSpan();
+	int getLatitudeSpan();
+	int getLongitudeSpan();
+	double getLatitudeSpanDouble();
+	double getLongitudeSpanDouble();
 	IGeoPoint getMapCenter();
 
 	// some methods from View

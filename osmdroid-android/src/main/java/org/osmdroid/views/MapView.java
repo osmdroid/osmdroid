@@ -37,8 +37,6 @@ import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
 import org.osmdroid.views.util.constants.MapViewConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -58,6 +56,7 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
+import org.osmdroid.util.BoundingBoxE6;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -241,15 +240,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	@Override
-	public double getLatitudeSpan() {
+	public int getLatitudeSpan() {
+		return this.getBoundingBoxE6().getLatitudeSpanE6();
+     }
+	public double getLatitudeSpanDouble() {
 		return this.getBoundingBox().getLatitudeSpan();
 	}
 
 	@Override
-	public double getLongitudeSpan() {
+	public int getLongitudeSpan() {
+		return this.getBoundingBoxE6().getLongitudeSpanE6();
+     }
+	public double getLongitudeSpanDouble() {
 		return this.getBoundingBox().getLongitudeSpan();
 	}
 
+	public BoundingBoxE6 getBoundingBoxE6() {
+          return getProjection().getBoundingBoxE6();
+     }
 	public BoundingBox getBoundingBox() {
 		return getProjection().getBoundingBox();
 	}
@@ -295,6 +303,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/**
 	 * @deprecated use {@link #setMapCenter(IGeoPoint)}
 	 */
+	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
+		setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+     }
 	void setMapCenter(final double aLatitude, final double aLongitude) {
 		setMapCenter(new GeoPoint(aLatitude, aLongitude));
 	}
@@ -356,6 +367,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	/**
+	 * Zoom the map to enclose the specified bounding box, as closely as possible.
+	 * Must be called after display layout is complete, or screen dimensions are not known, and
+	 * will always zoom to center of zoom  level 0.
+	 * Suggestion: Check getScreenRect(null).getHeight() > 0
+	 */
+	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
+		final BoundingBoxE6 currentBox = getBoundingBoxE6();
+          BoundingBox x = new BoundingBox(currentBox.getLatNorthE6(),
+               currentBox.getLonEastE6(), currentBox.getLatSouthE6(), currentBox.getLonWestE6());
+          zoomToBoundingBox(x);
+     }
+     
+     /**
 	 * Zoom the map to enclose the specified bounding box, as closely as possible.
 	 * Must be called after display layout is complete, or screen dimensions are not known, and
 	 * will always zoom to center of zoom  level 0.
