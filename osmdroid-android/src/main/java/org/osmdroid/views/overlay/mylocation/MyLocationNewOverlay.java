@@ -51,7 +51,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected final Paint mPaint = new Paint();
 	protected final Paint mCirclePaint = new Paint();
 
-	protected final Bitmap mPersonBitmap;
+	protected Bitmap mPersonBitmap;
 	protected final Bitmap mDirectionArrowBitmap;
 
 	protected final MapView mMapView;
@@ -555,4 +555,14 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			return false;
 		}
 	}
+     
+     /**
+      * enabls you to change the my location 'person' icon at runtime. note that the
+      * hotspot is not updated with this method. see 
+      * {@link #setPersonHotspot}
+      * @param icon 
+      */
+     public void setPersonIcon(Bitmap icon){
+          mPersonBitmap = icon;
+     }
 }
