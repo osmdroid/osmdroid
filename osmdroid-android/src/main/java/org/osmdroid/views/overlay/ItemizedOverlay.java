@@ -9,6 +9,7 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -45,6 +46,8 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	private Item mFocusedItem;
 	private boolean mPendingFocusChangedEvent = false;
 	private OnFocusChangeListener mOnFocusChangeListener;
+     private final float[] mMatrixValues = new float[9];
+     private final Matrix mMatrix = new Matrix();
 
 	// ===========================================================
 	// Abstract methods
@@ -105,31 +108,59 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+    protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
-		if (shadow) {
-			return;
-		}
+        if (shadow) {
+            return;
+        }
 
-		if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
-			mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
-		mPendingFocusChangedEvent = false;
+        if (mPendingFocusChangedEvent && mOnFocusChangeListener != null)
+            mOnFocusChangeListener.onFocusChanged(this, mFocusedItem);
+        mPendingFocusChangedEvent = false;
 
-		final Projection pj = mapView.getProjection();
-		final int size = this.mInternalItemList.size() - 1;
+        final Projection pj = mapView.getProjection();
+        final int size = this.mInternalItemList.size() - 1;
 
 		/* Draw in backward cycle, so the items with the least index are on the front. */
-		for (int i = size; i >= 0; i--) {
-			final Item item = getItem(i);
-			if (item == null) {
-				continue;
-			}
+        for (int i = size; i >= 0; i--) {
+            final Item item = getItem(i);
+            if (item == null) {
+                continue;
+            }
 
-			pj.toPixels(item.getPoint(), mCurScreenCoords);
+            pj.toPixels(item.getPoint(), mCurScreenCoords);
 
-			onDrawItem(c, item, mCurScreenCoords, mapView.getMapOrientation());
-		}
-	}
+            canvas.getMatrix(mMatrix);
+            mMatrix.getValues(mMatrixValues);
+
+            float scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]
+                    * mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]
+                    * mMatrixValues[Matrix.MSKEW_Y]);
+            float scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]
+                    * mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]
+                    * mMatrixValues[Matrix.MSKEW_X]);
+
+            final int state = (mDrawFocusedItem && (mFocusedItem == item) ? OverlayItem.ITEM_STATE_FOCUSED_MASK
+                    : 0);
+            final Drawable marker = (item.getMarker(state) == null) ? getDefaultMarker(state) : item
+                    .getMarker(state);
+            final HotspotPlace hotspot = item.getMarkerHotspot();
+
+            boundToHotspot(marker, hotspot);
+
+            int x = mCurScreenCoords.x;
+            int y = mCurScreenCoords.y;
+
+            canvas.save();
+            canvas.rotate(-mapView.getMapOrientation(), x, y);
+            marker.copyBounds(mRect);
+            marker.setBounds(mRect.left + x, mRect.top + y, mRect.right + x, mRect.bottom + y);
+            canvas.scale(1 / scaleX, 1 / scaleY, x, y);
+            marker.draw(canvas);
+            marker.setBounds(mRect);
+            canvas.restore();
+        }
+    }
 
 	// ===========================================================
 	// Methods
