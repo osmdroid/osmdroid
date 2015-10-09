@@ -15,6 +15,7 @@ public final class SampleFactory {
 
 	private SampleFactory() {
 		mSamples = new BaseSampleFragment[] { new SampleWithMinimapItemizedOverlayWithFocus(),
+                    new SampleWithMinimapItemizedOverlayWithScale(),
 				new SampleLimitedScrollArea(), new SampleFragmentXmlLayout(), new SampleOsmPath(),
                     new SampleInvertedTiles_NightMode()};
 	}
