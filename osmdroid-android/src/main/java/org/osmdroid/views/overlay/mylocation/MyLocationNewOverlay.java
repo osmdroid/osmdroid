@@ -13,8 +13,6 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.Overlay.Snappable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,7 +26,7 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.FloatMath;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -41,7 +39,6 @@ import android.view.MotionEvent;
  */
 public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer,
 		IOverlayMenuProvider, Snappable {
-	private static final Logger logger = LoggerFactory.getLogger(MyLocationNewOverlay.class);
 
 	// ===========================================================
 	// Constants
@@ -54,7 +51,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected final Paint mPaint = new Paint();
 	protected final Paint mCirclePaint = new Paint();
 
-	protected final Bitmap mPersonBitmap;
+	protected Bitmap mPersonBitmap;
 	protected final Bitmap mDirectionArrowBitmap;
 
 	protected final MapView mMapView;
@@ -262,11 +259,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 		// Add in the accuracy circle if enabled
 		if (mDrawAccuracyEnabled) {
-			final int radius = (int) FloatMath.ceil(lastFix.getAccuracy()
+			final int radius = (int) Math.ceil(lastFix.getAccuracy()
 					/ (float) TileSystem.GroundResolution(lastFix.getLatitude(), zoomLevel));
 			reuse.union(mMapCoordsTranslated.x - radius, mMapCoordsTranslated.y - radius,
 					mMapCoordsTranslated.x + radius, mMapCoordsTranslated.y + radius);
-			final int strokeWidth = (int) FloatMath.ceil(mCirclePaint.getStrokeWidth() == 0 ? 1
+			final int strokeWidth = (int) Math.ceil(mCirclePaint.getStrokeWidth() == 0 ? 1
 					: mCirclePaint.getStrokeWidth());
 			reuse.inset(-strokeWidth, -strokeWidth);
 		}
@@ -300,7 +297,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			final double yDiff = y - mMapCoordsTranslated.y;
 			boolean snap = xDiff * xDiff + yDiff * yDiff < 64;
 			if (DEBUGMODE) {
-				logger.debug("snap=" + snap);
+                    Log.d(IMapView.LOGTAG, "snap=" + snap);
 			}
 			return snap;
 		} else {
@@ -433,14 +430,14 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				@Override
 				public void run() {
 					setLocation(location);
+
+					for (final Runnable runnable : mRunOnFirstFix) {
+						new Thread(runnable).start();
+					}
+					mRunOnFirstFix.clear();
 				}
 			}, mHandlerToken, 0);
 		}
-
-		for (final Runnable runnable : mRunOnFirstFix) {
-			new Thread(runnable).start();
-		}
-		mRunOnFirstFix.clear();
 	}
 
 	protected void setLocation(Location location) {
@@ -544,6 +541,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		return mIsLocationEnabled;
 	}
 
+	/**
+	 * Queues a runnable to be executed as soon as we have a location fix. If we already have a fix,
+	 * we'll execute the runnable immediately and return true. If not, we'll hang on to the runnable
+	 * and return false; as soon as we get a location fix, we'll run it in in a new thread.
+	 */
 	public boolean runOnFirstFix(final Runnable runnable) {
 		if (mMyLocationProvider != null && mLocation != null) {
 			new Thread(runnable).start();
@@ -553,4 +555,14 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 			return false;
 		}
 	}
+     
+     /**
+      * enabls you to change the my location 'person' icon at runtime. note that the
+      * hotspot is not updated with this method. see 
+      * {@link #setPersonHotspot}
+      * @param icon 
+      */
+     public void setPersonIcon(Bitmap icon){
+          mPersonBitmap = icon;
+     }
 }

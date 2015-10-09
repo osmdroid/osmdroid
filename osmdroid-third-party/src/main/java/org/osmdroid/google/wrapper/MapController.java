@@ -54,7 +54,7 @@ public class MapController implements IMapController {
 		return mController.zoomOutFixing(xPixel, yPixel);
 	}
 
-	@Override
+//	@Override
 	public void zoomToSpan(final double pLatSpan, final double pLonSpan) {
 		mController.zoomToSpan((int)(pLatSpan*1E6), (int)(pLonSpan*1E6));
 	}
@@ -73,5 +73,20 @@ public class MapController implements IMapController {
 	public void stopPanning() {
 		mController.stopPanning();
 	}
+
+//     @Override
+     public boolean isInvertedTiles() {
+          return false;
+     }
+
+//     @Override
+     public void setInvertedTiles(boolean value) {
+          
+     }
+
+     @Override
+     public void zoomToSpan(int latSpanE6, int lonSpanE6) {
+          throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     }
 
 }

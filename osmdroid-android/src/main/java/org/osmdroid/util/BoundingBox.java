@@ -257,4 +257,14 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 		final double lonWest = in.readDouble();
 		return new BoundingBox(latNorth, lonEast, latSouth, lonWest);
 	}
+
+     @Deprecated
+     public int getLatitudeSpanE6() {
+          return (int)(getLatitudeSpan() * 1E6);
+     }
+
+     @Deprecated
+     public int getLongitudeSpanE6() {
+          return (int)(getLongitudeSpan() * 1E6);
+     }
 }

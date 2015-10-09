@@ -1,21 +1,18 @@
 // Created by plusminus on 19:14:08 - 20.10.2008
 package org.osmdroid.tileprovider.util;
 
+import android.util.Log;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.osmdroid.api.IMapView;
 
 public class StreamUtils {
 
 	// ===========================================================
 	// Constants
 	// ===========================================================
-
-	private static final Logger logger = LoggerFactory.getLogger(StreamUtils.class);
 
 	public static final int IO_BUFFER_SIZE = 8 * 1024;
 
@@ -80,7 +77,7 @@ public class StreamUtils {
 			try {
 				stream.close();
 			} catch (final IOException e) {
-				logger.error("IO", "Could not close stream", e);
+				Log.e(IMapView.LOGTAG,"Could not close stream", e);
 			}
 		}
 	}

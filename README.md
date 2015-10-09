@@ -12,9 +12,17 @@ Before you add osmdroid to your project make sure you check the [Prerequisites](
 
 You can include osmdroid using Maven or by adding a jar file to your project. See [HowToIncludeInYourProject](https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject).
 
+You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
+
 ##I want to compile the source
 
 The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/HowToMaven#how-to-build-osmdroid-using-eclipse).
+
+##I have a question
+
+See if it's already been answered in the
+[Discussion Group](http://groups.google.com/group/osmdroid).
+If not, please ask there.
 
 ##I want to report a bug
 
@@ -28,11 +36,14 @@ If you have a question on _how_ to do something then your question is better sui
 
 ##I want to contribute
 
-Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://code.google.com/p/osmdroid/source/browse/#svn/trunk/OpenStreetMapViewer), or wiki content. If you have an enhancement to contribute please add a new issue with a Type-Enhancement label. Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk. Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/DeveloperGuidelines) page for code contributions before submitting code.
+Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://code.google.com/p/osmdroid/source/browse/#svn/trunk/OpenStreetMapViewer), or wiki content.
+If you have an enhancement to contribute please add a new issue.
+Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
+Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/DeveloperGuidelines) page for code contributions before submitting code.
 
 ##I want more!
 
-Maybe take a look at the fine [osmbonuspack project](https://code.google.com/p/osmbonuspack/) that acts as a companion to osmdroid and adds a lot of useful functionality. 
+Maybe take a look at the fine [osmbonuspack project](https://github.com/MKergall/osmbonuspack) that acts as a companion to osmdroid and adds a lot of useful functionality. 
 
 ##Screenshots
 

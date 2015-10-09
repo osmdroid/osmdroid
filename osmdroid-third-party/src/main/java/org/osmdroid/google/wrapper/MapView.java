@@ -52,15 +52,15 @@ public class MapView implements IMapView {
 	}
 
 	@Override
-	public double getLatitudeSpan() {
+	public int getLatitudeSpan() {
 		return mMapView.getLatitudeSpan();
 	}
 
 	@Override
-	public double getLongitudeSpan() {
+	public int getLongitudeSpan() {
 		return mMapView.getLongitudeSpan();
 	}
-
+    
 	@Override
 	public IGeoPoint getMapCenter() {
 		return new GeoPoint(mMapView.getMapCenter());
@@ -76,5 +76,18 @@ public class MapView implements IMapView {
 		// this doesn't seem to have any visible effect on the Google MapView
 		mMapView.setBackgroundColor(pColor);
 	}
+
+//     @Override
+     public double getLatitudeSpanDouble() {
+          return mMapView.getLatitudeSpan()/1E6;
+     }
+
+   //  @Override
+     public double getLongitudeSpanDouble() {
+          return mMapView.getLongitudeSpan()/1E6;
+     }
+
+    
+     
 
 }

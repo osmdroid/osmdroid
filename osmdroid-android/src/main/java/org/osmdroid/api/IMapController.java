@@ -21,5 +21,12 @@ public interface IMapController {
 	boolean zoomOut();
 	boolean zoomOutFixing(int xPixel, int yPixel);
 	void zoomToSpan(int latSpanE6, int lonSpanE6);
+	
+	/**
+	 * returns true if the map tiles are currently being color inverted
+	 * @return 
+	 */
+	boolean isInvertedTiles();
+	void setInvertedTiles(boolean value);
 	void zoomToSpan(double latSpan, double lonSpan);
 }

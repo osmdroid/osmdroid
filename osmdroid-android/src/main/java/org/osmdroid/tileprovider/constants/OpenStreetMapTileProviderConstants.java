@@ -2,6 +2,8 @@ package org.osmdroid.tileprovider.constants;
 
 import java.io.File;
 
+import org.osmdroid.tileprovider.LRUMapTileCache;
+
 import android.os.Environment;
 
 /**
@@ -19,12 +21,6 @@ public interface OpenStreetMapTileProviderConstants {
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
 
-	/**
-	 * Maximum Zoom Level - we use Integers to store zoom levels so overflow happens at 2^32 - 1,
-	 * but we also have a tile size that is typically 2^8, so (32-1)-8-1 = 22
-	 */
-	public static final int MAXIMUM_ZOOMLEVEL = 22;
-
 	/** Base path for osmdroid files. Zip files are in this folder. */
 	public static final File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");
@@ -36,8 +32,8 @@ public interface OpenStreetMapTileProviderConstants {
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
 	/**
-	 * Initial tile cache size. The size will be increased as required by calling {@link
-	 * LRUMapTileCache.ensureCapacity(int)} The tile cache will always be at least 3x3.
+	 * Initial tile cache size. The size will be increased as required by calling
+	 * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
 	 */
 	public static final int CACHE_MAPTILECOUNT_DEFAULT = 9;
 

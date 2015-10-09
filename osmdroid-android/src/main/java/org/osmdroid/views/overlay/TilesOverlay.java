@@ -11,22 +11,24 @@ import org.osmdroid.util.TileLooper;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import org.osmdroid.api.IMapView;
 
 /**
  * These objects are the principle consumer of map tiles.
@@ -37,7 +39,6 @@ import android.view.SubMenu;
 
 public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger(TilesOverlay.class);
 
 	public static final int MENU_MAP_MODE = getSafeMenuId();
 	public static final int MENU_TILE_SOURCE_STARTING_ID = getSafeMenuIdSequence(TileSourceFactory
@@ -67,6 +68,17 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	/** For overshooting the tile cache **/
 	private int mOvershootTileCache = 0;
+
+	//Issue 133 night mode
+	private boolean isInvert=false;
+	final static float[] negate ={
+		-1.0f,0,0,0,255,        //red
+		0,-1.0f,0,0,255,//green
+		0,0,-1.0f,0,255,//blue
+		0,0,0,1.0f,0 //alpha
+	};
+	final static ColorFilter neg = new ColorMatrixColorFilter(negate);
+
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
 		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
@@ -116,8 +128,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected void draw(Canvas c, MapView osmv, boolean shadow) {
 
 		if (DEBUGMODE) {
-			logger.trace("onDraw(" + shadow + ")");
+               Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
 		}
+		isInvert=osmv.getController().isInvertedTiles();
 
 		if (shadow) {
 			return;
@@ -212,6 +225,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
 			final Rect tileRect) {
+		if (isInvert)
+			currentMapTile.setColorFilter(neg);
 		mProjection.toPixelsFromMercator(tileRect.left, tileRect.top, mTilePointMercator);
 		tileRect.offsetTo(mTilePointMercator.x, mTilePointMercator.y);
 		currentMapTile.setBounds(tileRect);
@@ -337,7 +352,10 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 				}
 				mLoadingTile = new BitmapDrawable(bitmap);
 			} catch (final OutOfMemoryError e) {
-				logger.error("OutOfMemoryError getting loading tile");
+				Log.e(IMapView.LOGTAG, "OutOfMemoryError getting loading tile");
+				System.gc();
+			} catch (final NullPointerException e) {
+				Log.e(IMapView.LOGTAG, "NullPointerException getting loading tile");
 				System.gc();
 			}
 		}

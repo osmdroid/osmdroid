@@ -6,16 +6,14 @@ import java.io.InputStream;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class MBTilesFileArchive implements IArchiveFile {
-
-	private static final Logger logger = LoggerFactory.getLogger(MBTilesFileArchive.class);
 
 	private final SQLiteDatabase mDatabase;
 
@@ -60,7 +58,7 @@ public class MBTilesFileArchive implements IArchiveFile {
 				return ret;
 			}
 		} catch(final Throwable e) {
-			logger.warn("Error getting db stream: " + pTile, e);
+               Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
 		}
 
 		return null;

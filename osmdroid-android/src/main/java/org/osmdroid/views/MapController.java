@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.BoundingBox;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -90,39 +93,44 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 		mReplayController.replayCalls();
 	}
 
-	public void zoomToSpan(final BoundingBox bb) {
-		zoomToSpan(bb.getLatitudeSpan(), bb.getLongitudeSpan());
+	public void zoomToSpan(final BoundingBoxE6 bb) {
+		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
 	}
+     
+     @Override
+     public void zoomToSpan(double latSpan, double lonSpan) {
+          zoomToSpan((int)(latSpan*1E6), (int)(lonSpan*1E6));
+     }
 
 	// TODO rework zoomToSpan
 	@Override
-	public void zoomToSpan(double latSpan, double lonSpan) {
-		if (latSpan <= 0.0 || lonSpan <= 0.0) {
+	public void zoomToSpan(int latSpanE6, int lonSpanE6) {
+		if (latSpanE6 <= 0 || lonSpanE6 <= 0) {
 			return;
 		}
 
 		// If no layout, delay this call
 		if (!mMapView.isLayoutOccurred()) {
-			mReplayController.zoomToSpan(latSpan, lonSpan);
+			mReplayController.zoomToSpan(latSpanE6, lonSpanE6);
 			return;
 		}
 
 		final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
 		final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
-		final double curLatSpan = bb.getLatitudeSpan();
-		final double curLonSpan = bb.getLongitudeSpan();
+		final int curLatSpan = bb.getLatitudeSpanE6();
+		final int curLonSpan = bb.getLongitudeSpanE6();
 
-		final double diffNeededLat = latSpan / curLatSpan; // i.e. 600/500 = 1,2
-		final double diffNeededLon = lonSpan / curLonSpan; // i.e. 300/400 = 0,75
+		final float diffNeededLat = (float) latSpanE6 / curLatSpan; // i.e. 600/500 = 1,2
+		final float diffNeededLon = (float) lonSpanE6 / curLonSpan; // i.e. 300/400 = 0,75
 
-		final double diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
+		final float diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
 
 		if (diffNeeded > 1) { // Zoom Out
-			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove((float)diffNeeded));
+			this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove(diffNeeded));
 		} else if (diffNeeded < 0.5) { // Can Zoom in
 			this.mMapView.setZoomLevel(curZoomLevel
-					+ MyMath.getNextSquareNumberAbove(1 / (float)diffNeeded) - 1);
+					+ MyMath.getNextSquareNumberAbove(1 / diffNeeded) - 1);
 		}
 	}
 
@@ -174,6 +182,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	@Override
 	public void setCenter(final IGeoPoint point) {
 		// If no layout, delay this call
+		if (mMapView.mListener != null) {
+			mMapView.mListener.onScroll(new ScrollEvent(mMapView,0,0));
+		}
 		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.setCenter(point);
 			return;
@@ -240,6 +251,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	public boolean zoomInFixing(final int xPixel, final int yPixel) {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomIn()) {
+			if (mMapView.mListener != null) {
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()+1));
+			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
@@ -270,6 +284,9 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	public boolean zoomOutFixing(final int xPixel, final int yPixel) {
 		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (mMapView.canZoomOut()) {
+			if (mMapView.mListener != null) {
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, mMapView.getZoomLevel()-1));
+			}
 			if (mMapView.mIsAnimating.getAndSet(true)) {
 				// TODO extend zoom (and return true)
 				return false;
@@ -374,11 +391,15 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 			mReplayList.add(new ReplayClass(ReplayType.SetCenterPoint, null, geoPoint));
 		}
 
-		public void zoomToSpan(double x, double y) {
-			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point((int)x, (int)y), null));
+		public void zoomToSpan(int x, int y) {
+			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point(x, y), null));
 		}
+        public void zoomToSpan(double x, double y) {
+            mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point((int)(x*1E6), (int)(y*1E6)), null));
+        }
 
-		public void replayCalls() {
+
+        public void replayCalls() {
 			for (ReplayClass replay : mReplayList) {
 				switch (replay.mReplayType) {
 				case AnimateToGeoPoint:
@@ -411,4 +432,31 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 			}
 		}
 	}
+	
+	boolean isinverted=false;
+	/**
+	* returns true if we're in image/color inverted mode, useful for night time
+	* This is an Osmdroid specific feature
+	* @return
+	* @since 4.4
+	* @author Alex
+	*/
+	@Override
+	public boolean isInvertedTiles() {
+		return isinverted;
+	}
+
+	/**
+	* sets inverted tile mode. true = inverted colors, false = normal rendering
+	* This is an Osmdroid specific feature
+	* @param b
+	* @since 4.4
+	* @author Alex
+	*/
+	@Override
+	public void setInvertedTiles(boolean value) {
+		isinverted=value;
+		mMapView.invalidate();
+	}
+
 }

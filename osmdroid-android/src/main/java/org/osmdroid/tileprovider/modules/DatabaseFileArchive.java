@@ -6,16 +6,14 @@ import java.io.InputStream;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class DatabaseFileArchive implements IArchiveFile {
-
-	private static final Logger logger = LoggerFactory.getLogger(DatabaseFileArchive.class);
 
 	private final SQLiteDatabase mDatabase;
 
@@ -24,7 +22,9 @@ public class DatabaseFileArchive implements IArchiveFile {
 	}
 
 	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
-		return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
+		//return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
+		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
+
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 				return ret;
 			}
 		} catch(final Throwable e) {
-			logger.warn("Error getting db stream: " + pTile, e);
+			Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
 		}
 
 		return null;

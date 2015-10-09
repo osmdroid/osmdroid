@@ -35,4 +35,14 @@ public class GeoPoint implements IGeoPoint {
 		final GeoPoint rhs = (GeoPoint) obj;
 		return rhs.mLatLng.equals(this.mLatLng);
 	}
+
+     @Override
+     public int getLatitudeE6() {
+          return (int)(mLatLng.latitude*1E6);
+     }
+
+     @Override
+     public int getLongitudeE6() {
+          return (int)(mLatLng.longitude*1E6);
+     }
 }

@@ -99,10 +99,11 @@ public abstract class Overlay implements OverlayConstants {
 	}
 
 	/**
-	 * Similar to <see cref="getSafeMenuId" />, except this reserves a sequence of IDs of length
-	 * <param name="count" />. The returned number is the starting index of that sequential list.
+	 * Similar to {@link #getSafeMenuId()}, except this reserves a sequence of IDs of length
+	 * {@code count}. The returned number is the starting index of that sequential list.
 	 *
 	 * @return an integer suitable to be used as a menu identifier
+	 * @see #getSafeMenuId()
 	 */
 	protected final static int getSafeMenuIdSequence(final int count) {
 		return sOrdinal.getAndAdd(count);
@@ -130,41 +131,37 @@ public abstract class Overlay implements OverlayConstants {
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onKeyDown(final int keyCode, final KeyEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onKeyUp(final int keyCode, final KeyEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * <b>You can prevent all(!) other Touch-related events from happening!</b><br />
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * <b>You can prevent all(!) other Touch-related events from happening!</b><br>
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onTrackballEvent(final MotionEvent event, final MapView mapView) {
 		return false;
@@ -173,30 +170,27 @@ public abstract class Overlay implements OverlayConstants {
 	/** GestureDetector.OnDoubleTapListener **/
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onDoubleTap(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onDoubleTapEvent(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onSingleTapConfirmed(final MotionEvent e, final MapView mapView) {
 		return false;
@@ -205,20 +199,18 @@ public abstract class Overlay implements OverlayConstants {
 	/** OnGestureListener **/
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onDown(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onFling(final MotionEvent pEvent1, final MotionEvent pEvent2,
 			final float pVelocityX, final float pVelocityY, final MapView pMapView) {
@@ -226,20 +218,18 @@ public abstract class Overlay implements OverlayConstants {
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onLongPress(final MotionEvent e, final MapView mapView) {
 		return false;
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onScroll(final MotionEvent pEvent1, final MotionEvent pEvent2,
 			final float pDistanceX, final float pDistanceY, final MapView pMapView) {
@@ -251,10 +241,9 @@ public abstract class Overlay implements OverlayConstants {
 	}
 
 	/**
-	 * By default does nothing (<code>return false</code>). If you handled the Event, return
-	 * <code>true</code>, otherwise return <code>false</code>. If you returned <code>true</code>
-	 * none of the following Overlays or the underlying {@link MapView} has the chance to handle
-	 * this event.
+	 * By default does nothing ({@code return false}). If you handled the Event, return {@code true}
+	 * , otherwise return {@code false}. If you returned {@code true} none of the following Overlays
+	 * or the underlying {@link MapView} has the chance to handle this event.
 	 */
 	public boolean onSingleTapUp(final MotionEvent e, final MapView mapView) {
 		return false;

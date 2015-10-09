@@ -9,7 +9,7 @@ import android.graphics.Point;
  * certain conditions osmdroid creates values outside of these ranges, for example when zooming out
  * and displaying the earth more that once side by side or when scrolling across the 180 degree
  * longitude (international date line). This class fixes this by wrapping input coordinates into a
- * valid range by adding/subtracting the valid span. Example: longitude +185 => -175
+ * valid range by adding/subtracting the valid span. Example: longitude +185 =&gt; -175
  *
  * @author Oliver Seiler
  */

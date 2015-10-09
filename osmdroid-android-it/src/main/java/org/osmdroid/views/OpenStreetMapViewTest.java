@@ -2,7 +2,7 @@ package org.osmdroid.views;
 
 import org.osmdroid.MapActivity;
 import org.osmdroid.MapFragment;
-import org.osmdroid.R;
+import org.osmdroid.example.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.Projection;
 

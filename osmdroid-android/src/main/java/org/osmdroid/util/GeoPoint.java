@@ -37,11 +37,13 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	// Constructors
 	// ===========================================================
 
+     @Deprecated
 	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6) {
 		this.mLatitude = aLatitudeE6 / 1E6;
 		this.mLongitude = aLongitudeE6 / 1E6;
 	}
 
+     @Deprecated
 	public GeoPoint(final int aLatitudeE6, final int aLongitudeE6, final int aAltitude) {
 		this.mLatitude = aLatitudeE6 / 1E6;
 		this.mLongitude = aLongitudeE6 / 1E6;
@@ -75,13 +77,13 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 
 		if (spacerPos2 == -1) {
 			return new GeoPoint(
-					(int) (Double.parseDouble(s.substring(0, spacerPos1))),
-					(int) (Double.parseDouble(s.substring(spacerPos1 + 1, s.length()))));
+					 (Double.parseDouble(s.substring(0, spacerPos1))),
+					 (Double.parseDouble(s.substring(spacerPos1 + 1, s.length()))));
 		} else {
 			return new GeoPoint(
-					(int) (Double.parseDouble(s.substring(0, spacerPos1))),
-					(int) (Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2))),
-					(int) Double.parseDouble(s.substring(spacerPos2 + 1, s.length())));
+					 (Double.parseDouble(s.substring(0, spacerPos1))),
+					 (Double.parseDouble(s.substring(spacerPos1 + 1, spacerPos2))),
+					 Double.parseDouble(s.substring(spacerPos2 + 1, s.length())));
 		}
 	}
 
@@ -99,6 +101,23 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 					Double.parseDouble(s.substring(0, spacerPos1)),
 					Double.parseDouble(s.substring(spacerPos2 + 1, s.length())));
 
+		}
+	}
+
+	public static GeoPoint fromIntString(final String s) {
+		final int commaPos1 = s.indexOf(',');
+		final int commaPos2 = s.indexOf(',', commaPos1 + 1);
+
+		if (commaPos2 == -1) {
+			return new GeoPoint(
+					Integer.parseInt(s.substring(0, commaPos1)),
+					Integer.parseInt(s.substring(commaPos1 + 1, s.length())));
+		} else {
+			return new GeoPoint(
+					Integer.parseInt(s.substring(0, commaPos1)),
+					Integer.parseInt(s.substring(commaPos1 + 1, commaPos2)),
+					Integer.parseInt(s.substring(commaPos2 + 1, s.length()))
+			);
 		}
 	}
 
@@ -140,6 +159,16 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	@Override
 	public GeoPoint clone() {
 		return new GeoPoint(this.mLatitude, this.mLongitude, this.mAltitude);
+	}
+     
+	public String toIntString() {
+		return new StringBuilder().
+               append(((int)(this.mLatitude*1E6))).
+               append(",").
+               append(((int)(this.mLongitude*1E6))).
+               append(",").
+               append((int)(this.mAltitude))
+		.toString();
 	}
 
 	@Override
@@ -296,4 +325,16 @@ public class GeoPoint implements IGeoPoint, MathConstants, GeoConstants, Parcela
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================
+
+     @Deprecated 
+     @Override
+     public int getLatitudeE6() {
+          return (int) (this.getLatitude() * 1E6);
+     }
+
+     @Deprecated
+     @Override
+     public int getLongitudeE6() {
+          return (int) (this.getLongitude()* 1E6);
+     }
 }

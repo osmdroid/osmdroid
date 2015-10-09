@@ -3,14 +3,11 @@ package org.osmdroid.tileprovider.modules;
 import java.io.File;
 import java.io.IOException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 public class ArchiveFileFactory {
-
-	private static final Logger logger = LoggerFactory.getLogger(ArchiveFileFactory.class);
 
 	/**
 	 * Return an implementation of {@link IArchiveFile} for the specified file.
@@ -22,7 +19,7 @@ public class ArchiveFileFactory {
 			try {
 				return ZipFileArchive.getZipFileArchive(pFile);
 			} catch (final IOException e) {
-				logger.error("Error opening ZIP file", e);
+				Log.e(IMapView.LOGTAG,"Error opening ZIP file", e);
 			}
 		}
 
@@ -30,7 +27,7 @@ public class ArchiveFileFactory {
 			try {
 				return DatabaseFileArchive.getDatabaseFileArchive(pFile);
 			} catch (final SQLiteException e) {
-				logger.error("Error opening SQL file", e);
+				Log.e(IMapView.LOGTAG,"Error opening SQL file", e);
 			}
 		}
 
@@ -38,7 +35,7 @@ public class ArchiveFileFactory {
 			try {
 				return MBTilesFileArchive.getDatabaseFileArchive(pFile);
 			} catch (final SQLiteException e) {
-				logger.error("Error opening MBTiles SQLite file", e);
+				Log.e(IMapView.LOGTAG,"Error opening MBTiles SQLite file", e);
 			}
 		}
 		
@@ -46,7 +43,7 @@ public class ArchiveFileFactory {
 			try {
 				return GEMFFileArchive.getGEMFFileArchive(pFile);
 			} catch (final IOException e) {
-				logger.error("Error opening GEMF file", e);
+				Log.e(IMapView.LOGTAG,"Error opening GEMF file", e);
 			}
 		}
 

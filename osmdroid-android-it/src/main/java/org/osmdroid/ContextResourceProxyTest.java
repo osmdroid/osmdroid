@@ -1,5 +1,6 @@
 package org.osmdroid;
 
+import org.osmdroid.ResourceProxyImpl;
 import java.nio.ByteBuffer;
 
 import android.graphics.Bitmap;

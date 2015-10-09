@@ -25,12 +25,25 @@ public final class TileSystem {
 	private static final double MinLongitude = -180;
 	private static final double MaxLongitude = 180;
 
+	/**
+	 * Maximum Zoom Level - we use Integers to store zoom levels so overflow happens at 2^32 - 1,
+	 * but we also have a tile size that is typically 2^8, so (32-1)-8-1 = 22
+	 */
+	private static int mMaxZoomLevel = 22;
+
 	public static void setTileSize(final int tileSize) {
+		int pow2 = (int) (Math.log(tileSize) / Math.log(2));
+		mMaxZoomLevel = (32 - 1) - pow2 - 1;
+
 		mTileSize = tileSize;
 	}
 
 	public static int getTileSize() {
 		return mTileSize;
+	}
+
+	public static int getMaximumZoomLevel() {
+		return mMaxZoomLevel;
 	}
 
 	/**
@@ -57,7 +70,8 @@ public final class TileSystem {
 	 */
 
 	public static int MapSize(final int levelOfDetail) {
-		return mTileSize << levelOfDetail;
+		return mTileSize << (levelOfDetail < getMaximumZoomLevel() ? levelOfDetail
+				: getMaximumZoomLevel());
 	}
 
 	/**

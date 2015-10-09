@@ -10,12 +10,14 @@ import org.osmdroid.views.MapView;
  *
  */
 public interface IMapView {
-
+     public static String LOGTAG="OsmDroid";
 	IMapController getController();
 	IProjection getProjection();
 	int getZoomLevel();
 	int getMaxZoomLevel();
+     @Deprecated
 	int getLatitudeSpan();
+     @Deprecated
 	int getLongitudeSpan();
 	double getLatitudeSpanDouble();
 	double getLongitudeSpanDouble();

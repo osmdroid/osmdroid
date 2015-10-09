@@ -7,7 +7,7 @@ import android.test.ActivityInstrumentationTestCase2;
 public class MapActivityTest extends ActivityInstrumentationTestCase2<MapActivity> {
 
     public MapActivityTest() {
-        super("org.osmdroid", MapActivity.class);
+        super("org.osmdroid.example", MapActivity.class);
     }
 
     public void testActivity() {

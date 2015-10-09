@@ -3,6 +3,7 @@ package org.osmdroid.views;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
+import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
@@ -17,8 +18,8 @@ import org.osmdroid.util.BoundingBoxE6;
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
  * and that of latitude/longitude points on the surface of the earth. You obtain a Projection from
  * MapView.getProjection(). You should not hold on to this object for more than one draw, since the
- * projection of the map could change. <br />
- * <br />
+ * projection of the map could change. <br>
+ * <br>
  * <b>Note:</b> This class will "wrap" all pixel and lat/long values that overflow their bounds
  * (rather than clamping to their bounds).
  * 
@@ -141,7 +142,7 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 	
 	/**
-	 * A wrapper for {@link #toProjectedPixels(double, double, Point)}
+	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}
 	 */
 	public Point toProjectedPixels(final GeoPoint geoPoint, final Point reuse) {
 		return toProjectedPixels(geoPoint.getLatitude(), geoPoint.getLongitude(), reuse);
@@ -151,33 +152,51 @@ public class Projection implements IProjection, MapViewConstants {
 	 * Performs only the first computationally heavy part of the projection. Call
 	 * {@link #toPixelsFromProjected(Point, Point)} to get the final position.
 	 * 
-	 * @param latitude
+	 * @param latituteE6
 	 *            the latitute of the point
-	 * @param longitude
+	 * @param longitudeE6
 	 *            the longitude of the point
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return intermediate value to be stored and passed to toMapPixelsTranslated.
 	 */
-	public Point toProjectedPixels(final double latitude, final double longitude, final Point reuse) {
-		return TileSystem.LatLongToPixelXY(latitude, longitude,
-				MAXIMUM_ZOOMLEVEL, reuse);
+	public Point toProjectedPixels(final int latituteE6, final int longitudeE6, final Point reuse) {
+		return TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6,
+				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), reuse);
 	}
+
+    /**
+     * Performs only the first computationally heavy part of the projection. Call
+     * {@link #toPixelsFromProjected(Point, Point)} to get the final position.
+     *
+     * @param latitude
+     *            the latitute of the point
+     * @param longitude
+     *            the longitude of the point
+     * @param reuse
+     *            just pass null if you do not have a Point to be 'recycled'.
+     * @return intermediate value to be stored and passed to toMapPixelsTranslated.
+     */
+    public Point toProjectedPixels(final double latitude, final double longitude, final Point reuse) {
+        return TileSystem.LatLongToPixelXY(latitude, longitude,
+                microsoft.mappoint.TileSystem.getMaximumZoomLevel(), reuse);
+    }
 
 	/**
 	 * Performs the second computationally light part of the projection.
 	 * 
 	 * @param in
-	 *            the Point calculated by the {@link #toProjectedPixels(double, double, Point)}
+	 *            the Point calculated by the {@link #toProjectedPixels(int, int, Point)}
 	 * @param reuse
 	 *            just pass null if you do not have a Point to be 'recycled'.
 	 * @return the Point containing the coordinates of the initial GeoPoint passed to the
-	 *         {@link #toProjectedPixels(double, double, Point)}.
+	 *         {@link #toProjectedPixels(int, int, Point)}.
 	 */
 	public Point toPixelsFromProjected(final Point in, final Point reuse) {
 		Point out = reuse != null ? reuse : new Point();
 
-		final int zoomDifference = MAXIMUM_ZOOMLEVEL - getZoomLevel();
+		final int zoomDifference = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+				- getZoomLevel();
 		out.set(in.x >> zoomDifference, in.y >> zoomDifference);
 
 		out = toPixelsFromMercator(out.x, out.y, out);
