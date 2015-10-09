@@ -19,16 +19,12 @@
             <groupId>android</groupId>
             <artifactId>android</artifactId>
         </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>osmdroid-android</artifactId>
             <version>${project.version}</version>
-	    <type>aar</type>
+            <type>aar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>

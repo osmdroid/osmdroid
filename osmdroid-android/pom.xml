@@ -28,8 +28,6 @@
             <artifactId>apache-mime4j</artifactId>
         </dependency>
 
-    
-
         <!-- test dependencies -->
         
         <dependency>
