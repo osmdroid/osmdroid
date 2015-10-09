@@ -26,8 +26,7 @@ public class SampleAlternateCacheDir extends BaseSampleFragment{
      @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(org.osmdroid.example.R.layout.mapview, null);
-          OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR = new File("/sdcard/osmdroid2/");
-          OpenStreetMapTileProviderConstants.addCachePath("/sdcard/osmdroid2/");
+          OpenStreetMapTileProviderConstants.setCachePath(new File("/sdcard/osmdroid2/").getAbsolutePath());
 		mMapView = (MapView) v.findViewById(org.osmdroid.example.R.id.mapview);
           
 		return v;

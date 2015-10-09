@@ -50,9 +50,8 @@ public class TileWriter implements IFilesystemCache {
 			@Override
 			public void run() {
 				mUsedCacheSpace = 0; // because it's static
-                    for (int i=0; i < OpenStreetMapTileProviderConstants.getCachePaths().size(); i++){
-                         calculateDirectorySize(OpenStreetMapTileProviderConstants.getCachePaths().get(i));
-                    }
+                    
+                    calculateDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
 				
 				if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
 					cutCurrentCache();
@@ -88,7 +87,7 @@ public class TileWriter implements IFilesystemCache {
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR, pTileSource.getTileRelativeFilenameString(pTile)
+		final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 
 		final File parent = file.getParentFile();
@@ -208,7 +207,8 @@ public class TileWriter implements IFilesystemCache {
 	 */
 	private void cutCurrentCache() {
 
-		synchronized (OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR) {
+          final File lock=OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+		synchronized (lock) {
 
 			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES) {
 

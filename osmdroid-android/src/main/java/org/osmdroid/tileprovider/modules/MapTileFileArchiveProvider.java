@@ -159,15 +159,13 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		}
 
           // path should be optionally configurable
-          List<File> cachePaths = OpenStreetMapTileProviderConstants.getCachePaths();
-          for (int i=0; i <cachePaths.size(); i++){
-               final File[] files = cachePaths.get(i).listFiles();
-               if (files != null) {
-                    for (final File file : files) {
-                         final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
-                         if (archiveFile != null) {
-                              mArchiveFiles.add(archiveFile);
-                         }
+          File cachePaths = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+          final File[] files = cachePaths.listFiles();
+          if (files != null) {
+               for (final File file : files) {
+                    final IArchiveFile archiveFile = ArchiveFileFactory.getArchiveFile(file);
+                    if (archiveFile != null) {
+                         mArchiveFiles.add(archiveFile);
                     }
                }
           }

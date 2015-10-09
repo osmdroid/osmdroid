@@ -144,7 +144,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
-			final File file = new File(OpenStreetMapTileProviderConstants.DEFAULT_CACHE_DIR,
+			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
 					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 			if (file.exists()) {
 
