@@ -2,10 +2,14 @@
 package org.osmdroid;
 
 import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.SampleFactory;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
@@ -22,6 +26,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +34,12 @@ import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+
 import org.osmdroid.ResourceProxy;
 
 /**
@@ -43,6 +53,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
     // ===========================================================
      // Constants
      // ===========================================================
+
+     private static final String LOG_TAG = "MapFragment";
 
      private static final int DIALOG_ABOUT_ID = 1;
 
@@ -77,9 +89,29 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
           mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
           mMapView = new MapView(inflater.getContext(), mResourceProxy);
-        // Call this method to turn off hardware acceleration at the View level.
+          Button button = new Button(inflater.getContext());
+          button.setText("My location");
+          button.setOnClickListener(new OnClickListener() {
+               @Override
+               public void onClick(View v) {
+                    GeoPoint myLocation = mLocationOverlay.getMyLocation();
+                    if (myLocation != null) {
+                         mMapView.getController().animateTo(myLocation);
+                    }
+               }
+          });
+          LinearLayout layout = new LinearLayout(inflater.getContext());
+          LayoutParams LLParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+          layout.setOrientation(LinearLayout.VERTICAL);
+          layout.setLayoutParams(LLParams);
+
+          layout.addView(button);
+          layout.addView(mMapView);
+
+          // Call this method to turn off hardware acceleration at the View level.
           // setHardwareAccelerationOff();
-          return mMapView;
+          return layout;
      }
 
      @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -129,6 +161,22 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
 
           mLocationOverlay.enableMyLocation();
           mCompassOverlay.enableCompass();
+
+          mMapView.setMapListener(new MapListener() {
+               @Override
+               public boolean onScroll(ScrollEvent event) {
+                    Log.d(LOG_TAG, "onScroll");
+
+                    return false;
+               }
+
+               @Override
+               public boolean onZoom(ZoomEvent event) {
+                    Log.d(LOG_TAG, "onZoom");
+
+                    return false;
+               }
+          });
 
           setHasOptionsMenu(true);
      }
