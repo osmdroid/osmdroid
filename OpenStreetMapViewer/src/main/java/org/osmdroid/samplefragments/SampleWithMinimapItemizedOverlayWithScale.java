@@ -67,10 +67,10 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
 			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
                for (int i=0; i < 500; i++){
-               double random_lon=(Math.random() * 360) -180;
-               double random_lat = (Math.random() * 180) - 90;
-                    items.add(new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
-                              random_lon))); 
+                    double random_lon=(Math.random() * 360) -180;
+                    double random_lat = (Math.random() * 180) - 90;
+                         items.add(new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
+                                   random_lon))); 
                }
 			items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
 					new GeoPoint(52518333, 13408333))); // Berlin
