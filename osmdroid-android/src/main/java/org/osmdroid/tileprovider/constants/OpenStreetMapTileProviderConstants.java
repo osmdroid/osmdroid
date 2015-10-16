@@ -23,8 +23,9 @@ public class OpenStreetMapTileProviderConstants {
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
 
-	/** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. */
-	private final static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+	/** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. 
+          Note: also used for offline tile sources*/
+	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");
      
 	/** Base path for tiles. 
@@ -89,5 +90,14 @@ public class OpenStreetMapTileProviderConstants {
      public static void setCacheSizes(long maxCacheSize, long trimCacheSize){
          TILE_MAX_CACHE_SIZE_BYTES = maxCacheSize * 1024 * 1024;
          TILE_TRIM_CACHE_SIZE_BYTES = trimCacheSize * 1024 * 1024;
-     }     
+     }  
+     
+     /**
+      * allows for altering the osmdroid_path variable, which controls the location
+      * of where to search for offline tile sources
+      * @param path 
+      */
+     public static void setOfflineMapsPath(String path){
+          OSMDROID_PATH = new File(path);
+     }
 }
