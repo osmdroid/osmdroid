@@ -93,6 +93,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "Compass";
 		case map_mode:
 			return "Map mode";
+          case hikebikemap:
+               return "Hike & Bike Map";
 		default:
 			throw new IllegalArgumentException();
 		}
