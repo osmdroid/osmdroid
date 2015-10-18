@@ -253,7 +253,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		for (int a = 0; a < TileSourceFactory.getTileSources().size(); a++) {
 			final ITileSource tileSource = TileSourceFactory.getTileSources().get(a);
 			mapMenu.add(MENU_MAP_MODE + pMenuIdOffset, MENU_TILE_SOURCE_STARTING_ID + a
-					+ pMenuIdOffset, Menu.NONE, tileSource.localizedName(mResourceProxy));
+					+ pMenuIdOffset, Menu.NONE, tileSource.name());
 		}
 		mapMenu.setGroupCheckable(MENU_MAP_MODE + pMenuIdOffset, true, true);
 

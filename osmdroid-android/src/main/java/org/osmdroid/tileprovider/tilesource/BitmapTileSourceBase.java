@@ -30,21 +30,19 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 	private final int mTileSizePixels;
 
-	private final string mResourceId;
+	//private final string mResourceId;
 
 	/**
 	 * Constructor
-	 * @param aName a human-friendly name for this tile source
-	 * @param aResourceId resource id used to get the localized name of this tile source
+	 * @param aName a human-friendly name for this tile source. this name is also used on the file system, to keep the characters linux file system friendly
 	 * @param aZoomMinLevel the minimum zoom level this tile source can provide
 	 * @param aZoomMaxLevel the maximum zoom level this tile source can provide
 	 * @param aTileSizePixels the tile size in pixels this tile source provides
 	 * @param aImageFilenameEnding the file name extension used when constructing the filename
 	 */
-	public BitmapTileSourceBase(final String aName, final string aResourceId,
+	public BitmapTileSourceBase(final String aName, 
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 			final String aImageFilenameEnding) {
-		mResourceId = aResourceId;
 		mOrdinal = globalOrdinal++;
 		mName = aName;
 		mMinimumZoomLevel = aZoomMinLevel;
@@ -86,10 +84,6 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		return mTileSizePixels;
 	}
 
-	@Override
-	public String localizedName(final ResourceProxy proxy) {
-		return proxy.getString(mResourceId);
-	}
 
 	@Override
 	public Drawable getDrawable(final String aFilePath) {

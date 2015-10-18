@@ -163,7 +163,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		{
 			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
 				subMenu.add(0, 1000 + tileSource.ordinal(), Menu.NONE,
-						tileSource.localizedName(mResourceProxy));
+						tileSource.name());
 			}
 		}
 

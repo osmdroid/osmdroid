@@ -163,7 +163,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 		{
 			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
 				subMenu.add(0, 1000 + tileSource.ordinal(), Menu.NONE,
-						tileSource.localizedName(mResourceProxy));
+						tileSource.name());
 			}
 		}
 

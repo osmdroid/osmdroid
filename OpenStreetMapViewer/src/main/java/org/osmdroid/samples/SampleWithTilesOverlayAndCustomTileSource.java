@@ -50,7 +50,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 
 		// Add tiles layer with custom tile source
 		final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());
-		final ITileSource tileSource = new XYTileSource("FietsRegionaal", null, 3, 18, 256, ".png",
+		final ITileSource tileSource = new XYTileSource("FietsRegionaal",  3, 18, 256, ".png",
 				new String[] { "http://overlay.openstreetmap.nl/openfietskaart-rcn/" });
 		tileProvider.setTileSource(tileSource);
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());

@@ -24,14 +24,6 @@ public interface ITileSource {
 	 */
 	String name();
 
-	/**
-	 * A localized human-friendly name for this tile source
-	 *
-	 * @param proxy
-	 *            a resource proxy
-	 * @return the localized tile source name
-	 */
-	String localizedName(ResourceProxy proxy);
 
 	/**
 	 * Get a unique file path for the tile. This file path may be used to store the tile on a file
