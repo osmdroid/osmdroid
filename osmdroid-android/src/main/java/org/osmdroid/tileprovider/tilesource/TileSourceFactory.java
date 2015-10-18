@@ -132,6 +132,12 @@ public class TileSourceFactory {
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
 			ResourceProxy.string.roads_nl, 0, 18, 256, ".png",
 			new String[] { "http://overlay.openstreetmap.nl/roads/" });
+     
+     public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
+			ResourceProxy.string.hikebikemap, 0, 18, 256, ".png",
+			new String[] { "http://a.tiles.wmflabs.org/hikebike/",
+                    "http://b.tiles.wmflabs.org/hikebike/",
+                    "http://c.tiles.wmflabs.org/hikebike/"  });
 
 	private static ArrayList<ITileSource> mTileSources;
 	static {
@@ -141,5 +147,6 @@ public class TileSourceFactory {
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(MAPQUESTOSM);
 		mTileSources.add(MAPQUESTAERIAL);
+          mTileSources.add(HIKEBIKEMAP);
 	}
 }

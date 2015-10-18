@@ -53,8 +53,6 @@
             <version>${project.version}</version>
         </dependency>
 
-      
-
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>

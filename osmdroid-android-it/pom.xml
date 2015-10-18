@@ -9,7 +9,6 @@
      </parent>
 
      <artifactId>osmdroid-android-it</artifactId>
-     <version>4.4-SNAPSHOT</version>
      <packaging>apk</packaging>
      <name>osmdroid-android-it - Integration tests</name>
 
@@ -27,30 +26,23 @@
 	       <groupId>org.osmdroid</groupId>
 	       <artifactId>OpenStreetMapViewer</artifactId>
 	       <type>apk</type>
-	       <version>4.4-SNAPSHOT</version>
+	       <version>${project.version}</version>
 	       <scope>provided</scope>
 	  </dependency>
 	  <dependency>
 	       <groupId>org.osmdroid</groupId>
 	       <artifactId>OpenStreetMapViewer</artifactId>
 	       <type>jar</type>
-	       <version>4.4-SNAPSHOT</version>
+	       <version>${project.version}</version>
 	       <scope>provided</scope>
 	  </dependency>
 	  <dependency>
 	       <groupId>org.osmdroid</groupId>
 	       <artifactId>osmdroid-android</artifactId>
-	       <type>aar</type>
-	       <version>4.4-SNAPSHOT</version>
+	       <version>${project.version}</version>
 	       <scope>provided</scope>
 	  </dependency>
-	  <dependency>
-	       <groupId>org.osmdroid</groupId>
-	       <artifactId>osmdroid-android</artifactId>
-	       <type>jar</type>
-	       <version>4.4-SNAPSHOT</version>
-	       <scope>provided</scope>
-	  </dependency>
+
      </dependencies>
 
      <build>

@@ -9,7 +9,6 @@ import org.osmdroid.ResourceProxy.string;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,8 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 
-public abstract class BitmapTileSourceBase implements ITileSource,
-		OpenStreetMapTileProviderConstants {
+public abstract class BitmapTileSourceBase implements ITileSource {
 
 	private static int globalOrdinal = 0;
 

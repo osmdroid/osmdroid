@@ -43,8 +43,6 @@ android {
 
 dependencies {
     compile 'android.support:compatibility-v4:22.2.+'
-    compile 'commons-logging:commons-logging:1.1.+'
     compile 'org.osmdroid:osmdroid-android:4.4-SNAPSHOT'
     compile 'org.osmdroid:osmdroid-third-party:4.4-SNAPSHOT'
-    compile 'org.slf4j:slf4j-android:1.6.1-RC1'
 }
