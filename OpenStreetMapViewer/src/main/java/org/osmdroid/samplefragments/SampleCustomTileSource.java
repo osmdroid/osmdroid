@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments;
 import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
 
 /**
  * Simple how to for setting a custom tile source
