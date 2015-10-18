@@ -28,7 +28,6 @@ public class CustomResourceProxy extends DefaultResourceProxyImpl {
 		switch (pResId){
                case person:
                     //your image goes here!!!
-                    System.out.println("Custom icon loaded1");
                     return BitmapFactory.decodeResource(mContext.getResources(),org.osmdroid.example.R.drawable.sfgpuci);
                  
           }
@@ -39,7 +38,6 @@ public class CustomResourceProxy extends DefaultResourceProxyImpl {
 	public Drawable getDrawable(final bitmap pResId) {
 		switch (pResId){
                case person:
-                    System.out.println("Custom icon loaded2");
                     return mContext.getResources().getDrawable(org.osmdroid.example.R.drawable.sfgpuci);
           }
           return super.getDrawable(pResId);
