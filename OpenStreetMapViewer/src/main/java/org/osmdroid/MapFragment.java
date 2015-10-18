@@ -30,7 +30,6 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import org.osmdroid.ResourceProxy;
 
 /**
  * Default map view activity.

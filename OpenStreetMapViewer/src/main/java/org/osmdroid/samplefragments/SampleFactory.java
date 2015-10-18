@@ -19,7 +19,8 @@ public final class SampleFactory {
 				new SampleLimitedScrollArea(), new SampleFragmentXmlLayout(), new SampleOsmPath(),
                     new SampleInvertedTiles_NightMode(), new SampleOfflineOnly(),
                     new SampleAlternateCacheDir(),
-                    new SampleMilitaryIcons()};
+                    new SampleMilitaryIcons(),
+                    new SampleCustomTileSource()};
 	}
 
 	public BaseSampleFragment getSample(int index) {
