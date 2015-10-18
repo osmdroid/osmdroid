@@ -72,7 +72,13 @@ public class TileSourceFactory {
 					"http://b.tile.opencyclemap.org/cycle/",
 					"http://c.tile.opencyclemap.org/cycle/" });
 
-	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
+    public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
+            ResourceProxy.string.hikebikemap, 0, 18, 256, ".png", new String[] {
+                    "http://a.tiles.wmflabs.org/hikebike/",
+                    "http://b.tiles.wmflabs.org/hikebike/",
+                    "http://c.tiles.wmflabs.org/hikebike/" });
+
+    public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", ResourceProxy.string.public_transport, 0, 17, 256, ".png",
 			new String[] { "http://openptmap.org/tiles/" });
 
@@ -138,6 +144,7 @@ public class TileSourceFactory {
 		mTileSources = new ArrayList<ITileSource>();
 		mTileSources.add(MAPNIK);
 		mTileSources.add(CYCLEMAP);
+        mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(MAPQUESTOSM);
 		mTileSources.add(MAPQUESTAERIAL);

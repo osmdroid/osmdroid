@@ -51,6 +51,8 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 			return "Mapnik";
 		case cyclemap:
 			return "Cycle Map";
+        case hikebikemap:
+            return "Hike & Bike Map";
 		case public_transport:
 			return "Public transport";
 		case cloudmade_standard:
