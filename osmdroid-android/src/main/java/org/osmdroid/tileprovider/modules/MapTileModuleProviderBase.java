@@ -24,7 +24,7 @@ import org.osmdroid.api.IMapView;
  * @author Marc Kurtz
  * @author Neil Boyd
  */
-public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProviderConstants {
+public abstract class MapTileModuleProviderBase {
 
 	/**
 	 * Gets the human-friendly name assigned to this tile provider.
@@ -132,7 +132,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			return;
 
 		synchronized (mQueueLockObject) {
-			if (DEBUG_TILE_PROVIDERS) {
+			if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 				Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.loadMaptileAsync() on provider: "
 						+ getName() + " for tile: " + pState.getMapTile());
 				if (mPending.containsKey(pState.getMapTile()))
@@ -169,7 +169,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 
 	void removeTileFromQueues(final MapTile mapTile) {
 		synchronized (mQueueLockObject) {
-			if (DEBUG_TILE_PROVIDERS) {
+			if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 				Log.d(IMapView.LOGTAG,"MapTileModuleProviderBase.removeTileFromQueues() on provider: "
 						+ getName() + " for tile: " + mapTile);
 			}
@@ -218,7 +218,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 				while (iterator.hasNext()) {
 					final MapTile tile = iterator.next();
 					if (!mWorking.containsKey(tile)) {
-						if (DEBUG_TILE_PROVIDERS) {
+						if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 							Log.d(IMapView.LOGTAG,"TileLoader.nextTile() on provider: " + getName()
 									+ " found tile in working queue: " + tile);
 						}
@@ -227,7 +227,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 				}
 
 				if (result != null) {
-					if (DEBUG_TILE_PROVIDERS) {
+					if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 						Log.d(IMapView.LOGTAG,"TileLoader.nextTile() on provider: " + getName()
 								+ " adding tile to working queue: " + result);
 					}
@@ -242,7 +242,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * A tile has loaded.
 		 */
 		protected void tileLoaded(final MapTileRequestState pState, final Drawable pDrawable) {
-			if (DEBUG_TILE_PROVIDERS) {
+			if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 				Log.d(IMapView.LOGTAG,"TileLoader.tileLoaded() on provider: " + getName() + " with tile: "
 						+ pState.getMapTile());
 			}
@@ -255,7 +255,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		 * Return it <b>and</b> send request to next provider.
 		 */
 		protected void tileLoadedExpired(final MapTileRequestState pState, final Drawable pDrawable) {
-			if (DEBUG_TILE_PROVIDERS) {
+			if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedExpired() on provider: " + getName()
 						+ " with tile: " + pState.getMapTile());
 			}
@@ -264,7 +264,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 		}
 
 		protected void tileLoadedFailed(final MapTileRequestState pState) {
-			if (DEBUG_TILE_PROVIDERS) {
+			if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 				Log.d(IMapView.LOGTAG,"TileLoader.tileLoadedFailed() on provider: " + getName()
 						+ " with tile: " + pState.getMapTile());
 			}
@@ -283,7 +283,7 @@ public abstract class MapTileModuleProviderBase implements OpenStreetMapTileProv
 			MapTileRequestState state;
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
-				if (DEBUG_TILE_PROVIDERS) {
+				if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
 					Log.d(IMapView.LOGTAG,"TileLoader.run() processing next tile: " + state.getMapTile());
 				}
 				try {

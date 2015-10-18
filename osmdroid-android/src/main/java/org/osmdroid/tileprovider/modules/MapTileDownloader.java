@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -71,7 +72,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
 		this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
-				NUMBER_OF_TILE_DOWNLOAD_THREADS, TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_DOWNLOAD_THREADS, 
+                    OpenStreetMapTileProviderConstants.TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 	}
 
 	public MapTileDownloader(final ITileSource pTileSource,
@@ -120,7 +122,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	@Override
 	public int getMinimumZoomLevel() {
 		OnlineTileSourceBase tileSource = mTileSource.get();
-		return (tileSource != null ? tileSource.getMinimumZoomLevel() : MINIMUM_ZOOMLEVEL);
+		return (tileSource != null ? tileSource.getMinimumZoomLevel() : OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL);
 	}
 
 	@Override
@@ -163,7 +165,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				if (mNetworkAvailablityCheck != null
 						&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
-					if (DEBUGMODE) {
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 						Log.d(IMapView.LOGTAG,"Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
 					}
 					return null;
@@ -171,7 +173,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final String tileURLString = tileSource.getTileURLString(tile);
 
-				if (DEBUGMODE) {
+				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
 				}
 
