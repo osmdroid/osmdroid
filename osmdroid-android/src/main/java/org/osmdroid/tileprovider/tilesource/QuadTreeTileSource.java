@@ -4,7 +4,7 @@ import org.osmdroid.tileprovider.MapTile;
 
 public class QuadTreeTileSource extends OnlineTileSourceBase {
 
-	public QuadTreeTileSource(final String aName,
+	public QuadTreeTileSource(final String aName, 
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 			final String aImageFilenameEnding, final String[] aBaseUrl) {
 		super(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels,

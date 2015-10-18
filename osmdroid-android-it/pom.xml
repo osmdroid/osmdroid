@@ -40,6 +40,7 @@
 	       <groupId>org.osmdroid</groupId>
 	       <artifactId>osmdroid-android</artifactId>
 	       <version>${project.version}</version>
+	       <type>aar</type>
 	       <scope>provided</scope>
 	  </dependency>
 

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.Random;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.string;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
