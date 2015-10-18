@@ -31,14 +31,15 @@
 		<activity android:icon="@drawable/icon"
 			android:label="Open Map" android:name="org.osmdroid.MapActivity">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN"></action>
-				<category android:name="android.intent.category.LAUNCHER"></category>
-			</intent-filter>
-		</activity>
-		<activity android:label="OSMSamples" android:name="org.osmdroid.samples.SampleLoader">
-			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:icon="@drawable/icon"
+			  android:label="Open Map" android:name="org.osmdroid.samples.SampleLoader">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"></action>
+				<category android:name="android.intent.category.LAUNCHER"></category>
 			</intent-filter>
 		</activity>
 		<activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay">
@@ -48,6 +49,12 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="org.osmdroid.samples.SampleExtensive">
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name="org.osmdroid.samples.SampleResourceOverride">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />

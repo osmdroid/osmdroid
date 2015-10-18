@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import org.osmdroid.MapActivity;
 
 public class SampleLoader extends ListActivity {
 	// ===========================================================
@@ -30,11 +31,13 @@ public class SampleLoader extends ListActivity {
 
 		final ArrayList<String> list = new ArrayList<String>();
 
+          list.add("OSMDroid Sample map (Start Here)");
 		list.add("OSMapView with Minimap, ZoomControls, Animations, Scale Bar and MyLocationOverlay");
 		list.add("OSMapView with ItemizedOverlay");
 		list.add("OSMapView with Minimap and ZoomControls");
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
+          list.add("Sample with Custom Resources");
 
 		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
 				list));
@@ -51,20 +54,26 @@ public class SampleLoader extends ListActivity {
 	@Override
 	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
 		switch (position) {
-		case 0:
+          case 0:
+               this.startActivity(new Intent(this, MapActivity.class));
+               break;
+		case 1:
 			this.startActivity(new Intent(this, SampleExtensive.class));
 			break;
-		case 1:
+		case 2:
 			this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
 			break;
-		case 2:
+		case 3:
 			this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
 			break;
-		case 3:
+		case 4:
 			this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
 			break;
-		case 4:
+		case 5:
 			this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
+			break;
+          case 6:
+			this.startActivity(new Intent(this, SampleResourceOverride.class));
 			break;
 		}
 	}
