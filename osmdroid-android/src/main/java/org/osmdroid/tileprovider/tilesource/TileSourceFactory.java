@@ -2,7 +2,6 @@ package org.osmdroid.tileprovider.tilesource;
 
 import java.util.ArrayList;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 
 public class TileSourceFactory {

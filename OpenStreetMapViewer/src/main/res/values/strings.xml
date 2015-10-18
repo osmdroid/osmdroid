@@ -3,7 +3,7 @@
 	<string name="app_name">OpenStreetMap</string>
 
 	<string name="unknown">Unknown</string>
-	<string name="map_mode">Map mode</string>
+	<string name="map_mode">Map Source</string>
 	<string name="my_location">My location</string>
 	<string name="offline">Offline mode</string>
 	<string name="samples">Samples</string>

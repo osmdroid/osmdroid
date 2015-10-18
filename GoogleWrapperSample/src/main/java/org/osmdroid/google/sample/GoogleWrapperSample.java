@@ -38,6 +38,7 @@ public class GoogleWrapperSample extends MapActivity {
 	private static final int ROTATE_ID = 6;
 
 	private MenuItem mOsmMenuItem;
+     private MenuItem mOsmWithBingMenuItem;
 	private MenuItem mGoogleV1MenuItem;
 	private MenuItem mGoogleV2MenuItem;
 	private MenuItem mEnableMyLocationOverlayMenuItem;
@@ -109,7 +110,8 @@ public class GoogleWrapperSample extends MapActivity {
 		mOsmMenuItem = pMenu.add(0, OSM_MAP_VIEW_ID, Menu.NONE, R.string.map_view_osm);
 		mGoogleV1MenuItem = pMenu.add(0, GOOGLE_MAP_V1_VIEW_ID, Menu.NONE, R.string.map_view_google_v1);
 		mGoogleV2MenuItem = pMenu.add(0, GOOGLE_MAP_V2_VIEW_ID, Menu.NONE, R.string.map_view_google_v2);
-          //TODO example with Bing maps, more Arc GIS maps, Mapbox, etc
+          mOsmWithBingMenuItem = pMenu.add(0, OSM_MAP_VIEW_ID, Menu.NONE, R.string.map_view_osm_bing_aerial);
+          //TODO example with more Arc GIS maps, Mapbox, etc
 		mEnableMyLocationOverlayMenuItem = pMenu.add(0, ENABLE_MY_LOCATION_ID, Menu.NONE, R.string.enable_my_location);
 		mDisableMyLocationOverlayMenuItem = pMenu.add(0, DISABLE_MY_LOCATION_ID, Menu.NONE, R.string.disable_my_location);
 		mRotateMenuItem = pMenu.add(0, ROTATE_ID, Menu.NONE, R.string.rotate);
@@ -121,6 +123,7 @@ public class GoogleWrapperSample extends MapActivity {
 		final boolean isV1Supported = MapFactory.isGoogleMapsV1Supported();
 		final boolean isV2Supported = MapFactory.isGoogleMapsV2Supported(this);
 		mOsmMenuItem.setVisible(mMapViewSelection != MapViewSelection.OSM);
+          mOsmWithBingMenuItem.setVisible(mMapViewSelection != MapViewSelection.OSM_BING);
 		mGoogleV1MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV1 && isV1Supported);
 		mGoogleV2MenuItem.setVisible(mMapViewSelection != MapViewSelection.GoogleV2 && isV2Supported);
 		mEnableMyLocationOverlayMenuItem.setVisible(!mMap.isMyLocationEnabled());
@@ -133,6 +136,12 @@ public class GoogleWrapperSample extends MapActivity {
 		if (pItem == mOsmMenuItem) {
 			// switch to osm
 			mMapViewSelection = MapViewSelection.OSM;
+			setMapView();
+			return true;
+		}
+          if (pItem == mOsmWithBingMenuItem) {
+			// switch to osm
+			mMapViewSelection = MapViewSelection.OSM_BING;
 			setMapView();
 			return true;
 		}
@@ -173,6 +182,15 @@ public class GoogleWrapperSample extends MapActivity {
 		if (mMapViewSelection == MapViewSelection.OSM) {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this);
 			mapView.setBuiltInZoomControls(true);
+			mapView.setTileSource(org.osmdroid.tileprovider.tilesource.TileSourceFactory.MAPNIK);
+               setContentView(mapView);
+               mMap = MapFactory.getMap(mapView);
+		}
+          if (mMapViewSelection == MapViewSelection.OSM_BING) {
+			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this);
+			mapView.setBuiltInZoomControls(true);
+               org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.retrieveBingKey(this);
+               mapView.setTileSource(new org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource(null));
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);
 		}
@@ -257,6 +275,6 @@ public class GoogleWrapperSample extends MapActivity {
 		}.start();
 	}
 
-	private enum MapViewSelection { OSM, GoogleV1, GoogleV2 }
+	private enum MapViewSelection { OSM, GoogleV1, GoogleV2, OSM_BING }
 
 }
