@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>osmdroid-third-party</artifactId>
-    <packaging>jar</packaging>
+    <packaging>aar</packaging>
 
     <name>OSMdroid Third Party</name>
     <!-- TODO -->
@@ -51,6 +51,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>osmdroid-android</artifactId>
             <version>${project.version}</version>
+	    <type>aar</type>
         </dependency>
 
         <!-- test dependencies -->
@@ -60,4 +61,17 @@
         </dependency>
     </dependencies>
 
+     <build>
+	 <plugins>
+	      <plugin>
+		    <groupId>com.simpligility.maven.plugins</groupId>
+		    <artifactId>android-maven-plugin</artifactId>
+		    <configuration>
+			 <sdk>
+			      <platform>19</platform>
+			 </sdk>
+		    </configuration>
+	       </plugin>
+	 </plugins>
+    </build>
 </project>

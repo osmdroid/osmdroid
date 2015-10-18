@@ -51,7 +51,10 @@ public final class TileSystem {
 	 */
 
 	public static int MapSize(final int levelOfDetail) {
-		return mTileSize << (levelOfDetail < org.osmdroid.util.TileSystem.getMaximumZoomLevel() ? levelOfDetail
+		return mTileSize << 
+               (levelOfDetail < 
+               org.osmdroid.util.TileSystem.getMaximumZoomLevel() ? 
+               levelOfDetail
 				: org.osmdroid.util.TileSystem.getMaximumZoomLevel());
 	}
 
