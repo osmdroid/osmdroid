@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.osmdroid.samples;
 
 import org.osmdroid.CustomResourceProxy;
@@ -14,7 +9,6 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,12 +18,13 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 
 /**
- *
+ * Constructs a map view with a custom resource proxy for override the person icon (my location). needs a gps fix to see the difference
  * @author alex
  */
 public class SampleResourceOverride extends Activity implements OpenStreetMapConstants {
@@ -146,6 +141,8 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		// this.mOsmv.getOverlays().add(pathOverlay);
 
 		this.setContentView(rl);
+          
+          Toast.makeText(this, "Make sure you have a location fix", Toast.LENGTH_LONG).show();
 	}
 
 	// ===========================================================

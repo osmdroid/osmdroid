@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.osmdroid;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 /**
- *
+ * an example resource proxy that overrides the person icon
  * @author alex
  */
 public class CustomResourceProxy extends DefaultResourceProxyImpl {
