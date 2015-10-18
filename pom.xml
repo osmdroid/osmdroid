@@ -180,17 +180,33 @@
         </pluginManagement>
     </build>
 
-    <modules>
-        <module>osmdroid-android</module>
-       
-        <module>osmdroid-third-party</module>
-        <module>OpenStreetMapViewer</module>
-        <module>GoogleWrapperSample</module>
-        <module>OSMMapTilePackager</module>
-         <module>osmdroid-android-it</module>
-    </modules>
+   
 
     <profiles>
+	 <profile>
+	      <id>core</id>
+	      <!-- only includes the core modules, google libraries are excluded -->
+	      <modules>
+		    <module>osmdroid-android</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+	      </modules>
+	 </profile>
+	 <profile>
+	      <id>default</id>
+	      <activation>
+		   <activeByDefault>true</activeByDefault>
+	      </activation>
+	       <modules>
+		    <module>osmdroid-android</module>
+		    <module>osmdroid-third-party</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>GoogleWrapperSample</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+		</modules>
+	 </profile>
         <profile>
             <!--  this profile is activated when using 'mvn release:perform' -->
             <!--  it signs artifacts before staging to Sonatype -->
