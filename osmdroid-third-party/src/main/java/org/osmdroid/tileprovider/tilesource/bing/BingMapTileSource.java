@@ -5,7 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Locale;
 
-import microsoft.mappoint.TileSystem;
+//import microsoft.mappoint.TileSystem;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,6 +25,7 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 import android.content.Context;
 import android.util.Log;
 import org.osmdroid.thirdparty.Constants;
+import org.osmdroid.util.TileSystem;
 
 /**
  * BingMap tile source used with OSMDroid<br>

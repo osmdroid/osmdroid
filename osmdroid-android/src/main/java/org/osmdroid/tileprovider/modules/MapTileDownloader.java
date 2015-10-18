@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.TileSystem;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -129,7 +130,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	public int getMaximumZoomLevel() {
 		OnlineTileSourceBase tileSource = mTileSource.get();
 		return (tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel());
+				: TileSystem.getMaximumZoomLevel());
 	}
 
 	@Override

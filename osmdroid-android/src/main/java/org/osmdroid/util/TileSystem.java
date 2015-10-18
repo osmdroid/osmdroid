@@ -14,17 +14,39 @@ import android.graphics.Point;
  * @author Oliver Seiler
  */
 public final class TileSystem {
+     
+     /* BEGIN the following code snippet was previously in microsoft.mappoint.TileSystem, however it's not part of the microsoft code base
+     and thus was graphed into the osmdroid implementation
+     */
+     
+     /**
+	 * Maximum Zoom Level - we use Integers to store zoom levels so overflow happens at 2^32 - 1,
+	 * but we also have a tile size that is typically 2^8, so (32-1)-8-1 = 22
+	 */
+	private static int mMaxZoomLevel = 22;
 
-	/** @see microsoft.mappoint.TileSystem#setTileSize(int) */
 	public static void setTileSize(final int tileSize) {
-		microsoft.mappoint.TileSystem.setTileSize(tileSize);
+		int pow2 = (int) (Math.log(tileSize) / Math.log(2));
+		mMaxZoomLevel = (32 - 1) - pow2 - 1;
+
+		mTileSize = tileSize;
 	}
 
-	/** @see microsoft.mappoint.TileSystem#getTileSize() */
 	public static int getTileSize() {
-		return microsoft.mappoint.TileSystem.getTileSize();
+		return mTileSize;
 	}
 
+	public static int getMaximumZoomLevel() {
+		return mMaxZoomLevel;
+	}
+     protected static int mTileSize = 256;
+
+	
+     /* END the following code snippet was previously in microsoft.mappoint.TileSystem, however it's not part of the microsoft code base
+     and thus was graphed into the osmdroid implementation
+     */
+     
+     
 	/** @see microsoft.mappoint.TileSystem#MapSize(int) */
 	public static int MapSize(final int levelOfDetail) {
 		return microsoft.mappoint.TileSystem.MapSize(levelOfDetail);
@@ -67,16 +89,6 @@ public final class TileSystem {
 	/** @see microsoft.mappoint.TileSystem#TileXYToPixelXY(int, int, Point) */
 	public static Point TileXYToPixelXY(final int tileX, final int tileY, final Point reuse) {
 		return microsoft.mappoint.TileSystem.TileXYToPixelXY(tileX, tileY, reuse);
-	}
-
-	/** @see microsoft.mappoint.TileSystem#TileXYToQuadKey(int, int, int) */
-	public static String TileXYToQuadKey(final int tileX, final int tileY, final int levelOfDetail) {
-		return microsoft.mappoint.TileSystem.TileXYToQuadKey(tileX, tileY, levelOfDetail);
-	}
-
-	/** @see microsoft.mappoint.TileSystem#QuadKeyToTileXY(String, Point) */
-	public static Point QuadKeyToTileXY(final String quadKey, final Point reuse) {
-		return microsoft.mappoint.TileSystem.QuadKeyToTileXY(quadKey, reuse);
 	}
 
 	/**

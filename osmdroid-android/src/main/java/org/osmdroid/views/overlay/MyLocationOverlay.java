@@ -245,7 +245,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
             final Location lastFix) {
 
 		final Projection pj = mapView.getProjection();
-		final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+		final int zoomDiff = TileSystem.getMaximumZoomLevel()
 				- pj.getZoomLevel();
 
 		if (mDrawAccuracyEnabled) {
@@ -305,7 +305,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		if (reuse == null)
 			reuse = new Rect();
 
-		final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel() - zoomLevel;
+		final int zoomDiff = TileSystem.getMaximumZoomLevel() - zoomLevel;
 		final int posX = mMapCoords.x >> zoomDiff;
 		final int posY = mMapCoords.y >> zoomDiff;
 
@@ -399,8 +399,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 
 		mLocation = location;
 		TileSystem.LatLongToPixelXY(location.getLatitude(), location.getLongitude(),
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
-		final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+				TileSystem.getMaximumZoomLevel(), mMapCoords);
+		final int worldSize_2 = TileSystem.MapSize(TileSystem
 				.getMaximumZoomLevel()) / 2;
 		mMapCoords.offset(-worldSize_2, -worldSize_2);
 
@@ -587,8 +587,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
 			if (mLocation != null) {
 				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-						microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+						TileSystem.getMaximumZoomLevel(), mMapCoords);
+				final int worldSize_2 = TileSystem.MapSize(TileSystem
 						.getMaximumZoomLevel()) / 2;
 				mMapCoords.offset(-worldSize_2, -worldSize_2);
 				mMapController.animateTo(new GeoPoint(mLocation));
@@ -642,8 +642,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 			mLocation = LocationUtils.getLastKnownLocation(mLocationManager);
 			if (mLocation != null) {
 				TileSystem.LatLongToPixelXY(mLocation.getLatitude(), mLocation.getLongitude(),
-						microsoft.mappoint.TileSystem.getMaximumZoomLevel(), mMapCoords);
-				final int worldSize_2 = TileSystem.MapSize(microsoft.mappoint.TileSystem
+						TileSystem.getMaximumZoomLevel(), mMapCoords);
+				final int worldSize_2 = TileSystem.MapSize(TileSystem
 						.getMaximumZoomLevel()) / 2;
 				mMapCoords.offset(-worldSize_2, -worldSize_2);
 				mMapController.animateTo(new GeoPoint(mLocation));

@@ -5,8 +5,7 @@ import org.osmdroid.util.GeoPoint;
 import android.graphics.Point;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Suppress;
-
-import microsoft.mappoint.TileSystem;
+import org.osmdroid.util.TileSystem;
 
 /**
  * @author Marc Kurtz

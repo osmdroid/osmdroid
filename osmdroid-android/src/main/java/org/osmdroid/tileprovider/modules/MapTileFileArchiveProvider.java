@@ -18,6 +18,7 @@ import android.util.Log;
 import java.util.List;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.TileSystem;
 
 /**
  * A tile provider that can serve tiles from an archive using the supplied tile source. The tile
@@ -115,7 +116,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
 		return tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+				: TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override

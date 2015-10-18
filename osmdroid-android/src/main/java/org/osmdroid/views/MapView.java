@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import microsoft.mappoint.TileSystem;
-
 import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
@@ -57,6 +55,7 @@ import android.view.ViewGroup;
 import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
+import org.osmdroid.util.TileSystem;
 
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
@@ -574,12 +573,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Get NW/upper-left
 		final Point upperLeft = TileSystem.LatLongToPixelXY(boundingBox.getLatNorthE6() / 1E6,
 				boundingBox.getLonWestE6() / 1E6,
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
+				TileSystem.getMaximumZoomLevel(), null);
 
 		// Get SE/lower-right
 		final Point lowerRight = TileSystem.LatLongToPixelXY(boundingBox.getLatSouthE6() / 1E6,
 				boundingBox.getLonEastE6() / 1E6,
-				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), null);
+				TileSystem.getMaximumZoomLevel(), null);
 		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
 	}
 
@@ -901,7 +900,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		if (mScrollableAreaLimit != null) {
-			final int zoomDiff = microsoft.mappoint.TileSystem.getMaximumZoomLevel()
+			final int zoomDiff = TileSystem.getMaximumZoomLevel()
 					- getZoomLevel(false);
 			final int minX = (mScrollableAreaLimit.left >> zoomDiff);
 			final int minY = (mScrollableAreaLimit.top >> zoomDiff);

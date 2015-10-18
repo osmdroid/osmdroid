@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.TileSystem;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -107,7 +108,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 	public int getMaximumZoomLevel() {
 		ITileSource tileSource = mTileSource.get();
 		return tileSource != null ? tileSource.getMaximumZoomLevel()
-				: microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+				: TileSystem.getMaximumZoomLevel();
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.util.TileSystem;
 
 /**
  * This top-level tile provider allows a consumer to provide an array of modular asynchronous tile
@@ -197,7 +198,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 
 	@Override
 	public int getMinimumZoomLevel() {
-		int result = microsoft.mappoint.TileSystem.getMaximumZoomLevel();
+		int result = TileSystem.getMaximumZoomLevel();
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				if (tileProvider.getMinimumZoomLevel() < result) {
