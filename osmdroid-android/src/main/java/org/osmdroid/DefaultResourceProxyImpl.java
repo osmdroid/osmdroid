@@ -47,12 +47,7 @@ public class DefaultResourceProxyImpl implements ResourceProxy, MapViewConstants
 	@Override
 	public String getString(final string pResId) {
 		switch (pResId) {
-		case fiets_nl:
-			return "OpenFietsKaart overlay";
-		case base_nl:
-			return "Netherlands base overlay";
-		case roads_nl:
-			return "Netherlands roads overlay";
+		
 		case unknown:
 			return "Unknown";
 		case format_distance_meters:

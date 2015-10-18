@@ -7,10 +7,7 @@ public interface ResourceProxy {
 
 	public static enum string {
 
-		
-		// overlays
-		fiets_nl, base_nl, roads_nl,
-
+	
 		// other stuff
 		unknown, format_distance_meters, format_distance_kilometers, format_distance_miles, format_distance_nautical_miles, format_distance_feet, online_mode, offline_mode, my_location, compass, map_mode,
 
