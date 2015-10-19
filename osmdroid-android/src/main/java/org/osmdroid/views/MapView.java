@@ -110,6 +110,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// For rotation
 	private float mapOrientation = 0;
 	private final Rect mInvalidateRect = new Rect();
+	private Point mapRotationPoint = null;
 
 	protected BoundingBoxE6 mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
@@ -533,6 +534,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	public float getMapOrientation() {
 		return mapOrientation;
+	}
+
+	public void setMapRotationPoint(Point point) {
+		mapRotationPoint = point;
+	}
+
+	public Point getMapRotationPoint() {
+		return mapRotationPoint;
 	}
 
 	/**
@@ -971,7 +980,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 
 		// Rotate the canvas
-		mRotateScaleMatrix.preRotate(mapOrientation, getWidth() / 2, getHeight() / 2);
+		if (mapRotationPoint != null) {
+			//around custom screen point
+			mRotateScaleMatrix.preRotate(mapOrientation, mapRotationPoint.x, mapRotationPoint.y);
+		} else {
+			//around center screen point
+			mRotateScaleMatrix.preRotate(mapOrientation, getWidth() / 2, getHeight() / 2);
+		}
 
 		// Apply the scale and rotate operations
 		c.concat(mRotateScaleMatrix);

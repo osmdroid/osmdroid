@@ -133,19 +133,40 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	 */
 	@Override
 	public void animateTo(final IGeoPoint point) {
+		animateTo(point, null, ANIMATION_DURATION_DEFAULT);
+	}
+
+	/**
+	 * Start animating the map from the geoPoint to the screenPoint.
+	 */
+	@Override
+	public void animateTo(final IGeoPoint point, Point screenPoint, int animationDuration) {
 		// If no layout, delay this call
 		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.animateTo(point);
 			return;
 		}
+
 		Point p = mMapView.getProjection().toPixels(point, null);
-		animateTo(p.x, p.y);
+		animateTo(p.x, p.y, screenPoint, animationDuration);
 	}
 
 	/**
 	 * Start animating the map towards the given point.
 	 */
 	public void animateTo(int x, int y) {
+		animateTo(x, y, null, ANIMATION_DURATION_DEFAULT);
+	}
+
+	/**
+	 * Start animating the map from the geoPoint to the screenPoint.
+	 */
+	private void animateTo(int x, int y, Point screenPoint, int animationDuration) {
+
+		if (screenPoint != null) {
+			mMapView.setMapRotationPoint(new Point(screenPoint.x, screenPoint.y));
+		}
+
 		// If no layout, delay this call
 		if (!mMapView.isLayoutOccurred()) {
 			mReplayController.animateTo(x, y);
@@ -154,13 +175,22 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 
 		if (!mMapView.isAnimating()) {
 			mMapView.mIsFlinging = false;
+
 			Point mercatorPoint = mMapView.getProjection().toMercatorPixels(x, y, null);
-			// The points provided are "center", we want relative to upper-left for scrolling
-			mercatorPoint.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
+
+			if (screenPoint != null) {
+				mercatorPoint.offset(-screenPoint.x, -screenPoint.y);
+			} else {
+				// The points provided are "center", we want relative to upper-left for scrolling
+				mercatorPoint.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
+			}
+
 			final int xStart = mMapView.getScrollX();
 			final int yStart = mMapView.getScrollY();
+
 			mMapView.getScroller().startScroll(xStart, yStart, mercatorPoint.x - xStart,
-					mercatorPoint.y - yStart, ANIMATION_DURATION_DEFAULT);
+					mercatorPoint.y - yStart, animationDuration);
+
 			mMapView.postInvalidate();
 		}
 	}

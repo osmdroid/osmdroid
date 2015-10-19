@@ -1,5 +1,6 @@
 package org.osmdroid.google.wrapper;
 
+import android.graphics.Point;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 
@@ -18,6 +19,11 @@ public class MapController implements IMapController {
 	public MapController(final com.google.android.maps.MapController pController) {
 		mController = pController;
 	}
+     
+     @Override
+     public void animateTo(IGeoPoint geoPoint, Point screenPoint, int animationDuration){
+          //not supported
+     }
 
 	@Override
 	public void animateTo(final IGeoPoint pGeoPoint) {
