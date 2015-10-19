@@ -14,15 +14,17 @@ import android.content.Context;
 public class MapBoxTileSource extends OnlineTileSourceBase
 {
     /** the meta data key in the manifest */
+    //<meta-data android:name="MAPBOX_MAPID" android:value="YOUR KEY" />
+
     private static final String MAPBOX_MAPID = "MAPBOX_MAPID";
+    //<meta-data android:name="ACCESS_TOKEN" android:value="YOUR TOKEN" />
+    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
 
 	private static final String[] mapBoxBaseUrl = new String[]{
-			"http://a.tiles.mapbox.com/v3/",
-			"http://b.tiles.mapbox.com/v3/",
-			"http://c.tiles.mapbox.com/v3/",
-			"http://d.tiles.mapbox.com/v3/"};
+			"http://api.tiles.mapbox.com/v4/"};
 
 	private static String mapBoxMapId = "";
+     private static String accessToken;
 
 	/**
      * TileSource with configuration defaults set.
@@ -72,6 +74,20 @@ public class MapBoxTileSource extends OnlineTileSourceBase
         // Retrieve the MapId from the Manifest
         mapBoxMapId = ManifestUtil.retrieveKey(aContext, MAPBOX_MAPID);
     }
+    
+    /**
+     * Read the API key from the manifest.<br>
+     * This method should be invoked before class instantiation.<br>
+     */
+    public static void retrieveAccessToken(final Context aContext)
+    {
+        // Retrieve the MapId from the Manifest
+        accessToken = ManifestUtil.retrieveKey(aContext, ACCESS_TOKEN);
+    }
+
+    public static void setMapboxMapid(String key){
+        mapBoxMapId=key;
+    }
 
     public static String getMapBoxMapId()
     {
@@ -81,7 +97,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     @Override
     public String getTileURLString(final MapTile aMapTile)
     {
-        StringBuffer url = new StringBuffer(getBaseUrl());
+        StringBuilder url = new StringBuilder(getBaseUrl());
         url.append(getMapBoxMapId());
         url.append("/");
         url.append(aMapTile.getZoomLevel());
@@ -90,9 +106,16 @@ public class MapBoxTileSource extends OnlineTileSourceBase
         url.append("/");
         url.append(aMapTile.getY());
         url.append(".png");
-
+        url.append("?access_token=").append(getAccessToken());
         String res = url.toString();
 
         return res;
+    }
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessTokeninput) {
+        accessToken = accessTokeninput;
     }
 }
