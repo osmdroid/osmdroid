@@ -2,7 +2,6 @@ package org.osmdroid.tileprovider.tilesource;
 
 import java.io.InputStream;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 
