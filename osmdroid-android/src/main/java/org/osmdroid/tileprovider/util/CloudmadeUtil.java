@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * Utility class for implementing Cloudmade authorization. See
@@ -98,12 +99,13 @@ public class CloudmadeUtil  {
                                         
 
 					try {
-                                                final URL urlToRequest = new URL(url);
+						final URL urlToRequest = new URL(url);
 						final HttpURLConnection urlConnection = (HttpURLConnection) urlToRequest.openConnection();
-                                                urlConnection.setDoOutput(true);
-                                                urlConnection.setRequestMethod("POST");
-                                                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                                                urlConnection.connect();
+						urlConnection.setDoOutput(true);
+						urlConnection.setRequestMethod("POST");
+						urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+						urlConnection.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.USER_AGENT_VALUE);
+						urlConnection.connect();
 						if (DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + urlConnection.getResponseMessage());
 						}

@@ -19,6 +19,8 @@ public class OpenStreetMapTileProviderConstants {
 
 	public static boolean DEBUGMODE = false;
 	public static final boolean DEBUG_TILE_PROVIDERS = false;
+	public static String USER_AGENT="User-Agent";
+	public static String USER_AGENT_VALUE="osmdroid";
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;

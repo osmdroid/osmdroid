@@ -177,9 +177,10 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-                                HttpURLConnection c = (HttpURLConnection) new URL(tileURLString).openConnection();
-                                c.setUseCaches(true);
-                                c.connect();
+				HttpURLConnection c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				c.setUseCaches(true);
+				c.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.USER_AGENT_VALUE);
+				c.connect();
                                 
 
 				// Check to see if we got success
