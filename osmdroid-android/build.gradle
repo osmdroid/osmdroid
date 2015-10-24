@@ -2,11 +2,11 @@ description = 'OSMdroid Android'
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "23.0.1"
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 22
+        minSdkVersion 8
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -26,9 +26,6 @@ android {
 dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
-    compile(group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0.1') {
-    }
-    compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {
-
-    }
+    //compile(group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0.1') {}
+    //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 }

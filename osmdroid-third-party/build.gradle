@@ -1,4 +1,35 @@
-apply plugin: 'java'
-sourceSets {
-    main.java.srcDirs = ['src\main\java','src\main\resources','src\test\java','src\test\resources']
+description = 'OSMdroid Android 3rd Party'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion "Google Inc.:Google APIs:23"
+    buildToolsVersion "23.0.1"
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+
+
+dependencies {
+
+    testCompile group: 'junit', name: 'junit', version: '4.8.2'
+    compile project(':osmdroid-android')
+    //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
+
+    compile 'com.google.android.gms:play-services:8.+'
+    compile 'com.google.android.gms:play-services-maps:8.+'
+    compile 'com.android.support:support-v4:23.1.0'
 }

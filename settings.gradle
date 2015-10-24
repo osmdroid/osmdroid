@@ -1,9 +1,9 @@
 rootProject.name = 'osmdroid-parent'
 include ':osmdroid-android'
-//include ':osmdroid-third-party'
+include ':osmdroid-third-party'
 include ':OpenStreetMapViewer'
 //include ':GoogleWrapperSample'
-//include ':osmdroid-packager'
+include ':osmdroid-packager'
 //include ':osmdroid-android-it'
 
 project(':osmdroid-android').projectDir = "$rootDir/osmdroid-android" as File
