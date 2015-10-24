@@ -11,6 +11,7 @@ import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -113,7 +114,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
           mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
-          mRotationGestureOverlay.setEnabled(false);
+          mRotationGestureOverlay.setEnabled(true);
 
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);

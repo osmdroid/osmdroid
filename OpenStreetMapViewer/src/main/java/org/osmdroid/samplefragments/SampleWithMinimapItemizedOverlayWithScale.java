@@ -3,7 +3,7 @@ package org.osmdroid.samplefragments;
 
 import java.util.ArrayList;
 
-import org.osmdroid.RotationGestureOverlay;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;

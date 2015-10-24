@@ -13,7 +13,7 @@ public interface MapViewConstants {
 	// Final Fields
 	// ===========================================================
 
-	public static final boolean DEBUGMODE = false;
+	public static final boolean DEBUGMODE = true;
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 

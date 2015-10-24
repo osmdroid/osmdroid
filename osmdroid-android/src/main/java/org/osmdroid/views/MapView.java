@@ -960,6 +960,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Save the current canvas matrix
 		c.save();
+		//calculate previous angle
+		float previousAngle=0f;
 
 		mRotateScaleMatrix.reset();
 
@@ -968,7 +970,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Scale the canvas
 		mRotateScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale,
-				mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
+		mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 
 		// Rotate the canvas
 		mRotateScaleMatrix.preRotate(mapOrientation, getWidth() / 2, getHeight() / 2);
