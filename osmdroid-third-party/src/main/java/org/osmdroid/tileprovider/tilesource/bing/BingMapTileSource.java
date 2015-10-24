@@ -205,7 +205,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		try {
 			client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
 			Log.d(Constants.LOGTAG,"make request "+client.getURL().toString().toString());
-			client.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.USER_AGENT_VALUE);
+			client.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
 			client.connect();
 
 			if (client.getResponseCode()!= 200) {
@@ -225,10 +225,10 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			Log.e(Constants.LOGTAG,"Error getting imagery meta data", e);
 		} finally {
 			try {
-                            if (client!=null)
-				client.disconnect();
-			} catch(UnsupportedOperationException e) {
-				// OkApacheClient doesn't support this
+				if (client!=null)
+					client.disconnect();
+			} catch(Exception e) {
+
 			}
 			Log.d(Constants.LOGTAG,"end getMetaData");
 		}

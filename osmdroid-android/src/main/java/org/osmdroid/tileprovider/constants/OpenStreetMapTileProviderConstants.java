@@ -20,7 +20,25 @@ public class OpenStreetMapTileProviderConstants {
 	public static boolean DEBUGMODE = false;
 	public static final boolean DEBUG_TILE_PROVIDERS = false;
 	public static String USER_AGENT="User-Agent";
-	public static String USER_AGENT_VALUE="osmdroid";
+	private static String USER_AGENT_VALUE="osmdroid";
+
+	/**
+	 * Enables you to get the value for HTTP user agents. Used when downloading tiles
+	 * @since 5.0
+	 * @return
+	 */
+	public static String getUserAgentValue(){
+		return USER_AGENT_VALUE;
+	}
+
+	/**
+	 * Enables you to override the default "osmdroid" value for HTTP user agents. Used when downloading tiles
+	 * @since 5.0
+	 * @param val
+	 */
+	public static void setUserAgentValue(String val){
+		USER_AGENT_VALUE = val;
+	}
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;

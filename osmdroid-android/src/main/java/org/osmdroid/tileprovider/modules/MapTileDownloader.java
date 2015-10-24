@@ -155,6 +155,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 			InputStream in = null;
 			OutputStream out = null;
+			HttpURLConnection c=null;
 			final MapTile tile = aState.getMapTile();
 
 			try {
@@ -177,16 +178,16 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				HttpURLConnection c = (HttpURLConnection) new URL(tileURLString).openConnection();
+				c = (HttpURLConnection) new URL(tileURLString).openConnection();
 				c.setUseCaches(true);
-				c.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.USER_AGENT_VALUE);
+				c.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
 				c.connect();
                                 
 
 				// Check to see if we got success
 				
 				if (c.getResponseCode() != 200) {
-					Log.w(IMapView.LOGTAG,"Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
+					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
 					return null;
 				}
 
@@ -225,6 +226,9 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			} finally {
 				StreamUtils.closeStream(in);
 				StreamUtils.closeStream(out);
+				try{
+					c.disconnect();
+				} catch (Exception ex){}
 			}
 
 			return null;

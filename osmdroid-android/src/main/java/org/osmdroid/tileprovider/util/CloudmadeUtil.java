@@ -95,16 +95,16 @@ public class CloudmadeUtil  {
 				// check again because it may have been set while we were blocking
 				if (mToken.length() == 0) {
 					final String url = "http://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
-					
-                                        
+
+					HttpURLConnection urlConnection=null;
 
 					try {
 						final URL urlToRequest = new URL(url);
-						final HttpURLConnection urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+						urlConnection = (HttpURLConnection) urlToRequest.openConnection();
 						urlConnection.setDoOutput(true);
 						urlConnection.setRequestMethod("POST");
 						urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-						urlConnection.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.USER_AGENT_VALUE);
+						urlConnection.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
 						urlConnection.connect();
 						if (DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + urlConnection.getResponseMessage());
@@ -130,6 +130,12 @@ public class CloudmadeUtil  {
 						}
 					} catch (final IOException e) {
 						Log.e(IMapView.LOGTAG,"No authorization token received from Cloudmade: " + e);
+					} finally {
+						if (urlConnection!=null)
+							try {
+								urlConnection.disconnect();
+							}
+							catch (Exception ex){}
 					}
 				}
 			}
