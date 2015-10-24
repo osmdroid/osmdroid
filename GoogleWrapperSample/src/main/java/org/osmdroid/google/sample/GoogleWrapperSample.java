@@ -10,6 +10,7 @@ import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.api.Polyline;
 import org.osmdroid.google.wrapper.v2.MapFactory;
+import org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.Position;
@@ -189,8 +190,10 @@ public class GoogleWrapperSample extends MapActivity {
           if (mMapViewSelection == MapViewSelection.OSM_BING) {
 			final org.osmdroid.views.MapView mapView = new org.osmdroid.views.MapView(this);
 			mapView.setBuiltInZoomControls(true);
-               org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.retrieveBingKey(this);
-               mapView.setTileSource(new org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource(null));
+			org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource.retrieveBingKey(this);
+			org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource bing=new org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource(null);
+			bing.setStyle(BingMapTileSource.IMAGERYSET_AERIALWITHLABELS);
+			mapView.setTileSource(bing);
 			setContentView(mapView);
 			mMap = MapFactory.getMap(mapView);
 		}

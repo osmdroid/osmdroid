@@ -97,6 +97,10 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		return mBingMapKey;
 	}
 
+	public static void setBingKey(String key) {
+		mBingMapKey=key;
+	}
+
 	/*-------------- overrides OnlineTileSourceBase ---------------------*/
 
 	@Override

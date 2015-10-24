@@ -84,6 +84,15 @@ public class CloudmadeUtil  {
 	}
 
 	/**
+	 * Get the key that was previously retrieved from the manifest.
+	 *
+	 * @return the key, or empty string if not found
+	 */
+	public static void setCloudmadeKey(String key) {
+		mKey=key;
+	}
+
+	/**
 	 * Get the token from the Cloudmade server.
 	 *
 	 * @return the token returned from the server, or null if not found

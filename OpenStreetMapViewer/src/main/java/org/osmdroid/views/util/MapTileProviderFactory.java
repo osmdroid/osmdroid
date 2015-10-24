@@ -15,6 +15,7 @@ import org.osmdroid.api.IMapView;
  * @author Nicolas Gramlich
  *
  */
+@Deprecated
 public class MapTileProviderFactory implements MapViewConstants {
 
 	/**
