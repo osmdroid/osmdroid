@@ -7,12 +7,7 @@ import java.util.Locale;
 
 import microsoft.mappoint.TileSystem;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.http.HttpClientFactory;
+
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
@@ -23,6 +18,8 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.content.Context;
 import android.util.Log;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import org.osmdroid.thirdparty.Constants;
 
 /**
@@ -200,20 +197,21 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	{
 		Log.d(Constants.LOGTAG,"getMetaData");
 
-		final HttpClient client = HttpClientFactory.createHttpClient();
-		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
-		Log.d(Constants.LOGTAG,"make request "+head.getURI().toString());
+		
+		          
+		
+                 HttpURLConnection client=null;
 		try {
-			final HttpResponse response = client.execute(head);
+                        client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
+                        Log.d(Constants.LOGTAG,"make request "+client.getURL().toString().toString());
+			client.connect();
 
-			final HttpEntity entity = response.getEntity();
-
-			if (entity == null) {
-				Log.e(Constants.LOGTAG,"Cannot get response for url "+head.getURI().toString());
+			if (client.getResponseCode()!= 200) {
+				Log.e(Constants.LOGTAG,"Cannot get response for url "+client.getURL().toString() + " " + client.getResponseMessage());
 				return null;
 			}
 
-			final InputStream in = entity.getContent();
+			final InputStream in = client.getInputStream();
 			final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 			final BufferedOutputStream out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 			StreamUtils.copy(in, out);
@@ -225,7 +223,8 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			Log.e(Constants.LOGTAG,"Error getting imagery meta data", e);
 		} finally {
 			try {
-				client.getConnectionManager().shutdown();
+                            if (client!=null)
+				client.disconnect();
 			} catch(UnsupportedOperationException e) {
 				// OkApacheClient doesn't support this
 			}

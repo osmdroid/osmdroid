@@ -15,7 +15,6 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import java.util.List;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 

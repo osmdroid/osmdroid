@@ -10,12 +10,6 @@ import java.io.OutputStream;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -28,6 +22,8 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.Log;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
@@ -181,23 +177,20 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					return null;
 				}
 
-				final HttpClient client = HttpClientFactory.createHttpClient();
-				final HttpUriRequest head = new HttpGet(tileURLString);
-				final HttpResponse response = client.execute(head);
+                                HttpURLConnection c = (HttpURLConnection) new URL(tileURLString).openConnection();
+                                c.setUseCaches(true);
+                                c.connect();
+                                
 
 				// Check to see if we got success
-				final org.apache.http.StatusLine line = response.getStatusLine();
-				if (line.getStatusCode() != 200) {
-					Log.w(IMapView.LOGTAG,"Problem downloading MapTile: " + tile + " HTTP response: " + line);
+				
+				if (c.getResponseCode() != 200) {
+					Log.w(IMapView.LOGTAG,"Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
 					return null;
 				}
 
-				final HttpEntity entity = response.getEntity();
-				if (entity == null) {
-					Log.w(IMapView.LOGTAG,"No content downloading MapTile: " + tile);
-					return null;
-				}
-				in = entity.getContent();
+				
+				in = c.getInputStream();
 
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);

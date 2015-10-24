@@ -19,14 +19,6 @@
             <groupId>android</groupId>
             <artifactId>android</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.james</groupId>
-            <artifactId>apache-mime4j</artifactId>
-        </dependency>
 
         <!-- test dependencies -->
         
@@ -43,7 +35,7 @@
 		    <configuration>
 			 <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory> 
 			 <sdk>
-			      <platform>19</platform>
+			      <platform>23</platform>
 			 </sdk>
 		    </configuration>
 	       </plugin>
