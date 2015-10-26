@@ -33,6 +33,7 @@ import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
@@ -76,7 +77,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	private final OverlayManager mOverlayManager;
+	private OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
@@ -159,7 +160,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
-		mOverlayManager = new OverlayManager(mMapOverlay);
+		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		if (isInEditMode()) {
 			mZoomController = null;
@@ -217,11 +218,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
-		return this.getOverlayManager();
+		return this.getOverlayManager().overlays();
 	}
 
 	public OverlayManager getOverlayManager() {
 		return mOverlayManager;
+	}
+
+	public void setOverlayManager(final OverlayManager overlayManager) {
+		mOverlayManager = overlayManager;
 	}
 
 	public MapTileProviderBase getTileProvider() {
