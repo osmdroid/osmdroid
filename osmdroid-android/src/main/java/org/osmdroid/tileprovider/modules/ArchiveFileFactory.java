@@ -13,15 +13,22 @@ public class ArchiveFileFactory {
 
 	static Map<String, Class<? extends IArchiveFile> > extensionMap = new HashMap<String,  Class<? extends IArchiveFile>>();
 	static {
-		extensionMap.put(".zip", ZipFileArchive.class);
-		extensionMap.put(".sqlite", DatabaseFileArchive.class);
-		extensionMap.put(".mbtiles", MBTilesFileArchive.class);
-		extensionMap.put(".gemf", GEMFFileArchive.class);
+		extensionMap.put("zip", ZipFileArchive.class);
+		extensionMap.put("sqlite", DatabaseFileArchive.class);
+		extensionMap.put("mbtiles", MBTilesFileArchive.class);
+		extensionMap.put("gemf", GEMFFileArchive.class);
 
 	}
-	public static void registerArchiveFileProvier(Class<? extends IArchiveFile> provider, String fileExtension){
+
+	/**
+	 * Registers a custom archive file provider
+	 * @param provider
+	 * @param fileExtension without the dot
+	 */
+	public static void registerArchiveFileProvider(Class<? extends IArchiveFile> provider, String fileExtension){
 		extensionMap.put(fileExtension, provider);
 	}
+
 	/**
 	 * Return an implementation of {@link IArchiveFile} for the specified file.
 	 * @return an implementation, or null if there's no suitable implementation
@@ -30,9 +37,11 @@ public class ArchiveFileFactory {
 
 		String extension = pFile.getName();
 		if (extension.contains(".")){
-			String s = extension.substring(extension.lastIndexOf("."));
-			//if (s.length> 1)
-				extension = s;
+			try {
+				extension = extension.substring(extension.lastIndexOf(".") + 1);
+			}catch (Exception ex){
+				//just to catch any potential out of index errors
+			}
 		}
 		Class<? extends IArchiveFile> aClass = extensionMap.get(extension.toLowerCase());
 		if (aClass!=null){
@@ -41,9 +50,9 @@ public class ArchiveFileFactory {
 				provider.init(pFile);
 				return provider;
 			} catch (InstantiationException e) {
-				Log.e(IMapView.LOGTAG, "Error initializing archive file provider", e);
+				Log.e(IMapView.LOGTAG, "Error initializing archive file provider " + pFile.getAbsolutePath(), e);
 			} catch (IllegalAccessException e) {
-				Log.e(IMapView.LOGTAG, "Error initializing archive file provider", e);
+				Log.e(IMapView.LOGTAG, "Error initializing archive file provider " + pFile.getAbsolutePath(), e);
 			} catch (final Exception e) {
 				Log.e(IMapView.LOGTAG,"Error opening archive file " + pFile.getAbsolutePath(), e);
 			}
