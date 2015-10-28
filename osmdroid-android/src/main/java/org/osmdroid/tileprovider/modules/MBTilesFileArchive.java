@@ -15,7 +15,9 @@ import org.osmdroid.api.IMapView;
 
 public class MBTilesFileArchive implements IArchiveFile {
 
-	private final SQLiteDatabase mDatabase;
+	private SQLiteDatabase mDatabase;
+
+	public MBTilesFileArchive(){}
 
 	//	TABLE tiles (zoom_level INTEGER, tile_column INTEGER, tile_row INTEGER, tile_data BLOB);
 	public final static String TABLE_TILES = "tiles";
@@ -34,6 +36,14 @@ public class MBTilesFileArchive implements IArchiveFile {
 						pFile.getAbsolutePath(),
 						null,
 						SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY));
+	}
+
+	@Override
+	public void init(File pFile) throws Exception {
+		mDatabase=SQLiteDatabase.openDatabase(
+				pFile.getAbsolutePath(),
+				null,
+				SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 	}
 
 	@Override

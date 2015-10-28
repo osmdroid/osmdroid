@@ -15,7 +15,9 @@ import org.osmdroid.api.IMapView;
 
 public class DatabaseFileArchive implements IArchiveFile {
 
-	private final SQLiteDatabase mDatabase;
+	private SQLiteDatabase mDatabase;
+
+	public DatabaseFileArchive(){}
 
 	private DatabaseFileArchive(final SQLiteDatabase pDatabase) {
 		mDatabase = pDatabase;
@@ -25,6 +27,11 @@ public class DatabaseFileArchive implements IArchiveFile {
 		//return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
 		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
 
+	}
+
+	@Override
+	public void init(File pFile) throws Exception {
+		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
 	}
 
 	@Override

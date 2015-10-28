@@ -139,7 +139,9 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	@Override
 	public void detach() {
 		while(!mArchiveFiles.isEmpty()) {
-			mArchiveFiles.get(0).close();
+			IArchiveFile t = mArchiveFiles.get(0);
+			if (t!=null)
+				mArchiveFiles.get(0).close();
 			mArchiveFiles.remove(0);
 		}
 		super.detach();
@@ -173,12 +175,14 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	private synchronized InputStream getInputStream(final MapTile pTile,
 			final ITileSource tileSource) {
 		for (final IArchiveFile archiveFile : mArchiveFiles) {
-			final InputStream in = archiveFile.getInputStream(tileSource, pTile);
-			if (in != null) {
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-					Log.d(IMapView.LOGTAG,"Found tile " + pTile + " in " + archiveFile);
+			if (archiveFile!=null) {
+				final InputStream in = archiveFile.getInputStream(tileSource, pTile);
+				if (in != null) {
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+						Log.d(IMapView.LOGTAG, "Found tile " + pTile + " in " + archiveFile);
+					}
+					return in;
 				}
-				return in;
 			}
 		}
 

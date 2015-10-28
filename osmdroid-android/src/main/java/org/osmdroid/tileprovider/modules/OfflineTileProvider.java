@@ -1,6 +1,12 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.util.Log;
+
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.IMapTileProviderCallback;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
@@ -23,9 +29,18 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
 	)
 		throws Exception {
 		super(FileBasedTileSource.getSource(source[0].getName()), pRegisterReceiver);
-		IArchiveFile[] f = new IArchiveFile[source.length];
-		for (int i=0; i < source.length; i++)
-			f[i]=ArchiveFileFactory.getArchiveFile(source[i]);
+		List<IArchiveFile> files = new ArrayList<IArchiveFile>();
+
+		for (int i=0; i < source.length; i++){
+			IArchiveFile temp=ArchiveFileFactory.getArchiveFile(source[i]);
+			if (temp!=null)
+				files.add(temp);
+			else{
+				Log.w(IMapView.LOGTAG, "Skipping " + source[i] + ", no tile provider is registered to handle the file extension");
+			}
+		}
+		IArchiveFile[] f = new IArchiveFile[files.size()];
+		f=files.toArray(f);
 		
 		mTileProviderList.add(new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), f));
 

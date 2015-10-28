@@ -14,6 +14,7 @@ public interface ITileSource {
 	 *
 	 * @return the ordinal value
 	 */
+	@Deprecated
 	int ordinal();
 
 	/**

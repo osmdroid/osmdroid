@@ -11,7 +11,9 @@ import org.osmdroid.util.GEMFFile;
 
 public class GEMFFileArchive implements IArchiveFile {
 
-	private final GEMFFile mFile;
+	private GEMFFile mFile;
+
+	public GEMFFileArchive(){}
 
 	private GEMFFileArchive(final File pFile) throws FileNotFoundException, IOException {
 		mFile = new GEMFFile(pFile);
@@ -19,6 +21,11 @@ public class GEMFFileArchive implements IArchiveFile {
 
 	public static GEMFFileArchive getGEMFFileArchive(final File pFile) throws FileNotFoundException, IOException {
 		return new GEMFFileArchive(pFile);
+	}
+
+	@Override
+	public void init(File pFile) throws Exception {
+		mFile = new GEMFFile(pFile);
 	}
 
 	@Override

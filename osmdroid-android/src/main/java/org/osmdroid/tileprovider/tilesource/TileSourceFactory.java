@@ -43,6 +43,7 @@ public class TileSourceFactory {
 	 * @throws IllegalArgumentException
 	 *             if tile source not found
 	 */
+	@Deprecated
 	public static ITileSource getTileSource(final int aOrdinal) throws IllegalArgumentException {
 		for (final ITileSource tileSource : mTileSources) {
 			if (tileSource.ordinal() == aOrdinal) {
@@ -139,7 +140,7 @@ public class TileSourceFactory {
                     "http://b.tiles.wmflabs.org/hikebike/",
                     "http://c.tiles.wmflabs.org/hikebike/"  });
      
-     public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS Topo",  0, 18, 256, "", 
+     public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
                new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
                @Override
                public String getTileURLString(MapTile aTile) {

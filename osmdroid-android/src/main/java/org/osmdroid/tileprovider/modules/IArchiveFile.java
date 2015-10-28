@@ -1,11 +1,14 @@
 package org.osmdroid.tileprovider.modules;
 
+import java.io.File;
 import java.io.InputStream;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 public interface IArchiveFile {
+
+	void init(File pFile) throws Exception;
 
 	/**
 	 * Get the input stream for the requested tile.

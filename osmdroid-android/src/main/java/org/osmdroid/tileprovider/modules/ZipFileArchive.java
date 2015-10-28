@@ -14,7 +14,9 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 public class ZipFileArchive implements IArchiveFile {
 
-	private final ZipFile mZipFile;
+	private ZipFile mZipFile;
+
+	public ZipFileArchive(){}
 
 	private ZipFileArchive(final ZipFile pZipFile) {
 		mZipFile = pZipFile;
@@ -22,6 +24,11 @@ public class ZipFileArchive implements IArchiveFile {
 
 	public static ZipFileArchive getZipFileArchive(final File pFile) throws ZipException, IOException {
 		return new ZipFileArchive(new ZipFile(pFile));
+	}
+
+	@Override
+	public void init(File pFile) throws Exception {
+		mZipFile=new ZipFile(pFile);
 	}
 
 	@Override
