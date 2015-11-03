@@ -21,6 +21,7 @@ public final class SampleFactory {
                     new SampleAlternateCacheDir(),
                     new SampleMilitaryIcons(),
                     new SampleMapBox(),
+					new SampleJumboCache(),
                     new SampleCustomTileSource()};
 	}
 

@@ -101,7 +101,7 @@ public class OpenStreetMapTileProviderConstants {
          }
      }
      
-     /** Change the osmdroid tiles cache sizes
+     /** Change the osmdroid tiles cache sizes. (note this represents size of the cache on disk, not in memory)
       * @param maxCacheSize in Mb. Default is 600 Mb. 
       * @param trimCacheSize When the cache size exceeds maxCacheSize, tiles will be automatically removed to reach this target. In Mb. Default is 500 Mb. 
       * @since 4.4
