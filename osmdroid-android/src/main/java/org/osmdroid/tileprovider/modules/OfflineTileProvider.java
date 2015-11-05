@@ -14,13 +14,14 @@ import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 
 /**
- * Causes Osmdroid to load from tiles from only the referenced file source and
+ * Causes Osmdroid to load from tiles from only the referenced file sources and
  * no where else. online sources are not even attempted.
  *
- * @since 4.4 Created by alex on 6/14/2015.
+ * @since 5.0 Created by alex on 6/14/2015.
  */
 public class OfflineTileProvider extends MapTileProviderArray implements IMapTileProviderCallback {
 
+	IArchiveFile[] archives;
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
 	 * throws with the source[] is null or empty
@@ -39,10 +40,13 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
 				Log.w(IMapView.LOGTAG, "Skipping " + source[i] + ", no tile provider is registered to handle the file extension");
 			}
 		}
-		IArchiveFile[] f = new IArchiveFile[files.size()];
-		f=files.toArray(f);
+		archives = new IArchiveFile[files.size()];
+		archives=files.toArray(archives);
 		
-		mTileProviderList.add(new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), f));
+		mTileProviderList.add(new MapTileFileArchiveProvider(pRegisterReceiver, getTileSource(), archives));
 
+	}
+	public IArchiveFile[] getArchives(){
+		return archives;
 	}
 }

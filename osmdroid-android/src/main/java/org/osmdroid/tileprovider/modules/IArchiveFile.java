@@ -2,6 +2,7 @@ package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.Set;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -20,5 +21,12 @@ public interface IArchiveFile {
 	 * Closes the archive file and releases resources.
 	 */
 	void close();
+
+	/**
+	 * returns a list of tile source names that are available in the archive, if supported
+	 * @since 5.0
+	 * @return
+	 */
+	public Set<String> getTileSources();
 
 }

@@ -9,7 +9,8 @@ public class TileSourceFactory {
 	// private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
 
 	/**
-	 * Get the tile source with the specified name.
+	 * Get the tile source with the specified name. The tile source must be one of the registered sources
+	 * as defined in the static list mTileSources of this class.
 	 *
 	 * @param aName
 	 *            the tile source name

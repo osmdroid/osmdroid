@@ -3,6 +3,9 @@ package org.osmdroid.tileprovider.modules;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -72,6 +75,11 @@ public class MBTilesFileArchive implements IArchiveFile {
 		}
 
 		return null;
+	}
+
+	public Set<String> getTileSources(){
+		//the MBTiles spec doesn't store source information in it, so we can't return anything
+		return Collections.EMPTY_SET;
 	}
 
 	@Override

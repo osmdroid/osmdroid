@@ -1,11 +1,9 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 
@@ -21,9 +19,21 @@ public class ArchiveFileFactory {
 	}
 
 	/**
+	 * Returns true if and only if the extension (minus the ".") is registered, meaning that osmdroid
+	 * has a driver to read map tiles/data from that source.
+	 * @param extension the file extension in question, minus the "."
+	 * @return
+	 * @since 5.0
+	 */
+	public static boolean isFileExtensionRegistered(String extension){
+		return extensionMap.containsKey(extension);
+	}
+
+	/**
 	 * Registers a custom archive file provider
 	 * @param provider
 	 * @param fileExtension without the dot
+	 * @since 5.0
 	 */
 	public static void registerArchiveFileProvider(Class<? extends IArchiveFile> provider, String fileExtension){
 		extensionMap.put(fileExtension, provider);

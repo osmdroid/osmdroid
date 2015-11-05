@@ -4,7 +4,7 @@ import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
 
 /**
- * this is an extremely simple tile source that should only be used for offline sources.
+ * this is an extremely simple tile source that should only be used for offline sources. assumes that the file name matches the source name
  * @see OfflineTileProvider
  * @author alex
  */

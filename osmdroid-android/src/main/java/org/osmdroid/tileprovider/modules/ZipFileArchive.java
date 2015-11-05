@@ -4,6 +4,10 @@ import android.util.Log;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -43,6 +47,22 @@ public class ZipFileArchive implements IArchiveFile {
 			Log.w(IMapView.LOGTAG,"Error getting zip stream: " + pTile, e);
 		}
 		return null;
+	}
+
+	public Set<String> getTileSources(){
+		Set<String> ret = new HashSet<String>();
+		try {
+			Enumeration<? extends ZipEntry> entries = mZipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry nextElement = entries.nextElement();
+				String str=nextElement.getName();
+				if (str.contains("/"))
+					ret.add(str.split("/")[0]);
+			}
+		} catch (final Exception e) {
+			Log.w(IMapView.LOGTAG,"Error getting tile sources: ", e);
+		}
+		return ret;
 	}
 
 	@Override
