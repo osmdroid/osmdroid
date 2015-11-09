@@ -17,7 +17,7 @@ allprojects {
   apply plugin: 'maven'
 
   group = 'org.osmdroid'
-  version = '4.4-SNAPSHOT'
+  version = '5.0-SNAPSHOT'
 
   
   repositories {

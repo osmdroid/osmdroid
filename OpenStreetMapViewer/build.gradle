@@ -9,7 +9,7 @@ android {
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 16
-        versionName "4.4-SNAPSHOT"
+        versionName "5.0-SNAPSHOT"
     }
     buildTypes {
         release {
@@ -32,5 +32,5 @@ android {
 dependencies {
     compile 'android.support:compatibility-v4:23+'
     compile project(':osmdroid-android')
-    //compile 'org.osmdroid:osmdroid-third-party:4.4-SNAPSHOT'
+    //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }

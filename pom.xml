@@ -9,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>5.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
