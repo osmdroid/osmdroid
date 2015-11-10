@@ -1,10 +1,8 @@
 package org.osmdroid.api;
 
-import org.osmdroid.views.MapController;
-
 /**
  * An interface that resembles the Google Maps API MapController class and is implemented by the
- * osmdroid {@link MapController} class.
+ * osmdroid {@link org.osmdroid.views.MapController} class.
  * 
  * @author Neil Boyd
  * 
