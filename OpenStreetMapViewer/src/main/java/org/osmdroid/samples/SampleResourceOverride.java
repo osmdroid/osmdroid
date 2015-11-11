@@ -90,7 +90,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		{
 			/* Create a ImageView with a zoomIn-Icon. */
 			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.example.R.drawable.zoom_in);
+			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
 			/* Create RelativeLayoutParams, that position it in the top right corner. */
 			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -108,7 +108,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 
 			/* Create a ImageView with a zoomOut-Icon. */
 			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.example.R.drawable.zoom_out);
+			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
 
 			/* Create RelativeLayoutParams, that position it in the top left corner. */
 			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(

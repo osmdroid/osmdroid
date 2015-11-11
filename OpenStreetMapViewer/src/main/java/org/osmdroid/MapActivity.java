@@ -29,13 +29,13 @@ public class MapActivity extends FragmentActivity
     {
         super.onCreate(savedInstanceState);
 
-        this.setContentView(org.osmdroid.example.R.layout.main);
+        this.setContentView(org.osmdroid.R.layout.main);
 
         FragmentManager fm = this.getSupportFragmentManager();
 
 		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
 			MapFragment mapFragment = MapFragment.newInstance();
-			fm.beginTransaction().add(org.osmdroid.example.R.id.map_container, mapFragment, MAP_FRAGMENT_TAG).commit();
+			fm.beginTransaction().add(org.osmdroid.R.id.map_container, mapFragment, MAP_FRAGMENT_TAG).commit();
 		}
     }
 
@@ -46,8 +46,8 @@ public class MapActivity extends FragmentActivity
 
         switch (id) {
             case DIALOG_ABOUT_ID:
-                return new AlertDialog.Builder(MapActivity.this).setIcon(org.osmdroid.example.R.drawable.icon)
-                        .setTitle(org.osmdroid.example.R.string.app_name).setMessage(org.osmdroid.example.R.string.about_message)
+                return new AlertDialog.Builder(MapActivity.this).setIcon(org.osmdroid.R.drawable.icon)
+                        .setTitle(org.osmdroid.R.string.app_name).setMessage(org.osmdroid.R.string.about_message)
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int whichButton)

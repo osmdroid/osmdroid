@@ -67,10 +67,10 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           final Context context = getActivity();
 
 
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sfgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.shgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sngpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sugpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sfgpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.shgpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sngpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sugpuci));
 
           /* Itemized Overlay */
           {
