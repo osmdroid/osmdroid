@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>5.0-SNAPSHOT</version>
+        <version>5.0</version>
     </parent>
 
     <artifactId>osmdroid-packager</artifactId>
@@ -60,15 +60,15 @@
               
                 
 				       <copy tofile="src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java">
-					    <fileset file="../osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java"/>
+					    <fileset file="../osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java" />
                   
 				       </copy>
 				        <copy tofile="src/main/java/org/osmdroid/tileprovider/util/GEMFFile.java">
-					    <fileset file="../osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"/>
+					    <fileset file="../osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java" />
                   
 				       </copy>
 				        <copy todir="src/main/java/org/osmdroid/api/">
-					    <fileset dir="../osmdroid-android/src/main/java/org/osmdroid/api/"/>
+					    <fileset dir="../osmdroid-android/src/main/java/org/osmdroid/api/" />
                   
 				       </copy>
                 
