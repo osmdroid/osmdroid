@@ -18,8 +18,8 @@ Before you add osmdroid to your project make sure you check the [Prerequisites](
 
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.0@aar'
-    //Note as of 5.0, this is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
+    compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
+    //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
 
@@ -27,7 +27,7 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.0</version>
+  <version>5.0.1</version>
   <type>aar</type>
 </dependency>
 ```
