@@ -4,15 +4,36 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 
 <b>osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).</b>
 
+# Current Release
+
+5.0.1 November 12th, 2015
+
 # Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
 
 ##Prerequisites
 
-Before you add osmdroid to your project make sure you check the [Prerequisites](https://code.google.com/p/osmdroid/wiki/Prerequisites) page.
+Before you add osmdroid to your project make sure you check the [Prerequisites](https://github.com/osmdroid/osmdroid/wiki/Prerequisites) page.
 
 ##I want to use osmdroid in my project
 
-You can include osmdroid using Maven or by adding a jar file to your project. See [HowToIncludeInYourProject](https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject).
+```groovy
+dependencies {
+    compile 'org.osmdroid:osmdroid-android:5.0@aar'
+    //Note as of 5.0, this is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
+}
+```
+
+```xml
+<dependency>
+  <groupId>org.osmdroid</groupId>
+  <artifactId>osmdroid-android</artifactId>
+  <version>5.0</version>
+  <type>aar</type>
+</dependency>
+```
+
+
+You can include osmdroid using Maven or by adding an AAR file to your project. See [HowToIncludeInYourProject](https://github.com/osmdroid/osmdroid/wiki).
 
 You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
 
@@ -28,7 +49,7 @@ If not, please ask there.
 
 ##I want to report a bug
 
-First check the [FAQ](https://code.google.com/p/osmdroid/wiki/FAQ) page for answers.
+First check the [FAQ](https://github.com/osmdroid/osmdroid/wiki/FAQ) page for answers.
 
 Then check the [Changelog](https://github.com/osmdroid/osmdroid/wiki/Changelog) page to see if this issue is fixed in a newer or upcoming version of osmdroid.
 
@@ -38,7 +59,7 @@ If you have a question on _how_ to do something then your question is better sui
 
 ##I want to contribute
 
-Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://code.google.com/p/osmdroid/source/browse/#svn/trunk/OpenStreetMapViewer), or wiki content.
+Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer), or wiki content.
 If you have an enhancement to contribute please add a new issue.
 Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
 Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/DeveloperGuidelines) page for code contributions before submitting code.
