@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	  package="org.osmdroid.google.sample"
 	  android:versionCode="1"
-	  android:versionName="5.0.1-SNAPSHOT">
+	  android:versionName="5.1-SNAPSHOT">
      
 	  <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
 
