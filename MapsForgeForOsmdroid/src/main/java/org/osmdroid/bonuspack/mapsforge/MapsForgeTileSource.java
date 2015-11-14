@@ -40,8 +40,6 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 	private JobParameters jobParameters;
 	private DebugSettings debugSettings;
 
-	// Required for the superclass
-	public static final string resourceId = ResourceProxy.string.offline_mode;
 
 	/**
 	 * The reason this constructor is protected is because all parameters,
@@ -54,7 +52,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 	 * @param file
 	 */
 	protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File file) {
-		super("MapsForgeTiles", resourceId, minZoom, maxZoom, tileSizePixels, ".png");
+		super("MapsForgeTiles", minZoom, maxZoom, tileSizePixels, ".png");
 
 		mapDatabase = new MapDatabase();
 

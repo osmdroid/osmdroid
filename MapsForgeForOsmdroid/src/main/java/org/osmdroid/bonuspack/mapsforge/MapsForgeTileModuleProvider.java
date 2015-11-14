@@ -6,6 +6,7 @@ import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -26,7 +27,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
 	 */
 	public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, File file, MapsForgeTileSource tileSource) {
 
-		super(receiverRegistrar, NUMBER_OF_TILE_FILESYSTEM_THREADS, TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
 		this.tileSource = tileSource;
 

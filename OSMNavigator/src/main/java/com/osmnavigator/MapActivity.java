@@ -168,7 +168,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
 		
 		MapBoxTileSource.retrieveMapBoxMapId(this);
-		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", ResourceProxy.string.mapquest_aerial, 1, 19, 256, ".png");
+		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
 
 		graphHopperApiKey = ManifestUtil.retrieveKey(this, "GRAPHHOPPER_API_KEY");
@@ -1376,7 +1376,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 
 	/** return the index of the first Marker having its bubble opened, -1 if none */
-	int getIndexOfBubbledMarker(AbstractList<? extends Overlay> list){
+	int getIndexOfBubbledMarker(List<? extends Overlay> list){
 		for (int i=0; i<list.size(); i++){
 			Overlay item = list.get(i);
 			if (item instanceof Marker){

@@ -1,7 +1,10 @@
 package org.osmdroid.bonuspack.overlays;
 
 import java.util.AbstractList;
+import java.util.List;
+
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import android.annotation.SuppressLint;
@@ -21,7 +24,7 @@ public class FolderOverlay extends Overlay {
 	
 	public FolderOverlay(Context ctx) {
 		super(ctx);
-		mOverlayManager = new OverlayManager(null);
+		mOverlayManager = new DefaultOverlayManager(null);
 		mName = "";
 		mDescription = "";
 	}
@@ -46,7 +49,7 @@ public class FolderOverlay extends Overlay {
 	 * @return the list of components of this folder. 
 	 * Doesn't provide a copy, but the actual list. 
 	 */
-	public AbstractList<Overlay> getItems(){
+	public List<Overlay> getItems(){
 		return mOverlayManager;
 	}
 	
