@@ -8,14 +8,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.UnknownHostException;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.UnknownHostException;;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
-import org.osmdroid.http.HttpClientFactory;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -89,26 +86,19 @@ public class CacheManager {
 		
 		InputStream in = null;
 		OutputStream out = null;
+		HttpURLConnection urlConnection=null;
 		try {
 			final String tileURLString = tileSource.getTileURLString(tile);
-	
-			final HttpClient client = HttpClientFactory.createHttpClient();
-			final HttpUriRequest head = new HttpGet(tileURLString);
-			final HttpResponse response = client.execute(head);
-	
+
+			 urlConnection = (HttpURLConnection) new URL(tileURLString).openConnection();
+
 			// Check to see if we got success
-			final org.apache.http.StatusLine line = response.getStatusLine();
-			if (line.getStatusCode() != 200) {
-				Log.w(BonusPackHelper.LOG_TAG, "Problem downloading MapTile: " + tile + " HTTP response: " + line);
+			if (urlConnection.getResponseCode() != 200) {
+				Log.w(BonusPackHelper.LOG_TAG, "Problem downloading MapTile: " + tile + " HTTP response: " + urlConnection.getResponseMessage());
 				return false;
 			}
-	
-			final HttpEntity entity = response.getEntity();
-			if (entity == null) {
-				Log.w(BonusPackHelper.LOG_TAG, "No content downloading MapTile: " + tile);
-				return false;
-			}
-			in = entity.getContent();
+
+			in = urlConnection.getInputStream();
 	
 			final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 			out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
@@ -135,6 +125,9 @@ public class CacheManager {
 		} finally {
 			StreamUtils.closeStream(in);
 			StreamUtils.closeStream(out);
+			if (urlConnection!=null)
+				urlConnection.disconnect();
+			urlConnection=null;
 		}
 
 		return false;

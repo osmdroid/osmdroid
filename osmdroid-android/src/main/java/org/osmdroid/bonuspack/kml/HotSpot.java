@@ -20,6 +20,18 @@ public class HotSpot implements Parcelable {
     public float mx, my;
     public Units mXUnits, mYUnits;
 
+    public static final Creator<HotSpot> CREATOR = new Creator<HotSpot>() {
+        @Override
+        public HotSpot createFromParcel(Parcel in) {
+            return new HotSpot(in);
+        }
+
+        @Override
+        public HotSpot[] newArray(int size) {
+            return new HotSpot[size];
+        }
+    };
+
     public Units getUnits(String sUnits){
         if ("fraction".equals(sUnits))
             return Units.fraction;
