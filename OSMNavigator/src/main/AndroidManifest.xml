@@ -46,9 +46,22 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern="/*.kml" />
-                <data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern="/*.kmz" />
-                <data android:host="*" android:mimeType="*/*" android:scheme="file" android:pathPattern="/*.json" />
+
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:scheme="file"
+                    android:pathPattern=".*\\.kml"/>
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:scheme="file"
+                    android:pathPattern=".*\\.kmz"/>
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:scheme="file"
+                    android:pathPattern=".*\\.json"/>
             </intent-filter>
         </activity>
         <activity
@@ -71,6 +84,14 @@
             android:name="com.osmnavigator.KmlStyleActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.osmnavigator.StartSharingActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity
+            android:name="com.osmnavigator.FriendsActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
     </application>
 

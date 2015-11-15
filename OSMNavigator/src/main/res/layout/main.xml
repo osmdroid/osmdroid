@@ -113,6 +113,14 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
             android:background="@drawable/btn_tracking_off" />
+
+		<Button
+			android:id="@+id/buttonFriends"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentBottom="true"
+			android:background="@drawable/btn_sharing"/>
 	</RelativeLayout>
 
 </LinearLayout>

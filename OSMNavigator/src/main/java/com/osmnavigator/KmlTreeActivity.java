@@ -1,7 +1,5 @@
 package com.osmnavigator;
 
-import org.osmdroid.bonuspack.kml.KmlFeature;
-import org.osmdroid.bonuspack.kml.KmlFolder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,10 +18,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.osmdroid.bonuspack.kml.KmlFeature;
+import org.osmdroid.bonuspack.kml.KmlFolder;
+
 public class KmlTreeActivity extends Activity {
 
 	/* request codes */
-	public static final int KML_TREE_REQUEST = 3;
+	public static final int KML_TREE_REQUEST = 200;
 	
 	KmlListAdapter mListAdapter;
 	ListView mListView;

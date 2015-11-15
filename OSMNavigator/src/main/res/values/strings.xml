@@ -49,6 +49,8 @@
 	<string name="menu_none">Cancel</string>
 
 	<!-- option_menu-->
+	<string name="menu_start_sharing">Share with Friends</string>
+	<string name="menu_stop_sharing">Stop Sharing</string>
 	<string name="menu_itinerary">Itinerary</string>
 	<string name="menu_pois">Features list</string>
 	<string name="menu_cache">Cache Manager</string>
@@ -90,5 +92,16 @@
 	
 	<!-- style_option_menu-->
 	<string name="style_option_menu_new">New Style</string>
+
+	<!-- start_sharing.xml -->
+	<string name="start_sharing_title">Share your position with all the members of the group. </string>
+	<string name="start_sharing_nickname">Nickname</string>
+	<string name="start_sharing_group">Group name</string>
+	<string name="start_sharing_message">Message</string>
+	<string name="start_sharing_go">Start Sharing</string>
+
+	<!-- FriendsActivity.java -->
+	<string name="FriendsActivity_Title">Friends</string>
+	<string name="FriendsActivity_EmptyList">There is no friend currently in your group.</string>
 
 </resources>

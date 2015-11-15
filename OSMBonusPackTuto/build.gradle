@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 15
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.0"
 
     defaultConfig {
         applicationId "com.example.osmbonuspacktuto"
@@ -28,13 +28,11 @@ repositories {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//
-    //compile(name: 'osmbonuspack_v5.4', ext: 'aar')
-    compile project(":OSMBonusPack")
 
-    //compile 'org.osmdroid:osmdroid-android:5.0.1'
-    //compile 'org.slf4j:slf4j-android:1.6.1-RC1'
+    compile(name: 'osmbonuspack_v5.5', ext: 'aar')
+    //compile project(":OSMBonusPack")
 
+    compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
     compile "com.android.support:support-v4:22.2.0"
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.code.gson:gson:2.3'

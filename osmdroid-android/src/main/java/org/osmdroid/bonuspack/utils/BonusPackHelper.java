@@ -1,5 +1,13 @@
 package org.osmdroid.bonuspack.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+
+import org.apache.http.NameValuePair;
+import org.osmdroid.util.BoundingBoxE6;
+
 import java.io.BufferedReader;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -8,13 +16,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.http.NameValuePair;
-import org.osmdroid.util.BoundingBoxE6;
-
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
 
 /** Useful functions and common constants. 
  * @author M.Kergall
@@ -75,6 +76,24 @@ public class BonusPackHelper {
 		String result = readStream(connection);
 		connection.close();
 		return result;
+		/* try moving to HttpURLConnection ...
+		URL uUrl;
+		HttpURLConnection urlConnection;
+		try {
+			uUrl = new URL(url);
+			urlConnection = (HttpURLConnection) uUrl.openConnection();
+		} catch (Exception e) {
+			return null;
+		}
+		try {
+			urlConnection.getInputStream();
+			String result = readStream(in);
+			finally{
+				urlConnection.disconnect();
+			}
+		} catch {
+		}
+		*/
 	}
 
 	/** sends an http request, and returns the whole content result in a String.

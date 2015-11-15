@@ -23,7 +23,6 @@ dependencies {
 
     compile "com.android.support:support-v4:22.2.0"
     compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
-    //compile 'org.slf4j:slf4j-android:1.6.1-RC1'
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.code.gson:gson:2.3'
 }

@@ -48,6 +48,8 @@
 	<string name="menu_none">Annuler</string>
 
 	<!-- option_menu-->
+	<string name="menu_start_sharing">Partager avec mes amis</string>
+	<string name="menu_stop_sharing">Arrêter le Partage</string>
 	<string name="menu_itinerary">Itinéraire</string>
 	<string name="menu_pois">Points d\'intérêt</string>
 	<string name="menu_cache">Gestion du Cache</string>
@@ -89,5 +91,16 @@
 	
 	<!-- style_option_menu-->
 	<string name="style_option_menu_new">Nouveau Style</string>
+
+	<!-- start_sharing.xml -->
+	<string name="start_sharing_title">Partager votre position avec tous les membres du groupe. </string>
+	<string name="start_sharing_nickname">Pseudo</string>
+	<string name="start_sharing_group">Nom du Groupe</string>
+	<string name="start_sharing_message">Message</string>
+	<string name="start_sharing_go">Démarrer le Partage</string>
+
+	<!-- FriendsActivity.java -->
+	<string name="FriendsActivity_Title">Amis</string>
+	<string name="FriendsActivity_EmptyList">Il n\'y a personne actuellement dans votre groupe.</string>
 
 </resources>

@@ -1,9 +1,5 @@
 package com.osmnavigator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import org.osmdroid.bonuspack.kml.Style;
-import org.osmdroid.bonuspack.kml.StyleSelector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +14,17 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import org.osmdroid.bonuspack.kml.Style;
+import org.osmdroid.bonuspack.kml.StyleSelector;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class KmlStylesActivity extends Activity {
 
 	/* request codes */
-	public static final int KML_STYLES_REQUEST = 4;
-	public static final int KML_STYLE_REQUEST = 5;
+	public static final int KML_STYLES_REQUEST = 100;
+	public static final int KML_STYLE_REQUEST = 101;
 	
 	KmlStyleListAdapter mListAdapter;
 	ListView mListView;
