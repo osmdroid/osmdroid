@@ -17,18 +17,24 @@ import android.os.Build;
 public class NetworkAvailabliltyCheck implements INetworkAvailablityCheck {
 
 	private final ConnectivityManager mConnectionManager;
-     final boolean isX86;
+	private final boolean mIsX86;
 
 	public NetworkAvailabliltyCheck(final Context aContext) {
 		mConnectionManager = (ConnectivityManager) aContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-          isX86= "Android-x86".equalsIgnoreCase(Build.BRAND);
+		mIsX86 = "Android-x86".equalsIgnoreCase(Build.BRAND);
 	}
 
 	@Override
 	public boolean getNetworkAvailable() {
 		final NetworkInfo networkInfo = mConnectionManager.getActiveNetworkInfo();
-		return networkInfo != null && (networkInfo.isAvailable() || (networkInfo.getType()==ConnectivityManager.TYPE_ETHERNET && isX86));
+		if (networkInfo == null) {
+			return false;
+		}
+		if (networkInfo.isAvailable()) {
+			return true;
+		}
+		return mIsX86 && networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;
 	}
 
 	@Override
