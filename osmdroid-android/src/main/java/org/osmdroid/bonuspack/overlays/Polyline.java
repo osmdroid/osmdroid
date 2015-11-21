@@ -1,15 +1,5 @@
 package org.osmdroid.bonuspack.overlays;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.GeometryMath;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.util.constants.MathConstants;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,6 +8,18 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
+
+import org.osmdroid.DefaultResourceProxyImpl;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.GeometryMath;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.util.constants.MathConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points. 
@@ -202,7 +204,7 @@ public class Polyline extends OverlayWithIW {
 			this.mPointsPrecomputed++;
 		}
 	}
-	
+
 	@Override protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
@@ -235,7 +237,7 @@ public class Polyline extends OverlayWithIW {
 		// take into account map orientation:
 		if (mapView.getMapOrientation() != 0.0f)
 			GeometryMath.getBoundingBoxForRotatatedRectangle(clipBounds, mapView.getMapOrientation(), clipBounds);
-		
+
 		mPath.rewind();
 		projectedPoint0 = this.mPoints.get(size - 1);
 		mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
@@ -273,6 +275,51 @@ public class Polyline extends OverlayWithIW {
 			screenPoint0.x = screenPoint1.x;
 			screenPoint0.y = screenPoint1.y;
 			mLineBounds.set(projectedPoint0.x, projectedPoint0.y, projectedPoint0.x, projectedPoint0.y);
+		}
+
+		canvas.drawPath(mPath, mPaint);
+	}
+
+	protected void drawNew(final Canvas canvas, final MapView mapView, final boolean shadow) {
+
+		if (shadow) {
+			return;
+		}
+
+		final int size = mPoints.size();
+		if (size < 2) {
+			// nothing to paint
+			return;
+		}
+
+		final Projection pj = mapView.getProjection();
+
+		// precompute new points to the intermediate projection.
+		precomputePoints(pj);
+
+		Point projectedPoint0 = mPoints.get(0); // points from the points list
+
+		Point screenPoint0 = pj.toPixelsFromProjected(projectedPoint0, mTempPoint1); // points on screen
+		Point screenPoint1;
+
+		mPath.rewind();
+		mPath.moveTo(screenPoint0.x, screenPoint0.y);
+
+		for (int i = 1; i < size; i++) {
+			// compute next points
+			Point projectedPoint1 = mPoints.get(i);
+			screenPoint1 = pj.toPixelsFromProjected(projectedPoint1, this.mTempPoint2);
+
+			if (Math.abs(screenPoint1.x - screenPoint0.x) + Math.abs(screenPoint1.y - screenPoint0.y) <= 1) {
+				// skip this point, too close to previous point
+				continue;
+			}
+
+			mPath.lineTo(screenPoint1.x, screenPoint1.y);
+
+			// update starting point to next position
+			screenPoint0.x = screenPoint1.x;
+			screenPoint0.y = screenPoint1.y;
 		}
 
 		canvas.drawPath(mPath, mPaint);
