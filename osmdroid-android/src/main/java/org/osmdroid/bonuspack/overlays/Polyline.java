@@ -205,7 +205,7 @@ public class Polyline extends OverlayWithIW {
 		}
 	}
 
-	@Override protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	protected void drawOld(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;
@@ -280,7 +280,8 @@ public class Polyline extends OverlayWithIW {
 		canvas.drawPath(mPath, mPaint);
 	}
 
-	protected void drawNew(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	@Override
+	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;
