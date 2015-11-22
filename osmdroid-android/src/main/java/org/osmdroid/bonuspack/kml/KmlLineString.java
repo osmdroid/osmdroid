@@ -1,7 +1,11 @@
 package org.osmdroid.bonuspack.kml;
 
-import java.io.IOException;
-import java.io.Writer;
+import android.content.Context;
+import android.os.Parcel;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.osmdroid.bonuspack.kml.KmlFeature.Styler;
 import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -9,11 +13,9 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Overlay;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
+
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * KML and/or GeoJSON LineString
@@ -61,6 +63,7 @@ public class KmlLineString extends KmlGeometry {
 			KmlDocument kmlDocument){
 		Context context = map.getContext();
 		Polyline lineStringOverlay = new Polyline(context);
+		lineStringOverlay.setGeodesic(true);
 		lineStringOverlay.setPoints(mCoordinates);
 		lineStringOverlay.setTitle(kmlPlacemark.mName);
 		lineStringOverlay.setSnippet(kmlPlacemark.mDescription);
