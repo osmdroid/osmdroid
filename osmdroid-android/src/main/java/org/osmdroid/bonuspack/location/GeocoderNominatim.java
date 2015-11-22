@@ -1,22 +1,25 @@
 package org.osmdroid.bonuspack.location;
 
-import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
-import org.osmdroid.util.BoundingBoxE6;
-import org.osmdroid.util.GeoPoint;
+import android.content.Context;
+import android.location.Address;
+import android.os.Bundle;
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import android.content.Context;
-import android.location.Address;
-import android.os.Bundle;
-import android.util.Log;
+
+import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Implements an equivalent to Android Geocoder class, based on OpenStreetMap data and Nominatim API. <br>
@@ -71,13 +74,16 @@ public class GeocoderNominatim {
 	/** 
 	 * Build an Android Address object from the Nominatim address in JSON format. 
 	 * Current implementation is mainly targeting french addresses,
-	 * and will be quite basic on other countries. 
+	 * and will be quite basic on other countries.
+	 * @return Android Address, or null if input is not valid.
 	 */
 	protected Address buildAndroidAddress(JsonObject jResult) throws JsonSyntaxException{
 		Address gAddress = new Address(mLocale);
+		if (!jResult.has("lat") || !jResult.has("lon") || !jResult.has("address"))
+			return null;
+
 		gAddress.setLatitude(jResult.get("lat").getAsDouble());
 		gAddress.setLongitude(jResult.get("lon").getAsDouble());
-
 		JsonObject jAddress = jResult.get("address").getAsJsonObject();
 
 		int addressIndex = 0;
@@ -188,7 +194,8 @@ public class GeocoderNominatim {
 			JsonObject jResult = json.getAsJsonObject();
 			Address gAddress = buildAndroidAddress(jResult);
 			List<Address> list = new ArrayList<Address>(1);
-			list.add(gAddress);
+			if (gAddress != null)
+				list.add(gAddress);
 			return list;
 		} catch (JsonSyntaxException e) {
 			throw new IOException();
@@ -239,9 +246,10 @@ public class GeocoderNominatim {
 			for (int i=0; i<jResults.size(); i++){
 				JsonObject jResult = jResults.get(i).getAsJsonObject();
 				Address gAddress = buildAndroidAddress(jResult);
-				list.add(gAddress);
+				if (gAddress != null)
+					list.add(gAddress);
 			}
-			Log.d(BonusPackHelper.LOG_TAG, "done");
+			//Log.d(BonusPackHelper.LOG_TAG, "done");
 			return list;
 		} catch (JsonSyntaxException e) {
 			throw new IOException();
