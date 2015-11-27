@@ -21,16 +21,18 @@ import org.osmdroid.views.util.constants.MathConstants;
 import java.util.ArrayList;
 import java.util.List;
 
+import microsoft.mappoint.TileSystem;
+
 /**
- * A polyline is a list of points, where line segments are drawn between consecutive points. 
- *  Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
+ * A polyline is a list of points, where line segments are drawn between consecutive points.
+ * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
- * 
- * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode. 
- * 
- * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
+ * <p/>
+ * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode.
+ *
  * @author M.Kergall
+ * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
  */
 public class Polyline extends OverlayWithIW {
 	
@@ -43,7 +45,8 @@ public class Polyline extends OverlayWithIW {
 	private ArrayList<Point> mPoints;
 	/** Number of points that have precomputed values */
 	private int mPointsPrecomputed;
-	
+	public boolean mRepeatPath = false; /** if true: at low zoom level showing multiple maps, path will be drawn on all maps */
+
 	/** bounding rectangle for the current line segment */
 	private final Rect mLineBounds = new Rect();
 	private final Point mTempPoint1 = new Point();
@@ -295,6 +298,9 @@ public class Polyline extends OverlayWithIW {
 
 		final Projection pj = mapView.getProjection();
 
+		final int halfMapSize = TileSystem.MapSize(mapView.getProjection().getZoomLevel()) / 2; // 180° in longitude in pixels
+		final int southLimit = pj.toPixelsFromMercator(0, halfMapSize * 2, null).y;            // southern Limit of the map in Pixels
+
 		// precompute new points to the intermediate projection.
 		precomputePoints(pj);
 
@@ -316,6 +322,45 @@ public class Polyline extends OverlayWithIW {
 				continue;
 			}
 
+			// check for lines exceeding 180° in longitude, or lines crossing to another map:
+			// cut line into two segments
+			if ((Math.abs(screenPoint1.x - screenPoint0.x) > halfMapSize)
+					// check for lines crossing the southern limit
+					|| (screenPoint1.y >= southLimit) != (screenPoint0.y >= southLimit)) {
+				// handle x and y coordinates separately
+				int x0 = screenPoint0.x;
+				int y0 = screenPoint0.y;
+				int x1 = screenPoint1.x;
+				int y1 = screenPoint1.y;
+
+				// first check x
+				if (Math.abs(screenPoint1.x - screenPoint0.x) > halfMapSize) {// x has to be adjusted
+					if (screenPoint1.x < mapView.getWidth() / 2) {
+						// screenPoint1 is left of screenPoint0
+						x1 += halfMapSize * 2; // set x1 360° east of screenPoint1
+						x0 -= halfMapSize * 2; // set x0 360° west of screenPoint0
+					} else {
+						x1 -= halfMapSize * 2;
+						x0 += halfMapSize * 2;
+					}
+				}
+
+				// now check y
+				if ((screenPoint1.y >= southLimit) != (screenPoint0.y >= southLimit)) {
+					// line is crossing from one map to the other
+					if (screenPoint1.y >= southLimit) {
+						// screenPoint1 was switched to map below
+						y1 -= halfMapSize * 2;  // set y1 into northern map
+						y0 += halfMapSize * 2;  // set y0 into map below
+					} else {
+						y1 += halfMapSize * 2;
+						y0 -= halfMapSize * 2;
+					}
+				}
+				mPath.lineTo(x1, y1);
+				mPath.moveTo(x0, y0);
+			} // end of line break check
+
 			mPath.lineTo(screenPoint1.x, screenPoint1.y);
 
 			// update starting point to next position
@@ -324,6 +369,20 @@ public class Polyline extends OverlayWithIW {
 		}
 
 		canvas.drawPath(mPath, mPaint);
+
+		if (mRepeatPath) {
+			Path mPathCopy = new Path(mPath);
+			mPathCopy.offset(-halfMapSize * 2, 0);                 // create left shifted copy of mPath
+			if (halfMapSize * 2 < mapView.getWidth()) {
+				mPathCopy.addPath(mPath, halfMapSize * 2, 0);      // add right shifted copy of mPath
+			}
+			if (halfMapSize * 2 < mapView.getHeight()) {
+				mPathCopy.addPath(mPathCopy, 0, halfMapSize * 2); // duplicates mPathCopy one map south
+				mPathCopy.addPath(mPath, 0, halfMapSize * 2);         // add right shifted copy of mPath
+			}
+			mPathCopy.addPath(mPath, 0, -halfMapSize * 2);         // add up shifted copy of mPath
+			canvas.drawPath(mPathCopy, mPaint);
+		}
 	}
 	
 	/** Detection is done is screen coordinates. 
