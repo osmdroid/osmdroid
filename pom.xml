@@ -76,13 +76,13 @@
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>27.0.0</version>
+                <version>[27,)</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>27.0.0</version>
+                <version>[27,)</version>
             </dependency>
             <dependency>
                 <groupId>org.json</groupId>
