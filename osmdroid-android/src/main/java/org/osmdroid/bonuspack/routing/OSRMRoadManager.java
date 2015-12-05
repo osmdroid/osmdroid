@@ -1,38 +1,40 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
+import android.content.Context;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.bonuspack.R;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
-import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /** get a route between a start and a destination point, going through a list of waypoints.
  * It uses OSRM, a free open source routing service based on OpenSteetMap data. <br>
- * 
- * It requests by default the OSRM demo site. 
- * Use setService() to request an other (for instance your own) OSRM service. <br> 
- * 
+ *
+ * It requests by default the OSRM demo site.
+ * Use setService() to request an other (for instance your own) OSRM service. <br>
+ *
  * TODO: improve internationalization of instructions
- * 
+ *
  * @see <a href="https://github.com/DennisOSRM/Project-OSRM/wiki/Server-api">OSRM</a>
- * 
+ *
  * @author M.Kergall
  */
 public class OSRMRoadManager extends RoadManager {
 
 	static final String SERVICE = "http://router.project-osrm.org/viaroute?";
+  private final Context mContext;
 
-	protected String mServiceUrl;
+  protected String mServiceUrl;
 	protected String mUserAgent;
-	
+
 	/** mapping from OSRM directions to MapQuest maneuver IDs: */
 	static final HashMap<String, Integer> MANEUVERS;
 	static {
@@ -66,108 +68,33 @@ public class OSRMRoadManager extends RoadManager {
 	// <*>: will only be printed when there actually is a road name
 	static final HashMap<String, Object> DIRECTIONS;
 	static {
-		DIRECTIONS = new HashMap<String, Object>();
-		HashMap<String, String> directions;
-		
-		directions = new HashMap<String, String>();
-		DIRECTIONS.put("en", directions);
-		directions.put("0", "Unknown instruction< on %s>");
-		directions.put("1","Continue< on %s>");
-		directions.put("2","Turn slight right< on %s>");
-		directions.put("3","Turn right< on %s>");
-		directions.put("4","Turn sharp right< on %s>");
-		directions.put("5","U-Turn< on %s>");
-		directions.put("6","Turn sharp left< on %s>");
-		directions.put("7","Turn left< on %s>");
-		directions.put("8","Turn slight left< on %s>");
-		directions.put("9","You have reached a waypoint of your trip");
-		directions.put("10","<Go on %s>");
-		directions.put("11-1","Enter roundabout and leave at first exit< on %s>");
-		directions.put("11-2","Enter roundabout and leave at second exit< on %s>");
-		directions.put("11-3","Enter roundabout and leave at third exit< on %s>");
-		directions.put("11-4","Enter roundabout and leave at fourth exit< on %s>");
-		directions.put("11-5","Enter roundabout and leave at fifth exit< on %s>");
-		directions.put("11-6","Enter roundabout and leave at sixth exit< on %s>");
-		directions.put("11-7","Enter roundabout and leave at seventh exit< on %s>");
-		directions.put("11-8","Enter roundabout and leave at eighth exit< on %s>");
-		directions.put("11-9","Enter roundabout and leave at nineth exit< on %s>");
-		directions.put("15","You have reached your destination");
-		
-		directions = new HashMap<String, String>();
-		DIRECTIONS.put("fr", directions);
-		directions.put("0", "Instruction inconnue< sur %s>");
-		directions.put("1","Continuez< sur %s>");
-		directions.put("2","Tournez légèrement à droite< sur %s>");
-		directions.put("3","Tournez à droite< sur %s>");
-		directions.put("4","Tournez fortement à droite< sur %s>");
-		directions.put("5","Faites demi-tour< sur %s>");
-		directions.put("6","Tournez fortement à gauche< sur %s>");
-		directions.put("7","Tournez à gauche< sur %s>");
-		directions.put("8","Tournez légèrement à gauche< sur %s>");
-		directions.put("9","Vous êtes arrivé à une étape de votre voyage");
-		directions.put("10","<Prenez %s>");
-		directions.put("11-1","Au rond-point, prenez la première sortie< sur %s>");
-		directions.put("11-2","Au rond-point, prenez la deuxième sortie< sur %s>");
-		directions.put("11-3","Au rond-point, prenez la troisième sortie< sur %s>");
-		directions.put("11-4","Au rond-point, prenez la quatrième sortie< sur %s>");
-		directions.put("11-5","Au rond-point, prenez la cinquième sortie< sur %s>");
-		directions.put("11-6","Au rond-point, prenez la sixième sortie< sur %s>");
-		directions.put("11-7","Au rond-point, prenez la septième sortie< sur %s>");
-		directions.put("11-8","Au rond-point, prenez la huitième sortie< sur %s>");
-		directions.put("11-9","Au rond-point, prenez la neuvième sortie< sur %s>");
-		directions.put("15","Vous êtes arrivé");
-		
-		directions = new HashMap<String, String>();
-		DIRECTIONS.put("pl", directions);
-		directions.put("0", "Nieznana instrukcja<w %s>");
-		directions.put("1","Kontynuuj jazdę<na %s>");
-		directions.put("2","Skręć lekko w prawo<w %s>");
-		directions.put("3","Skręć w prawo<w %s>");
-		directions.put("4","Skręć ostro w prawo<w %s>");
-		directions.put("5","Zawróć<na %s>");
-		directions.put("6","Skręć ostro w lewo<w %s>");
-		directions.put("7","Skręć w lewo<w %s>");
-		directions.put("8","Skręć lekko w lewo<w %s>");
-		directions.put("9","Dotarłeś do punktu pośredniego");
-		directions.put("10","<Jedź %s>");
-		directions.put("11-1","Wjedź na rondo i opuść je pierwszym zjazdem<w %s>");
-		directions.put("11-2","Wjedź na rondo i opuść je drugim zjazdem<w %s>");
-		directions.put("11-3","Wjedź na rondo i opuść je trzecim zjazdem<w %s>");
-		directions.put("11-4","Wjedź na rondo i opuść je czwartym zjazdem<w %s>");
-		directions.put("11-5","Wjedź na rondo i opuść je piątym zjazdem<w %s>");
-		directions.put("11-6","Wjedź na rondo i opuść je szóstym zjazdem<w %s>");
-		directions.put("11-7","Wjedź na rondo i opuść je siódmym zjazdem<w %s>");
-		directions.put("11-8","Wjedź na rondo i opuść je ósmym zjazdem<w %s>");
-		directions.put("11-9","Wjedź na rondo i opuść je dziewiątym zjazdem<w %s>");
-		directions.put("15","Dotarłeś do celu podróży");
-
-		directions = new HashMap<String, String>();
-        DIRECTIONS.put("de", directions);
-        directions.put("0", "Unbekannte Instruktion< auf %s>");
-        directions.put("1","Bleiben Sie< auf %s>");
-        directions.put("2","Biegen Sie leicht rechts ab< auf %s>");
-        directions.put("3","Biegen Sie rechts ab< auf %s>");
-        directions.put("4","Biegen Sie scharf rechts ab< auf %s>");
-        directions.put("5","Bitte wenden< auf %s>");
-        directions.put("6","Biegen Sie scharf links ab< auf %s>");
-        directions.put("7","Biegen Sie links ab< auf %s>");
-        directions.put("8","Biegen Sie leicht links ab< auf %s>");
-        directions.put("9","Sie haben einen Wegpunkt ihrer Reise erreicht"); 
-        directions.put("10","<Begeben Sie sich auf %s>");  
-        directions.put("11-1","Begeben Sie sich in den Kreisverkehr und nehmen die erste Ausfahrt< auf %s>");
-        directions.put("11-2","Begeben Sie sich in den Kreisverkehr und nehmen die zweite Ausfahrt< auf %s>");
-        directions.put("11-3","Begeben Sie sich in den Kreisverkehr und nehmen die dritte Ausfahrt< auf %s>");
-        directions.put("11-4","Begeben Sie sich in den Kreisverkehr und nehmen die vierte Ausfahrt< auf %s>");
-        directions.put("11-5","Begeben Sie sich in den Kreisverkehr und nehmen die fünfte Ausfahrt< auf %s>");
-        directions.put("11-6","Begeben Sie sich in den Kreisverkehr und nehmen die sechste Ausfahrt< auf %s>");
-        directions.put("11-7","Begeben Sie sich in den Kreisverkehr und nehmen die siebente Ausfahrt< auf %s>");
-        directions.put("11-8","Begeben Sie sich in den Kreisverkehr und nehmen die achte Ausfahrt< auf %s>");
-        directions.put("11-9","Begeben Sie sich in den Kreisverkehr und nehmen die neunte Ausfahrt< auf %s>");
-        directions.put("15","Sie haben ihr Ziel erreicht");
+		DIRECTIONS = new HashMap<>();
+    DIRECTIONS.put("0", R.string.osmbonuspack_directions_0);
+    DIRECTIONS.put("1", R.string.osmbonuspack_directions_1);
+    DIRECTIONS.put("2", R.string.osmbonuspack_directions_2);
+    DIRECTIONS.put("3", R.string.osmbonuspack_directions_3);
+    DIRECTIONS.put("4", R.string.osmbonuspack_directions_4);
+    DIRECTIONS.put("5", R.string.osmbonuspack_directions_5);
+    DIRECTIONS.put("6", R.string.osmbonuspack_directions_6);
+    DIRECTIONS.put("7", R.string.osmbonuspack_directions_7);
+    DIRECTIONS.put("8", R.string.osmbonuspack_directions_8);
+    DIRECTIONS.put("9", R.string.osmbonuspack_directions_9);
+    DIRECTIONS.put("10", R.string.osmbonuspack_directions_10);
+    DIRECTIONS.put("11-1", R.string.osmbonuspack_directions_11_1);
+    DIRECTIONS.put("11-2", R.string.osmbonuspack_directions_11_2);
+    DIRECTIONS.put("11-3", R.string.osmbonuspack_directions_11_3);
+    DIRECTIONS.put("11-4", R.string.osmbonuspack_directions_11_4);
+    DIRECTIONS.put("11-5", R.string.osmbonuspack_directions_11_5);
+    DIRECTIONS.put("11-6", R.string.osmbonuspack_directions_11_6);
+    DIRECTIONS.put("11-7", R.string.osmbonuspack_directions_11_7);
+    DIRECTIONS.put("11-8", R.string.osmbonuspack_directions_11_8);
+    DIRECTIONS.put("11-9", R.string.osmbonuspack_directions_11_9);
+    DIRECTIONS.put("15", R.string.osmbonuspack_directions_15);
 	}
-	
-	public OSRMRoadManager(){
+
+	public OSRMRoadManager(Context context){
 		super();
+    mContext = context;
 		mServiceUrl = SERVICE;
 		mUserAgent = BonusPackHelper.DEFAULT_USER_AGENT; //set user agent to the default one. 
 	}
@@ -195,7 +122,7 @@ public class OSRMRoadManager extends RoadManager {
 		return urlString.toString();
 	}
 
-	protected void getInstructions(Road road, JSONArray jInstructions, HashMap<String, String> directions){
+	protected void getInstructions(Road road, JSONArray jInstructions){
 		try {
 			int n = jInstructions.length();
 			RoadNode lastNode = null;
@@ -214,7 +141,7 @@ public class OSRMRoadManager extends RoadManager {
 					lastNode.mDuration += node.mDuration;
 				} else {
 					node.mManeuverType = getManeuverCode(direction);
-					node.mInstructions = buildInstructions(direction, roadName, directions);
+					node.mInstructions = buildInstructions(direction, roadName);
 					//Log.d(BonusPackHelper.LOG_TAG, direction+"=>"+node.mManeuverType+"; "+node.mInstructions);
 					road.mNodes.add(node);
 					lastNode = node;
@@ -226,13 +153,13 @@ public class OSRMRoadManager extends RoadManager {
 		}
 	}
 
-	protected void getAlternateRoad(Road road, int altRoadIndex, JSONObject jObject, HashMap<String, String> directions){
+	protected void getAlternateRoad(Road road, int altRoadIndex, JSONObject jObject){
 		try {
 			JSONArray alternative_geometries = jObject.getJSONArray("alternative_geometries");
 			String route_geometry = alternative_geometries.getString(altRoadIndex);
 			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
 			JSONArray jInstructions = jObject.getJSONArray("alternative_instructions");
-			getInstructions(road, jInstructions.getJSONArray(altRoadIndex), directions);
+			getInstructions(road, jInstructions.getJSONArray(altRoadIndex));
 			JSONArray jSummaries = jObject.getJSONArray("alternative_summaries");
 			JSONObject jSummary = jSummaries.getJSONObject(altRoadIndex);
 			road.mLength = jSummary.getInt("total_distance")/1000.0;
@@ -254,10 +181,6 @@ public class OSRMRoadManager extends RoadManager {
 			roads[0] = new Road(waypoints);
 			return roads;
 		}
-		Locale l = Locale.getDefault();
-		HashMap<String, String> directions = (HashMap<String, String>)DIRECTIONS.get(l.getLanguage());
-		if (directions == null)
-			directions = (HashMap<String, String>)DIRECTIONS.get("en");
 		Road roads[] = new Road[0];
 		Road road = new Road();
 		try {
@@ -266,7 +189,7 @@ public class OSRMRoadManager extends RoadManager {
 			String route_geometry = jObject.getString("route_geometry");
 			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
 			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
-			getInstructions(road, jInstructions, directions);
+			getInstructions(road, jInstructions);
 			JSONObject jSummary = jObject.getJSONObject("route_summary");
 			road.mLength = jSummary.getInt("total_distance")/1000.0;
 			road.mDuration = jSummary.getInt("total_time");
@@ -278,7 +201,7 @@ public class OSRMRoadManager extends RoadManager {
 				roads[0] = road;
 				for (int i=0; i<nbAltRoads; i++){
 					roads[i+1] = new Road(waypoints);
-					getAlternateRoad(roads[i+1], i, jObject, directions);
+					getAlternateRoad(roads[i+1], i, jObject);
 				}
 			} else {
 				roads = new Road[1];
@@ -322,21 +245,18 @@ public class OSRMRoadManager extends RoadManager {
 		else 
 			return 0;
 	}
-	
-	protected String buildInstructions(String direction, String roadName,
-			HashMap<String, String> directions){
-		if (directions == null)
-			return null;
-		direction = directions.get(direction);
-		if (direction == null)
-			return null;
-		String instructions = null;
+
+	protected String buildInstructions(String direction, String roadName){
+    Integer resDirection = (Integer) DIRECTIONS.get(direction);
+    if (resDirection == null) return null;
+    direction = mContext.getString(resDirection);
+		String instructions;
 		if (roadName.equals(""))
 			//remove "<*>"
-			instructions = direction.replaceFirst("<[^>]*>", "");
+			instructions = direction.replaceFirst("\\[[^\\]]*\\]", "");
 		else {
-			direction = direction.replace('<', ' ');
-			direction = direction.replace('>', ' ');
+			direction = direction.replace('[', ' ');
+			direction = direction.replace(']', ' ');
 			instructions = String.format(direction, roadName);
 		}
 		return instructions;

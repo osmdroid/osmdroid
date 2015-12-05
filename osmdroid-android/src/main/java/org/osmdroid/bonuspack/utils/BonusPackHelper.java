@@ -73,27 +73,9 @@ public class BonusPackHelper {
 		if (userAgent != null)
 			connection.setUserAgent(userAgent);
 		connection.doGet(url);
-		String result = readStream(connection);
+		String result = connection.getContentAsString();
 		connection.close();
 		return result;
-		/* try moving to HttpURLConnection ...
-		URL uUrl;
-		HttpURLConnection urlConnection;
-		try {
-			uUrl = new URL(url);
-			urlConnection = (HttpURLConnection) uUrl.openConnection();
-		} catch (Exception e) {
-			return null;
-		}
-		try {
-			urlConnection.getInputStream();
-			String result = readStream(in);
-			finally{
-				urlConnection.disconnect();
-			}
-		} catch {
-		}
-		*/
 	}
 
 	/** sends an http request, and returns the whole content result in a String.
@@ -104,31 +86,6 @@ public class BonusPackHelper {
 		return requestStringFromUrl(url, null);
 	}
 
-	/** requestStringFromPost: do a post request to a url with name-value pairs,
-	 * and returns the whole content result in a String. 
-	 * @param url
-	 * @param nameValuePairs
-	 * @return the content, or null if any issue. 
-	 */
-	public static String requestStringFromPost(String url, List<NameValuePair> nameValuePairs) {
-		HttpConnection connection = new HttpConnection();
-		connection.doPost(url, nameValuePairs);
-		String result = readStream(connection);
-		connection.close();
-		return result;
-	}
-
-	public static String convertStreamToString(InputStream is) throws Exception {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-		while ((line = reader.readLine()) != null) {
-		  sb.append(line).append("\n");
-		}
-		reader.close();
-		return sb.toString();
-	}
-	
 	/**
 	 * Loads a bitmap from a url. 
 	 * @param url
@@ -183,15 +140,15 @@ public class BonusPackHelper {
 	    }
 	}
 
-	/**
-	 * Parse a string-array resource with items like this: <item>key|value</item>
-	 * @param ctx
-	 * @param stringArrayResourceId
-	 * @return the keys=>values as an HashMap
-	 */
+//	/**
+//	 * Parse a string-array resource with items like this: <item>key|value</item>
+//	 * @param ctx
+//	 * @param stringArrayResourceId
+//	 * @return the keys=>values as an HashMap
+//	 */
 	public static HashMap<String, String> parseStringMapResource(Context ctx, int stringArrayResourceId) {
 	    String[] stringArray = ctx.getResources().getStringArray(stringArrayResourceId);
-	    HashMap<String, String> map = new HashMap<String, String>(stringArray.length);
+	    HashMap<String, String> map = new HashMap<>(stringArray.length);
 	    for (String entry : stringArray) {
 	        String[] splitResult = entry.split("\\|", 2);
 	        map.put(splitResult[0], splitResult[1]);

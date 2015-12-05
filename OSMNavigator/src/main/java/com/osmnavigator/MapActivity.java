@@ -822,6 +822,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	 * Async task to get the road in a separate thread. 
 	 */
 	private class UpdateRoadTask extends AsyncTask<Object, Void, Road[]> {
+
+		private final Context mContext;
+
+		public UpdateRoadTask(Context context) {
+			this.mContext = context;
+		}
+
 		protected Road[] doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
@@ -829,7 +836,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Locale locale = Locale.getDefault();
 			switch (mWhichRouteProvider){
 			case OSRM:
-				roadManager = new OSRMRoadManager();
+				roadManager = new OSRMRoadManager(mContext);
 				break;
 			case GRAPHHOPPER_FASTEST:
 				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
@@ -885,7 +892,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			waypoints.add(p); 
 		}
 		waypoints.add(destinationPoint);
-		new UpdateRoadTask().execute(waypoints);
+		new UpdateRoadTask(this).execute(waypoints);
 	}
 
 	//----------------- POIs

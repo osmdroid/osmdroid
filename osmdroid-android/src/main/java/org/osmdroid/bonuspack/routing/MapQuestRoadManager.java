@@ -1,9 +1,7 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import android.util.Log;
+
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.HttpConnection;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
@@ -12,10 +10,15 @@ import org.osmdroid.util.GeoPoint;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import android.util.Log;
 
-/** class to get a route between a start and a destination point, going through a list of waypoints. 
- * 
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+/** class to get a route between a start and a destination point, going through a list of waypoints.
+ *
  * It uses MapQuest open, public and free API, based on OpenStreetMap data. <br>
  * Return a "Road" object. 
  * @see Road
