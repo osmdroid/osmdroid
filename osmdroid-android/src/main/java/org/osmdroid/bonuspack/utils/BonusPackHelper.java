@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 
-import org.apache.http.NameValuePair;
 import org.osmdroid.util.BoundingBoxE6;
 
 import java.io.BufferedReader;
