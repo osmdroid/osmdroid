@@ -62,7 +62,7 @@ If you have a question on _how_ to do something then your question is better sui
 Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer), or wiki content.
 If you have an enhancement to contribute please add a new issue.
 Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
-Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/DeveloperGuidelines) page for code contributions before submitting code.
+Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/Developer-Guidelines) page for code contributions before submitting code.
 
 ##I want more!
 
