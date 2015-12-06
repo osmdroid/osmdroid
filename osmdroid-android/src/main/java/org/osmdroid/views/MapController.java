@@ -10,7 +10,6 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
-import org.osmdroid.views.util.constants.MapViewConstants;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -24,12 +23,14 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 
+import static org.osmdroid.views.util.constants.MapViewConstants.*;
+
 /**
  * 
  * @author Nicolas Gramlich
  * @author Marc Kurtz
  */
-public class MapController implements IMapController, MapViewConstants, OnFirstLayoutListener {
+public class MapController implements IMapController, OnFirstLayoutListener {
 
 	// ===========================================================
 	// Constants
@@ -299,6 +300,49 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 		}
 	}
 
+	@Override
+	public boolean zoomTo(int zoomLevel) {
+
+		zoomLevel = zoomLevel > mMapView.getMaxZoomLevel() ? mMapView.getMaxZoomLevel() : zoomLevel;
+		zoomLevel = zoomLevel < mMapView.getMinZoomLevel() ? mMapView.getMinZoomLevel() : zoomLevel;
+
+		int currentZoomLevel = mMapView.getZoomLevel();
+		boolean canZoom = zoomLevel < currentZoomLevel && mMapView.canZoomOut() ||
+			zoomLevel > currentZoomLevel && mMapView.canZoomIn();
+
+		mMapView.mMultiTouchScalePoint.set(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+		if (canZoom) {
+			if (mMapView.mListener != null) {
+				mMapView.mListener.onZoom(new ZoomEvent(mMapView, zoomLevel));
+			}
+			if (mMapView.mIsAnimating.getAndSet(true)) {
+				// TODO extend zoom (and return true)
+				return false;
+			} else {
+				mMapView.mTargetZoomLevel.set(zoomLevel);
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+					float end = zoomLevel < currentZoomLevel ?
+						1f/(float) Math.pow((float)currentZoomLevel - (float)zoomLevel, 2f) :
+						(float) Math.pow((float)zoomLevel - (float)currentZoomLevel, 2f);
+
+					ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(1f, end);
+					zoomToAnimator.addListener(new MyZoomAnimatorListener());
+					zoomToAnimator.addUpdateListener(new MyZoomAnimatorUpdateListener());
+					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT * 2);
+
+
+					mCurrentAnimator = zoomToAnimator;
+					zoomToAnimator.start();
+				} else {
+					mMapView.startAnimation(mZoomInAnimationOld);
+				}
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
+
 	protected void onAnimationStart() {
 		mMapView.mIsAnimating.set(true);
 	}
@@ -327,6 +371,7 @@ public class MapController implements IMapController, MapViewConstants, OnFirstL
 	}
 
 	protected class MyZoomAnimatorListener extends AnimatorListenerAdapter {
+
 		@Override
 		public void onAnimationStart(Animator animation) {
 			MapController.this.onAnimationStart();

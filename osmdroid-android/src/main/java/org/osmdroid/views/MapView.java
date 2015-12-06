@@ -376,7 +376,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * center of zoom level 0.<br>
 	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
 	 */
-	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
+	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox, final boolean animated) {
 		final BoundingBoxE6 currentBox = getBoundingBox();
 
 		// Calculated required zoom based on latitude span
@@ -400,9 +400,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 
 		// Zoom to boundingBox center, at calculated maximum allowed zoom level
-		getController().setZoom((int)(
+		if(animated) {
+			getController().zoomTo((int) (
 				requiredLatitudeZoom < requiredLongitudeZoom ?
-				requiredLatitudeZoom : requiredLongitudeZoom));
+					requiredLatitudeZoom : requiredLongitudeZoom));
+		} else {
+			getController().setZoom((int) (
+				requiredLatitudeZoom < requiredLongitudeZoom ?
+					requiredLatitudeZoom : requiredLongitudeZoom));
+		}
 
 		getController().setCenter(
 				new GeoPoint(boundingBox.getCenter().getLatitudeE6(), boundingBox.getCenter()
