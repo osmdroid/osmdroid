@@ -822,6 +822,13 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	 * Async task to get the road in a separate thread. 
 	 */
 	private class UpdateRoadTask extends AsyncTask<Object, Void, Road[]> {
+
+		private final Context mContext;
+
+		public UpdateRoadTask(Context context) {
+			this.mContext = context;
+		}
+
 		protected Road[] doInBackground(Object... params) {
 			@SuppressWarnings("unchecked")
 			ArrayList<GeoPoint> waypoints = (ArrayList<GeoPoint>)params[0];
@@ -829,28 +836,28 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			Locale locale = Locale.getDefault();
 			switch (mWhichRouteProvider){
 			case OSRM:
-				roadManager = new OSRMRoadManager();
+				roadManager = new OSRMRoadManager(mContext);
 				break;
 			case GRAPHHOPPER_FASTEST:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				//roadManager = new MapQuestRoadManager(mapQuestApiKey);
 				//roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				break;
 			case GRAPHHOPPER_BICYCLE:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=bike");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GRAPHHOPPER_PEDESTRIAN:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=foot");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GOOGLE_FASTEST:
-				roadManager = new GoogleRoadManager();
+				roadManager = new GoogleRoadManager(mContext);
 				break;
 				default:
 				return null;
@@ -885,7 +892,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			waypoints.add(p); 
 		}
 		waypoints.add(destinationPoint);
-		new UpdateRoadTask().execute(waypoints);
+		new UpdateRoadTask(this).execute(waypoints);
 	}
 
 	//----------------- POIs

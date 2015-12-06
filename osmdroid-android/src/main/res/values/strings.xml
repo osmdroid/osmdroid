@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="osmbonuspack.directions.0">Unknown instruction[ on %s]</string>
+  <string name="osmbonuspack.directions.1">Continue[ on %s]</string>
+  <string name="osmbonuspack.directions.2">Turn slight right[ on %s]</string>
+  <string name="osmbonuspack.directions.3">Turn right[ on %s]</string>
+  <string name="osmbonuspack.directions.4">Turn sharp right[ on %s]</string>
+  <string name="osmbonuspack.directions.5">U-Turn[ on %s]</string>
+  <string name="osmbonuspack.directions.6">Turn sharp left[ on %s]</string>
+  <string name="osmbonuspack.directions.7">Turn left[ on %s]</string>
+  <string name="osmbonuspack.directions.8">Turn slight left[ on %s]</string>
+  <string name="osmbonuspack.directions.9">You have reached a waypoint of your trip</string>
+  <string name="osmbonuspack.directions.10">[Go on %s]</string>
+  <string name="osmbonuspack.directions.11_1">Enter roundabout and leave at first exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_2">Enter roundabout and leave at second exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_3">Enter roundabout and leave at third exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_4">Enter roundabout and leave at fourth exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_5">Enter roundabout and leave at fifth exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_6">Enter roundabout and leave at sixth exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_7">Enter roundabout and leave at seventh exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_8">Enter roundabout and leave at eighth exit[ on %s]</string>
+  <string name="osmbonuspack.directions.11_9">Enter roundabout and leave at nineth exit[ on %s]</string>
+  <string name="osmbonuspack.directions.15">You have reached your destination</string>
+
+  <string name="osmbonuspack.format_distance_kilometers">%skm</string>
+  <string name="osmbonuspack.format_distance_meters">%sm</string>
+
+  <string name="osmbonuspack.format_hours">%sh</string>
+  <string name="osmbonuspack.format_minutes">%smin</string>
+  <string name="osmbonuspack.format_seconds">%ssec</string>
+</resources>

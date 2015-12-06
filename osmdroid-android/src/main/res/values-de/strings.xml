@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="osmbonuspack.directions.0">Unbekannte Instruktion[ auf %s]</string>
+  <string name="osmbonuspack.directions.1">Bleiben Sie[ auf %s]</string>
+  <string name="osmbonuspack.directions.2">Biegen Sie leicht rechts ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.3">Biegen Sie rechts ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.4">Biegen Sie scharf rechts ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.5">Bitte wenden[ auf %s]</string>
+  <string name="osmbonuspack.directions.6">Biegen Sie scharf links ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.7">Biegen Sie links ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.8">Biegen Sie leicht links ab[ auf %s]</string>
+  <string name="osmbonuspack.directions.9">Sie haben einen Wegpunkt ihrer Reise erreicht</string>
+  <string name="osmbonuspack.directions.10">[Begeben Sie sich auf %s]</string>
+  <string name="osmbonuspack.directions.11_1">Begeben Sie sich in den Kreisverkehr und nehmen die erste Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_2">Begeben Sie sich in den Kreisverkehr und nehmen die zweite Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_3">Begeben Sie sich in den Kreisverkehr und nehmen die dritte Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_4">Begeben Sie sich in den Kreisverkehr und nehmen die vierte Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_5">Begeben Sie sich in den Kreisverkehr und nehmen die fünfte Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_6">Begeben Sie sich in den Kreisverkehr und nehmen die sechste Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_7">Begeben Sie sich in den Kreisverkehr und nehmen die siebente Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_8">Begeben Sie sich in den Kreisverkehr und nehmen die achte Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.11_9">Begeben Sie sich in den Kreisverkehr und nehmen die neunte Ausfahrt[ auf %s]</string>
+  <string name="osmbonuspack.directions.15">Sie haben ihr Ziel erreicht</string>
+</resources>

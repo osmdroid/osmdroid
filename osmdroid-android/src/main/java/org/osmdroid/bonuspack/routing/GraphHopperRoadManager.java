@@ -1,7 +1,8 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import android.content.Context;
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +10,9 @@ import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.PolylineEncoder;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /** get a route between a start and a destination point, going through a list of waypoints.
  * It uses GraphHopper, an open source routing service based on OpenSteetMap data. <br>
@@ -45,11 +48,12 @@ public class GraphHopperRoadManager extends RoadManager {
 	}
 	
 	/**
-	 * @param apiKey GraphHopper API key, mandatory to use the public GraphHopper service. 
-	 * @see <a href="http://graphhopper.com/#enterprise">GraphHopper</a> to obtain an API key. 
+	 * @param context Context.
+	 * @param apiKey GraphHopper API key, mandatory to use the public GraphHopper service.
+	 * @see <a href="http://graphhopper.com/#enterprise">GraphHopper</a> to obtain an API key.
 	 */
-	public GraphHopperRoadManager(String apiKey){
-		super();
+	public GraphHopperRoadManager(Context context, String apiKey) {
+		super(context);
 		mServiceUrl = SERVICE;
 		mKey = apiKey;
 		mWithElevation = false;
@@ -85,7 +89,7 @@ public class GraphHopperRoadManager extends RoadManager {
 		if (jString == null) {
 			return new Road(waypoints);
 		}
-		Road road = new Road();
+		Road road = new Road(mContext);
 		try {
 			JSONObject jRoot = new JSONObject(jString);
 			JSONArray jPaths = jRoot.optJSONArray("paths");
