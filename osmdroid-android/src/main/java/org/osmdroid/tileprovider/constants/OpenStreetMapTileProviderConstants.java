@@ -66,9 +66,31 @@ public class OpenStreetMapTileProviderConstants {
 	 * number of tile download threads, conforming to OSM policy:
 	 * http://wiki.openstreetmap.org/wiki/Tile_usage_policy
 	 */
-	public static final int NUMBER_OF_TILE_DOWNLOAD_THREADS = 2;
+	private static int NUMBER_OF_TILE_DOWNLOAD_THREADS = 2;
+     public static int getNumberOfTileDownloadThreads(){
+          return NUMBER_OF_TILE_DOWNLOAD_THREADS;
+     }
+     /**
+      * Overrides the number of tile download threads. The default value is '2' conforming to OSM policy:
+	 * http://wiki.openstreetmap.org/wiki/Tile_usage_policy
+      * 
+      * Only use the value of '2' when connecting to OSM tile sources. 
+      * 
+      * @param threads
+      * @since 5.1
+	 */
+     public void setNumberOfTileDownloadThreads(int threads){
+          if (threads > 12)
+               NUMBER_OF_TILE_DOWNLOAD_THREADS=12;
+          else if (threads < 1)
+               NUMBER_OF_TILE_DOWNLOAD_THREADS = 1;
+          else
+               NUMBER_OF_TILE_DOWNLOAD_THREADS = threads;
+     }
+     
+     
 
-	public static final int NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
+	public static final short NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
 
 	public static final long ONE_SECOND = 1000;
 	public static final long ONE_MINUTE = ONE_SECOND * 60;
@@ -78,8 +100,8 @@ public class OpenStreetMapTileProviderConstants {
 	public static final long ONE_YEAR = ONE_DAY * 365;
 	public static final long DEFAULT_MAXIMUM_CACHED_FILE_AGE = ONE_WEEK;
 
-	public static final int TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
-	public static final int TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
+	public static final short TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
+	public static final short TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
 
 	/** 30 days */
 	public static final long TILE_EXPIRY_TIME_MILLISECONDS = 1000L * 60 * 60 * 24 * 30;

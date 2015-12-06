@@ -68,7 +68,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
 		this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
-				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_DOWNLOAD_THREADS, 
+				OpenStreetMapTileProviderConstants.getNumberOfTileDownloadThreads(), 
                     OpenStreetMapTileProviderConstants.TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
 	}
 
