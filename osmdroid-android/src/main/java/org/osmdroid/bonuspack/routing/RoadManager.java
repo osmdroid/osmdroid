@@ -1,9 +1,11 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.util.ArrayList;
+import android.content.Context;
+
 import org.osmdroid.bonuspack.overlays.Polyline;
 import org.osmdroid.util.GeoPoint;
-import android.content.Context;
+
+import java.util.ArrayList;
 
 /**
  * Generic class to get a route between a start and a destination point, 
@@ -16,8 +18,9 @@ import android.content.Context;
  * @author M.Kergall
  */
 public abstract class RoadManager {
-	
-	protected String mOptions;
+
+  protected static Context mContext;
+  protected String mOptions;
 
 	/**
 	 * @param waypoints
@@ -35,8 +38,9 @@ public abstract class RoadManager {
 	 */
 	public abstract Road[] getRoads(ArrayList<GeoPoint> waypoints);
 
-	public RoadManager(){
+	public RoadManager(Context context){
 		mOptions = "";
+    mContext = context;
 	}
 	
 	/**

@@ -21,4 +21,11 @@
   <string name="osmbonuspack.directions.11_8">Enter roundabout and leave at eighth exit[ on %s]</string>
   <string name="osmbonuspack.directions.11_9">Enter roundabout and leave at nineth exit[ on %s]</string>
   <string name="osmbonuspack.directions.15">You have reached your destination</string>
+
+  <string name="osmbonuspack.format_distance_kilometers">%skm</string>
+  <string name="osmbonuspack.format_distance_meters">%sm</string>
+
+  <string name="osmbonuspack.format_hours">%sh</string>
+  <string name="osmbonuspack.format_minutes">%smin</string>
+  <string name="osmbonuspack.format_seconds">%ssec</string>
 </resources>

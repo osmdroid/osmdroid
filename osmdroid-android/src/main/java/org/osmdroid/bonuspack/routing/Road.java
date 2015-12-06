@@ -1,15 +1,17 @@
 package org.osmdroid.bonuspack.routing;
 
-import java.util.ArrayList;
+import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
 
+import org.osmdroid.bonuspack.R;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.bonuspack.utils.DouglasPeuckerReducer;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
+import java.util.ArrayList;
 
 
 /** describes the way to go from a position to an other. 
@@ -21,11 +23,12 @@ import android.util.Log;
  * @author M.Kergall
  */
 public class Road  implements Parcelable {
-	/** 
-	 * STATUS_OK = road properly retrieved and built. 
-	 * STATUS_INVALID = road has not been built yet. 
-	 * STATUS_TECHNICAL_ISSUE = technical issue, no answer from the service provider. 
-	 * All other values: functional errors/issues, depending on the service provider. 
+  private static Context mContext;
+  /**
+	 * STATUS_OK = road properly retrieved and built.
+	 * STATUS_INVALID = road has not been built yet.
+	 * STATUS_TECHNICAL_ISSUE = technical issue, no answer from the service provider.
+	 * All other values: functional errors/issues, depending on the service provider.
 	 * */
 	public int mStatus;
 
@@ -52,15 +55,16 @@ public class Road  implements Parcelable {
 		mStatus = STATUS_INVALID;
 		mLength = 0.0;
 		mDuration = 0.0;
-		mNodes = new ArrayList<RoadNode>();
-		mRouteHigh = new ArrayList<GeoPoint>();
+		mNodes = new ArrayList<>();
+		mRouteHigh = new ArrayList<>();
 		mRouteLow = null;
-		mLegs = new ArrayList<RoadLeg>();
+		mLegs = new ArrayList<>();
 		mBoundingBox = null;
 	}
-	
-	public Road(){
+
+	public Road(Context context){
 		init();
+    mContext = context;
 	}
 	
 	/** default constructor when normal loading failed: 
@@ -106,25 +110,25 @@ public class Road  implements Parcelable {
 	 */
 	public static String getLengthDurationText(double length, double duration){
 		String result;
-		if (length >= 100.0){
-			result = (int)(length) + "km, ";
-		} else if (length >= 1.0){
-			result = Math.round(length*10)/10.0 + "km, ";
+		if (length >= 100.0) {
+			result = mContext.getString(R.string.osmbonuspack_format_distance_kilometers, (int)(length)) + ", ";
+		} else if (length >= 1.0) {
+			result = mContext.getString(R.string.osmbonuspack_format_distance_kilometers, Math.round(length*10)/10.0) + ", ";
 		} else {
-			result = (int)(length*1000) + "m, ";
+			result =  mContext.getString(R.string.osmbonuspack_format_distance_meters, (int)(length*1000)) + ", ";
 		}
 		int totalSeconds = (int)duration;
 		int hours = totalSeconds / 3600;
 		int minutes = (totalSeconds / 60) - (hours*60);
 		int seconds = (totalSeconds % 60);
-		if (hours != 0){
-			result += hours + "h ";
+		if (hours != 0) {
+			result += mContext.getString(R.string.osmbonuspack_format_hours, hours) + " ";
 		}
-		if (minutes != 0){
-			result += minutes + "min ";
+		if (minutes != 0) {
+			result += mContext.getString(R.string.osmbonuspack_format_minutes, minutes) + " ";
 		}
 		if (hours == 0 && minutes == 0){
-			result += seconds + "sec";
+			result += mContext.getString(R.string.osmbonuspack_format_seconds, seconds);
 		}
 		return result;
 	}

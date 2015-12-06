@@ -93,7 +93,7 @@ public class OSRMRoadManager extends RoadManager {
 	}
 
 	public OSRMRoadManager(Context context){
-		super();
+		super(context);
     mContext = context;
 		mServiceUrl = SERVICE;
 		mUserAgent = BonusPackHelper.DEFAULT_USER_AGENT; //set user agent to the default one. 
@@ -182,7 +182,7 @@ public class OSRMRoadManager extends RoadManager {
 			return roads;
 		}
 		Road roads[] = new Road[0];
-		Road road = new Road();
+		Road road = new Road(mContext);
 		try {
 			JSONObject jObject = new JSONObject(jString);
 			road.mStatus = jObject.getInt("status");

@@ -839,25 +839,25 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				roadManager = new OSRMRoadManager(mContext);
 				break;
 			case GRAPHHOPPER_FASTEST:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				//roadManager = new MapQuestRoadManager(mapQuestApiKey);
 				//roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				break;
 			case GRAPHHOPPER_BICYCLE:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=bike");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GRAPHHOPPER_PEDESTRIAN:
-				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=foot");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GOOGLE_FASTEST:
-				roadManager = new GoogleRoadManager();
+				roadManager = new GoogleRoadManager(mContext);
 				break;
 				default:
 				return null;
