@@ -8,7 +8,7 @@
         <uses-library android:name="android.test.runner"/>
     </application>
 
-    <instrumentation android:targetPackage="org.osmdroid.example"
+    <instrumentation android:targetPackage="org.osmdroid"
                      android:name="android.test.InstrumentationTestRunner"/>
 
 </manifest>
