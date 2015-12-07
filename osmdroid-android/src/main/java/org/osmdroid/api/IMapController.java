@@ -15,9 +15,13 @@ public interface IMapController {
 	void stopAnimation(boolean jumpToFinish);
 	void stopPanning();
 	boolean zoomIn();
+	@Deprecated
 	boolean zoomInFixing(int xPixel, int yPixel);
 	boolean zoomOut();
+	@Deprecated
 	boolean zoomOutFixing(int xPixel, int yPixel);
+	boolean zoomTo(int zoomLevel);
+	boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
 	void zoomToSpan(int latSpanE6, int lonSpanE6);
 	
 	/**

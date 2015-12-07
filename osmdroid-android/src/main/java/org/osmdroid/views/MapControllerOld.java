@@ -271,6 +271,16 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		return mOsmv.zoomOutFixing(xPixel, yPixel);
 	}
 
+	@Override
+	public boolean zoomTo(int zoomLevel) {
+		return false;
+	}
+
+	@Override
+	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
+		return false;
+	}
+
 	boolean isinverted=false;
 	@Override
 	public boolean isInvertedTiles() {
