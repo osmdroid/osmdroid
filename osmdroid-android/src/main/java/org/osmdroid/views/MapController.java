@@ -275,7 +275,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	 */
 	@Override
 	public boolean zoomOut() {
-		return zoomTo(mMapView.getZoomLevel(false) + 1);
+		return zoomTo(mMapView.getZoomLevel(false) - 1);
 	}
 
 	@Override
