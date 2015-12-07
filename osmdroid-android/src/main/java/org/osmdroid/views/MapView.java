@@ -370,6 +370,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return this.mZoomLevel;
 	}
 
+	@Deprecated
+	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
+		zoomToBoundingBox(boundingBox, false);
+	}
+
 	/**
 	 * Zoom the map to enclose the specified bounding box, as closely as possible. Must be called
 	 * after display layout is complete, or screen dimensions are not known, and will always zoom to
@@ -496,11 +501,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getController().zoomIn();
 	}
 
+	@Deprecated
 	boolean zoomInFixing(final IGeoPoint point) {
 		Point coords = getProjection().toPixels(point, null);
 		return getController().zoomInFixing(coords.x, coords.y);
 	}
 
+	@Deprecated
 	boolean zoomInFixing(final int xPixel, final int yPixel) {
 		return getController().zoomInFixing(xPixel, yPixel);
 	}
@@ -512,11 +519,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getController().zoomOut();
 	}
 
+	@Deprecated
 	boolean zoomOutFixing(final IGeoPoint point) {
 		Point coords = getProjection().toPixels(point, null);
 		return zoomOutFixing(coords.x, coords.y);
 	}
 
+	@Deprecated
 	boolean zoomOutFixing(final int xPixel, final int yPixel) {
 		return getController().zoomOutFixing(xPixel, yPixel);
 	}

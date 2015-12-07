@@ -12,9 +12,9 @@ import org.osmdroid.views.MapView.OnFirstLayoutListener;
 import org.osmdroid.views.util.MyMath;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -66,25 +66,28 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			mMapView.addOnFirstLayoutListener(this);
 		}
 
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			ZoomAnimatorListener zoomAnimatorListener = new ZoomAnimatorListener(this);
 			mZoomInAnimation = ValueAnimator.ofFloat(1f, 2f);
-			mZoomInAnimation.addListener(new MyZoomAnimatorListener());
-			mZoomInAnimation.addUpdateListener(new MyZoomAnimatorUpdateListener());
+			mZoomInAnimation.addListener(zoomAnimatorListener);
+			mZoomInAnimation.addUpdateListener(zoomAnimatorListener);
 			mZoomInAnimation.setDuration(ANIMATION_DURATION_SHORT);
 
 			mZoomOutAnimation = ValueAnimator.ofFloat(1f, 0.5f);
-			mZoomOutAnimation.addListener(new MyZoomAnimatorListener());
-			mZoomOutAnimation.addUpdateListener(new MyZoomAnimatorUpdateListener());
+			mZoomOutAnimation.addListener(zoomAnimatorListener);
+			mZoomOutAnimation.addUpdateListener(zoomAnimatorListener);
 			mZoomOutAnimation.setDuration(ANIMATION_DURATION_SHORT);
 		} else {
+			ZoomAnimationListener zoomAnimationListener = new ZoomAnimationListener(this);
 			mZoomInAnimationOld = new ScaleAnimation(1, 2, 1, 2, Animation.RELATIVE_TO_SELF, 0.5f,
 					Animation.RELATIVE_TO_SELF, 0.5f);
 			mZoomOutAnimationOld = new ScaleAnimation(1, 0.5f, 1, 0.5f, Animation.RELATIVE_TO_SELF,
 					0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 			mZoomInAnimationOld.setDuration(ANIMATION_DURATION_SHORT);
 			mZoomOutAnimationOld.setDuration(ANIMATION_DURATION_SHORT);
-			mZoomInAnimationOld.setAnimationListener(new MyZoomAnimationListener());
-			mZoomOutAnimationOld.setAnimationListener(new MyZoomAnimationListener());
+			mZoomInAnimationOld.setAnimationListener(zoomAnimationListener);
+			mZoomOutAnimationOld.setAnimationListener(zoomAnimationListener);
 		}
 	}
 	
@@ -239,7 +242,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	 */
 	@Override
 	public boolean zoomIn() {
-		return zoomInFixing(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+		return zoomTo(mMapView.getZoomLevel(false) + 1);
 	}
 
 	@Override
@@ -272,7 +275,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	 */
 	@Override
 	public boolean zoomOut() {
-		return zoomOutFixing(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+		return zoomTo(mMapView.getZoomLevel(false) + 1);
 	}
 
 	@Override
@@ -302,7 +305,11 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
 	@Override
 	public boolean zoomTo(int zoomLevel) {
+		return zoomToFixing(zoomLevel, mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+	}
 
+	@Override
+	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
 		zoomLevel = zoomLevel > mMapView.getMaxZoomLevel() ? mMapView.getMaxZoomLevel() : zoomLevel;
 		zoomLevel = zoomLevel < mMapView.getMinZoomLevel() ? mMapView.getMinZoomLevel() : zoomLevel;
 
@@ -310,7 +317,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		boolean canZoom = zoomLevel < currentZoomLevel && mMapView.canZoomOut() ||
 			zoomLevel > currentZoomLevel && mMapView.canZoomIn();
 
-		mMapView.mMultiTouchScalePoint.set(mMapView.getWidth() / 2, mMapView.getHeight() / 2);
+		mMapView.mMultiTouchScalePoint.set(xPixel, yPixel);
 		if (canZoom) {
 			if (mMapView.mListener != null) {
 				mMapView.mListener.onZoom(new ZoomEvent(mMapView, zoomLevel));
@@ -320,21 +327,39 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 				return false;
 			} else {
 				mMapView.mTargetZoomLevel.set(zoomLevel);
+
+				float difference = zoomLevel < currentZoomLevel ?
+					currentZoomLevel - zoomLevel :
+					zoomLevel - currentZoomLevel;
+
+				float end = zoomLevel < currentZoomLevel ?
+					1f/(float) Math.pow(difference, 2f) :
+					(float) Math.pow(difference, 2f);
+
+				end = difference == 1f ?
+					(zoomLevel < currentZoomLevel ? 0.5f : 2f) : end;
+
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-					float end = zoomLevel < currentZoomLevel ?
-						1f/(float) Math.pow((float)currentZoomLevel - (float)zoomLevel, 2f) :
-						(float) Math.pow((float)zoomLevel - (float)currentZoomLevel, 2f);
-
+					ZoomAnimatorListener zoomAnimatorListener = new ZoomAnimatorListener(this);
 					ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(1f, end);
-					zoomToAnimator.addListener(new MyZoomAnimatorListener());
-					zoomToAnimator.addUpdateListener(new MyZoomAnimatorUpdateListener());
-					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT * 2);
-
+					zoomToAnimator.addListener(zoomAnimatorListener);
+					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
+					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
 
 					mCurrentAnimator = zoomToAnimator;
 					zoomToAnimator.start();
 				} else {
 					mMapView.startAnimation(mZoomInAnimationOld);
+					ScaleAnimation scaleAnimation;
+
+					scaleAnimation = new ScaleAnimation(
+						1f, end, //X
+						1f, end, //Y
+						Animation.RELATIVE_TO_SELF, 0.5f, //Pivot X
+						Animation.RELATIVE_TO_SELF, 0.5f); //Pivot Y
+					scaleAnimation.setDuration(ANIMATION_DURATION_SHORT);
+					scaleAnimation.setAnimationListener(new ZoomAnimationListener(this));
+
 				}
 				return true;
 			}
@@ -342,6 +367,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			return false;
 		}
 	}
+
 
 	protected void onAnimationStart() {
 		mMapView.mIsAnimating.set(true);
@@ -370,44 +396,64 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		}
 	}
 
-	protected class MyZoomAnimatorListener extends AnimatorListenerAdapter {
+	@TargetApi(11)
+	private class ZoomAnimatorListener
+		implements Animator.AnimatorListener, AnimatorUpdateListener {
 
-		@Override
-		public void onAnimationStart(Animator animation) {
-			MapController.this.onAnimationStart();
-			super.onAnimationStart(animation);
+		private MapController mMapController;
+
+		public ZoomAnimatorListener(MapController mapController) {
+			mMapController = mapController;
 		}
 
 		@Override
-		public void onAnimationEnd(Animator animation) {
-			MapController.this.onAnimationEnd();
-			super.onAnimationEnd(animation);
+		public void onAnimationStart(Animator animator) {
+			mMapController.onAnimationStart();
+		}
+
+		@Override
+		public void onAnimationEnd(Animator animator) {
+			mMapController.onAnimationEnd();
+		}
+
+		@Override
+		public void onAnimationCancel(Animator animator) {
+			//noOp
+		}
+
+		@Override
+		public void onAnimationRepeat(Animator animator) {
+			//noOp
+		}
+
+		@Override
+		public void onAnimationUpdate(ValueAnimator valueAnimator) {
+			mMapController.mMapView.mMultiTouchScale = (float) valueAnimator.getAnimatedValue();
+			mMapController.mMapView.invalidate();
 		}
 	}
 
-	protected class MyZoomAnimatorUpdateListener implements AnimatorUpdateListener {
-		@Override
-		public void onAnimationUpdate(ValueAnimator animation) {
-			mMapView.mMultiTouchScale = (Float) animation.getAnimatedValue();
-			mMapView.invalidate();
-		}
-	}
+	protected class ZoomAnimationListener implements AnimationListener {
 
-	protected class MyZoomAnimationListener implements AnimationListener {
+		private MapController mMapController;
+
+		public ZoomAnimationListener(MapController mapController) {
+			mMapController = mapController;
+		}
 
 		@Override
 		public void onAnimationStart(Animation animation) {
-			MapController.this.onAnimationStart();
+			mMapController.onAnimationStart();
 		}
 
 		@Override
 		public void onAnimationEnd(Animation animation) {
-			MapController.this.onAnimationEnd();
+			mMapController.onAnimationEnd();
 		}
 
 		@Override
 		public void onAnimationRepeat(Animation animation) {
-			// Nothing to do here...
+			//noOp
 		}
 	}
 
@@ -484,7 +530,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 	/**
 	* sets inverted tile mode. true = inverted colors, false = normal rendering
 	* This is an Osmdroid specific feature
-	* @param b
+	* @param value
 	* @since 4.4
 	* @author Alex
 	*/
