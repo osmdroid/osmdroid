@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 23
@@ -21,10 +21,7 @@ android {
     }
 }
 
-
-
 dependencies {
-
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
     //compile(group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0.1') {}
     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}

@@ -2,9 +2,8 @@ description = 'OSMdroid Android 3rd Party'
 apply plugin: 'com.android.library'
 
 android {
-
     compileSdkVersion "Google Inc.:Google APIs:23"
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
     defaultConfig {
         minSdkVersion 9
         targetSdkVersion 23
@@ -22,10 +21,7 @@ android {
     }
 }
 
-
-
 dependencies {
-
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
     compile project(':osmdroid-android')
     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}

@@ -38,8 +38,8 @@
 		<activity android:icon="@drawable/icon"
 			  android:label="Open Map" android:name="org.osmdroid.samples.SampleLoader">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN"></action>
-				<category android:name="android.intent.category.LAUNCHER"></category>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
 		<activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay">
@@ -74,8 +74,8 @@
 		</activity>
 		<activity android:name="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource">
 			<intent-filter>
-				<action android:name="android.intent.action.VIEW"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
+				<action android:name="android.intent.action.VIEW"/>
+				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 		</activity>
 
