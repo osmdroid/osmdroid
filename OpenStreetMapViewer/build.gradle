@@ -30,7 +30,7 @@ android {
 
 
 dependencies {
-    compile 'android.support:compatibility-v4:23+'
+    compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
     //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }
