@@ -428,7 +428,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 
 		@Override
 		public void onAnimationUpdate(ValueAnimator valueAnimator) {
-			mMapController.mMapView.mMultiTouchScale = (float) valueAnimator.getAnimatedValue();
+			mMapController.mMapView.mMultiTouchScale = (Float) valueAnimator.getAnimatedValue();
 			mMapController.mMapView.invalidate();
 		}
 	}
