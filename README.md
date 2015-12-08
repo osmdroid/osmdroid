@@ -39,7 +39,7 @@ You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
 
 ##I want to compile the source
 
-The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/HowToMaven#how-to-build-osmdroid-using-eclipse).
+The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/How-to-build-OsmDroid-from-source).
 
 ##I have a question
 
