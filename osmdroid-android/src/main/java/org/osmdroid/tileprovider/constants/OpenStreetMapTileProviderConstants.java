@@ -5,8 +5,8 @@ import java.io.File;
 import org.osmdroid.tileprovider.LRUMapTileCache;
 
 import android.os.Environment;
-import java.util.ArrayList;
-import java.util.List;
+import android.util.Log;
+import org.osmdroid.api.IMapView;
 
 /**
  *
@@ -17,6 +17,24 @@ import java.util.List;
  */
 public class OpenStreetMapTileProviderConstants {
 
+     /** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. 
+          Note: also used for offline tile sources*/
+	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+			"osmdroid");
+     
+	/** Base path for tiles. 
+      /sdcard/osmdroid
+      */
+	public static File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
+     
+     static{
+          try {
+                   TILE_PATH_BASE.mkdirs();
+                   new File(TILE_PATH_BASE + "/.nomedia").createNewFile();
+              } catch (Exception ex) {
+                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery.",ex);
+              }
+     }
 	public static boolean DEBUGMODE = false;
 	public static final boolean DEBUG_TILE_PROVIDERS = false;
 	public static String USER_AGENT="User-Agent";
@@ -43,15 +61,7 @@ public class OpenStreetMapTileProviderConstants {
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
 
-	/** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. 
-          Note: also used for offline tile sources*/
-	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
-			"osmdroid");
-     
-	/** Base path for tiles. 
-      /sdcard/osmdroid
-      */
-	public static File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
+	
 
 	/** add an extension to files on sdcard so that gallery doesn't index them */
 	public static final String TILE_PATH_EXTENSION = ".tile";
@@ -120,6 +130,11 @@ public class OpenStreetMapTileProviderConstants {
          File f=new File(newFullPath);
          if (f.exists()){
                TILE_PATH_BASE = f.getAbsoluteFile();
+              try {
+                   new File(TILE_PATH_BASE + "/.nomedia").createNewFile();
+              } catch (Exception ex) {
+                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery.",ex);
+              }
          }
      }
      
