@@ -155,7 +155,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					// Check to see if file has expired
 					Date tileExpires = tile.getExpires();
 					if (tileExpires != null) {
-						tileExpires.setTime(file.lastModified());
+						tileExpires.setTime(file.lastModified() + mMaximumCachedFileAge);
 					}
 
 					final boolean fileExpired = tileExpires.before(new Date());
