@@ -16,10 +16,10 @@ public class SampleMapBox   extends BaseSampleFragment {
     public void addOverlays() {
 
         //this bit gets the key from the manifest
-        MapBoxTileSource.retrieveAccessToken(getContext());
-        MapBoxTileSource.retrieveMapBoxMapId(getContext());
+       
         MapBoxTileSource b=new MapBoxTileSource("MapBox",0,19,256, ".png");
-
+        b.retrieveAccessToken(getContext());
+        b.retrieveMapBoxMapId(getContext());
         //you can also programmtically set the token and map id here
         //b.setAccessToken("KEY");
         //b.setMapboxMapid("KEY");

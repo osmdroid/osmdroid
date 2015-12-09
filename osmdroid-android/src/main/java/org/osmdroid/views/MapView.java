@@ -1157,7 +1157,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 		}
 
-		Log.i(IMapView.LOGTAG,"Using tile source: " + tileSource);
+		Log.i(IMapView.LOGTAG,"Using tile source: " + tileSource.name());
 		return tileSource;
 	}
 
