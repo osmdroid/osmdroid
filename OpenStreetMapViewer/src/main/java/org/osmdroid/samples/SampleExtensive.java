@@ -1,16 +1,5 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +10,18 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.ResourceProxyImpl;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
 /**
  *
@@ -133,6 +134,12 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(13);
+		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
+		mapController.setCenter(startPoint);
 
 		// PathOverlay pathOverlay = new PathOverlay(Color.RED, this);
 		// pathOverlay.addPoint(new GeoPoint(40.714623, -74.006605));

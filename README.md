@@ -1,8 +1,8 @@
-#osmdroid
+# osmdroid
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
-<b>osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).</b>
+**osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).**
 
 # Current Release
 
@@ -10,11 +10,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 
 # Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
 
-##Prerequisites
+## Prerequisites
 
 Before you add osmdroid to your project make sure you check the [Prerequisites](https://github.com/osmdroid/osmdroid/wiki/Prerequisites) page.
 
-##I want to use osmdroid in my project
+## I want to use osmdroid in my project
 
 ```groovy
 dependencies {
@@ -37,17 +37,17 @@ You can include osmdroid using Maven or by adding an AAR file to your project. S
 
 You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
 
-##I want to compile the source
+## I want to compile the source
 
 The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/How-to-build-OsmDroid-from-source).
 
-##I have a question
+## I have a question
 
 See if it's already been answered in the
 [Discussion Group](http://groups.google.com/group/osmdroid).
 If not, please ask there.
 
-##I want to report a bug
+## I want to report a bug
 
 First check the [FAQ](https://github.com/osmdroid/osmdroid/wiki/FAQ) page for answers.
 
@@ -57,21 +57,19 @@ If think you have a legitimate bug to report then go to the [Issues](https://git
 
 If you have a question on _how_ to do something then your question is better suited for a public forum such as [Stack Overflow](http://stackoverflow.com/questions/tagged/osmdroid) or the osmdroid [Google Groups](https://groups.google.com/forum/#!forum/osmdroid) page where you can get feedback from a large pool of osmdroid users.
 
-##I want to contribute
+## I want to contribute
 
 Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer), or wiki content.
 If you have an enhancement to contribute please add a new issue.
 Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
 Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/Developer-Guidelines) page for code contributions before submitting code.
 
-##I want more!
+## I want more!
 
-Maybe take a look at the fine [osmbonuspack project](https://github.com/MKergall/osmbonuspack) that acts as a companion to osmdroid and adds a lot of useful functionality. 
+Maybe take a look at the fine [osmbonuspack project](https://github.com/MKergall/osmbonuspack) that acts as a companion to osmdroid and adds a lot of useful functionality.
 
-##Screenshots
+## Screenshots
 
-<img src="http://osmdroid.googlecode.com/files/osmv_sample_screen_103.png">
-<img src="http://osmdroid.googlecode.com/files/android_osm_working_184.jpg">
-
-<img src="http://osmdroid.googlecode.com/files/itemizedoverlaywithfocus_sample_2_154.png">
-<img src="http://osmdroid.googlecode.com/files/itemizedoverlay_sample_158.png">
+![](images/MyLocation.png)
+![](images/CustomLayer.png)
+![](images/TwoMarkers.png)

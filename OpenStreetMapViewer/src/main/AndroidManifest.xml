@@ -47,54 +47,60 @@
             android:required="false" />
 
         <activity
-            android:name="org.osmdroid.MapActivity"
-            android:icon="@drawable/icon"
-            android:label="Open Map">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="org.osmdroid.samples.SampleLoader"
             android:icon="@drawable/icon"
-            android:label="Open Map">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay">
+        <activity
+            android:name="org.osmdroid.MapActivity"
+            android:icon="@drawable/icon"
+            android:label="OSMDroid Sample Map">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleExtensive">
+        <activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay"
+            android:label="OSMapView with ItemizedOverlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleResourceOverride">
+        <activity android:name="org.osmdroid.samples.SampleExtensive"
+            android:label="OSMapView with UI Tools">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithMinimapZoomcontrols">
+        <activity android:name="org.osmdroid.samples.SampleWithMinimapZoomcontrols"
+            android:label="OSMapView with MiniMap &amp; Zoom">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlay">
+        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlay"
+            android:label="OSMapView with Tiles Overlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource">
+        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource"
+            android:label="OSMapView with Custom Tiles">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name="org.osmdroid.samples.SampleResourceOverride"
+            android:label="OSMapView with Custom Resource">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
