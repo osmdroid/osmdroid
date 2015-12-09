@@ -22,7 +22,8 @@ public final class SampleFactory {
                     new SampleMilitaryIcons(),
                     new SampleMapBox(),
 					new SampleJumboCache(),
-                    new SampleCustomTileSource()};
+                    new SampleCustomTileSource(),
+										new SampleAnimatedZoomToLocation()};
 	}
 
 	public BaseSampleFragment getSample(int index) {
