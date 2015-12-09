@@ -99,6 +99,7 @@ public class TileWriter implements IFilesystemCache {
 		try {
 			outputStream = new BufferedOutputStream(new FileOutputStream(file.getPath()),
 					StreamUtils.IO_BUFFER_SIZE);
+
 			final long length = StreamUtils.copy(pStream, outputStream);
 
 			mUsedCacheSpace += length;

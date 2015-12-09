@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
@@ -149,12 +150,10 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			if (file.exists()) {
 
 				try {
-					final Drawable drawable = tileSource.getDrawable(file.getPath());
+					final Drawable drawable = tileSource.getDrawable(tile, file.getPath());
 
 					// Check to see if file has expired
-					final long now = System.currentTimeMillis();
-					final long lastModified = file.lastModified();
-					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
+					final boolean fileExpired = tile.getExpires().before(new Date());
 
 					if (fileExpired && drawable != null) {
 						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {

@@ -137,7 +137,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 
 			try {
 				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
-				final Drawable drawable = tileSource.getDrawable(is);
+				final Drawable drawable = tileSource.getDrawable(tile, is);
 				if (drawable != null) {
 					ExpirableBitmapDrawable.setDrawableExpired(drawable);
 				}

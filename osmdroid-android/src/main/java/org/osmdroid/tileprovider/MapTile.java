@@ -3,6 +3,8 @@ package org.osmdroid.tileprovider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.views.overlay.TilesOverlay;
 
+import java.util.Date;
+
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
  * (i.e. a descendant of {@link MapTileModuleProviderBase} or
@@ -19,6 +21,7 @@ public class MapTile {
 	private final int x;
 	private final int y;
 	private final int zoomLevel;
+	private Date expires;
 
 	public MapTile(final int zoomLevel, final int tileX, final int tileY) {
 		this.zoomLevel = zoomLevel;
@@ -62,5 +65,13 @@ public class MapTile {
 		code *= 37 + x;
 		code *= 37 + y;
 		return code;
+	}
+
+	public Date getExpires() {
+		return expires;
+	}
+
+	public void setExpires(Date expires) {
+		this.expires = expires;
 	}
 }

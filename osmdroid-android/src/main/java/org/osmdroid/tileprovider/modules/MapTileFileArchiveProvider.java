@@ -224,7 +224,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
-					final Drawable drawable = tileSource.getDrawable(inputStream);
+					final Drawable drawable = tileSource.getDrawable(pTile, inputStream);
 					return drawable;
 				}
 			} catch (final Throwable e) {
