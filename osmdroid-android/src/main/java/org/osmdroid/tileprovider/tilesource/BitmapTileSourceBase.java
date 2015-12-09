@@ -175,18 +175,15 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		return null;
 	}
 
-	private void readExpiresHeader(MapTile aTile, InputStream inputStream) throws IOException {
+	private boolean readExpiresHeader(MapTile aTile, InputStream inputStream) throws IOException {
 		try {
 			String expires = StreamUtils.readString(inputStream);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
 			Date dateExpires = dateFormat.parse(expires);
 			aTile.setExpires(dateExpires);
+			return true;
 		} catch (ParseException e) {
-			Calendar calendar = Calendar.getInstance();
-			calendar.add(Calendar.MILLISECOND,
-				(int) OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
-			aTile.setExpires(calendar.getTime());
-			Log.e(IMapView.LOGTAG,"ParseException loading bitmap Expires date header");
+			return false;
 		}
 	}
 

@@ -153,7 +153,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					final Drawable drawable = tileSource.getDrawable(tile, file.getPath());
 
 					// Check to see if file has expired
-					final boolean fileExpired = tile.getExpires().before(new Date());
+					Date tileExpires = tile.getExpires();
+					if (tileExpires != null) {
+						tileExpires.setTime(file.lastModified());
+					}
+
+					final boolean fileExpired = tileExpires.before(new Date());
 
 					if (fileExpired && drawable != null) {
 						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
