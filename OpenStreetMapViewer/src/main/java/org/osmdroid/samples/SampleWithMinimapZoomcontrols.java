@@ -1,9 +1,6 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid.samples;
 
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +8,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
 
 /**
  *
@@ -91,6 +93,12 @@ public class SampleWithMinimapZoomcontrols extends Activity {
 		}
 
 		this.setContentView(rl);
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(5);
+		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
+		mapController.setCenter(startPoint);
 	}
 
 	// ===========================================================

@@ -1,15 +1,5 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.CustomResourceProxy;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +9,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import org.osmdroid.CustomResourceProxy;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -141,8 +142,14 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		// this.mOsmv.getOverlays().add(pathOverlay);
 
 		this.setContentView(rl);
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(3);
+		GeoPoint startPoint = new GeoPoint(48.8583, 2,2944);
+		mapController.setCenter(startPoint);
           
-          Toast.makeText(this, "Make sure you have a location fix", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Make sure you have a location fix", Toast.LENGTH_LONG).show();
 	}
 
 	// ===========================================================
