@@ -125,6 +125,6 @@ public class MapTile {
 	}
 
 	public static void skipOverHeaders(InputStream inputStream) throws IOException {
-		readExpiresHeader(null, inputStream);
+		readHeaders(null, inputStream);
 	}
 }
