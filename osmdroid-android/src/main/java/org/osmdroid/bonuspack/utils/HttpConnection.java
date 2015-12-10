@@ -25,58 +25,63 @@ import java.util.concurrent.TimeUnit;
  * connection.close();</pre>
  */
 public class HttpConnection {
-
-  private OkHttpClient client;
-  private InputStream stream;
-	private String mUserAgent;
-
 	private final static int TIMEOUT_CONNECTION=3000; //ms
 	private final static int TIMEOUT_SOCKET=10000; //ms
-  private Object content;
 
-  public HttpConnection(){
-		stream = null;
-    client = new OkHttpClient();
-    client.setConnectTimeout(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
-    client.setReadTimeout(TIMEOUT_SOCKET, TimeUnit.MILLISECONDS);
-  }
+    private OkHttpClient client;
+    private InputStream stream;
+    private String mUserAgent;
+    private Response response;
+
+    public HttpConnection() {
+        client = new OkHttpClient();
+        client.setConnectTimeout(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
+        client.setReadTimeout(TIMEOUT_SOCKET, TimeUnit.MILLISECONDS);
+    }
 
 	public void setUserAgent(String userAgent){
 		mUserAgent = userAgent;
 	}
 
 	public void doGet(final String url) {
-    try {
-      Request.Builder request = new Request.Builder().url(url);
-      if (mUserAgent != null)
-        request.addHeader("User-Agent", mUserAgent);
-      Response response = client.newCall(request.build()).execute();
-      Integer status = response.code();
-      if (status != 200) {
-        Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());
-      } else {
-        content = response.body().string();
-        stream = response.body().byteStream();
-      }
-    } catch(IOException e) {
-      e.printStackTrace();
-    }
+        try {
+            Request.Builder request = new Request.Builder().url(url);
+            if (mUserAgent != null)
+                request.addHeader("User-Agent", mUserAgent);
+            response = client.newCall(request.build()).execute();
+            Integer status = response.code();
+            if (status != 200) {
+                Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
   }
 
 	/**
 	 * @return the opened InputStream, or null if creation failed for any reason.
 	 */
 	public InputStream getStream() {
-		return stream;
-	}
-	
+        try {
+            stream = response.body().byteStream();
+            return stream;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 	/**
 	 * @return the whole content as a String, or null if creation failed for any reason. 
 	 */
 	public String getContentAsString(){
-    if(content != null) return content.toString();
-    else return null;
-	}
+        try {
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 	
 	/**
 	 * Calling close once is mandatory. 
@@ -90,7 +95,8 @@ public class HttpConnection {
 				e.printStackTrace();
 			}
 		}
-    if (client != null) client = null;
-	}
+        if (client != null)
+            client = null;
+    }
 	
 }
