@@ -30,9 +30,8 @@ import java.util.HashMap;
 public class OSRMRoadManager extends RoadManager {
 
 	static final String SERVICE = "http://router.project-osrm.org/viaroute?";
-  private final Context mContext;
-
-  protected String mServiceUrl;
+	private final Context mContext;
+	protected String mServiceUrl;
 	protected String mUserAgent;
 
 	/** mapping from OSRM directions to MapQuest maneuver IDs: */
