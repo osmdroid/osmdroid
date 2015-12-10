@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.tileprovider.BitmapPool;
@@ -198,9 +199,11 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 
-				String expires = c.getHeaderField("Expires");
-				if(expires == null) { //Expire yesterday
-					SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+				String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+				if(expires == null) {
+					SimpleDateFormat dateFormat =
+						new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+							Locale.US);
 					Calendar calendar = Calendar.getInstance();
 					calendar.add(Calendar.MILLISECOND,
 						(int) OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);

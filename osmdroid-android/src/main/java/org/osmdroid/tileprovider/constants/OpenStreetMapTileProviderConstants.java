@@ -157,4 +157,7 @@ public class OpenStreetMapTileProviderConstants {
      public static void setOfflineMapsPath(String path){
           OSMDROID_PATH = new File(path);
      }
+
+	public static final String HTTP_EXPIRES_HEADER = "Expires";
+	public static final String HTTP_EXPIRES_HEADER_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";
 }

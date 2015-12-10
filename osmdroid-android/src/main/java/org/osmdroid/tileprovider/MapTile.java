@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.overlay.TilesOverlay;
@@ -9,6 +10,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
@@ -80,11 +82,13 @@ public class MapTile {
 		this.expires = expires;
 	}
 
+
 	public boolean readHeaders(InputStream inputStream) throws IOException {
 		return readHeaders(this, inputStream);
 	}
 
 	private static boolean readHeaders(MapTile mapTile, InputStream inputStream) throws IOException {
+		//It is important to read headers in the same order in which they were written
 		return readExpiresHeader(mapTile, inputStream);
 	}
 
@@ -93,7 +97,9 @@ public class MapTile {
 
 		try {
 			final String expires = StreamUtils.readString(inputStream);
-			final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+			final SimpleDateFormat dateFormat =
+				new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+					Locale.US);
 			final Date dateExpires = dateFormat.parse(expires);
 
 			if (mapTile != null) {
