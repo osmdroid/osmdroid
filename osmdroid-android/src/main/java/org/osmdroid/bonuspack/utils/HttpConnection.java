@@ -25,18 +25,29 @@ import java.util.concurrent.TimeUnit;
  * connection.close();</pre>
  */
 public class HttpConnection {
-	private final static int TIMEOUT_CONNECTION=3000; //ms
-	private final static int TIMEOUT_SOCKET=10000; //ms
+    private final static int TIMEOUT_CONNECTION = 3000; //ms
+    private final static int TIMEOUT_SOCKET = 10000; //ms
 
-    private OkHttpClient client;
+    private static OkHttpClient client;
     private InputStream stream;
     private String mUserAgent;
     private Response response;
 
+    private static OkHttpClient getOkHttpClient() {
+        if (client == null) {
+            client = new OkHttpClient();
+            client.setConnectTimeout(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
+            client.setReadTimeout(TIMEOUT_SOCKET, TimeUnit.MILLISECONDS);
+        }
+        return client;
+    }
+
     public HttpConnection() {
+        /*
         client = new OkHttpClient();
         client.setConnectTimeout(TIMEOUT_CONNECTION, TimeUnit.MILLISECONDS);
         client.setReadTimeout(TIMEOUT_SOCKET, TimeUnit.MILLISECONDS);
+        */
     }
 
 	public void setUserAgent(String userAgent){
@@ -48,7 +59,7 @@ public class HttpConnection {
             Request.Builder request = new Request.Builder().url(url);
             if (mUserAgent != null)
                 request.addHeader("User-Agent", mUserAgent);
-            response = client.newCall(request.build()).execute();
+            response = getOkHttpClient().newCall(request.build()).execute();
             Integer status = response.code();
             if (status != 200) {
                 Log.e(BonusPackHelper.LOG_TAG, "Invalid response from server: " + status.toString());
@@ -95,8 +106,10 @@ public class HttpConnection {
 				e.printStackTrace();
 			}
 		}
+        /*
         if (client != null)
             client = null;
+        */
     }
 	
 }
