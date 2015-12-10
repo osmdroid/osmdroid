@@ -1,28 +1,23 @@
 package org.osmdroid.tileprovider.tilesource;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+
+import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.util.StreamUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Random;
-
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.util.StreamUtils;
 
 public abstract class BitmapTileSourceBase implements ITileSource {
 
@@ -94,7 +89,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 
 	@Override
-	public Drawable getDrawable(final MapTile aTile, final String aFilePath) {
+	public Drawable getDrawable(final String aFilePath) {
 		BufferedInputStream inputStream = null;
 		try {
 			// default implementation will load the file as a bitmap and create
@@ -102,12 +97,10 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
 
-
-
 			inputStream = new BufferedInputStream(new FileInputStream(aFilePath),
 				StreamUtils.IO_BUFFER_SIZE);
 
-			readExpiresHeader(aTile, inputStream);
+			MapTile.skipOverHeaders(inputStream);
 
 			final Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions); //BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
@@ -149,15 +142,15 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	}
 
 	@Override
-	public Drawable getDrawable(MapTile aTile, final InputStream aFileInputStream) throws LowMemoryException {
+	public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
 
 		try {
+			MapTile.skipOverHeaders(aFileInputStream);
+
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-
-			readExpiresHeader(aTile, aFileInputStream);
 
 			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions); //BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
@@ -167,24 +160,11 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap");
 			System.gc();
 			throw new LowMemoryException(e);
-		} catch (final FileNotFoundException e) {
-			Log.e(IMapView.LOGTAG,"FileNotFoundException loading bitmap");
 		} catch (final IOException e) {
 			Log.e(IMapView.LOGTAG,"IOException loading bitmap");
 		}
-		return null;
-	}
 
-	private boolean readExpiresHeader(MapTile aTile, InputStream inputStream) throws IOException {
-		try {
-			String expires = StreamUtils.readString(inputStream);
-			SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
-			Date dateExpires = dateFormat.parse(expires);
-			aTile.setExpires(dateExpires);
-			return true;
-		} catch (ParseException e) {
-			return false;
-		}
+		return null;
 	}
 
 	public final class LowMemoryException extends Exception {

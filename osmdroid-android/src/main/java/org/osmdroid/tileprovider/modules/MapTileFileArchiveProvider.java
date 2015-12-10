@@ -224,15 +224,17 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
-					final Drawable drawable = tileSource.getDrawable(pTile, inputStream);
+
+					pTile.readHeaders(inputStream);
+					inputStream.reset();
+
+					final Drawable drawable = tileSource.getDrawable(inputStream);
 					return drawable;
 				}
 			} catch (final Throwable e) {
 				Log.e(IMapView.LOGTAG,"Error loading tile", e);
 			} finally {
-				if (inputStream != null) {
-					StreamUtils.closeStream(inputStream);
-				}
+				StreamUtils.closeStream(inputStream);
 			}
 
 			return null;

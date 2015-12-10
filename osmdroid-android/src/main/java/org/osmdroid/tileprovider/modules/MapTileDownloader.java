@@ -218,7 +218,11 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					mFilesystemCache.saveFile(tileSource, tile, byteStream);
 					byteStream.reset();
 				}
-				final Drawable result = tileSource.getDrawable(tile, byteStream);
+
+				tile.readHeaders(byteStream);
+				byteStream.reset();
+
+				final Drawable result = tileSource.getDrawable(byteStream);
 
 				return result;
 			} catch (final UnknownHostException e) {

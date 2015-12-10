@@ -15,6 +15,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 /**
  * Implements a file system cache and provides cached tiles from Assets. This
@@ -135,9 +136,15 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 
 			final MapTile tile = pState.getMapTile();
 
+			InputStream is = null;
+
 			try {
-				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
-				final Drawable drawable = tileSource.getDrawable(tile, is);
+				is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
+
+				tile.readHeaders(is);
+				is.reset();
+
+				final Drawable drawable = tileSource.getDrawable(is);
 				if (drawable != null) {
 					ExpirableBitmapDrawable.setDrawableExpired(drawable);
 				}
@@ -145,6 +152,8 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 			} catch (IOException e) {
 			} catch (final LowMemoryException e) {
 				throw new CantContinueException(e);
+			} finally {
+				StreamUtils.closeStream(is);
 			}
 
 			// If we get here then there is no file in the file cache

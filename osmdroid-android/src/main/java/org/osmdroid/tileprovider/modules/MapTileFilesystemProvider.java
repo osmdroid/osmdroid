@@ -1,6 +1,11 @@
 package org.osmdroid.tileprovider.modules;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -16,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -148,9 +154,15 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
 					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 			if (file.exists()) {
+				final String tilePath = file.getPath();
+				InputStream inputStream = null;
 
 				try {
-					final Drawable drawable = tileSource.getDrawable(tile, file.getPath());
+					inputStream = new BufferedInputStream(new FileInputStream(tilePath),
+						StreamUtils.IO_BUFFER_SIZE);
+					tile.readHeaders(inputStream);
+
+					final Drawable drawable = tileSource.getDrawable(tilePath);
 
 					// Check to see if file has expired
 					Date tileExpires = tile.getExpires();
@@ -172,6 +184,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					// low memory so empty the queue
 					Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
 					throw new CantContinueException(e);
+				} catch (final FileNotFoundException e) {
+					Log.e(IMapView.LOGTAG,"FileNotFoundException loading bitmap: " + tilePath);
+				} catch (final IOException e) {
+					Log.e(IMapView.LOGTAG,"IOException loading bitmap: " + tilePath);
+				} finally {
+					StreamUtils.closeStream(inputStream);
 				}
 			}
 

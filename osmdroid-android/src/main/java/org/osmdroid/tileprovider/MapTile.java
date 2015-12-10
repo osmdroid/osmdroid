@@ -1,8 +1,13 @@
 package org.osmdroid.tileprovider;
 
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.overlay.TilesOverlay;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -73,5 +78,34 @@ public class MapTile {
 
 	public void setExpires(Date expires) {
 		this.expires = expires;
+	}
+
+	public boolean readHeaders(InputStream inputStream) throws IOException {
+		return readHeaders(this, inputStream);
+	}
+
+	private static boolean readHeaders(MapTile mapTile, InputStream inputStream) throws IOException {
+		return readExpiresHeader(mapTile, inputStream);
+	}
+
+	private static boolean readExpiresHeader(MapTile mapTile, InputStream inputStream)
+		throws IOException {
+
+		try {
+			final String expires = StreamUtils.readString(inputStream);
+			final SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z");
+			final Date dateExpires = dateFormat.parse(expires);
+
+			if (mapTile != null) {
+				mapTile.setExpires(dateExpires);
+			}
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
+	}
+
+	public static void skipOverHeaders(InputStream inputStream) throws IOException {
+		readExpiresHeader(null, inputStream);
 	}
 }
