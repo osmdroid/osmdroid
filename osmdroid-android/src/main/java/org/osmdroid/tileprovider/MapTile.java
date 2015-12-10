@@ -7,6 +7,7 @@ import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,6 +81,18 @@ public class MapTile {
 
 	public void setExpires(Date expires) {
 		this.expires = expires;
+	}
+
+	public void writeHeaders(OutputStream outputStream) throws IOException {
+		writeExpiresHeader(outputStream);
+	}
+
+	private void writeExpiresHeader(OutputStream outputStream) throws IOException {
+		SimpleDateFormat dateFormat =
+			new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+				Locale.US);
+
+		StreamUtils.writeString(outputStream, dateFormat.format(expires));
 	}
 
 

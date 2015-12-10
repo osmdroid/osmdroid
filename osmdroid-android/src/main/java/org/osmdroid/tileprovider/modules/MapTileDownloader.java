@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -199,17 +200,23 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 
-				String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+				Date dateExpires;
+				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
 				if(expires == null) {
-					SimpleDateFormat dateFormat =
-						new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
-							Locale.US);
 					Calendar calendar = Calendar.getInstance();
 					calendar.add(Calendar.MILLISECOND,
 						(int) OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
-					expires = dateFormat.format(calendar.getTime());
+					dateExpires = calendar.getTime();
+				} else {
+					SimpleDateFormat dateFormat =
+						new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+							Locale.US);
+
+					dateExpires = dateFormat.parse(expires);
 				}
-				StreamUtils.writeString(out, expires);
+				tile.setExpires(dateExpires);
+
+				tile.writeHeaders(out);
 
 				StreamUtils.copy(in, out);
 				out.flush();
