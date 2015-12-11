@@ -23,3 +23,5 @@ dependencies {
 
     compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
 }
+
+apply from: '../maven.gradle'
