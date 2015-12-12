@@ -179,7 +179,7 @@ public class StreamUtils {
 	/**
 	 * Reads the contents of an InputStream into a byte[].
 	 * */
-	private static byte[] streamToBytes(InputStream in, int length) throws IOException {
+	public static byte[] streamToBytes(InputStream in, int length) throws IOException {
 		byte[] bytes = new byte[length];
 		int count;
 		int pos = 0;

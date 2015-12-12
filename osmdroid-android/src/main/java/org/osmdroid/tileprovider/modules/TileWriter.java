@@ -96,6 +96,7 @@ public class TileWriter implements IFilesystemCache {
 		}
 
 		BufferedOutputStream outputStream = null;
+		BufferedOutputStream propertiesOutputStream = null;
 		try {
 			outputStream = new BufferedOutputStream(new FileOutputStream(file.getPath()),
 					StreamUtils.IO_BUFFER_SIZE);
@@ -106,12 +107,20 @@ public class TileWriter implements IFilesystemCache {
 			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
 				cutCurrentCache(); // TODO perhaps we should do this in the background
 			}
+
+			final File propertiesFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+				pTileSource.getTileRelativeFilenameString(pTile)
+					+ OpenStreetMapTileProviderConstants.TILE_PROPERTIES_EXTENSION);
+
+			propertiesOutputStream = new BufferedOutputStream(new FileOutputStream(propertiesFile),
+				StreamUtils.IO_BUFFER_SIZE);
+			pTile.writeProperties(propertiesOutputStream);
+
 		} catch (final IOException e) {
 			return false;
 		} finally {
-			if (outputStream != null) {
-				StreamUtils.closeStream(outputStream);
-			}
+			StreamUtils.closeStream(outputStream);
+			StreamUtils.closeStream(propertiesOutputStream);
 		}
 		return true;
 	}

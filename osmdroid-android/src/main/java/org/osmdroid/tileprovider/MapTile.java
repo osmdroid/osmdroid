@@ -7,7 +7,13 @@ import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,48 +89,55 @@ public class MapTile {
 		this.expires = expires;
 	}
 
-	public void writeHeaders(OutputStream outputStream) throws IOException {
-		writeExpiresHeader(outputStream);
-	}
+	public void writeProperties(OutputStream outputStream) throws IOException {
 
-	private void writeExpiresHeader(OutputStream outputStream) throws IOException {
 		SimpleDateFormat dateFormat =
 			new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
 				Locale.US);
 
-		StreamUtils.writeString(outputStream, dateFormat.format(expires));
+		String formattedDateExpires = dateFormat.format(expires);
+
+		//Add each property on a new line as properties are split with "\n"
+		String properties = String.format(
+				"%s:%s", //Expires
+			OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES, formattedDateExpires,
+			OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES, formattedDateExpires);
+
+		outputStream.write(properties.getBytes("UTF-8"));
 	}
 
+	public void readProperties(InputStream inputStream) throws IOException {
+		StringBuilder propertiesBuilder = new StringBuilder();
 
-	public boolean readHeaders(InputStream inputStream) throws IOException {
-		return readHeaders(this, inputStream);
-	}
+		char[] buffer = new char[StreamUtils.IO_BUFFER_SIZE];
+		Reader reader = new InputStreamReader(inputStream);
 
-	private static boolean readHeaders(MapTile mapTile, InputStream inputStream) throws IOException {
-		//It is important to read headers in the same order in which they were written
-		return readExpiresHeader(mapTile, inputStream);
-	}
-
-	private static boolean readExpiresHeader(MapTile mapTile, InputStream inputStream)
-		throws IOException {
-
-		try {
-			final String expires = StreamUtils.readString(inputStream);
-			final SimpleDateFormat dateFormat =
-				new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
-					Locale.US);
-			final Date dateExpires = dateFormat.parse(expires);
-
-			if (mapTile != null) {
-				mapTile.setExpires(dateExpires);
-			}
-			return true;
-		} catch (ParseException e) {
-			return false;
+		int read = -1;
+		while((read = reader.read(buffer)) != -1) {
+			propertiesBuilder.append(buffer, 0, read);
 		}
-	}
 
-	public static void skipOverHeaders(InputStream inputStream) throws IOException {
-		readHeaders(null, inputStream);
+		final String[] properties = propertiesBuilder.toString().split("\n");
+		for(String property : properties) {
+			final String[] keyValuePair = property.split(":", 2);
+			if(keyValuePair.length == 2) {
+				final String key = keyValuePair[0];
+				final String value = keyValuePair[1];
+
+				switch (key) {
+					case OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES:
+						try {
+							final SimpleDateFormat dateFormat =
+								new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+									Locale.US);
+
+							setExpires(dateFormat.parse(value));
+						} catch (ParseException e) { //Default if not available/parseable
+							setExpires(new Date(OpenStreetMapTileProviderConstants.TILE_EXPIRY_TIME_MILLISECONDS));
+						}
+						break;
+				}
+			}
+		}
 	}
 }

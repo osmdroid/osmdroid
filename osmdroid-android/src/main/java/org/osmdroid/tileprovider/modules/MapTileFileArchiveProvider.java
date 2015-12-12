@@ -225,9 +225,6 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
 
-					pTile.readHeaders(inputStream);
-					inputStream.reset();
-
 					final Drawable drawable = tileSource.getDrawable(inputStream);
 					return drawable;
 				}

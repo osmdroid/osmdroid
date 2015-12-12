@@ -216,8 +216,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				}
 				tile.setExpires(dateExpires);
 
-				tile.writeHeaders(out);
-
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
@@ -228,9 +226,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					mFilesystemCache.saveFile(tileSource, tile, byteStream);
 					byteStream.reset();
 				}
-
-				tile.readHeaders(byteStream);
-				byteStream.reset();
 
 				final Drawable result = tileSource.getDrawable(byteStream);
 

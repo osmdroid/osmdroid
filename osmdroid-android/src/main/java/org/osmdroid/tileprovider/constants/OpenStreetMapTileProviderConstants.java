@@ -67,6 +67,13 @@ public class OpenStreetMapTileProviderConstants {
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
 	/**
+	 * Tile properties file extension
+	 */
+	public static final String TILE_PROPERTIES_EXTENSION = ".properties";
+
+	public static final String PROPERTY_EXPIRES = "expires";
+
+	/**
 	 * Initial tile cache size. The size will be increased as required by calling
 	 * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
 	 */

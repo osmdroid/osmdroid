@@ -1,9 +1,11 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -152,22 +154,40 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
 			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
-					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
+					tileSource.getTileRelativeFilenameString(tile) +
+						OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
+
 			if (file.exists()) {
 				final String tilePath = file.getPath();
 				InputStream inputStream = null;
-
+				InputStream propertiesInputStream = null;
+				BufferedOutputStream propertiesOutputStream = null;
 				try {
+
+					final File propertiesFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+						tileSource.getTileRelativeFilenameString(tile) +
+							OpenStreetMapTileProviderConstants.TILE_PROPERTIES_EXTENSION);
+
+					boolean updatePropertiesFiles = false;
+					if(propertiesFile.exists()) {
+						propertiesInputStream = new BufferedInputStream(new FileInputStream(propertiesFile),
+							StreamUtils.IO_BUFFER_SIZE);
+						tile.readProperties(propertiesInputStream);
+					} else {
+						updatePropertiesFiles = true;
+					}
+
 					inputStream = new BufferedInputStream(new FileInputStream(tilePath),
 						StreamUtils.IO_BUFFER_SIZE);
-					tile.readHeaders(inputStream);
 
 					final Drawable drawable = tileSource.getDrawable(tilePath);
 
 					// Check to see if file has expired
 					Date tileExpires = tile.getExpires();
-					if (tileExpires != null) {
-						tileExpires.setTime(file.lastModified() + mMaximumCachedFileAge);
+					if (tileExpires == null) {
+						tileExpires= new Date(file.lastModified() + mMaximumCachedFileAge);
+						tile.setExpires(tileExpires);
+						updatePropertiesFiles = true;
 					}
 
 					final boolean fileExpired = tileExpires.before(new Date());
@@ -177,6 +197,12 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
 						}
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);
+					}
+
+					if(updatePropertiesFiles) {
+						propertiesOutputStream = new BufferedOutputStream(new FileOutputStream(propertiesFile),
+							StreamUtils.IO_BUFFER_SIZE);
+						tile.writeProperties(propertiesOutputStream);
 					}
 
 					return drawable;
@@ -190,6 +216,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					Log.e(IMapView.LOGTAG,"IOException loading bitmap: " + tilePath);
 				} finally {
 					StreamUtils.closeStream(inputStream);
+					StreamUtils.closeStream(propertiesInputStream);
+					StreamUtils.closeStream(propertiesOutputStream);
 				}
 			}
 

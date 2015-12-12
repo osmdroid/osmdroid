@@ -100,8 +100,6 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			inputStream = new BufferedInputStream(new FileInputStream(aFilePath),
 				StreamUtils.IO_BUFFER_SIZE);
 
-			MapTile.skipOverHeaders(inputStream);
-
 			final Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions); //BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
 				StreamUtils.closeStream(inputStream);
@@ -119,8 +117,6 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			System.gc();
 		} catch (final FileNotFoundException e) {
 			Log.e(IMapView.LOGTAG,"FileNotFoundException loading bitmap: " + aFilePath);
-		} catch (final IOException e) {
-			Log.e(IMapView.LOGTAG,"IOException loading bitmap: " + aFilePath);
 		} finally {
 			StreamUtils.closeStream(inputStream);
 		}
@@ -145,8 +141,6 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
 
 		try {
-			MapTile.skipOverHeaders(aFileInputStream);
-
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -160,8 +154,6 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap");
 			System.gc();
 			throw new LowMemoryException(e);
-		} catch (final IOException e) {
-			Log.e(IMapView.LOGTAG,"IOException loading bitmap");
 		}
 
 		return null;
