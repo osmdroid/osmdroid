@@ -25,7 +25,10 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.provider.Settings;
 import android.text.InputType;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -40,7 +43,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.osmdroid.ResourceProxy;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.bonuspack.cachemanager.CacheManager;
 import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
@@ -93,7 +101,7 @@ import org.osmdroid.views.overlay.ScaleBarOverlay;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.AbstractList;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -105,7 +113,7 @@ import java.util.concurrent.Executors;
 /**
  * Simple and general-purpose map/navigation Android application, including a KML viewer and editor. 
  * It is based on osmdroid and OSMBonusPack
- * @see https://github.com/MKergall/osmbonuspack
+ * @see <a href="https://github.com/MKergall/osmbonuspack">OSMBonusPack</a>
  * @author M.Kergall
  *
  */
@@ -143,12 +151,19 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	RadiusMarkerClusterer mPoiMarkers;
 	AutoCompleteTextView poiTagText;
 	protected static final int POIS_REQUEST = 2;
-	
+
 	protected FolderOverlay mKmlOverlay; //root container of overlays from KML reading
 	public static KmlDocument mKmlDocument; //made static to pass between activities
 	public static Stack<KmlFeature> mKmlStack; //passed between activities, top is the current KmlFeature to edit. 
 	public static KmlFolder mKmlClipboard; //passed between activities. Folder for multiple items selection. 
-	
+
+	protected static final int START_SHARING_REQUEST = 3;
+	protected static final int FRIENDS_REQUEST = 4;
+	Button mFriendsButton;
+	protected static ArrayList<Friend> mFriends; //
+	protected boolean mIsSharing;
+	protected FolderOverlay mFriendsMarkers; //
+
 	static String SHARED_PREFS_APPKEY = "OSMNavigator";
 	static String PREF_LOCATIONS_KEY = "PREF_LOCATIONS";
 	
@@ -166,7 +181,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		setContentView(R.layout.main);
 		
 		SharedPreferences prefs = getSharedPreferences("OSMNAVIGATOR", MODE_PRIVATE);
-		
+
+		MapBoxTileSource.retrieveAccessToken(this);
 		MapBoxTileSource.retrieveMapBoxMapId(this);
 		MAPBOXSATELLITELABELLED = new MapBoxTileSource("MapBoxSatelliteLabelled", 1, 19, 256, ".png");
 		TileSourceFactory.addTileSource(MAPBOXSATELLITELABELLED);
@@ -358,6 +374,29 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				openFile(uri, true, false);
 			}
 		}
+
+		//Sharing
+		mFriendsMarkers = new FolderOverlay(this);
+		map.getOverlays().add(mFriendsMarkers);
+		if (savedInstanceState != null) {
+			//STATIC mFriends = savedInstanceState.getParcelable("friends");
+			mIsSharing = savedInstanceState.getBoolean("is_sharing");
+			updateUIWithFriendsMarkers();
+		} else {
+			mFriends = null;
+			mIsSharing = false;
+		}
+		mFriendsButton = (Button) findViewById(R.id.buttonFriends);
+		mFriendsButton.setVisibility(mIsSharing ? View.VISIBLE : View.GONE);
+		mFriendsButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View view) {
+				if (mIsSharing) {
+					Intent myIntent = new Intent(view.getContext(), FriendsActivity.class);
+					myIntent.putExtra("ID", getIndexOfBubbledMarker(mFriendsMarkers.getItems()));
+					startActivityForResult(myIntent, FRIENDS_REQUEST);
+				}
+			}
+		});
 	}
 
 	void setViewOn(BoundingBoxE6 bb){
@@ -394,14 +433,35 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//STATIC - outState.putParcelable("road", mRoad);
 		//STATIC - outState.putParcelableArrayList("poi", mPOIs);
 		//STATIC - outState.putParcelable("kml", mKmlDocument);
-		
+		//STATIC - outState.putParcelable("friends", mFriends);
+		outState.putBoolean("is_sharing", mIsSharing);
+
 		savePrefs();
 	}
 	
 	@Override protected void onActivityResult (int requestCode, int resultCode, Intent intent) {
 		switch (requestCode) {
-		case ROUTE_REQUEST : 
+			case START_SHARING_REQUEST:
 			if (resultCode == RESULT_OK) {
+				String login = intent.getStringExtra("NICKNAME");
+				String group = intent.getStringExtra("GROUP");
+				String message = intent.getStringExtra("MESSAGE");
+				new StartSharingTask().execute(login, group, message);
+			}
+				break;
+			case FRIENDS_REQUEST:
+				if (resultCode == RESULT_OK) {
+					int id = intent.getIntExtra("ID", 0);
+					Friend selected = mFriends.get(id);
+					if (selected.mHasLocation) {
+						map.getController().setCenter(selected.mPosition);
+						Marker friendMarker = (Marker) mFriendsMarkers.getItems().get(id);
+						friendMarker.showInfoWindow();
+					}
+				}
+				break;
+			case ROUTE_REQUEST:
+				if (resultCode == RESULT_OK) {
 				int nodeId = intent.getIntExtra("NODE_ID", 0);
 				map.getController().setCenter(mRoads[mSelectedRoad].mNodes.get(nodeId).mLocation);
 				Marker roadMarker = (Marker)mRoadNodeMarkers.getItems().get(nodeId);
@@ -463,12 +523,15 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		//TODO: not used currently
 		//mSensorManager.registerListener(this, mOrientation, SensorManager.SENSOR_DELAY_NORMAL);
 			//sensor listener is causing a high CPU consumption...
+		if (mIsSharing)
+			startSharingTimer();
 	}
 
 	@Override protected void onPause() {
 		super.onPause();
 		mLocationManager.removeUpdates(this);
 		//TODO: mSensorManager.unregisterListener(this);
+		stopSharingTimer();
 		savePrefs();
 	}
 
@@ -499,7 +562,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 			double dLatitude = p.getLatitude();
 			double dLongitude = p.getLongitude();
 			List<Address> addresses = geocoder.getFromLocation(dLatitude, dLongitude, 1);
-			StringBuilder sb = new StringBuilder(); 
+			StringBuilder sb = new StringBuilder();
 			if (addresses.size() > 0) {
 				Address address = addresses.get(0);
 				int n = address.getMaxAddressLineIndex();
@@ -1341,7 +1404,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.option_menu, menu);
-		
+
 		switch (mWhichRouteProvider){
 		case OSRM: 
 			menu.findItem(R.id.menu_route_osrm).setChecked(true);
@@ -1371,10 +1434,16 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	}
 	
 	@Override public boolean onPrepareOptionsMenu(Menu menu) {
+		if (mIsSharing)
+			menu.findItem(R.id.menu_sharing).setTitle(R.string.menu_stop_sharing);
+		else
+			menu.findItem(R.id.menu_sharing).setTitle(R.string.menu_start_sharing);
+
 		if (mRoads != null && mRoads[mSelectedRoad].mNodes.size()>0)
 			menu.findItem(R.id.menu_itinerary).setEnabled(true);
 		else
 			menu.findItem(R.id.menu_itinerary).setEnabled(false);
+
 		if (mPOIs != null && mPOIs.size()>0)
 			menu.findItem(R.id.menu_pois).setEnabled(true);
 		else 
@@ -1428,6 +1497,14 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 	@Override public boolean onOptionsItemSelected(MenuItem item) {
 		Intent myIntent;
 		switch (item.getItemId()) {
+			case R.id.menu_sharing:
+				if (!mIsSharing) {
+					myIntent = new Intent(this, StartSharingActivity.class);
+					startActivityForResult(myIntent, START_SHARING_REQUEST);
+				} else {
+					new StopSharingTask().execute();
+				}
+				return true;
 		case R.id.menu_itinerary:
 			myIntent = new Intent(this, RouteActivity.class);
 			int currentNodeId = getIndexOfBubbledMarker(mRoadNodeMarkers.getItems());
@@ -1612,7 +1689,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		map.invalidate();
 	}
 
-	static float mAzimuthOrientation = 0.0f;
+	//static float mAzimuthOrientation = 0.0f;
 	@Override public void onSensorChanged(SensorEvent event) {
 		switch (event.sensor.getType()){
 			case Sensor.TYPE_ORIENTATION: 
@@ -1633,6 +1710,227 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				break;
 			default:
 				break;
+		}
+	}
+
+	//----------------------- Sharing
+
+	static final String NAV_SERVER_URL = "http://comob.free.fr/sharing/";
+
+	public String getUniqueId() {
+		return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+	}
+
+	String callStartSharing(String nickname, String group, String message) {
+		//List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
+		String url = NAV_SERVER_URL + "jstart.php?"
+				+ "nickname=" + URLEncoder.encode(nickname)
+				+ "&group_id=" + URLEncoder.encode(group)
+				+ "&user_id=" + URLEncoder.encode(getUniqueId())
+				+ "&message=" + URLEncoder.encode(message);
+		/*
+		nameValuePairs.add(new BasicNameValuePair("nickname", nickname));
+		nameValuePairs.add(new BasicNameValuePair("group_id", group));
+		nameValuePairs.add(new BasicNameValuePair("user_id", getUniqueId()));
+		nameValuePairs.add(new BasicNameValuePair("message", message));
+		String result = BonusPackHelper.requestStringFromPost(url, nameValuePairs);
+		*/
+		String result = BonusPackHelper.requestStringFromUrl(url);
+		if (result == null) {
+			return "Technical error with the server";
+		}
+		try {
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(result);
+			JsonObject jResult = json.getAsJsonObject();
+			String answer = jResult.get("answer").getAsString();
+			if (!"ok".equals(answer)) {
+				String error = jResult.get("error").getAsString();
+				return error;
+			}
+		} catch (JsonSyntaxException e) {
+			return "Technical error with the server";
+		}
+		return null;
+	}
+
+	private class StartSharingTask extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			return callStartSharing(params[0], params[1], params[2]);
+		}
+
+		@Override
+		protected void onPostExecute(String error) {
+			if (error == null) {
+				startSharingTimer();
+				mIsSharing = true;
+				mFriendsButton.setVisibility(mIsSharing ? View.VISIBLE : View.GONE);
+			} else
+				Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	static final int SHARING_INTERVAL = 20 * 1000; //every 20 sec
+	protected Handler mSharingHandler;
+	private Runnable mSharingRunnable = new Runnable() {
+		@Override
+		public void run() {
+			new UpdateSharingTask().execute();
+			mSharingHandler.postDelayed(this, SHARING_INTERVAL);
+		}
+	};
+
+	void startSharingTimer() {
+		mSharingHandler = new Handler();
+		mSharingHandler.postDelayed(mSharingRunnable, 0);
+	}
+
+	void stopSharingTimer() {
+		if (mSharingHandler != null) {
+			mSharingHandler.removeCallbacks(mSharingRunnable);
+		}
+	}
+
+	String callUpdateSharing() {
+		mFriends = null;
+		GeoPoint myPosition = myLocationOverlay.getLocation();
+		int hasLocation = (myPosition != null ? 1 : 0);
+		if (myPosition == null)
+			myPosition = new GeoPoint(0.0, 0.0);
+		String url = NAV_SERVER_URL + "jupdate.php?"
+				+ "user_id=" + URLEncoder.encode(getUniqueId())
+				+ "&has_location=" + hasLocation
+				+ "&lat=" + myPosition.getLatitude()
+				+ "&lon=" + myPosition.getLongitude()
+				+ "&bearing=" + mAzimuthAngleSpeed;
+		Log.d(BonusPackHelper.LOG_TAG, "callUpdateSharing:" + url);
+		String result = BonusPackHelper.requestStringFromUrl(url);
+		if (result == null) {
+			return "Technical error with the server";
+		}
+		try {
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(result);
+			JsonObject jResult = json.getAsJsonObject();
+			String answer = jResult.get("answer").getAsString();
+			if (!"ok".equals(answer)) {
+				String error = jResult.get("error").getAsString();
+				return error;
+			}
+			JsonArray jFriends = jResult.get("people").getAsJsonArray();
+			mFriends = new ArrayList<Friend>(jFriends.size());
+			for (JsonElement jFriend : jFriends) {
+				JsonObject joFriend = (JsonObject) jFriend;
+				Friend friend = new Friend(joFriend);
+				mFriends.add(friend);
+			}
+		} catch (JsonSyntaxException e) {
+			return "Technical error with the server";
+		}
+		return null;
+	}
+
+	int getOpenedInfoWindow(FolderOverlay folder) {
+		List<Overlay> items = mFriendsMarkers.getItems();
+		for (int i = 0; i < items.size(); i++) {
+			Overlay overlay = items.get(i);
+			if (overlay instanceof Marker) {
+				Marker m = (Marker) overlay;
+				if (m.isInfoWindowShown())
+					return i;
+			}
+		}
+		return -1;
+	}
+
+	void updateUIWithFriendsMarkers() {
+		int opened = getOpenedInfoWindow(mFriendsMarkers);
+		mFriendsMarkers.closeAllInfoWindows();
+		mFriendsMarkers.getItems().clear();
+		if (mFriends == null) {
+			map.invalidate();
+			return;
+		}
+		Drawable iconOnline = getResources().getDrawable(R.drawable.marker_car_on);
+		Drawable iconOffline = getResources().getDrawable(R.drawable.marker_friend_off);
+		for (Friend friend : mFriends) {
+			Marker marker = new Marker(map);
+			marker.setPosition(friend.mPosition);
+			marker.setTitle(friend.mNickName);
+			marker.setSnippet(friend.mMessage);
+			if (friend.mOnline) {
+				marker.setIcon(iconOnline);
+				marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+				marker.setRotation(friend.mBearing);
+			} else {
+				marker.setIcon(iconOffline);
+			}
+			if (!friend.mHasLocation)
+				marker.setEnabled(false);
+			mFriendsMarkers.add(marker);
+		}
+		map.invalidate();
+		if (opened != -1 && opened < mFriends.size()) {
+			//TODO - completely insufficient, as index may have changed.
+			Marker markerToOpen = (Marker) mFriendsMarkers.getItems().get(opened);
+			markerToOpen.showInfoWindow();
+		}
+	}
+
+	private class UpdateSharingTask extends AsyncTask<Void, Void, String> {
+		@Override
+		protected String doInBackground(Void... params) {
+			return callUpdateSharing();
+		}
+
+		@Override
+		protected void onPostExecute(String error) {
+			if (error == null) {
+				updateUIWithFriendsMarkers();
+			} else
+				Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	String callStopSharing() {
+		mFriends = null;
+		String url = NAV_SERVER_URL + "jstop.php?"
+				+ "user_id=" + URLEncoder.encode(getUniqueId());
+		String result = BonusPackHelper.requestStringFromUrl(url);
+		if (result == null) {
+			return "Technical error with the server";
+		}
+		try {
+			JsonParser parser = new JsonParser();
+			JsonElement json = parser.parse(result);
+			JsonObject jResult = json.getAsJsonObject();
+			String answer = jResult.get("answer").getAsString();
+			if (!"ok".equals(answer)) {
+				String error = jResult.get("error").getAsString();
+				return error;
+			}
+		} catch (JsonSyntaxException e) {
+			return "Technical error with the server";
+		}
+		return null;
+	}
+
+	private class StopSharingTask extends AsyncTask<Void, Void, String> {
+		@Override
+		protected String doInBackground(Void... params) {
+			return callStopSharing();
+		}
+
+		@Override
+		protected void onPostExecute(String error) {
+			if (error == null) {
+				updateUIWithFriendsMarkers();
+				stopSharingTimer();
+				mIsSharing = false;
+				mFriendsButton.setVisibility(mIsSharing ? View.VISIBLE : View.GONE);
+			} else
+				Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 		}
 	}
 }
