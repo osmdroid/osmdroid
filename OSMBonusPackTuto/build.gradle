@@ -30,7 +30,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
 //    compile(name: 'osmbonuspack_v5.5', ext: 'aar')
-    compile project(":OSMBonusPack")
+//    compile project(":OSMBonusPack")
+    compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:2e8bca2'
 
     compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
     compile "com.android.support:support-v4:23.1.1"
