@@ -2,22 +2,16 @@ package org.osmdroid.tileprovider;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
-import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.views.overlay.TilesOverlay;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Properties;
 
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
@@ -90,6 +84,7 @@ public class MapTile {
 	}
 
 	public void writeProperties(OutputStream outputStream) throws IOException {
+		final Properties properties = new Properties();
 
 		SimpleDateFormat dateFormat =
 			new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
@@ -97,47 +92,25 @@ public class MapTile {
 
 		String formattedDateExpires = dateFormat.format(expires);
 
-		//Add each property on a new line as properties are split with "\n"
-		String properties = String.format(
-				"%s:%s", //Expires
-			OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES, formattedDateExpires,
-			OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES, formattedDateExpires);
+		properties.setProperty(OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES,
+			formattedDateExpires);
 
-		outputStream.write(properties.getBytes("UTF-8"));
+		properties.store(outputStream, null);
 	}
 
 	public void readProperties(InputStream inputStream) throws IOException {
-		StringBuilder propertiesBuilder = new StringBuilder();
+		final Properties properties = new Properties();
+		properties.load(inputStream);
 
-		char[] buffer = new char[StreamUtils.IO_BUFFER_SIZE];
-		Reader reader = new InputStreamReader(inputStream);
+		final String expiresValue = properties.getProperty(OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES);
+		try {
+			final SimpleDateFormat dateFormat =
+				new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+					Locale.US);
 
-		int read = -1;
-		while((read = reader.read(buffer)) != -1) {
-			propertiesBuilder.append(buffer, 0, read);
-		}
-
-		final String[] properties = propertiesBuilder.toString().split("\n");
-		for(String property : properties) {
-			final String[] keyValuePair = property.split(":", 2);
-			if(keyValuePair.length == 2) {
-				final String key = keyValuePair[0];
-				final String value = keyValuePair[1];
-
-				switch (key) {
-					case OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES:
-						try {
-							final SimpleDateFormat dateFormat =
-								new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
-									Locale.US);
-
-							setExpires(dateFormat.parse(value));
-						} catch (ParseException e) { //Default if not available/parseable
-							setExpires(new Date(OpenStreetMapTileProviderConstants.TILE_EXPIRY_TIME_MILLISECONDS));
-						}
-						break;
-				}
-			}
+			setExpires(dateFormat.parse(expiresValue));
+		} catch (ParseException e) { //Default if not available/parseable
+			setExpires(new Date(OpenStreetMapTileProviderConstants.TILE_EXPIRY_TIME_MILLISECONDS));
 		}
 	}
 }
