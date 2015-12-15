@@ -8,8 +8,8 @@ android {
         applicationId "org.osmdroid.example"
         minSdkVersion 8
         targetSdkVersion 23
-        versionCode 16
-        versionName "5.0-SNAPSHOT"
+        versionCode 18
+        versionName "5.1-SNAPSHOT"
     }
     buildTypes {
         release {

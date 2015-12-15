@@ -2,16 +2,16 @@ package org.osmdroid.samplefragments;
 
 import android.os.Environment;
 import android.widget.Toast;
-import java.io.File;
-import java.util.Set;
 
 import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
 import org.osmdroid.tileprovider.tilesource.FileBasedTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+
+import java.io.File;
+import java.util.Set;
 
 /**
  * An example on how to setup osmdroid to only use offline map archives, how to
