@@ -3,9 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
-        applicationId "org.osmdroid.example"
+        applicationId 'org.osmdroid'
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 18
