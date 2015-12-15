@@ -40,7 +40,7 @@ public class SampleLoader extends ListActivity {
 		checkPermissions();
 
 		// Generate a ListView with Sample Maps
-		final ArrayList<String> list = new ArrayList<>();
+		final ArrayList<String> list = new ArrayList<String>();
 		list.add("OSMDroid Sample map (Start Here)");
 		list.add("OSMapView with Minimap, ZoomControls, Animations, Scale Bar and MyLocationOverlay");
 		list.add("OSMapView with ItemizedOverlay");
@@ -48,7 +48,7 @@ public class SampleLoader extends ListActivity {
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("Sample with Custom Resources");
-		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
+		this.setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
 	}
 
 	private void checkPermissions() {
