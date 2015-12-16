@@ -62,7 +62,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		/* Itemized Overlay */
 		{
 			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			final ArrayList<OverlayItem> items = new ArrayList<>();
 			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52370816, 9735936)));
 			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52518333, 13408333)));
 			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38895000, -77036667)));
@@ -70,7 +70,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 			items.add(new OverlayItem("Tolaga Bay", "SampleDescription", new GeoPoint(-38371000, 178298000)));
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			this.mMyLocationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+			this.mMyLocationOverlay = new ItemizedIconOverlay<>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {

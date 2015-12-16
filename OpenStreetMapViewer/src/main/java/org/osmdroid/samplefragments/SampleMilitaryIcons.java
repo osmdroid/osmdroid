@@ -44,7 +44,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
      private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
      private OverlayItem overlayItem;
-     List<Drawable> icons = new ArrayList<Drawable>(4);
+     List<Drawable> icons = new ArrayList<>(4);
 
      @Override
      public String getSampleTitle() {
@@ -77,26 +77,26 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           /* Itemized Overlay */
           {
                /* OnTapListener for the Markers, shows a simple Toast. */
-               mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(new ArrayList<OverlayItem>(),
-                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                         @Override
-                         public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got single tapped up", Toast.LENGTH_LONG).show();
-                              return true;
-                         }
+               mMyLocationOverlay = new ItemizedOverlayWithFocus<>(new ArrayList<OverlayItem>(),
+                       new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                            @Override
+                            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                                 Toast.makeText(
+                                         context,
+                                         "Item '" + item.getTitle() + "' (index=" + index
+                                                 + ") got single tapped up", Toast.LENGTH_LONG).show();
+                                 return true;
+                            }
 
-                         @Override
-                         public boolean onItemLongPress(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got long pressed", Toast.LENGTH_LONG).show();
-                              return false;
-                         }
-                    }, mResourceProxy);
+                            @Override
+                            public boolean onItemLongPress(final int index, final OverlayItem item) {
+                                 Toast.makeText(
+                                         context,
+                                         "Item '" + item.getTitle() + "' (index=" + index
+                                                 + ") got long pressed", Toast.LENGTH_LONG).show();
+                                 return false;
+                            }
+                       }, mResourceProxy);
                mMyLocationOverlay.setFocusItemsOnTap(true);
                mMyLocationOverlay.setFocusedItem(0);
 
@@ -174,7 +174,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
      private void addIcons(int count) {
            /* Create a static ItemizedOverlay showing some Markers on various cities. */
-          final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+          final ArrayList<OverlayItem> items = new ArrayList<>();
           for (int i = 0; i < count; i++) {
                double random_lon = (Math.random() * 360) - 180;
                double random_lat = (Math.random() * 180) - 90;

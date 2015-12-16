@@ -65,7 +65,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 		/* Itemized Overlay */
 		{
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			final ArrayList<OverlayItem> items = new ArrayList<>();
 			items.add(new OverlayItem("Hannover", "Tiny SampleDescription", new GeoPoint(52370816,
 					9735936))); // Hannover
 			items.add(new OverlayItem("Berlin", "This is a relatively short SampleDescription.",
@@ -78,7 +78,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+			mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {

@@ -65,7 +65,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 		/* Itemized Overlay */
 		{
 			/* Create a static ItemizedOverlay showing some Markers on various cities. */
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			final ArrayList<OverlayItem> items = new ArrayList<>();
                for (int i=0; i < 500; i++){
                     double random_lon=(Math.random() * 360) -180;
                     double random_lat = (Math.random() * 180) - 90;
@@ -82,7 +82,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
+			mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {

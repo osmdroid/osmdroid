@@ -56,21 +56,21 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
           items.add(new OverlayItem("Me", "My Location",
             new GeoPoint(location)));
 
-          mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-                  new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-            @Override
-            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-              IMapController mapController = mMapView.getController();
-              mapController.setCenter(item.getPoint());
-              mapController.zoomTo(mMapView.getMaxZoomLevel());
-              return true;
-            }
+          mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
+                new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                  @Override
+                  public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                    IMapController mapController = mMapView.getController();
+                    mapController.setCenter(item.getPoint());
+                    mapController.zoomTo(mMapView.getMaxZoomLevel());
+                    return true;
+                  }
 
-            @Override
-            public boolean onItemLongPress(final int index, final OverlayItem item) {
-              return false;
-            }
-          }, mResourceProxy);
+                  @Override
+                  public boolean onItemLongPress(final int index, final OverlayItem item) {
+                    return false;
+                  }
+                }, mResourceProxy);
 
           mMyLocationOverlay.setFocusItemsOnTap(true);
           mMyLocationOverlay.setFocusedItem(0);
