@@ -17,8 +17,11 @@ public final class SampleFactory {
 		mSamples = new BaseSampleFragment[] {
 				new SampleWithMinimapItemizedOverlayWithFocus(),
                 new SampleWithMinimapItemizedOverlayWithScale(),
-                new SampleLimitedScrollArea(), new SampleFragmentXmlLayout(), new SampleOsmPath(),
-                new SampleInvertedTiles_NightMode(), new SampleOfflineOnly(),
+                new SampleLimitedScrollArea(),
+                new SampleFragmentXmlLayout(),
+                new SampleOsmPath(),
+                new SampleInvertedTiles_NightMode(),
+                new SampleOfflineOnly(),
                 new SampleAlternateCacheDir(),
                 new SampleMilitaryIcons(),
                 new SampleMapBox(),

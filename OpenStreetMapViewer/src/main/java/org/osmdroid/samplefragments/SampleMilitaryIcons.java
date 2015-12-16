@@ -7,15 +7,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
-import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * icons generated from https://github.com/missioncommand/mil-sym-java
@@ -121,7 +123,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           mMapView.getController().animateTo(geoPoint);
 
           setHasOptionsMenu(true);
-          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();;
+          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();
      }
 
 	// ===========================================================

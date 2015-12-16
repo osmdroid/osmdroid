@@ -52,7 +52,7 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
       public void onLocationChanged(Location location, IMyLocationProvider source) {
         mGpsMyLocationProvider.stopLocationProvider();
         if(mMyLocationOverlay == null) {
-          final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+          final ArrayList<OverlayItem> items = new ArrayList<>();
           items.add(new OverlayItem("Me", "My Location",
             new GeoPoint(location)));
 
