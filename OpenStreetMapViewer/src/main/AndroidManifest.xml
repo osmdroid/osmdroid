@@ -5,7 +5,9 @@
     android:versionName="5.1-SNAPSHOT">
 
     <uses-sdk
-        android:minSdkVersion="8" android:targetSdkVersion="23" />
+        android:minSdkVersion="8"
+        android:targetSdkVersion="23" />
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -49,11 +51,12 @@
             android:required="false" />
 
         <activity
-            android:name=".SampleLoaderActivity"
+            android:name=".MainActivity"
             android:icon="@drawable/icon"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -63,52 +66,71 @@
             android:label="OSMDroid Sample Map">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithMinimapItemizedoverlay"
+        <activity
+            android:name=".samples.SampleWithMinimapItemizedoverlay"
             android:label="OSMapView with ItemizedOverlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleExtensive"
+        <activity
+            android:name=".samples.SampleExtensive"
             android:label="OSMapView with UI Tools">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithMinimapZoomcontrols"
+        <activity
+            android:name=".samples.SampleWithMinimapZoomcontrols"
             android:label="OSMapView with MiniMap &amp; Zoom">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlay"
+        <activity
+            android:name=".samples.SampleWithTilesOverlay"
             android:label="OSMapView with Tiles Overlay">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource"
+        <activity
+            android:name=".samples.SampleWithTilesOverlayAndCustomTileSource"
             android:label="OSMapView with Custom Tiles">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name="org.osmdroid.samples.SampleResourceOverride"
+        <activity
+            android:name=".samples.SampleResourceOverride"
             android:label="OSMapView with Custom Resource">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ExtraSamplesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

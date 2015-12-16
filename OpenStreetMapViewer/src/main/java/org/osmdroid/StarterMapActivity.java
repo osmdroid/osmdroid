@@ -21,7 +21,7 @@ public class StarterMapActivity extends FragmentActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(org.osmdroid.R.layout.main);
+        this.setContentView(org.osmdroid.R.layout.activity_starter_main);
         FragmentManager fm = this.getSupportFragmentManager();
 		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
 			StarterMapFragment starterMapFragment = StarterMapFragment.newInstance();
