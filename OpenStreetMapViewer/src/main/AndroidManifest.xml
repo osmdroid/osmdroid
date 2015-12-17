@@ -124,7 +124,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExtraSamplesActivity">
+        <activity android:name=".ExtraSamplesActivity"
+            android:label="OpenStreetMap Extra Samples">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
