@@ -41,7 +41,7 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * @author Manuel Stahl
  *
  */
-public class MapFragment extends Fragment implements OpenStreetMapConstants {
+public class StarterMapFragment extends Fragment implements OpenStreetMapConstants {
     // ===========================================================
      // Constants
      // ===========================================================
@@ -65,8 +65,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      private RotationGestureOverlay mRotationGestureOverlay;
      private ResourceProxy mResourceProxy;
 
-     public static MapFragment newInstance() {
-         return new MapFragment();
+     public static StarterMapFragment newInstance() {
+         return new StarterMapFragment();
      }
 
      @Override

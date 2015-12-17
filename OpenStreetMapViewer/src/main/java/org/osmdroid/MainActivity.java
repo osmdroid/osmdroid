@@ -1,5 +1,5 @@
 // Created by plusminus on 18:23:13 - 03.10.2008
-package org.osmdroid.samples;
+package org.osmdroid;
 
 import android.Manifest;
 import android.app.ListActivity;
@@ -13,11 +13,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import org.osmdroid.MapActivity;
+import org.osmdroid.samples.SampleExtensive;
+import org.osmdroid.samples.SampleResourceOverride;
+import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
+import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
+import org.osmdroid.samples.SampleWithTilesOverlay;
+import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
 
 import java.util.ArrayList;
 
-public class SampleLoader extends ListActivity {
+public class MainActivity extends ListActivity {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -48,6 +53,7 @@ public class SampleLoader extends ListActivity {
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("Sample with Custom Resources");
+		list.add("More Samples");
 		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 	}
 
@@ -133,27 +139,30 @@ public class SampleLoader extends ListActivity {
 	@Override
 	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
 		switch (position) {
-		case 0:
-		   this.startActivity(new Intent(this, MapActivity.class));
-		   break;
-		case 1:
-			this.startActivity(new Intent(this, SampleExtensive.class));
-			break;
-		case 2:
-			this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
-			break;
-		case 3:
-			this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
-			break;
-		case 4:
-			this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
-			break;
-		case 5:
-			this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
-			break;
-          case 6:
-			this.startActivity(new Intent(this, SampleResourceOverride.class));
-			break;
+			case 0:
+			   this.startActivity(new Intent(this, StarterMapActivity.class));
+			   break;
+			case 1:
+				this.startActivity(new Intent(this, SampleExtensive.class));
+				break;
+			case 2:
+				this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
+				break;
+			case 3:
+				this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
+				break;
+			case 4:
+				this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
+				break;
+			case 5:
+				this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
+				break;
+		  	case 6:
+				this.startActivity(new Intent(this, SampleResourceOverride.class));
+				break;
+			case 7:
+				this.startActivity(new Intent(this, ExtraSamplesActivity.class));
+				break;
 		}
 	}
 

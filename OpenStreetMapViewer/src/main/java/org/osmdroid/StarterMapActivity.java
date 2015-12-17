@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentManager;
  * @author Manuel Stahl
  *
  */
-public class MapActivity extends FragmentActivity {
+public class StarterMapActivity extends FragmentActivity {
     private static final String MAP_FRAGMENT_TAG = "org.osmdroid.MAP_FRAGMENT_TAG";
 
     // ===========================================================
@@ -21,11 +21,11 @@ public class MapActivity extends FragmentActivity {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(org.osmdroid.R.layout.main);
+        this.setContentView(org.osmdroid.R.layout.activity_starter_main);
         FragmentManager fm = this.getSupportFragmentManager();
 		if (fm.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
-			MapFragment mapFragment = MapFragment.newInstance();
-			fm.beginTransaction().add(org.osmdroid.R.id.map_container, mapFragment, MAP_FRAGMENT_TAG).commit();
+			StarterMapFragment starterMapFragment = StarterMapFragment.newInstance();
+			fm.beginTransaction().add(org.osmdroid.R.id.map_container, starterMapFragment, MAP_FRAGMENT_TAG).commit();
 		}
     }
 }
