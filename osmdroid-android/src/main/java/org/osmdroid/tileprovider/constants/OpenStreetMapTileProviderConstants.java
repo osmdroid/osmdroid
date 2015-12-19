@@ -22,8 +22,12 @@ public class OpenStreetMapTileProviderConstants {
 	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
 			"osmdroid");
      
+     public static File getBasePath(){
+          return OSMDROID_PATH;
+     }
+     
 	/** Base path for tiles. 
-      /sdcard/osmdroid
+      /sdcard/osmdroid/tiles
       */
 	public static File TILE_PATH_BASE = new File(OSMDROID_PATH, "tiles");
      
