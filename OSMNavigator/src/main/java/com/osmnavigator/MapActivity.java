@@ -806,8 +806,8 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
     		Marker nodeMarker = new Marker(map);
     		nodeMarker.setTitle(getString(R.string.step)+ " " + (i+1));
     		nodeMarker.setSnippet(instructions);
-    		nodeMarker.setSubDescription(Road.getLengthDurationText(node.mLength, node.mDuration));
-    		nodeMarker.setPosition(node.mLocation);
+			nodeMarker.setSubDescription(Road.getLengthDurationText(this, node.mLength, node.mDuration));
+			nodeMarker.setPosition(node.mLocation);
     		nodeMarker.setIcon(icon);
     		nodeMarker.setInfoWindow(infoWindow); //use a shared infowindow. 
     		int iconId = iconIds.getResourceId(node.mManeuverType, R.drawable.ic_empty);
@@ -825,7 +825,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 		putRoadNodes(mRoads[roadIndex]);
 		//Set route info in the text view:
 		TextView textView = (TextView)findViewById(R.id.routeInfo);
-		textView.setText(mRoads[roadIndex].getLengthDurationText(-1));
+		textView.setText(mRoads[roadIndex].getLengthDurationText(this, -1));
 		for (int i=0; i<mRoadOverlays.length; i++){
 			Paint p = mRoadOverlays[i].getPaint();
 			if (i == roadIndex)
@@ -869,7 +869,7 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				Paint p = roadPolyline.getPaint();
 				p.setPathEffect(new DashPathEffect(new float[]{10, 5}, 0));
 			}
-			String routeDesc = roads[i].getLengthDurationText(-1);
+			String routeDesc = roads[i].getLengthDurationText(this, -1);
 			roadPolyline.setTitle(getString(R.string.route) + " - " + routeDesc);
 			roadPolyline.setInfoWindow(new BasicInfoWindow(org.osmdroid.bonuspack.R.layout.bonuspack_bubble, map));
 			roadPolyline.setRelatedObject(i);
@@ -902,25 +902,25 @@ public class MapActivity extends Activity implements MapEventsReceiver, Location
 				roadManager = new OSRMRoadManager(mContext);
 				break;
 			case GRAPHHOPPER_FASTEST:
-				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				//roadManager = new MapQuestRoadManager(mapQuestApiKey);
 				//roadManager.addRequestOption("locale="+locale.getLanguage()+"_"+locale.getCountry());
 				break;
 			case GRAPHHOPPER_BICYCLE:
-				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=bike");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GRAPHHOPPER_PEDESTRIAN:
-				roadManager = new GraphHopperRoadManager(mContext, graphHopperApiKey);
+				roadManager = new GraphHopperRoadManager(graphHopperApiKey);
 				roadManager.addRequestOption("locale="+locale.getLanguage());
 				roadManager.addRequestOption("vehicle=foot");
 				//((GraphHopperRoadManager)roadManager).setElevation(true);
 				break;
 			case GOOGLE_FASTEST:
-				roadManager = new GoogleRoadManager(mContext);
+				roadManager = new GoogleRoadManager();
 				break;
 				default:
 				return null;

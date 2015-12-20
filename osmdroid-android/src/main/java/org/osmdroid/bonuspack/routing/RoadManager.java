@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public abstract class RoadManager {
 
-  protected static Context mContext;
   protected String mOptions;
 
 	/**
@@ -38,9 +37,8 @@ public abstract class RoadManager {
 	 */
 	public abstract Road[] getRoads(ArrayList<GeoPoint> waypoints);
 
-	public RoadManager(Context context){
+	public RoadManager() {
 		mOptions = "";
-    mContext = context;
 	}
 	
 	/**

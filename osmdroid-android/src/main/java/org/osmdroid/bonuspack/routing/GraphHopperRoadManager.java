@@ -1,6 +1,5 @@
 package org.osmdroid.bonuspack.routing;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -48,12 +47,11 @@ public class GraphHopperRoadManager extends RoadManager {
 	}
 	
 	/**
-	 * @param context Context.
 	 * @param apiKey GraphHopper API key, mandatory to use the public GraphHopper service.
 	 * @see <a href="http://graphhopper.com/#enterprise">GraphHopper</a> to obtain an API key.
 	 */
-	public GraphHopperRoadManager(Context context, String apiKey) {
-		super(context);
+	public GraphHopperRoadManager(String apiKey) {
+		super();
 		mServiceUrl = SERVICE;
 		mKey = apiKey;
 		mWithElevation = false;
@@ -89,7 +87,7 @@ public class GraphHopperRoadManager extends RoadManager {
 		if (jString == null) {
 			return new Road(waypoints);
 		}
-		Road road = new Road(mContext);
+		Road road = new Road();
 		try {
 			JSONObject jRoot = new JSONObject(jString);
 			JSONArray jPaths = jRoot.optJSONArray("paths");

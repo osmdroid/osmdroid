@@ -1,7 +1,5 @@
 package com.osmnavigator;
 
-import org.osmdroid.bonuspack.routing.Road;
-import org.osmdroid.bonuspack.routing.RoadNode;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +11,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+
+import org.osmdroid.bonuspack.routing.Road;
+import org.osmdroid.bonuspack.routing.RoadNode;
 
 /**
  * Activity listing detailed itinerary as a list of nodes. 
@@ -92,8 +93,8 @@ class RoadNodesAdapter extends BaseAdapter implements OnClickListener {
         String instructions = (entry.mInstructions==null ? "" : entry.mInstructions);
         tvTitle.setText("" + (position+1) + ". " + instructions);
         TextView tvDetails = (TextView)convertView.findViewById(R.id.details);
-        tvDetails.setText(Road.getLengthDurationText(entry.mLength, entry.mDuration));
-		int iconId = iconIds.getResourceId(entry.mManeuverType, R.drawable.ic_empty);
+        tvDetails.setText(Road.getLengthDurationText(mContext, entry.mLength, entry.mDuration));
+        int iconId = iconIds.getResourceId(entry.mManeuverType, R.drawable.ic_empty);
    		Drawable icon = mContext.getResources().getDrawable(iconId);
 		ImageView ivManeuver = (ImageView)convertView.findViewById(R.id.thumbnail);
    		ivManeuver.setImageDrawable(icon);

@@ -92,8 +92,8 @@ public class OSRMRoadManager extends RoadManager {
 	}
 
 	public OSRMRoadManager(Context context){
-		super(context);
-    mContext = context;
+		super();
+		mContext = context;
 		mServiceUrl = SERVICE;
 		mUserAgent = BonusPackHelper.DEFAULT_USER_AGENT; //set user agent to the default one. 
 	}
@@ -163,16 +163,18 @@ public class OSRMRoadManager extends RoadManager {
 			JSONObject jSummary = jSummaries.getJSONObject(altRoadIndex);
 			road.mLength = jSummary.getInt("total_distance")/1000.0;
 			road.mDuration = jSummary.getInt("total_time");
+			road.mStatus = Road.STATUS_OK;
 		} catch (JSONException e) {
 			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
 			e.printStackTrace();
 		}
 	}
 
+	protected final static int OSRM_STATUS_OK = 200;
+
 	protected Road[] getRoads(ArrayList<GeoPoint> waypoints, boolean getAlternate) {
 		String url = getUrl(waypoints, getAlternate);
 		Log.d(BonusPackHelper.LOG_TAG, "OSRMRoadManager.getRoads:"+url);
-
 		String jString = BonusPackHelper.requestStringFromUrl(url, mUserAgent);
 		if (jString == null) {
 			Log.e(BonusPackHelper.LOG_TAG, "OSRMRoadManager::getRoad: request failed.");
@@ -181,31 +183,36 @@ public class OSRMRoadManager extends RoadManager {
 			return roads;
 		}
 		Road roads[] = new Road[0];
-		Road road = new Road(mContext);
+		Road road = new Road();
 		try {
 			JSONObject jObject = new JSONObject(jString);
-			road.mStatus = jObject.getInt("status");
-			String route_geometry = jObject.getString("route_geometry");
-			road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
-			JSONArray jInstructions = jObject.getJSONArray("route_instructions");
-			getInstructions(road, jInstructions);
-			JSONObject jSummary = jObject.getJSONObject("route_summary");
-			road.mLength = jSummary.getInt("total_distance")/1000.0;
-			road.mDuration = jSummary.getInt("total_time");
-			String found_alternative = jObject.getString("found_alternative");
-			if ("true".equals(found_alternative)) {
-				JSONArray alternative_geometries = jObject.getJSONArray("alternative_geometries");
-				int nbAltRoads = alternative_geometries.length();
-				roads = new Road[nbAltRoads+1];
-				roads[0] = road;
-				for (int i=0; i<nbAltRoads; i++){
-					roads[i+1] = new Road(waypoints);
-					getAlternateRoad(roads[i+1], i, jObject);
+			int jStatus = jObject.getInt("status");
+			if (jStatus != OSRM_STATUS_OK)
+				road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
+			else {
+				road.mStatus = Road.STATUS_OK;
+				String route_geometry = jObject.getString("route_geometry");
+				road.mRouteHigh = PolylineEncoder.decode(route_geometry, 1, false);
+				JSONArray jInstructions = jObject.getJSONArray("route_instructions");
+				getInstructions(road, jInstructions);
+				JSONObject jSummary = jObject.getJSONObject("route_summary");
+				road.mLength = jSummary.getInt("total_distance") / 1000.0;
+				road.mDuration = jSummary.getInt("total_time");
+				String found_alternative = jObject.getString("found_alternative");
+				if ("true".equals(found_alternative)) {
+					JSONArray alternative_geometries = jObject.getJSONArray("alternative_geometries");
+					int nbAltRoads = alternative_geometries.length();
+					roads = new Road[nbAltRoads + 1];
+					roads[0] = road;
+					for (int i = 0; i < nbAltRoads; i++) {
+						roads[i + 1] = new Road(waypoints);
+						getAlternateRoad(roads[i + 1], i, jObject);
+					}
+				} else {
+					roads = new Road[1];
+					roads[0] = road;
 				}
-			} else {
-				roads = new Road[1];
-				roads[0] = road;
-			}
+			} //if status OK
 		} catch (JSONException e) {
 			road.mStatus = Road.STATUS_TECHNICAL_ISSUE;
 			e.printStackTrace();
@@ -246,9 +253,9 @@ public class OSRMRoadManager extends RoadManager {
 	}
 
 	protected String buildInstructions(String direction, String roadName){
-    Integer resDirection = (Integer) DIRECTIONS.get(direction);
-    if (resDirection == null) return null;
-    direction = mContext.getString(resDirection);
+		Integer resDirection = (Integer) DIRECTIONS.get(direction);
+		if (resDirection == null) return null;
+		direction = mContext.getString(resDirection);
 		String instructions;
 		if (roadName.equals(""))
 			//remove "<*>"

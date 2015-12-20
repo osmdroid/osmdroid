@@ -23,7 +23,6 @@ import java.util.ArrayList;
  * @author M.Kergall
  */
 public class Road  implements Parcelable {
-  private static Context mContext;
   /**
 	 * STATUS_OK = road properly retrieved and built.
 	 * STATUS_INVALID = road has not been built yet.
@@ -62,9 +61,8 @@ public class Road  implements Parcelable {
 		mBoundingBox = null;
 	}
 
-	public Road(Context context){
+	public Road() {
 		init();
-    mContext = context;
 	}
 	
 	/** default constructor when normal loading failed: 
@@ -108,27 +106,27 @@ public class Road  implements Parcelable {
 	 * @param duration in sec
 	 * @return a human-readable length&duration text. 
 	 */
-	public static String getLengthDurationText(double length, double duration){
+	public static String getLengthDurationText(Context context, double length, double duration) {
 		String result;
 		if (length >= 100.0) {
-			result = mContext.getString(R.string.osmbonuspack_format_distance_kilometers, (int)(length)) + ", ";
+			result = context.getString(R.string.osmbonuspack_format_distance_kilometers, (int) (length)) + ", ";
 		} else if (length >= 1.0) {
-			result = mContext.getString(R.string.osmbonuspack_format_distance_kilometers, Math.round(length*10)/10.0) + ", ";
+			result = context.getString(R.string.osmbonuspack_format_distance_kilometers, Math.round(length * 10) / 10.0) + ", ";
 		} else {
-			result =  mContext.getString(R.string.osmbonuspack_format_distance_meters, (int)(length*1000)) + ", ";
+			result = context.getString(R.string.osmbonuspack_format_distance_meters, (int) (length * 1000)) + ", ";
 		}
 		int totalSeconds = (int)duration;
 		int hours = totalSeconds / 3600;
 		int minutes = (totalSeconds / 60) - (hours*60);
 		int seconds = (totalSeconds % 60);
 		if (hours != 0) {
-			result += mContext.getString(R.string.osmbonuspack_format_hours, hours) + " ";
+			result += context.getString(R.string.osmbonuspack_format_hours, hours) + " ";
 		}
 		if (minutes != 0) {
-			result += mContext.getString(R.string.osmbonuspack_format_minutes, minutes) + " ";
+			result += context.getString(R.string.osmbonuspack_format_minutes, minutes) + " ";
 		}
 		if (hours == 0 && minutes == 0){
-			result += mContext.getString(R.string.osmbonuspack_format_seconds, seconds);
+			result += context.getString(R.string.osmbonuspack_format_seconds, seconds);
 		}
 		return result;
 	}
@@ -138,10 +136,10 @@ public class Road  implements Parcelable {
 	 * as a String, in a readable format. 
 	 * @param leg leg index, starting from 0. -1 for the whole road
 	 */
-	public String getLengthDurationText(int leg){
+	public String getLengthDurationText(Context context, int leg) {
 		double length = (leg == -1 ? mLength : mLegs.get(leg).mLength);
 		double duration = (leg == -1 ? mDuration : mLegs.get(leg).mDuration);
-		return getLengthDurationText(length, duration);
+		return getLengthDurationText(context, length, duration);
 	}
 	
 	protected double distanceLLSquared(GeoPoint p1, GeoPoint p2){

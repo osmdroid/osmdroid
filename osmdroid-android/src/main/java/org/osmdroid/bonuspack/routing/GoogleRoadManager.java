@@ -1,6 +1,5 @@
 package org.osmdroid.bonuspack.routing;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
@@ -30,8 +29,8 @@ public class GoogleRoadManager extends RoadManager {
 
 	static final String GOOGLE_DIRECTIONS_SERVICE = "http://maps.googleapis.com/maps/api/directions/xml?";
 
-  public GoogleRoadManager(Context context) {
-    super(context);
+	public GoogleRoadManager() {
+		super();
   }
 
   /**
@@ -107,7 +106,7 @@ public class GoogleRoadManager extends RoadManager {
 	}
 
 	protected Road[] getRoadsXML(InputStream is) {
-		GoogleDirectionsHandler handler = new GoogleDirectionsHandler(mContext);
+		GoogleDirectionsHandler handler = new GoogleDirectionsHandler();
 		try {
 			SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
 			parser.parse(is, handler);
@@ -127,7 +126,6 @@ public class GoogleRoadManager extends RoadManager {
 }
 
 class GoogleDirectionsHandler extends DefaultHandler {
-  private final Context mContext;
   ArrayList<Road> mRoads;
 	Road mCurrentRoad;
 	RoadLeg mLeg;
@@ -138,16 +136,15 @@ class GoogleDirectionsHandler extends DefaultHandler {
 	double mNorth, mWest, mSouth, mEast;
 	private StringBuilder mStringBuilder = new StringBuilder(1024);
 
-	public GoogleDirectionsHandler(Context context) {
+	public GoogleDirectionsHandler() {
 		isOverviewPolyline = isBB = isPolyline = isLeg = isStep = isDuration = isDistance = false;
 		mRoads = new ArrayList<>();
-    mContext = context;
 	}
 
 	public void startElement(String uri, String localName, String name,
 			Attributes attributes) throws SAXException {
 		if (localName.equals("route")) {
-			mCurrentRoad = new Road(mContext);
+			mCurrentRoad = new Road();
 			mRoads.add(mCurrentRoad);
 		} else if (localName.equals("polyline")) {
 			isPolyline = true;
