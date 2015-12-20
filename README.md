@@ -56,10 +56,6 @@ When searching a place by name, shows its enclosing polygon
 
 ![Enclosing polygon](https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_9_2.png)
 
-MapBox Satellite maps in OSMNavigator:
-
-![MapBox Satellite maps in OSMNavigator](https://github.com/MKergall/osmbonuspack/wiki/images/osmbonuspackdemo_10_1.png)
-
 Support for KML content.
 
 Google Maps "My Places"  | rendered with OSMBonusPack
