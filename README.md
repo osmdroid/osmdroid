@@ -32,7 +32,6 @@ dependencies {
 </dependency>
 ```
 
-
 You can include osmdroid using Maven or by adding an AAR file to your project. See [HowToIncludeInYourProject](https://github.com/osmdroid/osmdroid/wiki).
 
 You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
