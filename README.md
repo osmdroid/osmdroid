@@ -4,11 +4,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 
 **osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).**
 
-# Current Release
+## Current Release
 
 5.0.1 November 12th, 2015
 
-# Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
+## Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
 
 ## Prerequisites
 
