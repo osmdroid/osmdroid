@@ -56,6 +56,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this);
+		this.mOsmv.setTilesScaledToDpi(true);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 

@@ -2,6 +2,7 @@ package org.osmdroid.samplefragments;
 
 import android.content.Context;
 import android.location.Location;
+import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
@@ -46,6 +47,7 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
     super.addOverlays();
 
     final Context context = getActivity();
+    Toast.makeText(getActivity(), "Make sure location services are enabled!", Toast.LENGTH_LONG).show();
     mGpsMyLocationProvider = new GpsMyLocationProvider(context);
     mGpsMyLocationProvider.startLocationProvider(new IMyLocationConsumer() {
       @Override

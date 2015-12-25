@@ -513,31 +513,5 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			}
 		}
 	}
-	
-	boolean isinverted=false;
-	/**
-	* returns true if we're in image/color inverted mode, useful for night time
-	* This is an Osmdroid specific feature
-	* @return
-	* @since 4.4
-	* @author Alex
-	*/
-	@Override
-	public boolean isInvertedTiles() {
-		return isinverted;
-	}
-
-	/**
-	* sets inverted tile mode. true = inverted colors, false = normal rendering
-	* This is an Osmdroid specific feature
-	* @param value
-	* @since 4.4
-	* @author Alex
-	*/
-	@Override
-	public void setInvertedTiles(boolean value) {
-		isinverted=value;
-		mMapView.invalidate();
-	}
 
 }

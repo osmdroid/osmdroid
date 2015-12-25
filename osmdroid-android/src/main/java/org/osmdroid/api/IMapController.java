@@ -21,11 +21,4 @@ public interface IMapController {
 	boolean zoomTo(int zoomLevel);
 	boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
 	void zoomToSpan(int latSpanE6, int lonSpanE6);
-	
-	/**
-	 * returns true if the map tiles are currently being color inverted
-	 * @return 
-	 */
-	boolean isInvertedTiles();
-	void setInvertedTiles(boolean value);
 }

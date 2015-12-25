@@ -281,17 +281,6 @@ public class MapControllerOld implements IMapController, MapViewConstants {
 		return false;
 	}
 
-	boolean isinverted=false;
-	@Override
-	public boolean isInvertedTiles() {
-		return isinverted;
-	}
-
-	@Override
-	public void setInvertedTiles(boolean value) {
-		isinverted=value;
-	}
-
 	// ===========================================================
 	// Inner and Anonymous Classes
 	// ===========================================================

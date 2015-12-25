@@ -66,6 +66,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this,mResourceProxy);
+		this.mOsmv.setTilesScaledToDpi(true);
 		this.mOsmvController = this.mOsmv.getController();
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.FILL_PARENT));

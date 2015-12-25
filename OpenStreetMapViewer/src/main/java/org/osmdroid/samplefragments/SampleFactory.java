@@ -27,7 +27,8 @@ public final class SampleFactory {
                 new SampleMapBox(),
                 new SampleJumboCache(),
                 new SampleCustomTileSource(),
-				new SampleAnimatedZoomToLocation()
+				new SampleAnimatedZoomToLocation(),
+				new SampleWhackyColorFilter()
         };
 	}
 
