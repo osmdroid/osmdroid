@@ -97,7 +97,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
-					}, mResourceProxy);
+					}, mResourceProxy, context);
 			mMyLocationOverlay.setFocusItemsOnTap(true);
 			mMyLocationOverlay.setFocusedItem(0);
 

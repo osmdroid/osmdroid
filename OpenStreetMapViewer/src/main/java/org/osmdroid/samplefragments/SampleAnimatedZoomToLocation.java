@@ -72,7 +72,7 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
                   public boolean onItemLongPress(final int index, final OverlayItem item) {
                     return false;
                   }
-                }, mResourceProxy);
+                }, mResourceProxy, context);
 
           mMyLocationOverlay.setFocusItemsOnTap(true);
           mMyLocationOverlay.setFocusedItem(0);
