@@ -1,6 +1,14 @@
 package org.osmdroid.tileprovider.modules;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
@@ -15,6 +23,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.util.StreamUtils;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -145,16 +154,43 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
 			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
-					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
-			if (file.exists()) {
+					tileSource.getTileRelativeFilenameString(tile) +
+						OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 
+			if (file.exists()) {
+				final String tilePath = file.getPath();
+				InputStream inputStream = null;
+				InputStream propertiesInputStream = null;
+				BufferedOutputStream propertiesOutputStream = null;
 				try {
-					final Drawable drawable = tileSource.getDrawable(file.getPath());
+
+					final File propertiesFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+						tileSource.getTileRelativeFilenameString(tile) +
+							OpenStreetMapTileProviderConstants.TILE_PROPERTIES_EXTENSION);
+
+					boolean updatePropertiesFiles = false;
+					if(propertiesFile.exists()) {
+						propertiesInputStream = new BufferedInputStream(new FileInputStream(propertiesFile),
+							StreamUtils.IO_BUFFER_SIZE);
+						tile.readProperties(propertiesInputStream);
+					} else {
+						updatePropertiesFiles = true;
+					}
+
+					inputStream = new BufferedInputStream(new FileInputStream(tilePath),
+						StreamUtils.IO_BUFFER_SIZE);
+
+					final Drawable drawable = tileSource.getDrawable(tilePath);
 
 					// Check to see if file has expired
-					final long now = System.currentTimeMillis();
-					final long lastModified = file.lastModified();
-					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
+					Date tileExpires = tile.getExpires();
+					if (tileExpires == null) {
+						tileExpires= new Date(file.lastModified() + mMaximumCachedFileAge);
+						tile.setExpires(tileExpires);
+						updatePropertiesFiles = true;
+					}
+
+					final boolean fileExpired = tileExpires.before(new Date());
 
 					if (fileExpired && drawable != null) {
 						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
@@ -163,11 +199,25 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);
 					}
 
+					if(updatePropertiesFiles) {
+						propertiesOutputStream = new BufferedOutputStream(new FileOutputStream(propertiesFile),
+							StreamUtils.IO_BUFFER_SIZE);
+						tile.writeProperties(propertiesOutputStream);
+					}
+
 					return drawable;
 				} catch (final LowMemoryException e) {
 					// low memory so empty the queue
 					Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
 					throw new CantContinueException(e);
+				} catch (final FileNotFoundException e) {
+					Log.e(IMapView.LOGTAG,"FileNotFoundException loading bitmap: " + tilePath);
+				} catch (final IOException e) {
+					Log.e(IMapView.LOGTAG,"IOException loading bitmap: " + tilePath);
+				} finally {
+					StreamUtils.closeStream(inputStream);
+					StreamUtils.closeStream(propertiesInputStream);
+					StreamUtils.closeStream(propertiesOutputStream);
 				}
 			}
 

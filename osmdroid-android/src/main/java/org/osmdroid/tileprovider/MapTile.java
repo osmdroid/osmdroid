@@ -1,7 +1,17 @@
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.views.overlay.TilesOverlay;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Properties;
 
 /**
  * A map tile is distributed using the observer pattern. The tile is delivered by a tile provider
@@ -19,6 +29,7 @@ public class MapTile {
 	private final int x;
 	private final int y;
 	private final int zoomLevel;
+	private Date expires;
 
 	public MapTile(final int zoomLevel, final int tileX, final int tileY) {
 		this.zoomLevel = zoomLevel;
@@ -62,5 +73,44 @@ public class MapTile {
 		code *= 37 + x;
 		code *= 37 + y;
 		return code;
+	}
+
+	public Date getExpires() {
+		return expires;
+	}
+
+	public void setExpires(Date expires) {
+		this.expires = expires;
+	}
+
+	public void writeProperties(OutputStream outputStream) throws IOException {
+		final Properties properties = new Properties();
+
+		SimpleDateFormat dateFormat =
+			new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+				Locale.US);
+
+		String formattedDateExpires = dateFormat.format(expires);
+
+		properties.setProperty(OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES,
+			formattedDateExpires);
+
+		properties.store(outputStream, null);
+	}
+
+	public void readProperties(InputStream inputStream) throws IOException {
+		final Properties properties = new Properties();
+		properties.load(inputStream);
+
+		final String expiresValue = properties.getProperty(OpenStreetMapTileProviderConstants.PROPERTY_EXPIRES);
+		try {
+			final SimpleDateFormat dateFormat =
+				new SimpleDateFormat(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER_FORMAT,
+					Locale.US);
+
+			setExpires(dateFormat.parse(expiresValue));
+		} catch (ParseException e) { //Default if not available/parseable
+			setExpires(new Date(OpenStreetMapTileProviderConstants.TILE_EXPIRY_TIME_MILLISECONDS));
+		}
 	}
 }

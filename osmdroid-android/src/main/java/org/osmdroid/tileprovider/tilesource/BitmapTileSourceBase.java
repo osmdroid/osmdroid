@@ -1,18 +1,23 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.Random;
-
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.util.StreamUtils;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Random;
 
 public abstract class BitmapTileSourceBase implements ITileSource {
 
@@ -85,13 +90,19 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 	@Override
 	public Drawable getDrawable(final String aFilePath) {
+		BufferedInputStream inputStream = null;
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-			final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
+
+			inputStream = new BufferedInputStream(new FileInputStream(aFilePath),
+				StreamUtils.IO_BUFFER_SIZE);
+
+			final Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, bitmapOptions); //BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
+				StreamUtils.closeStream(inputStream);
 				return new ReusableBitmapDrawable(bitmap);
 			} else {
 				// if we couldn't load it then it's invalid - delete it
@@ -104,6 +115,10 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		} catch (final OutOfMemoryError e) {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap: " + aFilePath);
 			System.gc();
+		} catch (final FileNotFoundException e) {
+			Log.e(IMapView.LOGTAG,"FileNotFoundException loading bitmap: " + aFilePath);
+		} finally {
+			StreamUtils.closeStream(inputStream);
 		}
 		return null;
 	}
@@ -124,12 +139,14 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 	@Override
 	public Drawable getDrawable(final InputStream aFileInputStream) throws LowMemoryException {
+
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions);
+
+			final Bitmap bitmap = BitmapFactory.decodeStream(aFileInputStream, null, bitmapOptions); //BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
 				return new ReusableBitmapDrawable(bitmap);
 			}
@@ -138,6 +155,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			System.gc();
 			throw new LowMemoryException(e);
 		}
+
 		return null;
 	}
 
