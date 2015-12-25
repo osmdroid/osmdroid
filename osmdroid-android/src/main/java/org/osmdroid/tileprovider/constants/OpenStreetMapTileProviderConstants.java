@@ -1,6 +1,8 @@
 package org.osmdroid.tileprovider.constants;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import org.osmdroid.tileprovider.LRUMapTileCache;
 
@@ -161,4 +163,18 @@ public class OpenStreetMapTileProviderConstants {
      public static void setOfflineMapsPath(String path){
           OSMDROID_PATH = new File(path);
      }
+
+	/**
+	 * @since 5.1
+	 */
+	public static final String HTTP_EXPIRES_HEADER = "Expires";
+	/**
+	 * @since 5.1
+	 */
+	public static final String HTTP_EXPIRES_HEADER_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";
+	/**
+	 * used for HTTP expires headers
+	 * @since 5.1
+	 */
+	public static final SimpleDateFormat HTTP_HEADER_SDF = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
 }

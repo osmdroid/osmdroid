@@ -1,5 +1,20 @@
 package org.osmdroid.tileprovider.modules;
 
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
+import android.util.Log;
+
+import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.util.StreamUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -7,25 +22,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.UnknownHostException;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.MapTileRequestState;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
-import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.util.StreamUtils;
-
-import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
-import android.util.Log;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * The {@link MapTileDownloader} loads tiles from an HTTP server. It saves downloaded tiles to an
@@ -46,6 +50,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// Fields
 	// ===========================================================
 
+	public static boolean DEBUG=false;
 	private final IFilesystemCache mFilesystemCache;
 
 	private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<OnlineTileSourceBase>();
@@ -196,6 +201,17 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
+				Date dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
+				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+				if (expires!=null && expires.length() > 0) {
+					try {
+						dateExpires = OpenStreetMapTileProviderConstants.HTTP_HEADER_SDF.parse(expires);
+					}catch (Exception ex){
+						if (DEBUG)
+							Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires,ex);
+					}
+				}
+				tile.setExpires(dateExpires);
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
