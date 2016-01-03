@@ -1,5 +1,5 @@
 
-![](https://travis-ci.org/osmdroid/osmdroid.svg)
+[![Build Status](https://travis-ci.org/osmdroid/osmdroid.svg)](https://travis-ci.org/osmdroid/osmdroid)
 
 # osmdroid
 
