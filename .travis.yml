@@ -1,0 +1,15 @@
+language: android
+jdk: oraclejdk7
+android:
+  components:
+    # The BuildTools version used by your project
+    - build-tools-23.0.1 # 23.0.2 was not available on build
+    # The SDK version used to compile your project
+    - android-23
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+
+script: mvn clean install
