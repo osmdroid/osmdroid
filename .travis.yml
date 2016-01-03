@@ -12,4 +12,26 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-19
 
+# mvn sdk deploy
+before_script:
+   - mkdir temp
+   - cd temp
+   - git clone https://github.com/simpligility/maven-android-sdk-deployer
+   - cd maven-android-sdk-deployer
+   - mvn install -fn
+   - cd ..
+   - cd ..
+
+# Emulator Management: Create, Start and Wait
+before_script:
+  - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+#build using maven
 script: mvn clean install
+
+#build using gradle
+script: gradle clean install
+
