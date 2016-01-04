@@ -33,13 +33,13 @@ sudo: required
 # mvn sdk deploy
 before_script:
   # android list
-  # mkdir temp
-  # cd temp
-  # git clone https://github.com/simpligility/maven-android-sdk-deployer
-  # cd maven-android-sdk-deployer
-  # mvn install -fn
-  # cd ..
-  # cd ..
+  - mkdir temp
+  - cd temp
+  - git clone https://github.com/simpligility/maven-android-sdk-deployer
+  - cd maven-android-sdk-deployer
+  - mvn install -fn
+  - cd ..
+  - cd ..
   # make an enulator instance
   - android list targets
   - echo no | android create avd --force -n test -t android-10 --abi armeabi --sdcard 100M
@@ -50,9 +50,9 @@ before_script:
 #build
 script:
   #build using maven with integration tests
-  # mvn clean install -Pcore -fn
-  # mvn clean install -Pcore -fn
-  # mvn clean install -Pcore
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore
   #build using gradle
   - gradle clean build connectedCheck
 
