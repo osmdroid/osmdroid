@@ -2,12 +2,12 @@
 package org.osmdroid;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,20 +21,11 @@ import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends ListActivity {
-	// ===========================================================
-	// Constants
-	// ===========================================================
-
-	// ===========================================================
-	// Fields
-	// ===========================================================
-	final int LOCATION=3;
-	final int STORAGE=6;
-	// ===========================================================
-	// Constructors
-	// ===========================================================
 
 	/** Called when the activity is first created. */
 	@Override
@@ -42,7 +33,9 @@ public class MainActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		// Request permissions to support Android Marshmallow and above devices
-		checkPermissions();
+        if (Build.VERSION.SDK_INT >= 23) {
+            checkPermissions();
+        }
 
 		// Generate a ListView with Sample Maps
 		final ArrayList<String> list = new ArrayList<>();
@@ -57,120 +50,88 @@ public class MainActivity extends ListActivity {
 		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 	}
 
+    @Override
+    protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
+        switch (position) {
+            case 0:
+                this.startActivity(new Intent(this, StarterMapActivity.class));
+                break;
+            case 1:
+                this.startActivity(new Intent(this, SampleExtensive.class));
+                break;
+            case 2:
+                this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
+                break;
+            case 3:
+                this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
+                break;
+            case 4:
+                this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
+                break;
+            case 5:
+                this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
+                break;
+            case 6:
+                this.startActivity(new Intent(this, SampleResourceOverride.class));
+                break;
+            case 7:
+                this.startActivity(new Intent(this, ExtraSamplesActivity.class));
+                break;
+        }
+    }
+
+	// START PERMISSION CHECK
+	final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
+
+    @TargetApi(Build.VERSION_CODES.M)
 	private void checkPermissions() {
-		int permissionCheck;
-
-		permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-		if (permissionCheck != PackageManager.PERMISSION_GRANTED){
-			// Should we show an explanation?
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)) {
-				// Show an explanation to the user *asynchronously* -- don't block
-				// this thread waiting for the user's response! After the user
-				// sees the explanation, try again to request the permission.
-				Toast.makeText(this, "Need your location to place an icon on the map", Toast.LENGTH_LONG).show();
-			} else {
-				// No explanation needed, we can request the permission.
-				ActivityCompat.requestPermissions(this,
-						new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION);
-
-				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-				// app-defined int constant. The callback method gets the
-				// result of the request.
-			}
-		}
-
-		permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-		if (permissionCheck != PackageManager.PERMISSION_GRANTED){
-			// Should we show an explanation?
-			if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-				// Show an expanation to the user *asynchronously* -- don't block
-				// this thread waiting for the user's response! After the user
-				// sees the explanation, try again to request the permission.
-				Toast.makeText(this, "We store tiles to your devices storage to reduce data usage and for reading offline tile stores", Toast.LENGTH_LONG).show();
-			} else {
-				// No explanation needed, we can request the permission.
-				ActivityCompat.requestPermissions(this,
-						new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-						STORAGE);
-				// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-				// app-defined int constant. The callback method gets the
-				// result of the request.
-			}
-		}
-	}
+        List<String> permissions = new ArrayList<>();
+        String message = "OSMDroid permissions:";
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            message += "\nStorage access to store map tiles.";
+        }
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            message += "\nLocation to show user location.";
+        }
+        if (!permissions.isEmpty()) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            String[] params = permissions.toArray(new String[permissions.size()]);
+            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+        } // else: We already have permissions, so handle as normal
+    }
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		switch (requestCode) {
-			case LOCATION:{
-				// If request is cancelled, the result arrays are empty.
-				if (grantResults.length > 0
-						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// permission was granted, yay!
-				} else {
-					// permission denied, boo! Disable the
-					// functionality that depends on this permission.
-					Toast.makeText(this,"Location permission is required for user location on map.", Toast.LENGTH_LONG).show();
+			case REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS:	{
+				Map<String, Integer> perms = new HashMap<>();
+				// Initial
+				perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+				perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+				// Fill with results
+				for (int i = 0; i < permissions.length; i++)
+					perms.put(permissions[i], grantResults[i]);
+				// Check for ACCESS_FINE_LOCATION and WRITE_EXTERNAL_STORAGE
+                Boolean location = perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                Boolean storage = perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+				if (location && storage) {
+					// All Permissions Granted
+					Toast.makeText(MainActivity.this, "All permissions granted", Toast.LENGTH_SHORT).show();
+				} else if (location) {
+                    Toast.makeText(this, "Storage permission is required to store map tiles to reduce data usage and for offline usage.", Toast.LENGTH_LONG).show();
+                } else if (storage) {
+                    Toast.makeText(this,"Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
+                } else { // !location && !storage case
+					// Permission Denied
+					Toast.makeText(MainActivity.this, "A permission was DENIED", Toast.LENGTH_SHORT).show();
 				}
 			}
-			case STORAGE:{
-				// If request is cancelled, the result arrays are empty.
-				if (grantResults.length > 0
-						&& grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-					// permission was granted, yay!
-				} else {
-					// permission denied, boo! Disable the
-					// functionality that depends on this permission.
-					Toast.makeText(this,"Storage permision is needed for offline map data caching.", Toast.LENGTH_LONG).show();
-				}
-			}
-			// other 'case' lines to check for other
-			// permissions this app might request
+			break;
+			default:
+				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 	}
-
-	// ===========================================================
-	// Getter & Setter
-	// ===========================================================
-
-	// ===========================================================
-	// Methods from SuperClass/Interfaces
-	// ===========================================================
-	@Override
-	protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
-		switch (position) {
-			case 0:
-			   this.startActivity(new Intent(this, StarterMapActivity.class));
-			   break;
-			case 1:
-				this.startActivity(new Intent(this, SampleExtensive.class));
-				break;
-			case 2:
-				this.startActivity(new Intent(this, SampleWithMinimapItemizedoverlay.class));
-				break;
-			case 3:
-				this.startActivity(new Intent(this, SampleWithMinimapZoomcontrols.class));
-				break;
-			case 4:
-				this.startActivity(new Intent(this, SampleWithTilesOverlay.class));
-				break;
-			case 5:
-				this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
-				break;
-		  	case 6:
-				this.startActivity(new Intent(this, SampleResourceOverride.class));
-				break;
-			case 7:
-				this.startActivity(new Intent(this, ExtraSamplesActivity.class));
-				break;
-		}
-	}
-
-	// ===========================================================
-	// Methods
-	// ===========================================================
-
-	// ===========================================================
-	// Inner and Anonymous Classes
-	// ===========================================================
+	// END PERMISSION CHECK
 }
