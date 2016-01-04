@@ -3,35 +3,56 @@ jdk: oraclejdk7
 android:
   components:
     # The BuildTools version used by your project
-    - build-tools-23.0.1 # 23.0.2 was not available on build
+    - tools
+    - build-tools-23.0.2 # 23.0.2 was not available on build
+    - build-tools-23.0.1    
     # The SDK version used to compile your project
+    - android-24
     - android-23
+    - android-22
+    - android-21
+    - android-19
+    - android-8 
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
     - addon-google_apis-google-19
+    - sys-img-armeabi-android-8
+    - addon-google_apis-google-23
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+sudo: required
 
 # mvn sdk deploy
 before_script:
-   - mkdir temp
-   - cd temp
-   - git clone https://github.com/simpligility/maven-android-sdk-deployer
-   - cd maven-android-sdk-deployer
-   - mvn install -fn
-   - cd ..
-   - cd ..
-
-# Emulator Management: Create, Start and Wait
-before_script:
-  - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
+  # android list
+  # mkdir temp
+  # cd temp
+  # git clone https://github.com/simpligility/maven-android-sdk-deployer
+  # cd maven-android-sdk-deployer
+  # mvn install -fn
+  # cd ..
+  # cd ..
+  # make an enulator instance
+  - android list targets
+  - echo no | android create avd --force -n test -t android-10 --abi armeabi --sdcard 100M
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
-#build using maven
-script: mvn clean install
-
-#build using gradle
-script: gradle clean install
+#build
+script:
+  #build using maven with integration tests
+  # mvn clean install -Pcore -fn
+  # mvn clean install -Pcore -fn
+  # mvn clean install -Pcore
+  #build using gradle
+  - gradle clean build connectedCheck
 
