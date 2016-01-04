@@ -12,6 +12,9 @@ android:
     - android-22
     - android-21
     - android-19
+    - android-18
+    - android-15
+    - android-10
     - android-8 
     # Additional components
     - extra-google-google_play_services
@@ -40,12 +43,51 @@ before_script:
   - mvn install -fn
   - cd ..
   - cd ..
-  # make an enulator instance
+
+  # make an enulator instance API123
   - android list targets
-  - echo no | android create avd --force -n test -t android-10 --abi armeabi --sdcard 100M
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - echo no | android create avd --force -n test23 -t android-23 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
+  # make an enulator instance APII22
+  - android list targets
+  - echo no | android create avd --force -n test22 -t android-22 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API21
+  - android list targets
+  - echo no | android create avd --force -n test21 -t android-21 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API19
+  - android list targets
+  - echo no | android create avd --force -n test19 -t android-19 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API15
+  - android list targets
+  - echo no | android create avd --force -n test15 -t android-15 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API10
+  - android list targets
+  - echo no | android create avd --force -n test10 -t android-10 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+  # make an enulator instance API8
+  # COMMENTED OUT API8 CURRENTLY FAILS!!! AO
+  #- android list targets
+  #- echo no | android create avd --force -n test8 -t android-8 --abi armeabi --sdcard 100M
+  #- emulator -avd test10 -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 
 #build
 script:
@@ -55,4 +97,4 @@ script:
   - mvn clean install -Pcore
   #build using gradle
   - gradle clean build connectedCheck
-
+  # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
