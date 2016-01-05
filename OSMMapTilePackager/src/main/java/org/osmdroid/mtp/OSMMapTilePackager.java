@@ -148,6 +148,7 @@ public class OSMMapTilePackager {
 
     private static void run(final String pServerURL, final String pDestinationFile, final String pTempFolder, final int pThreadCount, final String pFileAppendix, final int pMinZoom, final int pMaxZoom, final double pNorth, final double pSouth, final double pEast, final double pWest) {
 
+         new File(pTempFolder).mkdirs();
     	if (pServerURL != null) {
         	System.out.println("---------------------------");
         	final int expectedFileCount = runFileExpecter(pMinZoom, pMaxZoom, pNorth, pSouth, pEast, pWest);

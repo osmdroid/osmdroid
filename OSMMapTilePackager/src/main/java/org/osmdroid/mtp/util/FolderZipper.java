@@ -41,7 +41,9 @@ public class FolderZipper {
 			//create ZipOutputStream object
 			final ZipOutputStream out = new ZipOutputStream(new FileOutputStream(pDestinationFile));
 
-			final String baseName = pFolderToZip.getParent();
+			String baseName = pFolderToZip.getParent();
+               if (baseName==null)
+                    baseName="";
 
 			addFolderToZip(pFolderToZip, out, baseName);
 
@@ -63,7 +65,7 @@ public class FolderZipper {
 				addFolderToZip(file, zip, baseName);
 			} else {
 				/* Otherwise zip it as usual. */
-				final String name = file.getAbsolutePath().substring(baseName.length());
+				final String name = file.getPath().substring(baseName.length());
 				final ZipEntry zipEntry = new ZipEntry(name);
 				zip.putNextEntry(zipEntry);
 				final FileInputStream fileIn = new FileInputStream(file);
