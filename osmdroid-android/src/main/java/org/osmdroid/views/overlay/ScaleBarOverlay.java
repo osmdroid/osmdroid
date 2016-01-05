@@ -14,19 +14,18 @@ package org.osmdroid.views.overlay;
  *
  * Change Log:
  * 		2010-10-08: Inclusion to osmdroid trunk
+ * 		2015-12-17: Allow for top, bottom, left or right placement by W.  Strickling
  *
- * Usage:
+ * Usage: 
  * <code>
  * MapView map = new MapView(...);
- * ScaleBarOverlay scaleBar = new ScaleBarOverlay(this.getBaseContext(), map);
- *
- * scaleBar.setImperial(); // Metric by default
+ * ScaleBarOverlay scaleBar = new ScaleBarOverlay(map); // Thiw is an important change of calling!
  *
  * map.getOverlays().add(scaleBar);
  * </code>
  *
  * To Do List:
- * 1. Allow for top, bottom, left or right placement.
+ * 1. Allow for top, bottom, left or right placement. // done in this changement
  * 2. Scale bar to precise displayed scale text after rounding.
  *
  */
@@ -72,6 +71,10 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	boolean latitudeBar = true;
 	boolean longitudeBar = false;
+	
+	protected boolean alignBottom = false;
+	protected boolean alignRight  = false;
+
 
 	// Internal
 
@@ -102,14 +105,15 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Constructors
 	// ===========================================================
 
-	public ScaleBarOverlay(final Context context) {
-		this(context, new DefaultResourceProxyImpl(context));
+	public ScaleBarOverlay(final MapView mapView) {
+		this(mapView, new DefaultResourceProxyImpl(mapView.getContext()));
 	}
 
-	public ScaleBarOverlay(final Context context, final ResourceProxy pResourceProxy) {
+	public ScaleBarOverlay(final MapView mapView, final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
+		this.mMapView = mapView;
 		this.resourceProxy = pResourceProxy;
-		this.context = context;
+		this.context = mapView.getContext();
 		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
 		this.barPaint = new Paint();
@@ -254,11 +258,24 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param centred
 	 *            set true to centre the bar around the given screen coordinates
 	 */
-	public void setCentred(final boolean centred) {
-		this.centred = centred;
-		lastZoomLevel = -1; // Force redraw of scalebar
-	}
+public void setCentred(final boolean centred) {
+    this.centred = centred;
+    alignBottom  = !centred;
+    alignRight   = !centred;
+    lastZoomLevel = -1; // Force redraw of scalebar
+}
 
+public void setAlignBottom(final boolean alignBottom) {
+    this.centred = false;
+    this.alignBottom  = alignBottom;
+    lastZoomLevel = -1; // Force redraw of scalebar
+}
+
+public void setAlignRight(final boolean alignRight) {
+    this.centred = false;
+    this.alignRight  = alignRight;
+    lastZoomLevel = -1; // Force redraw of scalebar
+}
 	/**
 	 * Return's the paint used to draw the bar
 	 * 
@@ -363,6 +380,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 				return;
 			}
 
+			screenWidth	   = mMapView.getWidth();
+			screenHeight   = mMapView.getHeight();
 			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
 			if (zoomLevel != lastZoomLevel
 					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
@@ -373,6 +392,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 			int offsetX = (int) xOffset;
 			int offsetY = (int) yOffset;
+			if (alignBottom) offsetY *=-1;
+			if (alignRight ) offsetX *=-1;
 			if (centred && latitudeBar)
 				offsetX += -latitudeBarRect.width() / 2;
 			if (centred && longitudeBar)
@@ -437,7 +458,10 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final int xTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
 		float x = xBarLengthPixels / 2 - sTextBoundsRect.width() / 2;
-		float y = sTextBoundsRect.height() + xTextSpacing;
+		if (alignRight)  x+= screenWidth -xBarLengthPixels;
+		float y; 
+		if (alignBottom) { y = screenHeight   -xTextSpacing*2; }
+		else y = sTextBoundsRect.height() + xTextSpacing;
 		canvas.drawText(xMsg, x, y, textPaint);
 	}
 
@@ -466,15 +490,18 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), sTextBoundsRect);
 		final int yTextSpacing = (int) (sTextBoundsRect.height() / 5.0);
 
-		final float x = sTextBoundsRect.height() + yTextSpacing;
-		final float y = yBarLengthPixels / 2 + sTextBoundsRect.width() / 2;
+		float x; 
+		if (alignRight)  {x = screenWidth  -yTextSpacing*2;}
+		else x = sTextBoundsRect.height() + yTextSpacing;
+		float y = yBarLengthPixels / 2 + sTextBoundsRect.width() / 2;
+		if (alignBottom) y+= screenHeight -yBarLengthPixels;
 		canvas.save();
 		canvas.rotate(-90, x, y);
 		canvas.drawText(yMsg, x, y, textPaint);
 		canvas.restore();
 	}
 
-	private void rebuildBarPath(final Projection projection) {
+	protected void rebuildBarPath(final Projection projection) {   //** modified to protected
 		// We want the scale bar to be as long as the closest round-number miles/kilometers
 		// to 1-inch at the latitude at the current center of the screen.
 
@@ -512,39 +539,60 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 		final String xMsg = scaleBarLengthText((int) xMetersAdjusted);
 		final Rect xTextRect = new Rect();
 		textPaint.getTextBounds(xMsg, 0, xMsg.length(), xTextRect);
-		final int xTextSpacing = (int) (xTextRect.height() / 5.0);
+		int xTextSpacing = (int) (xTextRect.height() / 5.0);           
 
 		// create text
 		final String yMsg = scaleBarLengthText((int) yMetersAdjusted);
 		final Rect yTextRect = new Rect();
 		textPaint.getTextBounds(yMsg, 0, yMsg.length(), yTextRect);
-		final int yTextSpacing = (int) (yTextRect.height() / 5.0);
+		int yTextSpacing = (int) (yTextRect.height() / 5.0);
+		int xTextHeight  = xTextRect.height();
+		int yTextHeight  = yTextRect.height();
 
 		barPath.rewind();
-
+		
+		//** alignBottom ad-ons
+		int barOriginX = 0;
+		int barOriginY = 0;
+		int barToX     = xBarLengthPixels;
+		int barToY	   = yBarLengthPixels;
+		if (alignBottom) {
+			xTextSpacing *= -1;
+			xTextHeight  *= -1;
+			barOriginY   = mMapView.getHeight();
+			barToY       = barOriginY -yBarLengthPixels;
+		}
+				
+		if (alignRight) {
+			yTextSpacing *= -1;
+			yTextHeight  *= -1;		
+			barOriginX   = mMapView.getWidth();
+			barToX       = barOriginX -xBarLengthPixels;    
+		}
+		
 		if (latitudeBar) {
 			// draw latitude bar
-			barPath.moveTo(xBarLengthPixels, xTextRect.height() + xTextSpacing * 2);
-			barPath.lineTo(xBarLengthPixels, 0);
-			barPath.lineTo(0, 0);
+			barPath.moveTo(barToX, barOriginY +xTextHeight + xTextSpacing * 2);
+			barPath.lineTo(barToX, barOriginY);
+			barPath.lineTo(barOriginX, barOriginY);
 
 			if (!longitudeBar) {
-				barPath.lineTo(0, xTextRect.height() + xTextSpacing * 2);
+				barPath.lineTo(barOriginX,  barOriginY +xTextHeight + xTextSpacing * 2);
 			}
-			latitudeBarRect.set(0, 0, xBarLengthPixels, xTextRect.height() + xTextSpacing * 2);
+			latitudeBarRect.set(barOriginX, barOriginY, barToX, barOriginY +xTextHeight + xTextSpacing * 2);
 		}
 
 		if (longitudeBar) {
 			// draw longitude bar
 			if (!latitudeBar) {
-				barPath.moveTo(yTextRect.height() + yTextSpacing * 2, 0);
-				barPath.lineTo(0, 0);
+				barPath.moveTo(barOriginX +yTextHeight + yTextSpacing * 2, barOriginY);
+				barPath.lineTo(barOriginX, barOriginY);
 			}
 
-			barPath.lineTo(0, yBarLengthPixels);
-			barPath.lineTo(yTextRect.height() + yTextSpacing * 2, yBarLengthPixels);
+			barPath.lineTo(barOriginX, barToY);
+			barPath.lineTo(barOriginX +yTextHeight + yTextSpacing * 2, barToY);
 
-			longitudeBarRect.set(0, 0, yTextRect.height() + yTextSpacing * 2, yBarLengthPixels);
+			longitudeBarRect.set(barOriginX, barOriginY, barOriginX +yTextHeight + yTextSpacing * 2, barToY);
 		}
 	}
 
@@ -642,3 +690,5 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	}
 
 }
+
+
