@@ -50,6 +50,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// Fields
 	// ===========================================================
 
+	public static long MAX_CACHED_TILE_AGE=OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE;
+
 	public static boolean DEBUG=false;
 	private final IFilesystemCache mFilesystemCache;
 
@@ -201,7 +203,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-				Date dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
+				Date dateExpires = new Date(System.currentTimeMillis() + MAX_CACHED_TILE_AGE);
 				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
 				if (expires!=null && expires.length() > 0) {
 					try {
