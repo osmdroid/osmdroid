@@ -26,7 +26,7 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 /**
- * 
+ * Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
  * @author Marc Kurtz
  * @author Manuel Stahl
  * 
@@ -38,7 +38,6 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	public IOrientationProvider mOrientationProvider;
 
-	protected final Paint mPaint = new Paint();
 	protected Bitmap mCompassFrameBitmap;
 	protected Bitmap mCompassRoseBitmap;
 	private final Matrix mCompassMatrix = new Matrix();
