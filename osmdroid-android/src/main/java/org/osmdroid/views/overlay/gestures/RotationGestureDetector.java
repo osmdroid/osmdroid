@@ -1,4 +1,4 @@
-package org.osmdroid;
+package org.osmdroid.views.overlay.gestures;
 
 import android.view.MotionEvent;
 

@@ -1,13 +1,10 @@
 package org.osmdroid.api;
 
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-
 import android.graphics.Point;
 
 /**
  * An interface that resembles the Google Maps API Projection interface and is implemented by the
- * osmdroid {@link Projection} class.
+ * osmdroid {@link  org.osmdroid.views.Projection} class.
  *
  * @author Neil Boyd
  *
@@ -16,7 +13,7 @@ public interface IProjection {
 
 	/**
 	 * Converts the given {@link IGeoPoint} to onscreen pixel coordinates, relative to the top-left
-	 * of the {@link MapView} that provided this Projection.
+	 * of the {@link org.osmdroid.views.MapView} that provided this Projection.
 	 * 
 	 * @param in
 	 *            The latitude/longitude pair to convert.

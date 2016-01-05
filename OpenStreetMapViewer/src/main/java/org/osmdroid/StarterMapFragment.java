@@ -1,21 +1,10 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.SampleFactory;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,7 +19,20 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import org.osmdroid.ResourceProxy;
+
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.SampleFactory;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 /**
  * Default map view activity.
@@ -39,7 +41,7 @@ import org.osmdroid.ResourceProxy;
  * @author Manuel Stahl
  *
  */
-public class MapFragment extends Fragment implements OpenStreetMapConstants {
+public class StarterMapFragment extends Fragment implements OpenStreetMapConstants {
     // ===========================================================
      // Constants
      // ===========================================================
@@ -57,15 +59,14 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      private SharedPreferences mPrefs;
      private MapView mMapView;
      private MyLocationNewOverlay mLocationOverlay;
-     private CompassOverlay mCompassOverlay;
+     private CompassOverlay mCompassOverlay=null;
      private MinimapOverlay mMinimapOverlay;
      private ScaleBarOverlay mScaleBarOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
      private ResourceProxy mResourceProxy;
 
-     public static MapFragment newInstance() {
-          MapFragment fragment = new MapFragment();
-          return fragment;
+     public static StarterMapFragment newInstance() {
+         return new StarterMapFragment();
      }
 
      @Override
@@ -77,7 +78,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
           mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
           mMapView = new MapView(inflater.getContext(), mResourceProxy);
-        // Call this method to turn off hardware acceleration at the View level.
+        // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
           return mMapView;
      }
@@ -100,8 +101,6 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
 
           mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-          this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-               mMapView);
           this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
                mMapView);
 
@@ -114,12 +113,12 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
           mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
-          mRotationGestureOverlay.setEnabled(false);
+          mRotationGestureOverlay.setEnabled(true);
 
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);
           mMapView.getOverlays().add(this.mLocationOverlay);
-          mMapView.getOverlays().add(this.mCompassOverlay);
+
           mMapView.getOverlays().add(this.mMinimapOverlay);
           mMapView.getOverlays().add(this.mScaleBarOverlay);
           mMapView.getOverlays().add(this.mRotationGestureOverlay);
@@ -128,7 +127,15 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mMapView.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
 
           mLocationOverlay.enableMyLocation();
-          mCompassOverlay.enableCompass();
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+          if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
+              mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
+                      mMapView);
+              mCompassOverlay.enableCompass();
+              mMapView.getOverlays().add(this.mCompassOverlay);
+          }
 
           setHasOptionsMenu(true);
      }
@@ -141,11 +148,17 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           edit.putInt(PREFS_SCROLL_Y, mMapView.getScrollY());
           edit.putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel());
           edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-          edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+          if (mCompassOverlay!=null) {
+              edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
+              this.mCompassOverlay.disableCompass();
+          }
           edit.commit();
 
           this.mLocationOverlay.disableMyLocation();
-          this.mCompassOverlay.disableCompass();
+
 
           super.onPause();
      }
@@ -154,7 +167,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      public void onResume() {
           super.onResume();
           final String tileSourceName = mPrefs.getString(PREFS_TILE_SOURCE,
-               TileSourceFactory.DEFAULT_TILE_SOURCE.name());
+                  TileSourceFactory.DEFAULT_TILE_SOURCE.name());
           try {
                final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
                mMapView.setTileSource(tileSource);
@@ -164,8 +177,12 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
                this.mLocationOverlay.enableMyLocation();
           }
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
           if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
-               this.mCompassOverlay.enableCompass();
+              if (mCompassOverlay!=null)
+                 this.mCompassOverlay.enableCompass();
           }
      }
 
@@ -175,7 +192,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
           // Put samples next
-          SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.example.R.string.samples)
+          SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
                .setIcon(android.R.drawable.ic_menu_gallery);
           SampleFactory sampleFactory = SampleFactory.getInstance();
           for (int a = 0; a < sampleFactory.count(); a++) {
@@ -191,7 +208,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           }
 
           // Put "About" menu item last
-          menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.example.R.string.about).setIcon(
+          menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.R.string.about).setIcon(
                android.R.drawable.ic_menu_info_details);
 
           super.onCreateOptionsMenu(menu, inflater);
@@ -217,7 +234,16 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
 
           switch (item.getItemId()) {
                case MENU_ABOUT:
-                    getActivity().showDialog(DIALOG_ABOUT_ID);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                            .setTitle(org.osmdroid.R.string.app_name).setMessage(org.osmdroid.R.string.about_message)
+                            .setIcon(org.osmdroid.R.drawable.icon)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                               public void onClick(DialogInterface dialog, int whichButton) {
+                                    //
+                               }
+                            }
+                    );
+                    builder.create().show();
                     return true;
           }
           return super.onOptionsItemSelected(item);

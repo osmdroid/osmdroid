@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>4.4-SNAPSHOT</version>
+        <version>5.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>osmdroid-third-party</artifactId>
-    <packaging>jar</packaging>
+    <packaging>aar</packaging>
 
     <name>OSMdroid Third Party</name>
     <!-- TODO -->
@@ -37,27 +37,35 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.james</groupId>
-            <artifactId>apache-mime4j</artifactId>
-        </dependency>
 
         <!-- internal dependencies -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>osmdroid-android</artifactId>
             <version>${project.version}</version>
+	    <type>aar</type>
         </dependency>
-
+	
+	
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
     </dependencies>
+    
+     <build>
+	 <plugins>
+	      <plugin>
+		    <groupId>com.simpligility.maven.plugins</groupId>
+		    <artifactId>android-maven-plugin</artifactId>
+		    <configuration>
+			 <sdk>
+			      <platform>19</platform>
+			 </sdk>
+		    </configuration>
+	       </plugin>
+	 </plugins>
+    </build>
 
 </project>

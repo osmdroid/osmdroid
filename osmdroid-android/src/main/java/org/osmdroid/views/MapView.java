@@ -34,6 +34,7 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
+import org.osmdroid.views.overlay.DefaultOverlayManager;
 import org.osmdroid.views.overlay.Overlay;
 import org.osmdroid.views.overlay.OverlayManager;
 import org.osmdroid.views.overlay.TilesOverlay;
@@ -77,7 +78,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
-	private final OverlayManager mOverlayManager;
+	private OverlayManager mOverlayManager;
 
 	private Projection mProjection;
 
@@ -160,7 +161,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
 		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
-		mOverlayManager = new OverlayManager(mMapOverlay);
+		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		if (isInEditMode()) {
 			mZoomController = null;
@@ -218,11 +219,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * 0) Overlay gets drawn first, the one with the highest as the last one.
 	 */
 	public List<Overlay> getOverlays() {
-		return this.getOverlayManager();
+		return this.getOverlayManager().overlays();
 	}
 
 	public OverlayManager getOverlayManager() {
 		return mOverlayManager;
+	}
+
+	public void setOverlayManager(final OverlayManager overlayManager) {
+		mOverlayManager = overlayManager;
 	}
 
 	public MapTileProviderBase getTileProvider() {
@@ -378,26 +383,19 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return this.mZoomLevel;
 	}
 
+	@Deprecated
+	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
+		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/186, boundingBox.getLonWestE6()/1e6);
+		zoomToBoundingBox(box, false);
+	}
+
 	/**
 	 * Zoom the map to enclose the specified bounding box, as closely as possible. Must be called
 	 * after display layout is complete, or screen dimensions are not known, and will always zoom to
 	 * center of zoom level 0.<br>
 	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
 	 */
-	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		final BoundingBoxE6 currentBox = getBoundingBoxE6();
-          BoundingBox x = new BoundingBox(currentBox.getLatNorthE6(),
-               currentBox.getLonEastE6(), currentBox.getLatSouthE6(), currentBox.getLonWestE6());
-          zoomToBoundingBox(x);
-     }
-     
-     /**
-	 * Zoom the map to enclose the specified bounding box, as closely as possible.
-	 * Must be called after display layout is complete, or screen dimensions are not known, and
-	 * will always zoom to center of zoom  level 0.
-	 * Suggestion: Check getScreenRect(null).getHeight() > 0
-	 */
-	public void zoomToBoundingBox(final BoundingBox boundingBox) {
+	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated) {
 		final BoundingBox currentBox = getBoundingBox();
 
 		// Calculated required zoom based on latitude span
@@ -421,9 +419,15 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 
 		// Zoom to boundingBox center, at calculated maximum allowed zoom level
-		getController().setZoom((int)(
+		if(animated) {
+			getController().zoomTo((int) (
 				requiredLatitudeZoom < requiredLongitudeZoom ?
-				requiredLatitudeZoom : requiredLongitudeZoom));
+					requiredLatitudeZoom : requiredLongitudeZoom));
+		} else {
+			getController().setZoom((int) (
+				requiredLatitudeZoom < requiredLongitudeZoom ?
+					requiredLatitudeZoom : requiredLongitudeZoom));
+		}
 
 		getController().setCenter(
 				new GeoPoint(boundingBox.getCenter().getLatitude(), boundingBox.getCenter()
@@ -511,11 +515,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getController().zoomIn();
 	}
 
+	@Deprecated
 	boolean zoomInFixing(final IGeoPoint point) {
 		Point coords = getProjection().toPixels(point, null);
 		return getController().zoomInFixing(coords.x, coords.y);
 	}
 
+	@Deprecated
 	boolean zoomInFixing(final int xPixel, final int yPixel) {
 		return getController().zoomInFixing(xPixel, yPixel);
 	}
@@ -527,11 +533,13 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getController().zoomOut();
 	}
 
+	@Deprecated
 	boolean zoomOutFixing(final IGeoPoint point) {
 		Point coords = getProjection().toPixels(point, null);
 		return zoomOutFixing(coords.x, coords.y);
 	}
 
+	@Deprecated
 	boolean zoomOutFixing(final int xPixel, final int yPixel) {
 		return getController().zoomOutFixing(xPixel, yPixel);
 	}
@@ -643,7 +651,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
     public BoundingBox getScrollableAreaLimit() {
         return mScrollableAreaBoundingBox;
     }
-	
+
 
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);
@@ -1018,6 +1026,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Save the current canvas matrix
 		c.save();
+		//calculate previous angle
+		float previousAngle=0f;
 
 		mRotateScaleMatrix.reset();
 
@@ -1026,7 +1036,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		// Scale the canvas
 		mRotateScaleMatrix.preScale(mMultiTouchScale, mMultiTouchScale,
-				mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
+		mMultiTouchScalePoint.x, mMultiTouchScalePoint.y);
 
 		// Rotate the canvas
 		mRotateScaleMatrix.preRotate(mapOrientation, getWidth() / 2, getHeight() / 2);
@@ -1193,7 +1203,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 		}
 
-		Log.i(IMapView.LOGTAG,"Using tile source: " + tileSource);
+		Log.i(IMapView.LOGTAG,"Using tile source: " + tileSource.name());
 		return tileSource;
 	}
 

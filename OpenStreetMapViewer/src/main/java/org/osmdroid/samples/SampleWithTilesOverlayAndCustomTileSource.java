@@ -40,6 +40,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		final MapView osmv = new MapView(this);
+		osmv.setTilesScaledToDpi(true);
 		rl.addView(osmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		osmv.setBuiltInZoomControls(true);
@@ -50,7 +51,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 
 		// Add tiles layer with custom tile source
 		final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());
-		final ITileSource tileSource = new XYTileSource("FietsRegionaal", null, 3, 18, 256, ".png",
+		final ITileSource tileSource = new XYTileSource("FietsRegionaal",  3, 18, 256, ".png",
 				new String[] { "http://overlay.openstreetmap.nl/openfietskaart-rcn/" });
 		tileProvider.setTileSource(tileSource);
 		final TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());

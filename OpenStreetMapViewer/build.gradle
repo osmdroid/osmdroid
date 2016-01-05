@@ -1,48 +1,38 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:1.0.+'
-    }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-}
-
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
-
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
     defaultConfig {
-        minSdkVersion 7
-        targetSdkVersion 19
-        versionCode 16
-        versionName "4.4-SNAPSHOT"
+        applicationId 'org.osmdroid'
+        minSdkVersion 8
+        targetSdkVersion 23
+        versionCode 18
+        versionName "5.1-SNAPSHOT"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-
-   /* sourceSets {
-        main {
-           // manifest.srcFile 'AndroidManifest.xml'
-            //java.srcDirs = ['src']
-            //esources.srcDirs = ['src']
-            //aidl.srcDirs = ['src']
-            //renderscript.srcDirs = ['src']
-            //res.srcDirs = ['res']
-            //assets.srcDirs = ['assets']
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        instrumentTest.setRoot('tests')
-    }*/
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+
+    }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    compile 'android.support:compatibility-v4:22.2.+'
-    compile 'org.osmdroid:osmdroid-android:4.4-SNAPSHOT'
-    compile 'org.osmdroid:osmdroid-third-party:4.4-SNAPSHOT'
+    compile 'com.android.support:support-v4:23+'
+    compile project(':osmdroid-android')
+    androidTestCompile 'com.android.support:support-annotations:23+'
+    androidTestCompile 'com.android.support.test:runner:0.4.+'
+    androidTestCompile 'com.android.support.test:rules:0.4.+'
+    //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }

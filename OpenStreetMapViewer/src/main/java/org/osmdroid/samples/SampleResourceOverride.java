@@ -1,20 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.osmdroid.samples;
-
-import org.osmdroid.CustomResourceProxy;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,12 +8,24 @@ import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import org.osmdroid.CustomResourceProxy;
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 
 /**
- *
+ * Constructs a map view with a custom resource proxy for override the person icon (my location). needs a gps fix to see the difference
  * @author alex
  */
 public class SampleResourceOverride extends Activity implements OpenStreetMapConstants {
@@ -70,6 +66,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this,mResourceProxy);
+		this.mOsmv.setTilesScaledToDpi(true);
 		this.mOsmvController = this.mOsmv.getController();
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.FILL_PARENT));
@@ -95,7 +92,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		{
 			/* Create a ImageView with a zoomIn-Icon. */
 			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.example.R.drawable.zoom_in);
+			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
 			/* Create RelativeLayoutParams, that position it in the top right corner. */
 			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -113,7 +110,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 
 			/* Create a ImageView with a zoomOut-Icon. */
 			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.example.R.drawable.zoom_out);
+			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
 
 			/* Create RelativeLayoutParams, that position it in the top left corner. */
 			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
@@ -146,6 +143,14 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		// this.mOsmv.getOverlays().add(pathOverlay);
 
 		this.setContentView(rl);
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(3);
+		GeoPoint startPoint = new GeoPoint(48.8583, 2,2944);
+		mapController.setCenter(startPoint);
+          
+        Toast.makeText(this, "Make sure you have a location fix", Toast.LENGTH_LONG).show();
 	}
 
 	// ===========================================================
@@ -166,7 +171,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		{
 			for (final ITileSource tileSource : TileSourceFactory.getTileSources()) {
 				subMenu.add(0, 1000 + tileSource.ordinal(), Menu.NONE,
-						tileSource.localizedName(mResourceProxy));
+						tileSource.name());
 			}
 		}
 

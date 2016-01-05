@@ -5,7 +5,7 @@
      <parent>
 	  <groupId>org.osmdroid</groupId>
 	  <artifactId>osmdroid-parent</artifactId>
-	  <version>4.4-SNAPSHOT</version>
+	  <version>5.1-SNAPSHOT</version>
      </parent>
 
      <artifactId>osmdroid-android-it</artifactId>
@@ -40,6 +40,7 @@
 	       <groupId>org.osmdroid</groupId>
 	       <artifactId>osmdroid-android</artifactId>
 	       <version>${project.version}</version>
+	       <type>aar</type>
 	       <scope>provided</scope>
 	  </dependency>
 

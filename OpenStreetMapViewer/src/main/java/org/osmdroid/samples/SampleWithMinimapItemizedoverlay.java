@@ -1,17 +1,6 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid.samples;
 
-import java.util.ArrayList;
-
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.ItemizedIconOverlay;
-import org.osmdroid.views.overlay.ItemizedOverlay;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.OverlayItem;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +8,18 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
+
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.ResourceProxyImpl;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.ItemizedOverlay;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.OverlayItem;
+
+import java.util.ArrayList;
 
 /**
  *
@@ -55,13 +56,14 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this);
+		this.mOsmv.setTilesScaledToDpi(true);
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 
 		/* Itemized Overlay */
 		{
 			/* Create a static ItemizedOverlay showing a some Markers on some cities. */
-			final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
+			final ArrayList<OverlayItem> items = new ArrayList<>();
 			items.add(new OverlayItem("Hannover", "SampleDescription", new GeoPoint(52370816, 9735936)));
 			items.add(new OverlayItem("Berlin", "SampleDescription", new GeoPoint(52518333, 13408333)));
 			items.add(new OverlayItem("Washington", "SampleDescription", new GeoPoint(38895000, -77036667)));
@@ -69,7 +71,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 			items.add(new OverlayItem("Tolaga Bay", "SampleDescription", new GeoPoint(-38371000, 178298000)));
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			this.mMyLocationOverlay = new ItemizedIconOverlay<OverlayItem>(items,
+			this.mMyLocationOverlay = new ItemizedIconOverlay<>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
@@ -100,6 +102,12 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 		}
 
 		this.setContentView(rl);
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(5);
+		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
+		mapController.setCenter(startPoint);
 	}
 
 	// ===========================================================

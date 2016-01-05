@@ -1,0 +1,76 @@
+language: android
+jdk: oraclejdk7
+android:
+  components:
+    # The BuildTools version used by your project
+    - tools
+    - build-tools-23.0.2 # 23.0.2 was not available on build
+    - build-tools-23.0.1    
+    # The SDK version used to compile your project
+    - android-24
+    - android-23
+    - android-22
+    - android-21
+    - android-19
+    - android-18
+    - android-15
+    - android-10
+    - android-8 
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+    - sys-img-armeabi-android-8
+    - sys-img-armeabi-android-10
+    - sys-img-armeabi-android-15
+    - sys-img-armeabi-android-19
+    - sys-img-armeabi-android-21
+    - sys-img-x86-android-22
+    - sys-img-x86-android-23
+    - addon-google_apis-google-23
+
+sudo: required
+
+env:
+    matrix:
+    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
+    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    # ANDROID_TARGET=android-23  ANDROID_ABI=x86
+
+before_install:
+ # make an enulator instance
+  - android list targets
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - emulator -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+# mvn sdk deploy
+before_script:
+  # android list
+  - mkdir temp
+  - cd temp
+  - git clone https://github.com/simpligility/maven-android-sdk-deployer
+  - cd maven-android-sdk-deployer
+  - mvn install -fn
+  - cd ..
+  - cd ..
+
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+#build
+script:
+  #build using maven with integration tests
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore
+  - mvn android:undeploy
+  #build using gradle
+  - gradle clean build connectedCheck
+  # fun fact, maven runs android tests concurrently for all connected devices, gradle does not

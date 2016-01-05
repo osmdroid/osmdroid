@@ -1,20 +1,19 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import java.io.File;
-import java.io.InputStream;
-import java.util.Random;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.Log;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.string;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import org.osmdroid.api.IMapView;
+import java.io.File;
+import java.io.InputStream;
+import java.util.Random;
 
 public abstract class BitmapTileSourceBase implements ITileSource {
 
@@ -30,21 +29,19 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 	private final int mTileSizePixels;
 
-	private final string mResourceId;
+	//private final string mResourceId;
 
 	/**
 	 * Constructor
-	 * @param aName a human-friendly name for this tile source
-	 * @param aResourceId resource id used to get the localized name of this tile source
+	 * @param aName a human-friendly name for this tile source. this name is also used on the file system, to keep the characters linux file system friendly
 	 * @param aZoomMinLevel the minimum zoom level this tile source can provide
 	 * @param aZoomMaxLevel the maximum zoom level this tile source can provide
 	 * @param aTileSizePixels the tile size in pixels this tile source provides
 	 * @param aImageFilenameEnding the file name extension used when constructing the filename
 	 */
-	public BitmapTileSourceBase(final String aName, final string aResourceId,
+	public BitmapTileSourceBase(final String aName, 
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 			final String aImageFilenameEnding) {
-		mResourceId = aResourceId;
 		mOrdinal = globalOrdinal++;
 		mName = aName;
 		mMinimumZoomLevel = aZoomMinLevel;
@@ -86,33 +83,42 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		return mTileSizePixels;
 	}
 
-	@Override
-	public String localizedName(final ResourceProxy proxy) {
-		return proxy.getString(mResourceId);
-	}
 
 	@Override
 	public Drawable getDrawable(final String aFilePath) {
+		//Log.d(IMapView.LOGTAG, aFilePath + " attempting to load bitmap");
 		try {
 			// default implementation will load the file as a bitmap and create
 			// a BitmapDrawable from it
 			BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 			BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-			final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
+			final Bitmap bitmap;
+			//fix for API 15 see https://github.com/osmdroid/osmdroid/issues/227
+			if (Build.VERSION.SDK_INT == Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+				bitmap=BitmapFactory.decodeFile(aFilePath);
+			else
+				bitmap = BitmapFactory.decodeFile(aFilePath, bitmapOptions);
 			if (bitmap != null) {
 				return new ReusableBitmapDrawable(bitmap);
 			} else {
-				// if we couldn't load it then it's invalid - delete it
-				try {
-					new File(aFilePath).delete();
-				} catch (final Throwable e) {
-					Log.e(IMapView.LOGTAG,"Error deleting invalid file: " + aFilePath, e);
-				}
+				File bmp = new File(aFilePath);
+				if (bmp.exists()) {
+					// if we couldn't load it then it's invalid - delete it
+					Log.d(IMapView.LOGTAG, aFilePath + " is an invalid image file, deleting...");
+					try {
+						new File(aFilePath).delete();
+					} catch (final Throwable e) {
+						Log.e(IMapView.LOGTAG, "Error deleting invalid file: " + aFilePath, e);
+					}
+				} else
+					Log.d(IMapView.LOGTAG, "Request tile: " + aFilePath + " does not exist");
 			}
 		} catch (final OutOfMemoryError e) {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap: " + aFilePath);
-			System.gc();
+		} catch (final Exception e){
+			Log.e(IMapView.LOGTAG,"Unexpected error loading bitmap: " + aFilePath,e);
 		}
+		System.gc();
 		return null;
 	}
 
