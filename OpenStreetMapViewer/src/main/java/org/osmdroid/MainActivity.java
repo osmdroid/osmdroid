@@ -2,12 +2,12 @@
 package org.osmdroid;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -83,15 +83,14 @@ public class MainActivity extends ListActivity {
 	// START PERMISSION CHECK
 	final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
-    @TargetApi(Build.VERSION_CODES.M)
 	private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OSMDroid permissions:";
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             message += "\nStorage access to store map tiles.";
         }
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             message += "\nLocation to show user location.";
         }
@@ -125,7 +124,8 @@ public class MainActivity extends ListActivity {
                     Toast.makeText(this,"Location permission is required to show the user's location on map.", Toast.LENGTH_LONG).show();
                 } else { // !location && !storage case
 					// Permission Denied
-					Toast.makeText(MainActivity.this, "A permission was DENIED", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MainActivity.this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." +
+							"\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
 				}
 			}
 			break;
