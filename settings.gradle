@@ -1,0 +1,13 @@
+rootProject.name = 'osmdroid-parent'
+include ':osmdroid-android'
+include ':osmdroid-third-party'
+include ':OpenStreetMapViewer'
+//include ':GoogleWrapperSample'
+//include ':osmdroid-android-it'
+
+project(':osmdroid-android').projectDir = "$rootDir/osmdroid-android" as File
+//project(':osmdroid-third-party').projectDir = "$rootDir/osmdroid-third-party" as File
+project(':OpenStreetMapViewer').projectDir = "$rootDir/OpenStreetMapViewer" as File
+//project(':GoogleWrapperSample').projectDir = "$rootDir/GoogleWrapperSample" as File
+//project(':osmdroid-packager').projectDir = "$rootDir/OSMMapTilePackager" as File
+//project(':osmdroid-android-it').projectDir = "$rootDir/osmdroid-android-it" as File

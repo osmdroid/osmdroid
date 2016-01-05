@@ -4,20 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.osmdroid.http.HttpClientFactory;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
  * Utility class for implementing Cloudmade authorization. See
@@ -87,6 +84,15 @@ public class CloudmadeUtil  {
 	}
 
 	/**
+	 * Get the key that was previously retrieved from the manifest.
+	 *
+	 * @return the key, or empty string if not found
+	 */
+	public static void setCloudmadeKey(String key) {
+		mKey=key;
+	}
+
+	/**
 	 * Get the token from the Cloudmade server.
 	 *
 	 * @return the token returned from the server, or null if not found
@@ -98,18 +104,24 @@ public class CloudmadeUtil  {
 				// check again because it may have been set while we were blocking
 				if (mToken.length() == 0) {
 					final String url = "http://auth.cloudmade.com/token/" + mKey + "?userid=" + mAndroidId;
-					final HttpClient httpClient = HttpClientFactory.createHttpClient();
-					final HttpPost httpPost = new HttpPost(url);
+
+					HttpURLConnection urlConnection=null;
+
 					try {
-						httpPost.setEntity(new StringEntity("", "utf-8"));
-						final HttpResponse response = httpClient.execute(httpPost);
+						final URL urlToRequest = new URL(url);
+						urlConnection = (HttpURLConnection) urlToRequest.openConnection();
+						urlConnection.setDoOutput(true);
+						urlConnection.setRequestMethod("POST");
+						urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+						urlConnection.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
+						urlConnection.connect();
 						if (DEBUGMODE) {
-							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + response.getStatusLine());
+							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + urlConnection.getResponseMessage());
 						}
-						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						if (urlConnection.getResponseCode() == 200) {
 							final BufferedReader br =
 								new BufferedReader(
-										new InputStreamReader(response.getEntity().getContent()),
+										new InputStreamReader(urlConnection.getInputStream()),
 										StreamUtils.IO_BUFFER_SIZE);
 							final String line = br.readLine();
 							if (DEBUGMODE) {
@@ -127,6 +139,12 @@ public class CloudmadeUtil  {
 						}
 					} catch (final IOException e) {
 						Log.e(IMapView.LOGTAG,"No authorization token received from Cloudmade: " + e);
+					} finally {
+						if (urlConnection!=null)
+							try {
+								urlConnection.disconnect();
+							}
+							catch (Exception ex){}
 					}
 				}
 			}

@@ -9,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>4.4-SNAPSHOT</version>
+    <version>5.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
@@ -58,36 +58,36 @@
             <dependency>
                 <groupId>android</groupId>
                 <artifactId>android</artifactId>
-                <version>4.4.2_r4</version>
+                <version>[(6.0_r1,)</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
-                <version>23.0.1</version>
+                <version>[23,)</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
                 <artifactId>maps</artifactId>
-                <version>21_r1</version>
+                <version>[23,)</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>apklib</type>
-                <version>27.0.0</version>
+                <version>[27,)</version>
             </dependency>
             <dependency>
                 <groupId>com.google.android.gms</groupId>
                 <artifactId>google-play-services</artifactId>
                 <type>jar</type>
-                <version>27.0.0</version>
+                <version>[27,)</version>
             </dependency>
             <dependency>
                 <groupId>org.json</groupId>
                 <artifactId>json</artifactId>
-                <version>20070829</version>
+                <version>20080701</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -119,10 +119,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.3.2</version>
+                    <version>3.1</version>
                     <configuration>
-                        <source>1.6</source>
-                        <target>1.6</target>
+                        <source>1.7</source>
+                        <target>1.7</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -180,17 +180,33 @@
         </pluginManagement>
     </build>
 
-    <modules>
-        <module>osmdroid-android</module>
-       
-        <module>osmdroid-third-party</module>
-        <module>OpenStreetMapViewer</module>
-        <module>GoogleWrapperSample</module>
-        <module>OSMMapTilePackager</module>
-         <module>osmdroid-android-it</module>
-    </modules>
+   
 
     <profiles>
+	 <profile>
+	      <id>core</id>
+	      <!-- only includes the core modules, google libraries are excluded -->
+	      <modules>
+		    <module>osmdroid-android</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+	      </modules>
+	 </profile>
+	 <profile>
+	      <id>default</id>
+	      <activation>
+		   <activeByDefault>true</activeByDefault>
+	      </activation>
+	       <modules>
+		    <module>osmdroid-android</module>
+		    <module>osmdroid-third-party</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>GoogleWrapperSample</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+		</modules>
+	 </profile>
         <profile>
             <!--  this profile is activated when using 'mvn release:perform' -->
             <!--  it signs artifacts before staging to Sonatype -->

@@ -55,6 +55,16 @@ public class MapController implements IMapController {
 	}
 
 	@Override
+	public boolean zoomTo(int zoomLevel) {
+		return setZoom(zoomLevel) > 0;
+	}
+
+	@Override
+	public boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel) {
+		return setZoom(zoomLevel) > 0;
+	}
+
+	@Override
 	public void zoomToSpan(final int pLatSpanE6, final int pLonSpanE6) {
 		mController.zoomToSpan(pLatSpanE6, pLonSpanE6);
 	}
@@ -73,15 +83,5 @@ public class MapController implements IMapController {
 	public void stopPanning() {
 		mController.stopPanning();
 	}
-
-     //@Override
-     public boolean isInvertedTiles() {
-          return false;
-     }
-
-     //@Override
-     public void setInvertedTiles(boolean value) {
-          
-     }
 
 }

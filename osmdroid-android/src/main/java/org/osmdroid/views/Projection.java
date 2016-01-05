@@ -108,28 +108,30 @@ public class Projection implements IProjection, MapViewConstants {
 		return out;
 	}
 
-	protected Point adjustForDateLine(int x, int y, Point reuse) {
-		final Point out = reuse != null ? reuse : new Point();
-		out.set(x, y);
-		out.offset(-mMapViewWidth / 2, -mMapViewHeight / 2);
-		final int mapSize = TileSystem.MapSize(getZoomLevel());
-		final int absX = Math.abs(out.x);
-		final int absY = Math.abs(out.y);
-		if (absX > Math.abs(out.x - mapSize)) {
-			out.x -= mapSize;
-		}
-		if (absX > Math.abs(out.x + mapSize)) {
-			out.x += mapSize;
-		}
-		if (absY > Math.abs(out.y - mapSize)) {
-			out.y -= mapSize;
-		}
-		if (absY > Math.abs(out.y + mapSize)) {
-			out.y += mapSize;
-		}
-		out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
-		return out;
-	}
+	    protected Point adjustForDateLine(int x, int y, Point reuse) {
+          final Point out = reuse != null ? reuse : new Point();
+          out.set(x, y);
+          out.offset(-mMapViewWidth / 2, -mMapViewHeight / 2);     //
+          final int mapSize = TileSystem.MapSize(getZoomLevel());
+          final int absX = Math.abs(out.x);
+          final int absY = Math.abs(out.y);
+          final int yCompare = mapSize > mMapViewHeight ? mapSize : mMapViewHeight;  // avoid too early vertical adjusting
+          if (absX > Math.abs(out.x - mapSize)) {
+               out.x -= mapSize;
+          }
+          if (absX > Math.abs(out.x + mapSize)) {
+               out.x += mapSize;
+          }
+
+          if (absY > Math.abs(out.y - yCompare) && mMapViewHeight < 2 * mapSize) {  // use yCorrection instead of mapSize
+               out.y -= mapSize;
+          }
+          if (absY > Math.abs(out.y + yCompare) || mMapViewHeight >= 2 * mapSize) {  // use yCorrection instead of mapSize
+               out.y += mapSize;
+          }
+          out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
+          return out;
+     }
 	
 	/**
 	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}

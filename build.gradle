@@ -1,0 +1,32 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.5.0'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+
+allprojects {
+
+  apply plugin: 'maven'
+
+  group = 'org.osmdroid'
+  version = '5.0-SNAPSHOT'
+
+  
+  repositories {
+    mavenLocal()
+    
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "http://repo.maven.apache.org/maven2" }
+  }
+
+  
+}

@@ -7,14 +7,9 @@ import java.util.Locale;
 
 //import microsoft.mappoint.TileSystem;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.http.HttpClientFactory;
+
 import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.QuadTreeTileSource;
 import org.osmdroid.tileprovider.tilesource.bing.imagerymetadata.ImageryMetaData;
@@ -24,6 +19,8 @@ import org.osmdroid.tileprovider.util.StreamUtils;
 
 import android.content.Context;
 import android.util.Log;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import org.osmdroid.thirdparty.Constants;
 import org.osmdroid.util.TileSystem;
 
@@ -80,7 +77,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
 	public BingMapTileSource(final String aLocale) {
-		super("BingMap", ResourceProxy.string.bing, -1, -1, -1, FILENAME_ENDING, null);
+		super("BingMaps",  0, 22, 256, FILENAME_ENDING, null);
 		mLocale = aLocale;
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
@@ -99,6 +96,10 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 
 	public static String getBingKey() {
 		return mBingMapKey;
+	}
+
+	public static void setBingKey(String key) {
+		mBingMapKey=key;
 	}
 
 	/*-------------- overrides OnlineTileSourceBase ---------------------*/
@@ -202,20 +203,22 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	{
 		Log.d(Constants.LOGTAG,"getMetaData");
 
-		final HttpClient client = HttpClientFactory.createHttpClient();
-		final HttpUriRequest head = new HttpGet(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey));
-		Log.d(Constants.LOGTAG,"make request "+head.getURI().toString());
+		
+		          
+		
+ 		HttpURLConnection client=null;
 		try {
-			final HttpResponse response = client.execute(head);
+			client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
+			Log.d(Constants.LOGTAG,"make request "+client.getURL().toString().toString());
+			client.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
+			client.connect();
 
-			final HttpEntity entity = response.getEntity();
-
-			if (entity == null) {
-				Log.e(Constants.LOGTAG,"Cannot get response for url "+head.getURI().toString());
+			if (client.getResponseCode()!= 200) {
+				Log.e(Constants.LOGTAG,"Cannot get response for url "+client.getURL().toString() + " " + client.getResponseMessage());
 				return null;
 			}
 
-			final InputStream in = entity.getContent();
+			final InputStream in = client.getInputStream();
 			final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 			final BufferedOutputStream out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 			StreamUtils.copy(in, out);
@@ -227,9 +230,10 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 			Log.e(Constants.LOGTAG,"Error getting imagery meta data", e);
 		} finally {
 			try {
-				client.getConnectionManager().shutdown();
-			} catch(UnsupportedOperationException e) {
-				// OkApacheClient doesn't support this
+				if (client!=null)
+					client.disconnect();
+			} catch(Exception e) {
+
 			}
 			Log.d(Constants.LOGTAG,"end getMetaData");
 		}
