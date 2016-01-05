@@ -79,6 +79,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// Internal
 
 	private final Context context;
+	private final MapView mMapView;
 
 	protected final Path barPath = new Path();
 	protected final Rect latitudeBarRect = new Rect();
@@ -380,8 +381,8 @@ public void setAlignRight(final boolean alignRight) {
 				return;
 			}
 
-			screenWidth	   = mMapView.getWidth();
-			screenHeight   = mMapView.getHeight();
+			screenWidth	   = mapView.getWidth();
+			screenHeight   = mapView.getHeight();
 			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
 			if (zoomLevel != lastZoomLevel
 					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
