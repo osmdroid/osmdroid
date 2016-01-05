@@ -22,16 +22,33 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-19
     - sys-img-armeabi-android-8
+    - sys-img-armeabi-android-10
+    - sys-img-armeabi-android-15
+    - sys-img-armeabi-android-19
+    - sys-img-armeabi-android-21
+    - sys-img-x86-android-22
+    - sys-img-x86-android-23
     - addon-google_apis-google-23
 
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
 sudo: required
+
+env:
+    matrix:
+    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi //we have issues with API 8
+    - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
+    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    # ANDROID_TARGET=android-23  ANDROID_ABI=x86
+
+before_install:
+ # make an enulator instance
+  - android list targets
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - emulator -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 # mvn sdk deploy
 before_script:
@@ -44,50 +61,8 @@ before_script:
   - cd ..
   - cd ..
 
-  # make an enulator instance API123
-  - android list targets
-  - echo no | android create avd --force -n test23 -t android-23 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
-  # make an enulator instance APII22
-  - android list targets
-  - echo no | android create avd --force -n test22 -t android-22 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API21
-  - android list targets
-  - echo no | android create avd --force -n test21 -t android-21 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API19
-  - android list targets
-  - echo no | android create avd --force -n test19 -t android-19 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API15
-  - android list targets
-  - echo no | android create avd --force -n test15 -t android-15 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API10
-  - android list targets
-  - echo no | android create avd --force -n test10 -t android-10 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-
-  # make an enulator instance API8
-  # COMMENTED OUT API8 CURRENTLY FAILS!!! AO
-  #- android list targets
-  #- echo no | android create avd --force -n test8 -t android-8 --abi armeabi --sdcard 100M
-  #- emulator -avd test10 -no-skin -no-audio -no-window &
-  #- android-wait-for-emulator
-  #- adb shell input keyevent 82 &
 
 #build
 script:
@@ -95,6 +70,7 @@ script:
   - mvn clean install -Pcore -fn
   - mvn clean install -Pcore -fn
   - mvn clean install -Pcore
+  - mvn android:undeploy
   #build using gradle
   - gradle clean build connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
