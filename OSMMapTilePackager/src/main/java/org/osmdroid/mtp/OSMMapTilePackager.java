@@ -315,6 +315,7 @@ public class OSMMapTilePackager {
             fileCnt += dx * dy;
         }
 
+        System.out.println("Using the bounds of N,S,E,W = " + pNorth +"," + pSouth + "," + pEast + "," + pWest);
         abortIfUserIsNotSure("This will download: " + fileCnt + " Maptiles!");
 
         return fileCnt;
