@@ -46,8 +46,8 @@ env:
     - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-22  ANDROID_ABI=x86
-    - ANDROID_TARGET=android-23  ANDROID_ABI=x86
+    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing somekind of hardware acceleration
+    # ANDROID_TARGET=android-23  ANDROID_ABI=x86
 
 before_install:
  # make an enulator instance API123
@@ -84,5 +84,5 @@ script:
   - mvn clean install -Pcore -fn
   - mvn clean install -Pcore
   #build using gradle
-  - gradle clean build connectedCheck
+  - gradle uninstallDebug clean build connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
