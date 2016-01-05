@@ -30,27 +30,20 @@ android:
     - sys-img-x86-android-23
     - addon-google_apis-google-23
 
-before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-
 sudo: required
 
 env:
     matrix:
-    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi //we have issues with API 8
     - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
     - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
-    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing somekind of hardware acceleration
+    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
     # ANDROID_TARGET=android-23  ANDROID_ABI=x86
 
 before_install:
- # make an enulator instance API123
+ # make an enulator instance
   - android list targets
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
   - emulator -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
@@ -68,12 +61,6 @@ before_script:
   - cd ..
   - cd ..
 
-
-  # make an enulator instance API8
-  # COMMENTED OUT API8 CURRENTLY FAILS!!! AO
-  #- android list targets
-  #- echo no | android create avd --force -n test8 -t android-8 --abi armeabi --sdcard 100M
-  #- emulator -avd test10 -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
