@@ -59,28 +59,28 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 
 	public ItemizedOverlayWithFocus(final Context ctx, final List<Item> aList,
 			final OnItemGestureListener<Item> aOnItemTapListener) {
-		this(aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx),ctx);
+		this(aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
 	}
 
 	public ItemizedOverlayWithFocus(final List<Item> aList,
-			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy, Context ctx) {
+			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 		this(aList, pResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default), null, NOT_SET,
-				aOnItemTapListener, pResourceProxy,  ctx);
+				aOnItemTapListener, pResourceProxy);
 	}
 
 	public ItemizedOverlayWithFocus(final List<Item> aList, final Drawable pMarker,
 			final Drawable pMarkerFocused, final int pFocusedBackgroundColor,
-			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy, Context ctx) {
+			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
 
 		super(aList, pMarker, aOnItemTapListener, pResourceProxy);
 
 		//calculate font size based on DP
 		fontSizePixels= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-				FONT_SIZE_DP, ctx.getResources().getDisplayMetrics());
+				FONT_SIZE_DP, pResourceProxy.getDisplayMetrics());
 		DESCRIPTION_LINE_HEIGHT=fontSizePixels+5;
 
 		//calculate max width based on screen width.
-		DESCRIPTION_MAXWIDTH=(int)(ctx.getResources().getDisplayMetrics().widthPixels*0.8);
+		DESCRIPTION_MAXWIDTH=(int)(pResourceProxy.getDisplayMetrics().widthPixels*0.8);
 		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
 
 		if (pMarkerFocused == null) {
