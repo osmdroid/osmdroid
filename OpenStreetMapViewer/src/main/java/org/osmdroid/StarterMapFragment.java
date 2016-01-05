@@ -1,21 +1,10 @@
 // Created by plusminus on 00:23:14 - 03.10.2008
 package org.osmdroid;
 
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.SampleFactory;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
-import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +20,20 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.samplefragments.SampleFactory;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
+
 /**
  * Default map view activity.
  *
@@ -38,7 +41,7 @@ import android.view.ViewGroup;
  * @author Manuel Stahl
  *
  */
-public class MapFragment extends Fragment implements OpenStreetMapConstants {
+public class StarterMapFragment extends Fragment implements OpenStreetMapConstants {
     // ===========================================================
      // Constants
      // ===========================================================
@@ -62,9 +65,8 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      private RotationGestureOverlay mRotationGestureOverlay;
      private ResourceProxy mResourceProxy;
 
-     public static MapFragment newInstance() {
-          MapFragment fragment = new MapFragment();
-          return fragment;
+     public static StarterMapFragment newInstance() {
+         return new StarterMapFragment();
      }
 
      @Override
@@ -113,7 +115,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
           mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
-          mRotationGestureOverlay.setEnabled(false);
+          mRotationGestureOverlay.setEnabled(true);
 
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);
@@ -153,7 +155,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
      public void onResume() {
           super.onResume();
           final String tileSourceName = mPrefs.getString(PREFS_TILE_SOURCE,
-               TileSourceFactory.DEFAULT_TILE_SOURCE.name());
+                  TileSourceFactory.DEFAULT_TILE_SOURCE.name());
           try {
                final ITileSource tileSource = TileSourceFactory.getTileSource(tileSourceName);
                mMapView.setTileSource(tileSource);
@@ -174,7 +176,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
 
           // Put samples next
-          SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.example.R.string.samples)
+          SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
                .setIcon(android.R.drawable.ic_menu_gallery);
           SampleFactory sampleFactory = SampleFactory.getInstance();
           for (int a = 0; a < sampleFactory.count(); a++) {
@@ -190,7 +192,7 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
           }
 
           // Put "About" menu item last
-          menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.example.R.string.about).setIcon(
+          menu.add(0, MENU_ABOUT, Menu.CATEGORY_SECONDARY, org.osmdroid.R.string.about).setIcon(
                android.R.drawable.ic_menu_info_details);
 
           super.onCreateOptionsMenu(menu, inflater);
@@ -216,7 +218,16 @@ public class MapFragment extends Fragment implements OpenStreetMapConstants {
 
           switch (item.getItemId()) {
                case MENU_ABOUT:
-                    getActivity().showDialog(DIALOG_ABOUT_ID);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+                            .setTitle(org.osmdroid.R.string.app_name).setMessage(org.osmdroid.R.string.about_message)
+                            .setIcon(org.osmdroid.R.drawable.icon)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                               public void onClick(DialogInterface dialog, int whichButton) {
+                                    //
+                               }
+                            }
+                    );
+                    builder.create().show();
                     return true;
           }
           return super.onOptionsItemSelected(item);

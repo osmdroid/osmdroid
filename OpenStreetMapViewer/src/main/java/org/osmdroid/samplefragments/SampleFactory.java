@@ -14,14 +14,22 @@ public final class SampleFactory {
 	}
 
 	private SampleFactory() {
-		mSamples = new BaseSampleFragment[] { new SampleWithMinimapItemizedOverlayWithFocus(),
-                    new SampleWithMinimapItemizedOverlayWithScale(),
-				    new SampleLimitedScrollArea(), new SampleFragmentXmlLayout(), new SampleOsmPath(),
-                    new SampleInvertedTiles_NightMode(), new SampleOfflineOnly(),
-                    new SampleAlternateCacheDir(),
-                    new SampleMilitaryIcons(),
-                    new SampleMapBox(),
-                    new SampleCustomTileSource()};
+		mSamples = new BaseSampleFragment[] {
+				new SampleWithMinimapItemizedOverlayWithFocus(),
+                new SampleWithMinimapItemizedOverlayWithScale(),
+                new SampleLimitedScrollArea(),
+                new SampleFragmentXmlLayout(),
+                new SampleOsmPath(),
+                new SampleInvertedTiles_NightMode(),
+                new SampleOfflineOnly(),
+                new SampleAlternateCacheDir(),
+                new SampleMilitaryIcons(),
+                new SampleMapBox(),
+                new SampleJumboCache(),
+                new SampleCustomTileSource(),
+				new SampleAnimatedZoomToLocation(),
+				new SampleWhackyColorFilter()
+        };
 	}
 
 	public BaseSampleFragment getSample(int index) {

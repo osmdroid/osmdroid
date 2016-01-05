@@ -22,7 +22,7 @@ public class CustomResourceProxy extends DefaultResourceProxyImpl {
 		switch (pResId){
                case person:
                     //your image goes here!!!
-                    return BitmapFactory.decodeResource(mContext.getResources(),org.osmdroid.example.R.drawable.sfgpuci);
+                    return BitmapFactory.decodeResource(mContext.getResources(),org.osmdroid.R.drawable.sfgpuci);
                  
           }
           return super.getBitmap(pResId);
@@ -32,7 +32,7 @@ public class CustomResourceProxy extends DefaultResourceProxyImpl {
 	public Drawable getDrawable(final bitmap pResId) {
 		switch (pResId){
                case person:
-                    return mContext.getResources().getDrawable(org.osmdroid.example.R.drawable.sfgpuci);
+                    return mContext.getResources().getDrawable(org.osmdroid.R.drawable.sfgpuci);
           }
           return super.getDrawable(pResId);
 	}

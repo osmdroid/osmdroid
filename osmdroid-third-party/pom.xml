@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>4.4-SNAPSHOT</version>
+        <version>5.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>osmdroid-third-party</artifactId>
@@ -36,14 +36,6 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.james</groupId>
-            <artifactId>apache-mime4j</artifactId>
         </dependency>
 
         <!-- internal dependencies -->

@@ -1,4 +1,4 @@
-package org.osmdroid;
+package org.osmdroid.views.overlay.gestures;
 
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
@@ -21,6 +21,7 @@ public class RotationGestureOverlay extends Overlay implements
 
     private final RotationGestureDetector mRotationDetector;
     private MapView mMapView;
+    private float lastAngle=0f;
     private boolean mOptionsMenuEnabled = true;
 
     public RotationGestureOverlay(Context context, MapView mapView)
@@ -43,11 +44,18 @@ public class RotationGestureOverlay extends Overlay implements
         }
         return super.onTouchEvent(event, mapView);
     }
+    long timeLastSet=0L;
+    final long deltaTime=25L;
+    float currentAngle=0f;
 
     @Override
     public void onRotate(float deltaAngle)
     {
-        mMapView.setMapOrientation(mMapView.getMapOrientation() + deltaAngle);
+        currentAngle+=deltaAngle;
+        if (System.currentTimeMillis() - deltaTime > timeLastSet){
+            timeLastSet = System.currentTimeMillis();
+            mMapView.setMapOrientation(mMapView.getMapOrientation() + currentAngle);
+        }
     }
 
     @Override

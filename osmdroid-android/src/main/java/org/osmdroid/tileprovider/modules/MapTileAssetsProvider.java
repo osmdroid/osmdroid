@@ -56,7 +56,7 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 								 final AssetManager pAssets,
 								 final ITileSource pTileSource) {
 		this(pRegisterReceiver, pAssets, pTileSource,
-				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
+				OpenStreetMapTileProviderConstants.getNumberOfTileDownloadThreads(),
 				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 	}
 

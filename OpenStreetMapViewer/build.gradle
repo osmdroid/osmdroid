@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.1"
-
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
     defaultConfig {
-        applicationId "org.osmdroid.example"
-        minSdkVersion 7
-        targetSdkVersion 22
-        versionCode 16
-        versionName "4.4-SNAPSHOT"
+        applicationId 'org.osmdroid'
+        minSdkVersion 8
+        targetSdkVersion 23
+        versionCode 18
+        versionName "5.1-SNAPSHOT"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -28,9 +28,11 @@ android {
     }
 }
 
-
 dependencies {
-    compile 'android.support:compatibility-v4:23+'
+    compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
-    //compile 'org.osmdroid:osmdroid-third-party:4.4-SNAPSHOT'
+    androidTestCompile 'com.android.support:support-annotations:23+'
+    androidTestCompile 'com.android.support.test:runner:0.4.+'
+    androidTestCompile 'com.android.support.test:rules:0.4.+'
+    //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }

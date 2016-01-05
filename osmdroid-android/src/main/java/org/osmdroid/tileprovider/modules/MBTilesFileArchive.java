@@ -3,6 +3,9 @@ package org.osmdroid.tileprovider.modules;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -15,7 +18,9 @@ import org.osmdroid.api.IMapView;
 
 public class MBTilesFileArchive implements IArchiveFile {
 
-	private final SQLiteDatabase mDatabase;
+	private SQLiteDatabase mDatabase;
+
+	public MBTilesFileArchive(){}
 
 	//	TABLE tiles (zoom_level INTEGER, tile_column INTEGER, tile_row INTEGER, tile_data BLOB);
 	public final static String TABLE_TILES = "tiles";
@@ -34,6 +39,14 @@ public class MBTilesFileArchive implements IArchiveFile {
 						pFile.getAbsolutePath(),
 						null,
 						SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY));
+	}
+
+	@Override
+	public void init(File pFile) throws Exception {
+		mDatabase=SQLiteDatabase.openDatabase(
+				pFile.getAbsolutePath(),
+				null,
+				SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.OPEN_READONLY);
 	}
 
 	@Override
@@ -62,6 +75,11 @@ public class MBTilesFileArchive implements IArchiveFile {
 		}
 
 		return null;
+	}
+
+	public Set<String> getTileSources(){
+		//the MBTiles spec doesn't store source information in it, so we can't return anything
+		return Collections.EMPTY_SET;
 	}
 
 	@Override

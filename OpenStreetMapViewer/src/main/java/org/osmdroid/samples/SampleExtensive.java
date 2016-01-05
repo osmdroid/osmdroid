@@ -1,16 +1,5 @@
 package org.osmdroid.samples;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
-import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -21,6 +10,18 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import org.osmdroid.ResourceProxy;
+import org.osmdroid.ResourceProxyImpl;
+import org.osmdroid.api.IMapController;
+import org.osmdroid.constants.OpenStreetMapConstants;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.ScaleBarOverlay;
+import org.osmdroid.views.overlay.SimpleLocationOverlay;
 
 /**
  *
@@ -63,6 +64,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this);
+		this.mOsmv.setTilesScaledToDpi(true);
 		this.mOsmvController = this.mOsmv.getController();
 		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
@@ -92,7 +94,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 		{
 			/* Create a ImageView with a zoomIn-Icon. */
 			final ImageView ivZoomIn = new ImageView(this);
-			ivZoomIn.setImageResource(org.osmdroid.example.R.drawable.zoom_in);
+			ivZoomIn.setImageResource(org.osmdroid.R.drawable.zoom_in);
 			/* Create RelativeLayoutParams, that position it in the top right corner. */
 			final RelativeLayout.LayoutParams zoominParams = new RelativeLayout.LayoutParams(
 					RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -110,7 +112,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 
 			/* Create a ImageView with a zoomOut-Icon. */
 			final ImageView ivZoomOut = new ImageView(this);
-			ivZoomOut.setImageResource(org.osmdroid.example.R.drawable.zoom_out);
+			ivZoomOut.setImageResource(org.osmdroid.R.drawable.zoom_out);
 
 			/* Create RelativeLayoutParams, that position it in the top left corner. */
 			final RelativeLayout.LayoutParams zoomoutParams = new RelativeLayout.LayoutParams(
@@ -133,6 +135,12 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
 			this.mOsmv.getOverlays().add(mMiniMapOverlay);
 		}
+
+		// Default location and zoom level
+		IMapController mapController = mOsmv.getController();
+		mapController.setZoom(13);
+		GeoPoint startPoint = new GeoPoint(50.936255, 6.957779);
+		mapController.setCenter(startPoint);
 
 		// PathOverlay pathOverlay = new PathOverlay(Color.RED, this);
 		// pathOverlay.addPoint(new GeoPoint(40.714623, -74.006605));

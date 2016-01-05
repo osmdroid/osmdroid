@@ -7,15 +7,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
-import org.osmdroid.RotationGestureOverlay;
+
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * icons generated from https://github.com/missioncommand/mil-sym-java
@@ -33,13 +35,16 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
      private static final int MENU_ZOOMIN_ID = Menu.FIRST;
      private static final int MENU_ZOOMOUT_ID = MENU_ZOOMIN_ID + 1;
-     private static final int MENU_LAST_ID = MENU_ZOOMOUT_ID + 1; // Always set to last unused id
+     private static final int MENU_ADDICONS_ID = MENU_ZOOMOUT_ID + 1;
+     private static final int MENU_LAST_ID = MENU_ADDICONS_ID + 1; // Always set to last unused id
 
 	// ===========================================================
      // Fields
      // ===========================================================
      private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
+     private OverlayItem overlayItem;
+     List<Drawable> icons = new ArrayList<>(4);
 
      @Override
      public String getSampleTitle() {
@@ -63,53 +68,40 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
           final Context context = getActivity();
 
-          List<Drawable> icons = new ArrayList<Drawable>(4);
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sfgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.shgpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sngpuci));
-          icons.add(getResources().getDrawable(org.osmdroid.example.R.drawable.sugpuci));
+
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sfgpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.shgpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sngpuci));
+          icons.add(getResources().getDrawable(org.osmdroid.R.drawable.sugpuci));
 
           /* Itemized Overlay */
           {
-               /* Create a static ItemizedOverlay showing some Markers on various cities. */
-               final ArrayList<OverlayItem> items = new ArrayList<OverlayItem>();
-               for (int i = 0; i < 500; i++) {
-                    double random_lon = (Math.random() * 360) - 180;
-                    double random_lat = (Math.random() * 180) - 90;
-                    OverlayItem overlayItem = new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
-                         random_lon));
-                    int index = (int) (Math.random() * (icons.size()));
-                    if (index == icons.size()) {
-                         index--;
-                    }
-                    overlayItem.setMarker(icons.get(index));
-                    items.add(overlayItem);
-
-               }
-
                /* OnTapListener for the Markers, shows a simple Toast. */
-               mMyLocationOverlay = new ItemizedOverlayWithFocus<OverlayItem>(items,
-                    new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
-                         @Override
-                         public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got single tapped up", Toast.LENGTH_LONG).show();
-                              return true;
-                         }
+               mMyLocationOverlay = new ItemizedOverlayWithFocus<>(new ArrayList<OverlayItem>(),
+                       new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
+                            @Override
+                            public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
+                                 Toast.makeText(
+                                         context,
+                                         "Item '" + item.getTitle() + "' (index=" + index
+                                                 + ") got single tapped up", Toast.LENGTH_LONG).show();
+                                 return true;
+                            }
 
-                         @Override
-                         public boolean onItemLongPress(final int index, final OverlayItem item) {
-                              Toast.makeText(
-                                   context,
-                                   "Item '" + item.getTitle() + "' (index=" + index
-                                   + ") got long pressed", Toast.LENGTH_LONG).show();
-                              return false;
-                         }
-                    }, mResourceProxy);
+                            @Override
+                            public boolean onItemLongPress(final int index, final OverlayItem item) {
+                                 Toast.makeText(
+                                         context,
+                                         "Item '" + item.getTitle() + "' (index=" + index
+                                                 + ") got long pressed", Toast.LENGTH_LONG).show();
+                                 return false;
+                            }
+                       }, mResourceProxy);
                mMyLocationOverlay.setFocusItemsOnTap(true);
                mMyLocationOverlay.setFocusedItem(0);
+
+               //generates 500 randomized points
+               addIcons(500);
 
                mMapView.getOverlays().add(mMyLocationOverlay);
 
@@ -131,7 +123,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           mMapView.getController().animateTo(geoPoint);
 
           setHasOptionsMenu(true);
-          Toast.makeText(context, "Icon seletion and location are random!", Toast.LENGTH_LONG).show();;
+          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();
      }
 
 	// ===========================================================
@@ -147,6 +139,8 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
           menu.add(0, MENU_ZOOMIN_ID, Menu.NONE, "ZoomIn");
           menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+          menu.add(0, MENU_ZOOMOUT_ID, Menu.NONE, "ZoomOut");
+          menu.add(0, MENU_ADDICONS_ID, Menu.NONE, "AddIcons");
 
           super.onCreateOptionsMenu(menu, inflater);
      }
@@ -171,11 +165,35 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
                case MENU_ZOOMOUT_ID:
                     mMapView.getController().zoomOut();
                     return true;
+               case MENU_ADDICONS_ID:
+                    addIcons(500);
+                    return true;
           }
           return false;
      }
 
-	// ===========================================================
+     private void addIcons(int count) {
+           /* Create a static ItemizedOverlay showing some Markers on various cities. */
+          final ArrayList<OverlayItem> items = new ArrayList<>();
+          for (int i = 0; i < count; i++) {
+               double random_lon = (Math.random() * 360) - 180;
+               double random_lat = (Math.random() * 180) - 90;
+               overlayItem = new OverlayItem("A random point", "SampleDescription", new GeoPoint(random_lat,
+                       random_lon));
+               int index = (int) (Math.random() * (icons.size()));
+               if (index == icons.size()) {
+                    index--;
+               }
+               overlayItem.setMarker(icons.get(index));
+               items.add(overlayItem);
+
+          }
+          mMyLocationOverlay.addItems(items);
+          Toast.makeText(getActivity(), count + " icons added! Current size: " + mMyLocationOverlay.size(), Toast.LENGTH_LONG).show();
+
+     }
+
+     // ===========================================================
      // Methods
      // ===========================================================
 	// ===========================================================

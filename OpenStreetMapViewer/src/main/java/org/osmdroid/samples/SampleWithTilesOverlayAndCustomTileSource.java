@@ -40,6 +40,7 @@ public class SampleWithTilesOverlayAndCustomTileSource extends Activity {
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		final MapView osmv = new MapView(this);
+		osmv.setTilesScaledToDpi(true);
 		rl.addView(osmv, new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.FILL_PARENT));
 		osmv.setBuiltInZoomControls(true);

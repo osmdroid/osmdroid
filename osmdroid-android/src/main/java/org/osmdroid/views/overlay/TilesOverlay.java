@@ -70,14 +70,17 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private int mOvershootTileCache = 0;
 
 	//Issue 133 night mode
-	private boolean isInvert=false;
+	private ColorFilter currentColorFilter=null;
 	final static float[] negate ={
 		-1.0f,0,0,0,255,        //red
 		0,-1.0f,0,0,255,//green
 		0,0,-1.0f,0,255,//blue
 		0,0,0,1.0f,0 //alpha
 	};
-	final static ColorFilter neg = new ColorMatrixColorFilter(negate);
+	/**
+	 * provides a night mode like affect by inverting the map tile colors
+	 */
+	public final static ColorFilter INVERT_COLORS = new ColorMatrixColorFilter(negate);
 
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
@@ -130,7 +133,6 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		if (DEBUGMODE) {
                Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");
 		}
-		isInvert=osmv.getController().isInvertedTiles();
 
 		if (shadow) {
 			return;
@@ -225,8 +227,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 	protected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,
 			final Rect tileRect) {
-		if (isInvert)
-			currentMapTile.setColorFilter(neg);
+		currentMapTile.setColorFilter(currentColorFilter);
 		mProjection.toPixelsFromMercator(tileRect.left, tileRect.top, mTilePointMercator);
 		tileRect.offsetTo(mTilePointMercator.x, mTilePointMercator.y);
 		currentMapTile.setBounds(tileRect);
@@ -393,5 +394,18 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	 */
 	public int getOvershootTileCache() {
 		return mOvershootTileCache;
+	}
+
+
+	/**
+	 * sets the current color filter, which is applied to tiles before being drawn to the screen.
+	 * Use this to enable night mode or any other tile rendering adjustment as necessary. use null to clear.
+	 * INVERT_COLORS provides color inversion for convenience and to support the previous night mode
+	 * @param filter
+	 * @since 5.1
+     */
+	public void setColorFilter(ColorFilter filter) {
+
+		this.currentColorFilter=filter;
 	}
 }

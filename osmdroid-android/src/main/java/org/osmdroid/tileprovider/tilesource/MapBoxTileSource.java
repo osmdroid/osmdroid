@@ -1,16 +1,15 @@
-/**
- * @author Brad Leege <bleege@gmail.com>
- * Created on 10/15/13 at 7:57 PM
- */
-
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.ManifestUtil;
 
 import android.content.Context;
 
+/**
+ * MapBox tile source, revised in 5.1 to not use static map ids or tokens
+ * @author Brad Leege <bleege@gmail.com>
+ * Created on 10/15/13 at 7:57 PM
+ */
 public class MapBoxTileSource extends OnlineTileSourceBase
 {
     /** the meta data key in the manifest */
@@ -23,16 +22,41 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 	private static final String[] mapBoxBaseUrl = new String[]{
 			"http://api.tiles.mapbox.com/v4/"};
 
-	private static String mapBoxMapId = "";
-     private static String accessToken;
+	private String mapBoxMapId = "";
+     private String accessToken;
 
 	/**
-     * TileSource with configuration defaults set.
-     * <br> <b>Warning, the static method {@link #retrieveMapBoxMapId(android.content.Context)} should have been invoked once before constructor invocation</b>
+     * Creates a MapBox TileSource. You won't be able to use it until you set the access token and map id.
+     * 
      */
     public MapBoxTileSource()
     {
 		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+    }
+    
+    /**
+     * creates a new mapbox tile source, loading the access token and mapid from the manifest
+     * @param ctx
+     * @since 5.1
+     */
+    public MapBoxTileSource(final Context ctx)
+    {
+		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+          retrieveAccessToken(ctx);
+          retrieveMapBoxMapId(ctx);
+    }
+    
+    /**
+     * creates a new mapbox tile source, using the specified access token and mapbox id
+     * @param mapboxid
+     * @param accesstoken 
+     * @since 5.1
+     */
+    public MapBoxTileSource(final String mapboxid, final String accesstoken)
+    {
+		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+          this.accessToken=accesstoken;
+          this.mapBoxMapId=mapboxid;
     }
 
     /**
@@ -66,30 +90,28 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     }
 
     /**
-     * Read the API key from the manifest.<br>
-     * This method should be invoked before class instantiation.<br>
+     * Reads the mapbox map id from the manifest.<br>
      */
-    public static void retrieveMapBoxMapId(final Context aContext)
+    public final void retrieveMapBoxMapId(final Context aContext)
     {
         // Retrieve the MapId from the Manifest
         mapBoxMapId = ManifestUtil.retrieveKey(aContext, MAPBOX_MAPID);
     }
     
     /**
-     * Read the API key from the manifest.<br>
-     * This method should be invoked before class instantiation.<br>
+     * Reads the access token from the manifest.
      */
-    public static void retrieveAccessToken(final Context aContext)
+    public final void retrieveAccessToken(final Context aContext)
     {
         // Retrieve the MapId from the Manifest
         accessToken = ManifestUtil.retrieveKey(aContext, ACCESS_TOKEN);
     }
 
-    public static void setMapboxMapid(String key){
+    public void setMapboxMapid(String key){
         mapBoxMapId=key;
     }
 
-    public static String getMapBoxMapId()
+    public String getMapBoxMapId()
     {
         return mapBoxMapId;
     }
@@ -111,6 +133,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 
         return res;
     }
+    
     public String getAccessToken() {
         return accessToken;
     }
