@@ -32,6 +32,8 @@ android:
 
 sudo: required
 
+# fun fact, travis doesn't really support multiple AVDs running currently for a single build (tried it, build timed out constantly while starting up the AVDs)
+# thus we're using a build matrix (which makes more sense anyhow)
 env:
     matrix:
     - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
@@ -40,7 +42,7 @@ env:
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
     # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    # ANDROID_TARGET=android-23  ANDROID_ABI=x86
+    # ANDROID_TARGET=android-23  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
   # create and start emulators
@@ -67,10 +69,13 @@ before_script:
 #build
 script:
   #build using maven with integration tests
+  #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
+  #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
   - mvn clean install -Pcore -fn
-  - mvn clean install -Pcore -fn
-  - mvn clean install -Pcore
+  - mvn install -Pcore -fn
+  - mvn install -Pcore
   - mvn android:undeploy
   #build using gradle
   - gradle clean build connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
+  # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
