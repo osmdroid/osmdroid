@@ -396,8 +396,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		}
 	}
 
-	@TargetApi(11)
-	private class ZoomAnimatorListener
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private static class ZoomAnimatorListener
 		implements Animator.AnimatorListener, AnimatorUpdateListener {
 
 		private MapController mMapController;
@@ -433,7 +433,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		}
 	}
 
-	protected class ZoomAnimationListener implements AnimationListener {
+	protected static class ZoomAnimationListener implements AnimationListener {
 
 		private MapController mMapController;
 

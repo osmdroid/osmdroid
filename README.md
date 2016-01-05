@@ -1,14 +1,17 @@
+
+[![Build Status](https://travis-ci.org/osmdroid/osmdroid.svg)](https://travis-ci.org/osmdroid/osmdroid)
+
 # osmdroid
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
 **osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).**
 
-# Current Release
+## Current Release
 
 5.0.1 November 12th, 2015
 
-# Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
+## Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
 
 ## Prerequisites
 
@@ -31,7 +34,6 @@ dependencies {
   <type>aar</type>
 </dependency>
 ```
-
 
 You can include osmdroid using Maven or by adding an AAR file to your project. See [HowToIncludeInYourProject](https://github.com/osmdroid/osmdroid/wiki).
 
