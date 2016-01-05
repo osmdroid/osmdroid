@@ -39,6 +39,24 @@ cache:
 
 sudo: required
 
+env:
+    matrix:
+    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
+    - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-22  ANDROID_ABI=x86
+    - ANDROID_TARGET=android-23  ANDROID_ABI=x86
+
+before_install:
+ # make an enulator instance API123
+  - android list targets
+  - echo no | android create avd --force -n test23 -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
 # mvn sdk deploy
 before_script:
   # android list
@@ -50,48 +68,14 @@ before_script:
   - cd ..
   - cd ..
 
-  # make an enulator instance API123
-  - android list targets
-  - echo no | android create avd --force -n test23 -t android-23 --abi x86 --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance APII22
-  - echo no | android create avd --force -n test22 -t android-22 --abi x86 --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API21
-  - echo no | android create avd --force -n test21 -t android-21 --abi armeabi-v7a --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API19
-  - android list targets
-  - echo no | android create avd --force -n test19 -t android-19 --abi armeabi-v7a --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API15
-  - android list targets
-  - echo no | android create avd --force -n test15 -t android-15 --abi armeabi-v7a --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-  # make an enulator instance API10
-  - android list targets
-  - echo no | android create avd --force -n test10 -t android-10 --abi armeabi --sdcard 100M
-  - emulator -avd test10 -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
 
   # make an enulator instance API8
   # COMMENTED OUT API8 CURRENTLY FAILS!!! AO
   #- android list targets
   #- echo no | android create avd --force -n test8 -t android-8 --abi armeabi --sdcard 100M
   #- emulator -avd test10 -no-skin -no-audio -no-window &
-  #- android-wait-for-emulator
-  #- adb shell input keyevent 82 &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
 #build
 script:
