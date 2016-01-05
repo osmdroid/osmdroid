@@ -59,7 +59,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      private SharedPreferences mPrefs;
      private MapView mMapView;
      private MyLocationNewOverlay mLocationOverlay;
-     private CompassOverlay mCompassOverlay;
+     private CompassOverlay mCompassOverlay=null;
      private MinimapOverlay mMinimapOverlay;
      private ScaleBarOverlay mScaleBarOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
@@ -78,7 +78,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
           mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
           mMapView = new MapView(inflater.getContext(), mResourceProxy);
-        // Call this method to turn off hardware acceleration at the View level.
+        // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
           return mMapView;
      }
@@ -101,8 +101,6 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-          this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
-               mMapView);
           this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
                mMapView);
 
@@ -120,7 +118,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);
           mMapView.getOverlays().add(this.mLocationOverlay);
-          mMapView.getOverlays().add(this.mCompassOverlay);
+
           mMapView.getOverlays().add(this.mMinimapOverlay);
           mMapView.getOverlays().add(this.mScaleBarOverlay);
           mMapView.getOverlays().add(this.mRotationGestureOverlay);
@@ -129,7 +127,15 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView.scrollTo(mPrefs.getInt(PREFS_SCROLL_X, 0), mPrefs.getInt(PREFS_SCROLL_Y, 0));
 
           mLocationOverlay.enableMyLocation();
-          mCompassOverlay.enableCompass();
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+          if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
+              mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context),
+                      mMapView);
+              mCompassOverlay.enableCompass();
+              mMapView.getOverlays().add(this.mCompassOverlay);
+          }
 
           setHasOptionsMenu(true);
      }
@@ -142,11 +148,17 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           edit.putInt(PREFS_SCROLL_Y, mMapView.getScrollY());
           edit.putInt(PREFS_ZOOM_LEVEL, mMapView.getZoomLevel());
           edit.putBoolean(PREFS_SHOW_LOCATION, mLocationOverlay.isMyLocationEnabled());
-          edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+          if (mCompassOverlay!=null) {
+              edit.putBoolean(PREFS_SHOW_COMPASS, mCompassOverlay.isCompassEnabled());
+              this.mCompassOverlay.disableCompass();
+          }
           edit.commit();
 
           this.mLocationOverlay.disableMyLocation();
-          this.mCompassOverlay.disableCompass();
+
 
           super.onPause();
      }
@@ -165,8 +177,12 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           if (mPrefs.getBoolean(PREFS_SHOW_LOCATION, false)) {
                this.mLocationOverlay.enableMyLocation();
           }
+
+         //sorry for the spaghetti code this is to filter out the compass on api 8
+         //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
           if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
-               this.mCompassOverlay.enableCompass();
+              if (mCompassOverlay!=null)
+                 this.mCompassOverlay.enableCompass();
           }
      }
 
