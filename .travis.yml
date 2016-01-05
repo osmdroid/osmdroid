@@ -52,7 +52,7 @@ env:
 before_install:
  # make an enulator instance API123
   - android list targets
-  - echo no | android create avd --force -n test23 -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
   - emulator -avd test10 -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
