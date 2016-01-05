@@ -1,0 +1,100 @@
+language: android
+jdk: oraclejdk7
+android:
+  components:
+    # The BuildTools version used by your project
+    - tools
+    - build-tools-23.0.2 # 23.0.2 was not available on build
+    - build-tools-23.0.1    
+    # The SDK version used to compile your project
+    - android-24
+    - android-23
+    - android-22
+    - android-21
+    - android-19
+    - android-18
+    - android-15
+    - android-10
+    - android-8 
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - addon-google_apis-google-19
+    - sys-img-armeabi-android-8
+    - addon-google_apis-google-23
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+sudo: required
+
+# mvn sdk deploy
+before_script:
+  # android list
+  - mkdir temp
+  - cd temp
+  - git clone https://github.com/simpligility/maven-android-sdk-deployer
+  - cd maven-android-sdk-deployer
+  - mvn install -fn
+  - cd ..
+  - cd ..
+
+  # make an enulator instance API123
+  - android list targets
+  - echo no | android create avd --force -n test23 -t android-23 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance APII22
+  - android list targets
+  - echo no | android create avd --force -n test22 -t android-22 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API21
+  - android list targets
+  - echo no | android create avd --force -n test21 -t android-21 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API19
+  - android list targets
+  - echo no | android create avd --force -n test19 -t android-19 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API15
+  - android list targets
+  - echo no | android create avd --force -n test15 -t android-15 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+  # make an enulator instance API10
+  - android list targets
+  - echo no | android create avd --force -n test10 -t android-10 --abi armeabi --sdcard 100M
+  - emulator -avd test10 -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+  # make an enulator instance API8
+  # COMMENTED OUT API8 CURRENTLY FAILS!!! AO
+  #- android list targets
+  #- echo no | android create avd --force -n test8 -t android-8 --abi armeabi --sdcard 100M
+  #- emulator -avd test10 -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
+
+#build
+script:
+  #build using maven with integration tests
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore -fn
+  - mvn clean install -Pcore
+  #build using gradle
+  - gradle clean build connectedCheck
+  # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
