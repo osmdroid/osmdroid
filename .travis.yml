@@ -83,6 +83,7 @@ script:
   - mvn clean install -Pcore -fn
   - mvn clean install -Pcore -fn
   - mvn clean install -Pcore
+  - mvn android:undeploy
   #build using gradle
-  - gradle uninstallDebug clean build connectedCheck
+  - gradle clean build connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
