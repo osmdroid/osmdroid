@@ -22,6 +22,12 @@ android:
     - extra-android-m2repository
     - addon-google_apis-google-19
     - sys-img-armeabi-android-8
+    - sys-img-armeabi-android-10
+    - sys-img-armeabi-android-15
+    - sys-img-armeabi-android-19
+    - sys-img-armeabi-android-21
+    - sys-img-x86-android-22
+    - sys-img-x86-android-23
     - addon-google_apis-google-23
 
 before_cache:
