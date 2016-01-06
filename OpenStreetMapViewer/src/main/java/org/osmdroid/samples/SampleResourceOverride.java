@@ -43,7 +43,7 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 	// Fields
 	// ===========================================================
 
-	private MapView mOsmv;
+	private MapView mMapView;
 	private IMapController mOsmvController;
      private MyLocationNewOverlay mLocationOverlay;
 	//private SimpleLocationOverlay mMyLocationOverlay;
@@ -65,16 +65,16 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 
 		final RelativeLayout rl = new RelativeLayout(this);
 
-		this.mOsmv = new MapView(this,mResourceProxy);
-		this.mOsmv.setTilesScaledToDpi(true);
-		this.mOsmvController = this.mOsmv.getController();
-		rl.addView(this.mOsmv, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
+		this.mMapView = new MapView(this,mResourceProxy);
+		this.mMapView.setTilesScaledToDpi(true);
+		this.mOsmvController = this.mMapView.getController();
+		rl.addView(this.mMapView, new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT,
 				RelativeLayout.LayoutParams.FILL_PARENT));
 
 		/* Scale Bar Overlay */
 		{
-			this.mScaleBarOverlay = new ScaleBarOverlay(this, mResourceProxy);
-			this.mOsmv.getOverlays().add(mScaleBarOverlay);
+			this.mScaleBarOverlay = new ScaleBarOverlay(mMapView, mResourceProxy);
+			this.mMapView.getOverlays().add(mScaleBarOverlay);
 			// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to
 			// half screen width, minus half an inch.
 			this.mScaleBarOverlay.setScaleBarOffset(
@@ -83,10 +83,10 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		}
 
 		
-		this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mOsmv, mResourceProxy);
+		this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mMapView, mResourceProxy);
           this.mLocationOverlay.enableMyLocation();
-          this.mOsmv.getOverlays().add(mLocationOverlay);
-          this.mOsmv.setMultiTouchControls(true);
+          this.mMapView.getOverlays().add(mLocationOverlay);
+          this.mMapView.setMultiTouchControls(true);
 		
 		/* ZoomControls */
 		{
@@ -130,8 +130,8 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 
 		/* MiniMap */
 		{
-			mMiniMapOverlay = new MinimapOverlay(this, mOsmv.getTileRequestCompleteHandler());
-			this.mOsmv.getOverlays().add(mMiniMapOverlay);
+			mMiniMapOverlay = new MinimapOverlay(this, mMapView.getTileRequestCompleteHandler());
+			this.mMapView.getOverlays().add(mMiniMapOverlay);
 		}
 
 		// PathOverlay pathOverlay = new PathOverlay(Color.RED, this);
@@ -140,12 +140,12 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 		// pathOverlay.addPoint(new GeoPoint(34.052186, -118.243932));
 		// pathOverlay.getPaint().setStrokeWidth(50.0f);
 		// pathOverlay.setAlpha(100);
-		// this.mOsmv.getOverlays().add(pathOverlay);
+		// this.mMapView.getOverlays().add(pathOverlay);
 
 		this.setContentView(rl);
 
 		// Default location and zoom level
-		IMapController mapController = mOsmv.getController();
+		IMapController mapController = mMapView.getController();
 		mapController.setZoom(3);
 		GeoPoint startPoint = new GeoPoint(48.8583, 2,2944);
 		mapController.setCenter(startPoint);
@@ -193,16 +193,16 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 			return true;
 
 		case MENU_TILE_SOURCE_ID:
-			this.mOsmv.invalidate();
+			this.mMapView.invalidate();
 			return true;
 
 		case MENU_MINIMAP_ID:
 			mMiniMapOverlay.setEnabled(!mMiniMapOverlay.isEnabled());
-			this.mOsmv.invalidate();
+			this.mMapView.invalidate();
 			return true;
 
 		case MENU_ANIMATION_ID:
-			// this.mOsmv.getController().animateTo(52370816, 9735936,
+			// this.mMapView.getController().animateTo(52370816, 9735936,
 			// MapControllerOld.AnimationType.MIDDLEPEAKSPEED,
 			// MapControllerOld.ANIMATION_SMOOTHNESS_HIGH,
 			// MapControllerOld.ANIMATION_DURATION_DEFAULT); // Hannover
@@ -210,14 +210,14 @@ public class SampleResourceOverride extends Activity implements OpenStreetMapCon
 			// new Handler().postDelayed(new Runnable(){
 			// @Override
 			// public void run() {
-			// SampleExtensive.this.mOsmv.getController().stopAnimation(false);
+			// SampleExtensive.this.mMapView.getController().stopAnimation(false);
 			// }
 			// }, 500);
 			return true;
 
 		default:
 			ITileSource tileSource = TileSourceFactory.getTileSource(item.getItemId() - 1000);
-			mOsmv.setTileSource(tileSource);
+			mMapView.setTileSource(tileSource);
 			mMiniMapOverlay.setTileSource(tileSource);
 		}
 		return false;
