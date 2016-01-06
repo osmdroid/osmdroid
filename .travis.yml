@@ -5,7 +5,7 @@ android:
     # The BuildTools version used by your project
     - tools
     - build-tools-23.0.2 # 23.0.2 was not available on build
-    - build-tools-23.0.1    
+    - build-tools-23.0.1
     # The SDK version used to compile your project
     - android-24
     - android-23
@@ -15,7 +15,7 @@ android:
     - android-18
     - android-15
     - android-10
-    - android-8 
+    - android-8
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
@@ -32,6 +32,8 @@ android:
 
 sudo: required
 
+# fun fact, travis doesn't really support multiple AVDs running currently for a single build (tried it, build timed out constantly while starting up the AVDs)
+# thus we're using a build matrix (which makes more sense anyhow)
 env:
     matrix:
     - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
@@ -40,10 +42,10 @@ env:
     - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
     # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    # ANDROID_TARGET=android-23  ANDROID_ABI=x86
+    # ANDROID_TARGET=android-23  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
- # make an enulator instance
+  # create and start emulators
   - android list targets
   - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
   - emulator -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
@@ -67,10 +69,13 @@ before_script:
 #build
 script:
   #build using maven with integration tests
+  #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
+  #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
   - mvn clean install -Pcore -fn
-  - mvn clean install -Pcore -fn
-  - mvn clean install -Pcore
+  - mvn install -Pcore -fn
+  - mvn install -Pcore
   - mvn android:undeploy
   #build using gradle
   - gradle clean build connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
+  # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.

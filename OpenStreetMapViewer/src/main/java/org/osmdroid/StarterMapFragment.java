@@ -108,7 +108,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMinimapOverlay.setWidth(dm.widthPixels / 5);
           mMinimapOverlay.setHeight(dm.heightPixels / 5);
 
-          mScaleBarOverlay = new ScaleBarOverlay(context);
+          mScaleBarOverlay = new ScaleBarOverlay(mMapView);
           mScaleBarOverlay.setCentred(true);
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
