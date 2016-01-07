@@ -1,4 +1,59 @@
 apply plugin: 'java'
-sourceSets {
-    main.java.srcDirs = ['src']
+apply plugin: 'distribution'
+apply plugin: 'application'
+
+mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
+
+dependencies {
+    compile 'org.apache.httpcomponents:httpmime:4.0.1'
+    compile 'org.apache.james:apache-mime4j:0.6'
+
+
+    testCompile 'junit:junit:4.11'
 }
+
+//copy the instrumentation tests from the maven osmdroid-android-it src folder
+task preBuildTask1(type: Copy) {
+    println("copying StreamUtils sources");
+    description 'copy java classes from osmdroid-android.'
+    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java")
+    into "src/main/java/org/osmdroid/tileprovider/util/"
+
+}
+
+task preBuildTask2(type: Copy) {
+    println("copying GEMF sources");
+    description 'copy java classes from osmdroid-android.'
+    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
+    into "src/main/java/org/osmdroid/tileprovider/util/"
+
+}
+
+
+task preBuildTask3(type: Copy) {
+    println("copying api sources");
+    description 'copy java classes from osmdroid-android.'
+    from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/api/") {
+        exclude 'IMyLocationOverlay.java'
+        exclude 'Polyline.java'
+        exclude 'Marker.java'
+        exclude 'IProjection.java'
+    }
+    into "src/main/java/org/osmdroid/api/"
+
+}
+
+
+task preBuildTask4(type: Delete) {
+    println("removing android specific api sources");
+    delete "${projectDir}/src/main/java/org/osmdroid/api/"
+    delete "${projectDir}/src/main/java/org/osmdroid/api/IMyLocationOverlay.java"
+    delete "${projectDir}/src/main/java/org/osmdroid/api/Polyline.java"
+    delete "${projectDir}/src/main/java/org/osmdroid/api/Marker.java"
+    delete "${projectDir}/src/main/java/org/osmdroid/api/IProjection.java"
+}
+
+compileJava.dependsOn preBuildTask1
+compileJava.dependsOn preBuildTask2
+compileJava.dependsOn preBuildTask3
+compileJava.dependsOn preBuildTask4
