@@ -74,6 +74,8 @@ public class HttpConnection {
 	 */
 	public InputStream getStream() {
         try {
+            if (response == null)
+                return null;
             stream = response.body().byteStream();
             return stream;
         } catch (IOException e) {
@@ -87,6 +89,8 @@ public class HttpConnection {
 	 */
 	public String getContentAsString(){
         try {
+            if (response == null)
+                return null;
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
