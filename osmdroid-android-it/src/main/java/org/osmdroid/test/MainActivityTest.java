@@ -7,18 +7,18 @@
  */
 package org.osmdroid.test;
 
-import org.osmdroid.StarterMapActivity;
+import org.osmdroid.MainActivity;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-public class MapActivityTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
+public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
-    public MapActivityTest() {
-        super("org.osmdroid", StarterMapActivity.class);
+    public MainActivityTest() {
+        super("org.osmdroid", MainActivity.class);
     }
 
     public void testActivity() {
-        StarterMapActivity activity = getActivity();
+        MainActivity activity = getActivity();
         assertNotNull(activity);
     }
 }
