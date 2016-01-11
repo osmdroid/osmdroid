@@ -26,8 +26,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
     public void testActivity() {
         ExtraSamplesActivity activity = getActivity();
         assertNotNull(activity);
-/*
-TEMP FIX, commenting out loading the fragments to resolve CI issues with travis
+
         FragmentManager fm = activity.getSupportFragmentManager();
         Fragment frag = (fm.findFragmentByTag(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG));
         assertNotNull(frag);
@@ -47,7 +46,6 @@ TEMP FIX, commenting out loading the fragments to resolve CI issues with travis
                 e.printStackTrace();
             }
         }
-        */
     }
 }
 
