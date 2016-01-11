@@ -37,7 +37,6 @@
         android:required="false" />
 
     <application
-        android:name="Application"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:icon="@drawable/icon"
