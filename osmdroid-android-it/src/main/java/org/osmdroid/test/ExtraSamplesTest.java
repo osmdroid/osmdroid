@@ -13,6 +13,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.test.ActivityInstrumentationTestCase2;
 
+import junit.framework.Assert;
+
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.samplefragments.FragmentSamples;
 import org.osmdroid.samplefragments.SampleFactory;
@@ -26,7 +28,6 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
     public void testActivity() {
         ExtraSamplesActivity activity = getActivity();
         assertNotNull(activity);
-
         FragmentManager fm = activity.getSupportFragmentManager();
         Fragment frag = (fm.findFragmentByTag(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG));
         assertNotNull(frag);
@@ -36,14 +37,17 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
 
         SampleFactory sampleFactory = SampleFactory.getInstance();
         for (int i = 0; i < sampleFactory.count(); i++) {
-
-            fm.beginTransaction().hide(samples).add(android.R.id.content, sampleFactory.getSample(i), "SampleFragment")
-                    .addToBackStack(null).commit();
-            //this sleep is here to give the fragment enough time to start up and doing something
             try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                fm.beginTransaction().hide(samples).add(android.R.id.content, sampleFactory.getSample(i), "SampleFragment")
+                        .addToBackStack(null).commit();
+                //this sleep is here to give the fragment enough time to start up and do something
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } catch (java.lang.OutOfMemoryError oom) {
+                Assert.fail("OOM error! " + sampleFactory.getSample(i).getSampleTitle() + sampleFactory.getSample(i).getClass().getCanonicalName());
             }
         }
     }
