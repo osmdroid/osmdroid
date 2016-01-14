@@ -25,6 +25,7 @@ import org.osmdroid.api.IMapView;
  */
 public class DatabaseFileArchive implements IArchiveFile {
 
+	public static final String TABLE="tiles";
 	private SQLiteDatabase mDatabase;
 
 	public DatabaseFileArchive(){}
@@ -43,7 +44,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 		Set<String> ret = new HashSet<String>();
 		try {
 			final String[] tile = {"provider"};
-			final Cursor cur = mDatabase.rawQuery("SELECT distinct provider FROM tiles", null);
+			final Cursor cur = mDatabase.rawQuery("SELECT distinct provider FROM " + TABLE, null);
 			while(cur.moveToNext()) {
 				ret.add(cur.getString(0));
 			}
@@ -59,28 +60,45 @@ public class DatabaseFileArchive implements IArchiveFile {
 		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
 	}
 
-	@Override
-	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
+	public byte[] getImage(final ITileSource pTileSource, final MapTile pTile) {
+
 		try {
-			InputStream ret = null;
+			byte[] bits=null;
 			final String[] tile = {"tile"};
 			final long x = (long) pTile.getX();
 			final long y = (long) pTile.getY();
 			final long z = (long) pTile.getZoomLevel();
 			final long index = ((z << z) + x << z) + y;
-			final Cursor cur = mDatabase.query("tiles", tile, "key = " + index + " and provider = '" + pTileSource.name() + "'", null, null, null, null);
+			final Cursor cur = mDatabase.query(TABLE, tile, "key = " + index + " and provider = '" + pTileSource.name() + "'", null, null, null, null);
+
 			if(cur.getCount() != 0) {
 				cur.moveToFirst();
-				ret = new ByteArrayInputStream(cur.getBlob(0));
+				bits = (cur.getBlob(0));
 			}
 			cur.close();
+			if(bits != null) {
+				return bits;
+			}
+		} catch(final Throwable e) {
+			Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
+		}
+
+		return null;
+	}
+
+	@Override
+	public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
+		try {
+			InputStream ret = null;
+			byte[] bits=getImage(pTileSource, pTile);
+			if (bits!=null)
+				ret = new ByteArrayInputStream(bits);
 			if(ret != null) {
 				return ret;
 			}
 		} catch(final Throwable e) {
 			Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
 		}
-
 		return null;
 	}
 
