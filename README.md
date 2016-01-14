@@ -7,18 +7,11 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 
 **osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).**
 
-## Current Release
+Current Release: **5.0.1 November 12th, 2015**
 
-5.0.1 November 12th, 2015
+Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
-## Read the [Wiki](https://github.com/osmdroid/osmdroid/wiki) for additional examples
-
-## Prerequisites
-
-Before you add osmdroid to your project make sure you check the [Prerequisites](https://github.com/osmdroid/osmdroid/wiki/Prerequisites) page.
-
-## I want to use osmdroid in my project
-
+**Gradle dependency**
 ```groovy
 dependencies {
     compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
@@ -26,6 +19,7 @@ dependencies {
 }
 ```
 
+**Maven dependency**
 ```xml
 <dependency>
   <groupId>org.osmdroid</groupId>
@@ -35,40 +29,27 @@ dependencies {
 </dependency>
 ```
 
-You can include osmdroid using Maven or by adding an AAR file to your project. See [HowToIncludeInYourProject](https://github.com/osmdroid/osmdroid/wiki).
+You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [include osmdroid as a JAR or AAR](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/).
 
-You may find it useful to read the [Javadoc](http://javadoc.osmdroid.org/).
+## I have a question or want to report a bug
 
-## I want to compile the source
+If you have a question, please view the [osmdroid FAQ](https://github.com/osmdroid/osmdroid/wiki/FAQ).  
+You can also view the [Stack Overflow osmdroid tag](http://stackoverflow.com/questions/tagged/osmdroid) and [osmdroid Google Group](https://groups.google.com/forum/#!forum/osmdroid) where you can get feedback from a large pool of osmdroid users.
 
-The preferred method is by using Maven. See [HowToMaven](https://github.com/osmdroid/osmdroid/wiki/How-to-build-OsmDroid-from-source).
+If you still have an issue, please check the [Changelog](https://github.com/osmdroid/osmdroid/wiki/Changelog) page to see if this issue is fixed in a newer or upcoming version of osmdroid.
 
-## I have a question
-
-See if it's already been answered in the
-[Discussion Group](http://groups.google.com/group/osmdroid).
-If not, please ask there.
-
-## I want to report a bug
-
-First check the [FAQ](https://github.com/osmdroid/osmdroid/wiki/FAQ) page for answers.
-
-Then check the [Changelog](https://github.com/osmdroid/osmdroid/wiki/Changelog) page to see if this issue is fixed in a newer or upcoming version of osmdroid.
-
-If think you have a legitimate bug to report then go to the [Issues](https://github.com/osmdroid/osmdroid/issues?state=open) page. If your issue already exists then contribute any additional information you may have that will help us track down the source of the issue. If your issue does not exist then create a new issue report. Include what version of osmdroid you are using, what version of Android you are using, a detailed description of the problem and any relevant code. It is particularly helpful if you can reproduce the problem using our [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer) sample project as your starting point.
-
-If you have a question on _how_ to do something then your question is better suited for a public forum such as [Stack Overflow](http://stackoverflow.com/questions/tagged/osmdroid) or the osmdroid [Google Groups](https://groups.google.com/forum/#!forum/osmdroid) page where you can get feedback from a large pool of osmdroid users.
+If think you have a legitimate bug to report then go to the [Issues](https://github.com/osmdroid/osmdroid/issues?state=open) page to see if your issue has been reported. If your issue already exists then please contribute information that will help us track down the source of the issue. If your issue does not exist then create a new issue report. When creating an issue, please include the version of osmdroid, the Android platform target and test device you are using, and a detailed description of the problem with relevant code. It is particularly helpful if you can reproduce the problem using our [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer) sample project as your starting point.
 
 ## I want to contribute
 
 Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer), or wiki content.
 If you have an enhancement to contribute please add a new issue.
 Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
-Please take a look at the [DeveloperGuidelines](https://github.com/osmdroid/osmdroid/wiki/Developer-Guidelines) page for code contributions before submitting code.
+Please take a look at the [Developer Guidelines](https://github.com/osmdroid/osmdroid/wiki/Developer-Guidelines) page for code contributions before submitting code.
 
 ## I want more!
 
-Maybe take a look at the fine [osmbonuspack project](https://github.com/MKergall/osmbonuspack) that acts as a companion to osmdroid and adds a lot of useful functionality.
+The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additional functionality for use with osmdroid projects.
 
 ## Screenshots
 
