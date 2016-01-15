@@ -12,7 +12,7 @@
     <packaging>apk</packaging>
 
     <name>OSMdroid 3rd Party examples</name>
-    <description>Example application for 3rd party utlities, including the Google wrapper sample, Bing map sources, etc</description>
+    <description>Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc</description>
 
     <dependencies>
         <!-- Android included libraries -->
@@ -55,6 +55,13 @@
             <plugin>
                 <groupId>com.simpligility.maven.plugins</groupId>
                 <artifactId>android-maven-plugin</artifactId>
+                <configuration>
+                    <sdk>
+                        <platform>21</platform>
+                    </sdk>
+                    <undeployBeforeDeploy>true</undeployBeforeDeploy>
+                </configuration>
+                <extensions>true</extensions>
             </plugin>
         </plugins>
     </build>
