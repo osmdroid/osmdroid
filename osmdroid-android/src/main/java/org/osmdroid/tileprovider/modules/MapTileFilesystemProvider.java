@@ -77,8 +77,6 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 		setTileSource(pTileSource);
 
 		mMaximumCachedFileAge = pMaximumCachedFileAge;
-		File db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
-		databaseFileArchive = DatabaseFileArchive.getDatabaseFileArchive(db_file);
 	}
 	// ===========================================================
 	// Getter & Setter
@@ -150,21 +148,32 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				return null;
 			}
 
-			byte[] bits =databaseFileArchive.getImage(tileSource,tile);
-			if (bits != null) {
-				try {
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-						Log.d(IMapView.LOGTAG, "Use tile from archive: " + tile);
-					}
-					BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-					BitmapPool.getInstance().applyReusableOptions(bitmapOptions);
-					final Bitmap bitmap = BitmapFactory.decodeByteArray(bits,0,bits.length,bitmapOptions);
-					if (bitmap != null) {
-						return new ReusableBitmapDrawable(bitmap);
-					}
-				}
-				catch (Throwable t){
+			// Check the tile source to see if its file is available and if so, then render the
+			// drawable and return the tile
+			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
+			if (file.exists()) {
 
+				try {
+					final Drawable drawable = tileSource.getDrawable(file.getPath());
+
+					// Check to see if file has expired
+					final long now = System.currentTimeMillis();
+					final long lastModified = file.lastModified();
+					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
+
+					if (fileExpired && drawable != null) {
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
+					}
+						ExpirableBitmapDrawable.setDrawableExpired(drawable);
+					}
+
+					return drawable;
+				} catch (final LowMemoryException e) {
+					// low memory so empty the queue
+					Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
+					throw new CantContinueException(e);
 				}
 			}
 

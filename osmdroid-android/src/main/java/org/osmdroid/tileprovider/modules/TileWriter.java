@@ -25,7 +25,6 @@ import org.osmdroid.tileprovider.util.StreamUtils;
  * @author Neil Boyd
  *
  */
-@Deprecated
 public class TileWriter implements IFilesystemCache {
 
 	// ===========================================================

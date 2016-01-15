@@ -38,11 +38,11 @@ public class OpenStreetMapTileProviderConstants {
                    TILE_PATH_BASE.mkdirs();
                    new File(TILE_PATH_BASE + "/.nomedia").createNewFile();
               } catch (Exception ex) {
-                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery.",ex);
+                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery. " + ex.getMessage());
               }
      }
 	public static boolean DEBUGMODE = false;
-	public static final boolean DEBUG_TILE_PROVIDERS = false;
+	public static boolean DEBUG_TILE_PROVIDERS = false;
 	public static String USER_AGENT="User-Agent";
 	private static String USER_AGENT_VALUE="osmdroid";
 
