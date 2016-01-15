@@ -1,0 +1,30 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "org.osmdroid.forge.app"
+        minSdkVersion 12
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.+'
+    compile 'com.android.support:design:23.+'
+    compile project(':osmdroid-android')
+    //compile 'org.mapsforge:mapsforge-map-android-extras:0.6.0'
+    compile 'org.mapsforge:mapsforge-map-android:0.6.0'
+    compile 'org.mapsforge:mapsforge-map:0.6.0'
+    compile project(':osmdroid-mapsforge')
+}
