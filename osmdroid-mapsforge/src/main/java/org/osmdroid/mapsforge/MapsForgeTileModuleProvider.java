@@ -10,6 +10,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import android.graphics.drawable.Drawable;
 
 /**
+ * Adapted from code from here: https://github.com/MKergall/osmbonuspack, which is LGPL
  * http://www.salidasoftware.com/how-to-render-mapsforge-tiles-in-osmdroid/
  * @author Salida Software
  * Adapted from code found here : http://www.sieswerda.net/2012/08/15/upping-the-developer-friendliness/
@@ -26,7 +27,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
      */
     public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource) {
 
-        super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+        super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE*3);
 
         this.tileSource = tileSource;
 

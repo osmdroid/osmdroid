@@ -20,11 +20,15 @@ android {
 }
 
 dependencies {
+    //Android stuff
     compile 'com.android.support:appcompat-v7:23.+'
     compile 'com.android.support:design:23.+'
-    compile project(':osmdroid-android')
-    //compile 'org.mapsforge:mapsforge-map-android-extras:0.6.0'
+
+    //Mapsforge rendering and database support
     compile 'org.mapsforge:mapsforge-map-android:0.6.0'
     compile 'org.mapsforge:mapsforge-map:0.6.0'
+
+    //osmdroid map and mapsforge adapter
+    compile project(':osmdroid-android')
     compile project(':osmdroid-mapsforge')
 }
