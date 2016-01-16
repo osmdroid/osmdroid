@@ -75,10 +75,10 @@ script:
   - mvn install -fn
   - mvn install 
   - mvn android:undeploy
-  #build using gradle
+  #build using gradle. note, travis has a built in version, but it's not necessarily the version you need
   - gradle -version
   - ./gradlew -version
-  - ./gradlew clean connectedCheck
-  # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
-  # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
+  - ./gradlew --stacktrace clean connectedCheck
+  # fun fact, maven runs android tests concurrently for all connected devices, gradle does not, 1 device at a time
+  # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits., not efficient, but it's what travis supports
   # --stacktrace
