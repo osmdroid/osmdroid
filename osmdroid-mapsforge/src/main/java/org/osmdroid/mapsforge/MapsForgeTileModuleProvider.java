@@ -1,12 +1,20 @@
 package org.osmdroid.mapsforge;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -18,6 +26,7 @@ import android.graphics.drawable.Drawable;
 public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase {
 
     protected MapsForgeTileSource tileSource;
+    protected IFilesystemCache tilewriter;
 
     /**
      * Constructor
@@ -25,11 +34,12 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
      * @param receiverRegistrar
      * @param tileSource
      */
-    public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource) {
+    public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource, IFilesystemCache tilewriter) {
 
-        super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE*3);
+        super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
         this.tileSource = tileSource;
+        this.tilewriter = tilewriter;
 
     }
 
@@ -75,7 +85,15 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
 
         @Override
         public Drawable loadTile(final MapTileRequestState pState) {
-            return tileSource.renderTile(pState.getMapTile());
+            //TODO find a more efficient want to do this, seems overlay complicated
+            Drawable image= tileSource.renderTile(pState.getMapTile());
+            if (image!=null && image instanceof BitmapDrawable) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] bitmapdata = stream.toByteArray();
+                tilewriter.saveFile(tileSource, pState.getMapTile(), new ByteArrayInputStream(bitmapdata));
+            }
+            return image;
         }
     }
 

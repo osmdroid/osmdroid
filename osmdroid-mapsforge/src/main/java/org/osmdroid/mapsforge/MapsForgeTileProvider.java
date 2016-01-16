@@ -4,9 +4,16 @@ package org.osmdroid.mapsforge;
 import java.io.File;
 import java.util.Collections;
 
+import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
+import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
+import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
+import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 /**
  * This lets you hook up multiple MapsForge files, it will render to the screen the first
@@ -19,23 +26,33 @@ import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
  */
 public class MapsForgeTileProvider extends MapTileProviderArray {
 
-    public MapsForgeTileProvider(IRegisterReceiver receiverRegistrar, File[] files) {
+    /**
+     *
+     * @param pRegisterReceiver
+     */
+    public MapsForgeTileProvider(IRegisterReceiver pRegisterReceiver, MapsForgeTileSource pTileSource) {
+        super(pTileSource, pRegisterReceiver);
 
-        super(MapsForgeTileSource.createFromFile(files), receiverRegistrar);
+        final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
+                pRegisterReceiver, pTileSource);
+        mTileProviderList.add(fileSystemProvider);
 
-        //TODO add hooks for setting rendering theme and some of the many other features MapsForge provides
+        final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
+                pRegisterReceiver, pTileSource);
+        mTileProviderList.add(archiveProvider);
+
+        //this is our local sqlite cache
+        IFilesystemCache writer = new SqlTileWriter();
 
         // Create the module provider; this class provides a TileLoader that
         // actually loads the tile from the map file.
-        MapsForgeTileModuleProvider moduleProvider = new MapsForgeTileModuleProvider(receiverRegistrar, (MapsForgeTileSource) getTileSource());
-
-        MapTileModuleProviderBase[] pTileProviderArray = new MapTileModuleProviderBase[] { moduleProvider };
+        MapsForgeTileModuleProvider moduleProvider = new MapsForgeTileModuleProvider(pRegisterReceiver, (MapsForgeTileSource) getTileSource(), writer);
 
         //TODO wire in cache provider to speed up performance
 
         // Add the module provider to the array of providers; mTileProviderList
         // is defined by the superclass.
-        Collections.addAll(mTileProviderList, pTileProviderArray);
+        mTileProviderList.add(moduleProvider);
 
     }
 

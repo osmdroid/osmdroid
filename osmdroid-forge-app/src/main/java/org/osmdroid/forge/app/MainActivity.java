@@ -18,7 +18,9 @@ import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.layer.renderer.MapWorkerPool;
 import org.mapsforge.map.reader.MapFile;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
+import org.osmdroid.mapsforge.MapsForgeTileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -45,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        checkPermissions();
+
+        //TODO marshmellow api23 permissions check for accessing local storage
 
         /**
          * super important to configure some of the mapsforge settings first
@@ -97,8 +104,13 @@ public class MainActivity extends AppCompatActivity {
 
         //note this example does not using caching yet, so each tile is rendered on the fly, every time
         //the user browses to an area. This needs to be updated to support sqlite raster image caches
-        MapsForgeTileProvider forge = new MapsForgeTileProvider(new SimpleRegisterReceiver(this), maps);
+
+
+        MapsForgeTileProvider forge = new MapsForgeTileProvider(
+                new SimpleRegisterReceiver(this),
+                MapsForgeTileSource.createFromFile(maps,null));
         mMap.setTileProvider(forge);
+        mMap.setUseDataConnection(false);
 
         mMap.setMultiTouchControls(true);
         mMap.setBuiltInZoomControls(true);
@@ -109,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        //mMap.getController().setCenter(new GeoPoint(LAT, LON));
-        //mMap.getController().setZoom(16);
-        //mMap.getController().zoomTo(16);
+        mMap.getController().setCenter(new GeoPoint(39d, -76d));
+        mMap.getController().setZoom(13);
+        mMap.getController().zoomTo(13);
     }
 
     /**

@@ -1,30 +1,22 @@
 package org.osmdroid.mapsforge;
 
-import android.app.job.JobParameters;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import org.mapsforge.core.graphics.TileBitmap;
 import org.mapsforge.core.model.Tile;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.graphics.AndroidTileBitmap;
-import org.mapsforge.map.datastore.MapDataStore;
 import org.mapsforge.map.datastore.MultiMapDataStore;
-import org.mapsforge.map.layer.cache.FileSystemTileCache;
 import org.mapsforge.map.layer.cache.InMemoryTileCache;
-import org.mapsforge.map.layer.labels.TileBasedLabelStore;
 import org.mapsforge.map.layer.renderer.DatabaseRenderer;
-import org.mapsforge.map.layer.renderer.MapWorkerPool;
 import org.mapsforge.map.layer.renderer.RendererJob;
 import org.mapsforge.map.model.DisplayModel;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
-import org.mapsforge.map.rendertheme.rule.RenderTheme;
-import org.mapsforge.map.rendertheme.rule.RenderThemeBuilder;
 import org.mapsforge.map.rendertheme.rule.RenderThemeFuture;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
@@ -42,11 +34,13 @@ import java.io.File;
 public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     // Reasonable defaults ..
-    public static final int MIN_ZOOM = 8;
+    public static final int MIN_ZOOM = 10;
     public static final int MAX_ZOOM = 20;
     public static final int TILE_SIZE_PIXELS = 256;
-    public static RenderThemeFuture theme=null;
-
+    private final DisplayModel model = new DisplayModel();
+    private final float scale = DisplayModel.getDefaultUserScaleFactor();
+    private RenderThemeFuture theme = null;
+    private XmlRenderTheme mXmlRenderTheme=null;
     private DatabaseRenderer renderer;
 
     private MultiMapDataStore mapDatabase;
@@ -60,14 +54,14 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param maxZoom
      * @param tileSizePixels
      * @param file
+     * @param xmlRenderTheme the theme to render tiles with
      */
-    protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File[] file) {
+    protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme) {
         super("MapsForgeTiles", minZoom, maxZoom, tileSizePixels, ".png");
 
         mapDatabase = new MultiMapDataStore(MultiMapDataStore.DataPolicy.RETURN_FIRST);
-        for (int i=0; i < file.length; i++)
-            mapDatabase.addMapDataStore(new MapFile(file[i]),false,false);
-
+        for (int i = 0; i < file.length; i++)
+            mapDatabase.addMapDataStore(new MapFile(file[i]), false, false);
 
 
         renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, new InMemoryTileCache(2));
@@ -75,17 +69,16 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         minZoom = renderer.getStartZoomLevel();
         maxZoom = renderer.getZoomLevelMax();
 
-        Log.d("MAPSFORGE", "min=" + minZoom + " max=" + maxZoom + " tilesize=" + tileSizePixels);
+        Log.d(IMapView.LOGTAG, "min=" + minZoom + " max=" + maxZoom + " tilesize=" + tileSizePixels);
 
-        if (theme==null) {
-            theme = new RenderThemeFuture(AndroidGraphicFactory.INSTANCE,
-                    InternalRenderTheme.OSMARENDER, model);
+        if (xmlRenderTheme==null)
+            xmlRenderTheme = InternalRenderTheme.OSMARENDER;
+        //we the passed in theme is different that the existing one, or the theme is currently null, create it
+        if (xmlRenderTheme!= mXmlRenderTheme || theme == null) {
+            theme = new RenderThemeFuture(AndroidGraphicFactory.INSTANCE, xmlRenderTheme, model);
+            //super important!! without the following line, all rendering activities will block until the theme is created.
             new Thread(theme).start();
         }
-        //  For this to work I had to edit org.mapsforge.map.rendertheme.InternalRenderTheme.getRenderThemeAsStream()  to:
-        //  return this.getClass().getResourceAsStream(this.absolutePath + this.file);
-      //  jobTheme = InternalRenderTheme.OSMARENDER;
-
     }
 
     /**
@@ -93,7 +86,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * <p/>
      * Parameters minZoom and maxZoom are obtained from the
      * database. If they cannot be obtained from the DB, the default values as
-     * defined by this class are used.
+     * defined by this class are used, which is zoom = 10-20
      *
      * @param file
      * @return the tile source
@@ -104,16 +97,25 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file);
+        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER);
     }
 
-    final static DisplayModel model=new DisplayModel();
+    public static MapsForgeTileSource createFromFile(File[] file, XmlRenderTheme theme) {
+        //these settings are ignored and are set based on .map file info
+        int minZoomLevel = MIN_ZOOM;
+        int maxZoomLevel = MAX_ZOOM;
+        int tileSizePixels = TILE_SIZE_PIXELS;
 
-    float scale = DisplayModel.getDefaultUserScaleFactor();
+        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, theme);
+    }
+
+
+
+
     //The synchronized here is VERY important.  If missing, the mapDatabase read gets corrupted by multiple threads reading the file at once.
     public synchronized Drawable renderTile(MapTile pTile) {
 
-        Tile tile = new Tile( pTile.getX(),  pTile.getY(), (byte) pTile.getZoomLevel(), 256);
+        Tile tile = new Tile(pTile.getX(), pTile.getY(), (byte) pTile.getZoomLevel(), 256);
         model.setFixedTileSize(256);
 
         //You could try something like this to load a custom theme
@@ -126,13 +128,12 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
         try {
             //Draw the tile
-            RendererJob mapGeneratorJob = new RendererJob(tile, mapDatabase,theme, model,scale,false,false);
-            AndroidTileBitmap bmp= (AndroidTileBitmap)renderer.executeJob(mapGeneratorJob);
-            if (bmp!=null)
+            RendererJob mapGeneratorJob = new RendererJob(tile, mapDatabase, theme, model, scale, false, false);
+            AndroidTileBitmap bmp = (AndroidTileBitmap) renderer.executeJob(mapGeneratorJob);
+            if (bmp != null)
                 return new BitmapDrawable(AndroidGraphicFactory.getBitmap(bmp));
-
         } catch (Exception ex) {
-            Log.d(IMapView.LOGTAG, "###################### Mapsforge tile generation failed",ex);
+            Log.d(IMapView.LOGTAG, "###################### Mapsforge tile generation failed", ex);
         }
         //Make the bad tile easy to spot
         Bitmap bitmap = Bitmap.createBitmap(TILE_SIZE_PIXELS, TILE_SIZE_PIXELS, Bitmap.Config.RGB_565);
