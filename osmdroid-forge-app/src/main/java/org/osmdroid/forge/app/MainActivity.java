@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.layer.renderer.MapWorkerPool;
 import org.mapsforge.map.reader.MapFile;
+import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -50,23 +51,20 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        checkPermissions();
-
-        //TODO marshmellow api23 permissions check for accessing local storage
-
         /**
          * super important to configure some of the mapsforge settings first
          */
         AndroidGraphicFactory.createInstance(this.getApplication());
-        MapFile.wayFilterEnabled = true;
+        /*MapFile.wayFilterEnabled = true;
         MapFile.wayFilterDistance = 20;
         MapWorkerPool.DEBUG_TIMING = true;
         MapWorkerPool.NUMBER_OF_THREADS = MapWorkerPool.DEFAULT_NUMBER_OF_THREADS;
+*/
 
 
+        //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
+        //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
-        OpenStreetMapTileProviderConstants.DEBUGMODE = true;
         // Request permissions to support Android Marshmallow and above devices
         if (Build.VERSION.SDK_INT >= 23) {
             checkPermissions();
@@ -106,12 +104,15 @@ public class MainActivity extends AppCompatActivity {
         //the user browses to an area. This needs to be updated to support sqlite raster image caches
 
 
+        //null is ok here, uses the default rendering theme if it's not set
+        XmlRenderTheme theme = null;
+
         MapsForgeTileProvider forge = new MapsForgeTileProvider(
                 new SimpleRegisterReceiver(this),
-                MapsForgeTileSource.createFromFile(maps,null));
+                MapsForgeTileSource.createFromFile(maps,theme));
+
         mMap.setTileProvider(forge);
         mMap.setUseDataConnection(false);
-
         mMap.setMultiTouchControls(true);
         mMap.setBuiltInZoomControls(true);
 

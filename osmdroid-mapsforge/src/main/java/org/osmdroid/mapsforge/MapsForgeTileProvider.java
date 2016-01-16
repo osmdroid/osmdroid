@@ -1,18 +1,11 @@
 package org.osmdroid.mapsforge;
 
 
-import java.io.File;
-import java.util.Collections;
-
-import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
-import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
-import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 
 /**
