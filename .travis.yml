@@ -43,6 +43,9 @@ env:
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
     # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
     # ANDROID_TARGET=android-23  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    global:
+        - ADB_INSTALL_TIMEOUT=8
+        # minutes (2 minutes by default)
 
 before_install:
   # create and start emulators
