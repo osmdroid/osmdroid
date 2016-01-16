@@ -50,7 +50,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final Context pContext) {
 		super(pTileSource, pRegisterReceiver);
 
-		final IFilesystemCache tileWriter = new TileWriter();
+		final IFilesystemCache tileWriter = new SqlTileWriter();
 
 		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
