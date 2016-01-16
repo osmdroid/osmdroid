@@ -37,9 +37,14 @@ public class SqlTileWriter implements IFilesystemCache {
             final File db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
 
             try {
+                OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
                 db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-                db.execSQL("CREATE TABLE " + DatabaseFileArchive.TABLE + " (key INTEGER , provider TEXT, tile BLOB, expires INTEGER, PRIMARY KEY (key, provider));");
+                db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (key INTEGER , provider TEXT, tile BLOB, expires INTEGER, PRIMARY KEY (key, provider));");
 
+            } catch (Throwable ex) {
+                Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
+            }
+            if (db!=null) {
                 final Thread t = new Thread() {
                     @Override
                     public void run() {
@@ -73,9 +78,6 @@ public class SqlTileWriter implements IFilesystemCache {
                 };
                 t.setPriority(Thread.MIN_PRIORITY);
                 t.start();
-            } catch (Throwable t) {
-
-                t.printStackTrace();
             }
         }
     }

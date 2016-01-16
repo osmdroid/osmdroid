@@ -25,5 +25,7 @@
     <string name="format_distance_feet">%s ft</string>
 
     <string name="compass">Compass</string>
+    <string name="sdcardstate">External Storage State:</string>
+    <string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid</string>
 
 </resources>

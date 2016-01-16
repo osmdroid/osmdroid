@@ -26,6 +26,7 @@ import org.osmdroid.api.IMapView;
 public class DatabaseFileArchive implements IArchiveFile {
 
 	public static final String TABLE="tiles";
+	static final String[] tile_column = {"tile"};
 	private SQLiteDatabase mDatabase;
 
 	public DatabaseFileArchive(){}
@@ -64,12 +65,12 @@ public class DatabaseFileArchive implements IArchiveFile {
 
 		try {
 			byte[] bits=null;
-			final String[] tile = {"tile"};
+
 			final long x = (long) pTile.getX();
 			final long y = (long) pTile.getY();
 			final long z = (long) pTile.getZoomLevel();
 			final long index = ((z << z) + x << z) + y;
-			final Cursor cur = mDatabase.query(TABLE, tile, "key = " + index + " and provider = '" + pTileSource.name() + "'", null, null, null, null);
+			final Cursor cur = mDatabase.query(TABLE, tile_column, "key = " + index + " and provider = '" + pTileSource.name() + "'", null, null, null, null);
 
 			if(cur.getCount() != 0) {
 				cur.moveToFirst();

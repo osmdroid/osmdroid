@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="unknown">Sconosciuta</string>
-	<string name="map_mode">Tipo mappa</string>
-	<string name="my_location">La mia posizione</string>
-	<string name="about">Info</string>
-	<string name="about_message">Questo software usa dati delle mappe forniti da OpenStreetMap.org</string>
+    <string name="unknown">Sconosciuta</string>
+    <string name="map_mode">Tipo mappa</string>
+    <string name="my_location">La mia posizione</string>
+    <string name="about">Info</string>
+    <string name="about_message">Questo software usa dati delle mappe forniti da OpenStreetMap.org</string>
+    <string name="osmdroid_welcome">Benvenuti nel esempio app osmdroid . Questa applicazione viene utilizzata per dimostrare alcune delle caratteristiche e delle funzioni osmdroid\'s . Godere! Si prega di segnalare eventuali problemi a https://github.com/osmdroid/osmdroid</string>
 </resources>
