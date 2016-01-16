@@ -35,11 +35,10 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     // Fields
     // ===========================================================
 
-
-    private SQLiteDatabase mDatabase;
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
     private final long mMaximumCachedFileAge;
-    final String[] tile = {"tile"};
+    private static final String[] tile = {"tile"};
+    private static final String[] columns={"tile","expires"};
 
     // ===========================================================
     // Constructors
@@ -54,6 +53,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         super(pRegisterReceiver, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
                 OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
+        SqlTileWriter.initDb();
         setTileSource(pTileSource);
         findArchiveFiles();
         mMaximumCachedFileAge = pMaximumCachedFileAge;
@@ -124,8 +124,10 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     @Override
     public void detach() {
-        if (mDatabase!=null)
-            mDatabase.close();
+
+        if (SqlTileWriter.db!=null)
+            SqlTileWriter.db.close();
+        SqlTileWriter.db=null;
         super.detach();
     }
 
@@ -134,65 +136,15 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     // ===========================================================
 
     private void findArchiveFiles(){
-        try {
-            File cache = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
-            if (cache.exists())
-                mDatabase = (SQLiteDatabase.openDatabase(cache.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
-            else
-                mDatabase = null;
-        }catch (Exception ex){
-            Log.w(IMapView.LOGTAG, "trouble opening sqlite database cache file",ex);
-        }
+        SqlTileWriter.initDb();
     }
 
-
-    public byte[] getImage(final ITileSource pTileSource, final MapTile pTile) {
-
-        try {
-            byte[] bits=null;
-            final String[] tile = {"tile"};
-            final long x = (long) pTile.getX();
-            final long y = (long) pTile.getY();
-            final long z = (long) pTile.getZoomLevel();
-            final long index = ((z << z) + x << z) + y;
-            final Cursor cur = mDatabase.query(DatabaseFileArchive.TABLE, tile, "key = " + index + " and provider = '" + pTileSource.name() + "'", null, null, null, null);
-
-            if(cur.getCount() != 0) {
-                cur.moveToFirst();
-                bits = (cur.getBlob(0));
-            }
-            cur.close();
-            if(bits != null) {
-                return bits;
-            }
-        } catch(final Throwable e) {
-            Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
-        }
-
-        return null;
-    }
-
-
-    public InputStream getInputStream(final ITileSource pTileSource, final MapTile pTile) {
-        try {
-            InputStream ret = null;
-            byte[] bits=getImage(pTileSource, pTile);
-            if (bits!=null)
-                ret = new ByteArrayInputStream(bits);
-            if(ret != null) {
-                return ret;
-            }
-        } catch(final Throwable e) {
-            Log.w(IMapView.LOGTAG,"Error getting db stream: " + pTile, e);
-        }
-        return null;
-    }
 
     // ===========================================================
     // Inner and Anonymous Classes
     // ===========================================================
 
-    static final String[] columns={"tile","expires"};
+
     protected class TileLoader extends MapTileModuleProviderBase.TileLoader {
 
         @Override
@@ -223,7 +175,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 final long y = (long) pTile.getY();
                 final long z = (long) pTile.getZoomLevel();
                 final long index = ((z << z) + x << z) + y;
-                final Cursor cur =mDatabase.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
+                final Cursor cur =SqlTileWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
                 byte[] bits=null;
                 long lastModified=0l;
 
