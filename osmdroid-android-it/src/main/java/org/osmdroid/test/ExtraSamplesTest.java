@@ -38,7 +38,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         SampleFactory sampleFactory = SampleFactory.getInstance();
         for (int i = 0; i < sampleFactory.count(); i++) {
             try {
-                fm.beginTransaction().hide(samples).add(android.R.id.content, sampleFactory.getSample(i), "SampleFragment")
+                fm.beginTransaction().remove(samples).add(android.R.id.content, sampleFactory.getSample(i), "SampleFragment")
                         .addToBackStack(null).commit();
                 //this sleep is here to give the fragment enough time to start up and do something
                 try {
