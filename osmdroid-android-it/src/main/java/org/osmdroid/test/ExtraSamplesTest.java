@@ -42,7 +42,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                         .addToBackStack(null).commit();
                 //this sleep is here to give the fragment enough time to start up and do something
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
