@@ -6,7 +6,7 @@ import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
-import org.osmdroid.tileprovider.modules.SqlTileWriter;
+import org.osmdroid.tileprovider.modules.TileWriter;
 
 /**
  * This lets you hook up multiple MapsForge files, it will render to the screen the first
@@ -35,7 +35,7 @@ public class MapsForgeTileProvider extends MapTileProviderArray {
         mTileProviderList.add(archiveProvider);
 
         //this is our local sqlite cache
-        IFilesystemCache writer = new SqlTileWriter();
+        IFilesystemCache writer = new TileWriter();
 
         // Create the module provider; this class provides a TileLoader that
         // actually loads the tile from the map file.
