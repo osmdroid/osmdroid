@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/osmdroid/osmdroid.svg)](https://travis-ci.org/osmdroid/osmdroid)
+[![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid)
 
 # osmdroid
 
