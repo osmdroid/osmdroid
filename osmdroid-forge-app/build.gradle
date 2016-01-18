@@ -40,4 +40,6 @@ dependencies {
     //osmdroid map and mapsforge adapter
     compile project(':osmdroid-android')
     compile project(':osmdroid-mapsforge')
+
+    testCompile 'junit:junit:4.12'
 }

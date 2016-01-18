@@ -59,7 +59,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
     protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme) {
         super("MapsForgeTiles", minZoom, maxZoom, tileSizePixels, ".png");
 
-        mapDatabase = new MultiMapDataStore(MultiMapDataStore.DataPolicy.RETURN_FIRST);
+        mapDatabase = new MultiMapDataStore(MultiMapDataStore.DataPolicy.RETURN_ALL);
         for (int i = 0; i < file.length; i++)
             mapDatabase.addMapDataStore(new MapFile(file[i]), false, false);
 
