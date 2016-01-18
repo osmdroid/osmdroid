@@ -3,7 +3,8 @@ package org.osmdroid.samplefragments;
 
 public final class SampleFactory {
 
-	private final BaseSampleFragment[] mSamples;
+	private final Class<? extends BaseSampleFragment>[] mSamples;
+
 
 	private static SampleFactory _instance;
 	public static SampleFactory getInstance() {
@@ -14,26 +15,33 @@ public final class SampleFactory {
 	}
 
 	private SampleFactory() {
-		mSamples = new BaseSampleFragment[] {
-				new SampleWithMinimapItemizedOverlayWithFocus(),
-                new SampleWithMinimapItemizedOverlayWithScale(),
-                new SampleLimitedScrollArea(),
-                new SampleFragmentXmlLayout(),
-                new SampleOsmPath(),
-                new SampleInvertedTiles_NightMode(),
-                new SampleOfflineOnly(),
-                new SampleAlternateCacheDir(),
-                new SampleMilitaryIcons(),
-                new SampleMapBox(),
-                new SampleJumboCache(),
-                new SampleCustomTileSource(),
-				new SampleAnimatedZoomToLocation(),
-				new SampleWhackyColorFilter()
+		mSamples = new Class[] {
+				SampleWithMinimapItemizedOverlayWithFocus.class,
+                SampleWithMinimapItemizedOverlayWithScale.class,
+                SampleLimitedScrollArea.class,
+                SampleFragmentXmlLayout.class,
+                SampleOsmPath.class,
+                SampleInvertedTiles_NightMode.class,
+                SampleOfflineOnly.class,
+                SampleAlternateCacheDir.class,
+                SampleMilitaryIcons.class,
+                SampleMapBox.class,
+                SampleJumboCache.class,
+                SampleCustomTileSource.class,
+				SampleAnimatedZoomToLocation.class,
+				SampleWhackyColorFilter.class
         };
 	}
 
 	public BaseSampleFragment getSample(int index) {
-		return mSamples[index];
+		try {
+			return mSamples[index].newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public int count() {
