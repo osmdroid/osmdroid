@@ -34,7 +34,7 @@ import java.io.File;
 public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     // Reasonable defaults ..
-    public static final int MIN_ZOOM = 10;
+    public static final int MIN_ZOOM = 3;
     public static final int MAX_ZOOM = 20;
     public static final int TILE_SIZE_PIXELS = 256;
     private final DisplayModel model = new DisplayModel();
@@ -66,7 +66,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
         renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, new InMemoryTileCache(2));
 
-        minZoom = renderer.getStartZoomLevel();
+        minZoom = MIN_ZOOM;
         maxZoom = renderer.getZoomLevelMax();
 
         Log.d(IMapView.LOGTAG, "min=" + minZoom + " max=" + maxZoom + " tilesize=" + tileSizePixels);
