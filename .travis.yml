@@ -59,7 +59,7 @@ before_script:
   - cd temp
   - git clone https://github.com/simpligility/maven-android-sdk-deployer
   - cd maven-android-sdk-deployer
-  - mvn install -fn
+  - mvn clean install -fn -B -U
   - cd ..
   - cd ..
 
@@ -71,9 +71,9 @@ script:
   #build using maven with integration tests
   #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
   #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
-  - mvn clean install -fn
-  - mvn install -fn
-  - mvn install 
+  - mvn clean install -fn -B -U
+#  - mvn install -fn
+#  - mvn install 
   - mvn android:undeploy
   #build using gradle
   - gradle -version
