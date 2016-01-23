@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 57
+        versionName "5.7-SNAPSHOT"
     }
     buildTypes {
         release {
@@ -30,3 +30,9 @@ dependencies {
 }
 
 apply from: '../maven.gradle'
+
+install {
+    repositories.mavenInstaller {
+        pom.version = "5.7-SNAPSHOT"
+    }
+}

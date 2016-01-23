@@ -25,3 +25,9 @@ dependencies {
 }
 
 apply from: '../maven.gradle'
+
+install {
+    repositories.mavenInstaller {
+        pom.version = "1.0"
+    }
+}

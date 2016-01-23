@@ -32,7 +32,6 @@ dependencies {
 //    compile project(":OSMBonusPack")
 
     //including using JitPack:
-//    compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:2e8bca2'
     compile 'com.github.MKergall.osmbonuspack:OSMBonusPack:v5.6'
 
     // including as local lib
