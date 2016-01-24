@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		package="org.osmdroid.thirdparty"
-		android:versionCode="1" android:versionName="5.1-SNAPSHOT">
+		android:versionCode="1" android:versionName="5.2-SNAPSHOT">
 
 	<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
 	<supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
