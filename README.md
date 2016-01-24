@@ -7,14 +7,14 @@ osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) clas
 
 **osmdroid is migrated from [Google Code](https://code.google.com/p/osmdroid/). See [issue 1](https://github.com/osmdroid/osmdroid/issues/1).**
 
-Current Release: **5.0.1 November 12th, 2015**
+Current Release: **5.1 January 24th, 2016**
 
 Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
 **Gradle dependency**
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.0.1@aar'
+    compile 'org.osmdroid:osmdroid-android:5.1@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
@@ -24,7 +24,7 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.0.1</version>
+  <version>5.1</version>
   <type>aar</type>
 </dependency>
 ```
