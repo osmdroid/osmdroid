@@ -3,9 +3,12 @@ package org.osmdroid.samplefragments;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import org.osmdroid.ExtraSamplesActivity;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 public class FragmentSamples extends ListFragment {
     SampleFactory sampleFactory = SampleFactory.getInstance();
 
+    public final static String TAG="osmfragsample";
     public static FragmentSamples newInstance() {
         return new FragmentSamples();
     }
@@ -38,8 +42,20 @@ public class FragmentSamples extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         // Replace Fragment with selected sample
+        BaseSampleFragment frag = sampleFactory.getSample(position);
+        Log.i(TAG, "loading fragment " + frag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
         FragmentManager fm = getFragmentManager();
-        fm.beginTransaction().hide(this).add(android.R.id.content, sampleFactory.getSample(position), "SampleFragment")
+        fm.beginTransaction().replace(org.osmdroid.R.id.samples_container, frag, ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG)
                 .addToBackStack(null).commit();
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        FragmentManager fm = getFragmentManager();
+        fm.popBackStack();
+        System.gc();
     }
 }

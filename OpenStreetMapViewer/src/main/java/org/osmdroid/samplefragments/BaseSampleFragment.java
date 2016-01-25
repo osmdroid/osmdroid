@@ -43,6 +43,14 @@ public abstract class BaseSampleFragment extends Fragment {
 		mMapView.setTilesScaledToDpi(true);
 	}
 
+	@Override
+	public void onDetach(){
+		super.onDetach();
+		mMapView.onDetach();
+		mMapView=null;
+		mResourceProxy=null;
+	}
+
 	/**
 	 * An appropriate place to override and add overlays.
 	 */

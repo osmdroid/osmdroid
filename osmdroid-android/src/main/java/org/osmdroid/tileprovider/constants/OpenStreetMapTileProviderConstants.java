@@ -38,7 +38,7 @@ public class OpenStreetMapTileProviderConstants {
                    TILE_PATH_BASE.mkdirs();
                    new File(TILE_PATH_BASE + "/.nomedia").createNewFile();
               } catch (Exception ex) {
-                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery.",ex);
+                   Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery. " + ex.getMessage());
               }
      }
 	public static boolean DEBUGMODE = false;

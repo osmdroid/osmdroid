@@ -8,4 +8,5 @@ include ':osmdroid-mapsforge'
 //sample apps
 include ':OpenStreetMapViewer'
 include ':OSMMapTilePackager'
+include ':GoogleWrapperSample'
 include ':osmdroid-forge-app'
