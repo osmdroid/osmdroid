@@ -12,12 +12,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.layer.renderer.MapWorkerPool;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -43,6 +48,7 @@ import java.util.Set;
  */
 public class MainActivity extends AppCompatActivity {
 
+    TextView currentCenter;
 
     MapView mMap;
 
@@ -55,13 +61,16 @@ public class MainActivity extends AppCompatActivity {
          * super important to configure some of the mapsforge settings first
          */
         AndroidGraphicFactory.createInstance(this.getApplication());
-        /*MapFile.wayFilterEnabled = true;
+        /*
+        not sure how important these are....
+        MapFile.wayFilterEnabled = true;
         MapFile.wayFilterDistance = 20;
         MapWorkerPool.DEBUG_TIMING = true;
         MapWorkerPool.NUMBER_OF_THREADS = MapWorkerPool.DEFAULT_NUMBER_OF_THREADS;
 */
 
 
+        //enable these for additioal log output
         //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
@@ -88,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mMap = (MapView) findViewById(R.id.mapview);
+        currentCenter=(TextView) findViewById(R.id.currentCenter);
 
 
         //first let's up our map source, mapsforge needs you to explicitly specify which map files to load
@@ -122,9 +132,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        mMap.getController().setCenter(new GeoPoint(39d, -76d));
+        mMap.getController().setCenter(new GeoPoint(47.0796d, 4.5827d));
         mMap.getController().setZoom(13);
         mMap.getController().zoomTo(13);
+        mMap.setMapListener(new MapListener() {
+            @Override
+            public boolean onScroll(ScrollEvent event) {
+                IGeoPoint mapCenter = mMap.getMapCenter();
+                currentCenter.setText(mapCenter.getLatitude() + "," + mapCenter.getLongitude());
+                return false;
+            }
+
+            @Override
+            public boolean onZoom(ZoomEvent event) {
+                return false;
+            }
+        });
     }
 
     /**
