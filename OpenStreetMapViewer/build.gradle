@@ -36,3 +36,14 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.4.+'
     //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }
+
+
+//copy the instrumentation tests from the maven osmdroid-android-it src folder
+task copyTestClasses(type: Copy) {
+    description 'Copies the osmdroid-android-it maven test classes to androidTest folder.'
+    from ("${rootDir}/osmdroid-android-it/src/main/java")
+    into "./src/androidTest/java"
+
+}
+
+preBuild.dependsOn copyTestClasses

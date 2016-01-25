@@ -1,13 +1,14 @@
 // Created by plusminus on 19:14:08 - 20.10.2008
 package org.osmdroid.tileprovider.util;
 
-import android.util.Log;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import org.osmdroid.api.IMapView;
 
+/**
+ * don't use android classes here, since this class is used outside of android
+ */
 public class StreamUtils {
 
 	// ===========================================================
@@ -77,7 +78,8 @@ public class StreamUtils {
 			try {
 				stream.close();
 			} catch (final IOException e) {
-				Log.e(IMapView.LOGTAG,"Could not close stream", e);
+				//don't use android classes here, since this class is used outside of android
+				e.printStackTrace();
 			}
 		}
 	}

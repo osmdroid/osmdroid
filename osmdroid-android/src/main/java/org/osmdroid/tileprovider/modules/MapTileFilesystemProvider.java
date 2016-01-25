@@ -1,16 +1,22 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
@@ -35,7 +41,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	// ===========================================================
 
 	private final long mMaximumCachedFileAge;
-
+	private DatabaseFileArchive databaseFileArchive;
 	private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
 
 	// ===========================================================
@@ -157,9 +163,9 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
 					if (fileExpired && drawable != null) {
-						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
-						}
+					}
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);
 					}
 

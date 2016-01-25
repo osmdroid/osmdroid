@@ -2,6 +2,7 @@ package org.osmdroid;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 
 public interface ResourceProxy {
 
@@ -46,6 +47,11 @@ public interface ResourceProxy {
 	 * Gets the density from the current screen's DisplayMetrics
 	 *
 	 * @return the screen's density
+	 * @deprecated since 5.1 and will be removed by 6.0. use getDisplayMetrics instead
 	 */
+	@Deprecated
 	float getDisplayMetricsDensity();
+
+
+	DisplayMetrics getDisplayMetrics();
 }

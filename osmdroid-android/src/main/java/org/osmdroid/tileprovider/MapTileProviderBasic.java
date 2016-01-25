@@ -2,12 +2,14 @@ package org.osmdroid.tileprovider;
 
 import android.content.Context;
 
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -48,7 +50,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final Context pContext) {
 		super(pTileSource, pRegisterReceiver);
 
-		final TileWriter tileWriter = new TileWriter();
+		final IFilesystemCache tileWriter = new TileWriter();
 
 		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
 				pRegisterReceiver, pContext.getAssets(), pTileSource);

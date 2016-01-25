@@ -1,8 +1,9 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import java.util.ArrayList;
-
 import org.osmdroid.tileprovider.MapTile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TileSourceFactory {
 
@@ -54,10 +55,19 @@ public class TileSourceFactory {
 		throw new IllegalArgumentException("No tile source at position: " + aOrdinal);
 	}
 
-	public static ArrayList<ITileSource> getTileSources() {
+	/**
+	 * returns all predefined tiles sources that are generally free to use. be sure to check the usage
+	 * agreements yourself.
+	 * @return
+     */
+	public static List<ITileSource> getTileSources() {
 		return mTileSources;
 	}
 
+	/**
+	 * adds a new tile source to the list
+	 * @param mTileSource
+     */
 	public static void addTileSource(final ITileSource mTileSource) {
 		mTileSources.add(mTileSource);
 	}
@@ -148,8 +158,16 @@ public class TileSourceFactory {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
                }
           };
+	public static final OnlineTileSourceBase USGS_SAT = new OnlineTileSourceBase("USGS National Map Sat", 0, 18, 256, "",
+			new String[]{"http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/"}) {
+		@Override
+		public String getTileURLString(MapTile aTile) {
+			return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
+		}
+	};
 
-	private static ArrayList<ITileSource> mTileSources;
+
+	private static List<ITileSource> mTileSources;
 	static {
 		mTileSources = new ArrayList<ITileSource>();
 		mTileSources.add(MAPNIK);
@@ -157,7 +175,8 @@ public class TileSourceFactory {
 		mTileSources.add(PUBLIC_TRANSPORT);
 		mTileSources.add(MAPQUESTOSM);
 		mTileSources.add(MAPQUESTAERIAL);
-          mTileSources.add(HIKEBIKEMAP);
-          mTileSources.add(USGS_TOPO);
+		mTileSources.add(HIKEBIKEMAP);
+		mTileSources.add(USGS_TOPO);
+		mTileSources.add(USGS_SAT);
 	}
 }

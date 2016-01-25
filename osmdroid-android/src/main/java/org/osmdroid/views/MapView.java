@@ -150,7 +150,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final ITileSource tileSource = getTileSourceFromAttributes(attrs);
 			tileProvider = isInEditMode()
 					? new MapTileProviderArray(tileSource, null, new MapTileModuleProviderBase[0])
-					: new MapTileProviderBasic(context, tileSource);
+					: new MapTileProviderBasic(context.getApplicationContext(), tileSource);
 		}
 
 		mTileRequestCompleteHandler = tileRequestCompleteHandler == null

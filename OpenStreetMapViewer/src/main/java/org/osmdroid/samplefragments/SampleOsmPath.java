@@ -44,7 +44,7 @@ public class SampleOsmPath extends BaseSampleFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 
-		mMapView.getController().setZoom(14);
+		mMapView.getController().setZoom(13);
 		mMapView.getController().setCenter(sCentralParkBoundingBox.getCenter());
 
 		super.onActivityCreated(savedInstanceState);
