@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="osmbonuspack.directions.0">Nieznana instrukcja[w %s]</string>
+  <string name="osmbonuspack.directions.1">Kontynuuj jazdę[na %s]</string>
+  <string name="osmbonuspack.directions.2">Skręć lekko w prawo[w %s]</string>
+  <string name="osmbonuspack.directions.3">Skręć w prawo[w %s]</string>
+  <string name="osmbonuspack.directions.4">Skręć ostro w prawo[w %s]</string>
+  <string name="osmbonuspack.directions.5">Zawróć[na %s]</string>
+  <string name="osmbonuspack.directions.6">Skręć ostro w lewo[w %s]</string>
+  <string name="osmbonuspack.directions.7">Skręć w lewo[w %s]</string>
+  <string name="osmbonuspack.directions.8">Skręć lekko w lewo[w %s]</string>
+  <string name="osmbonuspack.directions.9">Dotarłeś do punktu pośredniego</string>
+  <string name="osmbonuspack.directions.10">[Jedź %s]</string>
+  <string name="osmbonuspack.directions.11_1">Wjedź na rondo i opuść je pierwszym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_2">Wjedź na rondo i opuść je drugim zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_3">Wjedź na rondo i opuść je trzecim zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_4">Wjedź na rondo i opuść je czwartym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_5">Wjedź na rondo i opuść je piątym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_6">Wjedź na rondo i opuść je szóstym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_7">Wjedź na rondo i opuść je siódmym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_8">Wjedź na rondo i opuść je ósmym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.11_9">Wjedź na rondo i opuść je dziewiątym zjazdem[w %s]</string>
+  <string name="osmbonuspack.directions.15">Dotarłeś do celu podróży</string>
+</resources>

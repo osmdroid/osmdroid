@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="osmbonuspack.directions.0">Неизвестный маневр[ на %s]</string>
+  <string name="osmbonuspack.directions.1">Продолжайте[ по %s]</string>
+  <string name="osmbonuspack.directions.2">Поверните немного направо[ на %s]</string>
+  <string name="osmbonuspack.directions.3">Поверните направо[ на %s]</string>
+  <string name="osmbonuspack.directions.4">Поверните резко направо[ на %s]</string>
+  <string name="osmbonuspack.directions.5">Развернитесь[ на %s]</string>
+  <string name="osmbonuspack.directions.6">Поверните резко налево[ на %s]</string>
+  <string name="osmbonuspack.directions.7">Поверните налево[ на %s]</string>
+  <string name="osmbonuspack.directions.8">Поверните немного налево[ на %s]</string>
+  <string name="osmbonuspack.directions.9">Вы добрались до места назначения</string>
+  <string name="osmbonuspack.directions.10">[Продолжайте %s]</string>
+  <string name="osmbonuspack.directions.11_1">На кольцевой развилке поверните на первом съезде[ на  %s]</string>
+  <string name="osmbonuspack.directions.11_2">На кольцевой развилке поверните на втором съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_3">На кольцевой развилке поверните на третьем съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_4">На кольцевой развилке поверните на четвертом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_5">На кольцевой развилке поверните на пятом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_6">На кольцевой развилке поверните на шестом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_7">На кольцевой развилке поверните на седьмом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_8">На кольцевой развилке поверните на восьмом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.11_9">На кольцевой развилке поверните на девятом съезде[ на %s]</string>
+  <string name="osmbonuspack.directions.15">Вы добрались до пукта назначения</string>
+  <string name="osmbonuspack.format_distance_kilometers">%s км</string>
+  <string name="osmbonuspack.format_distance_meters">%s м</string>
+  <string name="osmbonuspack.format_hours">%s ч</string>
+  <string name="osmbonuspack.format_minutes">%s мин</string>
+  <string name="osmbonuspack.format_seconds">%s сек</string>
+</resources>
