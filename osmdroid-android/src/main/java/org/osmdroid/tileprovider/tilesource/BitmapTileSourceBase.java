@@ -39,7 +39,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	 * @param aTileSizePixels the tile size in pixels this tile source provides
 	 * @param aImageFilenameEnding the file name extension used when constructing the filename
 	 */
-	public BitmapTileSourceBase(final String aName, 
+	public BitmapTileSourceBase(final String aName,
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 			final String aImageFilenameEnding) {
 		mOrdinal = globalOrdinal++;
@@ -85,7 +85,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 
 	@Override
-	public Drawable getDrawable(final String aFilePath) {
+	public Drawable getDrawable(final String aFilePath) throws LowMemoryException {
 		//Log.d(IMapView.LOGTAG, aFilePath + " attempting to load bitmap");
 		try {
 			// default implementation will load the file as a bitmap and create
@@ -115,10 +115,12 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			}
 		} catch (final OutOfMemoryError e) {
 			Log.e(IMapView.LOGTAG,"OutOfMemoryError loading bitmap: " + aFilePath);
+			System.gc();
+			throw new LowMemoryException(e);
 		} catch (final Exception e){
 			Log.e(IMapView.LOGTAG,"Unexpected error loading bitmap: " + aFilePath,e);
+			System.gc();
 		}
-		System.gc();
 		return null;
 	}
 
