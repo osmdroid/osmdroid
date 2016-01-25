@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         //do a simple scan of local storage for .map files.
         File[] maps = new File[mapfiles.size()];
         maps = mapfiles.toArray(maps);
+        Toast.makeText(this, "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
 
         //this creates the forge provider and tile sources
         //that's it!
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 IGeoPoint mapCenter = mMap.getMapCenter();
-                currentCenter.setText(mapCenter.getLatitude() + "," + mapCenter.getLongitude());
+                currentCenter.setText(mapCenter.getLatitude() + "," + mapCenter.getLongitude() + " " + mMap.getZoomLevel());
                 return false;
             }
 
