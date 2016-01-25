@@ -1,18 +1,15 @@
-
-description = 'OSMdroid 3rd Party examples'
-
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion "Google Inc.:Google APIs:23"
+    compileSdkVersion 'Google Inc.:Google APIs:23'
     buildToolsVersion "23.0.2"
+
     defaultConfig {
-        applicationId 'org.osmdroid.google.sample'
+        applicationId "org.osmdroid.google.sample"
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 18
-        versionName "5.1-SNAPSHOT"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 17
+        versionCode 1
+        versionName "1.0"
     }
     buildTypes {
         release {
@@ -20,29 +17,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-
-    }
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.+'
+    //this covers google maps v2 apis
+    compile 'com.google.android.gms:play-services:8.+'
+
+    compile 'com.google.android.gms:play-services-maps:8.+'
+
     compile 'com.android.support:support-v4:23+'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':osmdroid-android')
     compile project(':osmdroid-third-party')
-    compile 'com.google.android.gms:play-services:8.+'
-    compile 'com.google.android.gms:play-services-maps:8.+'
 
-
-    //androidTestCompile 'com.android.support:support-annotations:23+'
-    //androidTestCompile 'com.android.support.test:runner:0.4.+'
-    //androidTestCompile 'com.android.support.test:rules:0.4.+'
 
 }
-
