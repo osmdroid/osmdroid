@@ -130,6 +130,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         for (final Overlay overlay : this.overlaysReversed()) {
             overlay.onDetach(pMapView);
         }
+        this.clear();
     }
 
     @Override
