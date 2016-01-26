@@ -7,9 +7,10 @@ android {
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
         minSdkVersion 9
-        targetSdkVersion 17
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -31,6 +32,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile project(':osmdroid-android')
     compile project(':osmdroid-third-party')
+
+    androidTestCompile 'com.android.support:support-annotations:23+'
+    androidTestCompile 'com.android.support.test:runner:0.4.+'
+    androidTestCompile 'com.android.support.test:rules:0.4.+'
 
 
 }
