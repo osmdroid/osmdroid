@@ -10,9 +10,9 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        //this is just for Travis CI builds
-        if (!"android-8".equalsIgnoreCase("$System.env.ANDROID_TARGET"))
-            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -40,4 +40,13 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.4.+'
 
 
+}
+project.gradle.taskGraph.whenReady {
+    //this is just for Travis CI builds, since this package needs at least api 9
+    if ("android-8".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))) {
+        connectedDebugAndroidTest {
+            ignoreFailures = true
+
+        }
+    }
 }
