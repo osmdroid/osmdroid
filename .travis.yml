@@ -45,13 +45,13 @@ sudo: required
 # thus we're using a build matrix (which makes more sense anyhow)
 env:
     matrix:
-    - ANDROID_TARGET=\"Google Inc.:Google APIs:8\"   ANDROID_ABI=armeabi
-    - ANDROID_TARGET=\"Google Inc.:Google APIs:10\"  ANDROID_ABI=armeabi
-    - ANDROID_TARGET=\"Google Inc.:Google APIs:15\"  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=\"Google Inc.:Google APIs:19\"  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=\"Google Inc.:Google APIs:21\"  ANDROID_ABI=armeabi-v7a
-    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    # ANDROID_TARGET=android-23  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    - ANDROID_TARGET=12   ANDROID_ABI=armeabi
+    - ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a
+    # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    # ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
   # create and start emulators
