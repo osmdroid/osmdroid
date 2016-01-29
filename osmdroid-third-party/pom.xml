@@ -11,8 +11,7 @@
     <packaging>aar</packaging>
 
     <name>OSMdroid Third Party</name>
-    <!-- TODO -->
-    <description>TODO</description>
+    <description>osmdroid 3rd party libraries and examples. May use non ASF licensed libraries as dependencies</description>
 
     <dependencies>
         <!-- Android included libraries -->
@@ -61,7 +60,7 @@
 		    <artifactId>android-maven-plugin</artifactId>
 		    <configuration>
 			 <sdk>
-			      <platform>19</platform>
+			      <platform>${android.target}</platform>
 			 </sdk>
 		    </configuration>
 	       </plugin>
