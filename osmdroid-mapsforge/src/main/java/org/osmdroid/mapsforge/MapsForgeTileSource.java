@@ -56,8 +56,8 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param file
      * @param xmlRenderTheme the theme to render tiles with
      */
-    protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme) {
-        super("MapsForgeTiles", minZoom, maxZoom, tileSizePixels, ".png");
+    protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme) {
+        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png");
 
         mapDatabase = new MultiMapDataStore(MultiMapDataStore.DataPolicy.RETURN_ALL);
         for (int i = 0; i < file.length; i++)
@@ -91,22 +91,22 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param file
      * @return the tile source
      */
-    public static MapsForgeTileSource createFromFile(File[] file) {
+    public static MapsForgeTileSource createFromFiles(File[] file) {
         //these settings are ignored and are set based on .map file info
         int minZoomLevel = MIN_ZOOM;
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER);
+        return new MapsForgeTileSource("OSMARENDER", minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER);
     }
 
-    public static MapsForgeTileSource createFromFile(File[] file, XmlRenderTheme theme) {
+    public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName) {
         //these settings are ignored and are set based on .map file info
         int minZoomLevel = MIN_ZOOM;
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, theme);
+        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme);
     }
 
 

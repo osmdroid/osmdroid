@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
+import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
 import org.mapsforge.map.layer.renderer.MapWorkerPool;
 import org.mapsforge.map.reader.MapFile;
+import org.mapsforge.map.rendertheme.ExternalRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
@@ -114,13 +116,18 @@ public class MainActivity extends AppCompatActivity {
         //note this example does not using caching yet, so each tile is rendered on the fly, every time
         //the user browses to an area. This needs to be updated to support sqlite raster image caches
 
+        //protip: when changing themes, you should also change the tile source name to prevent cached tiles
 
         //null is ok here, uses the default rendering theme if it's not set
         XmlRenderTheme theme = null;
-
+        try {
+            theme = new AssetsRenderTheme(getApplicationContext(), "renderthemes/","rendertheme-v4.xml");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         MapsForgeTileProvider forge = new MapsForgeTileProvider(
                 new SimpleRegisterReceiver(this),
-                MapsForgeTileSource.createFromFile(maps,theme));
+                MapsForgeTileSource.createFromFiles(maps,theme, "rendertheme-v4"));
 
         mMap.setTileProvider(forge);
         mMap.setUseDataConnection(false);
