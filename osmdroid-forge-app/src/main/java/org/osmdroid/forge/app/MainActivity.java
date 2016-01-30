@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         mMap.getController().setCenter(new GeoPoint(47.0796d, 4.5827d));
         mMap.getController().setZoom(13);
         mMap.getController().zoomTo(13);
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
     /**

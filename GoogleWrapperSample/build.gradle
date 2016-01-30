@@ -20,6 +20,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -41,9 +44,15 @@ dependencies {
 
 
 }
+
 project.gradle.taskGraph.whenReady {
-    //this is just for Travis CI builds, since this package needs at least api 9
-    if ("12".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))) {
+    //this is just for Travis CI builds, since this package needs at least api 9 with google apis
+    //ignore the following build targets 1,2,3,7, 12
+    if ("12".equalsIgnoreCase(System.getenv("ANDROID_TARGET")) ||
+            "1".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))||
+            "2".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))||
+            "3".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))||
+            "7".equalsIgnoreCase(System.getenv("ANDROID_TARGET"))) {
         connectedDebugAndroidTest {
             ignoreFailures = true
 
