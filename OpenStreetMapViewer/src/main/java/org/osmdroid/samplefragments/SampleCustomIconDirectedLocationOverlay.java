@@ -48,6 +48,13 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
     }
 
     @Override
+    public void onPause(){
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.removeUpdates(this);
+
+    }
+
+    @Override
     protected void addOverlays() {
         super.addOverlays();
         overlay = new DirectedLocationOverlay(getActivity());
