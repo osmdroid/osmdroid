@@ -140,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        mMap.getController().setCenter(new GeoPoint(47.0796d, 4.5827d));
-        mMap.getController().setZoom(13);
-        mMap.getController().zoomTo(13);
+        mMap.getController().setCenter(new GeoPoint(0d, 0d));
+        mMap.getController().setZoom(5);
+        mMap.getController().zoomTo(5);
         mMap.setMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
