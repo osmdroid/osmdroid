@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
      * simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files
      * @return
      */
-    private Set<File> findMapFiles() {
+    protected static Set<File> findMapFiles() {
         Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         return maps;
     }
 
-    private Collection<? extends File> scan(File f) {
+    static private Collection<? extends File> scan(File f) {
         List<File> ret = new ArrayList<>();
         File[] files = f.listFiles(new FileFilter() {
             @Override
