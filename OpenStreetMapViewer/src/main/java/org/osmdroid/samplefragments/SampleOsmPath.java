@@ -68,8 +68,8 @@ public class SampleOsmPath extends BaseSampleFragment {
 		//mMapView.getOverlayManager().add(mOsmPathOverlay);
 		Polyline line = new Polyline(context);
 		line.setTitle("Central Park, NYC");
-		line.setSubDescription("This is a longer description");
-		line.setWidth(10f);
+		line.setSubDescription(Polyline.class.getCanonicalName());
+		line.setWidth(20f);
 		List<GeoPoint> pts = new ArrayList<>();
 		//here, we create a polygon, note that you need 5 points in order to make a closed polygon (rectangle)
 
@@ -80,14 +80,17 @@ public class SampleOsmPath extends BaseSampleFragment {
 		pts.add(new GeoPoint(40.796788, -73.949232));
 		line.setPoints(pts);
 		line.setGeodesic(true);
-		//you can also attach click listeners to the line
+		line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+		//Note, the info window will not show if you set the onclick listener
+		//line can also attach click listeners to the line
+		/*
 		line.setOnClickListener(new Polyline.OnClickListener() {
 			@Override
 			public boolean onClick(Polyline polyline, MapView mapView, GeoPoint eventPos) {
 				Toast.makeText(context, "Hello world!", Toast.LENGTH_LONG).show();
-				return true;
+				return false;
 			}
-		});
+		});*/
 		mMapView.getOverlayManager().add(line);
 
 
@@ -110,7 +113,9 @@ public class SampleOsmPath extends BaseSampleFragment {
 		polygon.setFillColor(Color.RED);
 		polygon.setVisible(true);
 		polygon.setStrokeColor(Color.BLACK);
-		line.setGeodesic(true);
+		polygon.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+
+
 		pts = new ArrayList<>();
 		pts.add(new GeoPoint(40.886788, -73.959232));
 		pts.add(new GeoPoint(40.886788, -73.971762));
