@@ -211,6 +211,7 @@
 		    <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
+            <module>osmdroid-server-jdk</module>
 		</modules>
 	 </profile>
         <profile>
