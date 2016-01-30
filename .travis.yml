@@ -94,7 +94,7 @@ before_script:
 
   #setup for maps forge adapter
   #- wget http://download.mapsforge.org/maps/world/world.map
-  - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/
+  - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
 
 #build
 script:
