@@ -16,6 +16,15 @@ android:
     - android-15
     - android-10
     - android-8
+    - addon-google_apis-google-10
+    - addon-google_apis-google-15
+    - addon-google_apis-google-18
+    - addon-google_apis-google-19
+    - addon-google_apis-google-21
+    - addon-google_apis-google-22
+    - addon-google_apis-google-23
+    - addon-google_apis-google-8
+
     # Additional components
     - extra-google-google_play_services
     - extra-google-m2repository
@@ -36,13 +45,22 @@ sudo: required
 # thus we're using a build matrix (which makes more sense anyhow)
 env:
     matrix:
-    - ANDROID_TARGET=android-8   ANDROID_ABI=armeabi
-    - ANDROID_TARGET=android-10  ANDROID_ABI=armeabi
-    - ANDROID_TARGET=android-15  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-19  ANDROID_ABI=armeabi-v7a
-    - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a
-    # ANDROID_TARGET=android-22  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
-    # ANDROID_TARGET=android-23  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    #note when changing these, updating the gradle build file for the GoogleWrapper project
+
+    #api8
+    - ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    #api10
+    - ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    #api15
+    - ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+    #api19
+    - ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    #api21
+    #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available?
+    #api22
+    # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
+    #api23
+    # ANDROID_TARGET=19  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
 
 before_install:
   # create and start emulators

@@ -50,6 +50,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.target>23</android.target>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +65,11 @@
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
+                <version>[23,)</version>
+            </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
                 <version>[23,)</version>
             </dependency>
             <dependency>
