@@ -46,23 +46,23 @@ sudo: required
 env:
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
-
+    # first env var is just for display purposes
     #api8 with google
-    - ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=8g ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api8
-    - ANDROID_TARGET=1  ANDROID_ABI=armeabi
+    - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
-    - ANDROID_TARGET=2  ANDROID_ABI=armeabi
+    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
     #api10 with google
-    - ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api15
-    - ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
+    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
     #api15 with google
-    - ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+    - API=15g ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
     #api19
-    - ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
+    - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
     #api19 with google
-    - ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
     #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
     #api22
