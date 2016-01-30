@@ -43,8 +43,12 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
     public void onResume(){
         super.onResume();
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0, (LocationListener) this);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0, (LocationListener) this);
+        try {
+            //on API15 AVDs,network provider fails. no idea why
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+        }
+        catch (Exception ex){}
     }
 
     @Override
