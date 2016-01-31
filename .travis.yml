@@ -46,7 +46,7 @@ sudo: required
 env:
     global:
     #minutes (2 minutes by default), prevents CommandShellUnresponsiveExceptions
-    - ADB_INSTALL_TIMEOUT=8
+    - ADB_INSTALL_TIMEOUT=10
 
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
