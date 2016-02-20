@@ -1,7 +1,6 @@
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
@@ -45,6 +44,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			.getTileSources().size());
 	public static final int MENU_OFFLINE = getSafeMenuId();
 
+	private Context ctx;
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
 
@@ -84,11 +84,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
-		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
-	}
-
-	public TilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+		super(aContext);
+		this.ctx=aContext;
 		if (aTileProvider == null) {
 			throw new IllegalArgumentException(
 					"You must pass a valid tile provider to the tiles overlay.");
@@ -248,8 +245,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		final SubMenu mapMenu = pMenu.addSubMenu(0, MENU_MAP_MODE + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.map_mode)).setIcon(
-				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mapmode));
+				R.string.map_mode).setIcon(R.drawable.ic_menu_mapmode);
 
 		for (int a = 0; a < TileSourceFactory.getTileSources().size(); a++) {
 			final ITileSource tileSource = TileSourceFactory.getTileSources().get(a);
@@ -258,11 +254,10 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		mapMenu.setGroupCheckable(MENU_MAP_MODE + pMenuIdOffset, true, true);
 
-		final String title = pMapView.getResourceProxy().getString(
-				pMapView.useDataConnection() ? ResourceProxy.string.offline_mode
-						: ResourceProxy.string.online_mode);
-		final Drawable icon = pMapView.getResourceProxy().getDrawable(
-				ResourceProxy.bitmap.ic_menu_offline);
+		final String title = ctx.getString(
+				pMapView.useDataConnection() ? R.string.set_mode_offline
+						: R.string.set_mode_online);
+		final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
 		pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
 
 		return true;
@@ -278,9 +273,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 		pMenu.findItem(MENU_OFFLINE + pMenuIdOffset).setTitle(
-				pMapView.getResourceProxy().getString(
-						pMapView.useDataConnection() ? ResourceProxy.string.offline_mode
-								: ResourceProxy.string.online_mode));
+						pMapView.useDataConnection() ? R.string.set_mode_offline
+								: R.string.set_mode_online);
 
 		return true;
 	}

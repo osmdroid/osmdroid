@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -46,7 +44,6 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 	private MapView mMapView;
 	private IMapController mOsmvController;
 	private SimpleLocationOverlay mMyLocationOverlay;
-	private ResourceProxy mResourceProxy;
 	private ScaleBarOverlay mScaleBarOverlay;
 	private MinimapOverlay mMiniMapOverlay;
 
@@ -59,8 +56,6 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mResourceProxy = new ResourceProxyImpl(getApplicationContext());
-
 		final RelativeLayout rl = new RelativeLayout(this);
 
 		this.mMapView = new MapView(this);
@@ -71,7 +66,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 
 		/* Scale Bar Overlay */
 		{
-			this.mScaleBarOverlay = new ScaleBarOverlay(mMapView, mResourceProxy);
+			this.mScaleBarOverlay = new ScaleBarOverlay(mMapView);
 			this.mMapView.getOverlays().add(mScaleBarOverlay);
 			// Scale bar tries to draw as 1-inch, so to put it in the top center, set x offset to
 			// half screen width, minus half an inch.
@@ -86,7 +81,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 			 * Create a static Overlay showing a single location. (Gets updated in
 			 * onLocationChanged(Location loc)!
 			 */
-			this.mMyLocationOverlay = new SimpleLocationOverlay(this, mResourceProxy);
+			this.mMyLocationOverlay = new SimpleLocationOverlay(this);
 			this.mMapView.getOverlays().add(mMyLocationOverlay);
 		}
 

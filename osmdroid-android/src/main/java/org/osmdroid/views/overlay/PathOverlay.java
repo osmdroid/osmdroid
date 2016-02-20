@@ -3,8 +3,6 @@ package org.osmdroid.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -65,15 +63,11 @@ public class PathOverlay extends Overlay {
 	// ===========================================================
 
 	public PathOverlay(final int color, final Context ctx) {
-		this(color, 2.0f, new DefaultResourceProxyImpl(ctx));
+		this(color, 2.0f, ctx);
 	}
 
-	public PathOverlay(final int color, final ResourceProxy resourceProxy) {
-		this(color, 2.0f, resourceProxy);
-	}
-
-	public PathOverlay(final int color, final float width, final ResourceProxy resourceProxy) {
-		super(resourceProxy);
+	public PathOverlay(final int color, final float width, final Context ctx) {
+		super(ctx);
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(width);
 		this.mPaint.setStyle(Paint.Style.STROKE);

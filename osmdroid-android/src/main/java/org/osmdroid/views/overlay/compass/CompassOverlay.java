@@ -1,8 +1,7 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.osmdroid.views.overlay.compass;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
@@ -69,13 +68,10 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		this(context, new InternalCompassOrientationProvider(context), mapView);
 	}
 
-	public CompassOverlay(Context context, IOrientationProvider orientationProvider, MapView mapView) {
-		this(context, orientationProvider, mapView, new DefaultResourceProxyImpl(context));
-	}
 
 	public CompassOverlay(Context context, IOrientationProvider orientationProvider,
-			MapView mapView, ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+			MapView mapView) {
+		super(context);
 
 		mMapView = mapView;
 		final WindowManager windowManager = (WindowManager) context
@@ -198,8 +194,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.compass))
-				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass))
+				pMapView.getContext().getResources().getString(R.string.compass))
+
+				.setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass))
 				.setCheckable(true);
 
 		return true;

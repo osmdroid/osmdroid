@@ -3,8 +3,6 @@ package org.osmdroid.views.overlay;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
@@ -46,7 +44,6 @@ public abstract class Overlay implements OverlayConstants {
 	// Fields
 	// ===========================================================
 
-	protected final ResourceProxy mResourceProxy;
 	protected final float mScale;
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
@@ -56,13 +53,7 @@ public abstract class Overlay implements OverlayConstants {
 	// ===========================================================
 
 	public Overlay(final Context ctx) {
-		mResourceProxy = new DefaultResourceProxyImpl(ctx);
 		mScale = ctx.getResources().getDisplayMetrics().density;
-	}
-
-	public Overlay(final ResourceProxy pResourceProxy) {
-		mResourceProxy = pResourceProxy;
-		mScale = mResourceProxy.getDisplayMetrics().density;
 	}
 
 	// ===========================================================

@@ -2,10 +2,9 @@ package org.osmdroid.views.overlay.mylocation;
 
 import java.util.LinkedList;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.MapView;
@@ -23,6 +22,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
@@ -91,18 +91,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// Constructors
 	// ===========================================================
 
-	public MyLocationNewOverlay(Context context, MapView mapView) {
-		this(context, new GpsMyLocationProvider(context), mapView);
+	public MyLocationNewOverlay(MapView mapView) {
+		this(new GpsMyLocationProvider(mapView.getContext()), mapView);
 	}
 
-	public MyLocationNewOverlay(Context context, IMyLocationProvider myLocationProvider,
-			MapView mapView) {
-		this(myLocationProvider, mapView, new DefaultResourceProxyImpl(context));
-	}
-
-	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView,
-			ResourceProxy resourceProxy) {
-		super(resourceProxy);
+	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView) {
+		super(mapView.getContext());
 
 		mMapView = mapView;
 		mMapController = mapView.getController();
@@ -110,8 +104,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mCirclePaint.setAntiAlias(true);
 		mPaint.setFilterBitmap(true);
 
-		mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
-		mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
+
+		mPersonBitmap = ((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap();
+		mDirectionArrowBitmap = ((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap();
 
 		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
 		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
@@ -332,8 +327,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.my_location))
-				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation))
+				pMapView.getContext().getResources().getString(R.string.my_location)
+				)
+				.setIcon(
+						pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_mylocation)
+						)
 				.setCheckable(true);
 
 		return true;

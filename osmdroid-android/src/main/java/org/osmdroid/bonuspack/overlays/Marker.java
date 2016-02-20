@@ -1,14 +1,12 @@
 package org.osmdroid.bonuspack.overlays;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -64,10 +62,10 @@ public class Marker extends OverlayWithIW {
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
 	
 	public Marker(MapView mapView) {
-		this(mapView, new DefaultResourceProxyImpl(mapView.getContext()));
+		this(mapView, (mapView.getContext()));
 	}
 
-	public Marker(MapView mapView, final ResourceProxy resourceProxy) {
+	public Marker(MapView mapView, final Context resourceProxy) {
 		super(resourceProxy);
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
@@ -84,7 +82,7 @@ public class Marker extends OverlayWithIW {
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
 		if (mDefaultIcon == null)
-			mDefaultIcon = resourceProxy.getDrawable(bitmap.marker_default);
+			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
 		mIcon = mDefaultIcon;
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
 			//build default bubble, that will be shared between all markers using the default one:

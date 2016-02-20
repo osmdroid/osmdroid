@@ -63,7 +63,6 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      private MinimapOverlay mMinimapOverlay;
      private ScaleBarOverlay mScaleBarOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
-     private ResourceProxy mResourceProxy;
 
      public static StarterMapFragment newInstance() {
          return new StarterMapFragment();
@@ -76,8 +75,8 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
      @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-          mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-          mMapView = new MapView(inflater.getContext(), mResourceProxy);
+
+          mMapView = new MapView(inflater.getContext());
         // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
           return mMapView;
@@ -101,7 +100,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           mPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-          this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),
+          this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),
                mMapView);
 
           mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());

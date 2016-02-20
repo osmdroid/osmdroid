@@ -94,7 +94,7 @@ public class SampleOsmPath extends BaseSampleFragment {
 		mMapView.getOverlayManager().add(line);
 
 
-		Marker marker = new Marker(mMapView, mResourceProxy);
+		Marker marker = new Marker(mMapView);
 		marker.setDraggable(false);
 		marker.setTitle("Central Park");
 		marker.setPosition(new GeoPoint(((40.796788-40.768094)/2)+40.768094,

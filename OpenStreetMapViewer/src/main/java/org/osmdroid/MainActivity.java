@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.osmdroid.samples.SampleExtensive;
-import org.osmdroid.samples.SampleResourceOverride;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
@@ -45,7 +44,6 @@ public class MainActivity extends ListActivity {
 		list.add("OSMapView with Minimap and ZoomControls");
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
-		list.add("Sample with Custom Resources");
 		list.add("More Samples");
 		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 	}
@@ -72,9 +70,6 @@ public class MainActivity extends ListActivity {
                 this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
                 break;
             case 6:
-                this.startActivity(new Intent(this, SampleResourceOverride.class));
-                break;
-            case 7:
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
         }
