@@ -1,25 +1,20 @@
 package org.osmdroid.forge.app;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
-import org.mapsforge.map.layer.renderer.MapWorkerPool;
-import org.mapsforge.map.reader.MapFile;
-import org.mapsforge.map.rendertheme.ExternalRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
@@ -27,8 +22,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -72,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
-        //enable these for additioal log output
+        //enable these for additional log output
         //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
@@ -82,19 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                //this would be a good place for you to enable users to browse the local file system
-                //for a set of mapsforge files
-            }
-        });
 
 
 
@@ -108,7 +88,34 @@ public class MainActivity extends AppCompatActivity {
         //do a simple scan of local storage for .map files.
         File[] maps = new File[mapfiles.size()];
         maps = mapfiles.toArray(maps);
-        Toast.makeText(this, "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
+        if (maps.length==0){
+            //show a warning that no map files were found
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+
+            // set title
+            alertDialogBuilder.setTitle("No Mapsforge files found");
+
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info.")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+
+                        }
+                    });
+
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
+        }
+        else
+            Toast.makeText(this, "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
 
         //this creates the forge provider and tile sources
         //that's it!

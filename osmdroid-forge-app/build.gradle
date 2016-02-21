@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.osmdroid.forge.app"
-        minSdkVersion 12
+        minSdkVersion 10
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -32,7 +32,6 @@ android {
 dependencies {
     //Android stuff
     compile 'com.android.support:appcompat-v7:23.+'
-    compile 'com.android.support:design:23.+'
 
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.6.0'
