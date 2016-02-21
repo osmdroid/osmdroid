@@ -52,7 +52,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected final Paint mCirclePaint = new Paint();
 
 	protected Bitmap mPersonBitmap;
-	protected final Bitmap mDirectionArrowBitmap;
+	protected Bitmap mDirectionArrowBitmap;
 
 	protected final MapView mMapView;
 
@@ -74,8 +74,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	/** Coordinates the feet of the person are located scaled for display density. */
 	protected final PointF mPersonHotspot;
 
-	protected final float mDirectionArrowCenterX;
-	protected final float mDirectionArrowCenterY;
+	protected float mDirectionArrowCenterX;
+	protected float mDirectionArrowCenterY;
 
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 
@@ -105,17 +105,29 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mPaint.setFilterBitmap(true);
 
 
-		mPersonBitmap = ((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap();
-		mDirectionArrowBitmap = ((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap();
-
-		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
-		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
+		setDirectionArrow(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap(),
+				((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap());
 
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
 
 		mHandler = new Handler(Looper.getMainLooper());
 		setMyLocationProvider(myLocationProvider);
+	}
+
+	/**
+	 * fix for https://github.com/osmdroid/osmdroid/issues/249
+	 * @param personBitmap
+	 * @param directionArrowBitmap
+     */
+	public void setDirectionArrow(final Bitmap personBitmap, final Bitmap directionArrowBitmap){
+		this.mPersonBitmap = personBitmap;
+		this.mDirectionArrowBitmap=directionArrowBitmap;
+
+
+		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
+		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
+
 	}
 
 	@Override

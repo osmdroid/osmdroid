@@ -19,7 +19,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
-import org.osmdroid.views.overlay.SimpleLocationOverlay;
+import org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay;
 
 /**
  *

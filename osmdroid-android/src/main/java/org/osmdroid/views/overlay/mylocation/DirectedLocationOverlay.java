@@ -1,10 +1,11 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.mylocation;
 
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;

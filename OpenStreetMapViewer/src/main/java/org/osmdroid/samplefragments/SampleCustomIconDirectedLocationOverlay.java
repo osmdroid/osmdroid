@@ -7,23 +7,16 @@ package org.osmdroid.samplefragments;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.osmdroid.R;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.DirectedLocationOverlay;
+import org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay;
 
-import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
