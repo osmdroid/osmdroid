@@ -111,7 +111,6 @@ script:
   - mvn install -Pdist
   - mvn android:undeploy
   #build using gradle
-  - gradle -version
   - ./gradlew -version
   - ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
