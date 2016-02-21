@@ -2,6 +2,9 @@ package org.osmdroid.api;
 
 import android.graphics.Bitmap;
 
+/**
+ * this is only used by the Google Wrapper/3rd party library
+ */
 public class Marker {
 
 	public enum Anchor {

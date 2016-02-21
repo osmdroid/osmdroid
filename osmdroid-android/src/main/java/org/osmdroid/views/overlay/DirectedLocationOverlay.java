@@ -33,7 +33,7 @@ public class DirectedLocationOverlay extends Overlay {
 	protected final Paint mPaint = new Paint();
 	protected final Paint mAccuracyPaint = new Paint();
 
-	protected final Bitmap DIRECTION_ARROW;
+	protected Bitmap DIRECTION_ARROW;
 
 	protected GeoPoint mLocation;
 	protected float mBearing;
@@ -41,10 +41,10 @@ public class DirectedLocationOverlay extends Overlay {
 	private final Matrix directionRotater = new Matrix();
 	private final Point screenCoords = new Point();
 
-	private final float DIRECTION_ARROW_CENTER_X;
-	private final float DIRECTION_ARROW_CENTER_Y;
-	private final int DIRECTION_ARROW_WIDTH;
-	private final int DIRECTION_ARROW_HEIGHT;
+	private float DIRECTION_ARROW_CENTER_X;
+	private float DIRECTION_ARROW_CENTER_Y;
+	private int DIRECTION_ARROW_WIDTH;
+	private int DIRECTION_ARROW_HEIGHT;
 
 	private int mAccuracy = 0;
 	private boolean mShowAccuracy = true;
@@ -60,7 +60,8 @@ public class DirectedLocationOverlay extends Overlay {
 	public DirectedLocationOverlay(final Context ctx,
 			final ResourceProxy pResourceProxy) {
 		super(pResourceProxy);
-		this.DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
+
+		setDirectionArrow(mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow));
 
 		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;
@@ -76,6 +77,17 @@ public class DirectedLocationOverlay extends Overlay {
 	// Getter & Setter
 	// ===========================================================
 
+	/**
+	 * fix for https://github.com/osmdroid/osmdroid/issues/249
+	 * @param image
+     */
+	public void setDirectionArrow(final Bitmap image){
+		this.DIRECTION_ARROW = image;
+		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
+		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;
+		this.DIRECTION_ARROW_HEIGHT = this.DIRECTION_ARROW.getHeight();
+		this.DIRECTION_ARROW_WIDTH = this.DIRECTION_ARROW.getWidth();
+	}
 	public void setShowAccuracy(final boolean pShowIt) {
 		this.mShowAccuracy = pShowIt;
 	}

@@ -2,6 +2,7 @@ package org.osmdroid.api;
 
 /**
  * An interface that contains the common features of osmdroid and Google Maps v2.
+ * It's not used directly by this library can be proguarded out if not needed
  */
 public interface IMap {
 

@@ -44,6 +44,10 @@ sudo: required
 # fun fact, travis doesn't really support multiple AVDs running currently for a single build (tried it, build timed out constantly while starting up the AVDs)
 # thus we're using a build matrix (which makes more sense anyhow)
 env:
+    global:
+    #minutes (2 minutes by default), prevents CommandShellUnresponsiveExceptions
+    - ADB_INSTALL_TIMEOUT=10
+
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
@@ -101,9 +105,10 @@ script:
   #build using maven with integration tests
   #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
   #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
-  - mvn clean install -fn -B -U
-  - mvn install -fn -B -U
-  - mvn install 
+  #the dist profile adds the zip and tar outputs of all javadocs and source jars
+  - mvn clean install -fn -B -U -Pdist
+  - mvn install -fn -B -U -Pdist
+  - mvn install -Pdist
   - mvn android:undeploy
   #build using gradle
   - gradle -version

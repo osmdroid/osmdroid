@@ -222,6 +222,74 @@
 		    <module>osmdroid-android-it</module>
 		</modules>
 	 </profile>
+	 <profile>
+            <!-- dist is used for CI builds, does everything except signatures -->
+            <id>dist</id>
+	      <modules>
+		    <module>osmdroid-android</module>
+		    <module>osmdroid-third-party</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>GoogleWrapperSample</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+		    <module>osmdroid-dist</module>
+		</modules>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                   
+                    <plugin>
+                        <groupId>com.simpligility.maven.plugins</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <executions>
+                          <execution>
+                            <id>alignApk</id>
+                            <phase>install</phase>
+                            <goals>
+                              <goal>zipalign</goal>
+                            </goals>
+                          </execution>
+                        </executions>
+                        <configuration>
+                            <zipalign>
+                                <verbose>true</verbose>
+                                <skip>false</skip>
+                            </zipalign>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+	
         <profile>
             <!--  this profile is activated when using 'mvn release:perform' -->
             <!--  it signs artifacts before staging to Sonatype -->
