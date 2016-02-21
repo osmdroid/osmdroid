@@ -30,7 +30,9 @@ public final class SampleFactory {
                 SampleCustomTileSource.class,
 				SampleAnimatedZoomToLocation.class,
 				SampleWhackyColorFilter.class,
-				SampleCustomIconDirectedLocationOverlay.class
+				SampleCustomIconDirectedLocationOverlay.class,
+				SampleAssetsOnly.class,
+				SampleSqliteOnly.class
         };
 	}
 
