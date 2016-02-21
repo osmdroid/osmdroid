@@ -32,7 +32,8 @@ public final class SampleFactory {
 				SampleWhackyColorFilter.class,
 				SampleCustomIconDirectedLocationOverlay.class,
 				SampleAssetsOnly.class,
-				SampleSqliteOnly.class
+				SampleSqliteOnly.class,
+				SampleGridlines.class
         };
 	}
 
