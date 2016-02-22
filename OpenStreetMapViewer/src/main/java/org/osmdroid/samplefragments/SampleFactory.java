@@ -33,7 +33,8 @@ public final class SampleFactory {
 				SampleCustomIconDirectedLocationOverlay.class,
 				SampleAssetsOnly.class,
 				SampleSqliteOnly.class,
-				SampleCacheDownloader.class
+				SampleCacheDownloader.class,
+				SampleGridlines.class
         };
 	}
 

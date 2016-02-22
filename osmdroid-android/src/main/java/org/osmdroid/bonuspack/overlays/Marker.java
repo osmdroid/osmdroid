@@ -1,8 +1,14 @@
 package org.osmdroid.bonuspack.overlays;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
@@ -39,6 +45,18 @@ import org.osmdroid.views.Projection;
  */
 public class Marker extends OverlayWithIW {
 
+	/**
+	 * this is an OPT IN feature that was used for kml parsing with osmbonuspack (on a remote branch)
+	 * that set the image icon of a kml marker to a text label if no image url was provided. It's also
+	 * used in a few other cases, such as placing a generic text label on the map
+	 */
+	public static boolean ENABLE_TEXT_LABELS_WHEN_NO_IMAGE=false;
+
+	/* attributes for text labels, used for osmdroid gridlines */
+	protected int mTextLabelBackgroundColor =Color.WHITE;
+	protected int mTextLabelForegroundColor = Color.BLACK;
+	protected int mTextLabelFontSize =24;
+
 	/*attributes for standard features:*/
 	protected Drawable mIcon;
 	protected GeoPoint mPosition;
@@ -59,6 +77,7 @@ public class Marker extends OverlayWithIW {
 	protected Point mPositionPixels;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
+	final Resources resource;
 	
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -69,6 +88,7 @@ public class Marker extends OverlayWithIW {
 
 	public Marker(MapView mapView, final ResourceProxy resourceProxy) {
 		super(resourceProxy);
+		resource = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
 		mPosition = new GeoPoint(0.0, 0.0);
@@ -107,10 +127,33 @@ public class Marker extends OverlayWithIW {
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(Drawable icon){
-		if (icon != null)
-			mIcon = icon;
-		else 
+		if (ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon==null && this.mTitle!=null && this.mTitle.length() > 0) {
+			Paint background = new Paint();
+			background.setColor(mTextLabelBackgroundColor);
+
+			Paint p = new Paint();
+			p.setTextSize(mTextLabelFontSize);
+			p.setColor(mTextLabelForegroundColor);
+
+			p.setAntiAlias(true);
+			p.setTypeface(Typeface.DEFAULT_BOLD);
+			p.setTextAlign(Paint.Align.LEFT);
+			int width=(int)(p.measureText(getTitle()) + 0.5f);
+			float baseline=(int)(-p.ascent() + 0.5f);
+			int height=(int) (baseline +p.descent() + 0.5f);
+			Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+			Canvas c = new Canvas(image);
+			c.drawPaint(background);
+			c.drawText(getTitle(),0,baseline,p);
+
+			mIcon=new BitmapDrawable(resource,image);
+		}
+		if (!ENABLE_TEXT_LABELS_WHEN_NO_IMAGE && icon!=null)
+			this.mIcon=icon;
+		//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
+		if (this.mIcon==null)
 			mIcon = mDefaultIcon;
+
 	}
 	
 	public GeoPoint getPosition(){
@@ -335,6 +378,30 @@ public class Marker extends OverlayWithIW {
 		if (marker.mPanToView)
 			mapView.getController().animateTo(marker.getPosition());
 		return true;
+	}
+
+	public int getTextLabelBackgroundColor() {
+		return mTextLabelBackgroundColor;
+	}
+
+	public void setTextLabelBackgroundColor(int mTextLabelBackgroundColor) {
+		this.mTextLabelBackgroundColor = mTextLabelBackgroundColor;
+	}
+
+	public int getTextLabelForegroundColor() {
+		return mTextLabelForegroundColor;
+	}
+
+	public void setTextLabelForegroundColor(int mTextLabelForegroundColor) {
+		this.mTextLabelForegroundColor = mTextLabelForegroundColor;
+	}
+
+	public int getTextLabelFontSize() {
+		return mTextLabelFontSize;
+	}
+
+	public void setTextLabelFontSize(int mTextLabelFontSize) {
+		this.mTextLabelFontSize = mTextLabelFontSize;
 	}
 	
 }
