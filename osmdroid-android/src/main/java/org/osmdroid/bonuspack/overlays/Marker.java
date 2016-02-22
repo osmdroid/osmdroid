@@ -2,6 +2,7 @@ package org.osmdroid.bonuspack.overlays;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,9 +13,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -78,15 +76,15 @@ public class Marker extends OverlayWithIW {
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
 	final Resources resource;
-	
+
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
 	
 	public Marker(MapView mapView) {
-		this(mapView, new DefaultResourceProxyImpl(mapView.getContext()));
+		this(mapView, (mapView.getContext()));
 	}
 
-	public Marker(MapView mapView, final ResourceProxy resourceProxy) {
+	public Marker(MapView mapView, final Context resourceProxy) {
 		super(resourceProxy);
 		resource = mapView.getContext().getResources();
 		mBearing = 0.0f;
@@ -104,7 +102,7 @@ public class Marker extends OverlayWithIW {
 		mOnMarkerClickListener = null;
 		mOnMarkerDragListener = null;
 		if (mDefaultIcon == null)
-			mDefaultIcon = resourceProxy.getDrawable(bitmap.marker_default);
+			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
 		mIcon = mDefaultIcon;
 		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
@@ -153,7 +151,6 @@ public class Marker extends OverlayWithIW {
 		//there's still an edge case here, title label no defined, icon is null and textlabel is enabled
 		if (this.mIcon==null)
 			mIcon = mDefaultIcon;
-
 	}
 	
 	public GeoPoint getPosition(){
@@ -403,5 +400,5 @@ public class Marker extends OverlayWithIW {
 	public void setTextLabelFontSize(int mTextLabelFontSize) {
 		this.mTextLabelFontSize = mTextLabelFontSize;
 	}
-	
+
 }

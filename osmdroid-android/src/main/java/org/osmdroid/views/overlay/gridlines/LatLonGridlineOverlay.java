@@ -3,7 +3,6 @@ package org.osmdroid.views.overlay.gridlines;
 import android.content.Context;
 import android.graphics.Color;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.bonuspack.overlays.FolderOverlay;
 import org.osmdroid.bonuspack.overlays.Marker;
 import org.osmdroid.bonuspack.overlays.Polyline;
@@ -42,7 +41,7 @@ public class LatLonGridlineOverlay {
         m.setTextLabelForegroundColor(fontColor);
     }
 
-    public static FolderOverlay getLatLonGrid(Context ctx, MapView mapView, ResourceProxy proxy) {
+    public static FolderOverlay getLatLonGrid(Context ctx, MapView mapView) {
         BoundingBoxE6 box = mapView.getBoundingBox();
         int zoom = mapView.getZoomLevel();
 
@@ -99,13 +98,6 @@ public class LatLonGridlineOverlay {
             if (north < south) {
                 //we're vertically wrapping, abort.
                 return gridlines;
-            } else if (north > 0 && south < 0) {
-                north_south_delta = north + Math.abs(south);
-            } else if (north > 0 && south >= 0) {
-                north_south_delta = north + -south;
-            } else {
-                //both are negative
-                north_south_delta = Math.abs(south) - Math.abs(north);
             }
             if (DEBUG) {
                 System.out.println("N " + north + " S " + south + ", " + north_south_delta);
@@ -154,7 +146,7 @@ public class LatLonGridlineOverlay {
                 gridlines.add(p);
 
 
-                Marker m = new Marker(mapView, proxy);
+                Marker m = new Marker(mapView);
                 applyMarkerAttributes(m);
                 if (i > 0) {
                     m.setTitle(df.format(i) + "N");
@@ -189,7 +181,7 @@ public class LatLonGridlineOverlay {
                 gridlines.add(p);
 
 
-                Marker m =  new Marker(mapView, proxy);
+                Marker m =  new Marker(mapView);
                 applyMarkerAttributes(m);
                 if (i > 0) {
                     m.setTitle(df.format(i) + "E");
@@ -243,7 +235,7 @@ public class LatLonGridlineOverlay {
 
                     gridlines.add(p);
 
-                    Marker m =  new Marker(mapView, proxy);
+                    Marker m =  new Marker(mapView);
                     applyMarkerAttributes(m);
                     if (i > 0) {
                         m.setTitle(df.format(i) + "E");
@@ -259,7 +251,7 @@ public class LatLonGridlineOverlay {
 
                 for (double i = we_startpoint; i < 180; i = i + incrementor) {
 
-                    Marker m =  new Marker(mapView, proxy);
+                    Marker m =  new Marker(mapView);
 
                     applyMarkerAttributes(m);
                     if (i > 0) {

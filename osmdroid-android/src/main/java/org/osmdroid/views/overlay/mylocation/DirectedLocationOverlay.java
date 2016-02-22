@@ -1,11 +1,11 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.mylocation;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -15,6 +15,8 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 /**
  *
@@ -54,14 +56,11 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 
 	public DirectedLocationOverlay(final Context ctx) {
-		this(ctx, new DefaultResourceProxyImpl(ctx));
-	}
+		super(ctx);
 
-	public DirectedLocationOverlay(final Context ctx,
-			final ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+		BitmapDrawable d=(BitmapDrawable)ctx.getResources().getDrawable(R.drawable.direction_arrow);
 
-		setDirectionArrow(mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow));
+		setDirectionArrow(d.getBitmap());
 
 		this.DIRECTION_ARROW_CENTER_X = this.DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		this.DIRECTION_ARROW_CENTER_Y = this.DIRECTION_ARROW.getHeight() / 2 - 0.5f;

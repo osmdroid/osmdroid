@@ -26,29 +26,28 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
         mMapView.setTilesScaledToDpi(true);
         mMapView.setMapListener(this);
         mMapView.getController().setZoom(3);
+        updateGridlines();
     }
 
     @Override
     public boolean onScroll(ScrollEvent scrollEvent) {
-
-        if (activeLatLonGrid != null) {
-            mMapView.getOverlays().remove(activeLatLonGrid);
-        }
-        activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView, mResourceProxy);
-        mMapView.getOverlays().add(activeLatLonGrid);
-
-        return true;
+        updateGridlines();
+        return false;
     }
 
     @Override
     public boolean onZoom(ZoomEvent zoomEvent) {
+        updateGridlines();
+        return false;
+    }
+
+    private void updateGridlines(){
 
         if (activeLatLonGrid != null)
             mMapView.getOverlays().remove(activeLatLonGrid);
-        activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView, mResourceProxy);
+        activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
         mMapView.getOverlays().add(activeLatLonGrid);
 
-        return false;
     }
 
 }

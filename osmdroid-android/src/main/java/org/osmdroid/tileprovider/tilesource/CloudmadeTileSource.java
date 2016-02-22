@@ -1,7 +1,6 @@
 package org.osmdroid.tileprovider.tilesource;
 
 import android.util.Log;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.util.CloudmadeUtil;

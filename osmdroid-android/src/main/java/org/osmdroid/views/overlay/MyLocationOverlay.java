@@ -3,13 +3,12 @@ package org.osmdroid.views.overlay;
 
 import java.util.LinkedList;
 
-import org.osmdroid.DefaultResourceProxyImpl;
 import org.osmdroid.LocationListenerProxy;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.SensorEventListenerProxy;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.api.IMyLocationOverlay;
+import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.LocationUtils;
 import org.osmdroid.util.NetworkLocationIgnorer;
@@ -31,6 +30,7 @@ import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -133,12 +133,7 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	// ===========================================================
 
 	public MyLocationOverlay(final Context ctx, final MapView mapView) {
-		this(ctx, mapView, new DefaultResourceProxyImpl(ctx));
-	}
-
-	public MyLocationOverlay(final Context ctx, final MapView mapView,
-			final ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+		super(ctx);
 		mMapView = mapView;
 		mLocationManager = (LocationManager) ctx.getSystemService(Context.LOCATION_SERVICE);
 		mSensorManager = (SensorManager) ctx.getSystemService(Context.SENSOR_SERVICE);
@@ -149,8 +144,8 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 		mCirclePaint.setARGB(0, 100, 100, 255);
 		mCirclePaint.setAntiAlias(true);
 
-		PERSON_ICON = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
-		DIRECTION_ARROW = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
+		PERSON_ICON =((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap();
+		DIRECTION_ARROW = ((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap();
 
 		DIRECTION_ARROW_CENTER_X = DIRECTION_ARROW.getWidth() / 2 - 0.5f;
 		DIRECTION_ARROW_CENTER_Y = DIRECTION_ARROW.getHeight() / 2 - 0.5f;
@@ -502,12 +497,16 @@ public class MyLocationOverlay extends Overlay implements IMyLocationOverlay, IO
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.my_location)).setIcon(
-				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation));
+				mMapView.getContext().getResources().getString(R.string.my_location)
+				).setIcon(
+				mMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_mylocation)
+				);
 
 		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.compass)).setIcon(
-				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass));
+				mMapView.getContext().getResources().getString(R.string.compass)
+				).setIcon(
+				mMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass)
+				);
 
 		return true;
 	}

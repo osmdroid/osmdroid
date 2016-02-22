@@ -9,8 +9,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
@@ -55,11 +53,8 @@ public class Polyline extends OverlayWithIW {
 	protected OnClickListener mOnClickListener;
 
 	public Polyline(Context ctx){
-		this(new DefaultResourceProxyImpl(ctx));
-	}
-	
-	public Polyline(final ResourceProxy resourceProxy){
-		super(resourceProxy);
+
+		super(ctx);
 		//default as defined in Google API:
 		this.mPaint.setColor(Color.BLACK);
 		this.mPaint.setStrokeWidth(10.0f);
