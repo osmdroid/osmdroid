@@ -649,35 +649,34 @@ public void setAlignRight(final boolean alignRight) {
 		default:
 		case metric:
 			if (meters >= 1000 * 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_kilometers),
-						(meters / 1000));
+				return context.getResources().getString(R.string.format_distance_kilometers,(meters / 1000));
 			} else if (meters >= 1000 / 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_kilometers),
+				return context.getResources().getString(R.string.format_distance_kilometers,
 						(int) (meters / 100.0) / 10.0);
 			} else {
-				return String.format(context.getResources().getString(R.string.format_distance_meters), meters);
+				return context.getResources().getString(R.string.format_distance_meters, meters);
 			}
 		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_miles),
+				return context.getResources().getString(R.string.format_distance_miles,
 						(int) (meters / METERS_PER_STATUTE_MILE));
 
 			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_miles),
+				return context.getResources().getString(R.string.format_distance_miles,
 						((int) (meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);
 			} else {
-				return String.format(context.getResources().getString(R.string.format_distance_feet),
+				return context.getResources().getString(R.string.format_distance_feet,
 						(int) (meters * FEET_PER_METER));
 			}
 		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_nautical_miles),
+				return context.getResources().getString(R.string.format_distance_nautical_miles,
 						((int) (meters / METERS_PER_NAUTICAL_MILE)));
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
-				return String.format(context.getResources().getString(R.string.format_distance_nautical_miles),
+				return context.getResources().getString(R.string.format_distance_nautical_miles,
 						(((int) (meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));
 			} else {
-				return String.format(context.getResources().getString(R.string.format_distance_feet),
+				return context.getResources().getString(R.string.format_distance_feet,
 						((int) (meters * FEET_PER_METER)));
 			}
 		}
