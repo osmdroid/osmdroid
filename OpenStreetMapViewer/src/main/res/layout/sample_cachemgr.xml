@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tilesource="Mapnik" />
+
+    <Button android:id="@+id/btnCache"
+        android:layout_width="fill_parent"
+        android:text="Cache Manager"
+        android:layout_height="wrap_content"></Button>
+
+</RelativeLayout>

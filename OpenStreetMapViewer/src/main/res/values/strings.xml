@@ -25,5 +25,10 @@
     <string name="format_distance_feet">%s ft</string>
 
     <string name="compass">Compass</string>
+    <string name="cancel">Cancel</string>
+    <string name="cache_current_size">Cache Current Size</string>
+    <string name="cache_manager">Cache Manager</string>
+    <string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.</string>
+    <string name="cache_download">Start Download</string>
 
 </resources>
