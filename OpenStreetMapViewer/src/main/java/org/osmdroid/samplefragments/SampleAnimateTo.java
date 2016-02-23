@@ -52,14 +52,16 @@ public class SampleAnimateTo extends SampleGridlines {
 
 
     public void runTask() {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                double lat=rand.nextDouble()*180 -90;
-                double lon=rand.nextDouble()*360-180;
-                mMapView.getController().animateTo(new GeoPoint(lat,lon));
-                Toast.makeText(getActivity(), "Animate to " + lat + "," + lon,Toast.LENGTH_LONG).show();
-            }
-        });
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    double lat = rand.nextDouble() * 180 - 90;
+                    double lon = rand.nextDouble() * 360 - 180;
+                    mMapView.getController().animateTo(new GeoPoint(lat, lon));
+                    Toast.makeText(getActivity(), "Animate to " + lat + "," + lon, Toast.LENGTH_LONG).show();
+                }
+            });
+        }catch (Exception ex){}
     }
 }
