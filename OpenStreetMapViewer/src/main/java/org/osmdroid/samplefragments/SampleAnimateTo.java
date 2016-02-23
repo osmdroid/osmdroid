@@ -15,6 +15,7 @@ import java.util.TimerTask;
  */
 public class SampleAnimateTo extends SampleGridlines {
     Random rand = new Random();
+    Timer t = new Timer();
 
     @Override
     public String getSampleTitle() {
@@ -24,23 +25,41 @@ public class SampleAnimateTo extends SampleGridlines {
     @Override
     public void addOverlays() {
         super.addOverlays();
+
+
+
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        double lat=rand.nextDouble()*180 -90;
-                        double lon=rand.nextDouble()*360-180;
-                        mMapView.getController().animateTo(new GeoPoint(lat,lon));
-                        Toast.makeText(getActivity(), "Animate to " + lat + "," + lon,Toast.LENGTH_LONG).show();
-                    }
-                });
+                runTask();
             }
         };
-        Timer t = new Timer();
+
+        t = new Timer();
         t.schedule(task,2000,5000);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        t.cancel();
+        t=null;
+    }
 
 
+    public void runTask() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                double lat=rand.nextDouble()*180 -90;
+                double lon=rand.nextDouble()*360-180;
+                mMapView.getController().animateTo(new GeoPoint(lat,lon));
+                Toast.makeText(getActivity(), "Animate to " + lat + "," + lon,Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
