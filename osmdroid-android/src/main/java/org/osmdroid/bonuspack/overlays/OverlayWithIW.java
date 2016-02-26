@@ -2,8 +2,6 @@ package org.osmdroid.bonuspack.overlays;
 
 import android.content.Context;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.overlay.Overlay;
 
 /**
@@ -23,18 +21,9 @@ public abstract class OverlayWithIW extends Overlay {
 	protected Object mRelatedObject;
 
 	public OverlayWithIW(final Context ctx) {
-		this(new DefaultResourceProxyImpl(ctx));
+		super((ctx));
 	}
 
-	public OverlayWithIW(final ResourceProxy resourceProxy) {
-		super(resourceProxy);
-		/* already done by default:
-		mTitle = null; 
-		mSnippet = null;
-		mSubDescription = null;
-		mInfoWindow = null;
-		*/
-	}
 
 	public void setTitle(String title){
 		mTitle = title;

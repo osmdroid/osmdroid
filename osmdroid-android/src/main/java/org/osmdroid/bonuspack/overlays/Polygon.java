@@ -2,8 +2,6 @@ package org.osmdroid.bonuspack.overlays;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -136,11 +134,7 @@ public class Polygon extends OverlayWithIW {
 	// ===========================================================
 
 	public Polygon(final Context ctx) {
-		this(new DefaultResourceProxyImpl(ctx));
-	}
-
-	public Polygon(final ResourceProxy resourceProxy) {
-		super(resourceProxy);
+		super(ctx);
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);

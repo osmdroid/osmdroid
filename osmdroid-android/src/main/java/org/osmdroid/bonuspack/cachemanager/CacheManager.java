@@ -12,6 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.UnknownHostException;;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.bonuspack.utils.BonusPackHelper;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -159,7 +160,22 @@ public class CacheManager {
 	 * @param zoomMax
 	 */
 	public void downloadAreaAsync(Context ctx, BoundingBoxE6 bb, final int zoomMin, final int zoomMax){
-		new DownloadingTask(ctx, bb, zoomMin, zoomMax).execute();
+		new DownloadingTask(ctx, bb, zoomMin, zoomMax,null).execute();
+	}
+
+	/**
+	 * Download in background all tiles of the specified area in osmdroid cache.
+	 * @param ctx
+	 * @param bb
+	 * @param zoomMin
+	 * @param zoomMax
+	 */
+	public void downloadAreaAsync(Context ctx, BoundingBoxE6 bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback){
+		new DownloadingTask(ctx, bb, zoomMin, zoomMax, callback).execute();
+	}
+
+	public interface CacheManagerCallback{
+		public void onTaskComplete();
 	}
 	
 	/** generic class for common code related to AsyncTask management */
@@ -168,7 +184,13 @@ public class CacheManager {
 		int mZoomMin, mZoomMax;
 		BoundingBoxE6 mBB;
 		Context mCtx;
-		
+		CacheManagerCallback callback=null;
+
+		public CacheManagerTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback) {
+			this(pCtx,pBB,pZoomMin,pZoomMax);
+			this.callback=callback;
+		}
+
 		public CacheManagerTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
 			mCtx = pCtx;
 			mProgressDialog = createProgressDialog(pCtx);
@@ -199,8 +221,8 @@ public class CacheManager {
 	
 	protected class DownloadingTask extends CacheManagerTask {
 		
-		public DownloadingTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
-			super(pCtx, pBB, pZoomMin, pZoomMax);
+		public DownloadingTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback) {
+			super(pCtx, pBB, pZoomMin, pZoomMax, callback);
 	    }
 		
 		@Override protected void onPreExecute(){
@@ -216,6 +238,13 @@ public class CacheManager {
 				Toast.makeText(mCtx, "Loading completed with " + errors + " errors.", Toast.LENGTH_SHORT).show();
 			if (mProgressDialog.isShowing()) {
 				mProgressDialog.dismiss();
+			}
+			if (callback!=null){
+				try {
+					callback.onTaskComplete();
+				}catch (Exception ex){
+					Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", ex);
+				}
 			}
 		}
 		

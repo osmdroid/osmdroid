@@ -1,7 +1,5 @@
 package org.osmdroid.google.overlay;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.util.MyMath;
@@ -41,11 +39,11 @@ public class GoogleTilesOverlay extends Overlay {
 	private final Point mTilePos = new Point();
 
 	public GoogleTilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
-		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
+		this(aTileProvider);
 
 	}
 
-	public GoogleTilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
+	public GoogleTilesOverlay(final MapTileProviderBase aTileProvider) {
 		// Original line in org.osmdroid.views.overlay.TilesOverlay.java
 		// super(pResourceProxy);
 		if (aTileProvider == null) {

@@ -1,6 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 
 import android.content.Context;
@@ -44,9 +43,6 @@ public abstract class NonAcceleratedOverlay extends Overlay {
 		super(ctx);
 	}
 
-	public NonAcceleratedOverlay(ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
-	}
 
 	/**
 	 * Override if you really want access to the original (possibly) accelerated canvas.
