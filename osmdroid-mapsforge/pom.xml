@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.osmdroid</groupId>
+        <artifactId>osmdroid-parent</artifactId>
+        <version>5.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>osmdroid-mapsforge</artifactId>
+    <packaging>aar</packaging>
+
+    <name>OSMdroid Mapsforge</name>
+    <description>An Android library to display OpenStreetMap views using Mapsforge</description>
+
+    
+    <licenses>
+        <license>
+            <name>LGPLv3</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.en.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <dependencies>
+	     <!-- internal dependencies -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>osmdroid-android</artifactId>
+            <version>${project.version}</version>
+	    <type>aar</type>
+        </dependency>
+	<dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-map-android</artifactId>
+	    <version>${forge.version}</version>
+        </dependency>
+	<dependency>
+            <groupId>org.mapsforge</groupId>
+            <artifactId>mapsforge-map</artifactId>
+	    <version>${forge.version}</version>
+        </dependency>
+
+
+	<!-- Android included libraries -->
+        <dependency>
+            <groupId>android</groupId>
+            <artifactId>android</artifactId>
+        </dependency>
+
+        <!-- test dependencies -->
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+	 <plugins>
+	      <plugin>
+		    <groupId>com.simpligility.maven.plugins</groupId>
+		    <artifactId>android-maven-plugin</artifactId>
+		    <configuration>
+			 <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory> 
+			 <sdk>
+			      <platform>${android.target}</platform>
+			 </sdk>
+		    </configuration>
+	       </plugin>
+	 </plugins>
+    </build>
+
+</project>

@@ -118,6 +118,7 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
                 overlay.draw(c, pMapView, false);
             }
         }
+        //potential fix for #52 pMapView.invalidate();
 
     }
 

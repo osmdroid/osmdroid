@@ -46,21 +46,29 @@ sudo: required
 env:
     global:
     #minutes (2 minutes by default), prevents CommandShellUnresponsiveExceptions
-    - ADB_INSTALL_TIMEOUT=10
+    - ADB_INSTALL_TIMEOUT=14
 
     matrix:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
-
+    # first env var is just for display purposes
+    #api8 with google
+    - API=8g ANDROID_TARGET=12  ANDROID_ABI=armeabi
     #api8
-    - ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
-    - ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
+    #api10 with google
+    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api15
-    - ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+    - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
+    #api15 with google
+    - API=15g ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
     #api19
-    - ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
+    #api19 with google
+    - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
-    #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available?
+    #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
     #api22
     # ANDROID_TARGET=18  ANDROID_ABI=x86 not currently possible with travis, missing some kind of hardware acceleration driver
     #api23
@@ -88,6 +96,10 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
+  #setup for maps forge adapter
+  #- wget http://download.mapsforge.org/maps/world/world.map
+  - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
+
 #build
 script:
   #build using maven with integration tests
@@ -99,7 +111,6 @@ script:
   - mvn install -Pdist
   - mvn android:undeploy
   #build using gradle
-  - gradle -version
   - ./gradlew -version
   - ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not

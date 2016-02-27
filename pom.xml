@@ -51,6 +51,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.target>23</android.target>
+        <forge.version>0.6.0</forge.version>
     </properties>
 
     <dependencyManagement>
@@ -71,6 +72,12 @@
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v7-appcompat</artifactId>
                 <version>[23,)</version>
+            </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
+                <version>[23,)</version>
+                <type>apklib</type>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -208,7 +215,9 @@
 		    <module>osmdroid-android</module>
 		    <module>osmdroid-third-party</module>
 		    <module>OpenStreetMapViewer</module>
-		    <module>GoogleWrapperSample</module>
+		    <module>osmdroid-mapsforge</module>
+            <module>osmdroid-forge-app</module>
+            <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
 		</modules>
