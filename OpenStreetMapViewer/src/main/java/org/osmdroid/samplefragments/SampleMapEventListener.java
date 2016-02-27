@@ -27,7 +27,7 @@ import java.text.DecimalFormat;
 public class SampleMapEventListener extends BaseSampleFragment
 {
     TextView textViewCurrentLocation;
-    DecimalFormat df = new DecimalFormat("#.000000");
+    public static final DecimalFormat df = new DecimalFormat("#.000000");
     @Override
     public String getSampleTitle() {
         return "Map Event Listener";
