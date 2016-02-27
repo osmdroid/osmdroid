@@ -62,6 +62,6 @@ public class SampleAnimateTo extends SampleGridlines {
                     Toast.makeText(getActivity(), "Animate to " + lat + "," + lon, Toast.LENGTH_LONG).show();
                 }
             });
-        }catch (Exception ex){}
+        }catch (Throwable ex){}
     }
 }
