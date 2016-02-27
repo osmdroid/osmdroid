@@ -51,7 +51,7 @@ public class SampleAnimateTo extends SampleGridlines {
     }
 
 
-    public void runTask() {
+    private void runTask() {
         try {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
