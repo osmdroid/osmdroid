@@ -35,7 +35,8 @@ public final class SampleFactory {
 				SampleSqliteOnly.class,
 				SampleCacheDownloader.class,
 				SampleGridlines.class,
-				SampleMapEventListener.class
+				SampleMapEventListener.class,
+				SampleAnimateTo.class
         };
 	}
 
