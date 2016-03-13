@@ -216,8 +216,8 @@
 		    <module>osmdroid-third-party</module>
 		    <module>OpenStreetMapViewer</module>
 		    <module>osmdroid-mapsforge</module>
-            <module>osmdroid-forge-app</module>
-            <module>GoogleWrapperSample</module>
+		    <module>osmdroid-forge-app</module>
+		    <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
 		</modules>
@@ -230,6 +230,8 @@
 		    <module>osmdroid-third-party</module>
 		    <module>OpenStreetMapViewer</module>
 		    <module>GoogleWrapperSample</module>
+		    <module>osmdroid-mapsforge</module>
+		    <module>osmdroid-forge-app</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
 		    <module>osmdroid-dist</module>
