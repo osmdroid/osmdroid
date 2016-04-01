@@ -17,6 +17,7 @@ dump_output() {
 error_handler() {
   echo ERROR: An error was encountered with the build.
   dump_output
+  kill $PING_LOOP_PID
   exit 1
 }
 # If an error occurs, run our error handler to output a tail of the build
