@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack.utils;
+package org.osmdroid.tileprovider.constants;
 
 /** Useful functions and common constants.
  * @author M.Kergall
@@ -15,8 +15,4 @@ public class BonusPackHelper {
      */
     public static final int UNDEFINED_RES_ID = 0;
 
-    /**
-     * User agent sent to services by default
-     */
-    public static final String DEFAULT_USER_AGENT = "OsmBonusPack/1";
 }

@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
 import org.osmdroid.views.MapView;
 import android.graphics.drawable.Drawable;

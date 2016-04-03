@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack.cachemanager;
+package org.osmdroid.tileprovider.cachemanager;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -10,10 +10,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.UnknownHostException;;
 import org.osmdroid.api.IMapView;
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;

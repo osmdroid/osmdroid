@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.renderscript.Double2;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,9 +16,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.osmdroid.R;
-import org.osmdroid.bonuspack.cachemanager.CacheManager;
-import org.osmdroid.constants.OpenStreetMapConstants;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 

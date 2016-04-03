@@ -1,9 +1,9 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.Overlay;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;

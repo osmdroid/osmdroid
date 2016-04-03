@@ -1,6 +1,6 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
-import org.osmdroid.bonuspack.utils.BonusPackHelper;
+import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.views.MapView;
 import android.content.Context;
 import android.text.Html;

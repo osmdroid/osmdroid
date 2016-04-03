@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.bonuspack.overlays.FolderOverlay;
+import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;

@@ -1,8 +1,6 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
 import android.content.Context;
-
-import org.osmdroid.views.overlay.Overlay;
 
 /**
  * Overlay able to open an InfoWindow (a bubble), displaying: a title, a snippet or description, 

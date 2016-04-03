@@ -1,12 +1,9 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
-import java.util.AbstractList;
 import java.util.List;
 
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.DefaultOverlayManager;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.OverlayManager;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;

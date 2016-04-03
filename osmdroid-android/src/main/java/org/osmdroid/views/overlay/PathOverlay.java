@@ -23,9 +23,10 @@ import android.graphics.Rect;
  * 
  * @deprecated This class is no longer maintained and has various issues. Instead you should use the
  *             Polyline class in OSMBonusPack.
- * 
+ * @see Polyline
  *             This class draws a path line in given color.
  */
+@Deprecated
 public class PathOverlay extends Overlay {
 	// ===========================================================
 	// Constants

@@ -1,4 +1,4 @@
-package org.osmdroid.bonuspack.overlays;
+package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
 

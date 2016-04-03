@@ -1,26 +1,18 @@
 package org.osmdroid.samplefragments;
 
 import org.osmdroid.R;
-import org.osmdroid.bonuspack.overlays.BasicInfoWindow;
-import org.osmdroid.bonuspack.overlays.Marker;
-import org.osmdroid.bonuspack.overlays.MarkerInfoWindow;
-import org.osmdroid.bonuspack.overlays.Polygon;
-import org.osmdroid.bonuspack.overlays.Polyline;
+import org.osmdroid.views.overlay.BasicInfoWindow;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.drawing.OsmPath;
-import org.osmdroid.views.overlay.Overlay;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
