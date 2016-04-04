@@ -16,6 +16,7 @@ import android.widget.TextView;
  * Clicking on the bubble will close it. 
  * 
  * @author M.Kergall
+ * @see Marker
  */
 public class BasicInfoWindow extends InfoWindow {
 

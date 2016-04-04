@@ -22,7 +22,10 @@ import android.view.MotionEvent;
  * Draws a mini-map as an overlay layer. It currently uses its own MapTileProviderBasic or a tile
  * provider supplied to it. Do NOT share a tile provider amongst multiple tile drawing overlays - it
  * will create an under-sized cache.
- * 
+ *
+ * Notice, this class is some problems when the parent map view is rotation enabled.
+ * See https://github.com/osmdroid/osmdroid/issues/98 for a work around
+ *
  * @author Marc Kurtz
  * 
  */
