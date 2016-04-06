@@ -80,14 +80,14 @@ public class MainActivity extends ListActivity {
 
 	private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
-        String message = "OSMDroid permissions:";
+        String message = "osmdroid permissions:";
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            message += "\nStorage access to store map tiles.";
+            message += "\nLocation to show user location.";
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            message += "\nLocation to show user location.";
+            message += "\nStorage access to store map tiles.";
         }
         if (!permissions.isEmpty()) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
