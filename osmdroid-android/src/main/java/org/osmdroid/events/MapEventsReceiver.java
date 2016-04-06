@@ -1,6 +1,7 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.events;
 
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 
 /**
  * Interface for objects that need to handle map events thrown by a MapEventsOverlay. 

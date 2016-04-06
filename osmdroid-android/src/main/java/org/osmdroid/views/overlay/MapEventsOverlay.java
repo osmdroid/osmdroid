@@ -1,5 +1,6 @@
 package org.osmdroid.views.overlay;
 
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;

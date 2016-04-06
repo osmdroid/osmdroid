@@ -17,6 +17,7 @@ import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
 /**
  * An icon placed at a particular point on the map's surface. 
@@ -104,7 +105,7 @@ public class Marker extends OverlayWithIW {
 		if (mDefaultIcon == null)
 			mDefaultIcon = resourceProxy.getResources().getDrawable(R.drawable.marker_default);
 		mIcon = mDefaultIcon;
-		if (mDefaultInfoWindow == null || mDefaultInfoWindow.mMapView != mapView){
+		if (mDefaultInfoWindow == null || mDefaultInfoWindow.getMapView() != mapView){
 			//build default bubble, that will be shared between all markers using the default one:
 			/* pre-aar version
 			Context context = mapView.getContext();
@@ -262,7 +263,7 @@ public class Marker extends OverlayWithIW {
 	public boolean isInfoWindowShown(){
 		if (mInfoWindow instanceof MarkerInfoWindow){
 			MarkerInfoWindow iw = (MarkerInfoWindow)mInfoWindow;
-			return (iw != null) && iw.isOpen() && (iw.mMarkerRef==this);
+			return (iw != null) && iw.isOpen() && (iw.getMarkerReference()==this);
 		} else
 			return super.isInfoWindowOpen();
 	}

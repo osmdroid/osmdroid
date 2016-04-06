@@ -1,6 +1,9 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.infowindow;
 
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
+
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,11 +19,19 @@ import android.widget.ImageView;
  */
 public class MarkerInfoWindow extends BasicInfoWindow {
 
-	protected Marker mMarkerRef; //reference to the Marker on which it is opened. Null if none. 
+	protected Marker mMarkerRef; //reference to the Marker on which it is opened. Null if none.
 	
 	public MarkerInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
 		//mMarkerRef = null;
+	}
+
+	/**
+	 * reference to the Marker on which it is opened. Null if none.
+	 * @return
+     */
+	public Marker getMarkerReference(){
+		return mMarkerRef;
 	}
 	
 	@Override public void onOpen(Object item) {

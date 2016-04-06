@@ -1,7 +1,7 @@
 package org.osmdroid.samplefragments;
 
 import org.osmdroid.R;
-import org.osmdroid.views.overlay.BasicInfoWindow;
+import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;

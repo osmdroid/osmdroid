@@ -1,9 +1,10 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.infowindow;
 
 import java.util.ArrayList;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,14 @@ public abstract class InfoWindow {
 		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = inflater.inflate(layoutResId, parent, false);
 		mView.setTag(this);
+	}
+
+	/**
+	 * may return null if the info window hasn't been attached yet
+	 * @return
+     */
+	public MapView getMapView(){
+		return mMapView;
 	}
 
 	/**

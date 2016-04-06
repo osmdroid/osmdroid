@@ -1,7 +1,10 @@
-package org.osmdroid.views.overlay;
+package org.osmdroid.views.overlay.infowindow;
 
 import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayWithIW;
+
 import android.content.Context;
 import android.text.Html;
 import android.text.Spanned;
