@@ -1,0 +1,92 @@
+<!-- * Copyright 2001-2009 The Apache Software Foundation. * * Licensed under 
+the Apache License, Version 2.0 (the "License"); * you may not use this file 
+except in compliance with the License. * You may obtain a copy of the License 
+at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by 
+applicable law or agreed to in writing, software * distributed under the 
+License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS 
+OF ANY KIND, either express or implied. * See the License for the specific 
+language governing permissions and * limitations under the License. * */ -->
+<assembly>
+	<id>distro</id>
+	<formats>
+		<format>zip</format>
+		<format>tar.gz</format>
+	</formats>
+	<includeBaseDirectory>true</includeBaseDirectory>
+	
+	<dependencySets>
+	
+		
+		<dependencySet>
+			<outputDirectory>bin</outputDirectory>
+			<includes>
+
+				<include>org.osmdroid:osmdroid-android:aar</include>
+				<include>org.osmdroid:osmdroid-third-party:aar</include>
+				<include>org.osmdroid:osmdroid-mapsforge:aar</include>
+				<include>org.osmdroid:osmdroid-packager:jar:jar-with-dependencies</include>
+				
+				<include>org.osmdroid:OpenStreetMapViewer:apk</include>
+				<include>org.osmdroid:GoogleWrapperSample:apk</include>
+				<include>org.osmdroid:OpenStreetMapViewer-Forge:apk</include>
+			</includes>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useProjectAttachments>false</useProjectAttachments>
+			<useTransitiveDependencies>false</useTransitiveDependencies>
+			<useTransitiveFiltering>false</useTransitiveFiltering>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+		</dependencySet>
+		
+		
+		
+		<!-- The source archives JARs -->
+		<dependencySet>
+			<outputDirectory>src</outputDirectory>
+			<includes>
+
+				<include>org.osmdroid:osmdroid-android:jar:sources</include>
+				<include>org.osmdroid:osmdroid-mapsforge:jar:sources</include>
+				<include>org.osmdroid:osmdroid-third-party:jar:sources</include>
+				<include>org.osmdroid:osmdroid-packager:jar:sources</include>
+				
+				<include>org.osmdroid:OpenStreetMapViewer:jar:sources</include>
+				<include>org.osmdroid:GoogleWrapperSample:jar:sources</include>
+				<include>org.osmdroid:OpenStreetMapViewer-Forge:jar:sources</include>
+			</includes>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useProjectAttachments>false</useProjectAttachments>
+			<useTransitiveDependencies>false</useTransitiveDependencies>
+			<useTransitiveFiltering>false</useTransitiveFiltering>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+		</dependencySet>
+		
+	
+        
+		<dependencySet>
+			<outputDirectory>javadoc</outputDirectory>
+			<includes>
+                
+				<include>org.osmdroid:osmdroid-android:jar:javadoc</include>
+				<include>org.osmdroid:osmdroid-third-party:jar:javadoc</include>
+				<include>org.osmdroid:osmdroid-packager:jar:javadoc</include>
+				<include>org.osmdroid:osmdroid-mapsforge:jar:javadoc</include>
+				
+				<include>org.osmdroid:OpenStreetMapViewer:jar:javadoc</include>
+				<include>org.osmdroid:GoogleWrapperSample:jar:javadoc</include>
+				<include>org.osmdroid:OpenStreetMapViewer-Forge:jar:javadoc</include>
+			</includes>
+			<useProjectArtifact>false</useProjectArtifact>
+			<useProjectAttachments>false</useProjectAttachments>
+			<useTransitiveDependencies>false</useTransitiveDependencies>
+			<useTransitiveFiltering>false</useTransitiveFiltering>
+			<directoryMode>0755</directoryMode>
+			<fileMode>0755</fileMode>
+		</dependencySet>
+     
+        
+	</dependencySets>
+	
+
+</assembly>

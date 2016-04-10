@@ -3,8 +3,6 @@ package org.osmdroid.views.overlay;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
@@ -25,9 +23,10 @@ import android.graphics.Rect;
  * 
  * @deprecated This class is no longer maintained and has various issues. Instead you should use the
  *             Polyline class in OSMBonusPack.
- * 
+ * @see Polyline
  *             This class draws a path line in given color.
  */
+@Deprecated
 public class PathOverlay extends Overlay {
 	// ===========================================================
 	// Constants
@@ -65,15 +64,11 @@ public class PathOverlay extends Overlay {
 	// ===========================================================
 
 	public PathOverlay(final int color, final Context ctx) {
-		this(color, 2.0f, new DefaultResourceProxyImpl(ctx));
+		this(color, 2.0f, ctx);
 	}
 
-	public PathOverlay(final int color, final ResourceProxy resourceProxy) {
-		this(color, 2.0f, resourceProxy);
-	}
-
-	public PathOverlay(final int color, final float width, final ResourceProxy resourceProxy) {
-		super(resourceProxy);
+	public PathOverlay(final int color, final float width, final Context ctx) {
+		super(ctx);
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(width);
 		this.mPaint.setStyle(Paint.Style.STROKE);

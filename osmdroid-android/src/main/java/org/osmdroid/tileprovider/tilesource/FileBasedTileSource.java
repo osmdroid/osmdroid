@@ -1,6 +1,5 @@
 package org.osmdroid.tileprovider.tilesource;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
 
 /**

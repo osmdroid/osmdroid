@@ -40,7 +40,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
     private final DisplayModel model = new DisplayModel();
     private final float scale = DisplayModel.getDefaultUserScaleFactor();
     private RenderThemeFuture theme = null;
-    private XmlRenderTheme mXmlRenderTheme=null;
+    private XmlRenderTheme mXmlRenderTheme = null;
     private DatabaseRenderer renderer;
 
     private MultiMapDataStore mapDatabase;
@@ -56,13 +56,15 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * @param file
      * @param xmlRenderTheme the theme to render tiles with
      */
-    protected MapsForgeTileSource(int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme) {
-        super("MapsForgeTiles", minZoom, maxZoom, tileSizePixels, ".png");
+    protected MapsForgeTileSource(String cacheTileSourceName, int minZoom, int maxZoom, int tileSizePixels, File[] file, XmlRenderTheme xmlRenderTheme, MultiMapDataStore.DataPolicy dataPolicy) {
+        super(cacheTileSourceName, minZoom, maxZoom, tileSizePixels, ".png");
 
-        mapDatabase = new MultiMapDataStore(MultiMapDataStore.DataPolicy.RETURN_ALL);
+        mapDatabase = new MultiMapDataStore(dataPolicy);
         for (int i = 0; i < file.length; i++)
             mapDatabase.addMapDataStore(new MapFile(file[i]), false, false);
 
+        if (AndroidGraphicFactory.INSTANCE==null)
+            throw new RuntimeException("Need to initialize the AndroidGraphicFactory.INSTANCE via AndroidGraphicFactory.createInstance(context);");
 
         renderer = new DatabaseRenderer(mapDatabase, AndroidGraphicFactory.INSTANCE, new InMemoryTileCache(2));
 
@@ -71,10 +73,10 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
         Log.d(IMapView.LOGTAG, "min=" + minZoom + " max=" + maxZoom + " tilesize=" + tileSizePixels);
 
-        if (xmlRenderTheme==null)
+        if (xmlRenderTheme == null)
             xmlRenderTheme = InternalRenderTheme.OSMARENDER;
         //we the passed in theme is different that the existing one, or the theme is currently null, create it
-        if (xmlRenderTheme!= mXmlRenderTheme || theme == null) {
+        if (xmlRenderTheme != mXmlRenderTheme || theme == null) {
             theme = new RenderThemeFuture(AndroidGraphicFactory.INSTANCE, xmlRenderTheme, model);
             //super important!! without the following line, all rendering activities will block until the theme is created.
             new Thread(theme).start();
@@ -86,30 +88,62 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
      * <p/>
      * Parameters minZoom and maxZoom are obtained from the
      * database. If they cannot be obtained from the DB, the default values as
-     * defined by this class are used, which is zoom = 10-20
+     * defined by this class are used, which is zoom = 3-20
      *
      * @param file
      * @return the tile source
      */
-    public static MapsForgeTileSource createFromFile(File[] file) {
+    public static MapsForgeTileSource createFromFiles(File[] file) {
         //these settings are ignored and are set based on .map file info
         int minZoomLevel = MIN_ZOOM;
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER);
+        return new MapsForgeTileSource(InternalRenderTheme.OSMARENDER.name(), minZoomLevel, maxZoomLevel, tileSizePixels, file, InternalRenderTheme.OSMARENDER, MultiMapDataStore.DataPolicy.RETURN_ALL);
     }
 
-    public static MapsForgeTileSource createFromFile(File[] file, XmlRenderTheme theme) {
+    /**
+     * Creates a new MapsForgeTileSource from file[].
+     * <p/>
+     * Parameters minZoom and maxZoom are obtained from the
+     * database. If they cannot be obtained from the DB, the default values as
+     * defined by this class are used, which is zoom = 3-20
+     *
+     * @param file
+     * @param theme     this can be null, in which case the default them will be used
+     * @param themeName when using a custom theme, this sets up the osmdroid caching correctly
+     * @return
+     */
+    public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName) {
         //these settings are ignored and are set based on .map file info
         int minZoomLevel = MIN_ZOOM;
         int maxZoomLevel = MAX_ZOOM;
         int tileSizePixels = TILE_SIZE_PIXELS;
 
-        return new MapsForgeTileSource(minZoomLevel, maxZoomLevel, tileSizePixels, file, theme);
+        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, MultiMapDataStore.DataPolicy.RETURN_ALL);
     }
 
+    /**
+     * Creates a new MapsForgeTileSource from file[].
+     * <p/>
+     * Parameters minZoom and maxZoom are obtained from the
+     * database. If they cannot be obtained from the DB, the default values as
+     * defined by this class are used, which is zoom = 3-20
+     *
+     * @param file
+     * @param theme     this can be null, in which case the default them will be used
+     * @param themeName when using a custom theme, this sets up the osmdroid caching correctly
+     * @param dataPolicy use this to override the default, which is "RETURN_ALL"
+     * @return
+     */
+    public static MapsForgeTileSource createFromFiles(File[] file, XmlRenderTheme theme, String themeName, MultiMapDataStore.DataPolicy dataPolicy) {
+        //these settings are ignored and are set based on .map file info
+        int minZoomLevel = MIN_ZOOM;
+        int maxZoomLevel = MAX_ZOOM;
+        int tileSizePixels = TILE_SIZE_PIXELS;
 
+        return new MapsForgeTileSource(themeName, minZoomLevel, maxZoomLevel, tileSizePixels, file, theme, dataPolicy);
+    }
 
 
     //The synchronized here is VERY important.  If missing, the mapDatabase read gets corrupted by multiple threads reading the file at once.

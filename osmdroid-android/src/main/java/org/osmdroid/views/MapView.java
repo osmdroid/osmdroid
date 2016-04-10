@@ -14,8 +14,6 @@ import org.metalev.multitouch.controller.MultiTouchController;
 import org.metalev.multitouch.controller.MultiTouchController.MultiTouchObjectCanvas;
 import org.metalev.multitouch.controller.MultiTouchController.PointInfo;
 import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
@@ -101,7 +99,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private final ZoomButtonsController mZoomController;
 	private boolean mEnableZoomController = false;
 
-	private final ResourceProxy mResourceProxy;
 
 	private MultiTouchController<Object> mMultiTouchController;
 	protected float mMultiTouchScale = 1.0f;
@@ -139,10 +136,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// ===========================================================
 
 	protected MapView(final Context context,
-					  final ResourceProxy resourceProxy, MapTileProviderBase tileProvider,
+					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
 		super(context, attrs);
-		mResourceProxy = resourceProxy;
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
 
@@ -160,7 +156,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, context);
 		mOverlayManager = new DefaultOverlayManager(mMapOverlay);
 
 		if (isInEditMode()) {
@@ -178,30 +174,25 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * Constructor used by XML layout resource (uses default tile source).
 	 */
 	public MapView(final Context context, final AttributeSet attrs) {
-		this(context, new DefaultResourceProxyImpl(context), null, null, attrs);
+		this(context, null, null, attrs);
 	}
 
-	/**
-	 * Standard Constructor.
-	 */
 	public MapView(final Context context) {
-		this(context, new DefaultResourceProxyImpl(context));
+		this(context, null, null, null);
+	}
+
+
+
+
+	public MapView(final Context context,
+				   final MapTileProviderBase aTileProvider) {
+		this(context, aTileProvider, null);
 	}
 
 	public MapView(final Context context,
-				   final ResourceProxy resourceProxy) {
-		this(context, resourceProxy, null);
-	}
-
-	public MapView(final Context context,
-				   final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider) {
-		this(context, resourceProxy, aTileProvider, null);
-	}
-
-	public MapView(final Context context,
-				   final ResourceProxy resourceProxy, final MapTileProviderBase aTileProvider,
+				   final MapTileProviderBase aTileProvider,
 				   final Handler tileRequestCompleteHandler) {
-		this(context, resourceProxy, aTileProvider, tileRequestCompleteHandler,
+		this(context, aTileProvider, tileRequestCompleteHandler,
 				null);
 	}
 
@@ -554,9 +545,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return getProjection().fromPixels(getWidth() / 2, getHeight() / 2, null);
 	}
 
-	public ResourceProxy getResourceProxy() {
-		return mResourceProxy;
-	}
 
 	public void setMapOrientation(float degrees) {
 		mapOrientation = degrees % 360.0f;
@@ -1477,7 +1465,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.setTileRequestCompleteHandler(mTileRequestCompleteHandler);
 		updateTileSizeForDensity(mTileProvider.getTileSource());
 
-		this.mMapOverlay = new TilesOverlay(mTileProvider, mResourceProxy);
+		this.mMapOverlay = new TilesOverlay(mTileProvider, this.getContext());
 		
 		mOverlayManager.setTilesOverlay(mMapOverlay);
 		invalidate();

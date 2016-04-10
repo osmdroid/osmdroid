@@ -8,7 +8,6 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
@@ -19,7 +18,7 @@ import org.osmdroid.api.Polyline;
 import org.osmdroid.google.overlay.GoogleItemizedOverlay;
 import org.osmdroid.google.overlay.GooglePolylineOverlay;
 import org.osmdroid.google.wrapper.Projection;
-import org.osmdroid.util.ResourceProxyImpl;
+import org.osmdroid.thirdparty.R;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -128,7 +127,7 @@ class GoogleV1MapWrapper implements IMap {
 	@Override
 	public void addMarker(final Marker aMarker) {
 		if (mItemizedOverlay == null) {
-			mItemizedOverlay = new GoogleItemizedOverlay(new ResourceProxyImpl(mMapView.getContext()).getDrawable(ResourceProxy.bitmap.marker_default));
+			mItemizedOverlay = new GoogleItemizedOverlay(mMapView.getContext().getResources().getDrawable(R.drawable.marker_default));
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
 		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude*1E6), (int)(aMarker.longitude*1E6)), aMarker.title, aMarker.snippet);

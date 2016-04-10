@@ -1,23 +1,20 @@
 package org.osmdroid.forge.app;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
-import org.mapsforge.map.layer.renderer.MapWorkerPool;
-import org.mapsforge.map.reader.MapFile;
+import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
@@ -25,8 +22,6 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -70,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
-        //enable these for additioal log output
+        //enable these for additional log output
         //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
@@ -80,19 +75,6 @@ public class MainActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                //this would be a good place for you to enable users to browse the local file system
-                //for a set of mapsforge files
-            }
-        });
 
 
 
@@ -106,6 +88,34 @@ public class MainActivity extends AppCompatActivity {
         //do a simple scan of local storage for .map files.
         File[] maps = new File[mapfiles.size()];
         maps = mapfiles.toArray(maps);
+        if (maps.length==0){
+            //show a warning that no map files were found
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+
+            // set title
+            alertDialogBuilder.setTitle("No Mapsforge files found");
+
+            // set dialog message
+            alertDialogBuilder
+                    .setMessage("In order to render map tiles, you'll need to either create or obtain mapsforge .map files. See https://github.com/mapsforge/mapsforge for more info.")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+
+                        }
+                    });
+
+
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+
+            // show it
+            alertDialog.show();
+
+        }
+        else
+            Toast.makeText(this, "Loaded " + maps.length + " map files", Toast.LENGTH_LONG).show();
 
         //this creates the forge provider and tile sources
         //that's it!
@@ -113,13 +123,18 @@ public class MainActivity extends AppCompatActivity {
         //note this example does not using caching yet, so each tile is rendered on the fly, every time
         //the user browses to an area. This needs to be updated to support sqlite raster image caches
 
+        //protip: when changing themes, you should also change the tile source name to prevent cached tiles
 
         //null is ok here, uses the default rendering theme if it's not set
         XmlRenderTheme theme = null;
-
+        try {
+            theme = new AssetsRenderTheme(getApplicationContext(), "renderthemes/","rendertheme-v4.xml");
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         MapsForgeTileProvider forge = new MapsForgeTileProvider(
                 new SimpleRegisterReceiver(this),
-                MapsForgeTileSource.createFromFile(maps,theme));
+                MapsForgeTileSource.createFromFiles(maps,theme, "rendertheme-v4"));
 
         mMap.setTileProvider(forge);
         mMap.setUseDataConnection(false);
@@ -130,16 +145,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        mMap.getController().setCenter(new GeoPoint(47.0796d, 4.5827d));
-        mMap.getController().setZoom(13);
-        mMap.getController().zoomTo(13);
+    public void onStart() {
+        super.onStart();
+        mMap.getController().setCenter(new GeoPoint(0d, 0d));
+        mMap.getController().setZoom(5);
+        mMap.getController().zoomTo(5);
         mMap.setMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
                 IGeoPoint mapCenter = mMap.getMapCenter();
-                currentCenter.setText(mapCenter.getLatitude() + "," + mapCenter.getLongitude());
+                currentCenter.setText(mapCenter.getLatitude() + "," + mapCenter.getLongitude() + " " + mMap.getZoomLevel());
                 return false;
             }
 
@@ -148,13 +163,14 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
     /**
      * simple function to scan for paths that match /something/osmdroid/*.map to find mapforge database files
      * @return
      */
-    private Set<File> findMapFiles() {
+    protected static Set<File> findMapFiles() {
         Set<File> maps = new HashSet<>();
         List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
         for (int i = 0; i < storageList.size(); i++) {
@@ -166,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         return maps;
     }
 
-    private Collection<? extends File> scan(File f) {
+    static private Collection<? extends File> scan(File f) {
         List<File> ret = new ArrayList<>();
         File[] files = f.listFiles(new FileFilter() {
             @Override
