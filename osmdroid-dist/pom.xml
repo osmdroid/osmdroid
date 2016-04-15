@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.osmdroid</groupId>
+		<artifactId>osmdroid-parent</artifactId>
+		<version>5.2-SNAPSHOT</version>
+	</parent>
+	<artifactId>osmdroid-dist</artifactId>
+	<packaging>pom</packaging>
+	<!-- defined just to get the build order correct -->
+	<dependencies>
+		
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer-Forge</artifactId>
+			<type>apk</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>GoogleWrapperSample</artifactId>
+			<type>apk</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer</artifactId>
+			<type>apk</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-android</artifactId>
+			<type>aar</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-third-party</artifactId>
+			<type>aar</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-mapsforge</artifactId>
+			<type>aar</type>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-packager</artifactId>
+			<type>jar</type>
+			<classifier>jar-with-dependencies</classifier>
+		</dependency>
+		
+		
+		
+	
+	
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer-Forge</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>GoogleWrapperSample</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-android</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-third-party</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-mapsforge</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-packager</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer-Forge</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>GoogleWrapperSample</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+	
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>OpenStreetMapViewer</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-android</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-third-party</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-mapsforge</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<version>${project.version}</version>
+			<artifactId>osmdroid-packager</artifactId>
+			<classifier>javadoc</classifier>
+		</dependency>
+		
+		
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>osmdroid-distro-${project.version}</finalName>
+							<descriptors>
+								<descriptor>src/main/assembly/assembly.xml</descriptor>
+							</descriptors>
+							<tarLongFileMode>gnu</tarLongFileMode>
+							<appendAssemblyId>false</appendAssemblyId>
+							<archiverConfig>
+								<defaultDirectoryMode>0755</defaultDirectoryMode>
+							</archiverConfig>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- dist is not very useful from a maven repo, so don't put it there -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<configuration>
+                    
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+            
+		</plugins>
+	</build>
+
+</project>

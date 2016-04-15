@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.samples.SampleExtensive;
-import org.osmdroid.samples.SampleResourceOverride;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
@@ -52,7 +51,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		list.add("OSMapView with Minimap and ZoomControls");
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
-		list.add("Sample with Custom Resources");
 		list.add("More Samples");
         ListView lv = (ListView)findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
@@ -93,9 +91,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 this.startActivity(new Intent(this, SampleWithTilesOverlayAndCustomTileSource.class));
                 break;
             case 6:
-                this.startActivity(new Intent(this, SampleResourceOverride.class));
-                break;
-            case 7:
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
         }
@@ -106,14 +101,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
 	private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
-        String message = "OSMDroid permissions:";
+        String message = "osmdroid permissions:";
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            message += "\nStorage access to store map tiles.";
+            message += "\nLocation to show user location.";
         }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            message += "\nLocation to show user location.";
+            message += "\nStorage access to store map tiles.";
         }
         if (!permissions.isEmpty()) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();

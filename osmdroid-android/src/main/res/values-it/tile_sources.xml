@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cyclemap">Mappa ciclistica</string>
+    <string name="topo">Sentieri</string>
+    <string name="hills">Rilievo</string>
+</resources>

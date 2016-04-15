@@ -2,6 +2,7 @@ package org.osmdroid.api;
 
 /**
  * An interface that is used for simultaneously accessing several properties of the map
+ * this is only used by the Google Wrapper/3rd party library
  */
 public interface IPosition {
 

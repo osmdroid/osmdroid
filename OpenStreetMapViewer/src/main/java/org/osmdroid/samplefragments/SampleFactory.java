@@ -29,7 +29,14 @@ public final class SampleFactory {
                 SampleJumboCache.class,
                 SampleCustomTileSource.class,
 				SampleAnimatedZoomToLocation.class,
-				SampleWhackyColorFilter.class
+				SampleWhackyColorFilter.class,
+				SampleCustomIconDirectedLocationOverlay.class,
+				SampleAssetsOnly.class,
+				SampleSqliteOnly.class,
+				SampleCacheDownloader.class,
+				SampleGridlines.class,
+				SampleMapEventListener.class,
+				SampleAnimateTo.class
         };
 	}
 

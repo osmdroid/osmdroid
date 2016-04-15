@@ -1,7 +1,5 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 
 import android.os.Bundle;
@@ -19,7 +17,6 @@ public abstract class BaseSampleFragment extends Fragment {
 	// ===========================================================
 
 	protected MapView mMapView;
-	protected ResourceProxy mResourceProxy;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,8 +25,8 @@ public abstract class BaseSampleFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mResourceProxy = new ResourceProxyImpl(inflater.getContext().getApplicationContext());
-		mMapView = new MapView(inflater.getContext(), mResourceProxy);
+		mMapView = new MapView(inflater.getContext());
+
 		return mMapView;
 	}
 
@@ -48,7 +45,6 @@ public abstract class BaseSampleFragment extends Fragment {
 		super.onDetach();
 		mMapView.onDetach();
 		mMapView=null;
-		mResourceProxy=null;
 	}
 
 	/**
