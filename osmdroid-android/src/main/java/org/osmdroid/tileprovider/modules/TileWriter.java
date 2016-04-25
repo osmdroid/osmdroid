@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import org.osmdroid.api.IMap;
 import org.osmdroid.api.IMapView;
 
 import org.osmdroid.tileprovider.MapTile;
@@ -90,6 +92,9 @@ public class TileWriter implements IFilesystemCache {
 		final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 
+		if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS){
+			Log.d(IMapView.LOGTAG, "TileWrite " + file.getAbsolutePath());
+		}
 		final File parent = file.getParentFile();
 		if (!parent.exists() && !createFolderAndCheckIfExists(parent)) {
 			return false;
