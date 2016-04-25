@@ -238,6 +238,9 @@ public class TileWriter implements IFilesystemCache {
 
 					final long length = file.length();
 					if (file.delete()) {
+						if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS){
+							Log.d(IMapView.LOGTAG,"Cache trim deleting " + file.getAbsolutePath());
+						}
 						mUsedCacheSpace -= length;
 					}
 				}
