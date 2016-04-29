@@ -7,8 +7,8 @@ android {
         applicationId 'org.osmdroid'
         minSdkVersion 8
         targetSdkVersion 23
-        versionCode 18
-        versionName "5.1-SNAPSHOT"
+        versionCode 20
+        versionName "5.3-SNAPSHOT"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
