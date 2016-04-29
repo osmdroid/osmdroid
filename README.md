@@ -12,7 +12,7 @@ Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  
 **Gradle dependency**
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.1@aar'
+    compile 'org.osmdroid:osmdroid-android:5.2@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
