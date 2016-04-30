@@ -1,18 +1,19 @@
 
 [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android)
 
 # osmdroid
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
-Current Release: **5.1 January 24th, 2016**
+Current Release: **5.2 April 28th, 2016**
 
 Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
 **Gradle dependency**
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.1@aar'
+    compile 'org.osmdroid:osmdroid-android:5.2@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
@@ -22,7 +23,7 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.1</version>
+  <version>5.2</version>
   <type>aar</type>
 </dependency>
 ```

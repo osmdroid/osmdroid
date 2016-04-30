@@ -48,6 +48,10 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                 continue;
             if (Build.VERSION.SDK_INT == 10 && basefrag instanceof SampleMilitaryIcons)
                 continue;
+            if (Build.VERSION.SDK_INT == 10 && basefrag instanceof SampleGridlines)
+                continue;
+            if (Build.VERSION.SDK_INT == 10 && basefrag instanceof SampleJumboCache)
+                continue;
             try {
                 fm.beginTransaction().replace(org.osmdroid.R.id.samples_container, basefrag, ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG)
                         .addToBackStack(null).commit();

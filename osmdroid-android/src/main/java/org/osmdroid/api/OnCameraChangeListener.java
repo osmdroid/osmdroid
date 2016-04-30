@@ -1,5 +1,8 @@
 package org.osmdroid.api;
 
+/**
+ * this is only used by the Google Wrapper/3rd party library
+ */
 public interface OnCameraChangeListener {
 
 	/**

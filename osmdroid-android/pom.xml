@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.osmdroid</groupId>
         <artifactId>osmdroid-parent</artifactId>
-        <version>5.2-SNAPSHOT</version>
+        <version>5.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>osmdroid-android</artifactId>
@@ -35,7 +35,7 @@
 		    <configuration>
 			 <assetsDirectory>${project.basedir}/src/main/assets</assetsDirectory> 
 			 <sdk>
-			      <platform>23</platform>
+			      <platform>${android.target}</platform>
 			 </sdk>
 		    </configuration>
 	       </plugin>

@@ -3,8 +3,7 @@ package org.osmdroid.views.overlay;
 
 import java.util.List;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
@@ -57,35 +56,38 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 	// Constructors
 	// ===========================================================
 
-	public ItemizedOverlayWithFocus(final Context ctx, final List<Item> aList,
+	public ItemizedOverlayWithFocus(final Context pContext, final List<Item> aList,
 			final OnItemGestureListener<Item> aOnItemTapListener) {
-		this(aList, aOnItemTapListener, new DefaultResourceProxyImpl(ctx));
+		this(aList, aOnItemTapListener,pContext);
 	}
 
 	public ItemizedOverlayWithFocus(final List<Item> aList,
-			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
-		this(aList, pResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default), null, NOT_SET,
-				aOnItemTapListener, pResourceProxy);
+			final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
+		this(aList,
+				pContext.getResources().getDrawable(R.drawable.marker_default)
+				, null, NOT_SET,
+				aOnItemTapListener, pContext);
 	}
 
 	public ItemizedOverlayWithFocus(final List<Item> aList, final Drawable pMarker,
 			final Drawable pMarkerFocused, final int pFocusedBackgroundColor,
-			final OnItemGestureListener<Item> aOnItemTapListener, final ResourceProxy pResourceProxy) {
+			final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
 
-		super(aList, pMarker, aOnItemTapListener, pResourceProxy);
+		super(aList, pMarker, aOnItemTapListener, pContext);
 
 		//calculate font size based on DP
 		fontSizePixels= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-				FONT_SIZE_DP, pResourceProxy.getDisplayMetrics());
+				FONT_SIZE_DP, pContext.getResources().getDisplayMetrics());
 		DESCRIPTION_LINE_HEIGHT=fontSizePixels+5;
 
 		//calculate max width based on screen width.
-		DESCRIPTION_MAXWIDTH=(int)(pResourceProxy.getDisplayMetrics().widthPixels*0.8);
-		UNKNOWN = mResourceProxy.getString(ResourceProxy.string.unknown);
+		DESCRIPTION_MAXWIDTH=(int)(pContext.getResources().getDisplayMetrics().widthPixels*0.8);
+		UNKNOWN = pContext.getResources().getString(R.string.unknown);
 
 		if (pMarkerFocused == null) {
 			this.mMarkerFocusedBase = boundToHotspot(
-					mResourceProxy.getDrawable(ResourceProxy.bitmap.marker_default_focused_base),
+					pContext.getResources().getDrawable(R.drawable.marker_default_focused_base)
+					,
 					HotspotPlace.BOTTOM_CENTER);
 		} else
 			this.mMarkerFocusedBase = pMarkerFocused;

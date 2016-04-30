@@ -9,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
@@ -50,6 +50,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <android.target>23</android.target>
+        <forge.version>0.6.0</forge.version>
     </properties>
 
     <dependencyManagement>
@@ -58,13 +60,24 @@
             <dependency>
                 <groupId>android</groupId>
                 <artifactId>android</artifactId>
-                <version>[(6.0_r1,)</version>
+                <version>[(6,)</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>android.support</groupId>
                 <artifactId>compatibility-v4</artifactId>
                 <version>[23,)</version>
+            </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
+                <version>[23,)</version>
+            </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
+                <version>[23,)</version>
+                <type>apklib</type>
             </dependency>
             <dependency>
                 <groupId>com.google.android.maps</groupId>
@@ -202,11 +215,84 @@
 		    <module>osmdroid-android</module>
 		    <module>osmdroid-third-party</module>
 		    <module>OpenStreetMapViewer</module>
+		    <module>osmdroid-mapsforge</module>
+		    <module>osmdroid-forge-app</module>
 		    <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
+            <module>osmdroid-dist</module>
 		</modules>
 	 </profile>
+	 <profile>
+            <!-- dist is used for CI builds, does everything except signatures -->
+            <id>dist</id>
+	      <modules>
+		    <module>osmdroid-android</module>
+		    <module>osmdroid-third-party</module>
+		    <module>OpenStreetMapViewer</module>
+		    <module>GoogleWrapperSample</module>
+		    <module>osmdroid-mapsforge</module>
+		    <module>osmdroid-forge-app</module>
+		    <module>OSMMapTilePackager</module>
+		    <module>osmdroid-android-it</module>
+		    <module>osmdroid-dist</module>
+		</modules>
+            <build>
+                <plugins>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                   
+                    <plugin>
+                        <groupId>com.simpligility.maven.plugins</groupId>
+                        <artifactId>android-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <executions>
+                          <execution>
+                            <id>alignApk</id>
+                            <phase>install</phase>
+                            <goals>
+                              <goal>zipalign</goal>
+                            </goals>
+                          </execution>
+                        </executions>
+                        <configuration>
+                            <zipalign>
+                                <verbose>true</verbose>
+                                <skip>false</skip>
+                            </zipalign>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+	
         <profile>
             <!--  this profile is activated when using 'mvn release:perform' -->
             <!--  it signs artifacts before staging to Sonatype -->

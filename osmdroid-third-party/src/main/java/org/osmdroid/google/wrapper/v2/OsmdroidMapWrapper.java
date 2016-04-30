@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMap;
 import org.osmdroid.api.IPosition;
@@ -13,7 +12,6 @@ import org.osmdroid.api.Marker;
 import org.osmdroid.api.OnCameraChangeListener;
 import org.osmdroid.api.Polyline;
 import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.ResourceProxyImpl;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -28,7 +26,6 @@ import android.view.MotionEvent;
 
 class OsmdroidMapWrapper implements IMap {
 	private final MapView mMapView;
-	private ResourceProxy mResourceProxy;
 	private MyLocationNewOverlay mMyLocationOverlay;
 	private ItemizedOverlayWithFocus<OverlayItem> mItemizedOverlay;
 	private HashMap<Integer, PathOverlay> mPolylines;
@@ -110,7 +107,7 @@ class OsmdroidMapWrapper implements IMap {
 	public void setMyLocationEnabled(final boolean aEnabled) {
 		if (aEnabled) {
 			if (mMyLocationOverlay == null) {
-				mMyLocationOverlay = new MyLocationNewOverlay(mMapView.getContext(), mMapView);
+				mMyLocationOverlay = new MyLocationNewOverlay(mMapView);
 				mMapView.getOverlays().add(mMyLocationOverlay);
 			}
 			mMyLocationOverlay.enableMyLocation();
@@ -144,7 +141,7 @@ class OsmdroidMapWrapper implements IMap {
 				public boolean onItemLongPress(final int index, final OverlayItem item) {
 					return false;
 				}
-			}, getResourceProxy());
+			},this.mMapView.getContext());
 			mItemizedOverlay.setFocusItemsOnTap(true);
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
@@ -167,7 +164,7 @@ class OsmdroidMapWrapper implements IMap {
 		if (mPolylines == null) {
 			mPolylines = new HashMap<Integer, PathOverlay>();
 		}
-		final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, getResourceProxy());
+		final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, mMapView.getContext());
 		overlay.addPoints(aPolyline.points);
 		mMapView.getOverlays().add(0, overlay); // add polyline overlay below markers, etc
 		final int id = random.nextInt();
@@ -216,12 +213,6 @@ class OsmdroidMapWrapper implements IMap {
 		mOnCameraChangeListener = aListener;
 	}
 
-	private ResourceProxy getResourceProxy() {
-		if (mResourceProxy == null) {
-			mResourceProxy = new ResourceProxyImpl(mMapView.getContext());
-		}
-		return mResourceProxy;
-	}
 
 	private void onCameraChange() {
 		if (mOnCameraChangeListener != null) {
