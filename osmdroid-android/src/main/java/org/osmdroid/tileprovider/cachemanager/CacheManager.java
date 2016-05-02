@@ -16,9 +16,12 @@ import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
+import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.MyMath;
@@ -52,13 +55,13 @@ import android.widget.Toast;
  */
 public class CacheManager {
 	
-	protected final MapTileProviderBase mTileProvider;
-	protected final TileWriter mTileWriter;
-	protected final MapView mMapView;
+	protected MapTileProviderBase mTileProvider;
+	protected IFilesystemCache mTileWriter;
+	protected MapView mMapView;
 	
 	public CacheManager(final MapView mapView){
 		mTileProvider = mapView.getTileProvider();
-		mTileWriter = new TileWriter();
+		mTileWriter = mapView.getTileProvider().getTileWriter();
 		mMapView = mapView;
 	}
 	
@@ -79,10 +82,15 @@ public class CacheManager {
 	 */
 	public boolean loadTile(OnlineTileSourceBase tileSource, MapTile tile){
 		//check if file is already downloaded:
+		//this only covers local file storage
 		File file = getFileName(tileSource, tile);
 		if (file.exists()){
 			return true;
 		}
+		//also ask the database
+		MapTileSqlCacheProvider db = new MapTileSqlCacheProvider(new SimpleRegisterReceiver(mMapView.getContext()), mMapView.getTileProvider().getTileSource());
+		if (db.hasTile(tile))
+			return true;
 		
 		InputStream in = null;
 		OutputStream out = null;
@@ -107,7 +115,7 @@ public class CacheManager {
 			final byte[] data = dataStream.toByteArray();
 			final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 	
-			// Save the data to the filesystem cache
+			// Save the data to the filesystem cache or database
 			mTileWriter.saveFile(tileSource, tile, byteStream);
 			byteStream.reset();
 	
@@ -225,6 +233,8 @@ public class CacheManager {
 	    }
 		
 		@Override protected void onPreExecute(){
+			mTileProvider = mMapView.getTileProvider();
+			mTileWriter = mMapView.getTileProvider().getTileWriter();
 			mProgressDialog.setTitle("Downloading tiles");
 			mProgressDialog.setMessage(zoomMessage(mZoomMin, mZoomMin, mZoomMax));
 			int total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);

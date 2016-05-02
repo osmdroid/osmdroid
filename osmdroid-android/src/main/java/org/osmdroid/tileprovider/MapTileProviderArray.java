@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
@@ -163,6 +165,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				mWorking.remove(aState.getMapTile());
 			}
 		}
+	}
+
+	@Override
+	public IFilesystemCache getTileWriter() {
+		return null;
 	}
 
 	/**

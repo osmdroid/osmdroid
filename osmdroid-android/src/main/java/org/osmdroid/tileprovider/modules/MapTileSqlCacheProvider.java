@@ -139,6 +139,28 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         SqlTileWriter.initDb();
     }
 
+    /**
+     * returns true if the given tile for the current map source exists in the cache db
+     * @param pTile
+     * @return
+     */
+    public boolean hasTile(final MapTile pTile) {
+        ITileSource tileSource = mTileSource.get();
+        if (tileSource == null) {
+            return false;
+        }
+        final long x = (long) pTile.getX();
+        final long y = (long) pTile.getY();
+        final long z = (long) pTile.getZoomLevel();
+        final long index = ((z << z) + x << z) + y;
+        final Cursor cur =SqlTileWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
+        if(cur.getCount() != 0) {
+            cur.close();
+            return true;
+        }
+        return false;
+    }
+
 
     // ===========================================================
     // Inner and Anonymous Classes

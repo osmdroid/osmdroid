@@ -26,6 +26,7 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
+	final IFilesystemCache tileWriter;
 	// private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBasic.class);
 
 	/**
@@ -40,7 +41,15 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 */
 	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource) {
 		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
-				pTileSource, pContext);
+				pTileSource, pContext,null);
+	}
+
+	/**
+	 * Creates a {@link MapTileProviderBasic}.
+	 */
+	public MapTileProviderBasic(final Context pContext, final ITileSource pTileSource, final IFilesystemCache cacheWriter) {
+		this(new SimpleRegisterReceiver(pContext), new NetworkAvailabliltyCheck(pContext),
+				pTileSource, pContext,cacheWriter);
 	}
 
 	/**
@@ -48,10 +57,13 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	 */
 	public MapTileProviderBasic(final IRegisterReceiver pRegisterReceiver,
 			final INetworkAvailablityCheck aNetworkAvailablityCheck, final ITileSource pTileSource,
-			final Context pContext) {
+			final Context pContext, final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
 
-		final IFilesystemCache tileWriter = new SqlTileWriter();
+		if (cacheWriter!=null)
+			tileWriter = cacheWriter;
+		else
+			tileWriter=new SqlTileWriter();
 
 		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
@@ -71,5 +83,10 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 		final MapTileDownloader downloaderProvider = new MapTileDownloader(pTileSource, tileWriter,
 				aNetworkAvailablityCheck);
 		mTileProviderList.add(downloaderProvider);
+	}
+
+	@Override
+	public IFilesystemCache getTileWriter() {
+		return tileWriter;
 	}
 }

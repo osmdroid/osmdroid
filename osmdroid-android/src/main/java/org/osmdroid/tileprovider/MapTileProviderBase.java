@@ -4,7 +4,9 @@ package org.osmdroid.tileprovider;
 import java.util.HashMap;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.util.TileLooper;
 import org.osmdroid.views.Projection;
@@ -425,5 +427,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			}
 		}
 	}
+
+
+
+	public abstract IFilesystemCache getTileWriter();
 
 }
