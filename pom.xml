@@ -9,7 +9,7 @@
 
     <groupId>org.osmdroid</groupId>
     <artifactId>osmdroid-parent</artifactId>
-    <version>5.2-SNAPSHOT</version>
+    <version>5.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>OSMdroid parent</name>
@@ -220,6 +220,7 @@
 		    <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
+            <module>osmdroid-dist</module>
 		</modules>
 	 </profile>
 	 <profile>

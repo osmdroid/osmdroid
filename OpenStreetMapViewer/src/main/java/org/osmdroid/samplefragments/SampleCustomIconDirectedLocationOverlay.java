@@ -74,8 +74,12 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            BitmapDrawable drawable=(BitmapDrawable)getResources().getDrawable(R.drawable.sfgpuci);
-                            overlay.setDirectionArrow(drawable.getBitmap());
+                            try {
+                                BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.sfgpuci);
+                                overlay.setDirectionArrow(drawable.getBitmap());
+                            }catch (Throwable t){
+                                //insultates against crashing when the user rapidly switches fragments/activities
+                            }
                         }
                     });
 

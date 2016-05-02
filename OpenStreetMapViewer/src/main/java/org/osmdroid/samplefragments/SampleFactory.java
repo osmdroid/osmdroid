@@ -36,7 +36,8 @@ public final class SampleFactory {
 				SampleCacheDownloader.class,
 				SampleGridlines.class,
 				SampleMapEventListener.class,
-				SampleAnimateTo.class
+				SampleAnimateTo.class,
+				SampleHeadingCompassUp.class
         };
 	}
 
