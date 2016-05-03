@@ -62,6 +62,7 @@ public class SqlTileWriter implements IFilesystemCache {
                     //run the reaper (remove all old expired tiles)
                     //keep if now is < expiration date
                     //delete if now is > expiration date
+                    try{
                     long now = System.currentTimeMillis();
                     int rows = db.delete(DatabaseFileArchive.TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
                     Log.d(IMapView.LOGTAG, "Local storage cahce purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
@@ -83,6 +84,9 @@ public class SqlTileWriter implements IFilesystemCache {
 
                     if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                         Log.d(IMapView.LOGTAG, "Finished init thread");
+                    }}
+                    catch (Throwable t){
+                        Log.e(IMapView.LOGTAG, "Error caught during sqlite tile writer init", t);
                     }
                 }
             };
