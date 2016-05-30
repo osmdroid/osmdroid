@@ -62,6 +62,8 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 
 		// and then clear
 		super.clear();
+		//clean the bitmapPool
+		BitmapPool.getInstance().clearBitmapPool();
 	}
 
 	@Override
