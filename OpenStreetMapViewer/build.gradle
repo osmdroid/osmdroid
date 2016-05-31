@@ -1,14 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId 'org.osmdroid'
-        minSdkVersion 8
-        targetSdkVersion 23
-        versionCode 20
-        versionName "5.3-SNAPSHOT"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -27,6 +21,8 @@ android {
         abortOnError false
     }
 }
+
+apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 dependencies {
     compile 'com.android.support:support-v4:23+'

@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'distribution'
 apply plugin: 'application'
+apply plugin: 'maven'
 
 mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 

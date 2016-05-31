@@ -7,10 +7,6 @@ android {
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -24,6 +20,7 @@ android {
         abortOnError false
     }
 }
+apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 dependencies {
     testCompile 'junit:junit:4.12'
