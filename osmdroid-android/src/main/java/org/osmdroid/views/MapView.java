@@ -755,6 +755,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
+		if ( mTileRequestCompleteHandler != null )
+		{
+		     mTileRequestCompleteHandler.removeMessages( MapTile.MAPTILE_SUCCESS_ID );
+		}
 	}
 
 	@Override

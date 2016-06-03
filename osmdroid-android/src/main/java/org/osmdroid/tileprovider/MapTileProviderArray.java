@@ -76,6 +76,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		synchronized (mWorking) {
 			mWorking.clear();
 		}
+		clearTileCache();
 	}
 
 	@Override

@@ -53,6 +53,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 	 */
 	public abstract Drawable getMapTile(MapTile pTile);
 
+	/**
+	 * called when the MapView.detach is called. Implementations must clean up any cached resources
+	 * to prevent leaks, such as the {@link MapTileCache#clear()} and the {@link LRUMapTileCache#clear()}
+	 */
 	public abstract void detach();
 
 	/**
