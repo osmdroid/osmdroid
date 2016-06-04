@@ -23,34 +23,36 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 	// Constants
 	// ===========================================================
 
-	public static final int DESCRIPTION_BOX_PADDING = 3;
-	public static final int DESCRIPTION_BOX_CORNERWIDTH = 3;
+	private final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
 
-
-	/** Additional to <code>DESCRIPTION_LINE_HEIGHT</code>. */
-	public static final int DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT = 2;
-
-	// protected static final Point DEFAULTMARKER_FOCUSED_HOTSPOT = new Point(10, 19);
-	protected static final int DEFAULTMARKER_BACKGROUNDCOLOR = Color.rgb(101, 185, 74);
-	protected static int FONT_SIZE_DP=14;
-
-	protected static int DESCRIPTION_MAXWIDTH = 600;
-	protected static int DESCRIPTION_LINE_HEIGHT = 30;
 
 	// ===========================================================
 	// Fields
 	// ===========================================================
 
-	protected final int mMarkerFocusedBackgroundColor;
-	protected final Paint mMarkerBackgroundPaint, mDescriptionPaint, mTitlePaint;
+	private int DESCRIPTION_BOX_PADDING = 3;
+	private int DESCRIPTION_BOX_CORNERWIDTH = 3;
+
+	/** Additional to <code>DESCRIPTION_LINE_HEIGHT</code>. */
+	private int DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT = 2;
+
+	private int FONT_SIZE_DP=14;
+	private int DESCRIPTION_MAXWIDTH = 600;
+	private int DESCRIPTION_LINE_HEIGHT = 30;
+
+	protected int mMarkerFocusedBackgroundColor;
+	protected Paint mMarkerBackgroundPaint, mDescriptionPaint, mTitlePaint;
+
 
 	protected Drawable mMarkerFocusedBase;
 	protected int mFocusedItemIndex;
 	protected boolean mFocusItemsOnTap;
-	private final int fontSizePixels;
+	private int fontSizePixels;
 	private final Point mFocusedScreenCoords = new Point();
 
-	private final String UNKNOWN;
+	private Context mContext;
+
+	private String UNKNOWN;
 
 	// ===========================================================
 	// Constructors
@@ -74,16 +76,7 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 			final OnItemGestureListener<Item> aOnItemTapListener, Context pContext) {
 
 		super(aList, pMarker, aOnItemTapListener, pContext);
-
-		//calculate font size based on DP
-		fontSizePixels= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-				FONT_SIZE_DP, pContext.getResources().getDisplayMetrics());
-		DESCRIPTION_LINE_HEIGHT=fontSizePixels+5;
-
-		//calculate max width based on screen width.
-		DESCRIPTION_MAXWIDTH=(int)(pContext.getResources().getDisplayMetrics().widthPixels*0.8);
-		UNKNOWN = pContext.getResources().getString(R.string.unknown);
-
+		mContext = pContext;
 		if (pMarkerFocused == null) {
 			this.mMarkerFocusedBase = boundToHotspot(
 					pContext.getResources().getDrawable(R.drawable.marker_default_focused_base)
@@ -95,6 +88,21 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		this.mMarkerFocusedBackgroundColor = (pFocusedBackgroundColor != NOT_SET) ? pFocusedBackgroundColor
 				: DEFAULTMARKER_BACKGROUNDCOLOR;
 
+		calculateDrawSettings();
+
+		this.unSetFocusedItem();
+	}
+
+	private void calculateDrawSettings() {
+		//calculate font size based on DP
+		fontSizePixels= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+				FONT_SIZE_DP, mContext.getResources().getDisplayMetrics());
+		DESCRIPTION_LINE_HEIGHT=fontSizePixels+5;
+
+		//calculate max width based on screen width.
+		DESCRIPTION_MAXWIDTH=(int)(mContext.getResources().getDisplayMetrics().widthPixels*0.8);
+		UNKNOWN = mContext.getResources().getString(R.string.unknown);
+
 		this.mMarkerBackgroundPaint = new Paint(); // Color is set in onDraw(...)
 
 		this.mDescriptionPaint = new Paint();
@@ -104,12 +112,77 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		this.mTitlePaint.setTextSize(fontSizePixels);
 		this.mTitlePaint.setFakeBoldText(true);
 		this.mTitlePaint.setAntiAlias(true);
-		this.unSetFocusedItem();
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+
+	/**
+	 * default is 3 pixels
+	 * @param value
+     */
+	public void setDescriptionBoxPadding(int value ){
+		DESCRIPTION_BOX_PADDING=value;
+	}
+
+	/**
+	 * default 3
+	 * @param value
+     */
+	public void setDescriptionBoxCornerWidth(int value){
+		DESCRIPTION_BOX_CORNERWIDTH=value;
+	}
+
+	/**
+	 * default is 2
+	 * @param value
+     */
+	public void setDescriptionTitleExtraLineHeight(int value){
+		DESCRIPTION_TITLE_EXTRA_LINE_HEIGHT=value;
+	}
+
+	/**
+	 * default is a green like color
+	 * @param value
+     */
+	public void setMarkerBackgroundColor(int value){
+		mMarkerFocusedBackgroundColor=value;
+	}
+	public void setMarkerTitleForegroundColor(int value){
+		mTitlePaint.setColor(value);
+	}
+	public void setMarkerDescriptionForegroundColor(int value){
+		mDescriptionPaint.setColor(value);
+	}
+
+	/**
+	 * default is 14
+	 * @param value
+     */
+	public void setFontSize(int value){
+		FONT_SIZE_DP=value;
+		calculateDrawSettings();
+	}
+
+	/**
+	 * in pixels, default is 600
+	 * @param value
+     */
+	public void setDescriptionMaxWidth(int value){
+		DESCRIPTION_MAXWIDTH=value;
+		calculateDrawSettings();
+	}
+
+	/**
+	 * default is 30
+	 * @param value
+     */
+	public void setDescriptionLineHeight(int value){
+		DESCRIPTION_LINE_HEIGHT=value;
+		calculateDrawSettings();
+	}
 
 	public Item getFocusedItem() {
 		if (this.mFocusedItemIndex == NOT_SET) {
