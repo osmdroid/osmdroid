@@ -132,6 +132,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private boolean mLayoutOccurred = false;
 
 	public interface OnFirstLayoutListener {
+		/**
+		 * this generally means that the map is ready to go
+		 * @param v
+		 * @param left
+		 * @param top
+         * @param right
+         * @param bottom
+         */
 		void onFirstLayout(View v, int left, int top, int right, int bottom);
 	}
 
