@@ -37,7 +37,8 @@ public final class SampleFactory {
 				SampleGridlines.class,
 				SampleMapEventListener.class,
 				SampleAnimateTo.class,
-				SampleHeadingCompassUp.class
+				SampleHeadingCompassUp.class,
+				SampleSplitScreen.class
         };
 	}
 

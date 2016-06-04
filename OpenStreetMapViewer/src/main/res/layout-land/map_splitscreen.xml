@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <org.osmdroid.views.MapView
+        android:layout_weight="0.5"
+        android:id="@+id/mapview1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tilesource="Mapnik" />
+
+    <org.osmdroid.views.MapView
+        android:layout_weight="0.5"
+        android:id="@+id/mapview2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tilesource="Mapnik" />
+
+</LinearLayout>
