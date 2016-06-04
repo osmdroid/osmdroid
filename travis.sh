@@ -31,10 +31,11 @@ PING_LOOP_PID=$!
 # My build is using maven, but you could build anything with this, E.g.
 # your_build_command_1 >> $BUILD_OUTPUT 2>&1
 # your_build_command_2 >> $BUILD_OUTPUT 2>&1
-mvn clean install -fn -B -U -Pdist  >> $BUILD_OUTPUT 2>&1
-mvn install -fn -B -U -Pdist  >> $BUILD_OUTPUT 2>&1
-mvn install -Pdist  >> $BUILD_OUTPUT 2>&1
-mvn android:undeploy  >> $BUILD_OUTPUT 2>&1
+# mvn clean install -fn -B -U -Pdist  >> $BUILD_OUTPUT 2>&1
+# mvn install -fn -B -U -Pdist  >> $BUILD_OUTPUT 2>&1
+# mvn install -Pdist  >> $BUILD_OUTPUT 2>&1
+# mvn android:undeploy  >> $BUILD_OUTPUT 2>&1
+
 #build using gradle
 ./gradlew -version  >> $BUILD_OUTPUT 2>&1
 ./gradlew clean connectedCheck  >> $BUILD_OUTPUT 2>&1
