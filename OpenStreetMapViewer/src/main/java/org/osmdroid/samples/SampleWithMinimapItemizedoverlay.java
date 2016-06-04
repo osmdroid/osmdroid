@@ -85,7 +85,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
-					}, getParent());
+					}, getApplicationContext());
 			this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
 		}
 
