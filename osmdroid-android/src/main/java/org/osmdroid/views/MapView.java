@@ -57,6 +57,11 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
 
+/**
+ * This is the primary view for osmdroid
+ * 
+ * @since the begining
+ */
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
