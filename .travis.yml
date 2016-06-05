@@ -4,8 +4,10 @@ android:
   components:
     # The BuildTools version used by your project
     - tools
+    - platform-tools
     - build-tools-23.0.2 # 23.0.2 was not available on build
     - build-tools-23.0.1
+    - build-tools-23.0.3
     # The SDK version used to compile your project
     - android-24
     - android-23
@@ -77,7 +79,7 @@ env:
 before_install:
   # create and start emulators
   - android list targets
-  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
