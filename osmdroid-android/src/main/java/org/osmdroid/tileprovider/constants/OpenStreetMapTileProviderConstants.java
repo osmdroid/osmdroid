@@ -95,7 +95,7 @@ public class OpenStreetMapTileProviderConstants {
       * @param threads
       * @since 5.1
 	 */
-     public void setNumberOfTileDownloadThreads(int threads){
+     public static void setNumberOfTileDownloadThreads(int threads){
           if (threads > 12)
                NUMBER_OF_TILE_DOWNLOAD_THREADS=12;
           else if (threads < 1)

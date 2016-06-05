@@ -8,6 +8,12 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * location provider, by default, uses {@link LocationManager#GPS_PROVIDER} and {@link LocationManager#NETWORK_PROVIDER}
+ */
 public class GpsMyLocationProvider implements IMyLocationProvider, LocationListener {
 	private final LocationManager mLocationManager;
 	private Location mLocation;
@@ -16,14 +22,40 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	private long mLocationUpdateMinTime = 0;
 	private float mLocationUpdateMinDistance = 0.0f;
 	private final NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
+	private final Set<String> locationSources = new HashSet<>();
 
 	public GpsMyLocationProvider(Context context) {
 		mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		locationSources.add(LocationManager.GPS_PROVIDER);
 	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
+
+	/**
+	 * removes all sources, again, only useful before startLocationProvider is called
+	 */
+	public void clearLocationSources(){
+		locationSources.clear();
+	}
+
+	/**
+	 * adds a new source to listen for location data. Has no effect after startLocationProvider has been called
+	 * unless startLocationProvider is called again
+	 */
+	public void addLocationSource(String source){
+		locationSources.add(source);
+	}
+
+	/**
+	 * returns the live list of GPS sources that we accept, changing this list after startLocationProvider
+	 * has no effect unless startLocationProvider is called again
+	 * @return
+     */
+	public Set<String> getLocationSources(){
+		return locationSources;
+	}
 
 	public long getLocationUpdateMinTime() {
 		return mLocationUpdateMinTime;
@@ -70,8 +102,7 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 		mMyLocationConsumer = myLocationConsumer;
 		boolean result = false;
 		for (final String provider : mLocationManager.getProviders(true)) {
-			if (LocationManager.GPS_PROVIDER.equals(provider)
-					|| LocationManager.NETWORK_PROVIDER.equals(provider)) {
+			if (locationSources.contains(provider)) {
 				result = true;
 				mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,
 						mLocationUpdateMinDistance, this);

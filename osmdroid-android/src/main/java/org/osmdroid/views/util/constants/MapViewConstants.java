@@ -9,11 +9,12 @@ package org.osmdroid.views.util.constants;
  * 
  */
 public interface MapViewConstants {
+
+	public static boolean DEBUGMODE = false;
+
 	// ===========================================================
 	// Final Fields
 	// ===========================================================
-
-	public static final boolean DEBUGMODE = false;
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 

@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -45,6 +46,7 @@ public class MainActivity extends ListActivity {
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("More Samples");
+        list.add("Report a bug");
 		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 	}
 
@@ -71,6 +73,10 @@ public class MainActivity extends ListActivity {
                 break;
             case 6:
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
+                break;
+            case 7:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
+                startActivity(browserIntent);
                 break;
         }
     }

@@ -65,6 +65,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	private final Handler mHandler;
 	private final Object mHandlerToken = new Object();
 
+	/**
+	 * if true, when the user pans the map, follow my location will automatically disable
+	 * if false, when the user pans the map, the map will continue to follow current location
+	 */
+	protected boolean enableAutoStop=true;
 	private Location mLocation;
 	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
 	private boolean mIsLocationEnabled = false;
@@ -219,8 +224,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				* mMatrixValues[Matrix.MSKEW_X]);
 		if (lastFix.hasBearing()) {
 			canvas.save();
-			// Rotate the icon
-			canvas.rotate(lastFix.getBearing(), mMapCoordsTranslated.x, mMapCoordsTranslated.y);
+			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
+			float mapRotation=mapView.getMapOrientation();
+			mapRotation=lastFix.getBearing();
+			if (mapRotation >=360.0f)
+				mapRotation=mapRotation-360f;
+			canvas.rotate(mapRotation, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Counteract any scaling that may be happening so the icon stays the same size
 			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
@@ -312,10 +321,20 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 	}
 
+	public void setEnableAutoStop(boolean value){
+		this.enableAutoStop=value;
+	}
+	public boolean getEnableAutoStop(){
+		return this.enableAutoStop;
+	}
+
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			this.disableFollowLocation();
+			if (enableAutoStop)
+				this.disableFollowLocation();
+			else
+				return true;//prevent the pan
 		}
 
 		return super.onTouchEvent(event, mapView);

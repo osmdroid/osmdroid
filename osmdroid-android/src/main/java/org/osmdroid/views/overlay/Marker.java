@@ -292,10 +292,17 @@ public class Marker extends OverlayWithIW {
     /** Null out the static references when the MapView is detached to prevent memory leaks. */
 	@Override
 	public void onDetach(MapView mapView) {
-		mDefaultIcon = null;
-        mDefaultInfoWindow = null;
+		cleanDefaults();
         super.onDetach(mapView);
     }
+
+	/**
+	 * reference https://github.com/MKergall/osmbonuspack/pull/210
+	 */
+	public static void cleanDefaults(){
+				mDefaultIcon = null;
+				mDefaultInfoWindow = null;
+	}
 
 	public boolean hitTest(final MotionEvent event, final MapView mapView){
 		final Projection pj = mapView.getProjection();
