@@ -104,6 +104,8 @@ before_script:
   - adb shell ls /
   - adb shell ls /sdcard/
   - adb shell ls /sdcard/osmdroid
+  - adb shell mount -o remount rw /sdcard
+  - adb shell chmod 777 /mnt/sdcard
   - adb shell mkdir /sdcard/osmdroid/
   - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
 
