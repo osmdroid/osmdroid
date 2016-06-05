@@ -224,8 +224,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				* mMatrixValues[Matrix.MSKEW_X]);
 		if (lastFix.hasBearing()) {
 			canvas.save();
-			// Rotate the icon
-			canvas.rotate(lastFix.getBearing(), mMapCoordsTranslated.x, mMapCoordsTranslated.y);
+			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
+			float mapRotation=mapView.getMapOrientation();
+			mapRotation=lastFix.getBearing();
+			if (mapRotation >=360.0f)
+				mapRotation=mapRotation-360f;
+			canvas.rotate(mapRotation, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Counteract any scaling that may be happening so the icon stays the same size
 			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap

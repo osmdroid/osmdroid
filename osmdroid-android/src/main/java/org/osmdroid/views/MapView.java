@@ -57,6 +57,11 @@ import android.widget.Scroller;
 import android.widget.ZoomButtonsController;
 import android.widget.ZoomButtonsController.OnZoomListener;
 
+/**
+ * This is the primary view for osmdroid
+ * 
+ * @since the begining
+ */
 public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		MultiTouchObjectCanvas<Object> {
 
@@ -127,6 +132,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private boolean mLayoutOccurred = false;
 
 	public interface OnFirstLayoutListener {
+		/**
+		 * this generally means that the map is ready to go
+		 * @param v
+		 * @param left
+		 * @param top
+         * @param right
+         * @param bottom
+         */
 		void onFirstLayout(View v, int left, int top, int right, int bottom);
 	}
 
@@ -755,6 +768,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public void onDetach() {
 		this.getOverlayManager().onDetach(this);
 		mTileProvider.detach();
+		mZoomController.setVisible(false);
 	}
 
 	@Override

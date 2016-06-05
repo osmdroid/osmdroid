@@ -12,6 +12,7 @@ import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,6 +101,12 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 					}, context);
 			mMyLocationOverlay.setFocusItemsOnTap(true);
 			mMyLocationOverlay.setFocusedItem(0);
+			//https://github.com/osmdroid/osmdroid/issues/317
+			//you can override the drawing characteristics with this
+			mMyLocationOverlay.setMarkerBackgroundColor(Color.BLUE);
+			mMyLocationOverlay.setMarkerTitleForegroundColor(Color.WHITE);
+			mMyLocationOverlay.setMarkerDescriptionForegroundColor(Color.WHITE);
+			mMyLocationOverlay.setDescriptionBoxPadding(15);
 
 			mMapView.getOverlays().add(mMyLocationOverlay);
 

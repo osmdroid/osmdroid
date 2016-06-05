@@ -7,14 +7,19 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +57,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("More Samples");
+        list.add("Report a bug");
+		//this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
         ListView lv = (ListView)findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
@@ -92,6 +99,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 break;
             case 6:
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
+                break;
+            case 7:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
+                startActivity(browserIntent);
                 break;
         }
     }
@@ -149,5 +160,5 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 				super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		}
 	}
-    // END PERMISSION CHECK
+	// END PERMISSION CHECK
 }

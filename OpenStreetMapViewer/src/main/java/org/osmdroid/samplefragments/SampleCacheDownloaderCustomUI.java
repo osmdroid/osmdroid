@@ -1,8 +1,10 @@
 package org.osmdroid.samplefragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,10 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.osmdroid.R;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
@@ -21,27 +22,30 @@ import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 
 /**
- * Sample for using the cache manager to download tiles on screen
- * Created by alex on 2/21/16.
+ * Created by alex on 5/29/16.
  */
-public class SampleCacheDownloader extends BaseSampleFragment implements View.OnClickListener, OnSeekBarChangeListener, TextWatcher {
+public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, TextWatcher, CacheManager.CacheManagerCallback {
     @Override
     public String getSampleTitle() {
-        return "Cache Manager";
+        return "Cache Manager with custom UI";
     }
 
-    Button btnCache,executeJob;
+    ProgressDialog progressBar;
+    private int progressBarStatus = 0;
+    private Handler progressBarHandler = new Handler();
+
+    Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
-    EditText cache_north, cache_south, cache_east,cache_west;
+    EditText cache_north, cache_south, cache_east, cache_west;
     TextView cache_estimate;
     CacheManager mgr;
-    AlertDialog downloadPrompt=null;
+    AlertDialog downloadPrompt = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.sample_cachemgr, container,false);
+        View root = inflater.inflate(R.layout.sample_cachemgr, container, false);
 
         mMapView = (MapView) root.findViewById(R.id.mapview);
         btnCache = (Button) root.findViewById(R.id.btnCache);
@@ -70,7 +74,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     }
 
 
-    private void showCacheManagerDialog(){
+    private void showCacheManagerDialog() {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getActivity());
@@ -78,16 +82,16 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         // set title
         alertDialogBuilder.setTitle(R.string.cache_manager);
-                //.setMessage(R.string.cache_manager_description);
+        //.setMessage(R.string.cache_manager_description);
 
         // set dialog message
         alertDialogBuilder.setItems(new CharSequence[]{
-                getResources().getString(R.string.cache_current_size),
-                getResources().getString(R.string.cache_download),
-                getResources().getString(R.string.cancel)
+                        getResources().getString(R.string.cache_current_size),
+                        getResources().getString(R.string.cache_download),
+                        getResources().getString(R.string.cancel)
                 }, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case 0:
                                 showCurrentCacheInfo();
                                 break;
@@ -110,7 +114,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
 
         //mgr.possibleTilesInArea(mMapView.getBoundingBox(), 0, 18);
-       // mgr.
+        // mgr.
     }
 
     private void downloadJobAlert() {
@@ -120,23 +124,23 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
         BoundingBoxE6 boundingBox = mMapView.getBoundingBox();
-        zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
+        zoom_max = (SeekBar) view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax(mMapView.getMaxZoomLevel());
-        zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
+        zoom_max.setOnSeekBarChangeListener(SampleCacheDownloaderCustomUI.this);
 
 
-        zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
+        zoom_min = (SeekBar) view.findViewById(R.id.slider_zoom_min);
         zoom_min.setMax(mMapView.getMaxZoomLevel());
         zoom_min.setProgress(mMapView.getMinZoomLevel());
-        zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
-        cache_east= (EditText) view.findViewById(R.id.cache_east);
-        cache_east.setText(boundingBox.getLonEastE6() /1E6 +"");
-        cache_north= (EditText) view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorthE6() /1E6 +"");
-        cache_south= (EditText) view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouthE6() /1E6 +"");
-        cache_west= (EditText) view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWestE6() /1E6 +"");
+        zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderCustomUI.this);
+        cache_east = (EditText) view.findViewById(R.id.cache_east);
+        cache_east.setText(boundingBox.getLonEastE6() / 1E6 + "");
+        cache_north = (EditText) view.findViewById(R.id.cache_north);
+        cache_north.setText(boundingBox.getLatNorthE6() / 1E6 + "");
+        cache_south = (EditText) view.findViewById(R.id.cache_south);
+        cache_south.setText(boundingBox.getLatSouthE6() / 1E6 + "");
+        cache_west = (EditText) view.findViewById(R.id.cache_west);
+        cache_west.setText(boundingBox.getLonWestE6() / 1E6 + "");
         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
@@ -144,24 +148,24 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         cache_north.addTextChangedListener((TextWatcher) this);
         cache_south.addTextChangedListener((TextWatcher) this);
         cache_west.addTextChangedListener((TextWatcher) this);
-        executeJob= (Button) view.findViewById(R.id.executeJob);
+        executeJob = (Button) view.findViewById(R.id.executeJob);
         executeJob.setOnClickListener(this);
         builder.setView(view);
         builder.setCancelable(true);
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                cache_east=null;
-                cache_south=null;
-                cache_estimate=null;
-                cache_north=null;
-                cache_west=null;
-                executeJob=null;
-                zoom_min=null;
-                zoom_max=null;
+                cache_east = null;
+                cache_south = null;
+                cache_estimate = null;
+                cache_north = null;
+                cache_west = null;
+                executeJob = null;
+                zoom_min = null;
+                zoom_max = null;
             }
         });
-        downloadPrompt=builder.create();
+        downloadPrompt = builder.create();
         downloadPrompt.show();
 
 
@@ -187,48 +191,37 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();
                 //nesw
-                BoundingBoxE6 bb= new BoundingBoxE6(n, e, s, w);
+                BoundingBoxE6 bb = new BoundingBoxE6(n, e, s, w);
                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
                 cache_estimate.setText(tilecount + " tiles");
-                if (startJob)
-                {
-                    if ( downloadPrompt!=null) {
+                if (startJob) {
+                    if (downloadPrompt != null) {
                         downloadPrompt.dismiss();
-                        downloadPrompt=null;
+                        downloadPrompt = null;
                     }
 
+
+                    // prepare for a progress bar dialog ( do this first! )
+                    progressBar = new ProgressDialog(SampleCacheDownloaderCustomUI.this.getActivity());
+                    progressBar.setCancelable(true);
+                    progressBar.setMessage("Downloading ...");
+                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                    progressBar.setProgress(0);
+
                     //this triggers the download
-                    mgr.downloadAreaAsync(getActivity(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
-                        @Override
-                        public void onTaskComplete() {
-                            Toast.makeText(getActivity(), "Download complete!", Toast.LENGTH_LONG).show();
-                        }
+                    mgr.downloadAreaAsyncNoUI(getActivity(), bb, zoommin, zoommax, SampleCacheDownloaderCustomUI.this);
 
-                        @Override
-                        public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
-                            //NOOP since we are using the build in UI
-                        }
 
-                        @Override
-                        public void downloadStarted() {
-                            //NOOP since we are using the build in UI
-                        }
-
-                        @Override
-                        public void setPossibleTilesInArea(int total) {
-                            //NOOP since we are using the build in UI
-                        }
-                    });
                 }
 
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private void showCurrentCacheInfo() {
-        Toast.makeText(getActivity(), "Calculating..." ,Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Calculating...", Toast.LENGTH_SHORT).show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -238,7 +231,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
                 // set title
                 alertDialogBuilder.setTitle(R.string.cache_manager)
-                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n"+
+                        .setMessage("Cache Capacity (bytes): " + mgr.cacheCapacity() + "\n" +
                                 "Cache Usage (bytes): " + mgr.currentCacheUsage());
 
                 // set dialog message
@@ -253,8 +246,6 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 );
 
 
-
-
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -267,7 +258,6 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
             }
         }).start();
-
 
 
     }
@@ -300,5 +290,40 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+
+    //cache manager callback
+    @Override
+    public void onTaskComplete() {
+        progressBar.dismiss();
+        progressBar = null;
+        Toast.makeText(getActivity(), "Download complete!", Toast.LENGTH_LONG).show();
+    }
+
+    //cache manager callback
+    @Override
+    public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+        if (progressBar != null) {
+            progressBar.setProgress(progress);
+        }
+    }
+
+
+    //cache manager callback
+    @Override
+    public void downloadStarted() {
+
+        if (progressBar != null) {
+            progressBar.show();
+        }
+    }
+
+    //cache manager callback
+    @Override
+    public void setPossibleTilesInArea(int total) {
+        if (progressBar != null) {
+            progressBar.setMax(total);
+        }
     }
 }

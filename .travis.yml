@@ -85,13 +85,14 @@ before_install:
 # mvn sdk deploy
 before_script:
   # android list
-  - mkdir temp
-  - cd temp
-  - git clone https://github.com/simpligility/maven-android-sdk-deployer
-  - cd maven-android-sdk-deployer
-  - mvn clean install -fn -B -U
-  - cd ..
-  - cd ..
+  # TEMPORARY comment out of the maven build since it's broken at the moment
+  #- mkdir temp
+  #- cd temp
+  #- git clone https://github.com/simpligility/maven-android-sdk-deployer
+  #- cd maven-android-sdk-deployer
+  #- mvn clean install -fn -B -U
+  #- cd ..
+  #- cd ..
 
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
@@ -111,8 +112,8 @@ script:
   #- mvn install -Pdist
   #- mvn android:undeploy
   #build using gradle
-  #- ./gradlew -version
-  #- ./gradlew clean connectedCheck
+  - ./gradlew -version
+  - ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace
