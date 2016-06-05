@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider;
 
 import android.content.Context;
+import android.os.Build;
 
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.INetworkAvailablityCheck;
@@ -20,7 +21,14 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
  * This top-level tile provider implements a basic tile request chain which includes a
  * {@link MapTileFilesystemProvider} (a file-system cache), a {@link MapTileFileArchiveProvider}
  * (archive provider), and a {@link MapTileDownloader} (downloads map tiles via tile source).
- * 
+ *
+ * Behavior change since osmdroid 5.3: If the device is less than API 10, the file system based cache and writer are used
+ * otherwise, the sqlite based
+ *
+ * @see TileWriter
+ * @see SqlTileWriter
+ * @see MapTileFilesystemProvider
+ * @see MapTileSqlCacheProvider
  * @author Marc Kurtz
  * 
  */
@@ -60,22 +68,27 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 			final Context pContext, final IFilesystemCache cacheWriter) {
 		super(pTileSource, pRegisterReceiver);
 
-		if (cacheWriter!=null)
+		if (cacheWriter != null) {
 			tileWriter = cacheWriter;
-		else
-			tileWriter=new SqlTileWriter();
-
+		} else {
+			if (Build.VERSION.SDK_INT < 10) {
+				tileWriter = new TileWriter();
+			} else {
+				tileWriter = new SqlTileWriter();
+			}
+		}
 		final MapTileAssetsProvider assetsProvider = new MapTileAssetsProvider(
 				pRegisterReceiver, pContext.getAssets(), pTileSource);
 		mTileProviderList.add(assetsProvider);
 
-		//final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
-		//		pRegisterReceiver, pTileSource);
-		//mTileProviderList.add(fileSystemProvider);
-
-		final MapTileSqlCacheProvider cachedProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
-		mTileProviderList.add(cachedProvider);
-
+		if (Build.VERSION.SDK_INT < 10) {
+			final MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(
+					pRegisterReceiver, pTileSource);
+			mTileProviderList.add(fileSystemProvider);
+		} else {
+			final MapTileSqlCacheProvider cachedProvider = new MapTileSqlCacheProvider(pRegisterReceiver, pTileSource);
+			mTileProviderList.add(cachedProvider);
+		}
 		final MapTileFileArchiveProvider archiveProvider = new MapTileFileArchiveProvider(
 				pRegisterReceiver, pTileSource);
 		mTileProviderList.add(archiveProvider);

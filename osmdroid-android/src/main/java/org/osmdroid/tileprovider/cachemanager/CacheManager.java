@@ -59,12 +59,12 @@ import java.net.UnknownHostException;
 public class CacheManager {
 
     protected final MapTileProviderBase mTileProvider;
-    protected final TileWriter mTileWriter;
+    protected final IFilesystemCache mTileWriter;
     protected final MapView mMapView;
 
     public CacheManager(final MapView mapView) {
         mTileProvider = mapView.getTileProvider();
-        mTileWriter = new TileWriter();
+        mTileWriter = mapView.getTileProvider().getTileWriter();
         mMapView = mapView;
     }
 
