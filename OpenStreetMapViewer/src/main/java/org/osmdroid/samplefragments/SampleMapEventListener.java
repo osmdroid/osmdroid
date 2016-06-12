@@ -15,6 +15,8 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.views.MapView;
 
 import java.text.DecimalFormat;
@@ -47,6 +49,15 @@ public class SampleMapEventListener extends BaseSampleFragment
     protected void addOverlays() {
         super.addOverlays();
 
+        //FIXME, this tile source only goes to 15, set to 25 to test overflows for zoom > 20
+        mMapView.setTileSource(new OnlineTileSourceBase("USGS Topo", 0, 25, 256, "",
+                new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
+            @Override
+            public String getTileURLString(MapTile aTile) {
+                return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX()
+                        + mImageFilenameEnding;
+            }
+        });
         mMapView.setMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {

@@ -1,5 +1,6 @@
 package org.osmdroid.views.overlay;
 
+import org.osmdroid.api.IMap;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -139,10 +140,14 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		// Get the area we are drawing to
 		Rect screenRect = projection.getScreenRect();
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "BEFORE Rect is " + screenRect.toString() + mTopLeftMercator.toString());
 		projection.toMercatorPixels(screenRect.left, screenRect.top, mTopLeftMercator);
+
 		projection.toMercatorPixels(screenRect.right, screenRect.bottom, mBottomRightMercator);
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + screenRect.toString()  + mTopLeftMercator.toString() + mBottomRightMercator.toString());
 		mViewPort.set(mTopLeftMercator.x, mTopLeftMercator.y, mBottomRightMercator.x,
 				mBottomRightMercator.y);
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + mViewPort.toString());
 
 		// Draw the tiles!
 		drawTiles(c, projection, projection.getZoomLevel(), TileSystem.getTileSize(), mViewPort);
@@ -179,6 +184,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		@Override
 		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
+			//no overflow detected here Log.d(IMapView.LOGTAG, "handleTile " + pTile.toString() + ","+pX + "," + pY);
 			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
