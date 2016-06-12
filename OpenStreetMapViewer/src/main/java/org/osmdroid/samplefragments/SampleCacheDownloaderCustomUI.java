@@ -31,9 +31,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     }
 
     ProgressDialog progressBar;
-    private int progressBarStatus = 0;
-    private Handler progressBarHandler = new Handler();
-
+    
     Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;

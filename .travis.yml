@@ -4,8 +4,10 @@ android:
   components:
     # The BuildTools version used by your project
     - tools
+    - platform-tools
     - build-tools-23.0.2 # 23.0.2 was not available on build
     - build-tools-23.0.1
+    - build-tools-23.0.3
     # The SDK version used to compile your project
     - android-24
     - android-23
@@ -66,7 +68,7 @@ env:
     #api19
     - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
     #api19 with google
-    - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
     #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
     #api22
@@ -77,7 +79,7 @@ env:
 before_install:
   # create and start emulators
   - android list targets
-  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
@@ -99,6 +101,13 @@ before_script:
 
   #setup for maps forge adapter
   #- wget http://download.mapsforge.org/maps/world/world.map
+  - adb shell ls /
+  - adb shell ls /sdcard/
+  - adb shell ls /sdcard/osmdroid
+  - adb root
+  - adb shell mount -o rw,remount rootfs /
+  - adb shell chmod 777 /mnt/sdcard
+  - adb shell mkdir /sdcard/osmdroid/
   - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
 
 #build
