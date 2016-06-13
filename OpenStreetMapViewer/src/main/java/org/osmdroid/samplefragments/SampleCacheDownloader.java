@@ -37,6 +37,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt=null;
+    AlertDialog alertDialog=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
 
         // show it
         alertDialog.show();
@@ -300,5 +301,16 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        if (downloadPrompt!=null && downloadPrompt.isShowing()){
+            downloadPrompt.dismiss();
+        }
     }
 }
