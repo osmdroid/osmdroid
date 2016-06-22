@@ -26,10 +26,10 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 	public static final String TITLE = "OsmPath drawing";
 
-	private static final BoundingBoxE6 sCentralParkBoundingBox;
-	private static final Paint sPaint;
+	private BoundingBoxE6 sCentralParkBoundingBox;
+	private Paint sPaint;
 
-	static {
+	public SampleOsmPath() {
 		sCentralParkBoundingBox = new BoundingBoxE6(40.796788, -73.949232, 40.768094, -73.981762);
 
 		sPaint = new Paint();

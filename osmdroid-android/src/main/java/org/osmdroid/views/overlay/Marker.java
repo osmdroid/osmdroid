@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.MotionEvent;
 
 import org.osmdroid.library.R;
@@ -76,7 +77,7 @@ public class Marker extends OverlayWithIW {
 	protected Point mPositionPixels;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
-	final Resources resource;
+	protected Resources resource;
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -292,9 +293,37 @@ public class Marker extends OverlayWithIW {
     /** Null out the static references when the MapView is detached to prevent memory leaks. */
 	@Override
 	public void onDetach(MapView mapView) {
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			if (mIcon instanceof BitmapDrawable) {
+				final Bitmap bitmap = ((BitmapDrawable) mIcon).getBitmap();
+				if (bitmap != null) {
+					bitmap.recycle();
+				}
+			}
+		}
+		mIcon=null;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			if (mImage instanceof BitmapDrawable) {
+				final Bitmap bitmap = ((BitmapDrawable) mImage).getBitmap();
+				if (bitmap != null) {
+					bitmap.recycle();
+				}
+			}
+		}
 		cleanDefaults();
+		this.mOnMarkerClickListener=null;
+		this.mOnMarkerDragListener=null;
+		this.resource=null;
+		setRelatedObject(null);
+		closeInfoWindow();
+		onDestroy();
+
+
         super.onDetach(mapView);
     }
+
+
 
 	/**
 	 * reference https://github.com/MKergall/osmbonuspack/pull/210

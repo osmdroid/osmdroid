@@ -18,6 +18,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 /**
@@ -25,6 +26,7 @@ import org.osmdroid.tileprovider.util.StreamUtils;
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb.
  *
  * @author Neil Boyd
+ * @see OpenStreetMapTileProviderConstants
  *
  */
 public class TileWriter implements IFilesystemCache {
@@ -40,7 +42,7 @@ public class TileWriter implements IFilesystemCache {
 
 	/** amount of disk space used by tile cache **/
 	private static long mUsedCacheSpace;
-
+	private Thread initThread=null;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -48,7 +50,7 @@ public class TileWriter implements IFilesystemCache {
 	public TileWriter() {
 
 		// do this in the background because it takes a long time
-		final Thread t = new Thread() {
+		initThread = new Thread() {
 			@Override
 			public void run() {
 				mUsedCacheSpace = 0; // because it's static
@@ -63,8 +65,9 @@ public class TileWriter implements IFilesystemCache {
 				}
 			}
 		};
-		t.setPriority(Thread.MIN_PRIORITY);
-		t.start();
+		initThread.setPriority(Thread.MIN_PRIORITY);
+		initThread.setName("TileWriter Init thread");
+		initThread.start();
 	}
 
 	// ===========================================================
@@ -111,6 +114,7 @@ public class TileWriter implements IFilesystemCache {
 				cutCurrentCache(); // TODO perhaps we should do this in the background
 			}
 		} catch (final IOException e) {
+			Counters.fileCacheSaveErrors++;
 			return false;
 		} finally {
 			if (outputStream != null) {
@@ -118,6 +122,16 @@ public class TileWriter implements IFilesystemCache {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public void onDetach() {
+
+		if (initThread!=null){
+			try {
+				initThread.interrupt();
+			}catch (Throwable t){}
+		}
 	}
 
 	// ===========================================================

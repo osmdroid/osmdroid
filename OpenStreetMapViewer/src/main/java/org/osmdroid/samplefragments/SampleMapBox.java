@@ -2,6 +2,7 @@ package org.osmdroid.samplefragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
 public class SampleMapBox   extends BaseSampleFragment {
 
     AlertDialog alertDialog=null;
+    View promptsView=null;
 
     @Override
     public String getSampleTitle() {
@@ -47,7 +49,7 @@ public class SampleMapBox   extends BaseSampleFragment {
 
         // get prompts.xml view
         LayoutInflater li = LayoutInflater.from(getActivity());
-        View promptsView = li.inflate(R.layout.mapbox_prompt, null);
+         promptsView = li.inflate(R.layout.mapbox_prompt, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 getActivity());
@@ -98,6 +100,15 @@ public class SampleMapBox   extends BaseSampleFragment {
         super.onPause();
         if (alertDialog!=null && alertDialog.isShowing()){
             alertDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+            alertDialog=null;
         }
     }
 

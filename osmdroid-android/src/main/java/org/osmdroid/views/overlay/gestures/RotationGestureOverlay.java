@@ -21,7 +21,6 @@ public class RotationGestureOverlay extends Overlay implements
 
     private final RotationGestureDetector mRotationDetector;
     private MapView mMapView;
-    private float lastAngle=0f;
     private boolean mOptionsMenuEnabled = true;
 
     public RotationGestureOverlay(Context context, MapView mapView)
@@ -56,6 +55,11 @@ public class RotationGestureOverlay extends Overlay implements
             timeLastSet = System.currentTimeMillis();
             mMapView.setMapOrientation(mMapView.getMapOrientation() + currentAngle);
         }
+    }
+
+    @Override
+    public void onDetach(MapView map){
+        mMapView=null;
     }
 
     @Override

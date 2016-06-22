@@ -8,8 +8,11 @@
 package org.osmdroid.test;
 
 import org.osmdroid.StarterMapActivity;
+import org.osmdroid.tileprovider.util.Counters;
 
 import android.test.ActivityInstrumentationTestCase2;
+
+import junit.framework.Assert;
 
 public class MapActivityTest extends ActivityInstrumentationTestCase2<StarterMapActivity> {
 
@@ -20,6 +23,15 @@ public class MapActivityTest extends ActivityInstrumentationTestCase2<StarterMap
     public void testActivity() {
         StarterMapActivity activity = getActivity();
         assertNotNull(activity);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+        }
+        Counters.printToLogcat();
+        if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0){
+            Assert.fail("OOM Detected, aborting!");
+        }
+        activity.finish();
     }
 }
 

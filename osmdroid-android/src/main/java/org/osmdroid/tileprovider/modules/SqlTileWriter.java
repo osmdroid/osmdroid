@@ -13,7 +13,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +27,8 @@ import java.util.List;
  * @since 5.1
  */
 public class SqlTileWriter implements IFilesystemCache {
-    final File db_file;
-    final SQLiteDatabase db;
+    protected File db_file;
+    protected SQLiteDatabase db;
     final int questimate=8000;
 
     public SqlTileWriter() {
@@ -111,5 +110,17 @@ public class SqlTileWriter implements IFilesystemCache {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString(), ex);
         }
         return false;
+    }
+
+    @Override
+    public void onDetach() {
+        if (db != null && db.isOpen()) {
+            try {
+                db.close();
+            } catch (Exception ex) {
+            }
+        }
+        db = null;
+        db_file = null;
     }
 }

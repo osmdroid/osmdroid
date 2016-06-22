@@ -43,8 +43,10 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     private void updateGridlines(){
 
-        if (activeLatLonGrid != null)
-            mMapView.getOverlays().remove(activeLatLonGrid);
+        if (activeLatLonGrid != null) {
+            mMapView.getOverlayManager().remove(activeLatLonGrid);
+            activeLatLonGrid.onDetach(mMapView);
+        }
         activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
         mMapView.getOverlays().add(activeLatLonGrid);
 

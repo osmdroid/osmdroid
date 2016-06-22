@@ -26,4 +26,11 @@ public interface IFilesystemCache {
 	 */
 	boolean saveFile(final ITileSource pTileSourceInfo, MapTile pTile,
 			final InputStream pStream);
+
+	/**
+	 * Used when the map engine is shutdown, use it to perform any clean up activities and to terminate
+	 * any background threads
+	 * @since 5.3
+	 */
+	void onDetach();
 }

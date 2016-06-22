@@ -33,6 +33,7 @@ public class SampleAnimateTo extends SampleGridlines {
     @Override
     public void onResume() {
         super.onResume();
+        alive=true;
         //some explanation here.
         //we using a timer task with a delayed start up to move the map around. during CI tests
         //this fragment can crash the app if you navigate away from the fragment before the initial fire

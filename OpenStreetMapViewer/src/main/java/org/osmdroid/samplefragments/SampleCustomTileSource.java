@@ -16,14 +16,7 @@ public class SampleCustomTileSource extends BaseSampleFragment{
      }
       @Override
      public void addOverlays() {
-          mMapView.setTileSource(new OnlineTileSourceBase("USGS Topo", 0, 18, 256, "", 
-               new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
-               @Override
-               public String getTileURLString(MapTile aTile) {
-                    return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX()
-				+ mImageFilenameEnding;
-               }
-          });
+          mMapView.setTileSource(new USGSTileSource());
           
      }
      

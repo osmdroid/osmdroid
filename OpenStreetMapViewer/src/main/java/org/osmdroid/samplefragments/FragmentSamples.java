@@ -24,7 +24,7 @@ public class FragmentSamples extends ListFragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Generate a ListView with Sample Maps

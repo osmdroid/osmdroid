@@ -86,6 +86,12 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
 
+	@Override
+	public void onDetach(MapView mapView){
+		if (mDefaultMarker!=null){
+			//release the bitmap
+		}
+	}
 	/**
 	 * Draw a marker on each of our items. populate() must have been called first.<br>
 	 * <br>

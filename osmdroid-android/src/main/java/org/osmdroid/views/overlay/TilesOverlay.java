@@ -96,6 +96,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	@Override
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
+		ctx=null;
 	}
 
 	public int getMinimumZoomLevel() {

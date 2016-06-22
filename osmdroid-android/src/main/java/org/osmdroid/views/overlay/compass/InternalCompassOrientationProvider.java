@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 public class InternalCompassOrientationProvider implements SensorEventListener, IOrientationProvider
 {
     private IOrientationConsumer mOrientationConsumer;
-    private final SensorManager mSensorManager;
+    private SensorManager mSensorManager;
     private float mAzimuth;
 
     public InternalCompassOrientationProvider(Context context)
@@ -48,6 +48,12 @@ public class InternalCompassOrientationProvider implements SensorEventListener, 
     public float getLastKnownOrientation()
     {
         return mAzimuth;
+    }
+
+    @Override
+    public void destroy() {
+        stopOrientationProvider();
+        mSensorManager=null;
     }
 
     //

@@ -54,15 +54,15 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected Bitmap mPersonBitmap;
 	protected Bitmap mDirectionArrowBitmap;
 
-	protected final MapView mMapView;
+	protected MapView mMapView;
 
-	private final IMapController mMapController;
+	private IMapController mMapController;
 	public IMyLocationProvider mMyLocationProvider;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoordsProjected = new Point();
 	private final Point mMapCoordsTranslated = new Point();
-	private final Handler mHandler;
+	private Handler mHandler;
 	private final Object mHandlerToken = new Object();
 
 	/**
@@ -138,6 +138,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	@Override
 	public void onDetach(MapView mapView) {
 		this.disableMyLocation();
+		mPersonBitmap.recycle();
+		mDirectionArrowBitmap.recycle();
+		this.mMapView=null;
+		this.mMapController=null;
+		mHandler=null;
 		super.onDetach(mapView);
 	}
 

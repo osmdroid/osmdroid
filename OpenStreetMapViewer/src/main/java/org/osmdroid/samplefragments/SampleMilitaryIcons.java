@@ -1,7 +1,10 @@
 package org.osmdroid.samplefragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -9,6 +12,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.tileprovider.BitmapPool;
+import org.osmdroid.tileprovider.MapTile;
+import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -100,8 +106,8 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
                mMyLocationOverlay.setFocusItemsOnTap(true);
                mMyLocationOverlay.setFocusedItem(0);
 
-               //generates 500 randomized points
-               addIcons(500);
+               //generates 50 randomized points
+               addIcons(50);
 
                mMapView.getOverlays().add(mMyLocationOverlay);
 
@@ -112,9 +118,9 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
           /* MiniMap */
           {
-               MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
-                    mMapView.getTileRequestCompleteHandler());
-               mMapView.getOverlays().add(miniMapOverlay);
+         //      MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
+           //         mMapView.getTileRequestCompleteHandler());
+             //  mMapView.getOverlays().add(miniMapOverlay);
           }
 
           // Zoom and center on the focused item.
@@ -192,6 +198,30 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           Toast.makeText(getActivity(), count + " icons added! Current size: " + mMyLocationOverlay.size(), Toast.LENGTH_LONG).show();
 
      }
+
+     @Override
+     public void onDestroyView(){
+          super.onDestroyView();
+
+          for (int i=0; i < icons.size(); i++) {
+               Drawable drawable = icons.get(i);
+               // Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+               if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+                    if (drawable instanceof BitmapDrawable) {
+                         final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                         if (bitmap != null) {
+                              bitmap.recycle();
+                         }
+                    }
+               }
+               if (drawable instanceof ReusableBitmapDrawable)
+                    BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
+          }
+          icons.clear();
+          System.gc();
+     }
+
+
 
      // ===========================================================
      // Methods

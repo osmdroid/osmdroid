@@ -355,6 +355,12 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, osmv.getMapOrientation());
 	}
 
+	@Override
+	public void onDetach(MapView mapView){
+		super.onDetach(mapView);
+		this.mContext=null;
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

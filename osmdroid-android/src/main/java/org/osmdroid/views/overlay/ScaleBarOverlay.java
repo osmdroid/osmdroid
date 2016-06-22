@@ -31,6 +31,7 @@ package org.osmdroid.views.overlay;
  */
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.library.R;
@@ -77,8 +78,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// Internal
 
-	private final Context context;
-	private final MapView mMapView;
+	private Context context;
+	private MapView mMapView;
 
 	protected final Path barPath = new Path();
 	protected final Rect latitudeBarRect = new Rect();
@@ -680,6 +681,12 @@ public void setAlignRight(final boolean alignRight) {
 						((int) (meters * FEET_PER_METER)));
 			}
 		}
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		this.context=null;
+		this.mMapView=null;
 	}
 
 }
