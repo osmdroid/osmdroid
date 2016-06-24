@@ -88,7 +88,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         final SampleFactory sampleFactory = SampleFactory.getInstance();
         Log.i(FragmentSamples.TAG, "Memory allocation: INIT Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
 
-        for (int i = 21; i < sampleFactory.count(); i++) {
+        for (int i = 0; i < sampleFactory.count(); i++) {
 
             for (int k = 0; k < 100; k++) {
                 Log.i(FragmentSamples.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
@@ -123,7 +123,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                } catch (java.lang.OutOfMemoryError oom) {
+                } catch (Exception oom) {
                     Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName()+oom);
                 }
 

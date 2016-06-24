@@ -131,7 +131,8 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
         overlay.disableMyLocation();
         overlay.disableFollowLocation();
         overlay.onDetach(mMapView);
-        mMapView.onDetach();
+        if (mMapView!=null)
+            mMapView.onDetach();
         mMapView=null;
         overlay=null;
         compass=null;

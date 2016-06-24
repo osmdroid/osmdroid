@@ -1,19 +1,5 @@
 package org.osmdroid.views.overlay.mylocation;
 
-import java.util.LinkedList;
-
-import org.osmdroid.api.IMapController;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.library.R;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.IOverlayMenuProvider;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.Overlay.Snappable;
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -30,6 +16,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.IOverlayMenuProvider;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Overlay.Snappable;
+
+import java.util.LinkedList;
 
 /**
  * 
@@ -48,8 +47,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// Fields
 	// ===========================================================
 
-	protected final Paint mPaint = new Paint();
-	protected final Paint mCirclePaint = new Paint();
+	protected Paint mPaint = new Paint();
+	protected Paint mCirclePaint = new Paint();
 
 	protected Bitmap mPersonBitmap;
 	protected Bitmap mDirectionArrowBitmap;
@@ -63,7 +62,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	private final Point mMapCoordsProjected = new Point();
 	private final Point mMapCoordsTranslated = new Point();
 	private Handler mHandler;
-	private final Object mHandlerToken = new Object();
+	private Object mHandlerToken = new Object();
 
 	/**
 	 * if true, when the user pans the map, follow my location will automatically disable
@@ -88,9 +87,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	// to avoid allocations during onDraw
 	private final float[] mMatrixValues = new float[9];
-	private final Matrix mMatrix = new Matrix();
-	private final Rect mMyLocationRect = new Rect();
-	private final Rect mMyLocationPreviousRect = new Rect();
+	private Matrix mMatrix = new Matrix();
+	private Rect mMyLocationRect = new Rect();
+	private Rect mMyLocationPreviousRect = new Rect();
 
 	// ===========================================================
 	// Constructors
@@ -138,11 +137,27 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	@Override
 	public void onDetach(MapView mapView) {
 		this.disableMyLocation();
-		mPersonBitmap.recycle();
-		mDirectionArrowBitmap.recycle();
-		this.mMapView=null;
-		this.mMapController=null;
-		mHandler=null;
+		if (mPersonBitmap != null) {
+			mPersonBitmap.recycle();
+		}
+		if (mDirectionArrowBitmap != null) {
+			mDirectionArrowBitmap.recycle();
+		}
+		this.mMapView = null;
+		this.mMapController = null;
+		mHandler = null;
+		mMatrix = null;
+		mCirclePaint = null;
+		mPersonBitmap = null;
+		mDirectionArrowBitmap = null;
+		mHandlerToken = null;
+		mLocation = null;
+		mMapController = null;
+		mMyLocationPreviousRect = null;
+		if (mMyLocationProvider!=null)
+			mMyLocationProvider.destroy();
+
+		mMyLocationProvider = null;
 		super.onDetach(mapView);
 	}
 
@@ -563,7 +578,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (mMyLocationProvider != null) {
 			mMyLocationProvider.stopLocationProvider();
 		}
-		mHandler.removeCallbacksAndMessages(mHandlerToken);
+		if (mHandler!=null && mHandlerToken!=null)
+			mHandler.removeCallbacksAndMessages(mHandlerToken);
 	}
 
 	/**

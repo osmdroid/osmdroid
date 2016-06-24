@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import org.osmdroid.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
@@ -36,7 +35,6 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
 
     private MyLocationNewOverlay mLocationOverlay;
     private CompassOverlay mCompassOverlay;
-    private MinimapOverlay mMinimapOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
     protected ImageButton btCenterMap;
@@ -48,8 +46,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.sample_followme, null);
         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
-        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+
         return v;
 
     }
@@ -117,6 +114,25 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         });
 
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        lm.removeUpdates(this);
+        mCompassOverlay.disableCompass();
+        mLocationOverlay.disableFollowLocation();
+        mLocationOverlay.disableMyLocation();
+        mScaleBarOverlay.enableScaleBar();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+        mLocationOverlay.enableFollowLocation();
+        mLocationOverlay.enableMyLocation();
+        mScaleBarOverlay.disableScaleBar();
+    }
     @Override
     public String getSampleTitle() {
         return "Follow Me";
@@ -140,5 +156,18 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        lm=null;
+        currentLocation=null;
+
+        mLocationOverlay=null;
+        mCompassOverlay=null;
+        mScaleBarOverlay=null;
+        mRotationGestureOverlay=null;
+        btCenterMap=null;
+        btFollowMe=null;
     }
 }
