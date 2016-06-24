@@ -30,7 +30,6 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
-    //compile 'org.osmdroid:osmdroid-third-party:5.0-SNAPSHOT'
 }
 
 
