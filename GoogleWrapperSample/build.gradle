@@ -49,7 +49,7 @@ project.gradle.taskGraph.whenReady {
     //this is just for Travis CI builds, since this package needs at least api 9 with google apis
     //ignore the following build targets 1,2,3,7, 12
     if (System.getenv("ANDROID_TARGET")!=null){
-        if ("12".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
+        if ("13".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
                 "1".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "2".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "3".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
