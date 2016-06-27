@@ -206,6 +206,11 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                         }
 
                         @Override
+                        public void onTaskFailed(int errors) {
+                            Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
                         public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
                             //NOOP since we are using the build in UI
                         }

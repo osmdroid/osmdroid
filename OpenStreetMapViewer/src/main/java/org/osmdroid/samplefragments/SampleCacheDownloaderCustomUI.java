@@ -324,4 +324,13 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
             progressBar.setMax(total);
         }
     }
+
+    @Override
+    public void onTaskFailed(int errors) {
+        if (progressBar!=null)
+            progressBar.dismiss();
+        progressBar = null;
+        Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+
+    }
 }
