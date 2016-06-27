@@ -362,6 +362,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			}
 
 			mTileProvider.rescaleCache(pj, newZoomLevel, curZoomLevel, getScreenRect(null));
+			pauseFling = true;	// issue 269, pause fling during zoom changes
 		}
 
 		// do callback on listener
@@ -1166,6 +1167,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 
 	private boolean enableFling = true;
+	private boolean pauseFling = false;	// issue 269, boolean used for disabling fling during zoom changes
 	public void setFlingEnabled(final boolean b){
 		enableFling = b;
 	}
@@ -1198,9 +1200,11 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		@Override
 		public boolean onFling(final MotionEvent e1, final MotionEvent e2,
 					final float velocityX, final float velocityY) {
-			if (!enableFling) {
-				return false;
-			}
+	            	if (!enableFling || pauseFling) {
+	                	// issue 269, if fling occurs during zoom changes, pauseFling is equals to true, so fling is canceled. But need to reactivate fling for next time.
+	                	pauseFling = false;
+	                	return false;
+	            	}
 
 			if (MapView.this.getOverlayManager()
 					.onFling(e1, e2, velocityX, velocityY, MapView.this)) {

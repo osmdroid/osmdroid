@@ -226,6 +226,12 @@ public class CacheManager {
          * @param total
          */
         public void setPossibleTilesInArea(int total);
+
+        /**
+         * this is fired when the task has been completed but had at least one download error.
+         * @param errors
+         */
+        public void onTaskFailed(int errors);
     }
 
     /**
@@ -247,12 +253,16 @@ public class CacheManager {
 
         public CacheManagerTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
             mCtx = pCtx;
-            if (showUI) {
-                mProgressDialog = createProgressDialog(pCtx);
-            }
             mBB = pBB;
             mZoomMin = Math.max(pZoomMin, mMapView.getMinZoomLevel());
             mZoomMax = Math.min(pZoomMax, mMapView.getMaxZoomLevel());
+        }
+
+        @Override
+        protected void onPreExecute(){
+            if (showUI) {
+                mProgressDialog = createProgressDialog(mCtx);
+            }
         }
 
         protected ProgressDialog createProgressDialog(Context pCtx) {
@@ -324,7 +334,11 @@ public class CacheManager {
             }
             if (callback != null) {
                 try {
-                    callback.onTaskComplete();
+                    if (errors == 0) {
+                        callback.onTaskComplete();
+                    } else {
+                        callback.onTaskFailed(errors);
+                    }
                 } catch (Throwable t) {
                     Log.w(IMapView.LOGTAG, "Error caught processing cachemanager callback, your implementation is faulty", t);
                 }
