@@ -116,7 +116,7 @@ script:
   #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
   #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
   #the dist profile adds the zip and tar outputs of all javadocs and source jars
-  - ./travis.sh
+  #- ./travis.sh
   #- mvn install -fn -B -U -Pdist
   #- mvn install -Pdist
   #- mvn android:undeploy
