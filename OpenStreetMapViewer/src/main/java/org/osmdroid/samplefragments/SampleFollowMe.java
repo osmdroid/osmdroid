@@ -1,12 +1,15 @@
 package org.osmdroid.samplefragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,7 +43,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     protected ImageButton btCenterMap;
     protected ImageButton btFollowMe;
     private LocationManager lm;
-    private Location currentLocation=null;
+    private Location currentLocation = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -90,8 +93,8 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "centerMap clicked ");
-                if (currentLocation!=null) {
-                    GeoPoint myPosition = new GeoPoint(currentLocation.getLatitude(),currentLocation.getLongitude());
+                if (currentLocation != null) {
+                    GeoPoint myPosition = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                     mMapView.getController().animateTo(myPosition);
                 }
             }
@@ -116,9 +119,13 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
-        lm.removeUpdates(this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            lm.removeUpdates(this);
+        }
+
         mCompassOverlay.disableCompass();
         mLocationOverlay.disableFollowLocation();
         mLocationOverlay.disableMyLocation();
@@ -128,7 +135,11 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     public void onResume(){
         super.onResume();
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+        }
+
         mLocationOverlay.enableFollowLocation();
         mLocationOverlay.enableMyLocation();
         mScaleBarOverlay.disableScaleBar();

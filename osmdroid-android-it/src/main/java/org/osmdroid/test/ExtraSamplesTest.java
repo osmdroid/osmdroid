@@ -90,14 +90,14 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
 
         for (int i = 0; i < sampleFactory.count(); i++) {
 
-            for (int k = 0; k < 100; k++) {
+            for (int k = 0; k < 1; k++) {
                 Log.i(FragmentSamples.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
                 final BaseSampleFragment basefrag = sampleFactory.getSample(i);
                 Log.i(FragmentSamples.TAG, "loading fragment " + basefrag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
 
                 Counters.printToLogcat();
-                if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0){
-                    Assert.fail("OOM Detected, aborting! this test run was " +  basefrag.getSampleTitle() + ", " + basefrag.getClass().getCanonicalName());
+                if (Counters.countOOM > 0 || Counters.fileCacheOOM > 0) {
+                    Assert.fail("OOM Detected, aborting! this test run was " + basefrag.getSampleTitle() + ", " + basefrag.getClass().getCanonicalName());
                 }
 
 
@@ -111,33 +111,39 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                     continue;
                 }
                 //if (Build.VERSION.SDK_INT <= 10 && basefrag instanceof SampleGridlines) {
-                  //  continue;
+                //  continue;
                 //}
-
-                try {
-                    fm.beginTransaction().replace(org.osmdroid.R.id.samples_container, basefrag, ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG)
-                            .addToBackStack(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG).commit();
-                    //this sleep is here to give the fragment enough time to start up and do something
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception oom) {
-                    Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName()+oom);
-                }
 
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         try {
-                            fm.popBackStackImmediate();
-                        } catch (java.lang.Exception oom) {
-                //            Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName()+oom);
+                            fm.beginTransaction().replace(org.osmdroid.R.id.samples_container, basefrag, ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG)
+                                    .addToBackStack(ExtraSamplesActivity.SAMPLES_FRAGMENT_TAG).commit();
+                            fm.executePendingTransactions();
+                            //this sleep is here to give the fragment enough time to start up and do something
+
+                        } catch (Exception oom) {
+                            Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
                         }
+
                     }
                 });
-
+                try {
+                    Thread.sleep(5000);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                fm.popBackStackImmediate();
+                            } catch (java.lang.Exception oom) {
+                                //            Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName()+oom);
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
                 System.gc();
