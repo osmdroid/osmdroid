@@ -46,6 +46,7 @@ public class MainActivity extends ListActivity {
 		list.add("Sample with tiles overlay");
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("More Samples");
+        list.add("Bug Drivers");
         list.add("Report a bug");
 		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
 	}
@@ -75,6 +76,9 @@ public class MainActivity extends ListActivity {
                 this.startActivity(new Intent(this, ExtraSamplesActivity.class));
                 break;
             case 7:
+                this.startActivity(new Intent(this, BugsTestingActivity.class));
+                break;
+            case 8:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
                 startActivity(browserIntent);
                 break;

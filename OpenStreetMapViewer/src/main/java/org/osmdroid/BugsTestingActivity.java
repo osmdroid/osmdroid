@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
+import org.osmdroid.bugtestfragments.SampleFactory;
 import org.osmdroid.samplefragments.FragmentSamples;
-import org.osmdroid.samplefragments.SampleFactory;
 
-public class ExtraSamplesActivity extends FragmentActivity {
-    public static final String SAMPLES_FRAGMENT_TAG = "org.osmdroid.SAMPLES_FRAGMENT_TAG";
+/**
+ * Created by alex on 6/29/16.
+ */
+public class BugsTestingActivity extends FragmentActivity {
+    public static final String SAMPLES_FRAGMENT_TAG = "org.osmdroid.BUGS_FRAGMENT_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -116,17 +116,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".samples.SampleResourceOverride"
-            android:label="OSMapView with Custom Resource">
+
+        <activity android:name=".ExtraSamplesActivity"
+            android:label="OpenStreetMap Extra Samples">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ExtraSamplesActivity"
-            android:label="OpenStreetMap Extra Samples">
+
+
+        <activity android:name=".BugsTestingActivity"
+                  android:label="OpenStreetMap Bug Drivers">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

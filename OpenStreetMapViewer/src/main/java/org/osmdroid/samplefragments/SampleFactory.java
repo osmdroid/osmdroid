@@ -1,13 +1,15 @@
 package org.osmdroid.samplefragments;
 
 
-public final class SampleFactory {
+import org.osmdroid.ISampleFactory;
+
+public final class SampleFactory implements ISampleFactory {
 
 	private final Class<? extends BaseSampleFragment>[] mSamples;
 
 
-	private static SampleFactory _instance;
-	public static SampleFactory getInstance() {
+	private static ISampleFactory _instance;
+	public static ISampleFactory getInstance() {
 		if (_instance == null) {
 			_instance = new SampleFactory();
 		}
