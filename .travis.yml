@@ -116,13 +116,14 @@ script:
   #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
   #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
   #the dist profile adds the zip and tar outputs of all javadocs and source jars
-  - ./travis.sh
+  #- ./travis.sh
   #- mvn install -fn -B -U -Pdist
   #- mvn install -Pdist
   #- mvn android:undeploy
   #build using gradle
+  # travis_wait 30 https://docs.travis-ci.com/user/common-build-problems/#My-builds-are-timing-out
   - ./gradlew -version
-  - ./gradlew clean connectedCheck
+  - travis_wait 60 ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace
