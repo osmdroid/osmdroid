@@ -382,7 +382,7 @@ public class CacheManager {
      * generic class for common code related to AsyncTask management
      */
     protected abstract class CacheManagerTask extends AsyncTask<Object, Integer, Integer> {
-        ProgressDialog mProgressDialog;
+        ProgressDialog mProgressDialog=null;
         boolean showUI = true;
         int mZoomMin, mZoomMax;
         BoundingBoxE6 mBB;
@@ -464,6 +464,8 @@ public class CacheManager {
 
         @Override
         protected void onPreExecute() {
+            super.onPreExecute();
+
             int total = 0;
             if (mBB != null) {
                 total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);
@@ -734,21 +736,25 @@ public class CacheManager {
 
         public CleaningTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
             super(pCtx, pBB, pZoomMin, pZoomMax);
+            showUI=true;
         }
 
         @Override
         protected void onPreExecute() {
-            mProgressDialog.setTitle("Cleaning tiles");
-            mProgressDialog.setMessage(zoomMessage(mZoomMin, mZoomMin, mZoomMax));
-            int total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);
-            mProgressDialog.setMax(total);
-            mProgressDialog.show();
+            super.onPreExecute();
+            if (mProgressDialog!=null) {
+                mProgressDialog.setTitle("Cleaning tiles");
+                mProgressDialog.setMessage(zoomMessage(mZoomMin, mZoomMin, mZoomMax));
+                int total = possibleTilesInArea(mBB, mZoomMin, mZoomMax);
+                mProgressDialog.setMax(total);
+                mProgressDialog.show();
+            }
         }
 
         @Override
         protected void onPostExecute(final Integer deleted) {
             Toast.makeText(mCtx, "Cleaning completed, " + deleted + " tiles deleted.", Toast.LENGTH_SHORT).show();
-            if (mProgressDialog.isShowing()) {
+            if (mProgressDialog!=null && mProgressDialog.isShowing()) {
                 mProgressDialog.dismiss();
             }
         }

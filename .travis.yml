@@ -121,8 +121,9 @@ script:
   #- mvn install -Pdist
   #- mvn android:undeploy
   #build using gradle
+  # travis_wait 30 https://docs.travis-ci.com/user/common-build-problems/#My-builds-are-timing-out
   - ./gradlew -version
-  - ./gradlew clean connectedCheck
+  - travis_wait 60 ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace
