@@ -18,6 +18,7 @@ import android.util.Log;
 import junit.framework.Assert;
 
 import org.osmdroid.ExtraSamplesActivity;
+import org.osmdroid.ISampleFactory;
 import org.osmdroid.samplefragments.*;
 
 public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamplesActivity> {
@@ -38,7 +39,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         assertTrue(frag instanceof FragmentSamples);
         //FragmentSamples samples = (FragmentSamples) frag;
 
-        SampleFactory sampleFactory = SampleFactory.getInstance();
+        ISampleFactory sampleFactory = SampleFactory.getInstance();
         for (int i = 0; i < sampleFactory.count(); i++) {
             BaseSampleFragment basefrag = sampleFactory.getSample(i);
             Log.i(FragmentSamples.TAG, "loading fragment " + basefrag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
