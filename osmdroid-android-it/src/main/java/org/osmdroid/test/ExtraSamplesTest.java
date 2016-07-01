@@ -130,7 +130,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                     }
                 });
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(2000);
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

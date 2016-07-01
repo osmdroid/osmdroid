@@ -1,5 +1,7 @@
 package org.osmdroid.samplefragments;
 
+import android.util.Log;
+
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
@@ -49,6 +51,14 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
         }
         activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
         mMapView.getOverlays().add(activeLatLonGrid);
+
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        activeLatLonGrid.onDetach(mMapView);
+        activeLatLonGrid=null;
 
     }
 
