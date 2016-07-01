@@ -54,10 +54,10 @@ project.gradle.taskGraph.whenReady {
                 "3".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "7".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())) {
             println "Skipping android instrumentation test since the API level doesn't match this project"
-            connectedDebugAndroidTest {
-                ignoreFailures = true
 
-            }
+            installDebug { actions = []; }
+            connectedDebugAndroidTest { actions = []; }
+           
         }
     }
 }
