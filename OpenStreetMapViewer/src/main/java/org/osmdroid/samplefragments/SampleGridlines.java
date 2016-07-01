@@ -45,6 +45,8 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     private void updateGridlines(){
 
+        if (mMapView==null)
+            return; //happens during unit tests with rapid recycling of the fragment
         if (activeLatLonGrid != null) {
             mMapView.getOverlayManager().remove(activeLatLonGrid);
             activeLatLonGrid.onDetach(mMapView);
