@@ -58,10 +58,10 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     @Override
     public void onDestroyView(){
-        super.onDestroyView();
+
         activeLatLonGrid.onDetach(mMapView);
         activeLatLonGrid=null;
-
+        super.onDestroyView();
     }
 
 }
