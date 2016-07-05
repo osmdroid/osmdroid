@@ -109,9 +109,9 @@ before_script:
   - adb shell chmod 777 /mnt/sdcard
   - adb shell mkdir /sdcard/osmdroid/
   - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
-  - adb push resources/usgsbase.gemf /sdcard/osmdroid/usgsbase.gemf
-  - adb push resources/usgstopo.sqlite /sdcard/osmdroid/usgstopo.sqlite
-  - adb push resources/usgssat.zip /sdcard/osmdroid/usgssat.zip
+  #- adb push resources/usgsbase.gemf /sdcard/osmdroid/usgsbase.gemf
+  #- adb push resources/usgstopo.sqlite /sdcard/osmdroid/usgstopo.sqlite
+  #- adb push resources/usgssat.zip /sdcard/osmdroid/usgssat.zip
 
 #build
 script:
