@@ -196,26 +196,6 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
      public void onDestroyView(){
           //itemOverlay.onDetach(mMapView);
           super.onDestroyView();
-/*
-          synchronized (icons) {
-               for (int i = 0; i < icons.size(); i++) {
-                    Drawable drawable = icons.get(i);
-                    // Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-                         if (drawable instanceof BitmapDrawable) {
-                              final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                              if (bitmap != null) {
-                                   bitmap.recycle();
-                              }
-                         }
-                    }
-                    if (drawable instanceof ReusableBitmapDrawable)
-                         BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
-               }
-               icons.clear();
-          }
-          System.gc();*/
-
      }
 
 

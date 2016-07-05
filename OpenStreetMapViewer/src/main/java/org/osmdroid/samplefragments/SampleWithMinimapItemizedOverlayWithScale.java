@@ -132,7 +132,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
 
-	/*@Override
+	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// Put overlay items first
 		mMapView.getOverlayManager().onCreateOptionsMenu(menu, MENU_LAST_ID, mMapView);
@@ -164,7 +164,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 			return true;
 		}
 		return false;
-	}*/
+	}
 
 	// ===========================================================
 	// Methods
