@@ -491,4 +491,10 @@ public class Polyline extends OverlayWithIW {
 		return true;
 	}
 
+	@Override
+	public void onDetach(MapView mapView) {
+		mOnClickListener=null;
+		onDestroy();
+	}
+
 }

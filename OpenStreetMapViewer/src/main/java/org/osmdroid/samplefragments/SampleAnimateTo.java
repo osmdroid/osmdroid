@@ -26,7 +26,7 @@ public class SampleAnimateTo extends SampleGridlines {
     @Override
     public void addOverlays() {
         super.addOverlays();
-        //this part will recalculate and render the lat/lon gridlines
+        mMapView.getController().setZoom(10);
 
     }
 
@@ -70,7 +70,7 @@ public class SampleAnimateTo extends SampleGridlines {
                             double lat = rand.nextDouble() * 180 - 90;
                             double lon = rand.nextDouble() * 360 - 180;
                             mMapView.getController().animateTo(new GeoPoint(lat, lon));
-                            Toast.makeText(getActivity(), "Animate to " + SampleMapEventListener.df.format(lat) + "," + SampleMapEventListener.df.format(lon), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Animate to " + SampleMapEventListener.df.format(lat) + "," + SampleMapEventListener.df.format(lon), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

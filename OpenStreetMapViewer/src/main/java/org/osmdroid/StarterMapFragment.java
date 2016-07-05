@@ -160,12 +160,18 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           this.mLocationOverlay.disableMyLocation();
 
-         //this part terminates all of the overlays and background threads for osmdroid
-         //only needed when you programmatically create the map
-          mMapView.onDetach();
 
           super.onPause();
      }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        //this part terminates all of the overlays and background threads for osmdroid
+        //only needed when you programmatically create the map
+        mMapView.onDetach();
+
+    }
 
      @Override
      public void onResume() {

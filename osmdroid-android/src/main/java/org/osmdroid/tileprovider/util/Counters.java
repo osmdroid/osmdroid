@@ -31,4 +31,12 @@ public class Counters {
         Log.d(TAG, "fileCacheOOM " + fileCacheOOM);
         Log.d(TAG, "fileCacheHit " + fileCacheHit);
     }
+    public static void reset(){
+        countOOM =0;
+        tileDownloadErrors=0;
+        fileCacheSaveErrors=0;
+        fileCacheMiss=0;
+        fileCacheOOM=0;
+        fileCacheHit=0;
+    }
 }

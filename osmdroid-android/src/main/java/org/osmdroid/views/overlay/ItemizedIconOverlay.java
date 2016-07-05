@@ -49,6 +49,8 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 
 	@Override
 	public void onDetach(MapView mapView){
+		if (mItemList!=null)
+			mItemList.clear();
 		mItemList=null;
 		mOnItemGestureListener=null;
 	}

@@ -87,7 +87,7 @@ public class SampleSqliteOnly extends BaseSampleFragment {
                                 this.mMapView.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
                             }
 
-                            Toast.makeText(getActivity(), "Using " + list[i].getAbsolutePath() + " " + source, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Using " + list[i].getAbsolutePath() + " " + source, Toast.LENGTH_SHORT).show();
                             this.mMapView.invalidate();
                             return;
                         } catch (Exception ex) {
@@ -96,9 +96,9 @@ public class SampleSqliteOnly extends BaseSampleFragment {
                     }
                 }
             }
-            Toast.makeText(getActivity(), f.getAbsolutePath() + " did not have any files I can open! Try using MOBAC", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), f.getAbsolutePath() + " did not have any files I can open! Try using MOBAC", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), f.getAbsolutePath() + " dir not found!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), f.getAbsolutePath() + " dir not found!", Toast.LENGTH_SHORT).show();
         }
 
 

@@ -240,6 +240,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 			return;
 		}
 
+		// this happens during shutdown
+		if (super.mItemList==null)
+			return;
 		// get focused item's preferred marker & hotspot
 		final Item focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 		Drawable markerFocusedBase = focusedItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);

@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.tileprovider.MapTile;
-import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.samplefragments.models.USGSTileSource;
 
 /**
  * Simple how to for setting a custom tile source

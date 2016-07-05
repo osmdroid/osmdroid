@@ -13,12 +13,10 @@ import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 
@@ -47,10 +45,10 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 	// ===========================================================
      // Fields
      // ===========================================================
-     private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+     private ItemizedOverlayWithFocus<OverlayItem> itemOverlay;
      private RotationGestureOverlay mRotationGestureOverlay;
      private OverlayItem overlayItem;
-     List<Drawable> icons = new ArrayList<>(4);
+     private List<Drawable> icons = new ArrayList<>(4);
 
      @Override
      public String getSampleTitle() {
@@ -60,13 +58,6 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 	// ===========================================================
      // Constructors
      // ===========================================================
-     /**
-      * Called when the activity is first created.
-      */
-     @Override
-     public void onActivityCreated(Bundle savedInstanceState) {
-          super.onActivityCreated(savedInstanceState);
-     }
 
      @Override
      protected void addOverlays() {
@@ -83,7 +74,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
           /* Itemized Overlay */
           {
                /* OnTapListener for the Markers, shows a simple Toast. */
-               mMyLocationOverlay = new ItemizedOverlayWithFocus<>(new ArrayList<OverlayItem>(),
+               itemOverlay = new ItemizedOverlayWithFocus<>(new ArrayList<OverlayItem>(),
                        new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
                             @Override
                             public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
@@ -103,13 +94,13 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
                                  return false;
                             }
                        }, context);
-               mMyLocationOverlay.setFocusItemsOnTap(true);
-               mMyLocationOverlay.setFocusedItem(0);
+               itemOverlay.setFocusItemsOnTap(true);
+               itemOverlay.setFocusedItem(0);
 
                //generates 50 randomized points
                addIcons(50);
 
-               mMapView.getOverlays().add(mMyLocationOverlay);
+               mMapView.getOverlays().add(itemOverlay);
 
                mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
                mRotationGestureOverlay.setEnabled(false);
@@ -125,11 +116,11 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
           // Zoom and center on the focused item.
           mMapView.getController().setZoom(5);
-          IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
+          IGeoPoint geoPoint = itemOverlay.getFocusedItem().getPoint();
           mMapView.getController().animateTo(geoPoint);
 
           setHasOptionsMenu(true);
-          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_LONG).show();
+          Toast.makeText(context, "Icon selection and location are random!", Toast.LENGTH_SHORT).show();
      }
 
 	// ===========================================================
@@ -194,31 +185,37 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
                items.add(overlayItem);
 
           }
-          mMyLocationOverlay.addItems(items);
-          Toast.makeText(getActivity(), count + " icons added! Current size: " + mMyLocationOverlay.size(), Toast.LENGTH_LONG).show();
+          itemOverlay.addItems(items);
+          mMapView.invalidate();
+          Toast.makeText(getActivity(), count + " icons added! Current size: " + itemOverlay.size(), Toast.LENGTH_SHORT).show();
 
      }
 
+
      @Override
      public void onDestroyView(){
+          //itemOverlay.onDetach(mMapView);
           super.onDestroyView();
-
-          for (int i=0; i < icons.size(); i++) {
-               Drawable drawable = icons.get(i);
-               // Only recycle if we are running on a project less than 2.3.3 Gingerbread.
-               if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-                    if (drawable instanceof BitmapDrawable) {
-                         final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                         if (bitmap != null) {
-                              bitmap.recycle();
+/*
+          synchronized (icons) {
+               for (int i = 0; i < icons.size(); i++) {
+                    Drawable drawable = icons.get(i);
+                    // Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+                         if (drawable instanceof BitmapDrawable) {
+                              final Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                              if (bitmap != null) {
+                                   bitmap.recycle();
+                              }
                          }
                     }
+                    if (drawable instanceof ReusableBitmapDrawable)
+                         BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
                }
-               if (drawable instanceof ReusableBitmapDrawable)
-                    BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) drawable);
+               icons.clear();
           }
-          icons.clear();
-          System.gc();
+          System.gc();*/
+
      }
 
 

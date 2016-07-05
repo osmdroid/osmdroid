@@ -30,6 +30,10 @@
             <groupId>android.support</groupId>
             <artifactId>compatibility-v4</artifactId>
         </dependency>
+        <dependency>
+            <groupId>ch.acra</groupId>
+            <artifactId>acra</artifactId>
+        </dependency>
 
         <!-- test dependencies -->
         <dependency>
