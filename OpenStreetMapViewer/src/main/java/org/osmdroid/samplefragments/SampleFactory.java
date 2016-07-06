@@ -41,7 +41,8 @@ public final class SampleFactory {
 				SampleHeadingCompassUp.class,
 				SampleSplitScreen.class,
 				SampleMapBootListener.class,
-				SampleFollowMe.class
+				SampleFollowMe.class,
+				SampleBug57.class
         };
 	}
 
