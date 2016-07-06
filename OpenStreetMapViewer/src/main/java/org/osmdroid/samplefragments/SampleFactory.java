@@ -67,7 +67,9 @@ public final class SampleFactory {
 				//23
 				SampleMapBootListener.class,
 				//24
-				SampleFollowMe.class
+				SampleFollowMe.class,
+				//25
+				SampleBug57.class
         };
 	}
 
