@@ -1,6 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -15,6 +16,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database cache.
@@ -38,10 +41,9 @@ public class SqlTileWriter implements IFilesystemCache {
         db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
         db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
         try {
-            db.execSQL("CREATE TABLE " + DatabaseFileArchive.TABLE+ " (key INTEGER , provider TEXT, tile BLOB, expires INTEGER, PRIMARY KEY (key, provider));");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE+ " ("+DatabaseFileArchive.COLUMN_KEY+" INTEGER , "+DatabaseFileArchive.COLUMN_PROVIDER +" TEXT, "+DatabaseFileArchive.COLUMN_TILE+" BLOB, expires INTEGER, PRIMARY KEY ("+DatabaseFileArchive.COLUMN_KEY+", "+DatabaseFileArchive.COLUMN_PROVIDER+"));");
         }
         catch (Throwable t){
-
             t.printStackTrace();
         }
         if (!hasInited){
@@ -55,7 +57,7 @@ public class SqlTileWriter implements IFilesystemCache {
                     //keep if now is < expiration date
                     //delete if now is > expiration date
                     long now=System.currentTimeMillis();
-                    int rows = db.delete(DatabaseFileArchive.TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
+                    int rows = db.delete(TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
                     Log.d(IMapView.LOGTAG, "Local storage cahce purged " + rows + " expired tiles in " + (System.currentTimeMillis()-now) + "ms, cache size is " + db_file.length() + "bytes");
 
                     //VACUUM the database
@@ -66,7 +68,7 @@ public class SqlTileWriter implements IFilesystemCache {
                         long diff=OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES-db_file.length();
                         long tilesToKill=diff/questimate;
                         try {
-                            db.execSQL("DELETE FROM " + DatabaseFileArchive.TABLE+ " ORDER BY expires DESC LIMIT " + tilesToKill);
+                            db.execSQL("DELETE FROM " + TABLE+ " ORDER BY expires DESC LIMIT " + tilesToKill);
                         }
                         catch (Throwable t){
                             t.printStackTrace();
@@ -104,16 +106,37 @@ public class SqlTileWriter implements IFilesystemCache {
 
             byte[] bits = new byte[list.size()];
             for (int i = 0; i < list.size(); i++) bits[i] = list.get(i);
-            cv.put("key", index);
-            cv.put("tile", bits);
+            cv.put(DatabaseFileArchive.COLUMN_KEY, index);
+            cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
                 cv.put("expires", pTile.getExpires().getTime());
-            db.delete(DatabaseFileArchive.TABLE, "key=? and provider=?", new String[]{index+"",pTileSourceInfo.name()});
-            db.insert(DatabaseFileArchive.TABLE, null, cv);
+            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY+"=? and "+DatabaseFileArchive.COLUMN_PROVIDER+"=?", new String[]{index+"",pTileSourceInfo.name()});
+            db.insert(TABLE, null, cv);
             Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() +  pTile.toString());
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString(), ex);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean exists(ITileSource pTileSource, MapTile pTile) {
+        try {
+            final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
+            final long x = (long) pTile.getX();
+            final long y = (long) pTile.getY();
+            final long z = (long) pTile.getZoomLevel();
+            final long index = ((z << z) + x << z) + y;
+            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY+" = " + index + " and "+DatabaseFileArchive.COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
+
+            if(cur.getCount() != 0) {
+                cur.close();
+                return true;
+            }
+            cur.close();
+        } catch (Throwable ex) {
+            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + pTile.toString(), ex);
         }
         return false;
     }

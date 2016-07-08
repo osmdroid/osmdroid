@@ -26,4 +26,12 @@ public interface IFilesystemCache {
 	 */
 	boolean saveFile(final ITileSource pTileSourceInfo, MapTile pTile,
 			final InputStream pStream);
+
+	/**
+	 * return true if the map file for download already exists
+	 * @param pTileSourceInfo
+	 * @param pTile
+     * @return
+     */
+	boolean exists(final ITileSource pTileSourceInfo, final MapTile pTile );
 }

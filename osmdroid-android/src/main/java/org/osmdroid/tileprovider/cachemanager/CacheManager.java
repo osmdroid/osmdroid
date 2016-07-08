@@ -14,6 +14,7 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
@@ -62,12 +63,18 @@ import java.util.ArrayList;
 public class CacheManager {
 
     protected final MapTileProviderBase mTileProvider;
-    protected final TileWriter mTileWriter;
+    protected final IFilesystemCache mTileWriter;
     protected final MapView mMapView;
 
     public CacheManager(final MapView mapView) {
         mTileProvider = mapView.getTileProvider();
         mTileWriter = new TileWriter();
+        mMapView = mapView;
+    }
+
+    public CacheManager(final MapView mapView, IFilesystemCache writer) {
+        mTileProvider = mapView.getTileProvider();
+        mTileWriter = writer;
         mMapView = mapView;
     }
 
@@ -98,6 +105,10 @@ public class CacheManager {
         //check if file is already downloaded:
         File file = getFileName(tileSource, tile);
         if (file.exists()) {
+            return true;
+        }
+        //check if the destination already has the file
+        if (mTileWriter.exists(tileSource,tile)){
             return true;
         }
 

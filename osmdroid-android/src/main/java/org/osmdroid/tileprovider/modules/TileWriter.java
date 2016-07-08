@@ -124,6 +124,12 @@ public class TileWriter implements IFilesystemCache {
 		return true;
 	}
 
+	@Override
+	public boolean exists(final ITileSource pTileSource, final MapTile pTile) {
+		return new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION).exists();
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
