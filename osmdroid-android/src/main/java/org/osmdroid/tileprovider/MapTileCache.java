@@ -6,7 +6,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import android.graphics.drawable.Drawable;
 
 /**
- * 
+ *  In memory LRU cache
  * @author Nicolas Gramlich
  * 
  */

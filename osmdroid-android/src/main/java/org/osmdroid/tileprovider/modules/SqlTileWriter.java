@@ -133,4 +133,12 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         return false;
     }
+
+    @Override
+    public void close() {
+        if (db!=null){
+            db.close();
+            db=null;
+        }
+    }
 }

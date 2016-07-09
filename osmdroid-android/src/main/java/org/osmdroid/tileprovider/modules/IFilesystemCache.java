@@ -26,4 +26,9 @@ public interface IFilesystemCache {
 	 */
 	boolean saveFile(final ITileSource pTileSourceInfo, MapTile pTile,
 			final InputStream pStream);
+
+	/**
+	 * close and release all resources used by the cache
+	 */
+	void close();
 }

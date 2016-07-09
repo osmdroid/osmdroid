@@ -120,6 +120,11 @@ public class TileWriter implements IFilesystemCache {
 		return true;
 	}
 
+	@Override
+	public void close() {
+		//NOOP
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================

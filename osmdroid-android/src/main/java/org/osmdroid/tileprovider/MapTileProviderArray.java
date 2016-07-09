@@ -72,9 +72,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
+
 			}
 		}
 
+		mTileCache.clear();
 		synchronized (mWorking) {
 			mWorking.clear();
 		}

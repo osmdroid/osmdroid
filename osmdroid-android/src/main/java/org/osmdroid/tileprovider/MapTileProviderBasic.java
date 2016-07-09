@@ -30,12 +30,11 @@ import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
  * @see MapTileFilesystemProvider
  * @see MapTileSqlCacheProvider
  * @author Marc Kurtz
- * 
+ *
  */
 public class MapTileProviderBasic extends MapTileProviderArray implements IMapTileProviderCallback {
 
-	final IFilesystemCache tileWriter;
-	// private static final Logger logger = LoggerFactory.getLogger(MapTileProviderBasic.class);
+	IFilesystemCache tileWriter;
 
 	/**
 	 * Creates a {@link MapTileProviderBasic}.
@@ -101,5 +100,15 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
 	@Override
 	public IFilesystemCache getTileWriter() {
 		return tileWriter;
+	}
+
+	@Override
+	public void detach(){
+        //https://github.com/osmdroid/osmdroid/issues/213
+        //close the writer
+		if (tileWriter!=null)
+			tileWriter.close();
+		tileWriter=null;
+		super.detach();
 	}
 }
