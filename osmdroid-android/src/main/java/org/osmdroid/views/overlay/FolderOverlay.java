@@ -109,4 +109,11 @@ public class FolderOverlay extends Overlay {
 		}
 	}
 
+	@Override
+	public void onDetach(MapView mapView){
+		if (mOverlayManager!=null)
+			mOverlayManager.onDetach(mapView);
+		mOverlayManager=null;
+	}
+
 }

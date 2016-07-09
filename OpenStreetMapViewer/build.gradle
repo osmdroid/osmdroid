@@ -20,6 +20,11 @@ android {
     lintOptions {
         abortOnError false
     }
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['../osmdroid-android-it/src/main/java']
+        }
+    }
 }
 
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
@@ -27,18 +32,70 @@ apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gra
 dependencies {
     compile 'com.android.support:support-v4:23+'
     compile project(':osmdroid-android')
+
+    //crash logging
+    compile 'ch.acra:acra:4.7.0'
+
+    //memory leak testing
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+
+    //on device testing
     androidTestCompile 'com.android.support:support-annotations:23+'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
 }
 
 
-//copy the instrumentation tests from the maven osmdroid-android-it src folder
-task copyTestClasses(type: Copy) {
-    description 'Copies the osmdroid-android-it maven test classes to androidTest folder.'
-    from ("${rootDir}/osmdroid-android-it/src/main/java")
-    into "./src/androidTest/java"
+//the following sets the required permissions for API 23+ devices and AVDs
 
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
 }
 
-preBuild.dependsOn copyTestClasses
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice2${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice3${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.READ_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}

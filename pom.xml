@@ -115,6 +115,16 @@
                 <version>0.6</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>com.squareup.leakcanary</groupId>
+                <artifactId>leakcanary-android</artifactId>
+                <version>1.4-beta2</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.acra</groupId>
+                <artifactId>acra</artifactId>
+                <version>4.7.0</version>
+            </dependency>
 
             <!-- test dependencies -->
             <dependency>

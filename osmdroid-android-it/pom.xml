@@ -43,6 +43,10 @@
 	       <type>aar</type>
 	       <scope>provided</scope>
 	  </dependency>
+	 <dependency>
+		 <groupId>com.squareup.leakcanary</groupId>
+		 <artifactId>leakcanary-android</artifactId>
+	 </dependency>
 
      </dependencies>
 

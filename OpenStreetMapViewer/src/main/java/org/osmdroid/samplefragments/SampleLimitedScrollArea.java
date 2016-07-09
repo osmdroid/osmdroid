@@ -30,10 +30,10 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	public static final String TITLE = "Limited scroll area";
 
-	private static final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
+	private final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
 
-	private static final BoundingBoxE6 sCentralParkBoundingBox;
-	private static final Paint sPaint;
+	private BoundingBoxE6 sCentralParkBoundingBox;
+	private  Paint sPaint;
 
 	// ===========================================================
 	// Fields
@@ -41,7 +41,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	private ShadeAreaOverlay mShadeAreaOverlay;
 
-	static {
+	public SampleLimitedScrollArea()
+	{
 		sCentralParkBoundingBox = new BoundingBoxE6(40.796788,
 			-73.949232, 40.768094, -73.981762);
 		sPaint = new Paint();
@@ -55,11 +56,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	/** Called when the activity is first created. */
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+
+
 
 	@Override
 	protected void addOverlays() {
@@ -137,6 +135,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		final GeoPoint mBottomRight;
 		final Point mTopLeftPoint = new Point();
 		final Point mBottomRightPoint = new Point();
+		Rect area=null;
 		public ShadeAreaOverlay(Context ctx) {
 			super(ctx);
 			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorthE6(),
@@ -152,11 +151,13 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 			final Projection proj = osmv.getProjection();
 
-			proj.toPixels(mTopLeft, mTopLeftPoint);
-			proj.toPixels(mBottomRight, mBottomRightPoint);
+			if (area==null) {
+				proj.toPixels(mTopLeft, mTopLeftPoint);
+				proj.toPixels(mBottomRight, mBottomRightPoint);
 
-			Rect area = new Rect(mTopLeftPoint.x, mTopLeftPoint.y, mBottomRightPoint.x,
-					mBottomRightPoint.y);
+				area = new Rect(mTopLeftPoint.x, mTopLeftPoint.y, mBottomRightPoint.x,
+						mBottomRightPoint.y);
+			}
 			c.drawRect(area, sPaint);
 		}
 	}

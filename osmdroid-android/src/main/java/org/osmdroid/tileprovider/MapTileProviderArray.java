@@ -32,7 +32,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 public class MapTileProviderArray extends MapTileProviderBase {
 
 	protected final HashMap<MapTile, MapTileRequestState> mWorking;
-
+	protected IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
 
 	/**
@@ -60,7 +60,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		super(pTileSource);
 
 		mWorking = new HashMap<MapTile, MapTileRequestState>();
-
+		mRegisterReceiver=aRegisterReceiver;
 		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
 	}
@@ -76,6 +76,12 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		synchronized (mWorking) {
 			mWorking.clear();
 		}
+		clearTileCache();
+		if (mRegisterReceiver!=null) {
+			mRegisterReceiver.destroy();
+			mRegisterReceiver = null;
+		}
+
 	}
 
 	@Override

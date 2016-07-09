@@ -63,6 +63,10 @@ public class SimpleLocationOverlay extends Overlay {
 	// ===========================================================
 
 	@Override
+	public void onDetach(MapView mapView){
+		this.PERSON_ICON.recycle();
+	}
+	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 		if (!shadow && this.mLocation != null) {
 			final Projection pj = osmv.getProjection();

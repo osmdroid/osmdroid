@@ -81,6 +81,15 @@ public abstract class OverlayWithIW extends Overlay {
 			mInfoWindow.close();
 	}
 
+	public void onDestroy(){
+		if (mInfoWindow != null) {
+			mInfoWindow.close();
+			mInfoWindow.onDetach();
+			mInfoWindow=null;
+			mRelatedObject=null;
+		}
+	}
+
 	public boolean isInfoWindowOpen(){
 		return (mInfoWindow != null) && mInfoWindow.isOpen();
 	}

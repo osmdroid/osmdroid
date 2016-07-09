@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.util.Counters;
 
 /**
  * Implements a file system cache and provides cached tiles. This functions as a tile provider by
@@ -41,7 +42,6 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	// ===========================================================
 
 	private final long mMaximumCachedFileAge;
-	private DatabaseFileArchive databaseFileArchive;
 	private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
 
 	// ===========================================================
@@ -145,6 +145,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                          Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
 				}
+				Counters.fileCacheMiss++;
 				return null;
 			}
 
@@ -169,14 +170,16 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);
 					}
 
+					Counters.fileCacheHit++;
 					return drawable;
 				} catch (final LowMemoryException e) {
 					// low memory so empty the queue
 					Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
+					Counters.fileCacheOOM++;
 					throw new CantContinueException(e);
 				}
 			}
-
+			Counters.fileCacheMiss++;
 			// If we get here then there is no file in the file cache
 			return null;
 		}

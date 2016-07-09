@@ -37,6 +37,7 @@
         android:required="false" />
 
     <application
+        android:name=".OsmApplication"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:icon="@drawable/icon"

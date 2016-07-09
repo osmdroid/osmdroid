@@ -32,8 +32,8 @@ public class DirectedLocationOverlay extends Overlay {
 	// Fields
 	// ===========================================================
 
-	protected final Paint mPaint = new Paint();
-	protected final Paint mAccuracyPaint = new Paint();
+	protected Paint mPaint = new Paint();
+	protected Paint mAccuracyPaint = new Paint();
 
 	protected Bitmap DIRECTION_ARROW;
 
@@ -115,6 +115,12 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
+
+	@Override
+	public void onDetach(MapView view){
+		mPaint=null;
+		mAccuracyPaint=null;
+	}
 
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {

@@ -82,10 +82,6 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
         return false;
     }
 
-    public void close() {
-        if (db != null)
-            db.close();
-    }
 
     @Override
     public boolean exists(ITileSource pTileSource, MapTile pTile) {
@@ -106,5 +102,11 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + pTile.toString(), ex);
         }
         return false;
+    }
+
+    @Override
+    public void onDetach() {
+        if (db != null)
+            db.close();
     }
 }

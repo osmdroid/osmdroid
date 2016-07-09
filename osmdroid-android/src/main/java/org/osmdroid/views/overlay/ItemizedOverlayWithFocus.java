@@ -240,6 +240,9 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 			return;
 		}
 
+		// this happens during shutdown
+		if (super.mItemList==null)
+			return;
 		// get focused item's preferred marker & hotspot
 		final Item focusedItem = super.mItemList.get(this.mFocusedItemIndex);
 		Drawable markerFocusedBase = focusedItem.getMarker(OverlayItem.ITEM_STATE_FOCUSED_MASK);
@@ -353,6 +356,12 @@ public class ItemizedOverlayWithFocus<Item extends OverlayItem> extends Itemized
 		 * Finally draw the marker base. This is done in the end to make it look better.
 		 */
 		Overlay.drawAt(c, markerFocusedBase, mFocusedScreenCoords.x, mFocusedScreenCoords.y, false, osmv.getMapOrientation());
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		super.onDetach(mapView);
+		this.mContext=null;
 	}
 
 	// ===========================================================

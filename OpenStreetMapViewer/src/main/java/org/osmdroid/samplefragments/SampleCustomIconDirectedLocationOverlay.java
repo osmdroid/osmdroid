@@ -5,6 +5,7 @@
  */
 package org.osmdroid.samplefragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
@@ -71,7 +72,9 @@ public class SampleCustomIconDirectedLocationOverlay extends BaseSampleFragment 
             TimerTask changeIcon = new TimerTask() {
                 @Override
                 public void run() {
-                    getActivity().runOnUiThread(new Runnable() {
+                    Activity act = getActivity();
+                    if (act!=null)
+                    act.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
