@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.os.Build;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 
@@ -12,9 +13,11 @@ public class ArchiveFileFactory {
 	static Map<String, Class<? extends IArchiveFile> > extensionMap = new HashMap<String,  Class<? extends IArchiveFile>>();
 	static {
 		extensionMap.put("zip", ZipFileArchive.class);
-		extensionMap.put("sqlite", DatabaseFileArchive.class);
-		extensionMap.put("mbtiles", MBTilesFileArchive.class);
-		extensionMap.put("gemf", GEMFFileArchive.class);
+		if (Build.VERSION.SDK_INT >= 10) {
+			extensionMap.put("sqlite", DatabaseFileArchive.class);
+			extensionMap.put("mbtiles", MBTilesFileArchive.class);
+			extensionMap.put("gemf", GEMFFileArchive.class);
+		}
 
 	}
 

@@ -111,7 +111,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     @Override
     protected void onMediaUnmounted() {
         if (mWriter!=null)
-            mWriter.close();
+            mWriter.onDetach();
         mWriter=new SqlTileWriter();
     }
 
@@ -124,7 +124,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     public void detach() {
 
         if (mWriter!=null)
-            mWriter.close();
+            mWriter.onDetach();
         mWriter=null;
         super.detach();
     }

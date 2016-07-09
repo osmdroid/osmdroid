@@ -198,6 +198,9 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 		mTileCache.ensureCapacity(pCapacity);
 	}
 
+	/**
+	 * purges the cache of all tiles (default is the in memory cache)
+	 */
 	public void clearTileCache() {
 		mTileCache.clear();
 	}

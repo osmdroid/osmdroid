@@ -314,4 +314,11 @@ public class Polygon extends OverlayWithIW {
 		return tapped;
 	}
 
+	@Override
+	public void onDetach(MapView mapView) {
+		mOutline=null;
+		mHoles.clear();
+		onDestroy();
+	}
+
 }

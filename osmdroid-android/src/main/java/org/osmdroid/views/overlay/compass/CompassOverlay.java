@@ -31,8 +31,8 @@ import android.view.WindowManager;
  * 
  */
 public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer {
-	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
-	protected final MapView mMapView;
+	private Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+	protected MapView mMapView;
 	private final Display mDisplay;
 
 	public IOrientationProvider mOrientationProvider;
@@ -91,7 +91,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	@Override
 	public void onDetach(MapView mapView) {
+		this.mMapView=null;
+		sSmoothPaint=null;
 		this.disableCompass();
+		mCompassFrameBitmap.recycle();
+		mCompassRoseBitmap.recycle();
 		super.onDetach(mapView);
 	}
 
@@ -270,6 +274,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		if (mOrientationProvider != null) {
 			mOrientationProvider.stopOrientationProvider();
 		}
+		mOrientationProvider=null;
 
 		// Reset values
 		mAzimuth = Float.NaN;

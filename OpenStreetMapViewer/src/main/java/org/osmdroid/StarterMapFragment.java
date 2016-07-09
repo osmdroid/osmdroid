@@ -76,6 +76,8 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+         //Note! we are programmatically construction the map view
+         //be sure to handle application lifecycle correct (see note in on pause)
           mMapView = new MapView(inflater.getContext());
         // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
@@ -161,6 +163,15 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           super.onPause();
      }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        //this part terminates all of the overlays and background threads for osmdroid
+        //only needed when you programmatically create the map
+        mMapView.onDetach();
+
+    }
 
      @Override
      public void onResume() {

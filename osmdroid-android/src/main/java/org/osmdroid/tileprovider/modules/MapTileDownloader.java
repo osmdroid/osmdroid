@@ -13,6 +13,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.BufferedOutputStream;
@@ -25,10 +26,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -123,6 +121,13 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	}
 
 	@Override
+	public void detach() {
+		super.detach();
+		if (this.mFilesystemCache!=null)
+		this.mFilesystemCache.onDetach();
+	}
+
+	@Override
 	public int getMinimumZoomLevel() {
 		OnlineTileSourceBase tileSource = mTileSource.get();
 		return (tileSource != null ? tileSource.getMinimumZoomLevel() : OpenStreetMapTileProviderConstants.MINIMUM_ZOOMLEVEL);
@@ -195,6 +200,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				
 				if (c.getResponseCode() != 200) {
 					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
+					Counters.tileDownloadErrors++;
 					return null;
 				}
 
@@ -230,16 +236,21 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			} catch (final UnknownHostException e) {
 				// no network connection so empty the queue
 				Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + tile + " : " + e);
+				Counters.tileDownloadErrors++;
 				throw new CantContinueException(e);
 			} catch (final LowMemoryException e) {
 				// low memory so empty the queue
+				Counters.countOOM++;
 				Log.w(IMapView.LOGTAG,"LowMemoryException downloading MapTile: " + tile + " : " + e);
 				throw new CantContinueException(e);
 			} catch (final FileNotFoundException e) {
+				Counters.tileDownloadErrors++;
 				Log.w(IMapView.LOGTAG,"Tile not found: " + tile + " : " + e);
 			} catch (final IOException e) {
+				Counters.tileDownloadErrors++;
 				Log.w(IMapView.LOGTAG,"IOException downloading MapTile: " + tile + " : " + e);
 			} catch (final Throwable e) {
+				Counters.tileDownloadErrors++;
 				Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + tile, e);
 			} finally {
 				StreamUtils.closeStream(in);

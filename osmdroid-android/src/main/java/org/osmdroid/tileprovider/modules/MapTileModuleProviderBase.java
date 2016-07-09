@@ -165,6 +165,7 @@ public abstract class MapTileModuleProviderBase {
 	public void detach() {
 		this.clearQueue();
 		this.mExecutor.shutdown();
+
 	}
 
 	void removeTileFromQueues(final MapTile mapTile) {

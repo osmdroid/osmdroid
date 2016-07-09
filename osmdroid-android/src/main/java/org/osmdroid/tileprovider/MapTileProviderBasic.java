@@ -107,7 +107,7 @@ public class MapTileProviderBasic extends MapTileProviderArray implements IMapTi
         //https://github.com/osmdroid/osmdroid/issues/213
         //close the writer
 		if (tileWriter!=null)
-			tileWriter.close();
+			tileWriter.onDetach();
 		tileWriter=null;
 		super.detach();
 	}
