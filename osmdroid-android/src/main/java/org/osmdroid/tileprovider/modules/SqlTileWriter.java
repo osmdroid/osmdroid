@@ -19,7 +19,7 @@ import java.util.List;
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database cache.
  * It supports expiration timestamps if provided by the server from which the tile was downloaded. Trimming
  * of expired
- * <p/>
+ * <p>
  * If the database exceeds {@link OpenStreetMapTileProviderConstants#TILE_TRIM_CACHE_SIZE_BYTES}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
  *
@@ -27,34 +27,24 @@ import java.util.List;
  * @since 5.1
  */
 public class SqlTileWriter implements IFilesystemCache {
-
-    protected static SQLiteDatabase db = null;
-    protected static File db_file = null;
-    final int questimate = 8000;
-
-    static {
-        initDb();
-    }
-
-    static void initDb() {
-        if (MapTileFileStorageProviderBase.isSdCardAvailable() && db == null) {
-            // do this in the background because it takes a long time
-            db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
-
-            try {
-                OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
-                db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-                db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE + " (key INTEGER , provider TEXT, tile BLOB, expires INTEGER, PRIMARY KEY (key, provider));");
-
-            } catch (Throwable ex) {
-                Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
-            }
-        }
-    }
+    File db_file;
+    SQLiteDatabase db;
+    int questimate = 8000;
+    static boolean hasInited = false;
 
     public SqlTileWriter() {
-        initDb();
-        if (db != null) {
+        // do this in the background because it takes a long time
+        db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
+        OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
+        db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS" + DatabaseFileArchive.TABLE + " (key INTEGER , provider TEXT, tile BLOB, expires INTEGER, PRIMARY KEY (key, provider));");
+        } catch (Exception ex) {
+            Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
+        }
+        if (!hasInited) {
+            hasInited = true;
+
             final Thread t = new Thread() {
                 @Override
                 public void run() {
@@ -62,7 +52,6 @@ public class SqlTileWriter implements IFilesystemCache {
                     //run the reaper (remove all old expired tiles)
                     //keep if now is < expiration date
                     //delete if now is > expiration date
-                    try{
                     long now = System.currentTimeMillis();
                     int rows = db.delete(DatabaseFileArchive.TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
                     Log.d(IMapView.LOGTAG, "Local storage cahce purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
@@ -84,9 +73,6 @@ public class SqlTileWriter implements IFilesystemCache {
 
                     if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                         Log.d(IMapView.LOGTAG, "Finished init thread");
-                    }}
-                    catch (Throwable t){
-                        Log.e(IMapView.LOGTAG, "Error caught during sqlite tile writer init", t);
                     }
                 }
             };
@@ -136,9 +122,9 @@ public class SqlTileWriter implements IFilesystemCache {
 
     @Override
     public void close() {
-        if (db!=null){
+        if (db != null) {
             db.close();
-            db=null;
+            db = null;
         }
     }
 }

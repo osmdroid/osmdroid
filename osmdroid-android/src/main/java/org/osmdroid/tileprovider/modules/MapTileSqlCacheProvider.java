@@ -1,9 +1,7 @@
 package org.osmdroid.tileprovider.modules;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -17,9 +15,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -36,7 +32,9 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     // ===========================================================
 
     private final AtomicReference<ITileSource> mTileSource = new AtomicReference<ITileSource>();
+    private SqlTileWriter mWriter;
     private final long mMaximumCachedFileAge;
+    //FIXME constants with #348
     private static final String[] tile = {"tile"};
     private static final String[] columns={"tile","expires"};
 
@@ -53,11 +51,9 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         super(pRegisterReceiver, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
                 OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
 
-        SqlTileWriter.initDb();
         setTileSource(pTileSource);
-        findArchiveFiles();
         mMaximumCachedFileAge = pMaximumCachedFileAge;
-
+        mWriter = new SqlTileWriter();
 
     }
 
@@ -109,12 +105,14 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
     @Override
     protected void onMediaMounted() {
-        findArchiveFiles();
+
     }
 
     @Override
     protected void onMediaUnmounted() {
-        findArchiveFiles();
+        if (mWriter!=null)
+            mWriter.close();
+        mWriter=new SqlTileWriter();
     }
 
     @Override
@@ -125,19 +123,15 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
     @Override
     public void detach() {
 
-        if (SqlTileWriter.db!=null)
-            SqlTileWriter.db.close();
-        SqlTileWriter.db=null;
+        if (mWriter!=null)
+            mWriter.close();
+        mWriter=null;
         super.detach();
     }
 
     // ===========================================================
     // Methods
     // ===========================================================
-
-    private void findArchiveFiles(){
-        SqlTileWriter.initDb();
-    }
 
     /**
      * returns true if the given tile for the current map source exists in the cache db
@@ -153,7 +147,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
         final long y = (long) pTile.getY();
         final long z = (long) pTile.getZoomLevel();
         final long index = ((z << z) + x << z) + y;
-        final Cursor cur =SqlTileWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
+        final Cursor cur =mWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
         if(cur.getCount() != 0) {
             cur.close();
             return true;
@@ -197,7 +191,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 final long y = (long) pTile.getY();
                 final long z = (long) pTile.getZoomLevel();
                 final long index = ((z << z) + x << z) + y;
-                final Cursor cur =SqlTileWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
+                final Cursor cur =mWriter.db.query(DatabaseFileArchive.TABLE,columns,"key = " + index + " and provider = '" + tileSource.name() + "'", null, null, null, null);
                 byte[] bits=null;
                 long lastModified=0l;
 

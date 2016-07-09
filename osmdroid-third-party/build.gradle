@@ -1,14 +1,11 @@
 description = 'OSMdroid Android 3rd Party'
 apply plugin: 'com.android.library'
-
+apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {
     compileSdkVersion "Google Inc.:Google APIs:23"
     buildToolsVersion "23.0.2"
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
     }
     buildTypes {
         release {

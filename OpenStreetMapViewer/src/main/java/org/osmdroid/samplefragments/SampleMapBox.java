@@ -16,6 +16,8 @@ import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
  */
 public class SampleMapBox   extends BaseSampleFragment {
 
+    AlertDialog alertDialog=null;
+
     @Override
     public String getSampleTitle() {
         return "MapBox";
@@ -82,13 +84,21 @@ public class SampleMapBox   extends BaseSampleFragment {
                         });
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
 
         // show it
         alertDialog.show();
 
 
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
     }
 
 }

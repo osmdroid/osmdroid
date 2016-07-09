@@ -4,8 +4,10 @@ android:
   components:
     # The BuildTools version used by your project
     - tools
+    - platform-tools
     - build-tools-23.0.2 # 23.0.2 was not available on build
     - build-tools-23.0.1
+    - build-tools-23.0.3
     # The SDK version used to compile your project
     - android-24
     - android-23
@@ -52,21 +54,21 @@ env:
     #note when changing these, updating the gradle build file for the GoogleWrapper project
     # first env var is just for display purposes
     #api8 with google
-    - API=8g ANDROID_TARGET=12  ANDROID_ABI=armeabi
+    - API=8g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api8
     - API=8 ANDROID_TARGET=1  ANDROID_ABI=armeabi
     #api10
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
     #api10 with google
-    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
+    - API=10g ANDROID_TARGET=14  ANDROID_ABI=armeabi
     #api15
     - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
     #api15 with google
-    - API=15g ANDROID_TARGET=14  ANDROID_ABI=armeabi-v7a
+    - API=15g ANDROID_TARGET=15  ANDROID_ABI=armeabi-v7a
     #api19
     - API=19 ANDROID_TARGET=7  ANDROID_ABI=armeabi-v7a
     #api19 with google
-    - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
+    # disabling, the system image is no longer available on travis - API=19g ANDROID_TARGET=16  ANDROID_ABI=armeabi-v7a
     #api21
     #- ANDROID_TARGET=17  ANDROID_ABI=armeabi-v7a no abi available with google apis
     #api22
@@ -77,7 +79,7 @@ env:
 before_install:
   # create and start emulators
   - android list targets
-  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 100M
+  - echo no | android create avd --force -n test$ANDROID_TARGET -t $ANDROID_TARGET --abi $ANDROID_ABI --sdcard 200M
   - emulator -memory 1536 -avd test$ANDROID_TARGET -no-skin -no-audio -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
@@ -99,6 +101,13 @@ before_script:
 
   #setup for maps forge adapter
   #- wget http://download.mapsforge.org/maps/world/world.map
+  - adb shell ls /
+  - adb shell ls /sdcard/
+  - adb shell ls /sdcard/osmdroid
+  - adb root
+  - adb shell mount -o rw,remount rootfs /
+  - adb shell chmod 777 /mnt/sdcard
+  - adb shell mkdir /sdcard/osmdroid/
   - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
 
 #build
@@ -107,13 +116,14 @@ script:
   #we build 3 times due to issues with the maven-android-plugin. root cause is unknown but seems to be related to how artifacts are resolved for android projects
   #in case you're wondering -fn means fail never, which loosely means, if the build fails, the exit code is always 0, which is basically all CI engines look for.
   #the dist profile adds the zip and tar outputs of all javadocs and source jars
-  - ./travis.sh
+  #- ./travis.sh
   #- mvn install -fn -B -U -Pdist
   #- mvn install -Pdist
   #- mvn android:undeploy
   #build using gradle
+  # travis_wait 30 https://docs.travis-ci.com/user/common-build-problems/#My-builds-are-timing-out
   - ./gradlew -version
-  - ./gradlew clean connectedCheck
+  - travis_wait 60 ./gradlew clean connectedCheck
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace

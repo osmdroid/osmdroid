@@ -31,9 +31,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     }
 
     ProgressDialog progressBar;
-    private int progressBarStatus = 0;
-    private Handler progressBarHandler = new Handler();
-
+    
     Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
@@ -325,5 +323,14 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         if (progressBar != null) {
             progressBar.setMax(total);
         }
+    }
+
+    @Override
+    public void onTaskFailed(int errors) {
+        if (progressBar!=null)
+            progressBar.dismiss();
+        progressBar = null;
+        Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 public abstract class BaseSampleFragment extends Fragment {
 
+	public static final String TAG = "OpenMap";
 	public abstract String getSampleTitle();
 
 	// ===========================================================

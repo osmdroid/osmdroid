@@ -54,7 +54,7 @@ public class SampleJumboCache  extends BaseSampleFragment {
 				break;
 			}
 		}
-		//this will set the disk cache size in MB to 1GB , 9GB trim size
+		//this will set the disk cache size in MB to 1GB , 900MB trim size
 		OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
 	}
 

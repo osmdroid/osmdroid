@@ -33,4 +33,7 @@
     <string name="sdcardstate">External Storage State:</string>
     <string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid</string>
 
+    <string name="bt_center_map_description">Center on my location</string>
+    <string name="bt_follow_me_description">Follow me</string>
+
 </resources>

@@ -40,7 +40,9 @@ public final class SampleFactory {
 				SampleAnimateTo.class,
 				SampleHeadingCompassUp.class,
 				SampleSplitScreen.class,
-				SampleMapBootListener.class
+				SampleMapBootListener.class,
+				SampleFollowMe.class,
+				SampleBug57.class
         };
 	}
 

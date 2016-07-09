@@ -40,6 +40,7 @@ public class TileWriter implements IFilesystemCache {
 
 	/** amount of disk space used by tile cache **/
 	private static long mUsedCacheSpace;
+	static boolean hasInited=false;
 
 	// ===========================================================
 	// Constructors
@@ -47,24 +48,27 @@ public class TileWriter implements IFilesystemCache {
 
 	public TileWriter() {
 
-		// do this in the background because it takes a long time
-		final Thread t = new Thread() {
-			@Override
-			public void run() {
-				mUsedCacheSpace = 0; // because it's static
-                    
-                    calculateDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
-				
-				if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
-					cutCurrentCache();
+		if (!hasInited) {
+			hasInited = true;
+			// do this in the background because it takes a long time
+			final Thread t = new Thread() {
+				@Override
+				public void run() {
+					mUsedCacheSpace = 0; // because it's static
+
+					calculateDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+
+					if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
+						cutCurrentCache();
+					}
+					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+						Log.d(IMapView.LOGTAG, "Finished init thread");
+					}
 				}
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-					Log.d(IMapView.LOGTAG,"Finished init thread");
-				}
-			}
-		};
-		t.setPriority(Thread.MIN_PRIORITY);
-		t.start();
+			};
+			t.setPriority(Thread.MIN_PRIORITY);
+			t.start();
+		}
 	}
 
 	// ===========================================================
