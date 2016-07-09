@@ -1,11 +1,9 @@
-package org.osmdroid;
+package org.osmdroid.forge.app;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
-
-import com.squareup.leakcanary.LeakCanary;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
@@ -17,9 +15,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * This is the base application for the sample app. We only use to catch errors during development cycles
@@ -31,7 +26,6 @@ public class OsmApplication extends Application{
     @Override
     public void onCreate(){
         super.onCreate();
-        LeakCanary.install(this);
         Thread.currentThread().setUncaughtExceptionHandler(new OsmUncaughtExceptionHandler());
     }
 
