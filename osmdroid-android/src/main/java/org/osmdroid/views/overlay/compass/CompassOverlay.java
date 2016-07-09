@@ -359,7 +359,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
-
+		if (mCompassFrameBitmap!=null)
+			mCompassFrameBitmap.recycle();
 		mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassFrameBitmap);
@@ -402,6 +403,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
 
+		if (mCompassRoseBitmap!=null)
+			mCompassRoseBitmap.recycle();
 		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassRoseBitmap);
