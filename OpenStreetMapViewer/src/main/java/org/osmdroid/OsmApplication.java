@@ -80,32 +80,21 @@ public class OsmApplication extends Application{
 
         @Override
         public void send(Context context, CrashReportData crashReportData) throws ReportSenderException {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
-                    Locale.US);
-            String timeStamp = sdf.format(new Date());
+
             String rootDirectory = Environment.getExternalStorageDirectory()
                     .getAbsolutePath();
             File f = new File(rootDirectory
                     + File.separatorChar
-                    + "TCE"
-                    + File.separatorChar
-                    + "logs"
-                    + File.separatorChar
-                    + "crash"
+                    + "osmdroid"
                     + File.separatorChar);
             f.mkdirs();
             f = new File(rootDirectory
                     + File.separatorChar
-                    + "TCE"
+                    + "osmdroid"
                     + File.separatorChar
-                    + "logs"
-                    + File.separatorChar
-                    + "crash"
-                    + File.separatorChar
-                    + "CRASH_"
-                    + BuildConfig.APPLICATION_ID+ "_"
-                    + timeStamp + ".log");
-            f.delete();
+                    + "crash.log");
+            if (f.exists())
+                f.delete();
 
             try {
                 f.createNewFile();
