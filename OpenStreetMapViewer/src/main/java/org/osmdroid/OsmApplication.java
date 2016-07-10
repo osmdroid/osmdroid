@@ -87,24 +87,14 @@ public class OsmApplication extends Application{
                     .getAbsolutePath();
             File f = new File(rootDirectory
                     + File.separatorChar
-                    + "TCE"
-                    + File.separatorChar
-                    + "logs"
-                    + File.separatorChar
-                    + "crash"
+                    + "osmdroid"
                     + File.separatorChar);
             f.mkdirs();
             f = new File(rootDirectory
                     + File.separatorChar
-                    + "TCE"
+                    + "osmdroid"
                     + File.separatorChar
-                    + "logs"
-                    + File.separatorChar
-                    + "crash"
-                    + File.separatorChar
-                    + "CRASH_"
-                    + BuildConfig.APPLICATION_ID+ "_"
-                    + timeStamp + ".log");
+                    + "crash.log");
             f.delete();
 
             try {
