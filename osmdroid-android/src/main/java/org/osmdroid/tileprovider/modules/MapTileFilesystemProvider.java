@@ -1,22 +1,16 @@
 package org.osmdroid.tileprovider.modules;
 
 import java.io.File;
-import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryException;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
@@ -141,7 +135,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 			final MapTile tile = pState.getMapTile();
 
 			// if there's no sdcard then don't do anything
-			if (!getSdCardAvailable()) {
+			if (!isSdCardAvailable()) {
 				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                          Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
 				}

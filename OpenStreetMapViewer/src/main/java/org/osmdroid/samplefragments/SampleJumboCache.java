@@ -57,4 +57,20 @@ public class SampleJumboCache  extends BaseSampleFragment {
 		//this will set the disk cache size in MB to 1GB , 900MB trim size
 		OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
 	}
+
+	@Override
+	public void onPause(){
+		super.onPause();
+		OpenStreetMapTileProviderConstants.setCacheSizes(500L, 600L);
+		Iterator<Overlay> iterator = mMapView.getOverlays().iterator();
+		while(iterator.hasNext()){
+			Overlay next = iterator.next();
+			if (next instanceof TilesOverlay){
+				TilesOverlay x = (TilesOverlay)next;
+				x.setOvershootTileCache(x.getOvershootTileCache() / 2);
+				Toast.makeText(getActivity(), "Tiles overlay cache set to " + x.getOvershootTileCache(), Toast.LENGTH_LONG).show();
+				break;
+			}
+		}
+	}
 }

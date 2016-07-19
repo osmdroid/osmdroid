@@ -18,6 +18,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -68,7 +69,7 @@ public class CacheManager {
 
     public CacheManager(final MapView mapView) {
         mTileProvider = mapView.getTileProvider();
-        mTileWriter = new TileWriter();
+        mTileWriter = mapView.getTileProvider().getTileWriter();
         mMapView = mapView;
     }
 

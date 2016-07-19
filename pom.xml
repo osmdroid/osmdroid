@@ -230,7 +230,6 @@
 		    <module>GoogleWrapperSample</module>
 		    <module>OSMMapTilePackager</module>
 		    <module>osmdroid-android-it</module>
-            <module>osmdroid-dist</module>
 		</modules>
 	 </profile>
 	 <profile>
@@ -313,6 +312,17 @@
                     <value>true</value>
                 </property>
             </activation>
+              <modules>
+                <module>osmdroid-android</module>
+                <module>osmdroid-third-party</module>
+                <module>OpenStreetMapViewer</module>
+                <module>GoogleWrapperSample</module>
+                <module>osmdroid-mapsforge</module>
+                <module>osmdroid-forge-app</module>
+                <module>OSMMapTilePackager</module>
+                <module>osmdroid-android-it</module>
+                <module>osmdroid-dist</module>
+            </modules>
             <build>
                 <plugins>
 

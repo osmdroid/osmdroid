@@ -27,6 +27,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 	public static final String COLUMN_PROVIDER = "provider";
 	public static final String COLUMN_TILE = "tile";
 	public static final String COLUMN_KEY = "key";
+	static final String[] tile_column = {"tile"};
 	private SQLiteDatabase mDatabase;
 
 	public DatabaseFileArchive(){}

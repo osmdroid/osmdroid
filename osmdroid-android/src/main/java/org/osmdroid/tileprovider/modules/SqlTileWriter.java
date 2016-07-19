@@ -21,7 +21,7 @@ import java.util.List;
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database cache.
  * It supports expiration timestamps if provided by the server from which the tile was downloaded. Trimming
  * of expired
- *
+ * <p>
  * If the database exceeds {@link OpenStreetMapTileProviderConstants#TILE_TRIM_CACHE_SIZE_BYTES}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
  *
@@ -37,13 +37,13 @@ public class SqlTileWriter implements IFilesystemCache {
     public SqlTileWriter() {
         // do this in the background because it takes a long time
         db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
+        OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
         db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
         try {
             db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE+ " ("+DatabaseFileArchive.COLUMN_KEY+" INTEGER , "+DatabaseFileArchive.COLUMN_PROVIDER +" TEXT, "+DatabaseFileArchive.COLUMN_TILE+" BLOB, expires INTEGER, PRIMARY KEY ("+DatabaseFileArchive.COLUMN_KEY+", "+DatabaseFileArchive.COLUMN_PROVIDER+"));");
         }
-        catch (Throwable t){
-
-            t.printStackTrace();
+        catch (Throwable ex){
+            Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
         }
         if (!hasInited){
             hasInited=true;
@@ -87,6 +87,10 @@ public class SqlTileWriter implements IFilesystemCache {
 
     @Override
     public boolean saveFile(ITileSource pTileSourceInfo, MapTile pTile, InputStream pStream) {
+        if (db == null) {
+            Log.d(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + ", database not available.");
+            return false;
+        }
         try {
             ContentValues cv = new ContentValues();
             final long x = (long) pTile.getX();

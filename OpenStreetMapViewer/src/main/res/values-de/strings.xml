@@ -5,4 +5,5 @@
 	<string name="about">Über</string>
 	<string name="about_message">Diese Software benutzt Kartenmaterial von OpenStreetMap.org</string>
 	<string name="unknown">Unbekannt</string>
+	<string name="osmdroid_welcome">Willkommen in der osmdroid B. App . Diese App wird verwendet, um einige der osmdroid\'s Features und Funktionen zu demonstrieren. Genießen! Bitte melden Sie alle Fragen im Zusammenhang mit https://github.com/osmdroid/osmdroid</string>
 </resources>
