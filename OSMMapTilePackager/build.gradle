@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'distribution'
 apply plugin: 'application'
+apply plugin: 'maven'
 
 mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 
@@ -25,7 +26,7 @@ task preBuildTask2(type: Copy) {
     println("copying GEMF sources");
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
-    into "src/main/java/org/osmdroid/tileprovider/util/"
+    into "src/main/java/org/osmdroid/util/"
 
 }
 

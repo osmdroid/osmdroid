@@ -3,30 +3,43 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
+        mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+            classpath "com.android.tools.build:gradle:${project.property('android-plugin.version')}"
     }
 }
 
 
 allprojects {
+    // NOTE: project.group and project.version must be defined before including
+    // maven-support.gradle since it uses these values...
+    project.group = ( project.hasProperty('pom.groupId')
+            ? project.property('pom.groupId') : "" )
 
-  apply plugin: 'maven'
+    project.version =
+            ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-  group = 'org.osmdroid'
-  version = '5.3-SNAPSHOT'
+    apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/maven-support.gradle'
 
-  
-  repositories {
-    mavenLocal()
-    
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-    maven { url "http://repo.maven.apache.org/maven2" }
-  }
+    // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
+    // (thanks, @BillBarnhill!)
+    configurations.all {
+        resolutionStrategy {
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
 
-  
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
 }

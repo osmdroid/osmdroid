@@ -97,6 +97,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	@Override
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
+		ctx=null;
 	}
 
 	public int getMinimumZoomLevel() {
@@ -260,12 +261,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		mapMenu.setGroupCheckable(MENU_MAP_MODE + pMenuIdOffset, true, true);
 
-		final String title = ctx.getString(
-				pMapView.useDataConnection() ? R.string.set_mode_offline
-						: R.string.set_mode_online);
-		final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
-		pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
-
+		if (ctx!=null) {
+			final String title = ctx.getString(
+					pMapView.useDataConnection() ? R.string.set_mode_offline
+							: R.string.set_mode_online);
+			final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
+			pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
+		}
 		return true;
 	}
 

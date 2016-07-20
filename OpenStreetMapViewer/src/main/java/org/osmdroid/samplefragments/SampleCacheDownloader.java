@@ -38,6 +38,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt=null;
+    AlertDialog alertDialog=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +105,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
 
         // show it
         alertDialog.show();
@@ -206,6 +207,11 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                         }
 
                         @Override
+                        public void onTaskFailed(int errors) {
+                            Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
                         public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
                             //NOOP since we are using the build in UI
                         }
@@ -301,5 +307,16 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        if (downloadPrompt!=null && downloadPrompt.isShowing()){
+            downloadPrompt.dismiss();
+        }
     }
 }

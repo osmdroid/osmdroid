@@ -55,3 +55,20 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 ![](images/MyLocation.png)
 ![](images/CustomLayer.png)
 ![](images/TwoMarkers.png)
+
+## Prepare distribution
+
+```
+./gradlew clean install distZip distro -Pprofile=sources,javadocs
+```
+
+Output zip is at osmdroid-dist/build/distributions/
+
+## Publish release artifacts
+Edit gradle.properties and update the version information (android.versionCode and pom.version). Commit the change and tag with git.
+
+Edit gradle.properties and set your credentials for nexus endpoint to publish to
+```
+./gradlew clean install distZip distro -Pprofile=sources,javadocs publish
+```
+Edit gradpe.properties and remove your crendentials.

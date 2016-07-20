@@ -49,4 +49,13 @@ public class OfflineTileProvider extends MapTileProviderArray implements IMapTil
 	public IArchiveFile[] getArchives(){
 		return archives;
 	}
+
+	public void detach() {
+		if (archives!=null){
+			for (int i=0; i < archives.length; i++){
+				archives[i].close();
+			}
+		}
+		super.detach();
+	}
 }

@@ -9,4 +9,6 @@ public interface IRegisterReceiver {
 	Intent registerReceiver(BroadcastReceiver receiver, IntentFilter filter);
 
 	void unregisterReceiver(BroadcastReceiver receiver);
+
+	void destroy();
 }

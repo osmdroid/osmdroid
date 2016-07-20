@@ -2,16 +2,25 @@
 package org.osmdroid;
 
 import android.Manifest;
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.samples.SampleExtensive;
@@ -19,18 +28,20 @@ import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
 		// Request permissions to support Android Marshmallow and above devices
         if (Build.VERSION.SDK_INT >= 23) {
@@ -47,11 +58,26 @@ public class MainActivity extends ListActivity {
 		list.add("Sample with tiles overlay and custom tile source");
 		list.add("More Samples");
         list.add("Report a bug");
-		this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
+		//this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
+        ListView lv = (ListView)findViewById(R.id.activitylist);
+        ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
+
+        TextView tv=(TextView)findViewById(R.id.sdcardstate_value);
+        final String state = Environment.getExternalStorageState();
+
+        boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
+        tv.setText(mSdCardAvailable ? "Mounted" : "Not Available");
+        if (!mSdCardAvailable){
+            tv.setTextColor(Color.RED);
+            tv.setTypeface(null, Typeface.BOLD);
+        }
 	}
 
     @Override
-    protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
                 this.startActivity(new Intent(this, StarterMapActivity.class));

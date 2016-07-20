@@ -385,7 +385,10 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 					mCurrentAnimator = zoomToAnimator;
 					zoomToAnimator.start();
 				} else {
-					mMapView.startAnimation(mZoomInAnimationOld);
+					if (zoomLevel > currentZoomLevel)
+						mMapView.startAnimation(mZoomInAnimationOld);
+					else
+						mMapView.startAnimation(mZoomOutAnimationOld);
 					ScaleAnimation scaleAnimation;
 
 					scaleAnimation = new ScaleAnimation(

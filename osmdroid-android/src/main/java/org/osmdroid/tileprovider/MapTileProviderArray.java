@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 import android.graphics.drawable.Drawable;
@@ -32,7 +34,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 public class MapTileProviderArray extends MapTileProviderBase {
 
 	protected final HashMap<MapTile, MapTileRequestState> mWorking;
-
+	protected IRegisterReceiver mRegisterReceiver=null;
 	protected final List<MapTileModuleProviderBase> mTileProviderList;
 
 	/**
@@ -60,7 +62,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		super(pTileSource);
 
 		mWorking = new HashMap<MapTile, MapTileRequestState>();
-
+		mRegisterReceiver=aRegisterReceiver;
 		mTileProviderList = new ArrayList<MapTileModuleProviderBase>();
 		Collections.addAll(mTileProviderList, pTileProviderArray);
 	}
@@ -70,12 +72,20 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		synchronized (mTileProviderList) {
 			for (final MapTileModuleProviderBase tileProvider : mTileProviderList) {
 				tileProvider.detach();
+
 			}
 		}
 
+		mTileCache.clear();
 		synchronized (mWorking) {
 			mWorking.clear();
 		}
+		clearTileCache();
+		if (mRegisterReceiver!=null) {
+			mRegisterReceiver.destroy();
+			mRegisterReceiver = null;
+		}
+
 	}
 
 	@Override
@@ -163,6 +173,11 @@ public class MapTileProviderArray extends MapTileProviderBase {
 				mWorking.remove(aState.getMapTile());
 			}
 		}
+	}
+
+	@Override
+	public IFilesystemCache getTileWriter() {
+		return null;
 	}
 
 	/**

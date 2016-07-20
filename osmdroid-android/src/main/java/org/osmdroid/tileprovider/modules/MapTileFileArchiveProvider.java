@@ -155,7 +155,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 		mArchiveFiles.clear();
 
-		if (!getSdCardAvailable()) {
+		if (!isSdCardAvailable()) {
 			return;
 		}
 
@@ -206,7 +206,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			final MapTile pTile = pState.getMapTile();
 
 			// if there's no sdcard then don't do anything
-			if (!getSdCardAvailable()) {
+			if (!isSdCardAvailable()) {
 				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
 					Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
 				}

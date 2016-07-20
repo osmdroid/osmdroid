@@ -31,8 +31,8 @@ import android.view.WindowManager;
  * 
  */
 public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer {
-	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
-	protected final MapView mMapView;
+	private Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+	protected MapView mMapView;
 	private final Display mDisplay;
 
 	public IOrientationProvider mOrientationProvider;
@@ -91,7 +91,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	@Override
 	public void onDetach(MapView mapView) {
+		this.mMapView=null;
+		sSmoothPaint=null;
 		this.disableCompass();
+		mCompassFrameBitmap.recycle();
+		mCompassRoseBitmap.recycle();
 		super.onDetach(mapView);
 	}
 
@@ -270,6 +274,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		if (mOrientationProvider != null) {
 			mOrientationProvider.stopOrientationProvider();
 		}
+		mOrientationProvider=null;
 
 		// Reset values
 		mAzimuth = Float.NaN;
@@ -354,7 +359,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
-
+		if (mCompassFrameBitmap!=null)
+			mCompassFrameBitmap.recycle();
 		mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassFrameBitmap);
@@ -397,6 +403,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
 
+		if (mCompassRoseBitmap!=null)
+			mCompassRoseBitmap.recycle();
 		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassRoseBitmap);

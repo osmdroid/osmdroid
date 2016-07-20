@@ -31,6 +31,7 @@ package org.osmdroid.views.overlay;
  */
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.library.R;
@@ -77,8 +78,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// Internal
 
-	private final Context context;
-	private final MapView mMapView;
+	private Context context;
+	private MapView mMapView;
 
 	protected final Path barPath = new Path();
 	protected final Rect latitudeBarRect = new Rect();
@@ -252,24 +253,24 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param centred
 	 *            set true to centre the bar around the given screen coordinates
 	 */
-public void setCentred(final boolean centred) {
-    this.centred = centred;
-    alignBottom  = !centred;
-    alignRight   = !centred;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setCentred(final boolean centred) {
+		this.centred = centred;
+		alignBottom  = !centred;
+		alignRight   = !centred;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 
-public void setAlignBottom(final boolean alignBottom) {
-    this.centred = false;
-    this.alignBottom  = alignBottom;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setAlignBottom(final boolean alignBottom) {
+		this.centred = false;
+		this.alignBottom  = alignBottom;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 
-public void setAlignRight(final boolean alignRight) {
-    this.centred = false;
-    this.alignRight  = alignRight;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setAlignRight(final boolean alignRight) {
+		this.centred = false;
+		this.alignRight  = alignRight;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 	/**
 	 * Return's the paint used to draw the bar
 	 * 
@@ -680,6 +681,15 @@ public void setAlignRight(final boolean alignRight) {
 						((int) (meters * FEET_PER_METER)));
 			}
 		}
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		this.context=null;
+		this.mMapView=null;
+		barPaint=null;
+		bgPaint=null;
+		textPaint=null;
 	}
 
 }

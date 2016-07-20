@@ -13,7 +13,7 @@ import org.osmdroid.api.IMapView;
 public abstract class MapTileFileStorageProviderBase extends MapTileModuleProviderBase {
 
 	/** whether the sdcard is mounted read/write */
-	private boolean mSdCardAvailable = true;
+	static private boolean mSdCardAvailable = true;
 
 	private final IRegisterReceiver mRegisterReceiver;
 	private MyBroadcastReceiver mBroadcastReceiver;
@@ -40,7 +40,8 @@ public abstract class MapTileFileStorageProviderBase extends MapTileModuleProvid
 		mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
 	}
 
-	protected boolean getSdCardAvailable() {
+	/** whether the sdcard is mounted read/write */
+	public static boolean isSdCardAvailable() {
 		return mSdCardAvailable;
 	}
 

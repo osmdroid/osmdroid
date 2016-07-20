@@ -86,6 +86,17 @@ public abstract class InfoWindow {
 			onClose();
 		}
 	}
+
+	/**
+	 * this destroys the window and all references to views
+	 */
+	public void onDetach(){
+		close();
+		if (mView!=null)
+			mView.setTag(null);
+		mView=null;
+		mMapView=null;
+	}
 	
 	public boolean isOpen(){
 		return mIsVisible;
