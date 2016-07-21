@@ -9,6 +9,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.util.Counters;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -51,6 +52,12 @@ public class SqlTileWriter implements IFilesystemCache {
             final Thread t = new Thread() {
                 @Override
                 public void run() {
+                    if (db==null) {
+                        if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                            Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
+                        }
+                        return;
+                    }
 
                     //run the reaper (remove all old expired tiles)
                     //keep if now is < expiration date
@@ -89,6 +96,7 @@ public class SqlTileWriter implements IFilesystemCache {
     public boolean saveFile(ITileSource pTileSourceInfo, MapTile pTile, InputStream pStream) {
         if (db == null) {
             Log.d(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + ", database not available.");
+            Counters.fileCacheSaveErrors++;
             return false;
         }
         try {
@@ -97,7 +105,7 @@ public class SqlTileWriter implements IFilesystemCache {
             final long y = (long) pTile.getY();
             final long z = (long) pTile.getZoomLevel();
             final long index = ((z << z) + x << z) + y;
-            cv.put("provider", pTileSourceInfo.name());
+            cv.put(DatabaseFileArchive.COLUMN_PROVIDER, pTileSourceInfo.name());
             BufferedInputStream bis = new BufferedInputStream(pStream);
 
             List<Byte> list = new ArrayList<Byte>();
@@ -118,7 +126,10 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(DatabaseFileArchive.TABLE, null, cv);
             Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() +  pTile.toString());
         } catch (Throwable ex) {
-            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString(), ex);
+            //note, although we check for db null state at the beginning of this method, it's possible for the
+            //db to be closed during the execution of this method
+            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + " db is " +(db==null ? "null":"not null"), ex);
+            Counters.fileCacheSaveErrors++;
         }
         return false;
     }
