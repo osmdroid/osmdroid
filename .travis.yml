@@ -133,5 +133,7 @@ script:
 
 after_failure:
   # run this on failure
-  adb pull /sdcard/osmdroid/crash.log
-  cat crash.log
+  - adb pull /sdcard/osmdroid/crash.log
+  - cat crash.log
+  # dumps the log then exits
+  - adb logcat -d
