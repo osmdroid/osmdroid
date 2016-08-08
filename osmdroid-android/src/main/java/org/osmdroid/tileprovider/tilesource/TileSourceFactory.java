@@ -152,7 +152,7 @@ public class TileSourceFactory {
                     "http://c.tiles.wmflabs.org/hikebike/"  });
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
-               new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
+               new String[] { "http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" }) {
                @Override
                public String getTileURLString(MapTile aTile) {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
