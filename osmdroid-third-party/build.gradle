@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {
     compileSdkVersion "Google Inc.:Google APIs:23"
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
     defaultConfig {
         minSdkVersion 9
     }

@@ -4,7 +4,7 @@ apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gra
 
 android {
     compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"

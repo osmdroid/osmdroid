@@ -82,7 +82,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	private OverlayManager mOverlayManager;
 
-	private Projection mProjection;
+	protected Projection mProjection;
 
 	private TilesOverlay mMapOverlay;
 
@@ -293,6 +293,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		return mProjection;
 	}
 
+	protected void setProjection(Projection p){
+		mProjection = p;
+	}
+
 	void setMapCenter(final IGeoPoint aCenter) {
 		getController().animateTo(aCenter);
 	}
@@ -346,7 +350,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final IGeoPoint centerGeoPoint = getMapCenter();
 
 		this.mZoomLevel = newZoomLevel;
-		mProjection = null;
+		setProjection(null);
 		this.checkZoomButtons();
 
 		if (isLayoutOccurred()) {
@@ -749,7 +753,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				listener.onFirstLayout(this, l, t, r, b);
 			mOnFirstLayoutListeners.clear();
 		}
-		mProjection = null;
+		setProjection(null);
 	}
 
 	public void addOnFirstLayoutListener(OnFirstLayoutListener listener) {
@@ -959,7 +963,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				y = maxY - (height);
 		}
 		super.scrollTo(x, y);
-		mProjection = null;
+		setProjection(null);
 
 		// Force a layout, so that children are correctly positioned according to map orientation
 		if (getMapOrientation() != 0f)
@@ -1002,8 +1006,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		// Apply the scale and rotate operations
 		c.concat(mRotateScaleMatrix);
 
-		// Make the projection
-		mProjection = new Projection(this);
+		// Reset the projection
+		setProjection(null);
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
