@@ -74,6 +74,8 @@ public class TileSystemMathTest extends AndroidTestCase {
 
 		assertEquals("TODO describe test", -179.752807617187, point.getLongitudeE6() / 1E6, delta);
 		assertEquals("TODO describe test", 85.0297584051224, point.getLatitudeE6() / 1E6, delta);
+		assertEquals("TODO describe test", -179.752807617187, point.getLongitude(), delta);
+		assertEquals("TODO describe test", 85.0297584051224, point.getLatitude(), delta);
 	}
 
 	/**

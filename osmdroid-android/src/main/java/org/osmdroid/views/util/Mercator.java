@@ -2,7 +2,7 @@
 package org.osmdroid.views.util;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.util.constants.MapViewConstants;
 
@@ -53,23 +53,6 @@ public class Mercator implements MapViewConstants {
 	/**
 	 * Mercator projection of GeoPoint at given zoom level
 	 *
-	 * @param aLatE6
-	 *            latitude in degrees [-89000000 to 89000000]
-	 * @param aLonE6
-	 *            longitude in degrees [-180000000 to 180000000]
-	 * @param aZoom
-	 *            zoom level
-	 * @param aReuse
-	 * @return Point with x,y in the range [-2^(zoom-1) to 2^(zoom-1)]
-	 */
-	public static Point projectGeoPoint(final int aLatE6, final int aLonE6, final int aZoom,
-			final Point aReuse) {
-		return projectGeoPoint(aLatE6 * 1E-6, aLonE6 * 1E-6, aZoom, aReuse);
-	}
-
-	/**
-	 * Mercator projection of GeoPoint at given zoom level
-	 *
 	 * @param aGeoPoint
 	 * @param aZoom
 	 *            zoom level
@@ -78,7 +61,7 @@ public class Mercator implements MapViewConstants {
 	 */
 	public static Point projectGeoPoint(final IGeoPoint aGeoPoint, final int aZoom,
 			final Point aReuse) {
-		return projectGeoPoint(aGeoPoint.getLatitudeE6() * 1E-6, aGeoPoint.getLongitudeE6() * 1E-6,
+		return projectGeoPoint(aGeoPoint.getLatitude(), aGeoPoint.getLongitude(),
 				aZoom, aReuse);
 	}
 
@@ -117,10 +100,10 @@ public class Mercator implements MapViewConstants {
 	 * @param zoom
 	 * @return
 	 */
-	public static BoundingBoxE6 getBoundingBoxFromCoords(final int left, final int top,
-			final int right, final int bottom, final int zoom) {
-		return new BoundingBoxE6(tile2lat(top, zoom), tile2lon(right, zoom),
-				tile2lat(bottom, zoom), tile2lon(left, zoom));
+	public static BoundingBox getBoundingBoxFromCoords(final double left, final double top,
+			final double right, final double bottom, final int zoom) {
+		return new BoundingBox(tile2lat((int)top, zoom), tile2lon((int)right, zoom),
+				tile2lat((int)bottom, zoom), tile2lon((int)left, zoom));
 	}
 
 	/**
@@ -130,9 +113,9 @@ public class Mercator implements MapViewConstants {
 	 * @param aZoom
 	 * @return
 	 */
-	public static BoundingBoxE6 getBoundingBoxFromPointInMapTile(final Point aMapTile,
+	public static BoundingBox getBoundingBoxFromPointInMapTile(final Point aMapTile,
 			final int aZoom) {
-		return new BoundingBoxE6(tile2lat(aMapTile.y, aZoom), tile2lon(aMapTile.x + 1, aZoom),
+		return new BoundingBox(tile2lat(aMapTile.y, aZoom), tile2lon(aMapTile.x + 1, aZoom),
 				tile2lat(aMapTile.y + 1, aZoom), tile2lon(aMapTile.x, aZoom));
 	}
 
@@ -141,7 +124,7 @@ public class Mercator implements MapViewConstants {
 	 *
 	 */
 	public static GeoPoint projectPoint(final int x, final int y, final int aZoom) {
-		return new GeoPoint((int) (tile2lat(y, aZoom) * 1E6), (int) (tile2lon(x, aZoom) * 1E6));
+		return new GeoPoint(tile2lat(y, aZoom), tile2lon(x, aZoom));
 	}
 
 	public static double tile2lon(final int x, final int aZoom) {

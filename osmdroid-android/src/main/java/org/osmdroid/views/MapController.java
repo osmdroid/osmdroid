@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.util.BoundingBoxE6;
@@ -96,9 +97,41 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		mReplayController.replayCalls();
 	}
 
+	@Deprecated
 	public void zoomToSpan(final BoundingBoxE6 bb) {
 		zoomToSpan(bb.getLatitudeSpanE6(), bb.getLongitudeSpanE6());
 	}
+     
+     @Override
+     public void zoomToSpan(double latSpan, double lonSpan) {
+		 if (latSpan <= 0 || lonSpan <= 0) {
+			 return;
+		 }
+
+		 // If no layout, delay this call
+		 if (!mMapView.isLayoutOccurred()) {
+			 mReplayController.zoomToSpan(latSpan, lonSpan);
+			 return;
+		 }
+
+		 final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
+		 final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
+
+		 final double curLatSpan = bb.getLatitudeSpan();
+		 final double curLonSpan = bb.getLongitudeSpan();
+
+		 final double diffNeededLat = (double) latSpan / curLatSpan; // i.e. 600/500 = 1,2
+		 final double diffNeededLon = (double) lonSpan / curLonSpan; // i.e. 300/400 = 0,75
+
+		 final double diffNeeded = Math.max(diffNeededLat, diffNeededLon); // i.e. 1,2
+
+		 if (diffNeeded > 1) { // Zoom Out
+			 this.mMapView.setZoomLevel(curZoomLevel - MyMath.getNextSquareNumberAbove((float)diffNeeded));
+		 } else if (diffNeeded < 0.5) { // Can Zoom in
+			 this.mMapView.setZoomLevel(curZoomLevel
+					 + MyMath.getNextSquareNumberAbove(1 / (float)diffNeeded) - 1);
+		 }
+     }
 
 	// TODO rework zoomToSpan
 	@Override
@@ -113,7 +146,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			return;
 		}
 
-		final BoundingBoxE6 bb = this.mMapView.getProjection().getBoundingBox();
+		final BoundingBox bb = this.mMapView.getProjection().getBoundingBox();
 		final int curZoomLevel = this.mMapView.getProjection().getZoomLevel();
 
 		final int curLatSpan = bb.getLatitudeSpanE6();
@@ -189,10 +222,13 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		}
 
 		Point p = mMapView.getProjection().toPixels(point, null);
+		//FIXME This will overflow for zoom > 20, we'll end up with a negative Point.y by the time we hit scroll to.
 		p = mMapView.getProjection().toMercatorPixels(p.x, p.y, p);
 		// The points provided are "center", we want relative to upper-left for scrolling
 		p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
-		mMapView.scrollTo(p.x, p.y);
+
+		mMapView.scrollTo(p.x, p.y);//-2,040,942,406
+									// 2,147,483,648
 	}
 
 	@Override
@@ -384,6 +420,8 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		// The points provided are "center", we want relative to upper-left for scrolling
 		p.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
 		mMapView.mIsAnimating.set(false);
+		//scrolls to the point of user input
+		//no overflow detected
 		mMapView.scrollTo(p.x, p.y);
 		setZoom(mMapView.mTargetZoomLevel.get());
 		mMapView.mMultiTouchScale = 1f;
@@ -482,8 +520,12 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 		public void zoomToSpan(int x, int y) {
 			mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point(x, y), null));
 		}
+        public void zoomToSpan(double x, double y) {
+            mReplayList.add(new ReplayClass(ReplayType.ZoomToSpanPoint, new Point((int)(x*1E6), (int)(y*1E6)), null));
+        }
 
-		public void replayCalls() {
+
+        public void replayCalls() {
 			for (ReplayClass replay : mReplayList) {
 				switch (replay.mReplayType) {
 				case AnimateToGeoPoint:

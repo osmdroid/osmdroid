@@ -6,6 +6,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
 import android.content.Context;
@@ -26,11 +27,11 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 	public static final String TITLE = "OsmPath drawing";
 
-	private BoundingBoxE6 sCentralParkBoundingBox;
+	private BoundingBox sCentralParkBoundingBox;
 	private Paint sPaint;
 
 	public SampleOsmPath() {
-		sCentralParkBoundingBox = new BoundingBoxE6(40.796788, -73.949232, 40.768094, -73.981762);
+		sCentralParkBoundingBox = new BoundingBox(40.796788, -73.949232, 40.768094, -73.981762);
 
 		sPaint = new Paint();
 		sPaint.setColor(Color.argb(175, 255, 0, 0));

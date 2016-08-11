@@ -224,8 +224,8 @@ public class CacheManager {
                             latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
                             lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
 
-                            wayPoint.setLatitudeE6((int)((latRad * 180.0 / Math.PI)* 1E6));
-                            wayPoint.setLongitudeE6((int)((lonRad * 180.0 / Math.PI) * 1E6));
+                            wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
+                            wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
 
                             tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), zoomLevel);
 
@@ -614,8 +614,8 @@ public class CacheManager {
                                     latRad = Math.asin(Math.sin(prevLatRad) * Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) + Math.cos(prevLatRad) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(brng));
                                     lonRad = prevLonRad + Math.atan2(Math.sin(brng) * Math.sin(d / GeoConstants.RADIUS_EARTH_METERS) * Math.cos(prevLatRad), Math.cos(d / GeoConstants.RADIUS_EARTH_METERS) - Math.sin(prevLatRad) * Math.sin(latRad));
 
-                                    wayPoint.setLatitudeE6((int)((latRad * 180.0 / Math.PI)* 1E6));
-                                    wayPoint.setLongitudeE6((int)((lonRad * 180.0 / Math.PI) * 1E6));
+                                    wayPoint.setLatitude(((latRad * 180.0 / Math.PI)));
+                                    wayPoint.setLongitude(((lonRad * 180.0 / Math.PI)));
 
                                     tile = getMapTileFromCoordinates(wayPoint.getLatitude(), wayPoint.getLongitude(), zoomLevel);
 

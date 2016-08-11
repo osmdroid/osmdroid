@@ -1,6 +1,6 @@
 package org.osmdroid.samplefragments;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -32,8 +32,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	private final int MENU_LIMIT_SCROLLING_ID = Menu.FIRST;
 
-	private BoundingBoxE6 sCentralParkBoundingBox;
-	private  Paint sPaint;
+	private BoundingBox sCentralParkBoundingBox;
+	private Paint sPaint;
 
 	// ===========================================================
 	// Fields
@@ -43,7 +43,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 	public SampleLimitedScrollArea()
 	{
-		sCentralParkBoundingBox = new BoundingBoxE6(40.796788,
+		sCentralParkBoundingBox = new BoundingBox(40.796788,
 			-73.949232, 40.768094, -73.981762);
 		sPaint = new Paint();
 		sPaint.setColor(Color.argb(50, 255, 0, 0));
@@ -75,7 +75,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 	protected void setLimitScrolling(boolean limitScrolling) {
 		if (limitScrolling) {
 			mMapView.getController().setZoom(15);
-			mMapView.setScrollableAreaLimit(sCentralParkBoundingBox);
+			mMapView.setScrollableAreaLimitDouble(sCentralParkBoundingBox);
 			mMapView.setMinZoomLevel(15);
 			mMapView.setMaxZoomLevel(18);
 			mMapView.getController().animateTo(sCentralParkBoundingBox.getCenter());
@@ -138,10 +138,10 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		Rect area=null;
 		public ShadeAreaOverlay(Context ctx) {
 			super(ctx);
-			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorthE6(),
-					sCentralParkBoundingBox.getLonWestE6());
-			mBottomRight = new GeoPoint(sCentralParkBoundingBox.getLatSouthE6(),
-					sCentralParkBoundingBox.getLonEastE6());
+			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorth(),
+					sCentralParkBoundingBox.getLonWest());
+			mBottomRight = new GeoPoint(sCentralParkBoundingBox.getLatSouth(),
+					sCentralParkBoundingBox.getLonEast());
 		}
 
 		@Override

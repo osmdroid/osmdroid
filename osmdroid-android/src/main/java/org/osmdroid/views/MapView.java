@@ -29,6 +29,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.tileprovider.util.SimpleInvalidationHandler;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.overlay.DefaultOverlayManager;
@@ -114,7 +115,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	private float mapOrientation = 0;
 	private final Rect mInvalidateRect = new Rect();
 
-	protected BoundingBoxE6 mScrollableAreaBoundingBox;
+	protected BoundingBox mScrollableAreaBoundingBox;
 	protected Rect mScrollableAreaLimit;
 
 	private MapTileProviderBase mTileProvider;
@@ -247,15 +248,24 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public int getLatitudeSpan() {
-		return this.getBoundingBox().getLatitudeSpanE6();
+		return this.getBoundingBoxE6().getLatitudeSpanE6();
+     }
+	public double getLatitudeSpanDouble() {
+		return this.getBoundingBox().getLatitudeSpan();
 	}
 
 	@Override
 	public int getLongitudeSpan() {
-		return this.getBoundingBox().getLongitudeSpanE6();
+		return this.getBoundingBoxE6().getLongitudeSpanE6();
+     }
+	public double getLongitudeSpanDouble() {
+		return this.getBoundingBox().getLongitudeSpan();
 	}
 
-	public BoundingBoxE6 getBoundingBox() {
+	public BoundingBoxE6 getBoundingBoxE6() {
+          return getProjection().getBoundingBoxE6();
+     }
+	public BoundingBox getBoundingBox() {
 		return getProjection().getBoundingBox();
 	}
 
@@ -306,6 +316,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 */
 	void setMapCenter(final int aLatitudeE6, final int aLongitudeE6) {
 		setMapCenter(new GeoPoint(aLatitudeE6, aLongitudeE6));
+     }
+	void setMapCenter(final double aLatitude, final double aLongitude) {
+		setMapCenter(new GeoPoint(aLatitude, aLongitude));
 	}
 
 	public boolean isTilesScaledToDpi() {
@@ -381,7 +394,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Deprecated
 	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox) {
-		zoomToBoundingBox(boundingBox, false);
+		BoundingBox box = new BoundingBox(boundingBox.getLatNorthE6()/1e6, boundingBox.getLonEastE6()/1e6, boundingBox.getLatSouthE6()/186, boundingBox.getLonWestE6()/1e6);
+		zoomToBoundingBox(box, false);
 	}
 
 	/**
@@ -390,27 +404,27 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 * center of zoom level 0.<br>
 	 * Suggestion: Check getScreenRect(null).getHeight() &gt; 0
 	 */
-	public void zoomToBoundingBox(final BoundingBoxE6 boundingBox, final boolean animated) {
-		final BoundingBoxE6 currentBox = getBoundingBox();
+	public void zoomToBoundingBox(final BoundingBox boundingBox, final boolean animated) {
+		final BoundingBox currentBox = getBoundingBox();
 
 		// Calculated required zoom based on latitude span
 		final double maxZoomLatitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLatitudeSpanE6() :
-				currentBox.getLatitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
+				currentBox.getLatitudeSpan() :
+				currentBox.getLatitudeSpan() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
 		final double requiredLatitudeZoom =
 			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLatitudeSpanE6() / maxZoomLatitudeSpan) / Math.log(2));
+			Math.ceil(Math.log(boundingBox.getLatitudeSpan() / maxZoomLatitudeSpan) / Math.log(2));
 
 
 		// Calculated required zoom based on longitude span
 		final double maxZoomLongitudeSpan = mZoomLevel == getMaxZoomLevel() ?
-				currentBox.getLongitudeSpanE6() :
-				currentBox.getLongitudeSpanE6() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
+				currentBox.getLongitudeSpan() :
+				currentBox.getLongitudeSpan() / Math.pow(2, getMaxZoomLevel() - mZoomLevel);
 
 		final double requiredLongitudeZoom =
 			getMaxZoomLevel() -
-			Math.ceil(Math.log(boundingBox.getLongitudeSpanE6() / maxZoomLongitudeSpan) / Math.log(2));
+			Math.ceil(Math.log(boundingBox.getLongitudeSpan() / maxZoomLongitudeSpan) / Math.log(2));
 
 
 		// Zoom to boundingBox center, at calculated maximum allowed zoom level
@@ -425,8 +439,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		}
 
 		getController().setCenter(
-				new GeoPoint(boundingBox.getCenter().getLatitudeE6(), boundingBox.getCenter()
-						.getLongitudeE6()));
+				new GeoPoint(boundingBox.getCenter().getLatitude(), boundingBox.getCenter()
+						.getLongitude()));
 	}
 
 	/**
@@ -588,8 +602,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	 *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
 	 *            limitations
 	 */
+     @Deprecated
 	public void setScrollableAreaLimit(BoundingBoxE6 boundingBox) {
-		mScrollableAreaBoundingBox = boundingBox;
+		mScrollableAreaBoundingBox = new BoundingBox(boundingBox.getLatNorthE6()/1E6,
+               boundingBox.getLonEastE6()/1E6, boundingBox.getLatSouthE6()/1E6, boundingBox.getLonWestE6()/1E6);
 
 		// Clear scrollable area limit if null passed.
 		if (boundingBox == null) {
@@ -609,9 +625,39 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
 	}
 
-	public BoundingBoxE6 getScrollableAreaLimit() {
-		return mScrollableAreaBoundingBox;
-	}
+    /**
+     * Set the map to limit it's scrollable view to the specified BoundingBox. Note this does not
+     * limit zooming so it will be possible for the user to zoom to an area that is larger than the
+     * limited area.
+     *
+     * @param boundingBox
+     *            A lat/long bounding box to limit scrolling to, or null to remove any scrolling
+     *            limitations
+     */
+    public void setScrollableAreaLimitDouble(BoundingBox boundingBox) {
+        mScrollableAreaBoundingBox = boundingBox;
+
+        // Clear scrollable area limit if null passed.
+        if (boundingBox == null) {
+            mScrollableAreaLimit = null;
+            return;
+        }
+
+        // Get NW/upper-left
+        final Point upperLeft = TileSystem.LatLongToPixelXY(boundingBox.getLatNorth(),
+                boundingBox.getLonWest(), MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+
+        // Get SE/lower-right
+        final Point lowerRight = TileSystem.LatLongToPixelXY(boundingBox.getLatSouth(),
+                boundingBox.getLonEast(), MapViewConstants.MAXIMUM_ZOOMLEVEL, null);
+        mScrollableAreaLimit = new Rect(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y);
+    }
+
+
+    public BoundingBox getScrollableAreaLimit() {
+        return mScrollableAreaBoundingBox;
+    }
+
 
 	public void invalidateMapCoordinates(Rect dirty) {
 		invalidateMapCoordinates(dirty.left, dirty.top, dirty.right, dirty.bottom, false);

@@ -21,12 +21,12 @@ public class MapController implements IMapController {
 
 	@Override
 	public void animateTo(final IGeoPoint pGeoPoint) {
-		mController.animateTo(new com.google.android.maps.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
+		mController.animateTo(new com.google.android.maps.GeoPoint((int)(pGeoPoint.getLatitude()*1E6), (int)(pGeoPoint.getLongitude()*1E6)));
 	}
 
 	@Override
 	public void setCenter(final IGeoPoint pGeoPoint) {
-		mController.setCenter(new com.google.android.maps.GeoPoint(pGeoPoint.getLatitudeE6(), pGeoPoint.getLongitudeE6()));
+		mController.setCenter(new com.google.android.maps.GeoPoint((int)(pGeoPoint.getLatitude()), (int)(pGeoPoint.getLongitude())));
 	}
 
 	@Override
@@ -67,6 +67,10 @@ public class MapController implements IMapController {
 	@Override
 	public void zoomToSpan(final int pLatSpanE6, final int pLonSpanE6) {
 		mController.zoomToSpan(pLatSpanE6, pLonSpanE6);
+	}
+//	@Override
+	public void zoomToSpan(final double pLatSpan, final double pLonSpan) {
+		mController.zoomToSpan((int)(pLatSpan*1E6), (int)(pLonSpan*1E6));
 	}
 
 	@Override

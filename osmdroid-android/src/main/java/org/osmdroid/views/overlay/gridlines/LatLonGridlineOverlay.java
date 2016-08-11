@@ -3,6 +3,7 @@ package org.osmdroid.views.overlay.gridlines;
 import android.content.Context;
 import android.graphics.Color;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
@@ -42,7 +43,7 @@ public class LatLonGridlineOverlay {
     }
 
     public static FolderOverlay getLatLonGrid(Context ctx, MapView mapView) {
-        BoundingBoxE6 box = mapView.getBoundingBox();
+        BoundingBox box = mapView.getBoundingBox();
         int zoom = mapView.getZoomLevel();
 
         Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
@@ -88,10 +89,10 @@ public class LatLonGridlineOverlay {
                 gridlines.add(p);
             }*/
         } else {
-            double north = box.getLatNorthE6() / 1e6;
-            double south = box.getLatSouthE6() / 1e6;
-            double east = box.getLonEastE6() / 1e6;
-            double west = box.getLonWestE6() / 1e6;
+            double north = box.getLatNorth();
+            double south = box.getLatSouth();
+            double east = box.getLonEast();
+            double west = box.getLonWest();
 
             double north_south_delta = 0d;
 

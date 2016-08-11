@@ -20,5 +20,7 @@ public interface IMapController {
 	boolean zoomOutFixing(int xPixel, int yPixel);
 	boolean zoomTo(int zoomLevel);
 	boolean zoomToFixing(int zoomLevel, int xPixel, int yPixel);
+	@Deprecated
 	void zoomToSpan(int latSpanE6, int lonSpanE6);
+	void zoomToSpan(double latSpan, double lonSpan);
 }

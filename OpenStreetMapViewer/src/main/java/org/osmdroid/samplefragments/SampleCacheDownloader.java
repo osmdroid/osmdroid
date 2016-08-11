@@ -17,6 +17,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.osmdroid.R;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 
@@ -120,7 +121,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
-        BoundingBoxE6 boundingBox = mMapView.getBoundingBox();
+        BoundingBox boundingBox = mMapView.getBoundingBox();
         zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax(mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
@@ -131,13 +132,13 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         zoom_min.setProgress(mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
         cache_east= (EditText) view.findViewById(R.id.cache_east);
-        cache_east.setText(boundingBox.getLonEastE6() /1E6 +"");
+        cache_east.setText(boundingBox.getLonEast() +"");
         cache_north= (EditText) view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorthE6() /1E6 +"");
+        cache_north.setText(boundingBox.getLatNorth() +"");
         cache_south= (EditText) view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouthE6() /1E6 +"");
+        cache_south.setText(boundingBox.getLatSouth()  +"");
         cache_west= (EditText) view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWestE6() /1E6 +"");
+        cache_west.setText(boundingBox.getLonWest()  +"");
         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation

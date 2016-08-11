@@ -28,4 +28,5 @@ public interface MapViewConstants {
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
+     public static final int MAXIMUM_ZOOMLEVEL = 23;
 }
