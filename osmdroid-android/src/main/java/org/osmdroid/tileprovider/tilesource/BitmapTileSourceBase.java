@@ -24,7 +24,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	private final int mMaximumZoomLevel;
 
 	private final int mOrdinal;
-	protected final String mName;
+	protected String mName;
 	protected final String mImageFilenameEnding;
 	protected final Random random = new Random();
 
