@@ -76,6 +76,29 @@
         <meta-data android:name="MAPBOX_MAPID" android:value="mapbox.mapbox-streets-v7"/>
         <meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="pk.eyJ1Ijoib3NtZHJvaWRidWdzIiwiYSI6ImNpcnE4eGJvYTBnbTF0Mm5rYXY3NGdwaXkifQ.VUOl3n5bL4-wdQo4RuTOvQ"/>
 
+
+        <!-- HERE We Go tile source users:
+      all applications based on this code should get their own MapBox key
+      see https://www.mapbox.com/studio/account/tokens/
+
+      DO NOT USE THIS KEY IN YOUR APP
+
+      NOTE: to get this key, we had to go to MapBox's website
+      https://www.mapbox.com/studio/account/tokens/
+      -->
+        <meta-data android:name="HEREWEGO_MAPID" android:value="hybrid.day"/>
+        <meta-data android:name="HEREWEGO_APPID" android:value="pPgiLUtfWpnzdXttl41x"/>
+        <meta-data android:name="HEREWEGO_APPCODE" android:value="7vQVuYZ4Rv9ipi6ILzduhQ"/>
+        <!-- optional, use this to change the destination URL, default is shown below
+            other known urls
+                base.maps.api.here.com
+
+        <meta-data android:name="HEREWEGO_DOMAIN_OVERRIDE" android:value="aerial.maps.cit.api.here.com" />
+        -->
+
+
+
+
         <uses-library
             android:name="com.google.android.maps"
             android:required="false" />

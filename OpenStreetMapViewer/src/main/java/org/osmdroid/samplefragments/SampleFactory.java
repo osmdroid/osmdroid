@@ -73,7 +73,9 @@ public final class SampleFactory {
 				//26
 				SampleBug57.class,
 				//27
-				SampleMapQuest.class
+				SampleMapQuest.class,
+				//28
+				SampleHereWeGo.class
         };
 	}
 

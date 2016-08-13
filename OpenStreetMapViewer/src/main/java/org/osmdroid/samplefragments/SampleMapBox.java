@@ -37,7 +37,7 @@ public class SampleMapBox   extends BaseSampleFragment {
         b.retrieveAccessToken(getContext());
         b.retrieveMapBoxMapId(getContext());
         //you can also programmatically set the token and map id here
-        //b.setAccessToken("KEY");
+        //b.setAppId("KEY");
         //b.setMapboxMapid("KEY");
 
         this.mMapView.setTileSource(b);
