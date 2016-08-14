@@ -8,7 +8,7 @@ Direct email correspondence from the original author dated 17 Jan 2016, said tha
 
 Therefore, the class files provided by osmdroid are covered about the ASF 2.0 License.
 
-Mapsforge is an LGPL project.
+Mapsforge is a dependency and is an LGPL project, which means this library itself is LGPL
 
 
                    GNU LESSER GENERAL PUBLIC LICENSE
