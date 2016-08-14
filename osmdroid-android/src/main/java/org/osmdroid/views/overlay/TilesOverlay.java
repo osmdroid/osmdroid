@@ -2,6 +2,7 @@ package org.osmdroid.views.overlay;
 
 import org.osmdroid.api.IMap;
 import org.osmdroid.library.R;
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
@@ -49,6 +50,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
 
+	protected Drawable userSelectedLoadingDrawable = null;
 	/* to avoid allocations during draw */
 	protected final Paint mDebugPaint = new Paint();
 	private final Rect mTileRect = new Rect();
@@ -94,10 +96,46 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		this.mTileProvider = aTileProvider;
 	}
 
+	/**
+	 * See issue https://github.com/osmdroid/osmdroid/issues/330
+	 * customizable override for the grey grid
+	 * @since 5.2+
+	 * @param drawable
+     */
+	public void setLoadingDrawable(final Drawable drawable){
+		userSelectedLoadingDrawable = drawable;
+	}
+
 	@Override
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
 		ctx=null;
+		if (mLoadingTile!=null) {
+			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+				if (mLoadingTile instanceof BitmapDrawable) {
+					final Bitmap bitmap = ((BitmapDrawable) mLoadingTile).getBitmap();
+					if (bitmap != null) {
+						bitmap.recycle();
+					}
+				}
+			}
+			if (mLoadingTile instanceof ReusableBitmapDrawable)
+				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mLoadingTile);
+		}
+		if (userSelectedLoadingDrawable!=null){
+			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+				if (userSelectedLoadingDrawable instanceof BitmapDrawable) {
+					final Bitmap bitmap = ((BitmapDrawable) userSelectedLoadingDrawable).getBitmap();
+					if (bitmap != null) {
+						bitmap.recycle();
+					}
+				}
+			}
+			if (userSelectedLoadingDrawable instanceof ReusableBitmapDrawable)
+				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) userSelectedLoadingDrawable);
+		}
 	}
 
 	public int getMinimumZoomLevel() {
@@ -337,6 +375,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	private Drawable getLoadingTile() {
+		if (userSelectedLoadingDrawable!=null)
+			return userSelectedLoadingDrawable;
 		if (mLoadingTile == null && mLoadingBackgroundColor != Color.TRANSPARENT) {
 			try {
 				final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider

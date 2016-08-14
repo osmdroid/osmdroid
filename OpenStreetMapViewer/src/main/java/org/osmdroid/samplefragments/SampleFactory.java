@@ -75,7 +75,9 @@ public final class SampleFactory {
 				//27
 				SampleMapQuest.class,
 				//28
-				SampleHereWeGo.class
+				SampleHereWeGo.class,
+				//29
+				SampleCustomLoadingImage.class
         };
 	}
 

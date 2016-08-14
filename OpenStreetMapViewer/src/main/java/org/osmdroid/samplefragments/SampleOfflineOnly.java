@@ -3,6 +3,7 @@ package org.osmdroid.samplefragments;
 import android.os.Environment;
 import android.widget.Toast;
 
+import org.osmdroid.R;
 import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
@@ -24,13 +25,18 @@ public class SampleOfflineOnly extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Offline Only Tiles";
+        return "Offline Only Tiles with custom 404 image";
     }
 
     @Override
     public void addOverlays() {
-        //not even needed!
+        //not even needed since we are using the offline tile provider only
         this.mMapView.setUseDataConnection(false);
+
+        //https://github.com/osmdroid/osmdroid/issues/330
+        //custom image placeholder for files that aren't available
+        mMapView.getTileProvider().setTileLoadFailureImage(getResources().getDrawable(R.drawable.notfound));
+
 
         //first we'll look at the default location for tiles that we support
         File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/osmdroid/");
@@ -59,6 +65,7 @@ public class SampleOfflineOnly extends BaseSampleFragment {
                             //again using the first file
                             OfflineTileProvider tileProvider = new OfflineTileProvider(new SimpleRegisterReceiver(getActivity()),
                                     new File[]{list[i]});
+
                             //tell osmdroid to use that provider instead of the default rig which is (asserts, cache, files/archives, online
                             mMapView.setTileProvider(tileProvider);
 

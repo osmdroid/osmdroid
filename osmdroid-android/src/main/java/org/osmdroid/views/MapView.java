@@ -1476,12 +1476,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	
 	
 	/**
-	 * enables you to programmatically set the tile profile (zip, assets, sqlite, etc)
+	 * enables you to programmatically set the tile provider (zip, assets, sqlite, etc)
 	 * @since 4.4
 	 * @param base 
 	 * @see MapTileProviderBasic
 	 */
-	public void setTileProvider(MapTileProviderBase base){
+	public void setTileProvider(final  MapTileProviderBase base){
 		this.mTileProvider.detach();
 		mTileProvider.clearTileCache();
 		this.mTileProvider=base;
