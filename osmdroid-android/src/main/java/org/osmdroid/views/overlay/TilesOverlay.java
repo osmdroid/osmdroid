@@ -123,6 +123,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			if (mLoadingTile instanceof ReusableBitmapDrawable)
 				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mLoadingTile);
 		}
+		mLoadingTile=null;
 		if (userSelectedLoadingDrawable!=null){
 			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
@@ -136,6 +137,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			if (userSelectedLoadingDrawable instanceof ReusableBitmapDrawable)
 				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) userSelectedLoadingDrawable);
 		}
+		userSelectedLoadingDrawable=null;
 	}
 
 	public int getMinimumZoomLevel() {
