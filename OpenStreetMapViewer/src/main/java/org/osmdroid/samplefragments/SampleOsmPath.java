@@ -5,7 +5,6 @@ import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
@@ -59,7 +58,7 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 		//mOsmPathOverlay = new OsmPathOverlay(context);
 		//mMapView.getOverlayManager().add(mOsmPathOverlay);
-		Polyline line = new Polyline(context);
+		Polyline line = new Polyline();
 		line.setTitle("Central Park, NYC");
 		line.setSubDescription(Polyline.class.getCanonicalName());
 		line.setWidth(20f);
@@ -100,7 +99,7 @@ public class SampleOsmPath extends BaseSampleFragment {
 
 
 		//here, we create a polygon using polygon class, note that you need 4 points in order to make a rectangle
-		Polygon polygon = new Polygon(context);
+		Polygon polygon = new Polygon();
 		polygon.setTitle("This is a polygon");
 		polygon.setSubDescription(Polygon.class.getCanonicalName());
 		polygon.setFillColor(Color.RED);

@@ -31,7 +31,6 @@ package org.osmdroid.views.overlay;
  */
 
 import java.lang.reflect.Field;
-import java.util.Map;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.library.R;
@@ -106,7 +105,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	public ScaleBarOverlay(final MapView mapView) {
-		super(mapView.getContext());
+		super();
 		this.mMapView = mapView;
 		this.context = mapView.getContext();
 		final DisplayMetrics dm = context.getResources().getDisplayMetrics();

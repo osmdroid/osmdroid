@@ -86,7 +86,7 @@ public class SampleAnimatedZoomToLocation extends BaseSampleFragment {
       }
     });
 
-    mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+    mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
     mRotationGestureOverlay.setEnabled(false);
     mMapView.getOverlays().add(mRotationGestureOverlay);
 

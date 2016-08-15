@@ -41,9 +41,15 @@ public class SimpleLocationOverlay extends Overlay {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #SimpleLocationOverlay(Bitmap) SimpleLocationOverlay}(((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap()) instead. */
+	@Deprecated
 	public SimpleLocationOverlay(final Context ctx) {
-		super(ctx);
-		this.PERSON_ICON = ((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap();
+		this(((BitmapDrawable)ctx.getResources().getDrawable(R.drawable.person)).getBitmap());
+	}
+
+	public SimpleLocationOverlay(final Bitmap theIcon) {
+		super();
+		this.PERSON_ICON = theIcon;
 	}
 
 	// ===========================================================

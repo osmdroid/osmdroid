@@ -1,19 +1,13 @@
 package org.osmdroid.samplefragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.tileprovider.BitmapPool;
-import org.osmdroid.tileprovider.ReusableBitmapDrawable;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
@@ -102,7 +96,7 @@ public class SampleMilitaryIcons extends BaseSampleFragment {
 
                mMapView.getOverlays().add(itemOverlay);
 
-               mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+               mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
                mRotationGestureOverlay.setEnabled(false);
                mMapView.getOverlays().add(mRotationGestureOverlay);
           }

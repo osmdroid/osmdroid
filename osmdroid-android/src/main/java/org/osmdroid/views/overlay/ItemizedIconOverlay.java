@@ -24,7 +24,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 			final Drawable pDefaultMarker,
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
 			final Context pContext) {
-		super(pContext, pDefaultMarker);
+		super(pDefaultMarker);
 
 		this.mItemList = pList;
 		this.mOnItemGestureListener = pOnItemGestureListener;
