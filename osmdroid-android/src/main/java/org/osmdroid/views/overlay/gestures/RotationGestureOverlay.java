@@ -23,9 +23,14 @@ public class RotationGestureOverlay extends Overlay implements
     private MapView mMapView;
     private boolean mOptionsMenuEnabled = true;
 
-    public RotationGestureOverlay(Context context, MapView mapView)
+    /** use {@link #RotationGestureOverlay(MapView)} instead. */
+    @Deprecated
+    public RotationGestureOverlay(Context context, MapView mapView) {
+        this(mapView);
+    }
+    public RotationGestureOverlay(MapView mapView)
     {
-        super(context);
+        super();
         mMapView = mapView;
         mRotationDetector = new RotationGestureDetector(this);
     }

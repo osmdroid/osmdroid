@@ -21,8 +21,14 @@ public abstract class OverlayWithIW extends Overlay {
 	protected InfoWindow mInfoWindow;
 	protected Object mRelatedObject;
 
+	/** Use {@link #OverlayWithIW()} instead */
+	@Deprecated
 	public OverlayWithIW(final Context ctx) {
-		super((ctx));
+		this();
+	}
+
+	public OverlayWithIW() {
+		super();
 	}
 
 

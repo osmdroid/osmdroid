@@ -18,9 +18,15 @@ public class FolderOverlay extends Overlay {
 
 	protected OverlayManager mOverlayManager;
 	protected String mName, mDescription;
-	
+
+	/** Use {@link #FolderOverlay()} instead */
+	@Deprecated
 	public FolderOverlay(Context ctx) {
-		super(ctx);
+		this();
+	}
+
+	public FolderOverlay() {
+		super();
 		mOverlayManager = new DefaultOverlayManager(null);
 		mName = "";
 		mDescription = "";

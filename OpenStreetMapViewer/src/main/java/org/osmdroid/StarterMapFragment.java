@@ -113,7 +113,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mScaleBarOverlay.setCentred(true);
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
-          mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+          mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
           mRotationGestureOverlay.setEnabled(true);
 
           mMapView.setBuiltInZoomControls(true);

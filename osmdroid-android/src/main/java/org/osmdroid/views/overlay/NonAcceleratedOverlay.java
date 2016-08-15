@@ -39,8 +39,14 @@ public abstract class NonAcceleratedOverlay extends Overlay {
 	 */
 	protected abstract void onDraw(Canvas c, MapView osmv, boolean shadow);
 
+	/** Use {@link #NonAcceleratedOverlay()} instead */
+	@Deprecated
 	public NonAcceleratedOverlay(Context ctx) {
 		super(ctx);
+	}
+
+	public NonAcceleratedOverlay() {
+		super();
 	}
 
 

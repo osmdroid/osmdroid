@@ -60,6 +60,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	private boolean mOptionsMenuEnabled = true;
 
+	protected final float mScale;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -71,7 +72,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	public CompassOverlay(Context context, IOrientationProvider orientationProvider,
 			MapView mapView) {
-		super(context);
+		super();
+		mScale = context.getResources().getDisplayMetrics().density;
 
 		mMapView = mapView;
 		final WindowManager windowManager = (WindowManager) context

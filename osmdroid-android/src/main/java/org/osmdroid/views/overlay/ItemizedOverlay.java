@@ -70,9 +70,15 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #ItemizedOverlay(Drawable)} instead */
+	@Deprecated
 	public ItemizedOverlay(Context ctx, final Drawable pDefaultMarker) {
+		this(pDefaultMarker);
+	}
 
-		super(ctx);
+	public ItemizedOverlay(final Drawable pDefaultMarker) {
+
+		super();
 		if (pDefaultMarker == null) {
 			throw new IllegalArgumentException("You must pass a default marker to ItemizedOverlay.");
 		}

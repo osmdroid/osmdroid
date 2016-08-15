@@ -18,14 +18,19 @@ import android.view.MotionEvent;
 public class MapEventsOverlay extends Overlay {
 
 	private MapEventsReceiver mReceiver;
-	
-	/**
-	 * @param ctx the context
-	 * @param receiver the object that will receive/handle the events. 
-	 * It must implement MapEventsReceiver interface. 
-	 */
+
+	/** Use {@link #MapEventsOverlay(MapEventsReceiver)} instead */
+	@Deprecated
 	public MapEventsOverlay(Context ctx, MapEventsReceiver receiver) {
-        super(ctx);
+		this(receiver);
+	}
+
+	/**
+	 * @param receiver the object that will receive/handle the events.
+	 * It must implement MapEventsReceiver interface.
+	 */
+	public MapEventsOverlay(MapEventsReceiver receiver) {
+        super();
 		mReceiver = receiver;
     }
 

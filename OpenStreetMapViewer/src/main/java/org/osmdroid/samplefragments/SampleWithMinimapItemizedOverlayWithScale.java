@@ -8,11 +8,9 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -104,7 +102,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 
 			mMapView.getOverlays().add(iconOverlay);
 
-			mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+			mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
 			mRotationGestureOverlay.setEnabled(false);
 			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}

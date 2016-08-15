@@ -50,6 +50,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	protected Paint mPaint = new Paint();
 	protected Paint mCirclePaint = new Paint();
 
+	protected final float mScale;
+
 	protected Bitmap mPersonBitmap;
 	protected Bitmap mDirectionArrowBitmap;
 
@@ -100,7 +102,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	}
 
 	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView) {
-		super(mapView.getContext());
+		super();
+		mScale = mapView.getContext().getResources().getDisplayMetrics().density;
 
 		mMapView = mapView;
 		mMapController = mapView.getController();
