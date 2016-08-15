@@ -1,8 +1,10 @@
 apply plugin: 'com.android.library'
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+// apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {
 
     defaultConfig {
+        compileSdkVersion = 23
+        buildToolsVersion = '23.0.2'
         minSdkVersion 10
     }
     buildTypes {

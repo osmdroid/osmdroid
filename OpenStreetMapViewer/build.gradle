@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 
 android {
     defaultConfig {
+        compileSdkVersion = 23
+        buildToolsVersion = '23.0.2'
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -37,10 +39,10 @@ android {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+// apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 dependencies {
-    compile 'com.android.support:support-v4:23+'
+    compile 'com.android.support:support-v4:21.0.2'
     compile project(':osmdroid-android')
 
     //crash logging
@@ -52,7 +54,7 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     //on device testing
-    androidTestCompile 'com.android.support:support-annotations:23+'
+    androidTestCompile 'com.android.support:support-annotations:21.0.2'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
 }

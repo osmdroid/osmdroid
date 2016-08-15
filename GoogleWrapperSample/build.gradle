@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+// apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 android {
     compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
@@ -26,18 +26,18 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.+'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     //this covers google maps v2 apis
     compile 'com.google.android.gms:play-services:8.+'
 
     compile 'com.google.android.gms:play-services-maps:8.+'
 
-    compile 'com.android.support:support-v4:23+'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile project(':osmdroid-android')
     compile project(':osmdroid-third-party')
 
-    androidTestCompile 'com.android.support:support-annotations:23+'
+    androidTestCompile 'com.android.support:support-annotations:21.0.2'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
 
