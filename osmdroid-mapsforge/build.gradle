@@ -5,7 +5,7 @@ android {
     defaultConfig {
         compileSdkVersion = 23
         buildToolsVersion = '23.0.2'
-        minSdkVersion 10
+        minSdkVersion 14
     }
     buildTypes {
         release {
@@ -18,11 +18,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.6.0'
     compile 'org.mapsforge:mapsforge-map:0.6.0'
-
     //osmdroid which is ASF licensed
     compile project(':osmdroid-android')
+    // compile 'com.android.support:appcompat-v7:21.0.2'
 }

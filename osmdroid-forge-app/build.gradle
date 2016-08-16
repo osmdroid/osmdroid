@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 android {
 
     defaultConfig {
+        compileSdkVersion = 23
+        buildToolsVersion = '23.0.2'
         applicationId "org.osmdroid.forge.app"
         minSdkVersion 10
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -26,24 +28,19 @@ android {
 
 dependencies {
     //Android stuff
-    compile 'com.android.support:appcompat-v7:21.0.2'
-
     //crash logging
+    // compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'ch.acra:acra:4.7.0'
-
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.6.0'
     compile 'org.mapsforge:mapsforge-map:0.6.0'
-
     //osmdroid map and mapsforge adapter
     compile project(':osmdroid-android')
     compile project(':osmdroid-mapsforge')
-
     //test support
     androidTestCompile 'com.android.support:support-annotations:21.0.2'
     androidTestCompile 'com.android.support.test:runner:0.4.+'
     androidTestCompile 'com.android.support.test:rules:0.4.+'
-
     testCompile 'junit:junit:4.12'
 }
 

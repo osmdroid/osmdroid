@@ -3,7 +3,7 @@
     package="org.osmdroid.forge.app">
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="14"
         android:targetSdkVersion="23" />
 
     <supports-screens

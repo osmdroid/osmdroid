@@ -1,13 +1,14 @@
 package org.osmdroid.forge.app;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.system.Os;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import java.util.Set;
  * with osmdroid https://github.com/osmdroid/osmdroid map engine.
  * @author Alex O'Ree
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     TextView currentCenter;
 
@@ -239,7 +240,9 @@ public class MainActivity extends AppCompatActivity {
         if (!permissions.isEmpty()) {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             String[] params = permissions.toArray(new String[permissions.size()]);
-            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            }
         } // else: We already have permissions, so handle as normal
     }
 
