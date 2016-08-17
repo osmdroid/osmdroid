@@ -114,7 +114,9 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	@Override
 	public void stopLocationProvider() {
 		mMyLocationConsumer = null;
-		mLocationManager.removeUpdates(this);
+		if(mLocationManager != null){
+			mLocationManager.removeUpdates(this);
+		}
 	}
 
 	@Override
