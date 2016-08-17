@@ -1,6 +1,7 @@
 package org.osmdroid.samples;
 
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -81,7 +82,7 @@ public class SampleExtensive extends Activity implements OpenStreetMapConstants 
 			 * Create a static Overlay showing a single location. (Gets updated in
 			 * onLocationChanged(Location loc)!
 			 */
-			this.mMyLocationOverlay = new SimpleLocationOverlay(this);
+			this.mMyLocationOverlay = new SimpleLocationOverlay(((BitmapDrawable)getResources().getDrawable(org.osmdroid.library.R.drawable.person)).getBitmap());
 			this.mMapView.getOverlays().add(mMyLocationOverlay);
 		}
 

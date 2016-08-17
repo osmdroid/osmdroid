@@ -87,7 +87,7 @@ public class Marker extends OverlayWithIW {
 	}
 
 	public Marker(MapView mapView, final Context resourceProxy) {
-		super(resourceProxy);
+		super();
 		resource = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
@@ -123,7 +123,7 @@ public class Marker extends OverlayWithIW {
 		setInfoWindow(mDefaultInfoWindow);
 	}
 
-	/** Sets the icon for the marker. Can be changed at any time. 
+	/** Sets the icon for the marker. Can be changed at any time.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(Drawable icon){

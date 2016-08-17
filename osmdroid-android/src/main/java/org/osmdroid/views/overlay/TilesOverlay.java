@@ -1,6 +1,5 @@
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.api.IMap;
 import org.osmdroid.library.R;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
@@ -87,7 +86,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
-		super(aContext);
+		super();
 		this.ctx=aContext;
 		if (aTileProvider == null) {
 			throw new IllegalArgumentException(

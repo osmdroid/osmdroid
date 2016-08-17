@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -65,7 +64,7 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 
 		final Context context = getActivity();
 
-		mShadeAreaOverlay = new ShadeAreaOverlay(context);
+		mShadeAreaOverlay = new ShadeAreaOverlay();
 		mMapView.getOverlayManager().add(mShadeAreaOverlay);
 
 		setLimitScrolling(true);
@@ -136,8 +135,8 @@ public class SampleLimitedScrollArea extends BaseSampleFragment {
 		final Point mTopLeftPoint = new Point();
 		final Point mBottomRightPoint = new Point();
 		Rect area=null;
-		public ShadeAreaOverlay(Context ctx) {
-			super(ctx);
+		public ShadeAreaOverlay() {
+			super();
 			mTopLeft = new GeoPoint(sCentralParkBoundingBox.getLatNorth(),
 					sCentralParkBoundingBox.getLonWest());
 			mBottomRight = new GeoPoint(sCentralParkBoundingBox.getLatSouth(),

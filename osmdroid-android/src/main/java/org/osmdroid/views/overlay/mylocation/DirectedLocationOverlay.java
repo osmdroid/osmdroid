@@ -16,7 +16,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
 /**
  *
@@ -56,7 +55,7 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 
 	public DirectedLocationOverlay(final Context ctx) {
-		super(ctx);
+		super();
 
 		BitmapDrawable d=(BitmapDrawable)ctx.getResources().getDrawable(R.drawable.direction_arrow);
 

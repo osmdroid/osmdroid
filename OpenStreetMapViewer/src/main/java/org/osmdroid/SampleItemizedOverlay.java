@@ -24,7 +24,7 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 	private Context mContext=null;
 
 	public SampleItemizedOverlay(Drawable pDefaultMarker, Context pContext) {
-		super(pContext,pDefaultMarker);
+		super(pDefaultMarker);
 		populate();
 		setOnFocusChangeListener(this);
 		mContext=pContext;

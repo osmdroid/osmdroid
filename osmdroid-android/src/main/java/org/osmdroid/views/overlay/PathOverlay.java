@@ -63,12 +63,24 @@ public class PathOverlay extends Overlay {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #PathOverlay(int)} instead */
+	@Deprecated
 	public PathOverlay(final int color, final Context ctx) {
-		this(color, 2.0f, ctx);
+		this(color);
 	}
 
+	/** Use {@link #PathOverlay(int, float)} instead */
+	@Deprecated
 	public PathOverlay(final int color, final float width, final Context ctx) {
-		super(ctx);
+		this(color, width);
+	}
+
+	public PathOverlay(final int color) {
+		this(color, 2.0f);
+	}
+
+	public PathOverlay(final int color, final float width) {
+		super();
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(width);
 		this.mPaint.setStyle(Paint.Style.STROKE);

@@ -2,13 +2,11 @@ package org.osmdroid.samplefragments;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -70,7 +68,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
-        mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+        mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
 
         mMapView.getController().setZoom(15);

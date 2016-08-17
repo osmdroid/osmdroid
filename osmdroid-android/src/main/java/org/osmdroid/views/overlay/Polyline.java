@@ -10,7 +10,6 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 
 import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
@@ -53,9 +52,13 @@ public class Polyline extends OverlayWithIW {
 
 	protected OnClickListener mOnClickListener;
 
-	public Polyline(Context ctx){
+	/** Use {@link #Polyline()} instead */
+	@Deprecated
+	public Polyline(Context ctx) {
+	}
 
-		super(ctx);
+	public Polyline(){
+		super();
 		//default as defined in Google API:
 		this.mPaint.setColor(Color.BLACK);
 		this.mPaint.setStrokeWidth(10.0f);
