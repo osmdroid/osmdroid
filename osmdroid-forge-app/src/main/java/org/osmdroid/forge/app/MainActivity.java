@@ -1,13 +1,14 @@
 package org.osmdroid.forge.app;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ import java.util.Set;
  * with osmdroid https://github.com/osmdroid/osmdroid map engine.
  * @author Alex O'Ree
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     TextView currentCenter;
 
@@ -69,9 +70,8 @@ public class MainActivity extends AppCompatActivity {
         //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
-        // Request permissions to support Android Marshmallow and above devices
-		// Build.VERSION_CODES.M=23
-        if (Build.VERSION.SDK_INT >= 23) {
+        // Request permissions to support Android Marshmallow and above devices (api-23)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermissions();
         }
         setContentView(R.layout.activity_main);
@@ -226,7 +226,8 @@ public class MainActivity extends AppCompatActivity {
     // START PERMISSION CHECK
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
-	@TargetApi(23) // Build.VERSION_CODES.M
+    // Request permissions to support Android Marshmallow and above devices  (api-23)
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OSMDroid permissions:";
@@ -245,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
         } // else: We already have permissions, so handle as normal
     }
 
+    // Request permissions to support Android Marshmallow and above devices. (api-23)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
