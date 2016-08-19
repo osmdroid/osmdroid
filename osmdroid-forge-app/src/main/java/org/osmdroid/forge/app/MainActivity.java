@@ -1,6 +1,7 @@
 package org.osmdroid.forge.app;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         //OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
-        // Request permissions to support Android Marshmallow and above devices
-        if (Build.VERSION.SDK_INT >= 23) {
+        // Request permissions to support Android Marshmallow and above devices (api-23)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkPermissions();
         }
         setContentView(R.layout.activity_main);
@@ -225,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
     // START PERMISSION CHECK
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
+    // Request permissions to support Android Marshmallow and above devices  (api-23)
+    @TargetApi(Build.VERSION_CODES.M)
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OSMDroid permissions:";
@@ -243,6 +246,8 @@ public class MainActivity extends AppCompatActivity {
         } // else: We already have permissions, so handle as normal
     }
 
+    // Request permissions to support Android Marshmallow and above devices. (api-23)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
