@@ -2,13 +2,13 @@ package org.osmdroid.forge.app;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -42,7 +42,7 @@ import java.util.Set;
  * with osmdroid https://github.com/osmdroid/osmdroid map engine.
  * @author Alex O'Ree
  */
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     TextView currentCenter;
 
