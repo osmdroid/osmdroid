@@ -6,7 +6,7 @@ android {
         compileSdkVersion = 23
         buildToolsVersion = '23.0.2'
         applicationId "org.osmdroid.forge.app"
-        minSdkVersion 10
+        minSdkVersion 14
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
