@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         //OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
         // Request permissions to support Android Marshmallow and above devices
+		// Build.VERSION_CODES.M=23
         if (Build.VERSION.SDK_INT >= 23) {
             checkPermissions();
         }
@@ -225,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     // START PERMISSION CHECK
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
+	@TargetApi(23) // Build.VERSION_CODES.M
     private void checkPermissions() {
         List<String> permissions = new ArrayList<>();
         String message = "OSMDroid permissions:";
