@@ -1,3 +1,4 @@
+description = "Example application using osmdroid and Maps Forge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.application'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {

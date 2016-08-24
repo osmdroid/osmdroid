@@ -1,4 +1,4 @@
-description = 'OSMdroid Android 3rd Party'
+description = 'osmdroid 3rd party libraries and examples. May use non ASF licensed libraries as dependencies'
 apply plugin: 'com.android.library'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {

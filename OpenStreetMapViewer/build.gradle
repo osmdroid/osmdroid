@@ -1,3 +1,5 @@
+description = 'OpenMap in the Play Store, the example app for using osmdroid'
+
 apply plugin: 'com.android.application'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 

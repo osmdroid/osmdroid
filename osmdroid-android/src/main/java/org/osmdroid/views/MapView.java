@@ -152,6 +152,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
 		super(context, attrs);
+		if(isInEditMode()){
+			mTileRequestCompleteHandler=null;
+			mController=null;
+			mZoomController=null;
+			mScroller=null;
+			mGestureDetector=null;
+			return;
+		}
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
 

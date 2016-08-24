@@ -1,5 +1,6 @@
-apply plugin: 'com.android.application'
+description = 'Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
 
+apply plugin: 'com.android.application'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 android {
