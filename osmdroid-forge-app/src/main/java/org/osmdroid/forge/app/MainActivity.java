@@ -23,6 +23,11 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
+<<<<<<< HEAD
+=======
+import org.osmdroid.tileprovider.MapTileProviderArray;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+>>>>>>> 0d29e1e... Added debuglogging to osmdroid-mapsforge via OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS==true
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -52,6 +57,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
+        OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
         /**
          * super important to configure some of the mapsforge settings first
