@@ -8,11 +8,9 @@ import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.ItemizedIconOverlay;
 import org.osmdroid.views.overlay.ItemizedOverlayWithFocus;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.OverlayItem;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -39,7 +37,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 	// Fields
 	// ===========================================================
 
-	private ItemizedOverlayWithFocus<OverlayItem> mMyLocationOverlay;
+	private ItemizedOverlayWithFocus<OverlayItem> iconOverlay;
 	private RotationGestureOverlay mRotationGestureOverlay;
 
 	@Override
@@ -50,11 +48,8 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 	// ===========================================================
 	// Constructors
 	// ===========================================================
-	/** Called when the activity is first created. */
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+
+
 
 	@Override
 	protected void addOverlays() {
@@ -82,7 +77,7 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 					-122419200))); // San Francisco
 
 			/* OnTapListener for the Markers, shows a simple Toast. */
-			mMyLocationOverlay = new ItemizedOverlayWithFocus<>(items,
+			iconOverlay = new ItemizedOverlayWithFocus<>(items,
 					new ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {
 						@Override
 						public boolean onItemSingleTapUp(final int index, final OverlayItem item) {
@@ -102,29 +97,29 @@ public class SampleWithMinimapItemizedOverlayWithScale extends BaseSampleFragmen
 							return false;
 						}
 					}, context);
-			mMyLocationOverlay.setFocusItemsOnTap(true);
-			mMyLocationOverlay.setFocusedItem(0);
+			iconOverlay.setFocusItemsOnTap(true);
+			iconOverlay.setFocusedItem(0);
 
-			mMapView.getOverlays().add(mMyLocationOverlay);
+			mMapView.getOverlays().add(iconOverlay);
 
-			mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+			mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
 			mRotationGestureOverlay.setEnabled(false);
 			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}
 
 		/* MiniMap */
 		{
-			MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
-					mMapView.getTileRequestCompleteHandler());
-			mMapView.getOverlays().add(miniMapOverlay);
+			//MinimapOverlay miniMapOverlay = new MinimapOverlay(context,
+			//		mMapView.getTileRequestCompleteHandler());
+			//mMapView.getOverlays().add(miniMapOverlay);
 		}
 
 		// Zoom and center on the focused item.
 		mMapView.getController().setZoom(5);
-        IGeoPoint geoPoint = mMyLocationOverlay.getFocusedItem().getPoint();
+        IGeoPoint geoPoint = iconOverlay.getFocusedItem().getPoint();
 		mMapView.getController().animateTo(geoPoint);
 
-		setHasOptionsMenu(true);
+		setHasOptionsMenu(false);
 	}
 
 	// ===========================================================

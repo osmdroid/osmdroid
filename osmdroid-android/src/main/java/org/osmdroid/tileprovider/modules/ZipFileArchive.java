@@ -18,7 +18,7 @@ import org.osmdroid.tileprovider.tilesource.ITileSource;
 
 public class ZipFileArchive implements IArchiveFile {
 
-	private ZipFile mZipFile;
+	protected ZipFile mZipFile;
 
 	public ZipFileArchive(){}
 

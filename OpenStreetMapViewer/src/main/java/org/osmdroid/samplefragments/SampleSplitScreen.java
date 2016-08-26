@@ -10,18 +10,21 @@ import org.osmdroid.R;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.tileprovider.tilesource.MapBoxTileSource;
+import org.osmdroid.tileprovider.tilesource.MapQuestTileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.views.MapView;
 
 
 
 /**
+ * Uses OSM as the upper map and MapBox (API key required) as the lower map
  * Created by alex on 6/4/16.
  */
 public class SampleSplitScreen extends BaseSampleFragment implements MapListener {
     @Override
     public String getSampleTitle() {
-        return "Two maps, split screen";
+        return "Two maps, split screen with Mapbox";
     }
 
     protected MapView mMapView2;
@@ -41,7 +44,9 @@ public class SampleSplitScreen extends BaseSampleFragment implements MapListener
     protected void addOverlays() {
         mMapView.setTileSource(TileSourceFactory.MAPNIK);
         mMapView.setMapListener(this);
-        mMapView2.setTileSource(TileSourceFactory.MAPQUESTOSM);
+        //hey, check out the other constructors for mapbox, there's a few options to load up your
+        //access token and tile set preferences
+        mMapView2.setTileSource(new MapBoxTileSource(getContext()));
         mMapView2.setMapListener(this);
 
         mMapView2.setBuiltInZoomControls(true);

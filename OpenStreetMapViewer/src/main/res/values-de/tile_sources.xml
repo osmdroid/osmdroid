@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-<string name="base">OSM Basislayer</string>
-<string name="topo">Topographisch</string><string name="hills">Relief</string><string name="cyclemap">Fahrradkarte</string>
-
-
-
-</resources>

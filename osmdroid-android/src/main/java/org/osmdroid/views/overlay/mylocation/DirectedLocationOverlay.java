@@ -16,7 +16,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
 /**
  *
@@ -32,8 +31,8 @@ public class DirectedLocationOverlay extends Overlay {
 	// Fields
 	// ===========================================================
 
-	protected final Paint mPaint = new Paint();
-	protected final Paint mAccuracyPaint = new Paint();
+	protected Paint mPaint = new Paint();
+	protected Paint mAccuracyPaint = new Paint();
 
 	protected Bitmap DIRECTION_ARROW;
 
@@ -56,7 +55,7 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 
 	public DirectedLocationOverlay(final Context ctx) {
-		super(ctx);
+		super();
 
 		BitmapDrawable d=(BitmapDrawable)ctx.getResources().getDrawable(R.drawable.direction_arrow);
 
@@ -115,6 +114,12 @@ public class DirectedLocationOverlay extends Overlay {
 	// ===========================================================
 	// Methods from SuperClass/Interfaces
 	// ===========================================================
+
+	@Override
+	public void onDetach(MapView view){
+		mPaint=null;
+		mAccuracyPaint=null;
+	}
 
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {

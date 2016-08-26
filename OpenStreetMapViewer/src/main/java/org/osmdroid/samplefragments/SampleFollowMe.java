@@ -1,12 +1,13 @@
 package org.osmdroid.samplefragments;
 
+import android.Manifest;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import android.widget.ImageButton;
 import org.osmdroid.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
@@ -36,20 +36,18 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
 
     private MyLocationNewOverlay mLocationOverlay;
     private CompassOverlay mCompassOverlay;
-    private MinimapOverlay mMinimapOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
     private RotationGestureOverlay mRotationGestureOverlay;
     protected ImageButton btCenterMap;
     protected ImageButton btFollowMe;
     private LocationManager lm;
-    private Location currentLocation=null;
+    private Location currentLocation = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.sample_followme, null);
         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
-        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+
         return v;
 
     }
@@ -70,7 +68,7 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
         mScaleBarOverlay.setCentred(true);
         mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
-        mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+        mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
         mRotationGestureOverlay.setEnabled(true);
 
         mMapView.getController().setZoom(15);
@@ -93,8 +91,8 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "centerMap clicked ");
-                if (currentLocation!=null) {
-                    GeoPoint myPosition = new GeoPoint(currentLocation.getLatitude(),currentLocation.getLongitude());
+                if (currentLocation != null) {
+                    GeoPoint myPosition = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
                     mMapView.getController().animateTo(myPosition);
                 }
             }
@@ -116,6 +114,33 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
             }
         });
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            lm.removeUpdates(this);
+        }
+
+        mCompassOverlay.disableCompass();
+        mLocationOverlay.disableFollowLocation();
+        mLocationOverlay.disableMyLocation();
+        mScaleBarOverlay.enableScaleBar();
+    }
+    @Override
+    public void onResume(){
+        super.onResume();
+        lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+        }
+
+        mLocationOverlay.enableFollowLocation();
+        mLocationOverlay.enableMyLocation();
+        mScaleBarOverlay.disableScaleBar();
     }
     @Override
     public String getSampleTitle() {
@@ -140,5 +165,18 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        lm=null;
+        currentLocation=null;
+
+        mLocationOverlay=null;
+        mCompassOverlay=null;
+        mScaleBarOverlay=null;
+        mRotationGestureOverlay=null;
+        btCenterMap=null;
+        btFollowMe=null;
     }
 }

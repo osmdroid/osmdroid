@@ -103,6 +103,25 @@
                 android:id="@+id/cache_estimate"
 
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Archive File name:"
+                />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cache_output"
+                android:hint="archive.sqlite"
+                android:text="archive.sqlite"
+                android:lines="1"
+
+                />
+
+
+
 
             <Button
                 android:layout_width="wrap_content"

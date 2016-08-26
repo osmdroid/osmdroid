@@ -10,3 +10,6 @@ include ':OpenStreetMapViewer'
 include ':OSMMapTilePackager'
 include ':GoogleWrapperSample'
 include ':osmdroid-forge-app'
+
+//dist package
+include ':osmdroid-dist'

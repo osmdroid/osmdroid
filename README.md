@@ -12,6 +12,10 @@ Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  
 
 **Gradle dependency**
 ```groovy
+repositories {
+        mavenCentral()
+}
+
 dependencies {
     compile 'org.osmdroid:osmdroid-android:5.2@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
@@ -28,7 +32,16 @@ dependencies {
 </dependency>
 ```
 
-You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [include osmdroid as a JAR or AAR](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/).
+You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [download the dependency directly from OSS](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/) or [download the distribution package](https://github.com/osmdroid/osmdroid/releases)
+
+## OK now what?
+Continue reading here, [How-to-use-the-osmdroid-library](https://github.com/osmdroid/osmdroid/wiki/How-to-use-the-osmdroid-library)
+
+Related and **important** wiki articles
+ * [Change Log](https://github.com/osmdroid/osmdroid/wiki/Changelog)
+ * [FAQ](https://github.com/osmdroid/osmdroid/wiki/FAQ)
+ * [Important notes on using osmdroid in your app](https://github.com/osmdroid/osmdroid/wiki/Important-notes-on-using-osmdroid-in-your-app)
+ * [Upgrade guide](https://github.com/osmdroid/osmdroid/wiki/Upgrade-Guide)
 
 ## I have a question or want to report a bug
 
@@ -55,3 +68,50 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 ![](images/MyLocation.png)
 ![](images/CustomLayer.png)
 ![](images/TwoMarkers.png)
+
+## Building from source and using the aar in your app
+Thanks to <a href="https://github.com/chrisdoyle/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
+
+```
+./gradlew clean install
+```
+
+In your root `build.gradle` file, add mavenLocal() if not present.
+```
+allprojects {
+    repositories {
+            mavenCentral()
+            mavenLocal()    //add this if it's missing
+    }
+}
+
+```
+
+Then in your APK or AAR project that needs osmdroid. Future readers: you may have to update the version numbers to match the source. Hint: the version number is defined in osmdroid gradle.properties file, key = pom.version.
+
+```
+    compile 'org.osmdroid:osmdroid-android:5.3-SNAPSHOT:debug@aar'
+```
+
+
+## Running tests on a device (hardware or virtual)
+```
+./gradlew cC
+```
+
+## Prepare distribution
+
+```
+./gradlew clean install distZip distro -Pprofile=sources,javadocs
+```
+
+Output zip is at osmdroid-dist/build/distributions/
+
+## Publish release artifacts
+Edit gradle.properties and update the version information (android.versionCode and pom.version). Commit the change and tag with git.
+
+Edit gradle.properties and set your credentials for nexus endpoint to publish to
+```
+./gradlew clean install distZip distro -Pprofile=sources,javadocs publish
+```
+Edit gradle.properties and remove your crendentials.

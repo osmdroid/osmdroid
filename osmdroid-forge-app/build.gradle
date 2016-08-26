@@ -1,3 +1,4 @@
+description = "Example application using osmdroid and Maps Forge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.application'
 apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 android {
@@ -28,6 +29,9 @@ dependencies {
     //Android stuff
     compile 'com.android.support:appcompat-v7:23.+'
 
+    //crash logging
+    compile 'ch.acra:acra:4.7.0'
+
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.6.0'
     compile 'org.mapsforge:mapsforge-map:0.6.0'
@@ -52,10 +56,60 @@ project.gradle.taskGraph.whenReady {
                 "14".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
                 "1".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
                 "2".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())) {
-            connectedDebugAndroidTest {
-                ignoreFailures = true
-
-            }
+            println "Skipping osmdroid-forge-app instrumentation test since the API level doesn't match this project"
+            installDebug { actions = []; }
+            connectedDebugAndroidTest { actions = []; }
         }
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice2${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice3${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.READ_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
     }
 }

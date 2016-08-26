@@ -13,6 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
 import org.osmdroid.google.wrapper.v2.MapFactory;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import java.util.Map;
 public class MainActivity extends ListActivity {
     boolean isV1Supported = false;
     boolean isV2Supported = false;
+    boolean isGooglePlayServicesInstalled = false;
 
     /**
      * Called when the activity is first created.
@@ -36,6 +40,13 @@ public class MainActivity extends ListActivity {
             checkPermissions();
         }
 
+
+        GoogleApiAvailability api = GoogleApiAvailability.getInstance();
+        int code = api.isGooglePlayServicesAvailable(this);
+        if (code == ConnectionResult.SUCCESS) {
+            // Do Your Stuff Here
+            isGooglePlayServicesInstalled=true;
+        }
         isV1Supported = MapFactory.isGoogleMapsV1Supported();
         isV2Supported = MapFactory.isGoogleMapsV2Supported(this);
 
@@ -54,7 +65,7 @@ public class MainActivity extends ListActivity {
     protected void onListItemClick(final ListView l, final View v, final int position, final long id) {
         switch (position) {
             case 0:
-                if (isV2Supported) {
+                if (isGooglePlayServicesInstalled && isV2Supported) {
                     this.startActivity(new Intent(this, MapsActivity.class));
                 } else
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();
@@ -63,13 +74,13 @@ public class MainActivity extends ListActivity {
                 this.startActivity(new Intent(this, OsmMapActivity.class));
                 break;
             case 2:
-                if (isV1Supported) {
+                if (isGooglePlayServicesInstalled && isV1Supported) {
                     this.startActivity(new Intent(this, Googlev1WrapperSample.class));
                 } else
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();
                 break;
             case 3:
-                if (isV2Supported) {
+                if (isGooglePlayServicesInstalled && isV2Supported) {
                     this.startActivity(new Intent(this, Googlev2WrapperSample.class));
                 } else
                     Toast.makeText(this, "Not available on your device", Toast.LENGTH_LONG).show();

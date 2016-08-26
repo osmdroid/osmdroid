@@ -60,7 +60,7 @@ env:
     #api10
     - API=10 ANDROID_TARGET=2  ANDROID_ABI=armeabi
     #api10 with google
-    - API=10g ANDROID_TARGET=14  ANDROID_ABI=armeabi
+    - API=10g ANDROID_TARGET=13  ANDROID_ABI=armeabi
     #api15
     - API=15 ANDROID_TARGET=3  ANDROID_ABI=armeabi-v7a
     #api15 with google
@@ -109,6 +109,9 @@ before_script:
   - adb shell chmod 777 /mnt/sdcard
   - adb shell mkdir /sdcard/osmdroid/
   - adb push osmdroid-forge-app/world.map /sdcard/osmdroid/world.map
+  #- adb push resources/usgsbase.gemf /sdcard/osmdroid/usgsbase.gemf
+  #- adb push resources/usgstopo.sqlite /sdcard/osmdroid/usgstopo.sqlite
+  #- adb push resources/usgssat.zip /sdcard/osmdroid/usgssat.zip
 
 #build
 script:
@@ -127,3 +130,10 @@ script:
   # fun fact, maven runs android tests concurrently for all connected devices, gradle does not
   # since we're using build matrix, each build target compiles the source, fires up it's specific vm, runs the tests, then exits.
   # --stacktrace
+
+after_failure:
+  # run this on failure
+  - adb pull /sdcard/osmdroid/crash.log
+  - cat crash.log
+  # dumps the log then exits
+  - adb logcat -d

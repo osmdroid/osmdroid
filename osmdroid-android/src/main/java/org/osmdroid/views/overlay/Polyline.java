@@ -9,7 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
@@ -52,9 +52,13 @@ public class Polyline extends OverlayWithIW {
 
 	protected OnClickListener mOnClickListener;
 
-	public Polyline(Context ctx){
+	/** Use {@link #Polyline()} instead */
+	@Deprecated
+	public Polyline(Context ctx) {
+	}
 
-		super(ctx);
+	public Polyline(){
+		super();
 		//default as defined in Google API:
 		this.mPaint.setColor(Color.BLACK);
 		this.mPaint.setStrokeWidth(10.0f);
@@ -226,11 +230,11 @@ public class Polyline extends OverlayWithIW {
 		Point projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		BoundingBoxE6 boundingBox = pj.getBoundingBox();
-		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorthE6(),
-				boundingBox.getLonWestE6(), null);
-		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
-				boundingBox.getLonEastE6(), null);
+		BoundingBox boundingBox = pj.getBoundingBox();
+		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorth(),
+				boundingBox.getLonWest(), null);
+		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouth(),
+				boundingBox.getLonEast(), null);
 		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 		// take into account map orientation:
 		if (mapView.getMapOrientation() != 0.0f)
@@ -489,6 +493,12 @@ public class Polyline extends OverlayWithIW {
 	protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
 		polyline.showInfoWindow(eventPos);
 		return true;
+	}
+
+	@Override
+	public void onDetach(MapView mapView) {
+		mOnClickListener=null;
+		onDestroy();
 	}
 
 }

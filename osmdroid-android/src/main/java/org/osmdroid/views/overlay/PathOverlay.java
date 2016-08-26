@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
@@ -63,12 +63,24 @@ public class PathOverlay extends Overlay {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #PathOverlay(int)} instead */
+	@Deprecated
 	public PathOverlay(final int color, final Context ctx) {
-		this(color, 2.0f, ctx);
+		this(color);
 	}
 
+	/** Use {@link #PathOverlay(int, float)} instead */
+	@Deprecated
 	public PathOverlay(final int color, final float width, final Context ctx) {
-		super(ctx);
+		this(color, width);
+	}
+
+	public PathOverlay(final int color) {
+		this(color, 2.0f);
+	}
+
+	public PathOverlay(final int color, final float width) {
+		super();
 		this.mPaint.setColor(color);
 		this.mPaint.setStrokeWidth(width);
 		this.mPaint.setStyle(Paint.Style.STROKE);
@@ -137,7 +149,7 @@ public class PathOverlay extends Overlay {
 
 			final double latN = Math.atan2(z, Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)));
 			final double lonN = Math.atan2(y, x);
-			addPoint((int) (latN / (Math.PI / 180) * 1E6), (int) (lonN / (Math.PI / 180) * 1E6));
+			addPoint(latN / (Math.PI / 180), lonN / (Math.PI / 180));
 		}
 	}
 
@@ -158,11 +170,11 @@ public class PathOverlay extends Overlay {
 	}
 
 	public void addPoint(final IGeoPoint aPoint) {
-		addPoint(aPoint.getLatitudeE6(), aPoint.getLongitudeE6());
+		addPoint(aPoint.getLatitude(), aPoint.getLongitude());
 	}
 
-	public void addPoint(final int aLatitudeE6, final int aLongitudeE6) {
-		mPoints.add(new Point(aLatitudeE6, aLongitudeE6));
+	public void addPoint(final double aLatitude, final double aLongitude) {
+		mPoints.add(new Point((int)aLatitude, (int)aLongitude));
 	}
 
 	public void addPoints(final IGeoPoint... aPoints) {
@@ -214,11 +226,11 @@ public class PathOverlay extends Overlay {
 		Point projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		BoundingBoxE6 boundingBox = pj.getBoundingBox();
-		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorthE6(),
-				boundingBox.getLonWestE6(), null);
-		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
-				boundingBox.getLonEastE6(), null);
+		BoundingBox boundingBox = pj.getBoundingBox();
+		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorth(),
+				boundingBox.getLonWest(), null);
+		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouth(),
+				boundingBox.getLonEast(), null);
 		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 
 		mPath.rewind();

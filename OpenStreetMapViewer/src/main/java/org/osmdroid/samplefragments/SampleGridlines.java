@@ -1,5 +1,8 @@
 package org.osmdroid.samplefragments;
 
+import android.util.Log;
+
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
@@ -23,6 +26,8 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     @Override
     protected void addOverlays() {
+        mMapView.getController().setCenter(new GeoPoint(0d,0d));
+        mMapView.getController().setZoom(5);
         mMapView.setTilesScaledToDpi(true);
         mMapView.setMapListener(this);
         mMapView.getController().setZoom(3);
@@ -43,11 +48,23 @@ public class SampleGridlines extends BaseSampleFragment implements MapListener {
 
     private void updateGridlines(){
 
-        if (activeLatLonGrid != null)
-            mMapView.getOverlays().remove(activeLatLonGrid);
+        if (mMapView==null)
+            return; //happens during unit tests with rapid recycling of the fragment
+        if (activeLatLonGrid != null) {
+            mMapView.getOverlayManager().remove(activeLatLonGrid);
+            activeLatLonGrid.onDetach(mMapView);
+        }
         activeLatLonGrid = LatLonGridlineOverlay.getLatLonGrid(getActivity(), mMapView);
         mMapView.getOverlays().add(activeLatLonGrid);
 
+    }
+
+    @Override
+    public void onDestroyView(){
+
+        activeLatLonGrid.onDetach(mMapView);
+        activeLatLonGrid=null;
+        super.onDestroyView();
     }
 
 }

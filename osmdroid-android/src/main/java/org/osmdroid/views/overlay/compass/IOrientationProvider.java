@@ -8,4 +8,6 @@ public interface IOrientationProvider
     void stopOrientationProvider();
 
     float getLastKnownOrientation();
+
+    void destroy();
 }

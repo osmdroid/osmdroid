@@ -44,7 +44,6 @@ public abstract class Overlay implements OverlayConstants {
 	// Fields
 	// ===========================================================
 
-	protected final float mScale;
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
 
@@ -52,8 +51,12 @@ public abstract class Overlay implements OverlayConstants {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #Overlay()} instead */
+	@Deprecated
 	public Overlay(final Context ctx) {
-		mScale = ctx.getResources().getDisplayMetrics().density;
+	}
+
+	public Overlay() {
 	}
 
 	// ===========================================================

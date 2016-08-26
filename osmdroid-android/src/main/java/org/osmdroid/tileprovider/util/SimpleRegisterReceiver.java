@@ -9,7 +9,7 @@ import android.content.IntentFilter;
 
 public class SimpleRegisterReceiver implements IRegisterReceiver {
 
-	private final Context mContext;
+	private Context mContext;
 
 	public SimpleRegisterReceiver(final Context pContext) {
 		super();
@@ -24,5 +24,10 @@ public class SimpleRegisterReceiver implements IRegisterReceiver {
 	@Override
 	public void unregisterReceiver(final BroadcastReceiver aReceiver) {
 		mContext.unregisterReceiver(aReceiver);
+	}
+
+	@Override
+	public void destroy() {
+		mContext=null;
 	}
 }

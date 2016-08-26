@@ -28,7 +28,7 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
         //this.mMapView.getOverlayManager().getTilesOverlay().setColorFilter(adjustHue(160));
 
         ColorMatrix cm = new ColorMatrix();
-        float brightness =.5f;  // reduce color's by 50%
+        float brightness =.5f;  // reduce color's by 50%. i.e. just make it darker
         cm.set(new float[] {
                 brightness, 0, 0, 0, 0,    //red
                 0, brightness, 0, 0, 0,    //green

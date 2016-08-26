@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 
 public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverlay<Item> {
 
-	protected final List<Item> mItemList;
+	protected List<Item> mItemList;
 	protected OnItemGestureListener<Item> mOnItemGestureListener;
 	private int mDrawnItemsLimit = Integer.MAX_VALUE;
 	private final Point mItemPoint = new Point();
@@ -24,7 +24,7 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 			final Drawable pDefaultMarker,
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
 			final Context pContext) {
-		super(pContext, pDefaultMarker);
+		super(pDefaultMarker);
 
 		this.mItemList = pList;
 		this.mOnItemGestureListener = pOnItemGestureListener;
@@ -45,6 +45,14 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
 		this(pList,  pContext.getResources().getDrawable(R.drawable.marker_default),
 				pOnItemGestureListener,pContext);
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		if (mItemList!=null)
+			mItemList.clear();
+		mItemList=null;
+		mOnItemGestureListener=null;
 	}
 
 	@Override

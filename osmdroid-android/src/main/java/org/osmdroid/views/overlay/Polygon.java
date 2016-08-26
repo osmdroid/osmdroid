@@ -133,8 +133,14 @@ public class Polygon extends OverlayWithIW {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #Polygon()} instead */
+	@Deprecated
 	public Polygon(final Context ctx) {
-		super(ctx);
+		this();
+	}
+
+	public Polygon() {
+		super();
 		mFillPaint = new Paint();
 		mFillPaint.setColor(Color.TRANSPARENT);
 		mFillPaint.setStyle(Paint.Style.FILL);
@@ -312,6 +318,13 @@ public class Polygon extends OverlayWithIW {
 			mInfoWindow.open(this, position, 0, 0);
 		}
 		return tapped;
+	}
+
+	@Override
+	public void onDetach(MapView mapView) {
+		mOutline=null;
+		mHoles.clear();
+		onDestroy();
 	}
 
 }

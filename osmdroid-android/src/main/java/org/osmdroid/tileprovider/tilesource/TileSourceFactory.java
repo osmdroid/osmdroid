@@ -5,6 +5,11 @@ import org.osmdroid.tileprovider.MapTile;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * looking for mapquest? it's moved because they stopped supporting anonymous access to tiles
+ * @see MapQuestTileSource
+ */
 public class TileSourceFactory {
 
 	// private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
@@ -88,29 +93,7 @@ public class TileSourceFactory {
 			"OSMPublicTransport", 0, 17, 256, ".png",
 			new String[] { "http://openptmap.org/tiles/" });
 
-	public static final OnlineTileSourceBase MAPQUESTOSM = new XYTileSource("MapquestOSM",
-			0, 18, 256, ".jpg", new String[] {
-					"http://otile1.mqcdn.com/tiles/1.0.0/map/",
-					"http://otile2.mqcdn.com/tiles/1.0.0/map/",
-					"http://otile3.mqcdn.com/tiles/1.0.0/map/",
-					"http://otile4.mqcdn.com/tiles/1.0.0/map/" });
 
-	public static final OnlineTileSourceBase MAPQUESTAERIAL = new XYTileSource("MapquestAerial",
-			0, 11, 256, ".jpg", new String[] {
-					"http://otile1.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile4.mqcdn.com/tiles/1.0.0/sat/" });
-
-	// From MapQuest documentation:
-	// Please also note that global coverage is provided at zoom levels 0-11. Zoom Levels 12+ are
-	// provided only in the United States (lower 48).
-	public static final OnlineTileSourceBase MAPQUESTAERIAL_US = new XYTileSource(
-			"MapquestAerialUSA",  0, 18, 256, ".jpg",
-			new String[] { "http://otile1.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile2.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile3.mqcdn.com/tiles/1.0.0/sat/",
-					"http://otile4.mqcdn.com/tiles/1.0.0/sat/" });
 
 	public static final OnlineTileSourceBase DEFAULT_TILE_SOURCE = MAPNIK;
 
@@ -152,7 +135,7 @@ public class TileSourceFactory {
                     "http://c.tiles.wmflabs.org/hikebike/"  });
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
-               new String[] { "http://basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/" }) {
+               new String[] { "http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" }) {
                @Override
                public String getTileURLString(MapTile aTile) {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
@@ -173,8 +156,6 @@ public class TileSourceFactory {
 		mTileSources.add(MAPNIK);
 		mTileSources.add(CYCLEMAP);
 		mTileSources.add(PUBLIC_TRANSPORT);
-		mTileSources.add(MAPQUESTOSM);
-		mTileSources.add(MAPQUESTAERIAL);
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
 		mTileSources.add(USGS_SAT);

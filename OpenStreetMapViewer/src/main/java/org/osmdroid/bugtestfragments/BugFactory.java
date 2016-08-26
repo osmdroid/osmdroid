@@ -4,7 +4,10 @@ package org.osmdroid.bugtestfragments;
 import org.osmdroid.ISampleFactory;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 
-public final class SampleFactory implements ISampleFactory{
+/**
+ * Factory for all bug driver classes
+ */
+public final class BugFactory implements ISampleFactory{
 
 	private final Class<? extends BaseSampleFragment>[] mSamples;
 
@@ -12,14 +15,16 @@ public final class SampleFactory implements ISampleFactory{
 	private static ISampleFactory _instance;
 	public static ISampleFactory getInstance() {
 		if (_instance == null) {
-			_instance = new SampleFactory();
+			_instance = new BugFactory();
 		}
 		return _instance;
 	}
 
-	private SampleFactory() {
+	private BugFactory() {
 		mSamples = new Class[] {
-			Bug82WinDeath.class
+			Bug82WinDeath.class,
+				SampleBug57.class,
+				Bug382Crash.class
         };
 	}
 

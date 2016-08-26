@@ -37,15 +37,67 @@
         android:required="false" />
 
     <application
+        android:name=".OsmApplication"
         android:hardwareAccelerated="true"
         android:largeHeap="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name">
 
-        <!-- all applications based on this code should get their own Bing key -->
+        <!-- Bing maps tile users:
+        all applications based on this code should get their own Bing key
+        DO NOT USE THIS KEY IN YOUR APP
+        -->
         <meta-data
             android:name="BING_KEY"
             android:value="ApEqyap8rTa4WTNCNv-3pAGQc7XUsHS6595tuDI3MHR59QlahJ5bqYGYhMYJq6Ae" />
+
+        <!-- Mapquest tile source users:
+         all applications based on this code should get their own MapQuest key
+         see https://developer.mapquest.com however the access token they provide doesn't work for
+         direct tile access, their web javascript api must handle it differently
+
+         DO NOT USE THIS KEY IN YOUR APP
+
+         NOTE: to get this key, we had to go to MapBox's website
+         Yes that's a MapBox token for MapQuest tiles.
+         https://www.mapbox.com/studio/account/tokens/
+         -->
+        <meta-data android:name="MAPQUEST_ACCESS_TOKEN" android:value="pk.eyJ1Ijoib3NtZHJvaWRidWdzIiwiYSI6ImNpcnE4eGJvYTBnbTF0Mm5rYXY3NGdwaXkifQ.VUOl3n5bL4-wdQo4RuTOvQ"/>
+
+        <!-- MapBox tile source users:
+        all applications based on this code should get their own MapBox key
+        see https://www.mapbox.com/studio/account/tokens/
+
+        DO NOT USE THIS KEY IN YOUR APP
+
+        NOTE: to get this key, we had to go to MapBox's website
+        https://www.mapbox.com/studio/account/tokens/
+        -->
+        <meta-data android:name="MAPBOX_MAPID" android:value="mapbox.mapbox-streets-v7"/>
+        <meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="pk.eyJ1Ijoib3NtZHJvaWRidWdzIiwiYSI6ImNpcnE4eGJvYTBnbTF0Mm5rYXY3NGdwaXkifQ.VUOl3n5bL4-wdQo4RuTOvQ"/>
+
+
+        <!-- HERE We Go tile source users:
+      all applications based on this code should get their own MapBox key
+      see https://www.mapbox.com/studio/account/tokens/
+
+      DO NOT USE THIS KEY IN YOUR APP
+
+      NOTE: to get this key, we had to go to MapBox's website
+      https://www.mapbox.com/studio/account/tokens/
+      -->
+        <meta-data android:name="HEREWEGO_MAPID" android:value="hybrid.day"/>
+        <meta-data android:name="HEREWEGO_APPID" android:value="pPgiLUtfWpnzdXttl41x"/>
+        <meta-data android:name="HEREWEGO_APPCODE" android:value="7vQVuYZ4Rv9ipi6ILzduhQ"/>
+        <!-- optional, use this to change the destination URL, default is shown below
+            other known urls
+                base.maps.api.here.com
+
+        <meta-data android:name="HEREWEGO_DOMAIN_OVERRIDE" android:value="aerial.maps.cit.api.here.com" />
+        -->
+
+
+
 
         <uses-library
             android:name="com.google.android.maps"
@@ -116,19 +168,16 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".ExtraSamplesActivity"
-            android:label="OpenStreetMap Extra Samples">
+        <activity android:name=".BugsTestingActivity"
+            android:label="OpenStreetMap Bug Drivers">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".BugsTestingActivity"
-                  android:label="OpenStreetMap Bug Drivers">
+        <activity android:name=".ExtraSamplesActivity"
+            android:label="OpenStreetMap Extra Samples">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

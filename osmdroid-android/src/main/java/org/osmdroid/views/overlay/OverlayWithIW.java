@@ -21,8 +21,14 @@ public abstract class OverlayWithIW extends Overlay {
 	protected InfoWindow mInfoWindow;
 	protected Object mRelatedObject;
 
+	/** Use {@link #OverlayWithIW()} instead */
+	@Deprecated
 	public OverlayWithIW(final Context ctx) {
-		super((ctx));
+		this();
+	}
+
+	public OverlayWithIW() {
+		super();
 	}
 
 
@@ -79,6 +85,15 @@ public abstract class OverlayWithIW extends Overlay {
 	public void closeInfoWindow(){
 		if (mInfoWindow != null)
 			mInfoWindow.close();
+	}
+
+	public void onDestroy(){
+		if (mInfoWindow != null) {
+			mInfoWindow.close();
+			mInfoWindow.onDetach();
+			mInfoWindow=null;
+			mRelatedObject=null;
+		}
 	}
 
 	public boolean isInfoWindowOpen(){

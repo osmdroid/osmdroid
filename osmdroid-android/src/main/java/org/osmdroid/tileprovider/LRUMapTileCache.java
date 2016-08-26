@@ -69,7 +69,7 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 		if (size() > mCapacity) {
 			final MapTile eldest = aEldest.getKey();
 			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-                    Log.d(IMapView.LOGTAG,"Remove old tile: " + eldest);
+                    Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
 			}
 			remove(eldest);
 			// don't return true because we've already removed it
