@@ -48,6 +48,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         //FragmentSamples samples = (FragmentSamples) frag;
 
         ISampleFactory sampleFactory = SampleFactory.getInstance();
+        int[] fireOrder = new int[sampleFactory.count()];
         for (int i = 0; i < sampleFactory.count(); i++) {
             fireOrder[i]=i;
         }
