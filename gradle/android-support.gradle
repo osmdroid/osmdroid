@@ -1,0 +1,255 @@
+/**=================================================================================================
+ * Common Gradle script configuration for Android projects.
+ *
+ * @author Chris Doyle
+ =================================================================================================*/
+
+
+ext.isAndroidApplication = project.plugins.hasPlugin("com.android.application");
+ext.isAndroidLibrary = project.plugins.hasPlugin("com.android.library");
+ext.isAndroidProject = project.isAndroidApplication || project.isAndroidLibrary;
+
+// gross...sorry
+if (isAndroidLibrary) {
+    ext.pom.packaging = "aar"
+}
+else if (isAndroidApplication) {
+    ext.pom.packaging = "apk"
+}
+
+
+// Digitally sign all Release artifacts ------------------------------------------------------------
+
+// NOTE: For now the only "validation" we will perform is whether or not a value is provided for
+// each of the required signingConfigs properties.  More concrete validation may be developed as an
+// enhancement in the future, if desired.
+ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
+        (project.property('android.signingConfigs.release.storeFile') != null) &&
+        !project.property('android.signingConfigs.release.storeFile').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.storePassword') &&
+        (project.property('android.signingConfigs.release.storePassword') != null) &&
+        !project.property('android.signingConfigs.release.storePassword').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyAlias') &&
+        (project.property('android.signingConfigs.release.keyAlias') != null) &&
+        !project.property('android.signingConfigs.release.keyAlias').trim().isEmpty() &&
+        project.hasProperty('android.signingConfigs.release.keyPassword') &&
+        (project.property('android.signingConfigs.release.keyPassword') != null) &&
+        !project.property('android.signingConfigs.release.keyPassword').trim().isEmpty();
+
+afterEvaluate { project ->
+
+    if (!rootProject.hasProperty('fury')) {
+
+        println "\n       ,--.--._    #####                                        #######                     \n" +
+                  "------\" _, \\___)  #     # #####    ##   #####  #      ######    #       #    # #####  #   # \n" +
+                  "        / _/____) #       #    #  #  #  #    # #      #         #       #    # #    #  # #  \n" +
+                  "        \\//(____) #  #### #    # #    # #    # #      #####     #####   #    # #    #   #   \n" +
+                  "------\\     (__)  #     # #####  ###### #    # #      #         #       #    # #####    #   \n" +
+                  "       `-----\"    #     # #   #  #    # #    # #      #         #       #    # #   #    #   \n" +
+                  "                   #####  #    # #    # #####  ###### ######    #        ####  #    #   #   \n";
+
+        println "== Gradle Fury, bringing maven sensibility to gradle. It's NOT an incubating feature.";
+        println "== Gradle Fury: ProTip: Use 'gradle.properties' to set all your version and pom related information.";
+        if (isAndroidProject || isAndroidApplication){
+            println "== Gradle Fury: ProTip: Use 'gradle install' to publish to mavenLocal, works with AARs and APKs, even with variants";
+        }
+        println "== Gradle Fury: ProTip: Use 'gradle publish' to publish to a nexus repository, works with AARs and APKs, even with variants";
+        println "== Gradle Fury: ProTip: Use 'gradle -Pprofile=javadoc' to generate javadocs (android included, even with variants";
+        println "== Gradle Fury: ProTip: Use 'gradle -Pprofile=sources' to generate source jars (android included, even with variants";
+        println "== Gradle Fury: ProTip: Use 'gradle -Pprofile=javadoc,sources' to generate javadocs and source jars (android included, even with variants";
+        println "== Gradle Fury: ProTip: For Android projects, apply gradle fury BEFORE the android{} block in your gradle.build file.";
+        println "== Report Gradle Fury issues to: https://github.com/chrisdoyle/gradle-fury/issues"
+    }
+
+
+    if (!canSign) {
+        if ((isAndroidProject) && !rootProject.hasProperty('noSigningConfigWarningDisplayed')) {
+            // only display this error message on the first pass...
+            println "\n\n==================================================================="
+            println "==> WARNING: No Android release signing configuration provided! <=="
+            println "===================================================================\n\n"
+        }
+    }
+
+    // The following "tasks" looper hack overcomes Gradle's new deficiency when attempting to
+    // prepare release artifacts from a computer sans signing configuration:
+    //
+    //     :hello-world-apk:validateReleaseSigning FAILED
+    //
+    //     FAILURE: Build failed with an exception.
+    //
+    //     * What went wrong:
+    //     Execution failed for task ':hello-world-apk:validateReleaseSigning'.
+    //     > Keystore file not set for signing config release
+    tasks.each { task ->
+        if (isAndroidApplication) {
+            if ((task.name.toLowerCase().startsWith("assemble") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("bundle") && task.name.toLowerCase().contains('release'))
+                    || (task.name.toLowerCase().startsWith("package") && task.name.toLowerCase().contains('release'))
+                    || (task.name.equals("validateReleaseSigning"))) {
+
+                task.setEnabled(canSign);
+            }
+        }
+    }
+
+    // albeit a bit hacky, but this is used to limit the display of the warning message above if no
+    // signing configuration is provided...
+    rootProject.ext.noSigningConfigWarningDisplayed = true
+    rootProject.ext.fury = true
+}
+// END Digitally sign all Release artifacts --------------------------------------------------------
+
+
+android {
+
+    // default compileSdkVersion to API 23 if not provided
+    compileSdkVersion ( project.hasProperty('android.compileSdkVersion')
+            ? Integer.parseInt(project.property('android.compileSdkVersion')) : 23 )
+
+    // default buildToolsVersion to 23.0.3 if not provided
+    buildToolsVersion ( project.hasProperty('android.buildToolsVersion')
+            ? project.property('android.buildToolsVersion') : "23.0.3" )
+
+    publishNonDefault true
+
+    // Rename Android Application (APK) artifacts using standard naming conventions, since Gradle
+    // fails to publish multi-flavored Android artifacts to Nexus via uploadArchives!
+    // (Why Android/Gradle does not address this already is totally beyond me...  --Doyle)
+    //
+    // For emphasis, visit the following thread from the Gradle forums:
+    //
+    //     "How can I upload multiple flavors/artifacts with different POM-files using mavenDeployer?"
+    //     https://discuss.gradle.org/t/how-can-i-upload-multiple-flavors-artifacts-with-different-pom-files-using-mavendeployer/5887
+    if (isAndroidProject) {
+        buildTypes {
+            def variants
+
+            if (project.android.hasProperty('libraryVariants')) {
+                variants = project.android.libraryVariants;
+            }
+            else if (project.android.hasProperty('applicationVariants')) {
+                variants = project.android.applicationVariants;
+            }
+
+            variants.all { variant ->
+                def apk = variant.outputs[0].outputFile;
+                def artifactName =
+                        project.name + "-" + project.version + "-" + variant.name + "." +
+                                project.pom.packaging;
+
+                variant.outputs[0].outputFile = new File(apk.parentFile, artifactName);
+            }
+        }
+    }
+
+
+    // Digitally sign all Release artifacts --------------------------------------------------------
+    if (canSign) {
+        signingConfigs {
+            release {
+                storeFile file("${project.property('android.signingConfigs.release.storeFile')}")
+                storePassword "${project.property('android.signingConfigs.release.storePassword')}"
+                keyAlias "${project.property('android.signingConfigs.release.keyAlias')}"
+                keyPassword "${project.property('android.signingConfigs.release.keyPassword')}"
+            }
+        }
+    }
+    else {
+        // "Doing it this way gives you flexibility to build on a computer that has the [the
+        //  properties defined] or not"
+        // From http://stackoverflow.com/a/15753461/3093897:
+        signingConfigs {
+            release
+        }
+        // NOTE: At some point in time this stopped working due to a Gradle version or Android tools
+        // plugin upgrade.  I am unwilling to waste any further time isolating it down to a specific
+        // cause because I'm sure it will cost me more time in the future when they inevitably break
+        // it again.  For now, the above "tasks" looper hack provides a "fix".  --Doyle
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+    // END Digitally sign all Release artifacts ----------------------------------------------------
+
+
+    defaultConfig {
+        if (isAndroidApplication) {
+            // this configures the default applicationId based on a combination of
+            // the project.group and the project.name; the crazy replaceAll() calls
+            // remove any extraneous unsupported characters, and convert dashes to
+            // periods; obviously this configuration can be and is intended to
+            // support being overridden by the individual android projects. --Doyle
+            applicationId project.group + "." +
+                    project.name.toString().toLowerCase().replaceAll("[-]", ".")
+                            .replaceAll("[^a-zA-Z0-9\\.]", "")
+        }
+
+        // default minSdkVersion to API 15 if not provided
+        minSdkVersion ( project.hasProperty('android.minSdkVersion')
+                ? Integer.parseInt(project.property('android.minSdkVersion')) : 15 )
+
+        // default targetSdkVersion to API 23, if not provided
+        targetSdkVersion ( project.hasProperty('android.targetSdkVersion')
+                ? Integer.parseInt(project.property('android.targetSdkVersion')) : 23 )
+
+        // default versionCode o 1 if not provided
+        versionCode ( project.hasProperty('android.versionCode')
+                ? Integer.parseInt(project.property('android.versionCode')) : 1 )
+
+        versionName project.version
+    }
+
+    // globally ignore all errors reported by lint
+    // (admittedly, this is probably not a good idea...) O:-)
+    lintOptions {
+        abortOnError false
+    }
+
+    // disable lint executtion for non-CI builds...
+    // (also probably not a good idea...) O:-)
+    if (project.hasProperty('profile')) {
+        if (!project.profile.split(',').contains("ci")) {
+            tasks.whenTaskAdded { task ->
+                if (task.name.toLowerCase().contains("lint")) {
+                    task.enabled = false
+                }
+            }
+        }
+    }
+
+    testOptions {
+        // "How to turn on console output in Android Unit tests?"
+        // From http://stackoverflow.com/a/34299238/3093897:
+        unitTests.all {
+            // All the usual Gradle options.
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen {false}
+                showStandardStreams = true
+            }
+        }
+
+        unitTests.returnDefaultValues = true
+    }
+
+    packagingOptions {
+        exclude 'APK LICENSE.TXT'
+        exclude 'LICENSE.TXT'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+}

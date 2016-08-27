@@ -1,16 +1,10 @@
 description = "An Android library to display OpenStreetMap views using Mapsforge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.library'
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+apply from: "${rootDir}/gradle/android-support.gradle"
 android {
 
     defaultConfig {
         minSdkVersion 10
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
 }
 
