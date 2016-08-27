@@ -3,7 +3,6 @@ package org.osmdroid.bugtestfragments;
 import android.graphics.Color;
 
 import org.osmdroid.R;
-import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Polygon;
@@ -30,12 +29,12 @@ public class Bug382Crash extends BaseSampleFragment {
     protected void addOverlays() {
         super.addOverlays();
         List<GeoPoint> geoPoints = new ArrayList<>();
-        geoPoints.add(new GeoPoint(47d, -74d));
-        geoPoints.add(new GeoPoint(46d, -75d));
-        geoPoints.add(new GeoPoint(47d, -76d));
-        geoPoints.add(new GeoPoint(46d, -75d));
-        geoPoints.add(new GeoPoint(44d, -73d));
-        geoPoints.add(new GeoPoint(43d, -72d));
+        geoPoints.add(new GeoPoint(26.0, 113.5));
+        geoPoints.add(new GeoPoint(26.0, 114.5));
+        geoPoints.add(new GeoPoint(27.0, 114.5));
+        geoPoints.add(new GeoPoint(26.0, 115.0));
+        geoPoints.add(new GeoPoint(26.0, 116.0));
+        geoPoints.add(new GeoPoint(27.0, 115.0));
 
 
         polygon = new Polygon();

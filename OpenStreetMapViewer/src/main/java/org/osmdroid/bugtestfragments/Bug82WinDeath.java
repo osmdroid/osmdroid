@@ -24,7 +24,7 @@ public class Bug82WinDeath extends BaseSampleFragment {
         //
         MapOverlay overlay = new MapOverlay(getActivity());
         mMapView.getOverlayManager().add(overlay);
-        mMapView.getController().setCenter(new GeoPoint(-19279750, -11004483 ));
+        mMapView.getController().setCenter(new GeoPoint(50.71838, -103.42443));
         mMapView.getController().setZoom(17);
     }
 
@@ -39,7 +39,7 @@ public class Bug82WinDeath extends BaseSampleFragment {
 
             super(context);
             this.innerPaint = new Paint();
-            this.innerPaint.setColor(Color.argb(0x80, 0x43, 0x24, 0xa0));
+            this.innerPaint.setColor(Color.BLACK);
             this.innerPaint.setStrokeWidth(2.0f);
             this.innerPaint.setStyle(Paint.Style.FILL);
 
