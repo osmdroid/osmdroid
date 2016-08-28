@@ -1,6 +1,6 @@
 package org.osmdroid.views.overlay.infowindow;
 
-import org.osmdroid.tileprovider.constants.BonusPackHelper;
+import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayWithIW;
@@ -23,10 +23,15 @@ import android.widget.TextView;
  */
 public class BasicInfoWindow extends InfoWindow {
 
-	static int mTitleId=BonusPackHelper.UNDEFINED_RES_ID, 
-			mDescriptionId=BonusPackHelper.UNDEFINED_RES_ID, 
-			mSubDescriptionId=BonusPackHelper.UNDEFINED_RES_ID, 
-			mImageId=BonusPackHelper.UNDEFINED_RES_ID; //resource ids
+	/**
+	 * resource id value meaning "undefined resource id"
+	 */
+	public static final int UNDEFINED_RES_ID = 0;
+	
+	static int mTitleId=UNDEFINED_RES_ID, 
+			mDescriptionId=UNDEFINED_RES_ID, 
+			mSubDescriptionId=UNDEFINED_RES_ID, 
+			mImageId=UNDEFINED_RES_ID; //resource ids
 
 	private static void setResIds(Context context){
 		String packageName = context.getPackageName(); //get application package name
@@ -34,16 +39,16 @@ public class BasicInfoWindow extends InfoWindow {
 		mDescriptionId = context.getResources().getIdentifier("id/bubble_description", null, packageName);
 		mSubDescriptionId = context.getResources().getIdentifier("id/bubble_subdescription", null, packageName);
 		mImageId = context.getResources().getIdentifier("id/bubble_image", null, packageName);
-		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID || mDescriptionId == BonusPackHelper.UNDEFINED_RES_ID 
-				|| mSubDescriptionId == BonusPackHelper.UNDEFINED_RES_ID || mImageId == BonusPackHelper.UNDEFINED_RES_ID) {
-			Log.e(BonusPackHelper.LOG_TAG, "BasicInfoWindow: unable to get res ids in "+packageName);
+		if (mTitleId == UNDEFINED_RES_ID || mDescriptionId == UNDEFINED_RES_ID 
+				|| mSubDescriptionId == UNDEFINED_RES_ID || mImageId == UNDEFINED_RES_ID) {
+			Log.e(IMapView.LOGTAG, "BasicInfoWindow: unable to get res ids in "+packageName);
 		}
 	}
 	
 	public BasicInfoWindow(int layoutResId, MapView mapView) {
 		super(layoutResId, mapView);
 		
-		if (mTitleId == BonusPackHelper.UNDEFINED_RES_ID)
+		if (mTitleId == UNDEFINED_RES_ID)
 			setResIds(mapView.getContext());
 		
 		//default behavior: close it when clicking on the bubble:
