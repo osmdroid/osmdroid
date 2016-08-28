@@ -34,6 +34,7 @@ public class OsmMapActivity extends Activity {
         //this gets the key from the manifest
         BingMapTileSource.retrieveBingKey(this);
         BingMapTileSource source = new BingMapTileSource(null);
+        mMapView.setMaxZoomLevel(19);
 
         mMapView.setTileSource(source);
         mMapView.setTilesScaledToDpi(true);
