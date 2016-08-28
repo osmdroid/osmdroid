@@ -1,0 +1,71 @@
+
+# This file is just for osmdroid-android and is useful for reusing in your projects
+# Enables just the bare minimum from osmdroid to stay in your app using progaurd
+
+
+# keep setters in Views so that animations can still work.
+# see http://proguard.sourceforge.net/manual/examples.html#beans
+-keepclassmembers public class * extends android.view.View {
+   void set*(***);
+   *** get*();
+}
+
+# For enumeration classes, see http://proguard.sourceforge.net/manual/examples.html#enumerations
+-keepclassmembers enum * {
+	public static **[] values();
+	public static ** valueOf(java.lang.String);
+}
+
+-keepclassmembers class **.R$* {
+	public static <fields>;
+}
+# The support library contains references to newer platform versions.
+# Don't warn about those in case this app is linking against an older
+# platform version.  We know about them, and they are safe.
+-dontwarn android.support.**
+
+
+-keep class android.database.** {*;}
+-keep class android.support.** {*;}
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+
+##### things that need to be inflated...
+-keep public class * extends android.view.View {
+	public <init>(android.content.Context);
+	public <init>(android.content.Context, android.util.AttributeSet);
+	public <init>(android.content.Context, android.util.AttributeSet, int);
+	public void set*(...);
+}
+
+-keep class microsoft.mappoint.** {*;}
+
+-keep class org.metalev.multitouch.controller.** {*;}
+-keep class org.osmdroid.api.IGeoPoint {*;}
+-keep class org.osmdroid.api.IMapController {*;}
+-keep class org.osmdroid.api.IMapView {*;}
+-keep class org.osmdroid.api.IProjection {*;}
+-keep class org.osmdroid.events.** {*;}
+-keep class org.osmdroid.tileprovider.constants.** {*;}
+-keep class org.osmdroid.tileprovider.modules.** {*;}
+-keep class org.osmdroid.tileprovider.tilesource.FileBasedTileSource {*;}
+-keep class org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase {*;}
+-keep class org.osmdroid.tileprovider.tilesource.QuadTreeTileSource {*;}
+-keep class org.osmdroid.tileprovider.tilesource.TileSourceFactory {*;}
+-keep class org.osmdroid.tileprovider.tilesource.XYTileSource {*;}
+-keep class org.osmdroid.tileprovider.util.Counters {*;}
+-keep class org.osmdroid.tileprovider.util.ManifestUtil {*;}
+-keep class org.osmdroid.tileprovider.util.SimpleInvalidationHandler {*;}
+-keep class org.osmdroid.tileprovider.util.SimpleRegisterReceiver {*;}
+-keep class org.osmdroid.tileprovider.util.StreamUtils {*;}
+-keep class org.osmdroid.tileprovider.* {*;}
+-keep class org.osmdroid.util.** {*;}
+-keep class org.osmdroid.views.* {*;}
+-keep class org.osmdroid.views.utils.** {*;}
+-keep class org.osmdroid.views.overlay.gestures.** {*;}
+-keep class org.osmdroid.views.overlay.* {*;}
+-keep class org.osmdroid.views.overlay.infowindow* {*;}
+
+-keep class org.osmdroid.* {*;}

@@ -11,7 +11,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //minifyEnabled true
+            //proguardFiles "${rootDir}/proguard_osm.txt"
+        }
+        debug {
+            minifyEnabled false
+            //minifyEnabled true
+            //proguardFiles "${rootDir}/proguard_osm.txt","${rootDir}/proguard_openmap.txt"
+            //testProguardFiles "${rootDir}/proguard_osm.txt","${rootDir}/proguard_openmap.txt"
         }
     }
     packagingOptions {
