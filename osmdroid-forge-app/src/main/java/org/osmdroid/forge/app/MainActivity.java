@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.api.IGeoPoint;
@@ -23,11 +22,8 @@ import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.mapsforge.MapsForgeTileProvider;
 import org.osmdroid.mapsforge.MapsForgeTileSource;
-<<<<<<< HEAD
-=======
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
->>>>>>> 0d29e1e... Added debuglogging to osmdroid-mapsforge via OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS==true
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -64,7 +60,7 @@ public class MainActivity extends Activity {
         /**
          * super important to configure some of the mapsforge settings first
          */
-        AndroidGraphicFactory.createInstance(this.getApplication());
+        MapsForgeTileSource.createInstance(this.getApplication());
         /*
         not sure how important these are....
         MapFile.wayFilterEnabled = true;

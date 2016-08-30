@@ -20,8 +20,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     //Mapsforge rendering and database support, which is LGPL
-    compile ('org.mapsforge:mapsforge-map-android:0.6.0') {
-      exclude group: 'net.sf.kxml', module: 'kxml2'
+    compile ('org.mapsforge:mapsforge-map-android:0.6.1') {
+      // exclude group: 'net.sf.kxml', module: 'kxml2' // not shure if we can onmit this from app.
     }
 
 // osmdroid which is ASF licensed
