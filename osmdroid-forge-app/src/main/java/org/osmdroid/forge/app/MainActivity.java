@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.rendertheme.AssetsRenderTheme;
 import org.mapsforge.map.rendertheme.XmlRenderTheme;
 import org.osmdroid.api.IGeoPoint;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          * super important to configure some of the mapsforge settings first
          */
-        AndroidGraphicFactory.createInstance(this.getApplication());
+        MapsForgeTileSource.createInstance(this.getApplication());
         /*
         not sure how important these are....
         MapFile.wayFilterEnabled = true;

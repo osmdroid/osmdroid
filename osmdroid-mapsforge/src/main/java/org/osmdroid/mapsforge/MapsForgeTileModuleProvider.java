@@ -3,8 +3,11 @@ package org.osmdroid.mapsforge;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.IRegisterReceiver;
+import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
@@ -84,12 +87,25 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
         @Override
         public Drawable loadTile(final MapTileRequestState pState) {
             //TODO find a more efficient want to do this, seems overlay complicated
-            Drawable image= tileSource.renderTile(pState.getMapTile());
+            MapTile mapTile = pState.getMapTile();
+            String dbgPrefix = null;
+            if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+                dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + mapTile + "): ";
+                Log.d(IMapView.LOGTAG,dbgPrefix + "tileSource.renderTile");
+            }
+            Drawable image= tileSource.renderTile(mapTile);
             if (image!=null && image instanceof BitmapDrawable) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bitmapdata = stream.toByteArray();
-                tilewriter.saveFile(tileSource, pState.getMapTile(), new ByteArrayInputStream(bitmapdata));
+
+                if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+                    Log.d(IMapView.LOGTAG, dbgPrefix +
+                            "save tile " + bitmapdata.length +
+                            " bytes to " + tileSource.getTileRelativeFilenameString(mapTile));
+                }
+
+                tilewriter.saveFile(tileSource, mapTile, new ByteArrayInputStream(bitmapdata));
             }
             return image;
         }

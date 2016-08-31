@@ -32,10 +32,6 @@ dependencies {
     //crash logging
     compile 'ch.acra:acra:4.7.0'
 
-    //Mapsforge rendering and database support, which is LGPL
-    compile 'org.mapsforge:mapsforge-map-android:0.6.0'
-    compile 'org.mapsforge:mapsforge-map:0.6.0'
-
     //osmdroid map and mapsforge adapter
     compile project(':osmdroid-android')
     compile project(':osmdroid-mapsforge')
