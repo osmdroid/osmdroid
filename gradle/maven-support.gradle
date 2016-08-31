@@ -50,6 +50,11 @@ ext.gpgPath = (
     //TODO maybe a defaut path for windows?
 );
 
+ext.gpgPassphrase = (
+       hasProperty('GPG_PASSPHRASE')
+               ? GPG_PASSPHRASE
+               : ""
+);
 
 // default to Maven Central if not provided
 ext.releaseRepositoryUrl = (
@@ -998,7 +1003,7 @@ ext.signFile =  { file ->
 
         executable ext.gpgPath
 
-        args "-a", "--output", file+".asc","--detach-sig",file
+        args "-a", "--passphrase", ext.gpgPassphrase, "--output", file+".asc", "--detach-sig", file
         \
     }
     return true;
