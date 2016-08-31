@@ -18,7 +18,8 @@ public class SimpleInvalidationHandler extends Handler {
 	public void handleMessage(final Message msg) {
 		switch (msg.what) {
 		case MapTile.MAPTILE_SUCCESS_ID:
-			mView.invalidate();
+			if (mView!=null)
+				mView.invalidate();
 			break;
 		}
 	}
