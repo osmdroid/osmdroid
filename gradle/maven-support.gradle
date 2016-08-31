@@ -786,7 +786,7 @@ project.plugins.withType(MavenPublishPlugin) {
                             artifact(c.fileNameAndPath + ".asc") {
                                 extension project.pom.packaging
                                 classifier "javadoc"
-                                extension 'asc'
+                                extension 'jar.asc'
                             }
                         }
 
@@ -821,7 +821,7 @@ project.plugins.withType(MavenPublishPlugin) {
                             artifact(c.fileNameAndPath + ".asc") {
                                 extension project.pom.packaging
                                 classifier "sources"
-                                extension 'asc'
+                                extension 'jar.asc'
                             }
                         }
                     }
