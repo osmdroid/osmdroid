@@ -7,7 +7,7 @@ import android.os.Message;
 import android.view.View;
 
 public class SimpleInvalidationHandler extends Handler {
-	private final View mView;
+	private View mView;
 
 	public SimpleInvalidationHandler(final View pView) {
 		super();
@@ -21,5 +21,13 @@ public class SimpleInvalidationHandler extends Handler {
 			mView.invalidate();
 			break;
 		}
+	}
+
+	/**
+	 * See <a href="https://github.com/osmdroid/osmdroid/issues/390">https://github.com/osmdroid/osmdroid/issues/390</a>
+	 *
+	 */
+	public void destroy(){
+		mView=null;
 	}
 }
