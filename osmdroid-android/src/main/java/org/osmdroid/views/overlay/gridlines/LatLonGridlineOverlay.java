@@ -183,6 +183,7 @@ public class LatLonGridlineOverlay {
 
                 Marker m =  new Marker(mapView);
                 applyMarkerAttributes(m);
+                m.setRotation(-90f);
                 if (i > 0) {
                     m.setTitle(df.format(i) + "E");
                 } else {

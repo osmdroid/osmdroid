@@ -25,7 +25,8 @@ public final class BugFactory implements ISampleFactory {
         mSamples = new Class[]{
                 Bug82WinDeath.class,
                 SampleBug57.class,
-                Bug382Crash.class
+                Bug382Crash.class,
+                Bug164EndlessOnScolls.class
         };
     }
 
