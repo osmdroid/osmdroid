@@ -1106,6 +1106,12 @@ project.plugins.withType(MavenPublishPlugin) {
                                     project.ext.artifacts.add(c);
 
                                     logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
+                                    //our actual artifact
+                                    logger.debug("Adding " + "${artifactRoot}/${artifactName}" + " to artifact list");
+                                    artifact("${artifactRoot}/${artifactName}") {
+                                        classifier variant.name
+                                        extension project.pom.packaging
+                                    }
 
 
 
