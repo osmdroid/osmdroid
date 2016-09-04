@@ -1,12 +1,22 @@
-import java.lang.invoke.MethodHandleImpl
+import okhttp3.*
+
 import java.lang.reflect.Method
-import java.util.concurrent.TimeUnit
+import java.security.MessageDigest
 
 /**=================================================================================================
  * Common Gradle script configuration for Maven tasks.
  *
  * @author Chris Doyle
  =================================================================================================*/
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    }
+}
 
 
 apply plugin: 'maven'
@@ -223,7 +233,6 @@ uploadArchives {
         throw new StopExecutionException("Calling the 'publish' task instead...")
     }
 }
-
 
 afterEvaluate { project ->
 
@@ -1071,7 +1080,7 @@ project.plugins.withType(MavenPublishPlugin) {
                                         if (isGPGAvailable()) {
                                             c = new Container();
                                             c.fileName = variant.name + ".pom";
-                                            c.fileNameAndPath = "${artifactRoot}/${artifactName}.pom";
+                                            c.fileNameAndPath = "${buildDir}/publications/androidArtifacts/pom-default.xml"
                                             c.buildDir = "${buildDir}";
                                             if (project.isAndroidApplication)
                                                 c.type = "apk";
@@ -1079,46 +1088,26 @@ project.plugins.withType(MavenPublishPlugin) {
                                             project.ext.artifacts.add(c);
 
 
-                                            logger.info("Adding " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " to artifact list");
-                                            artifact("${buildDir}/publications/androidArtifacts/pom-default.xml.asc") {
-                                                extension "asc"
-                                                classifier "pom"
-                                            }
                                         } else {
-                                            logger.info("Skipping pom signing " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " GPG not available");
+                                            logger.warn("Skipping pom signing " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " GPG not available");
                                         }
                                     } else {
                                         logger.info("Skipping pom signing " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " POM already added");
                                     }
 
+                                    //signs the actual output
+                                    c = new Container();
+                                    if (project.isAndroidApplication)
+                                        c.type = "apk";
+                                    else c.type = "aar";
+                                    c.buildDir = "${buildDir}";
+                                    c.fileName = variant.name;
+                                    c.fileNameAndPath = "${artifactRoot}/${artifactName}";
+                                    project.ext.artifacts.add(c);
+
+                                    logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
 
 
-
-                                    //our actual artifact
-                                    logger.debug("Adding " + "${artifactRoot}/${artifactName}" + " to artifact list");
-                                    artifact("${artifactRoot}/${artifactName}") {
-                                        classifier variant.name
-                                        extension project.pom.packaging
-                                    }
-
-
-                                    if (isGPGAvailable()) {
-                                        //signs the actual output
-                                        c = new Container();
-                                        if (project.isAndroidApplication)
-                                            c.type = "apk";
-                                        else c.type = "aar";
-                                        c.buildDir = "${buildDir}";
-                                        c.fileName = variant.name;
-                                        c.fileNameAndPath = "${artifactRoot}/${artifactName}";
-                                        project.ext.artifacts.add(c);
-
-                                        logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
-                                        artifact("${artifactRoot}/${artifactName}" + ".asc") {
-                                            classifier c.fileName
-                                            extension project.pom.packaging + '.asc'
-                                        }
-                                    }
 
 
 
@@ -1140,10 +1129,7 @@ project.plugins.withType(MavenPublishPlugin) {
                                             project.ext.artifacts.add(c);
 
                                             logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
-                                            artifact("${artifactRoot}/${artifactName}" + ".asc") {
-                                                classifier c.fileName + "-javadoc"
-                                                extension  'jar.asc'
-                                            }
+
                                         }
 
 
@@ -1164,20 +1150,16 @@ project.plugins.withType(MavenPublishPlugin) {
                                             c.fileNameAndPath = "${buildDir}/libs/${artifactPrefix}-sources.jar";
                                             project.ext.artifacts.add(c);
 
-                                            artifact("${artifactRoot}/${artifactName}" + ".asc") {
-                                                classifier c.fileName + "-sources"
-                                                extension 'jar.asc'
-                                            }
+
                                         }
                                     }
-                                } else if ((variant.name.toLowerCase().endsWith("release") && !canSign)){
+                                } else if ((variant.name.toLowerCase().endsWith("release") && !canSign)) {
                                     logger.warn("====================\n\n" +
                                             "WARN You're perform a release build with android artifacts but have not specified signing certificate (JKS). Check gradle.properties\n\n" +
                                             "====================");
                                 } else {
                                     //logger.warn("Not a release and I can't sign, most things are skipped");
                                 }
-
                             }
                         }
                     }
@@ -1208,7 +1190,7 @@ project.plugins.withType(MavenPublishPlugin) {
 ext.signFile = { file ->
     logger.debug("attempting to sign " + file)
     if (!new File(file).exists()) {
-        logger.warn("\n\nWARN - skipping gpg signature of " + file + ", it probably hasn't been created yet!\n\n");
+        logger.warn("\n\nWARN - skipping gpg signature of " + file + ", file not found\n\n");
         return false;
     }
     File f = new File(file + ".asc");
@@ -1237,6 +1219,7 @@ ext.signFile = { file ->
 class Container{
     String fileNameAndPath;
     String fileName;
+    String artifactId;
     /**
      * only used to diff pom files
      */
@@ -1265,49 +1248,6 @@ gradle.taskGraph.whenReady { taskGraph ->
     }
 }
 
-/**
- * dev note: this function could possibly be used to completely override gradle's publish mechanism
- * by injecting an HTTP PUT, effectively solving the rediciously problem of not being able to specify
- * the name of the artifact when it's uploaded.
- */
-
-task signArtifacts() << {
-    // this line just makes gradle angry, left as a warn for future self
-    // outputs.upToDateWhen { false }
-    logger.info("Attempting to sign artifacts "  + project.ext.artifacts.size());
-
-    Iterator<Container> myiterator = project.ext.artifacts.iterator();
-    while (myiterator.hasNext()){
-
-        Container item = myiterator.next();
-        logger.debug(item.fileNameAndPath + " " + item.fileName + " " + item.type);
-        if (item.fileNameAndPath.endsWith(".pom")) {
-            if ("jar".equals(item.type)) {
-
-                item.fileNameAndPath = item.buildDir + "/publications/javaArtifacts/pom-default.xml";
-            }
-            if ("aar".equals(item.type)) {
-
-                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
-            }
-            if ("apk".equals(item.type)) {
-
-                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
-            }
-        }
-        if (isGPGAvailable()) {
-            if (signFile(item.fileNameAndPath)) {
-                logger.info(item.fileNameAndPath + " signed!");
-            } else {
-                logger.warn("\n\nWARN - failed to sign artifact at " - item.fileNameAndPath + " \n\n");
-            }
-        } else {
-            logger.warn("GPG not available " - item.fileNameAndPath);
-
-        }
-    }
-}
-
 
 def reflect(object) {
     Method[] bits = object.class.methods
@@ -1319,7 +1259,6 @@ def reflect(object) {
     }
 }
 
-build.finalizedBy(signArtifacts)
 
 //used to surpress output from pgp's help method
 def dummyOutputStream = new OutputStream() {
@@ -1359,3 +1298,246 @@ def isGPGAvailable(){
     return false;
 }
 
+
+/**
+ * dev note: this function could possibly be used to completely override gradle's publish mechanism
+ * by injecting an HTTP PUT, effectively solving the rediciously problem of not being able to specify
+ * the name of the artifact when it's uploaded.
+ */
+
+task signArtifacts() << {
+    // this line just makes gradle angry, left as a warn for future self
+    // outputs.upToDateWhen { false }
+    logger.info("Attempting to sign artifacts "  + project.ext.artifacts.size());
+
+    Iterator<Container> myiterator = project.ext.artifacts.iterator();
+    while (myiterator.hasNext()){
+
+        Container item = myiterator.next();
+        logger.debug(item.fileNameAndPath + " " + item.fileName + " " + item.type);
+        if (item.fileNameAndPath.endsWith(".pom")) {
+            if ("jar".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/javaArtifacts/pom-default.xml";
+            }
+            if ("aar".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
+            }
+            if ("apk".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
+            }
+        }
+        if (isGPGAvailable()) {
+            if (signFile(item.fileNameAndPath)) {
+                logger.info(item.fileNameAndPath + " signed!");
+            } else {
+                logger.warn("\n\nWARN - failed to sign artifact at " + item.fileNameAndPath + " \n\n");
+            }
+        } else {
+            logger.warn("GPG not available " - item.fileNameAndPath);
+
+        }
+    }
+}
+
+/**
+ * from https://github.com/hwiegard/gradle-checksum-plugin/blob/master/src/main/groovy/com/github/hwiegard/gradle/checksum/ChecksumPlugin.groovy
+ * @param file
+ * @param algorithm
+ * @param length
+ * @return
+ */
+def generateChecksumForFile(File file, String algorithm, int length) {
+    MessageDigest digest = MessageDigest.getInstance(algorithm)
+    file.withInputStream { is ->
+        byte[] buffer = new byte[8192]
+        int read
+        while ((read = is.read(buffer)) > 0) {
+            digest.update(buffer, 0, read)
+        }
+    }
+    byte[] md5sum = digest.digest()
+    BigInteger bigInt = new BigInteger(1, md5sum)
+    def md5Sum = bigInt.toString(16).padLeft(length, '0')
+    //project.logger.debug "Calculated MD5 sum '${md5Sum}' for file '${file}'"
+    new File(file.absolutePath + '.' + algorithm.toLowerCase()).write "${md5Sum}"
+}
+
+//so why did we have to write this? because gradle....
+//android artifact poms would sign but not upload using the standard naming convention
+//all of this was just to fix it
+task publishArtifacts << {
+
+    if ("".equalsIgnoreCase(targetRepositoryUrl) || targetRepositoryUrl==null){
+        throw new Exception("Cannot publish without a repository url defined");
+    }
+    if ("".equalsIgnoreCase(project.nexusUsername) || project.nexusUsername==null){
+        throw new Exception("Cannot publish without a repository username");
+    }
+    if ("".equalsIgnoreCase(project.nexusPassword) || project.nexusPassword==null){
+        throw new Exception("Cannot publish without a repository password");
+    }
+
+    OkHttpClient client = new OkHttpClient.Builder()
+            .authenticator(new Authenticator() {
+        @Override
+        public Request authenticate(Route route, Response response) throws IOException {
+            System.out.println("Authenticating for response: " + response);
+            System.out.println("Challenges: " + response.challenges());
+            String credential = Credentials.basic(project.nexusUsername, project.nexusPassword);
+            return response.request().newBuilder()
+                    .header("Authorization", credential)
+                    .build();
+        }
+    })
+            .build();
+
+
+
+    Iterator<Container> myiterator = project.ext.artifacts.iterator();
+    while (myiterator.hasNext()) {
+
+        String groupurl = project.group.replace(".", "/");
+        Container item = myiterator.next();
+        logger.warn(item.fileNameAndPath + " " + item.fileName + " " + item.type + " " + project.name);
+        File f = new File(item.fileNameAndPath);
+
+        String uploadedFileName = f.getName();
+        if (uploadedFileName.equalsIgnoreCase("pom-default.xml")) {
+            uploadedFileName = project.name + "-" + project.version + ".pom"
+        }
+        if (uploadedFileName.toLowerCase().endsWith(".asc"))
+            continue;
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName)
+                    .put(RequestBody.create(MediaType.parse("application/octet-stream; charset=utf-8"), f))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        signFile(f.absolutePath)
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        generateChecksumForFile(f, 'MD5', 32)
+        generateChecksumForFile(f, 'SHA1', 40)
+
+        generateChecksumForFile(new File(f.absolutePath + ".asc"), 'MD5', 32)
+        generateChecksumForFile(new File(f.absolutePath + ".asc"), 'SHA1', 40)
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".md5")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".md5")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".sha1")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".sha1")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc.md5")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc.md5")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc.sha1")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc.sha1")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            System.out.println(response.body().string());
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+    }
+
+
+}
+
+
+
+build.finalizedBy(signArtifacts)
+publishArtifacts.mustRunAfter(signArtifacts)
