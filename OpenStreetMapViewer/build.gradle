@@ -8,19 +8,6 @@ android {
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            //minifyEnabled true
-            //proguardFiles "${rootDir}/proguard_osm.txt"
-        }
-        debug {
-            minifyEnabled false
-            //minifyEnabled true
-            //proguardFiles "${rootDir}/proguard_osm.txt","${rootDir}/proguard_openmap.txt"
-            //testProguardFiles "${rootDir}/proguard_osm.txt","${rootDir}/proguard_openmap.txt"
-        }
-    }
     testOptions {
         unitTests.all {
             // All the usual Gradle options.
