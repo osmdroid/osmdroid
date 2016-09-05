@@ -1390,8 +1390,8 @@ task publishArtifacts << {
             .authenticator(new Authenticator() {
         @Override
         public Request authenticate(Route route, Response response) throws IOException {
-            System.out.println("Authenticating for response: " + response);
-            System.out.println("Challenges: " + response.challenges());
+            logger.debug("Authenticating for response: " + response);
+            logger.debug("Challenges: " + response.challenges());
             String credential = Credentials.basic(project.nexusUsername, project.nexusPassword);
             return response.request().newBuilder()
                     .header("Authorization", credential)
@@ -1428,8 +1428,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1447,8 +1446,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1472,8 +1470,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1491,8 +1488,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1511,8 +1507,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1530,8 +1525,7 @@ task publishArtifacts << {
             Response response = client.newCall(request).execute();
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-            System.out.println(response.body().string());
-
+            logger.warn("Upload: " + request.url());
 
         } catch (Exception ex) {
             ex.printStackTrace();
