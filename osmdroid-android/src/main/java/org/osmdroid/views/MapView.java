@@ -130,6 +130,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	// Keep a set of listeners for when the maps have a layout
 	private final LinkedList<OnFirstLayoutListener> mOnFirstLayoutListeners = new LinkedList<MapView.OnFirstLayoutListener>();
+	
+	/* becomes true once onLayout has been called for the first time i.e. map is ready to go. */
 	private boolean mLayoutOccurred = false;
 
 	public interface OnFirstLayoutListener {
