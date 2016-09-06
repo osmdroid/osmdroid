@@ -119,7 +119,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	protected Rect mScrollableAreaLimit;
 
 	private MapTileProviderBase mTileProvider;
-	private final Handler mTileRequestCompleteHandler;
+	private Handler mTileRequestCompleteHandler;
 	private boolean mTilesScaledToDpi = false;
 
 	final Matrix mRotateScaleMatrix = new Matrix();
@@ -829,6 +829,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		mTileProvider.detach();
 		mTileProvider.clearTileCache();
 		mZoomController.setVisible(false);
+
+		//https://github.com/osmdroid/osmdroid/issues/390
+		if (mTileRequestCompleteHandler instanceof SimpleInvalidationHandler) {
+			((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
+		}
+		mTileRequestCompleteHandler=null;
 	}
 
 	@Override

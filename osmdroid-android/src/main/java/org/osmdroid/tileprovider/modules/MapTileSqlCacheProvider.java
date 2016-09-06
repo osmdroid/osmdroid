@@ -12,6 +12,7 @@ import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileRequestState;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
+import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 
 import java.io.ByteArrayInputStream;
@@ -177,6 +178,12 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
             if (!isSdCardAvailable()) {
                 if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
                     Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
+                }
+                return null;
+            }
+            if (mWriter==null || mWriter.db == null) {
+                if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                    Log.d(IMapView.LOGTAG,"Sqlwriter cache is offline - do nothing for tile: " + pTile);
                 }
                 return null;
             }
