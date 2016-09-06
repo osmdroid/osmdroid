@@ -7,6 +7,8 @@ import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 
 /**
+ * An Item that can be displayed in a {@link ItemizedOverlay} or {@link ItemizedIconOverlay}.
+ *
  * Immutable class describing a GeoPoint with a Title and a Description.
  *
  * @author Nicolas Gramlich

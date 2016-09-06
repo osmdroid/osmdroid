@@ -17,11 +17,15 @@ import android.graphics.Region;
 import android.view.MotionEvent;
 
 /**
- * A polygon on the earth's surface. 
+ * A {@link org.osmdroid.views.overlay.Polygon} on the earth's surface that can have a
+ * popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
+ *
  * Mimics the Polygon class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support: Z-Index, Geodesic mode<br/>
  * - Supports InfoWindow. 
- * 
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ *
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
  * @author M.Kergall: transformation from PathOverlay to Polygon
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polygon.html">Google Maps Polygon</a>

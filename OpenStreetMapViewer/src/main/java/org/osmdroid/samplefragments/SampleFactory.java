@@ -77,7 +77,9 @@ public final class SampleFactory {
 				//28
 				SampleHereWeGo.class,
 				//29
-				SampleCustomLoadingImage.class
+				SampleCustomLoadingImage.class,
+				//30
+				AsyncTaskDemoFragment.class
         };
 	}
 

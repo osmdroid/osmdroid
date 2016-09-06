@@ -10,8 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/** View that can be displayed on an OSMDroid map, associated to a GeoPoint. 
- * Typical usage: cartoon-like bubbles displayed when clicking an overlay item. 
+/** {@link org.osmdroid.views.overlay.infowindow.InfoWindow} is a (pop-up-) View that can
+ * be displayed on an {@link org.osmdroid.views.MapView}, associated to a
+ * {@link org.osmdroid.api.IGeoPoint}.
+ *
+ * Typical usage: cartoon-like bubbles displayed when clicking an overlay item (i.e. a
+ * {@link org.osmdroid.views.overlay.Marker}).
  * It mimics the InfoWindow class of Google Maps JavaScript API V3. 
  * Main differences are: 
  * <ul>
@@ -20,6 +24,9 @@ import android.view.ViewGroup;
  * </ul>
  * 
  * This is an abstract class. 
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ *
  * @see MarkerInfoWindow
  * @author M.Kergall
  */

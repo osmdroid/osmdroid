@@ -22,12 +22,17 @@ import java.util.List;
 import microsoft.mappoint.TileSystem;
 
 /**
- * A polyline is a list of points, where line segments are drawn between consecutive points.
+ * A {@link org.osmdroid.views.overlay.Polyline} is a list of {@link GeoPoint}s, where line segments are
+ * drawn between consecutive points that can have a
+ * popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
+ *
  * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
  * <p/>
  * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
