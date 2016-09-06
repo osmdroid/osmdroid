@@ -17,14 +17,17 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
- * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
- * overlay, subclass this class, create an instance, and add it to the list obtained from
+ * {@link Overlay}: Base class representing an overlay which may be displayed on top of a {@link MapView}.
+ *
+ * To add an overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
  *
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-classes.png' />
  *
  * @author Nicolas Gramlich
  */
