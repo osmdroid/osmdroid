@@ -6,7 +6,7 @@
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
-Current Release: **5.2 April 28th, 2016**
+Current Release: **5.4 Sept 6th, 2016**
 
 Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.2@aar'
+    compile 'org.osmdroid:osmdroid-android:5.4:release@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
@@ -90,7 +90,7 @@ allprojects {
 Then in your APK or AAR project that needs osmdroid. Future readers: you may have to update the version numbers to match the source. Hint: the version number is defined in osmdroid gradle.properties file, key = pom.version.
 
 ```
-    compile 'org.osmdroid:osmdroid-android:5.3-SNAPSHOT:debug@aar'
+    compile 'org.osmdroid:osmdroid-android:5.5-SNAPSHOT:debug@aar'
 ```
 
 
@@ -102,7 +102,7 @@ Then in your APK or AAR project that needs osmdroid. Future readers: you may hav
 ## Prepare distribution
 
 ```
-./gradlew clean install distZip distro -Pprofile=sources,javadocs
+./gradlew clean install distZip distro -Pprofile=sources,javadoc
 ```
 
 Output zip is at osmdroid-dist/build/distributions/
@@ -112,6 +112,7 @@ Edit gradle.properties and update the version information (android.versionCode a
 
 Edit gradle.properties and set your credentials for nexus endpoint to publish to
 ```
-./gradlew clean install distZip distro -Pprofile=sources,javadocs publish
+./gradlew clean install distZip distro -Pprofile=sources,javadoc
+./gradlew publishArtifacts -Pprofile=sources,javadoc
 ```
 Edit gradle.properties and remove your crendentials.
