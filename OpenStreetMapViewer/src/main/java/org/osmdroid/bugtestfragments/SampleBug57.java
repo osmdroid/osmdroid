@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments;
+package org.osmdroid.bugtestfragments;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.R;
+import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.views.MapView;
 
 

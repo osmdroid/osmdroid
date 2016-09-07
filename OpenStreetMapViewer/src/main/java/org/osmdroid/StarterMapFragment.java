@@ -204,7 +204,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           // Put samples next
           SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
                .setIcon(android.R.drawable.ic_menu_gallery);
-          SampleFactory sampleFactory = SampleFactory.getInstance();
+          ISampleFactory sampleFactory = SampleFactory.getInstance();
           for (int a = 0; a < sampleFactory.count(); a++) {
                final BaseSampleFragment f = sampleFactory.getSample(a);
                samplesSubMenu.add(f.getSampleTitle()).setOnMenuItemClickListener(

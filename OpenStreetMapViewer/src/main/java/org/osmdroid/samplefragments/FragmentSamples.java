@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.osmdroid.ExtraSamplesActivity;
+import org.osmdroid.ISampleFactory;
 
 import java.util.ArrayList;
 
@@ -16,11 +17,13 @@ import java.util.ArrayList;
  * Created by KjellbergZ on 16.12.2015.
  */
 public class FragmentSamples extends ListFragment {
-    SampleFactory sampleFactory = SampleFactory.getInstance();
+    ISampleFactory sampleFactory=null;
 
     public final static String TAG="osmfragsample";
-    public static FragmentSamples newInstance() {
-        return new FragmentSamples();
+    public static FragmentSamples newInstance(ISampleFactory fac) {
+        FragmentSamples x= new FragmentSamples();
+        x.sampleFactory=fac;
+        return x;
     }
 
     @Override

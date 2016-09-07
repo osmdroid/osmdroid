@@ -1,17 +1,12 @@
+description = "Example application using osmdroid and Maps Forge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.application'
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+apply from: "${rootDir}/gradle/android-support.gradle"
 android {
 
     defaultConfig {
         applicationId "org.osmdroid.forge.app"
         minSdkVersion 10
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
     packagingOptions {
         exclude 'META-INF/LICENSE'

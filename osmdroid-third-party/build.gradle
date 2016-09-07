@@ -1,17 +1,11 @@
-description = 'OSMdroid Android 3rd Party'
+description = 'osmdroid 3rd party libraries and examples. May use non ASF licensed libraries as dependencies'
 apply plugin: 'com.android.library'
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
+apply from: "${rootDir}/gradle/android-support.gradle"
 android {
     compileSdkVersion "Google Inc.:Google APIs:23"
     buildToolsVersion "23.0.3"
     defaultConfig {
         minSdkVersion 9
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
     lintOptions {
         abortOnError false

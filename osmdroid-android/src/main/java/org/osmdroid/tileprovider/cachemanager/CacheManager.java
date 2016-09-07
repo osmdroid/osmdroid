@@ -12,13 +12,10 @@ import android.widget.Toast;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
-import org.osmdroid.tileprovider.constants.BonusPackHelper;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
-import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
-import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
@@ -123,7 +120,7 @@ public class CacheManager {
 
             // Check to see if we got success
             if (urlConnection.getResponseCode() != 200) {
-                Log.w(BonusPackHelper.LOG_TAG, "Problem downloading MapTile: " + tile + " HTTP response: " + urlConnection.getResponseMessage());
+                Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + urlConnection.getResponseMessage());
                 return false;
             }
 
@@ -144,13 +141,13 @@ public class CacheManager {
             return true;
         } catch (final UnknownHostException e) {
             // no network connection
-            Log.w(BonusPackHelper.LOG_TAG, "UnknownHostException downloading MapTile: " + tile + " : " + e);
+            Log.w(IMapView.LOGTAG, "UnknownHostException downloading MapTile: " + tile + " : " + e);
         } catch (final FileNotFoundException e) {
-            Log.w(BonusPackHelper.LOG_TAG, "Tile not found: " + tile + " : " + e);
+            Log.w(IMapView.LOGTAG, "Tile not found: " + tile + " : " + e);
         } catch (final IOException e) {
-            Log.w(BonusPackHelper.LOG_TAG, "IOException downloading MapTile: " + tile + " : " + e);
+            Log.w(IMapView.LOGTAG, "IOException downloading MapTile: " + tile + " : " + e);
         } catch (final Throwable e) {
-            Log.e(BonusPackHelper.LOG_TAG, "Error downloading MapTile: " + tile, e);
+            Log.e(IMapView.LOGTAG, "Error downloading MapTile: " + tile, e);
         } finally {
             StreamUtils.closeStream(in);
             StreamUtils.closeStream(out);
@@ -540,7 +537,7 @@ public class CacheManager {
             if (mTileProvider.getTileSource() instanceof OnlineTileSourceBase) {
                 tileSource = (OnlineTileSourceBase) mTileProvider.getTileSource();
             } else {
-                Log.e(BonusPackHelper.LOG_TAG, "TileSource is not an online tile source");
+                Log.e(IMapView.LOGTAG, "TileSource is not an online tile source");
                 return 0;
             }
 

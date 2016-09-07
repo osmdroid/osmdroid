@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.osmdroid.samplefragments.SampleBug57Step2">
+    tools:context="org.osmdroid.bugtestfragments.SampleBug57Step2">
 
     <TextView
         android:layout_width="match_parent"

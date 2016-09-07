@@ -1,13 +1,18 @@
 package org.osmdroid.samplefragments;
 
 
-public final class SampleFactory {
+import org.osmdroid.ISampleFactory;
+
+/**
+ * factory for all examples
+ */
+public final class SampleFactory implements ISampleFactory {
 
 	private final Class<? extends BaseSampleFragment>[] mSamples;
 
 
-	private static SampleFactory _instance;
-	public static SampleFactory getInstance() {
+	private static ISampleFactory _instance;
+	public static ISampleFactory getInstance() {
 		if (_instance == null) {
 			_instance = new SampleFactory();
 		}
@@ -71,15 +76,14 @@ public final class SampleFactory {
 				//25
 				SampleFollowMe.class,
 				//26
-				SampleBug57.class,
-				//27
 				SampleMapQuest.class,
-				//28
+				//27
 				SampleHereWeGo.class,
-				//29
+				//28
 				SampleCustomLoadingImage.class,
-				//30
+				//29
 				AsyncTaskDemoFragment.class
+
         };
 	}
 

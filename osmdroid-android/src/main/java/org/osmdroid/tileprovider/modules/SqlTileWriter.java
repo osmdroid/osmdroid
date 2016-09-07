@@ -36,11 +36,12 @@ public class SqlTileWriter implements IFilesystemCache {
     static boolean hasInited=false;
 
     public SqlTileWriter() {
-        // do this in the background because it takes a long time
+
         db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
         OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
-        db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
+
         try {
+            db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
             db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE+ " ("+DatabaseFileArchive.COLUMN_KEY+" INTEGER , "+DatabaseFileArchive.COLUMN_PROVIDER +" TEXT, "+DatabaseFileArchive.COLUMN_TILE+" BLOB, expires INTEGER, PRIMARY KEY ("+DatabaseFileArchive.COLUMN_KEY+", "+DatabaseFileArchive.COLUMN_PROVIDER+"));");
         }
         catch (Throwable ex){
@@ -49,6 +50,7 @@ public class SqlTileWriter implements IFilesystemCache {
         if (!hasInited){
             hasInited=true;
 
+            // do this in the background because it takes a long time
             final Thread t = new Thread() {
                 @Override
                 public void run() {

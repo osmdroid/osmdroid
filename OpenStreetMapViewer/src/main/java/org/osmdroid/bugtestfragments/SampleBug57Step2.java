@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments;
+package org.osmdroid.bugtestfragments;
 
 
 import android.os.Bundle;

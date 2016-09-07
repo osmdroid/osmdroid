@@ -1,4 +1,4 @@
-
+description = "osmdroid distribution package"
 if (project.hasProperty('profile') && project.profile.split(',').contains("dist")) {
     task distZip(type: Copy) {
         distZip.configure {

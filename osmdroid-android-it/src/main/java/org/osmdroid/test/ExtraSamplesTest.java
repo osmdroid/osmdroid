@@ -18,7 +18,9 @@ import android.util.Log;
 import junit.framework.Assert;
 
 import org.osmdroid.ExtraSamplesActivity;
+import org.osmdroid.ISampleFactory;
 import org.osmdroid.OsmApplication;
+import org.osmdroid.bugtestfragments.BugFactory;
 import org.osmdroid.samplefragments.*;
 import org.osmdroid.tileprovider.util.Counters;
 
@@ -36,6 +38,20 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
      * the duration and iteration count for longer running tests and memory leak testing
      */
     public void testActivity() {
+        ISampleFactory sampleFactory = SampleFactory.getInstance();
+        executeTest(sampleFactory);
+    }
+
+    /**
+     * This tests every bug driver fragment in the app. See implementation notes on how to increase
+     * the duration and iteration count for longer running tests and memory leak testing
+     */
+    public void testBugsDriversActivity() {
+        ISampleFactory sampleFactory = BugFactory.getInstance();
+        executeTest(sampleFactory);
+    }
+
+    private void executeTest(ISampleFactory sampleFactory){
         Counters.reset();
         final ExtraSamplesActivity activity = getActivity();
         assertNotNull(activity);
@@ -46,10 +62,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         assertTrue(frag instanceof FragmentSamples);
         //FragmentSamples samples = (FragmentSamples) frag;
 
-        final SampleFactory sampleFactory = SampleFactory.getInstance();
 
-        //force the fragments to load in a randomized order, why? because it will eventually force
-        //unforeseen issues via ci
         int[] fireOrder = new int[sampleFactory.count()];
         for (int i = 0; i < sampleFactory.count(); i++) {
             fireOrder[i]=i;

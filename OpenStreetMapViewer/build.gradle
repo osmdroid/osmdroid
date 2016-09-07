@@ -1,24 +1,12 @@
+description = 'OpenMap in the Play Store, the example app for using osmdroid'
+
 apply plugin: 'com.android.application'
+apply from: "${rootDir}/gradle/android-support.gradle"
 
 android {
     defaultConfig {
         applicationId 'org.osmdroid'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/NOTICE'
-
-    }
-    lintOptions {
-        abortOnError false
     }
     testOptions {
         unitTests.all {
@@ -37,7 +25,6 @@ android {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/chrisdoyle/gradle-fury/master/gradle/android-support.gradle'
 
 dependencies {
     compile 'com.android.support:support-v4:23+'

@@ -1,0 +1,1543 @@
+import okhttp3.*
+
+import java.lang.reflect.Method
+import java.security.MessageDigest
+
+/**=================================================================================================
+ * Common Gradle script configuration for Maven tasks.
+ *
+ * @author Chris Doyle
+ =================================================================================================*/
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    }
+}
+
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+
+// Maven Repository (i.e. Sonatype Nexus Repository Manager) Configuration -------------------------
+
+ext.isReleaseBuild = (!project.version.equals("unspecified") &&
+        project.version.contains("SNAPSHOT") == false)
+
+
+project.ext.artifacts = new LinkedList<Container>();
+project.ext.pgpSearch =false;
+project.ext.pgpAvailable=false;
+project.ext.pomAdded=false;
+
+
+def dumpTasks(TaskExecutionGraph graph){
+    List<Task> allTasks = graph.getAllTasks();
+    for (int i=0; i < allTasks.size(); i++){
+        System.out.println("TASK DUMP " + allTasks.get(i).name);
+    }
+
+}
+
+def furyHasTask(TaskExecutionGraph graph, String task){
+    List<Task> allTasks = graph.getAllTasks();
+    for (int i=0; i < allTasks.size(); i++){
+        if (allTasks.get(i).name.endsWith(task))
+            return true;
+    }
+    return false;
+
+}
+
+ext.gpgPath = (
+        hasProperty('GPG_PATH')
+                ? GPG_PATH
+                : "/usr/local/bin/gpg"
+        //TODO maybe a defaut path for windows?
+);
+
+
+ext.gpgPassphrase = (
+        hasProperty('GPG_PASSPHRASE')
+                ? GPG_PASSPHRASE
+                : ""
+);
+
+// default to Maven Central if not provided
+ext.releaseRepositoryUrl = (
+        hasProperty('RELEASE_REPOSITORY_URL')
+                ? RELEASE_REPOSITORY_URL
+                : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+)
+
+// default to Maven Central if not provided
+ext.snapshotRepositoryUrl = (
+        hasProperty('SNAPSHOT_REPOSITORY_URL')
+                ? SNAPSHOT_REPOSITORY_URL
+                : "https://oss.sonatype.org/content/repositories/snapshots/"
+)
+
+ext.targetRepositoryUrl = ( isReleaseBuild ? releaseRepositoryUrl : snapshotRepositoryUrl)
+
+ext.nexusUsername = ( hasProperty('NEXUS_USERNAME') ? NEXUS_USERNAME : "" )
+ext.nexusPassword = ( hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : "" )
+
+
+// Maven POM Properties ----------------------------------------------------------------------------
+
+// The following property definitions are consumed by the maven-publish plugin to drive automatic
+// Maven POM generation. The associated configuration properties should be defined in the standard
+// gradle.properties file in the root of the project.  These standard properties have been
+// purposefully externalized to allow for configuration on a per-project basis without requiring
+// modification to this script.
+//
+// NOTE: Ultimately, this work should be refactored and cleaned up for inclusion into an existing or
+// new formal Gradle plugin!  (A "labor of love" task for another day on my own time...)
+
+def licenses = []
+
+// parse the license list
+if (hasProperty("pom.licenses.license.0.name")) {
+
+    // parse the roles of each developer
+    for (def i = 0; hasProperty("pom.licenses.license.${i}.name"); ++i) {
+
+        def license = [
+                name: project.property("pom.licenses.license.${i}.name"),
+                url         : (
+                        hasProperty("pom.licenses.license.${i}.url")
+                                ? project.property("pom.licenses.license.${i}.url") : ""
+                ),
+                distribution: (
+                        hasProperty("pom.licenses.license.${i}.distribution")
+                                ? project.property("pom.licenses.license.${i}.distribution") : ""
+                )
+        ]
+
+        licenses[i] = license
+    }
+}
+
+def developers = []
+
+// parse the developer list
+if (hasProperty("pom.developers.developer.0.id")) {
+
+    // parse the roles of each developer
+    for (def i = 0; hasProperty("pom.developers.developer.${i}.id"); ++i) {
+
+        def roles = []
+
+        if (hasProperty("pom.developers.developer.${i}.role.0")) {
+            for (def j = 0; hasProperty("pom.developers.developer.${i}.role.${j}"); ++j) {
+                roles[j] = project.property("pom.developers.developer.${i}.role.${j}")
+            }
+        }
+
+        def developer = [
+                id: project.property("pom.developers.developer.${i}.id"),
+                name: (
+                        hasProperty("pom.developers.developer.${i}.name")
+                                ? project.property("pom.developers.developer.${i}.name") : ""
+                ),
+                email: (
+                        hasProperty("pom.developers.developer.${i}.email")
+                                ? project.property("pom.developers.developer.${i}.email") : ""
+                ),
+                organization: (
+                        hasProperty("pom.developers.developer.${i}.organization")
+                                ? project.property("pom.developers.developer.${i}.organization") : ""
+                ),
+                roles: roles
+        ]
+
+        developers[i] = developer
+    }
+}
+
+
+// now we define the primary "pom" configuration used by the maven-publish plugin (see below)
+ext.pom = [
+        packaging: ( hasProperty('pom.packaging') ? project.property('pom.packaging') : "jar" ), // use JAR as the default ???
+        name: ( hasProperty('project.name') ? project.property('project.name') : "" ),
+        description: ( hasProperty('project.description') ? project.property('project.description') : "" ),
+        url: ( hasProperty('pom.url') ? project.property('pom.url') : "http://TBD" ),
+        inceptionYear: ( hasProperty('pom.inceptionYear') ? project.property('pom.inceptionYear') : "" ),
+        licenses: licenses,
+        organization: [
+                name: ( hasProperty('pom.organization.name') ? project.property('pom.organization.name') : "" ),
+                url: ( hasProperty('pom.organization.url') ? project.property('pom.organization.url') : "" )
+        ],
+        developers: developers,
+        issueManagement: [
+                system: (
+                        hasProperty('pom.issueManagement.system') ? project.property('pom.issueManagement.system') : ""
+                ),
+                url: ( hasProperty('pom.issueManagement.url') ? project.property('pom.issueManagement.url') : "" )
+        ],
+        ciManagement: [
+                system: ( hasProperty('pom.ciManagement.system') ? project.property('pom.ciManagement.system') : "" ),
+                url: ( hasProperty('pom.ciManagement.url') ? project.property('pom.ciManagement.url') : "" )
+        ],
+        scm: [
+                url: ( hasProperty('pom.scm.url') ? project.property('pom.scm.url') : "" ),
+                connection: ( hasProperty('pom.scm.connection') ? project.property('pom.scm.connection') : "" ),
+                developerConnection: (
+                        hasProperty('pom.scm.developerConnection')
+                                ? project.property('pom.scm.developerConnection') : ""
+                )
+        ],
+        distributionManagement: [
+                site: [
+                        id: (
+                                hasProperty('pom.distributionManagement.site.id')
+                                        ? project.property('pom.distributionManagement.site.id') : ""
+                        ),
+                        url: ( hasProperty('pom.distributionManagement.site.url')
+                                ? project.property('pom.distributionManagement.site.url') : ""
+                        )
+                ]
+        ]
+]
+
+
+// Gradle Execution Pipeline Hacks -----------------------------------------------------------------
+
+// And here's where we muck with the Gradle task execution pipeline in order to strong-arm the
+// proper publishing of all artifacts (for every Android build variant) to a target Maven repository
+// (e.g. Sonatype Nexus)
+//
+// For background information regarding this "neat" series of hacks, please visit the following
+// thread from the Gradle forums:
+//
+//     "How can I upload multiple flavors/artifacts with different POM-files using mavenDeployer?"
+//     https://discuss.gradle.org/t/how-can-i-upload-multiple-flavors-artifacts-with-different-pom-files-using-mavendeployer/5887
+
+build.mustRunAfter clean
+publish.dependsOn build
+
+uploadArchives.dependsOn publish
+
+uploadArchives {
+    doFirst {
+        //execution phase
+        println "\n\n========================================================="
+        println "==> WARNING: The 'uploadArchives' task is deprecated. <=="
+        println "==> Calling the 'publish' task instead...             <=="
+        println "=========================================================\n\n"
+
+        throw new StopExecutionException("Calling the 'publish' task instead...")
+    }
+}
+
+afterEvaluate { project ->
+
+
+    project.ext.isJavaProject = project.plugins.hasPlugin('java');
+    project.ext.isWarProject = project.plugins.hasPlugin('war');
+
+    // FIXME :: @chrisdoyle :: DRY :: these are also defined in android-support.gradle...
+    project.ext.isAndroidApplication = project.plugins.hasPlugin("com.android.application");
+    project.ext.isAndroidLibrary = project.plugins.hasPlugin("com.android.library");
+    project.ext.isAndroidProject = project.isAndroidApplication || project.isAndroidLibrary;
+
+
+    // Digitally sign all Release artifacts --------------------------------------------------------
+
+    // NOTE: For now the only "validation" we will perform is whether or not a value is provided for
+    // each of the required signingConfigs properties.  More concrete validation may be developed as
+    // an enhancement in the future, if desired.
+    ext.canSign = project.hasProperty('android.signingConfigs.release.storeFile') &&
+            (project.property('android.signingConfigs.release.storeFile') != null) &&
+            !project.property('android.signingConfigs.release.storeFile').trim().isEmpty() &&
+            project.hasProperty('android.signingConfigs.release.storePassword') &&
+            (project.property('android.signingConfigs.release.storePassword') != null) &&
+            !project.property('android.signingConfigs.release.storePassword').trim().isEmpty() &&
+            project.hasProperty('android.signingConfigs.release.keyAlias') &&
+            (project.property('android.signingConfigs.release.keyAlias') != null) &&
+            !project.property('android.signingConfigs.release.keyAlias').trim().isEmpty() &&
+            project.hasProperty('android.signingConfigs.release.keyPassword') &&
+            (project.property('android.signingConfigs.release.keyPassword') != null) &&
+            !project.property('android.signingConfigs.release.keyPassword').trim().isEmpty();
+
+    // END Digitally sign all Release artifacts ----------------------------------------------------
+
+
+    // (Yet Another) Gradle Execution Pipeline Hack (to override the inoperable 'install' task for
+    // Android projects!!!
+    if (project.ext.isJavaProject) {
+        install {
+            doFirst {
+                println "\n\n========================================================="
+                println "==> WARNING: The 'install' task is deprecated.        <=="
+                println "==> Calling the 'publishToMavenLocal' task instead... <=="
+                println "=========================================================\n\n"
+
+                throw new StopExecutionException("Calling the 'publishToMavenLocal' task instead...")
+            }
+        }
+
+        install.dependsOn publishToMavenLocal
+    }
+    else if (project.ext.isAndroidProject) {
+        task install() {
+            doFirst {
+                println "\n\n========================================================="
+                println "==> WARNING: The 'install' task is deprecated.        <=="
+                println "==> Calling the 'publishToMavenLocal' task instead... <=="
+                println "=========================================================\n\n"
+
+                throw new StopExecutionException("Calling the 'publishToMavenLocal' task instead...")
+            }
+        }
+
+        install.dependsOn publishToMavenLocal
+
+        build.mustRunAfter clean
+        publishToMavenLocal.dependsOn build
+    }
+
+    if (project.hasProperty('profile')) {
+        project.ext.profiles = project.profile.split(',')
+
+        project.ext.set("ciProfileEnabled", project.ext.profiles.contains("ci"));
+
+        project.ext.set("javadocProfileEnabled", project.ext.profiles.contains("javadoc")
+                || project.ciProfileEnabled);
+
+        project.ext.set("sourcesProfileEnabled", project.ext.profiles.contains("sources")
+                || project.ciProfileEnabled);
+
+        project.ext.set("sign", project.ext.profiles.contains("sign"));
+    }
+    else {
+        project.ext.set("ciProfileEnabled", false);
+        project.ext.set("javadocProfileEnabled", false);
+        project.ext.set("sourcesProfileEnabled", false);
+        project.ext.set("sign", false);
+    }
+
+    if (project.isJavaProject) {
+        if (project.javadocProfileEnabled) {
+            javadoc {
+                classpath = configurations.compile
+
+                options.charSet 'UTF-8'
+                options.docEncoding 'UTF-8'
+                options.encoding 'UTF-8'
+                //options.addStringOption('Xdoclint:none', '-quiet')
+                //classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+                failOnError false
+
+                // FIXME :: @chrisdoyle :: this assumes Java 7...
+                options.links 'http://docs.oracle.com/javase/7/docs/api/'
+                options.links("http://developer.android.com/reference/");
+
+                options {
+                    setMemberLevel(JavadocMemberLevel.PACKAGE)
+                }
+            }
+
+            task javadocJar(type: Jar, dependsOn: javadoc) {
+                classifier = 'javadoc'
+                from javadoc.destinationDir
+            }
+        }
+
+        if (project.sourcesProfileEnabled) {
+            task sourcesJar(type: Jar, dependsOn: classes) {
+                classifier = 'sources'
+                from sourceSets.main.allSource
+            }
+        }
+    }
+    else if (project.isAndroidProject) {
+        def variants
+
+        if (project.android.hasProperty('libraryVariants')) {
+            variants = project.android.libraryVariants;
+        }
+        else if (project.android.hasProperty('applicationVariants')) {
+            variants = project.android.applicationVariants;
+        }
+
+        variants.all { variant ->
+            def artifactName = project.name + "-" + project.version + "-" + variant.name + "." +
+                    project.pom.packaging;
+
+            if (project.javadocProfileEnabled) {
+                project.task("${variant.name}Javadoc", type: Javadoc) {
+
+                    // https://github.com/chrisbanes/gradle-mvn-push/issues/9
+                    failOnError false
+
+                    destinationDir = new File("$project.buildDir/javadoc/$variant.name")
+
+                    source = variant.javaCompile.source
+
+                    String csdk = "${project.android.compileSdkVersion}";
+                    if (csdk.contains("Google")){
+                        try {
+                            csdk = csdk.split(":")[2];
+                        }catch (Exception ex){}
+                    }
+
+                    ext.androidJar =
+                            "${project.android.sdkDirectory}/platforms/" + csdk + "/android.jar"
+
+                    classpath = project.files(variant.javaCompile.classpath.files)
+                    classpath += project.files(ext.androidJar)
+                    //-bootclasspath /path/to/sdk/platforms/android-##/android.jar
+                    // other lame attempts to overcome the 3-headed monster...
+//                      classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//                      classpath += variants.toList().first().javaCompile.classpath
+
+                    options {
+                        links "http://docs.oracle.com/javase/7/docs/api/"
+                        linksOffline("http://d.android.com/reference",
+                                "${project.android.sdkDirectory}/docs/reference")
+                        setMemberLevel(JavadocMemberLevel.PACKAGE)
+                        docEncoding = 'UTF-8'
+                        encoding = 'UTF-8'
+                        charSet = 'UTF-8'
+                    }
+
+                    exclude '**/BuildConfig.java'
+                    exclude '**/R.java'
+                }
+
+                project.task("generate${variant.name.capitalize()}JavadocJar", type: Jar,
+                        dependsOn: "${variant.name}Javadoc") {
+
+                    classifier "${variant.name}-javadoc"
+
+                    description = 'Assembles a JAR archive containing the generated Javadoc API documentation of $variant.name.'
+
+                    exclude '**/BuildConfig.class'
+                    exclude '**/R.class'
+
+                    from "$project.buildDir/javadoc/$variant.name"
+                }
+            }
+
+            if (project.sourcesProfileEnabled) {
+                project.task("generate${variant.name.capitalize()}SourcesJar", type: Jar) {
+                    classifier = "${variant.name}-sources"
+
+                    description = 'Assembles a JAR archive containing the main sources of $variant.name.'
+
+                    // exclude generated files
+                    exclude '**/BuildConfig.java'
+                    exclude '**/R.java'
+
+                    from variant.javaCompile.source
+                }
+            }
+        }
+    }
+}
+
+
+def modifyGeneratedPom(pom) {
+
+
+    File overrides = new File("${projectDir}/gradle.properties");
+    if (overrides.exists()){
+        logger.info("${projectDir}/gradle.properties exists, apply overrides");
+        Properties props = new Properties();
+        props.load(new FileInputStream("${projectDir}/gradle.properties"));
+        props.each { prop ->
+            project.ext.set(prop.key, prop.value)
+        }
+    }
+
+    pom.withXml { provider ->
+        def node = provider.asNode()
+
+        if (!project.pom.packaging.equals("")) {
+            if (!node.packaging) {
+                node.appendNode('packaging', project.pom.packaging)
+            } else {
+                node.packaging.replaceNode {
+                    packaging(project.pom.packaging)
+                }
+            }
+        } else {
+            println "No pom.packaging defined in gradle.properties"
+        }
+
+        if (project.isAndroidProject || project.isWarProject || project.isJavaProject) {
+
+            //fix for issue #27 name element missing from pom
+            if ("".equals(project.pom.name)) {
+                project.pom.name = project.getName();
+            }
+
+            if (!project.pom.name.equals("")) {
+                if (!node.name) {
+                    node.appendNode('name', project.pom.name)
+                } else {
+                    node.name.replaceNode {
+                        name(project.pom.name)
+                    }
+                }
+            }
+
+            //fix for issue #27 description element missing from pom
+            if ("".equals(project.pom.description)) {
+                project.pom.description = project.getDescription();
+            }
+            //a description is mandatory for mavenCentral, this injects a placeholder
+            if ("".equals(project.pom.description)) {
+                project.pom.description = "A description should be added in the near future, as soon as I hack time.";
+            }
+
+            if (!project.pom.description.equals("")) {
+                if (!node.description) {
+                    node.appendNode('description', project.pom.description)
+                } else {
+                    node.description.replaceNode {
+                        description(project.pom.description)
+                    }
+                }
+            }
+
+            //fix for issue #51 url element missing from pom
+            //a URL is mandatory for mavenCentral, this injects a placeholder
+            logger.debug("POM URL should be " + project.pom.url);
+            if ("".equals(project.pom.url)) {
+                project.pom.url = "http://TBD";
+            }
+            if (!node.url) {
+                logger.debug("POM URL APPENDED");
+                node.appendNode('url', project.pom.url)
+            } else {
+                logger.debug("POM URL REPLACE");
+                node.url.replaceNode {
+                    url(project.pom.url)
+                }
+            }
+            logger.debug("POM URL IS NOW " + node.url);
+
+            if (!project.pom.inceptionYear.equals("")) {
+                if (!node.inceptionYear) {
+                    node.appendNode('inceptionYear', project.pom.inceptionYear)
+                } else {
+                    node.inceptionYear.replaceNode {
+                        inceptionYear(project.pom.inceptionYear)
+                    }
+                }
+            }
+
+
+
+            def repositoriesNode = node.appendNode("repositories")
+            project.repositories.each {
+                if (!it.url.toString().startsWith("file:/")) {
+                    def repoNode = repositoriesNode.appendNode("repository")
+                    repoNode.appendNode("id", it.name);
+                    repoNode.appendNode("name", it.name);
+                    repoNode.appendNode("url", it.url);
+                }
+
+            }
+
+            def licenses = project.pom.licenses
+
+            if ((licenses != null) && (licenses.size() > 0)) {
+                def licensesNode = node.appendNode('licenses')
+
+                licenses.each {
+                    def licenseNode = licensesNode.appendNode('license')
+
+                    if ((it.name != null) && !it.name.equals("")) {
+                        licenseNode.appendNode('name', it.name)
+                    }
+
+                    if ((it.url != null) && !it.url.equals("")) {
+                        licenseNode.appendNode('url', it.url)
+                    }
+
+                    if ((it.distribution != null) && !it.distribution.equals("")) {
+                        licenseNode.appendNode('distribution', it.distribution)
+                    }
+                }
+            }
+
+            if (!project.pom.organization.name.equals("") || !project.pom.organization.url.equals("")) {
+                def organizationNode = node.appendNode('organization')
+
+                if (!project.pom.organization.name.equals("")) {
+                    organizationNode.appendNode('name', project.pom.organization.name)
+                }
+
+                if (!project.pom.organization.url.equals("")) {
+                    organizationNode.appendNode('url', project.pom.organization.url)
+                }
+            }
+
+
+            def developers = project.pom.developers
+
+            if ((developers != null) && (developers.size() > 0)) {
+                def developersNode = node.appendNode('developers')
+
+                developers.each {
+                    def developerNode = developersNode.appendNode('developer')
+
+                    if ((it.id != null) && !it.id.equals("")) {
+                        developerNode.appendNode('id', it.id)
+                    }
+
+                    if ((it.name != null) && !it.name.equals("")) {
+                        developerNode.appendNode('name', it.name)
+                    }
+
+                    if ((it.email != null) && !it.email.equals("")) {
+                        developerNode.appendNode('email', it.email)
+                    }
+
+                    if ((it.organization != null) && !it.organization.equals("")) {
+                        developerNode.appendNode('organization', it.organization)
+                    }
+
+                    if ((it.roles != null) && (it.roles.size() > 0)) {
+                        def rolesNode = developerNode.appendNode('roles')
+                        it.roles.each {
+                            rolesNode.appendNode('role', it)
+                        }
+                    }
+                }
+            }
+
+            if (!project.pom.issueManagement.system.equals("")
+                    || !project.pom.issueManagement.url.equals("")) {
+
+                def issueManagementNode = node.appendNode('issueManagement')
+
+                if (!project.pom.issueManagement.system.equals("")) {
+                    issueManagementNode.appendNode('system', project.pom.issueManagement.system)
+                }
+                if (!project.pom.issueManagement.url.equals("")) {
+                    issueManagementNode.appendNode('url', project.pom.issueManagement.url)
+                }
+            }
+
+            if (!project.pom.ciManagement.system.equals("")
+                    || !project.pom.ciManagement.url.equals("")) {
+                def ciManagementNode = node.appendNode('ciManagement')
+
+                if (!project.pom.ciManagement.system.equals("")) {
+                    ciManagementNode.appendNode('system', project.pom.ciManagement.system)
+                }
+                if (!project.pom.ciManagement.url.equals("")) {
+                    ciManagementNode.appendNode('url', project.pom.ciManagement.url)
+                }
+            }
+
+            if (!project.pom.scm.url.equals("") || !project.pom.scm.connection.equals("")
+                    || !project.pom.scm.developerConnection.equals("")) {
+                def scmNode = node.appendNode('scm')
+
+                if (!project.pom.scm.url.equals("")) {
+                    scmNode.appendNode('url', project.pom.scm.url)
+                }
+                if (!project.pom.scm.connection.equals("")) {
+                    scmNode.appendNode('connection', project.pom.scm.connection)
+                }
+                if (!project.pom.scm.developerConnection.equals("")) {
+                    scmNode.appendNode('developerConnection', project.pom.scm.developerConnection)
+                }
+            }
+
+            if (!project.pom.distributionManagement.site.id.equals("")
+                    || !project.pom.distributionManagement.site.url.equals("")) {
+                def distributionManagementNode = node.appendNode('distributionManagement')
+                def siteNode = distributionManagementNode.appendNode('site')
+
+                if (!project.pom.distributionManagement.site.id.equals("")) {
+                    siteNode.appendNode('id', project.pom.distributionManagement.site.id)
+                }
+                if (!project.pom.distributionManagement.site.url.equals("")) {
+                    siteNode.appendNode('url', project.pom.distributionManagement.site.url)
+                }
+            }
+            if (project.isAndroidProject || project.isWarProject  || project.isJavaProject) {
+
+                //note to self. sticking || project.isJavaProject in this above if statement breaks
+                //because it adds a SECOND dependencies node on the pom. why? no clue
+                // modified from "Gradle not including dependencies in published pom.xml"
+                // http://stackoverflow.com/a/32451846/3093897
+
+
+                //fix for jar projects with multiple dependencies nodes
+                //https://discuss.gradle.org/t/maven-publish-doesnt-include-dependencies-in-the-project-pom-file/8544/3?u=spy99
+                def dependenciesNode = asNode().getAt("dependencies")[0]
+
+                if (dependenciesNode==null) {
+                    //no dependency node exists, add it
+                    dependenciesNode = asNode().appendNode("dependencies")
+                } else {
+                    //probably a jar project, which gradle insists on adding a dependencies node
+                    //purge the stuff gradle adds, since the scope is usually wrong anyhow
+                    //http://docs.groovy-lang.org/latest/html/api/groovy/util/Node.html
+                    dependenciesNode.children().clear()
+                }
+                def configurationNames;
+                if (project.isAndroidProject)
+                    configurationNames = ['default', 'compile', 'testCompile', 'androidTestCompile', 'provided'] // FIXME :: Issue #21: POM dependency generation shall support type and scope
+                else {
+                    configurationNames = ['compile', 'testCompile','compileOnly']
+                    // FIXME :: Issue #21: POM dependency generation shall support type and scope
+                }
+
+                configurations.findAll { set ->
+                    set.each { config ->
+                        // Note to future self
+                        // this apparently dumps all every jar/aar/war/etc file name of the dependency
+                        //useful for #21 and getting the type. This was initially written to get a list
+                        //of all configurationNames since they vary from android/jar/war projects
+                        // System.out.println("CONFIG " +config.name);
+                    }
+                }
+                int addedDependencies=0;
+
+                //https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Dependency_Scope
+                //maven only supports the following scope identifiers
+                //test, compile, provided, runtime, system,
+                configurationNames.each { configurationName ->
+                    configurations[configurationName].allDependencies.each { dependency ->
+                        if (dependency.group != null && dependency.name != null) {
+
+                            addedDependencies++;
+                            def dependencyNode = dependenciesNode.appendNode('dependency')
+                            dependencyNode.appendNode('groupId', dependency.group)
+                            dependencyNode.appendNode('artifactId', dependency.name)
+                            if ("default".equalsIgnoreCase(configurationName) ||
+                                    "compile".equalsIgnoreCase(configurationName) ||
+                                    "releaseCompile".equalsIgnoreCase(configurationName))
+                                dependencyNode.appendNode('scope', "compile");
+                            else if ("testCompile".equalsIgnoreCase(configurationName) ||
+                                    "androidTestCompile".equalsIgnoreCase(configurationName))
+                                dependencyNode.appendNode('scope', "test");
+                            else if ("compileOnly".equalsIgnoreCase(configurationName) ||
+                                    "provided".equalsIgnoreCase(configurationName))
+                                dependencyNode.appendNode('scope', "provided");
+                            else if ("runtime".equalsIgnoreCase(configurationName))
+                                dependencyNode.appendNode('scope', "runtime");
+
+                            if (dependency.version.endsWith("+")) {
+                                //a gradle wildcard
+                                if ("+".equals(dependency.version)) {
+                                    dependencyNode.appendNode('version', "LATEST")
+                                } else if (dependency.version.endsWith(".+")) {
+                                    //the version is something.+
+                                    dependencyNode.appendNode('version', "[" + dependency.version.replace(".+", ",)"))
+                                } else if (dependency.version.endsWith("+")) {
+                                    dependencyNode.appendNode('version', "[" + dependency.version.replace("+", ",)"))
+                                } else {
+                                    System.out.println("WARN - unhandled case for dependency version mediation for " +
+                                            dependency.group + ":" + dependency.name + ":" + dependency.version);
+                                }
+                                //TODO there may be other cases here
+
+                            } else {
+                                dependencyNode.appendNode('version', dependency.version)
+                            }
+
+// FIXME :: Issue #21: POM dependency generation shall support type and scope
+//                        dependencyNode.appendNode('type', ???)
+//                        dependencyNode.appendNode('scope', configurationName) // ???
+
+                            // if there are any exclusions in dependency
+                            if (dependency.excludeRules.size() > 0) {
+                                def exclusionsNode = dependencyNode.appendNode('exclusions')
+                                it.excludeRules.each { rule ->
+                                    def exclusionNode = exclusionsNode.appendNode('exclusion')
+                                    exclusionNode.appendNode('groupId', rule.group)
+                                    exclusionNode.appendNode('artifactId', rule.module)
+                                }
+                            }
+                        }
+                    }
+                }
+                //System.out.println("added " + addedDependencies + " dependencies")
+            }
+            //reflect(pom);
+        }
+    }
+}
+
+
+// maven-publish Configuration (I love me some incubation!!!) --------------------------------------
+//
+// =====================================================================================
+// ==> COMMENTARY: Gradle is wackadoodle. (Or perhaps it's just my understanding...) <==
+// =====================================================================================
+//
+// In order to avoid:
+//
+//      > Cannot configure the 'publishing' extension after it has been accessed.
+//
+// I had to steal some voodoo from here:
+//
+//      http://stackoverflow.com/a/27066692/3093897
+//
+// I have a vague idea what it does, but at the end of the day I don't really care as long as it
+// freaking works.  It is absurd having to write non-standard Groovy code to support standard
+// lifecycle operations, the least of which is artifact publishing.
+//
+// --Doyle
+//
+
+//Note: this block fires BEFORE the taskGraph is ready :(
+project.plugins.withType(MavenPublishPlugin) {
+    project.extensions.configure PublishingExtension,
+            new org.gradle.api.internal.ClosureBackedAction({
+
+                publications {
+                    if (project.isWarProject) {
+                        project.pom.packaging = 'war'
+
+                        def artifactName = project.name + "-" + project.version + "." + project.pom.packaging;
+                        def artifactRoot = "${buildDir}/libs/"
+
+                        webApp(MavenPublication) {
+                            from components.web
+
+                            groupId project.group
+                            artifactId project.name
+                            version project.version
+
+                            modifyGeneratedPom(pom)
+
+
+                            //primary out
+                            Container c;
+                            c = new Container();
+                            c.buildDir = "${buildDir}";
+                            c.fileName = artifactName;
+                            c.fileNameAndPath = "${artifactRoot}${artifactName}";
+                            c.type = "war";
+                            project.ext.artifacts.add(c);
+                            logger.debug("Adding " + "${artifactRoot}${artifactName}" + " to artifact list");
+
+
+                            if (isGPGAvailable()) {
+                                logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                artifact(c.fileNameAndPath + ".asc") {
+                                    extension 'war.asc'
+                                }
+                            }
+
+                            //the pom
+                            c = new Container();
+                            c.buildDir = "${buildDir}";
+                            c.fileName = artifactName;
+                            c.fileNameAndPath = "$buildDir/publications/webApp/pom-default.xml";
+                            c.type = "war";
+                            project.ext.artifacts.add(c);
+                            logger.debug("Adding " + "$buildDir/publications/webApp/pom-default.xml" + " to artifact list");
+
+
+                            if (isGPGAvailable()) {
+                                logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                artifact(c.fileNameAndPath + ".asc") {
+                                    extension 'pom.asc'
+                                }
+                            }
+
+                        }
+                        if (project.javadocProfileEnabled) {
+                            javadocArtifacts(MavenPublication) {
+                                from components.web
+
+                                groupId project.group
+                                artifactId project.name
+                                version project.version
+
+                                modifyGeneratedPom(pom)
+
+                                artifact javadocJar
+
+                                //#27 pgp signatures
+                                Container c;
+                                c = new Container();
+                                c.buildDir = "${buildDir}";
+                                c.fileName = artifactName;
+                                c.fileNameAndPath = "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-javadoc.jar";
+                                c.type = "jar";
+                                project.ext.artifacts.add(c);
+                                logger.debug("Adding " + "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-javadoc.jar" + " to artifact list");
+
+
+                                if (isGPGAvailable()) {
+                                    logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                    artifact(c.fileNameAndPath + ".asc") {
+                                        //extension project.pom.packaging
+                                        classifier "javadoc"
+                                        extension 'jar.asc'
+                                    }
+                                }
+                            }
+                        }
+
+                        if (project.sourcesProfileEnabled) {
+                            sourceJarArtifacts(MavenPublication) {
+                                from components.web
+
+                                groupId project.group
+                                artifactId project.name
+                                version project.version
+
+                                modifyGeneratedPom(pom)
+
+                                artifact sourcesJar
+                                //#27 pgp signatures
+
+                                Container c;
+                                c = new Container();
+                                c.buildDir = "${buildDir}";
+                                c.fileName = artifactName;
+                                c.fileNameAndPath = "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-sources.jar";
+                                c.type = "jar";
+                                project.ext.artifacts.add(c);
+                                logger.debug("Adding " + "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-sources.jar" + " to artifact list");
+
+
+                                if (isGPGAvailable()) {
+                                    logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                    artifact(c.fileNameAndPath + ".asc") {
+                                        //extension project.pom.packaging
+                                        classifier "sources"
+                                        extension 'jar.asc'
+                                    }
+                                }
+                            }
+                        }
+
+                    } else if (project.isJavaProject) {
+                        def artifactName = project.name + "-" + project.version + "." + project.pom.packaging;
+                        def artifactRoot = "${buildDir}/libs/"
+                        javaArtifacts(MavenPublication) {
+                            from components.java
+
+                            groupId project.group
+                            artifactId project.name
+                            version project.version
+
+                            modifyGeneratedPom(pom)
+
+                            //the jar
+                            Container c;
+                            c = new Container();
+                            c.buildDir = "${buildDir}";
+                            c.fileName = artifactName;
+                            c.fileNameAndPath = "${artifactRoot}${artifactName}";
+                            c.type = "jar";
+                            project.ext.artifacts.add(c);
+                            logger.debug("Adding " + "${artifactRoot}${artifactName}" + " to artifact list");
+
+
+                            if (isGPGAvailable()) {
+                                logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                artifact(c.fileNameAndPath + ".asc") {
+                                    extension 'jar.asc'
+                                }
+                            }
+
+                            //the pom
+                            c = new Container();
+                            c.buildDir = "${buildDir}";
+                            c.fileName = artifactName;
+                            c.fileNameAndPath = "$buildDir/publications/javaArtifacts/pom-default.xml";
+                            c.type = "jar";
+                            project.ext.artifacts.add(c);
+                            logger.debug("Adding " + "$buildDir/publications/javaArtifacts/pom-default.xml" + " to artifact list");
+
+
+                            if (isGPGAvailable()) {
+                                logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                artifact(c.fileNameAndPath + ".asc") {
+                                    extension 'pom.asc'
+                                }
+                            }
+                        }
+
+                        if (project.javadocProfileEnabled) {
+                            javadocArtifacts(MavenPublication) {
+                                from components.java
+
+                                groupId project.group
+                                artifactId project.name
+                                version project.version
+
+                                modifyGeneratedPom(pom)
+
+                                artifact javadocJar
+
+
+                                Container c;
+                                c = new Container();
+                                c.buildDir = "${buildDir}";
+                                c.fileName = artifactName;
+                                c.fileNameAndPath = "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-javadoc.jar";
+                                c.type = "jar";
+                                project.ext.artifacts.add(c);
+                                logger.debug("Adding " + "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-javadoc.jar" + " to artifact list");
+
+
+                                if (isGPGAvailable()) {
+                                    logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                    artifact(c.fileNameAndPath + ".asc") {
+                                        //extension project.pom.packaging
+                                        classifier "javadoc"
+                                        extension 'jar.asc'
+                                    }
+                                }
+
+
+                            }
+                        }
+
+                        if (project.sourcesProfileEnabled) {
+                            sourceJarArtifacts(MavenPublication) {
+                                from components.java
+
+                                groupId project.group
+                                artifactId project.name
+                                version project.version
+
+                                modifyGeneratedPom(pom)
+
+                                artifact sourcesJar
+
+                                Container c;
+                                c = new Container();
+                                c.buildDir = "${buildDir}";
+                                c.fileName = artifactName;
+                                c.fileNameAndPath = "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-sources.jar";
+                                c.type = "jar";
+                                project.ext.artifacts.add(c);
+                                logger.debug("Adding " + "${buildDir}" + "/libs/" + project.name + "-" + project.version + "-sources.jar" + " to artifact list");
+
+
+                                if (isGPGAvailable()) {
+                                    logger.debug("Adding " + c.fileNameAndPath + ".asc" + " to artifact list");
+                                    artifact(c.fileNameAndPath + ".asc") {
+                                        //extension project.pom.packaging
+                                        classifier "sources"
+                                        extension 'jar.asc'
+                                    }
+                                }
+                            }
+                        }
+                    } else if (project.isAndroidProject) {
+                        def artifactRoot
+                        def variants
+
+                        if (project.android.hasProperty('applicationVariants')) {
+                            artifactRoot = "${buildDir}/outputs/apk"
+                            variants = project.android.applicationVariants;
+                        } else if (project.android.hasProperty('libraryVariants')) {
+                            artifactRoot = "${buildDir}/outputs/aar"
+                            variants = project.android.libraryVariants;
+                        }
+
+
+                        androidArtifacts(MavenPublication) {
+                            groupId project.group
+                            artifactId project.name
+                            version project.version
+
+                            modifyGeneratedPom(pom)
+
+                            variants.all { variant ->
+
+                                logger.info("Processing " + project.name + ":" + variant.name)
+
+                                if (!variant.name.toLowerCase().endsWith("release")
+                                        || (variant.name.toLowerCase().endsWith("release") && canSign)) {
+
+                                    def artifactName = project.name + "-" + project.version + "-" +
+                                            variant.name + "." + project.pom.packaging;
+                                    def artifactPrefix = project.name + "-" + project.version + "-" +
+                                            variant.name;
+
+                                    //signs the pom
+                                    Container c;
+
+
+                                    if (!project.ext.pomAdded) {
+                                        //this check prevents failures because the pom is generated multiple times,
+                                        //mostly because of variants and debug/release
+                                        project.ext.pomAdded = true;
+
+                                        if (isGPGAvailable()) {
+                                            c = new Container();
+                                            c.fileName = variant.name + ".pom";
+                                            c.fileNameAndPath = "${buildDir}/publications/androidArtifacts/pom-default.xml"
+                                            c.buildDir = "${buildDir}";
+                                            if (project.isAndroidApplication)
+                                                c.type = "apk";
+                                            else c.type = "aar";
+                                            project.ext.artifacts.add(c);
+
+
+                                        } else {
+                                            logger.warn("Skipping pom signing " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " GPG not available");
+                                        }
+                                    } else {
+                                        logger.info("Skipping pom signing " + "${buildDir}/publications/androidArtifacts/pom-default.xml.asc" + " POM already added");
+                                    }
+
+                                    //signs the actual output
+                                    c = new Container();
+                                    if (project.isAndroidApplication)
+                                        c.type = "apk";
+                                    else c.type = "aar";
+                                    c.buildDir = "${buildDir}";
+                                    c.fileName = variant.name;
+                                    c.fileNameAndPath = "${artifactRoot}/${artifactName}";
+                                    project.ext.artifacts.add(c);
+
+                                    logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
+                                    //our actual artifact
+                                    logger.debug("Adding " + "${artifactRoot}/${artifactName}" + " to artifact list");
+                                    artifact("${artifactRoot}/${artifactName}") {
+                                        classifier variant.name
+                                        extension project.pom.packaging
+                                    }
+
+
+
+
+
+
+
+                                    if (project.javadocProfileEnabled) {
+                                        artifact tasks["generate${variant.name.capitalize()}JavadocJar"]
+                                        logger.debug("Adding " + "${buildDir}/libs/${artifactPrefix}-javadoc.jar" + " to artifact list");
+
+
+                                        if (isGPGAvailable()) {
+                                            c = new Container();
+                                            if (project.isAndroidApplication)
+                                                c.type = "apk";
+                                            else c.type = "aar";
+                                            c.buildDir = "${buildDir}";
+                                            c.fileName = variant.name;
+                                            c.fileNameAndPath = "${buildDir}/libs/${artifactPrefix}-javadoc.jar";
+                                            project.ext.artifacts.add(c);
+
+                                            logger.debug("Adding " + "${artifactRoot}/${artifactName}" + ".asc" + " to artifact list");
+
+                                        }
+
+
+                                    }
+
+                                    if (project.sourcesProfileEnabled) {
+                                        artifact tasks["generate${variant.name.capitalize()}SourcesJar"]
+                                        logger.debug("Adding " + "${buildDir}/libs/${artifactPrefix}-sources.jar" + " to artifact list");
+
+
+                                        if (isGPGAvailable()) {
+                                            c = new Container();
+                                            if (project.isAndroidApplication)
+                                                c.type = "apk";
+                                            else c.type = "aar";
+                                            c.buildDir = "${buildDir}";
+                                            c.fileName = variant.name;
+                                            c.fileNameAndPath = "${buildDir}/libs/${artifactPrefix}-sources.jar";
+                                            project.ext.artifacts.add(c);
+
+
+                                        }
+                                    }
+                                } else if ((variant.name.toLowerCase().endsWith("release") && !canSign)) {
+                                    logger.warn("====================\n\n" +
+                                            "WARN You're perform a release build with android artifacts but have not specified signing certificate (JKS). Check gradle.properties\n\n" +
+                                            "====================");
+                                } else {
+                                    //logger.warn("Not a release and I can't sign, most things are skipped");
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!"".equalsIgnoreCase(project.targetRepositoryUrl)) {
+                    repositories {
+                        maven {
+                            url project.targetRepositoryUrl
+
+                            if (!project.nexusUsername.equals("")) {
+                                credentials {
+                                    username project.nexusUsername
+                                    password project.nexusPassword
+                                }
+                            }
+                        }
+                    }
+                }
+            })
+}
+
+/**
+ * Signs a file via gpg
+ * @param file string path to the file
+ * @return false is signing failed or gpg is not available
+ */
+ext.signFile = { file ->
+    logger.debug("attempting to sign " + file)
+    if (!new File(file).exists()) {
+        logger.warn("\n\nWARN - skipping gpg signature of " + file + ", file not found\n\n");
+        return false;
+    }
+    File f = new File(file + ".asc");
+    if (f.exists())
+        f.delete();
+
+    logger.info("\n\nSigning file " + file);
+    if ("".equalsIgnoreCase(ext.gpgPassphrase)) {
+        exec {
+            executable ext.gpgPath
+            args "-a", "--output", file + ".asc", "--detach-sig", file
+        }
+    } else {
+        //pass phrase supplied
+        exec {
+            executable ext.gpgPath
+            args "-a", "--passphrase", ext.gpgPassphrase, "--output", file+".asc", "--detach-sig", file
+        }
+    }
+    return true;
+}
+
+/**
+ * a simple container for capturing data about a file that needs to be signed
+ */
+class Container{
+    String fileNameAndPath;
+    String fileName;
+    String artifactId;
+    /**
+     * only used to diff pom files
+     */
+    String type;
+    String buildDir;
+}
+
+/**
+ * this bit is kind of interesting
+ * when the signing code runs, it tends to run out of order, thiis part will force the signing method
+ * to rerun as the rest of the project is built.
+ *
+ * is it unnecessary work? you bet, however the signer skips
+ */
+gradle.taskGraph.whenReady { taskGraph ->
+    def tasks = taskGraph.getAllTasks()
+    tasks.each {
+        def taskName = it.getName()
+        if (taskName == 'signArtifacts' || taskName == "signArtifacts2" ||
+                taskName == "generatePomFileForAndroidArtifactsPublication") {
+            logger.debug("Found $taskName")
+
+            it.setOnlyIf { true }
+            it.outputs.upToDateWhen { false }
+        }
+    }
+}
+
+
+def reflect(object) {
+    Method[] bits = object.class.methods
+    for (int k =0; k < bits.length; k++){
+        System.out.println(bits[k].name);
+        for (int x= 0; x < bits[k].parameterTypes.length; x++) {
+            System.out.println("\t" + bits[k].parameterTypes[x].name);
+        }
+    }
+}
+
+
+//used to surpress output from pgp's help method
+def dummyOutputStream = new OutputStream() {
+    @Override
+    public void write(int b) {}
+}
+
+
+/**
+ * Attempts to call pgp --help
+ * @return true
+ if gpg is available on the system
+ */
+def isGPGAvailable(){
+    if (!project.sign)
+        return false;
+    if (project.ext.pgpSearch)
+        return project.ext.pgpAvailable;
+    project.ext.pgpSearch=true;
+    logger.debug("searching for GPG")
+    try {
+        exec {
+            executable ext.gpgPath
+            args "--help"
+            standardOutput = new ByteArrayOutputStream()
+            errorOutput = new ByteArrayOutputStream()
+        }
+        logger.debug("GPG found at " + gpgPath);
+        project.ext.pgpAvailable=true;
+        return true;
+    }catch (Exception ex){
+        ex.printStackTrace();
+    }
+    //TODO search commons paths for windows?
+    logger.warn("GPG NOT found, signing will not be possible");
+    project.ext.pgpAvailable=false;
+    return false;
+}
+
+
+/**
+ * dev note: this function could possibly be used to completely override gradle's publish mechanism
+ * by injecting an HTTP PUT, effectively solving the rediciously problem of not being able to specify
+ * the name of the artifact when it's uploaded.
+ */
+
+task signArtifacts() << {
+    // this line just makes gradle angry, left as a warn for future self
+    // outputs.upToDateWhen { false }
+    logger.info("Attempting to sign artifacts "  + project.ext.artifacts.size());
+
+    Iterator<Container> myiterator = project.ext.artifacts.iterator();
+    while (myiterator.hasNext()){
+
+        Container item = myiterator.next();
+        logger.debug(item.fileNameAndPath + " " + item.fileName + " " + item.type);
+        if (item.fileNameAndPath.endsWith(".pom")) {
+            if ("jar".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/javaArtifacts/pom-default.xml";
+            }
+            if ("aar".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
+            }
+            if ("apk".equals(item.type)) {
+
+                item.fileNameAndPath = item.buildDir + "/publications/androidArtifacts/pom-default.xml";
+            }
+        }
+        if (isGPGAvailable()) {
+            if (signFile(item.fileNameAndPath)) {
+                logger.info(item.fileNameAndPath + " signed!");
+            } else {
+                logger.warn("\n\nWARN - failed to sign artifact at " + item.fileNameAndPath + " \n\n");
+            }
+        } else {
+            logger.warn("GPG not available " - item.fileNameAndPath);
+
+        }
+    }
+}
+
+/**
+ * from https://github.com/hwiegard/gradle-checksum-plugin/blob/master/src/main/groovy/com/github/hwiegard/gradle/checksum/ChecksumPlugin.groovy
+ * @param file
+ * @param algorithm
+ * @param length
+ * @return
+ */
+def generateChecksumForFile(File file, String algorithm, int length) {
+    MessageDigest digest = MessageDigest.getInstance(algorithm)
+    file.withInputStream { is ->
+        byte[] buffer = new byte[8192]
+        int read
+        while ((read = is.read(buffer)) > 0) {
+            digest.update(buffer, 0, read)
+        }
+    }
+    byte[] md5sum = digest.digest()
+    BigInteger bigInt = new BigInteger(1, md5sum)
+    def md5Sum = bigInt.toString(16).padLeft(length, '0')
+    //project.logger.debug "Calculated MD5 sum '${md5Sum}' for file '${file}'"
+    new File(file.absolutePath + '.' + algorithm.toLowerCase()).write "${md5Sum}"
+}
+
+//so why did we have to write this? because gradle....
+//android artifact poms would sign but not upload using the standard naming convention
+//all of this was just to fix it
+task publishArtifacts << {
+
+    if ("".equalsIgnoreCase(targetRepositoryUrl) || targetRepositoryUrl==null){
+        throw new Exception("Cannot publish without a repository url defined");
+    }
+    if ("".equalsIgnoreCase(project.nexusUsername) || project.nexusUsername==null){
+        throw new Exception("Cannot publish without a repository username");
+    }
+    if ("".equalsIgnoreCase(project.nexusPassword) || project.nexusPassword==null){
+        throw new Exception("Cannot publish without a repository password");
+    }
+
+    OkHttpClient client = new OkHttpClient.Builder()
+            .authenticator(new Authenticator() {
+        @Override
+        public Request authenticate(Route route, Response response) throws IOException {
+            logger.debug("Authenticating for response: " + response);
+            logger.debug("Challenges: " + response.challenges());
+            String credential = Credentials.basic(project.nexusUsername, project.nexusPassword);
+            return response.request().newBuilder()
+                    .header("Authorization", credential)
+                    .build();
+        }
+    })
+            .build();
+
+
+
+    Iterator<Container> myiterator = project.ext.artifacts.iterator();
+    while (myiterator.hasNext()) {
+
+        String groupurl = project.group.replace(".", "/");
+        Container item = myiterator.next();
+        logger.warn(item.fileNameAndPath + " " + item.fileName + " " + item.type + " " + project.name);
+        File f = new File(item.fileNameAndPath);
+
+        String uploadedFileName = f.getName();
+        if (uploadedFileName.equalsIgnoreCase("pom-default.xml")) {
+            uploadedFileName = project.name + "-" + project.version + ".pom"
+        }
+        if (uploadedFileName.toLowerCase().endsWith(".asc"))
+            continue;
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName)
+                    .put(RequestBody.create(MediaType.parse("application/octet-stream; charset=utf-8"), f))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        signFile(f.absolutePath)
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        generateChecksumForFile(f, 'MD5', 32)
+        generateChecksumForFile(f, 'SHA1', 40)
+
+        generateChecksumForFile(new File(f.absolutePath + ".asc"), 'MD5', 32)
+        generateChecksumForFile(new File(f.absolutePath + ".asc"), 'SHA1', 40)
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".md5")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".md5")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".sha1")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".sha1")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc.md5")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc.md5")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+
+            Request request = new Request.Builder()
+                    .url(targetRepositoryUrl + groupurl + "/" + project.name  + "/" + project.version+ "/" + uploadedFileName + ".asc.sha1")
+                    .put(RequestBody.create(MediaType.parse("text/plain; charset=utf-8"), new File(f.absolutePath + ".asc.sha1")))
+            //.put(body) // here we use put
+            // .addHeader("Authorization", header)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+            logger.warn("Upload: " + request.url());
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+    }
+
+
+}
+
+
+
+build.finalizedBy(signArtifacts)
+publishArtifacts.mustRunAfter(signArtifacts)
