@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import org.osmdroid.R;
 import org.osmdroid.events.DelayedMapListener;
@@ -16,13 +17,14 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.IconOverlay;
-import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Overlay;
 
 /**
- * #394
+ * #394 #398 Demonstration how to load/update markers from
+ * Async Background task.
  *
  * Created by k3b on 01.09.2016.
  */
@@ -71,13 +73,22 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         mMapView.setTilesScaledToDpi(true);
 
         final Context context = getActivity();
-        icon = context.getResources().getDrawable(R.drawable.person);
-        currentBackgroundContentFolder = new FolderOverlay();
+        mMarkerIcon = context.getResources().getDrawable(R.drawable.person);
+        mCurrentBackgroundContentFolder = new FolderOverlay();
 
-        mMapView.getOverlays().add(currentBackgroundContentFolder);
+        mMapView.getOverlays().add(mCurrentBackgroundContentFolder);
 
         setHasOptionsMenu(true);
+
+        // MapView.OnFirstLayoutListener initial map display also triggers onScroll to update the markers
+        mMapView.addOnFirstLayoutListener(new MapView.OnFirstLayoutListener() {
+            @Override
+            public void onFirstLayout(View v, int left, int top, int right, int bottom) {
+                mMapView.zoomToBoundingBox(new BoundingBox(56.0,7.0, 45.0, 16.0), false);
+            }
+        });
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -115,35 +126,48 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
     }
 
     //---------------------------------------------------------------
-    /** Load ItemizedIconOverlay in a Background Task.
-     this allows canceling of loading task. There are 0 or one tasks running at a time */
-    private AsyncTask<Double, Integer, FolderOverlay> currentBackgroundMarkerLoaderTask = null;
+    /** Load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task {@link BackgroundMarkerLoaderTask}.
+     mCurrentBackgroundMarkerLoaderTask.cancel() allows aboarding the loading task on screen rotation.
+     There are 0 or one tasks running at a time. */
+    private BackgroundMarkerLoaderTask mCurrentBackgroundMarkerLoaderTask = null;
 
-    private Drawable icon = null;
-    private FolderOverlay currentBackgroundContentFolder = null;
+    /** implementation detail: mMarkerIcon attached to each generated {@link IconOverlay}*/
+    private Drawable mMarkerIcon = null;
 
+    /** This must be reomoved from {@link org.osmdroid.views.MapView} when
+     * {@link BackgroundMarkerLoaderTask} finishes */
+    private FolderOverlay mCurrentBackgroundContentFolder = null;
+
+    /** if > 0 there where zoom/scroll events while {@link BackgroundMarkerLoaderTask} was active so
+     * {@link #reloadMarker()} bust be called again. */
+	private int mMissedMapZoomScrollUpdates = 0;
+
+	/** called by {@link org.osmdroid.views.MapView} if zoom or scroll has changed to
+     * reload marker for new visible region in the {@link org.osmdroid.views.MapView}  */
     private void reloadMarker() {
         // initialized
-        if (currentBackgroundMarkerLoaderTask == null) {
-            // not active yet
-            // List<Overlay> oldItems = mFolderOverlaySummaryMarker.getItems();
-
+        if (mCurrentBackgroundMarkerLoaderTask == null) {
+            // start background load
             int zoom = this.mMapView.getZoomLevel();
             BoundingBox world = this.mMapView.getBoundingBox();
 
             reloadMarker(world, zoom);
-        }
+        } else {
+            // background load is already active. Remember that at least one scroll/zoom was missing
+			mMissedMapZoomScrollUpdates++;
+		}
     }
 
+	/** called by MapView if zoom or scroll has changed to reload marker for new visible region */
     private void reloadMarker(BoundingBox latLonArea, int zoom) {
         Log.d(TAG,"reloadMarker " + latLonArea + ", zoom " + zoom);
-        this.currentBackgroundMarkerLoaderTask = new BackgroundMarkerLoaderTask();
-        this.currentBackgroundMarkerLoaderTask.execute(
+        this.mCurrentBackgroundMarkerLoaderTask = new BackgroundMarkerLoaderTask();
+        this.mCurrentBackgroundMarkerLoaderTask.execute(
                 latLonArea.getLatSouth(), latLonArea.getLatNorth(),
                 latLonArea.getLonEast(), latLonArea.getLonWest(), (double) zoom);
     }
 
-    /** */
+	/** Implements load {@link FolderOverlay} with {@link IconOverlay}s in a Background Task. */
     private class BackgroundMarkerLoaderTask extends AsyncTask<Double, Integer, FolderOverlay> {
 
         /**
@@ -223,31 +247,35 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
         protected void onPostExecute(FolderOverlay result) {
             if (!isCancelled() && (result != null)) {
                 showMarker(result);
-                if (currentBackgroundMarkerLoaderTask == this) {
-                    currentBackgroundMarkerLoaderTask = null;
-                }
+            }
+            mCurrentBackgroundMarkerLoaderTask = null;
+            // there was map move/zoom while {@link BackgroundMarkerLoaderTask} was active. must reload
+            if (mMissedMapZoomScrollUpdates > 0) {
+                Log.d(TAG,"onPostExecute: lost  " + mMissedMapZoomScrollUpdates + " MapZoomScrollUpdates. Reload items.");
+                mMissedMapZoomScrollUpdates = 0;
+                reloadMarker();
             }
         }
     }
 
     private Overlay createMarker(double lat, double lon, int zoom) {
-        return new IconOverlay(new GeoPoint(lat,lon), icon);
-//        return new IconOverlay(null, new GeoPoint(lat,lon), icon);
+        return new IconOverlay(new GeoPoint(lat,lon), mMarkerIcon);
     }
 
+	/** called in gui thread by {@link BackgroundMarkerLoaderTask} after loading has finished. */
     private void showMarker(FolderOverlay newMarker) {
         boolean modified = false;
-        if (this.currentBackgroundContentFolder != null) {
-            Log.d(TAG,"showMarker remove old " + this.currentBackgroundContentFolder.getItems().size());
-            this.mMapView.getOverlays().remove(this.currentBackgroundContentFolder);
-            this.currentBackgroundContentFolder.onDetach(mMapView);
-            this.currentBackgroundContentFolder = null;
+        if (this.mCurrentBackgroundContentFolder != null) {
+            Log.d(TAG,"showMarker remove old " + this.mCurrentBackgroundContentFolder.getItems().size());
+            this.mMapView.getOverlays().remove(this.mCurrentBackgroundContentFolder);
+            this.mCurrentBackgroundContentFolder.onDetach(mMapView);
+            this.mCurrentBackgroundContentFolder = null;
             modified = true;
         }
 
         if (newMarker != null) {
-            this.currentBackgroundContentFolder = newMarker;
-            Log.d(TAG,"showMarker add new " + this.currentBackgroundContentFolder.getItems().size() + ", isAnimating=" + mMapView.isAnimating());
+            this.mCurrentBackgroundContentFolder = newMarker;
+            Log.d(TAG,"showMarker add new " + this.mCurrentBackgroundContentFolder.getItems().size() + ", isAnimating=" + mMapView.isAnimating());
             mMapView.getOverlays().add(newMarker);
             modified = true;
         }
@@ -259,6 +287,18 @@ public class AsyncTaskDemoFragment extends BaseSampleFragment {
                 mMapView.invalidate();
             }
         }
+		
     }
 
+    @Override
+    public void onDestroyView(){
+        // called i.e. for screen rotation
+        if (mCurrentBackgroundMarkerLoaderTask != null) {
+            // make shure that running {@link BackgroundMarkerLoaderTask} does not try to
+            // update destroyed gui when finished
+            mCurrentBackgroundMarkerLoaderTask.cancel(false);
+            mCurrentBackgroundMarkerLoaderTask = null;
+        }
+        super.onDestroy();
+    }
 }
