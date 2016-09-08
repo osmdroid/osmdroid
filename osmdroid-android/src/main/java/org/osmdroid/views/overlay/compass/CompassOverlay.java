@@ -130,7 +130,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		return mOrientationProvider;
 	}
 
-	protected void setOrientationProvider(IOrientationProvider orientationProvider) {
+	public void setOrientationProvider(IOrientationProvider orientationProvider) throws RuntimeException {
 		if (orientationProvider == null)
 			throw new RuntimeException(
 					"You must pass an IOrientationProvider to setOrientationProvider()");
