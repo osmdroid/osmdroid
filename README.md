@@ -27,7 +27,7 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.2</version>
+  <version>5.4</version>
   <type>aar</type>
 </dependency>
 ```
