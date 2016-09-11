@@ -55,6 +55,7 @@ public class Polyline extends OverlayWithIW {
 	/** Use {@link #Polyline()} instead */
 	@Deprecated
 	public Polyline(Context ctx) {
+		this();
 	}
 
 	public Polyline(){
