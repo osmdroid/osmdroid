@@ -35,7 +35,7 @@ import microsoft.mappoint.TileSystem;
 public class Polyline extends OverlayWithIW {
 	
 	/** original GeoPoints */
-	private int mOriginalPoints[][]; //as an array, to reduce object creation
+	private double mOriginalPoints[][]; //as an array, to reduce object creation
 	protected boolean mGeodesic;
 	private final Path mPath = new Path();
 	protected Paint mPaint = new Paint();
@@ -66,7 +66,7 @@ public class Polyline extends OverlayWithIW {
 		this.mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setAntiAlias(true);
 		this.clearPath();
-		mOriginalPoints = new int[0][2];
+		mOriginalPoints = new double[0][2];
 		mGeodesic = false;
 	}
 	
@@ -172,11 +172,11 @@ public class Polyline extends OverlayWithIW {
 	public void setPoints(List<GeoPoint> points){
 		clearPath();
 		int size = points.size();
-		mOriginalPoints = new int[size][2];
+		mOriginalPoints = new double[size][2];
 		for (int i=0; i<size; i++){
 			GeoPoint p = points.get(i);
-			mOriginalPoints[i][0] = p.getLatitudeE6();
-			mOriginalPoints[i][1] = p.getLongitudeE6();
+			mOriginalPoints[i][0] = p.getLatitude();
+			mOriginalPoints[i][1] = p.getLongitude();
 			if (!mGeodesic){
 				addPoint(p);
 			} else {

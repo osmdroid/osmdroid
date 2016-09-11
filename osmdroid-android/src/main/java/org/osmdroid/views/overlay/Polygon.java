@@ -2,6 +2,9 @@ package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -243,12 +246,25 @@ public class Polygon extends OverlayWithIW {
 	/** Build a list of GeoPoint as a rectangle. 
 	 * @param rectangle defined as a BoundingBox 
 	 * @return the list of 4 GeoPoint */
-	public static ArrayList<GeoPoint> pointsAsRect(BoundingBoxE6 rectangle){
-		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(4);
+	@Deprecated
+	public static ArrayList<IGeoPoint> pointsAsRect(BoundingBoxE6 rectangle){
+		ArrayList<IGeoPoint> points = new ArrayList<IGeoPoint>(4);
 		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonWestE6()));
 		points.add(new GeoPoint(rectangle.getLatNorthE6(), rectangle.getLonEastE6()));
 		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonEastE6()));
 		points.add(new GeoPoint(rectangle.getLatSouthE6(), rectangle.getLonWestE6()));
+		return points;
+	}
+
+	/** Build a list of GeoPoint as a rectangle.
+	 * @param rectangle defined as a BoundingBox
+	 * @return the list of 4 GeoPoint */
+	public static ArrayList<IGeoPoint> pointsAsRect(BoundingBox rectangle){
+		ArrayList<IGeoPoint> points = new ArrayList<IGeoPoint>(4);
+		points.add(new GeoPoint(rectangle.getLatNorth(), rectangle.getLonWest()));
+		points.add(new GeoPoint(rectangle.getLatNorth(), rectangle.getLonEast()));
+		points.add(new GeoPoint(rectangle.getLatSouth(), rectangle.getLonEast()));
+		points.add(new GeoPoint(rectangle.getLatSouth(), rectangle.getLonWest()));
 		return points;
 	}
 	
@@ -258,16 +274,16 @@ public class Polygon extends OverlayWithIW {
 	 * @param widthInMeters on latitude
 	 * @return the list of 4 GeoPoint
 	 */
-	public static ArrayList<GeoPoint> pointsAsRect(GeoPoint center, double lengthInMeters, double widthInMeters){
-		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(4);
+	public static ArrayList<IGeoPoint> pointsAsRect(GeoPoint center, double lengthInMeters, double widthInMeters){
+		ArrayList<IGeoPoint> points = new ArrayList<IGeoPoint>(4);
 		GeoPoint east = center.destinationPoint(lengthInMeters*0.5, 90.0f);
 		GeoPoint south = center.destinationPoint(widthInMeters*0.5, 180.0f);
-		int westLon = center.getLongitudeE6()*2 - east.getLongitudeE6();
-		int northLat = center.getLatitudeE6()*2 - south.getLatitudeE6();
-		points.add(new GeoPoint(south.getLatitudeE6(), east.getLongitudeE6()));
-		points.add(new GeoPoint(south.getLatitudeE6(), westLon));
+		double westLon = center.getLongitude()*2 - east.getLongitude();
+		double northLat = center.getLatitude()*2 - south.getLatitude();
+		points.add(new GeoPoint(south.getLatitude(), east.getLongitude()));
+		points.add(new GeoPoint(south.getLatitude(), westLon));
 		points.add(new GeoPoint(northLat, westLon));
-		points.add(new GeoPoint(northLat, east.getLongitudeE6()));
+		points.add(new GeoPoint(northLat, east.getLongitude()));
 		return points;
 	}
 	

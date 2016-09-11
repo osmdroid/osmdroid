@@ -17,7 +17,7 @@ import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 import org.osmdroid.tileprovider.util.StreamUtils;
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.MyMath;
 import org.osmdroid.util.TileSystem;
@@ -163,11 +163,11 @@ public class CacheManager {
     /**
      * @return the theoretical number of tiles in the specified area
      */
-    public int possibleTilesInArea(BoundingBoxE6 bb, final int zoomMin, final int zoomMax) {
+    public int possibleTilesInArea(BoundingBox bb, final int zoomMin, final int zoomMax) {
         int total = 0;
         for (int zoomLevel = zoomMin; zoomLevel <= zoomMax; zoomLevel++) {
-            Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouthE6() * 1E-6, bb.getLonEastE6() * 1E-6, zoomLevel);
-            Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorthE6() * 1E-6, bb.getLonWestE6() * 1E-6, zoomLevel);
+            Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth(), bb.getLonEast() * 1E-6, zoomLevel);
+            Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest() * 1E-6, zoomLevel);
             int y = mLowerRight.y - mUpperLeft.y + 1;
             int x = mLowerRight.x - mUpperLeft.x + 1;
             int nbTilesForZoomLevel = x * y;
@@ -283,7 +283,7 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public void downloadAreaAsync(Context ctx, BoundingBoxE6 bb, final int zoomMin, final int zoomMax) {
+    public void downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax) {
         new DownloadingTask(ctx, bb, zoomMin, zoomMax, null, true).execute();
     }
 
@@ -306,7 +306,7 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public void downloadAreaAsync(Context ctx, BoundingBoxE6 bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+    public void downloadAreaAsync(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
         new DownloadingTask(ctx, bb, zoomMin, zoomMax, callback, true).execute();
     }
 
@@ -344,7 +344,7 @@ public class CacheManager {
      * @param zoomMax
      * @since 5.3
      */
-    public void downloadAreaAsyncNoUI(Context ctx, BoundingBoxE6 bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
+    public void downloadAreaAsyncNoUI(Context ctx, BoundingBox bb, final int zoomMin, final int zoomMax, final CacheManagerCallback callback) {
         new DownloadingTask(ctx, bb, zoomMin, zoomMax, callback, false).execute();
     }
 
@@ -394,12 +394,12 @@ public class CacheManager {
         ProgressDialog mProgressDialog=null;
         boolean showUI = true;
         int mZoomMin, mZoomMax;
-        BoundingBoxE6 mBB;
+        BoundingBox mBB;
         ArrayList<GeoPoint> mGeoPoints;
         Context mCtx;
         CacheManagerCallback callback = null;
 
-        public CacheManagerTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
+        public CacheManagerTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
             this(pCtx, pBB, pZoomMin, pZoomMax);
             this.callback = callback;
             this.showUI = showUI;
@@ -417,7 +417,7 @@ public class CacheManager {
             mZoomMax = Math.min(pZoomMax, mMapView.getMaxZoomLevel());
         }
 
-        public CacheManagerTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
+        public CacheManagerTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
             mCtx = pCtx;
             mBB = pBB;
             mZoomMin = Math.max(pZoomMin, mMapView.getMinZoomLevel());
@@ -464,7 +464,7 @@ public class CacheManager {
 
     protected class DownloadingTask extends CacheManagerTask {
 
-        public DownloadingTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
+        public DownloadingTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
             super(pCtx, pBB, pZoomMin, pZoomMax, callback, showUI);
         }
         public DownloadingTask(Context pCtx, ArrayList<GeoPoint> pPoints, final int pZoomMin, final int pZoomMax, final CacheManagerCallback callback, final boolean showUI) {
@@ -546,8 +546,8 @@ public class CacheManager {
 
             if (mBB != null) {
                 for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                    Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouthE6() * 1E-6, mBB.getLonEastE6() * 1E-6, zoomLevel);
-                    Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorthE6() * 1E-6, mBB.getLonWestE6() * 1E-6, zoomLevel);
+                    Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth() , mBB.getLonEast() , zoomLevel);
+                    Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth(), mBB.getLonWest() , zoomLevel);
                     final int mapTileUpperBound = 1 << zoomLevel;
                     //Get all the MapTiles from the upper left to the lower right:
                     for (int y = mUpperLeft.y; y <= mLowerRight.y; y++) {
@@ -705,7 +705,7 @@ public class CacheManager {
      * @param zoomMin
      * @param zoomMax
      */
-    public void cleanAreaAsync(Context ctx, BoundingBoxE6 bb, int zoomMin, int zoomMax) {
+    public void cleanAreaAsync(Context ctx, BoundingBox bb, int zoomMin, int zoomMax) {
         new CleaningTask(ctx, bb, zoomMin, zoomMax).execute();
     }
 
@@ -719,7 +719,7 @@ public class CacheManager {
      */
     public void cleanAreaAsync(Context ctx, ArrayList<GeoPoint> geoPoints, int zoomMin, int zoomMax) {
 
-        BoundingBoxE6 extendedBounds = extendedBoundsFromGeoPoints(geoPoints,zoomMin);
+        BoundingBox extendedBounds = extendedBoundsFromGeoPoints(geoPoints,zoomMin);
 
         new CleaningTask(ctx, extendedBounds, zoomMin, zoomMax).execute();
     }
@@ -728,22 +728,22 @@ public class CacheManager {
      *
      */
 
-    public BoundingBoxE6 extendedBoundsFromGeoPoints(ArrayList<GeoPoint> geoPoints, int minZoomLevel) {
-        BoundingBoxE6 bb = BoundingBoxE6.fromGeoPoints(geoPoints);
+    public BoundingBox extendedBoundsFromGeoPoints(ArrayList<GeoPoint> geoPoints, int minZoomLevel) {
+        BoundingBox bb = BoundingBox.fromGeoPoints(geoPoints);
 
-        Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouthE6() * 1E-6, bb.getLonEastE6() * 1E-6, minZoomLevel);
+        Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth() , bb.getLonEast() , minZoomLevel);
         GeoPoint lowerRightPoint = getCoordinatesFromMapTile(mLowerRight.x+1, mLowerRight.y+1, minZoomLevel);
-        Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorthE6() * 1E-6, bb.getLonWestE6() * 1E-6, minZoomLevel);
+        Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest(), minZoomLevel);
         GeoPoint upperLeftPoint = getCoordinatesFromMapTile(mUpperLeft.x-1, mUpperLeft.y-1, minZoomLevel);
 
-        BoundingBoxE6 extendedBounds = new BoundingBoxE6(upperLeftPoint.getLatitudeE6(), upperLeftPoint.getLongitudeE6(), lowerRightPoint.getLatitudeE6(), lowerRightPoint.getLongitudeE6());
+        BoundingBox extendedBounds = new BoundingBox(upperLeftPoint.getLatitude(), upperLeftPoint.getLongitude(), lowerRightPoint.getLatitude(), lowerRightPoint.getLongitude());
 
         return extendedBounds;
     }
 
     protected class CleaningTask extends CacheManagerTask {
 
-        public CleaningTask(Context pCtx, BoundingBoxE6 pBB, final int pZoomMin, final int pZoomMax) {
+        public CleaningTask(Context pCtx, BoundingBox pBB, final int pZoomMin, final int pZoomMax) {
             super(pCtx, pBB, pZoomMin, pZoomMax);
             showUI=true;
         }
@@ -784,8 +784,8 @@ public class CacheManager {
             int deleted = 0;
             int tileCounter = 0;
             for (int zoomLevel = mZoomMin; zoomLevel <= mZoomMax; zoomLevel++) {
-                Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouthE6() * 1E-6, mBB.getLonEastE6() * 1E-6, zoomLevel);
-                Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorthE6() * 1E-6, mBB.getLonWestE6() * 1E-6, zoomLevel);
+                Point mLowerRight = getMapTileFromCoordinates(mBB.getLatSouth(), mBB.getLonEast() , zoomLevel);
+                Point mUpperLeft = getMapTileFromCoordinates(mBB.getLatNorth() , mBB.getLonWest() , zoomLevel);
 
                 final int mapTileUpperBound = 1 << zoomLevel;
                 //Get all the MapTiles from the upper left to the lower right:
