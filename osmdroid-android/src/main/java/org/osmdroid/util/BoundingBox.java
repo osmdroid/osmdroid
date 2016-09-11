@@ -6,6 +6,7 @@ import static org.osmdroid.util.MyMath.gudermannInverse;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -190,12 +191,12 @@ public class BoundingBox implements Parcelable, Serializable, MapViewConstants {
 				Math.max(this.mLonWest, Math.min(this.mLonEast, aLongitude)));
 	}
 
-	public static BoundingBox fromGeoPoints(final ArrayList<? extends GeoPoint> partialPolyLine) {
+	public static BoundingBox fromGeoPoints(final List<? extends IGeoPoint> partialPolyLine) {
 		double minLat = Double.MAX_VALUE;
         double minLon = Double.MAX_VALUE;
-        double maxLat = Double.MIN_VALUE;
-        double maxLon = Double.MIN_VALUE;
-		for (final GeoPoint gp : partialPolyLine) {
+        double maxLat = -Double.MAX_VALUE;
+        double maxLon = -Double.MAX_VALUE;
+		for (final IGeoPoint gp : partialPolyLine) {
 			final double latitude = gp.getLatitude();
 			final double longitude = gp.getLongitude();
 
