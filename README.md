@@ -6,7 +6,7 @@
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
-Current Release: **5.4 Sept 6th, 2016**
+Current Release: **5.4.1 Sept 13th, 2016**
 
 Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.4:release@aar'
+    compile 'org.osmdroid:osmdroid-android:5.4.1:release@aar'
     //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
@@ -27,7 +27,7 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.4</version>
+  <version>5.4.1</version>
   <type>aar</type>
 </dependency>
 ```
@@ -76,7 +76,7 @@ Thanks to <a href="https://github.com/chrisdoyle/gradle-fury">Gradle Fury</a>, t
 ./gradlew clean install
 ```
 
-In your root `build.gradle` file, add mavenLocal() if not present.
+In **your** root `build.gradle` file, add mavenLocal() if not present.
 ```
 allprojects {
     repositories {
@@ -93,26 +93,3 @@ Then in your APK or AAR project that needs osmdroid. Future readers: you may hav
     compile 'org.osmdroid:osmdroid-android:5.5-SNAPSHOT:debug@aar'
 ```
 
-
-## Running tests on a device (hardware or virtual)
-```
-./gradlew cC
-```
-
-## Prepare distribution
-
-```
-./gradlew clean install distZip distro -Pprofile=sources,javadoc
-```
-
-Output zip is at osmdroid-dist/build/distributions/
-
-## Publish release artifacts
-Edit gradle.properties and update the version information (android.versionCode and pom.version). Commit the change and tag with git.
-
-Edit gradle.properties and set your credentials for nexus endpoint to publish to
-```
-./gradlew clean install distZip distro -Pprofile=sources,javadoc
-./gradlew publishArtifacts -Pprofile=sources,javadoc
-```
-Edit gradle.properties and remove your crendentials.
