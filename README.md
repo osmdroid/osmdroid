@@ -1,6 +1,7 @@
 
 [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android)
+<a href="https://play.google.com/store/apps/details?id=org.osmdroid&hl=en"><img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" /></a>
 
 # osmdroid
 
@@ -18,7 +19,6 @@ repositories {
 
 dependencies {
     compile 'org.osmdroid:osmdroid-android:5.4.1:release@aar'
-    //Note as of 5.0, SLF4j is no longer needed!  compile 'org.slf4j:slf4j-simple:1.6.1'
 }
 ```
 
