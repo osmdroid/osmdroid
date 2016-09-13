@@ -7,6 +7,7 @@ import org.osmdroid.tileprovider.util.ManifestUtil;
 
 /**
  * HERE We Go
+ * @since 5.3
  * Created by alex on 8/11/16.
  */
 
