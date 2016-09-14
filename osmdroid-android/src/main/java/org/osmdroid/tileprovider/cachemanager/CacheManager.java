@@ -44,11 +44,11 @@ import java.util.ArrayList;
  * - Dowloading of tiles inside a specified area, <br>
  * - Cleaning of tiles inside a specified area,<br>
  * - Information about cache capacity and current cache usage. <br>
- * <p/>
+ * <p></p>
  * Important note 1: <br>
  * These methods only make sense for a MapView using an OnlineTileSourceBase:
  * bitmap tiles downloaded from urls. <br>
- * <p/>
+ * <p></p>
  * Important note 2 - about Bulk Downloading:<br>
  * When using OSM Mapnik tile server as the tile source, take care about OSM Tile usage policy
  * (http://wiki.openstreetmap.org/wiki/Tile_usage_policy).

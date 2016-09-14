@@ -23,7 +23,7 @@ import java.util.Set;
 
 /**
  * Borrowed from the osmdroid-android-it test classes by Neil Boyd
- * <p/>
+ * <p></p>
  * assumes that the sample world.map is copied to external storage/osmdroid/
  *
  * @author Alex O'Ree

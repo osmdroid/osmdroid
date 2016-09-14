@@ -7,7 +7,7 @@ import android.content.Context;
 
 /**
  * MapBox tile source, revised in 5.1 to not use static map ids or tokens
- * @author Brad Leege <bleege@gmail.com>
+ * @author Brad Leege bleege AT gmail.com
  * Created on 10/15/13 at 7:57 PM
  */
 public class MapBoxTileSource extends OnlineTileSourceBase

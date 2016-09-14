@@ -23,10 +23,10 @@ import microsoft.mappoint.TileSystem;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points.
- * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
- * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
- * <p/>
+ * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br>
+ * - Doesn't support Z-Index: drawing order is the order in map overlays<br>
+ * - Supports InfoWindow (must be a BasicInfoWindow). <br>
+ * <p></p>
  * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode.
  *
  * @author M.Kergall

@@ -21,8 +21,8 @@ import android.view.MotionEvent;
 
 /**
  * A polygon on the earth's surface. 
- * Mimics the Polygon class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support: Z-Index, Geodesic mode<br/>
+ * Mimics the Polygon class from Google Maps Android API v2 as much as possible. Main differences:<br>
+ * - Doesn't support: Z-Index, Geodesic mode<br>
  * - Supports InfoWindow. 
  * 
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
