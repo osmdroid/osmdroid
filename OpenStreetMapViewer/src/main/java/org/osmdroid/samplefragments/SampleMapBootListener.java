@@ -7,7 +7,8 @@ import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.MapView;
 
 /**
- * A quick tutorial on how to listen for when the map is ready to go
+ * A quick tutorial on how to listen for when the map is ready to go<br>
+ * <a href="https://github.com/osmdroid/osmdroid/issues/324">issue 324</a>
  * Created by alex on 6/4/16.
  */
 public class SampleMapBootListener extends BaseSampleFragment implements MapView.OnFirstLayoutListener {

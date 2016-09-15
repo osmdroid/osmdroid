@@ -26,6 +26,10 @@ import android.view.WindowManager;
 
 /**
  * Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+ *
+ * <br><br>
+ *     Note: this class can cause issues if you're also relying on {@link MapView#addOnFirstLayoutListener}
+ *     If you happen to be using both, see <a href="https://github.com/osmdroid/osmdroid/issues/324">Issue 324</a>
  * @author Marc Kurtz
  * @author Manuel Stahl
  * 
