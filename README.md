@@ -2,7 +2,7 @@
 [![Build Status](https://api.travis-ci.org/osmdroid/osmdroid.svg?branch=master)](https://travis-ci.org/osmdroid/osmdroid)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.osmdroid/osmdroid-android)
 
-<a href="https://play.google.com/store/apps/details?id=org.osmdroid&hl=en"><img alt="Get it on Google Play" src="http://steverichey.github.io/google-play-badge-svg/img/en_get.svg" /></a>
+[![Get it on Google Play](http://steverichey.github.io/google-play-badge-svg/img/en_get.svg)](https://play.google.com/store/apps/details?id=org.osmdroid)
 
 # osmdroid
 
