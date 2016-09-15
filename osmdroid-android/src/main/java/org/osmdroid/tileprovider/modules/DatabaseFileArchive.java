@@ -37,8 +37,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 	}
 
 	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
-		//return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
-		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
+		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY & SQLiteDatabase.NO_LOCALIZED_COLLATORS));
 
 	}
 
@@ -58,7 +57,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 
 	@Override
 	public void init(File pFile) throws Exception {
-		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
+		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 	}
 
 	public byte[] getImage(final ITileSource pTileSource, final MapTile pTile) {
