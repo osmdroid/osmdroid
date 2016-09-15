@@ -97,7 +97,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     /**
      * Creates a new MapsForgeTileSource from file.
-     * <p/>
+     * <p></p>
      * Parameters minZoom and maxZoom are obtained from the
      * database. If they cannot be obtained from the DB, the default values as
      * defined by this class are used, which is zoom = 3-20
@@ -116,7 +116,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     /**
      * Creates a new MapsForgeTileSource from file[].
-     * <p/>
+     * <p></p>
      * Parameters minZoom and maxZoom are obtained from the
      * database. If they cannot be obtained from the DB, the default values as
      * defined by this class are used, which is zoom = 3-20
@@ -137,7 +137,7 @@ public class MapsForgeTileSource extends BitmapTileSourceBase {
 
     /**
      * Creates a new MapsForgeTileSource from file[].
-     * <p/>
+     * <p></p>
      * Parameters minZoom and maxZoom are obtained from the
      * database. If they cannot be obtained from the DB, the default values as
      * defined by this class are used, which is zoom = 3-20

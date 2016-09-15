@@ -19,6 +19,7 @@ import android.os.Parcelable;
  * @author Nicolas Gramlich
  *
  */
+@Deprecated
 public class BoundingBoxE6 implements Parcelable, Serializable, MapViewConstants {
 
 	// ===========================================================

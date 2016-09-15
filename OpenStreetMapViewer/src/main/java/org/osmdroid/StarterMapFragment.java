@@ -192,7 +192,9 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
          //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
           if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
               if (mCompassOverlay!=null)
-                 this.mCompassOverlay.enableCompass();
+                  //this call is needed because onPause, the orientation provider is destroyed to prevent context leaks
+                  this.mCompassOverlay.setOrientationProvider(new InternalCompassOrientationProvider(getActivity()));
+                  this.mCompassOverlay.enableCompass();
           }
      }
 

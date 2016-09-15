@@ -19,7 +19,7 @@ import java.util.Set;
  * This is the OSMdroid style database provider. It's an extremely simply sqlite database schema.
  * CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)
  * where the key is the X/Y/Z coordinates bitshifted using the following algorithm
- * key = ((z << z) + x << z) + y;
+ * key = ((z &lt;&lt; z) + x &lt;&lt; z) + y;
  */
 public class DatabaseFileArchive implements IArchiveFile {
 
@@ -37,8 +37,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 	}
 
 	public static DatabaseFileArchive getDatabaseFileArchive(final File pFile) throws SQLiteException {
-		//return new DatabaseFileArchive(SQLiteDatabase.openOrCreateDatabase(pFile, null));
-		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY));
+		return new DatabaseFileArchive(SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY & SQLiteDatabase.NO_LOCALIZED_COLLATORS));
 
 	}
 
@@ -58,7 +57,7 @@ public class DatabaseFileArchive implements IArchiveFile {
 
 	@Override
 	public void init(File pFile) throws Exception {
-		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY);
+		mDatabase=SQLiteDatabase.openDatabase(pFile.getAbsolutePath(), null, SQLiteDatabase.OPEN_READONLY | SQLiteDatabase.NO_LOCALIZED_COLLATORS);
 	}
 
 	public byte[] getImage(final ITileSource pTileSource, final MapTile pTile) {

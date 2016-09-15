@@ -21,22 +21,21 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
 /**
- * {@link org.osmdroid.views.overlay.Marker} is an icon placed at a particular point on the
- * map's surface that can have a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
+ * A marker is an icon placed at a particular point on the map's surface that can have a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble)
+ * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br>
  *
- * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br/>
- * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br/>
- * - The icon can be changed at any time. <br/>
- * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br/>
- * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br/>
- * - Supports an image, to be displayed in the InfoWindow. <br/>
- * - Supports "panning to view" on/off option (when touching a marker, center the map on marker position). <br/>
- * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br/>
- * - Events listeners are set per marker, not per map. <br/>
+ * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br>
+ * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br>
+ * - The icon can be changed at any time. <br>
+ * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br>
+ * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br>
+ * - Supports an image, to be displayed in the InfoWindow. <br>
+ * - Supports "panning to view" on/off option (when touching a marker, center the map on marker position). <br>
+ * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br>
+ * - Events listeners are set per marker, not per map. <br>
  * 
- * TODO: <br/>
- * Impact of marker rotation on hitTest<br/>
+ * TODO: <br>
+ * Impact of marker rotation on hitTest<br>
  * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
  *
  * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />

@@ -574,6 +574,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 
+	/**
+	 * rotates the map to the desired heading
+	 * @param degrees
+     */
 	public void setMapOrientation(float degrees) {
 		mapOrientation = degrees % 360.0f;
 		// Request a layout, so that children are correctly positioned according to map orientation

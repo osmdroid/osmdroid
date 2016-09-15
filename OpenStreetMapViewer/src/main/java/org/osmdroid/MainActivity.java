@@ -72,6 +72,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             tv.setTextColor(Color.RED);
             tv.setTypeface(null, Typeface.BOLD);
         }
+
+        tv = (TextView) findViewById(R.id.version_text);
+        tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
     }
 
     @Override

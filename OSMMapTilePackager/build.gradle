@@ -9,6 +9,7 @@ mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.0.1'
     compile 'org.apache.james:apache-mime4j:0.6'
+    compile 'org.xerial:sqlite-jdbc:3.7.2'
 
 
     testCompile 'junit:junit:4.11'

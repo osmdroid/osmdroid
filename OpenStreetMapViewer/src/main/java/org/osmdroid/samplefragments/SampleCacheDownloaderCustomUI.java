@@ -189,7 +189,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();
                 //nesw
-                BoundingBoxE6 bb = new BoundingBoxE6(n, e, s, w);
+                BoundingBox bb = new BoundingBox(n, e, s, w);
                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
                 cache_estimate.setText(tilecount + " tiles");
                 if (startJob) {
