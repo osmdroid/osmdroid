@@ -2,10 +2,6 @@ description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
 apply from: "${rootDir}/gradle/android-support.gradle"
 
-configurations {
-    javadocDeps
-}
-
 android {
     lintOptions {
         abortOnError false
@@ -14,16 +10,5 @@ android {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.8.2'
-//    javadocDeps 'com.android.support:support-annotations:22.2.0'
 }
 
-task _javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.javadocDeps
-    destinationDir = file("../javadoc/")
-    options {
-        encoding = "UTF-8"
-        failOnError false
-    }
-}
