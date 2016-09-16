@@ -27,7 +27,11 @@ import microsoft.mappoint.TileSystem;
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br>
  * <p></p>
- * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode.
+ * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
+ * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
+ * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>

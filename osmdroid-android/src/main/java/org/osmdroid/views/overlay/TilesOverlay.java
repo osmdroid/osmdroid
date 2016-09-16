@@ -31,6 +31,8 @@ import android.view.SubMenu;
 import org.osmdroid.api.IMapView;
 
 /**
+ * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
+ *
  * These objects are the principle consumer of map tiles.
  *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.

@@ -6,10 +6,16 @@ import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 /**
- * Overlay able to open an InfoWindow (a bubble), displaying: a title, a snippet or description, 
- * and optionally a "sub-description". 
+ * The {@link org.osmdroid.views.overlay.OverlayWithIW} is an {@link org.osmdroid.views.overlay.Overlay} that
+ *  contain data {@link #getTitle() title} ,
+ * a {@link #getSnippet() snippet or description},
+ * and optionally a {@link #getSubDescription() "sub-description"} and that
+ * can be shown in a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
+ *
  * Handling tap event and showing the InfoWindow at a relevant position is let to sub-classes. 
- * 
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ *
  * @see BasicInfoWindow
  * 
  * @author M.Kergall

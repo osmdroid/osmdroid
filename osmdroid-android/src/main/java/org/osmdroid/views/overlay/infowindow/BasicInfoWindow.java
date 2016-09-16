@@ -14,10 +14,15 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * Default implementation of InfoWindow for an OverlayWithIW. 
+ * {@link org.osmdroid.views.overlay.infowindow.BasicInfoWindow} is the default
+ * implementation of {@link org.osmdroid.views.overlay.infowindow.InfoWindow} for an
+ * {@link org.osmdroid.views.overlay.OverlayWithIW}.
+ *
  * It handles a title, a description and a sub-description.
- * Clicking on the bubble will close it. 
- * 
+ * Clicking on the bubble will close it.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ *
  * @author M.Kergall
  * @see Marker
  */

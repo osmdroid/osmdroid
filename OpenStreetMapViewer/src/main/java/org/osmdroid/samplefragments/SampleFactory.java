@@ -80,8 +80,9 @@ public final class SampleFactory implements ISampleFactory {
 				//27
 				SampleHereWeGo.class,
 				//28
-				SampleCustomLoadingImage.class
+				SampleCustomLoadingImage.class,
 				//29
+				AsyncTaskDemoFragment.class
 
         };
 	}

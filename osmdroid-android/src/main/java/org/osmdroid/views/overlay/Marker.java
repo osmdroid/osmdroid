@@ -21,8 +21,9 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
 /**
- * An icon placed at a particular point on the map's surface. 
+ * A marker is an icon placed at a particular point on the map's surface that can have a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble)
  * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br>
+ *
  * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br>
  * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br>
  * - The icon can be changed at any time. <br>
@@ -35,8 +36,10 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
  * 
  * TODO: <br>
  * Impact of marker rotation on hitTest<br>
- * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br>
- * 
+ * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ *
  * @see MarkerInfoWindow
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
  * 
