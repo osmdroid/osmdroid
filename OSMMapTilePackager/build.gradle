@@ -12,7 +12,7 @@ dependencies {
     compile 'org.xerial:sqlite-jdbc:3.7.2'
 
 
-    testCompile 'junit:junit:4.11'
+    testCompile "junit:junit:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder

@@ -13,7 +13,7 @@ android {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.2'
+    testCompile "junit:junit:${project.property('junit.version')}"
     compile project(':osmdroid-android')
     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 

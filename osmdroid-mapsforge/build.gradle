@@ -10,7 +10,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:${project.property('junit.version')}"
 
     //Mapsforge rendering and database support, which is LGPL
     compile 'org.mapsforge:mapsforge-map-android:0.6.1'
