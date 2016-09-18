@@ -21,7 +21,7 @@ allprojects {
     project.version =
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-    apply from: "${rootDir}/gradle/maven-support.gradle"
+    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.9/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -51,3 +51,6 @@ allprojects {
         }
     }catch (Exception ex){}
 }
+
+
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.9/gradle/encryption.gradle"

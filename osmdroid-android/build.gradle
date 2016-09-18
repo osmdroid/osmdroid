@@ -1,6 +1,6 @@
 description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
-apply from: "${rootDir}/gradle/android-support.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.9/gradle/android-support.gradle"
 
 android {
     lintOptions {
