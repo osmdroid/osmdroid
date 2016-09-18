@@ -1,0 +1,15 @@
+{
+  "id" : 193,
+  "status" : "Accepted",
+  "summary" : "Shouldn't use ANDROID_ID in CloudeMadeUtil",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "See this document:\r\nhttp://android-developers.blogspot.com/2011/03/identifying-app-installations.html\r\n\r\nIt says that you shouldn't rely on ANDROID_ID as a unique id to identify the device.  CloudmadeUtil does, so it should do it they way they recommend.",
+    "timestamp" : 1301561048,
+    "attachments" : [ ]
+  } ]
+}

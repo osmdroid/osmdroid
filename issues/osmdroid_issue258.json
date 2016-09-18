@@ -1,0 +1,33 @@
+{
+  "id" : 258,
+  "status" : "Duplicate",
+  "summary" : "BitMap OOM",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2534578157959405060,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I'm launching from a menu a new activity who is a map using offine tiles (on the sd-card) \r\n2. When I launched the activity first, there isn't any problem\r\n3. When I finish it and I relaunch an activity many times, the activity become slower and it crash\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe debug is telling me I've problem with bitmap (outOfMemory)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nAndroid 2.3 &amp; OSMDROID 3.0.5\r\n\r\nIf you have any advice, thank you ! \r\nCordially\r\nAlexis\r\n",
+    "timestamp" : 1315296785,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8282946910402892946,
+    "content" : "I am having exactly the same problemand have reported it as issue 265",
+    "timestamp" : 1317735025,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1317801855,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Close all the duplicate OOM issues.",
+    "timestamp" : 1332748839,
+    "attachments" : [ ]
+  } ]
+}

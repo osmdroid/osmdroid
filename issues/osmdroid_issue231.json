@@ -1,0 +1,33 @@
+{
+  "id" : 231,
+  "status" : "Fixed",
+  "summary" : "ScaleBarOverlay constructor should take Context rather than Activity as an argument",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 717681597336073274,
+    "content" : "The only place where an activity seems to be needed is in activity.getWindowManager(), but this could be changed to Context.getSystemService(Context.WINDOW_SERVICE) instead.",
+    "timestamp" : 1308572693,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "It's also used in the constructor for:\r\n\r\nthis.activity.getResources().getDisplayMetrics()\r\n\r\nThis is also incorrect, and should be resolved by updating the ResourceProxy to return a full set of DisplayMetrics rather than just the option to get the display density.",
+    "timestamp" : 1309200030,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 717681597336073274,
+    "content" : "getResources() is declared in Context.\r\n\r\nAnyway, I ended up rewriting most of the class since I didn't like how it always made the scale bar 1 inch long, regardless of what odd distance that happens to represent on the map.",
+    "timestamp" : 1309345587,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is fixed in r1087.",
+    "timestamp" : 1333745059,
+    "attachments" : [ ]
+  } ]
+}

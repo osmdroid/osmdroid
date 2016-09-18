@@ -1,0 +1,45 @@
+{
+  "id" : 174,
+  "status" : "Duplicate",
+  "summary" : "Support external sd card on Samsung Galaxy Tab",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "On the Samsung Galaxy Tab Environment.getExternalStorageDirectory() returns /mnt/sdcard/ but this is actually the internal storage.  The real external storage is in /mnt/sdcard/external_sd/\r\n\r\nThere should be some generic way to detect the presence of the real external storage and then use that.\r\n\r\nNote: the emulator doesn't seem to behave the same way:\r\nhttp://innovator.samsungmobile.com/galaxyTab.do\r\n",
+    "timestamp" : 1298969739,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303999747,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7148082370997000828,
+    "content" : "Some galaxy tab do not have a sdcard from what I know.\r\n\r\nIsn't it safer to just use the Environment.getExternalStorageDirectory() all together?",
+    "timestamp" : 1306953700,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 234.",
+    "timestamp" : 1309238996,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -5229785941667649904,
+    "content" : "I am using the Samsung Inspire and I am developing an app and having issues with the getExternalStorageDirectory() method. The Inspire has two sd card. The \"Internal SD Card\" has 13.03 GB and the \"External SD Card\" has 1.86 GB. \r\n\r\nI was using the following path to write files to the SD card:\r\n\r\nEnvironment.getExternalStorageDirectory()+\"/Android/data/<package name>/\"\r\n\r\nThis was writing to the internal SD card meaning that when my app was uninstalled the directory would not be deleted. However when I use the following path:\r\n\r\nEnvironment.getExternalStorageDirectory()+\"/external_sd/Android/data/<package name>/\"\r\n\r\nThe directory would be removed on uninstall. \r\n\r\n",
+    "timestamp" : 1312698529,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This whole issue is a bit inaccurate because a lot of devices since the Galaxy Tab also have the same behaviour. The point is that the user needs to be able to explicitly choose a location. This is described in issue 234.",
+    "timestamp" : 1338752008,
+    "attachments" : [ ]
+  } ]
+}

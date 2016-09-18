@@ -1,0 +1,43 @@
+{
+  "id" : 363,
+  "status" : "Fixed",
+  "summary" : "PathOverlay spanning dateline / 180th meridian",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6893030347072487526,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create pathoverlay spanning the dateline / 180th meridian\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nPath overlay line drawn on one side of mapview and wrapped wrong way around globe.  This is similar to ussue 345 and 285 wheich effected iconoverlays.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n1107\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1345165770,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Link to issue 345 and issue 285",
+    "timestamp" : 1345182061,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6893030347072487526,
+    "content" : "Fix for this issue attached.",
+    "timestamp" : 1345311347,
+    "attachments" : [ {
+      "id" : 3630002000,
+      "fileName" : "PathOverlay.java",
+      "fileSize" : 8704
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1108.",
+    "timestamp" : 1345322528,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6893030347072487526,
+    "content" : "Comment deleted",
+    "timestamp" : 1345829542,
+    "attachments" : [ ]
+  } ]
+}

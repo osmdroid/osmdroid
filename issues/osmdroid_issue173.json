@@ -1,0 +1,75 @@
+{
+  "id" : 173,
+  "status" : "Duplicate",
+  "summary" : "Proposed changes to ItemizedOverlay and OverlayItem",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think we can enhance the usability of the ItemizedOverlay and the OverlayItem classes by doing the following:\r\n\r\n1. Move onDrawItem to the OverlayItem. This pushes the responsibility of how an OverlayItem gets drawn to the actual OverlayItem and would allow custom drawing of items. This could be used for things like fixed-screen-position drawing of OverlayItems or maybe icons that can scale.\r\n\r\n2. Move click-handling out to the OverlayItem. Same reasons as #1 - allows for more flexibility.\r\n\r\n3. We should consider moving towards the Google API methodology of ItemizedOverlay. Their overlay is abstract, and implementors are expected to extend it and then supply a size() and a createItem() method.\r\n\r\nAny thoughts? I will try to get a patch together.",
+    "timestamp" : 1298954642,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am backing off of items 1 and 2 of this ticket. After looking at the Google API (3), it really isn't geared towards having the OverlayItem define it's own drawing or clicking behavior. If we migrate towards 3 however, implementing these things might be cleaner. I suggest we do the following:\r\n\r\n1. Make ItemizedOverlay abstract\r\n2. Implement createItem(), size(), populate(), hitTest() - maybe a few other helper methods\r\n3. Extract existing concrete parts of (now abstract) ItemizedOverlay into a new concrete class\r\n\r\nI'll try to put a patch together to see how it looks.",
+    "timestamp" : 1299449184,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This patch implements basic functionality. There is still stuff in the ItemizedOverlay that I would like to move out to ItemizedIconOverlay.",
+    "timestamp" : 1299455482,
+    "attachments" : [ {
+      "id" : -208545818147132639,
+      "fileName" : "ItemizedOverlayPatch.patch",
+      "fileSize" : 9447
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is a more aggressive patch and implements OverlayItem and marker handling much closer to the way that the Google Maps API does it.\r\n\r\nEach OverlayItem has a settable hotspot. Before an item is drawn in Overlay.onDrawItem, the Drawable marker must be bound to the hotspot by calling boundToHotspot(). This offsets the Drawable's bounds so that (0,0) is at the hotspot and it also performs appropriate display density scaling. Then the Overlay.drawAt() convenience method is called passing the marker (which is bound to the hotspot) and passing in the map coordinates as the offset.\r\n\r\nI was able to remove quite a bit of code, and I believe I haven't lost any functionality. It takes a little getting used to, but this is the way Google Maps does it and I think it works pretty nicely. The only thing Google Maps doesn't do is provide the breadth of hotspot options that we do (they only have center and bottom_center). There is still some more stuff to move out of ItemizedOverlay, but I'd like to get some feedback on the patch at this level.",
+    "timestamp" : 1299473379,
+    "attachments" : [ {
+      "id" : -3212070347877010352,
+      "fileName" : "ItemizedOverlayPatch.patch",
+      "fileSize" : 33527
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Here is the final patch. This makes ItemizedOverlay operate much more like how Google Maps does its ItemizedOverlay. Much of the functionality has been broken out into a concrete class (ItemizedIconOverlay) and that makes the ItemizedOverlay much more lightweight. I will probably make a detailed list of all the changes and make a new ticket in the near future.",
+    "timestamp" : 1299820362,
+    "attachments" : [ {
+      "id" : 754567644028403313,
+      "fileName" : "ItemizedOverlayPatch.patch",
+      "fileSize" : 39077
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had a quick look at it - I didn't try and understand everything - but as far as I could tell it looks good.\r\nOne comment though - isn't it standard practise to use <T> for generics? You've used <Item>. I can see your logic, but isn't it a bit non-obvious?",
+    "timestamp" : 1299830556,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nGoogle uses <Item>\r\n\r\nhttp://code.google.com/android/add-ons/google-apis/reference/index.html\r\n\r\nI don't care either way :)",
+    "timestamp" : 1299899664,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Starting a new ticket that is more organized...",
+    "timestamp" : 1299902547,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding <Item> - I've not seen it done that way before, but if Google does it then it must be good ;-)",
+    "timestamp" : 1299956038,
+    "attachments" : [ ]
+  } ]
+}

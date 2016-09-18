@@ -1,0 +1,79 @@
+{
+  "id" : 78,
+  "status" : "Fixed",
+  "summary" : "NPE in linked hash map in async tile provider.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "On jar 1.03 I got an android market bug report with the following stacktrace. I've seen a few reports like this in the past, but it only happens occasionally. I haven't dug more into what the cause might be, but thought I should pass it along.\r\n\r\njava.lang.NullPointerException\r\nat java.util.LinkedHashMap$LinkedHashIterator.nextEntry(LinkedHashMap.java:350)\r\nat java.util.LinkedHashMap$KeyIterator.next(LinkedHashMap.java:366)\r\nat org.andnav.osm.tileprovider.OpenStreetMapAsyncTileProvider$TileLoader.nextTile(OpenStreetMapAsyncTileProvider.java:107)\r\nat org.andnav.osm.tileprovider.OpenStreetMapAsyncTileProvider$TileLoader.run(OpenStreetMapAsyncTileProvider.java:148)\r\nat java.lang.Thread.run(Thread.java:1102)\r\n\r\n",
+    "timestamp" : 1281985580,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've also seen this occasionally.  I'm not exactly sure of the reason, but presumably a threading/synchronisation issue.  We should at least catch it, even if we can't fix it.",
+    "timestamp" : 1282030910,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Catch the error in revision 317.",
+    "timestamp" : 1282115577,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4324678682316742837,
+    "content" : "I've seen something similar too. Mine was \"mPending.put(aTile, PRESENT);\" in OpenStreetMapAsyncTileProvider.java (line 49 in my src) crashing in HashMap.put (LinkedHashMap.java:381).\r\n",
+    "timestamp" : 1282170410,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've caught that one as well in revision 318.",
+    "timestamp" : 1282202753,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 96660131602258341,
+    "content" : "Received another one, mPending.clear() in clearQueue():\r\n\r\njava.lang.NullPointerExceptionjava.lang.NullPointerException \r\nat java.util.LinkedHashMap.clear(LinkedHashMap.java:327)\r\nat\r\norg.andnav.osm.tileprovider.OpenStreetMapAsyncTileProvider.clearQueue(OpenSt\r\nreetMapAsyncTileProvider.java:66)\r\nat\r\norg.andnav.osm.tileprovider.OpenStreetMapAsyncTileProvider.access$3(OpenStre\r\netMapAsyncTileProvider.java:65)\r\nat\r\norg.andnav.osm.tileprovider.OpenStreetMapAsyncTileProvider$TileLoader.run(Op\r\nenStreetMapAsyncTileProvider.java:168)\r\nat java.lang.Thread.run(Thread.java:1096)\r\n",
+    "timestamp" : 1282832512,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I also received one here:\r\njava.lang.NullPointerException\r\nat java.util.LinkedHashMap.makeTail(LinkedHashMap.java:271)\r\nat java.util.LinkedHashMap.get(LinkedHashMap.java:257)\r\nat org.andnav.osm.views.util.OpenStreetMapTileCache.getMapTile(OpenStreetMapTileCache.java:49)\r\nat org.andnav.osm.views.util.OpenStreetMapTileProviderDirect.getMapTile(OpenStreetMapTileProviderDirect.java:35)\r\nat org.andnav.osm.views.overlay.OpenStreetMapTilesOverlay.onDraw(OpenStreetMapTilesOverlay.java:123)\r\nat org.andnav.osm.views.overlay.OpenStreetMapViewOverlay.onManagedDraw(OpenStreetMapViewOverlay.java:60)\r\nat org.andnav.osm.views.OpenStreetMapView.onDraw(OpenStreetMapView.java:694)\r\n...etc",
+    "timestamp" : 1282896646,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 96660131602258341,
+    "content" : "Taking a stab at making the map use threadsafe in OpenStreetMapAsyncTileProvider and OpenStreetMapTileCache.",
+    "timestamp" : 1283002800,
+    "attachments" : [ {
+      "id" : -4770723849811829092,
+      "fileName" : "tilesynch.diff",
+      "fileSize" : 4827
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "We've had the discussion about synchronization vs performance many times, but the NPE's show that it's still not right. So let's try this fix and see if it's better - it looks simple enough to be good ;-)\r\n\r\nWe should probably remove the catches I added otherwise no-one will notice if we're still getting those errors.\r\n\r\nCommitted in revision 323.",
+    "timestamp" : 1283159235,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I removed the catch NPE in revision 325.",
+    "timestamp" : 1283410174,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "I haven't seen any NPE's since I made this change, and I didn't notice any performance degradation, so I think I'll close this now.",
+    "timestamp" : 1284129071,
+    "attachments" : [ ]
+  } ]
+}

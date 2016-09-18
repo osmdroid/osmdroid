@@ -1,0 +1,33 @@
+{
+  "id" : 217,
+  "status" : "WontFix",
+  "summary" : "pbf support",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2507109304454622639,
+    "content" : "It would be great if you could support the *.osm.pbf File format for better compression and preloading of tile-packages.\r\nOr is it already possible?",
+    "timestamp" : 1305816193,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1305869348,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "A possible solution would be to provide a wrapper around mapsforge, in a similar way to the wrapper around Google maps.",
+    "timestamp" : 1324447297,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "The mapsforge wrapper was done in revision 1021 as part of work for issue 284.\r\nFurther pbf support is unlikely to be included in osmdroid.",
+    "timestamp" : 1331500835,
+    "attachments" : [ ]
+  } ]
+}

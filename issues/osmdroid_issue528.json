@@ -1,0 +1,27 @@
+{
+  "id" : 528,
+  "status" : "New",
+  "summary" : "PathOverlay.addGreatCircle - bug if segment < 100km",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "Build a PathOverlay using addGreatCircle, with a small segment (&lt; 100km): \r\n\r\nPathOverlay geodesicLine = new PathOverlay(Color.GREEN, this);\r\ngeodesicLine.addGreatCircle(\r\n  new GeoPoint(48.0, -1.5), \r\n  new GeoPoint(48.0, -1.0));\r\nmap.getOverlays().add(geodesicLine);\r\n\r\nExpected result: a straight line between the 2 points. \r\n\r\nResult: \r\n1) Nothing displayed. \r\n2) The PathOverlay contains 1 point, located at (0, 0). Which is very bad. \r\n\r\nRoot cause: \r\nIn addGreatCircle(startPoint, endPoint), with this small segment, numberOfPoints is equal to 0. \r\n\r\nThen it calls addGreatCircle(startPoint, endPoint, numberOfPoints). \r\nBut this method doesn't support numberOfPoints=0. \r\nAt this line:\r\n  final double f = 1.0 / numberOfPoints * i; \r\n=&gt; division by 0 (surprisingly, not raising an exception). \r\n\r\n\r\nSolutions: \r\n\r\n1) Simple one:\r\n\r\nif (numberOfPoints&gt;0){\r\n  addGreatCircle(startPoint, endPoint, numberOfPoints);\r\n} else {\r\n  addPoint(startPoint);\r\n  addPoint(endPoint);\r\n}\r\n\r\n2) Or deeply revise addGreatCircle(startPoint, endPoint, numberOfPoints)... \r\n",
+    "timestamp" : 1392586215,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1558421220117089513,
+    "content" : "Well, in fact, Solution 2 (deep revision) is really simple: \r\n\r\nJust replace: \r\nfor (int i = 0, j = numberOfPoints + 1; i < j; i++){\r\n  final double f = 1.0 / numberOfPoints * i;\r\n\r\nBy: \r\nfor (int i = 1; i < numberOfPoints; i++){\r\n  final double f = 1.0 * i / (numberOfPoints+1);\r\n\r\nNow, addGreatCircle adds exactly \"numberOfPoints\" intermediate points. \r\nAnd it doesn't add startPoint and endPoint - which is more flexible, for instance when we want to add successive great circle segments. \r\n\r\nI can send the updated method, including also minor improvements (using MathConstants.DEG2RAD). ",
+    "timestamp" : 1392656235,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1558421220117089513,
+    "content" : "Solution is here: \r\nhttp://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPack/src/org/osmdroid/bonuspack/overlays/Polyline.java\r\n",
+    "timestamp" : 1395230180,
+    "attachments" : [ ]
+  } ]
+}

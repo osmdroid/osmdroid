@@ -1,0 +1,47 @@
+{
+  "id" : 163,
+  "status" : "Fixed",
+  "summary" : "Tile Source classes (X/Y, QuadKey) should be public",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Since most tile sources are derivatives of X/Y or QuadKey tile sources, we should make those classes public so API users can define their own tile sources. These weren't public even in the old namespace, so maybe there was a reason. If someone thinks they shouldn't be make public, then speak now : )",
+    "timestamp" : 1298297799,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4098436938546237008,
+    "content" : "Also the constructor of these classes should be made public.\r\nSee attachment for updated XYTileSource.java",
+    "timestamp" : 1298753099,
+    "attachments" : [ {
+      "id" : -1690401780803726240,
+      "fileName" : "XYTileSource.java",
+      "fileSize" : 725
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4098436938546237008,
+    "content" : "I created an example for the OpenStreetMapViewer project. See attachment. I suggest to add it.\r\n\r\nThis example can be used:\r\n- for testing and\r\n- as an example for other users",
+    "timestamp" : 1298759231,
+    "attachments" : [ {
+      "id" : 8184767114880067952,
+      "fileName" : "SampleWithTilesOverlayAndCustomTileSource.java",
+      "fileSize" : 3037
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r828.",
+    "timestamp" : 1298759312,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you Alex! I'll add the sample today - it's something we've really needed for a while now.",
+    "timestamp" : 1298759520,
+    "attachments" : [ ]
+  } ]
+}

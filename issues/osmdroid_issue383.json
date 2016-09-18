@@ -1,0 +1,101 @@
+{
+  "id" : 383,
+  "status" : "Fixed",
+  "summary" : "Split and modularlize MyLocation and Compass overlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 14,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The MyLocationOverlay class has been kicking around since 2008. It has grown to add a lot of functionality but it has become a mess. I'd like to do the following:\r\n\r\n1. Split the overlay into two separate overlays - one to handle the MyLocation stuff and one to handle the Compass stuff.\r\n2. Make the location data (for MyLocation) and bearing data (for Compass) be provided by an interface to make it much more modular. Implement the two current data providers - GPS for MyLocation and internal compass sensor for Compass.\r\n\r\nEssentially the new classes would have the same functionality while being much more extensible and cleaner.",
+    "timestamp" : 1351794352,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached - note that it depends on the safe canvas drawing patch in 221 (but that could easily be reversed if necessary).",
+    "timestamp" : 1351871560,
+    "attachments" : [ {
+      "id" : 3830001000,
+      "fileName" : "NewMyLocationOverlayPatch.patch",
+      "fileSize" : 25312
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I was going to do something similar in issue 284 but didn't get round to doing anything",
+    "timestamp" : 1351941968,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1352906747,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I just realized I never included the CompassOverlay. Here is the updated patch. Apply in the overlay package folder.",
+    "timestamp" : 1352907267,
+    "attachments" : [ {
+      "id" : 3830004000,
+      "fileName" : "NewMyLocationOverlayPatch.patch",
+      "fileSize" : 44787
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1138.",
+    "timestamp" : 1357242214,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nBy the chance of my location / compass changes it would be convenient to have them more extendable.\r\nOne example: we cannot change the my location bitmaps from extending classes - we have to change the osmdroid code. Right now the mPersonBitmap and mDirectionArrowBitmap are protected but also final.\r\n\r\nThanks.",
+    "timestamp" : 1357302023,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Write your own ResourceProxy and you can supply your own Drawables for person and direction_arrow. That is what the ResourceProxy is (sort-of) for.",
+    "timestamp" : 1357308507,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1918333713940407975,
+    "content" : "I know and already use the ResourceProxy in other cases, but the mPersonHotspot is final and calculate position of icon's feet. In case I want the mPersonHotspot to be at icon's center?",
+    "timestamp" : 1357309510,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -1918333713940407975,
+    "content" : "Comment deleted",
+    "timestamp" : 1357309582,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can still change the mPersonHotspot. Just use its .set() methods to change the values.\r\n",
+    "timestamp" : 1357584925,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -1918333713940407975,
+    "content" : "To what .set method are you referring to? I don't see any .set method for mPersonHotspot at MyLocationNewOverlay class.",
+    "timestamp" : 1357636354,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Sorry, I assumed you were extending the existing overlay class in which case you would have access to the mPersonHotspot. I added a setPersonHotspot() method to change the person hotspot.",
+    "timestamp" : 1357667045,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -3576291706422496807,
+    "content" : "I just wanted to add the compass in place of mPerson and compass should move if you are standing still at some place and redirecting the device, could it be possible?",
+    "timestamp" : 1369157310,
+    "attachments" : [ ]
+  } ]
+}

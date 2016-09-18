@@ -1,0 +1,33 @@
+{
+  "id" : 484,
+  "status" : "New",
+  "summary" : "Where the origin of the pixel coordinate？",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3594590064059109795,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.I'm doing distance measure tool。\r\n2.when i using mapView.getProjection().toPixels。I found the output pixel coordinates are wrong\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n        \r\nGeoPoint point = new GeoPoint((int) (39.90923 * 1E6), (int) (116.397428 * 1E6)); mMapController.setCenter(point);\r\nmMapController.setZoom(12); \r\nPoint pntC = mapView.getProjection().toPixels(mapView.getMapCenter(),null);\r\n\r\nosmdroid\r\npin is Point(5295, -1980)\r\n\r\ngoogle map api\r\npnt is Point(0, 0)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1381573984,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3594590064059109795,
+    "content" : "How can I get the coordinates ,that origin is the upper left corner of the mapview",
+    "timestamp" : 1381574877,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3594590064059109795,
+    "content" : "I tested this.\r\n\t\tGeoPoint point = new GeoPoint((int) (39.90923 * 1E6), (int) (116.397428 * 1E6));\r\n\t\tPoint pntC = mapView.getProjection().toPixels(point,null);\r\n\r\n\t\tIGeoPoint point2 = mapView.getProjection().fromPixels(pntC.x, pntC.y);\r\n\r\n\r\npoint2 is (84254150,230097656)\r\n\r\npoint point2 not equal",
+    "timestamp" : 1381720313,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3594590064059109795,
+    "content" : "I changed toPixels like this ：\r\n\t\t@Override\r\n\t\tpublic Point toPixels(final IGeoPoint in, final Point out) {\r\n\t\t\tPoint pnt = toMapPixels(in, out);\r\n\t\t\tfinal Rect screenRect = getIntrinsicScreenRect();\r\n\t\t\tpnt.x = pnt.x - screenRect.left ;\r\n\t\t\tpnt.y = pnt.y - screenRect.top ;\r\n\t\t\treturn pnt;\r\n\t\t}\r\n\r\nIt worked!i",
+    "timestamp" : 1381720497,
+    "attachments" : [ ]
+  } ]
+}

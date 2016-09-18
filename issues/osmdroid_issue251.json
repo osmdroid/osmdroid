@@ -1,0 +1,21 @@
+{
+  "id" : 251,
+  "status" : "New",
+  "summary" : "Set a TileRequestCompleteHandler when adding a TileProvider to a mapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9169388793317990214,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add a TileProvider (that loads tiles async.) to a TilesOverlay and the TilesOverlay to your mapView \r\n2. ZoomIn somewhere on the map\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected: Tiles should be loaded and when retrieved they should display on the map.\r\nInstead: Sometime the expected tiles are shown and sometimes they are not.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.5, Windows 7 and Mac 10.6.8\r\n\r\n<b>Please provide any additional information below.</b>\nIt is a gamble if the expected tiles from the overlay get displayed. The view Invalidates while the base layer loads tiles and sends tileRequestComplete Messages to the mapView Object (the base layer gets the Handler set when creating the mapView Object). Since the download of maptiles takes some time this works fine most of the times. But not always. Then some tiles from the overlay is just not displayed even thou they get loaded in the background. The simple Solution is to call setTileRequestHandler for every TileProvider you add to your overlays and as parameter you use mapView.getTileRequestHandler. I guess that there will be enough people who do not find out that without this call there is a invalitation missing. \r\nMy solution would be to add the Handler to Every Provider at the Moment when a new Overlay is added to a mapView.\r\n\r\nIn summery:\r\n1) OverlayManager need to get the mapView Object it is bound to at initialisation.\r\n2) If class is TilesOverlay OverlayManager.add() needs to call a new method in TilesOverlay &quot;setTileRequestHandler&quot;\r\n3) TilesOverlay.setTileRequestHandler needs to call setTileRequestHandler on mTileProvider\r\n\r\nA Link where the problem is described in detail (with example code and log files) is on the google group of osmdroid: http://groups.google.com/group/osmdroid/browse_thread/thread/9198237b3e5d5ac5",
+    "timestamp" : 1314349438,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 9169388793317990214,
+    "content" : "Forgot: Tested on latest virtual device and on galaxy S with android 2.3.3 and 2.2",
+    "timestamp" : 1314349591,
+    "attachments" : [ ]
+  } ]
+}

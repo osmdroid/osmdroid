@@ -1,0 +1,57 @@
+{
+  "id" : 387,
+  "status" : "Fixed",
+  "summary" : "r1129 'Fix for dispatchTouchEvent' breaks touches",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Regarding the:\r\nhttp://code.google.com/p/osmdroid/source/detail?r=1129\r\nr1129: Fix for dispatchTouchEvent - if child view handles motion event, don't pass to gesture detector.\r\n\r\nThis change makes the mapview to consume touch events at super.dispatchTouchEvent(event) and I cannot pan the map.",
+    "timestamp" : 1355423507,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This change basically says:\r\n\r\nIf there is a child view of the MapView that handles touch events, don't pass them down to the MapView. For instance, if you add a popup window to the maps that has a scroll view and you slide your finger on that scroll view, don't also scroll the maps. I believe this is the proper behavior.\r\n\r\nIf you have a view on the maps that is preventing you from scrolling the maps, you need to configure your view to not accept touches. I believe view.setClickable(false) may do the trick.",
+    "timestamp" : 1355927570,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "I may be understand it wrong, but isn't super.dispatchTouchEvent(event) passes the touch events to the parent of the map view and not to the children?\r\nAnd I don't have any children added on the map view. But I have the map view added in another ViewGroup (a RotateView) and the latest in an ViewAnimator.",
+    "timestamp" : 1355995754,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "From the API documentation: \"Pass the touch screen motion event down to the target view, or this view if it is the target.\" And if you check the ViewGroup.java source it appears that it iterates through the children view and calls dispatch on each child. From the source comments: \"We know we want to dispatch the event down, find a child who can handle it, start with the front-most child.\"\r\n\r\nWhat I would do is set a breakpoint when super.dispatchTouchEvent is set to true (line 790) to see if that is getting hit. If so, step into the super.dispatchTouchEvent calls and see why that is returning true. If you have no child views then it should always return false.",
+    "timestamp" : 1356552784,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "What Android version is the ViewGroup.java source that you have the comment \"We know we want to dispatch the event down, find a child who can handle it, start with the front-most child.\" ?\r\nBecause I google it to find it. At latest Jelly Bean source this comment doesn't exist and the dispatchTouchEvent method is different.",
+    "timestamp" : 1356613583,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Yes, that comment was from an earlier API but the Jellybean version is basically the same (see comment \"Find a child that can receive the event. Scan children from front to back.\")\r\n\r\nMaybe try to build the sample app with the trunk osmdroid and see if that works for you.",
+    "timestamp" : 1356704317,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well after the creation of the map view I have at my code:\r\nmapView.setClickable(true);\r\nas I also have with Google map view. This seems to have caused all the trouble with touch events consumption after dispatchTouchEvent change.\r\nIf I remove this statement the pan works again.",
+    "timestamp" : 1356718104,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay, that makes sense - the dispatch tries all children views and then it tries the ViewGroup itself which is typically not a gesture target. The MapView uses a GestureDetector to handle gestures.\r\n\r\nIt sounds like this issue is resolved so I will close it.",
+    "timestamp" : 1356723635,
+    "attachments" : [ ]
+  } ]
+}

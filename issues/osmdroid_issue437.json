@@ -1,0 +1,133 @@
+{
+  "id" : 437,
+  "status" : "ReadyForTesting",
+  "summary" : "Map shakes at high zoom when mapOrientation isn't zero",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 20,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5963074538139690404,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Register a sensor listener which will get device bearing\r\n2. Rotate the map periodically with MapView.setMapOrientation\r\n3. Zoom to a high zoom level (18-19+)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the rotation to be smooth. Instead, the map visibly shakes.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nExperienced ever since I started using map rotation (~2 months back). Still present in rev 1240.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nLooking into it, it seems that the problem is that the drawing process is very sensitive to changes in bearing. Passing only an integer to setMapOrientation and rotating the map slowly will show that the map moves in all directions and doesn't stay properly centered.\r\n\r\nMy guess is that somewhere in the code the center of the drawing area is improperly determined (or is subject to rounding errors).\r\n\r\nIn MapView, if the canvas rotation part is commented out (lines 1045-1046) the map won't rotate, but will still shake.\r\n\r\nTried drawing a map with no Overlays - still happens.\r\n\r\nSafeDraw is enabled.\r\n\r\nHardware acceleration is enabled, but the issue is present even with it disabled.",
+    "timestamp" : 1370058784,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is an interesting problem. It sounds like you are adjusting the maps so that they always face north, correct? So as I turn around the maps turn with me. This would make a great sample for the demo app.\r\n\r\nTry turning off SafeDraw and see if that helps. I would leave hardware acceleration off too for testing. It does sound like a rounding error (which the SafeDraw essentially aims to fix) but it could be something else.",
+    "timestamp" : 1370061623,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 5963074538139690404,
+    "content" : "Yes, the idea is that the map turns as the user rotates and it works and looks great (the speed of the Nexus makes for a great experience).\r\n\r\nHowever, the illusion of smoothness gets completely ruined by the jerkiness.\r\n\r\nTurning off SafeCanvas doesn't help. It actually makes things worse, as there are black lines between the tiles and all the tiles start to shake independently.\r\n\r\nHardware acceleration doesn't make a difference either, except the performance penalty when it's off.\r\n\r\nAs for the demo app sample, I can write one up once this is done, as the concept is pretty straightforward - you register your Activity as a SensorEventListener and simply pass the bearing received in onSensorChanged to the MapView.\r\n\r\nI can't say I have an idea of where to look next. The issue isn't in the rotation of the canvas. It isn't in the overlays and it isn't in GeometryMath. I don't think it's in the Projection class either, as the values used in dispatchDraw are pretty much constant.",
+    "timestamp" : 1370062249,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nJust a thought..\r\nIs the compass sensor of your device working normally?\r\n\r\nOnly the map rotates abnormally or also the compass drawable is jumping to random orientations?\r\n\r\nYou can check this also by trying device's compass / map rotation with another map application e.g. Google Maps.\r\n\r\nBecause I have been seen devices where their compass / map was rotating randomly and the reason was that the sensor was sending wrong values all the time. Probably a compass calibration could help if this is the case.\r\n\r\nRegards.",
+    "timestamp" : 1370073732,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1558421220117089513,
+    "content" : "Comment deleted",
+    "timestamp" : 1370093812,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 5963074538139690404,
+    "content" : "The app has been tested on around a dozen devices and they all exhibit the same behavior, so I don't think it's a compass issue. Although I use SENSOR_DELAY_FASTEST, filtering the input by trimming the decimal part will make the map less prone to random shake. However, when rotating it, the skips are noticeable.\r\n\r\nAttached is a simple Activity which will reproduce the error. Keep in mind that the default tile provider doesn't support high zoom levels so the issue might not be obvious. However, if you pay close attention to the map at the highest zoom, you will notice that it is shaking.\r\n\r\nI added a \"toggle filter\" button which will strip the decimal part from the orientation. When this is enabled, rotating the device will show that the pivot changes slightly when rotating.\r\n\r\nHere is a video showing the issue in my app at zoom level 19 (much more obvious):\r\nhttp://www.youtube.com/watch?v=8qqhqAdqrIg\r\n\r\nThe device and the camera weren't moved at all.",
+    "timestamp" : 1370102963,
+    "attachments" : [ {
+      "id" : 4370005000,
+      "fileName" : "MainActivity.java",
+      "fileSize" : 1894
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Can you update to the latest trunk and try it again? I made a change that may help this issue.",
+    "timestamp" : 1370917154,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 5963074538139690404,
+    "content" : "Tried it out. The issue is still there, though the pattern seems to have changed.",
+    "timestamp" : 1370922480,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -8675057720987312532,
+    "content" : "Have the same problem with MyLocationNewOverlay at 21-22 zoom level. The person on map snakes even when i simply move map at any direction.\r\n\r\nIf I change canvas.drawBitmap(mPersonBitmap, mDirectionRotater, mPaint) to canvas.drawBitmap(mPersonBitmap, x, y, mPaint) then snaking stops.\r\n\r\nLooks like sMatrix.postTranslate(xOffset, yOffset) does not work there because of insufficient precision of float matrices.\r\n",
+    "timestamp" : 1372531415,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "We need to stop using the matrix and let the safe canvas handle the translation, rotation and scaling since it does it correctly.\r\n",
+    "timestamp" : 1373661337,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1252.\n\nUse safe canvas to do all translation, rotation and scaling rather than the matrix. Fixes issues with shaking at high levels.\nFix rotation method in SafeTranslatedCanvas to do it in a \"safe\" way.\nUpdate issue 447\nPrevent location icon from scaling incorrectly with rotation.",
+    "timestamp" : 1373661477,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please test and report back!",
+    "timestamp" : 1373661526,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 5963074538139690404,
+    "content" : "Issue still (r1254) seems to persist in my project with the same symptoms - when rotation is enabled, the map shakes at high zoom levels. Might be worth mentioning that the whole canvas seems to translate, not just the overlays.\r\n\r\nNot sure if the pattern of the shaking has changed, though.\r\n\r\nAlso, if it was fixed in an another component, shouldn't the changes in r1241 eventually be reverted?",
+    "timestamp" : 1374022657,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay will look into this again and try to reproduce.",
+    "timestamp" : 1374063664,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "So the issue is that in MapView.dispatchDraw() where the rotation is applied it is using a rotate() method that takes floats. Maybe we have to re-apply rotation in the SafeDrawOverlay?",
+    "timestamp" : 1374172622,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1255.\n\nSince unsafe canvas rotation occurs in MapView, then in SafeDrawOverlay we have to unsafely un-rotate the canvas, and then re-rotate using the safe canvas. This should fix map shaking at high zoom levels with rotation.",
+    "timestamp" : 1374175231,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "Try it again and let me know what results you get. I can't tell if it's fixed or just not as bad.",
+    "timestamp" : 1374175266,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "The changes in r1241 fix shaking in the maps without rotation at high zoom levels. That fix is still necessary and is separate from this issue.",
+    "timestamp" : 1374175346,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 5963074538139690404,
+    "content" : "Looks much better now (doesn't shake randomly when standing still), but the pivot still changes slightly depending on angle.\r\n\r\nMy guess is that the center of the map gets determined wrong, as all elements get offset for the same amount. ",
+    "timestamp" : 1374277011,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -8711731236921908246,
+    "content" : "Hello!\r\nI have same problems in my application. I use the RotationGestureOverlay from sample project.\r\nIf I rotate map with two fingers and then stop fingers - the map starts shaking on every zoomlevel.\r\nI'm using the latest trunk snapshot.",
+    "timestamp" : 1383327752,
+    "attachments" : [ ]
+  } ]
+}

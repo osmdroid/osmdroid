@@ -1,0 +1,33 @@
+{
+  "id" : 180,
+  "status" : "WontFix",
+  "summary" : "Optional \"Low Memory\" view for MapView",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The osmdroid team has put a considerable amount of time into squashing memory leaks and catching OOM errors at all costs. This makes the library very good at staying alive during low memory situations and not crash on the user.\r\n\r\nHowever, during times of low memory the map may function in a limited capacity and may not be considered usable in this state for an app. It would be nice if we could have a &quot;low memory&quot; view for the MapView that would be displayed instead of the map to inform the user that the map is not viewable due to low memory. This is analogous to the &quot;empty view&quot; of a ListView.\r\n\r\nAny thoughts?",
+    "timestamp" : 1299821184,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not sure that I agree with closing issue 178, but anyway we've got this issue now to continue with.\r\nSee also issue 31.\r\nThe point of both these issues is that in case of OOME it goes into a tight loop downloading tiles, getting OOME, and then downloading again, getting OOME again, etc.\r\nPerhaps we could add some kind of progressively increasing delay in order to slow it down.\r\nIt's difficult to recover from the error, but we should at least try and keep calm.",
+    "timestamp" : 1299830026,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1950478617448552596,
+    "content" : "I like the idea of having a \"low memory\" view. In addition, I'd like to have some kind of notification or callback to allow an own customizable implementation for this situation.\r\n\r\nFurthermore I agree that the osmdroid team indeed has done a very good job of handling OOM errors.\r\n\r\n",
+    "timestamp" : 1299830101,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think it's time we closed this ticket. The idea of a low-memory view is nice, but is a pie-in-the-sky idea and we have more pressing issues.",
+    "timestamp" : 1333738564,
+    "attachments" : [ ]
+  } ]
+}

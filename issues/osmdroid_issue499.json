@@ -1,0 +1,69 @@
+{
+  "id" : 499,
+  "status" : "Fixed",
+  "summary" : "The Projection class needs clean-up and should match Google API v1",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Our Projection class has gotten a bit out of hand. We should:\r\n\r\n1. Trim the projection down to the basics:\r\n   a. fromPixels (Google API - already implemented)\r\n   b. toPixels (Google API - right now we call this toMapPixels)\r\n   c. metersToEquatorPixels - (Google API - already implemented albeit slightly incorrectly since it uses latitude 0.0 instead of on-screen latitude)\r\n   d. fromPixelsProjected\r\n   e. toPixelsProjected\r\n   f. toPixelsFromMotionEvent (new method - used to correctly go from MotionEvent to on-screen pixels)\r\n   g. getZoomLevel, getBoundingBox, getScreenRect (not intrinsic), getMapOrientation()\r\n\r\n2. Move the projection into its own file. See issue 414.\r\n\r\n3. We can move all the &quot;extra&quot; methods into a subclass of the Projection class (ProjectionExtended perhaps?).\r\n",
+    "timestamp" : 1386711485,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711731,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711775,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711889,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711940,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Sorry \"d\" should be \"toPixelsTranslated\"",
+    "timestamp" : 1386713936,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I have a patch which I will post once we get our attachment limit increased, but I think I may have to scale this back a bit.\r\n\r\nNeil - are the getNorthEast() and getSouthWest() methods necessary in the Projection?\r\n",
+    "timestamp" : 1386774266,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "The reason Projection is an inner class is because it calls methods from the outer class, specifically methods from View such as getHeight().\r\n\r\ngetNorthEast() and getSouthWest() are used for the v2 projection - see issue 478.",
+    "timestamp" : 1386883120,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay - I'll leave in getNE and getSW. We can pass in a MapView instance for the projection to pull what it needs and then we can get the projection out of the MapView class and into its own file. Its just that the MapView is so huge now and I think this will clean it up a bit and maybe make it easier to subclass.",
+    "timestamp" : 1386949079,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in Github.",
+    "timestamp" : 1397687285,
+    "attachments" : [ ]
+  } ]
+}

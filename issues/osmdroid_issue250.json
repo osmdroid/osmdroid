@@ -1,0 +1,25 @@
+{
+  "id" : 250,
+  "status" : "Duplicate",
+  "summary" : "Patch for /branches/release_3_0_4/osmdroid-android/src/org/osmdroid/views/MapView.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7090262722351935939,
+    "content" : "Patch for Limit Scrollable Area ",
+    "timestamp" : 1312477246,
+    "attachments" : [ {
+      "id" : 2500000000,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 82750
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1358869323,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 189,
+  "status" : "Invalid",
+  "summary" : "Make the compass overlay a standard osmdroid",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -46238301387888754,
+    "content" : "I really love the compass overlay that can be found in the samples part inside MyLocationOverlay.\r\n\r\nWould it be possible to have that inside the available overlays of osmdroid? I think the compass only would be of interest to may apps.\r\n\r\n\r\n",
+    "timestamp" : 1300965750,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think you are asking if you can display an overlay of just the compass. To do this, add the MyLocationOverlay overlay and call disableMyLocation() and enableCompass(). That will hide your location marker, but keep the compass on the screen.",
+    "timestamp" : 1301105928,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1301105939,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -46238301387888754,
+    "content" : "Yes, that is exactly what I meant. But the class is not in the osmdroid distro jar. Obviously it is not problem copy it over. I was just saying that it would be nice to have it in the distro. Was just a thought.",
+    "timestamp" : 1301215224,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "It should definitely be in there. The full name is\r\n\r\norg.osmdroid.views.overlay.MyLocationOverlay\r\n\r\n",
+    "timestamp" : 1301260590,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -46238301387888754,
+    "content" : "Oh my God, I have to apologize, not sure why I was that much confused. Sorry for the noise. I would close the issue, but I am not allowed to. Thanks for guiding me through this bit of madness :)",
+    "timestamp" : 1301295172,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "n/p",
+    "timestamp" : 1301359785,
+    "attachments" : [ ]
+  } ]
+}

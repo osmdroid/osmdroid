@@ -1,0 +1,35 @@
+{
+  "id" : 4,
+  "status" : "Fixed",
+  "summary" : "List<GeoPoint> to Path error",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5108819526605667309,
+    "content" : "There is an error in the transformation of a list of Geopoints to a Path in \r\nOpenStreetMapView.java. Basically it will always draw a line from the point \r\nof origin (0,0) to the first point because the first point is not entered \r\ncorrectly. Fixing it is trivial and involves only moving the increment \r\noperation further down the loop so that the first point will be entered \r\nwith moveTo rather than drawLine. Patch is attached.\r\n\r\nHTH\r\n\r\nLudwig\r\n\r\n\r\n",
+    "timestamp" : 1233606517,
+    "attachments" : [ {
+      "id" : 7751367476747784933,
+      "fileName" : "osmdroid.patch",
+      "fileSize" : 621
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8118618068272438705,
+    "content" : "Hi,\r\n\r\nI have the same problem, but it gets more complicated when we use Path reuse.\r\n\r\nThis is my correction.\r\n\r\nThanks",
+    "timestamp" : 1241199067,
+    "attachments" : [ {
+      "id" : 6907019940732582880,
+      "fileName" : "patch.diff",
+      "fileSize" : 1322
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This looks pretty obvious in revision 10\r\nint i = 0\r\n...\r\ni++\r\n...\r\nif (i == 0)\r\n\r\nBut it was fixed in revision 65\r\nboolean first = true\r\n...\r\nif (first)\r\n...\r\nfirst = false",
+    "timestamp" : 1269614605,
+    "attachments" : [ ]
+  } ]
+}

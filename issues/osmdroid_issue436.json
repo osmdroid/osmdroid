@@ -1,0 +1,21 @@
+{
+  "id" : 436,
+  "status" : "Invalid",
+  "summary" : "App does nothing",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 310140506941204161,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Click &quot;Open Map&quot;\r\n2. Open Map comes up as a blank grid\r\n3. Nothing else happens\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI expect the map tiles to start loading.  Alternatively if the app can't access the network, I expect the app to say &quot;I can't access the network&quot;.  Or if it is accessing the network, but the network is extremely slow, I expect it to say &quot;I'm accessing the network, but the network is extremely slow&quot;.  I don't expect it to just sit there being useless.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOpenStreetMapViewer-3.0.10-aligned.apk\r\nAndroid 4.0.4\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n\r\n",
+    "timestamp" : 1370056189,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please take a look at our sample app which demonstrates how to use osmdroid. If you need help I suggest asking a question on the mailing list.",
+    "timestamp" : 1370061071,
+    "attachments" : [ ]
+  } ]
+}nts":[]}]}

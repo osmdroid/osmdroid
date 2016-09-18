@@ -1,0 +1,15 @@
+{
+  "id" : 488,
+  "status" : "New",
+  "summary" : "Allow rotation of OverlayItems patch",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7134136863321674386,
+    "content" : "Currently there is a class called DirectedLocationOverlay. It is limiting in that the item positioning is done on the overlay itself (overlay.setLocation), so only one item can be positioned per overlay.\r\n\r\nI suggest this class be abandoned in favor of the modified version of OverlayItem.java here: https://gist.github.com/daviddoria/46c4982a0688b32df90a\r\n\r\nIt allows an OverlayItem to be given a bearing. This way, multiple static and dynamic items can all be added to the same ItemizedOverlay, and the bearing of each item can be set individually.\r\n\r\nHere is an example showing how to use this modified class:\r\n\r\nhttps://gist.github.com/daviddoria/6f66fda5fdd19fe2d3ff",
+    "timestamp" : 1382113924,
+    "attachments" : [ ]
+  } ]
+}

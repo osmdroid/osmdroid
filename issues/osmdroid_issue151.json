@@ -1,0 +1,27 @@
+{
+  "id" : 151,
+  "status" : "Invalid",
+  "summary" : "We should implement a way to cancel pending tile requests",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "When someone is zooming in or out, they typically are no longer interested in obtaining the tiles from the previous zoom level. However, these tile requests are queuing up in a potentially long-wait queue (like a tile downloader) and will delay newer tile requests that are of higher importance. This is particularly a problem when zooming-in or out very quickly.\r\n\r\nWe should implement a way to send a &quot;cancel pending tile requests&quot; message up the tile request chain.",
+    "timestamp" : 1296359229,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Why is this a problem? Surely the old requests just drop off the bottom of the queue and the new requests go to the top? That's the way it's supposed to work.",
+    "timestamp" : 1296455594,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Duh... This has clearly already been taken care of - in MapTileModuleProviderBase new requests are put at the front of the queue and old requests over a threshold will be dropped.",
+    "timestamp" : 1296609525,
+    "attachments" : [ ]
+  } ]
+}

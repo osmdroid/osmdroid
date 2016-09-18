@@ -1,0 +1,39 @@
+{
+  "id" : 310,
+  "status" : "WontFix",
+  "summary" : "Should use getCacheDir() as a cache dir, not SD card",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5515062512165854251,
+    "content" : "Right now, OSMDroid uses the SD card to store the cache. This configuration requires an additional permission (WRITE_EXTERNAL_STORAGE), but more importantly, it goes against the Android data storage design. See https://developer.android.com/guide/topics/data/data-storage.html\r\n\r\nIf OSMDroid uses getCacheDir() as the cache storage, Android can clear the directory if additional space is required, and the data will be removed when the application is uninstalled.\r\n\r\nIMHO, the SD card should not be used by OSMDroid. But, at the very least, OSMDroid should have a configuration option to use getCacheDir() or the SD card, and default to getCacheDir().",
+    "timestamp" : 1329097312,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1329114483,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Did you read the bit that said \"stay within a reasonable limit of space consumed, such as 1MB\"?\r\n\r\nSee also issue 234.",
+    "timestamp" : 1329114626,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6679925067962250327,
+    "content" : "The way it works now the file cache is shared between all the apps using Osmroid which I quite like.",
+    "timestamp" : 1329124895,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1333982035,
+    "attachments" : [ ]
+  } ]
+}

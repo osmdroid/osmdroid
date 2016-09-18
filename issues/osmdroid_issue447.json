@@ -1,0 +1,57 @@
+{
+  "id" : 447,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay icon changes it's size when rotating the map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2963183026512488169,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.Enable mylocation and map rotation\r\n2.When the mylocation icon appears - rotate the map.\r\n\r\nWhat is the expected output? \r\nThe mylocation icon rotates but doesn't change it's size\r\nWhat do you see instead?\r\nThe mylocation icon rotates and changes it's size (see attached)\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10, Android 4.1\r\n\r\n",
+    "timestamp" : 1373008686,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nIt is an issue that happens to me also with rotation, both with the old MyLocationOverlay class and with the new MyLocationNewOverlay class.\r\n\r\nI think the problem exists in method drawMyLocation at the 2 mDirectionRotater.postScale calls for arrow and person icons.\r\n\r\nWhat's their use?\r\nIf I comment the 2 postScale calls, the icon size change vanishes.\r\n\r\nRegards.",
+    "timestamp" : 1373012504,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for pointing that postscale out as the culprit. Those scale calls are supposed to keep the icon unscaled during zoom operations. We need to fix this.",
+    "timestamp" : 1373031140,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "When dealing with rotation, the way to get the *real* scale value is:\r\n\r\n\t\t// Calculate real scale including accounting for rotation\r\n\t\tfloat scaleX = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_X]\r\n\t\t\t\t* mMatrixValues[Matrix.MSCALE_X] + mMatrixValues[Matrix.MSKEW_Y]\r\n\t\t\t\t* mMatrixValues[Matrix.MSKEW_Y]);\r\n\t\tfloat scaleY = (float) Math.sqrt(mMatrixValues[Matrix.MSCALE_Y]\r\n\t\t\t\t* mMatrixValues[Matrix.MSCALE_Y] + mMatrixValues[Matrix.MSKEW_X]\r\n\t\t\t\t* mMatrixValues[Matrix.MSKEW_X]);\r\n\r\n",
+    "timestamp" : 1373661283,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1252.\r\n\r\nPrevent location icon from scaling incorrectly with rotation.",
+    "timestamp" : 1373661503,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please test and report back!",
+    "timestamp" : 1373661515,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "Yes now it seems to work correctly.\r\n\r\nRegards.",
+    "timestamp" : 1373718232,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382709013,
+    "attachments" : [ ]
+  } ]
+}

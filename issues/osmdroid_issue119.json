@@ -1,0 +1,37 @@
+{
+  "id" : 119,
+  "status" : "WontFix",
+  "summary" : "Distance on ScaleBarOverlay in metric unit",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3804822027311196058,
+    "content" : "Change the format of metric output of distances in metric unit.\r\n\r\nOld Version: 0.1km - 0.6km - 1km - 2km\r\nNew Version: 120m - 644m - 1.1km - 2.3km - 10km\r\n\r\nhere's the patch\r\n\r\nregards,\r\n\r\nMartin",
+    "timestamp" : 1291140608,
+    "attachments" : [ {
+      "id" : -498834742620614004,
+      "fileName" : "ScaleBarOverlay.patch",
+      "fileSize" : 607
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is this issue still relevant, or can we close it?",
+    "timestamp" : 1293786997,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3804822027311196058,
+    "content" : "it's outdated, has been fixed by a different patch.",
+    "timestamp" : 1293789769,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1293792304,
+    "attachments" : [ ]
+  } ]
+}

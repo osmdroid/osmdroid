@@ -1,0 +1,27 @@
+{
+  "id" : 294,
+  "status" : "Fixed",
+  "summary" : "Improve customizability of ScaleBarOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8431221861647762040,
+    "content" : "I want to customize the text of the scale bar. For this, it would be good enough if ScaleBarOverlay.scaleBarLengthText(*) was protected instead of private...",
+    "timestamp" : 1325946079,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1325971501,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1030.",
+    "timestamp" : 1325971721,
+    "attachments" : [ ]
+  } ]
+}

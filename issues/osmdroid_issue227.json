@@ -1,0 +1,21 @@
+{
+  "id" : 227,
+  "status" : "WontFix",
+  "summary" : "Why last known location is null in offline mode?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5635043304501389373,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. In offline mode, using a sqlitedb for some place including my location.\r\n2. Use OpenStreeMapView sample in offline mode for whole day. It shows my location \r\n3. Run the application on next day, it does not show my location. On debugging sample it shows &quot;Last known location is null.&quot;\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nAs one day before it shows my location in offline mode. Then in next day it does not. It should always animate to show my location in offline mode when i press menu item &quot;My Location&quot; and when &quot;Showing and tracking my location&quot; toast appears.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOsmdroid-android 3.0.4\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1307596198,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please try the new MyLocation overlay. It does not change behavior if in offline mode. You may also be simply losing GPS signal.",
+    "timestamp" : 1367585535,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 108,
+  "status" : "Fixed",
+  "summary" : "Zoom out button does not get disabled if minZoomLevel is not zero in the renderer",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Some map schemes (such as Bing maps) do not use zero as the minimum zoom level (they use one). So the zoom out button never gets disabled and clicking on the zoom-out button when at zoom level one just endlessly zooms-out without ever changing anything (it keeps zooming out to level one, the minimum zoom level for the renderer).\r\n\r\nThe fix could be the following in OpenStreetMapView (modeled after the way it is handled in canZoomIn()):\r\n\r\n\tpublic int getMinZoomLevel() {\r\n\t\treturn getRenderer().zoomMinLevel();\r\n\t}\r\n\r\n\tpublic boolean canZoomOut() {\r\n\t\tif (mZoomLevel &lt;= getMinZoomLevel()) {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\tif (mAnimationListener.animating &amp;&amp; mAnimationListener.targetZoomLevel &lt;= 0) {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\treturn true;\r\n\t}\r\n\r\nThank you,\r\n-Marc",
+    "timestamp" : 1288226456,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed by r446.",
+    "timestamp" : 1288311857,
+    "attachments" : [ ]
+  } ]
+}

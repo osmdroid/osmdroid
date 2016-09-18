@@ -1,0 +1,75 @@
+{
+  "id" : 31,
+  "status" : "Fixed",
+  "summary" : "Should be a bit cleverer handling download errors",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "If there's an error downloading a map tile then it should be a bit cleverer \r\nabout retrying.  In some cases the error may go away when retrying, and in \r\nothers it may be permanent. In the case of permanent errors there's not much \r\npoint immediately and repeatedly requesting the same tile again. However \r\nsince it's difficult to know whether the error is permanent we shouldn't stop \r\nattempting altogether.\r\n\r\nSee also issue 7 and issue 28.",
+    "timestamp" : 1269616131,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340743,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 56.",
+    "timestamp" : 1278247925,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6253429726968233737,
+    "content" : "We had massive problems caused by this behavoir. When using our own customly rendered tiled-overlays for some parts of the map it made the map unresponsive at the borders of our custom layer.\r\n\r\nOur first dirty fix:\r\n- In case of an download error we write a tiny maptilename.png.err-file on the SD-card. So it won't load this tile again and again. But this is just a quick'n'dirty fix for our issue.\r\n- I'd like to implement a \"timeout\" for the error-tiles through the last-modified-attribute so those tiles can be reloaded after some time. I'll then commit this patch - probably around next week",
+    "timestamp" : 1278658680,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This sounds like a good fix. You bear in mind the points made in the issue description, ie that we want to try again some time but not too often.\r\n\r\nMaybe you could just write the png with 0 size.  There is other code to prevent that happening, but perhaps we could use that as an indicator for different behaviour, ie try again, but only after some time.\r\n\r\nThis fix can probably be combined with issue 40.\r\n",
+    "timestamp" : 1278665046,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284561172,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Done a (partial) fix in revision 369.",
+    "timestamp" : 1284562657,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -2665204047216347692,
+    "content" : "First up, a quick shout out to the developers. I love this library! Well done.\r\n\r\nI agree with the other reporters here and would add the following comments.\r\n\r\nIf there's a problem downloading a tile check for a full file system as a possible root cause. If the sdcard is full then osmandroid could delete the least recently used tile or perhaps throw an exception? \r\n\r\nAt present it spins CPU and spams the log file with seemingly infinite repeated attempts to download tiles. Makes the an app laggy and when debugging, the logcat view in DDMS loses the plot.\r\n\r\nThanks again for the library, love it.",
+    "timestamp" : 1284920694,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r379.",
+    "timestamp" : 1285079259,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -2665204047216347692,
+    "content" : "Thanks Neil. Will download the update tomorrow.",
+    "timestamp" : 1285111078,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 93.\r\n\r\nI've marked this as fixed, but I'd appreciate if someone could confirm that it works on a 1.x device. The behaviour of the media state listeners is different on 1.x and 2.x.",
+    "timestamp" : 1285131687,
+    "attachments" : [ ]
+  } ]
+}

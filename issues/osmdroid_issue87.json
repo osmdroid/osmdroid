@@ -1,0 +1,33 @@
+{
+  "id" : 87,
+  "status" : "Fixed",
+  "summary" : "Add an off-line mode",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Add a setting the prevents tile downloader from downloading from the internet.\r\nThis is in order to prevent high data usage for people who have to pay for it.\r\nSee also issue 79 and\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/6c4af4b11401408f\r\n",
+    "timestamp" : 1284128036,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3804822027311196058,
+    "content" : "I would kinda extend this with not trying to download, if no network connection is available (should be doable with http://developer.android.com/reference/android/net/ConnectivityManager.html)",
+    "timestamp" : 1284464853,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "That's one thing - more related to issue 31.\r\n\r\nOff-line mode is intended for people with a data connection where they pay per MB so that they can explicitly choose not to use the data connection even though there is one.",
+    "timestamp" : 1284474170,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r373.",
+    "timestamp" : 1284713917,
+    "attachments" : [ ]
+  } ]
+}

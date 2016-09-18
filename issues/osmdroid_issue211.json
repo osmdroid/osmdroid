@@ -1,0 +1,33 @@
+{
+  "id" : 211,
+  "status" : "Accepted",
+  "summary" : "More conservative screen invalidation",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Looking at osmdroid performance, the majority of CPU cycles are taken up by doing screen drawing. This is to be expected since drawing is an expensive operation. We are very liberal in our invalidation calls - when something on the screen is updated, we call a full invalidate() on the screen which causes a *full* redraw of everything including all tiles which is another very expensive operation. This is exasperated by the MyLocationOverlay which updates the screen constantly.\r\n\r\nWe could improve performance by being more conservative in how we invalidate the screen. For example, the compass is constantly changing and that causes a full screen redraw instead of just invalidating the small area where the compass exists.\r\n\r\nI would propose the following:\r\n\r\n1. Provide a way to invalidate only a portion of the screen (which I think is just a change in the invalidate method we call).\r\n\r\n2. Change the MyLocationOverlay to limit the area we invalidate to the compass area, and if intersecting with the clipping area, the &quot;my location&quot; icon.\r\n\r\n3. Before drawing an icon in the ItemizedOverlay, check to make sure it intersects the clipping area. If not, don't bother drawing.  (does this actually make things faster, or is Android smart enough to ignore drawing calls outside the clipping area?)\r\n\r\nThoughts?",
+    "timestamp" : 1305307623,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "4. When a tile arrives from one of the modular providers (for example, when a tile is downloaded), rather than invalidating the screen only invalidate the area of the screen the tile should be located.",
+    "timestamp" : 1305307683,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "lol... and I meant \"exacerbated\"",
+    "timestamp" : 1305307756,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1333741349,
+    "attachments" : [ ]
+  } ]
+}

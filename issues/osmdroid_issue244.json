@@ -1,0 +1,21 @@
+{
+  "id" : 244,
+  "status" : "Fixed",
+  "summary" : "minum and maximum levels",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3950189987089543328,
+    "content" : "in MapTileDownloader.java:\r\n\r\n@Override\r\npublic int getMinimumZoomLevel() {\r\nreturn (mTileSource != null ? mTileSource.getMinimumZoomLevel() :                 MAXIMUM_ZOOMLEVEL);\r\n \t}\r\n\r\n\t\r\nshouldn't it be, MINIMUM_ZOOMLEVEL ?",
+    "timestamp" : 1311094246,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been fixed.",
+    "timestamp" : 1333739384,
+    "attachments" : [ ]
+  } ]
+}

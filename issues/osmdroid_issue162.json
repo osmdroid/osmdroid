@@ -1,0 +1,43 @@
+{
+  "id" : 162,
+  "status" : "Fixed",
+  "summary" : "Tiles get mixed when switching the map type during loading",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 903862607071309050,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom to an area where you don't have tiles cached.\r\n2. While the current tiles for the area are downloading, switch to a different map type.\r\n3. Pending requests for tiles of the previous map type would eventually finish but the tiles would be added to the new map type's cache.\r\n4. Resulting in tiles of mixed types displayed in MapView. \r\n\r\nSee the attached picture.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOpenStreetMap Viewer 3.0.1\r\n\r\nIt is easier to spot when using slow data connection eg. EDGE.\r\n",
+    "timestamp" : 1298231629,
+    "attachments" : [ {
+      "id" : -1463431891037636164,
+      "fileName" : "OpenStreetMapViewer - mixed tiles.png",
+      "fileSize" : 324525
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Dev note - we need to clear the tile cache when setting the tile source in MapView.",
+    "timestamp" : 1298260050,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r832.\n\nClears the tile cache when setting the tile source in MapTileProviderBase so mixed tiles aren't shown on the screen.",
+    "timestamp" : 1298762511,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue should be resolved in the trunk. Please verify and let us know if it is working!",
+    "timestamp" : 1298762537,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am going to assume this issue is now working and this ticket can be closed. Please reopen if the issue is not resolved.",
+    "timestamp" : 1299384407,
+    "attachments" : [ ]
+  } ]
+}

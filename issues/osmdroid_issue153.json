@@ -1,0 +1,39 @@
+{
+  "id" : 153,
+  "status" : "Fixed",
+  "summary" : "Revert r766 - duplicate functionality",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Code was added to TilesOverlay in r766 for isEnabled(), enabled(), and disabled(). The base Overlay class already has this functionality with isEnabled() and setEnabled(), so I think r766 adds duplicate functionality. Calling setEnabled(false) disables the overlay's drawing routines at the base class.\r\n\r\nAgreed?\r\n\r\n",
+    "timestamp" : 1296610580,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2727146692173700108,
+    "content" : "Overlay.mEnabled is \"private\", so TilesOverlay cannot access it within onDraw(). Should this be marked \"protected\", and the if(mOverlay) in onDraw() left in-place?",
+    "timestamp" : 1296611847,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can set Overlay.mEnabled by calling Overlay.setEnabled() which is a public method.",
+    "timestamp" : 1296615645,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -2727146692173700108,
+    "content" : "Removed redundant functions, set if statement in onDraw to check isEnabled().",
+    "timestamp" : 1296705305,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "The isEnabled() isn't needed either. That is checked in Overlay.onManagedDraw(). I made the change. Thanks.",
+    "timestamp" : 1296787597,
+    "attachments" : [ ]
+  } ]
+}

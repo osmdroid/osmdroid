@@ -1,0 +1,45 @@
+{
+  "id" : 450,
+  "status" : "Fixed",
+  "summary" : "ItemizedIconOverlay uses onSingleTapUp for detecting taps, when it should be using OnSingleTapConfirmed",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "ItemizedIconOverlay uses onSingleTapUp for detecting taps which means a double-tap will trigger item selection. It should be using OnSingleTapConfirmed.",
+    "timestamp" : 1373906692,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3820772485406050419,
+    "content" : "Workaround for this is extend ItemizedIconOverlay and override this methods\r\n\r\n@Override\r\npublic boolean onSingleTapUp(MotionEvent event, MapView mapView) {\r\n\treturn false;\r\n}\r\n\r\n@Override\r\npublic boolean onSingleTapConfirmed(MotionEvent e, MapView mapView) {\r\n\treturn super.onSingleTapUp(e, mapView);\r\n}\r\n\r\nbut it would be nice have this in \"vanilla\" code :)",
+    "timestamp" : 1373968765,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updated by r1256. Use onSingleTapConfirmed instead of onSingleTapUp for detecting taps. This prevents double-tapping from triggering an item tap.\r\n\r\nPlease test and report back results.",
+    "timestamp" : 1374764972,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nIf we use the ItemizedIconOverlay:\r\nI see that with the latest change the ItemizedOverlay.hitTest is called 2 times.\r\nOne time from ItemizedIconOverlay.onSingleTapConfirmed through ItemizedIconOverlay.activateSelectedItems\r\nAnd if it returns false, then another one time through super.onSingleTapConfirmed at ItemizedOverlay.onSingleTapConfirmed\r\n\r\nWhat's the reason for that super call, can we avoid it? Don't we already perform the hit test at ItemizedIconOverlay?\r\n\r\nRegards.",
+    "timestamp" : 1374774623,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "ItemizedIconOverlay is user-contributed code. There is no Google-API equivalent. Consequently there is no guidance as to how it \"should\" be implemented. I don't know why there is an activateSelectedItems() since that could be done in onTap(). I'm inclined to leave it the way it is where the ItemizedIconOverlay provides activateSelectedItems() functionality and the ItemizedIconOverlay provides the onTap() functionality and the user can choose which hook works best for their tapping needs.\r\n\r\nI don't know how much attention will be given to the concrete subclasses of ItemizedOverlay that are provided in the osmdroid library moving forward. I think they should be considered examples and be put into the sample project. They probably have been far surpassed by the functionality provided by osmbonuspack. Maybe they should be deprecated?\r\n",
+    "timestamp" : 1374781926,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "The primary fix has been released in 4.0. Additional changes discussed won't be implemented at this time.",
+    "timestamp" : 1382709107,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,73 @@
+{
+  "id" : 188,
+  "status" : "Fixed",
+  "summary" : "StackOverflowError around TileWriter.calculateDirectorySize on r865",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "Got the following from one of our users, on r865 of osmdroid. Attached is the full stack, I snipped out the many repeated lines.\r\n\r\nMODEL: MB525\r\nRELEASE: 2.1-update1\r\nBOARD: jordan\r\nBRAND: moto\r\nDEVICE: umts_jordan\r\nDISPLAY: JRDNEM_U3_2.34.1\r\nFINGERPRINT: moto/MB525_RTCEE/umts_jordan/jordan:2.1-update1/JRDNEM_U3_2.34.1/89356655:user/release-keys\r\nHOST: zch68lnxdroid07\r\nID: JRDNEM_U3_2.34.1\r\nPRODUCT: MB525_RTCEE\r\nTAGS: test-keys\r\nTIME: 1288860450000\r\nThread: Thread[Thread-10,1,main] throwable: java.lang.StackOverflowErrorjava.lang.StackOverflowError\r\n        at java.nio.BaseByteBuffer.&lt;init&gt;(BaseByteBuffer.java:28)\r\n        at java.nio.HeapByteBuffer.&lt;init&gt;(HeapByteBuffer.java:49)\r\n        at java.nio.HeapByteBuffer.&lt;init&gt;(HeapByteBuffer.java:45)\r\n        at java.nio.ReadWriteHeapByteBuffer.&lt;init&gt;(ReadWriteHeapByteBuffer.java:49)\r\n        at java.nio.BufferFactory.newByteBuffer(BufferFactory.java:51)\r\n        at java.nio.ByteBuffer.allocate(ByteBuffer.java:54)\r\n        at java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:351)\r\n        at java.nio.charset.Charset.encode(Charset.java:711)\r\n        at java.lang.String.getBytes(String.java:1022)\r\n        at org.apache.harmony.luni.util.Util.getBytes(Util.java:61)\r\n        at java.io.File.properPath(File.java:1362)\r\n        at java.io.File.isFile(File.java:822)\r\n        at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:150)\r\n        at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n        at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n        \r\n&lt;snip&gt;\r\n\r\nat\r\norg.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWrit\r\ner.java:154)\r\n        at\r\norg.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWrit\r\ner.java:154)\r\n        at\r\norg.osmdroid.tileprovider.modules.TileWriter.access$0(TileWriter.java:146)\r\n        at\r\norg.osmdroid.tileprovider.modules.TileWriter$1.run(TileWriter.java:52)",
+    "timestamp" : 1300803676,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Could you please re-attach the full stack - the one you attached is blank.\r\n\r\nAnd my first guess - the user has a link-loop in their filesystem. Directory A has a folder B and in that folder there is a link to Directory A. This causes calculateDirectorySize to infinite loop. We should catch this situation if possible.",
+    "timestamp" : 1300845907,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1300845915,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 96660131602258341,
+    "content" : "",
+    "timestamp" : 1300850869,
+    "attachments" : [ {
+      "id" : -6117475624863219531,
+      "fileName" : "stack.txt",
+      "fileSize" : 18643
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you - that stack certainly looks like an infinite loop. It would be nice to confirm if this user had an directory loop because I cannot seem to create a symbolic link on my sdcard (even in the emulator).\r\n\r\nBut assuming it is a directory loop, then this is apparently a problem with no easy solution in Java. There is no direct isSymbolicLink() in java.io so the best we have is getCanonicalPath(). There are a few implementations that use this to implement a isSymbolicLink() such as the one from apache commons (see http://stackoverflow.com/questions/813710/java-1-6-determine-symbolic-links).\r\n\r\nIn our case, what we really need is a way to know if the directory we are about to traverse has the same parent root as our current directory. So I think we can do something like:\r\n\r\nprivate boolean isSymbolicDirectoryLink(final String aParentCanonicalPath, final File aDirectory) {\r\n  try {\r\n   final String canonicalParentPath = aDirectory.getCanonicalFile().getParent();\r\n   return aParentCanonicalPath.equals(canonicalParentPath);\r\n  } catch (IOException e) {\r\n   return false;\r\n  }\r\n }\r\n\r\nThoughts anyone?",
+    "timestamp" : 1301108877,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 194 has been merged into this issue.",
+    "timestamp" : 1301582174,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am going to commit a solution for this. Please report back and let us know if it worked!",
+    "timestamp" : 1301618041,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r910.\n\nAdds symbolic link checking before descending into a new directory in calculateDirectorySize",
+    "timestamp" : 1301618051,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1301618063,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue will be closed. The code has been running for a while and it functionally appears to be doing its job.",
+    "timestamp" : 1307136701,
+    "attachments" : [ ]
+  } ]
+}

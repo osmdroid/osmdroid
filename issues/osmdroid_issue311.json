@@ -1,0 +1,35 @@
+{
+  "id" : 311,
+  "status" : "Fixed",
+  "summary" : "Tiles not reloaded when pending queue too large",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3926018049081992033,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Move around on the map view component (embedded in an activity of your choice) very fast. Move to region A, back to B and then back to A. Maybe you need some tries to reproduce it. \r\n2. Sometimes when you get back to Region A you may encounter &quot;loading tiles&quot; which will never be replaced by real tiles.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nOf course the missing tiles should be replaced by the real tiles.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOSMDroid 3.0.5\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe issue is relatively easy to reproduce on a GNEX over 3G due to the increased resolution (more tile request are issued). So one of the internal map request queues evicts old map tile requests but does not inform an other queue about the removal.\r\n\r\nI investigated the bug and found the root cause. I will attach two files that contain a fix. The fix is a HOTFIX and not intended to be simply merged to the main trunk. There is some casting involved, but I have currently no time to make this prettier. So there is some porting effort needed.\r\n\r\nBasically the missing tiles are not removed from the maptile-loading working queues when the pending queue size exceeds. So I added some code that when a pending tile request is removed the same request is also removed from the working queue. This causes the missing tiles to be reloaded.\r\n\r\nOnce again: Please be aware that the attached files are not intended to replace the existing sources of the trunk! They are coded against a forked version of 3.0.5.",
+    "timestamp" : 1329229331,
+    "attachments" : [ {
+      "id" : 3110000000,
+      "fileName" : "MapTileProviderArray.java",
+      "fileSize" : 7515
+    }, {
+      "id" : 3110000001,
+      "fileName" : "MapTileModuleProviderBase.java",
+      "fileSize" : 10323
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8177012077806897919,
+    "content" : "This seems to be the same as issue 335 and fixed through r1090.",
+    "timestamp" : 1334043048,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the report and the investigation into the issue. This has been fixed in r1090. If you have any additional issues please reopen or file a new issue report.",
+    "timestamp" : 1345828580,
+    "attachments" : [ ]
+  } ]
+}

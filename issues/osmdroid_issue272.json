@@ -1,0 +1,21 @@
+{
+  "id" : 272,
+  "status" : "Fixed",
+  "summary" : "osmdroid-android build broken at r991",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7508546289936021813,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. ant build jar\r\n\r\nWhat is the expected output?\r\nBUILD SUCCESSFUL\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr911\r\n\r\n<b>Please provide any additional information below.</b>\nError is:\r\nsrc/org/osmdroid/tileprovider/LRUMapTileCache.java:56: java.util.LinkedHashMap.Entry has private access in java.util.LinkedHashMap\r\n    [javac] \tprotected boolean removeEldestEntry(final Entry&lt;MapTile, Drawable&gt; aEldest) {\r\n    [javac] \t                                          ^\r\n\r\nLast r991 was supposed to be a cleanup but broke compilation:\r\nSince &quot;import java.util.Map.Entry;&quot; is removed, java try to take &quot;java.util.LinkedHashMap.Entry&quot; for &quot;Entry&quot;, and since it's private, stops compilation with error.\r\n\r\nFix:\r\nrevert LRUMapTileCache.java to its previous version including &quot;import java.util.Map.Entry;&quot; or call &quot;Entry&quot; with its full name:\r\n\r\nprotected boolean removeEldestEntry(final java.util.Map.Entry&lt;MapTile, Drawable&gt; aEldest) {\r\n",
+    "timestamp" : 1320362999,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r997.",
+    "timestamp" : 1321073688,
+    "attachments" : [ ]
+  } ]
+}achments":[]}]}

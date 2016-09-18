@@ -1,0 +1,39 @@
+{
+  "id" : 175,
+  "status" : "Fixed",
+  "summary" : "fromPixels returns wrong geographic position",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1188872730006932296,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. overlay onSingleTapUp\r\n2. projection.fromPixels(event.getX(), event.getY())\r\n3. zoom level 0 - 9\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nwrong geographic position\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nUsing the latest code from SVN 3.0.2",
+    "timestamp" : 1299013190,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Possibly related to Issue 157",
+    "timestamp" : 1299038993,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "r881 updated the Geodetic algorithms we use. Can you please update to the latest trunk and retest and report the results?",
+    "timestamp" : 1300420639,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1188872730006932296,
+    "content" : "method is working properly, the issue can be closed",
+    "timestamp" : 1300449903,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Very happy to hear!",
+    "timestamp" : 1300510545,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,55 @@
+{
+  "id" : 332,
+  "status" : "New",
+  "summary" : "zoom-in zoom-out in offline mode in osmdroid-android-3.0.7.jar",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -9176907488962473047,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Download the map in a Mapnik zip file with mobac an store them as zip-file on the SD-card\r\n2. Set the zoom level on the map to 16 when launched\r\n3. Zoom in and zoom out by pinching the map or the build-in zoom controls\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nexpected result: smooth zooming the map and rendering the map tiles correctly\r\n\r\nactual result: map tiles are sometimes rendered correctly, but in most cases the tiles are not rendered very well and smoothly (zoom-in) or there are multiple of gray tiles in the middle of the map (zoom-out)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nproduct version: 3.0.7 jar\r\nandroid sdk version: r17\r\noperating system: Mac OS X Lion 10.7.3 (Emulator with all Android API levels starting from 2.1)\r\ndevice: Samsung Galaxy S II with Android 2.3.3, Sony Ericsson Xperia X10 Mini Pro with Android 2.3.7 (miniCyanogenmod 7)\r\n\r\n<b>Please provide any additional information below.</b>\nTested on device and multiple simulators and downloaded multiple map tiles from different city's with mobac.\r\nThe issue it doesn't render correctly or having gray tiles seems be on every location and random on your map when you are zooming in offline mode. I've find out it doesn't happen when I allow connection to the internet. In osmdroid 3.0.5 it's working correctly for offline mode.",
+    "timestamp" : 1333658878,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6332161695648181708,
+    "content" : "I had the same problem but I change to osmdroid-android-3.0.8-20120208.220818-1.jar\r\nand it seems to work fine, when zoom in some maps tiles are updated and some parts of the map remain as it is and I think this is because the tiles crosponding to the partsof the map(not updated)  are not downloaded because in mobile atlas",
+    "timestamp" : 1334952746,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -7104803726106522737,
+    "content" : "I have attached a quick and dirty patch to solve the problem. Basically I had to disable the ScaleTileLooper in class  MapTileProviderBase.\r\nIn my project I have both online and offline maps, so I switch the behavior with a setter:\r\n\r\nMapTileProviderArray provider = new MapTileProviderArray(MBTILESRENDER, null, new MapTileModuleProviderBase[] { moduleProvider });\r\nprovider.setUseScaleTileLooper(false);\r\n...\r\n",
+    "timestamp" : 1337164267,
+    "attachments" : [ {
+      "id" : 3320002000,
+      "fileName" : "osmdroid-332.patch",
+      "fileSize" : 2398
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is this different to issue 290 and issue 289?",
+    "timestamp" : 1337264196,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -5438284801675107478,
+    "content" : "It looks the same as both issue 290 and issue 289. The patch does improve things a bit, as it gets rid of some overhead on zooming in/out. And yet, missing tiles are still there, especially on zoom out (library v.4.1). The problem seems to be a timeout of some kind. The slower the loading, the more missing tiles there is. I tested it on a customized version of GEMFFileArchive (which supports overzoom and caches overzoomed tiles). The original GEMFFileArchive is obviously faster and I get less missing tiles, but still occasionally do. And by the way, the tiles are in TileOverlay.\r\nDoes it give any clue as to where the timeout is happening? ",
+    "timestamp" : 1399736596,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5438284801675107478,
+    "content" : "I finally solved the problem by following the advice from issue 251 - by setting TileRequestCompleteHandler for provider for tile overlay to MapView's one. Like so:\r\n\r\nmyGemfTileProvider.setTileRequestCompleteHandler(mMapView.getTileRequestCompleteHandler());\r\n\r\n",
+    "timestamp" : 1399738379,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "@daniel.klimov I would appreciate it if you could create a new issue in github which can replace all the related issues. Then we can consolidate all the relevant information and close the rest.",
+    "timestamp" : 1399966980,
+    "attachments" : [ ]
+  } ]
+}

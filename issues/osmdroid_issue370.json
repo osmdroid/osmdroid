@@ -1,0 +1,21 @@
+{
+  "id" : 370,
+  "status" : "New",
+  "summary" : "Enhancement: Add fading effect when reload map tile after pinch zoom",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7997431820903694371,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. run the Open Map Viewer\r\n2. Zoom in or zoom out by pinch zoom (multi-touch zoom) \r\n3. See the animation when the map reload new map tile of the new zoom level\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n- Fading effect when reload map tile after release finger like Google map (make the transition feel smooth). But the map just display new map tile of new zoom level immediately (not smooth transition) \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid-android-3.0.8, Android 4.0.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1347960838,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1347966931,
+    "attachments" : [ ]
+  } ]
+}

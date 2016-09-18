@@ -1,0 +1,31 @@
+{
+  "id" : 449,
+  "status" : "Duplicate",
+  "summary" : "GLES20Canvas.drawPicture UnsupportedOperationException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6132254785791996457,
+    "content" : "Hello what about issue in attachment.\r\n\r\nThe map crash when its displayed.\r\n\r\nIam using latest osmdroid-android-3.0.10.jar",
+    "timestamp" : 1373807934,
+    "attachments" : [ {
+      "id" : 4490000000,
+      "fileName" : "gles20canvas.jpg",
+      "fileSize" : 583353
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Turn off hardware acceleration in your manifest, or in code like we do in the sample application.\r\n",
+    "timestamp" : 1373891938,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1374000495,
+    "attachments" : [ ]
+  } ]
+}

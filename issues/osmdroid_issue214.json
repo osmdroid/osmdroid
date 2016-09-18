@@ -1,0 +1,21 @@
+{
+  "id" : 214,
+  "status" : "Fixed",
+  "summary" : "Replace current \"focused\" graphics with fully customizable popup View",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Now that the MapView is a ViewGroup, we can add arbitrary Views to the map and we can &quot;pin&quot; them to a lat/long. Our current focused graphics are custom drawn and have largely gone unmaintained.\r\n\r\nLet's replace the custom graphics with a simple RelativeLayout view with a nine-patch background (android provides a few native ones that are perfect). Users can then add their own controls as they need. OpenStreetMapViewer should be updated to demonstrate.\r\n\r\nThoughts?",
+    "timestamp" : 1305505004,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been implemented by the osmbonuspack project.",
+    "timestamp" : 1367590779,
+    "attachments" : [ ]
+  } ]
+}

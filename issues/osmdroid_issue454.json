@@ -1,0 +1,49 @@
+{
+  "id" : 454,
+  "status" : "Duplicate",
+  "summary" : "drawPath does not render in some cases when hardware acceleration is on",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5781615991677836462,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Define three geopoints:\r\nGeoPoint(32000000,-116500000);\r\nGeoPoint(32500000,-116000000);\r\nGeoPoint(33000000,-116500000);\r\n2. Center the map on the middle GeoPoint at zoom level 13.\r\n3. Draw a PathOverlay consisting of these three GeoPoints. Path does not draw at zoom level 13 and higher. Zoom out to zoom level 12 or lower and path draws fine. Turn off hw acceleration and path draws fine at all zoom levels.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect path to be drawn at all zoom levels with hw acceleration on. Path is not drawn with hw acceleration on at zoom levels 13 and higher.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.10, Samsung Galaxy S3, CyanogenMod 10.1.0.\r\n\r\n<b>Please provide any additional information below.</b>\nPlease see example project attached. \r\n",
+    "timestamp" : 1374863229,
+    "attachments" : [ {
+      "id" : 4540000000,
+      "fileName" : "GPUdrawPathBug.zip",
+      "fileSize" : 2436
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 5781615991677836462,
+    "content" : "Investigating the osm and android sources some more, I think it is likely this bug happens inside GLES20RecordingCanvas rather than being an osm bug. If that is the case, I am amazed it has not surfaced earlier.",
+    "timestamp" : 1374866022,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you for the project. Yes - I have seen this before. If you check LogCat, you will see:\r\n\r\n08-01 22:29:55.583: W/OpenGLRenderer(3672): Path too large to be rendered into a texture\r\n\r\nThis is a problem with HW accelerated Paths - they have to be converted into Bitmaps to be uploaded as textures to OpenGL. If the Path is too big, then the Bitmap is too big and it fails.\r\n\r\nI have seen solutions that create a screen-sized Bitmap and then draw the Path to that Bitmap and then draw that Bitmap to the Canvas. Another possible solution is to make a smaller path (say, within some factor of the screen-size) and then draw that scaled to the canvas - this keeps the Bitmap small and lets OpenGL scale it to the proper size (with loss of resolution). But as of now, there is no solution.\r\n\r\nI am going to merge this in with our main HW acceleration ticket. Thanks for the feedback.",
+    "timestamp" : 1375410876,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Merging with our main hardware acceleration ticket.",
+    "timestamp" : 1375410994,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4472166650691995161,
+    "content" : "I can workaround this issue by using sofrware rendering configuration.\r\n\r\nmapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);",
+    "timestamp" : 1388460263,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -7783551662402079618,
+    "content" : "Isn't there a way to detect the issue and switch over to software at run-time? This is very annoying to have to disable HW acceleration permanently while it only fails on occasion!",
+    "timestamp" : 1394456439,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 147,
+  "status" : "Fixed",
+  "summary" : "BoundingBoxE6.contains method not working properly",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1604325893239961184,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. use the SampleWithMinimapItemizedoverlay example as starting point\r\n2. adjust the code to use a set of geopoints instead of the four overlay items\r\n3. define a bounding box that should contain a small set of the geopoints\r\n4. use the BoundingBoxE6.contains method to add the geopoints as items on an ovelay\r\n5. adjust the zoom level to display a larger area thant the bounding box\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nsee image, \r\nexpected: a small area with markers. \r\ncurrent: a 'cross' of markers\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.0\r\n\r\n<b>Please provide any additional information below.</b>\nmost likely use of || instead of &amp;&amp; in contains check\r\n",
+    "timestamp" : 1296032571,
+    "attachments" : [ {
+      "id" : -8023714972015320356,
+      "fileName" : "bugContains.png",
+      "fileSize" : 269821
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is correct - thank you for reporting this issue. The following will incorrectly fail:\r\n\r\nBoundingBoxE6 box = new BoundingBoxE6(52000000, 52000000, 48000000, 48000000);\r\nassertFalse(box.contains(new GeoPoint(51000000, 53000000)));\r\n\r\n",
+    "timestamp" : 1296357048,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r763.",
+    "timestamp" : 1296357070,
+    "attachments" : [ ]
+  } ]
+}

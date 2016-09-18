@@ -1,0 +1,33 @@
+{
+  "id" : 462,
+  "status" : "Fixed",
+  "summary" : "Access to MapQuest Aerial Tiles not working",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "What steps will reproduce the problem? Set tile provider as MapQuest Aerial: \r\nmap.setTileSource(TileSourceFactory.MAPQUESTAERIAL);\r\n\r\nWhat is the expected output? MapQuest aerial tiles. \r\n\r\nWhat do you see instead? Empty squares. Log cat: \r\nW/org.osmdroid.tileprovider.modules.MapTileDownloader(233): Problem downloading MapTile: /5/15/11 HTTP response: HTTP/1.1 404 Not Found\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.10, on any AVD or phone. \r\n\r\nReason: \r\nThe current osmdroid implementation of MAPQUESTAERIAL is not in line with MapQuest documentation (http://developer.mapquest.com/web/products/open/map). \r\n\r\nHere is the correct implementation in TileSourceFactory.java:\r\nOnlineTileSourceBase MAPQUESTAERIAL = \r\n    new XYTileSource(&quot;MapquestAerial&quot;, ResourceProxy.string.mapquest_aerial, 0, 11, 256, &quot;.jpg&quot;,\r\n                            &quot;http://otile1.mqcdn.com/tiles/1.0.0/sat/&quot;,\r\n                            &quot;http://otile2.mqcdn.com/tiles/1.0.0/sat/&quot;,\r\n                            &quot;http://otile3.mqcdn.com/tiles/1.0.0/sat/&quot;,\r\n                            &quot;http://otile4.mqcdn.com/tiles/1.0.0/sat/&quot;);\r\n",
+    "timestamp" : 1376156634,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Mapquest normal tiles should also have a different URL",
+    "timestamp" : 1376372164,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1376372357,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1288.",
+    "timestamp" : 1376372866,
+    "attachments" : [ ]
+  } ]
+}

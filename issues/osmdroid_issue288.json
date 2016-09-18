@@ -1,0 +1,15 @@
+{
+  "id" : 288,
+  "status" : "New",
+  "summary" : "Bad auto-ellipsis calculation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4057101083950288777,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. put a long string that contains new line chars to description (constructor arg) of the OverlayItem\r\n\r\nie: new OverlayItem(&quot;Title&quot;,\r\n                &quot;First sentence.\\nSecond sentence.\\nThird sentence.\\nFourth sentence.&quot;, _geoPoint)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nText in the description field (green buble above the map) is badly formatted\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n3.0.5, win 7 sp1 x64\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nIt looks like when osmdroid is about to show the bubble overlay it judges the width of the input string but not considers the new line characters, it then proceeds to insert it's own line breaks, this results in badly formatted result as the bubble is unnecessarily wide (proly some internal maximum width) and the lines are cut off at random places.\r\n\r\nThis is really bugging me, can someone help/fix pretty pls?\r\n\r\n",
+    "timestamp" : 1324598613,
+    "attachments" : [ ]
+  } ]
+}98613,"attachments":[]}]}

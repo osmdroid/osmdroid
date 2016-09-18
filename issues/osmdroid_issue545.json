@@ -1,0 +1,39 @@
+{
+  "id" : 545,
+  "status" : "Invalid",
+  "summary" : "MyLocationNewOverlay memory leak on using enableMyLocation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1245493414618058223,
+    "content" : "Hi, i have a memory leak on my application using OSMDroid 4.2. Using DDMS i found out it was due to a call to &quot;enableMyLocation&quot;.\r\nHere are my steps to detect the problem.\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Create an activity with an instance of MyLocationNewOverlay calling enableMyLocation (in onCreate)\r\n\r\n2. Create two other activities (1 before, 1 after) in order to have a story board\r\n\r\n3. Moving from 1-&gt;2-&gt;3 3-&gt;2-1, catching memory usage using DDMS, moving again 1-&gt;2-&gt;3 3-&gt;2-&gt;1, Boom, memory has increased.\r\n\r\n4. Disable &quot;enableMyLocation&quot; and repeating step3, memory hasn't increased this time.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOSMDroid 4.2 Android 4.1.2 on a Galaxy Note 10.1\r\n\r\n\r\n\r\n",
+    "timestamp" : 1409318597,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1245493414618058223,
+    "content" : "Comment deleted",
+    "timestamp" : 1409320627,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1245493414618058223,
+    "content" : "Comment deleted",
+    "timestamp" : 1409320651,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1245493414618058223,
+    "content" : "Ok i found out how to use it properly by looking at the methods. Calling \"disableMyLocation()\" in onPause of the activity solves the problem.",
+    "timestamp" : 1409320695,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1409385462,
+    "attachments" : [ ]
+  } ]
+}

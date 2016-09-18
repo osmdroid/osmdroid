@@ -1,0 +1,21 @@
+{
+  "id" : 69,
+  "status" : "Fixed",
+  "summary" : "The samples should use the same renderer for the minimap as the main map",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "That seems to make sense.\r\n\r\nCopied from issue 29.",
+    "timestamp" : 1278599909,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The mini-map overlay has setTileSource() exposed to allow changing of the mini-map tile provider along with the main map.",
+    "timestamp" : 1294718454,
+    "attachments" : [ ]
+  } ]
+}

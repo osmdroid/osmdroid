@@ -1,0 +1,21 @@
+{
+  "id" : 391,
+  "status" : "Duplicate",
+  "summary" : "FollowLocation vs mapView.isAnimating",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nWhile I have enabled 'follow my location' I notice a strange effect.\r\nIf I'am moving constantly (with a car or with emulated gps changes) and I play with the zoom controls also fast constantly then it seems that there is a conflict between the 'follow my location' animateTo and the map view zoom animation.\r\nThe strange result is that the map pans by its own at distant locations outside the screen and corrects itself at next location update (provided I stop playing rapidly with the zoom controls).\r\n\r\nA temporary solution that I use is to check at onLocationChanged if mapView.isAnimating() and skip mapController.animateTo if map view animation is in progress.\r\n\r\nThanks.",
+    "timestamp" : 1357332085,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Lets merge this with issue 448.",
+    "timestamp" : 1373493187,
+    "attachments" : [ ]
+  } ]
+}

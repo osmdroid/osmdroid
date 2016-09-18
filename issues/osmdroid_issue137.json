@@ -1,0 +1,27 @@
+{
+  "id" : 137,
+  "status" : "Fixed",
+  "summary" : "osmdroid and andnav share many sources .. AND .jar does not contains osmdroid files.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1778308742751796674,
+    "content" : "First, thanks for those great libraries ! And for opensourcing andnav.\r\n\r\nThe org.andnav and org.osmdroid share many almost identical sources files.\r\nSome are just prefixed by OpenStreetMap.\r\n\r\neg: geopoint.java or mymath.java and many many more.\r\nDid i break something ?\r\n\r\n\r\nBy the way, downloading the jar file 1.10, I discovered that it was missing all osmdroid specific files. Is it normal too ?!\r\n\r\n\r\nCheers,\r\nSimon Thépot",
+    "timestamp" : 1294997378,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "The org.andnav should be deleted in the near future. See issue 130 and issue 112.\r\n\r\nThanks for submitting this issue as a reminder!\r\n\r\nThe latest jar is osmdroid-android-3.0.0.jar.\r\n\r\n",
+    "timestamp" : 1295000912,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r747.",
+    "timestamp" : 1295510318,
+    "attachments" : [ ]
+  } ]
+}

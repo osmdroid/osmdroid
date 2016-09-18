@@ -1,0 +1,197 @@
+{
+  "id" : 378,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay leaves traces of direction arrow after r1121",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 26,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I'm using another than the default icon for the MyLocation direction arrow (direction_arrow.png)\r\n2. Turn off follow location, make sure the direction arrow is visible and move around. Make sure to move in different direction so that the arrow rotates.\r\n3. See traces left behind on screen shot\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nNo traces\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr1123\r\n\r\n<b>Please provide any additional information below.</b>\nThe more conservative refresh for MyLocationOverlay calculates the direction arrow bounds not correctly. If you use an icon that is not perfectly quadratic it will be painted outside the calculated boundary.\r\n\r\nSee attached patch for a fix.\r\n",
+    "timestamp" : 1349908483,
+    "attachments" : [ {
+      "id" : 3780000000,
+      "fileName" : "device-2012-10-11-094907.png",
+      "fileSize" : 85692
+    }, {
+      "id" : 3780000001,
+      "fileName" : "MyLocationOverlay.java.patch",
+      "fileSize" : 1089
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "So the issue arises when a non-square icon is used and subsequently rotated - we need to invalidate the entire possible area around the center point that the rotated icon could fall on. Actually if that's the case, we would need to enlarge it by even more since a rotated rectangle bounds can be larger than the original. If my thinking is correct - then the invalidate rectangle would be a square with sides that equal the length of the diagonal of the original icon.\r\n\r\nSo if we have an icon that is 12x16. The diagonal would be sqrt(12^2+16^2) = 20. So the invalidate square would be 20x20.\r\n\r\n\r\nJust one question - why is the offset multiplied by Math.sqrt(2) in your patch?",
+    "timestamp" : 1350935366,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8177012077806897919,
+    "content" : "x*Math.sqrt(2) is the length of the diagonal in a square of length x (special quadratical case of your equation above).\r\nI was assuming that the location icon is mostly close to a square and used sqrt(2)*the longest icon side. This will ensure that it will always cover the area used by the rotated icon (though potentially a minimal fraction more for non-squares).\r\nNow, if we enlarge the area to be invalidated we must also tweak the offset, because originally the offset uses the centre of the icon, it now must use the centre of the slightly larger invalidation area. Multiplying the offset with sqrt(2) does that (i.e. makes sure the offset is as much as the centre of the enlarged area). If the offset is not tweaked to the larger area size, traces of the rotated icon will still stick out.\r\n",
+    "timestamp" : 1350936480,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8177012077806897919,
+    "content" : "Just to clarify: I'm pretty sure the issue occurs with square icons as well, as long as they are not transparent in the far corners.",
+    "timestamp" : 1350936573,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe then all we would have to do is offset by widestEdge/2. The rectangle starts at the x,y of your present location (posx, posy), we set a width and height of widestEdge, and then we center on the x,y where the center of the icon will be drawn. Basically we want the invalidate rectangle (square) to be centered on posx, posy. Sound correct?",
+    "timestamp" : 1351123597,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Final patch would look like:\r\n\r\n\t\t\t// Get a square bounding box around the object, and expand by the length of the diagonal\r\n\t\t\t// so as to allow for extra space for rotating\r\n\t\t\tint widestEdge = (int) Math.ceil(Math.max(DIRECTION_ARROW.getWidth(),\r\n\t\t\t\t\tDIRECTION_ARROW.getHeight())\r\n\t\t\t\t\t* Math.sqrt(2));\r\n\t\t\treuse.set(posX, posY, posX + widestEdge, posY + widestEdge);\r\n\t\t\treuse.offset((int) widestEdge / 2, (int) widestEdge / 2);\r\n",
+    "timestamp" : 1351125542,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8177012077806897919,
+    "content" : "You're right, spot on.",
+    "timestamp" : 1351125786,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r1126. Give it a try and if it works for you, please close the ticket. Thanks for the help with this ticket!",
+    "timestamp" : 1351127136,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -8177012077806897919,
+    "content" : "Gave it a quick test and the location icon seems to be fine now.\r\nBut now there are issues with the accuracy circle. I'll attache some screenshots here, please move to another issue if you think it should be covered under a separate one.",
+    "timestamp" : 1351141678,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -8177012077806897919,
+    "content" : "In this one the accuracy circle is cut off on the right and top edge.",
+    "timestamp" : 1351141762,
+    "attachments" : [ {
+      "id" : 3780009000,
+      "fileName" : "device-2012-10-25-170451.png",
+      "fileSize" : 13046
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : -8177012077806897919,
+    "content" : "Accuracy circle leaving traces.",
+    "timestamp" : 1351141798,
+    "attachments" : [ {
+      "id" : 3780010000,
+      "fileName" : "device-2012-10-25-170536.png",
+      "fileSize" : 8822
+    } ]
+  }, {
+    "id" : 11,
+    "commenterId" : -8177012077806897919,
+    "content" : "The black line is a glitch at the previous location.",
+    "timestamp" : 1351141852,
+    "attachments" : [ {
+      "id" : 3780011000,
+      "fileName" : "device-2012-10-25-171005.png",
+      "fileSize" : 7921
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : -8177012077806897919,
+    "content" : "The 3 previous screen shots happened at full zoom, each occured a few times but not always. I didn't see them on a lower zoom level, but I had only about 8 minutes on the ferry to try.\r\nI'll have a look at the code and try to get more samples, but it can take a wee while.",
+    "timestamp" : 1351142005,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay - I suspect that the accuracy circle might not be accounting for stroke width so it's a little short. Your ferry ride is a great debug tool :)",
+    "timestamp" : 1351175460,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -8177012077806897919,
+    "content" : "Comment deleted",
+    "timestamp" : 1351188544,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -8177012077806897919,
+    "content" : "Another ferry ride later and a few (random) thoughts.\r\n- It doesn't only seem to be an issue with invalidation. If you look at the first screenshot, there is something missing from the accuracy circle in the first place. Not sure if that only occurs after r1121 or was there previously.\r\n- I have artificially enlarged the accuracy circle, but I can still only observe this behaviour at the highest zoom level and one below. All other seem to be fine.\r\n- When I turn on the mini map and zoom in the rect  angle around the mini map wiggles around a bit when moving. See screen shots below. This might be a rounding issue and looks somewhat similar to the device-2012-10-25-171005 screen shot. I'm curious if there is a common reason behind the mini map border and the behaviour described here.\r\n- Is it possible that due to anti aliaising the actual accuracy circle drawn is larger than radius+stroke width? I've been through the code and applying the stroke width in getMyLocationDrawingBounds seems to be fine.",
+    "timestamp" : 1351221007,
+    "attachments" : [ {
+      "id" : 3780015000,
+      "fileName" : "device-2012-10-26-155851.png",
+      "fileSize" : 11054
+    }, {
+      "id" : 3780015001,
+      "fileName" : "device-2012-10-26-155904.png",
+      "fileSize" : 11964
+    } ]
+  }, {
+    "id" : 16,
+    "commenterId" : -8177012077806897919,
+    "content" : "Also, has anyone else noticed the circle isn't always round? ",
+    "timestamp" : 1351221364,
+    "attachments" : [ {
+      "id" : 3780016000,
+      "fileName" : "device-2012-10-26-161458.png",
+      "fileSize" : 8898
+    } ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "What zoom level are you at? You are probably experiencing Issue 221. I typically start seeing it at zoom level 19+. There is a patch in the ticket that I would like to commit to the trunk but it really could use some testing.",
+    "timestamp" : 1351222537,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -8177012077806897919,
+    "content" : "Levels 18 and 19. I'll have a look at 221\r\n",
+    "timestamp" : 1351224361,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -8177012077806897919,
+    "content" : "Not sure if the traces are related to 221, but certainly the mini map overlay issues look similar. I'll try the patch when I find some time.",
+    "timestamp" : 1351225498,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -8177012077806897919,
+    "content" : "I've applied the patch from 221, but the same issues remain (accuracy circle cut, leaving traces and also the wobbly minimap overlay) :-(\r\n\r\nAny other ideas?",
+    "timestamp" : 1351740943,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "I saw able to reproduce your problem, and it is related to 221 but the MyLocationOverlay hasn't been migrated to the new SafeDrawOverlay base class in the patch. Once I did that, the drawing anomalies stopped appearing.\r\n\r\nTo do this yourself - you will need to change the MyLocationOverlay as follows:\r\n\r\n 1. Extend SafeDrawOverlay instead of Overlay\r\n 2. Change the draw() method to be the safeDraw() method.\r\n 3. Change all Paint objects to be SafePaint objects.\r\n\r\nIf I get a chance, I'll post a new patch to 221. At some point I am actually going to rewrite MyLocationOverlay and split it into two classes - one for MyLocation and one for the compass, and they will be much more modular so you can provide locations and bearings from sources other than the GPS. That class will use the safe drawing methods.",
+    "timestamp" : 1351793738,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -8177012077806897919,
+    "content" : "Sorry, my bad. I thought I had seen MyLocationOverlay in the patch, but that must have been wishful thinking. Will update MyLocationOverlay and try again.",
+    "timestamp" : 1351794921,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 383 has a new MyLocationOverlay class that uses SafeDrawOverlay if you'd like to try. I'm sorry everything is in patches right now, but I will eventually apply them all to the trunk once we get more testing done.",
+    "timestamp" : 1352126839,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -8177012077806897919,
+    "content" : "Thanks, I had done this myself last week and it looks good. Haven't had a chance to give it much testing, but I think you nailed it.\r\nDo you want to close this issue and link it to Issue 221 and Issue 383 ?\r\n",
+    "timestamp" : 1352135438,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "Committed new MyLocation overlay in r1138. This ticket can now be closed.",
+    "timestamp" : 1357242649,
+    "attachments" : [ ]
+  } ]
+}

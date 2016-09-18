@@ -1,0 +1,63 @@
+{
+  "id" : 395,
+  "status" : "New",
+  "summary" : "Failed to inflate",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8156472814900344165,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use map on ZIP FILE\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nAll version of osmdroid (I use latest svn checkout), on all version of Android\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI attach a stack trace ",
+    "timestamp" : 1358205362,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8156472814900344165,
+    "content" : "",
+    "timestamp" : 1358205420,
+    "attachments" : [ {
+      "id" : 3950001000,
+      "fileName" : "osmdroid stacktrace.txt",
+      "fileSize" : 5961
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8156472814900344165,
+    "content" : "Other stack trace",
+    "timestamp" : 1358206308,
+    "attachments" : [ {
+      "id" : 3950002000,
+      "fileName" : "osmdroid stacktrace.txt",
+      "fileSize" : 6465
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8156472814900344165,
+    "content" : "before to crash there is a loop of these messages",
+    "timestamp" : 1358206812,
+    "attachments" : [ {
+      "id" : 3950003000,
+      "fileName" : "osmdroid stacktrace.txt",
+      "fileSize" : 18157
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "What device are you using? The stack trace shows OOME which implies that you're using a device with a low amount of memory.",
+    "timestamp" : 1358229649,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8156472814900344165,
+    "content" : "I'm using an HTC DESIRE HD (about 500MB of Ram)",
+    "timestamp" : 1358243471,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 1586989693780228541,
+    "content" : "I had the same problems. After implementing advice from link (https://github.com/glob3mobile/g3m/issues/12) - in AndroidManifest.xml set Android application property \"largeHeap\" to \"true\" the problem disappeared. I know that this solution is temporary and after working some time with big data (map tiles data is such a one) the problem may occur again. However for 80-90% of situation this is very good solution.",
+    "timestamp" : 1398245956,
+    "attachments" : [ ]
+  } ]
+}

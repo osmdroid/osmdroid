@@ -1,0 +1,25 @@
+{
+  "id" : 168,
+  "status" : "Fixed",
+  "summary" : "GeoPoint overrides equals but not hashCode",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "<b>What version of the product are you using? On what operating system?</b>\nr820\r\n\r\nAttached diff to make hashCode consistent with equals, so it can be used as a HashMap key (and is generally good practice, Effective Java item 8).\r\n\r\n\r\n\r\n",
+    "timestamp" : 1298734919,
+    "attachments" : [ {
+      "id" : -1716260902842046132,
+      "fileName" : "geopoint.diff",
+      "fileSize" : 544
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r823.",
+    "timestamp" : 1298749237,
+    "attachments" : [ ]
+  } ]
+}

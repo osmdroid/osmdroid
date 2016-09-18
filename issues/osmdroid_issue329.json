@@ -1,0 +1,21 @@
+{
+  "id" : 329,
+  "status" : "Invalid",
+  "summary" : "Make MapView \"all arguments\" constructor public or protected",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8473345269847656908,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Place a MapView in an XML resource. The MapView will be constructed using the standard XML two argument constructor which in turn calls the full constructor with defaults filled in. There's no way to override these defaults in a subclass because that constructor is private.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1333465120,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "entered twice",
+    "timestamp" : 1333516776,
+    "attachments" : [ ]
+  } ]
+}

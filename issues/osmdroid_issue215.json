@@ -1,0 +1,27 @@
+{
+  "id" : 215,
+  "status" : "Invalid",
+  "summary" : "Offline Map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4258978419555879556,
+    "content" : "Hello,\r\n\r\nI'm new to OSMDroid. I want the MapView to display a PNG map stored on my SD card. Can someone please tell me if I need to use BitmapTileSourceBase or any other class for that purpose? ",
+    "timestamp" : 1305584217,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 624673552094775181,
+    "content" : "Hi, did you find a solution for that?\r\nI'm having the same problem... =(",
+    "timestamp" : 1306318080,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Your best bet is to run your map through Mobile Atlas Creator. This should break the tiles up into a system that is compatible with osmdroid. Then use the filesystem tile provider to serve the tiles.",
+    "timestamp" : 1307136305,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,27 @@
+{
+  "id" : 261,
+  "status" : "Fixed",
+  "summary" : "Allow proxy settings for emulator developing behind a firewall",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6323505110074081856,
+    "content" : "I sit behind a restrictive firewall and need to use a proxy with authentication to test within an emulator.\r\nThe DefaultHttpClient used in CloudmadeUtil, in MapTileDownloader.TileLoader and in GpxToPHPUploader will not reflect proxy settings.\r\n\r\nEither try to fetch proxy settings from the network connections (if possible) or allow integrators to add their own instance of an HttpClient, e.g. add a method to MapView: \r\npublic void setHttpClient (HttpClient client) { ...}\r\n\r\nThe HttpClient may look like\r\n\r\npublic class ProxiedHttpClient extends DefaultHttpClient {\r\n\tpublic ProxiedHttpClient () {\r\n\t\tsuper();\r\n\t\tHttpHost proxy = new HttpHost(myProxyHost, myProxyPort, &quot;http&quot;);\r\n\t\tthis.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,\r\n\t\t\t\tproxy);\r\n\t\tthis.getCredentialsProvider().setCredentials(\r\n\t\t\t\tnew AuthScope(myProxyHost, myProxyPort),\r\n\t\t\t\tnew UsernamePasswordCredentials(myUserName, myPassword));\r\n\r\n\t}\r\n}",
+    "timestamp" : 1316075361,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1316078719,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is now possible via the work done in issue 432.",
+    "timestamp" : 1372078269,
+    "attachments" : [ ]
+  } ]
+}

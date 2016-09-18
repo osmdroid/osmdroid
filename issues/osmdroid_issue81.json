@@ -1,0 +1,39 @@
+{
+  "id" : 81,
+  "status" : "Fixed",
+  "summary" : "Do OpenStreetMapRendererInfo as an interface instead of an enum",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "That will allow it to be extensible.\r\n\r\nSee also http://groups.google.com/group/osmdroid/browse_thread/thread/50b9fdf48ec45aeb",
+    "timestamp" : 1283159832,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 82 has been merged into this issue.",
+    "timestamp" : 1283427366,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1283531871,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r354.",
+    "timestamp" : 1284009204,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I also created an app that uses a custom renderer:\r\nhttp://code.google.com/p/savage-router/",
+    "timestamp" : 1284353576,
+    "attachments" : [ ]
+  } ]
+}

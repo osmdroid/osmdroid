@@ -1,0 +1,21 @@
+{
+  "id" : 487,
+  "status" : "New",
+  "summary" : "OverlayManager.java: java.lang.NullPointerException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6999585313919299855,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nUnfortunately I don't know what user was doing when error occurred.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nApplication should not crash.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOsmdroid: osmdroid-android-3.0.10.jar \r\nAndroid: 4.1.1\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nDevice: HTC Desire X connected to wifi\r\nStacktrace: http://pastebin.com/36LEmxph\r\n",
+    "timestamp" : 1381909326,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "You can see the source code here:\r\nhttps://code.google.com/p/osmdroid/source/browse/tags/osmdroid-parent-3.0.10/osmdroid-android/src/main/java/org/osmdroid/views/overlay/OverlayManager.java\r\nThe NPE is at OverlayManager.java:131 which means there's a null entry in the list.\r\nI guess this is a random synchronization error that we're not going to fix.",
+    "timestamp" : 1382125309,
+    "attachments" : [ ]
+  } ]
+}

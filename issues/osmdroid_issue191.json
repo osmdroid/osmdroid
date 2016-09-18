@@ -1,0 +1,27 @@
+{
+  "id" : 191,
+  "status" : "Duplicate",
+  "summary" : "All tiles removed during freeze",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -46238301387888754,
+    "content" : "I had a problem with my application, which caused a freeze, from which I never came back and had to reboot my phone (so this has nothing to do with osmdroid).\r\nAfter reboot, all the tiles stored in the tiles forlders had been removed (the folders still existing though).\r\nIs this a known issue? Or is this a feature? I am quite puzzled.\r\n\r\nAny idea?",
+    "timestamp" : 1301215415,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 233.",
+    "timestamp" : 1309238820,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1333740220,
+    "attachments" : [ ]
+  } ]
+}

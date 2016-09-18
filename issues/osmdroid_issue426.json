@@ -1,0 +1,87 @@
+{
+  "id" : 426,
+  "status" : "ReadyForTesting",
+  "summary" : "Scalebar is not shown",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 13,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5376670391952549077,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Android 2.2 or 2.3\r\n2. Osmdroid 3.0.10\r\n3. Create map and add ScaleaBarOverlay\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThere should be the scalebar displayed (it is visible on android 4.x). Actually the scalebar is visible for a while before map tiles get loaded. But after tiles appear the scalebar is not visible any more.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n- Android 2.2 or 2.3\r\n- Osmdroid 3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\nI even tried to enable/disable scalebar overlay but nothing helped. I have HW acceleration disabled.\r\n\r\n",
+    "timestamp" : 1368299474,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1558421220117089513,
+    "content" : "I confirm. That's the only issue I got when migrating from 3.0.8. \r\n",
+    "timestamp" : 1368384538,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "I have tried the scalebar on the latest trunk and samples project and it is working properly. The one thing that jumps out at me is the android version you are using - 2.2 or 2.3. Can you confirm that it does work on higher versions and is just a problem for those APIs?",
+    "timestamp" : 1370959083,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4215682165637725618,
+    "content" : "Yes, confirming. It works well on 3.x and 4.x (At least those particular 3.x and 4.x versions I had chance to test it with).",
+    "timestamp" : 1371028555,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -946680664757629511,
+    "content" : "I got the scaleBar not showing problem on 2.3 (2.3.4)\r\nI fixed it by not setting the canvas matrix for versions below 3.x\r\ni.e. ignoring code: c.setMatrix(mIdentityMatrix)\r\n",
+    "timestamp" : 1380806498,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4018735177576931671,
+    "content" : "I got the scalebar not showing problem on 4.0.4 (with the 4.4SDK), after upgrading OSMDroid from 3.0.8 to 4.0.  Must be reaching parts of Android that vojtect isn't.  Like Cecile, I fixed it by removing the line c.setMatrix(mIdentityMatrix) from the draw() method.  What does that line do?",
+    "timestamp" : 1391527528,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "On pre-honeycomb it appears that a y-offset of \"(canvas.getHeight() - mMapView.getHeight())\" is required. I believe this accounts for the status bar at the top of the screen.\r\n\r\nSetting the identity matrix will clear out other modifications we've made to the canvas. This is necessary since we are drawing to a fixed location on the screen. The fact that it works by omitting this is an anomaly of our safe canvas and it's not the best fix.\r\n\r\nReally this needs to be re-written to remove the usage of Picture (to allow for hardware acceleration) and while we're doing that we should just draw using the projection's screen rect as an offset.",
+    "timestamp" : 1391810241,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1429.\n\nFix scale bar drawing offset issues < honeycomb.",
+    "timestamp" : 1391810599,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Give that a try and let me know if it works!",
+    "timestamp" : 1391810640,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -4018735177576931671,
+    "content" : "And post-Honeycomb?\n\nNote also that the usual (non-USA) representation of \"nautical\" is Nautical \nMile (NM), Cable (ca) (= 1/10 Nautical Mile), meter (m).  Only the Americans \nuse feet with Nautical Miles.\n\nTo make that modification seems to involve changes to ScaleBarOverlay, \nResourceProxy, DefaultResourceProxyImpl and GeoConstants.\n\nPeter Wiles",
+    "timestamp" : 1391868162,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "We are not experiencing any issues post-Honeycomb (make sure you have hardware acceleration turned off). If you are experiencing issues, please take a look at the OpenStreetMapViewer project where we have a working example.\r\n\r\nIf there are additional units of measure that you would like us to support then we accept patches. Maybe there is a way to make the desired units of measure more modular - either by a protected override method or by a factory.",
+    "timestamp" : 1392043689,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -2092579142923670978,
+    "content" : "If Any one still looking for the solution then do\r\n\r\nif (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)\r\n\t    mapView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);\r\n\r\nYour scaleBar will be shown i have tried setting Hardware Acclereted to \"false\" in Manifest but didn't worked finally the line in the code did the trick.",
+    "timestamp" : 1392380750,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "For any people still having issues with the mIdentityMatrix - I have made some changes in the trunk (r1433) that may fix this issue. I just tested on a 2.3.3 emulator and a 4.3 device and it was working correctly.",
+    "timestamp" : 1393344093,
+    "attachments" : [ ]
+  } ]
+}

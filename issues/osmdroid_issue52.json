@@ -1,0 +1,57 @@
+{
+  "id" : 52,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMapProjection.fromPixels(float, float) method doesn't work properly.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "public GeoPoint fromPixels(float x, float y) {\r\n                        return\r\nbb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y\r\n                                        / viewHeight_2);\r\n}\r\n\r\nWhen I try to get coordinates of current map center -&gt; I'll get coordinates\r\nof bottom-right corner.\r\n\r\nI fixed this by the following (we should divide by view width and view\r\nheight, but not by viewWidth/2, viewHeight/2 to get relative position on a\r\npoint):\r\n\r\nbb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2/2, y\r\n                                        / viewHeight_2/2);\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nTrunk, rev. 162.",
+    "timestamp" : 1273507209,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "That doesn't quite make sense to me. viewWidth_2 is getWidth() / 2, so now you're dividing by 2 again, \r\nor multiplying by 2. How are you using it so that it's not working?\r\n\r\nI'm using fromPixels in my application and it works fine for me.\r\n\r\nPS. The next method, fromMapPixels, contains this piece of code:\r\nx - getWidth() / 2\r\nwhich should probably be x - viewWidth_2\r\n",
+    "timestamp" : 1273521523,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3456884467250674452,
+    "content" : "AFAIK, relative position of point is between [0..1] for X and Y coordinates.\r\nE.g. \r\n1) top left corner of a screen has {x,y}={0,0} relative coordinates.\r\n2) bottom right corner of a screen has {x,y}={1,1} relative coordinates.\r\n\r\nif x1=MotionEvent.getX() and y1=MotionEvent.getY() (let it be center of a screen).\r\nthen if I pass x1, y1 to OpenstreetMapProjection.fromPixels(x1, y1) I'll get GeoPoint\r\nwith coordinates of bottom right corner of the screen.\r\n\r\nThis is because relative position is not calculated correctly here:\r\n\r\nbb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y\r\n                                        / viewHeight_2);\r\n\r\nx / viewWindth_2 is between [0..2], but should be between [0..1]\r\ny / viewHeight_2 is between [0..2], but should be between [0..1]\r\n\r\nPlease correct me, if I'm wrong and show how to get LatLon coordinates of some\r\nMotionEvent.",
+    "timestamp" : 1273524831,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I call it like this:\r\n\r\nGeoPoint topLeft = projection.fromPixels(0, 0);\r\nGeoPoint bottomRight = projection.fromPixels(mapView.getWidth(), mapView.getHeight());\r\n\r\nI don't use it with a MotionEvent, but I guess it should work the same.",
+    "timestamp" : 1273562092,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -2638281639346742225,
+    "content" : "Hi! I'm trying to do something like:\r\n\r\nanimateTo(mapview.getProjection().fromPixels(event.getX(),event.getY()));\r\n\r\nbut it seems the method fromPixels() doesn't work like it should. The map will center to a very different point.\r\n\r\nP.S: I'm using the jar 1.02.",
+    "timestamp" : 1278425660,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 250956797218298740,
+    "content" : "I also discovered basicly the same problem in using Projection.fromPixels():\r\n\r\n        OpenStreetMapViewProjection projection = openStreetMapView.getProjection();\r\n        GeoPoint newTopLeft = projection.fromPixels(0, 0);\r\n        GeoPoint newBottomRight = projection.fromPixels(openStreetMapView.getRight(), \r\n                openStreetMapView.getBottom());\r\n\r\nI guess the gps area returned is 2-4 times the screen view.\r\n\r\nI noted the Projection is only created in OpenStreetMapView.onDraw(). Is it possible that getProjection() doesn't get the most current settings the way we use it? (This is also a problem when getting the settings before the view has been drawn the first time.) I haven't looked into the code enough to say anything for sure but it seems better for onDraw() to be free of side-effects.\r\n\r\nThis is with trunk r269.",
+    "timestamp" : 1278436293,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r283.",
+    "timestamp" : 1278507638,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I finally figured out the point vitaliy.grigoruk was making ;-)\r\nSorry it took so long, but the code in comment 4 made it obvious.",
+    "timestamp" : 1278507807,
+    "attachments" : [ ]
+  } ]
+}

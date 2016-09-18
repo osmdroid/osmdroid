@@ -1,0 +1,21 @@
+{
+  "id" : 296,
+  "status" : "Fixed",
+  "summary" : "New URL for CycleMap tiles",
+  "labels" : [ "Type-Task", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The tileserver url of opencyclemap has changed:\r\nThe old URLs in TileSourceFactory.java\r\n\r\n  http://[a|b|c.]andy.sandbox.cloudmade.com/tiles/cycle/\r\n\r\nneeds to be updated to\r\n\r\n  http://[a|b|c.]tile.opencyclemap.org/cycle/\r\n\r\nSource:\r\nhttp://www.gravitystorm.co.uk/shine/change-of-tileserver-url/",
+    "timestamp" : 1326270792,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1032.",
+    "timestamp" : 1326398795,
+    "attachments" : [ ]
+  } ]
+}

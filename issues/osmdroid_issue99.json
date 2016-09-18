@@ -1,0 +1,149 @@
+{
+  "id" : 99,
+  "status" : "Fixed",
+  "summary" : "Memory allocations during onDraw",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 18,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2473213968216721319,
+    "content" : "As I'm sure you know, memory allocations during onDraw allow the gc to run which can cause judder.\r\n\r\nI have attached my changes to get rid of most of these (though it was an earlier version of the code and you guys are writing so much!)\r\n\r\nI have applied them to the latest version of the code and to my (biased) mind flings seem better.  It would be nice to show this, I have to get my test environment up to spec.\r\n\r\nps It also includes the fix for the snapping to wrong place and a fix for a null location in onFirstFix which caused a crash (I seem to remember).\r\n\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1286364117,
+    "attachments" : [ {
+      "id" : -5993619350669367779,
+      "fileName" : "osm_changes.txt",
+      "fileSize" : 17465
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "These changes look good but I'm not sure how to merge them in this format. Could you do a svn diff?  Or just attach the new files.",
+    "timestamp" : 1286366958,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2473213968216721319,
+    "content" : "Yeah apologies for that, I have attached the files, been out of programming for a while so not up to speed on svn and git yet.  Some of these files may have had other mods since, I would hate to overwrite anyones work.  \r\n",
+    "timestamp" : 1286373382,
+    "attachments" : [ {
+      "id" : -2937545592414358930,
+      "fileName" : "OpenStreetMapTile.java",
+      "fileSize" : 1662
+    }, {
+      "id" : 3672757446849465267,
+      "fileName" : "BoundingBoxE6.java",
+      "fileSize" : 6495
+    }, {
+      "id" : 5978251507044857921,
+      "fileName" : "OpenStreetMapView.java",
+      "fileSize" : 39874
+    }, {
+      "id" : -3447042396541354410,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 20093
+    }, {
+      "id" : 2020083523206763800,
+      "fileName" : "OpenStreetMapTilesOverlay.java",
+      "fileSize" : 5690
+    }, {
+      "id" : -2261496277265016520,
+      "fileName" : "Mercator.java",
+      "fileSize" : 6423
+    }, {
+      "id" : -4273261839512682616,
+      "fileName" : "OpenStreetMapTileProviderDirect.java",
+      "fileSize" : 1881
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've committed most of the changes in revision 405.\r\n\r\nI didn't commit the changes to make OpenStreetMapTile mutable. I know I spent a long time trying to figure out a bug where the tiles were getting changed by a different thread.  The tiles are the key in the cache hash map and so shouldn't be changed.\r\n\r\nI suggest you compare to your version to see what I didn't commit to see if you think I missed anything essential.",
+    "timestamp" : 1286378898,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 2473213968216721319,
+    "content" : "I see you tidied it up a bit, thanks.\r\nThe changes that I see that you have made are as follows.\r\n\r\nEssentially you have decided not to re-use the tile and the projection (plus a couple of other minor mods).\r\nThe re-use of tile should be (and I've been using it for a while) safe since the tile requests are cloned when they are put in the hash map, so only the cache has a reference to it.\r\nNot sure why you chose not to reuse the projection, sure you have your reasons.\r\n\r\nPersonally I think the rest of the changes are safe to make and remove nearly every allocation in onDraw (i.e. all the ones I could find).  Any allocation can end up costing 1/2 second.\r\nAnyway its up to you, though I would prefer to be both in line with the repository and have these changes in ;-)\r\n\r\nSummary of what I see\r\n---------------------\r\n\r\n./org/andnav/osm/views/overlay/OpenStreetMapTilesOverlay.java\r\nNot reusing tile.\r\n\r\n./org/andnav/osm/views/OpenStreetMapView.java\r\nNot reusing projection.\r\n\r\nLooping with an allocation.\r\nfor (OpenStreetMapViewOverlay osmvo : this.mOverlays)\r\n\r\ngetCenterMapTileCoords \r\nNot giving option to reuse.\r\n\r\n./org/andnav/osm/views/util/OpenStreetMapTileProviderDirect.java\r\nNot cloning tile.\r\n\r\n./org/andnav/osm/tileprovider/OpenStreetMapTile.java\r\nPut variables back to immutable.\r\n",
+    "timestamp" : 1286383093,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Basically I quickly did the safe changes. I'll have a look at the rest when I have time. That's why I kept the issue open.\r\n\r\nThe way you did the mutable tile works okay, but I'm worried about some future change that could break it by someone who misses the subtlety. I'll see if I can think of a different way to achieve the same goal.\r\n\r\nThe projection change I just didn't look at yet. As I understand, the whole point of the projection is that you create a new one every now and then (in onDraw). There's more to it than just the member variables because it uses stuff from the containing class. I'll have another look later.\r\n\r\nOne thing that I did do that I wasn't sure about:\r\nin MyLocationOverlay you create xDiff and yDiff to avoid doing the subtraction twice. I'm not so intimate with the VM - is it really better to create this variable rather than just doing the subtract twice? It's a native type, so maybe that makes it okay.",
+    "timestamp" : 1286427849,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 2473213968216721319,
+    "content" : "Okay, maybe I missed that on the projection, though I haven't come across any issues with it, and having a quick look at the code I cant see how any issues would arise.\r\nThe point about the MyLocationOverlay is that they are doubles rather than ints, so that we dont get an overflow rather than not doing the subtraction twice, but I would have thought it was slightly faster to organise it like this.\r\n\r\nI too had a think about whether there was a better way to structure the tile bit and came to the conclusion that in order to make the keys in the hashtable immutable and have a reusable key elsewhere we would need two (practically identical) classes, so that the one in the hash table is immutable created from the mutable partner, with a whole load of additional complication.\r\nThen I had a think about why we are doing this (all of the changes are not great from a design point of new), and essentially its down to Java's garbage collection.  Having come from c++, I dont intend to go back to managing my own memory again in the near future!  I wondered whether it would be worth requesting a gc.lock/unlock from the android developers since this affects a lot of apps.\r\nAll in all I came to the conclusion that you guys have done a very good job on the design of the code and I come along on day one and start undermining it, I think you should stick to your design standards and if I feel that strongly about it (or can show its a significant improvement) I can make my changes privately.\r\nAnyway enjoyed my first forays into osmdroid, thanks.\r\nAron.\r\n\r\n\r\n",
+    "timestamp" : 1286436368,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "BTW I didn't see a fix for snapping to wrong place (issue 89).",
+    "timestamp" : 1286447922,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 2473213968216721319,
+    "content" : "Its the changes to MyLocationOverlay, changing the calc to use doubles rather than ints.  I found the problem when going on holiday to France and zooming in to where we were going, kept going back to myLocation, and I needed to upload the local maps to find the hotel!\r\n\r\n\r\n\r\n",
+    "timestamp" : 1286454968,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Ok - then it's a different fix to issue 89.",
+    "timestamp" : 1286457145,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 2473213968216721319,
+    "content" : "You said in your post that the problem was MyLocationOverlay.onSnapToItem was returning the wrong value.  This fixes that problem, the distance was so big that it went negative using integers and it then decided to snap to my location, so I think it does fix issue 89 unless you're telling me it doesnt.\r\n\r\n\r\n",
+    "timestamp" : 1286465919,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes you're right. Sorry, I didn't see your last comment on issue 89, and just looking at the code I didn't spot that it would have fixed it.",
+    "timestamp" : 1286514406,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I removed some more object allocations in revision 411.\r\n\r\nI was looking at the projection. It looks okay to just make it final in OpenStreetMapView and just set the values every time rather than create a new object. But I'm wondering what happens if it changes while someone else is looking at it. For example, OpenStreetMapTilesOverlay.onDraw uses the projection many times - what would happen if another thread changed it during that call? I suspect that's not possible because there's only one thread calling all the various onDraw methods, so that makes it okay.\r\n\r\n\r\nOne of the other changes I didn't do was this one:\r\nLooping with an allocation.\r\nfor (OpenStreetMapViewOverlay osmvo : this.mOverlays)\r\n\r\nWhat was the point of that change? You changed it to this:\r\n\r\nint depth = this.mOverlays.size();\r\nfor (int i = 0;i < depth;i++) {\r\n    OpenStreetMapViewOverlay osmvo = this.mOverlays.get(i);\r\n\r\nYou only did it in one place, although the same loop is in many places.",
+    "timestamp" : 1286524010,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 2473213968216721319,
+    "content" : "\r\nThe orginal for loop has an implicit call to keySet which does an allocation.\r\nSince you already had an arraylist for overlays, doing the old style for loop avoids\r\nthe allocation and achieves the same results.\r\nI only changed it here because thats where it came up when I was looking at the memory allocations.  Is this the only place it occurs in onDraw (if not I just missed the others).\r\nhttp://stackoverflow.com/questions/904582/java-foreach-efficiency\r\n\r\n\r\nI had a look through the projection stuff again as well and came to the same conclusion.\r\n\r\n\r\n\r\n",
+    "timestamp" : 1286528376,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding the for loop, I don't agree with your logic, but I do agree with your conclusion ;-)\r\nI think it has an implicit call to iterator() which has an allocation, whereas size() and get(int) don't.\r\n\r\nI've fixed this in revision 412.\r\n",
+    "timestamp" : 1286534745,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you just call OpenStreetMapViewProjection.setup() instead of getting a new OpenStreetMapViewProjection then you skip the static initialisation at the top.  Those five variables can change and you will not see those changes.  Of course you could set those as well, but I think I prefer it the way it is.",
+    "timestamp" : 1286535422,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 2473213968216721319,
+    "content" : "Yes I think you're right about iterator, knew there was an allocation in there somewhere.\r\n\r\nI also think the static initialisation only needs to be done once per view, but as I said before these changes make the code more ugly so fine.\r\n\r\n",
+    "timestamp" : 1286549948,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think it's time to close this now.\r\nIf the subject comes up again we can start a new issue.",
+    "timestamp" : 1287001136,
+    "attachments" : [ ]
+  } ]
+}

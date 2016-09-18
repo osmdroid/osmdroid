@@ -1,0 +1,21 @@
+{
+  "id" : 275,
+  "status" : "Duplicate",
+  "summary" : "LOWER_LEFT_CORNER Hotspot (Marker Positioning) wrong",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9169388793317990214,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add an item to itemizedOverlay and set Hotspot to LOWER_LEFT_CORNER\r\n2. Look where the marker is set\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nTo have the marker set with the anchor point in the lower left corner - instead the icon is set somewhere completly wrong\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6\r\n\r\n<b>Please provide any additional information below.</b>\nItemizedOverlay.java # 277\r\nJust have a look at these 2 cases in code:\r\n\r\n\t\tcase LOWER_RIGHT_CORNER:\r\n\t\t\tmRect.offset(-markerWidth, -markerHeight);\r\n\t\t\tbreak;\r\n\t\tcase LOWER_LEFT_CORNER:\r\n\t\t\tmRect.offset(0, markerHeight); /// TODO test - should this be -markerHeight ???\r\n\r\n1) Someone already found the problem but didn't correct it because he/she was not sure.\r\n2) that both lower hotspots can not have +markerheight and then -marker height should make clear that one of them must be wrong.\r\n3) Lower_Left_Corner is wrong and needs to be -markerHeight",
+    "timestamp" : 1321020782,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1333746017,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 80,
+  "status" : "Fixed",
+  "summary" : "Minimap properties are not set properly",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3804822027311196058,
+    "content" : "Minimap properties (zoom level, renderer, map center) are not set correctly when setting the minimap.\r\n\r\nhere's a modified version, which should fix those issues. It also sets the renderer of the minimap in setRenderer().\r\n\r\n",
+    "timestamp" : 1283004206,
+    "attachments" : [ {
+      "id" : -7693471327773899783,
+      "fileName" : "OpenStreetMapView.java",
+      "fileSize" : 38112
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 30.",
+    "timestamp" : 1283145851,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r322.",
+    "timestamp" : 1283158328,
+    "attachments" : [ ]
+  } ]
+}

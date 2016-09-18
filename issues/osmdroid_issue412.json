@@ -1,0 +1,27 @@
+{
+  "id" : 412,
+  "status" : "Accepted",
+  "summary" : "Mini-map doesn't support rotation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The mini-map display area rotates with the main map. A small re-write of the drawing code in the mini-map (and maybe a clean up of TilesOverlay) would probably be a good idea.",
+    "timestamp" : 1364349304,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "It also should scale it's own size based on screen size. It's super-tiny on the Nexus 10.",
+    "timestamp" : 1364349336,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is quite complicated - we want to draw *rotated* tiles to an *unrotated* canvas. I think the best solution here is to draw the rotated tiles to a bitmap and then draw the bitmap to the unrotated canvas. The mini-map usually isn't too large so the memory increase should be reasonable.\r\n",
+    "timestamp" : 1365727854,
+    "attachments" : [ ]
+  } ]
+}

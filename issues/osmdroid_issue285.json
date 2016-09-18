@@ -1,0 +1,53 @@
+{
+  "id" : 285,
+  "status" : "Duplicate",
+  "summary" : "Crossing 180th meridian",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6893030347072487526,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Overlay a path crossing the 180th meridian\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nPath wraps around the globe (the long way).\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nPerhaps one way to solve this is to be able to create points from -360 to 360 degrees longitudinally?\r\n\r\n",
+    "timestamp" : 1324509241,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6893030347072487526,
+    "content" : "Similarly, other overlays will only show up on one side of the 180th meridian only when the center of the mapview is on the corresponding side of the meridian.\r\n\r\nSee two screen shots: \r\n-Red overlays only appear when center of map is 0 to 180 degrees (west).  \r\n-Blue flags only appear when center of map is 0 to -180 degrees (east).",
+    "timestamp" : 1324535366,
+    "attachments" : [ {
+      "id" : 2850001000,
+      "fileName" : "fiji_east.png",
+      "fileSize" : 135833
+    }, {
+      "id" : 2850001001,
+      "fileName" : "fiji_west.png",
+      "fileSize" : 138694
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 239",
+    "timestamp" : 1331500654,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 345.",
+    "timestamp" : 1337587462,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I will fix this as issue 345.",
+    "timestamp" : 1337888303,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6893030347072487526,
+    "content" : "Thanks for reopening this ... issue 364 \"items east of dateline would still disappear when map center was west of dateline.\"",
+    "timestamp" : 1345829658,
+    "attachments" : [ ]
+  } ]
+}

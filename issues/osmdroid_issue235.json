@@ -1,0 +1,27 @@
+{
+  "id" : 235,
+  "status" : "Fixed",
+  "summary" : "boundToHotSpot integer sign error",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7217075064176624350,
+    "content" : "In ItemizedOverlay, under the method boundToHotSpot, the case of LOWER_LEFT_CORNER, there appears to be a negative missing on the offset for the y component.",
+    "timestamp" : 1309378294,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This was fixed.",
+    "timestamp" : 1333739873,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 275 has been merged into this issue.",
+    "timestamp" : 1333746017,
+    "attachments" : [ ]
+  } ]
+}

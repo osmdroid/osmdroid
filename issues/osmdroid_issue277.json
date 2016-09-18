@@ -1,0 +1,45 @@
+{
+  "id" : 277,
+  "status" : "New",
+  "summary" : "Out of memory when Rotating Display using Jar and xytilesource",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3306654648997503252,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. include jar in project\r\n2. open map using xytilesource (and if you want it to fail really fast you an xytilesource as a tileoverlay also)\r\n3. rotate screen a few times\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected: no issues\r\nInstead: map partially loads, app freezes and logcat shows out of memory errors/ or GC_FOR_MALLOC errors over and over\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.5.jar\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe bug is most likely related to whateve http://code.google.com/p/osmdroid/issues/detail?id=27 and http://code.google.com/p/osmdroid/issues/detail?id=54\r\n\r\nI tested the rotation using the built in open street maps and it didn't crash\r\n\r\n",
+    "timestamp" : 1322779542,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3306654648997503252,
+    "content" : "as extra information that I forgot (and I'm not sure if it makes a difference), I am using an mbtiles file as the source for the xytilesource",
+    "timestamp" : 1322779873,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3306654648997503252,
+    "content" : "After some more research I am not sure the problem is necessarily related directly to xytilesource. As I am completely lost as to what is causing it now, here is the code i use to set up the map\r\n\r\n                     ResourceProxy mResourceProxy = new DefaultResourceProxyImpl(getApplicationContext());\r\n                     SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);\r\n                     File f = new File(\"path to mbtiles file\");\r\n                     XYTileSource MBTILESRENDER = new XYTileSource(\r\n\t\t    \t\t\"mbtiles\",\r\n\t\t    \t\tResourceProxy.string.offline_mode,\r\n\t\t    \t\tminZoom, maxZoom, // zoom min/max\r\n\t\t    \t\t256, \".png\", \"http://i.dont.care.org/\");\r\n\t\t    \r\n\t\t    IArchiveFile[] files = { CustomMBTilesFileArchive.getDatabaseFileArchive(f) }; //custommbtilesfilearchive is just my fix for issue 254 (linked after code) since that has not been built into the jar yet\r\n\t\t    MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, MBTILESRENDER, files);\r\n\t\t    mProvider = new MapTileProviderArray(MBTILESRENDER, null, new MapTileModuleProviderBase[]{ moduleProvider });\r\n\t\t    \r\n\t\t    this.mOsmv = new MapView(this, 256, mResourceProxy, mProvider);\r\n\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=254",
+    "timestamp" : 1322781737,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3306654648997503252,
+    "content" : "calling mProvider.clearTileCache() in the onStop seems to be a workaround for this issue\r\n\r\n@Override\r\n    protected void onStop()\r\n    {\r\n    \tmProvider.clearTileCache();\r\n    \tsuper.onStop();\r\n    }",
+    "timestamp" : 1322782529,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 228.",
+    "timestamp" : 1322813554,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4455381950240800093,
+    "content" : "comment 3 seems to be doing the trick for me...is there a better solution?",
+    "timestamp" : 1340737838,
+    "attachments" : [ ]
+  } ]
+}

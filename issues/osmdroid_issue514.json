@@ -1,0 +1,15 @@
+{
+  "id" : 514,
+  "status" : "New",
+  "summary" : "Add tutorial links to wiki pages",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2317202782458509165,
+    "content" : "Hello\r\n\r\nMay I suggest to add a tutorial to the wiki pages. A lot various information can be found on the web, but it is very disseminated and today wiki pages are too light to understand the capacities of OsmDroid.\r\n\r\nMeanwhile, you could add the following links (that is for the moment the best help I have found) : \r\n\r\nhttp://android-er.blogspot.fr/2012/05/implement-onitemgesturelistener-on.html\r\nhttp://android-er.blogspot.fr/2012/05/simple-example-use-osmdroid-and-slf4j.html\r\nhttp://android-er.blogspot.fr/2012/05/create-multi-marker-openstreetmap-for.html\r\nhttp://android-er.blogspot.fr/2012/05/display-current-location-marker-on.html\r\nhttp://android-er.blogspot.fr/2012/05/update-location-on-openstreetmap.html\r\nhttp://android-er.blogspot.fr/2012/05/location-updates-from-gpsprovider-and.html\r\nhttp://android-er.blogspot.fr/2012/05/obtaining-user-location.html\r\nhttp://android-er.blogspot.fr/2012/05/add-scale-bar-on-openstreetmap.html\r\nhttp://android-er.blogspot.fr/2012/06/add-mylocationoverlay-on-openstreetmap.html\r\n\r\nBest regards.\r\n\r\n",
+    "timestamp" : 1389971814,
+    "attachments" : [ ]
+  } ]
+}

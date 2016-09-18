@@ -1,0 +1,33 @@
+{
+  "id" : 470,
+  "status" : "New",
+  "summary" : "3-D / 2,5-D osmdroid for isometric perspective",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7857965950578690979,
+    "content" : "I'm working on a &quot;2,5-D&quot;, kind of isometric perspective with a MapView of osmdroid.\r\nI'm rotating around the x-axis to create the isometric look on the 2-D map while increasing the size of the MapView to make it bigger than the screen and reposition it but that's really not the solution I'm aiming at, performance-wise and visually.\r\nThe problem is that there is no 3-D native support by osmdroid.\r\n\r\nI want to start from this:\r\nhttp://i.imgur.com/3gzfKa8.png\r\n\r\nleading to this(with the green part filled with map tiles, maybe lower resolution for better performance):\r\nhttp://i.imgur.com/gMmzKPy.png\r\n\r\n(if possible) including 3-D card material.\r\n\r\nAre there any plans to include 3-D in osmdroid or are there forked projects to use OpenGL or the like with osmdroid?\r\nI'm trying to achieve something similar to this project:\r\nhttp://www.osg-explorer.com\r\n\r\nI'm currently using osmdroid 3.0.8 with Android 4.3.",
+    "timestamp" : 1377532899,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "We'd love to see 2.5D/3D maps! We don't currently have any effort underway to do this and I am not aware of any forks that implement this.\r\n\r\nOne thing that may help is turning on hardware acceleration - see issue 413. It would make the 2.5D solution and it's associated skew/rotate/scale operations run much faster since they would all be hardware accelerated. A full OpenGL solution would probably be a major rewrite.\r\n",
+    "timestamp" : 1377549962,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -7857965950578690979,
+    "content" : "Thanks for the quick response.\r\nI'd be very interested in taking part in a project aiming for 2,5D/3D osmdroid.\r\nBut as you mentioned it would be a major rewrite so I definitely need help for this.\r\nAnyone interested in taking on this project with me?",
+    "timestamp" : 1377607131,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -7857965950578690979,
+    "content" : "As the documentation of osmdroid is a bit \"thin\", I'm looking for the right way to provide a lower resolution for the tiles that I will load in the green part of the screen at the top. Can anyone point me in the right direction where to change the tilesize per tile and perhaps even where to load additional tiles off-screen for the 2,5D perspective.\r\nAny advice would be very much appreciated.",
+    "timestamp" : 1378462056,
+    "attachments" : [ ]
+  } ]
+}

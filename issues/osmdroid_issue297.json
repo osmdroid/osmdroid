@@ -1,0 +1,21 @@
+{
+  "id" : 297,
+  "status" : "New",
+  "summary" : "MapView.getCenter() returns different coords than set by MapControler.setCenter()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2429066317339408019,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. In Activity.onCreate() :\r\n\tmapController.setZoom(9);\r\n\tint deflon = 16000000;\r\n\tint deflat = 54000000;\r\n\tGeoPoint centre = new GeoPoint(deflat, deflon);\r\n\tmapController.setCenter(centre);\r\n\tint lon = mapView.getMapCenter().getLongitudeE6();\r\n\tint lat = mapView.getMapCenter().getLatitudeE6();\r\n2. lon==15998840 lat==53999697\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nlongitude and latitude should be what I set in setCenter.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6, developed on ubuntu, tried both on device and emulator",
+    "timestamp" : 1326325633,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2383487901421158262,
+    "content" : "From what I experience is MapController.setCenter the problem. It sometimes behaves differently even if called with the same values!",
+    "timestamp" : 1420047726,
+    "attachments" : [ ]
+  } ]
+}

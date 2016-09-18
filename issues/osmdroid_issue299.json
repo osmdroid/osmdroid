@@ -1,0 +1,21 @@
+{
+  "id" : 299,
+  "status" : "Duplicate",
+  "summary" : "Where are the tiles stored if there is no SD card in device",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1207886896167100756,
+    "content" : "Where are the tiles stored if there is no external sd card in the device\r\n\r\nThank you\r\n\r\nNikhil",
+    "timestamp" : 1326966337,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is not handled.",
+    "timestamp" : 1326976127,
+    "attachments" : [ ]
+  } ]
+}

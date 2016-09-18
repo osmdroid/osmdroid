@@ -1,0 +1,45 @@
+{
+  "id" : 432,
+  "status" : "Fixed",
+  "summary" : "Use factory to create http connection",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Use factory to create http connection instead of hard-coded Apache DefaultClient.\r\n\r\nProvide a way of allowing users to provide a different implementation, eg OkHttp (http://square.github.io/okhttp).",
+    "timestamp" : 1369286133,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "With Maven, perhaps it's even easy to use this by default instead of Apache's DefaultClient? Maybe we can even drop the apache stuff altogether - I seem to recall that taking a big chunk of memory.",
+    "timestamp" : 1369319705,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think that's going a bit far, especially as a lot of people don't use Maven.\r\nLet's see how it goes and it will always be easy to change it later.",
+    "timestamp" : 1369337306,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've finished this and pushed a snapshot to Maven Central",
+    "timestamp" : 1369717285,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1371454570,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps it would have been easier to just use URL.setURLStreamHandlerFactory\r\n\r\nhttps://developer.android.com/reference/java/net/URL.html#setURLStreamHandlerFactory(java.net.URLStreamHandlerFactory)\r\n\r\nhttps://twitter.com/jessewilson/status/346291677377486850\r\n\r\nAlthough that also requires to use URL.openConnection instead of Apache, which is probably not a bad idea anyway.",
+    "timestamp" : 1371455058,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 183,
+  "status" : "Fixed",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/views/MapView.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1188872730006932296,
+    "content" : "fix problem caused by rapidly pressing the zoom in/out button",
+    "timestamp" : 1299932241,
+    "attachments" : [ {
+      "id" : 2056703781156671624,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 1099
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the patch! I am just going to change it to use an AtomicBoolean.",
+    "timestamp" : 1300040979,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r873.",
+    "timestamp" : 1300041312,
+    "attachments" : [ ]
+  } ]
+}

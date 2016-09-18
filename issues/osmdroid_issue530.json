@@ -1,0 +1,33 @@
+{
+  "id" : 530,
+  "status" : "MovedToGithub",
+  "summary" : "Google Maps v2",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nWith the latest Google Play Services,\r\nin osmdroid-third-party module at MapFactory class line 25, the MapsInitializer.initialize no longer throws GooglePlayServicesNotAvailableException and at its description now says:\r\n\r\n&quot;Initializes the Google Maps Android API so that its classes are ready for use. If you are using MapFragment or MapView and have already obtained a (non-null) GoogleMap by calling getMap() on either of these classes, then it is not necessary to call this.&quot;\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1393400900,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "The latest version in Maven (using maven-android-deployer) is 13. This version still throws.",
+    "timestamp" : 1393617238,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Here's the API link that is referenced above:\r\nhttp://developer.android.com/reference/com/google/android/gms/maps/MapsInitializer.html\r\n\r\nI'm assuming there's no urgency fix this.",
+    "timestamp" : 1393624699,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Moved to GitHub https://github.com/osmdroid/osmdroid/issues/4",
+    "timestamp" : 1394918268,
+    "attachments" : [ ]
+  } ]
+}

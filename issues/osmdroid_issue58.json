@@ -1,0 +1,21 @@
+{
+  "id" : 58,
+  "status" : "Fixed",
+  "summary" : "OenStreetMapView and OpenStreetMapViewController shouldn't both keep track of zoom level",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use the pinch-to-zoom implemented in issue 25\r\n2. Then use the on-screen zoom controls\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe on-screen zoom controls will zoom based on what they last remembered the \r\nzoom as being, not the actual current zoom level.\r\n\r\nOnly one of OpenStreetMapView or OpenStreetMapViewController should remember \r\nthe zoom level, ie only one of them should have mZoomLevel. They can ask each \r\nother for the current value.",
+    "timestamp" : 1275406030,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r230.",
+    "timestamp" : 1276873489,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,71 @@
+{
+  "id" : 203,
+  "status" : "Accepted",
+  "summary" : "Make the tileoverlay Cache value configurable",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7148082370997000828,
+    "content" : "Currently, custom TileOverlays also inherit the 30 day cache.\r\n\r\nThis is not useful for overlays that refresh every hour, for instance.\r\n\r\nOnlineTileSourceBase should have a parameter that indicates the time duration of the cache.\r\n\r\nThis would greatly benefit osmdroid for usage of weather and traffic overlays.",
+    "timestamp" : 1302678577,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1302680779,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "How do you suggest adding this parameter to OnlineTileSourceBase?\r\nThe tile is only read from the online tile source if it's expired on disk.\r\nI think you actually need to set the expiry in the file system provider, and that's already configurable in the constructor.",
+    "timestamp" : 1302793511,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7148082370997000828,
+    "content" : "Comment deleted",
+    "timestamp" : 1302799745,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7148082370997000828,
+    "content" : "Hi Neil,\r\nIf i set a cache using the filesystem provider, it will automatically reload those tiles at startup until new tiles have been loaded. If the user does not have an internet connection, this leads to old data being incorrectly shown.\r\n\r\nIs there a way to circumvent the disk cache all together?",
+    "timestamp" : 1304174039,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 808452371587625903,
+    "content" : "Has there been any progress on this issue or any work arounds.  I have meteorological data that will need to be expired every 10 minutes or so and thus far I cannot see any way around the problem.",
+    "timestamp" : 1327427925,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8177012077806897919,
+    "content" : "I have had a similar issue with a tile source that I did not want to cache in the fs at all.\r\nThis patch allows you to specify whether tiles should be cached or not in your tile source.",
+    "timestamp" : 1338189522,
+    "attachments" : [ {
+      "id" : 2030006000,
+      "fileName" : "PreventCaching.patch",
+      "fileSize" : 3120
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : -4900953349443324465,
+    "content" : "I also agree that the TileOverlay cache values should be configurable. In my situation I wanted tiles to be cached for periods of time longer than 30 days. I created this patch to create another TileWriter constructor that takes in the tile cache size and max cached tile age",
+    "timestamp" : 1341513589,
+    "attachments" : [ {
+      "id" : 2030007000,
+      "fileName" : "TileWriter.java.patch",
+      "fileSize" : 2857
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "See https://github.com/osmdroid/osmdroid/issues/60",
+    "timestamp" : 1407851241,
+    "attachments" : [ ]
+  } ]
+}

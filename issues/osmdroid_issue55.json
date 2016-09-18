@@ -1,0 +1,73 @@
+{
+  "id" : 55,
+  "status" : "Fixed",
+  "summary" : "Please add \"onMapMoveFinished() event to OpenStreetMapView class.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "It will be really cool, if you'll add &quot;onMapMoveFinished() event to\r\nOpenStreetMapView class.\r\nIt should be fired when map stops moving:\r\n1) after scroll event (only when user puts his finger away from the screen)\r\n2) after fling event (when fling event is finished - when map scrolling is\r\nfinished) ",
+    "timestamp" : 1275066990,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1275305411,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Nice idea, but Google MapView doesn't have this. Maybe there's another way of handling this.",
+    "timestamp" : 1276872343,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 3456884467250674452,
+    "content" : "Could be very useful to handle this event in Overlay (custom overlay, which loads Places Of Interest after user move the map).\r\n\r\nI still didn't find the way to handle this in some way.",
+    "timestamp" : 1277392900,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Probably better to add an event listener, rather than an event method, the same as you suggested for issue 65.",
+    "timestamp" : 1277401782,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1278600022,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 377282626040017500,
+    "content" : "Here's an implementation using an event listener.",
+    "timestamp" : 1284761365,
+    "attachments" : [ {
+      "id" : -7958994428185504989,
+      "fileName" : "events.patch",
+      "fileSize" : 9894
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284970260,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r376.",
+    "timestamp" : 1284970414,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Does this also fix issue 65?",
+    "timestamp" : 1284970440,
+    "attachments" : [ ]
+  } ]
+}

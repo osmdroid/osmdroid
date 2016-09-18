@@ -1,0 +1,83 @@
+{
+  "id" : 148,
+  "status" : "Fixed",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/views/MapView.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "Hi,\r\n\r\nThis modification make MapView to extend ViewGroup. This allow to add views directly to it. It provides also some LayoutParams that permit to place the view regarding a given GPS point.\r\n\r\nRegards,\r\n\r\nJulien",
+    "timestamp" : 1296154552,
+    "attachments" : [ {
+      "id" : 5694322369514319939,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 15445
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 84 has been merged into this issue.",
+    "timestamp" : 1296194802,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is not an svn patch. How do I apply it?",
+    "timestamp" : 1296463516,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7123499698179822215,
+    "content" : "I give you my modified MapView class.\r\n\r\nI just replace yours by mine and it works for me. I didn't checked for any further side effects.",
+    "timestamp" : 1296464051,
+    "attachments" : [ {
+      "id" : 6708229348262994293,
+      "fileName" : "MapView.java",
+      "fileSize" : 44768
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay. At a superficial glance it looks okay. I'll try it later when I have some more time.  I'll have a look at the sample you attached to issue 84 to try and understand the purpose of this change.\r\n\r\nIt's missing a couple of changes from yesterday.",
+    "timestamp" : 1296472213,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I notice that Google MapView also extends ViewGroup, so this would make it consistent.",
+    "timestamp" : 1296540761,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 3360656017166821111,
+    "content" : "I think this might make my problem go away.  Does it look like this might make it into trunk?",
+    "timestamp" : 1298659666,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am going to try to merge this by hand. Next time, a SVN patch is preferred :)",
+    "timestamp" : 1298760647,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This was applied in r830\r\n\r\nBut could you please explain how to use the alignment extension to the LayoutParams? Does this need to be in the MapView class or would it be better suited in it's own class that extends MapView?",
+    "timestamp" : 1298762342,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "I took a look at Google Maps and it looks like what you have follows similarly to what they do so I think the patch is good as-is and I think we can close this ticket!\r\n\r\nThank you for the contribution!",
+    "timestamp" : 1299039949,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 96660131602258341,
+    "content" : "Maybe this will help someone. I add the mapview to a RelativeLayout by hand, after r830 the map stopped showing, I needed to add:\r\n\r\nLayoutParams params = new LayoutParams(\r\n  LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);\r\nosmMapView.setLayoutParams(params);",
+    "timestamp" : 1299359848,
+    "attachments" : [ ]
+  } ]
+}

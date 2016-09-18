@@ -1,0 +1,33 @@
+{
+  "id" : 21,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay should also update with network location",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Enable network location updates and use the network location if there's no\r\ngps location.",
+    "timestamp" : 1268125451,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268289072,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Resolved with revision 108",
+    "timestamp" : 1268374477,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 91 has been merged into this issue.",
+    "timestamp" : 1284699989,
+    "attachments" : [ ]
+  } ]
+}

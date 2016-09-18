@@ -1,0 +1,45 @@
+{
+  "id" : 425,
+  "status" : "New",
+  "summary" : "ScaleBarOverlay not fixed at certain position when zoom in and zoom out",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3576291706422496807,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add a ScaleBarOverlay on map\r\n2. when zoom in and zoom out its also moving\r\n3. No fixed at certain position even setting offset.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n Should be fixed at ceratin position where we want\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n4.0.3\r\nandroid:hardwareAccelerated=&quot;false&quot;\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1367573715,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3576291706422496807,
+    "content" : "Some how i managed to do that I have made transparent the default sclaebar overlay and using my own for that..\r\n\r\npublic class MyScaleBarOverlay extends ScaleBarOverlay {\r\n\r\n   private static final String TAG      = MyScaleBarOverlay.class.getSimpleName();\r\n   private TextView            scaleDistance;\r\n   boolean                     imperial = false;\r\n   boolean                     nautical = false;\r\n   private ResourceProxy       resourceProxy;\r\n\r\n   public MyScaleBarOverlay(Context arg0, ResourceProxy resourceProxy, TextView scaleDistance) {\r\n      super(arg0, resourceProxy);\r\n      this.resourceProxy = resourceProxy;\r\n      this.scaleDistance = scaleDistance;\r\n      Paint paint = new Paint();\r\n      paint.setARGB(1, 255, 255, 255);\r\n      setBarPaint(paint);\r\n      setTextPaint(paint);\r\n   }\r\n\r\n   @Override\r\n   public void setBarPaint(Paint pBarPaint) {\r\n      Paint paint = new Paint();\r\n      paint.setARGB(1, 255, 255, 255);\r\n      super.setBarPaint(paint);\r\n   }\r\n\r\n   @Override\r\n   public void setTextPaint(Paint pTextPaint) {\r\n      Paint paint = new Paint();\r\n      paint.setARGB(1, 255, 255, 255);\r\n      super.setTextPaint(paint);\r\n   }\r\n\r\n   @Override\r\n   protected String scaleBarLengthText(int meters, boolean imperial, boolean nautical) {\r\n      Log.e(TAG, \">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\" + meters);\r\n      if (this.imperial) {\r\n         if (meters >= METERS_PER_STATUTE_MILE * 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_miles,\r\n                     (int) (meters / METERS_PER_STATUTE_MILE));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n\r\n         } else if (meters >= METERS_PER_STATUTE_MILE / 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_miles,\r\n                     ((int) (meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         } else {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_feet, (int) (meters * FEET_PER_METER));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         }\r\n      } else if (this.nautical) {\r\n         if (meters >= METERS_PER_NAUTICAL_MILE * 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,\r\n                     ((int) (meters / METERS_PER_NAUTICAL_MILE)));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         } else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,\r\n                     (((int) (meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         } else {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_feet, ((int) (meters * FEET_PER_METER)));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         }\r\n      } else {\r\n         if (meters >= 1000 * 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_kilometers, (meters / 1000));\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         } else if (meters >= 1000 / 5) {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_kilometers, (int) (meters / 100.0) / 10.0);\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         } else {\r\n            String string = resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);\r\n            scaleDistance.setText(string);\r\n            return string;\r\n         }\r\n      }\r\n\r\n   }\r\n\r\n}\r\n",
+    "timestamp" : 1367574610,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "The zoom-in/out animations animate the entire view and that includes anything drawn to the screen - we currently have no control over that. If you notice, when you pinch zoom in/out the scale bar (and compass) do not move because we handle animation differently there. Perhaps we could drop the android view animations and use the canvas matrix manipulation we do for the pinch zoom but at this point there is no solution. I don't understand what the code you posted is for.",
+    "timestamp" : 1367585136,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 248.",
+    "timestamp" : 1367587795,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 453.",
+    "timestamp" : 1374790575,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "A working patch has been posted to issue 453. However it looks like the ScaleBarOverlay turns itself off when zooming because the scale will be incorrect while scaling:\r\n\r\n\t// If map view is animating, don't update, scale will be wrong.\r\n\tif (mapView.isAnimating()) {\r\n\t\treturn;\r\n\t}\r\n\r\nMore work would be needed to get it to produce correct values when scaling. We could extract the scaling value from the canvas matrix, or we could implement a getZoomLevel() that returns a float value.\r\n",
+    "timestamp" : 1375816499,
+    "attachments" : [ ]
+  } ]
+}es when scaling. We could extract the scaling value from the canvas matrix, or we could implement a getZoomLevel() that returns a float value.\r\n","timestamp":1375816499,"attachments":[]}]}

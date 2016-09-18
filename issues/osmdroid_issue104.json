@@ -1,0 +1,33 @@
+{
+  "id" : 104,
+  "status" : "Fixed",
+  "summary" : "LongPress on Map Items",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3160830107365654207,
+    "content" : "I've been trying to get onLongPress implemented in OpenStreetMapOverlayItem.\r\nThis is similar to onTap which is already implemented.\r\nI'll do some refactoring to reuse the onTap code as much as possible.\r\n\r\n\r\n",
+    "timestamp" : 1286821458,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3160830107365654207,
+    "content" : "revision 417\r\nAdds some javadoc as well as a first cut at implementing onLongPress.\r\nThere are some issues remaining.\r\n \r\n1- the on focus marker is not positioned correctly in OpenStreetMapViewItemizedOverlayWithFocus\r\n\r\n2- the onLongPress is not being invoked",
+    "timestamp" : 1286821649,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3160830107365654207,
+    "content" : "Long press is happy now.\r\n\r\nThe focus marker is still not positioned correctly.",
+    "timestamp" : 1286902018,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "onLongPress has been working for a while now, so I believe this issue is no longer relevant.",
+    "timestamp" : 1359144203,
+    "attachments" : [ ]
+  } ]
+}

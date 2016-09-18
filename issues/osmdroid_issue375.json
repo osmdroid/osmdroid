@@ -1,0 +1,37 @@
+{
+  "id" : 375,
+  "status" : "WontFix",
+  "summary" : "Listener for follow location (MyLocationOverlay)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "Proposed enhancement:\r\n- when follow location is enabled, this will automatically become disabled when the user scrolls somwhere else\r\n- it would be good to have an option of getting notified when this happens\r\n\r\nFor example: look at the button/icon in Google Maps that enables the same functionality. It changes as follow location is turned on/off. The proposed enhancement would allow for the same function.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nLatest trunk.\r\n\r\n<b>Please provide any additional information below.</b>\nThe attached patch provides an interface and implements the observer pattern to allow an app to subscribe to changes in follow location status.\r\n\r\nUsage:\r\n    locationOverlay.addFollowMyLocationListener(new FollowMyLocationListener() {\r\n      public void followMyLocationEnabled() {\r\n        // TODO Auto-generated method stub\r\n      }\r\n      \r\n      public void followMyLocationDisabled() {\r\n        // TODO Auto-generated method stub\r\n      }\r\n    });\r\n\r\n",
+    "timestamp" : 1349765759,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8177012077806897919,
+    "content" : "Sorry, forgot to attach the patch",
+    "timestamp" : 1350269709,
+    "attachments" : [ {
+      "id" : 3750001000,
+      "fileName" : "FollowLocation.patch",
+      "fileSize" : 5552
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can create you own class that extends the MyLocationOverlay to achieve what you are looking for. Override the enableFollowLocation() and disableFollowLocation() methods.",
+    "timestamp" : 1357243030,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8177012077806897919,
+    "content" : "Sure, that's what I do at the moment. Still think it would be advantageous for others would want to achieve the same thing. Adding it to MyLocationOverlay does not hurt anyone who is not using it.\r\n",
+    "timestamp" : 1357254891,
+    "attachments" : [ ]
+  } ]
+}

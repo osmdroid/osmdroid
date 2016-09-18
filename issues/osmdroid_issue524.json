@@ -1,0 +1,33 @@
+{
+  "id" : 524,
+  "status" : "MovedToGithub",
+  "summary" : "Child view (bubble) positioning issue when map is rotated. ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "1. Rotate the map: mapView.setMapOrientation(90.0f);\r\n\r\n2. Add a child view to the MapView, using MapView.LayoutParams:\r\nMapView.LayoutParams lp = new MapView.LayoutParams(\r\n\tMapView.LayoutParams.WRAP_CONTENT,\r\n\tMapView.LayoutParams.WRAP_CONTENT,\r\n\tposition, MapView.LayoutParams.BOTTOM_CENTER, \r\n\toffsetX, offsetY);\r\nmapView.addView(childView, lp);\r\n\r\n=&gt; At this stage, the child view position is OK. \r\n\r\n3. Pan the map manually on screen. \r\n=&gt; The child view position is moving, but not in relation with the mapview. \r\n\r\n\r\nThe issue is probably in MapView.onLayout: in this method, map orientation is never taken into account (as done for instance in rotateTouchEvent). \r\n",
+    "timestamp" : 1392072433,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is definitely an issue and tough to fix. I was playing around with a solution that would manipulate the added view's translateX/Y parameters that was moderately successful but still needed work.",
+    "timestamp" : 1393344237,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1558421220117089513,
+    "content" : "Hi Marc, \r\n\r\nI found a working solution. \r\n\r\nSee: https://drive.google.com/file/d/0B_8VOmRyW664QTJ3bE0zZjFZbGc/edit?usp=sharing\r\n\r\nBasically: \r\n\r\n- In onLayout, it applies rotation of children geoPoint around the center of the map (=> this rotation was missing anyway in this method). \r\n\r\n- In scrollTo, call onLayout to force layout computation of children. It seems OK (zoom, pan, animateTo), but I'm not sure this is the best place to really cover all possible cases. \r\n",
+    "timestamp" : 1397511124,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Moved to GitHub https://github.com/osmdroid/osmdroid/issues/32",
+    "timestamp" : 1398409563,
+    "attachments" : [ ]
+  } ]
+}

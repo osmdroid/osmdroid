@@ -1,0 +1,21 @@
+{
+  "id" : 177,
+  "status" : "Fixed",
+  "summary" : "Don't draw loading tile in TilesOverlay if the color is transparent",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "See https://groups.google.com/d/topic/osmdroid/g5Nhg-wSWjQ/discussion.\r\n",
+    "timestamp" : 1299058014,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r842.",
+    "timestamp" : 1299058062,
+    "attachments" : [ ]
+  } ]
+}

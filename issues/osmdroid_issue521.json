@@ -1,0 +1,75 @@
+{
+  "id" : 521,
+  "status" : "Started",
+  "summary" : "MapBoxTileSource design issues",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "Adding a MapBoxTileSource was a great idea. \r\nHowever, the current implementation has the following issues:\r\n\r\n1) Default zoom max level = 20 is too high. At this level, it shows empty tiles with just a cross. Should be 19. \r\n\r\n2) Handling of MapBox map ID with retrieveMapBoxMapId is not good. MapBox can provide various types of maps (satellite, satellite labelled,...). \r\nNo way to handle more than 1 map type in an application, even using the &quot;full-featured&quot; constructor. \r\n\r\nI would suggest to change the default constructor, to pass it the map ID. \r\nAnd to avoid various map types mixed in the same caching area, we also have to pass a user-defined name. \r\n\r\npublic MapBoxTileSource(String name, String aMapBoxMapId)\r\n{\r\n  mapBoxMapId = aMapBoxMapId;\r\n  super(name, ResourceProxy.string.base, 1, 19, 256, &quot;.png&quot;, mapBoxBaseUrl);\r\n}\r\n\r\nThe caller can then create it for instance this way:\r\nOnlineTileSourceBase myMBSatTileSource = new MapBoxTileSource(\r\n  &quot;MapBoxSatellite&quot;, \r\n  ManifestUtil.retrieveKey(this, &quot;MAPBOX_SAT_MAPID&quot;));\r\n\r\n\r\n3) It's using this base url &quot;http://api.tiles.mapbox.com/v3/&quot;\r\n=&gt; It doesn't use the usual &quot;farming&quot; mechanism: \r\n&quot;http://a.tiles.mapbox.com/v3/&quot;, \r\n&quot;http://b.tiles.mapbox.com/v3/&quot;,\r\n&quot;http://c.tiles.mapbox.com/v3/&quot;, \r\n&quot;http://d.tiles.mapbox.com/v3/&quot;\r\nNot sure if it's a potential issue or not. \r\n\r\n4) It's using this resourceId: ResourceProxy.string.base, which is also the id of BASE tile source (http://topo.openstreetmap.de/base/), and used at various places in osmdroid. \r\nStrange, but again, not sure if it's a potential issue or not. \r\n",
+    "timestamp" : 1390842855,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8675057720987312532,
+    "content" : "I would also like to ask to make String getMapBoxMapId() non-static and overridable.\r\nIt will allows not to depend on the AndroidManifest, context and on retrieveMapBoxMapId().\r\n",
+    "timestamp" : 1390843872,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Do you know where the docs for this are?\r\nI looked at https://www.mapbox.com/developers/api/ but it wasn't clear what the tile url should be or what is the highest zoom level.",
+    "timestamp" : 1391148078,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1391148188,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "@ls.illarionov Or would you prefer a setter for mapBoxMapId? Then you don't need to extend this class.\r\nI don't really see the point of the getMapBoxMapId method as it is now.",
+    "timestamp" : 1391148576,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 1558421220117089513,
+    "content" : "This page https://www.mapbox.com/developers/api-overview/\r\nmentions the tiles base farming: \"http://a.tiles.mapbox.com/v3/\", etc. \r\n\r\nHighest zoom level: I've not found in the doc, it's experimental. \r\n\r\nPatch for suggested changes available here: \r\nhttps://drive.google.com/file/d/0B_8VOmRyW664Sk9CcEJtM2k3YU0/edit?usp=sharing\r\n\r\n",
+    "timestamp" : 1391273875,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "There are examples which sometimes mention a,b,c,d and sometimes don't.  I was looking for a spec rather than examples.",
+    "timestamp" : 1391370009,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 1558421220117089513,
+    "content" : "No spec found... \r\n\r\nSearching for a doc, I discovered that MapBox guys are working on their own fork of osmdroid. See: https://www.mapbox.com/blog/mapbox-android/\r\n",
+    "timestamp" : 1391425365,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3366368532881353739,
+    "content" : "> mentions the tiles base farming: \"http://a.tiles.mapbox.com/v3/\", etc. \r\n\r\nFor tiles we recommend the [a, b, c, d] set that are under the api level. api is also supported, but less emphasized for tiles.\r\n\r\n> Highest zoom level: I've not found in the doc, it's experimental. \r\n\r\nThere isn't a service-wide maximum zoom level - we can support higher zooms on road data than on satellite, and higher zooms for satellite in well-covered metro areas than the country or the middle of the ocean, etc.\r\n\r\n> Searching for a doc, I discovered that MapBox guys are working on their own fork of osmdroid.\r\n\r\nYes, the repo is https://github.com/mapbox/mapbox-android-sdk",
+    "timestamp" : 1391875183,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1391981142,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "I fixed point 1 and 3 in revision 1430. I chose zoom level 18 since that is the highest zoom level that any of the other providers have.\r\n\r\nI fixed point 4  in revision 1431, although it does highlight a fundamental limitation of the resource proxy idea for external tile sources. A solution for that would also help with point 2.",
+    "timestamp" : 1391981188,
+    "attachments" : [ ]
+  } ]
+}

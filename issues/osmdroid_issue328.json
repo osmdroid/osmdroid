@@ -1,0 +1,33 @@
+{
+  "id" : 328,
+  "status" : "Fixed",
+  "summary" : "Make MapView \"all arguments\" constructor public or protected",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8473345269847656908,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Place a MapView in an XML resource. The MapView will be constructed using the standard XML two argument constructor which in turn calls the full constructor with defaults filled in. There's no way to override these defaults in a subclass because that constructor is private.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1333465120,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you use the Mapview in a resource then it's always going to use the two argument constructor.\r\n\r\nIf you want options then you want them made available via the attributes.\r\n\r\nWhat attributes do you want added?",
+    "timestamp" : 1333516960,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8473345269847656908,
+    "content" : "Hi thanks for the feedback. I'd like to subclass MapView and be able to call \r\n\r\nprivate MapView(final Context context, final int tileSizePixels,\r\n                        final ResourceProxy resourceProxy, MapTileProviderBase tileProvider,\r\n                        final Handler tileRequestCompleteHandler, final AttributeSet attrs) ;\r\n\r\nfrom my subclass's constructor. The reason is that the subclass can then use my custom tileprovider/resourceproxy while getting instantiated from a layout XML. I don't see any other way to achieve that currently.",
+    "timestamp" : 1333525908,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1085.",
+    "timestamp" : 1333600507,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,39 @@
+{
+  "id" : 249,
+  "status" : "Fixed",
+  "summary" : "Ability to modify the HTTP Header for OnlineTileSourceBase",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6796225531243314910,
+    "content" : "I try to create a new tileSource base on the OnlineTileSourceBase (in order to load tiles from the IGN database).\r\nThe IGN server requires to manage a referer into the HTTP request but OnlineTileSourceBase offers method to set the URL but it seems nothing is available to change the HTTP header.\r\n\r\n\r\n\r\n",
+    "timestamp" : 1312468079,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is the refer static, i.e. never changes once it's set?",
+    "timestamp" : 1312472049,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -6796225531243314910,
+    "content" : "Yes, it could be static. It is linked to a contract and since there is only one key per contract, it is linked to the key.\r\n\r\n",
+    "timestamp" : 1312805900,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6796225531243314910,
+    "content" : "As we have the getTileURLString method, it could be nice to have an updateHeader method with the HttpUriRequest as parameter. In this way, we would be able to manage request header values (cookies for example) easily.",
+    "timestamp" : 1313066063,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe this is now possible with the HTTP factory implemented in Issue 432.",
+    "timestamp" : 1370354547,
+    "attachments" : [ ]
+  } ]
+}

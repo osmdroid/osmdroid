@@ -1,0 +1,167 @@
+{
+  "id" : 396,
+  "status" : "Fixed",
+  "summary" : "Updated map rotation patch",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 23,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am attaching an updated map rotation patch that works with the SafeTranslatedCanvas and fixes a few other issues. Please test and report issues here!\r\n\r\nIssues:\r\n\r\n1. Scrolling the maps to a point doesn't work correctly.\r\n",
+    "timestamp" : 1358955278,
+    "attachments" : [ {
+      "id" : 3960000000,
+      "fileName" : "MapRotation.patch",
+      "fileSize" : 5878
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Comment deleted",
+    "timestamp" : 1359112707,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nI try your rotation patch and study your changes.\r\nIt seems to rotate correctly concerning tiles presentation, taking care the possible empty screen corners by expanding the map size with hypot factor.\r\nBut I'll make more tests with overlays and touch, in order to be safe with my comments.\r\n\r\nTill now I use the setUseSafeCanvas(false) because of the many problems that safe canvas has caused at my existing apps.\r\nThe most serious one is that I want to use android.graphics.Canvas at some of my draw methods (which are being used and by libraries that do not support safe canvas - so I cannot change it). For example to draw my own my location arrow icon, my own compass implementation etc. Which android.graphics.Canvas can I pass to those methods?\r\nWith setUseSafeCanvas(false) I pass getWrappedCanvas() in order to have visible results.\r\nNow with setUseSafeCanvas(true) I see nothing trying getWrappedCanvas() or getSafeCanvas().\r\n\r\nAny help?\r\n\r\nThanks!",
+    "timestamp" : 1359113003,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "There is an issue getSafeCanvas() and calling native methods on that canvas. I need to write a proxy Canvas that you can use for passing to other libraries - getSafeCanvas can sometimes handle this already but some methods aren't covered.\r\n\r\nIf you have your own Overlays that require the regular canvas then you just need to extend Overlay rather than SafeDrawOverlay in your class and you will get the traditional Canvas. Regular Overlays will work side-by-side with SafeDrawOverlays.",
+    "timestamp" : 1359126519,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "I understand your point for new created overlays.\r\nBut if I want to extend an existing overlay, like MyLocationNewOverlay, in order to retain the basic functionality but customize the draw process?\r\n\r\nThe functionality of the class is in the drawSafe and drawMyLocation methods which use safe canvas. I see 2 ways from there:\r\n1. Override drawMyLocation and use getWrappedCanvas as normal canvas at my drawing process, which is what I do now with setUseSafeCanvas(false).\r\n2. Override normal draw, but then have to copy in it the whole functionality of drawSafe and drawMyLocation to be able to modify it, as overridden draw is actually SafeDrawOverlay.draw",
+    "timestamp" : 1359130257,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7885292364229798790,
+    "content" : "Hello kurtzmarc,\r\n\r\nI started playing with this library yesterday, researching for a future project my company is involved in. I got a clean trunk checkout and applied 3 patches on it: issue 209, 232 and this one.\r\n\r\nThe N/S scroll limiting works fine, didn't test the boundaries. The rotation works fine except for some flings when scrolling a rotated map. It seems to bounce and scroll in the opposite direction, didn't have time to look much into it.\r\n\r\nWhat I did was to hook a multi-touch rotation listener to the dispatchEvent() method in MapView.java that gets instantiated when you enable multi-touch controls.\r\n\r\nCould you take a look at my code and let me know if you see something utterly retarded or if I should change something in order for it to be useful to contribute back? I think I may have misplaced some code.\r\n\r\nThe rotation detector comes from: https://github.com/Almeros/android-gesture-detectors\r\n\r\nThanks!",
+    "timestamp" : 1359130405,
+    "attachments" : [ {
+      "id" : 3960005000,
+      "fileName" : "rotation_listener.patch",
+      "fileSize" : 28521
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updated map rotation patch. It has a more conservative bounding box calculation for TilesOverlay, and also adds invalidateMapCoordiates() which will invalidate the screen at the provided coordinates taking care of applied rotations and translations. In short - if you draw something at a Rect, then you can invalidate the screen at that same Rect using this method.",
+    "timestamp" : 1362608646,
+    "attachments" : [ {
+      "id" : 3960006000,
+      "fileName" : "MapRotation.patch",
+      "fileSize" : 9639
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nYour rotation patch or your final implementation when it will be at main code branch, will it support both SafeCanvas and regular Canvas?\r\nI speak for those that have problems using the SafeCanvas and prefer to have setUseSafeCanvas(false) in their code. Are they going to be able to use also your rotation solution?\r\n\r\nI have already a working implementation based on Google instructions, but I'd prefer to use osmdroid native one.\r\n\r\nThanks!",
+    "timestamp" : 1362641081,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "The idea is to definitely get it all working together including the SafeTranslatedCanvas. It's particularly difficult to anticipate every possible use so there will be bugs. Investigate, isolate, and report any bugs to this thread.",
+    "timestamp" : 1363014986,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1363015108,
+    "attachments" : [ {
+      "id" : 3960009000,
+      "fileName" : "MapRotation.patch",
+      "fileSize" : 11306
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "Posting updated map rotation patch.\r\n\r\n* Fixes issues with historical touch events not being rotated, but the fix only works in >= HONEYCOMB. If you are running < HONEYCOMB, then you should ignore historical touch events.\r\n* Automatically increase the size rectangle returned by getScreenRect() to cover the entire visible screen. This is vital if you are doing things like clipping, hit-test, etc... It also makes it unnecessary to make changes to TilesOverlay since the new bounding box is increased to cover entire screen.\r\n* Adds getIntrinsicScreenRect() which is useful when you want an unrotated screen rect. This is useful for offsetting MotionEvents for instance.\r\n\r\nIf you had a problem with \"flinging\" when rotated, please try this patch. I believe it fixes that issue!\r\n",
+    "timestamp" : 1363017382,
+    "attachments" : [ {
+      "id" : 3960010000,
+      "fileName" : "MapRotation.patch",
+      "fileSize" : 12574
+    } ]
+  }, {
+    "id" : 11,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well I tried testing your new rotation patch but there are many obstacles in the way, the major one being the safe canvas differences.\r\n\r\nUsing the setUseSafeCanvas(true) the tiles seem to rotate normally, but I cannot perform any more tests except view the tiles.\r\nUsing the setUseSafeCanvas(false) the rotation takes place with center not the center of the screen.\r\n\r\nFrom your comment at #3: \"There is an issue getSafeCanvas() and calling native methods on that canvas. I need to write a proxy Canvas that you can use for passing to other libraries - getSafeCanvas can sometimes handle this already but some methods aren't covered.\"\r\nwhen can we have a better implementation of safe canvas so we can use/test it?",
+    "timestamp" : 1363172959,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "devemux86: try this:\r\n\r\ncanvas.save();\r\ncanvas.setMatrix(canvas.getOriginalMatrix());\r\nCanvas unsafeCanvas = canvas.getWrappedCanvas();\r\n// Do your work with unsafeCanvas\r\ncanvas.restore();\r\n\r\nLet me know if that works for you.\r\n\r\nThe big problem with my comment in #3 is that it's a maintenance nightmare to try to override every native Canvas method - there are differences in the methods based on API level and methods will be added as time goes on and the file will suffer from code rot. The only methods guaranteed to work are those in the ISafeCanvas interface. If we can just provide a workaround that works in a general sense then that would be ideal.",
+    "timestamp" : 1363182371,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -1918333713940407975,
+    "content" : "Thanks kurtzmarc!\r\n\r\nAbout my comment #4, I tried your code and it does the trick, canvas draws are visible again.\r\nOk now I can more thoroughly test your updated rotation patch.",
+    "timestamp" : 1363194482,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "I re-read your comment in #4. If you want to extend a class like MyLocationNewOverlay and still use the \"unsafe\" canvas, then all you have to do is override the draw() method, and in there you will have the unsafe canvas. Just make sure you call through to super.draw() and it will do all the normal drawing code through the existing MyLocationNewOverlay. There is nothing special to do - in draw() you have a regular canvas just like before.",
+    "timestamp" : 1363195788,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Actually I want to override drawMyLocation in order to customize it. If I override draw() and call super.draw() then the original drawMyLocation will be called.\r\n\r\nMaybe this discussion along with your code from #12 can be put at http://code.google.com/p/osmdroid/issues/detail?id=388 as more relevant and in order to help others with their problems with safe canvas?",
+    "timestamp" : 1363199672,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nContinuing testing your updated rotation patch with both canvas types. So far very good. Two comments:\r\n\r\n- With setUseSafeCanvas(false) the map rotation does not work correctly, the rotation takes place with center the lower right of screen. It would be convenient to implement this as well.\r\nFor now to be able to test it, at SafeDrawOverlay I use the code inside the \"if (this.isUsingSafeCanvas()) {\" for both types of canvas.\r\n\r\n- I think that the degrees of map orientation are the negative one from what are supposed to be.\r\nIf I setMapOrientation(90) then at the upper side of screen I see the west side of map instead of east side.",
+    "timestamp" : 1363269682,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well after more tests I can say that map rotation works very well.\r\n\r\nBesides the 2 points I mentioned at #16, another comment is:\r\n\r\n- It would be convenient an extra fromPixels method that uses getScreenRect along with getIntrinsicScreenRect.\r\n\r\nWell done!\r\nAre you planning to push rotation patch to main branch some time?",
+    "timestamp" : 1363344207,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "The map rotation patch has been pushed to the trunk. I also added getUnsafeCanvas() as a simple way to get the original unsafe canvas from ISafeCanvas. We will be doing a new full release soon.",
+    "timestamp" : 1363900307,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 7646092065249173135,
+    "content" : "I added some fixes for rotation when safe canvas is not being used.",
+    "timestamp" : 1363986570,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nThanks for the fixes.\r\nHave you looked the 2nd issue I mentioned at comment #16?\r\n\r\nI think that the rotation has to take place with degrees the -mapOrientation value.\r\nBecause right now the rotation is reverse from the expected one and I have to put at setMapOrientation the negative value from the sensor in order to fix it.\r\n\r\nGreetings",
+    "timestamp" : 1364062939,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "With regards to the orientation, I'd expect it to rotate clockwise. That is the behavior of the rotate() method for Android views and I would expect the maps to match that. Perhaps the use of the word \"orientation\" is misleading and should be changed to \"rotation\" (so, setMapsRotation()).",
+    "timestamp" : 1364218449,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 7646092065249173135,
+    "content" : "The rotation patch has been integrated into the latest release and into the samples project. Any new issues should be put into their own ticket. Thanks for all the feedback!",
+    "timestamp" : 1365024318,
+    "attachments" : [ ]
+  } ]
+}

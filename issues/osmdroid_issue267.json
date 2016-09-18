@@ -1,0 +1,157 @@
+{
+  "id" : 267,
+  "status" : "Fixed",
+  "summary" : "OutOfMemory Error when using MapTileFileArchiveProvider",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 24,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9169388793317990214,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a map that uses MapTileFileArchiveProvider and load some zip files\r\n2. open the app and rotate the device a few times (and always wait for the map to load\r\n\r\n<b>What is the expected output? What do you see instead?</b>\ndevice rotation with no problem for as many times i'd like to rotate\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6\r\n\r\n<b>Please provide any additional information below.</b>\nAfter analyzing the Heap of my device i found out that with every closing and reopening of the app the heap grows. After having a detailed look at a hprof dump from the running process i found out that the problem is inside MapTileFileArchiveProvider. The dump showed me that there is a n ArrayList that keeps the objects and does not release them.\r\nSince there is only 1 list field (mArchiveFiles) in this class it is clear that the problem is because this list with it's files is not released when the app closes. I guess it is only forgotten but there must be a release of these files. So you need to add\r\n\r\n        @Override \r\n        public void detach() { \r\n                for (int i = mArchiveFiles.size()-1; i &gt;= 0; i--) { \r\n                        mArchiveFiles.remove(i); \r\n                } \r\n                super.detach(); \r\n        } \r\n\r\nAfter adding this change the heap always keeps at a fine level.\r\n\r\nOf course the problem does not only occur when changing the orientation of the device. It does always occur when there is a restart without creating a complete new process.\r\n\r\ni attached a screen from the memory analyzer. there you can see the tree where the large memory (42%) is sitting.\r\nJust for further information (valueS): there are 40 more of the Archive Providers not showen in the screenshot because they got created as seperate instances and not inside the location listener. Together all the FileArchive Providers consume at this dump 14mb from total 16,5 or 84%. This dump was created after turning the device only once. Now with releasing the files the heap of the app does never! grow over 11mb total. \r\n\r\nOf cource it is not my descision and i have no idea how many people use the FileArchiveProvider but if you ask me this needs to get fixed soon :)\r\n\r\nHope this helps.\r\ngreetings\r\nDaniel",
+    "timestamp" : 1318417504,
+    "attachments" : [ {
+      "id" : 2670000000,
+      "fileName" : "androidheap.jpg",
+      "fileSize" : 336280
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 9169388793317990214,
+    "content" : "oh i forgott: the result instead is of course a crash of the app with OutOfMemory reports in the logfile.",
+    "timestamp" : 1318418157,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps this fix would also help with issue 265.",
+    "timestamp" : 1318419181,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8282946910402892946,
+    "content" : "This sounds great,  I will try it and report back",
+    "timestamp" : 1318419536,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 9169388793317990214,
+    "content" : "i'm not sure. The problem is a bit that with htc devices you got so much less memory for usage than with samsung devices for example. I know this because i have a samsung galaxy S and a HTC sensation for app testing. The sensation is newer and should of course be better BUT the htc crashed after 1 rotate (with luck it somehow made 1 turn and then crashed) and the samsung was able to survive 4-5 rotates.\r\nAs much as i think the problem is sense. it consumes a lot of memory and this memory is missing then when the heap grows really big (what it shouldn't of course). What i want to say is that even my sensation was running without memory leak (right after the app started) already on approx 50% of memory resources. Now the wildfire isn't the newest phone and i can also imagine that there is really some other memory problem. If i find some spare time i'll have a look at 265 and try to find some possible answers. If i find something i'll write it in 265 as a comment (of course if it does not get closed with this solution anyway)\r\ngreetings :)",
+    "timestamp" : 1318419919,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 4939662503650772418,
+    "content" : "How do you access the private object mArchiveFiles?\r\nThere is no getter and no other method to implicity free the memory.",
+    "timestamp" : 1318792317,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 9169388793317990214,
+    "content" : "I access it inside MapTileFileArchiveProvider.java with the method postet in my issue.\r\nI don't understand the question. I guess the memory is released by removing the files from the ArrayList and the GC that can clean them up.",
+    "timestamp" : 1318834948,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 4939662503650772418,
+    "content" : "Comment deleted",
+    "timestamp" : 1318836152,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 4939662503650772418,
+    "content" : "Comment deleted",
+    "timestamp" : 1318836896,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 4939662503650772418,
+    "content" : "I tried to use the method in my code but as expected I don't have access to the \"mArchiveFiles\" object.\r\n\r\nLet me ask one more question, to clarify things a little. The code you provided is to be added to MapTileFileArchiveProvider.java or to MyClass.java (a class that uses the osmdroid)?",
+    "timestamp" : 1318838159,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 9169388793317990214,
+    "content" : "this code block needs to be added into MapTileFileArchiveProvider.java\r\nThat's why i posted here as an issue. It needs a change in the framework sourcecode. But in the gogole group of osmdroid is a post about this Exception and there is a workaround described how to fix it without changing the sourcecode of the osmdroid framework. I never tried it myself but you can give it a try.\r\n\r\nAs you say you will not have access to mArchiveFiles if you try it from outside of this class because it is declared private.\r\n\r\ngreetings",
+    "timestamp" : 1318845820,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 4939662503650772418,
+    "content" : "Comment deleted",
+    "timestamp" : 1318848344,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 4939662503650772418,
+    "content" : "That was all I needed, thank you.\r\n\r\nJust a comment:\r\nThis is top priority issue. I know let the memory management to the GC when it's possible but this a serious omission especially in a mobile device with memory constraints.",
+    "timestamp" : 1318848824,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1319433853,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1319446060,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I checked this in in revision 990.\r\n@abzyweb please can you confirm that it works.",
+    "timestamp" : 1319446135,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 9169388793317990214,
+    "content" : "hey again.\r\n\r\nat the moment i have some troubles testing code because the pc where i compile my osmdroid jar file isn't working but i did copy it inside my android project directly and changed the import so it should have worked. the results is a mixture between good and bad news:\r\nthe bad news. it does not always helps to solve the outofmemory problem. i still had test runs where the heap size grows and then the app crashes.\r\nthe good news: the code itself does work and does help in some way. i did have some tests where i outcommented the change and the app did save some MB of allocation.\r\n\r\nLet me tell you the exact knowledge i gained from testing in the last 1-2 hours:\r\nFirst of all it does not seem to be clear when exactly Detach() is called. If the app goes to pause state for example it does not seem to be called. I'm not even sure if it is ever called automatically. If the above change is in the code AND onDetach() from MapView Object is called then the memory seems to be very stable.\r\nAnother strange behavior happend with some test runs: i did not call onDetach from MapView and did NOT have the above changes in my code. The result was that even then the memory did not grow above 15 mb. with the changes in the code it did not grow over 12 mb.\r\nWhat i have to add to all this is that i can only test the code with my own compiled osmdroid package because there are some more things i had to change to run my app. That's why i cant just use the \"normal\" jar file from osmdroid project. What i want to point out is that i can't give a guarantee that there are no other changes in my personal osmdroid build that influence the memory usage. As i said i did change and try a lot of stuff when trying to get the memory problem solved and i'm not sure if i removed everything from this attemps.\r\n\r\nMy resume: i'm still sure it does help to get the whole framework better but i also think that the developer that uses osmdroid needs to call onDetach to be sure the archives are released.\r\n\r\nI do strongly recommend to test this even more to be sure to find the best solution. Maybe the detach() method is just the wrong place or maybe there needs to be some more calls on detach somewhere in the main code parts of osmdroid. Guess i'm not long enough inside the framework code to know this. \r\n\r\nHope this helpes. If you have some more ideas or questions i'll try to take the time to test them on my app and help to find good solutions\r\n\r\ngreetings\r\nabzy",
+    "timestamp" : 1319453251,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 9169388793317990214,
+    "content" : "another thing i just found out. if the overlay with the zip files is removed before the  archive files are removed you have no chance anymore to get the messed cleaned up because then even onDetach will not help anymore.\r\nSo for example if the tilesoverlay gets removed there need to be all the zip files released. That's for example a place in the main code where there should be a call to release all the files that are used by this overlay. Thing this sould be easy to change. just a call to detach() in overlayManagers remove() method.\r\n\r\ngreetings Daniel",
+    "timestamp" : 1319453991,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "The call that causes the call to detach is MapView.onDetachedFromWindow - this is a framework call.  It doesn't get called on pause, but it also doesn't re-create stuff on resume, so that's okay.\r\nI'm not sure about what you said in your last comment - are you saying that your app removes the overlay during the normal usage of the app?\r\n",
+    "timestamp" : 1319457154,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 9169388793317990214,
+    "content" : "yeah. On the main Map Acivity the user has the possibility to open a new Activity where he can download and even more important activate and deactivate map packs. these map packs are split into zip archives that can be downloaded. If the user deactives a map pack in this Activity i need to remove these zip archives from the overlay when the main map activity is running throu onResume. Since i didn't find a remove method for single archives i remove the whole tileLayer at onPause and recreate it at onResume.",
+    "timestamp" : 1319460430,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps you should open a new issue for that and keep this issue for the fix as you originally suggested.",
+    "timestamp" : 1319461780,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -3926018049081992033,
+    "content" : "When I evalauted and integrated OSMDroid for our app I stumbled over a lot of OOMEs. What I finally found out was that in the map activity that embeds the map view you should always call all #detach, #clear, #free, #remove-methods that are available in Activity#onPause. Best is to call all these methods on any tile provider, map view or map overlay or whatever that is within your reach. Any explicit calls to System.gc or the like do not really help in the end. As the native heap is not handled by the GC and all the map tiles are stored in the native heap (as images) explicit calls to Bitmap#recylce are needed. You (as an app developer) should at least somewhere call org.osmdroid.tileprovider.MapTileCache.clear() somehow (which does the Bitmap#recyle-ing).\r\n\r\nMy app is quite stable (on a Desire Z, which has configured only 20 MB of native heap, max 32 per process). Even multiple screen orientation changes don't harm the memory consumption of the app. On a DELL Streak with 40 MB per Android process (dunno the split) it is even more stable.",
+    "timestamp" : 1319712477,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "The points raised in comment 21 sound like a great topic for a wiki.\r\n\r\nI'll close this issue soon since the specific issue has been solved as far as I can tell.",
+    "timestamp" : 1319714004,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8937367184059112911,
+    "content" : "This specific issue is fixed. There are other OOME issues still open.",
+    "timestamp" : 1319803908,
+    "attachments" : [ ]
+  } ]
+}

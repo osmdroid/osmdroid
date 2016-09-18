@@ -1,0 +1,21 @@
+{
+  "id" : 307,
+  "status" : "WontFix",
+  "summary" : "Add MapQuest to third-party project",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The MapQuest API is pretty much the same as the osmdroid and Google API.\r\nIt can be added to the third-party project.\r\n\r\nhttp://developer.mapquest.com/web/products/featured/android-maps-api\r\n",
+    "timestamp" : 1328775423,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1395813311,
+    "attachments" : [ ]
+  } ]
+}

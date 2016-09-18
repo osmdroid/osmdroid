@@ -1,0 +1,57 @@
+{
+  "id" : 302,
+  "status" : "Duplicate",
+  "summary" : "Setting PathOverlay paint can causes incomplete path",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8033205131378545507,
+    "content" : "<b>What steps will reproduce the problem?</b>\nSet the paint of PathOverlay:\r\n\r\nprivate PathOverlay pathOverlay;\r\nPaint paint = new Paint();\r\npaint.setColor(Color.GREEN);\r\npaint.setAlpha(100);\r\npaint.setStyle(Paint.Style.FILL);    \t\r\npathOverlay.setPaint(paint);\r\n\r\nThis also shows the problem:\r\n\r\nprivate PathOverlay pathOverlay;\r\npathOverlay.setPaint(new Paint()); \r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the the shape that is drawn in the first picture to stay the same even when part of it is outside the screen\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.6\r\nosmdroid-packager-3.0.6\r\nslf4j-android-1.5.8\r\n\r\n<b>Please provide any additional information below.</b>\nIt only seems to happen when a point is beyond the bottom and right side of the screen.\r\n",
+    "timestamp" : 1327231356,
+    "attachments" : [ {
+      "id" : 3020000000,
+      "fileName" : "image1.PNG",
+      "fileSize" : 123018
+    }, {
+      "id" : 3020000001,
+      "fileName" : "image2.PNG",
+      "fileSize" : 137803
+    }, {
+      "id" : 3020000002,
+      "fileName" : "image3.PNG",
+      "fileSize" : 65954
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2575301623399261898,
+    "content" : "same issue here with PathOverlay\r\n\r\nosmdroid-android-3.0.8.jar\r\nslf4j-api-1.7.2.jar\r\n\r\n\r\n",
+    "timestamp" : 1351651353,
+    "attachments" : [ {
+      "id" : 3020001000,
+      "fileName" : "SC20121030-223120.png",
+      "fileSize" : 58385
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 573776143219557484,
+    "content" : "Did anything happen to fix this bug?\r\nI have the same problem, using version 3.0.8.\r\nScreenshots of problem with circle attached.",
+    "timestamp" : 1360327776,
+    "attachments" : [ {
+      "id" : 3020002000,
+      "fileName" : "original.png",
+      "fileSize" : 314825
+    }, {
+      "id" : 3020002001,
+      "fileName" : "after_pan.png",
+      "fileSize" : 315484
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1362507244,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,125 @@
+{
+  "id" : 241,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay direction arrow points in the wrong direction",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 16,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 717681597336073274,
+    "content" : "Expected behavior: Arrow should show the orientation of the phone when using the compass, and the direction of motion when using the gps bearing.\r\n\r\nCurrent behavior: Arrow is pointing east when it should be pointing west and vice versa. (When using the compass, the arrow always points to actual north, like the compass rose.)\r\n\r\nFix: Change line 287 from:\r\n\r\n\t\t\t\tthis.directionRotater.setRotate(-bearing + azimuthRotationOffset,\r\nto:\r\n\t\t\t\tthis.directionRotater.setRotate(bearing + azimuthRotationOffset,\r\n",
+    "timestamp" : 1310729700,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Which version are you using?\r\n\r\nThis is probably the issue that was fixed in revision 943.",
+    "timestamp" : 1310739931,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 717681597336073274,
+    "content" : "I have tested 3.0.4 and the current trunk (the fix refers to the trunk). Revision 943 as far as I can tell fixes line 316 but messes up line 287. Direction arrow and compass rose should rotate in opposite directions!",
+    "timestamp" : 1310743328,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "It was actually revision 321 that broke this. It changed a simple\r\n\r\nif (mLocation.hasSpeed() && mLocation.getSpeed() > 1)\r\n\r\ninto a whole load of stuff about the compass.\r\n\r\nI think it should be simple:\r\nif there's a bearing show the arrow pointing in the direction of the bearing,\r\notherwise show the man.\r\n\r\nPerhaps there should be a third condition:\r\nif there's a bearing show the arrow pointing in the direction of the bearing,\r\nelse if there's a compass bearing show the arrow pointing in the direction of the compass,\r\notherwise show the man.\r\n\r\nAttached is a patch for the first variation.\r\n",
+    "timestamp" : 1311060448,
+    "attachments" : [ {
+      "id" : 2410003000,
+      "fileName" : "mylocation.patch",
+      "fileSize" : 1427
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "It would probably also be a good idea to refactor this as described in the Google MyLocationOverlay docs:\r\n\r\nhttp://code.google.com/android/add-ons/google-apis/reference/com/google/android/maps/MyLocationOverlay.html#draw(android.graphics.Canvas, com.google.android.maps.MapView, boolean, long)\r\n\r\ncalls through to drawMyLocation if we have a location fix, and then to drawCompass if we have a compass reading\r\n\r\n",
+    "timestamp" : 1311070516,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 717681597336073274,
+    "content" : "For my app it makes a lot of sense for the direction arrow to show what direction the phone is pointing, more so than to show the GPS bearing, but I guess that depends on the app.\r\n\r\nHowever, if you implement getOrientation() from the Google MyLocationOverlay (or make mAzimuth protected) I could easily subclass draw() to do my own drawing. Subclassing drawMyLocation() and drawCompass() would be even nicer. But most important is to make compass orientation accessible from subclass.",
+    "timestamp" : 1311076084,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1311089844,
+    "attachments" : [ {
+      "id" : 2410006000,
+      "fileName" : "mylocation.patch",
+      "fileSize" : 11939
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1311090242,
+    "attachments" : [ {
+      "id" : 2410007000,
+      "fileName" : "mylocation.patch",
+      "fileSize" : 11960
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1311090576,
+    "attachments" : [ {
+      "id" : 2410008000,
+      "fileName" : "mylocation.patch",
+      "fileSize" : 13276
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've attached another patch which adds getOrientation() and refactors draw() into drawMyLocation() and drawCompass().",
+    "timestamp" : 1311090610,
+    "attachments" : [ {
+      "id" : 2410009000,
+      "fileName" : "mylocation.patch",
+      "fileSize" : 13276
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 717681597336073274,
+    "content" : "I have now tried the patched version. It seems to work mostly as expected. A couple of issues though:\r\n\r\nWhen the compass is enabled but mAzimuth has not been set, an empty compass frame is drawn. The problem is \"mAzimuth != Float.NaN\" always evaluates to true. Use \"!Float.isNaN(mAzimuth)\" instead.\r\n\r\nI'm not sure how Google does this, but in draw() you might want to call \"drawCompass(canvas, mAzimuth)\" instead, and move the azimuthRotationOffset stuff to drawCompass().\r\n\r\nAlso, you might want to move the pj.toMapPixels stuff from draw() to drawMyLocation() since it only serves to set mMapCoords which is then used in drawMyLocation().\r\n\r\nI have tried overriding drawMyLocation() with my own drawing method (using getOrientation()) and it works well, except it would be nice to have protected access to DIRECTION_ARROW_CENTER_X and DIRECTION_ARROW_CENTER_Y.\r\n\r\nI have not tried to override drawCompass() but it would probably be nice to have protected access to COMPASS_FRAME_CENTER_X, COMPASS_FRAME_CENTER_Y, COMPASS_ROSE_CENTER_X and COMPASS_ROSE_CENTER_Y as well.",
+    "timestamp" : 1311107402,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "I committed this in revision 961 including some of your comments.\r\n\r\nI'm not sure whether getOrientation is supposed to include the adjustment for device rotation or not. I don't know how it's supposed to be used by subclasses.\r\n\r\nThere's a big comment in getOrientation about device rotation, which points to an error that I can see on my phone, so I'll see if I can fix that next.",
+    "timestamp" : 1311194405,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I fixed the device rotation in revision 962.",
+    "timestamp" : 1311195954,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I'm finished with this now. Revision 964.",
+    "timestamp" : 1311226033,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 717681597336073274,
+    "content" : "Looks good, except line 231 needs to be moved so that it is run even when mDrawAccuracyEnabled is set to false. Otherwise line 270 won't work correctly. (I would also change \"mGeoPoint\" to \"myLocation\" on line 231.)",
+    "timestamp" : 1311241852,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done exactly that in revision 966.",
+    "timestamp" : 1311247322,
+    "attachments" : [ ]
+  } ]
+}

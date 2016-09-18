@@ -1,0 +1,21 @@
+{
+  "id" : 549,
+  "status" : "Invalid",
+  "summary" : "no ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6542097374240216476,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create Marker and set icon\r\n2. getImage() returns null\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nDrawable object of the icon\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n4.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1433384366,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please see the announcement on the osmdroid home page",
+    "timestamp" : 1433424863,
+    "attachments" : [ ]
+  } ]
+}

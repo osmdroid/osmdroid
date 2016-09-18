@@ -1,0 +1,57 @@
+{
+  "id" : 527,
+  "status" : "MovedToGithub",
+  "summary" : "Migrate to Github",
+  "labels" : [ "Type-Other", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : " Github is becoming the de facto place for open source projects and Google Code is being neglected.\r\n\r\nWe have reached our limit for attachments.\r\n\r\nProject downloads are no longer supported.\r\n\r\nIn order to move to Github there are a few tasks needed:\r\n\r\n1. Copy the code\r\n2. Copy the wiki's\r\n3. Copy the issues\r\n\r\nSee the discussion https://groups.google.com/d/msgid/osmdroid/68eb9569-c89a-47ef-b0fd-4188a54500d3%40googlegroups.com\r\n",
+    "timestamp" : 1392478990,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am in support of this. I think it's important to make sure the project history gets copied over (which I think the svn->git tools will accomplish). We can probably drop some of the older Wiki pages and we should only copy over relevant issues with a link back to the issue on this page. We may be able to lock down individual Issues by using labels (restrict-EditIssue-owner, Restrict-AddIssueComment-Commit) if people continue to try to add to them on Google Code.\r\n",
+    "timestamp" : 1392909735,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1392928652,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1394132694,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I have pushed all the code from svn to git by following the instructions here: http://fgiasson.com/blog/index.php/2011/11/21/moving-projects-from-google-code-to-github/\r\n\r\nI hope this is a one-off process, ie no more changes will be made in svn.",
+    "timestamp" : 1394137933,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - this is great! Are we at the point where we can start committing new code to github?",
+    "timestamp" : 1394459317,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes, we can now use GitHub source and not commit anything else to svn.",
+    "timestamp" : 1394481292,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Moved to https://github.com/osmdroid/osmdroid/issues/1",
+    "timestamp" : 1394481317,
+    "attachments" : [ ]
+  } ]
+}

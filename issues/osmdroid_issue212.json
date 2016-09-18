@@ -1,0 +1,49 @@
+{
+  "id" : 212,
+  "status" : "Accepted",
+  "summary" : "Switch to using HttpClient in the MapTileDownloader",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "As submitted in Issue 200 (modified to separate from other changes). This patch will implement using HttpClient as suggested in http://groups.google.com/d/msg/osmdroid/uDK_SUNeyhs/obv4V2w3cZoJ\r\n\r\nPlease review and add comments.\r\n",
+    "timestamp" : 1305499719,
+    "attachments" : [ {
+      "id" : 2120000000,
+      "fileName" : "HttpClient.patch",
+      "fileSize" : 10527
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 200 has been merged into this issue.",
+    "timestamp" : 1305500810,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks okay, but I have some questions.\r\n\r\n1. What's the difference between NUMBER_OF_TILE_DOWNLOAD_THREADS and MAX_HTTP_CONNECTION?\r\n2. Why do you set a fake user agent?\r\n3. Did you copy HttpClientFactory from somewhere? Does it have a license?\r\n",
+    "timestamp" : 1305625813,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1188872730006932296,
+    "content" : "NUMBER_OF_TILE_DOWNLOAD_THREADS limits the number of fetching threads, so as not to block other\r\nMAX_HTTP_CONNECTION is basically useless ;) i forgot to remove\r\nUser-Agent is useful when using other maps servers, Bing Ovi etc...\r\nHttpClientFactory copied code from another of my project\r\n\r\nHttpClientFactory should look like this\r\n\r\npublic class HttpClientFactory implements OpenStreetMapTileProviderConstants {\r\n\r\n\tpublic static DefaultHttpClient getThreadSafeClient() {\r\n\t\tfinal SchemeRegistry schemeRegistry = new SchemeRegistry();\r\n\t\tschemeRegistry.register(new Scheme(\"http\", PlainSocketFactory.getSocketFactory(), 80));\r\n\t\tfinal HttpParams params = new BasicHttpParams();\r\n\t\tHttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);\r\n\t\tHttpProtocolParams.setContentCharset(params, HTTP.UTF_8);\r\n\t\tHttpProtocolParams.setUseExpectContinue(params, false);\r\n\t\tfinal ThreadSafeClientConnManager manager = new ThreadSafeClientConnManager(params, schemeRegistry);\r\n\t\tfinal DefaultHttpClient mClient = new DefaultHttpClient(manager, params);\r\n\t\treturn mClient;\r\n\t}\r\n\r\n}",
+    "timestamp" : 1305629910,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Seems a little over-complicated and it's hard for me to say whether that's justified, so I'll say it's okay.\r\n\r\n@Marc, do you want to commit this since you're the owner?",
+    "timestamp" : 1305793884,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 273",
+    "timestamp" : 1321057957,
+    "attachments" : [ ]
+  } ]
+}

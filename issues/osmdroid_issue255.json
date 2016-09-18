@@ -1,0 +1,33 @@
+{
+  "id" : 255,
+  "status" : "Fixed",
+  "summary" : "MapTileProviderArray private to protected method",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9169388793317990214,
+    "content" : "<b>What version of the product are you using? On what operating system?</b>\n3.0.6 on Emulator and 2.3.3\r\n\r\n<b>Please provide any additional information below.</b>\nI wanted to ask if the method &quot;findNextAppropriateProvider&quot; in MapTileProviderArray could be changed from private to protected. I wrote a subclass that needs this method and i don't see the reason why this method should not be accessed by subclasses.\r\n",
+    "timestamp" : 1314779497,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Ok.",
+    "timestamp" : 1314941706,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r985.",
+    "timestamp" : 1314941786,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 9169388793317990214,
+    "content" : "thx :)",
+    "timestamp" : 1314948105,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 522,
+  "status" : "New",
+  "summary" : "Custom offline tiles repeats for all zoom levels",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 721184037943480039,
+    "content" : "I'm using a custom offline tile rendering using ITileSource. I store my xip in sdcard and render tiles. I observe that when at any zoom level, the tile repeats everywhere. I'm reading using this format:\r\n\r\n public String getTileRelativeFilenameString(final MapTile tile) {\r\n        final StringBuilder sb = new StringBuilder();\r\n        \r\n        int x = tile.getX();\r\n        int z = tile.getZoomLevel();\r\n        int y = tile.getY();\r\n        int yy= (int) (Math.pow(2,z) -y-1);\r\n        \r\n        sb.append(pathBase());\r\n        sb.append('/');\r\n        sb.append(tile.getZoomLevel());\r\n        sb.append('/');\r\n        sb.append(tile.getX());\r\n        sb.append('/');\r\n        if(isSourceTMS)        \t\t\r\n        \tsb.append(yy);\r\n        else\r\n        \tsb.append(tile.getY());\r\n        sb.append(imageFilenameEnding()); \r\n        \r\n        Log.d(&quot;APP&quot;,&quot;FilePath: &quot;+sb.toString());\r\n        return sb.toString();\r\n    }\r\n\r\n\r\nAnd here is how I'm setting to my MapView:\r\n\r\nMapTilerCustomDataSource myNewXYTileSource = new MapTilerCustomDataSource();\r\nmyNewXYTileSource.isSourceTMS = true;\r\nmMapViewOSM.setTileSource(myNewXYTileSource);\r\n\r\nWhen at say zoom level 0, a single tile should be visible, but instead the maps actually repeats same tile throughout the mapView.\r\n\r\nI'm using OSMdroid 4.0.3 version, Apache License v2.0, on a windows android development environment.\r\n\r\nI'm not sure, the problem is on my end or the library, how can I resolve this, or is there any alternate method?",
+    "timestamp" : 1391147337,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe what you are describing is by design. Since we allow scrolling to \"wrap\" when scrolling east<->west we repeat drawing the tiles in each direction. It isn't ideal at very low zoom levels because you can see the same tiles repeated as you describe, but at higher zoom levels it allows for seamless scrolling \"around\" the world.",
+    "timestamp" : 1391183245,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 721184037943480039,
+    "content" : "So, is there a way to fix or temporarily hide this tile repetition?",
+    "timestamp" : 1391264678,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "It would require changes to the code base. I would start with TilesOverlay which is what draws the tiles to the canvas.",
+    "timestamp" : 1391528908,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3239100840179992849,
+    "content" : "I guess the loop-method in the TileLooper has to be changed.\r\nBut that would only avoid drawing the tiles. The scrolling would still be infinite. Furthermore I believe the calculations of pixel-coordinates to geo-coordinates would be invalid?",
+    "timestamp" : 1391738773,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3239100840179992849,
+    "content" : "I tried to modify the loop-method of the TileLooper but with no real success so far.\r\nI have no idea how to determine which tiles can be drawn at which position, so that only one map appears. \r\nThe pViewPort rect which is gives isn't absolut either, since it sometimes resets because of computeScroll and scrollTo in the MapView. That can be handled but I am not sure if that is the right path or if there are any side-effects.\r\n\r\nFurthermore other Overlays need to be changed as well, so that markers don't appear on a different map.",
+    "timestamp" : 1391979828,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3153386825429460875,
+    "content" : "anyone got workaround for this scenario?",
+    "timestamp" : 1433242410,
+    "attachments" : [ ]
+  } ]
+}

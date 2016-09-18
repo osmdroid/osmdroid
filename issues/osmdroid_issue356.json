@@ -1,0 +1,37 @@
+{
+  "id" : 356,
+  "status" : "WontFix",
+  "summary" : "MapView does not have Gesture Listener Callback support",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4900953349443324465,
+    "content" : "There currently there is only support for onZoom and onScroll call backs in the MapView class, there is no callbacks to provide information of the gestures. I have included a patch that allows for applications to register for gesture callbacks in addition to the onZoom and onScroll callbacks.",
+    "timestamp" : 1341514337,
+    "attachments" : [ {
+      "id" : 3560000000,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 5642
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1341560648,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1362508128,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Overlays provide full onTouch support and can intercept touch events.",
+    "timestamp" : 1362508157,
+    "attachments" : [ ]
+  } ]
+}

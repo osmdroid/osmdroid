@@ -1,0 +1,27 @@
+{
+  "id" : 20,
+  "status" : "Fixed",
+  "summary" : "My Location stops following location if you pause and resume the map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "When the map view is paused and then resumed, it stops following my location.\r\n",
+    "timestamp" : 1268125227,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268127680,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r105.",
+    "timestamp" : 1268170158,
+    "attachments" : [ ]
+  } ]
+}

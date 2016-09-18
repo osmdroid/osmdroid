@@ -1,0 +1,21 @@
+{
+  "id" : 120,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMapView handles overlay events in the same order as drawin; should be opposite",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 315179335363575786,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create two OpenStreetMapViewItemizedOverlay objects with overlapping items that consume tap events\r\n2. Watch the one below &quot;steal&quot; events from the one on top\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe expected behavior is to have the topmost object consume the tap event. Instead, the one at the bottom gets it.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n1.08, Android 1.5, 1.6, 2.1\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem lies in lines\r\n433, 628, 634, 645, 654, 663 and 678\r\nof org/andnav/osm/views/OpenStreetMapView.java (revision 509). All these loops should iterate in the opposite direction.",
+    "timestamp" : 1291395638,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You are absolutely correct. This is fixed in revision 714.",
+    "timestamp" : 1294806843,
+    "attachments" : [ ]
+  } ]
+}

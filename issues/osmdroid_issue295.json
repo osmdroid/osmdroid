@@ -1,0 +1,21 @@
+{
+  "id" : 295,
+  "status" : "Invalid",
+  "summary" : "Tapping on the map or on overlayItem when EnableFollowMyLocation is true stops following location",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -515640814104309083,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Enable FollowMyLocation\r\n2. Tap on map\r\n3. Map stops following location\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nMap still follows location and keeps moving in accordance with user position\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n3.0.6. Android 2.3.3 and 2.2.",
+    "timestamp" : 1326179444,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "That's the design.\r\n\r\nYou only answered half of \"What is the expected output? What do you see instead?\", but I'm assuming the title is what you determined to be the bug.",
+    "timestamp" : 1326357563,
+    "attachments" : [ ]
+  } ]
+}

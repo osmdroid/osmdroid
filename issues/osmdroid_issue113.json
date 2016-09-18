@@ -1,0 +1,31 @@
+{
+  "id" : 113,
+  "status" : "Fixed",
+  "summary" : "r491 introduced Android 1.5 incompatibility in ScaleBarOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "Attached is a diff to grab android.os.Build.MANUFACTURER using reflection, so it will still build on Android 1.5.\r\n",
+    "timestamp" : 1290054884,
+    "attachments" : [ {
+      "id" : 1757395692602983905,
+      "fileName" : "ScaleBarOverlay.diff",
+      "fileSize" : 2022
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r493.",
+    "timestamp" : 1290074036,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "And another change in revision 494.\r\n\r\nBTW, when providing patches please use tabs for indentation.",
+    "timestamp" : 1290074301,
+    "attachments" : [ ]
+  } ]
+}

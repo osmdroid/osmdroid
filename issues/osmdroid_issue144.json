@@ -1,0 +1,75 @@
+{
+  "id" : 144,
+  "status" : "Fixed",
+  "summary" : "runOnFirstFix",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looking at MyLocationOverlay, the code for runOnFirstFix doesn't seem to be right. Perhaps someone who uses this feature can confirm.\r\n\r\nIt seems like the code that's in onStatusChanged should be moved to onLocationChanged.",
+    "timestamp" : 1295349985,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4285987489422808183,
+    "content" : "Is runOnfFirstFix working for you?\r\nIn my case it doesn't work...",
+    "timestamp" : 1301255188,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r902.",
+    "timestamp" : 1301321436,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -4285987489422808183,
+    "content" : "Now it works, but it catch the second location, not the first...\r\nI'm passing to my app GeoPoint with telnet: geo fix lat long, but my runnable associated to runOnFirstFix doesn't catch the first... it enter the runnable only the second time...",
+    "timestamp" : 1301324423,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1301376646,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "In my experience it's always very hit-and-miss passing location with telnet.",
+    "timestamp" : 1301400192,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -2642955872843398937,
+    "content" : "I think I can confirm this. With the Google code, I always got a successful hit. It's just not happening for me. Perhaps, it's because the location is already known?",
+    "timestamp" : 1302207728,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -2642955872843398937,
+    "content" : "Looking at some of the code, I think I might have an inkling of what is wrong, or what is probably an inconsistency with the Google Code, which is leading to my problem.\r\n\r\nThe runnable given to runOnFirstFix is supposed to be called a background thread to be consistent in its call sequence.\r\n\r\nWhen the Runnables get called on onLocationChanged they are run simultaneously on background threads. Therefore the runnable SHOULD always be run in a background thread, as there is a clear distinction of what gets run in the background and what gets run in the foreground(the UI thread). Certain commands are designated to run in the background, others are designated to be run in the UI.  \r\n\r\nYour runOnFirstFix which usually gets called on the UI thread then runs immediately. As inefficient as it may seem, this call should be spawned off in a background thread to maintain that call consistency.\r\n\r\nYour runOnFirstFix onLocation",
+    "timestamp" : 1302208769,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I understood what you're saying and I made a logical fix in revision 916.",
+    "timestamp" : 1302378905,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -2642955872843398937,
+    "content" : "I think your fix is correct. Thanks.",
+    "timestamp" : 1302635772,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1302671908,
+    "attachments" : [ ]
+  } ]
+}

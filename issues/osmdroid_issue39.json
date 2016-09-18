@@ -1,0 +1,27 @@
+{
+  "id" : 39,
+  "status" : "Fixed",
+  "summary" : "Do a menu option to go to samples",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Add a menu option to invoke the samples menu. Otherwise the only way to view \r\nthe samples is by the launch command from Eclipse.\r\n\r\nCould use a black&amp;white version of the marker icon, unless someone has a \r\nbetter idea ;-)\r\n",
+    "timestamp" : 1271164715,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340755,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r138.",
+    "timestamp" : 1271364101,
+    "attachments" : [ ]
+  } ]
+}

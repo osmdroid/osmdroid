@@ -1,0 +1,33 @@
+{
+  "id" : 455,
+  "status" : "WontFix",
+  "summary" : "Inconsistency between getZoomLevel() and getProjection()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5781615991677836462,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Start a zoom animation using getController().zoomIn()\r\n2. getZoomLevel() returns the new (higher) zoom level\r\n3. getProjection() returns a projection to the old (lower) zoom level\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect getProjection() to provide a projection appropriate for the zoom level returned by getZoomLevel().\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\nThere should be an additional method to get the zoom level that corresponds to getProjection().",
+    "timestamp" : 1374904678,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 5781615991677836462,
+    "content" : "Never mind, I see that there is getZoomLevel(final boolean aPending). This takes care of my issue. I would suggest leaving the issue out as a heads up to others, since getZoomLevel is counterintuitive (I would assume getZoomLevel to provide the current zoom level, corresponding to the projection returned by getProjection(), not the one being animated to).",
+    "timestamp" : 1374905379,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "I agree there is some questionable decisions made regarding current/pending zoom levels. But they have been this way for a long time and I am hesitant to make changes at this point.\r\n\r\nThe ideal solution is to let getZoomLevel() return a floating point number that represents in-between zoom levels. We also would want to be able to let users pinch-to-zoom and allow the map to stay at one of the in-between zoom levels without snapping back to a concrete (integer) zoom level like we do now.",
+    "timestamp" : 1375884915,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 460.",
+    "timestamp" : 1375885813,
+    "attachments" : [ ]
+  } ]
+}

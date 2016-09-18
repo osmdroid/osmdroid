@@ -1,0 +1,33 @@
+{
+  "id" : 518,
+  "status" : "New",
+  "summary" : "CompassOverlay and MyLocationNewOverlay not showing in android 4.2",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6496618013503905065,
+    "content" : "I have an app using osmdroid-android-4.0 and in one device that has android 2.3.4 and everything is working fine but in other device i have with android 4.2.2 neither the compass nor the yellow person appears although the map and the other overlays are showing and working fine.\r\n\r\nThis is the code i'm using on the oncreate method of my map activity:\r\n\r\n{code}\r\npoint = new GeoPoint((int) (lati * 1E6),(int) (lngi * 1E6));\r\n\t\tmyOpenMapView = (MapView) findViewById(R.id.openmapview);\r\n\t\tmyOpenMapView.setBuiltInZoomControls(false);\r\n\t\tmyOpenMapView.setMultiTouchControls(true);\r\n\t\tmyOpenMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);\r\n\t\tmyMapController = myOpenMapView.getController();\r\n\t\tmyMapController.setZoom(16);\r\n\t\tmyMapController.setCenter(point);\r\n\t\tthis.mCompassOverlay = new CompassOverlay(this, \r\n\t\t\t\tnew InternalCompassOrientationProvider(this), myOpenMapView);\r\n        this.mLocationOverlay = new MyLocationNewOverlay(this, \r\n        \t\tnew GpsMyLocationProvider(this),myOpenMapView);\r\n\t\tmyOpenMapView.getOverlays().add(this.mLocationOverlay);\r\n        myOpenMapView.getOverlays().add(this.mCompassOverlay);\r\n        this.mLocationOverlay.enableMyLocation();\r\n        this.mCompassOverlay.enableCompass();\r\n        myOpenMapView.postInvalidate();\r\n{/code}\r\nThank's to everyone.\r\n",
+    "timestamp" : 1390313070,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6496618013503905065,
+    "content" : "Tested in android 4.0: working fine, shows compass and my location.\r\nTested in android 4.1: same as 4.2 not showing neither compass nor my location\r\n ",
+    "timestamp" : 1390319305,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Do you have this issue with the OpenStreetMapViewer demo app?",
+    "timestamp" : 1391810779,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4263955588037795628,
+    "content" : "I had the same issue when using the jar v.4.1, but fixed itself by migrating to jar v.4.2. Can original poster confirm?",
+    "timestamp" : 1409766782,
+    "attachments" : [ ]
+  } ]
+}

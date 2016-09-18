@@ -1,0 +1,21 @@
+{
+  "id" : 341,
+  "status" : "New",
+  "summary" : "mbtiles format - invalid tile_row value",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7284257576020950379,
+    "content" : "displaying a map in mbtiles format didn't work for me with osmdroid 3.0.8.\r\n\r\ni had to change line 48 in MBTilesFileArchive from\r\n\r\n, Double.toString(Math.pow(2, pTile.getZoomLevel()) - pTile.getY() - 1)  // Use Google Tiling Spec\r\n\r\nto \r\n\r\n, Integer.toString(pTile.getY())",
+    "timestamp" : 1335960979,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8806651894365641629,
+    "content" : "Thank you for this!",
+    "timestamp" : 1388681979,
+    "attachments" : [ ]
+  } ]
+}

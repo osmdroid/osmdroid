@@ -1,0 +1,21 @@
+{
+  "id" : 128,
+  "status" : "Fixed",
+  "summary" : "Compass does not dissapear after disableCompass() call",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "The location overlay does not invalidate the map to force a redraw of the MyLocationOverlay. This leaves the compass on screen after disabling it.\r\n\r\n",
+    "timestamp" : 1293482313,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the bug report! This has been fixed in revision 750.",
+    "timestamp" : 1295574032,
+    "attachments" : [ ]
+  } ]
+}

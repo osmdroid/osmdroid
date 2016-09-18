@@ -1,0 +1,21 @@
+{
+  "id" : 247,
+  "status" : "New",
+  "summary" : "improve gps startup latency",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8331949246731379403,
+    "content" : "I came across this post [1],[2] of Reto Meier in which he describes the way to reduce startup latency for location-based apps.\r\n\r\nI think every location based app should make use of his tweaks in the hope to reduce the time for the first 'gps-fix'.\r\n\r\nReto has the code in a Google Code project, see [3]\r\n\r\n[1] http://android-developers.blogspot.com/2011/06/deep-dive-into-location.html\r\n[2] http://blog.radioactiveyak.com/2011/06/deep-dive-into-location-part-2-being.html\r\n[3] http://code.google.com/p/android-protips-location/",
+    "timestamp" : 1312164268,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I read the blog when it was first published, and I decided at the time that what we do is good enough.\r\n\r\nWe implemented it as a static method\r\nLocationUtils.getLastKnownLocation\r\nwhich is only used in MyLocationOverlay.\r\nMyLocationOverlay is only used by the apps using osmdroid.\r\n\r\nPerhaps we could change MyLocationOverlay so that it has the possibility to use android-protips-location as an alternative to the static method, for example by adding a constructor which accepts it as a parameter (not directly of course).  That way osmdroid users can use android-protips-location if they want.\r\n\r\n",
+    "timestamp" : 1312193693,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,33 @@
+{
+  "id" : 472,
+  "status" : "Fixed",
+  "summary" : "IllegalArgumentException: provider=gps in LocationUtils.getLastKnownLocation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "LocationManager.getLastKnownLocation throws IllegalArgumentException if provider doesn't exist.\r\n\r\nLocationUtils.getLastKnownLocation should only check for gps and network if they exist.\r\n",
+    "timestamp" : 1378068561,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I can think of two ways of doing this. I don't know which is best:\r\n\r\n1. Check if getProvider returns not null.\r\n2. Check if isProviderEnabled returns true.\r\n",
+    "timestamp" : 1378068648,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I chose option 2 to be consistent with GpsMyLocationProvider.startLocationProvider which only checks enabled providers.\r\n\r\nI couldn't reproduce because the devices I tried it on just returned null.",
+    "timestamp" : 1378153620,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1300.",
+    "timestamp" : 1378153753,
+    "attachments" : [ ]
+  } ]
+}

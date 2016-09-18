@@ -1,0 +1,21 @@
+{
+  "id" : 384,
+  "status" : "Duplicate",
+  "summary" : "trying to use a recycled bitmap in zoomToSpan",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6694358563925212118,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Call MapController.zoomToSpan in onCreateView of a fragment\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nSometimes (I can't tell exactly when), I get a &quot;RuntimeException: Canvas: trying to use a recycled bitmap&quot;\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOSMDroid 3.0.8\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nMaybe in MapTileProviderBase line 274, we need a non-null check on oldBitmap ?\r\n\r\nFull stacktrace :\r\n\r\njava.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@41c59bf0\r\n\tat android.graphics.Canvas.throwIfRecycled(Canvas.java:1026)\r\n\tat android.graphics.Canvas.drawBitmap(Canvas.java:1127)\r\n\tat org.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper.handleTile(MapTileProviderBase.java:280)\r\n\tat org.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile(MapTileProviderBase.java:239)\r\n\tat org.osmdroid.util.TileLooper.loop(TileLooper.java:36)\r\n\tat org.osmdroid.tileprovider.MapTileProviderBase.rescaleCache(MapTileProviderBase.java:195)\r\n\tat org.osmdroid.views.MapView.setZoomLevel(MapView.java:338)\r\n\tat org.osmdroid.views.MapController.zoomToSpan(MapController.java:78)\r\n\tat org.osmdroid.views.MapController.zoomToSpan(MapController.java:54)",
+    "timestamp" : 1352208575,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Duplicate of 385.",
+    "timestamp" : 1357243242,
+    "attachments" : [ ]
+  } ]
+}

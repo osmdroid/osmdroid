@@ -1,0 +1,39 @@
+{
+  "id" : 338,
+  "status" : "Fixed",
+  "summary" : "Add new method addGreatCircle to PathOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "See this discussion: https://groups.google.com/d/topic/osmdroid/ZCrg59L4qB0/discussion",
+    "timestamp" : 1334265886,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I added PathOverlay.addGreatCircle() in revision 1091.\r\nI made one change - to call to other overload of addPoint()\r\n\r\nI didn't add getBoundingBoxE6() or the sample because I think these are a bit specific to your use case. Perhaps I could add a sample similar to the other samples, or someone else could do that.\r\n\r\nI think it would be better if you could remove the parameter numberOfPoints and let the method calculate how many points it needs without the caller having to calculate it. That should be easy enough - just copy the code that you had in your sample.",
+    "timestamp" : 1334266561,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "No sooner said than done! I added an overload that calculates numberOfPoints in revision 1092.",
+    "timestamp" : 1334266820,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 573776143219557484,
+    "content" : "Glad to see you added my suggestion.\r\n\r\nThe overload is a good idea.\r\nYou just need to update the overloaded method javadoc comment to remove the referral to numberOfPoints.\r\n\r\nThe original method (where numberOfPoints can be defined) would still be required if the great circle path was a short path - a few hundred kms for example would only be drawn with a few points.\r\n",
+    "timestamp" : 1334487897,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1093.",
+    "timestamp" : 1334552850,
+    "attachments" : [ ]
+  } ]
+}

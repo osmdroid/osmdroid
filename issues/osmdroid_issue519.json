@@ -1,0 +1,21 @@
+{
+  "id" : 519,
+  "status" : "Accepted",
+  "summary" : "Setting DEBUGMODE to true doesn't show debug tile information",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Change OverlayConstants.DEBUGMODE to true\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe code in TilesOverlay.drawTiles should draw a cross at the center of the map.\r\nThe code in TilesOverlay.TileLooper.handleTile should draw a border and tile info for each tile.\r\n",
+    "timestamp" : 1390601470,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nAlso it would be extremely useful if there is a way\r\nfor enable / disable the above drawing of cross / tile borders / tile info.\r\n\r\nBy either the OverlayConstants.DEBUGMODE not being final or via a set method.\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1390658940,
+    "attachments" : [ ]
+  } ]
+}

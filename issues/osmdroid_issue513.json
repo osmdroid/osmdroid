@@ -1,0 +1,21 @@
+{
+  "id" : 513,
+  "status" : "Invalid",
+  "summary" : "How to copy zip to sdcard/osmdroid",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1026141662100990415,
+    "content" : "Hello\r\n\r\nI created a map with Mobile Atlas Creator as Osmdroid Zip format.\r\nThen i have copied the zip file in the assets directory of my project.\r\nnow i need a class to copy the zip file in /sdcard/osmdroid but i can't find a good class on the web to solve my problem.\r\nCan someone help me?\r\nThanks\r\n\r\nDaniel\r\n",
+    "timestamp" : 1389914165,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please ask questions in the forum http://groups.google.com/group/osmdroid",
+    "timestamp" : 1390042670,
+    "attachments" : [ ]
+  } ]
+}

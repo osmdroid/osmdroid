@@ -1,0 +1,33 @@
+{
+  "id" : 210,
+  "status" : "Fixed",
+  "summary" : "Please put a new version into the market",
+  "labels" : [ "Type-Other", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -742567004185916737,
+    "content" : "There are two versions of Osmdroid in the Google market.\r\nOne is outdated and another one seems to have an invalid signature.\r\n\r\nPlease put a new version of Osmdroid into the market.",
+    "timestamp" : 1304104266,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't have the control to remove the old version. The latest has a valid signature, but if you previously installed your own debug build then you'll need to uninstall that first.\r\n\r\nI'm on vacation this week. I'll see about doing a new build next week.",
+    "timestamp" : 1304162959,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1305090225,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r932.",
+    "timestamp" : 1305091535,
+    "attachments" : [ ]
+  } ]
+}

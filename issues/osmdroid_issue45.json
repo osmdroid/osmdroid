@@ -1,0 +1,47 @@
+{
+  "id" : 45,
+  "status" : "WontFix",
+  "summary" : "Tile Provider Refactoring",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2807263647866787988,
+    "content" : "Hi, I've had some time to burn, so I did some refactoring to the tile\r\nprovider / tile caching layer. I've attached a diff against the current svn\r\nhead and a plain java test project I've used to test my classes. I hope you\r\ncan make use of it.\r\n\r\nNon-exhaustive list of changes:\r\n* add slf4j for logging (needed this to cut android-runtime dependencies -\r\nplease install http://www.slf4j.org/android/slf4j-android-1.5.8.jar into lib)\r\n* tile loading is not a service anymore, runs in main process\r\n* database dropped\r\n* fixed OpenStreetMapTile's hashCode()/equals()\r\n* some fixes to OpenStreetMapTilesOverlay\r\n\r\n",
+    "timestamp" : 1271949700,
+    "attachments" : [ {
+      "id" : -7362614844450536641,
+      "fileName" : "osm-patch.txt",
+      "fileSize" : 82777
+    }, {
+      "id" : 2431930349121137191,
+      "fileName" : "osm-test.zip",
+      "fileSize" : 98748
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Hi Nicolas\r\n\r\nI'm glad someone's got some time :-)  I haven't tried your code yet but the changes you described sound like things I've \r\nbeen thinking about doing.  It also ties in with issue 41, and especially with issue 43.  May I suggest that you ask the \r\nproject owner to make you a committer and make a new branch for issue 43 and make these changes there.\r\n\r\nA couple of comments:\r\n1. You've done a lot of format changes, especially whitespace, which makes it difficult to compare versions.\r\n2. You seem to have an unlimited tile cache and provider queues, which will cause all the memory problems that I \r\n\"resolved\" in issue 9 among others.\r\n\r\nNeil\r\n",
+    "timestamp" : 1272020314,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2807263647866787988,
+    "content" : "Hi Neil,\r\n\r\nthanks for your comments. Sorry about the whitespace changes. When doing the diffs,\r\nI'd noticed that as well but then it was too late :-( I've changed my eclipse\r\nsettings for this project now. \r\n\r\nRe 2.) The bitmap tile cache does have a limit, but it's fairly simple and will clear\r\nthe whole cache once the size threshold is reached. I didn't quite get your better\r\napproach with LinkedHashMap until now, but it should be no problem to revert to that.\r\n\r\nWhat would remain now is the issue with the queue. Like you, I originally thought\r\nusing ExecutorService would be the way to go until I found out about the absence of\r\nBlockingDeque. Do you think dropping in the concurrent backport lib\r\n(http://backport-jsr166.sourceforge.net/) would be an option?\r\n\r\nThanks,\r\n  Nicolas",
+    "timestamp" : 1272031045,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "The idea with the queues is that the most recently accessed should be the first out \r\nwhen getting, and the least recently accessed should be the first to drop off the end \r\nwhen putting.  There's no need to check whether an item already exists because you \r\nalways put, but if it already exists then it just moves up the queue.\r\n\r\nRemember that performance and memory usage are ultimately what makes this app usable or \r\nnot.",
+    "timestamp" : 1272036127,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Bits of this are done and bits are obsolete now.",
+    "timestamp" : 1286775706,
+    "attachments" : [ ]
+  } ]
+}

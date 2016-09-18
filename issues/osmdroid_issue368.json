@@ -1,0 +1,27 @@
+{
+  "id" : 368,
+  "status" : "Fixed",
+  "summary" : "Make loading and \"scaled zoom\" tiles RGB_565 to save memory",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Memory is a tight squeeze in osmdroid, so saving space is a good idea. It allows for bigger tile caches and more importantly it can cut down on GCs (which osmdroid produces a lot of).\r\n\r\nSo let's change the loading tile and all Bitmaps created by the rescaleCache() method from ARGB_8888 (32-bit) to RGB_565 (16-bit no alpha). It will produce smaller bitmaps and cause less GCs.",
+    "timestamp" : 1346956286,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1120.",
+    "timestamp" : 1347480950,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This revision was reverted by r1341 and issue 452. We no longer use 565 bitmaps.",
+    "timestamp" : 1380655262,
+    "attachments" : [ ]
+  } ]
+}

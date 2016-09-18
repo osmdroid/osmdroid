@@ -1,0 +1,21 @@
+{
+  "id" : 464,
+  "status" : "New",
+  "summary" : "UTFGrid Support",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8619609512266883418,
+    "content" : "Is there anybody planning to add support for UTFGrid with MBTiles?",
+    "timestamp" : 1376378631,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1376473198,
+    "attachments" : [ ]
+  } ]
+}

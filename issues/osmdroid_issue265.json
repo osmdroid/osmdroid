@@ -1,0 +1,189 @@
+{
+  "id" : 265,
+  "status" : "Started",
+  "summary" : "out of memory when switching between map activities",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 30,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8282946910402892946,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Have two seperate map activities with overlays\r\n2. switch between them using menu driven command\r\n3. After about 4 times backwards and forwards the map goes black (out of memory)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\ngarbage collector should clean up the memory.  It seems as though the activity is not released for garbage collection after onDestroy.  It worked ok with google maps before.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid 3.05 android 2.2\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI am relatively new at Java and Android so I don't really feel confident to start changing the source code to make it work.  I use the standard 3.05 jar file as an external library in intellij idea ver. 10.5.2\r\n\r\n",
+    "timestamp" : 1317733908,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8282946910402892946,
+    "content" : "Oh I forgot to say that the out of memory error always happens on decoding tilemap bitmap streams from the sd card",
+    "timestamp" : 1317734141,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8282946910402892946,
+    "content" : "The phone is an HTC wildfire,  so I guess there is not much memory available on this low end device to leak away unnecessarily.  On the htc desire I can switch back and forth about 20 times",
+    "timestamp" : 1317734306,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "There are endless issues about this and no-one has yet been able to find a satisfactory solution.\r\nissue 127\r\nissue 228\r\nissue 238\r\nissue 258\r\nnot to mention many closed issues",
+    "timestamp" : 1317801831,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8282946910402892946,
+    "content" : "I downloaded the osmdroid source from the repository and studied the code a bit....\r\n\r\nthen tried:\r\n\r\n_mapView.getTileProvider().clearTileCache();\r\nSystem.gc();\r\n\r\ninto the onDestroy() method of each map activity....it seems to work,  no more out of memory even after 20 times backwards and forwards on the htc wildfire",
+    "timestamp" : 1317819273,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "First can I saw that I'm very pleased that someone is investigating this.\r\n\r\nNow for some comments that come immediately to mind:\r\n\r\nThat may work as a temporary solution to improve the situation, but it's probably not solving the root cause.\r\n\r\nThe cache should be able to free it's own resources when it's not using them any more. It should be able to do this continuously.\r\n\r\nRotation is an easy way to accelerate the memory leak, but it will probably still happen after a long period of use without rotation.\r\n\r\nAlso, it should not be necessary to force garbage collection, and that will not cause anything to happen that would not have happened by itself anyway.\r\n\r\nPlease feel free to prove me wrong!\r\n",
+    "timestamp" : 1317819872,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8282946910402892946,
+    "content" : "I think that the tilecache is just growing as tiles are decoded from the sd card without ever releasing any of the cached tiles again.  Perhaps a solution would be to selectively clear the oldest cached tiles to keep the tile cache at a managable size.\r\n\r\nAnyway I am happy with my temporary solution for now as it makes my app usable.\r\n\r\n",
+    "timestamp" : 1317820360,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 9169388793317990214,
+    "content" : "as i posted in the google group i had a similar problem but only with archive files. But maybe it helps other to find their problem too. I'll open an issue for this with a detail description.\r\n\r\ngreetings\r\ndaniel",
+    "timestamp" : 1318415612,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps the fix suggested for issue 267 would also work for MapTileFilesystemProvider",
+    "timestamp" : 1318419152,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 292 has been merged into this issue.",
+    "timestamp" : 1325829862,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 127 has been merged into this issue.",
+    "timestamp" : 1332748817,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 258 has been merged into this issue.",
+    "timestamp" : 1332748839,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 353 has been merged into this issue.",
+    "timestamp" : 1340953568,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 367 has been merged into this issue.",
+    "timestamp" : 1346855807,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 5782743915502678285,
+    "content" : "As my issue 367 is merged in here, I would also like to mention that this issue also occurs when using in fragments",
+    "timestamp" : 1346856521,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -6132254785791996457,
+    "content" : "This can be related with issue 228 and my 337. So if your got any offline map files, likes zips, in osmdroid folder, delete it if you dont need them. It will improve performance of map, and memory error will reduce to minimum. So this is my only advice, until the issue will be fixed.",
+    "timestamp" : 1346856861,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 5782743915502678285,
+    "content" : "we have created tiles from an image using map tilers. and these are used as custom tiles. these tiles are stored on sdcard. we cannot delete this as we need them ... \r\n\r\nwe need te issue to be fixed soon as our app release is stuck because of this. \r\nfragments in activity.... may be also a good point to consider",
+    "timestamp" : 1346859212,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 5782743915502678285,
+    "content" : "what about using soft reference for cache.. will that reduce the error",
+    "timestamp" : 1346918813,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 5580162609703132315,
+    "content" : "I suspected that the current cache can't actually detect when it's to big. After looking through the code I didn't find anything that actually clears it so I went ahead and developed a fix.\r\n\r\nThe android support library contains an implementation of a LRU Cache. I replaced the MapTileCache inside the MapTileProviderBase with this. It wasn't that hard just changing some function calls.\r\n\r\nOnly take care to choose the right size. If you choose your cache too small it will constantly load new bitmaps and then quickly GC them again so I set the size to a beefy 16M and never had a problem again.",
+    "timestamp" : 1353433353,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -2305747470111314637,
+    "content" : "I read this: http://stackoverflow.com/questions/5523552/bitmapfactory-options-intempstorage-field\r\n\r\nIn BitmapTileSource.getDrawable(), I replaced\r\n\r\n   final BitmapFactory.Options options = new BitmapFactory.Options();\r\n   options.inTempStorage = new byte[32768];\r\n   final Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, options);\r\n\r\nby \r\n\r\n   Bitmap bitmap = BitmapFactory.decodeStream\r\n     (new BufferedInputStream(new FileInputStream(aFilePath)));\r\n\r\nwhich seems to help in my app. I didn't get the outOfMemory errors so far.\r\n\r\n",
+    "timestamp" : 1356375690,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "This looks like a very relevant video: http://youtu.be/rsQet4nBVi8\r\n",
+    "timestamp" : 1359752484,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 2215175536663676982,
+    "content" : "with your help, i fixed my problem.thank u,mike",
+    "timestamp" : 1363093342,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -7826539035193158730,
+    "content" : "I confirm the call to Bitmap bitmap = BitmapFactory.decodeStream(new BufferedInputStream(new FileInputStream(aFilePath))); solves the outOfMemory error, moreover the map scrolling is A LOT smoother (even the emulator is usable with plenty of overlays \\o/). Why not include the code into new osmdroid release ?",
+    "timestamp" : 1376385313,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8540601897383351953,
+    "content" : "I managed to fix this issue on 2.3.3+. It's actually not that hard to resolve it. It all boils down to a simple misunderstanding about bitmap allocations in different versions of Android. Before version 3.0 (API 11, Honeycomb) this was done on the native heap, requiring one to call recycle() on each allocated bitmap in onDestroy() of the associated Activity.\r\n\r\nLooking at org/osmdroid/osmdroid/tileprovider/LRUMapTileCache.java on line 45 (my SVN version), we see the following:\r\n\r\n  if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {\r\n\r\nWhen we change this to\r\n\r\n  if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {\r\n\r\nand rebuild, the issue is gone.\r\n\r\nWhether this issue still exists on 2.2 and 2.1 I'm not sure, but based on the code and my experiences on 2.3.3 I'd say it should be fixed now.\r\n\r\nPlease let me know if you want me to shoot in a patch for this.",
+    "timestamp" : 1376386673,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -7826539035193158730,
+    "content" : "Sounds curious since my project is for Jelly bean, if I get your point well, it should not behave this way ?",
+    "timestamp" : 1376461245,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 8540601897383351953,
+    "content" : "@24 - By testing on JB (4.2.2, 4.3) I did not see the memory leak issue, although admittedly I gave up on testing after switching to/from the map view a few dozen times on the Galaxy Nexus test device.\r\n\r\nWhat does your heap dump look like? Since bitmap allocations in API 11+ are in the Dalvik heap, it should show up in there.",
+    "timestamp" : 1376656642,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 6542097374240216476,
+    "content" : "Comment deleted",
+    "timestamp" : 1378142244,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 6542097374240216476,
+    "content" : "I've got the issue on the SAMSUNG Note 10.1, JB(4.1.2) and nothing helps to fix it.",
+    "timestamp" : 1378142906,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : -2994850334662447637,
+    "content" : "Can we solve this by using the same cache for the both activities, by making the mTileCache field in the MapTileProviderBase class static?",
+    "timestamp" : 1382197042,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : -1705964865955907908,
+    "content" : "Comment deleted",
+    "timestamp" : 1437051121,
+    "attachments" : [ ]
+  } ]
+}

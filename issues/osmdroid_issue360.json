@@ -1,0 +1,27 @@
+{
+  "id" : 360,
+  "status" : "New",
+  "summary" : "GEMF archive from jpg not visible (from png works)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Make an offline &quot;Osmdroid GEMF&quot; atlas with Mobile Atlas Creator with MapQuest map source (jpg tiles)\r\n2. Move the gemf archive to emulator or device (Android 4)\r\n3. With an own project with a simple map view I cannot see the offline map.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI should be able to see the map.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nCode from SVN r1100, emulator (Win 7 - Android 4) or device (Android 4)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nIf I make offline &quot;Osmdroid GEMF&quot; atlas with Mobile Atlas Creator with png tiles, for example Mapnik map source then the offline map is visible from the map view.\r\n\r\nIs there any problem with the GEMF archive with jpg tiles ?",
+    "timestamp" : 1342530687,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Perfoming more tests I tried Qt viewer from http://www.cgtk.co.uk/gemf where the GEMF Map Store Format is described. Qt viewer shows only the GEMF archives which built with png tiles, and not GEMF archives which built with jpg tiles.\r\nI even tried the menu \"Open Maverick Folder\" of the Qt viewer and while it parses correctly folders with png or jpg tiles, it shows only the png ones.",
+    "timestamp" : 1342591862,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Another thing that seems to not work correctly in gemf archives is the selection of tile sources for the map view.\r\nFor example I have 2 tile sources / gemf archives with names \"MapQuest\" with jpg tiles and \"OSM CloudMade 1\" with png tiles. The \"OSM CloudMade 1\" tile source with the png tiles is visible if I put the gemf file in /sdcard/osmdroid/ path. If I add the MapQuest gemf file in the same folder and I choose the MapQuest tile source because of the problem(?) of processing gemf archives from jpg tiles, the gemf archive which is seen again is the other one with the wrong name!\r\nI have deleted cache folder \"tiles\" and also have set the map view in offline mode with setUseDataConnection(false), so it appears to parse gemf archives regardless the tile provider name that is written in gemf archives?\r\nI made the gemf archives with Mobile Atlas Creator (which uses GEMFFile.java for creation) but also the original GEMFFile.java to create the gemf archives from folders of tiles with name \"MapQuest\" and \"OSM CloudMade 1\"",
+    "timestamp" : 1342703363,
+    "attachments" : [ ]
+  } ]
+}

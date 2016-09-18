@@ -1,0 +1,21 @@
+{
+  "id" : 318,
+  "status" : "New",
+  "summary" : "Need to open MBTiles & SQLite in READ/WRITE for some real devices.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5639145057059151300,
+    "content" : "Using the emulator, opening a pre-created SQLite file with tiles (e.g. an MBTiles data set created with TileMill) works.  However, with a real device (LG P500 Android 2.3.3), the SQLite library fails to open with error since it's trying to open the database for writing (even though READONLY was specified in osmdroid).  Workaround: remove READONLY flag on SQLiteDatabase.openDatabase call in MBTilesFileArchive).  Googling this problem reveals that other devices show the same symptom, e.g. http://stackoverflow.com/questions/4718934/sqlite-issues-with-htc-desire-hd.\r\n\r\n",
+    "timestamp" : 1331280702,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 327.",
+    "timestamp" : 1332948602,
+    "attachments" : [ ]
+  } ]
+}

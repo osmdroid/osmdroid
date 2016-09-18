@@ -1,0 +1,27 @@
+{
+  "id" : 274,
+  "status" : "Fixed",
+  "summary" : "onPause() and onResume() in  SampleMapActivity.java",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3615621343387926991,
+    "content" : "In OpenStreetMapViewer/src/org/osmdroid/samples/SampleMapActivity.java:\r\n\r\n1. onPause() calls super.onResume()\r\n2. onResume() calls super.onPause()\r\n\r\nIs this a bug?",
+    "timestamp" : 1320953701,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1320975642,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r998.",
+    "timestamp" : 1321074138,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,271 @@
+{
+  "id" : 221,
+  "status" : "Fixed",
+  "summary" : "PathOverlay not displayed correctly",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 37,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2529783770222131102,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Display a PathOverlay (for example an itinerary)\r\n2. Zoom on it (zoom at least 20, by 20 I mean the tile source zoom)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nWe should see a nice path but the path is not complete. Some lines are missing or too small.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nAndroid 2.2/2.3.4 osmdroid-android-3.0.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1306412978,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 2529783770222131102,
+    "content" : "Here is what I got.\r\n\r\nThe first picture shows the path correctly displayed and the second picture shows the same path but with the view zoomed in.",
+    "timestamp" : 1306682877,
+    "attachments" : [ {
+      "id" : 2210001000,
+      "fileName" : "zoom1.jpg",
+      "fileSize" : 42263
+    }, {
+      "id" : 2210001001,
+      "fileName" : "zoom2.jpg",
+      "fileSize" : 23992
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8584054803084931533,
+    "content" : "I'm struggling with the same problem. Tested it on Android 2.2, 2.3 and 3.1 - osmdroid 3.0.6.\r\nThis is a problem of drawing all kind of shapes on canvas in higher zoom levels. Lines, circles, paths - all are drawn incorrectly (using drawLine drawCircle methods on canvas). What is interesting is that from what I see bitmaps are still OK in high levels.\r\nI see the problem can be visible starting from 18 zoom level.\r\nThe higher level, the bigger problem is.\r\n\r\nScreens below (in zoom 20 line disappears but it depends on paint used):",
+    "timestamp" : 1328091213,
+    "attachments" : [ {
+      "id" : 2210002000,
+      "fileName" : "badShapes.jpg",
+      "fileSize" : 65207
+    }, {
+      "id" : 2210002001,
+      "fileName" : "zoom20.jpg",
+      "fileSize" : 34731
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : -419044158924740843,
+    "content" : "I have the same issue using OSMdriod-3.0.7-snapshot.\r\n\r\nMore details are at http://stackoverflow.com/questions/9273561/osmdroid-pathoverlay-drawing-is-corrupted-at-high-zoom-levels/9287851#9287851\r\n\r\n",
+    "timestamp" : 1329402642,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue appears to be rooted in Android. I believe it is due to a rounding error that happens when you scroll a view to a large offset (possibly due to use of SKScalar). This bug can be isolated by creating a new android project with an activity and a view:\r\n\r\n 1. Begin with the view at the origin with no scroll offset yet.\r\n 2. Draw a circle on the canvas: canvas.drawCircle(screenCenterX, screenCenterY, 100, mPaint)\r\n 3. Scroll the view to a large number: mainView.scrollTo(536870912, 536870912)\r\n 4. Draw a circle on the canvas: canvas.drawCircle(newScreenCenterX, newScreenCenterY, 100, mPaint)\r\n\r\nThe first circle draws ok, the second one draws distorted. For further evidence, try to draw your path near 0,0 and zoom in - notice the distortion no longer appears.\r\n\r\nSo the solution to this is not easy. Ultimately the only way to combat this is to not really scroll the view at all. To keep this working with existing code, we would have to do something like:\r\n\r\n 1. Clear the translation values that Android applies in the matrix for the canvas. This would effectively ignore the scroll offsets.\r\n 2. Intercept all draw...() methods to adjust x,y values by the expected scroll offsets.\r\n 3. Only do this for overlays and skip when drawing child views of the maps. Also skip when zooming.\r\n\r\nThis could probably be done with a Canvas wrapper, but that would have to be updated as new Canvas methods are added to newer APIs. It's a tricky proposition, but it would work. I would like to hear other suggestions.",
+    "timestamp" : 1341261487,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am attaching a solution to this problem. This patch will add an additional method for Overlay to override called drawSafe(). It will pass an ISafeCanvas that will intercept all draw methods and adjust them so that they draw properly even at high zoom levels. Read the comments for a technical explanation of what I am doing.\r\n\r\nImplementors don't have to do much of anything different - just change your draw() method to use drawSafe() and then draw the canvas like they normally would (using the normal coordinate system they have been using all along). If they are using any unsafe methods they may have to change their parameters to pass a double instead of a float, or a Rect instead of a RectF. Otherwise don't change anything else!\r\n\r\nImplementors that want to use SafeTranslatedPath only have to call onDrawCycleStart() at the beginning of their drawSafe() method. If they are using any unsafe methods they will get a deprecation warning along with a replacement to use that is safe.\r\n\r\nPlease test!! This is a pretty significant addition, but it is implemented in a way that doesn't disrupt existing projects so I would like to apply this to the trunk. Let me know how it works for you!\r\n",
+    "timestamp" : 1347473611,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "patch attached.",
+    "timestamp" : 1347473633,
+    "attachments" : [ {
+      "id" : 2210006000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 76915
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Attaching a new patch - includes more documentation and includes a fix for very long dashed-lines using DashPathEffect which apparently bugs out around 60,000 pixels.",
+    "timestamp" : 1347910251,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1347910281,
+    "attachments" : [ {
+      "id" : 2210008000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 79530
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1347914377,
+    "attachments" : [ {
+      "id" : 2210009000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 79614
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updated patch - fixes issue with SafeTranslatedPath.computeBounds()",
+    "timestamp" : 1349378670,
+    "attachments" : [ {
+      "id" : 2210010000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 79546
+    } ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Note one more change needed from last patch - line 144, drawBitmap(Bitmap, Matrix, SafePaint) needs to be postTranslated so as not to screw up any rotations, etc:\r\n\r\n\t\tsMatrix.postTranslate(xOffset, yOffset);\r\n\r\n",
+    "timestamp" : 1351125238,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Latest patch - added postTranslate fix from above, and broke Overlay changes into their own SaveDrawOverlay class so it is completely optional and keeps Overlay.draw() abstract.",
+    "timestamp" : 1351530704,
+    "attachments" : [ {
+      "id" : 2210012000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 79574
+    } ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Additional fix for previous patch - in SafeDashPathEffect line 11, it should be using:\r\n\r\nPathDashPathEffect.Style.MORPH",
+    "timestamp" : 1351617883,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 35621083833274706,
+    "content" : "kurtzm...@gmail - Could you integrate your patches?",
+    "timestamp" : 1354000277,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7646092065249173135,
+    "content" : "Posting final patch. Includes fixes for getClipBounds(), the PathDashPathEffect fix above, plus the MinimapOverlay is migrated over to SafeDrawOverlay.",
+    "timestamp" : 1354040819,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think it's time to apply this to the trunk. It's been working well for me, it's non-invasive for existing overlays, and I think people are legitimately experiencing these issues out in the field.",
+    "timestamp" : 1354040947,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "Final patch attached...",
+    "timestamp" : 1354041415,
+    "attachments" : [ {
+      "id" : 2210017000,
+      "fileName" : "SafeTranslatedCanvasPatch.patch",
+      "fileSize" : 82303
+    } ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "Applied in r1130.",
+    "timestamp" : 1354041515,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 5580162609703132315,
+    "content" : "This does not work if you use something like the SlidingMenu. The map stays static while the other overlays move correctly. Also there is a small area of tiles missing at the bottom.",
+    "timestamp" : 1354983045,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1355161730,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please submit a full bug report that includes exactly what you are doing. Specifically where the SlidingMenu is being used (is it added to the MapView, is it in a parent layout from the MapView?)",
+    "timestamp" : 1355161822,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -4086165884802115983,
+    "content" : "I am unable to apply the patch and compile osmdroid (cant for the life of me get osmdroid to compile to a .jar).  Do you have the .jar with this change implemented by any chance?",
+    "timestamp" : 1355170655,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -4086165884802115983,
+    "content" : "managed to get the source compiled, looks like it was already merged into the trunk.  Worked perfectly, thanks!",
+    "timestamp" : 1355265930,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 8902977225745667324,
+    "content" : "I am having the same problem while using osmbonuspack v3.1 and osmdroid v3.0.8. \r\n\r\nIs the problem solved already? What do I have to do to get it working? I posted an issue on osmbonuspack with screenshots (http://code.google.com/p/osmbonuspack/issues/detail?id=16). \r\n\r\nThanks in advance,\r\nGreetings!",
+    "timestamp" : 1357836159,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "This fix is currently not in the latest (3.0.8) release. If you can build it yourself, the latest trunk has this fix included.",
+    "timestamp" : 1357934113,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 3827693563354201495,
+    "content" : "Hi. I have tried the patch, but it seems that the path overlay will still be distorted at level 20 and above. Not sure if it is due to the incorrect usage of onDrawCycleStart() on my part. Anyone else who tried the patch and is able to display the PathOverlay without distortion for map levels 20 and above?\r\n\r\nThanks and regards,\r\nPS",
+    "timestamp" : 1362727814,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 3827693563354201495,
+    "content" : "Hi, I guess the PathOverlay did not implement the drawSafe method. Thanks to Marc for all the patches.\r\n\r\nThanks and regards,\r\nPS",
+    "timestamp" : 1362732385,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : 7646092065249173135,
+    "content" : "The latest build now has this patch. Please post any issues to a new ticket. Thanks for the feedback!",
+    "timestamp" : 1365024030,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 3733832197943050595,
+    "content" : "I've encountered this problem as well but I *think* I've fixed it in a much simpler fashion.  I want to emphasize *think* a bit more here because it is completely reasonable that I'm missing something obvious.\r\n\r\nInstead of the parallel \"ISafe...\" interfaces and draw method, I modified MapView so that the canvas doesn't grow as the zoom level increases.  I keep a virtual viewport which maintains the pixel offset used to project GeoPoints to pixels and back.  This way, the screen coordinates are always based on the top left of the view and the canvas never has to do any math with very large floating point values.\r\n\r\nThis seems to work for me.  Is there a reason it should not?  Am I really just an idiot who is missing something obvious?  If this does work like I think, isn't this simpler than a parallel draw method?  If this is simpler, you want a patch?",
+    "timestamp" : 1366739281,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe what you are saying is that you changed the Projection class to do the offset when doing LatLong->Pixel and Pixel->LatLong operations. One of the goals of the fix we eventually settled with was to have a minimum impact on existing implementations. Modifying the Projection class assumes that everyone is using the Projection for Mercator calculations and not using the TileSystem class or any external classes for Mercator calculations. I think this would lead to a lot more \"why isn't this working\" reports because users aren't specifying pixels in regular Mercator coordinates anymore. I think the ISafeCanvas abstracts more from the user and is lower-impact (ideally no-impact).",
+    "timestamp" : 1366746408,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 7646092065249173135,
+    "content" : "Just one more follow-up point - I don't think Paths would work as-is unless you offset them at every draw cycle since the coordinate system of the Canvas is constantly changing (something similar to what we had to do in SafeTranslatedPath). Thanks for the suggestions though. I would like to find a simpler solution in this area.",
+    "timestamp" : 1366749003,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : 3733832197943050595,
+    "content" : "Right, the projection class changes.  To be clear, osmdroid doesn't assume everyone uses Projection to project geopoints to pixels?  Also, how is creating a second draw mechanism lower impact?\r\n\r\nFor me, paths seem to work as is.  I made sure that toPixelsProjected/Translated work as expected.\r\n\r\nThanks for listening.  I definitely have a smaller user base so I can see why this may be a concern for you.",
+    "timestamp" : 1366753673,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 6593743926263410891,
+    "content" : "In version 4.2 this problem still exists. Here a proposal for a fix: http://textuploader.com/1hw9",
+    "timestamp" : 1392804460,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : 6593743926263410891,
+    "content" : "Comment deleted",
+    "timestamp" : 1392966245,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 6593743926263410891,
+    "content" : "Instead of fixed maximum values canvas.getMaximumBitmapWidth() and canvas.getMaximumBitmapHeight() should be used.\r\n\r\nSo it should look like this:\r\n\r\nprivate boolean isRectTooBig(Rect bound, Canvas canvas) {\r\nif(bound.right-bound.left >= canvas.getMaximumBitmapWidth() || bound.bottom-bound.top >= canvas.getMaximumBitmapHeight())\r\n\t\t\treturn true;\r\n\t\telse\r\n\t\t\treturn false;\r\n\t}",
+    "timestamp" : 1392966320,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : 619285500942978277,
+    "content" : "Please do have anything to earn",
+    "timestamp" : 1393853185,
+    "attachments" : [ ]
+  } ]
+}

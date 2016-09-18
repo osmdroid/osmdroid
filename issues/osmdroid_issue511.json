@@ -1,0 +1,15 @@
+{
+  "id" : 511,
+  "status" : "New",
+  "summary" : "Black screen appears when rotating device",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6999585313919299855,
+    "content" : "<b>What steps will reproduce the problem?</b>\nInstall OpenStreetMapViewer-4.0-aligned.apk and start rotating device (do it few times).\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI should see map with tiles but instead black screen appears.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid - 4.0\r\nandroid - 4.1.1 and 2.3.6\r\n\r\n<b>Please provide any additional information below.</b>\nThe same happens when I use MapView in my apps.\r\n\r\nANR:\r\nhttp://pastebin.com/hn9yBM0T\r\n\r\nException:\r\nhttp://pastebin.com/Ci555Atm\r\n\r\nMy test devices: Samsung GT-P3110 - 4.1.1 and HTC Nexus One - 2.3.7.",
+    "timestamp" : 1389620715,
+    "attachments" : [ ]
+  } ]
+}

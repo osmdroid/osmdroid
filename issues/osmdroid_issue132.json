@@ -1,0 +1,139 @@
+{
+  "id" : 132,
+  "status" : "Fixed",
+  "summary" : "Database Storage for tiles",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 19,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8259744598550866754,
+    "content" : "Implement a storage in sqlite dbs for tiles, almost the same way it\r\nis treated with zips.\r\n\r\nThe issue with zips is that every entry in the zip file is put in memory\r\nat start, which involves a slow startup and a huge use of memory, which causes a crash on some phones when loading a zip file containing 50000 tiles.\r\n\r\nOn another hand, storing the tiles directly on sdcard is not a good solution either, since it wastes much space because of the small size of tile files.\r\n\r\nThere is an alternative way to store tiles, in a database. The tiles\r\nare stored as blob objects in db, and in order to have fast access to a given tile, a unique identifier is computed for each tile, which is used as primary key.\r\nAfter running some tests, this seems to work quite well.\r\n\r\nThe packager is also modified in order to create the db files. The usage didn't change, except it looks at the extension of the output file : if it is a zip file it behaves as before, and if it is not, it creates the database.\r\n\r\nIn order for the new packager to work, you have to make it depend on the library sqlitejdbc-v056.jar, found here : http://www.zentus.co/sqlitejdbc/, and that I attached to the issue.\r\n\r\nI use Eclipse and am not very good at ant, so if someone could modify the build.xml for the new library, in order for &quot;ant jar&quot; to work for the packager, it would be nice.",
+    "timestamp" : 1294144312,
+    "attachments" : [ {
+      "id" : -8485859265491830599,
+      "fileName" : "DataBase.patch",
+      "fileSize" : 6055
+    }, {
+      "id" : 1144426707399038118,
+      "fileName" : "sqlitejdbc-v056.jar",
+      "fileSize" : 2684154
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8259744598550866754,
+    "content" : "Sorry, the patch wasn't complete. Here is the complete patch.",
+    "timestamp" : 1294144651,
+    "attachments" : [ {
+      "id" : 6325472750624792559,
+      "fileName" : "DataBase.patch",
+      "fileSize" : 12921
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294177807,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The one downside is that we have to include the sqlite jar file which adds some size to the distribution. It's not a lot, but it would be nice to not have to include it. If there is some way to compile without the sqlite jar and require the end-user to add it to their project if they want to use it. If it's not present, then the class will just throw an exception at runtime and tell the user that it is missing. I don't know if this is possible.\r\n\r\nAnd I'm not trying to deflect usage of this - personally, I think using the DB is a good idea assuming there isn't too much of a performance hit - but I worry that unless the offline map tools embrace the \"db as a storage mechanism\", this may be just a niche provider that doesn't get widespread use. Again, these are just my thoughts - in the end, it's better if we include it than not!\r\n",
+    "timestamp" : 1294200131,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I agree with Marc. I was thinking of implementing this patch, but not adding it to the default provider chain.\r\n\r\nI'm also tending to move away from the tile packager in favour of Mobile Atlas Creator.",
+    "timestamp" : 1294209170,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -8259744598550866754,
+    "content" : "I agree. Remark however that the jar file is not included in the osmdroid library (the one which is on the phone), but only in the packager jar.\r\n\r\nBut indeed I would be glad to integrate it as a new output for Mobile Atlas Creator. I will try to propose a patch on the sourceforge of the project.\r\n\r\nThe thing is that without any way to create the db files, the patch is useless in osmdroid library, so integrating it to the packager was the first step, waiting for this to be integrated in Mobile Atlas Creator.\r\n\r\nAnyway, did you try it ? What do you think ?",
+    "timestamp" : 1294226584,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please have a look at revision 680. It should now be easier to do this in a similar way to ZipFileArchive.",
+    "timestamp" : 1294313298,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've committed the packager parts in revision 682.",
+    "timestamp" : 1294314947,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1294315706,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "It was trivial to implement this like I said in comment 6 - done in revision 683.\r\nI haven't tested this at all.",
+    "timestamp" : 1294315734,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294315741,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -8259744598550866754,
+    "content" : "The developer from mobile atlas creator pointed out that the key calculation could produce an overflow on high zoom levels, so we should use a \"long\" instead of an \"int\". Here is the corresponding patch.",
+    "timestamp" : 1294665109,
+    "attachments" : [ {
+      "id" : 433395799488154410,
+      "fileName" : "long.patch",
+      "fileSize" : 2023
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Committed in revision 708. Good to see it's getting into Mobile Atlas Creator.",
+    "timestamp" : 1294737567,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -8259744598550866754,
+    "content" : "Done, it's now in Mobile Atlas Creator (in the latest alpha version).",
+    "timestamp" : 1295066564,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "So, does it work? Are we finished? Can I close this now?",
+    "timestamp" : 1295126461,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -8259744598550866754,
+    "content" : "I think so, I didn't make lots of tests but until now it seems to work perfectly. The only thing now is to update the wiki page MobileAtlasCreator in order to tell that you can also create databases.",
+    "timestamp" : 1295264054,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "Which version of MAC do I need, and what's the name of the Atlas format?",
+    "timestamp" : 1295341606,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -8259744598550866754,
+    "content" : "You need the latest alpha version : http://sourceforge.net/projects/trekbuddyatlasc/files/Alpha%20and%20experimental/MOBAC%201.9%20preview%204.zip/download and you have to chose the \"osmdroid sqlite\" format.",
+    "timestamp" : 1295380111,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1295383506,
+    "attachments" : [ ]
+  } ]
+}

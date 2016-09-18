@@ -1,0 +1,23 @@
+{
+  "id" : 473,
+  "status" : "New",
+  "summary" : "ZoomInAnimation cover other view",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3594590064059109795,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.I add tow mapview in a Activity. Layout.xml like this.\r\n&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;\r\n    xmlns:tools=&quot;http://schemas.android.com/tools&quot;\r\n    android:layout_width=&quot;match_parent&quot;\r\n    android:layout_height=&quot;match_parent&quot;\r\n    android:orientation=&quot;horizontal&quot;\r\n    tools:context=&quot;.MainActivity&quot; &gt;\r\n\r\n    &lt;com.mutu.mapapi.views.MapView\r\n        android:id=&quot;@+id/mapview1&quot;\r\n        android:layout_width=&quot;0dp&quot;\r\n        android:layout_height=&quot;match_parent&quot;\r\n        android:layout_weight=&quot;1&quot;\r\n        tilesource=&quot;tianditu_yunnan_vector&quot;\r\n        /&gt;\r\n    \r\n    &lt;com.mutu.mapapi.views.MapView\r\n        android:id=&quot;@+id/mapview2&quot;\r\n        android:layout_width=&quot;0dp&quot;\r\n        android:layout_height=&quot;match_parent&quot;\r\n        android:layout_weight=&quot;1&quot;\r\n        tilesource=&quot;tianditu_yunnan_image&quot;\r\n        /&gt;\r\n\r\n&lt;/LinearLayout&gt;\r\n2.zoom in. mapview2 will cover mapview1.\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nmapview2 not cover mapview1 when zoominAnimation \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.10 (i added some tilesource)\r\nandroid 4.1.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1378200167,
+    "attachments" : [ {
+      "id" : 4730000000,
+      "fileName" : "show_ok.png",
+      "fileSize" : 629200
+    }, {
+      "id" : 4730000001,
+      "fileName" : "zoomin.png",
+      "fileSize" : 676427
+    } ]
+  } ]
+}3ePlease provide any additional information below.\u003c/b\u003e\n\r\n","timestamp":1378200167,"attachments":[{"id":4730000000,"fileName":"show_ok.png","fileSize":629200},{"id":4730000001,"fileName":"zoomin.png","fileSize":676427}]}]}

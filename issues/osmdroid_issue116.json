@@ -1,0 +1,27 @@
+{
+  "id" : 116,
+  "status" : "Fixed",
+  "summary" : "getOverlay() contains the actual map and can be cleared",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Refresh the list of overlays be clearing it first\r\n2. Use the Google Maps approach of mOpenStreetMapView.getOverlays().clear();\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n3. After which everything goes grey with osm, insteads like google maps that shows the map\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-1.08.jar",
+    "timestamp" : 1290804600,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Dev notes - This is happening because the OpenStreetMapTilesOverlay is just another overlay (always being the first overlay). Since this is basically a \"required\" overlay, we should account for that in some way and keep it always present.",
+    "timestamp" : 1292467270,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r776.",
+    "timestamp" : 1296942779,
+    "attachments" : [ ]
+  } ]
+}

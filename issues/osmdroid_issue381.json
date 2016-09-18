@@ -1,0 +1,35 @@
+{
+  "id" : 381,
+  "status" : "Duplicate",
+  "summary" : "some lines appears during Multi-Touch at the map level 17 or 18",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 283865431216789101,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.some lines appears during Multi-Touch(or click the zoom in/out button) when Zoom In/Out at the map level 17 or 18.\r\n<b>2.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n    When I zoom in/out the map at a high level(zoom at 17,I mean the tile source zoom),some lines appears. The color of the lines is the background's color\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nSAMSUNG GALAXY Tab P7500/P5100 Android 3.1/4.0.3\r\n",
+    "timestamp" : 1351480448,
+    "attachments" : [ {
+      "id" : 3810000000,
+      "fileName" : "截图1.png",
+      "fileSize" : 688632
+    }, {
+      "id" : 3810000001,
+      "fileName" : "360手机助手截图02.png",
+      "fileSize" : 70901
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 283865431216789101,
+    "content" : "Could some body can solve the problem? I just want the lines disappears.",
+    "timestamp" : 1351480617,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1359145217,
+    "attachments" : [ ]
+  } ]
+}

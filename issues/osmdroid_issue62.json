@@ -1,0 +1,75 @@
+{
+  "id" : 62,
+  "status" : "WontFix",
+  "summary" : "Separate Android-specific parts out of osmdroid-android.jar",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "This was one of the original aims of issue 43.\r\n\r\nMake a jar containing common code that is not specific to Android that can be used on other platforms, such as Blackberry.\r\n\r\nie split osmdroid-android.jar into a common jar and an android jar.",
+    "timestamp" : 1276867904,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 250956797218298740,
+    "content" : "IMHO this doesn't need to be considered until someone starts using the code on another platform.",
+    "timestamp" : 1293877666,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2473213968216721319,
+    "content" : "One reason you may want to do it before then is for generating a test bed for the non android specific code which can be run off the phone/emulator.\r\n",
+    "timestamp" : 1293885053,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "The jar package already has a non-Android test bed, although you're limited in what you can test because it uses Android code. Separating it out because it's tidier and clearly testable is more beneficial than the likelihood that it gets used for another platform. But perhaps if we actually do it rather than just talk about it then it'll encourage it's use in another platform.\r\n\r\nI'll defer my decision and keep this issue open.",
+    "timestamp" : 1293918950,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "The problem is that Android stuff is everywhere. Drawable is used throughout the tile providers, Canvas and View is used in all the overlay classes, Geopoint and BoundingBoxE6 are Parcelable and the Mercator class references those classes so even that is Android-bound.\r\n\r\nAnyone consider an Android (non-jar) library? I have only limited knowledge of the implications of using Android libraries, so maybe it's not a good fit but I'd like to at least bring it up.",
+    "timestamp" : 1294201301,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't know anything about how a library works, but the idea was that you can just use the jar without having to get all the source.  I don't know - maybe everyone who uses it wants the source anyway.",
+    "timestamp" : 1294208758,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I looked into what it means to be a library package and not a jar file, and I don't see much of a upside to switch. I think developers just want a nice singular package to include in their build path and that's it rather than dealing with a whole code tree. There really isn't much (any?) advantage to using an Android library from what I read.\r\n\r\nSo if we agree to keep it a jar - does everyone concur that this ticket isn't really possible since Android classes are found in almost every corner of the project? I don't think there really is a way to split it into an Android-specific jar and a non-Android-specific jar? The latter would be very slim.",
+    "timestamp" : 1294240314,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 2473213968216721319,
+    "content" : "I think when I briefly looked into I found the same as you, that android code is everywhere (and as you allude to, probably a lot more so than it needs to be, I seem to remember Point being android specific), so it would probably take a lot of (re-)work to separate out the android specifics from the rest so that the non-specific part was in any way useful.  Quite happy for ticket to be closed.\r\n",
+    "timestamp" : 1294241905,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Interesting that in issue 133 you suggested removing BasicPoint, which is a non-Android implementation of Point ;-)\r\n\r\nBut yes, I haven't looked into the details, but I trust the two of you have done it so I'll agree.\r\n\r\nIt would probably be a good idea to do a source jar as well as / instead of the javadoc jar. Then people can use the jars but still have the source easily for debugging.\r\n\r\nIf we're agreed to drop this issue then we should rename osmdroid-android to something else - the android suffix is redundant now.\r\n",
+    "timestamp" : 1294244502,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Yeah - I did suggest removing BasicPoint :) In my defense Point is already being used in the project in other classes.\r\n\r\nSo, if we really did want to do this I think what would be needed are things like:\r\n\r\n1. A Drawing Proxy object - Since we can't pass a Canvas to the overlays we would have to pass a proxy object that would keep track of drawing operations that each overlay made - things like drawLine, drawText, drawBitmap. Then these operations would be performed \"for real\" by the MapView when the overlay draw cycle was finished.\r\n\r\n2. Instead of passing Drawables around in the tile provider subsystem, we would probably pass around InputStreams. Those InputStreams would then have to be rendered somewhere in the MapView code, or maybe right before they were drawn to the screen. Maybe we would store byte-arrays in the tile memory caches.\r\n\r\n3. Things like the IRegisterReceiver, which is included in almost every tile provider class, can't be included in the \"non-android\" side and have to be hacked in on the \"android\" side.\r\n\r\n4. Threading in the tile provider must be abstracted somehow.\r\n\r\n\r\nIt's all probably possible, but it's a lot of work!\r\n",
+    "timestamp" : 1294279764,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "This will not be done.",
+    "timestamp" : 1362506411,
+    "attachments" : [ ]
+  } ]
+}

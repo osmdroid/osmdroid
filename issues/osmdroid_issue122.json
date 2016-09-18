@@ -1,0 +1,27 @@
+{
+  "id" : 122,
+  "status" : "WontFix",
+  "summary" : "zoomToSpan() ANR message",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4774701430277591855,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. In Activity onStart method try to use OpenStreetMapViewController.zoomToSpan() method\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nBlack screen and after few seconds ANR message\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-1.08 on Android 2.2\r\nI'm using Google API 7\r\n\r\n<b>Please provide any additional information below.</b>\nNone.\r\n",
+    "timestamp" : 1291666018,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 9112300422288456204,
+    "content" : "I had the same problem. A solution for me was to call zoomToSpan in onWindowFocusChanged",
+    "timestamp" : 1292323637,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294220525,
+    "attachments" : [ ]
+  } ]
+}

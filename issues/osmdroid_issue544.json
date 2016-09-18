@@ -1,0 +1,27 @@
+{
+  "id" : 544,
+  "status" : "New",
+  "summary" : "Constantly loading offline tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7403477129082558596,
+    "content" : "Hi everyone. Using 4.2 osmdroid.\r\nAs of recently started experiencing strange behavior.\r\nMapView is placed inside ViewPagers Fragment. I'm using a custom offline source to supply tiles.\r\n\r\npublic class OfflineTileSource extends BitmapTileSourceBase {\r\n\r\n\t//\tprivate final int\t\t\t\t\t\t\tcacheSize\t= 4 * 1024 * 1024;\r\n\tprivate final LruCache&lt;String, Drawable&gt;\tcache\t= new LruCache&lt;String, Drawable&gt;(64);\r\n\r\n\tpublic OfflineTileSource() {\r\n\t\tsuper(&quot;MapQuest&quot;, ResourceProxy.string.mapquest_osm, 11, 18, 256, &quot;.jpg&quot;);\r\n\t}\r\n\r\n\t@Override\r\n\tpublic String getTileRelativeFilenameString(final MapTile tile) {\r\n\t\tString src = String.format(Locale.getDefault(), &quot;%s/%d/%d/%d%s&quot;, pathBase(), tile.getZoomLevel(), tile.getX(),\r\n\t\t\t\ttile.getY(), imageFilenameEnding());\r\n\t\t//\t\tLog.v(OfflineTileSource.class.getName(), &quot;Requesting: &quot; + src);\r\n\t\treturn src;\r\n\t}\r\n\r\n\t@Override\r\n\tpublic Drawable getDrawable(String arg0) {\r\n\t\tLog.v(OfflineTileSource.class.getName(), &quot;GetDrawable: &quot; + arg0);\r\n\t\t//\t\tnew Throwable().printStackTrace();\r\n\r\n\t\tDrawable d = cache.get(arg0);\r\n\t\tif (d != null)\r\n\t\t\treturn d;\r\n\r\n\t\td = super.getDrawable(arg0);\r\n\t\tcache.put(arg0, d);\r\n\t\treturn d;\r\n\t}\r\n}\r\n\r\nTiles are being set by:\r\nmapView.setTileSource(new OfflineTileSource());\r\n\r\nData connection disabled:\r\nmapView.setUseDataConnection(false);\r\n\r\nAfter starting to scroll\r\npublic Drawable getDrawable(String arg0)\r\nis being called thousands of times / second and does not stop.\r\n\r\nIf you do not override getDrawable and cache them, there are constant GC work that slows all.\r\n\r\nAlso, scrolling another fragment seems to trigger map loading also.\r\n\r\nWhat can be the problem?",
+    "timestamp" : 1407827876,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -7403477129082558596,
+    "content" : "looking at code I've found strange code parts:\r\n// Check to see if file has expired\r\n\t\t\t\t\tfinal long now = System.currentTimeMillis();\r\n\t\t\t\t\tfinal long lastModified = file.lastModified();\r\n\t\t\t\t\tfinal boolean fileExpired = lastModified < now - mMaximumCachedFileAge;\r\n\r\n\t\t\t\t\tif (fileExpired && drawable != null) {\r\n\t\t\t\t\t\tif (DEBUGMODE) {\r\n\t\t\t\t\t\t\tlogger.debug(\"Tile expired: \" + tile);\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\tdrawable.setState(new int[] {ExpirableBitmapDrawable.EXPIRED });\r\n\t\t\t\t\t}\r\n\r\nThis piece of code is setting EXPIRED to all drawables, probably forcing them to be reloaded again and again.\r\n",
+    "timestamp" : 1407828502,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The code that you called strange is doing exactly what it's supposed to be doing.\r\n\r\nI think the problem you're describing is that the expiration shouldn't apply for offline tile sources.\r\n\r\nPlease submit an issue in GitHub.",
+    "timestamp" : 1407934517,
+    "attachments" : [ ]
+  } ]
+}

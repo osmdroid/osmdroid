@@ -1,0 +1,53 @@
+{
+  "id" : 195,
+  "status" : "Accepted",
+  "summary" : "Ability to use TMS source",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2951569362663853146,
+    "content" : "Tile Map Service Specification is similar to Slippy Map, except y axis:\r\n- TMS count y tiles from bottom to top,\r\n- Slippy Map count tiles from top to bottom.\r\n\r\nConversion to TMS is done with:\r\ny = (int)(Math.pow(2, zoomLevel) - y - 1);\r\n\r\nThis is very useful, especially for zip tilepacks using TMS.\r\n\r\nExample using a TMS zip tilepack:\r\n(as an overlay over Google Maps, see issue #192)\r\n\r\nMapTileProviderBasic mProvider = new MapTileProviderBasic(context);\r\nBitmapTileSourceBase customSource = new BitmapTileSourceBase(&quot;Tiles&quot;, null, 0, 18, 256, &quot;.png&quot;) {};\r\ncustomSource.isSourceTMS = true;\r\nmProvider.setTileSource(customSource);\r\nmProvider.setUseDataConnection(false);\r\nmTilesOverlay = new GTilesOverlay(mProvider, context);\r\nmap.getOverlays().add(0, mTilesOverlay);\r\n\r\nPatch is attached in order to easily use a TMS source.",
+    "timestamp" : 1301599126,
+    "attachments" : [ {
+      "id" : -3386816943530492986,
+      "fileName" : "TMS.patch",
+      "fileSize" : 1621
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2951569362663853146,
+    "content" : "I updated the patch for easier use and in order to also support a XYTileSource.\r\n\r\nExample:\r\nMapTileProviderBasic mProvider = new MapTileProviderBasic(context);\r\nXYTileSource CUSTOM = new XYTileSource(\"myServer\", null, 0, 18, 256, \".png\",\"http://myServerTMS/Tiles/\");\r\nCUSTOM.isSourceTMS = true;\r\nmProvider.setTileSource(CUSTOM);\r\nmTilesOverlay = new GTilesOverlay(mProvider, context);\r\nmap.getOverlays().add(0, mTilesOverlay);\r\n\r\nAnyone to commit?\r\n\r\nThanks,\r\nJulien",
+    "timestamp" : 1302728421,
+    "attachments" : [ {
+      "id" : -3506202517808245566,
+      "fileName" : "TMS_v2.patch",
+      "fileSize" : 2231
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Wouldn't it be better to just extend XYTileSource and override getY()?",
+    "timestamp" : 1303814061,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -2951569362663853146,
+    "content" : "Hi,\r\n\r\nThat's possible but I also need it into BitmapTileSourceBase.\r\nSince XYTileSource extends from BitmapSourceBase I thought it would be nicer to put this option directly in the core class.\r\nThat works for BitmapTileSourceBase but not for XYTileSource, even if it extends from it because they're not using the same way to calculate Y.\r\nSo I changed both in my patch v2.\r\n\r\nDo you see an easier way to do that?\r\n\r\nThanks,\r\nJulien",
+    "timestamp" : 1303850378,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6796294883573992860,
+    "content" : "Hmm is that why when I have MapTiler tiles, osmdroid is looking on different y.png file :http://groups.google.com/group/osmdroid/browse_thread/thread/5aa00da755125428",
+    "timestamp" : 1339018384,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -2951569362663853146,
+    "content" : "I think so.\r\nYou can use my patch until this get merged.",
+    "timestamp" : 1339049559,
+    "attachments" : [ ]
+  } ]
+}

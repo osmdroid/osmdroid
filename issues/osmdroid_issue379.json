@@ -1,0 +1,37 @@
+{
+  "id" : 379,
+  "status" : "Fixed",
+  "summary" : "ScaleBar improvements",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "I've done some improvements to the ScaleBar which might be useful for others as well:\r\n- adjust the displayed bar length so that it reflects a rounded distance starting with 1, 2 or 5 instead of displaying a fractional length. This works for metrical, imperial and nautical units.\r\n- draw the bar centred around the given screen coordinates\r\n- specify a different bar length (default is 1 inch)\r\n- add a background to the bar to make it stand out better\r\n\r\nAll changes have been done in a way to maintain the previous behaviour if used in the same way.\r\n\r\nThe attached patch also contains the patch for issue 373.",
+    "timestamp" : 1350506114,
+    "attachments" : [ {
+      "id" : 3790000000,
+      "fileName" : "ScaleBarOverlay.java.patch",
+      "fileSize" : 16011
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1350536303,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This patch looks good so I am going to commit it with a few small changes. Thanks for the contribution!",
+    "timestamp" : 1357237240,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1137.",
+    "timestamp" : 1357237360,
+    "attachments" : [ ]
+  } ]
+}

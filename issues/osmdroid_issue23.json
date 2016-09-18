@@ -1,0 +1,33 @@
+{
+  "id" : 23,
+  "status" : "Fixed",
+  "summary" : "There is no way to disable My Location in OpenStreetMap",
+  "labels" : [ "Type-Other", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "When you select My Location from the menu in the OpenStreetMap activity, \r\nthere is no way to then disable it.\r\n\r\nThis is not necessarily a bug - just an oversight in the design.\r\n\r\nOpenStreetMap is just a demo application - anyone implementing their own \r\napplication is free to do as they like.",
+    "timestamp" : 1268741099,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340683,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -6841996376054177083,
+    "content" : "I'm not entirely sure how Google Maps does this. There's also no option to disable it.",
+    "timestamp" : 1271506391,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3160830107365654207,
+    "content" : "I've modified the demo application to toggle MyLocation.\r\nIt also displays a toast indicating the resulting state.\r\nrevision 385",
+    "timestamp" : 1285779707,
+    "attachments" : [ ]
+  } ]
+}

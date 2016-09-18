@@ -1,0 +1,49 @@
+{
+  "id" : 182,
+  "status" : "Fixed",
+  "summary" : "Move towards Google Maps API implementation of ItemizedOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is a continuation of Issue 173, but with an organized list of changes so the patch is clear.\r\n\r\n1. ItemizedOverlay becomes abstract. The idea is that the user will create a concrete class that will populate the ItemizedOverlay with Items which are cached in ItemizedOverlay (see ItemizedIconOverlay).\r\n2. The constructors for ItemizedOverlay only accept a default marker and a ResourceProxy. The default marker passed into ItemizedOverlay must not be null - the concrete class is responsible for providing this.\r\n3. Each Item's marker's bounds should be set based on 0,0 being the pixel point of the Item's GeoPoint. The boundToHotSpot() function operates accordingly.\r\n4. To draw an icon we can call TileSystem.LatLongToPixelXY() to get the pixel point (ItemizedOverlay.draw), bind the marker to the appropriate hotspot (ItemizedOverlay.onDrawItem), then draw the icon at the pixel point plus the offset of the drawable's bounds (Overlay.drawAt).\r\n5. Hit testing, as implemented in Google Maps API, is very simple - it just checks to see if a given hit point is within the bounds of the marker. The appropriate way to call hitTest() is to pass a hitX/hitY that is the distance from the touch point to the Item's point. So you need to point the point of the screen touch and the point of the Item in the same coordinate system and get the delta between the two and use that as the hitX and hitY.\r\n\r\nSince the ItemizedOverlay's responsibilities are limited and since it is an abstract class, we naturally need a concrete class that implements all the other features of our (original) ItemizedOverlay. The ItemizedIconOverlay class implements:\r\n\r\n1. Default marker creation if the user doesn't want to provide one. The only change is that you cannot pass null as the defaultMarker in the constructor. If you want the ItemizedIconOverlay to create its own defaultMarker, then use the constructor without the pDefaultMarker. Naturally, individual Items can still override the default marker with their own marker.\r\n2. All gesture handling. This includes activateSelectedItems.\r\n3. Drawn items limit handling.\r\n\r\nChanges to be aware of:\r\n1. The way the Google Maps ItemizedOverlay works is that the concrete class calls populate(), which triggers the abstract class to request the size() from the concrete class, and then request items 0 to size()-1 from the concrete class. So you cannot pass a List into ItemizedIconOverlay and then add to the list and expect the items to show up. Therefore the ItemizedIconOverlay provides addItem and removeItem methods that add the item to the list and call populate(). Maybe we should consider passing in an array instead of a list of initial items in the constructor.\r\n2. Users will have to change most references of ItemizedOverlay to ItemizedIconOverlay in their code.\r\n\r\n\r\nThe focused item overlays will be adjusted to operate properly and will be kept separate at this point, but Google Maps is geared towards having a single overlay that does both non-focused and focused Items so we should consider that next.\r\n\r\nWe should also implement shadow drawing at some point. It appears to be very easy.",
+    "timestamp" : 1299902426,
+    "attachments" : [ {
+      "id" : -6146095913591158178,
+      "fileName" : "ItemizedOverlayPatch.patch",
+      "fileSize" : 39778
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 173 has been merged into this issue.",
+    "timestamp" : 1299902547,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "After a few days of testing (and a few fixes), I am very happy with the patch. Since there are no objections, I am going to apply this patch. I will leave the ticket open for any issues that might arise.",
+    "timestamp" : 1300513152,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "One additional feature from the original patch - I added a working setFocus() implementation. If the drawable is a StateListDrawable and the user clicks an item, then the item will become focused and it will display the appropriate Drawable for the \"focused\" state.\r\n\r\nOur focused overlay doesn't take advantage of this yet, but I think we will soon. Maybe some nicer focus bubbles too!",
+    "timestamp" : 1300513557,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r887.\n\nApplies ItemizedOverlay patch. See issue 182 for full list of changes.",
+    "timestamp" : 1300513576,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue has been implemented and has been tested pretty thoroughly. The paradigm is easy to work with and it mirrors the Google API without losing any functionality. This issue can be closed.",
+    "timestamp" : 1305503134,
+    "attachments" : [ ]
+  } ]
+}

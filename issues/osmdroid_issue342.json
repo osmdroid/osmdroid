@@ -1,0 +1,47 @@
+{
+  "id" : 342,
+  "status" : "Invalid",
+  "summary" : "each pinch zoom image transition is out of line",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7700519907604124623,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. mapview image is rendered\r\n2. I pinched the screen in order to zoom \r\n3. after the zoom new image appears but unlike google maps , the transition is not set properly\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n the expected output is a pinch zoom transition as smooth a google maps, ie when I zoom into a town the result is the town is at the same place and with a more precise render\r\ninstead I see the town move to the right, or left (it depends of how I pinch), but the town is not in the same place anymore in the screen\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.8 in android 2.3.4\r\n\r\n<b>Please provide any additional information below.</b>\nscreenshot example included",
+    "timestamp" : 1336426747,
+    "attachments" : [ {
+      "id" : 3420000000,
+      "fileName" : "google_maps_ok.jpg",
+      "fileSize" : 305388
+    }, {
+      "id" : 3420000001,
+      "fileName" : "osmdroid_pb.jpg",
+      "fileSize" : 382676
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Are you trying to say that you'd like the new tiles to be downloaded and rendered instantly after releasing the zoom? Unfortunately the internet is slow, especially on a mobile device. Google Maps uses vector rendering which is a completely different process to tile rendering that osmdroid uses. If you wait a little bit then osmdroid will also show the same place with a more precise render.",
+    "timestamp" : 1336455087,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7700519907604124623,
+    "content" : "hi, no not instantly, but the new image must fit the old one like google maps ok, \r\ncurrently the process is \r\n1 - before pinch image is small\r\n2 - before releasing pinch image is bigger\r\n3 - after releasing ping new image zoom is shown but bigger than the old one\r\n\r\nit will better if\r\n1 - before pinch image is small\r\n2 - before releasing pinch image is bigger\r\n3 - after releasing ping new image zoom is shown and it will fit 2 with more precise render\r\n\r\nthe solution here is find a way to show the new image in 3- that with precise zoom that will fit 2- like google maps. its really weird that releasing the pinch we've got more zoom. I think this is not correct. it's like we've got 2 level of zoom when we pinch instead of one .\r\n\r\nplease tell me what you think? :)\r\n",
+    "timestamp" : 1336485969,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Again, vector maps are completely different to tile maps. Vector maps can have an arbitrary zoom.  Tile maps have a finite number of zoom levels.",
+    "timestamp" : 1336490373,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7700519907604124623,
+    "content" : "thanks for your quick answer. I understand now",
+    "timestamp" : 1336611949,
+    "attachments" : [ ]
+  } ]
+}

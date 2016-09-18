@@ -1,0 +1,177 @@
+{
+  "id" : 112,
+  "status" : "Fixed",
+  "summary" : "Code Review - modular tile-provider architecture",
+  "labels" : [ "Type-Review", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 28,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "In the branch, I implemented a modular tile-provider architecture. Please review and give comments. If all goes well we'll move this into the trunk.\r\n\r\nLet me detail some of the implementation (eventually this should go in the Wiki?):\r\n\r\nOpenStreetMapTileProvider - The base-class for the top-level tile provider. The top-level tile provider is the component that external consumers (like a MapView or overlay provider, etc) use to request and obtain tiles. The base class provides a MapTileCache, and a set of Completed/Failed methods that will store the tile in the MapTileCache (if it can), and send a signal to the DownloadFinishedHandler. There also is a &quot;DataConnection&quot; field (with setter/getter) that is used to set the &quot;use/don't use the data connection&quot; state of the tile provider. If one of the modular asynchronous tile providers requires a data connection, and this state is set to false, then the asynchronous tile provider will be skipped.\r\n\r\nOpenStreetMapProviderArray (extends OpenStreetMapTileProvider) - This top-level tile provider allows a consumer to provide an array of modular asynchronous tile providers to be used to obtain map tiles. When a tile is requested, the ArrayProvider first checks the MapTileCache (synchronously) and returns the tile if available. If not, then the ArrayProvider returns null and sends the tile request through the asynchronous tile request chain. Each asynchronous tile provider returns success/failure to the ArrayProvider. If successful, the ArrayProvider passes the result to the base class. If failed, then the next asynchronous tile provider is called in the chain. If there are no more asynchronous tile providers in the chain, then the failure result is passed to the base class. The ArrayProvider provides a mechanism so that only one unique tile-request can be in the map tile request chain at a time.\r\n\r\nOpenStreetMapTileProviderDirect (extends OpenStreetMapProviderArray) - This top-level tile provider implements a default tile request chain which includes a FileSystemProvider (a file-system cache), and a TileDownloaderProvider (downloads map tiles via Render).\r\n\r\nOpenStreetMapAsyncTileProvider - The base-class for modular asynchronous tile providers. These tile providers will run on their own thread (from a ThreadPool) and attempt to obtain a map tile. A map tile can be delivered as a byte[], InputStream, or filename. Derived classes must implement:\r\n    1. threadGroupName() - Provide a unique descriptive name for the thread that will run this tile provider.\r\n    2. getTileLoader() - Return your instance of the TileLoader class used to obtain tiles.\r\n    3. getUsesDataConnection() - Return true if this tile provider requires a data connection to function, false otherwise. If this returns true, and the top-level tile provider has useDataConnection turned off, then this provider will be skipped.\r\n    4. getShouldTilesBeSaveInCache() - Return true if the the map tiles returned by this tile provider should be saved in a far-cache (like a file-storage cache), false otherwise. Most tile providers will return true, however there are some situations where saving map tiles to file-storage would be redundant (like if the tile provider was file-storage based for instance).\r\n    5. TileLoader.loadTile() - Each tile provider must implement the TileLoader class and the loadTile() method. The method should obtain the tile in one of three forms (byte[], InputStream, or filename). The method *MUST* call either tileLoaded() if successful, or tileLoadedFailed() if failed. If the tileLoaded() method is called, and this provider allows tiles to be saved in a far-cache, then the tile will automatically be saved to the cache by the base class. If the TileLoader plans to save the tile to storage and return a filename, then it should save the data to the File returned by mapTileFilenameProvider.getOutputFile(mapTile) since this is the file location for this data in the file-storage cache.\r\n\r\nOpenStreetMapTileFilesystemProvider (extends OpenStreetMapAsyncTileProvider) - This tile provider implements a file system cache. It uses an IMapTileFilenameProvider class to determine where the tile provider can find cached files.\r\n\r\nOpenStreetMapTileFileArchiveProvider (extends OpenStreetMapAsyncTileProvider) - This tile provider can provide tiles stored in a file archive. (It likely still needs work)\r\n\r\nOpenStreetMapTileDownloader (extends OpenStreetMapAsyncTileProvider) - This tile provider will attempt to download tiles from the tile's online renderer.\r\n\r\nOpenStreetMapTileRequestState - This is a state object that is passed back and forth between the ArrayProvider and each of the asynchronous tile provider and tracks the tile's progress.\r\n\r\nIMapTileFilenameProvider- This is an interface used to describe how tiles should be saved to a file-based system. This is used by the base TileLoader class to know where to save tiles obtained by the asynchronous tile providers to a far-cache. TileLoaders that save their data directly to file-storage should use this to get a location to save the data for a tile.\r\n\r\nDefaultMapTileFilenameProvider (implements IMapTileFilenameProvider) - The default implementation for IMapTileFilenameProvider.\r\n\r\n\r\nThe asynchronous tile request chain works thusly:\r\n\r\n1. The tile request comes into the ArrayProvider.\r\n2. The ArrayProvider checks the memory-cache.\r\n3. If no hit, and no previous requests are pending for this tile, then fire off a request into the map-request pipeline.\r\n4. The first async provider gets the request, and queues it where a TileLoader picks it up and tries to obtain the tile. If it can, it returns the tile (byte[], InputStream, or filename) to the ArrayProvider via a &quot;success&quot; call. Otherwise it returns a &quot;failure&quot; back to the ArrayProvider.\r\n5. If the ArrayProvider gets a &quot;failure&quot; from the async provider, it gets the next async provider for this tile and passes the tile to that provider to be processed (back to #4). If there are no more tile providers left, then the tile request fails.\r\n6. If the ArrayProvider gets a &quot;success&quot;, it checks the AsyncProvider to see if tiles from this provider should be cached in the file-cache (on the SD card) and does so if appropriate. It then creates a Drawable and puts that into the tile cache. Finally it sends a success call which invalidates the view.\r\n\r\n\r\nThings remaining to do:\r\n\r\n1. Each of the asynchronous tile providers have an mWorking and an mPending queue that is used to ensure that only one tile is being requested of the tile provider at a time. This is now handled in the ArrayProvider and is unnecessary. This should be replaced with an Assert() call and possibly a unit test.\r\n2. If the TileProvider does not call either tileLoaded() or tileLoadedFailed(), then it should default to tileLoadedFailed rather than just die (which actually causes it to never get loaded again since the ArrayProvider thinks it's still in the tile request chain).\r\n\r\n",
+    "timestamp" : 1289707894,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Previous comments from Neil Boyd:\r\n\r\nI had a look at it and it looks good. You've made some quite fundamental changes, especially regarding the way things are synchronized, so that'll need good testing to make sure the same kind of issues as before don't come up.\r\n\r\nThe zip provider isn't done yet, but you know that. I guess that would be the first one in the list, or maybe the second.\r\n\r\nYou don't use the tileProviderArray parameter in the OpenStreetMapTileProviderArray constructor, so you could remove it, or change OpenStreetMapTileProviderDirect to use it.\r\n\r\nPerhaps you could include the in-memory cache as a provider, then it's not an exception as described in point 2, 3 in your previous comment.\r\n\r\nCould you make each provider return its result to the previous provider, eg a download completion goes to the file system provider, which will save it and in turn return its result to the in-memory cache, which will store it in its cache. That makes each provider more abstract, rather than explicitly handling the specifics of each provider, eg getShouldTilesBeSavedInCache is explicitly related to the file system provider.\r\n\r\nThere's been some wide-ranging changes in trunk in the last few days, so you probably want to merge them in now.",
+    "timestamp" : 1289707994,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nI don't know what you mean with the tileProviderArray in the OpenStreetMapTileProviderArray constructor. The tileProviderArray is copied to the mTileProviderList in the constructor with: \r\n\r\n     Collections.addAll(mTileProviderList, tileProviderArray);\r\n\r\n\r\nI would lean towards not making the in-memory cache as a provider. The overhead of pushing that to its own thread I think it a waste. To keep things responsive, it's better to keep it synchronous. Additionally, it could not be done with the current approach without implementing a back-buffer.\r\n\r\nRegarding the getShouldTilesBeSavedInCache - Does my explanation in the ticket make this clearer? There may be other situations where you don't want tiles cached from a tile provider. For instance, the archive file provider - you may consider it redundant to have the tile stored in the zip file and then also in the file system cache. If the retrieval from the file archive is fast enough, then there is no gain by storing it in the file system cache.",
+    "timestamp" : 1289708494,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 110 has been merged into this issue.",
+    "timestamp" : 1289708590,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Another task:\r\n\r\n3. Right now we attach a renderer to the MapTile class. Ideally, we should pass the renderer to the OpenStreetMapTileDownloader. We could then support multiple renders at once.",
+    "timestamp" : 1289710285,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I was looking closer at detaching the renderer from the MapTile class, and I see where there are some problems with using a single IMapTileFilenameProvider. When it comes down to it - really only each individual asynchronous tile provider knows what their tile should be named. For instance a renderer for a DownloadTileProvider might produce jpegs, whereas a FileArchiveProvider might produce PNGs. Some ideas:\r\n\r\nWe could require asynchronous tile providers to only return Drawables, and then we compress the Drawables to a common format (jpeg, png, etc) on the file system. This really simplifies the tile request interface. Instead of having a multitude of data format options (byte[], InputStream, filename), it requires tile providers to do the work to get their data into the more generic Drawable class. When the drawable comes in to the ArrayProvider, it then recompresses it to, for example, a JPEG @ 75% quality and stores this on the file system. The compression could likely be made into a generic interface. \r\n\r\nA second solution could be that we write an interface for the FilesystemProvider to implement that is passed to each of the asynchronous tile providers. Keeping with the idea that only each individual tile provider knows the file name it produces for a tile, the interface would allow tile providers to check to see if their tile exists on the file system and it would also allow the tile provider to save a tile to the file system. Before we request a tile asynchronously, we should check each tile provider to see if its file exists in the file system, and if it does we should immediately jump to that provider (since all it has to do is pull the data from the file system and render it to a Drawable).\r\n\r\nI prefer the first solution. It might occasionally introduce some inefficiency in getting the tiles to the screen, but it keeps things simple and eliminates the need to keep track of unlimited tile naming schemes and file formats. In the end, we treat the file storage as an image cache rather than a data cache which is a good thing. We can also control the output quality we use in the image cache - it can be lossless where image quality is important or lossy in situations where you wish to minimize storage usage.",
+    "timestamp" : 1289790353,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Replying to comment 2:\r\n\r\nYou call addAll, but OpenStreetMapTileProviderDirect calls it with an empty array and then you add items to it afterwards.\r\n\r\nI'll agree with you for the other comments.",
+    "timestamp" : 1289821598,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding comment 5, I didn't look at all the code, but I think I understood your explanation and I prefer the second solution ;-)\r\n\r\nOne of the most important factors of osmdroid is the performance. That's why I started working on it in the first place. Before that the performance was pretty bad and it made it unusable. I get the feeling that if you start doing image format conversion the performance will go down unacceptably. It just doesn't seem necessary if you already have an image and all you need to do is render it.\r\n\r\nBy the way, you didn't comment on the Drawable. I recently changed it from a Bitmap because I thought it would be nice to be able to do other renderers that render things other than Bitmaps. I implemented an SVG renderer that did a ShapeDrawable. However that is history and now fits the YAGNI category ;-)  Just something you might want to consider...",
+    "timestamp" : 1289822098,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3160830107365654207,
+    "content" : "revision 492 changed from android Log to slf4j as per coding guidelines.",
+    "timestamp" : 1290037673,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3160830107365654207,
+    "content" : "I haven't finished going through the code yet.\r\nIt seems to me that the technique conform to the following constraints.\r\n\r\nThe tile loading policy for deciding which file to use should...\r\n a) prefer higher resolution over lower (e.g. actual over derived)\r\n b) prefer newer tile over older\r\n c) prefer local tiles over zip\r\n d) prefer zip files in lexicographic order\r\n \r\n(A derived tile is generated from coarser tiles from a lower resolution level.)\r\n\r\n\r\n2) Given a tile already present in the cache, when may it get replaced?\r\n  That is when will the chain get a chance to update the cached copy?\r\n\r\nI would like to see this change get committed soon.\r\nWhich piece would you like me to help with?\r\n                ",
+    "timestamp" : 1290042501,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nLet me make another case for solution #1 (regarding recompressing images to the file cache):\r\n\r\n1. You can control the compression and therefore the amount of work it has to do. You can choose something highly compressed in situations where storage is scarce, or you can choose no compression (like a .bmp output) where speed is of concern - or anything in-between. It gives the user the flexibility. If a tile provider absolutely must provide tiles in its own original data format then the provider itself can implement a storage cache.\r\n\r\n2. The processing wouldn't happen all that often. Only when tiles are received the first time, after that they would be retrieved (already compressed) from the file cache. Also of note is that all processing happens on a background thread and not the GUI thread.\r\n\r\n3.  There may be cases where we prefer a certain tile provider over the file cache - for instance if we have a source of high-resolution imagery that we always want to prefer over other imagery. By keeping the storage cache as a tile provider (rather than a special interface we pass into each provider) and keeping it in the tile request chain, this allows us to strategically place the file cache in the chain. I think it provides more flexibility in our \"tile loading policy\" as phreed points out.\r\n\r\n4. I see your point with allowing custom renderers other than bitmaps. I could make the argument that vector images (or other rendered images) could be turned into raster images and saved to the file cache and that would produce the same end-result, however drawing the raw vectors would likely be quicker. Maybe each tile provider can attach a renderer to the tiles they return.\r\n\r\nI also am performance conscience and agree that if this should kill performance then it's a dead-end. But if not, I think it gives a lot of flexibility in implementing our tile loading policy.",
+    "timestamp" : 1290046190,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "Are you suggesting to only do (de)compression after downloading? So then what happens with zip files and images that people just copy to the sdcard? And are you really going to do all the complex choice stuff described in point 1?\r\n\r\nOr are you suggesting to do it every time you put a tile into the cache? I still think that'll be bad on performance, but give it a try if you like.\r\n\r\nMemory is also an issue, so if the (de)compression uses a lot of memory that could be a problem. High resolution images will also have memory issues, but I guess they would be a specialised case when you've got enough memory.\r\n\r\nOr maybe a standard compression format can actually improve memory usage.\r\n\r\nSo to summarise, I'll be happy to see it working ;-)\r\n",
+    "timestamp" : 1290075315,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Putting the map tile in the file cache (and thereby compressing it) would be up to the asynchronous tile provider. So if getShouldTilesBeSaveInCache() returns true for the provider then the tile would be compressed and saved in the cache. So, the TileDownloader would likely store its tiles in the cache, whereas the ZIP provider might choose not to. It's up to the tile provider.",
+    "timestamp" : 1290180712,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nSo I thought about is some *more*, and there probably is a very simple way to implement the filesystem cache without having to do recompression and also be able to keep custom renderers with the tiles. We can pass an array of renderers to the file-system cache. Each of these renderers get their own subdirectory in which to store their data, and when the filesystem cache async tile provider gets called upon, it will check each renderer's directory to see if the file exists. If it does, then the renderer is called upon to render the Drawable and this is passed back to the tile cache. (you already do much of this... I guess this just incorporates the concepts into an async provider). There still is some finer points to hash out - like who saves the data to the file system, how do we make the renderer more generic and not tied to online providers - but maybe this is a good middle ground.\r\n\r\nAnd actually, the great thing about having a modular tile request architecture is that we could also implement the recompressing filesystem cache and the end-user could choose which one to use. Really, the question now is which one to dedicate resources to. It seems the non-recompressing one I described above is the smarter way to move forward since it will likely be less of a gamble.",
+    "timestamp" : 1290207140,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Checked in code for filesystem tile provider. It's another pretty big update, but I think it works nicely and cleans up some of the tile provider success/failure callback stuff.\r\n\r\n- The tile providers now must pass back a Drawable (success) or null (failure) in their TileLoader. This produces a simple Drawable that is ready to be drawn to the screen rather than having multiple data return types (byte[], filename, InputStream). That should eliminate confusion over who is responsible for closing streams, and how these data types are to be handled.\r\n\r\n- Tile providers have the option of subscribing to a FilesystemCacheProvider (the filesystem tile provider) to get access to a FilesystemCache. They can then provide an InputStream which will be saved to the FilesystemCache. This will then be available to the filesystem tile provider.\r\n\r\n- When a tile provider registers with the FilesystemCacheProvider it keeps a reference to the tile provider's renderer. The renderer provides information on where it should be stored on the filesystem, and it provides a way to get a Drawable from the InputStream. This allows the filesystem cache to act as an asynchronous tile provider and another link in the chain.\r\n\r\n- I started to separate the renderer base code from the HTTP-renderers that download tile from the Internet. This makes sense as the role of the renderer has evolved over these changes.",
+    "timestamp" : 1290405793,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I haven't looked at the latest changes yet, but I noticed one minor thing:\r\n\r\nIn revision 501 you removed the checks for network state. I would have thought it's still handy to keep them, but if not then you can also remove the permissions for them.\r\n\r\nThe network state check stuff was added in revision 369.",
+    "timestamp" : 1290420064,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "The network state checks were removed, and I would put them back but they seem to only check the state of Wifi. If I only had 3G service, it seems like it would disable my ability to download tiles. It would make more sense to perform some sort of more generic network-data check that includes 3G, Bluetooth, or any other network source.\r\n\r\nDoes anyone have a suggestion or a starting point? Is this even possible? Remember, we have the ability for the SDK user to set the map to go \"offline\" which prevents any tileprovider modules that require network access from getting called. I'm of the opinion that we should leave that responsibility up to the user. Maybe some users want tiles downloaded only over 3G or only over Wifi. Maybe one user has phone hardware with poor compatibility and the method we try to detect network connectivity isn't working for that user and therefore the software thinks it's always offline.\r\n\r\nWe're getting close to the finish line! If someone would like to finish up the Zip provider, that would be a big help. It might be working, so maybe we just need someone to take the time to test it out.",
+    "timestamp" : 1292306069,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "And when I say \"I'm of the opinion that we should leave that responsibility up to the user.\", I mean that I think the SDK user (like OpenStreetMapViewer) should be responsible for checking for network state changes, and then the SDK user can tell the OpenStreetMapView object to go offline/online in response.",
+    "timestamp" : 1292306196,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "The network checks did check 3G as well.  However it still wasn't really achieving it's aim.  The aim was to stop it going into a tight loop when there's no network available.  What often happens is that there *is* a network but it's not working, and then it still goes into a tight loop. So I don't mind if you remove it (ie keep it out, but also remove the permissions from the manifest and the wiki), but you should check what happens when there's no network.\r\n\r\nI can see what you're saying about being the responsibility of the user, but since the download provider is the only provider that knows or cares about network state, perhaps you should try and separate state detection and offline preference into the \"user\" code and have the download provider call back to it.\r\n\r\nAs I said in the first paragraph, it needs a better network state detection - probably check for a route through to the end point. I think there's something in the API for that.",
+    "timestamp" : 1292308007,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't like your tile aging check ;-(\r\n\r\nWhat I originally did was for the fs provider to return the tile anyway *and* pass the request on to the next provider. That way we're using the expired tile until we get a new one.  Maybe we never get the new one (because it drops off the bottom of the queue), but it doesn't really matter - next time we want that tile (when it's not in memory cache) we'll do the same thing again.\r\n\r\nThe way you've done it, if we fail to get a new tile then the old one is now marked as new. I don't quite get that logic.",
+    "timestamp" : 1292308583,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think the thing to do regarding the network checks are to remove them (maybe just comment them out), and then add a ticket to complete the network checks. This way it doesn't hold up merging into the trunk, and so we don't forget about it.\r\n\r\n\"but since the download provider is the only provider that knows or cares about network state\"\r\n\r\nAh, but remember this is a modular tile architecture, so even though it doesn't exist yet, it might in the future. For example, I could see someone wanting to write a tile provider that pulls tiles from a network share like an NFS share. That would also be reliant on having the network working. So that's why there is an option to toggle (at the \"parent\" provider, ArrayProvider) network providers getting called on or off. This function also used by the UI to run a mapping application in \"offline\" mode. We might be on the same page there, and you might just be arguing whether it should be a callback or if it should be a toggle (setUseDataConnection(boolean)). I'm not sure I see too much of a difference either way, but here is how I would see it working as implemented now:\r\n\r\n- The OpenStreetMapTileProviderDirect would implement for the user a full network checking implementation. If it finds the network down, it calls setUseDataConnection(false). When the network comes up it calls setUseDataConnection(true). It would also implement its own setOffline(boolean) method that would also setUseDataConnection(false), but keep it set until someone calls setOffline(false) and not reset it if the network came up.\r\n- The OpenStreetMapTileProviderArray would leave it up to the user to call setUseDataConnection, however we can probably provide some way to reuse what we implement in the ProviderDirect. Maybe we just put all that code in the ProviderArray but make it toggle-able on or off, and the ProviderDirect sets it to \"on\".\r\n- Again, the OpenStreetMapTileProviderBase provides a setUseDataConnection method. If set to false, any providers that rely on a network connection, via returning true for the getUsesDataConnection() method, would not be called until setUseDataConnection(true) was called. This prevents providers that rely on a network from becoming a logjam as we wait for the connections to time-out.\r\n",
+    "timestamp" : 1292463529,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "The tile aging check works like this - let's say we have a tile in the file provider that is stale. We have two outcomes - either another tile provider down the line will be able to provide a refreshed tile or there won't be any newer tile. So if the first scenario happens:\r\n\r\n1. The tile is stale in the fs provider. The fs provider updates the time-stamp but returns \"no tile found\". Since the fs provider couldn't find a tile, the next tile provider tries to retrieve the file (say a download provider).\r\n2. It succeeds! It stores the new tile in the fs cache, and returns the new tile to the tile cache.\r\n3. Next time the tile is requested the fs provider will return the new tile.\r\n\r\nThe second scenario:\r\n1. The tile is stale in the fs provider. The fs provider updates the time-stamp but returns \"no tile found\". Since the fs provider couldn't find a tile, the next tile provider tries to retrieve the file (say a download provider).\r\n2. The download provider fails. There are no more tile providers, therefore the tile request fails.\r\n3. After a fail, the tile automatically gets refreshed and re-requested (actually this doesn't happen on MAPTILE_FAIL_ID right now but it should!)\r\n4. This time when the fs provider gets called, the original tile is still in the cache, but it has an updated timestamp, so it is no longer stale. The original tile then gets returned as success.\r\n\r\nNow after writing all that - you're right, it still sucks. I tried to make a crafty solution, but there are actually some scenarios that I see now where it breaks down. Not to mention, once a tile is un-staled, it is no longer stale for another \"stale period\" rather than staying stale.\r\n\r\nSo, in the end, I am probably going to have to write a stuffTile() method that stuffs a tile into the tile cache. That allows the fs provider to \"provide\" the tile to the tile cache, but still return failure which allows the other tile providers to do a better job. It's a little bit of a hack though and I'd like to come up with a better solution while still keeping that \"provide the stale tile, but hope for a better tile\" paradigm which is a really smart way to do it.\r\n",
+    "timestamp" : 1292464430,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 7646092065249173135,
+    "content" : "Here is an interesting solution to the tile expiration problem that actually takes complete advantage of the modular tile architecture -\r\n\r\nSet up an array provider with the following modules:\r\nA FileSystemProvider with an expiration age of 30 days\r\nA DownloadProvider\r\nA FileSystemProvider with an unlimited expiration age\r\n\r\nSo, first it checks the primary file system provider. If it is expired, it fails. If the DownloadProvider can provide the tile, then it does, otherwise it fails and goes to the final FileSystemProvider. This one provides the file regardless of whether it is expired or not. Obviously both file providers point to the same filesystem, and only the first is used as the IFilesystemCacheProvider.\r\n\r\nThis is also how we can implement some of the other policy decisions. For example, preferring higher resolution tiles over lower resolution tiles. This would be controlled by the order that you add the modules to the ProviderArray. So if we had two archive providers, one with high resolution imagery and one with low resolution imagery, we add the high resolution first so that gets checked before the other low resolution tile provider.\r\n\r\nTaking that a step further, if someone wanted to implement a very complicated tile policy they could extend the ProviderArray and decide how to \"sort\" the tile provider modules to request the tiles in the order they wanted. They could even implement a ProviderArray that obtained Drawables from *all* the tile provider modules and then examined each one to determine which one to use. There are a lot of cool possibilities!\r\n",
+    "timestamp" : 1292476095,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't think we're disagreeing about setUseDataConnection.  That should be passed down to all the providers to do with as they wish.\r\nBut the network checks, I still think that's only related to the download provider, or at least this particular network check is related to this particular provider. If you had an NFS provider then it would have different network checks.\r\n\r\nAs for the expiry, I think your last suggestion is over-complicated. I haven't exactly looked at how to do it with the new logic, but it sounds simple to just return the tile *and* pass the request to the next provider.  And yes, this is a simple policy - there could be more complex ones - but I think the simple one will be good enough.",
+    "timestamp" : 1292487301,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 7646092065249173135,
+    "content" : "I can see your point about the download provider accepting its own interface to perform network checks. Let's add the interface, and the write an implementation that uses a good network check pattern.\r\n\r\nFor the tile expiration - I finally added a proper solution. I introduced the concept of \"candidate\" tiles that indicate a possible candidate tile for use, but doesn't imply success. Once I looked at it from that angle, the implementation was pretty natural. The concept may have uses in other paradigms - such as one where all tile providers always provide a result and the parent tile provider makes the decision on which one to use.\r\n",
+    "timestamp" : 1292737554,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "Added a straightforward network check implementation, extracted common file storage based methods into OpenStreetMapTileFileStorageProviderBase, and cleaned up a lot of loose ends. The samples appear to be working well. The mini-map stuff might need some attention, but that might have been pre-existing and I've added some tickets that try to attend to those issues. The zip provider has been reviewed and appears to be ready for use, but is untested.\r\n\r\nThere are probably a few things I'd like to see added (cancelling pending tile requests when zoom level changes, rethinking the ResourceProxy, removing hard-coded things into configurable parameters), but that stuff can be added after a trunk merge.\r\n\r\nSo - is there anything left to be done?",
+    "timestamp" : 1292819579,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 7646092065249173135,
+    "content" : "The code has settled, and the next step is to merge the code back into the trunk as described in ticket 130",
+    "timestamp" : 1293771196,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 7646092065249173135,
+    "content" : "Set review issue status to: Fixed\n",
+    "timestamp" : 1293951156,
+    "attachments" : [ ]
+  } ]
+}

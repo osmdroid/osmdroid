@@ -1,0 +1,197 @@
+{
+  "id" : 27,
+  "status" : "Fixed",
+  "summary" : "Loading Tiles : VM won't let us allocate 262144 bytes",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 30,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5709035672632107645,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom in\r\n2. Loading new tiles\r\n3. Exception Ocurred\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nThe new tiles in the new zoom view, but an exception ocurrus. In logcat i \r\nsee this:\r\n\r\nD/OPENSTREETMAP( 1209): MapTileCache succeeded for: 7/0/0/0\r\nD/OPENSTREETMAP( 1209): MapTileCache succeeded for: 7/0/0/0\r\nE/dalvikvm-heap( 1209): 262144-byte external allocation too large for this \r\nprocess.\r\nE/        ( 1209): VM won't let us allocate 262144 bytes\r\nD/skia    ( 1209): --- decoder-&gt;decode returned false\r\nE/OPENSTREETMAP( 1209): OutOfMemoryError putting tile in cache: \r\n7/4/9/5\r\nD/OPENSTREETMAP( 1209): MapTile request complete: 7/4/9/5\r\nD/OSM_FS_PROVIDER( 1215): Next tile: 7/4/6/4\r\nD/OPENSTREETMAP( 1209): MapTileCache succeeded for: 7/0/0/0\r\nD/OPENSTREETMAP( 1209): MapTileCache succeeded for: 7/0/0/0\r\nD/OPENSTREETMAP( 1209): Rendering overall: 66ms\r\nV/OPENSTREETMAP( 1209): onDraw\r\nD/OSM_FS_PROVIDER( 1215): Loaded tile: 7/4/9/3\r\nE/dalvikvm-heap( 1209): 262144-byte external allocation too large for this \r\nprocess.\r\nE/        ( 1209): VM won't let us allocate 262144 bytes\r\nD/skia    ( 1209): --- decoder-&gt;decode returned false\r\nE/OPENSTREETMAP( 1209): OutOfMemoryError putting tile in cache: \r\n7/4/9/3\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nI'm using a emulator tool with Android 2.0.1\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1269517841,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6556601514708298404,
+    "content" : "This is the default out of memory error.\r\n\r\n\r\nHaven't encountered any using osmdroid. Maybe fixed?",
+    "timestamp" : 1270659335,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 5709035672632107645,
+    "content" : "i will check if i have the last version and if it fixed this problem. ",
+    "timestamp" : 1270666353,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3649467699727318466,
+    "content" : "I do have the same problem with a Nexus One device.\r\nBut till now I didn't get an OutOfMemoryException on a G1. Of course I'm using the \r\nlatest version of osmdroid.\r\n\r\nSo this is kind of strange. I'm going to try to fix this when I get back my Nexus One.",
+    "timestamp" : 1270736689,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4639724819334268526,
+    "content" : "I found a workaround, which helps but is not the final solution.\r\n\r\n1. I exposed a method to clear the entire stack in OpenStreetMapTileCache: \r\n--------------------------------------------------------------------------\r\npublic void clear(){\r\n\t\tmCachedTiles.clear();\r\n\t}\r\n2. I changed OpenStreetMapTileProvider to clear the entire cache and call the gc:\r\n---------------------------------------------------------------------------------\r\n\r\nIOpenStreetMapTileProviderCallback mServiceCallback = new\r\nIOpenStreetMapTileProviderCallback.Stub() {\r\n\r\n\t\t@Override\r\n\t\tpublic void mapTileRequestCompleted(int rendererID, int zoomLevel, int tileX, int\r\ntileY, String aTilePath) throws RemoteException {\r\n...\r\n\t\t\t\t\t\t} catch (Throwable e) {\r\n\t\t\t\t\t\t\tLog.e(DEBUGTAG, \"Error deleting invalid file: \" + aTilePath, e);\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t} catch (OutOfMemoryError e) {\r\n!!!!!\t\t\t\t\tmTileCache.clear();\r\n!!!!!\t\t\t\t\tSystem.gc();\r\n\t\t\t\t\tLog.e(DEBUGTAG, \"OutOfMemoryError putting tile in cache: \" + tile,e);\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\tmDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_SUCCESS_ID);\r\n\t\t\tif (DEBUGMODE)\r\n\t\t\t\tLog.d(DEBUGTAG, \"MapTile request complete: \" + tile);\r\n\t\t}\r\n\t};\r\n\r\nNow it usable on my Nexus One. However, there should be a more precise method of\r\nremoving bitmaps.\r\n\r\nFor me, it seems that on the Nexus, the number of Bitmaps is more restricted. Some\r\npeople think, it is a bug...\r\n\r\n",
+    "timestamp" : 1270921813,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4639724819334268526,
+    "content" : "The following changes seem to fix the problem for me:\r\n\r\n1. in OpenStreetMapViewConstants reduce the number of tiles to 50 (was 75)\r\npublic static final int CACHE_MAPTILECOUNT_DEFAULT = 50;\r\n\r\n2. in OpenStreetMapServiceConstants introduce new constant\r\npublic static final int FS_CACHE_SIZE=16 * 1024 * 1024; // 16 MB\r\n\r\n3. in OpenStreetMapTileProviderService refer the new constant instead of computing\r\nhere directly\r\n\r\n        @Override\r\n\tpublic void onCreate() {\r\n\t\tsuper.onCreate();\r\n\t\tmFileSystemProvider = new OpenStreetMapTileFilesystemProvider(\r\n\t\t\t\tthis.getBaseContext(), FS_CACHE_SIZE); \r\n\t}\r\n\r\nMy quick fix above is not necessary now, however, it does not disturb. Perhaps the\r\ncaches need to be adjusted more precise depending on the hardware or need to be made\r\nconfigurable. I have lots of MB available on my disk, however, 2.1 seems to be\r\nungenerous on the number of Bitmaps for an app.\r\n\r\n ",
+    "timestamp" : 1270977185,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -4639724819334268526,
+    "content" : "Playing with the constants I increased the number of parallel threads to 8 and the\r\ndisc cache to 64MB shows a drastic (i.e. Google Maps like) improvement of usability.\r\n\r\nIt would be nice, if the app would be configurable or could detect if it could run in\r\nlean or fat mode in terms of memory and disc usage.\r\n\r\nIt is really fun now! Will watch the memory and energy consumption...",
+    "timestamp" : 1270981756,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 33 has been merged into this issue.",
+    "timestamp" : 1271163924,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I added the constant as suggested in comment 5, but didn't change the value.",
+    "timestamp" : 1271185263,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 5709035672632107645,
+    "content" : "the problem still remains...",
+    "timestamp" : 1271196113,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 131 uses the suggested values.",
+    "timestamp" : 1271315473,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 6556601514708298404,
+    "content" : "Reprodced the error on latest version #133 .\r\nAndroid emulator 2.1.\r\n\r\nJust browsed around for about 1 min.",
+    "timestamp" : 1271325322,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Also added the clear as suggested in comment 4 in revision r134",
+    "timestamp" : 1271362208,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 5709035672632107645,
+    "content" : "i have tried the clear and it is a bad solutions because the tiles are shown and then disappear when \"clear\" is \r\ncalled. This happens all the time and there is not posible to fix it",
+    "timestamp" : 1271370619,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -4639724819334268526,
+    "content" : "Definetely clear is to aggressive because it removes everything.\r\n\r\nI am testing a better version and hopefully can post something at the weekend.",
+    "timestamp" : 1271406612,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -4639724819334268526,
+    "content" : "The attached code of OpenStreetMapTileCache mitigated the problem. Now it runs stable\r\nfor a while, however, then there are ConcurrentModificationExceptions later on. Hard\r\nto reproduce...\r\n\r\nI also run into a NullPointerException later on in OpenStreetMapAsyncTileProvider.\r\nCatching like\r\n\r\nprivate OpenStreetMapTile nextTile() {\r\n\t\t\twhile(true) {\r\n\t\t\t\tif (mIterator == null) {\r\n\t\t\t\t\tmIterator = mPending.keySet().iterator();\r\n\t\t\t\t}\r\n\t\t\t\tif (!mIterator.hasNext()) {\r\n\t\t\t\t\treturn null;\r\n\t\t\t\t}\r\n\t\t\t\ttry {\r\n\t\t\t\t\tsynchronized (mPending) {\r\n\t\t\t\t\t\tfinal OpenStreetMapTile tile = mIterator.next();\r\n\t\t\t\t\t\ttry {\r\n\t\t\t\t\t\t\tmIterator.remove();\r\n\t\t\t\t\t\t} catch(ConcurrentModificationException e) {\r\n\t\t\t\t\t\t\t// couldn't remove this request\r\n\t\t\t\t\t\t\t// never mind, we'll process it again\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\tcatch(NoSuchElementException e) {\r\n\t\t\t\t\t\t\t// we shouldn't get this, but just in case\r\n\t\t\t\t\t\t\treturn null;\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\tcatch(NullPointerException e){\r\n\t\t\t\t\t\t\t// TODO clean this exceptions\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t\treturn tile;\r\n\t\t\t\t\t}\r\n\t\t\t\t} catch(ConcurrentModificationException e) {\r\n\t\t\t\t\t// get a new iterator and try again\r\n\t\t\t\t\tmIterator = null;\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\r\nrose another ConcurrentModificationException later. The synchronization in the code\r\nseems to be incomplete, and catching these Exceptions is no solution. We have sync\r\nall the stuff carefully\r\n\r\nThis is no problem for me, except time. However, I would like to fix this in another\r\nbranch because I need to touch a lot of classes...\r\n\r\n",
+    "timestamp" : 1271582018,
+    "attachments" : [ {
+      "id" : -4896559310174531107,
+      "fileName" : "OpenStreetMapTileCache.java",
+      "fileSize" : 2610
+    } ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "You can see the discussion about synchronization in issue 35.\r\n\r\nIn my opinion it's not worth the overhead of extra synchronization. As it is now it \r\noccassionally catches a ConcurrentModificationException and returns the \"wrong\" item. \r\nTo me that seems like a reasonable compromise.\r\n\r\n",
+    "timestamp" : 1271614746,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 6556601514708298404,
+    "content" : "My opinion is that this is not a tight loop (executes max some 10 times a second and\r\nmost of the time is not executing at all) and the overhead of extra sync is far lower\r\nthan all the fuss of making it work without one.\r\n",
+    "timestamp" : 1271661984,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -4639724819334268526,
+    "content" : "Patch for the following issues:\r\n\r\nI attached a working (Nexus One tested) patch to address the following issues:\r\n\r\n1. Useful constants\r\n2. Careful sync without any ConcurrentModificationExceptions\r\n@neilboyd:\r\nI think, catching the exceptions is good in normal java environments, however, on the \r\nandroid you could loose a Bitmap, and not recycling the internal memory creates a \r\nmemory leak which hurts later.\r\n\r\n\r\n3. Download from several servers in parallel, generally possible for all,\r\nimplemented for the CYCLEMAP\r\n\r\n\tCYCLEMAP(R.string.cyclemap, \".png\", 0, 17, 8, CodeScheme.X_Y,\r\n\t\t\t\"http://a.andy.sandbox.cloudmade.com/tiles/cycle/\",\r\n\t\t\t\"http://b.andy.sandbox.cloudmade.com/tiles/cycle/\",\r\n\t\t\t\"http://c.andy.sandbox.cloudmade.com/tiles/cycle/\"),\r\n\r\nYou can use the OpenStreetMapRendererInfo with several servers now, and the \r\nimplementation picks randomly one of the servers. This seems to improve the download \r\nspeed enormously. Checking the URLs in parallel with a Firefox sometimes shows a 404 \r\non some tiles, indicating a server problem which is harmless, if you can try lots of \r\nservers.\r\n\r\nRoom for improvement, choose the servers according to their response time... \r\n\r\nThe cyclemap now feels better than the Google maps!\r\n\r\n4. Another issue I could not solve: if you turn the display from horizontal to \r\nvertical or vice versa, the cache seems unnecessarily to fetch everything again.\r\n\r\nIs anyone solving this issue?\r\n\r\nHave fun,\r\nThomas\r\n",
+    "timestamp" : 1272794449,
+    "attachments" : [ {
+      "id" : -2717450647643665985,
+      "fileName" : "osmview.patch",
+      "fileSize" : 32088
+    } ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "Hi Thomas\r\n\r\n1. Committed in revision 150.\r\n2. I'm still not convinced about synchronization. See also issue 35. That doesn't \r\nmean I disagree, just that I'm standing on the fence.\r\n3. Copied to issue 48.\r\n4. Please make a new issue for this, with more information.\r\n\r\nRegards\r\n\r\nNeil\r\n\r\nPS. Your patch includes the upgrade to API 7 and the MultiTouchOpenStreetMapView \r\nattached to issue 25. I don't think that was intended, and it's not necessary \r\nfollowing the fix I made for issue 25.",
+    "timestamp" : 1272873278,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding not recycling the bitmaps, the docs says that recycle should be unnecessary \r\nand it will happen by itself. Doing it explicitly just makes it happen a bit sooner.",
+    "timestamp" : 1272875710,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -4639724819334268526,
+    "content" : "Hi Neil,\r\n\r\n@comment 19 I had to send the patches, because my codebase became to different.\r\nUnfortunately, you discovered my guerilla attempt do commit the\r\nMultiTouchOpenStreetMapView :-) \r\nIf nobody else is working on it, I will try to do a reflection patch testing on the\r\nexistence of the right api next time.\r\n \r\n@comment 22\r\nThis is true, however, the time until the next garbage collector cleanup is performed\r\nmight be to long because the native memory comes from another pool, as I understood\r\nthe case.\r\n\r\n",
+    "timestamp" : 1272891183,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "The reflection version is already committed in revision 143 / issue 25.",
+    "timestamp" : 1272900280,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 5709035672632107645,
+    "content" : "anyone can tell me what is the last patch to solve this issue? Because i can't solve this problem yet",
+    "timestamp" : 1273078058,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -4486136779772134676,
+    "content" : "Is anybody looking into the rotation issue mentioned in comment 18, point 4 ?\r\nI'm using the OpenStreetMapView in my app, but I'm still having memory issues.\r\nI can reproduce the OutOfMemory error very easily by rotating my screen about 10 times.\r\n\r\nIt seems after a screen rotation all the tiles are reloaded into memory, but the\r\ngarbage collector hasn't freed the memory from the old tiles yet, which eventually\r\nleads to an OutOfMemory error.",
+    "timestamp" : 1274948435,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not looking at it, but I made issue 54 for it.",
+    "timestamp" : 1274950368,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 73",
+    "timestamp" : 1279700990,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284129183,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : -7726788507432033761,
+    "content" : "Comment deleted",
+    "timestamp" : 1314165572,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : -8175853870223418439,
+    "content" : "Im fetching the images url and tring to display it in listview but its giving me the following error. If a get 1 or 2 images its giving me the result but the following occurs when i get more images. Can u plz help me im not getting it since 1 week.\r\nThanks in advance!\r\n\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): FATAL EXCEPTION: pool-1-thread-2\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): java.lang.OutOfMemoryError: bitmap size exceeds VM budget\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat android.graphics.BitmapFactory.nativeDecodeStream(Native Method)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat android.graphics.BitmapFactory.decodeStream(BitmapFactory.java:470)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat android.graphics.BitmapFactory.decodeStream(BitmapFactory.java:525)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat com.loopj.android.image.WebImage.getBitmapFromUrl(Unknown Source)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat com.loopj.android.image.WebImage.getBitmap(Unknown Source)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat com.loopj.android.image.SmartImageTask.run(Unknown Source)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1088)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:581)\r\n01-02 13:50:16.183: E/AndroidRuntime(1942): \tat java.lang.Thread.run(Thread.java:1019)\r\n",
+    "timestamp" : 1357114979,
+    "attachments" : [ ]
+  } ]
+}

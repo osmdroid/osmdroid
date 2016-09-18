@@ -1,0 +1,67 @@
+{
+  "id" : 420,
+  "status" : "New",
+  "summary" : "OSM MapView overlaps ListView during double tap zoom",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6999585313919299855,
+    "content" : "I have problem with osmdroid MapView which overlaps ListView during double tap zoom (and also when I tap plus sign on built in zoom controls).\r\nYou can find more info at stackoverflow:\r\nhttp://stackoverflow.com/questions/15566509/mapview-overlaps-listview-during-double-tap-zoom\r\n\r\nI'm using osmdroid version: 3.0.9. It happens on emulator, Sony Ericsson Live With Walkman and Nexus 7. Is it a bug or I'm doing something wrong?",
+    "timestamp" : 1365148298,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Do you have hardware acceleration turned off?",
+    "timestamp" : 1365167109,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6999585313919299855,
+    "content" : "No, I don't. What should I do?",
+    "timestamp" : 1365184531,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "In your manifest there is a setting called \"Hardware Acceleration\" - set it to \"false\".",
+    "timestamp" : 1365216837,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6999585313919299855,
+    "content" : "I added android:hardwareAccelerated=\"false\" to manifest tag but it doesn't solve the problem. This defect occurs on e.g. 4.0.4 and 2.3.3 Android. In addition there is strange black bar on the top part of MapView: http://i.imgur.com/AZF7Dmx.png (on Samsung GT-P1000 - Android 2.3.3). \r\n\r\nDo you need more details to help me?",
+    "timestamp" : 1365425586,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "A few things to try:\r\n\r\n1. Try the latest trunk. We updated a few things to help support hardware acceleration - maybe that will help your situation too.\r\n\r\n2. Try the samples app which does not exhibit any issues - find what is different between your app and the samples. Make small incremental changes until you find what breaks it and then report back.\r\n\r\n3. Post your project and maybe we can take a look.\r\n",
+    "timestamp" : 1365427292,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "@kurtzmarc\r\nLatest trunk does not work at pre-14 devices, see\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=413#c20",
+    "timestamp" : 1365429086,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6999585313919299855,
+    "content" : "Sorry for huge delay in answering... \r\n\r\nI would like to know if anything changed?\r\n\r\nI update osmdroid-android from repo today but it doesn't fix my issue. Am I doing something wrong?\r\n\r\nI added this to manifest:\r\n<application\r\n\tandroid:label=\"@string/app_name\"\r\n\tandroid:theme=\"@style/Theme.Sherlock\"\r\n\tandroid:hardwareAccelerated=\"false\">\r\n\r\nHere you can find layout:\r\nhttp://stackoverflow.com/questions/15566509/mapview-overlaps-listview-during-double-tap-zoom\r\n\r\nI'm attaching source code of my activity.\r\n\r\nCan you help me?",
+    "timestamp" : 1369643067,
+    "attachments" : [ {
+      "id" : 4200007000,
+      "fileName" : "MapListActivity.java",
+      "fileSize" : 955
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 407 has been merged into this issue.",
+    "timestamp" : 1371219112,
+    "attachments" : [ ]
+  } ]
+}

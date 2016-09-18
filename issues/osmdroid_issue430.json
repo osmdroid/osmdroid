@@ -1,0 +1,15 @@
+{
+  "id" : 430,
+  "status" : "New",
+  "summary" : "hitTest()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6280699992827769415,
+    "content" : "the following code regarding hitTest() is working on version 3.0.8,\r\nhowever it stopped to work on 3.0.10.\r\n\r\nis it bug or something is changed ? if it is how on 3.0.10 perform hitTest() or\r\nanalog?  \r\n\r\ndrawable.setBounds(0, 0, drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());\r\n\r\n....\r\n\r\nProjection pj = mapView.getProjection();\r\n\r\nPoint t=new Point(0,0);\r\nPoint p=new Point(0,0);\r\n\r\nfor (OverlayItem item : mapOverlays) {\r\n\r\npj.fromMapPixels(x, y, t);\r\npj.toPixels(item.getPoint(), p);\r\n\r\nif (hitTest(item, marker, t.x - p.x, t.y - p.y)  ......    \r\n",
+    "timestamp" : 1369155557,
+    "attachments" : [ ]
+  } ]
+}

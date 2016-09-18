@@ -1,0 +1,33 @@
+{
+  "id" : 300,
+  "status" : "Fixed",
+  "summary" : "Not possible to use https in XYZTileSource",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -222734824513844156,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use XYZTileSource with an urls using https to create a custom tile source\r\n2. Set tile source into map view\r\n3. Run program in order to try to download tiles.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nGet the map tiles downloaded\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid v3.0.6\r\nAndroid 2.2\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nXYZTileSource tileSource = new XYZTileSource(&quot;livemapshybrid&quot;, null, 1, 19, 256, &quot;.png&quot;, new String[] { https://urlMapTiles },  XYZTileSource.LIVEMAPS_TYPE_HYBRID);\r\nmapView.setTileSource(tileSource);\r\n\r\nAs it is not possible to set parameters in HttpClient present in MapTileDownloader, it is not possible to use a tile source with https.\r\n",
+    "timestamp" : 1326985482,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please answer the question \"What do you see instead?\"",
+    "timestamp" : 1326995629,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -222734824513844156,
+    "content" : "No connection and no map tile downloaded as HttpClient cannot be configured for https",
+    "timestamp" : 1327263505,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe this is now possible with the HTTP factory implemented in Issue 432.",
+    "timestamp" : 1370354625,
+    "attachments" : [ ]
+  } ]
+}

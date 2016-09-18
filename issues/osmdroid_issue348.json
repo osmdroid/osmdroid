@@ -1,0 +1,25 @@
+{
+  "id" : 348,
+  "status" : "Invalid",
+  "summary" : "MapView.zoomToBoundingBox() centers on incorrect coordinates",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7284257576020950379,
+    "content" : "reporting against osmdroid-android 3.0.8\r\n\r\nafter applying the zoom level, the MapView is centered on incorrect coordinates: the 1E6 coordinates are divided by 1E6, then passed to the map controller which expects 1E6 coordinates and also attempts to divide by 1E6.\r\n\r\npatch attached.",
+    "timestamp" : 1338292064,
+    "attachments" : [ {
+      "id" : 3480000000,
+      "fileName" : "fix-mapview-zoom-to-bounding-box.patch",
+      "fileSize" : 647
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is incorrect - the new GeoPoint() multiplies by 1E6, so the final value is correct. It's a ridiculous back and forth, but it ends up doing the correct calculation.\r\n\r\nNote that you cannot call zoomToBoundingBox until the MapView has been create and onLayout called on it.",
+    "timestamp" : 1361984092,
+    "attachments" : [ ]
+  } ]
+}

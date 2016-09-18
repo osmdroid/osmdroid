@@ -1,0 +1,21 @@
+{
+  "id" : 42,
+  "status" : "Fixed",
+  "summary" : "Tile cache should be at least as big as the number of tiles displayed",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Select the Cloudmade (small tiles) map mode\r\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nOnce the tiles are loaded they should continue to be displayed.\r\nInstead a few tiles flash on and off.\r\n\r\nThis is because the number of tiles needed is more than the cache size.",
+    "timestamp" : 1271341028,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r137.",
+    "timestamp" : 1271361342,
+    "attachments" : [ ]
+  } ]
+}

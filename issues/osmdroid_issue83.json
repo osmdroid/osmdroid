@@ -1,0 +1,25 @@
+{
+  "id" : 83,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMapViewItemizedOverlayWithFocus wrong parameter into super constructor",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "Hi,\r\n\r\nIn the &quot;OpenStreetMapViewItemizedOverlayWithFocus&quot; class the third parameter (optional marker Drawable) passed to the super constructor is wrong. Should be &quot;pMarker&quot; instead of &quot;pMarkerFocusedBase&quot;.",
+    "timestamp" : 1283441147,
+    "attachments" : [ {
+      "id" : 1219305872126605069,
+      "fileName" : "diff.txt",
+      "fileSize" : 191
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r358.",
+    "timestamp" : 1284128376,
+    "attachments" : [ ]
+  } ]
+}

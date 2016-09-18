@@ -1,0 +1,27 @@
+{
+  "id" : 126,
+  "status" : "Fixed",
+  "summary" : "If we share a tile provider amongst multiple views, the tile cache can be under-sized",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "(this is targeting the new tile request chain branch, but the underlying issue probably still exists in the current trunk)\r\n\r\nWe have designed into the OpenStreetMapView and the tile provider the functionality to share a tile provider amongst more than one view. This is used in the mini-map sample, where the main map and the mini-map share the same tile provider. The problem is that both maps call ensureCapacity with their own capacity requirements, but really those requests need to be aggregated over all views that use the tile provider. So if the main map needs 16 tiles, and the mini-map needs 4 tiles, the capacity truly needs to be set to 20.\r\n\r\nThis might be accomplished in a few ways. We could somehow try to aggregate the ensureCapacity requirements. We could somehow assign individual tile caches to each view. We could prevent users from sharing top-level tile providers (like the array provider) and encourage them to share the modular tile providers (like the download tile provider).",
+    "timestamp" : 1292810378,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The new mini-map will create its own tile provider that is not shared between the main map, however the mini-map also has a constructor that accepts a supplied tile provider. If you want to use a custom tile provider it is not a problem to just create two tile providers (ProviderArrays) with the same modular tile providers and use one for the main map and one for the mini-map. However there is nothing to prevent you from sharing a tile provider between both, even though it will cause the issue described above.\r\n\r\nThe only solutions I can think of to resolve this in code are hackish and just get in the way to a problem that can be easily avoided. I don't want to make users of the tile provider \"register\" with it, but I don't know any other way to detect that two views are using the tile provider.\r\n\r\nThe solution to this might just be to discourage it, and clearly show in the javadoc how to avoid this.",
+    "timestamp" : 1294808641,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been documented and this ticket can be closed.",
+    "timestamp" : 1298783762,
+    "attachments" : [ ]
+  } ]
+}

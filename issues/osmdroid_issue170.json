@@ -1,0 +1,21 @@
+{
+  "id" : 170,
+  "status" : "Fixed",
+  "summary" : "Access to Paint objects in ScalebarOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8953060770147212949,
+    "content" : "I'd like to be able to vary colour/style of the text and bar of the ScaleBarOverlay. Unfortunately, they seem to be hardcoded, with no apparent way of changing them.\r\n\r\nIt'd be great to be able to access textPaint and barPaint so I could make these changes. \r\n\r\n(Am I missing something obvious here?)\r\n",
+    "timestamp" : 1298764953,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r833.",
+    "timestamp" : 1298779695,
+    "attachments" : [ ]
+  } ]
+}

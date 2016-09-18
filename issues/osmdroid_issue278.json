@@ -1,0 +1,27 @@
+{
+  "id" : 278,
+  "status" : "New",
+  "summary" : " mapController.animateTo(point2) dosent point to same location as for  mapController.setCenter(point2);",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4859073866323269614,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a IGeoPoint as follows\r\nIGeoPoint point2 = new IGeoPoint() {\r\n  public int getLatitudeE6() {\r\n\treturn (int) (51.473988 * 1E6);\r\n  }\r\n  public int getLongitudeE6() {\r\n\treturn (int) (-0.29294 * 1E6);\r\n  }\r\n};  \r\n\r\nThese are the values for Kew Gardens, UK\r\n\r\n2. Use this point as mapController.animateTo(point2); \r\n\r\nThis takes to wrong location.\r\n\r\n3. Now use  mapController.setCenter(point2);\r\nIt points to correct location\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nboth API should point to same location\r\n<b>What version of the product are you using? On what operating system?</b>\nlatest\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1323187781,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4859073866323269614,
+    "content" : "Sorry Please replace IGeoPoint with GeoPoint... but still the issue gets reproduced",
+    "timestamp" : 1323188337,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8036654270100767415,
+    "content" : "I have the same issue. Calling multiple times to mapController.animateTo seems to move the map to the correct position sometimes, but is not an option :)\r\n\r\nsetCenter works as spected. Example :\r\n\r\n\r\n<code>\r\npublic void onCreate(Bundle savedInstanceState)\r\n{\r\n   ....\r\n   detectLocation();\r\n}\r\n\r\nprivate void detectLocation()\r\n    {\r\n    \tfinal Handler handler = new Handler();\r\n\r\n    \tmyLocationOverlay.runOnFirstFix(new Runnable()\r\n    \t{\r\n            public void run()\r\n            {\r\n            \tfinal GeoPoint l = myLocationOverlay.getMyLocation();\r\n            \thandler.post(new Runnable()\r\n            \t{\r\n                    @Override\r\n                    public void run()\r\n                    {\r\n                    \tif (l != null) {\r\n                    \t\tToast.makeText(getApplicationContext(), l.toString(), Toast.LENGTH_LONG).show();\r\n                    \t\tmc.setZoom(15);\r\n                    \t\t//mc.setCenter(l); // works\r\n                                mc.animateTo(l); // bugged\r\n                    \t}\r\n                    }\r\n            \t});\r\n            }\r\n        });\r\n}\r\n\r\n// App menu\r\n@Override\r\npublic boolean onOptionsItemSelected(MenuItem item)\r\n{\r\n    // Handle item selection\r\n    switch (item.getItemId()) {\r\n        case R.id.location:\r\n            detectLocation();\r\n            return true;\r\n        default:\r\n            return super.onOptionsItemSelected(item);\r\n    }\r\n}\r\n</code>",
+    "timestamp" : 1330453137,
+    "attachments" : [ ]
+  } ]
+}

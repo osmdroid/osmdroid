@@ -1,0 +1,45 @@
+{
+  "id" : 7,
+  "status" : "Fixed",
+  "summary" : "Fails to display tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1586374087699430807,
+    "content" : "I'm having the same issue with andnav2 and using osmdroid code in my own\r\napp, tiles fail to load, or re-load from OSM servers.\r\n\r\nThe other side effect is the code seems to get into an endless loop trying\r\nto load the tiles from the FS into memcache. Enabling debug mode spits out\r\nthe following output. Even with nothing changing on screen or no user input\r\nthe system will keep trying to load/display tiles but always fails and I've\r\nno idea why.\r\n\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/40/39.png\r\nI/OPENSTREETMAP( 2780): Cache failed, trying from FS.\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/40/40.png\r\nD/OPENSTREETMAP( 2780): Loaded: http://tile.openstreetmap.org/6/41/39.png\r\nto MemCache.\r\nI/OPENSTREETMAP( 2780): Cache failed, trying from FS.\r\nD/OPENSTREETMAP( 2780): Loaded: http://tile.openstreetmap.org/6/41/40.png\r\nto MemCache.\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/40/41.png\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/41/41.png\r\nI/OPENSTREETMAP( 2780): Rendering overall: 64ms\r\nI/OPENSTREETMAP( 2780): MapTile fs-&gt;cache success.\r\nI/OPENSTREETMAP( 2780): MapTile fs-&gt;cache success.\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/40/39.png\r\nI/OPENSTREETMAP( 2780): Cache failed, trying from FS.\r\nD/OPENSTREETMAP( 2780): Loaded: http://tile.openstreetmap.org/6/41/39.png\r\nto MemCache.\r\nI/OPENSTREETMAP( 2780): MapTileCache succeded for:\r\nhttp://tile.openstreetmap.org/6/40/40.png\r\nI/OPENSTREETMAP( 2780): Cache failed, trying from FS.\r\n",
+    "timestamp" : 1244658453,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1586374087699430807,
+    "content" : "Also I think I've worked out the tile issue, the tiles being saved to the file system\r\nare 0 bytes, so if the system tries to load these files and they're 0 bytes long then\r\nobviously they need reloading from the OSM server or some such.",
+    "timestamp" : 1244663647,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1586374087699430807,
+    "content" : "The following code snippet in public void loadMapTileToMemCacheAsync(..) fixes the\r\nissue, bit of an ugly hack I admit since preventing bad downloads from being cached\r\nwould be more elegant, but it does work and it does stop the app looping trying to\r\nload a 0 byte file.\r\n\r\n\t\tFile tmpf = new File(formattedTileURLString);\r\n\t\tif(tmpf.exists() && tmpf.canWrite() && tmpf.length() == 0)\r\n\t\t{\r\n\t\t\tSystem.out.print(\"File \"+formattedTileURLString+\" is 0 bytes long, removing... \");\r\n\t\t\ttmpf.delete();\r\n\t\t\tthis.mDatabase.delete(formattedTileURLString);\r\n\t\t\tSystem.out.println(\"done.\");\r\n\t\t\treturn;\r\n\t\t}\r\n\r\nAlso in the \"private interface OpenStreetMapTileFilesystemProviderDataBaseConstants\"\r\nsection of code you need to add:\r\n\r\n\t\tprivate void delete(final String filename)\r\n\t\t{\r\n\t\t\tthis.mDatabase.delete(T_FSCACHE, T_FSCACHE_NAME + \"='\" + filename + \"'\", null);\r\n\t\t}",
+    "timestamp" : 1244695371,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1268905046,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 115 stopped the downloader from saving empty files and revision 110 deleted \r\nfiles that it can't load as bitmaps. This should stop the loop described in this issue.\r\n\r\nHowever, if the download fails indefinitely, eg for Cloudmade tiles - see issue 28, \r\nthen it will keep trying to download them indefinitely.  That's because there's nothing \r\nto determine whether the error is permanent.  There's no way to know whether the next \r\nattempt will succeed.  Perhaps it needs some kind of mechanism to try less often, but \r\nyou don't want to give up altogether because it may be a transient error.",
+    "timestamp" : 1269615602,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Closed this issue because the bug as described is no longer present.\r\nSee also issue 31.",
+    "timestamp" : 1269616202,
+    "attachments" : [ ]
+  } ]
+}

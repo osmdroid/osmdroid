@@ -1,0 +1,69 @@
+{
+  "id" : 424,
+  "status" : "Invalid",
+  "summary" : "setZoom(19) does not work",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1847034595292785760,
+    "content" : "Hi All\r\n\r\nWhen the zoom level is set to 19, setZoom does not work. But when the zoom level is 18, it works fine. \r\n\r\nIncorrect:\r\nmapView.getController().setZoom(20);   //map shows at zoom level 18\r\nmapView.getController().setZoom(19);   //map shows at zoom level 18\r\n\r\nCorrect:\r\nmapView.getController().setZoom(18);   //map shows at zoom level 18\r\nmapView.getController().setZoom(17);   //map shows at zoom level 17\r\nmapView.getController().setZoom(16);   //map shows at zoom level 16\r\n\r\n\r\nI am using osmdroid-android-3.0.9.jar on a custom offline map. This is how I instantiated MapView:\r\nMapView mapView = new MapView(this, 256); \r\n\r\nWhat should I do to fix this?\r\n\r\nThank you for your kind help\r\nCheers\r\nSiva Chinniah\r\n\r\n\r\n",
+    "timestamp" : 1366924725,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The tile source you are using doesn't support zoom levels higher than 18. The default tile source is \"mapnik\" which only supports up to zoom level 18.",
+    "timestamp" : 1366984356,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1847034595292785760,
+    "content" : "Hi Marc\r\n\r\nThank you for your invaluable feedback. So what tile source do I need to use to go beyond zoom level 18 and how?\r\n\r\nOnce again, thank you for your input.\r\nCheers\r\nSiva",
+    "timestamp" : 1366990230,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "You should either create a new tile source that correctly reflects your true maximum zoom level, or you can use setMaxZoomLevel to override the tile source's maximum zoom level.",
+    "timestamp" : 1366994902,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1847034595292785760,
+    "content" : "Thank you for your quick response. Greatly appreciate it.\r\n\r\nsetMaxZoomLevel is not a method within MapView in osmdroid-android-3.0.9. However, the source codes do have this method but when compile it and referenced it to my application, the map did not show up.\r\n\r\nI tried to create a new tile source but did not work. I am new to this framework and so I am unsure how to do it. Here is the code:\r\nfinal MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());\r\n        \r\n        final ITileSource tileSource = new XYTileSource(\"maps\", null, 11, 21, 256, \".png\");\r\n        \r\n\t\ttileProvider.setTileSource(tileSource);\r\n\t\tfinal TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());\r\n\t\ttilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);\r\n\t\tmapView.getOverlays().add(tilesOverlay);",
+    "timestamp" : 1367006535,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "You need to have a tile source that actually contains data beyond 18. So you can create a tile source based on the Mapnik tile source and that will allow you to zoom beyond 18, but you won't get any tiles (in most areas?). If you still want to do this:\r\n\r\nnew XYTileSource(\"Mapnik\", ResourceProxy.string.mapnik, 11, 21, 256, \".png\", \"http://tile.openstreetmap.org/\")\r\n\r\nTake a look at TileSourceFactory to see the pre-loaded available tile sources.",
+    "timestamp" : 1367243778,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 1847034595292785760,
+    "content" : "Thank you for your helpful hint, Marc\r\n\r\nWhen I added your code snippet to our application(see below), I get the openstreet map tiles in the background. I also get our own custom satellite imagery tiles on top of it. But the zoom level still doesn’t go beyond 18. What I want is only our custom map displayed and we do not need openstreet map. We also want to be able to zoom beyond 18. Though our custom tiles has zoom levels from 11 to 21, why can’t we zoom beyond 18. What is wrong with our codes?\r\n\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        \r\n        MapView mapView = new MapView(this, 256); //constructor        \r\n\t\t// Add tiles layer with custom tile source\r\n        final MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext());\r\n        \r\n        final ITileSource tileSource = new XYTileSource(\"Mapnik\", ResourceProxy.string.mapnik, 11, 21, 256, \".png\",\"http://tile.openstreetmap.org/\");\r\n        \r\n\ttileProvider.setTileSource(tileSource);\r\n\tfinal TilesOverlay tilesOverlay = new TilesOverlay(tileProvider, this.getBaseContext());\r\n\ttilesOverlay.setLoadingBackgroundColor(Color.TRANSPARENT);\r\n\tmapView.getOverlays().add(tilesOverlay);\r\n                \r\n       mapView.setBuiltInZoomControls(true);\r\n       mapView.setMultiTouchControls(true);        \r\n       setContentView(mapView);\r\n                \r\n        mapView.getController().setZoom(20); \r\n        \r\n        mapView.getController().setCenter(new GeoPoint(41.403918,-95.003335));\r\n        mapView.setUseDataConnection(false); //keeps the mapView from loading online tiles using network connection.\r\n    }\r\n",
+    "timestamp" : 1367256436,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1367455854,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "You don't want to add a new TilesOverlay. You want to set the tile source for the existing tile provider.\r\n\r\nmapView.setTileSource(tileSource);",
+    "timestamp" : 1367455876,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1367455893,
+    "attachments" : [ ]
+  } ]
+}

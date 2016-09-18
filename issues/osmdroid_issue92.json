@@ -1,0 +1,31 @@
+{
+  "id" : 92,
+  "status" : "Fixed",
+  "summary" : "Add Parcelable interface to GeoPoint",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 377282626040017500,
+    "content" : "GeoPoint's cannot currently be passed as extras in Intents, since they don't implement the Parcelable interface.\r\n\r\nThis patch modifies GeoPoint to implement the Parcelable interface.\r\n",
+    "timestamp" : 1284762040,
+    "attachments" : [ {
+      "id" : 956531688147581989,
+      "fileName" : "geopoint.patch",
+      "fileSize" : 1743
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284969488,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r375.",
+    "timestamp" : 1284969541,
+    "attachments" : [ ]
+  } ]
+}

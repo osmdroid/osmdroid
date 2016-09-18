@@ -1,0 +1,29 @@
+{
+  "id" : 372,
+  "status" : "Duplicate",
+  "summary" : "OutOfMemoryException with zip files an large number of tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 259523715896549227,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add to osmdroid folder 4 zip files with over 30000 tiles inside each zip file\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nthere is an OutOfMemory exception when trying to add them to mTileProviderList it seem there is too many tiles to manage.\r\n\r\nIf i put the tiles in osmdroid/tiles folder unziped, the library manage them well, but it takes a long time to copy them to sdcard\r\ni have to copy over 2.000.000 of tiles an it takes too much time.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1349360530,
+    "attachments" : [ {
+      "id" : 3720000000,
+      "fileName" : "issue.JPG",
+      "fileSize" : 147212
+    }, {
+      "id" : 3720000001,
+      "fileName" : "issue2.JPG",
+      "fileSize" : 149097
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1349364126,
+    "attachments" : [ ]
+  } ]
+}

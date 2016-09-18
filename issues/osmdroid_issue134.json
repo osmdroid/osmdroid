@@ -1,0 +1,63 @@
+{
+  "id" : 134,
+  "status" : "Fixed",
+  "summary" : "Calling IStyledTileSource.setStyle doesn't take effect immediately",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Tiles that are currently displayed continue to be displayed in the old style.\r\n\r\nWhen you scroll to a new part of the map then the new style is displayed.",
+    "timestamp" : 1294217835,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "A MapView.invalidate() call would repaint the screen, but it would be nice if happened automatically and we didn't require the user to know they have to call invalidate.",
+    "timestamp" : 1294241411,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I tried that but it doesn't work because the old tiles are still in the memory cache so it just draws them again.\r\n\r\nWhat's needed is a way to clear the memory cache, but I couldn't see how to get there from the point where you're setting the style.  That's why I made this issue to try again later.",
+    "timestamp" : 1294244784,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Yes - you are right! I had to do the same when calling setRenderer(). Maybe it's as simple as adding a clearCache() method to MapTileProviderBase, or maybe there is a more elegant solution.",
+    "timestamp" : 1294278735,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Also related to issue 111",
+    "timestamp" : 1294809661,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nThis can be accomplished by calling MapView.getTileProvider().clearTileCache() - I see that a MapView reference is not available (rightly so) in the tile source. So I can see a few recommended approaches - \r\n\r\n* Calling clearTileCache() manually from wherever you call setStyle()\r\n* Calling setStyle() first on the tile source, and then re-passing the tile source in a call to MapView.setTileSource()\r\n\r\nObviously both require an extra call, and don't come \"for free\" by just calling setStyle, but I don't know if there is a way around that. By adding an example of doing this in the OpenStreetMapViewer activity or one of the samples, that should be enough for a user to get the idea. Personally, I like the second method (set the tile style, and then re-call setTileSource) of implementing this functionality.",
+    "timestamp" : 1295574699,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1295606925,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "That doesn't really work for me either because I'm using IMapView, not MapView directly.  I would need to keep a reference to the actual MapView or the ITileSource in order to do that.  However, despite that, I think the first solution would be better because it does less - something like this:\r\n\r\nITileProvider tileProvider = mapView.getTileProvider();\r\nIStyledTileSource<Integer> styledTileSource = (IStyledTileSource<Integer>) mTileProvider.getTileSource();\r\nstyledTileSource.setStyle(style);\r\ntileProvider.clearTileCache();\r\n\r\nIf this is documented in the IStyledTileSource.styledTileSource javadoc then I think that's enough to close this issue.",
+    "timestamp" : 1295606950,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been documented and we can close this ticket.",
+    "timestamp" : 1298784393,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,19 @@
+{
+  "id" : 354,
+  "status" : "New",
+  "summary" : "ItemizedOverlay.draw(): drawing focused item on top. ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "In ItemizedOverlay, the focused item should be always drawn last, to be on top of others. \r\nThis is not implemented in osmdroid 3.0.8. \r\n\r\nYou will find attached the implementation. \r\n",
+    "timestamp" : 1340973176,
+    "attachments" : [ {
+      "id" : 3540000000,
+      "fileName" : "ItemizedOverlay.java",
+      "fileSize" : 12127
+    } ]
+  } ]
+}

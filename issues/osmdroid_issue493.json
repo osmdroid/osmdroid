@@ -1,0 +1,15 @@
+{
+  "id" : 493,
+  "status" : "New",
+  "summary" : "Load tiles in the background while zooming",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2994850334662447637,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Pinch-zoom\r\n2. The map will be scaled, but there would be an empty background bellow the map which wouldn't fill with the new tiles, until the pinch-gesture is released.\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nLoading of the new tiles while pinch-zooming\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\nIs there a chance to implement a pinch-zoom functionality to look similar to the Google Maps, for example?\r\n",
+    "timestamp" : 1383999503,
+    "attachments" : [ ]
+  } ]
+}99503,"attachments":[]}]}

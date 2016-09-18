@@ -1,0 +1,33 @@
+{
+  "id" : 532,
+  "status" : "Invalid",
+  "summary" : "Offline Map simply does not work!",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8757295757326907602,
+    "content" : "I have been working on trying to get the OSM Mapquest map to work offline for some time now, but it just simply does not work. Here are the steps that I have taken to try and get the maps to work.\r\n\r\nIt is worth noting that the map works online. \r\n\r\nI have selected the OSMAND tile storage atlas format, as well as Osmdroid ZIP in MOBAC)Mobile Atlas Creator 1.9.16) and have selected a small area for the content, a few thousand tiles in Rome, for all levels of detail(0-18). I have then copied on different occasions, the resultant atlas files; i.e either OSMAND tile storage(file extension y.jpg.tile) or Osmdroid Zip to /sdcard/osmdroid/tiles and /sdcard/osmdroid/ respectively. In code, I have set the setUseDataConnection method flag to false, as in setUseDataConnection(false). I have done this with osmdroid-android-4.0.jar, with the source code of that same version(4.0) as well as the latest jar file osmdroid-android-4.1.jar. In every situation, the map does not load past a certain level of detail. The tiles when zooming in simply become more blurred because the tile at a finer LOD is not being fetched. Then, I noticed that Osmdroid uses y.png.tile formatted tiles, not y.jpg.tile as MOBAC will spit out. So I decided to rename ever tile file with a renaming tool to the same format; i.e rename y.jpg.tile to y.png.tile. It still does not work! I am at the end of my rope and don't know what to do. Any help is greatly needed! I cannot understand why Osmdroid can display the base tiles for Mapquest OSM but cannot display the tiles that I have copied to the same folder(/sdcard/osmdroid/tiles). I am stumped. What am I doing wrong??\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Select OSMAND tile storage,\r\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1396479067,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8757295757326907602,
+    "content" : "I apologize for the leftover text at the bottom of the previous issue. So briefly, here is the description of the issue:\r\n\r\nWhat steps will reproduce the problem?\r\n1. Select OSMAND tile storage in MOBAC. Select the content region and the level of details. Click on create Atlas. The resultant Atlas is formatted y.jpg.tile. Even renaming it to y.png.tile does not change the behavior.\r\n\r\n2.Copy said atlas, in the current format or after renaming every tile to y.png.tile in /sdcard/osmdroid/tiles.\r\n\r\n3. Set the proper flag to false in the method setUseDataConnection().\r\n\r\nWhat is the expected output? What do you see instead?\r\n\r\nI expect the content selected in MOBAC to show up for all levels of detail also selected in MOBAC. This is not the case, the map is not properly displayed for the finer LOD. Only the base MapQuest OSM tiles are displayed.\r\n\r\n\r\nWhat version of the product are you using? On what operating system?\r\nI am using Android 4.*, with Osmdroid 4.0.jar I obtain the same results with the newer )smdroid 4.1.jar, as well as the source code from 4.0.jar.\r\n\r\nI have tried Osmdroid ZIP atlas format as well, with the same results, the offline map does not load.",
+    "timestamp" : 1396479929,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8757295757326907602,
+    "content" : "I finally see why the offline maps would not work. Seems like I was making a content selection(by dragging the mouse on the map in MOBAC) AFTER clicking on the \"Add Selection\" button in MOBAC. The area that I selected was not the area that I thought I selected. The idea is to make your selection by dragging the mouse on the area that you want to create an atlas for and then hitting the \"Add selection\" button afterwards. Essentially, I was zooming in on an area that I hadn't selected in MOBAC in my app, which is why the tiles would not load. Of course, you still need to rename all of the tiles from y.jpg.tile to y.png.tile or else it won't work. So I know this is all confusing but the offline maps DO in fact work. I just wasn't looking in the right area on the map.",
+    "timestamp" : 1396486935,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for following up with your solution. I will close this issue now.",
+    "timestamp" : 1396531013,
+    "attachments" : [ ]
+  } ]
+}

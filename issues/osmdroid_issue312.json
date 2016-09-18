@@ -1,0 +1,21 @@
+{
+  "id" : 312,
+  "status" : "WontFix",
+  "summary" : "Like GMap 5.0+   vector and 3D surport?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3588962155875266040,
+    "content" : "osmdroid can do this?How?",
+    "timestamp" : 1329717532,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "osmdroid only works with tiles",
+    "timestamp" : 1333982666,
+    "attachments" : [ ]
+  } ]
+}

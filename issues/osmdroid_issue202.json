@@ -1,0 +1,31 @@
+{
+  "id" : 202,
+  "status" : "Fixed",
+  "summary" : "setZoomLevel: Zoom In GeoPoint Center is off",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2642955872843398937,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. Create a MapView with osmdroid-android\r\n2. Center map on a location\r\n2. Zoom In with builtin controls\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nYou should zoom in and center of map should remain in center.\r\nZooming out is fine, Zooming in centers map incorrectly.\r\n\r\nFrom where I am, NY State, the scale animation works okay, but then ends with a scroll to a coordinate in the South Atlantic near Gabon!\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n# svn info\r\nPath: .\r\nURL: http://osmdroid.googlecode.com/svn/trunk\r\nRepository Root: http://osmdroid.googlecode.com/svn\r\nRepository UUID: 349629ee-b03d-11dd-8830-69e4bb380a4a\r\nRevision: 915\r\nNode Kind: directory\r\nSchedule: normal\r\nLast Changed Author: kurtzmarc\r\nLast Changed Rev: 911\r\nLast Changed Date: 2011-03-31 21:36:45 -0400 (Thu, 31 Mar 2011)\r\n\r\nOperating System: Android 2.1 Nexus 1 Cyanogen Mod 7\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe MapView.AnimationListener.onAnimationEnd, calls setZoomLevel and \r\nIt's a minor (but major) translation problem when you are zooming in.\r\nI've included a simple patch.\r\n\r\nHowever, since this is a low level fix, I'm not sure what other applications depending on this call might have done to work around if it perceived this as a problem.",
+    "timestamp" : 1302634931,
+    "attachments" : [ {
+      "id" : -449555102022387340,
+      "fileName" : "MapView.patch",
+      "fileSize" : 1212
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303104452,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r919.",
+    "timestamp" : 1303137821,
+    "attachments" : [ ]
+  } ]
+}

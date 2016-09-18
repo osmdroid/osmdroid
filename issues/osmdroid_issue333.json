@@ -1,0 +1,33 @@
+{
+  "id" : 333,
+  "status" : "New",
+  "summary" : "Use 4umaps.eu as offline source maps",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1577041480556131463,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. it's possible to use 4umaps.eu as offline map data in osmdroid??Thanks\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.7\r\n\r\n<b>Please provide any additional information below.</b>\n4umaps.eu is a new source present in Mobile Atlas (MOBAC) 1.9.6\r\n",
+    "timestamp" : 1333739512,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1333746515,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I couldn't see any terms of use on the site.",
+    "timestamp" : 1333746569,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1577041480556131463,
+    "content" : "i have written a mail to info@4umaps.eu asking the kind of license.\r\nat this link http://wiki.openstreetmap.org/wiki/List_of_OSM_based_Services the maps seems to be free material",
+    "timestamp" : 1334055436,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,57 @@
+{
+  "id" : 40,
+  "status" : "Fixed",
+  "summary" : "Tiles should expire after some time",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "When OpenStreetMapTileFilesystemProvider finds that a file exists, it could \r\nalso check the timestamp, and if it's older than a certain amount of time \r\nthen request a download.\r\n\r\nIt will continue using the existing one until the download completes.\r\n\r\nIf the download request gets dropped off the end of the queue then it won't \r\nget downloaded, but that's okay.\r\n\r\n30 days seems like a nice expiry time.",
+    "timestamp" : 1271165132,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340764,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -6841996376054177083,
+    "content" : "Good point. There could even be a menu option to reload the tiles in the current view.",
+    "timestamp" : 1271497455,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1284103095,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "See http://wiki.openstreetmap.org/wiki/Tile_usage_policy\r\n\r\nExpiry tile should be as specified in the HTTP header\r\n - but I can't think of any obvious way of storing that now that there's no database\r\n\r\nOr a minimum of 7 days.",
+    "timestamp" : 1284103133,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 44 - the point made in comment 2 above",
+    "timestamp" : 1284365839,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284366678,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r366.",
+    "timestamp" : 1284375656,
+    "attachments" : [ ]
+  } ]
+}

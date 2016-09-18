@@ -1,0 +1,21 @@
+{
+  "id" : 197,
+  "status" : "Accepted",
+  "summary" : "GoogleWrapperSample throws Illegal State exception on second instantiation of Google Map view",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4962403259194227200,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nBuild the wrapper sample project, go from OSM to Google view twice. Second time round get &quot;You are only allowed to ave a single map view in a map activity &quot;\r\n\r\nEasy work round to put in an instance variable and check for null before instantiating in setMapView()\r\n\r\nJust raised it for info really, otherwise nice demo\r\n\r\n",
+    "timestamp" : 1301743474,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm aware of the error, but keeping an instance of it after it's no longer needed doesn't seem like a good idea.",
+    "timestamp" : 1302027252,
+    "attachments" : [ ]
+  } ]
+}

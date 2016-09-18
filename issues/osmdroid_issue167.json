@@ -1,0 +1,31 @@
+{
+  "id" : 167,
+  "status" : "Fixed",
+  "summary" : "LocationListenerProxy requests illegal providers",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "<b>What is the expected output? What do you see instead?</b>\n02-26 09:10:43.297: ERROR/wigle(472): Caused by: java.lang.IllegalArgumentException: provider=network\r\n02-26 09:10:43.297: ERROR/wigle(472):     at android.os.Parcel.readException(Parcel.java:1326)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at android.os.Parcel.readException(Parcel.java:1276)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at android.location.ILocationManager$Stub$Proxy.requestLocationUpdates(ILocationManager.java:646)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at android.location.LocationManager._requestLocationUpdates(LocationManager.java:582)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at android.location.LocationManager.requestLocationUpdates(LocationManager.java:446)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at org.osmdroid.LocationListenerProxy.startListening(LocationListenerProxy.java:22)\r\n02-26 09:10:43.297: ERROR/wigle(472):     at org.osmdroid.views.overlay.MyLocationOverlay.enableMyLocation(MyLocationOverlay.java:522)\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr820\r\n\r\n<b>Please provide any additional information below.</b>\nAttached is a diff to request enabled providers and only request updates on them.\r\n",
+    "timestamp" : 1298734398,
+    "attachments" : [ {
+      "id" : -7489911120110862478,
+      "fileName" : "locationlistenerproxy.diff",
+      "fileSize" : 1006
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r822.",
+    "timestamp" : 1298747311,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've applied this patch. It's a nice fix. But I'm interested in what conditions this occurs. What device have you got? Doesn't it have a network provider? Or is there some other configuration that causes this?",
+    "timestamp" : 1298747426,
+    "attachments" : [ ]
+  } ]
+}

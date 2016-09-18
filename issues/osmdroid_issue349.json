@@ -1,0 +1,25 @@
+{
+  "id" : 349,
+  "status" : "Fixed",
+  "summary" : "Tiles not refreshing when zooming in",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 403294555649485873,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Scroll map with small zoom to not-cached area\r\n2. Zoom in and move map\r\n3. Some tiles aren't refreshed (the have previous zoom level or are grey)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected refreshed tiles, what i got is in attachement.\r\nWaiting doesn't help, tried for 15 mins...\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nVersion 3.0.8, Android 2.3.3 (HTC Desire &amp; AVD)\r\n\r\n<b>Please provide any additional information below.</b>\nThis worked fine to version 3.0.5 but blinked a little",
+    "timestamp" : 1339745053,
+    "attachments" : [ {
+      "id" : 3490000000,
+      "fileName" : "Map.png",
+      "fileSize" : 122339
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "We have made many bug fixes in this area, some of which cover issues exactly like this, so I am going to mark this as fixed. Please re-open if you are still having this issue.",
+    "timestamp" : 1359145325,
+    "attachments" : [ ]
+  } ]
+}

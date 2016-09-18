@@ -1,0 +1,27 @@
+{
+  "id" : 399,
+  "status" : "Invalid",
+  "summary" : "Recycling map tiles in detach()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2060118034196697627,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. open and close map ca. 5 times in AndRoad, out of memory in heap space\r\n\r\nWho is responsible for recycling map tiles (bitmaps)?\r\nI think some of the map tile providers should do e.g. in the detach() method.\r\n",
+    "timestamp" : 1359899563,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The LRU cache recycles tiles when they are removed from the cache. Run a heap dump and check to see if you have something that is retaining your map instances. Compare your app to the samples (which don't have this problem) and see what you are doing differently.",
+    "timestamp" : 1359988269,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1365883819,
+    "attachments" : [ ]
+  } ]
+}
