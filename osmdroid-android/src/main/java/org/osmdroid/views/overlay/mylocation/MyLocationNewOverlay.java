@@ -140,19 +140,19 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	@Override
 	public void onDetach(MapView mapView) {
 		this.disableMyLocation();
-		if (mPersonBitmap != null) {
+		/*if (mPersonBitmap != null) {
 			mPersonBitmap.recycle();
 		}
 		if (mDirectionArrowBitmap != null) {
 			mDirectionArrowBitmap.recycle();
-		}
+		}*/
 		this.mMapView = null;
 		this.mMapController = null;
 		mHandler = null;
 		mMatrix = null;
 		mCirclePaint = null;
-		mPersonBitmap = null;
-		mDirectionArrowBitmap = null;
+		//mPersonBitmap = null;
+		//mDirectionArrowBitmap = null;
 		mHandlerToken = null;
 		mLocation = null;
 		mMapController = null;
