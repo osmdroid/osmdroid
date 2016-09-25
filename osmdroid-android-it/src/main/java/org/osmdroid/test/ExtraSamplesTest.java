@@ -72,9 +72,12 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         Log.i(FragmentSamples.TAG, "Memory allocation: INIT Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
         for (int i = 0; i < sampleFactory.count(); i++) {
 
+
             for (int k = 0; k < 5; k++) {
                 Log.i(FragmentSamples.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
                 final BaseSampleFragment basefrag = sampleFactory.getSample(fireOrder[i]);
+                if (basefrag.skipOnCiTests())
+                    break;
                 Log.i(FragmentSamples.TAG, "loading fragment ("+i+"/" + sampleFactory.count()+") run " +k +" " + basefrag.getSampleTitle() + ", " + frag.getClass().getCanonicalName());
 
                 Counters.printToLogcat();
