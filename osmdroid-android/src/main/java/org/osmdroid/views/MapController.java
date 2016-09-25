@@ -364,17 +364,7 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			} else {
 				mMapView.mTargetZoomLevel.set(zoomLevel);
 
-				float difference = zoomLevel < currentZoomLevel ?
-					currentZoomLevel - zoomLevel :
-					zoomLevel - currentZoomLevel;
-
-				float end = zoomLevel < currentZoomLevel ?
-					1f/(float) Math.pow(difference, 2f) :
-					(float) Math.pow(difference, 2f);
-
-				end = difference == 1f ?
-					(zoomLevel < currentZoomLevel ? 0.5f : 2f) : end;
-
+				float end = (float) Math.pow(2.0, zoomLevel - currentZoomLevel);
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 					ZoomAnimatorListener zoomAnimatorListener = new ZoomAnimatorListener(this);
 					ValueAnimator zoomToAnimator = ValueAnimator.ofFloat(1f, end);

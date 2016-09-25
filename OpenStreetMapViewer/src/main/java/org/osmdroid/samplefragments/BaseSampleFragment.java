@@ -65,4 +65,8 @@ public abstract class BaseSampleFragment extends Fragment {
 	protected void addOverlays() {
 		//
 	}
+
+	public boolean skipOnCiTests(){
+		return false;
+	}
 }
