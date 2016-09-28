@@ -166,8 +166,8 @@ public class CacheManager {
     public int possibleTilesInArea(BoundingBox bb, final int zoomMin, final int zoomMax) {
         int total = 0;
         for (int zoomLevel = zoomMin; zoomLevel <= zoomMax; zoomLevel++) {
-            Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth(), bb.getLonEast() * 1E-6, zoomLevel);
-            Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest() * 1E-6, zoomLevel);
+            Point mLowerRight = getMapTileFromCoordinates(bb.getLatSouth(), bb.getLonEast(), zoomLevel);
+            Point mUpperLeft = getMapTileFromCoordinates(bb.getLatNorth() , bb.getLonWest(), zoomLevel);
             int y = mLowerRight.y - mUpperLeft.y + 1;
             int x = mLowerRight.x - mUpperLeft.x + 1;
             int nbTilesForZoomLevel = x * y;
