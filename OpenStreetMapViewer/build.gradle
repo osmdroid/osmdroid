@@ -76,23 +76,6 @@ android.applicationVariants.all { variant ->
             def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
             commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
         }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
-    }
-}
-
-
-android.applicationVariants.all { variant ->
-    if (variant.getBuildType().name == "debug") {
-        task "configDevice3${variant.name.capitalize()}" (type: Exec){
-            dependsOn variant.install
-
-            group = 'nameofyourtaskgroup'
-            description = 'Describe your task here.'
-
-            def adb = android.getAdbExe().toString()
-            def mypermission = 'android.permission.READ_EXTERNAL_STORAGE '
-            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
-        }
-        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice2${variant.name.capitalize()}"
     }
 }
