@@ -70,10 +70,10 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         shuffleArray(fireOrder);
 
         Log.i(FragmentSamples.TAG, "Memory allocation: INIT Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
-        for (int i = 0; i < sampleFactory.count(); i++) {
+        for (int i = 0; i < fireOrder.length; i++) {
 
 
-            for (int k = 0; k < 5; k++) {
+            for (int k = 0; k < 100; k++) {
                 Log.i(FragmentSamples.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
                 final BaseSampleFragment basefrag = sampleFactory.getSample(fireOrder[i]);
                 if (basefrag.skipOnCiTests())

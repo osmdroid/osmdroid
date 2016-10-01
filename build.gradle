@@ -21,7 +21,7 @@ allprojects {
     project.version =
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.9/gradle/maven-support.gradle"
+    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.12/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -42,15 +42,28 @@ allprojects {
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
-    try {
-        if ("${project.property('signing.keyId')}" != null &&
-                !"".equals("${project.property('signing.keyId')}")) {
-            signing {
-                sign configurations.archives
-            }
-        }
-    }catch (Exception ex){}
+
+    if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
+        apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.12/gradle/quality.gradle"
+    }
+
 }
 
 
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.9/gradle/encryption.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.12/gradle/encryption.gradle"
+
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.12/gradle/site.gradle"
+
+
+//copy the readme into the site folder as the index
+task copyReadme() << {
+    copy{
+        from rootDir.absolutePath + "/README.md"
+        into rootDir.absolutePath + "/src/site/"
+        rename ("README.md", "index.md")
+    }
+}
+site.dependsOn copyReadme
+
+//tip, you can override the output directory of the site by uncommenting the following
+ext.buildWebsiteDir = rootDir.absolutePath + "/docs/"

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.2.3" timestamp="2016-09-26T22:23:58.610">
+<file name="./OSMMapTilePackager/src/test/java/org/osmdroid/mtp/TilePackagerTest.java">
+<violation beginline="46" endline="46" begincolumn="13" endcolumn="31" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="TilePackagerTest" method="runTest" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+</pmd>
+

@@ -1,0 +1,836 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Lint Report</title>
+<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Roboto" />
+<link rel="stylesheet" type="text/css" href="lint-results-debug_files/hololike.css" />
+<script language="javascript" type="text/javascript"> 
+<!--
+function reveal(id) {
+if (document.getElementById) {
+document.getElementById(id).style.display = 'block';
+document.getElementById(id+'Link').style.display = 'none';
+}
+}
+//--> 
+</script>
+</head>
+<body>
+<h1>Lint Report</h1>
+<div class="titleSeparator"></div>
+Check performed at Sat Oct 01 08:12:39 EDT 2016.<br/>
+1 errors and 28 warnings found:<br/><br/>
+<table class="overview">
+<tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<a href="#NewApi">NewApi: Calling new methods on older versions</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#OldTargetApi">OldTargetApi: Target SDK attribute is not targeting latest version</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#UnusedAttribute">UnusedAttribute: Attribute unused on older versions</a>
+</td></tr>
+<tr>
+<td class="countColumn">6</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#GradleDependency">GradleDependency: Obsolete Gradle Dependency</a>
+</td></tr>
+<tr>
+<td class="countColumn">7</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#GradleDynamicVersion">GradleDynamicVersion: Gradle Dynamic Version</a>
+</td></tr>
+<tr>
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#GradleOverrides">GradleOverrides: Value overridden by Gradle build script</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Security">Security</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#AllowBackup">AllowBackup: AllowBackup/FullBackupContent Problems</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Performance">Performance</a>
+</td></tr>
+<tr>
+<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#UnusedResources">UnusedResources: Unused resources</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Usability:Icons">Usability:Icons</a>
+</td></tr>
+<tr>
+<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#IconLocation">IconLocation: Image defined in density-independent drawable folder</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Usability">Usability</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#GoogleAppIndexingWarning">GoogleAppIndexingWarning: Missing support for Google App Indexing</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#Internationalization">Internationalization</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#HardcodedText">HardcodedText: Hardcoded text</a>
+</td></tr>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (15)</a>
+</td></tr></table>
+<br/>
+<a name="Correctness"></a>
+<div class="category"><a href="#" title="Return to top">Correctness</a><div class="categorySeparator"></div>
+</div>
+<a name="NewApi"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/java/org/osmdroid/google/sample/MainActivity.java">../../src/main/java/org/osmdroid/google/sample/MainActivity.java</a>:109</span>: <span class="message">Call requires API level 23 (current min is 9): <code>android.app.ListActivity#requestPermissions</code></span><br /><pre class="errorlines">
+<span class="lineno"> 106</span>         if (!permissions.isEmpty()) {
+<span class="lineno"> 107</span>             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+<span class="lineno"> 108</span>             String[] params = permissions.toArray(new String[permissions.size()]);
+<span class="lineno"> 109</span>             <span class="errorspan">requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);</span>
+<span class="lineno"> 110</span>         } // else: We already have permissions, so handle as normal
+<span class="lineno"> 111</span>     }
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Calling new methods on older versions.</div>
+<div class="explanation">
+This check scans through all the Android API calls in the application and warns about any calls that are not available on <b>all</b> versions targeted by this application (according to its minimum SDK attribute in the manifest).<br/>
+<br/>
+If you really want to use this API and don't need to support older devices just set the <code>minSdkVersion</code> in your <code>build.gradle</code> or <code>AndroidManifest.xml</code> files.<br/>
+<br/>
+If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the <code>@TargetApi</code> annotation specifying the local minimum SDK to apply, such as <code>@TargetApi(11)</code>, such that this check considers 11 rather than your manifest file's minimum SDK as the required API level.<br/>
+<br/>
+If you are deliberately setting <code>android:</code> attributes in style definitions, make sure you place this in a <code>values-vNN</code> folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.<br/>
+<br/>
+Similarly, you can use tools:targetApi="11" in an XML file to indicate that the element will only be inflated in an adequate context.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "NewApi" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="OldTargetApi"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">OldTargetApi: Target SDK attribute is not targeting latest version</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">Not targeting the latest versions of Android; compatibility modes apply. Consider testing and updating this version. Consult the <code>android.os.Build.VERSION_CODES</code> javadoc for details.</span><br /><pre class="errorlines">
+<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
+<span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<span class="lineno">   3</span>     package="org.osmdroid.google.sample">
+<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   5</span> 
+<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Target SDK attribute is not targeting latest version.</div>
+<div class="explanation">
+When your application runs on a version of Android that is more recent than your <code>targetSdkVersion</code> specifies that it has been tested with, various compatibility modes kick in. This ensures that your application continues to work, but it may look out of place. For example, if the <code>targetSdkVersion</code> is less than 14, your app may get an option button in the UI.<br/>
+<br/>
+To fix this issue, set the <code>targetSdkVersion</code> to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: <a href="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html">http://developer.android.com/reference/android/os/Build.VERSION_CODES.html</a>
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html">http://developer.android.com/reference/android/os/Build.VERSION_CODES.html</a>
+</div><br/>To suppress this error, use the issue id "OldTargetApi" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="UnusedAttribute"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">UnusedAttribute: Attribute unused on older versions</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/map_with_locationbox.xml">../../src/main/res/layout/map_with_locationbox.xml</a>:16</span>: <span class="message">Attribute <code>textAlignment</code> is only used in API level 17 and higher (current min is 9)</span><br /><pre class="errorlines">
+<span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
+<span class="lineno">  14</span>         android:layout_width="fill_parent"
+<span class="lineno">  15</span>         android:text="PLACEHOLDER"
+<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
+<span class="lineno">  17</span>         android:gravity="center"
+<span class="lineno">  18</span>         android:textColor="@android:color/white"
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Attribute unused on older versions.</div>
+<div class="explanation">
+This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the <code>minSdkVersion</code> attribute).<br/>
+<br/>
+This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance of functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.<br/>
+<br/>
+Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new <code>&lt;tag></code> element in layouts introduced in API 21.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedAttribute" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="GradleDependency"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="lineno">  21</span> 
+<span class="lineno">  22</span> dependencies {
+<span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:26</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 9.4.0</span><br /><pre class="errorlines">
+<span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
+<span class="lineno">  24</span>     compile 'com.android.support:appcompat-v7:23.+'
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:28</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.4.0</span><br /><pre class="errorlines">
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  31</span>     compile 'com.android.support:appcompat-v7:23.1.1'
+<span class="lineno">  32</span>     compile project(':osmdroid-android')
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:31</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
+<span class="lineno">  31</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.1.1'</span>
+<span class="lineno">  32</span>     compile project(':osmdroid-android')
+<span class="lineno">  33</span>     compile project(':osmdroid-third-party')
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:35</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="lineno">  32</span>     compile project(':osmdroid-android')
+<span class="lineno">  33</span>     compile project(':osmdroid-third-party')
+<span class="lineno">  34</span> 
+<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
+<span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 4 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Obsolete Gradle Dependency.</div>
+<div class="explanation">
+This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleDependency" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="GradleDynamicVersion"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">GradleDynamicVersion: Gradle Dynamic Version</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:appcompat-v7:23.+)</span><br /><pre class="errorlines">
+<span class="lineno">  21</span> 
+<span class="lineno">  22</span> dependencies {
+<span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:26</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.google.android.gms:play-services:8.+)</span><br /><pre class="errorlines">
+<span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
+<span class="lineno">  24</span>     compile 'com.android.support:appcompat-v7:23.+'
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:28</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.google.android.gms:play-services-maps:8.+)</span><br /><pre class="errorlines">
+<span class="lineno">  25</span>     //this covers google maps v2 apis
+<span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-v4:23+)</span><br /><pre class="errorlines">
+<span class="lineno">  27</span> 
+<span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  31</span>     compile 'com.android.support:appcompat-v7:23.1.1'
+<span class="lineno">  32</span>     compile project(':osmdroid-android')
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:35</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-annotations:23+)</span><br /><pre class="errorlines">
+<span class="lineno">  32</span>     compile project(':osmdroid-android')
+<span class="lineno">  33</span>     compile project(':osmdroid-third-party')
+<span class="lineno">  34</span> 
+<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
+<span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:36</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support.test:runner:0.4.+)</span><br /><pre class="errorlines">
+<span class="lineno">  33</span>     compile project(':osmdroid-third-party')
+<span class="lineno">  34</span> 
+<span class="lineno">  35</span>     androidTestCompile 'com.android.support:support-annotations:23+'
+<span class="lineno">  36</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
+<span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
+<span class="lineno">  38</span> 
+</pre>
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:37</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support.test:rules:0.4.+)</span><br /><pre class="errorlines">
+<span class="lineno">  34</span> 
+<span class="lineno">  35</span>     androidTestCompile 'com.android.support:support-annotations:23+'
+<span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
+<span class="lineno">  37</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
+<span class="lineno">  38</span> 
+<span class="lineno">  39</span> 
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 4 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Gradle Dynamic Version.</div>
+<div class="explanation">
+Using <code>+</code> in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleDynamicVersion" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="GradleOverrides"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">GradleOverrides: Value overridden by Gradle build script</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>minSdkVersion</code> value (<code>9</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>9</code>)</span><br /><pre class="errorlines">
+<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
+<span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<span class="lineno">   3</span>     package="org.osmdroid.google.sample">
+<span class="lineno">   4</span>     &lt;uses-sdk <span class="errorspan">android:minSdkVersion="9" android:targetSdkVersion="23" /></span>
+<span class="lineno">   5</span> 
+<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+</pre>
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>targetSdkVersion</code> value (<code>23</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>23</code>)</span><br /><pre class="errorlines">
+<span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
+<span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<span class="lineno">   3</span>     package="org.osmdroid.google.sample">
+<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   5</span> 
+<span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+</pre>
+</div>
+<div class="metadata">Priority: 4 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Value overridden by Gradle build script.</div>
+<div class="explanation">
+The value of (for example) <code>minSdkVersion</code> is only used if it is not specified in the <code>build.gradle</code> build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleOverrides" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Security"></a>
+<div class="category"><a href="#" title="Return to top">Security</a><div class="categorySeparator"></div>
+</div>
+<a name="AllowBackup"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">AllowBackup: AllowBackup/FullBackupContent Problems</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:20</span>: <span class="message">On SDK version 23 and up, your app data will be automatically backed up and restored on app install. Consider adding the attribute <code>android:fullBackupContent</code> to specify an <code>@xml</code> resource which configures which files to backup. More info: https://developer.android.com/preview/backup/index.html</span><br /><pre class="errorlines">
+<span class="lineno">  17</span>     &lt;uses-feature android:name="android.hardware.wifi" android:required="false" />
+<span class="lineno">  18</span>     &lt;uses-feature android:glEsVersion="0x00020000" android:required="false"/>
+<span class="lineno">  19</span>     
+<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  21</span>         android:allowBackup="true"
+<span class="lineno">  22</span>         android:icon="@drawable/icon"
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 3 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: AllowBackup/FullBackupContent Problems.</div>
+<div class="explanation">
+The <code>allowBackup</code> attribute determines if an application's data can be backed up and restored. It is documented at <a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a><br/>
+<br/>
+By default, this flag is set to <code>true</code>. When this flag is set to <code>true</code>, application data can be backed up and restored by the user using <code>adb backup</code> and <code>adb restore</code>.<br/>
+<br/>
+This may have security consequences for an application. <code>adb backup</code> allows users who have enabled USB debugging to copy application data off of the device. Once backed up, all application data can be read by the user. <code>adb restore</code> allows creation of application data from a source specified by the user. Following a restore, applications should not assume that the data, file permissions, and directory permissions were created by the application itself.<br/>
+<br/>
+Setting <code>allowBackup="false"</code> opts an application out of both backup and restore.<br/>
+<br/>
+To fix this warning, decide whether your application should support backup, and explicitly set <code>android:allowBackup=(true|false)"</code>.<br/>
+<br/>
+If not set to false, and if targeting API 23 or later, lint will also warn that you should set <code>android:fullBackupContent</code> to configure auto backup.
+</div>
+<br/><div class="moreinfo">More info: <ul><li><a href="https://developer.android.com/preview/backup/index.html">https://developer.android.com/preview/backup/index.html</a>
+<li><a href="http://developer.android.com/reference/android/R.attr.html#allowBackup">http://developer.android.com/reference/android/R.attr.html#allowBackup</a>
+</ul></div><br/>To suppress this error, use the issue id "AllowBackup" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Performance"></a>
+<div class="category"><a href="#" title="Return to top">Performance</a><div class="categorySeparator"></div>
+</div>
+<a name="UnusedResources"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">UnusedResources: Unused resources</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:7</span>: <span class="message">The resource <code>R.string.map_view_google_v1</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   4</span> 
+<span class="lineno">   5</span>     &lt;string name="app_name">OSMDroid 3rd Party Examples&lt;/string>
+<span class="lineno">   6</span> 
+<span class="lineno">   7</span>     &lt;string <span class="errorspan">name="map_view_google_v1">Google Map v1&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
+<span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:8</span>: <span class="message">The resource <code>R.string.map_view_google_v2</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   5</span>     &lt;string name="app_name">OSMDroid 3rd Party Examples&lt;/string>
+<span class="lineno">   6</span> 
+<span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="map_view_google_v2">Google Map v2&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
+<span class="lineno">  10</span>     &lt;string name="map_view_osm">OpenStreetMap&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:9</span>: <span class="message">The resource <code>R.string.map_view_osm_bing_aerial</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   6</span> 
+<span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
+<span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string></span>
+<span class="lineno">  10</span>     &lt;string name="map_view_osm">OpenStreetMap&lt;/string>
+<span class="lineno">  11</span>     &lt;string name="google_app_id">Android key 1&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:10</span>: <span class="message">The resource <code>R.string.map_view_osm</code> appears to be unused</span><br /><pre class="errorlines">
+<span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
+<span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
+<span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
+<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="map_view_osm">OpenStreetMap&lt;/string></span>
+<span class="lineno">  11</span>     &lt;string name="google_app_id">Android key 1&lt;/string>
+<span class="lineno">  12</span> 
+</pre>
+</div>
+<div class="metadata">Priority: 3 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Unused resources.</div>
+<div class="explanation">
+Unused resources make applications larger and slow down builds.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedResources" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Usability:Icons"></a>
+<div class="category"><a href="#" title="Return to top">Usability:Icons</a><div class="categorySeparator"></div>
+</div>
+<a name="IconLocation"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">IconLocation: Image defined in density-independent drawable folder</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/drawable/berlin.jpg">../../src/main/res/drawable/berlin.jpg</a></span>: <span class="message">Found bitmap drawable <code>res/drawable/berlin.jpg</code> in densityless folder</span><br />
+<span class="location"><a href="../../src/main/res/drawable/icon.png">../../src/main/res/drawable/icon.png</a></span>: <img class="embedimage" align="right" src="../../src/main/res/drawable/icon.png" /><span class="message">Found bitmap drawable <code>res/drawable/icon.png</code> in densityless folder</span><br clear="right"/>
+<span class="location"><a href="../../src/main/res/drawable/marker_default.png">../../src/main/res/drawable/marker_default.png</a></span>: <img class="embedimage" align="right" src="../../src/main/res/drawable/marker_default.png" /><span class="message">Found bitmap drawable <code>res/drawable/marker_default.png</code> in densityless folder</span><br clear="right"/>
+<span class="location"><a href="../../src/main/res/drawable/marker_default_focused_base.png">../../src/main/res/drawable/marker_default_focused_base.png</a></span>: <img class="embedimage" align="right" src="../../src/main/res/drawable/marker_default_focused_base.png" /><span class="message">Found bitmap drawable <code>res/drawable/marker_default_focused_base.png</code> in densityless folder</span><br clear="right"/>
+</div>
+<div class="metadata">Priority: 5 / 10<br/>
+Category: Usability:Icons</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Image defined in density-independent drawable folder.</div>
+<div class="explanation">
+The res/drawable folder is intended for density-independent graphics such as shapes defined in XML. For bitmaps, move it to <code>drawable-mdpi</code> and consider providing higher and lower resolution versions in <code>drawable-ldpi</code>, <code>drawable-hdpi</code> and <code>drawable-xhdpi</code>. If the icon <b>really</b> is density independent (for example a solid color) you can place it in <code>drawable-nodpi</code>.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/practices/screens_support.html">http://developer.android.com/guide/practices/screens_support.html</a>
+</div><br/>To suppress this error, use the issue id "IconLocation" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Usability"></a>
+<div class="category"><a href="#" title="Return to top">Usability</a><div class="categorySeparator"></div>
+</div>
+<a name="GoogleAppIndexingWarning"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">GoogleAppIndexingWarning: Missing support for Google App Indexing</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:20</span>: <span class="message">App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW intent-filler. See issue explanation for more details.</span><br /><pre class="errorlines">
+<span class="lineno">  17</span>     &lt;uses-feature android:name="android.hardware.wifi" android:required="false" />
+<span class="lineno">  18</span>     &lt;uses-feature android:glEsVersion="0x00020000" android:required="false"/>
+<span class="lineno">  19</span>     
+<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  21</span>         android:allowBackup="true"
+<span class="lineno">  22</span>         android:icon="@drawable/icon"
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 5 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Missing support for Google App Indexing.</div>
+<div class="explanation">
+Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://g.co/AppIndexing/AndroidStudio">https://g.co/AppIndexing/AndroidStudio</a>
+</div><br/>To suppress this error, use the issue id "GoogleAppIndexingWarning" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="Internationalization"></a>
+<div class="category"><a href="#" title="Return to top">Internationalization</a><div class="categorySeparator"></div>
+</div>
+<a name="HardcodedText"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">HardcodedText: Hardcoded text</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/map_with_locationbox.xml">../../src/main/res/layout/map_with_locationbox.xml</a>:15</span>: <span class="message">[I18N] Hardcoded string "PLACEHOLDER", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  12</span> 
+<span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
+<span class="lineno">  14</span>         android:layout_width="fill_parent"
+<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
+<span class="lineno">  16</span>         android:textAlignment="center"
+<span class="lineno">  17</span>         android:gravity="center"
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 5 / 10<br/>
+Category: Internationalization</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Hardcoded text.</div>
+<div class="explanation">
+Hardcoding text attributes directly in layout files is bad for several reasons:<br/>
+<br/>
+* When creating configuration variations (for example for landscape or portrait)you have to repeat the actual text (and keep it up to date when making changes)<br/>
+<br/>
+* The application cannot be translated to other languages by just adding new translations for existing string resources.<br/>
+<br/>
+In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "HardcodedText" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="MissingIssues"></a>
+<div class="category">Disabled Checks<div class="categorySeparator"></div>
+</div>
+The following issues were not run by lint, either because the check is not enabled by default, or because it was disabled with a command line flag or via one or more lint.xml configuration files in the project directories.
+<br/><br/>
+<a name="AppLinksAutoVerifyError"></a>
+<div class="issue">
+<div class="id">AppLinksAutoVerifyError<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: App Links Auto Verification Failure.</div>
+<div class="explanation">
+Ensures that app links are correctly set and associated with website.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://g.co/appindexing/applinks">https://g.co/appindexing/applinks</a>
+</div><br/>To suppress this error, use the issue id "AppLinksAutoVerifyError" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="AppLinksAutoVerifyWarning"></a>
+<div class="issue">
+<div class="id">AppLinksAutoVerifyWarning<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Potential App Links Auto Verification Failure.</div>
+<div class="explanation">
+Ensures that app links are correctly set and associated with website.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://g.co/appindexing/applinks">https://g.co/appindexing/applinks</a>
+</div><br/>To suppress this error, use the issue id "AppLinksAutoVerifyWarning" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="BackButton"></a>
+<div class="issue">
+<div class="id">BackButton<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 6 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Back button.</div>
+<div class="explanation">
+According to the Android Design Guide,<br/>
+<br/>
+"Other platforms use an explicit back button with label to allow the user to navigate up the application's hierarchy. Instead, Android uses the main action bar's app icon for hierarchical navigation and the navigation bar's back button for temporal navigation."<br/>
+This check is not very sophisticated (it just looks for buttons with the label "Back"), so it is disabled by default to not trigger on common scenarios like pairs of Back/Next buttons to paginate through screens.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/design/patterns/pure-android.html">http://developer.android.com/design/patterns/pure-android.html</a>
+</div><br/>To suppress this error, use the issue id "BackButton" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="EasterEgg"></a>
+<div class="issue">
+<div class="id">EasterEgg<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 6 / 10<br/>
+Category: Security</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Code contains easter egg.</div>
+<div class="explanation">
+An "easter egg" is code deliberately hidden in the code, both from potential users and even from other developers. This lint check looks for code which looks like it may be hidden from sight.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "EasterEgg" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="FieldGetter"></a>
+<div class="issue">
+<div class="id">FieldGetter<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 4 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Using getter instead of field.</div>
+<div class="explanation">
+Accessing a field within the class that defines a getter for that field is at least 3 times faster than calling the getter. For simple getters that do nothing other than return the field, you might want to just reference the local field directly instead.<br/>
+<br/>
+<b>NOTE</b>: As of Android 2.3 (Gingerbread), this optimization is performed automatically by Dalvik, so there is no need to change your code; this is only relevant if you are targeting older versions of Android.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/practices/design/performance.html#internal_get_set">http://developer.android.com/guide/practices/design/performance.html#internal_get_set</a>
+</div><br/>To suppress this error, use the issue id "FieldGetter" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="GoogleAppIndexingApiWarning"></a>
+<div class="issue">
+<div class="id">GoogleAppIndexingApiWarning<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Missing support for Google App Indexing Api.</div>
+<div class="explanation">
+Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://g.co/AppIndexing/AndroidStudio">https://g.co/AppIndexing/AndroidStudio</a>
+</div><br/>To suppress this error, use the issue id "GoogleAppIndexingApiWarning" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="IconExpectedSize"></a>
+<div class="issue">
+<div class="id">IconExpectedSize<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Usability:Icons</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Icon has incorrect size.</div>
+<div class="explanation">
+There are predefined sizes (for each density) for launcher icons. You should follow these conventions to make sure your icons fit in with the overall look of the platform.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/design/style/iconography.html">http://developer.android.com/design/style/iconography.html</a>
+</div><br/>To suppress this error, use the issue id "IconExpectedSize" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="LogConditional"></a>
+<div class="issue">
+<div class="id">LogConditional<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Unconditional Logging Calls.</div>
+<div class="explanation">
+The BuildConfig class (available in Tools 17) provides a constant, "DEBUG", which indicates whether the code is being built in release mode or in debug mode. In release mode, you typically want to strip out all the logging calls. Since the compiler will automatically remove all code which is inside a "if (false)" check, surrounding your logging calls with a check for BuildConfig.DEBUG is a good idea.<br/>
+<br/>
+If you <b>really</b> intend for the logging to be present in release mode, you can suppress this warning with a @SuppressLint annotation for the intentional logging calls.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "LogConditional" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="MangledCRLF"></a>
+<div class="issue">
+<div class="id">MangledCRLF<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 2 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Mangled file line endings.</div>
+<div class="explanation">
+On Windows, line endings are typically recorded as carriage return plus newline: \r\n.<br/>
+<br/>
+This detector looks for invalid line endings with repeated carriage return characters (without newlines). Previous versions of the ADT plugin could accidentally introduce these into the file, and when editing the file, the editor could produce confusing visual artifacts.
+</div>
+<br/><div class="moreinfo">More info: <a href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421">https://bugs.eclipse.org/bugs/show_bug.cgi?id=375421</a>
+</div><br/>To suppress this error, use the issue id "MangledCRLF" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="NegativeMargin"></a>
+<div class="issue">
+<div class="id">NegativeMargin<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 4 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Negative Margins.</div>
+<div class="explanation">
+Margin values should be positive. Negative values are generally a sign that you are making assumptions about views surrounding the current one, or may be tempted to turn off child clipping to allow a view to escape its parent. Turning off child clipping to do this not only leads to poor graphical performance, it also results in wrong touch event handling since touch events are based strictly on a chain of parent-rect hit tests. Finally, making assumptions about the size of strings can lead to localization problems.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "NegativeMargin" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="NewerVersionAvailable"></a>
+<div class="issue">
+<div class="id">NewerVersionAvailable<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 4 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Newer Library Versions Available.</div>
+<div class="explanation">
+This detector checks with a central repository to see if there are newer versions available for the dependencies used by this project. This is similar to the <code>GradleDependency</code> check, which checks for newer versions available in the Android SDK tools and libraries, but this works with any MavenCentral dependency, and connects to the library every time, which makes it more flexible but also <b>much</b> slower.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "NewerVersionAvailable" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="SelectableText"></a>
+<div class="issue">
+<div class="id">SelectableText<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 7 / 10<br/>
+Category: Usability</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Dynamic text should probably be selectable.</div>
+<div class="explanation">
+If a <code>&lt;TextView></code> is used to display data, the user might want to copy that data and paste it elsewhere. To allow this, the <code>&lt;TextView></code> should specify <code>android:textIsSelectable="true"</code>.<br/>
+<br/>
+This lint check looks for TextViews which are likely to be displaying data: views whose text is set dynamically. This value will be ignored on platforms older than API 11, so it is okay to set it regardless of your <code>minSdkVersion</code>.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "SelectableText" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="StopShip"></a>
+<div class="issue">
+<div class="id">StopShip<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 10 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Code contains <code>STOPSHIP</code> marker.</div>
+<div class="explanation">
+Using the comment <code>// STOPSHIP</code> can be used to flag code that is incomplete but checked in. This comment marker can be used to indicate that the code should not be shipped until the issue is addressed, and lint will look for these.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "StopShip" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="TypographyQuotes"></a>
+<div class="issue">
+<div class="id">TypographyQuotes<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Disabled By: Default<br/>
+Priority: 5 / 10<br/>
+Category: Usability:Typography</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Straight quotes can be replaced with curvy quotes.</div>
+<div class="explanation">
+Straight single quotes and double quotes, when used as a pair, can be replaced by "curvy quotes" (or directional quotes). This can make the text more readable.<br/>
+<br/>
+Note that you should never use grave accents and apostrophes to quote, `like this'.<br/>
+<br/>
+(Also note that you should not use curvy quotes for code fragments.)
+</div>
+<br/><div class="moreinfo">More info: <a href="http://en.wikipedia.org/wiki/Quotation_mark">http://en.wikipedia.org/wiki/Quotation_mark</a>
+</div><br/>To suppress this error, use the issue id "TypographyQuotes" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+<a name="UnusedIds"></a>
+<div class="issue">
+<div class="id">UnusedIds<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+Priority: 1 / 10<br/>
+Category: Performance</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Unused id.</div>
+<div class="explanation">
+This resource id definition appears not to be needed since it is not referenced from anywhere. Having id definitions, even if unused, is not necessarily a bad idea since they make working on layouts and menus easier, so there is not a strong reason to delete these.
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "UnusedIds" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
+
+<a name="SuppressInfo"></a>
+<div class="category">Suppressing Warnings and Errors<div class="categorySeparator"></div>
+</div>
+Lint errors can be suppressed in a variety of ways:<br/>
+<br/>
+1. With a <code>@SuppressLint</code> annotation in the Java code<br/>
+2. With a <code>tools:ignore</code> attribute in the XML file<br/>
+3. With ignore flags specified in the <code>build.gradle</code> file, as explained below<br/>
+4. With a <code>lint.xml</code> configuration file in the project<br/>
+5. With a <code>lint.xml</code> configuration file passed to lint via the --config flag<br/>
+6. With the --ignore flag passed to lint.<br/>
+<br/>
+To suppress a lint warning with an annotation, add a <code>@SuppressLint("id")</code> annotation on the class, method or variable declaration closest to the warning instance you want to disable. The id can be one or more issue id's, such as <code>"UnusedResources"</code> or <code>{"UnusedResources","UnusedIds"}</code>, or it can be <code>"all"</code> to suppress all lint warnings in the given scope.<br/>
+<br/>
+To suppress a lint warning in an XML file, add a <code>tools:ignore="id"</code> attribute on the element containing the error, or one of its surrounding elements. You also need to define the namespace for the tools prefix on the root element in your document, next to the <code>xmlns:android</code> declaration:<br/>
+<code>xmlns:tools="http://schemas.android.com/tools"</code><br/>
+<br/>
+To suppress a lint warning in a <code>build.gradle</code> file, add a section like this:<br/>
+<br/>
+android {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;lintOptions {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;disable 'TypographyFractions','TypographyQuotes'<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
+}<br/>
+<br/>
+Here we specify a comma separated list of issue id's after the disable command. You can also use <code>warning</code> or <code>error</code> instead of <code>disable</code> to change the severity of issues.<br/>
+<br/>
+To suppress lint warnings with a configuration XML file, create a file named <code>lint.xml</code> and place it at the root directory of the project in which it applies.<br/>
+<br/>
+The format of the <code>lint.xml</code> file is something like the following:<br/>
+<br/>
+&lt;?xml version="1.0" encoding="UTF-8"?><br/>
+&lt;lint><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Disable this given check in this project --><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;issue id="IconMissingDensityFolder" severity="ignore" /><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Ignore the ObsoleteLayoutParam issue in the given files --><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;issue id="ObsoleteLayoutParam"><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ignore path="res/layout/activation.xml" /><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ignore path="res/layout-xlarge/activation.xml" /><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/issue><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Ignore the UselessLeaf issue in the given file --><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;issue id="UselessLeaf"><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ignore path="res/layout/main.xml" /><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/issue><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;!-- Change the severity of hardcoded strings to "error" --><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;issue id="HardcodedText" severity="error" /><br/>
+&lt;/lint><br/>
+<br/>
+To suppress lint checks from the command line, pass the --ignore flag with a comma separated list of ids to be suppressed, such as:<br/>
+<code>$ lint --ignore UnusedResources,UselessLeaf /my/project/path</code><br/>
+<br/>
+For more information, see <a href="http://g.co/androidstudio/suppressing-lint-warnings">http://g.co/androidstudio/suppressing-lint-warnings</a><br/>
+
+
+</body>
+</html>

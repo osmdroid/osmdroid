@@ -1,0 +1,7 @@
+org.osmdroid.mtp
+org.osmdroid.mtp.adt
+org.osmdroid.mtp.download
+org.osmdroid.mtp.ui
+org.osmdroid.mtp.util
+org.osmdroid.tileprovider.util
+org.osmdroid.util
