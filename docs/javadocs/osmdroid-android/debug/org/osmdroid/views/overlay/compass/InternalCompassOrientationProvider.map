@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./InternalCompassOrientationProvider.html" title="org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider" alt="" coords="61,120,297,147"/>
-<area shape="rect" id="node1" href="./InternalCompassOrientationProvider.html" title="&lt;TABLE&gt;" alt="" coords="50,109,307,157"/>
-<area shape="rect" id="node2_1" href="./IOrientationProvider.html" title="org.osmdroid.views.overlay.compass.IOrientationProvider" alt="" coords="16,11,155,55"/>
-<area shape="rect" id="node2" href="./IOrientationProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,6,165,61"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/hardware/SensorEventListener.html" title="android.hardware.SensorEventListener" alt="" coords="200,11,344,55"/>
-<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/hardware/SensorEventListener.html" title="&lt;TABLE&gt;" alt="" coords="189,6,355,61"/>
-</map>

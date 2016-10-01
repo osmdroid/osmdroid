@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./SampleItemizedOverlay.html" title="org.osmdroid.SampleItemizedOverlay" alt="" coords="213,120,374,147"/>
-<area shape="rect" id="node1" href="./SampleItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="202,109,385,157"/>
-<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/ItemizedOverlay.html" title="org.osmdroid.views.overlay.ItemizedOverlay" alt="" coords="15,20,299,47"/>
-<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/ItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,9,310,57"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/ItemizedOverlay/OnFocusChangeListener.html" title="org.osmdroid.views.overlay.ItemizedOverlay.OnFocusChangeListener" alt="" coords="345,11,513,55"/>
-<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/ItemizedOverlay/OnFocusChangeListener.html" title="&lt;TABLE&gt;" alt="" coords="335,6,524,61"/>
-</map>
