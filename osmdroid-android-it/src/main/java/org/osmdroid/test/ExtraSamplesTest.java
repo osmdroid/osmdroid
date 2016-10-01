@@ -73,7 +73,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         for (int i = 0; i < fireOrder.length; i++) {
 
 
-            for (int k = 0; k < 100; k++) {
+            for (int k = 0; k < 5; k++) {
                 Log.i(FragmentSamples.TAG, k + "Memory allocation: Before load: Free: " + Runtime.getRuntime().freeMemory() + " Total:" + Runtime.getRuntime().totalMemory() + " Max:" + Runtime.getRuntime().maxMemory());
                 final BaseSampleFragment basefrag = sampleFactory.getSample(fireOrder[i]);
                 if (basefrag.skipOnCiTests())
