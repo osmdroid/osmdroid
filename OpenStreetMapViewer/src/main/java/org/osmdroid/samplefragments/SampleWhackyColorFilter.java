@@ -57,8 +57,8 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
     }
 
     /**
-     * @see http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
-     * @see http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
+     * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
      * @param cm
      * @param value
      */

@@ -25,7 +25,7 @@ import android.view.ViewGroup;
  * 
  * This is an abstract class. 
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='doc-files/marker-infowindow-classes.png' />
  *
  * @see MarkerInfoWindow
  * @author M.Kergall

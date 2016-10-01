@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./FileBasedTileSource.html" title="org.osmdroid.tileprovider.tilesource.FileBasedTileSource" alt="" coords="15,112,158,139"/>
+<area shape="rect" id="node1" href="./FileBasedTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,101,169,149"/>
+<area shape="rect" id="node2_1" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="36,16,137,43"/>
+<area shape="rect" id="node2" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="25,5,148,53"/>
+</map>

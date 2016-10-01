@@ -14,7 +14,7 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
  *
  * Handling tap event and showing the InfoWindow at a relevant position is let to sub-classes. 
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @see BasicInfoWindow
  * 

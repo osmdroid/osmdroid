@@ -38,10 +38,10 @@ import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
  * Impact of marker rotation on hitTest<br>
  * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @see MarkerInfoWindow
- * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
+ * see also <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
  * 
  * @author M.Kergall
  *

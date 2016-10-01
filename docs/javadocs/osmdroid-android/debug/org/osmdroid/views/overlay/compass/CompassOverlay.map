@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./CompassOverlay.html" title="org.osmdroid.views.overlay.compass.CompassOverlay" alt="" coords="227,120,349,147"/>
+<area shape="rect" id="node1" href="./CompassOverlay.html" title="&lt;TABLE&gt;" alt="" coords="216,109,360,157"/>
+<area shape="rect" id="node2_1" href="./IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="15,11,166,55"/>
+<area shape="rect" id="node2" href="./IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="5,6,177,61"/>
+<area shape="rect" id="node3_2" href="../IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="211,11,365,55"/>
+<area shape="rect" id="node3" href="../IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="201,6,375,61"/>
+<area shape="rect" id="node4_3" href="../Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="411,20,477,47"/>
+<area shape="rect" id="node4" href="../Overlay.html" title="&lt;TABLE&gt;" alt="" coords="400,9,488,57"/>
+</map>

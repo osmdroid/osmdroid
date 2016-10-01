@@ -31,7 +31,7 @@ import microsoft.mappoint.TileSystem;
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>

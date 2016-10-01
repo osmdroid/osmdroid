@@ -23,7 +23,7 @@ import android.widget.ImageView;
  * Description and sub-description interpret HTML tags (in the limits of the Html.fromHtml(String) API). 
  * Clicking on the bubble will close it. 
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='doc-files/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  */

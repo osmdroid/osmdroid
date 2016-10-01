@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BitmapTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" alt="" coords="499,16,655,43"/>
+<area shape="rect" id="node1" href="./BitmapTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="489,5,666,53"/>
+<area shape="rect" id="node6_1" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="501,112,654,139"/>
+<area shape="rect" id="node6" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="490,101,665,149"/>
+<area shape="rect" id="node2_2" href="./CloudmadeTileSource.html" title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" alt="" coords="16,208,168,235"/>
+<area shape="rect" id="node2" href="./CloudmadeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,197,179,245"/>
+<area shape="rect" id="node3_3" href="./HEREWeGoTileSource.html" title="org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource" alt="" coords="214,208,373,235"/>
+<area shape="rect" id="node3" href="./HEREWeGoTileSource.html" title="&lt;TABLE&gt;" alt="" coords="203,197,383,245"/>
+<area shape="rect" id="node4_4" href="./MapBoxTileSource.html" title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" alt="" coords="419,208,552,235"/>
+<area shape="rect" id="node4" href="./MapBoxTileSource.html" title="&lt;TABLE&gt;" alt="" coords="408,197,563,245"/>
+<area shape="rect" id="node5_5" href="./MapQuestTileSource.html" title="org.osmdroid.tileprovider.tilesource.MapQuestTileSource" alt="" coords="598,208,743,235"/>
+<area shape="rect" id="node5" href="./MapQuestTileSource.html" title="&lt;TABLE&gt;" alt="" coords="587,197,754,245"/>
+<area shape="rect" id="node7_6" href="./QuadTreeTileSource.html" title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" alt="" coords="789,208,933,235"/>
+<area shape="rect" id="node7" href="./QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="779,197,944,245"/>
+<area shape="rect" id="node8_7" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="979,208,1080,235"/>
+<area shape="rect" id="node8" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="968,197,1091,245"/>
+</map>

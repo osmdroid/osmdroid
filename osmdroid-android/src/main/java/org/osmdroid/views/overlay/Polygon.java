@@ -27,7 +27,7 @@ import android.view.MotionEvent;
  * - Doesn't support: Z-Index, Geodesic mode<br>
  * - Supports InfoWindow. 
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @author Viesturs Zarins, Martin Pearman for efficient PathOverlay.draw method
  * @author M.Kergall: transformation from PathOverlay to Polygon

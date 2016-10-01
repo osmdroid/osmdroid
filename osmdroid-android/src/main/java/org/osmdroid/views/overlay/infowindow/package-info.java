@@ -21,7 +21,6 @@
  * {@link org.osmdroid.api.IGeoPoint} on the {@link org.osmdroid.views.MapView}'s surface.</li>
  * </ul>
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='https://github.com/osmdroid/osmdroid/tree/master/osmdroid-android/src/main/doc/marker-infowindow-classes.png' />
  *
  */
 package org.osmdroid.views.overlay.infowindow;
