@@ -1,0 +1,1945 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JDepend Analysis</title>
+<style type="text/css">
+                    body {
+                    font:normal 68% verdana,arial,helvetica;
+                    color:#000000;
+                    }
+                    table tr td, tr th {
+                    font-size: 68%;
+                    }
+                    table.details tr th{
+                    font-weight: bold;
+                    text-align:left;
+                    background:#a6caf0;
+                    }
+                    table.details tr td{
+                    background:#eeeee0;
+                    }
+
+                    p {
+                    line-height:1.5em;
+                    margin-top:0.5em; margin-bottom:1.0em;
+                    margin-left:2em;
+                    margin-right:2em;
+                    }
+                    h1 {
+                    margin: 0px 0px 5px; font: 165% verdana,arial,helvetica
+                    }
+                    h2 {
+                    margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica
+                    }
+                    h3 {
+                    margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica
+                    }
+                    h4 {
+                    margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+                    }
+                    h5 {
+                    margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+                    }
+                    h6 {
+                    margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
+                    }
+                    .Error {
+                    font-weight:bold; color:red;
+                    }
+                    .Failure {
+                    font-weight:bold; color:purple;
+                    }
+                    .Properties {
+                    text-align:right;
+                    }
+                </style>
+</head>
+<body>
+<h1>
+<a name="top">JDepend Analysis</a>
+</h1>
+<p align="right">Designed for use with <a href="http://www.clarkware.com/software/JDepend.html">JDepend</a> and <a href="http://jakarta.apache.org">Ant</a>.</p>
+<hr size="2">
+<table width="100%">
+<tr>
+<td><a name="NVsummary">
+<h2>Summary</h2>
+</a></td><td align="right">
+                    [<a href="#NVsummary">summary</a>]
+                    [<a href="#NVpackages">packages</a>]
+                    [<a href="#NVcycles">cycles</a>]
+                    [<a href="#NVexplanations">explanations</a>]
+                </td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Package</th><th>Total Classes</th><th><a href="#EXnumber">Abstract Classes</a></th><th><a href="#EXnumber">Concrete Classes</a></th><th><a href="#EXafferent">Afferent Couplings</a></th><th><a href="#EXefferent">Efferent Couplings</a></th><th><a href="#EXabstractness">Abstractness</a></th><th><a href="#EXinstability">Instability</a></th><th><a href="#EXdistance">Distance</a></th>
+</tr>
+<tr>
+<td align="left"><a href="#PKmicrosoft.mappoint">microsoft.mappoint</a></td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">5</td><td align="right">3</td><td align="right">0</td><td align="right">0.38</td><td align="right">0.62</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.metalev.multitouch.controller">org.metalev.multitouch.controller</a></td><td align="right">4</td><td align="right">1</td><td align="right">3</td><td align="right">1</td><td align="right">4</td><td align="right">0.25</td><td align="right">0.8</td><td align="right">0.05</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid">org.osmdroid</a></td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">5</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.api">org.osmdroid.api</a></td><td align="right">4</td><td align="right">4</td><td align="right">0</td><td align="right">5</td><td align="right">2</td><td align="right">1</td><td align="right">0.29</td><td align="right">0.29</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.events">org.osmdroid.events</a></td><td align="right">8</td><td align="right">4</td><td align="right">4</td><td align="right">2</td><td align="right">5</td><td align="right">0.5</td><td align="right">0.71</td><td align="right">0.21</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.library">org.osmdroid.library</a></td><td align="right">6</td><td align="right">0</td><td align="right">6</td><td align="right">3</td><td align="right">1</td><td align="right">0</td><td align="right">0.25</td><td align="right">0.75</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.mapforge">org.osmdroid.mapforge</a></td><td align="right">7</td><td align="right">0</td><td align="right">7</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a></td><td align="right">5</td><td align="right">0</td><td align="right">5</td><td align="right">0</td><td align="right">21</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a></td><td align="right">16</td><td align="right">5</td><td align="right">11</td><td align="right">8</td><td align="right">14</td><td align="right">0.31</td><td align="right">0.64</td><td align="right">0.05</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a></td><td align="right">6</td><td align="right">2</td><td align="right">4</td><td align="right">0</td><td align="right">17</td><td align="right">0.33</td><td align="right">1</td><td align="right">0.33</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a></td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">5</td><td align="right">6</td><td align="right">0</td><td align="right">0.55</td><td align="right">0.45</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a></td><td align="right">34</td><td align="right">6</td><td align="right">28</td><td align="right">4</td><td align="right">24</td><td align="right">0.18</td><td align="right">0.86</td><td align="right">0.03</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a></td><td align="right">15</td><td align="right">4</td><td align="right">11</td><td align="right">6</td><td align="right">10</td><td align="right">0.27</td><td align="right">0.62</td><td align="right">0.11</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a></td><td align="right">6</td><td align="right">0</td><td align="right">6</td><td align="right">5</td><td align="right">12</td><td align="right">0</td><td align="right">0.71</td><td align="right">0.29</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.util">org.osmdroid.util</a></td><td align="right">16</td><td align="right">1</td><td align="right">15</td><td align="right">12</td><td align="right">11</td><td align="right">0.06</td><td align="right">0.48</td><td align="right">0.46</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.util.constants">org.osmdroid.util.constants</a></td><td align="right">2</td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">1</td><td align="right">1</td><td align="right">0.33</td><td align="right">0.33</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views">org.osmdroid.views</a></td><td align="right">15</td><td align="right">1</td><td align="right">14</td><td align="right">11</td><td align="right">25</td><td align="right">0.07</td><td align="right">0.69</td><td align="right">0.24</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.drawing">org.osmdroid.views.drawing</a></td><td align="right">2</td><td align="right">0</td><td align="right">2</td><td align="right">0</td><td align="right">3</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a></td><td align="right">44</td><td align="right">15</td><td align="right">29</td><td align="right">6</td><td align="right">24</td><td align="right">0.34</td><td align="right">0.8</td><td align="right">0.14</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay.compass">org.osmdroid.views.overlay.compass</a></td><td align="right">4</td><td align="right">2</td><td align="right">2</td><td align="right">0</td><td align="right">10</td><td align="right">0.5</td><td align="right">1</td><td align="right">0.5</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay.gestures">org.osmdroid.views.overlay.gestures</a></td><td align="right">3</td><td align="right">1</td><td align="right">2</td><td align="right">0</td><td align="right">6</td><td align="right">0.33</td><td align="right">1</td><td align="right">0.33</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay.gridlines">org.osmdroid.views.overlay.gridlines</a></td><td align="right">1</td><td align="right">0</td><td align="right">1</td><td align="right">0</td><td align="right">7</td><td align="right">0</td><td align="right">1</td><td align="right">0</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a></td><td align="right">4</td><td align="right">1</td><td align="right">3</td><td align="right">1</td><td align="right">12</td><td align="right">0.25</td><td align="right">0.92</td><td align="right">0.17</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a></td><td align="right">7</td><td align="right">2</td><td align="right">5</td><td align="right">0</td><td align="right">15</td><td align="right">0.29</td><td align="right">1</td><td align="right">0.29</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a></td><td align="right">3</td><td align="right">0</td><td align="right">3</td><td align="right">1</td><td align="right">7</td><td align="right">0</td><td align="right">0.88</td><td align="right">0.12</td>
+</tr>
+<tr>
+<td align="left"><a href="#PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a></td><td align="right">3</td><td align="right">3</td><td align="right">0</td><td align="right">4</td><td align="right">1</td><td align="right">1</td><td align="right">0.2</td><td align="right">0.2</td>
+</tr>
+<tr>
+<td align="left">android.animation</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.app</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.content</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.content.pm</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.content.res</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.database</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.database.sqlite</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.graphics</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.graphics.drawable</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.hardware</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.location</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.net</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.os</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.preference</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.provider</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.text</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.util</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.view</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.view.animation</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">android.widget</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.io</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.lang</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.lang.reflect</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.net</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.text</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.util</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.util.concurrent</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.util.concurrent.atomic</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">java.util.zip</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.core.model</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.android.graphics</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.datastore</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.layer.cache</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.layer.labels</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.layer.renderer</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.model</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.reader</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.rendertheme</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+<tr>
+<td align="left">org.mapsforge.map.rendertheme.rule</td><td align="left" colspan="8">No stats available: package referenced, but not analyzed.</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td><a name="NVpackages">
+<h2>Packages</h2>
+</a></td><td align="right">
+                    [<a href="#NVsummary">summary</a>]
+                    [<a href="#NVpackages">packages</a>]
+                    [<a href="#NVcycles">cycles</a>]
+                    [<a href="#NVexplanations">explanations</a>]
+                </td>
+</tr>
+</table>
+<h3>
+<a name="PKmicrosoft.mappoint">microsoft.mappoint</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 5</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.38</td><td><a href="#EXdistance">Distance</a>: 0.62</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    microsoft.mappoint.TileSystem
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.metalev.multitouch.controller">org.metalev.multitouch.controller</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 4</td><td><a href="#EXabstractness">Abstractness</a>: 0.25</td><td><a href="#EXinstability">Instability</a>: 0.8</td><td><a href="#EXdistance">Distance</a>: 0.05</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.metalev.multitouch.controller.MultiTouchController$MultiTouchObjectCanvas
+                <br>
+</td><td valign="top" width="25%">
+                    org.metalev.multitouch.controller.MultiTouchController
+                <br>
+                    org.metalev.multitouch.controller.MultiTouchController$PointInfo
+                <br>
+                    org.metalev.multitouch.controller.MultiTouchController$PositionAndScale
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.lang.reflect">java.lang.reflect</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid">org.osmdroid</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.LocationListenerProxy
+                <br>
+                    org.osmdroid.SensorEventListenerProxy
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.hardware">android.hardware</a>
+<br>
+<a href="#PKandroid.location">android.location</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.api">org.osmdroid.api</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 5</td><td><a href="#EXefferent">Efferent Couplings</a>: 2</td><td><a href="#EXabstractness">Abstractness</a>: 1</td><td><a href="#EXinstability">Instability</a>: 0.29</td><td><a href="#EXdistance">Distance</a>: 0.29</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.api.IGeoPoint
+                <br>
+                    org.osmdroid.api.IMapController
+                <br>
+                    org.osmdroid.api.IMapView
+                <br>
+                    org.osmdroid.api.IProjection
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+<br>
+<a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.events">org.osmdroid.events</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 5</td><td><a href="#EXabstractness">Abstractness</a>: 0.5</td><td><a href="#EXinstability">Instability</a>: 0.71</td><td><a href="#EXdistance">Distance</a>: 0.21</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.events.MapAdapter
+                <br>
+                    org.osmdroid.events.MapEvent
+                <br>
+                    org.osmdroid.events.MapEventsReceiver
+                <br>
+                    org.osmdroid.events.MapListener
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.events.DelayedMapListener
+                <br>
+                    org.osmdroid.events.DelayedMapListener$CallbackTask
+                <br>
+                    org.osmdroid.events.ScrollEvent
+                <br>
+                    org.osmdroid.events.ZoomEvent
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.library">org.osmdroid.library</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 3</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.25</td><td><a href="#EXdistance">Distance</a>: 0.75</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.library.BuildConfig
+                <br>
+                    org.osmdroid.library.R
+                <br>
+                    org.osmdroid.library.R$drawable
+                <br>
+                    org.osmdroid.library.R$id
+                <br>
+                    org.osmdroid.library.R$layout
+                <br>
+                    org.osmdroid.library.R$string
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.compass">org.osmdroid.views.overlay.compass</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKjava.lang">java.lang</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.mapforge">org.osmdroid.mapforge</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.mapforge.BuildConfig
+                <br>
+                    org.osmdroid.mapforge.R
+                <br>
+                    org.osmdroid.mapforge.R$attr
+                <br>
+                    org.osmdroid.mapforge.R$drawable
+                <br>
+                    org.osmdroid.mapforge.R$id
+                <br>
+                    org.osmdroid.mapforge.R$layout
+                <br>
+                    org.osmdroid.mapforge.R$string
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKjava.lang">java.lang</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 21</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.mapsforge.MapsForgeTileModuleProvider
+                <br>
+                    org.osmdroid.mapsforge.MapsForgeTileModuleProvider$1
+                <br>
+                    org.osmdroid.mapsforge.MapsForgeTileModuleProvider$TileLoader
+                <br>
+                    org.osmdroid.mapsforge.MapsForgeTileProvider
+                <br>
+                    org.osmdroid.mapsforge.MapsForgeTileSource
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.app">android.app</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.mapsforge.core.model">org.mapsforge.core.model</a>
+<br>
+<a href="#PKorg.mapsforge.map.android.graphics">org.mapsforge.map.android.graphics</a>
+<br>
+<a href="#PKorg.mapsforge.map.datastore">org.mapsforge.map.datastore</a>
+<br>
+<a href="#PKorg.mapsforge.map.layer.cache">org.mapsforge.map.layer.cache</a>
+<br>
+<a href="#PKorg.mapsforge.map.layer.labels">org.mapsforge.map.layer.labels</a>
+<br>
+<a href="#PKorg.mapsforge.map.layer.renderer">org.mapsforge.map.layer.renderer</a>
+<br>
+<a href="#PKorg.mapsforge.map.model">org.mapsforge.map.model</a>
+<br>
+<a href="#PKorg.mapsforge.map.reader">org.mapsforge.map.reader</a>
+<br>
+<a href="#PKorg.mapsforge.map.rendertheme">org.mapsforge.map.rendertheme</a>
+<br>
+<a href="#PKorg.mapsforge.map.rendertheme.rule">org.mapsforge.map.rendertheme.rule</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 8</td><td><a href="#EXefferent">Efferent Couplings</a>: 14</td><td><a href="#EXabstractness">Abstractness</a>: 0.31</td><td><a href="#EXinstability">Instability</a>: 0.64</td><td><a href="#EXdistance">Distance</a>: 0.05</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.tileprovider.IMapTileProviderCallback
+                <br>
+                    org.osmdroid.tileprovider.IRegisterReceiver
+                <br>
+                    org.osmdroid.tileprovider.LRUMapTileCache$TileRemovedListener
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderBase
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.BitmapPool
+                <br>
+                    org.osmdroid.tileprovider.ExpirableBitmapDrawable
+                <br>
+                    org.osmdroid.tileprovider.LRUMapTileCache
+                <br>
+                    org.osmdroid.tileprovider.MapTile
+                <br>
+                    org.osmdroid.tileprovider.MapTileCache
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderArray
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderBase$ZoomOutTileLooper
+                <br>
+                    org.osmdroid.tileprovider.MapTileProviderBasic
+                <br>
+                    org.osmdroid.tileprovider.MapTileRequestState
+                <br>
+                    org.osmdroid.tileprovider.ReusableBitmapDrawable
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 17</td><td><a href="#EXabstractness">Abstractness</a>: 0.33</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.33</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerCallback
+                <br>
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.cachemanager.CacheManager
+                <br>
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CacheManagerTask$1
+                <br>
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$CleaningTask
+                <br>
+                    org.osmdroid.tileprovider.cachemanager.CacheManager$DownloadingTask
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.app">android.app</a>
+<br>
+<a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.widget">android.widget</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.net">java.net</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 5</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.55</td><td><a href="#EXdistance">Distance</a>: 0.45</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.text">java.text</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 24</td><td><a href="#EXabstractness">Abstractness</a>: 0.18</td><td><a href="#EXinstability">Instability</a>: 0.86</td><td><a href="#EXdistance">Distance</a>: 0.03</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.tileprovider.modules.IArchiveFile
+                <br>
+                    org.osmdroid.tileprovider.modules.IFilesystemCache
+                <br>
+                    org.osmdroid.tileprovider.modules.INetworkAvailablityCheck
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$TileLoader
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.modules.ArchiveFileFactory
+                <br>
+                    org.osmdroid.tileprovider.modules.ConfigurablePriorityThreadFactory
+                <br>
+                    org.osmdroid.tileprovider.modules.DatabaseFileArchive
+                <br>
+                    org.osmdroid.tileprovider.modules.GEMFFileArchive
+                <br>
+                    org.osmdroid.tileprovider.modules.MBTilesFileArchive
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileAssetsProvider
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileAssetsProvider$TileLoader
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileDownloader
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider$TileLoader
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase$1
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase$MyBroadcastReceiver
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFilesystemProvider
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileFilesystemProvider$TileLoader
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$1
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$CantContinueException
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider
+                <br>
+                    org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider$TileLoader
+                <br>
+                    org.osmdroid.tileprovider.modules.NetworkAvailabliltyCheck
+                <br>
+                    org.osmdroid.tileprovider.modules.OfflineTileProvider
+                <br>
+                    org.osmdroid.tileprovider.modules.SqlTileWriter
+                <br>
+                    org.osmdroid.tileprovider.modules.SqlTileWriter$1
+                <br>
+                    org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter
+                <br>
+                    org.osmdroid.tileprovider.modules.TileWriter
+                <br>
+                    org.osmdroid.tileprovider.modules.TileWriter$1
+                <br>
+                    org.osmdroid.tileprovider.modules.TileWriter$2
+                <br>
+                    org.osmdroid.tileprovider.modules.ZipFileArchive
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.pm">android.content.pm</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.database">android.database</a>
+<br>
+<a href="#PKandroid.database.sqlite">android.database.sqlite</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.net">android.net</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.text">android.text</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.net">java.net</a>
+<br>
+<a href="#PKjava.text">java.text</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKjava.util.concurrent">java.util.concurrent</a>
+<br>
+<a href="#PKjava.util.concurrent.atomic">java.util.concurrent.atomic</a>
+<br>
+<a href="#PKjava.util.zip">java.util.zip</a>
+<br>
+<a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 6</td><td><a href="#EXefferent">Efferent Couplings</a>: 10</td><td><a href="#EXabstractness">Abstractness</a>: 0.27</td><td><a href="#EXinstability">Instability</a>: 0.62</td><td><a href="#EXdistance">Distance</a>: 0.11</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase
+                <br>
+                    org.osmdroid.tileprovider.tilesource.IStyledTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.ITileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase$LowMemoryException
+                <br>
+                    org.osmdroid.tileprovider.tilesource.CloudmadeTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.FileBasedTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.MapBoxTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.MapQuestTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.QuadTreeTileSource
+                <br>
+                    org.osmdroid.tileprovider.tilesource.TileSourceFactory
+                <br>
+                    org.osmdroid.tileprovider.tilesource.TileSourceFactory$1
+                <br>
+                    org.osmdroid.tileprovider.tilesource.TileSourceFactory$2
+                <br>
+                    org.osmdroid.tileprovider.tilesource.XYTileSource
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.mapsforge">org.osmdroid.mapsforge</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 5</td><td><a href="#EXefferent">Efferent Couplings</a>: 12</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.71</td><td><a href="#EXdistance">Distance</a>: 0.29</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.tileprovider.util.CloudmadeUtil
+                <br>
+                    org.osmdroid.tileprovider.util.Counters
+                <br>
+                    org.osmdroid.tileprovider.util.ManifestUtil
+                <br>
+                    org.osmdroid.tileprovider.util.SimpleInvalidationHandler
+                <br>
+                    org.osmdroid.tileprovider.util.SimpleRegisterReceiver
+                <br>
+                    org.osmdroid.tileprovider.util.StreamUtils
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.pm">android.content.pm</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.preference">android.preference</a>
+<br>
+<a href="#PKandroid.provider">android.provider</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.net">java.net</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.constants">org.osmdroid.tileprovider.constants</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.util">org.osmdroid.util</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 12</td><td><a href="#EXefferent">Efferent Couplings</a>: 11</td><td><a href="#EXabstractness">Abstractness</a>: 0.06</td><td><a href="#EXinstability">Instability</a>: 0.48</td><td><a href="#EXdistance">Distance</a>: 0.46</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.util.TileLooper
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.util.BoundingBox
+                <br>
+                    org.osmdroid.util.BoundingBox$1
+                <br>
+                    org.osmdroid.util.BoundingBoxE6
+                <br>
+                    org.osmdroid.util.BoundingBoxE6$1
+                <br>
+                    org.osmdroid.util.GEMFFile
+                <br>
+                    org.osmdroid.util.GEMFFile$1
+                <br>
+                    org.osmdroid.util.GEMFFile$GEMFInputStream
+                <br>
+                    org.osmdroid.util.GEMFFile$GEMFRange
+                <br>
+                    org.osmdroid.util.GeoPoint
+                <br>
+                    org.osmdroid.util.GeoPoint$1
+                <br>
+                    org.osmdroid.util.GeometryMath
+                <br>
+                    org.osmdroid.util.LocationUtils
+                <br>
+                    org.osmdroid.util.MyMath
+                <br>
+                    org.osmdroid.util.NetworkLocationIgnorer
+                <br>
+                    org.osmdroid.util.TileSystem
+                <br>
+</td><td valign="top" width="25%"><a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.osmdroid.events">org.osmdroid.events</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.drawing">org.osmdroid.views.drawing</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.gridlines">org.osmdroid.views.overlay.gridlines</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+<br>
+<a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.location">android.location</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKjava.io">java.io</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.osmdroid.api">org.osmdroid.api</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.util.constants">org.osmdroid.util.constants</a>
+<br>
+<a href="#PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.util.constants">org.osmdroid.util.constants</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 2</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 1</td><td><a href="#EXinstability">Instability</a>: 0.33</td><td><a href="#EXdistance">Distance</a>: 0.33</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.util.constants.GeoConstants
+                <br>
+                    org.osmdroid.util.constants.UtilConstants
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKjava.lang">java.lang</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views">org.osmdroid.views</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 11</td><td><a href="#EXefferent">Efferent Couplings</a>: 25</td><td><a href="#EXabstractness">Abstractness</a>: 0.07</td><td><a href="#EXinstability">Instability</a>: 0.69</td><td><a href="#EXdistance">Distance</a>: 0.24</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.MapView$OnFirstLayoutListener
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.MapController
+                <br>
+                    org.osmdroid.views.MapController$1
+                <br>
+                    org.osmdroid.views.MapController$ReplayController
+                <br>
+                    org.osmdroid.views.MapController$ReplayController$ReplayClass
+                <br>
+                    org.osmdroid.views.MapController$ReplayType
+                <br>
+                    org.osmdroid.views.MapController$ZoomAnimationListener
+                <br>
+                    org.osmdroid.views.MapController$ZoomAnimatorListener
+                <br>
+                    org.osmdroid.views.MapView
+                <br>
+                    org.osmdroid.views.MapView$1
+                <br>
+                    org.osmdroid.views.MapView$LayoutParams
+                <br>
+                    org.osmdroid.views.MapView$MapViewDoubleClickListener
+                <br>
+                    org.osmdroid.views.MapView$MapViewGestureDetectorListener
+                <br>
+                    org.osmdroid.views.MapView$MapViewZoomListener
+                <br>
+                    org.osmdroid.views.Projection
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.events">org.osmdroid.events</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.cachemanager">org.osmdroid.tileprovider.cachemanager</a>
+<br>
+<a href="#PKorg.osmdroid.views.drawing">org.osmdroid.views.drawing</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.compass">org.osmdroid.views.overlay.compass</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.gestures">org.osmdroid.views.overlay.gestures</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.gridlines">org.osmdroid.views.overlay.gridlines</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+<br>
+<a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.animation">android.animation</a>
+<br>
+<a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKandroid.view.animation">android.view.animation</a>
+<br>
+<a href="#PKandroid.widget">android.widget</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.lang.reflect">java.lang.reflect</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKjava.util.concurrent.atomic">java.util.concurrent.atomic</a>
+<br>
+<a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.metalev.multitouch.controller">org.metalev.multitouch.controller</a>
+<br>
+<a href="#PKorg.osmdroid.api">org.osmdroid.api</a>
+<br>
+<a href="#PKorg.osmdroid.events">org.osmdroid.events</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.modules">org.osmdroid.tileprovider.modules</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.util">org.osmdroid.tileprovider.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+<br>
+<a href="#PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.drawing">org.osmdroid.views.drawing</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 3</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.views.drawing.OsmBitmapShader
+                <br>
+                    org.osmdroid.views.drawing.OsmPath
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 6</td><td><a href="#EXefferent">Efferent Couplings</a>: 24</td><td><a href="#EXabstractness">Abstractness</a>: 0.34</td><td><a href="#EXinstability">Instability</a>: 0.8</td><td><a href="#EXdistance">Distance</a>: 0.14</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.overlay.ClickableIconOverlay
+                <br>
+                    org.osmdroid.views.overlay.IOverlayMenuProvider
+                <br>
+                    org.osmdroid.views.overlay.ItemizedIconOverlay$ActiveItem
+                <br>
+                    org.osmdroid.views.overlay.ItemizedIconOverlay$OnItemGestureListener
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlay
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlay$OnFocusChangeListener
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView$ItemizedOverlayControlViewListener
+                <br>
+                    org.osmdroid.views.overlay.Marker$OnMarkerClickListener
+                <br>
+                    org.osmdroid.views.overlay.Marker$OnMarkerDragListener
+                <br>
+                    org.osmdroid.views.overlay.NonAcceleratedOverlay
+                <br>
+                    org.osmdroid.views.overlay.Overlay
+                <br>
+                    org.osmdroid.views.overlay.Overlay$Snappable
+                <br>
+                    org.osmdroid.views.overlay.OverlayManager
+                <br>
+                    org.osmdroid.views.overlay.OverlayWithIW
+                <br>
+                    org.osmdroid.views.overlay.Polyline$OnClickListener
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.DefaultOverlayManager
+                <br>
+                    org.osmdroid.views.overlay.DefaultOverlayManager$1
+                <br>
+                    org.osmdroid.views.overlay.DefaultOverlayManager$1$1
+                <br>
+                    org.osmdroid.views.overlay.FolderOverlay
+                <br>
+                    org.osmdroid.views.overlay.IconOverlay
+                <br>
+                    org.osmdroid.views.overlay.ItemizedIconOverlay
+                <br>
+                    org.osmdroid.views.overlay.ItemizedIconOverlay$1
+                <br>
+                    org.osmdroid.views.overlay.ItemizedIconOverlay$2
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlay$1
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView$1
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView$2
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView$3
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayControlView$4
+                <br>
+                    org.osmdroid.views.overlay.ItemizedOverlayWithFocus
+                <br>
+                    org.osmdroid.views.overlay.MapEventsOverlay
+                <br>
+                    org.osmdroid.views.overlay.Marker
+                <br>
+                    org.osmdroid.views.overlay.MinimapOverlay
+                <br>
+                    org.osmdroid.views.overlay.OverlayItem
+                <br>
+                    org.osmdroid.views.overlay.OverlayItem$HotspotPlace
+                <br>
+                    org.osmdroid.views.overlay.PathOverlay
+                <br>
+                    org.osmdroid.views.overlay.Polygon
+                <br>
+                    org.osmdroid.views.overlay.Polygon$LinearRing
+                <br>
+                    org.osmdroid.views.overlay.Polyline
+                <br>
+                    org.osmdroid.views.overlay.ScaleBarOverlay
+                <br>
+                    org.osmdroid.views.overlay.ScaleBarOverlay$1
+                <br>
+                    org.osmdroid.views.overlay.ScaleBarOverlay$UnitsOfMeasure
+                <br>
+                    org.osmdroid.views.overlay.TilesOverlay
+                <br>
+                    org.osmdroid.views.overlay.TilesOverlay$1
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.compass">org.osmdroid.views.overlay.compass</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.gestures">org.osmdroid.views.overlay.gestures</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.gridlines">org.osmdroid.views.overlay.gridlines</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKandroid.widget">android.widget</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.lang.reflect">java.lang.reflect</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKjava.util.concurrent">java.util.concurrent</a>
+<br>
+<a href="#PKjava.util.concurrent.atomic">java.util.concurrent.atomic</a>
+<br>
+<a href="#PKmicrosoft.mappoint">microsoft.mappoint</a>
+<br>
+<a href="#PKorg.osmdroid.api">org.osmdroid.api</a>
+<br>
+<a href="#PKorg.osmdroid.events">org.osmdroid.events</a>
+<br>
+<a href="#PKorg.osmdroid.library">org.osmdroid.library</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider">org.osmdroid.tileprovider</a>
+<br>
+<a href="#PKorg.osmdroid.tileprovider.tilesource">org.osmdroid.tileprovider.tilesource</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.util.constants">org.osmdroid.util.constants</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a>
+<br>
+<a href="#PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay.compass">org.osmdroid.views.overlay.compass</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 10</td><td><a href="#EXabstractness">Abstractness</a>: 0.5</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.5</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.overlay.compass.IOrientationConsumer
+                <br>
+                    org.osmdroid.views.overlay.compass.IOrientationProvider
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.compass.CompassOverlay
+                <br>
+                    org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.hardware">android.hardware</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKorg.osmdroid.library">org.osmdroid.library</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay.gestures">org.osmdroid.views.overlay.gestures</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 6</td><td><a href="#EXabstractness">Abstractness</a>: 0.33</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.33</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.overlay.gestures.RotationGestureDetector$RotationListener
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.gestures.RotationGestureDetector
+                <br>
+                    org.osmdroid.views.overlay.gestures.RotationGestureOverlay
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay.gridlines">org.osmdroid.views.overlay.gridlines</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 7</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.gridlines.LatLonGridlineOverlay
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.text">java.text</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay.infowindow">org.osmdroid.views.overlay.infowindow</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 12</td><td><a href="#EXabstractness">Abstractness</a>: 0.25</td><td><a href="#EXinstability">Instability</a>: 0.92</td><td><a href="#EXdistance">Distance</a>: 0.17</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.overlay.infowindow.InfoWindow
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.infowindow.BasicInfoWindow
+                <br>
+                    org.osmdroid.views.overlay.infowindow.BasicInfoWindow$1
+                <br>
+                    org.osmdroid.views.overlay.infowindow.MarkerInfoWindow
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.text">android.text</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKandroid.widget">android.widget</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.overlay.mylocation">org.osmdroid.views.overlay.mylocation</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 0</td><td><a href="#EXefferent">Efferent Couplings</a>: 15</td><td><a href="#EXabstractness">Abstractness</a>: 0.29</td><td><a href="#EXinstability">Instability</a>: 1</td><td><a href="#EXdistance">Distance</a>: 0.29</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.overlay.mylocation.IMyLocationConsumer
+                <br>
+                    org.osmdroid.views.overlay.mylocation.IMyLocationProvider
+                <br>
+</td><td valign="top" width="25%">
+                    org.osmdroid.views.overlay.mylocation.DirectedLocationOverlay
+                <br>
+                    org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+                <br>
+                    org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+                <br>
+                    org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay$1
+                <br>
+                    org.osmdroid.views.overlay.mylocation.SimpleLocationOverlay
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKandroid.content">android.content</a>
+<br>
+<a href="#PKandroid.content.res">android.content.res</a>
+<br>
+<a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKandroid.graphics.drawable">android.graphics.drawable</a>
+<br>
+<a href="#PKandroid.location">android.location</a>
+<br>
+<a href="#PKandroid.os">android.os</a>
+<br>
+<a href="#PKandroid.util">android.util</a>
+<br>
+<a href="#PKandroid.view">android.view</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.api">org.osmdroid.api</a>
+<br>
+<a href="#PKorg.osmdroid.library">org.osmdroid.library</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 1</td><td><a href="#EXefferent">Efferent Couplings</a>: 7</td><td><a href="#EXabstractness">Abstractness</a>: 0</td><td><a href="#EXinstability">Instability</a>: 0.88</td><td><a href="#EXdistance">Distance</a>: 0.12</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%">
+                    org.osmdroid.views.util.Mercator
+                <br>
+                    org.osmdroid.views.util.MyMath
+                <br>
+                    org.osmdroid.views.util.PathProjection
+                <br>
+</td><td valign="top" width="25%"><a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKandroid.graphics">android.graphics</a>
+<br>
+<a href="#PKjava.lang">java.lang</a>
+<br>
+<a href="#PKjava.util">java.util</a>
+<br>
+<a href="#PKorg.osmdroid.api">org.osmdroid.api</a>
+<br>
+<a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a>
+<br>
+</td>
+</tr>
+</table>
+<h3>
+<a name="PKorg.osmdroid.views.util.constants">org.osmdroid.views.util.constants</a>
+</h3>
+<table width="100%">
+<tr>
+<td><a href="#EXafferent">Afferent Couplings</a>: 4</td><td><a href="#EXefferent">Efferent Couplings</a>: 1</td><td><a href="#EXabstractness">Abstractness</a>: 1</td><td><a href="#EXinstability">Instability</a>: 0.2</td><td><a href="#EXdistance">Distance</a>: 0.2</td>
+</tr>
+</table>
+<table width="100%" class="details">
+<tr>
+<th>Abstract Classes</th><th>Concrete Classes</th><th>Used by Packages</th><th>Uses Packages</th>
+</tr>
+<tr>
+<td valign="top" width="25%">
+                    org.osmdroid.views.util.constants.MapViewConstants
+                <br>
+                    org.osmdroid.views.util.constants.MathConstants
+                <br>
+                    org.osmdroid.views.util.constants.OverlayConstants
+                <br>
+</td><td valign="top" width="25%"><i>None</i></td><td valign="top" width="25%"><a href="#PKorg.osmdroid.util">org.osmdroid.util</a>
+<br>
+<a href="#PKorg.osmdroid.views">org.osmdroid.views</a>
+<br>
+<a href="#PKorg.osmdroid.views.overlay">org.osmdroid.views.overlay</a>
+<br>
+<a href="#PKorg.osmdroid.views.util">org.osmdroid.views.util</a>
+<br>
+</td><td valign="top" width="25%"><a href="#PKjava.lang">java.lang</a>
+<br>
+</td>
+</tr>
+</table>
+<table width="100%">
+<tr>
+<td><a name="NVcycles">
+<h2>Cycles</h2>
+</a></td><td align="right">
+                    [<a href="#NVsummary">summary</a>]
+                    [<a href="#NVpackages">packages</a>]
+                    [<a href="#NVcycles">cycles</a>]
+                    [<a href="#NVexplanations">explanations</a>]
+                </td>
+</tr>
+</table>
+<h3>microsoft.mappoint</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.events</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.mapsforge</h3>
+<p>org.osmdroid.tileprovider.modules<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>
+</p>
+<h3>org.osmdroid.tileprovider</h3>
+<p>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.tileprovider.cachemanager</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.tileprovider.modules</h3>
+<p>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>
+</p>
+<h3>org.osmdroid.tileprovider.tilesource</h3>
+<p>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>
+</p>
+<h3>org.osmdroid.tileprovider.util</h3>
+<p>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>
+</p>
+<h3>org.osmdroid.util</h3>
+<p>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.drawing</h3>
+<p>org.osmdroid.views<br>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay</h3>
+<p>org.osmdroid.views<br>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay.compass</h3>
+<p>org.osmdroid.views.overlay<br>org.osmdroid.views<br>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay.gestures</h3>
+<p>org.osmdroid.views.overlay<br>org.osmdroid.views<br>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay.gridlines</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay.infowindow</h3>
+<p>org.osmdroid.views.overlay<br>org.osmdroid.views<br>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.overlay.mylocation</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<h3>org.osmdroid.views.util</h3>
+<p>org.osmdroid.util<br>org.osmdroid.tileprovider<br>org.osmdroid.tileprovider.tilesource<br>org.osmdroid.tileprovider.util<br>org.osmdroid.tileprovider<br>
+</p>
+<table width="100%">
+<tr>
+<td><a name="NVexplanations">
+<h2>Explanations</h2>
+</a></td><td align="right">
+                    [<a href="#NVsummary">summary</a>]
+                    [<a href="#NVpackages">packages</a>]
+                    [<a href="#NVcycles">cycles</a>]
+                    [<a href="#NVexplanations">explanations</a>]
+                </td>
+</tr>
+</table>
+<p>The following explanations are for quick reference and are lifted directly from the original <a href="http://www.clarkware.com/software/JDepend.html">JDepend documentation</a>.</p>
+<h3>
+<a name="EXnumber">Number of Classes</a>
+</h3>
+<p>The number of concrete and abstract classes (and interfaces) in the package is an indicator of the extensibility of the package.</p>
+<h3>
+<a name="EXafferent">Afferent Couplings</a>
+</h3>
+<p>The number of other packages that depend upon classes within the package is an indicator of the package's responsibility. </p>
+<h3>
+<a name="EXefferent">Efferent Couplings</a>
+</h3>
+<p>The number of other packages that the classes in the package depend upon is an indicator of the package's independence. </p>
+<h3>
+<a name="EXabstractness">Abstractness</a>
+</h3>
+<p>The ratio of the number of abstract classes (and interfaces) in the analyzed package to the total number of classes in the analyzed package. </p>
+<p>The range for this metric is 0 to 1, with A=0 indicating a completely concrete package and A=1 indicating a completely abstract package. </p>
+<h3>
+<a name="EXinstability">Instability</a>
+</h3>
+<p>The ratio of efferent coupling (Ce) to total coupling (Ce / (Ce + Ca)). This metric is an indicator of the package's resilience to change. </p>
+<p>The range for this metric is 0 to 1, with I=0 indicating a completely stable package and I=1 indicating a completely instable package. </p>
+<h3>
+<a name="EXdistance">Distance</a>
+</h3>
+<p>The perpendicular distance of a package from the idealized line A + I = 1. This metric is an indicator of the package's balance between abstractness and stability. </p>
+<p>A package squarely on the main sequence is optimally balanced with respect to its abstractness and stability. Ideal packages are either completely abstract and stable (x=0, y=1) or completely concrete and instable (x=1, y=0). </p>
+<p>The range for this metric is 0 to 1, with D=0 indicating a package that is coincident with the main sequence and D=1 indicating a package that is as far from the main sequence as possible. </p>
+</body>
+</html>
+

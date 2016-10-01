@@ -1,0 +1,28 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BitmapPool.html" title="org.osmdroid.tileprovider.BitmapPool" alt="" coords="16,20,104,47"/>
+<area shape="rect" id="node1" href="./BitmapPool.html" title="&lt;TABLE&gt;" alt="" coords="5,9,115,57"/>
+<area shape="rect" id="node2_1" href="./ExpirableBitmapDrawable.html" title="org.osmdroid.tileprovider.ExpirableBitmapDrawable" alt="" coords="149,20,323,47"/>
+<area shape="rect" id="node2" href="./ExpirableBitmapDrawable.html" title="&lt;TABLE&gt;" alt="" coords="139,9,333,57"/>
+<area shape="rect" id="node13_2" href="./ReusableBitmapDrawable.html" title="org.osmdroid.tileprovider.ReusableBitmapDrawable" alt="" coords="149,120,323,147"/>
+<area shape="rect" id="node13" href="./ReusableBitmapDrawable.html" title="&lt;TABLE&gt;" alt="" coords="138,109,334,157"/>
+<area shape="rect" id="node3_3" href="./IMapTileProviderCallback.html" title="org.osmdroid.tileprovider.IMapTileProviderCallback" alt="" coords="426,11,598,55"/>
+<area shape="rect" id="node3" href="./IMapTileProviderCallback.html" title="&lt;TABLE&gt;" alt="" coords="415,6,609,61"/>
+<area shape="rect" id="node10_4" href="./MapTileProviderBase.html" title="org.osmdroid.tileprovider.MapTileProviderBase" alt="" coords="374,120,522,147"/>
+<area shape="rect" id="node10" href="./MapTileProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="363,109,533,157"/>
+<area shape="rect" id="node11_5" href="./MapTileProviderBasic.html" title="org.osmdroid.tileprovider.MapTileProviderBasic" alt="" coords="435,312,584,339"/>
+<area shape="rect" id="node11" href="./MapTileProviderBasic.html" title="&lt;TABLE&gt;" alt="" coords="424,301,595,349"/>
+<area shape="rect" id="node4_6" href="./IRegisterReceiver.html" title="org.osmdroid.tileprovider.IRegisterReceiver" alt="" coords="643,11,770,55"/>
+<area shape="rect" id="node4" href="./IRegisterReceiver.html" title="&lt;TABLE&gt;" alt="" coords="633,6,781,61"/>
+<area shape="rect" id="node5_7" href="./LRUMapTileCache.html" title="org.osmdroid.tileprovider.LRUMapTileCache" alt="" coords="816,20,949,47"/>
+<area shape="rect" id="node5" href="./LRUMapTileCache.html" title="&lt;TABLE&gt;" alt="" coords="805,9,960,57"/>
+<area shape="rect" id="node6_8" href="./LRUMapTileCache.TileRemovedListener.html" title="org.osmdroid.tileprovider.LRUMapTileCache.TileRemovedListener" alt="" coords="995,11,1141,55"/>
+<area shape="rect" id="node6" href="./LRUMapTileCache.TileRemovedListener.html" title="&lt;TABLE&gt;" alt="" coords="984,6,1152,61"/>
+<area shape="rect" id="node7_9" href="./MapTile.html" title="org.osmdroid.tileprovider.MapTile" alt="" coords="1187,20,1255,47"/>
+<area shape="rect" id="node7" href="./MapTile.html" title="&lt;TABLE&gt;" alt="" coords="1177,9,1266,57"/>
+<area shape="rect" id="node8_10" href="./MapTileCache.html" title="org.osmdroid.tileprovider.MapTileCache" alt="" coords="1301,20,1408,47"/>
+<area shape="rect" id="node8" href="./MapTileCache.html" title="&lt;TABLE&gt;" alt="" coords="1291,9,1419,57"/>
+<area shape="rect" id="node9_11" href="./MapTileProviderArray.html" title="org.osmdroid.tileprovider.MapTileProviderArray" alt="" coords="373,216,523,243"/>
+<area shape="rect" id="node9" href="./MapTileProviderArray.html" title="&lt;TABLE&gt;" alt="" coords="363,205,533,253"/>
+<area shape="rect" id="node12_12" href="./MapTileRequestState.html" title="org.osmdroid.tileprovider.MapTileRequestState" alt="" coords="1454,20,1602,47"/>
+<area shape="rect" id="node12" href="./MapTileRequestState.html" title="&lt;TABLE&gt;" alt="" coords="1443,9,1613,57"/>
+</map>

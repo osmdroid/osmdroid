@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./CacheManager.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager" alt="" coords="15,20,126,47"/>
+<area shape="rect" id="node1" href="./CacheManager.html" title="&lt;TABLE&gt;" alt="" coords="5,9,137,57"/>
+<area shape="rect" id="node2_1" href="./CacheManager.CacheManagerCallback.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" alt="" coords="172,11,335,55"/>
+<area shape="rect" id="node2" href="./CacheManager.CacheManagerCallback.html" title="&lt;TABLE&gt;" alt="" coords="161,6,345,61"/>
+<area shape="rect" id="node3_2" href="./CacheManager.CacheManagerTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerTask" alt="" coords="381,20,521,47"/>
+<area shape="rect" id="node3" href="./CacheManager.CacheManagerTask.html" title="&lt;TABLE&gt;" alt="" coords="370,9,531,57"/>
+<area shape="rect" id="node4_3" href="./CacheManager.DownloadingTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.DownloadingTask" alt="" coords="307,120,434,147"/>
+<area shape="rect" id="node4" href="./CacheManager.DownloadingTask.html" title="&lt;TABLE&gt;" alt="" coords="297,109,445,157"/>
+<area shape="rect" id="node5_4" href="./CacheManager.CleaningTask.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CleaningTask" alt="" coords="480,120,581,147"/>
+<area shape="rect" id="node5" href="./CacheManager.CleaningTask.html" title="&lt;TABLE&gt;" alt="" coords="469,109,592,157"/>
+</map>

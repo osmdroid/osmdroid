@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./compass/CompassOverlay.html" title="org.osmdroid.views.overlay.compass.CompassOverlay" alt="" coords="16,120,139,147"/>
+<area shape="rect" id="node1" href="./compass/CompassOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,109,149,157"/>
+<area shape="rect" id="node2_1" href="./gestures/RotationGestureOverlay.html" title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" alt="" coords="184,120,347,147"/>
+<area shape="rect" id="node2" href="./gestures/RotationGestureOverlay.html" title="&lt;TABLE&gt;" alt="" coords="173,109,357,157"/>
+<area shape="rect" id="node3_2" href="./IOverlayMenuProvider.html" title="org.osmdroid.views.overlay.IOverlayMenuProvider" alt="" coords="293,11,446,55"/>
+<area shape="rect" id="node3" href="./IOverlayMenuProvider.html" title="&lt;TABLE&gt;" alt="" coords="282,6,457,61"/>
+<area shape="rect" id="node4_3" href="./mylocation/MyLocationNewOverlay.html" title="org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay" alt="" coords="393,120,554,147"/>
+<area shape="rect" id="node4" href="./mylocation/MyLocationNewOverlay.html" title="&lt;TABLE&gt;" alt="" coords="382,109,565,157"/>
+<area shape="rect" id="node5_4" href="./TilesOverlay.html" title="org.osmdroid.views.overlay.TilesOverlay" alt="" coords="599,120,694,147"/>
+<area shape="rect" id="node5" href="./TilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="589,109,705,157"/>
+</map>

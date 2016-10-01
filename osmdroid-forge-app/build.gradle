@@ -1,6 +1,6 @@
 description = "Example application using osmdroid and Maps Forge. May use non ASF licensed dependencies"
 apply plugin: 'com.android.application'
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.12/gradle/android-support.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/android-support.gradle"
 android {
 
     defaultConfig {

@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./SampleExtensive.html" title="org.osmdroid.samples.SampleExtensive" alt="" coords="16,16,139,43"/>
+<area shape="rect" id="node1" href="./SampleExtensive.html" title="&lt;TABLE&gt;" alt="" coords="5,5,149,53"/>
+<area shape="rect" id="node2_1" href="./SampleWithMinimapItemizedoverlay.html" title="org.osmdroid.samples.SampleWithMinimapItemizedoverlay" alt="" coords="185,16,421,43"/>
+<area shape="rect" id="node2" href="./SampleWithMinimapItemizedoverlay.html" title="&lt;TABLE&gt;" alt="" coords="174,5,431,53"/>
+<area shape="rect" id="node3_2" href="./SampleWithMinimapZoomcontrols.html" title="org.osmdroid.samples.SampleWithMinimapZoomcontrols" alt="" coords="466,16,689,43"/>
+<area shape="rect" id="node3" href="./SampleWithMinimapZoomcontrols.html" title="&lt;TABLE&gt;" alt="" coords="455,5,699,53"/>
+<area shape="rect" id="node4_3" href="./SampleWithTilesOverlay.html" title="org.osmdroid.samples.SampleWithTilesOverlay" alt="" coords="734,16,901,43"/>
+<area shape="rect" id="node4" href="./SampleWithTilesOverlay.html" title="&lt;TABLE&gt;" alt="" coords="723,5,911,53"/>
+<area shape="rect" id="node5_4" href="./SampleWithTilesOverlayAndCustomTileSource.html" title="org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource" alt="" coords="946,16,1246,43"/>
+<area shape="rect" id="node5" href="./SampleWithTilesOverlayAndCustomTileSource.html" title="&lt;TABLE&gt;" alt="" coords="935,5,1257,53"/>
+</map>

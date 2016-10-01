@@ -81,3 +81,13 @@ The root cause is that we're using Android's "View" class to map pixel x,y integ
 Behaviors to expect when at zoom > 20
  - double tapping to zoom in can cause the map to fling towards the other side of the planet
  - lines and polygons can disappear
+
+
+# If you get 'resource not found' error
+
+This is because osmdroid uses a number of graphics (Android drawables) that represent things like current device location, zoom in/out buttons, etc. These are not included with osmdroid because it's distributed as a JAR file (versions =< 4.3). You have two options:
+
+1. Implement your own version of "ResourceProxy"
+2. Pull in the osmdroid example application's drawable files into your own application.
+
+This process is detailed here [How-to-use-the-osmdroid-library#create-a-custom-resource-proxy](How-to-use-the-osmdroid-library#create-a-custom-resource-proxy)

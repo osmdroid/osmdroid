@@ -41,9 +41,9 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
     }
 
     /**
-     * Creates a HUE ajustment ColorFilter +- 180
-     * @see http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
-     * @see http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     * Creates a HUE adjustment ColorFilter +- 180
+     * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
+     * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
      * @param value degrees to shift the hue.
      * @return
      */
