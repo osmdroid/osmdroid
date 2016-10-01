@@ -17,6 +17,7 @@ import android.graphics.Point;
  * @deprecated Use {@link org.osmdroid.util.TileSystem} instead
  *
  */
+@Deprecated
 public class Mercator implements MapViewConstants {
 	// ===========================================================
 	// Constants
