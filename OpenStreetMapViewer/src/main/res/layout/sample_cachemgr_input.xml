@@ -103,6 +103,13 @@
                 android:id="@+id/cache_estimate"
 
                 />
+            <LinearLayout
+                android:id="@+id/cache_archival_section"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="vertical"
+                >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +126,7 @@
                 android:lines="1"
 
                 />
-
+            </LinearLayout>
 
 
 

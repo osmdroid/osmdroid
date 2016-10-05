@@ -128,6 +128,7 @@ public class SampleCacheDownloaderArchive  extends BaseSampleFragment implements
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
+        view.findViewById(R.id.cache_archival_section).setVisibility(View.VISIBLE);
 
         BoundingBox boundingBox = mMapView.getBoundingBox();
         zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
