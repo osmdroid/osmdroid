@@ -1,3 +1,5 @@
+# Release Procedure
+
 ## Pre-release steps
 
 Edit gradle.properties and update the version information :

@@ -1,3 +1,5 @@
+# Important notes on using osmdroid in your app
+
 There's a few things you need to know about osmdroid before deploying your app to public repositories, app stores, fdroid, etc. These settings should be configured individually for every app that uses osmdroid.
 
 ## Set the HTTP User-Agent variable

@@ -32,6 +32,9 @@ General guidance
  6. Once it's done, copy the atlas file (.sqlite, .zip, etc) onto your osmdroid powered device to /sdcard/osmdroid/
  7. Tell osmdroid to not use a network connection and set the map tile source. **
 
+## Maperitive.net
+
+[Maperitive](http://maperitive.net/) supports generating tile images from OSM data API and can be used as a replacement for MOBAC which has been [blocked by openstreetmap.org](http://wiki.openstreetmap.org/wiki/Blocked_applications) for overusing traffic.
 
 ### Use the Cache Manager on device ( > version 5.2)
 
