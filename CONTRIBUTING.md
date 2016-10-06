@@ -42,6 +42,11 @@ in pull requests. We periodically will reformat the whole source base but please
 If you're adding a new feature or function, please either incorporate a test or a sample that shows
 how your new function can be used. Oh, and please make sure it works ;)
 
+## Questions and HowTo's
+
+If it's not covered already, you can try the [osmdroid google group](https://groups.google.com/forum/#!forum/osmdroid)
+or post on [stack overflow](http://stackoverflow.com/questions/tagged/osmdroid).
+
 ## Bug Reports
 
 Sorry to hear about your troubles. First of all, search for existing issues (open and closed). It
