@@ -55,7 +55,7 @@ If think you have a legitimate bug to report then go to the [Issues](https://git
 
 ## I want to contribute
 
-See our [contributing guide](https://github.com/osmdroid/osmdroid/CONTRIBUTING.md)
+See our [contributing guide](https://github.com/osmdroid/osmdroid/blob/master/CONTRIBUTING.md)
 
 ## I want more!
 
