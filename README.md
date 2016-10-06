@@ -55,10 +55,7 @@ If think you have a legitimate bug to report then go to the [Issues](https://git
 
 ## I want to contribute
 
-Great! Osmdroid continues to improve from the contributions of its users. This could include code contributions, sample fragments for [OpenStreetMapViewer](https://github.com/osmdroid/osmdroid/tree/master/OpenStreetMapViewer), or wiki content.
-If you have an enhancement to contribute please add a new issue.
-Describe the enhancement you are adding, how you implemented it and attach a patch against the latest trunk.
-Please take a look at the [Developer Guidelines](https://github.com/osmdroid/osmdroid/wiki/Developer-Guidelines) page for code contributions before submitting code.
+See our [contributing guide](https://github.com/osmdroid/osmdroid/CONTRIBUTING.md)
 
 ## I want more!
 
