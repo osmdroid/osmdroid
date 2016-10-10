@@ -209,25 +209,25 @@ public class SqlTileWriter implements IFilesystemCache {
             File[] tileSources = tilePathBase.listFiles();
             if (tileSources!=null){
                 for (int i=0; i<tileSources.length; i++){
-                    if (tileSources[i].isDirectory() && !tileSources[i].isHidden() && tileSources[i].isFile()){
+                    if (tileSources[i].isDirectory() && !tileSources[i].isHidden()){
                         //proceed
                         File[] z = tileSources[i].listFiles();
                         if (z!=null)
                             for (int zz=0; zz<z.length; zz++){
-                                if (z[zz].isDirectory() && !z[zz].isHidden() && z[zz].isFile()){
+                                if (z[zz].isDirectory() && !z[zz].isHidden()){
                                     File[] x = z[zz].listFiles();
                                     if (x!=null)
                                         for (int xx=0; xx<x.length; xx++){
-                                            if (x[xx].isDirectory() && !x[xx].isHidden() && x[xx].isFile()){
+                                            if (x[xx].isDirectory() && !x[xx].isHidden()){
                                                 File[] y = x[xx].listFiles();
                                                 if (x!=null)
                                                     for (int yy=0; yy<y.length; yy++){
-                                                        if (!y[yy].isHidden() && y[yy].isFile() && !y[yy].isDirectory()){
+                                                        if (!y[yy].isHidden() && !y[yy].isDirectory()){
 
                                                             try {
                                                                 ContentValues cv = new ContentValues();
                                                                 final long x1 = Long.parseLong(x[xx].getName());
-                                                                final long y1 = Long.parseLong(y[yy].getName());
+                                                                final long y1 = Long.parseLong( y[yy].getName().substring(0, y[yy].getName().indexOf(".")));
                                                                 final long z1 = Long.parseLong(z[zz].getName());
                                                                 final long index = ((z1 << z1) + x1 << z1) + y1;
                                                                 cv.put(DatabaseFileArchive.COLUMN_PROVIDER, tileSources[i].getName());
@@ -245,17 +245,22 @@ public class SqlTileWriter implements IFilesystemCache {
                                                                 cv.put(DatabaseFileArchive.COLUMN_KEY, index);
                                                                 cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
 
-                                                                db.insert(TABLE, null, cv);
-                                                                Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName()+"/"+  z1 + "/" + x1 + "/" + y1);
-                                                                ret[0]++;
-                                                                if (removeFromFileSystem){
-                                                                    try {
-                                                                        y[yy].delete();
-                                                                        ret[2]++;;
-                                                                    }catch (Exception ex){
-                                                                        ret[3]++;;
+                                                                long insert = db.insert(TABLE, null, cv);
+                                                                if (insert>0) {
+                                                                    Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                    ret[0]++;
+                                                                    if (removeFromFileSystem){
+                                                                        try {
+                                                                            y[yy].delete();
+                                                                            ret[2]++;;
+                                                                        }catch (Exception ex){
+                                                                            ret[3]++;;
+                                                                        }
                                                                     }
+                                                                } else {
+                                                                    Log.w(IMapView.LOGTAG, "tile NOT inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
                                                                 }
+
                                                             } catch (Throwable ex) {
                                                                 //note, although we check for db null state at the beginning of this method, it's possible for the
                                                                 //db to be closed during the execution of this method
@@ -265,11 +270,38 @@ public class SqlTileWriter implements IFilesystemCache {
                                                         }
                                                     }
                                             }
+                                            if (removeFromFileSystem) {
+                                                //clean up the directories
+                                                try {
+                                                    x[xx].delete();
+                                                } catch (Exception ex) {
+                                                    Log.e(IMapView.LOGTAG, "Unable to delete directory from " + x[xx].getAbsolutePath(), ex);
+                                                    ret[3]++;
+                                                }
+                                            }
                                         }
+                                }
+                                if (removeFromFileSystem) {
+                                    //clean up the directories
+                                    try {
+                                        z[zz].delete();
+                                    } catch (Exception ex) {
+                                        Log.e(IMapView.LOGTAG, "Unable to delete directory from " + z[zz].getAbsolutePath(), ex);
+                                        ret[3]++;
+                                    }
                                 }
                             }
 
 
+                        if (removeFromFileSystem) {
+                            //clean up the directories
+                            try {
+                                tileSources[i].delete();
+                            } catch (Exception ex) {
+                                Log.e(IMapView.LOGTAG, "Unable to delete directory from " + tileSources[i].getAbsolutePath(), ex);
+                                ret[3]++;
+                            }
+                        }
 
                     } else {
                         //it's a file, nothing for us to do here
