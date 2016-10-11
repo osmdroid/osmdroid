@@ -88,7 +88,9 @@ public final class SampleFactory implements ISampleFactory {
 				//31
 				CachePurge.class,
 				//32
-				SampleZoomToBounding.class
+				SampleZoomToBounding.class,
+				//33
+				SampleAdvancedNav.class
 
         };
 	}

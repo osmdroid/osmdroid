@@ -56,6 +56,7 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
 
     @Override
     public void addOverlays() {
+        super.addOverlays();
         overlay = new MyLocationNewOverlay(mMapView);
         overlay.setEnableAutoStop(false);
         overlay.enableFollowLocation();
