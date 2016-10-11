@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-10-01</date>
-  <time>18:53:20</time>
+  <date>2016-10-11</date>
+  <time>18:24:12</time>
   <packages>
     <package>
       <name>.</name>
@@ -45,12 +45,12 @@
     </package>
     <package>
       <name>org.osmdroid.samplefragments</name>
-      <classes>36</classes>
-      <functions>203</functions>
-      <ncss>2024</ncss>
-      <javadocs>47</javadocs>
-      <javadoc_lines>202</javadoc_lines>
-      <single_comment_lines>335</single_comment_lines>
+      <classes>37</classes>
+      <functions>206</functions>
+      <ncss>2052</ncss>
+      <javadocs>48</javadocs>
+      <javadoc_lines>205</javadoc_lines>
+      <single_comment_lines>336</single_comment_lines>
       <multi_comment_lines>46</multi_comment_lines>
     </package>
     <package>
@@ -74,20 +74,20 @@
       <multi_comment_lines>22</multi_comment_lines>
     </package>
     <total>
-      <classes>59</classes>
-      <functions>274</functions>
-      <ncss>2990</ncss>
-      <javadocs>76</javadocs>
-      <javadoc_lines>312</javadoc_lines>
-      <single_comment_lines>545</single_comment_lines>
+      <classes>60</classes>
+      <functions>277</functions>
+      <ncss>3018</ncss>
+      <javadocs>77</javadocs>
+      <javadoc_lines>315</javadoc_lines>
+      <single_comment_lines>546</single_comment_lines>
       <multi_comment_lines>71</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>7.00</td><td>59.00</td><td>274.00</td><td>2,990.00</td><td>76.00</td><td>Project</td></tr>
-      <tr><td></td><td>8.43</td><td>39.14</td><td>427.14</td><td>10.86</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>4.64</td><td>50.68</td><td>1.29</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>10.91</td><td>0.28</td><td>Function</td></tr>
+      <tr><td>7.00</td><td>60.00</td><td>277.00</td><td>3,018.00</td><td>77.00</td><td>Project</td></tr>
+      <tr><td></td><td>8.57</td><td>39.57</td><td>431.14</td><td>11.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>4.62</td><td>50.30</td><td>1.28</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>10.90</td><td>0.28</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -354,7 +354,7 @@
     </object>
     <object>
       <name>org.osmdroid.samplefragments.SampleCacheDownloaderArchive</name>
-      <ncss>151</ncss>
+      <ncss>152</ncss>
       <functions>15</functions>
       <classes>4</classes>
       <javadocs>2</javadocs>
@@ -409,7 +409,7 @@
       <classes>0</classes>
       <javadocs>1</javadocs>
       <javadocs_lines>3</javadocs_lines>
-      <single_comment_lines>31</single_comment_lines>
+      <single_comment_lines>32</single_comment_lines>
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
@@ -623,6 +623,16 @@
       <implementation_comment_lines>4</implementation_comment_lines>
     </object>
     <object>
+      <name>org.osmdroid.samplefragments.SampleZoomToBounding</name>
+      <ncss>17</ncss>
+      <functions>3</functions>
+      <classes>0</classes>
+      <javadocs>1</javadocs>
+      <javadocs_lines>3</javadocs_lines>
+      <single_comment_lines>0</single_comment_lines>
+      <implementation_comment_lines>0</implementation_comment_lines>
+    </object>
+    <object>
       <name>org.osmdroid.samplefragments.models.USGSTileSource</name>
       <ncss>7</ncss>
       <functions>3</functions>
@@ -683,15 +693,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>39.64</ncss>
-      <functions>4.64</functions>
-      <classes>0.78</classes>
-      <javadocs>1.29</javadocs>
-      <javadocs_lines>5.29</javadocs_lines>
-      <single_comment_lines>9.10</single_comment_lines>
-      <implementation_comment_lines>0.90</implementation_comment_lines>
+      <ncss>39.28</ncss>
+      <functions>4.62</functions>
+      <classes>0.77</classes>
+      <javadocs>1.28</javadocs>
+      <javadocs_lines>5.25</javadocs_lines>
+      <single_comment_lines>8.97</single_comment_lines>
+      <implementation_comment_lines>0.88</implementation_comment_lines>
     </averages>
-    <ncss>2,990.00</ncss>
+    <ncss>3,018.00</ncss>
   </objects>
 
   <functions>
@@ -1615,7 +1625,7 @@
     </function>
     <function>
       <name>org.osmdroid.samplefragments.SampleCacheDownloaderArchive.downloadJobAlert()</name>
-      <ncss>42</ncss>
+      <ncss>43</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -2670,6 +2680,24 @@
       <javadocs>0</javadocs>
     </function>
     <function>
+      <name>org.osmdroid.samplefragments.SampleZoomToBounding.getSampleTitle()</name>
+      <ncss>2</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.SampleZoomToBounding.onCreateView(LayoutInflater,ViewGroup,Bundle)</name>
+      <ncss>7</ncss>
+      <ccn>1</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
+      <name>org.osmdroid.samplefragments.SampleZoomToBounding.onClick(View)</name>
+      <ncss>6</ncss>
+      <ccn>2</ccn>
+      <javadocs>0</javadocs>
+    </function>
+    <function>
       <name>org.osmdroid.samplefragments.models.USGSTileSource.USGSTileSource()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
@@ -2778,11 +2806,11 @@
       <javadocs>1</javadocs>
     </function>
     <function_averages>
-      <ncss>6.84</ncss>
-      <ccn>1.78</ccn>
+      <ncss>6.83</ncss>
+      <ccn>1.77</ccn>
       <javadocs>0.06</javadocs>
     </function_averages>
-    <ncss>2,990.00</ncss>
+    <ncss>3,018.00</ncss>
   </functions>
 </javancss>
 

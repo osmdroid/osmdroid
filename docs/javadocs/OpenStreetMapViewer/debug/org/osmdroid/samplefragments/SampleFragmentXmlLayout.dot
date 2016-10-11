@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c2493 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
+	c2532 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseSampleFragment.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleFragmentXmlLayout
-	c2509 [label=<<table title="org.osmdroid.samplefragments.SampleFragmentXmlLayout" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleFragmentXmlLayout.html">
+	c2548 [label=<<table title="org.osmdroid.samplefragments.SampleFragmentXmlLayout" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleFragmentXmlLayout.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleFragmentXmlLayout </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleFragmentXmlLayout.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleFragmentXmlLayout extends org.osmdroid.samplefragments.BaseSampleFragment
-	c2493:p -> c2509:p [dir=back,arrowtail=empty];
+	c2532:p -> c2548:p [dir=back,arrowtail=empty];
 }
 

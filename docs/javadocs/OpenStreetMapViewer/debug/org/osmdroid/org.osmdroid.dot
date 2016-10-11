@@ -47,25 +47,25 @@ digraph G {
 		</table></td></tr>
 		</table>>, URL="./OsmApplication.OsmUncaughtExceptionHandler.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.SampleItemizedOverlay
-	c53 [label=<<table title="org.osmdroid.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleItemizedOverlay.html">
+	c54 [label=<<table title="org.osmdroid.SampleItemizedOverlay" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleItemizedOverlay.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleItemizedOverlay </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleItemizedOverlay.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.SampleOverlayItem
-	c54 [label=<<table title="org.osmdroid.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOverlayItem.html">
+	c55 [label=<<table title="org.osmdroid.SampleOverlayItem" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./SampleOverlayItem.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleOverlayItem </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleOverlayItem.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapActivity
-	c60 [label=<<table title="org.osmdroid.StarterMapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapActivity.html">
+	c61 [label=<<table title="org.osmdroid.StarterMapActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./StarterMapActivity.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.StarterMapFragment
-	c61 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapFragment.html">
+	c62 [label=<<table title="org.osmdroid.StarterMapFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./StarterMapFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> StarterMapFragment </td></tr>
 		</table></td></tr>

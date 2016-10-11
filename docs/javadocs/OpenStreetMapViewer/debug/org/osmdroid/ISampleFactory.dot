@@ -10,27 +10,27 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.bugtestfragments.BugFactory
-	c1218 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./bugtestfragments/BugFactory.html">
+	c1237 [label=<<table title="org.osmdroid.bugtestfragments.BugFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./bugtestfragments/BugFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> BugFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./bugtestfragments/BugFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.ISampleFactory
-	c1223 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ISampleFactory.html">
+	c1242 [label=<<table title="org.osmdroid.ISampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ISampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ISampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./ISampleFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleFactory
-	c1242 [label=<<table title="org.osmdroid.samplefragments.SampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./samplefragments/SampleFactory.html">
+	c1261 [label=<<table title="org.osmdroid.samplefragments.SampleFactory" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./samplefragments/SampleFactory.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleFactory </td></tr>
 		</table></td></tr>
 		</table>>, URL="./samplefragments/SampleFactory.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.bugtestfragments.BugFactory implements org.osmdroid.ISampleFactory
-	c1223:p -> c1218:p [dir=back,arrowtail=empty,style=dashed];
+	c1242:p -> c1237:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.SampleFactory implements org.osmdroid.ISampleFactory
-	c1223:p -> c1242:p [dir=back,arrowtail=empty,style=dashed];
+	c1242:p -> c1261:p [dir=back,arrowtail=empty,style=dashed];
 }
 

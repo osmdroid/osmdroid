@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sun Oct 02 21:21:12 EDT 2016.<br/>
-28 errors and 108 warnings found:<br/><br/>
+Check performed at Tue Oct 11 18:24:14 EDT 2016.<br/>
+28 errors and 109 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -108,7 +108,7 @@ Check performed at Sun Oct 02 21:21:12 EDT 2016.<br/>
 <tr><td></td><td class="categoryColumn"><a href="#Internationalization">Internationalization</a>
 </td></tr>
 <tr>
-<td class="countColumn">28</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">29</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#SetTextI18n">SetTextI18n: TextView Internationalization</a>
 </td></tr>
 <tr>
@@ -462,7 +462,7 @@ When inflating a layout, avoid passing in null as the parent view, since otherwi
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span> 
 <span class="lineno">  29</span> dependencies {
@@ -470,7 +470,7 @@ When inflating a layout, avoid passing in null as the parent view, since otherwi
 <span class="lineno">  31</span>     compile project(':osmdroid-android')
 <span class="lineno">  32</span> 
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:42</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.0</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:42</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
 <span class="lineno">  39</span>     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 <span class="lineno">  40</span> 
 <span class="lineno">  41</span>     //on device testing
@@ -552,7 +552,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   5</span>     android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   6</span> 
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.5-SNAPSHOT</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.5</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid"
 <span class="lineno">   4</span>     android:versionCode="20"
@@ -1089,7 +1089,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  37</span>         return root;
 <span class="lineno">  38</span>     }
 </pre>
-<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 23 More Occurrences...</button>
+<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 24 More Occurrences...</button>
 <div id="SetTextI18nDiv" style="display: none">
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 132</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
@@ -1139,53 +1139,53 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno"> 195</span>                 if (startJob)
 <span class="lineno"> 196</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:143</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 140</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
-<span class="lineno"> 141</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderArchive.this);
-<span class="lineno"> 142</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 143</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
-<span class="lineno"> 144</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 145</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:144</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 141</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
+<span class="lineno"> 142</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderArchive.this);
+<span class="lineno"> 143</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
+<span class="lineno"> 144</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
+<span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 146</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:145</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 142</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 143</span>         cache_east.setText(boundingBox.getLonEast() +"");
-<span class="lineno"> 144</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 145</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  +"");</span>
-<span class="lineno"> 146</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 147</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:146</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 143</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
+<span class="lineno"> 144</span>         cache_east.setText(boundingBox.getLonEast() +"");
+<span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 146</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  +"");</span>
+<span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 148</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:147</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 144</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 145</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
-<span class="lineno"> 146</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 147</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
-<span class="lineno"> 148</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 149</span>         cache_west.setText(boundingBox.getLonWest()  +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:148</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 146</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
+<span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 148</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
+<span class="lineno"> 149</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
+<span class="lineno"> 150</span>         cache_west.setText(boundingBox.getLonWest()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:149</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 146</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 147</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
-<span class="lineno"> 148</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 149</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
-<span class="lineno"> 150</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
-<span class="lineno"> 151</span>         cache_output=(EditText) view.findViewById(R.id.cache_output);
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:150</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 148</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
+<span class="lineno"> 149</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
+<span class="lineno"> 150</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
+<span class="lineno"> 151</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+<span class="lineno"> 152</span>         cache_output=(EditText) view.findViewById(R.id.cache_output);
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:212</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 209</span>                 //nesw
-<span class="lineno"> 210</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
-<span class="lineno"> 211</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 212</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
-<span class="lineno"> 213</span>                 if (startJob)
-<span class="lineno"> 214</span>                 {
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 210</span>                 //nesw
+<span class="lineno"> 211</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
+<span class="lineno"> 212</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+<span class="lineno"> 213</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
+<span class="lineno"> 214</span>                 if (startJob)
+<span class="lineno"> 215</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:212</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 209</span>                 //nesw
-<span class="lineno"> 210</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
-<span class="lineno"> 211</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 212</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
-<span class="lineno"> 213</span>                 if (startJob)
-<span class="lineno"> 214</span>                 {
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 210</span>                 //nesw
+<span class="lineno"> 211</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
+<span class="lineno"> 212</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+<span class="lineno"> 213</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
+<span class="lineno"> 214</span>                 if (startJob)
+<span class="lineno"> 215</span>                 {
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 132</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
@@ -1274,6 +1274,14 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  81</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
 <span class="lineno">  82</span>                 df.format(mapCenter.getLongitude())
 <span class="lineno">  83</span>                 +","+mMapView.getZoomLevel());
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleZoomToBounding.java">../../src/main/java/org/osmdroid/samplefragments/SampleZoomToBounding.java</a>:32</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  29</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
+<span class="lineno">  30</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
+<span class="lineno">  31</span>         btnCache.setOnClickListener(this);
+<span class="lineno">  32</span>         btnCache.setText(<span class="errorspan">"Zoom to bounds");</span>
+<span class="lineno">  33</span> 
+<span class="lineno">  34</span>         return root;
 </pre>
 </div>
 </div>
@@ -1425,37 +1433,37 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  98</span>                 />
 <span class="lineno">  99</span> 
 </pre>
-<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:110</span>: <span class="message">[I18N] Hardcoded string "Archive File name:", should use <code>@string</code> resource</span><br /><pre class="errorlines">
-<span class="lineno"> 107</span>                 android:layout_width="wrap_content"
-<span class="lineno"> 108</span>                 android:layout_height="wrap_content"
-<span class="lineno"> 109</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno"> 110</span>                 <span class="errorspan">android:text="Archive File name:"</span>
-<span class="lineno"> 111</span>                 />
-<span class="lineno"> 112</span> 
-</pre>
-<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:117</span>: <span class="message">[I18N] Hardcoded string "archive.sqlite", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:117</span>: <span class="message">[I18N] Hardcoded string "Archive File name:", should use <code>@string</code> resource</span><br /><pre class="errorlines">
 <span class="lineno"> 114</span>                 android:layout_width="wrap_content"
 <span class="lineno"> 115</span>                 android:layout_height="wrap_content"
-<span class="lineno"> 116</span>                 android:id="@+id/cache_output"
-<span class="lineno"> 117</span>                 <span class="errorspan">android:hint="archive.sqlite"</span>
-<span class="lineno"> 118</span>                 android:text="archive.sqlite"
-<span class="lineno"> 119</span>                 android:lines="1"
+<span class="lineno"> 116</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
+<span class="lineno"> 117</span>                 <span class="errorspan">android:text="Archive File name:"</span>
+<span class="lineno"> 118</span>                 />
+<span class="lineno"> 119</span> 
 </pre>
-<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:118</span>: <span class="message">[I18N] Hardcoded string "archive.sqlite", should use <code>@string</code> resource</span><br /><pre class="errorlines">
-<span class="lineno"> 115</span>                 android:layout_height="wrap_content"
-<span class="lineno"> 116</span>                 android:id="@+id/cache_output"
-<span class="lineno"> 117</span>                 android:hint="archive.sqlite"
-<span class="lineno"> 118</span>                 <span class="errorspan">android:text="archive.sqlite"</span>
-<span class="lineno"> 119</span>                 android:lines="1"
-<span class="lineno"> 120</span> 
+<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:124</span>: <span class="message">[I18N] Hardcoded string "archive.sqlite", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 121</span>                 android:layout_width="wrap_content"
+<span class="lineno"> 122</span>                 android:layout_height="wrap_content"
+<span class="lineno"> 123</span>                 android:id="@+id/cache_output"
+<span class="lineno"> 124</span>                 <span class="errorspan">android:hint="archive.sqlite"</span>
+<span class="lineno"> 125</span>                 android:text="archive.sqlite"
+<span class="lineno"> 126</span>                 android:lines="1"
 </pre>
-<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:131</span>: <span class="message">[I18N] Hardcoded string "Start Download", should use <code>@string</code> resource</span><br /><pre class="errorlines">
-<span class="lineno"> 128</span>                 android:layout_height="wrap_content"
-<span class="lineno"> 129</span> 
-<span class="lineno"> 130</span>                 android:id="@+id/executeJob"
-<span class="lineno"> 131</span>                 <span class="errorspan">android:text="Start Download"/></span>
-<span class="lineno"> 132</span> 
-<span class="lineno"> 133</span> 
+<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:125</span>: <span class="message">[I18N] Hardcoded string "archive.sqlite", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 122</span>                 android:layout_height="wrap_content"
+<span class="lineno"> 123</span>                 android:id="@+id/cache_output"
+<span class="lineno"> 124</span>                 android:hint="archive.sqlite"
+<span class="lineno"> 125</span>                 <span class="errorspan">android:text="archive.sqlite"</span>
+<span class="lineno"> 126</span>                 android:lines="1"
+<span class="lineno"> 127</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/sample_cachemgr_input.xml">../../src/main/res/layout/sample_cachemgr_input.xml</a>:138</span>: <span class="message">[I18N] Hardcoded string "Start Download", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 135</span>                 android:layout_height="wrap_content"
+<span class="lineno"> 136</span> 
+<span class="lineno"> 137</span>                 android:id="@+id/executeJob"
+<span class="lineno"> 138</span>                 <span class="errorspan">android:text="Start Download"/></span>
+<span class="lineno"> 139</span> 
+<span class="lineno"> 140</span> 
 </pre>
 </div>
 </div>

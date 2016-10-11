@@ -10,41 +10,41 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c1987 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
+	c2018 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseSampleFragment.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleCacheDownloaderArchive
-	c1996 [label=<<table title="org.osmdroid.samplefragments.SampleCacheDownloaderArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderArchive.html">
+	c2027 [label=<<table title="org.osmdroid.samplefragments.SampleCacheDownloaderArchive" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloaderArchive.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloaderArchive </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloaderArchive.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleCacheDownloaderArchive extends org.osmdroid.samplefragments.BaseSampleFragment
-	c1987:p -> c1996:p [dir=back,arrowtail=empty];
+	c2018:p -> c2027:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.SampleCacheDownloaderArchive implements android.view.View.OnClickListener
-	c2033:p -> c1996:p [dir=back,arrowtail=empty,style=dashed];
+	c2065:p -> c2027:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.SampleCacheDownloaderArchive implements android.widget.SeekBar.OnSeekBarChangeListener
-	c2034:p -> c1996:p [dir=back,arrowtail=empty,style=dashed];
+	c2066:p -> c2027:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.SampleCacheDownloaderArchive implements android.text.TextWatcher
-	c2035:p -> c1996:p [dir=back,arrowtail=empty,style=dashed];
+	c2067:p -> c2027:p [dir=back,arrowtail=empty,style=dashed];
 	// android.text.TextWatcher
-	c2035 [label=<<table title="android.text.TextWatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html">
+	c2067 [label=<<table title="android.text.TextWatcher" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> TextWatcher </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/text/TextWatcher.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// android.widget.SeekBar.OnSeekBarChangeListener
-	c2034 [label=<<table title="android.widget.SeekBar.OnSeekBarChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html">
+	c2066 [label=<<table title="android.widget.SeekBar.OnSeekBarChangeListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnSeekBarChangeListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/widget/SeekBar/OnSeekBarChangeListener.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// android.view.View.OnClickListener
-	c2033 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
+	c2065 [label=<<table title="android.view.View.OnClickListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/view/View/OnClickListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnClickListener </td></tr>

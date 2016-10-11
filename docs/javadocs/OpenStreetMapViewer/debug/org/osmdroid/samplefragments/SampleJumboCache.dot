@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c2871 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
+	c2916 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseSampleFragment.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleJumboCache
-	c2892 [label=<<table title="org.osmdroid.samplefragments.SampleJumboCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleJumboCache.html">
+	c2937 [label=<<table title="org.osmdroid.samplefragments.SampleJumboCache" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleJumboCache.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleJumboCache </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleJumboCache.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleJumboCache extends org.osmdroid.samplefragments.BaseSampleFragment
-	c2871:p -> c2892:p [dir=back,arrowtail=empty];
+	c2916:p -> c2937:p [dir=back,arrowtail=empty];
 }
 

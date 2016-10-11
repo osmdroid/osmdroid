@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="5.2.3" timestamp="2016-10-11T07:36:28.360">
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/OSMMapTilePackager.java">
+<violation beginline="25" endline="25" begincolumn="21" endcolumn="42" rule="SuspiciousConstantFieldName" ruleset="Naming" package="org.osmdroid.mtp" class="OSMMapTilePackager" variable="FORCE" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#SuspiciousConstantFieldName" priority="3">
+The field name indicates a constant but its modifiers do not
+</violation>
+<violation beginline="170" endline="170" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="run" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="170" endline="170" begincolumn="30" endcolumn="58" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="run" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot;---------------------------&quot; appears 5 times in this file; the first occurrence is on line 170
+</violation>
+<violation beginline="188" endline="188" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="execute" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="190" endline="190" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="execute" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="202" endline="202" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="execute" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="208" endline="208" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="execute" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="216" endline="216" begincolumn="11" endcolumn="26" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runFileExistenceChecker" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="219" endline="219" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runFileExistenceChecker" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="219" endline="219" begincolumn="35" endcolumn="42" rule="AvoidDuplicateLiterals" ruleset="String and StringBuffer" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runFileExistenceChecker" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/strings.html#AvoidDuplicateLiterals" priority="3">
+The String literal &quot; done.&quot; appears 7 times in this file; the first occurrence is on line 219
+</violation>
+<violation beginline="221" endline="221" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runFileExistenceChecker" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="227" endline="227" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="printUsageAndExit" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="255" endline="255" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateGEMFFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="259" endline="259" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateGEMFFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="261" endline="261" begincolumn="16" endcolumn="34" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateGEMFFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="267" endline="267" begincolumn="16" endcolumn="31" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runZipToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="269" endline="269" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runZipToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="271" endline="271" begincolumn="16" endcolumn="34" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runZipToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="277" endline="277" begincolumn="16" endcolumn="31" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateDb" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="279" endline="279" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateDb" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="281" endline="281" begincolumn="16" endcolumn="34" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCreateDb" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="286" endline="287" begincolumn="11" endcolumn="95" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCleanup" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="290" endline="290" begincolumn="11" endcolumn="26" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCleanup" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="292" endline="292" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runCleanup" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="313" endline="313" begincolumn="16" endcolumn="31" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="325" endline="325" begincolumn="21" endcolumn="38" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="327" endline="327" begincolumn="21" endcolumn="39" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="331" endline="331" begincolumn="16" endcolumn="31" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="333" endline="333" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="335" endline="335" begincolumn="16" endcolumn="34" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runDownloading" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="356" endline="356" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="runFileExpecterWithAbort" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="367" endline="367" begincolumn="11" endcolumn="28" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="abortIfUserIsNotSure" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.println is used
+</violation>
+<violation beginline="368" endline="368" begincolumn="11" endcolumn="26" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="abortIfUserIsNotSure" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="377" endline="377" begincolumn="16" endcolumn="33" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp" class="OSMMapTilePackager" method="abortIfUserIsNotSure" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/download/DownloadManager.java">
+<violation beginline="60" endline="60" begincolumn="25" endcolumn="40" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.download" class="DownloadManager" method="getNext" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="62" endline="62" begincolumn="25" endcolumn="40" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.download" class="DownloadManager" method="getNext" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.out.print is used
+</violation>
+<violation beginline="139" endline="139" begincolumn="33" endcolumn="50" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.download" class="DownloadManager$DownloadRunner" method="run" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/ui/BatchExecutorGUI.java">
+<violation beginline="123" endline="123" begincolumn="65" endcolumn="83" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp.ui" class="BatchExecutorGUI" method="startBatch" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/ui/OSMMapTilePackagerUI.java">
+<violation beginline="225" endline="225" begincolumn="31" endcolumn="49" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp.ui" class="OSMMapTilePackagerUI" method="actionPerformed" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/FolderDeleter.java">
+<violation beginline="40" endline="40" begincolumn="41" endcolumn="58" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderDeleter" method="deleteFolder" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+<violation beginline="45" endline="45" begincolumn="41" endcolumn="58" rule="SystemPrintln" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderDeleter" method="deleteFolder" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#SystemPrintln" priority="2">
+System.err.println is used
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/FolderZipper.java">
+<violation beginline="45" endline="46" begincolumn="16" endcolumn="32" rule="IfStmtsMustUseBraces" ruleset="Braces" package="org.osmdroid.mtp.util" class="FolderZipper" method="zipFolderToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/braces.html#IfStmtsMustUseBraces" priority="3">
+Avoid using if statements without curly braces
+</violation>
+<violation beginline="52" endline="52" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderZipper" method="zipFolderToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+<violation beginline="54" endline="54" begincolumn="25" endcolumn="43" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.mtp.util" class="FolderZipper" method="zipFolderToFile" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/Util.java">
+<violation beginline="6" endline="50" begincolumn="8" endcolumn="1" rule="ShortClassName" ruleset="Naming" package="org.osmdroid.mtp.util" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/naming.html#ShortClassName" priority="4">
+Avoid short class names like Util
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java">
+<violation beginline="82" endline="82" begincolumn="33" endcolumn="51" rule="AvoidPrintStackTrace" ruleset="Java Logging" package="org.osmdroid.tileprovider.util" class="StreamUtils" method="closeStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/logging-java.html#AvoidPrintStackTrace" priority="3">
+Avoid printStackTrace(); use a logger call instead.
+</violation>
+</file>
+<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/util/GEMFFile.java">
+<violation beginline="615" endline="615" begincolumn="32" endcolumn="50" rule="UnnecessaryFullyQualifiedName" ruleset="Import Statements" package="org.osmdroid.util" class="GEMFFile" method="getInputStream" externalInfoUrl="http://pmd.sourceforge.net/pmd-5.2.3/pmd-java/rules/java/imports.html#UnnecessaryFullyQualifiedName" priority="4">
+Unnecessary use of fully qualified name 'java.io.IOException' due to existing import 'java.io.IOException'
+</violation>
+</file>
+</pmd>
+

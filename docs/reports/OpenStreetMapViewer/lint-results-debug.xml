@@ -422,7 +422,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.0"
+        message="A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -439,7 +439,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.0"
+        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -540,7 +540,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.5-SNAPSHOT`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.5`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -1870,7 +1870,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="143"
+            line="144"
             column="28"/>
     </issue>
 
@@ -1891,7 +1891,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="145"
+            line="146"
             column="29"/>
     </issue>
 
@@ -1912,7 +1912,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="147"
+            line="148"
             column="29"/>
     </issue>
 
@@ -1933,7 +1933,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="149"
+            line="150"
             column="28"/>
     </issue>
 
@@ -1954,7 +1954,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="212"
+            line="213"
             column="40"/>
     </issue>
 
@@ -1975,7 +1975,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         errorLine2="                                                   ~~~~~~~~">
         <location
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java"
-            line="212"
+            line="213"
             column="52"/>
     </issue>
 
@@ -2208,6 +2208,27 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
             file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleMapEventListener.java"
             line="81"
             column="41"/>
+    </issue>
+
+    <issue
+        id="SetTextI18n"
+        severity="Warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead."
+        category="Internationalization"
+        priority="6"
+        summary="TextView Internationalization"
+        explanation="When calling `TextView#setText`
+* Never call `Number#toString()` to format numbers; it will not handle fraction separators and locale-specific digits properly. Consider using `String#format` with proper format specifications (`%d` or `%f`) instead.
+* Do not pass a string literal (e.g. &quot;Hello&quot;) to display text. Hardcoded text can not be properly translated to other languages. Consider using Android resource strings instead.
+* Do not build messages by concatenating text chunks. Such messages can not be properly translated."
+        url="http://developer.android.com/guide/topics/resources/localization.html"
+        urls="http://developer.android.com/guide/topics/resources/localization.html"
+        errorLine1="        btnCache.setText(&quot;Zoom to bounds&quot;);"
+        errorLine2="                         ~~~~~~~~~~~~~~~~">
+        <location
+            file="./OpenStreetMapViewer/src/main/java/org/osmdroid/samplefragments/SampleZoomToBounding.java"
+            line="32"
+            column="26"/>
     </issue>
 
     <issue
@@ -2597,7 +2618,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         quickfix="adt">
         <location
             file="./OpenStreetMapViewer/src/main/res/layout/sample_cachemgr_input.xml"
-            line="110"
+            line="117"
             column="17"/>
     </issue>
 
@@ -2620,7 +2641,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         quickfix="adt">
         <location
             file="./OpenStreetMapViewer/src/main/res/layout/sample_cachemgr_input.xml"
-            line="117"
+            line="124"
             column="17"/>
     </issue>
 
@@ -2643,7 +2664,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         quickfix="adt">
         <location
             file="./OpenStreetMapViewer/src/main/res/layout/sample_cachemgr_input.xml"
-            line="118"
+            line="125"
             column="17"/>
     </issue>
 
@@ -2666,7 +2687,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         quickfix="adt">
         <location
             file="./OpenStreetMapViewer/src/main/res/layout/sample_cachemgr_input.xml"
-            line="131"
+            line="138"
             column="17"/>
     </issue>
 

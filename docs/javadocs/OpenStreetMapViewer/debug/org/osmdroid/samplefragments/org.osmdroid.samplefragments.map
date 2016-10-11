@@ -1,8 +1,8 @@
 <map id="G" name="G">
 <area shape="rect" id="node1_0" href="./AsyncTaskDemoFragment.html" title="org.osmdroid.samplefragments.AsyncTaskDemoFragment" alt="" coords="15,112,193,139"/>
 <area shape="rect" id="node1" href="./AsyncTaskDemoFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,101,203,149"/>
-<area shape="rect" id="node2_1" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="3531,16,3685,43"/>
-<area shape="rect" id="node2" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="3521,5,3695,53"/>
+<area shape="rect" id="node2_1" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="3641,16,3794,43"/>
+<area shape="rect" id="node2" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="3630,5,3805,53"/>
 <area shape="rect" id="node3_2" href="./BugReportingTest.html" title="org.osmdroid.samplefragments.BugReportingTest" alt="" coords="239,112,367,139"/>
 <area shape="rect" id="node3" href="./BugReportingTest.html" title="&lt;TABLE&gt;" alt="" coords="228,101,377,149"/>
 <area shape="rect" id="node5_3" href="./SampleAlternateCacheDir.html" title="org.osmdroid.samplefragments.SampleAlternateCacheDir" alt="" coords="413,112,587,139"/>
@@ -65,12 +65,14 @@
 <area shape="rect" id="node36" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="&lt;TABLE&gt;" alt="" coords="6277,101,6600,149"/>
 <area shape="rect" id="node37_32" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithScale" alt="" coords="6635,112,6933,139"/>
 <area shape="rect" id="node37" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="&lt;TABLE&gt;" alt="" coords="6624,101,6944,149"/>
-<area shape="rect" id="node4_33" href="./FragmentSamples.html" title="org.osmdroid.samplefragments.FragmentSamples" alt="" coords="3730,16,3859,43"/>
-<area shape="rect" id="node4" href="./FragmentSamples.html" title="&lt;TABLE&gt;" alt="" coords="3719,5,3870,53"/>
-<area shape="rect" id="node7_34" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.SampleAnimateTo" alt="" coords="3030,208,3159,235"/>
+<area shape="rect" id="node38_33" href="./SampleZoomToBounding.html" title="org.osmdroid.samplefragments.SampleZoomToBounding" alt="" coords="6979,112,7149,139"/>
+<area shape="rect" id="node38" href="./SampleZoomToBounding.html" title="&lt;TABLE&gt;" alt="" coords="6968,101,7160,149"/>
+<area shape="rect" id="node4_34" href="./FragmentSamples.html" title="org.osmdroid.samplefragments.FragmentSamples" alt="" coords="3839,16,3969,43"/>
+<area shape="rect" id="node4" href="./FragmentSamples.html" title="&lt;TABLE&gt;" alt="" coords="3829,5,3979,53"/>
+<area shape="rect" id="node7_35" href="./SampleAnimateTo.html" title="org.osmdroid.samplefragments.SampleAnimateTo" alt="" coords="3030,208,3159,235"/>
 <area shape="rect" id="node7" href="./SampleAnimateTo.html" title="&lt;TABLE&gt;" alt="" coords="3019,197,3170,245"/>
-<area shape="rect" id="node15_35" href="./SampleFactory.html" title="org.osmdroid.samplefragments.SampleFactory" alt="" coords="3905,16,4015,43"/>
-<area shape="rect" id="node15" href="./SampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="3895,5,4025,53"/>
-<area shape="rect" id="node24_36" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="org.osmdroid.samplefragments.SampleLimitedScrollArea.ShadeAreaOverlay" alt="" coords="4060,16,4193,43"/>
-<area shape="rect" id="node24" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="&lt;TABLE&gt;" alt="" coords="4049,5,4204,53"/>
+<area shape="rect" id="node15_36" href="./SampleFactory.html" title="org.osmdroid.samplefragments.SampleFactory" alt="" coords="4015,16,4124,43"/>
+<area shape="rect" id="node15" href="./SampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="4004,5,4135,53"/>
+<area shape="rect" id="node24_37" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="org.osmdroid.samplefragments.SampleLimitedScrollArea.ShadeAreaOverlay" alt="" coords="4169,16,4303,43"/>
+<area shape="rect" id="node24" href="./SampleLimitedScrollArea.ShadeAreaOverlay.html" title="&lt;TABLE&gt;" alt="" coords="4159,5,4313,53"/>
 </map>

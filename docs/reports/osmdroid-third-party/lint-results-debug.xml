@@ -69,7 +69,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.4.0"
+        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -86,7 +86,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.4.0"
+        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -153,7 +153,7 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.5-SNAPSHOT`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.5`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"

@@ -71,7 +71,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.0"
+        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -88,7 +88,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.4.0"
+        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -105,7 +105,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.4.0"
+        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -122,7 +122,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.0"
+        message="A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -139,7 +139,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 24.2.0"
+        message="A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
@@ -156,7 +156,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.0"
+        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"

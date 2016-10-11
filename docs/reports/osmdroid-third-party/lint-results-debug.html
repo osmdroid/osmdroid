@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Sun Oct 02 21:21:27 EDT 2016.<br/>
+Check performed at Tue Oct 11 18:24:54 EDT 2016.<br/>
 2 errors and 11 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -152,7 +152,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:20</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 9.4.0</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:20</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
 <span class="lineno">  17</span>     compile project(':osmdroid-android')
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
@@ -160,7 +160,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno">  21</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  22</span> }
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:21</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.4.0</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:21</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
 <span class="lineno">  20</span>     compile 'com.google.android.gms:play-services:8.+'
@@ -226,7 +226,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.5-SNAPSHOT</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.5</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"

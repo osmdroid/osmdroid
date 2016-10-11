@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c2682 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
+	c2724 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseSampleFragment.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleHereWeGo
-	c2701 [label=<<table title="org.osmdroid.samplefragments.SampleHereWeGo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleHereWeGo.html">
+	c2743 [label=<<table title="org.osmdroid.samplefragments.SampleHereWeGo" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleHereWeGo.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleHereWeGo </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleHereWeGo.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleHereWeGo extends org.osmdroid.samplefragments.BaseSampleFragment
-	c2682:p -> c2701:p [dir=back,arrowtail=empty];
+	c2724:p -> c2743:p [dir=back,arrowtail=empty];
 }
 

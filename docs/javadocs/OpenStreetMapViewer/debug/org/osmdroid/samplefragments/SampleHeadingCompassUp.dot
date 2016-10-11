@@ -10,32 +10,32 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c2618 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
+	c2659 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="Helvetica-Oblique"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="./BaseSampleFragment.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.SampleHeadingCompassUp
-	c2636 [label=<<table title="org.osmdroid.samplefragments.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleHeadingCompassUp.html">
+	c2677 [label=<<table title="org.osmdroid.samplefragments.SampleHeadingCompassUp" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleHeadingCompassUp.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleHeadingCompassUp </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleHeadingCompassUp.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.SampleHeadingCompassUp extends org.osmdroid.samplefragments.BaseSampleFragment
-	c2618:p -> c2636:p [dir=back,arrowtail=empty];
+	c2659:p -> c2677:p [dir=back,arrowtail=empty];
 	//org.osmdroid.samplefragments.SampleHeadingCompassUp implements android.location.LocationListener
-	c2664:p -> c2636:p [dir=back,arrowtail=empty,style=dashed];
+	c2706:p -> c2677:p [dir=back,arrowtail=empty,style=dashed];
 	//org.osmdroid.samplefragments.SampleHeadingCompassUp implements org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c2665:p -> c2636:p [dir=back,arrowtail=empty,style=dashed];
+	c2707:p -> c2677:p [dir=back,arrowtail=empty,style=dashed];
 	// android.location.LocationListener
-	c2664 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
+	c2706 [label=<<table title="android.location.LocationListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> LocationListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.views.overlay.compass.IOrientationConsumer
-	c2665 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html">
+	c2707 [label=<<table title="org.osmdroid.views.overlay.compass.IOrientationConsumer" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> IOrientationConsumer </td></tr>

@@ -11,7 +11,57 @@
         </Package>
 
         <Package name="android.app">
-            <error>No stats available: package referenced, but not analyzed.</error>
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>24</Ca>
+                <Ce>1</Ce>
+                <A>0</A>
+                <I>0.04</I>
+                <D>0.96</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="BuildConfig.java">
+                    android.app.BuildConfig
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test</Package>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.internal.runner.hidden</Package>
+                <Package>android.support.test.internal.runner.junit3</Package>
+                <Package>android.support.test.internal.runner.lifecycle</Package>
+                <Package>android.support.test.internal.runner.listener</Package>
+                <Package>android.support.test.internal.statement</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.rule</Package>
+                <Package>android.support.test.runner</Package>
+                <Package>android.support.test.runner.intent</Package>
+                <Package>android.support.test.runner.lifecycle</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.support.v4.media</Package>
+                <Package>android.support.v4.media.session</Package>
+                <Package>android.support.v4.widget</Package>
+                <Package>com.squareup.leakcanary</Package>
+                <Package>com.squareup.leakcanary.internal</Package>
+                <Package>org.acra</Package>
+                <Package>org.acra.jraf.android.util.activitylifecyclecallbackscompat</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samples</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+            </UsedBy>
         </Package>
 
         <Package name="android.content">
@@ -108,6 +158,987 @@
 
         <Package name="android.speech.tts">
             <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="android.support.test">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>0.62</I>
+                <D>0.38</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="BuildConfig.java">
+                    android.support.test.BuildConfig
+                </Class>
+                <Class sourceFile="InstrumentationRegistry.java">
+                    android.support.test.InstrumentationRegistry
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>java.lang</Package>
+                <Package>java.util.concurrent.atomic</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.statement</Package>
+                <Package>android.support.test.rule</Package>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.annotation">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>0</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>2</Ce>
+                <A>1</A>
+                <I>0.67</I>
+                <D>0.67</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="Beta.java">
+                    android.support.test.annotation.Beta
+                </Class>
+                <Class sourceFile="UiThreadTest.java">
+                    android.support.test.annotation.UiThreadTest
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+                <Package>java.lang.annotation</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.rule</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.filters">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>0</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>2</Ce>
+                <A>1</A>
+                <I>0.67</I>
+                <D>0.67</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="FlakyTest.java">
+                    android.support.test.filters.FlakyTest
+                </Class>
+                <Class sourceFile="RequiresDevice.java">
+                    android.support.test.filters.RequiresDevice
+                </Class>
+                <Class sourceFile="SdkSuppress.java">
+                    android.support.test.filters.SdkSuppress
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>java.lang</Package>
+                <Package>java.lang.annotation</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner">
+            <Stats>
+                <TotalClasses>32</TotalClasses>
+                <ConcreteClasses>29</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>26</Ce>
+                <A>0.09</A>
+                <I>0.96</I>
+                <D>0.06</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$ClassNameFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$DeviceBuild
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$ParentFilter
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AndroidRunnerBuilder.java">
+                    android.support.test.internal.runner.AndroidRunnerBuilder
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$AcceptAllFilter
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$ChainedClassNameFilter
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$ExcludePackageNameFilter
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$ExternalClassNameFilter
+                </Class>
+                <Class sourceFile="ClassPathScanner.java">
+                    android.support.test.internal.runner.ClassPathScanner$InclusivePackageNameFilter
+                </Class>
+                <Class sourceFile="RunnerArgs.java">
+                    android.support.test.internal.runner.RunnerArgs
+                </Class>
+                <Class sourceFile="RunnerArgs.java">
+                    android.support.test.internal.runner.RunnerArgs$1
+                </Class>
+                <Class sourceFile="RunnerArgs.java">
+                    android.support.test.internal.runner.RunnerArgs$Builder
+                </Class>
+                <Class sourceFile="RunnerArgs.java">
+                    android.support.test.internal.runner.RunnerArgs$TestArg
+                </Class>
+                <Class sourceFile="TestExecutor.java">
+                    android.support.test.internal.runner.TestExecutor
+                </Class>
+                <Class sourceFile="TestExecutor.java">
+                    android.support.test.internal.runner.TestExecutor$1
+                </Class>
+                <Class sourceFile="TestExecutor.java">
+                    android.support.test.internal.runner.TestExecutor$Builder
+                </Class>
+                <Class sourceFile="TestLoader.java">
+                    android.support.test.internal.runner.TestLoader
+                </Class>
+                <Class sourceFile="TestRequest.java">
+                    android.support.test.internal.runner.TestRequest
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$1
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$AnnotationExclusionFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$AnnotationInclusionFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$BlankRunner
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$ClassAndMethodFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$DeviceBuildImpl
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$LenientFilterRequest
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$MethodFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$RequiresDeviceFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$SdkSuppressFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$ShardingFilter
+                </Class>
+                <Class sourceFile="TestRequestBuilder.java">
+                    android.support.test.internal.runner.TestRequestBuilder$SizeFilter
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.content.pm</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test.filters</Package>
+                <Package>android.support.test.internal.runner.junit3</Package>
+                <Package>android.support.test.internal.runner.junit4</Package>
+                <Package>android.support.test.internal.runner.listener</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.runner.lifecycle</Package>
+                <Package>android.test.suitebuilder.annotation</Package>
+                <Package>android.util</Package>
+                <Package>dalvik.system</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.annotation</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.util</Package>
+                <Package>java.util.regex</Package>
+                <Package>junit.framework</Package>
+                <Package>org.junit</Package>
+                <Package>org.junit.internal.builders</Package>
+                <Package>org.junit.runner</Package>
+                <Package>org.junit.runner.manipulation</Package>
+                <Package>org.junit.runner.notification</Package>
+                <Package>org.junit.runners.model</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.hidden">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>0</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>1</Ce>
+                <A>1</A>
+                <I>0.5</I>
+                <D>0.5</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="ExposedInstrumentationApi.java">
+                    android.support.test.internal.runner.hidden.ExposedInstrumentationApi
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.intent">
+            <Stats>
+                <TotalClasses>1</TotalClasses>
+                <ConcreteClasses>1</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>6</Ce>
+                <A>0</A>
+                <I>0.86</I>
+                <D>0.14</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="IntentMonitorImpl.java">
+                    android.support.test.internal.runner.intent.IntentMonitorImpl
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.support.test.runner.intent</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.ref</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.junit3">
+            <Stats>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>16</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>17</Ce>
+                <A>0</A>
+                <I>0.94</I>
+                <D>0.06</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AndroidJUnit3Builder.java">
+                    android.support.test.internal.runner.junit3.AndroidJUnit3Builder
+                </Class>
+                <Class sourceFile="AndroidSuiteBuilder.java">
+                    android.support.test.internal.runner.junit3.AndroidSuiteBuilder
+                </Class>
+                <Class sourceFile="AndroidTestResult.java">
+                    android.support.test.internal.runner.junit3.AndroidTestResult
+                </Class>
+                <Class sourceFile="AndroidTestSuite.java">
+                    android.support.test.internal.runner.junit3.AndroidTestSuite
+                </Class>
+                <Class sourceFile="AndroidTestSuite.java">
+                    android.support.test.internal.runner.junit3.AndroidTestSuite$1
+                </Class>
+                <Class sourceFile="AndroidTestSuite.java">
+                    android.support.test.internal.runner.junit3.AndroidTestSuite$2
+                </Class>
+                <Class sourceFile="DelegatingFilterableTestSuite.java">
+                    android.support.test.internal.runner.junit3.DelegatingFilterableTestSuite
+                </Class>
+                <Class sourceFile="DelegatingTestResult.java">
+                    android.support.test.internal.runner.junit3.DelegatingTestResult
+                </Class>
+                <Class sourceFile="DelegatingTestSuite.java">
+                    android.support.test.internal.runner.junit3.DelegatingTestSuite
+                </Class>
+                <Class sourceFile="JUnit38ClassRunner.java">
+                    android.support.test.internal.runner.junit3.JUnit38ClassRunner
+                </Class>
+                <Class sourceFile="JUnit38ClassRunner.java">
+                    android.support.test.internal.runner.junit3.JUnit38ClassRunner$1
+                </Class>
+                <Class sourceFile="JUnit38ClassRunner.java">
+                    android.support.test.internal.runner.junit3.JUnit38ClassRunner$OldTestClassAdaptingListener
+                </Class>
+                <Class sourceFile="NoExecTestResult.java">
+                    android.support.test.internal.runner.junit3.NoExecTestResult
+                </Class>
+                <Class sourceFile="NoExecTestSuite.java">
+                    android.support.test.internal.runner.junit3.NoExecTestSuite
+                </Class>
+                <Class sourceFile="NonLeakyTestSuite.java">
+                    android.support.test.internal.runner.junit3.NonLeakyTestSuite
+                </Class>
+                <Class sourceFile="NonLeakyTestSuite.java">
+                    android.support.test.internal.runner.junit3.NonLeakyTestSuite$NonLeakyTest
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.test</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.annotation</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.util</Package>
+                <Package>java.util.concurrent</Package>
+                <Package>junit.extensions</Package>
+                <Package>junit.framework</Package>
+                <Package>org.junit.internal.builders</Package>
+                <Package>org.junit.internal.runners</Package>
+                <Package>org.junit.runner</Package>
+                <Package>org.junit.runner.manipulation</Package>
+                <Package>org.junit.runner.notification</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.junit4">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>11</Ce>
+                <A>0</A>
+                <I>0.85</I>
+                <D>0.15</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AndroidAnnotatedBuilder.java">
+                    android.support.test.internal.runner.junit4.AndroidAnnotatedBuilder
+                </Class>
+                <Class sourceFile="AndroidJUnit4Builder.java">
+                    android.support.test.internal.runner.junit4.AndroidJUnit4Builder
+                </Class>
+                <Class sourceFile="AndroidJUnit4ClassRunner.java">
+                    android.support.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+                </Class>
+                <Class sourceFile="NonExecutingJUnit4ClassRunner.java">
+                    android.support.test.internal.runner.junit4.NonExecutingJUnit4ClassRunner
+                </Class>
+                <Class sourceFile="NonExecutingJUnit4ClassRunner.java">
+                    android.support.test.internal.runner.junit4.NonExecutingJUnit4ClassRunner$1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.runner</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>org.junit</Package>
+                <Package>org.junit.internal.builders</Package>
+                <Package>org.junit.internal.runners.statements</Package>
+                <Package>org.junit.runner</Package>
+                <Package>org.junit.runners</Package>
+                <Package>org.junit.runners.model</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.lifecycle">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>8</Ce>
+                <A>0</A>
+                <I>0.89</I>
+                <D>0.11</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="ActivityLifecycleMonitorImpl.java">
+                    android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorImpl
+                </Class>
+                <Class sourceFile="ActivityLifecycleMonitorImpl.java">
+                    android.support.test.internal.runner.lifecycle.ActivityLifecycleMonitorImpl$ActivityStatus
+                </Class>
+                <Class sourceFile="ApplicationLifecycleMonitorImpl.java">
+                    android.support.test.internal.runner.lifecycle.ApplicationLifecycleMonitorImpl
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.runner.lifecycle</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.ref</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.listener">
+            <Stats>
+                <TotalClasses>7</TotalClasses>
+                <ConcreteClasses>6</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>13</Ce>
+                <A>0.14</A>
+                <I>0.87</I>
+                <D>0.01</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="InstrumentationRunListener.java">
+                    android.support.test.internal.runner.listener.InstrumentationRunListener
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="ActivityFinisherRunListener.java">
+                    android.support.test.internal.runner.listener.ActivityFinisherRunListener
+                </Class>
+                <Class sourceFile="CoverageListener.java">
+                    android.support.test.internal.runner.listener.CoverageListener
+                </Class>
+                <Class sourceFile="DelayInjector.java">
+                    android.support.test.internal.runner.listener.DelayInjector
+                </Class>
+                <Class sourceFile="InstrumentationResultPrinter.java">
+                    android.support.test.internal.runner.listener.InstrumentationResultPrinter
+                </Class>
+                <Class sourceFile="LogRunListener.java">
+                    android.support.test.internal.runner.listener.LogRunListener
+                </Class>
+                <Class sourceFile="SuiteAssignmentPrinter.java">
+                    android.support.test.internal.runner.listener.SuiteAssignmentPrinter
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.runner</Package>
+                <Package>android.test.suitebuilder.annotation</Package>
+                <Package>android.util</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>org.junit.internal</Package>
+                <Package>org.junit.runner</Package>
+                <Package>org.junit.runner.notification</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.runner.tracker">
+            <Stats>
+                <TotalClasses>6</TotalClasses>
+                <ConcreteClasses>5</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>13</Ce>
+                <A>0.17</A>
+                <I>0.93</I>
+                <D>0.1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="UsageTracker.java">
+                    android.support.test.internal.runner.tracker.UsageTracker
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AnalyticsBasedUsageTracker.java">
+                    android.support.test.internal.runner.tracker.AnalyticsBasedUsageTracker
+                </Class>
+                <Class sourceFile="AnalyticsBasedUsageTracker.java">
+                    android.support.test.internal.runner.tracker.AnalyticsBasedUsageTracker$1
+                </Class>
+                <Class sourceFile="AnalyticsBasedUsageTracker.java">
+                    android.support.test.internal.runner.tracker.AnalyticsBasedUsageTracker$Builder
+                </Class>
+                <Class sourceFile="UsageTracker.java">
+                    android.support.test.internal.runner.tracker.UsageTracker$NoOpUsageTracker
+                </Class>
+                <Class sourceFile="UsageTrackerRegistry.java">
+                    android.support.test.internal.runner.tracker.UsageTrackerRegistry
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.net</Package>
+                <Package>android.os</Package>
+                <Package>android.provider</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.math</Package>
+                <Package>java.net</Package>
+                <Package>java.security</Package>
+                <Package>java.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.statement">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>5</Ce>
+                <A>0</A>
+                <I>0.83</I>
+                <D>0.17</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="UiThreadStatement.java">
+                    android.support.test.internal.statement.UiThreadStatement
+                </Class>
+                <Class sourceFile="UiThreadStatement.java">
+                    android.support.test.internal.statement.UiThreadStatement$1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.support.test</Package>
+                <Package>java.lang</Package>
+                <Package>java.util.concurrent.atomic</Package>
+                <Package>org.junit.runners.model</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.rule</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.internal.util">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>9</Ca>
+                <Ce>3</Ce>
+                <A>0</A>
+                <I>0.25</I>
+                <D>0.75</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AndroidRunnerParams.java">
+                    android.support.test.internal.util.AndroidRunnerParams
+                </Class>
+                <Class sourceFile="Checks.java">
+                    android.support.test.internal.util.Checks
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.os</Package>
+                <Package>java.lang</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.internal.runner.junit3</Package>
+                <Package>android.support.test.internal.runner.junit4</Package>
+                <Package>android.support.test.internal.runner.lifecycle</Package>
+                <Package>android.support.test.internal.runner.listener</Package>
+                <Package>android.support.test.internal.runner.tracker</Package>
+                <Package>android.support.test.rule</Package>
+                <Package>android.support.test.runner</Package>
+                <Package>android.support.test.runner.intent</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.rule">
+            <Stats>
+                <TotalClasses>11</TotalClasses>
+                <ConcreteClasses>11</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>13</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="ActivityTestRule.java">
+                    android.support.test.rule.ActivityTestRule
+                </Class>
+                <Class sourceFile="ActivityTestRule.java">
+                    android.support.test.rule.ActivityTestRule$ActivityStatement
+                </Class>
+                <Class sourceFile="BuildConfig.java">
+                    android.support.test.rule.BuildConfig
+                </Class>
+                <Class sourceFile="DisableOnAndroidDebug.java">
+                    android.support.test.rule.DisableOnAndroidDebug
+                </Class>
+                <Class sourceFile="R.java">
+                    android.support.test.rule.R
+                </Class>
+                <Class sourceFile="R.java">
+                    android.support.test.rule.R$string
+                </Class>
+                <Class sourceFile="ServiceTestRule.java">
+                    android.support.test.rule.ServiceTestRule
+                </Class>
+                <Class sourceFile="ServiceTestRule.java">
+                    android.support.test.rule.ServiceTestRule$1
+                </Class>
+                <Class sourceFile="ServiceTestRule.java">
+                    android.support.test.rule.ServiceTestRule$ProxyServiceConnection
+                </Class>
+                <Class sourceFile="ServiceTestRule.java">
+                    android.support.test.rule.ServiceTestRule$ServiceStatement
+                </Class>
+                <Class sourceFile="UiThreadTestRule.java">
+                    android.support.test.rule.UiThreadTestRule
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test</Package>
+                <Package>android.support.test.annotation</Package>
+                <Package>android.support.test.internal.statement</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.util.concurrent</Package>
+                <Package>org.junit.rules</Package>
+                <Package>org.junit.runner</Package>
+                <Package>org.junit.runners.model</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.runner">
+            <Stats>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>24</Ce>
+                <A>0</A>
+                <I>0.92</I>
+                <D>0.08</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AndroidJUnit4.java">
+                    android.support.test.runner.AndroidJUnit4
+                </Class>
+                <Class sourceFile="AndroidJUnitRunner.java">
+                    android.support.test.runner.AndroidJUnitRunner
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$1
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$2
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$3
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$4
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$5
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$ActivityFinisher
+                </Class>
+                <Class sourceFile="MonitoringInstrumentation.java">
+                    android.support.test.runner.MonitoringInstrumentation$StubResultCallable
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.content.pm</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test</Package>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.internal.runner.hidden</Package>
+                <Package>android.support.test.internal.runner.intent</Package>
+                <Package>android.support.test.internal.runner.junit4</Package>
+                <Package>android.support.test.internal.runner.lifecycle</Package>
+                <Package>android.support.test.internal.runner.listener</Package>
+                <Package>android.support.test.internal.runner.tracker</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>android.support.test.runner.intent</Package>
+                <Package>android.support.test.runner.lifecycle</Package>
+                <Package>android.util</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.lang.reflect</Package>
+                <Package>java.util</Package>
+                <Package>java.util.concurrent</Package>
+                <Package>java.util.concurrent.atomic</Package>
+                <Package>org.junit.runner.notification</Package>
+                <Package>org.junit.runners.model</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner.junit4</Package>
+                <Package>android.support.test.internal.runner.listener</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.runner.intent">
+            <Stats>
+                <TotalClasses>5</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>3</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>6</Ce>
+                <A>0.6</A>
+                <I>0.75</I>
+                <D>0.35</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="IntentCallback.java">
+                    android.support.test.runner.intent.IntentCallback
+                </Class>
+                <Class sourceFile="IntentMonitor.java">
+                    android.support.test.runner.intent.IntentMonitor
+                </Class>
+                <Class sourceFile="IntentStubber.java">
+                    android.support.test.runner.intent.IntentStubber
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="IntentMonitorRegistry.java">
+                    android.support.test.runner.intent.IntentMonitorRegistry
+                </Class>
+                <Class sourceFile="IntentStubberRegistry.java">
+                    android.support.test.runner.intent.IntentStubberRegistry
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>android.support.test.internal.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.util.concurrent.atomic</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner.intent</Package>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="android.support.test.runner.lifecycle">
+            <Stats>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
+                <AbstractClasses>4</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>4</Ce>
+                <A>0.5</A>
+                <I>0.57</I>
+                <D>0.07</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="ActivityLifecycleCallback.java">
+                    android.support.test.runner.lifecycle.ActivityLifecycleCallback
+                </Class>
+                <Class sourceFile="ActivityLifecycleMonitor.java">
+                    android.support.test.runner.lifecycle.ActivityLifecycleMonitor
+                </Class>
+                <Class sourceFile="ApplicationLifecycleCallback.java">
+                    android.support.test.runner.lifecycle.ApplicationLifecycleCallback
+                </Class>
+                <Class sourceFile="ApplicationLifecycleMonitor.java">
+                    android.support.test.runner.lifecycle.ApplicationLifecycleMonitor
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="ActivityLifecycleMonitorRegistry.java">
+                    android.support.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+                </Class>
+                <Class sourceFile="ApplicationLifecycleMonitorRegistry.java">
+                    android.support.test.runner.lifecycle.ApplicationLifecycleMonitorRegistry
+                </Class>
+                <Class sourceFile="ApplicationStage.java">
+                    android.support.test.runner.lifecycle.ApplicationStage
+                </Class>
+                <Class sourceFile="Stage.java">
+                    android.support.test.runner.lifecycle.Stage
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>java.util.concurrent.atomic</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>android.support.test.internal.runner</Package>
+                <Package>android.support.test.internal.runner.lifecycle</Package>
+                <Package>android.support.test.runner</Package>
+            </UsedBy>
         </Package>
 
         <Package name="android.support.v4">
@@ -263,11 +1294,11 @@
                 <TotalClasses>210</TotalClasses>
                 <ConcreteClasses>167</ConcreteClasses>
                 <AbstractClasses>43</AbstractClasses>
-                <Ca>6</Ca>
+                <Ca>8</Ca>
                 <Ce>25</Ce>
                 <A>0.2</A>
-                <I>0.81</I>
-                <D>0.01</D>
+                <I>0.76</I>
+                <D>0.04</D>
                 <V>1</V>
             </Stats>
 
@@ -942,6 +1973,8 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.test</Package>
+                <Package>org.osmdroid.views</Package>
             </UsedBy>
         </Package>
 
@@ -4373,6 +5406,14 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
+        <Package name="android.test">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="android.test.suitebuilder.annotation">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="android.text">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -4839,6 +5880,10 @@
             </UsedBy>
         </Package>
 
+        <Package name="dalvik.system">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="java.io">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -4856,6 +5901,10 @@
         </Package>
 
         <Package name="java.lang.reflect">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="java.math">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
@@ -4891,6 +5940,10 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
+        <Package name="java.util.regex">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="java.util.zip">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -4903,16 +5956,24 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
+        <Package name="junit.extensions">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="junit.framework">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="microsoft.mappoint">
             <Stats>
                 <TotalClasses>1</TotalClasses>
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>5</Ca>
+                <Ca>6</Ca>
                 <Ce>3</Ce>
                 <A>0</A>
-                <I>0.38</I>
-                <D>0.62</D>
+                <I>0.33</I>
+                <D>0.67</D>
                 <V>1</V>
             </Stats>
 
@@ -4932,6 +5993,7 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.util</Package>
@@ -5481,6 +6543,50 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
+        <Package name="org.junit">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.internal">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.internal.builders">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.internal.runners">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.internal.runners.statements">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.rules">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.runner">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.runner.manipulation">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.runner.notification">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.runners">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
+        <Package name="org.junit.runners.model">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="org.metalev.multitouch.controller">
             <Stats>
                 <TotalClasses>4</TotalClasses>
@@ -5526,14 +6632,14 @@
 
         <Package name="org.osmdroid">
             <Stats>
-                <TotalClasses>25</TotalClasses>
-                <ConcreteClasses>24</ConcreteClasses>
+                <TotalClasses>26</TotalClasses>
+                <ConcreteClasses>25</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>35</Ce>
+                <Ca>4</Ca>
+                <Ce>37</Ce>
                 <A>0.04</A>
-                <I>0.95</I>
-                <D>0.01</D>
+                <I>0.9</I>
+                <D>0.06</D>
                 <V>1</V>
             </Stats>
 
@@ -5616,6 +6722,9 @@
                 <Class sourceFile="StarterMapFragment.java">
                     org.osmdroid.StarterMapFragment$2
                 </Class>
+                <Class sourceFile="TileSystemMathTest.java">
+                    org.osmdroid.TileSystemMathTest
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
@@ -5630,6 +6739,7 @@
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.support.v4.content</Package>
+                <Package>android.test</Package>
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>android.widget</Package>
@@ -5637,6 +6747,7 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>microsoft.mappoint</Package>
                 <Package>org.acra</Package>
                 <Package>org.acra.collector</Package>
                 <Package>org.acra.sender</Package>
@@ -5659,6 +6770,8 @@
             <UsedBy>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.test</Package>
+                <Package>org.osmdroid.views</Package>
             </UsedBy>
         </Package>
 
@@ -5716,11 +6829,11 @@
                 <TotalClasses>14</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
+                <Ca>2</Ca>
                 <Ce>17</Ce>
                 <A>0</A>
-                <I>0.94</I>
-                <D>0.06</D>
+                <I>0.89</I>
+                <D>0.11</D>
                 <V>1</V>
             </Stats>
 
@@ -5794,6 +6907,7 @@
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.test</Package>
             </UsedBy>
         </Package>
 
@@ -5938,14 +7052,14 @@
 
         <Package name="org.osmdroid.samplefragments">
             <Stats>
-                <TotalClasses>74</TotalClasses>
-                <ConcreteClasses>73</ConcreteClasses>
+                <TotalClasses>75</TotalClasses>
+                <ConcreteClasses>74</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>2</Ca>
+                <Ca>3</Ca>
                 <Ce>35</Ce>
                 <A>0.01</A>
-                <I>0.95</I>
-                <D>0.04</D>
+                <I>0.92</I>
+                <D>0.07</D>
                 <V>1</V>
             </Stats>
 
@@ -6175,6 +7289,9 @@
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithScale.java">
                     org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithScale$1
                 </Class>
+                <Class sourceFile="SampleZoomToBounding.java">
+                    org.osmdroid.samplefragments.SampleZoomToBounding
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
@@ -6218,6 +7335,7 @@
             <UsedBy>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.test</Package>
             </UsedBy>
         </Package>
 
@@ -6328,16 +7446,80 @@
             </UsedBy>
         </Package>
 
+        <Package name="org.osmdroid.test">
+            <Stats>
+                <TotalClasses>9</TotalClasses>
+                <ConcreteClasses>9</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>11</Ce>
+                <A>0</A>
+                <I>1</I>
+                <D>0</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="BuildConfig.java">
+                    org.osmdroid.test.BuildConfig
+                </Class>
+                <Class sourceFile="ExtraSamplesTest.java">
+                    org.osmdroid.test.ExtraSamplesTest
+                </Class>
+                <Class sourceFile="ExtraSamplesTest.java">
+                    org.osmdroid.test.ExtraSamplesTest$1
+                </Class>
+                <Class sourceFile="ExtraSamplesTest.java">
+                    org.osmdroid.test.ExtraSamplesTest$2
+                </Class>
+                <Class sourceFile="MainActivityTest.java">
+                    org.osmdroid.test.MainActivityTest
+                </Class>
+                <Class sourceFile="MapActivityTest.java">
+                    org.osmdroid.test.MapActivityTest
+                </Class>
+                <Class sourceFile="R.java">
+                    org.osmdroid.test.R
+                </Class>
+                <Class sourceFile="R.java">
+                    org.osmdroid.test.R$attr
+                </Class>
+                <Class sourceFile="R.java">
+                    org.osmdroid.test.R$string
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.support.v4.app</Package>
+                <Package>android.test</Package>
+                <Package>android.util</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>junit.framework</Package>
+                <Package>org.junit</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+            </UsedBy>
+        </Package>
+
         <Package name="org.osmdroid.tileprovider">
             <Stats>
                 <TotalClasses>16</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
-                <Ca>11</Ca>
+                <Ca>12</Ca>
                 <Ce>14</Ce>
                 <A>0.31</A>
-                <I>0.56</I>
-                <D>0.13</D>
+                <I>0.54</I>
+                <D>0.15</D>
                 <V>1</V>
             </Stats>
 
@@ -6424,6 +7606,7 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
 
@@ -6532,14 +7715,14 @@
 
         <Package name="org.osmdroid.tileprovider.modules">
             <Stats>
-                <TotalClasses>34</TotalClasses>
-                <ConcreteClasses>28</ConcreteClasses>
+                <TotalClasses>38</TotalClasses>
+                <ConcreteClasses>32</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>24</Ce>
-                <A>0.18</A>
-                <I>0.86</I>
-                <D>0.03</D>
+                <Ca>5</Ca>
+                <Ce>25</Ce>
+                <A>0.16</A>
+                <I>0.83</I>
+                <D>0.01</D>
                 <V>1</V>
             </Stats>
 
@@ -6616,6 +7799,18 @@
                 <Class sourceFile="MapTileModuleProviderBase.java">
                     org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$CantContinueException
                 </Class>
+                <Class sourceFile="MapTileProviderTest.java">
+                    org.osmdroid.tileprovider.modules.MapTileProviderTest
+                </Class>
+                <Class sourceFile="MapTileProviderTest.java">
+                    org.osmdroid.tileprovider.modules.MapTileProviderTest$1
+                </Class>
+                <Class sourceFile="MapTileProviderTest.java">
+                    org.osmdroid.tileprovider.modules.MapTileProviderTest$2
+                </Class>
+                <Class sourceFile="MapTileProviderTest.java">
+                    org.osmdroid.tileprovider.modules.MapTileProviderTest$2$1
+                </Class>
                 <Class sourceFile="MapTileSqlCacheProvider.java">
                     org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider
                 </Class>
@@ -6660,6 +7855,7 @@
                 <Package>android.graphics.drawable</Package>
                 <Package>android.net</Package>
                 <Package>android.os</Package>
+                <Package>android.test</Package>
                 <Package>android.text</Package>
                 <Package>android.util</Package>
                 <Package>java.io</Package>
@@ -6683,6 +7879,7 @@
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
 
@@ -6691,11 +7888,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>9</Ca>
+                <Ca>10</Ca>
                 <Ce>10</Ce>
                 <A>0.27</A>
-                <I>0.53</I>
-                <D>0.21</D>
+                <I>0.5</I>
+                <D>0.23</D>
                 <V>1</V>
             </Stats>
 
@@ -6773,6 +7970,7 @@
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
 
@@ -6781,11 +7979,11 @@
                 <TotalClasses>6</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>6</Ca>
+                <Ca>7</Ca>
                 <Ce>12</Ce>
                 <A>0</A>
-                <I>0.67</I>
-                <D>0.33</D>
+                <I>0.63</I>
+                <D>0.37</D>
                 <V>1</V>
             </Stats>
 
@@ -6830,6 +8028,7 @@
 
             <UsedBy>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.test</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
@@ -6976,14 +8175,14 @@
 
         <Package name="org.osmdroid.views">
             <Stats>
-                <TotalClasses>15</TotalClasses>
-                <ConcreteClasses>14</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>15</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>15</Ca>
-                <Ce>25</Ce>
-                <A>0.07</A>
-                <I>0.62</I>
-                <D>0.31</D>
+                <Ce>28</Ce>
+                <A>0.06</A>
+                <I>0.65</I>
+                <D>0.29</D>
                 <V>1</V>
             </Stats>
 
@@ -7033,6 +8232,9 @@
                 <Class sourceFile="MapView.java">
                     org.osmdroid.views.MapView$MapViewZoomListener
                 </Class>
+                <Class sourceFile="OpenStreetMapViewTest.java">
+                    org.osmdroid.views.OpenStreetMapViewTest
+                </Class>
                 <Class sourceFile="Projection.java">
                     org.osmdroid.views.Projection
                 </Class>
@@ -7044,6 +8246,8 @@
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
                 <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.test</Package>
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>android.view.animation</Package>
@@ -7054,6 +8258,7 @@
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>microsoft.mappoint</Package>
                 <Package>org.metalev.multitouch.controller</Package>
+                <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.tileprovider</Package>
@@ -7562,14 +8767,14 @@
 
         <Package name="org.osmdroid.views.util">
             <Stats>
-                <TotalClasses>3</TotalClasses>
-                <ConcreteClasses>3</ConcreteClasses>
+                <TotalClasses>4</TotalClasses>
+                <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>7</Ce>
+                <Ce>16</Ce>
                 <A>0</A>
-                <I>0.88</I>
-                <D>0.12</D>
+                <I>0.94</I>
+                <D>0.06</D>
                 <V>1</V>
             </Stats>
 
@@ -7583,6 +8788,9 @@
                 <Class sourceFile="MyMath.java">
                     org.osmdroid.views.util.MyMath
                 </Class>
+                <Class sourceFile="OpenStreetMapTileProviderDirectTest.java">
+                    org.osmdroid.views.util.OpenStreetMapTileProviderDirectTest
+                </Class>
                 <Class sourceFile="PathProjection.java">
                     org.osmdroid.views.util.PathProjection
                 </Class>
@@ -7590,9 +8798,18 @@
 
             <DependsUpon>
                 <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
+                <Package>android.os</Package>
+                <Package>android.test</Package>
+                <Package>java.io</Package>
                 <Package>java.lang</Package>
+                <Package>java.nio</Package>
                 <Package>java.util</Package>
+                <Package>junit.framework</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
@@ -7649,6 +8866,31 @@
     </Packages>
 
     <Cycles>
+        <Package Name="android.support.test.internal.runner">
+            <Package>android.support.test.internal.runner.junit4</Package>
+            <Package>android.support.test.runner</Package>
+            <Package>android.support.test.internal.runner</Package>
+        </Package>
+
+        <Package Name="android.support.test.internal.runner.junit4">
+            <Package>android.support.test.runner</Package>
+            <Package>android.support.test.internal.runner</Package>
+            <Package>android.support.test.internal.runner.junit4</Package>
+        </Package>
+
+        <Package Name="android.support.test.internal.runner.listener">
+            <Package>android.support.test.runner</Package>
+            <Package>android.support.test.internal.runner</Package>
+            <Package>android.support.test.internal.runner.junit4</Package>
+            <Package>android.support.test.runner</Package>
+        </Package>
+
+        <Package Name="android.support.test.runner">
+            <Package>android.support.test.internal.runner</Package>
+            <Package>android.support.test.internal.runner.junit4</Package>
+            <Package>android.support.test.runner</Package>
+        </Package>
+
         <Package Name="android.support.v4.app">
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
@@ -7745,8 +8987,6 @@
         </Package>
 
         <Package Name="org.osmdroid">
-            <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.events</Package>
             <Package>org.osmdroid.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
@@ -7795,6 +9035,13 @@
             <Package>org.osmdroid.tileprovider</Package>
         </Package>
 
+        <Package Name="org.osmdroid.test">
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
+        </Package>
+
         <Package Name="org.osmdroid.tileprovider">
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider.util</Package>
@@ -7810,10 +9057,10 @@
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
+            <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.tilesource">
@@ -7836,49 +9083,44 @@
         </Package>
 
         <Package Name="org.osmdroid.views">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.drawing">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.compass">
             <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gestures">
             <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gridlines">
@@ -7892,11 +9134,10 @@
         <Package Name="org.osmdroid.views.overlay.infowindow">
             <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.view</Package>
+            <Package>android.support.v4.widget</Package>
+            <Package>android.support.v4.view</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">
@@ -7908,11 +9149,10 @@
         </Package>
 
         <Package Name="org.osmdroid.views.util">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
     </Cycles>
