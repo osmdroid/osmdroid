@@ -1,0 +1,131 @@
+{
+  "id" : 15,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMap Activity leaks ServiceConnection ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 17,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6094860372549882898,
+    "content" : "View map\r\n\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706): Activity\r\norg.andnav.osm.OpenStreetMap has leaked ServiceConnection\r\norg.andnav.osm.views.util.OpenStreetMapTileProvider@44ca7818 that was\r\noriginally bound here\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):\r\nandroid.app.ServiceConnectionLeaked: Activity org.andnav.osm.OpenStreetMap\r\nhas leaked ServiceConnection\r\norg.andnav.osm.views.util.OpenStreetMapTileProvider@44ca7818 that was\r\noriginally bound here\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread$PackageInfo$ServiceDispatcher.&lt;init&gt;(ActivityThread.java:935)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread$PackageInfo.getServiceDispatcher(ActivityThread.java:830)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ApplicationContext.bindService(ApplicationContext.java:799)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.content.ContextWrapper.bindService(ContextWrapper.java:337)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\norg.andnav.osm.views.util.OpenStreetMapTileProvider.&lt;init&gt;(OpenStreetMapTileProvider.java:57)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\norg.andnav.osm.views.overlay.OpenStreetMapTilesOverlay.&lt;init&gt;(OpenStreetMapTilesOverlay.java:35)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\norg.andnav.osm.views.OpenStreetMapView.&lt;init&gt;(OpenStreetMapView.java:93)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\norg.andnav.osm.views.OpenStreetMapView.&lt;init&gt;(OpenStreetMapView.java:114)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\norg.andnav.osm.OpenStreetMap.onCreate(OpenStreetMap.java:60)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1047)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread.performLaunchActivity(ActivityThread.java:2417)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2470)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread.access$2200(ActivityThread.java:119)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread$H.handleMessage(ActivityThread.java:1821)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.os.Handler.dispatchMessage(Handler.java:99)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.os.Looper.loop(Looper.java:123)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\nandroid.app.ActivityThread.main(ActivityThread.java:4310)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\njava.lang.reflect.Method.invokeNative(Native Method)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\njava.lang.reflect.Method.invoke(Method.java:521)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\ncom.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:860)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\ncom.android.internal.os.ZygoteInit.main(ZygoteInit.java:618)\r\n01-24 15:47:32.789: ERROR/ActivityThread(1706):     at\r\ndalvik.system.NativeStart.main(Native Method)\r\n01-24 15:47:32.797: WARN/ActivityManager(1170): Unbind failed: could not\r\nfind connection for android.os.BinderProxy@44fb30b8\r\n\r\n\r\n",
+    "timestamp" : 1264344794,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6556601514708298404,
+    "content" : "This patch fixes the problem.\r\n\r\nDisconnects the service when the OSM view is detached from window and automatically\r\nreconnects on a new tile request.",
+    "timestamp" : 1270555818,
+    "attachments" : [ {
+      "id" : 1924054534999184733,
+      "fileName" : "osm-service-disconnect.patch",
+      "fileSize" : 13657
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 5709035672632107645,
+    "content" : "I have tried the patch but it still doesn't works. Now i get the following error:\r\n\r\nI/ActivityManager(   52): Displayed activity com.myapp/.code.ViewRuns: 672 ms (total 672 ms)\r\nE/OPENSTREETMAP(  211): Unbinding service\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nD/OSM_TILE_PROVIDER_SERVICE(  211): onUnbind\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nD/OSM_TILE_PROVIDER_SERVICE(  211): onDestroy\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\nW/ActivityManager(   52): Timeout executing service: ServiceRecord{43873640 \r\ncom.touristeye/.services.OpenStreetMapTileProviderService}\r\nI/ActivityManager(   52): ANR in process: com.touristeye\r\nI/ActivityManager(   52): Annotation: Executing service \r\nComponentInfo{com.touristeye/com.touristeye.services.OpenStreetMapTileProviderService}\r\nI/ActivityManager(   52): CPU usage:\r\nI/ActivityManager(   52): Load: 1.38 / 0.9 / 0.36\r\nI/ActivityManager(   52): CPU usage from 23746ms to 33ms ago:\r\nI/ActivityManager(   52):   com.touristeye: 9% = 8% user + 1% kernel / faults: 682 minor\r\n\r\n\r\nThanks",
+    "timestamp" : 1270561674,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 6556601514708298404,
+    "content" : "Sorry, my error, accidentally posted error message where debug should have been.\r\n\r\nFixed patch below.",
+    "timestamp" : 1270566534,
+    "attachments" : [ {
+      "id" : 3395999881257512144,
+      "fileName" : "osm-service-disconnect1.patch",
+      "fileSize" : 13678
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 5709035672632107645,
+    "content" : "sorry but i still get the same problem\r\n\r\nI/ActivityManager(   52): Stopping service: com.touristeye/.services.OpenStreetMapTileProviderService\r\n\r\nand\r\n\r\nW/ActivityManager(   52): Timeout executing service: ServiceRecord{43849000 \r\ncom.touristeye/.services.OpenStreetMapTileProviderService}\r\n\r\n\r\nAfter that, the application seems to be not responding.\r\n\r\nwhat can be the problem?",
+    "timestamp" : 1270580755,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6556601514708298404,
+    "content" : "Works fine for me in the demo app. This might be some problem in your app.\r\nCare to share your source?",
+    "timestamp" : 1270621807,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 5709035672632107645,
+    "content" : "In order to check if it is my problem i have tried the demo app (Sample Loader), loading maps from OSMapView \r\nwith Itemized Overlay.\r\n\r\nBut the problem still remains when i go back from OSMApViewWithItemizedOverlay and i wait for (more or \r\nless) 20 seconds in the list that shows the different examples. After that time, the application seems to be not \r\nresponding and logcat shows the following:\r\n\r\nD/OPENSTREETMAP(  234): Unbinding service\r\nD/OSM_TILE_PROVIDER_SERVICE(  243): onUnbind\r\nD/OSM_TILE_PROVIDER_SERVICE(  243): onDestroy\r\nW/ActivityManager(   56): Timeout executing service: ServiceRecord{43d75190 \r\norg.andnav.osm/.services.OpenStreetMapTileProviderService}\r\nI/ActivityManager(   56): ANR in process: org.andnav.osm:remote\r\nI/ActivityManager(   56): Annotation: Executing service \r\nComponentInfo{org.andnav.osm/org.andnav.osm.services.OpenStreetMapTileProviderService}\r\nI/ActivityManager(   56): CPU usage:\r\nI/ActivityManager(   56): Load: 2.04 / 1.09 / 0.42\r\nI/ActivityManager(   56): CPU usage from 20703ms to 37ms ago:\r\nI/ActivityManager(   56):   dnav.osm:remote: 7% = 3% user + 4% kernel / faults: 3293 minor\r\nI/ActivityManager(   56):   system_server: 2% = 1% user + 1% kernel / faults: 214 minor\r\nI/ActivityManager(   56):   org.andnav.osm: 0% = 0% user + 0% kernel / faults: 196 minor\r\nI/ActivityManager(   56):   m.android.phone: 0% = 0% user + 0% kernel / faults: 27 minor\r\nI/ActivityManager(   56):   adbd: 0% = 0% user + 0% kernel\r\nI/ActivityManager(   56):   putmethod.latin: 0% = 0% user + 0% kernel / faults: 9 minor\r\nI/ActivityManager(   56): TOTAL: 4% = 2% user + 1% kernel\r\nI/ActivityManager(   56): Removing old ANR trace file from /data/anr/traces.txt\r\nI/Process (   56): Sending signal. PID: 243 SIG: 3\r\nI/dalvikvm(  243): threadid=7: reacting to signal 3\r\nI/dalvikvm(  243): Wrote stack trace to '/data/anr/traces.txt'\r\nI/Process (   56): Sending signal. PID: 56 SIG: 3\r\nI/dalvikvm(   56): threadid=7: reacting to signal 3\r\nI/dalvikvm(   56): Wrote stack trace to '/data/anr/traces.txt'\r\nI/Process (   56): Sending signal. PID: 234 SIG: 3\r\n",
+    "timestamp" : 1270634133,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6556601514708298404,
+    "content" : "Thanks for the info, I will check this.",
+    "timestamp" : 1270654720,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 5709035672632107645,
+    "content" : "thanks. when you finish to check it, can you notice me the results in order to check if i have the right code?",
+    "timestamp" : 1270666672,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 6556601514708298404,
+    "content" : "Reproduced the issue.\r\n\r\nThe problem is that the service fails to stop properly, because it is waiting for the\r\nremaining images to be downloaded. Probably related to the cloudmade tiles not being\r\navailable.\r\n\r\nWill try to fix this.",
+    "timestamp" : 1270710388,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 6556601514708298404,
+    "content" : "Fixed the problem.\r\n\r\nUnfortunately it becomes difficult to separate this patch form #35. So this patch\r\ncontains both changes.\r\n\r\nLet me know if you really want them separated.",
+    "timestamp" : 1270711440,
+    "attachments" : [ {
+      "id" : 6269763830371381575,
+      "fileName" : "osm-service-disconnect2.patch",
+      "fileSize" : 27388
+    } ]
+  }, {
+    "id" : 11,
+    "commenterId" : 5709035672632107645,
+    "content" : "great! it works!",
+    "timestamp" : 1270716675,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 6556601514708298404,
+    "content" : "How about integrating this in the source?",
+    "timestamp" : 1271057455,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 6556601514708298404,
+    "content" : "New, smaller patch against rev #133.\r\n",
+    "timestamp" : 1271326743,
+    "attachments" : [ {
+      "id" : 483327183301319274,
+      "fileName" : "osm-service-disconnect2.patch",
+      "fileSize" : 27388
+    } ]
+  }, {
+    "id" : 14,
+    "commenterId" : 6556601514708298404,
+    "content" : "Better patch, only differences here.",
+    "timestamp" : 1271327583,
+    "attachments" : [ {
+      "id" : 7281184139306652941,
+      "fileName" : "osm-service-disconnect3.patch",
+      "fileSize" : 7335
+    } ]
+  }, {
+    "id" : 15,
+    "commenterId" : 5709035672632107645,
+    "content" : "what is the difference between patch2 and patch3? thanks",
+    "timestamp" : 1271342778,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r136.",
+    "timestamp" : 1271361146,
+    "attachments" : [ ]
+  } ]
+}

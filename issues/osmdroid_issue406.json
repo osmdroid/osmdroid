@@ -1,0 +1,27 @@
+{
+  "id" : 406,
+  "status" : "Invalid",
+  "summary" : "RecordedRouteGPXFormatter throws Exception and stores gpx file anyway",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2060118034196697627,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. try to store recorded points to gpx file in onDestroy() method\r\n2. assert recordedGeoPoints is not empty\r\n\r\nException is thrown but the gpx file is created anyway.\r\n\r\n\r\n02-21 12:38:03.576: E/OPENSTREETMAP(17361): File-Writing-Error\r\n02-21 12:38:03.576: E/OPENSTREETMAP(17361): java.lang.IllegalArgumentException: Records size == 0\r\n02-21 12:38:03.576: E/OPENSTREETMAP(17361): \tat org.osmdroid.contributor.util.RecordedRouteGPXFormatter.create(RecordedRouteGPXFormatter.java:94)\r\n02-21 12:38:03.576: E/OPENSTREETMAP(17361): \tat org.androad.osm.api.traces.GPXToFileWriter$1.run(GPXToFileWriter.java:64)\r\n02-21 12:38:03.576: E/OPENSTREETMAP(17361): \tat java.lang.Thread.run(Thread.java:1019)\r\n\r\n\r\n\r\n\r\nused method provided below.\r\nthis method is used in AndRoad\r\n\r\npublic static void writeToFileAsync(final ArrayList&lt;RecordedGeoPoint&gt; recordedGeoPoints){\r\n\t\tnew Thread(new Runnable(){\r\n\t\t\t@Override\r\n\t\t\tpublic void run() {\r\n\t\t\t\ttry {\r\n\t\t\t\t\t// Ensure folder exists\r\n\t\t\t\t\tfinal String traceFolderPath = Util.getAndRoadExternalStoragePath() + SDCARD_SAVEDTRACES_PATH;\r\n\t\t\t\t\tnew File(traceFolderPath).mkdirs();\r\n\r\n\t\t\t\t\t// Create file and ensure that needed folders exist.\r\n\t\t\t\t\tfinal String filename = SDF.format(new Date(System.currentTimeMillis())) + &quot;.gpx&quot;;\r\n\t\t\t\t\tfinal File dest = new File(traceFolderPath + filename + &quot;.zip&quot;);\r\n\r\n\t\t\t\t\t// Write Data\r\n\t\t\t\t\tfinal OutputStream out = new BufferedOutputStream(new FileOutputStream(dest),StreamUtils.IO_BUFFER_SIZE);\r\n\t\t\t\t\tfinal byte[] data = org.androad.osm.api.traces.util.Util.zipBytes(RecordedRouteGPXFormatter.create(recordedGeoPoints).getBytes(), filename);\r\n\r\n\t\t\t\t\tout.write(data);\r\n\t\t\t\t\tout.flush();\r\n\t\t\t\t\tout.close();\r\n\t\t\t\t} catch (final Exception e) {\r\n\t\t\t\t\tLog.e(OSMConstants.DEBUGTAG, &quot;File-Writing-Error&quot;, e);\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}, &quot;GPXToFileSaver-Thread&quot;).start();\r\n\t}\r\n\r\n\r\n",
+    "timestamp" : 1361449136,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2060118034196697627,
+    "content" : "Forget it. Its an issue in superclass in AndRoad.",
+    "timestamp" : 1361477956,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1361484110,
+    "attachments" : [ ]
+  } ]
+}

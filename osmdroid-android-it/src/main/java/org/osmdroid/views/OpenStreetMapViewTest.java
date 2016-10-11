@@ -12,7 +12,7 @@ import org.osmdroid.StarterMapFragment;
 import org.osmdroid.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.Projection;
-
+import org.osmdroid.tileprovider.util.Counters;
 import android.graphics.Point;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
@@ -26,6 +26,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 
 	public OpenStreetMapViewTest() {
         super(StarterMapActivity.class);
+		Counters.reset();
     }
 	
 	private MapView mOpenStreetMapView;

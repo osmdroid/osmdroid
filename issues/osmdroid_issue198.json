@@ -1,0 +1,33 @@
+{
+  "id" : 198,
+  "status" : "Fixed",
+  "summary" : "Enhancements for ItemizedOverlay / ItemizedIconOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3854853821925711306,
+    "content" : "According to Issue 182 there are some new Methods in ItemizedIconOverlay for adding and removing items.\r\n\r\nI have a small enhancement suggestion.\r\n\r\nIt would be very helpfull to add more than one item and to remove all items.\r\n\r\npublic boolean addItems(List&lt;Item&gt; items) {\r\n\tboolean result = mItemList.addAll(items);\r\n\tpopulate();\r\n\treturn result;\r\n}\r\n\r\npublic void removeAllItems() {\r\n\tremoveAllItems(true);\r\n}\r\n\r\npublic void removeAllItems(boolean withPopulate) {\r\n\tmItemList.clear();\r\n\tif (withPopulate)\r\n\t{\r\n\t\tpopulate();\r\n\t}\r\n}\r\n\r\npublic void replaceAllItems(List&lt;Item&gt; items) {\r\n\tremoveAllItems(false);\r\n\tboolean result = mItemList.addAll(items);\r\n\tpopulate();\r\n}",
+    "timestamp" : 1302177475,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303104497,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Agreed! I am going to leave out replaceAllItems to keep the API cleaner since it is just a composite function.",
+    "timestamp" : 1305502636,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r934.",
+    "timestamp" : 1305502922,
+    "attachments" : [ ]
+  } ]
+}

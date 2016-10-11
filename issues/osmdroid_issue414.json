@@ -1,0 +1,27 @@
+{
+  "id" : 414,
+  "status" : "Accepted",
+  "summary" : "Break classes out of MapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The MapView class has a lot of additional classes defined in it. To clean up the MapView, we should move those classes into their own file. This includes:\r\n\r\n * Projection - in addition to moving it to its own file we should:\r\n    - clean up all of the pixel&lt;-&gt;geopoint methods.\r\n    - Maybe we should provide methods that return Location in addition to IGeoPoint for people who want to use the Android native object for geopoints.\r\n    - create a Projection factory for people that want to extend the projection with additional methods.\r\n * All listener classes.\r\n * LayoutParams\r\n\r\n",
+    "timestamp" : 1364579351,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1377888126,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711730,
+    "attachments" : [ ]
+  } ]
+}

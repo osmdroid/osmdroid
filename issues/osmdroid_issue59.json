@@ -1,0 +1,21 @@
+{
+  "id" : 59,
+  "status" : "Fixed",
+  "summary" : "There should be an option to disable pinch-to-zoom",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Pinch-to-zoom is implemented in issue 25. Sometimes you may not want to \r\nenable zooming.\r\n\r\nThere should be a similar method to setBuiltInZoomControls to enable/disable \r\npinch-to-zoom.\r\n\r\nProbably the default should be disabled.",
+    "timestamp" : 1275467302,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r245.",
+    "timestamp" : 1277363401,
+    "attachments" : [ ]
+  } ]
+}

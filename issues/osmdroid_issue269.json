@@ -1,0 +1,27 @@
+{
+  "id" : 269,
+  "status" : "WontFix",
+  "summary" : "Cached OSM tiles being deleted",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "Reported at http://code.google.com/p/open-gpstracker/issues/detail?id=281\r\n\r\nwith use of osmdroid-android-3.0.5.jar \r\n\r\n\r\nReported by robertdu...@gmail.com, Today (10 hours ago)\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Delete /sdcard/osmdroid/tiles/Mapnik etc.\r\n2. Run other OSM gps softare (eg. OSMTracker) and cache some map tiles\r\n3. Check /sdcard/osmdroid/tiles/Mapnik for cached tiles\r\n4. Run Open GPS Tracker\r\n5. Check /sdcard/osmdroid/tiles/Mapnik for cached tiles\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nExpected: OpenGPSTracker must not delete existing tiles, and must add those new tiles it downloads\r\n\r\nActual: OpenGPSTracker seems to be creating the extra folders required for the new tiles, but is not creating the new tile files, and is deleting all previously cached tile files (including those cached by other apps)\r\n\r\nWhich Android device are you using?\r\nHTC Desire\r\n\r\nWhat version of Android are you running?\r\n2.3.7 (Villain_Au 3.2 rom, CM7 based)\r\n\r\nWhat version of the Open GPS Tracker are you running?\r\n1.2.4\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1319453038,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I didn't really understand the description, but the title sounds similar to issue 233 and issue 191.",
+    "timestamp" : 1319454143,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Let's assume this is no longer an issue.",
+    "timestamp" : 1333982302,
+    "attachments" : [ ]
+  } ]
+}

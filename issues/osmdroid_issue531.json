@@ -1,0 +1,33 @@
+{
+  "id" : 531,
+  "status" : "Duplicate",
+  "summary" : "Pinch-zoom causes map to jump",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3239100840179992849,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom with pinch-gesture (two fingers) and instantly release fingers\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n2. The map jumps instead of staying centered\r\n\r\nNote that if I zoom and hold it for a while before releasing my fingers, it works perfectly.\r\nI already tried to increase MultiTouchController.EVENT_SETTLE_TIME_INTERVAL but with no success.\r\n\r\nI tried a lot but had no success yet, so I would appreciate every hint/solution.\r\n\r\n",
+    "timestamp" : 1393963549,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6999585313919299855,
+    "content" : "Similar issue: http://code.google.com/p/osmdroid/issues/detail?id=481&start=100",
+    "timestamp" : 1394025180,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3239100840179992849,
+    "content" : "This issue can be closed because of http://code.google.com/p/osmdroid/issues/detail?id=481&start=100",
+    "timestamp" : 1394504243,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Agreed - I will merge into #481.",
+    "timestamp" : 1394550855,
+    "attachments" : [ ]
+  } ]
+}

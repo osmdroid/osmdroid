@@ -1,0 +1,33 @@
+{
+  "id" : 440,
+  "status" : "Duplicate",
+  "summary" : "can't move map ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6542097374240216476,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. on start\r\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\noutput is correct\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nv.3.0.9 - 3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\ncan't move map by finger starting from v.3.0.9\r\n",
+    "timestamp" : 1371202045,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6542097374240216476,
+    "content" : "android 4.1.2",
+    "timestamp" : 1371203014,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please see: https://code.google.com/p/osmdroid/issues/detail?id=415\r\n\r\nYou likely have clickable:true on the MapView. Remove it and it will work.",
+    "timestamp" : 1371217907,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1373488839,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,15 @@
+{
+  "id" : 262,
+  "status" : "New",
+  "summary" : "Adding MapView to a Dialog",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2507109304454622639,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create own DialogPreference\r\n2. override onCreateDialogView\r\n3. return a MapView instance\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected: MapView inside Dialog.\r\nInstead: Just OK/Cancel Buttons\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.5\r\n\r\n<b>Please provide any additional information below.</b>\nUsing Android 2.1.2\r\n",
+    "timestamp" : 1316084655,
+    "attachments" : [ ]
+  } ]
+}

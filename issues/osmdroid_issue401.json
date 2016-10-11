@@ -1,0 +1,21 @@
+{
+  "id" : 401,
+  "status" : "Invalid",
+  "summary" : "Tap on Multiple Markers onItemsSingleTapUp",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -679817301774271976,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nCreate Some Markers what are on the Same Location, but with different OverlayItems, zoom out and try to Tap on a Marker (there are more Markers at the same place, so I tap always on multiple Markers).\r\n\r\n\r\nThe issue? \r\n\r\nThere is only one method, the onItemSingleTapUp Method, what is called many times if a Tap is on multiple Markers.\r\n\r\nExpected Method Call?\r\n\r\nThere should be implemented a Method, onItemsSingleTapUp, what doesn't has only one parameter, what has a ArrayList as a Parameter, so I can display a Dialog.",
+    "timestamp" : 1361018326,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "If you want to get all tapped items override onTap() and return false. Or implement OnItemTapListener.onItemTap() and return false.",
+    "timestamp" : 1365796130,
+    "attachments" : [ ]
+  } ]
+}

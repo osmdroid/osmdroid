@@ -1,0 +1,21 @@
+{
+  "id" : 355,
+  "status" : "Invalid",
+  "summary" : "Memory leaks issue in google map page",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3562352264072111286,
+    "content" : "I have written google map page using Google API v3.x is producing enormous memory leaks.\r\n\r\nI'm testing on Firefox 13.0.1.\r\n\r\nLoading google map page initial stage. after every 30 seconds to update the place marker in google map.\r\n\r\nOne stage the page is not responding.\r\n\r\nIt take more memory.\r\n\r\nHow to clear the google map memory?",
+    "timestamp" : 1341317650,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "How is this related to osmdroid?",
+    "timestamp" : 1341327544,
+    "attachments" : [ ]
+  } ]
+}

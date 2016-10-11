@@ -28,7 +28,7 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
         //this.mMapView.getOverlayManager().getTilesOverlay().setColorFilter(adjustHue(160));
 
         ColorMatrix cm = new ColorMatrix();
-        float brightness =.5f;  // reduce color's by 50%
+        float brightness =.5f;  // reduce color's by 50%. i.e. just make it darker
         cm.set(new float[] {
                 brightness, 0, 0, 0, 0,    //red
                 0, brightness, 0, 0, 0,    //green
@@ -41,9 +41,9 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
     }
 
     /**
-     * Creates a HUE ajustment ColorFilter +- 180
-     * @see http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
-     * @see http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     * Creates a HUE adjustment ColorFilter +- 180
+     * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
+     * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
      * @param value degrees to shift the hue.
      * @return
      */
@@ -57,8 +57,8 @@ public class SampleWhackyColorFilter extends BaseSampleFragment {
     }
 
     /**
-     * @see http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
-     * @see http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
+     * http://groups.google.com/group/android-developers/browse_thread/thread/9e215c83c3819953
+     * http://gskinner.com/blog/archives/2007/12/colormatrix_cla.html
      * @param cm
      * @param value
      */

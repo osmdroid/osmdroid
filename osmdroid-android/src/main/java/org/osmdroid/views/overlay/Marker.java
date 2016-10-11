@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.MotionEvent;
 
 import org.osmdroid.library.R;
@@ -20,24 +21,27 @@ import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.infowindow.MarkerInfoWindow;
 
 /**
- * An icon placed at a particular point on the map's surface. 
- * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br/>
- * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br/>
- * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br/>
- * - The icon can be changed at any time. <br/>
- * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br/>
- * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br/>
- * - Supports an image, to be displayed in the InfoWindow. <br/>
- * - Supports "panning to view" on/off option (when touching a marker, center the map on marker position). <br/>
- * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br/>
- * - Events listeners are set per marker, not per map. <br/>
+ * A marker is an icon placed at a particular point on the map's surface that can have a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble)
+ * Mimics the Marker class from Google Maps Android API v2 as much as possible. Main differences:<br>
+ *
+ * - Doesn't support Z-Index: as other osmdroid overlays, Marker is drawn in the order of appearance. <br>
+ * - The icon can be any standard Android Drawable, instead of the BitmapDescriptor introduced in Google Maps API v2. <br>
+ * - The icon can be changed at any time. <br>
+ * - The InfoWindow hosts a standard Android View. It can handle Android widgets like buttons and so on. <br>
+ * - Supports a "sub-description", to be displayed in the InfoWindow, under the snippet, in a smaller text font. <br>
+ * - Supports an image, to be displayed in the InfoWindow. <br>
+ * - Supports "panning to view" on/off option (when touching a marker, center the map on marker position). <br>
+ * - Opening a Marker InfoWindow automatically close others only if it's the same InfoWindow shared between Markers. <br>
+ * - Events listeners are set per marker, not per map. <br>
  * 
- * TODO: <br/>
- * Impact of marker rotation on hitTest<br/>
+ * TODO: <br>
+ * Impact of marker rotation on hitTest<br>
  * When map is rotated, when panning the map, bug on the InfoWindow positioning (osmdroid issue #524)<br/>
- * 
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
+ *
  * @see MarkerInfoWindow
- * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
+ * see also <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Marker.html">Google Maps Marker</a>
  * 
  * @author M.Kergall
  *
@@ -76,7 +80,7 @@ public class Marker extends OverlayWithIW {
 	protected Point mPositionPixels;
 	protected static MarkerInfoWindow mDefaultInfoWindow = null;
 	protected static Drawable mDefaultIcon = null; //cache for default icon (resourceProxy.getDrawable being slow)
-	final Resources resource;
+	protected Resources resource;
 
 	/** Usual values in the (U,V) coordinates system of the icon image */
 	public static final float ANCHOR_CENTER=0.5f, ANCHOR_LEFT=0.0f, ANCHOR_TOP=0.0f, ANCHOR_RIGHT=1.0f, ANCHOR_BOTTOM=1.0f;
@@ -86,7 +90,7 @@ public class Marker extends OverlayWithIW {
 	}
 
 	public Marker(MapView mapView, final Context resourceProxy) {
-		super(resourceProxy);
+		super();
 		resource = mapView.getContext().getResources();
 		mBearing = 0.0f;
 		mAlpha = 1.0f; //opaque
@@ -122,7 +126,7 @@ public class Marker extends OverlayWithIW {
 		setInfoWindow(mDefaultInfoWindow);
 	}
 
-	/** Sets the icon for the marker. Can be changed at any time. 
+	/** Sets the icon for the marker. Can be changed at any time.
 	 * @param icon if null, the default osmdroid marker is used. 
 	 */
 	public void setIcon(Drawable icon){
@@ -292,9 +296,37 @@ public class Marker extends OverlayWithIW {
     /** Null out the static references when the MapView is detached to prevent memory leaks. */
 	@Override
 	public void onDetach(MapView mapView) {
+
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			if (mIcon instanceof BitmapDrawable) {
+				final Bitmap bitmap = ((BitmapDrawable) mIcon).getBitmap();
+				if (bitmap != null) {
+					bitmap.recycle();
+				}
+			}
+		}
+		mIcon=null;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+			if (mImage instanceof BitmapDrawable) {
+				final Bitmap bitmap = ((BitmapDrawable) mImage).getBitmap();
+				if (bitmap != null) {
+					bitmap.recycle();
+				}
+			}
+		}
 		cleanDefaults();
+		this.mOnMarkerClickListener=null;
+		this.mOnMarkerDragListener=null;
+		this.resource=null;
+		setRelatedObject(null);
+		closeInfoWindow();
+		onDestroy();
+
+
         super.onDetach(mapView);
     }
+
+
 
 	/**
 	 * reference https://github.com/MKergall/osmbonuspack/pull/210

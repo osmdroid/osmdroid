@@ -1,0 +1,31 @@
+{
+  "id" : 224,
+  "status" : "Accepted",
+  "summary" : "Only draw overlays in an ItemizedOverlay if they're visible",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4219554537175280589,
+    "content" : "Currently if you've got a large number of overlays in an ItemizedOverlay, scrolling the map becomes sluggish no matter how many overlays are visible.  With the attached patch, only the overlays that fit in the map's bounding box will be sent draw events thus speeding up scrolling a bit.",
+    "timestamp" : 1306823785,
+    "attachments" : [ {
+      "id" : 2240000000,
+      "fileName" : "itemized_optimization.diff",
+      "fileSize" : 1211
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Out of curiosity, how much did this speed things up? How many objects are you working with.\r\n\r\nAlthough I think the Canvas doesn't actually draw things that are out of the clipping rectangle, this should still speed things up and it can save us some work - possibly in other areas too like object clicking!",
+    "timestamp" : 1306865636,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4219554537175280589,
+    "content" : "I was working with about 3700 objects (soon to be about twice that many).  Right now it's a list of all the bus stops in San Francisco, with the map centered on Market & Van Ness @ zoom level 16.  The scrolling went from jerky to pretty darn smooth on my Optimus V (still a bit jerky in the emulator tho).  You're correct in that the actual drawing doesn't take too long, but scrolling becomes a mess.  The big bottlenecks for me seem to be in fetching the data from the database and just creating that many objects.\r\n\r\nThe next iteration that I was going through in my head was to actually create a function that would get the list of visible overlays, and have the draw function call that and use a fast(er) iterator.  The goal there, of course, is to overload the \"list of visible overlays\" function so that I could dynamically toggle which groups of overlays to display without having to muck about with the base class.",
+    "timestamp" : 1306881179,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,39 @@
+{
+  "id" : 48,
+  "status" : "Fixed",
+  "summary" : "Download from several servers in parallel",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Description copied from issue 27 comment 3:\r\n\r\nDownload from several servers in parallel, generally possible for all,\r\nimplemented for the CYCLEMAP\r\n\r\n\tCYCLEMAP(R.string.cyclemap, &quot;.png&quot;, 0, 17, 8, CodeScheme.X_Y,\r\n\t\t\t&quot;http://a.andy.sandbox.cloudmade.com/tiles/cycle/&quot;,\r\n\t\t\t&quot;http://b.andy.sandbox.cloudmade.com/tiles/cycle/&quot;,\r\n\t\t\t&quot;http://c.andy.sandbox.cloudmade.com/tiles/cycle/&quot;),\r\n\r\nYou can use the OpenStreetMapRendererInfo with several servers now, and the \r\nimplementation picks randomly one of the servers. This seems to improve the download \r\nspeed enormously. Checking the URLs in parallel with a Firefox sometimes shows a 404 \r\non some tiles, indicating a server problem which is harmless, if you can try lots of \r\nservers.\r\n\r\nRoom for improvement, choose the servers according to their response time... \r\n\r\nThe cyclemap now feels better than the Google maps!",
+    "timestamp" : 1272871803,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Description should have said point 3 of comment 18.\r\n\r\nAlso the title is not very accurate - it only downloads each tile from one server at a \r\ntime.\r\n\r\nCommitted in revision 151.\r\n\r\nI didn't commit the change to PUT instead of GET. What was the reason for that, Thomas?",
+    "timestamp" : 1272875212,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4639724819334268526,
+    "content" : "Effectively, it does download different tiles from different servers in parallel, I\r\nthink. I did not check.\r\n\r\nBut, you are right, looking at a single tile, which might be unavailable on a certain\r\nserver and now is tried to be downloaded server after server.\r\n\r\nSorry for the confusion.\r\n\r\nI do not remember the PUT/GET issue. Probably my misunderstanding how the Linked\r\nHashmap works, trying to outsmart the cache. But you are right to filter it out.",
+    "timestamp" : 1272895638,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "You changed the simple URL.openStream to a HttpURLConnection and set the method to \r\nPOST. And then closed the connection and not the two streams. That's what I meant by \r\nPUT (sic).",
+    "timestamp" : 1272900082,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284129379,
+    "attachments" : [ ]
+  } ]
+}

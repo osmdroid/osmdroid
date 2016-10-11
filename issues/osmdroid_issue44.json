@@ -1,0 +1,21 @@
+{
+  "id" : 44,
+  "status" : "Duplicate",
+  "summary" : "Add preload option to menu",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6841996376054177083,
+    "content" : "An an option that allows to download the currently visible area at certain\r\nzoom levels.",
+    "timestamp" : 1271508912,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Can an issue be a duplicate of a later one ;-)\r\nAnyway, 111 has more detail.",
+    "timestamp" : 1288938729,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,33 @@
+{
+  "id" : 431,
+  "status" : "Fixed",
+  "summary" : "Zoom out issue when double tap",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3576291706422496807,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Double tap the particular area inside mapview.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nZoom out and centered the area which double tap by user on the mapview.\r\n\r\nWhen double tapping on the mapview its just zoom out the mapview but the area which was tapped by the user goes downside to screen.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.8.jar , android 4.1, Linux\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1369156784,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Update to 3.0.10 and let us know if you still have the issue. If you have hardware acceleration turned on, then turn it off and see if that helps.",
+    "timestamp" : 1369164488,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3576291706422496807,
+    "content" : "Thanks its solved with the latest jar",
+    "timestamp" : 1369807113,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1369831635,
+    "attachments" : [ ]
+  } ]
+}

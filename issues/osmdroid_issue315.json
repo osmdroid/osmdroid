@@ -1,0 +1,37 @@
+{
+  "id" : 315,
+  "status" : "Fixed",
+  "summary" : "zooming out a large amount can lead to an ANR error",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6679925067962250327,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom out a large numberof levels in one go.\r\n2. e.g. from 13 to 3.\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nzoom should work at a reasonable speed, in my case it takes 5 minutes to complete leading to ANR errors.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.7 wavefront codee revision 1080\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem is the TileCache rescaling code.  zooming out 10 level it tries to iterate though 1024*1024 tiles, on my device this takes about 5 minutes if you let it continue.\r\nI propose a simple fix of restricting the number of zoom levels out the rescaleing will happen for. The attachd version of the code restricts rescaling to a max of 4 levels.\r\n\r\n",
+    "timestamp" : 1330545715,
+    "attachments" : [ {
+      "id" : 3150000000,
+      "fileName" : "MapTileProviderBase.java",
+      "fileSize" : 11074
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 291.",
+    "timestamp" : 1332831685,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Patch applied in revision 1084.",
+    "timestamp" : 1333139884,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "No-one said otherwise, so I'll assume the fix is okay.",
+    "timestamp" : 1333632341,
+    "attachments" : [ ]
+  } ]
+}

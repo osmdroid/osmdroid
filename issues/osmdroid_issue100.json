@@ -1,0 +1,25 @@
+{
+  "id" : 100,
+  "status" : "Fixed",
+  "summary" : "\"android_id\" is sent to CloudMade instead of real device ID, when creating a token.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2584217125143502107,
+    "content" : "During debugging I found that &quot;android_id&quot; is sent in request to CloudMade auth service instead of real device ID.\r\n\r\nHere is a patch, which I've tested on my G1 device. Hope, this will help.\r\n",
+    "timestamp" : 1286371603,
+    "attachments" : [ {
+      "id" : -8711286791434768467,
+      "fileName" : "CloudMadeUtil.java.patch",
+      "fileSize" : 1500
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r404.",
+    "timestamp" : 1286375427,
+    "attachments" : [ ]
+  } ]
+}

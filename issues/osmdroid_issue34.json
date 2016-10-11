@@ -1,0 +1,51 @@
+{
+  "id" : 34,
+  "status" : "Started",
+  "summary" : "Incomplete \"About\" dialog",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6213537561965662483,
+    "content" : "The &quot;about&quot; dialog should probably contain the following information:\r\n\r\n-License of the data used (CC-BY-SA 2.0)\r\n-License of the software\r\n-version number (and maybe date)\r\n-URL of osmdroid homepage (i.e. http://code.google.com/p/osmdroid)\r\n",
+    "timestamp" : 1270493000,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "Any concrete hint for the text? Something like:\r\n\r\nVersion 2.0\r\n\r\nThis software is released under\r\nthe terms of LGPLv3.\r\n\r\nVisit\r\ncode.google.com/p/osmdroid\r\n\r\nThis software uses map data provided by\r\nOpenStreetMap.org (CC-BY-SA 2.0)",
+    "timestamp" : 1271499577,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -6213537561965662483,
+    "content" : "Comment deleted",
+    "timestamp" : 1271500884,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6213537561965662483,
+    "content" : "I like that suggestion. (Please disreagard my old comment, it didn't refer to the\r\nlatest version)",
+    "timestamp" : 1271501342,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Also Cloudmade has some requirements, as do the other tile providers, I imagine.",
+    "timestamp" : 1276179273,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Also the license for MultiTouchController.java",
+    "timestamp" : 1277284257,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8015006813755621819,
+    "content" : "A quick implementation can be obtained by using OI About \r\n\r\nhttp://www.openintents.org/en/node/191",
+    "timestamp" : 1293708668,
+    "attachments" : [ ]
+  } ]
+}

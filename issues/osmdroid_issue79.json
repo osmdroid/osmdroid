@@ -1,0 +1,127 @@
+{
+  "id" : 79,
+  "status" : "Fixed",
+  "summary" : "osmdroid should be able to use the jars created by OSMMapTilePackager",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 19,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "osmdroid should look for zip files in the tile folder and use them if present.\r\n\r\nShould also make the provider more generic, ie each provider will have a reference to the next provider, like OpenStreetMapTileFilesystemProvider has a reference to OpenStreetMapTileDownloader, but more generic.  So that first will be zip provider, if that fails it will try fs provider, if that fails it will try downloader, if that fails it will send the failure result (callback).\r\n\r\nSee also issue 8 and\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/6c4af4b11401408f\r\n",
+    "timestamp" : 1282550509,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284366721,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Completed in revision 364. Also edited HowToUsePackager wiki to explain how to create usable zip files.",
+    "timestamp" : 1284372502,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I'll change it so that it can use the AndNav2 tile packs:\r\nhttp://wiki.andnav.org/index.php/List_Of_MapTilePacks\r\n\r\nSince the tile pack itself doesn't specify which renderer it's for, the user should put the zip in the renderer folder, and then osmdroid should ignore the root folder in the zip file.",
+    "timestamp" : 1284450334,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3804822027311196058,
+    "content" : "basically that'd be a good idea ... on the other hand, those tile packs are pretty outdated ...",
+    "timestamp" : 1284451727,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Then maybe it's not worth the effort - it's a bit of a messy workaround anyway.",
+    "timestamp" : 1284455686,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3804822027311196058,
+    "content" : "Comment deleted",
+    "timestamp" : 1284462957,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3804822027311196058,
+    "content" : "Comment deleted",
+    "timestamp" : 1284463363,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3804822027311196058,
+    "content" : "I guess the easiest way for tile packs would be to use Mobile Atlas Creator (http://mobac.dnsalias.org/) and create tile packs with the \"Andnav atlas format\" (see screenshot). By doing so, it will create the identical folder structure than osmdroid uses (incl. renderer, e.g. Mapnik\\13\\4416\\2889.png.andnav), so the only thing the end user has to do is, to zip it ...\r\n",
+    "timestamp" : 1284463778,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3804822027311196058,
+    "content" : "",
+    "timestamp" : 1284467637,
+    "attachments" : [ {
+      "id" : 72218572423487292,
+      "fileName" : "mac_andnav.png",
+      "fileSize" : 981729
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Mobile Atlas Creator looks good. Makes our OSMMapTilePackager redundant!\r\nShame it doesn't also create the zip file.\r\nAnother problem I can't think of an easy solution to is that zip file entries are case-sensitive, which means that when looking for a file in the zip you need to know the correct case to look for.",
+    "timestamp" : 1284551106,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -3804822027311196058,
+    "content" : "guess it shouldn't be too difficult to create an \"atlas format\" for osmdroid for MAC which handles casing and zip'ing correctly ...",
+    "timestamp" : 1284555547,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm thinking I should change osmdroid to use mixed case renderer names, and add a bit of temporary code to migrate (rename) the old folders. The uppercase names are historical from when the names were the enum names.",
+    "timestamp" : 1284614708,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "I should change the name of the root folder while I'm at it.",
+    "timestamp" : 1285132006,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also:\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/e53b2f96340b7d06\r\n - remove .andnav extension\r\n",
+    "timestamp" : 1285576338,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "Since no-one has objected, I'm going to do the following changes:\r\n - remove the .andnav extension\r\n - change the tile folder from andnav2 to osmdroid\r\n - change the tile (folder) names from uppercase to mixed case\r\n",
+    "timestamp" : 1285576479,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r382.",
+    "timestamp" : 1285577128,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm reopening this. The reason for the extension is so that the gallery doesn't index the tiles.\r\n\r\nI'll add an extension to the tiles on disk, but not in the zip.\r\n\r\nI'm not sure what to use as an extension.  Doesn't really make any difference.  Perhaps I'll just use .x",
+    "timestamp" : 1286128603,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r402.",
+    "timestamp" : 1286266197,
+    "attachments" : [ ]
+  } ]
+}

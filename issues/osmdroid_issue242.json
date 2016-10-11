@@ -1,0 +1,25 @@
+{
+  "id" : 242,
+  "status" : "Invalid",
+  "summary" : "PathOverlay draw problem",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 476572048224933488,
+    "content" : "even I add the fowling code can not fix the problem\r\n\r\n\tthis.mPaint.setStrokeWidth(25.0f);\r\n        this.mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));\r\n        this.mPaint.setStyle(Paint.Style.STROKE);\r\n        this.mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);\r\n        this.mPaint.setStrokeCap(Paint.Cap.ROUND);\r\n        this.mPaint.setStrokeJoin(Paint.Join.ROUND);\r\n\r\ncf the picture\r\n\r\nIn fact I need different colors for the itinerary with transparence, because osmdroid draw all things in the same canvas, the method setXfermode can not give me the right result...",
+    "timestamp" : 1311004935,
+    "attachments" : [ {
+      "id" : 2420000000,
+      "fileName" : "1.png",
+      "fileSize" : 73183
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "When you create a new issue there is a template prompting you for the required information. Please follow the hints.",
+    "timestamp" : 1311069896,
+    "attachments" : [ ]
+  } ]
+}

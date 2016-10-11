@@ -1,0 +1,27 @@
+{
+  "id" : 76,
+  "status" : "Fixed",
+  "summary" : "Make MyLocationOverlay request GPS update intervals customizable",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3804822027311196058,
+    "content" : "The MyLocationOverlay class uses 0 as default values for requesting location updates. 0 (fastest updates possible) is maybe an overkill and drains some battery, so it would be good to make it customizable:\r\n\r\n- add two variables for intMinTime and fltMinDistance, both default to 0\r\n- replace line 255\r\n\r\n    mLocationManager.requestLocationUpdates(provider, 0, 0, this);\r\n\r\nby\r\n\r\n    mLocationManager.requestLocationUpdates(provider, intMinTime, fltMinDistance, this);\r\n\r\n- add getters and setters\r\n\r\ndone :-)\r\n\r\nbest regards,\r\n\r\nMartin",
+    "timestamp" : 1281021909,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1281338912,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r315.",
+    "timestamp" : 1281946037,
+    "attachments" : [ ]
+  } ]
+}

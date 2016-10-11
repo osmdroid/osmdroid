@@ -76,6 +76,8 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
      @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+         //Note! we are programmatically construction the map view
+         //be sure to handle application lifecycle correct (see note in on pause)
           mMapView = new MapView(inflater.getContext());
         // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
@@ -111,7 +113,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mScaleBarOverlay.setCentred(true);
           mScaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
 
-          mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+          mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
           mRotationGestureOverlay.setEnabled(true);
 
           mMapView.setBuiltInZoomControls(true);
@@ -162,6 +164,15 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           super.onPause();
      }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        //this part terminates all of the overlays and background threads for osmdroid
+        //only needed when you programmatically create the map
+        mMapView.onDetach();
+
+    }
+
      @Override
      public void onResume() {
           super.onResume();
@@ -181,7 +192,9 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
          //Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
           if (mPrefs.getBoolean(PREFS_SHOW_COMPASS, false)) {
               if (mCompassOverlay!=null)
-                 this.mCompassOverlay.enableCompass();
+                  //this call is needed because onPause, the orientation provider is destroyed to prevent context leaks
+                  this.mCompassOverlay.setOrientationProvider(new InternalCompassOrientationProvider(getActivity()));
+                  this.mCompassOverlay.enableCompass();
           }
      }
 
@@ -193,7 +206,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           // Put samples next
           SubMenu samplesSubMenu = menu.addSubMenu(0, MENU_SAMPLES, Menu.NONE, org.osmdroid.R.string.samples)
                .setIcon(android.R.drawable.ic_menu_gallery);
-          SampleFactory sampleFactory = SampleFactory.getInstance();
+          ISampleFactory sampleFactory = SampleFactory.getInstance();
           for (int a = 0; a < sampleFactory.count(); a++) {
                final BaseSampleFragment f = sampleFactory.getSample(a);
                samplesSubMenu.add(f.getSampleTitle()).setOnMenuItemClickListener(

@@ -1,0 +1,47 @@
+{
+  "id" : 253,
+  "status" : "Fixed",
+  "summary" : "PERSON_ICON not displayed in the correct position",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4418674900522299657,
+    "content" : "<b>What steps will reproduce the problem?</b>\n----------------------------------------------------\r\n1. inlude osmdroid-android-3.0.5.jar into project\r\n2. Use MyLocationOverlay\r\n2. enableMyLocation()\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n------------------------------------------------------------------------\r\nPERSON_ICON should be on the current location, instead it is ~20px too far top and ~10px too far left. \r\n\r\n * this was correct in 3.0.1\r\n * it is correct when using SimpleLocationOverlay \r\n * DIRECTION_ARROW is in the correct place in 3.0.1 and 3.0.5 as well as the \r\n   accuracy circle.\r\n\r\nSee attached .png\r\n\r\n\r\n\r\n",
+    "timestamp" : 1314620829,
+    "attachments" : [ {
+      "id" : 2530000000,
+      "fileName" : "osm.png",
+      "fileSize" : 16962
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps you can provide some more information because I tried the latest version of the sample app and the man's feet are right in the middle of the circle.",
+    "timestamp" : 1314941265,
+    "attachments" : [ {
+      "id" : 2530001000,
+      "fileName" : "feet.png",
+      "fileSize" : 67753
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4418674900522299657,
+    "content" : "Some more info:\r\n\r\nIt happens on a Samsung Galaxy S when there is a person.png in res/drawable-hdpi which is not 72x72. It worked on 3.0.1, and the direction arrow is fine too.\r\nHowever, if the person.png must be 72x72, then that's how it is. Feel free to mark the bug invalid. \r\n",
+    "timestamp" : 1315251208,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "person.png is 48x48.  I guess you mean you created one in hdpi which is 72x72.\r\n\r\nSeems like a valid bug because so long as the proportions are the same we should be able to figure out the correct location.",
+    "timestamp" : 1315257984,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe this is no longer a problem in the new MyLocation overlay.",
+    "timestamp" : 1367456592,
+    "attachments" : [ ]
+  } ]
+}

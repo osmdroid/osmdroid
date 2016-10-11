@@ -15,13 +15,13 @@ import java.util.Set;
  * location provider, by default, uses {@link LocationManager#GPS_PROVIDER} and {@link LocationManager#NETWORK_PROVIDER}
  */
 public class GpsMyLocationProvider implements IMyLocationProvider, LocationListener {
-	private final LocationManager mLocationManager;
+	private LocationManager mLocationManager;
 	private Location mLocation;
 
 	private IMyLocationConsumer mMyLocationConsumer;
 	private long mLocationUpdateMinTime = 0;
 	private float mLocationUpdateMinDistance = 0.0f;
-	private final NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
+	private NetworkLocationIgnorer mIgnorer = new NetworkLocationIgnorer();
 	private final Set<String> locationSources = new HashSet<>();
 
 	public GpsMyLocationProvider(Context context) {
@@ -94,8 +94,8 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	/**
 	 * Enable location updates and show your current location on the map. By default this will
 	 * request location updates as frequently as possible, but you can change the frequency and/or
-	 * distance by calling {@link setLocationUpdateMinTime(long)} and/or {@link
-	 * setLocationUpdateMinDistance(float)} before calling this method.
+	 * distance by calling {@link #setLocationUpdateMinTime} and/or {@link
+	 * #setLocationUpdateMinDistance} before calling this method.
 	 */
 	@Override
 	public boolean startLocationProvider(IMyLocationConsumer myLocationConsumer) {
@@ -114,12 +114,23 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 	@Override
 	public void stopLocationProvider() {
 		mMyLocationConsumer = null;
-		mLocationManager.removeUpdates(this);
+		if(mLocationManager != null){
+			mLocationManager.removeUpdates(this);
+		}
 	}
 
 	@Override
 	public Location getLastKnownLocation() {
 		return mLocation;
+	}
+
+	@Override
+	public void destroy() {
+		stopLocationProvider();
+		mLocation=null;
+		mLocationManager=null;
+		mMyLocationConsumer=null;
+		mIgnorer=null;
 	}
 
 	//

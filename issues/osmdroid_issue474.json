@@ -1,0 +1,127 @@
+{
+  "id" : 474,
+  "status" : "Invalid",
+  "summary" : "SafeDrawOverlay scrolls/zooms incorrectly in Android 2.3",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 19,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5756665685413231711,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create an application containing a MapView. For best results, put a PathOverlay in frame.\r\n2. Run the application on Android 2.3 (API 10).\r\n3. Touch-to-scroll (or zoom).\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n1. The scrolling should match finger speed. It does not.\r\n2. The scrolling of the map should match the scrolling of the PathOverlay. It does not - the overlay appears to move independently of the map tiles.\r\n\r\nIt is clear that the overlay is moving correctly (i.e. at finger speed), while the map tiles are moving too fast.\r\n\r\nSimilar problems with zooming can be observed.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nThe problem can be reproduced on the stock API 10 armeabi emulator image.\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem seems to happen within SafeDrawCanvas - calling MapView.setUseSafeCanvas(false) makes the problem go away (apart from introducing floating-point distortion, obviously).\r\n\r\nThe problem does not appear to occur in Honeycomb or above. I therefore believe that it is caused by the version-specific code within SafeDrawOverlay.draw().\r\n\r\nThis code seems to have its origins in work that was done to fix issue 413. However, my first-cut attempt to reverse the changes (i.e. take it back to before r1189 - for this code path only) by replacing preTranslate() with postTranslate() and scaling by the MSCALE_X and MSCALE_Y matrix entries seems to have made no difference.",
+    "timestamp" : 1378416753,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378419735,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378420607,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378460109,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378460175,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378460375,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -5756665685413231711,
+    "content" : "Comment deleted",
+    "timestamp" : 1378478088,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -5756665685413231711,
+    "content" : "The problems I am encountering seem to be the same as those identified in Android issue 24517 (https://code.google.com/p/android/issues/detail?id=24517) and worked around in osmdroid issue 413 for post-Honeycomb versions. However, I am encountering these problems (a) with recent versions of osmdroid, and (b) on Gingerbread/Android 2.3/API 10.\r\n\r\nMaybe there is some hardware acceleration (or something else) happening on newer, updated versions of Gingerbread, causing getMatrix() and setMatrix() not to work as expected?",
+    "timestamp" : 1378478166,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -5756665685413231711,
+    "content" : "As far as I can tell, the only justification for doing this in pre-Honeycomb using getMatrix()/setMatrix() instead of directly using translate() as in post-Honeycomb is the unavailability of getScaleX() and getScaleY() in pre-Honeycomb. However, if I understand them correctly, these methods are only relevant in cases where the corresponding setters - setScaleX()/setScaleY() - have been called. I don't see how they could know anything about calls to Canvas.scale(), seeing as these calls don't even seem to be recorded reliably in the software matrix, let alone in dedicated variables. In any case, the translate() solution, sans calls to getScaleX()/getScaleY(), seems to make everything work just fine in pre-Honeycomb.\r\n\r\nHere is a patch. There are still some strange \"jumping\" effects during the animations when zooming using the zoom buttons or by double-tapping, but functionally it seems okay. (Which is better than it was before.)",
+    "timestamp" : 1378482012,
+    "attachments" : [ {
+      "id" : 4740008000,
+      "fileName" : "osmdroid-issue474-patch1.patch",
+      "fileSize" : 2095
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nRegarding the strange jumps effects at API <11 during the animations at zooming using the zoom buttons or double tapping, they seem to be result of the changes described at issue #453.\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=453#c27\r\n\r\nRegards.",
+    "timestamp" : 1378488105,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -5756665685413231711,
+    "content" : "Okay, well, as far as I am concerned those jump effects are not directly relevant to this issue, so they can be fixed either as part of issue 453 or in a new issue. The main point of this issue was to make the map render correctly on API 10, and that has been achieved.",
+    "timestamp" : 1378574815,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -5756665685413231711,
+    "content" : "In addition to the \"jump\" effects while zooming, there is sometimes (but according to no consistent pattern) a noticeable translation in map position after a pinch-to-zoom event.\r\n\r\nHowever, again, this is subsidiary to the problem that has been solved here (and not necessarily related to my problem or its patch).",
+    "timestamp" : 1378576494,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI want to notice that I use osmdroid at API <11 with various overlays (also PathOverlay) and have not experienced the incorrect behavior you describe.\r\nI'm using the latest trunk without modifications.\r\nNeed to do anything special to see the described behavior?\r\n\r\nRegards.",
+    "timestamp" : 1378577293,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -5756665685413231711,
+    "content" : "As far as I know, there is nothing special that you need to do. Make sure your android SDK is all up-to-date, and you have the latest API 10 image installed. Create a new AVD with API 10 and an SD card. Create a new project, set the target to Android 10 (I have also tested compiling with Android 16), put trunk osmdroid and slf4j jars into libs, create a new MapView programmatically with \"new MapView(this, null)\", and set it as the content view. Install into the emulator, click and hold the mouse button on a recognisable landmark (such as the British Isles), drag across to the side of the emulator screen. Keep the mouse button held down. The landmark will no longer be underneath the mouse pointer.\r\n\r\nI think the fact that my patch does anything at all demonstrates that the problem is real.",
+    "timestamp" : 1378762108,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "A few things:\r\n\r\n1. The target API must be at least 16 for both osmdroid (if you're compiling it yourself) and your project. You can set the minSdk to as low as 4.\r\n\r\n2. I cannot reproduce your issue as you describe it in comment 13. I create an API 10 emulator, install the OpenStreetMapViewer demo and drag from one end of the screen to the other. The spot I start my finger at is where it ends up. You mention a PathOverlay in the original issue report - is that a necessary part anymore? Also, have you reproduced this on actual hardware?\r\n\r\n3. I believe you are correct about not needing to use getScaleX() and getScaleY(). We could apply the patch you provided to simplify that section of code. However, as far as I can tell it is a non-change. The effect should be the same. So I'd like to reproduce the problem first and then examine the effects of the change before committing it.\r\n\r\nThanks for all the detailed info - BTW, I definitely see the zoom \"jumping\" issue",
+    "timestamp" : 1378771932,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -5756665685413231711,
+    "content" : "Doh! I hadn't set the API versions in the Android manifest. (I thought I only had to set the SDK target - i.e. what the \"create project\" tool puts into project.properties.) It's okay now. Sorry for wasting your time.\r\n\r\nFor future reference, the issue can be reproduced in OpenStreetMapViewer if you comment out the <uses-sdk> and <supports-screens> tags.",
+    "timestamp" : 1379004556,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -5756665685413231711,
+    "content" : "I think it might be a good idea to make a small change to the \"Prerequisites\" page. Currently it has:\r\n\r\n  Manifest additions\r\n\r\n      You should be targeting the latest API in your project. We support compatibility back to API 4. \r\n\r\nI would add:\r\n\r\n      Note that if your manifest does not have a valid <uses-sdk> tag, maps may display incorrectly on some versions of Android. The following is recommended:\r\n\r\n        <uses-sdk android:targetSdkVersion=\"16\" android:minSdkVersion=\"4\" />",
+    "timestamp" : 1379008599,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for reporting back what you found - this is helpful for diagnosing future issues like this. I have updated the prereqs page to note the required uses-sdk tag. I am going to spin off your getScaleX/Y() comments into another issues since they are correct and help to simplify that piece of code.",
+    "timestamp" : 1379083967,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1379084216,
+    "attachments" : [ ]
+  } ]
+}

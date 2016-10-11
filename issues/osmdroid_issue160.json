@@ -1,0 +1,33 @@
+{
+  "id" : 160,
+  "status" : "Fixed",
+  "summary" : "PathOverlay does not handle transparency well; drawn path more opaque at joints",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2146092838134698056,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. inherit from PathOverlay\r\n2. call setAlpha() with any non-opaque value\r\n3. call mPaint.setStrokeWidth() with a sufficiently thick value\r\n4. call addPoint() to create a path consisting of two or more sections\r\n5. display the result on the map.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nThe expected output is a path with uniform alpha value. Instead, we get more opaque joints, as the separately drawn path segments overlap there.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOsmDroid 1.09 .. 3.01, Android 1.5 .. 2.3 (all intermediate versions are affected, too)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1297428202,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This can be fixed by using a Path rather than drawing a series of lines. This would also allow us to do path-click detection more accurately rather than doing a smallest-enclosing-rectangle hit test.",
+    "timestamp" : 1298659964,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Actually, android does not have Path hit-testing. boo! We should still use a Path however.",
+    "timestamp" : 1298763023,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r835.",
+    "timestamp" : 1298782561,
+    "attachments" : [ ]
+  } ]
+}

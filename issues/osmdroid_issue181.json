@@ -1,0 +1,25 @@
+{
+  "id" : 181,
+  "status" : "Fixed",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/views/MapView.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "This will notify the children that something has changed and that they have to redraw. The invalidate method is not sufficient as the position might certainly have changed on zoom update.",
+    "timestamp" : 1299839224,
+    "attachments" : [ {
+      "id" : -137137309738935213,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 568
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is fixed by a previous revision. We added a this.requestLayout() which also calls requestLayout on the children.",
+    "timestamp" : 1362505950,
+    "attachments" : [ ]
+  } ]
+}

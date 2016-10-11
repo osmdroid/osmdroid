@@ -1,0 +1,25 @@
+{
+  "id" : 394,
+  "status" : "New",
+  "summary" : "MapTileCache Huge memory usage",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8675057720987312532,
+    "content" : "MapTileCache in MapTileProviderBase use too much memory.\r\n\r\nOpenStreetMapViewer became unresponsive after several zoom-in-zoom-out on emulator with 1GB RAM and 16MB heap because of OutOfMemory.\r\n\r\nIs it possible to reduce this size? Maybe save tiles in cache in some compressed form?\r\n\r\nI tried to extend XYTileSource so that it returns Bitmap in RGB_565. This reduces size by factor of 2. It is much better, but memory consumption is still high.\r\n\r\nhprof leakhunter:\r\nOne instance of &quot;org.osmdroid.tileprovider.MapTileProviderBasic&quot; loaded by &quot;dalvik.system.PathClassLoader @ 0xb6657d68&quot; occupies 6 037 936 (40,30%) bytes. The memory is accumulated in one instance of &quot;org.osmdroid.tileprovider.LRUMapTileCache&quot; loaded by &quot;dalvik.system.PathClassLoader @ 0xb6657d68&quot;.\r\n\r\nAccumulated Objects:\r\nClass Name\tShallow Heap\tRetained Heap\tPercentage\r\norg.osmdroid.tileprovider.MapTileProviderBasic @ 0xb6690e88 32\t6037936 40,30%\r\norg.osmdroid.tileprovider.MapTileCache @ 0xb6692338 16\t6036056\t40,29%\r\norg.osmdroid.tileprovider.LRUMapTileCache @ 0xb6692ec0 64\t6036040\t40,29%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6647e60 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66480a8 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb664fe48 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66539a0 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6656690 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6659600 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb665e358 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb665f948 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6663088 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66633f0 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6678ca8 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6685f10 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6686388 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb668faf8 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6690620 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb6693050 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66937a0 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66c3380 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66c3f40 32\t262424\t1,75%\r\njava.util.LinkedHashMap$LinkedEntry @ 0xb66d1998 32\t262424\t1,75%\r\nTotal: 20 entries\r\n\r\n\r\n\r\nEmulator logcat: \r\nI/dalvikvm( 1423): \r\nI/dalvikvm-heap( 1423): Clamp target GC heap from 16.952MB to 16.000MB\r\nD/dalvikvm( 1423): GC_FOR_ALLOC freed 32K, 7% free 15256K/16327K, paused 8ms\r\nI/dalvikvm-heap( 1423): Forcing collection of SoftReferences for 262156-byte allocation\r\nI/dalvikvm-heap( 1423): Clamp target GC heap from 16.952MB to 16.000MB\r\nD/dalvikvm( 1423): GC_BEFORE_OOM freed &lt;1K, 7% free 15255K/16327K, paused 4ms\r\nE/dalvikvm-heap( 1423): Out of memory on a 262156-byte allocation.\r\nI/dalvikvm( 1423): &quot;downloader&quot; prio=5 tid=21 RUNNABLE\r\nI/dalvikvm( 1423):   | group=&quot;main&quot; sCount=0 dsCount=0 obj=0xb6b9d4b8 self=0x8f74cd8\r\nI/dalvikvm( 1423):   | sysTid=1457 nice=0 sched=0/0 cgrp=[fopen-error:2] handle=150419256\r\nI/dalvikvm( 1423):   | schedstat=( 0 0 0 ) utm=107 stm=19 core=0\r\nI/dalvikvm( 1423):   at android.graphics.BitmapFactory.nativeDecodeStream(Native Method)\r\nI/dalvikvm( 1423):   at android.graphics.BitmapFactory.decodeStream(BitmapFactory.java:493)\r\nI/dalvikvm( 1423):   at android.graphics.BitmapFactory.decodeStream(BitmapFactory.java:549)\r\nI/dalvikvm( 1423):   at org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(BitmapTileSourceBase.java:130)\r\nI/dalvikvm( 1423):   at org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileDownloader.java:207)\r\nI/dalvikvm( 1423):   at org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$TileLoader.run(MapTileModuleProviderBase.java:246)\r\nI/dalvikvm( 1423):   at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)\r\nI/dalvikvm( 1423):   at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:569)\r\nI/dalvikvm( 1423):   at java.lang.Thread.run(Thread.java:856)\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1357792067,
+    "attachments" : [ {
+      "id" : 3940000000,
+      "fileName" : "XYTileSourceRGB565.patch",
+      "fileSize" : 7599
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 721184037943480039,
+    "content" : "Any luck with replies to this issue? I'm too facing this. My GC_FOR_ALLOC is constantly being called.",
+    "timestamp" : 1400087120,
+    "attachments" : [ ]
+  } ]
+}

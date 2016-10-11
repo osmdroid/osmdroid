@@ -1,0 +1,39 @@
+{
+  "id" : 438,
+  "status" : "Fixed",
+  "summary" : "Reorder call to overlay and super dispatchTouch()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "When we draw, we do it overlays-first and then the call to super after that. So the overlays get drawn &quot;beneath&quot; the draw call to super which should draw any the child-views that the maps contain on top of the overlays.\r\n\r\nWhen we dispatch touch events, we dispatch them to the overlays-first, and then to the super. So the overlays get the touch event first (and can consume them first) before the views.\r\n\r\nThe touch events are backwards. Just like how we reverse the overlays, so that the last drawn (or what gets drawn above all other views) gets the touch event first, we should allow the super call (which gets drawn last) to get touch events before the overlays.\r\n\r\nThis is a little bit of a breaking change - but only in the sense that is was wrong before - so I will submit this issue for public comment before we make the change.\r\n",
+    "timestamp" : 1370639148,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1243.\n\nReverse the order of touch event dispatch for overlay and super. This allows views that will draw on top of the overlays to receive touch events first.",
+    "timestamp" : 1371237384,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371238357,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 219 has been merged into this issue.",
+    "timestamp" : 1372078048,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382708914,
+    "attachments" : [ ]
+  } ]
+}

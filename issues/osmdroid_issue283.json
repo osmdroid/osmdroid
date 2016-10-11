@@ -1,0 +1,25 @@
+{
+  "id" : 283,
+  "status" : "Fixed",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/views/overlay/ItemizedOverlay.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "// TODO test - should this be -markerHeight ???\r\n\r\nTested, it must actually be -markerHeight.",
+    "timestamp" : 1324377157,
+    "attachments" : [ {
+      "id" : 2830000000,
+      "fileName" : "ItemizedOverlay.java.patch",
+      "fileSize" : 415
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1014.",
+    "timestamp" : 1324391040,
+    "attachments" : [ ]
+  } ]
+}

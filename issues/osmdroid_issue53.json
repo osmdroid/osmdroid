@@ -1,0 +1,63 @@
+{
+  "id" : 53,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMapActivity should enable/disable location updates in onResume/onPause, not in onCreate/onDestroy",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Select the sample loader\r\n2. Select the first sample\r\n3. Press the 'BACK' button\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nAfter step 2, location updates are enabled\r\nAfter step 3, location updates are disabled\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Select the sample loader\r\n2. Select the first sample\r\n3. Press the 'HOME' button\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nAfter step 2, location updates are enabled\r\nAfter step 3, location updates are NOT disabled\r\n\r\nThis is inconsistent behaviour. In both cases you've exited the activity so they should behave the same.\r\n",
+    "timestamp" : 1274783101,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 2473213968216721319,
+    "content" : "Could I ask for priority to be raised to medium on this.  It results in battery being killed by leaving on GPS when not running app.\r\n",
+    "timestamp" : 1286202593,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1286205067,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 2473213968216721319,
+    "content" : "As a little update, since making this change myself,  my phone has now gone for more than a day without charging, which hasnt happened for months!\r\n",
+    "timestamp" : 1286550046,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think this has been fixed. If so, then this issue can be closed.",
+    "timestamp" : 1294809547,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "No, it's still an issue. Go to the first sample and press the phone's 'home' button. GPS is still on.",
+    "timestamp" : 1294866225,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This should be fixed in revision 751. Please review and close this ticket if everything looks good.",
+    "timestamp" : 1295576622,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks okay to me.",
+    "timestamp" : 1295605648,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This appears to fix the problem for me too, so I will close this ticket.",
+    "timestamp" : 1295840134,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,39 @@
+{
+  "id" : 520,
+  "status" : "Fixed",
+  "summary" : "r1425 MapTileProviderBase NullPointerException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nRegarding r1425 &quot;Avoid repeated casting&quot; in class MapTileProviderBase\r\nat line 349 there can be NullPointerException if isReusable=false\r\nbecause reusableBitmapDrawable in that case is null.\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1390817175,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Maybe I'm not seeing it, but firstly I didn't change the logic (AFAIK), and secondly, if the bitmap is not a ReusableBitmapDrawable then !isResuable is true so it won't evaluate reusableBitmapDrawable.isBitmapValid()",
+    "timestamp" : 1391147527,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi Neil,\r\n\r\nIf the bitmap is not a ReusableBitmapDrawable then !isResuable is true,\r\nso yes it won't evaluate reusableBitmapDrawable.isBitmapValid()\r\n\r\nBut it will enter the if block and there at line 349 it will process the\r\nfinal Bitmap oldBitmap = reusableBitmapDrawable.getBitmap();\r\nwhere it'll throw a NPE as reusableBitmapDrawable is null.\r\n\r\nThe old code at line 349 works correctly:\r\nfinal Bitmap oldBitmap = ((BitmapDrawable) oldDrawable).getBitmap();\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser\r\n",
+    "timestamp" : 1391153180,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Oh, I see, I changed the code - it was a cast to a plain BitmapDrawable.\r\nI'll fix it.",
+    "timestamp" : 1391156457,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1427.",
+    "timestamp" : 1391201853,
+    "attachments" : [ ]
+  } ]
+}

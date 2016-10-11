@@ -1,0 +1,33 @@
+{
+  "id" : 456,
+  "status" : "New",
+  "summary" : "About sometimes useing MyLocationOverlay can be blank screen",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3149652295874213674,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.in my mapview's onCreate, I have \r\n mLocationOverlay = new MyLocationOverlay(myMap.this,Mymapview); \r\n Mymapview.getOverlays().add(mLocationOverlay);\r\n2.but,sometimes,program can be process long time(black screen) within super(context, mapView) sentence at the construct of MyLocationOverlay class;\r\n\r\nand long time,I can not see any output,if I fore stop vm, then the emulator can be popup a exception that &quot;Activity ****(in application ***)is not responding.&quot;\r\n\r\nMy info:\r\nPC OS: Win7-64\r\nJDK:1.6\r\neclipse : adt-bundle-windows-x86_64\r\nemulator : 2.2   4.0\r\n\r\nmy code following:\r\n\r\n.....\r\n\tprotected void onCreate(Bundle icicle) {\r\n\t\t// TODO Auto-generated method stub\r\n\t\tsuper.onCreate(icicle);\r\n\t\tsetContentView(R.layout.navimap);\r\n\t\tmapv = (MapView)findViewById(R.id.navi_map);\r\n\t\tmapv.setTileSource(TileSourceFactory.MAPQUESTOSM);\r\n\t\tmapv.setBuiltInZoomControls(true);\r\n\t\tmapv.setUseDataConnection(true);\r\n\t\tmapv.setMultiTouchControls(true);\r\n                mLocationOverlay = new MycaoLocationOverlay(navimap.this,mapv); //here is process long time \t\t\t\r\n    \t\tmapv.getOverlays().add(mLocationOverlay);\r\n\r\n---------in the MycaoLocationOverlay class-----\r\n\tprivate Context context;\r\n\tprivate double offsetlat=0;\r\n\tprivate double offsetlng=0;\r\n\tBitmap bmp;\r\n\tpublic MycaoLocationOverlay(Context context, MapView mapView) {\r\n\t\tsuper(context, mapView);//yes,this is do dispose long time,and don't come out\t\t\r\n\t\tthis.context = context;\r\n\t\tthis.enableMyLocation();\r\n\t\tthis.enableFollowLocation();\r\n\t\tthis.enableCompass();\r\n\t}\r\n\r\n",
+    "timestamp" : 1375109056,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please try the MyLocationNewOverlay instead of the deprecated MyLocationOverlay. Also please look at the OpenStreetMapViewer project which shows how to properly use the location overlay. You should not be calling the enableXYZ() methods from the constructor of the overlay - you should be calling enableXYZ() from onResume() and disableXYZ() from onPause().",
+    "timestamp" : 1375884370,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3149652295874213674,
+    "content" : "thank you very much for your feedback.\r\n  But  where is MyLocationNewOverlay class, My code is :\r\n-------------------------------------\r\nimport org.osmdroid.views.overlay.MyLocationOverlay;\r\n\r\npublic class MycaoLocationOverlay extends MyLocationOverlay {\r\n\tprivate Context context;\r\n\tprivate double offsetlat=0;\r\n\tprivate double offsetlng=0;\r\n\tBitmap bmp;\r\n\tpublic MycaoLocationOverlay(Context context, MapView mapView) {\r\n\t\tsuper(context, mapView);\r\n\t\ttry {\t\t\t\r\n\t\t\tthis.context = context;\r\n-----------------------------\r\nSo in org.osmdroid.views.overlay.* package has not MyLocationNewOverlay class, I found it.\r\n",
+    "timestamp" : 1375930641,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The package/class name is org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay\r\n\r\nTake a look at our sample project for an example on how to use:\r\n\r\nhttps://code.google.com/p/osmdroid/source/browse/trunk/OpenStreetMapViewer/src/org/osmdroid/MapFragment.java\r\n\r\n",
+    "timestamp" : 1376016094,
+    "attachments" : [ ]
+  } ]
+}

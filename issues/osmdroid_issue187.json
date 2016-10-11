@@ -1,0 +1,27 @@
+{
+  "id" : 187,
+  "status" : "Invalid",
+  "summary" : "DefaultResourceProxyImpl is broken?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "I can't get DefaultResourceProxyImpl to work for me. It always says that the resource is not found. This includes when I try to use it in the samples (instead of the ResourceProxyImpl).\r\n\r\nI tried a few things to get it to work, but it always can't find the resource in the JAR. Anyone else have this issue? or a solution?",
+    "timestamp" : 1300678483,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I'm sorry, I should be more specific. What doesn't work is loading Bitmaps. Specifically, this line (106):\r\n\r\nis = getClass().getResourceAsStream(resName);\r\n\r\nIn the debugger I've tried:\r\ngetClass().getResourceAsStream(\"center.png\");\r\ngetClass().getResourceAsStream(\"/center.png\");\r\ngetClass().getResourceAsStream(\"\\\\center.png\");\r\n\r\nand they all return null.",
+    "timestamp" : 1300678888,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Never mind - this is because the OpenStreetMapViewer project doesn't use the JAR file, so it fails. When you use the JAR proper, it works.",
+    "timestamp" : 1300679970,
+    "attachments" : [ ]
+  } ]
+}

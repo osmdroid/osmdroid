@@ -1,28 +1,14 @@
-description = 'OSMdroid Android'
+description = 'An Android library to display OpenStreetMap views.'
 apply plugin: 'com.android.library'
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/android-support.gradle"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
-    defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
     lintOptions {
         abortOnError false
     }
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.8.2'
-    //compile(group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.0.1') {}
-    //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
+    testCompile "junit:junit:${project.property('junit.version')}"
 }
+

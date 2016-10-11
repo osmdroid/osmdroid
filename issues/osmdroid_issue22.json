@@ -1,0 +1,27 @@
+{
+  "id" : 22,
+  "status" : "Fixed",
+  "summary" : "When My Location is disabled it should remove the icon",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Enable My Location\r\n2. Drag the screen\r\n3. The My Location icon will stay at the point where it was last\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nEither:\r\n1. The My Location icon should be removed.\r\n2. The My Location icon should continue moving, but the map shouldn't \r\nfollow it.\r\n\r\nProbably 1 is the correct fix.\r\n\r\n<b>Please use labels and text to provide additional information.</b>\n\r\n",
+    "timestamp" : 1268720454,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "2 is the correct fix.\r\n\r\nSee also issue 23.",
+    "timestamp" : 1268741162,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r114.",
+    "timestamp" : 1268805983,
+    "attachments" : [ ]
+  } ]
+}

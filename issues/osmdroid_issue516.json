@@ -1,0 +1,27 @@
+{
+  "id" : 516,
+  "status" : "Duplicate",
+  "summary" : "No maps with DEFAULT_TILE_SOURCE",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2628596606883897987,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a MapView\r\n2. Choose DEFAULT_TILE_SOURCE as tilesource for the map\r\n3. No map will be displayed\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nA map should be displayed, but instead of maptiles i only see a grey grid. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI tested OSM-library 3.0.8and 4.0 on Android 4.1.2\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nLogcat gives this output:\r\n01-20 14:29:09.448: W/org.osmdroid.tileprovider.modules.MapTileDownloader(14138): Problem downloading MapTile: /14/8644/5291 HTTP response: HTTP/1.1 403 Forbidden\r\n",
+    "timestamp" : 1390224714,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 976651778023333297,
+    "content" : "See issue 515 for a fix.",
+    "timestamp" : 1390232141,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1390238512,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,111 @@
+{
+  "id" : 298,
+  "status" : "ReadyForTesting",
+  "summary" : "Mixed tiles from different TileSources after setTileSource() at runtime",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 17,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3704428773342660325,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Change the TileSource with setTileSource(ITileSource) at runtime\r\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nIf you change the TileSource while it is loading tiles you will get mixed tiles.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6\r\n\r\n<b>Please provide any additional information below.</b>\nThe problem is: in setTileSource(ITileSource) it clears the cache but do not stop the downloading tiles. So the cache is clear but the download still in progress. When it is finished it put the tile to the cache but the TileSource is now a different. \r\nSo you need to stop the downloads when setTileSource is called.\r\n\r\nThan it is possible to change the TileSource at runtime!\r\n",
+    "timestamp" : 1326810806,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think this is fixed by issue 207 which prevents the behaviour you described.",
+    "timestamp" : 1326815938,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3704428773342660325,
+    "content" : "I have seen this issue and i noticed that i use the 3.0.5 version. But after changing to the new 3.0.6 jar the issue is still the same.\r\n\r\ni call setTileSource(some tileSource)\r\nand while it is still loading (i see some gray areas on the map)\r\ni switch to a different TileSource with setTileSource (via menu entry or something)\r\n\r\nThen i see tiles from the TileSource befor mixed with the current TileSource",
+    "timestamp" : 1326818392,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 207 was fixed after the 3.0.6 release.",
+    "timestamp" : 1326867452,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3704428773342660325,
+    "content" : "Comment deleted",
+    "timestamp" : 1326874017,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3704428773342660325,
+    "content" : "The changes in the patch of issue207 are allready inside of my version i use... ",
+    "timestamp" : 1326892723,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -6679925067962250327,
+    "content" : "I also have the up to date source and still see this problem.  I believe the tiles from the old provider actualy get written into the wrong filesystem cache area as I can open up the default viewer and see the same bad tiles without doing the runtime switch after I have done it once in my app.",
+    "timestamp" : 1326911349,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -6679925067962250327,
+    "content" : "I just tried putting a call to clearQueue in setTileSource in MapTileDownloader unfortunatly I just end up with tiles not downloaded at all. I need to work some more on trying to understand how it all hangs together, just can't get my head around it yet...",
+    "timestamp" : 1326914705,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1449183398485937483,
+    "content" : "Now I want to known how to resolve the question ? anyone to tell me ,thanks. +1 Me too!",
+    "timestamp" : 1350009169,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3260707329188339821,
+    "content" : "facing same problem with 3.0.10.",
+    "timestamp" : 1374482950,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -1019326293533064962,
+    "content" : "Comment deleted",
+    "timestamp" : 1374648237,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Confirmed this can be reproduced in OpenStreetMapViewer by changing \"Map mode\" while tiles are downloading. Original reporter's suggestion that setTileSource() \"clears the cache but do not stop the downloading tiles\" is likely the culprit.",
+    "timestamp" : 1376774860,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "So actually the problem is that the mTileSource is changing in the middle of MapTileDownloader.TileLoader.loadTile(). So it starts off by downloading from one tile source, but then ends up saving the downloaded tile as another TileSource which consequently puts it in the wrong tile directory. Plus the MapTileDownloader is accessing the mTileSource variable across multiple threads unsafely. I suspect the other modular tile providers are doing the same.",
+    "timestamp" : 1376776445,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1289.\n\nAccess TileSource in a thread-safe way.\nGet a reference to the TileSource at the beginning of TileLoader.loadTile() and use it for the entire method. Prevents issues when TileSource changes such as when the downloader downloads a tile with one TileSource but then incorrectly saves it using the new TileSource.",
+    "timestamp" : 1376777479,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Test the update and report results back!",
+    "timestamp" : 1376777504,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -3260707329188339821,
+    "content" : "It seems saving the tiles in wrong folder issue is resolved but some times getting wrong tile on map when changing TileSource frequently.",
+    "timestamp" : 1376889762,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 67: https://github.com/osmdroid/osmdroid/issues/67",
+    "timestamp" : 1434574486,
+    "attachments" : [ ]
+  } ]
+}

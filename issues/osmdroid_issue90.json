@@ -1,0 +1,21 @@
+{
+  "id" : 90,
+  "status" : "Fixed",
+  "summary" : "No map visible when changing to OsmaRender in most detailed level",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6213537561965662483,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Using Mapnik, zoom in to the most detailed level\r\n2. Change to OsmaRender\r\n\r\nNo map is displayed - Osmrender just doesn't offer that many levels as Mapnik it seems. Better behavior would be to automatically change the level to the most detailed one supported by the current map.\r\n\r\nversion 2.0.0, HTC Legend with Android 2.1\r\n",
+    "timestamp" : 1284587543,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r374.",
+    "timestamp" : 1284734868,
+    "attachments" : [ ]
+  } ]
+}

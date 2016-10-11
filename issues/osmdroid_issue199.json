@@ -1,0 +1,315 @@
+{
+  "id" : 199,
+  "status" : "Fixed",
+  "summary" : "Include in Maven",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 47,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5515062512165854251,
+    "content" : "I'm building my Android app using Maven, and so far, it's worked pretty well.\r\n\r\nI'd like to use osmdroid, but it isn't in any Maven repository, which makes things challenging (don't get me wrong - it's not impossible, so I will still use it of course!).\r\n\r\nCould you add osmdroid to Maven central? Instructions are here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide\r\n\r\nThanks!",
+    "timestamp" : 1302285946,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303999791,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Is there anything that the project maintainers need to do that you couldn't do yourself to accomplish this? I didn't look too in-depth but it seems like you just need to sign up and provide a source repository. Is there anything we need to put in the repository?",
+    "timestamp" : 1307136581,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8778289522063822345,
+    "content" : "Releasing artifacts to maven central repository is definitive. So maintainers shouldn't let anyone do it :) \r\n\r\nHere is a sample pom to build osmdroid-android with maven instead of ant. Anyone who want to use it just have to copy the pom.xml file under the \"osmdroid-android\" directory and run mvn.\r\n",
+    "timestamp" : 1321718030,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -8778289522063822345,
+    "content" : "Sorry, here is the generic file... ",
+    "timestamp" : 1321718172,
+    "attachments" : [ {
+      "id" : 1990004000,
+      "fileName" : "pom.xml",
+      "fileSize" : 2322
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I included this pom in revision 1005",
+    "timestamp" : 1321941904,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 5515062512165854251,
+    "content" : "This issue isn't fixed - having the pom included is one step towards solving the issue. The issue is to get osmdroid on Maven central. Can you please reopen this issue and and we can work towards that goal?\r\n\r\nReally, only the project itself can upload the artifact to maven central. The instructions are here: https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide Now that the pom.xml is in the project, it seems like a fairly straightforward process (register an account, run some commands, ...)",
+    "timestamp" : 1321981778,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't use Maven so I didn't know that I had to do that huge page of actions. I'll reopen and continue later.",
+    "timestamp" : 1322029152,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've been having another look at Maven and it would be good to convert osmdroid to use it.  Perhaps someone with more knowledge about it could create pom's for all the projects. I'll be happy to upload to the central repository.  Do I need to repeat the process for each project, or can it be done with a single top-level pom?",
+    "timestamp" : 1326752042,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -8778289522063822345,
+    "content" : "You won't have to repeat the process for each project, the top level pom will build the sub modules and deploy them to the Maven central repository. \r\n\r\nYou should know it is better to use the default maven layout to benefit from maven conventions. For instance, the project layout you are using is: \r\n\r\nosmdroid-android\r\n + assets\r\n + docs\r\n + ext (not required anymore)\r\n + lib (not required anymore)\r\n + src\r\n + tests\r\n\r\nMaven conventions advice you to use this layout:\r\nosmdroid-android\r\n + src\r\n   + main\r\n     + java\r\n     + resources (former assets directory)\r\n   + test\r\n     + java\r\n     + resources\r\n\r\nI can find some time to write missing poms, I will let you know.",
+    "timestamp" : 1326754961,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "That would be great. I also found this guide.\r\nhttp://maven.apache.org/guides/mini/guide-central-repository-upload.html\r\n",
+    "timestamp" : 1326780126,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "I started by creating an issue on Sonatype: http://issues.sonatype.org/browse/OSSRH-2725",
+    "timestamp" : 1326780761,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -8778289522063822345,
+    "content" : "Here is a diff patch with the following modifications: \r\n- I renamed some projects to use only lowercase letters\r\n- I added pom.xml files\r\n\r\nSome dependencies are not in the central repository, they must be added manually: \r\n- org.mapsforge:map:0.2.4\r\n- com.google.android.maps:maps:3_r3\r\n\r\nFor org.mapsforge:map, you can set up an alternate repository hosted in your svn repository. Users will just have to define this repository in their settings.xml file.\r\nFor com.google.android.maps:maps, you could do the same, but I think there is licensing and redistribution limits. In addition, android maven users currently using the Google Maps API have to deal with this, so I don't think it's necessary. \r\n\r\nI was able to deploy the two android apps on my device, I issued one force close in google-wrapper-sample. \r\n\r\nI attached a sample settings.xml file you will need to deploy your artifacts to the sonatype repository. \r\n",
+    "timestamp" : 1326923921,
+    "attachments" : [ {
+      "id" : 1990012000,
+      "fileName" : "maven.diff",
+      "fileSize" : 807353
+    }, {
+      "id" : 1990012001,
+      "fileName" : "settings.xml",
+      "fileSize" : 1176
+    } ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is there any reason you changed the projects to lowercase? It's better if I do that first and then you can make a patch with just the changes relevant to maven. Or maybe it would work if you simply do a svn rename, but don't do it by just renaming the folders because then you get a whole load of deletes and a whole load of adds.\r\n\r\nI haven't tried the google sample for a while, so it's not surprising that it doesn't work any more.",
+    "timestamp" : 1326924707,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -8778289522063822345,
+    "content" : "No, there isn't really a reason to that. It's just to make the project directory match the name of the artifactId (see http://maven.apache.org/pom.html#Maven_Coordinates). \r\nIt's possible to use uppercase letters in the artifactIds, but most of the of projects I saw always use lowercase names. \r\n\r\nI used \"svn move\" command to rename directories and \"svn diff\" to generate the diff file. \r\nOk, move directories, then I will generate the diff. \r\n\r\nI forgot to tell you I didn't tested the openstreetmap tile packager. Compilation is successful but I'm pretty sure it doesn't work anymore. Maybe you should create a branch to do maven tests. ",
+    "timestamp" : 1326927742,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I was already thinking I should do a branch for this.\r\nThe jars are already lower case, and the other stuff doesn't need to be in maven, does it?",
+    "timestamp" : 1326959626,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "I created a branch and started moving stuff, but I don't have time to finish it right now. Next thing to do is to adjust the classpaths to make it build.\r\n\r\nI still think the apps should keep the mixed-case names they have now.",
+    "timestamp" : 1326963766,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay, I've done some of the re-organising. I think it's best if you now do the Maven stuff again. It should be a small patch this time to just fix the classpath and add the poms.",
+    "timestamp" : 1326975936,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -8778289522063822345,
+    "content" : "I attached a patch to add 3 pom.xml files to build osmdroid-android and osmdroid-third-party. \r\nI recommend you to try to get a successful build in command line before trying to integrate with eclipse.\r\nYou have to set up your settings.xml like the sample I posted yesterday (with your credentials do deploy to the Sonatype repository). \r\n\r\nDo you plan to always release osmdroid-android and osmdroid-third-party at the same time ? If not, I will have to modify them. \r\nNote that the <scm/> element of the parent pom is set to work with the trunk. The maven-release-plugin will not work from the branch. \r\n\r\nFor eclipse integration:\r\nYou should remove osmdroid-android/.classpath, osmdroid-android/.project, osmdroid-third-party/.classpath and osmdroid-third-party/.project files. As you should know, those files are used by eclipse to display source packages, set up build path, etc...\r\nYou have to install the m2eclipse plugin in your Eclipse installation (don't confuse with maven-eclipse-plugin) and import the 2 modules as \"maven projects\". The plugin will generate .project and .classpath metadata files. You should also add them to svn:ignore property. \r\nSee http://eclipse.org/m2e/.\r\n\r\nYou don't need it, but I attached the pom files I wrote for all the modules in osmdroid-maven.tar to keep a track. ",
+    "timestamp" : 1327006237,
+    "attachments" : [ {
+      "id" : 1990018000,
+      "fileName" : "osmdroid-maven-poms.diff",
+      "fileSize" : 14082
+    }, {
+      "id" : 1990018001,
+      "fileName" : "osmdroid-maven.tar",
+      "fileSize" : 30720
+    } ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I've finished and am ready to merge back into trunk.\r\nI couldn't deploy, but you told me that wouldn't work on the branch.\r\nI didn't touch OSMMapTilePackager because it doesn't really fit the model. I'm happy to keep it as legacy.\r\nOpenStreetMapViewer compiles and runs.\r\nGoogleWrapperSample compiles but I didn't try running it.\r\n\r\nI think we'll need to update the wiki because there's a few non-obvious steps.\r\nhttp://code.google.com/p/osmdroid/wiki/HowToEclipse\r\n",
+    "timestamp" : 1327013060,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -8778289522063822345,
+    "content" : "What command did you run ? What error did you got ?\r\nRunning \"mvn deploy\" will deploy artifacts to the sonatype snapshots repository. This should work in the branch. \r\nI wanted to warn you about the fact that when you run \"mvn release:prepare\" from the branch, I think maven will fail creating the tag in svn. \r\nYou should be able to run \"mvn deploy\" successfully. But this will not deploy artifacts to the maven central repository. \r\nTo deploy them to maven central, you must sign the artifacts, sources and javadoc, then upload them to the Sonatype \"staging\" repository. \r\nThis can be done manually using the Nexus web interface or automatically with the maven-release-plugin. Are you familiar with it ? \r\n\r\nI you have a working environment in the branch, you can safely merge back to the trunk. In the worse case, you just use maven as a simple build tool. \r\nYou can also update or delete TODO tags I let in pom.xml files.",
+    "timestamp" : 1327024803,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8937367184059112911,
+    "content" : "I didn't try release yet. I tried \"mvn deploy\" and got this error:\r\n\r\n[ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy (default-deploy) on project osmdr\r\noid-android: Failed to deploy artifacts: Could not transfer artifact org.osmdroid:osmdroid-android:jar:3.0.7-20120120.05\r\n5549-1 from/to sonatype-nexus-snapshots (https://oss.sonatype.org/content/repositories/snapshots/): Failed to transfer f\r\nile: https://oss.sonatype.org/content/repositories/snapshots/org/osmdroid/osmdroid-android/3.0.7-SNAPSHOT/osmdroid-andro\r\nid-3.0.7-20120120.055549-1.jar. Return code is: 401 -> [Help 1]\r\n\r\nThen next thing I should do, which was how this whole issue started out, was to build the apps using Maven. I see there are two plugins - maven-android-plugin and m2eclipse-android-integration.  Which should I use?",
+    "timestamp" : 1327039180,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "Forget my last question ;-)  I found the manual: http://www.sonatype.com/books/mvnref-book/reference/android-dev.html",
+    "timestamp" : 1327045412,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8937367184059112911,
+    "content" : "I merged it back into trunk in revision 1045.\r\nAnd then deleted the branch.",
+    "timestamp" : 1327046360,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 8937367184059112911,
+    "content" : "In comment 18 you said I should add .project and .classpath to svn:ignore. Why?",
+    "timestamp" : 1327050457,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 8937367184059112911,
+    "content" : "I tried running\r\nmvn release:prepare -DdryRun=true\r\nand it seemed to go okay,  but it stopped at a prompt(?) for\r\nGPG Passphrase\r\n\r\nDo you know the normal process, in a nutshell?\r\n\r\nMy previous process was:\r\n * create branch\r\n * change debuggable=false in the manifest\r\n * build everything and release it\r\n * switch back to trunk and increase the version numbers\r\n\r\nWith Maven, where do the branches get created? Where do the version numbers get incremented? Where do you specify the release key for the apk? How do you deploy a snapshot?\r\n",
+    "timestamp" : 1327052558,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1327052793,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 8937367184059112911,
+    "content" : "Or maybe I shouldn't use Maven to release apk?",
+    "timestamp" : 1327052915,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : -8778289522063822345,
+    "content" : "> In comment 18 you said I should add .project and .classpath to svn:ignore. Why?\r\nThe main goal of the m2eclipse plugin is to generate these files automatically so you won't have to set up project configuration (buildpath, source folders, etc...).\r\nWhen you make changes to the pom.xml, you just have to right click > maven > update project configuration and .classpath, .project and others are regenerated.\r\n\r\nYou must also distinguish (1) pure-java project (osmdroid-android, osmdroid-third-party, osm-maptile-packager) and (2) android projects (GoogleWrapperSample, OpenStreetMapViewer)\r\n\r\n(1) I recommend you to use M2eclipse to work in eclipse\r\nSo remove .classpath/.project files and generate them with the m2 eclipse plugin (see http://eclipse.org/m2e/).\r\n\r\n(2) I recommend you to NOT use the m2eclipse plugin but use what you usually do.\r\nSo keep .classpath/.project, you updated them the right way linking dependencies to your local maven repository. And continue using the Android Plugin in Eclipse. You will use maven only to release the projects, not during development.\r\n\r\n> Do you know the normal process, in a nutshell?\r\nWith the poms.xml I wrote, you will be forced to release all your projects at the same time, with the same version.\r\nIn a nutshell...\r\n * got a clean working copy\r\n * go to /trunk\r\n * run mvn release:prepare -DdryRun=true\r\n * check release.properties files\r\n * run mvn release:prepare (/!\\ this will do \"svn cp http://[...]/svn/trunk http://[...]/svn/tags/[tagname you specified])\r\n * run mvn release:perform (this will checkout the previously created tag, build and deploy to the nexus staging repository)\r\n * run mvn release:clean (only if everithing is OK, else you should run mvn release:rollback to remove the created tag)\r\n\r\nIf you're not familiar, I recommend you to set up a test svn repository and test it.\r\nMaybe we could set up a meeting on gtalk to discuss ? ",
+    "timestamp" : 1327272144,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not sure that the fact that .classpath and .project are automatically updated is a reason to exclude them. I think Eclipse needs them to open the project, so it's a bit unhandy if they're not there to start with.\r\n\r\nI originally had (2) the way you described, but then I converted to Maven projects in revision 1050. The advantage of being a Maven project is that m2eclipse handles the config, the disadvantage is that you need to run from the command line - it doesn't work from Eclipse. However that disadvantage is also an advantage because you make sure the Maven build keeps working instead of waiting until release to discover it's broken.\r\n\r\nI ran it as far as successfully doing\r\nmvn release:prepare -DdryRun=true\r\nI guess I should just go ahead and publish it. It's not the end of the world if it goes wrong!",
+    "timestamp" : 1327310370,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had a better idea:\r\nmvn clean deploy\r\nto publish a snapshot\r\n\r\nWhat next? Can people now see the snapshot? I couldn't see it in http://search.maven.org/#search%7Cga%7C1%7Cosmdroid",
+    "timestamp" : 1327311803,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : -8778289522063822345,
+    "content" : "Take a look at this project, for instance, https://github.com/SonarSource/jenkins-sonar-plugin\r\n.project and .classpath aren't commited. These files/directories depends on your IDE and your platform. \r\nM2Eclipse generate the files when you import the project as a maven project or when you \"right click > maven > update project configuration\". \r\nYou can keep them, it won't cause you any trouble. \r\n\r\nFor the (2) case, I don't know which one is the best way. I'm also starting using the maven-android-plugin and my android app next release will be the first one with it. \r\n\r\nYour snapshots seems to have been successfully deployed : https://oss.sonatype.org/content/groups/public. ",
+    "timestamp" : 1327323166,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : 8937367184059112911,
+    "content" : "I followed the instructions in comment 28, but when I did\r\n\r\nmvn release:perform\r\n\r\nI got an error 401. That doesn't make sense to me because I should be able to do that.\r\n\r\nCheck the description in the issue: https://issues.sonatype.org/browse/OSSRH-2725\r\n\r\nand the error log:\r\n\r\n    [ERROR] Failed to execute goal org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy (default-deploy) on project o\r\nsmdroid-parent: Failed to deploy artifacts: Could not transfer artifact org.osmdroid:osmdroid-parent:pom:3.0.7 from/to s\r\nonatype-nexus-staging (https://oss.sonatype.org/service/local/staging/deploy/maven2/): Failed to transfer file: https://\r\noss.sonatype.org/service/local/staging/deploy/maven2/org/osmdroid/osmdroid-parent/3.0.7/osmdroid-parent-3.0.7.pom. Retur\r\nn code is: 401 -> [Help 1]\r\n\r\nAny ideas?",
+    "timestamp" : 1327401341,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 8937367184059112911,
+    "content" : "PS. After\r\nmvn release:prepare -DdryRun=true\r\nthen you should do\r\nmvn release:prepare -Dresume=false\r\nor\r\nmvn release:clean release:prepare",
+    "timestamp" : 1327401792,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : -8778289522063822345,
+    "content" : "Check the credentials you're using. \r\nCan you remove your credentials from the settings.xml file and send it to me ? I will try your configuration. ",
+    "timestamp" : 1327409697,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think this is all done now.  Someone just needs to update the wiki's.  I'd appreciate if someone impartial could do that.\r\n\r\nhttps://oss.sonatype.org/content/groups/public/org/osmdroid/\r\n",
+    "timestamp" : 1327913909,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : -8778289522063822345,
+    "content" : "I got this exception when using the library in my project. \r\nI'll get back to you after investigation.",
+    "timestamp" : 1328180790,
+    "attachments" : [ {
+      "id" : 1990036000,
+      "fileName" : "startup_failure.log",
+      "fileSize" : 4461
+    } ]
+  }, {
+    "id" : 37,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 305.",
+    "timestamp" : 1328181157,
+    "attachments" : [ ]
+  }, {
+    "id" : 38,
+    "commenterId" : -8042986404002554120,
+    "content" : "I'm glad that OSMdroid is moving into Maven Central!\r\n\r\nWhen I tried it out with the osmdroid-third-party lib (because I use the google wrapper), I ran into an unresolved dependency: mapsforge-map.\r\nIt appears, the mapsforge-map is not in maven central.\r\n\r\nI could resolve it by explicitly excluding the mapsforge-map reference as I don't need the code. However, other people might run into this issue, too.",
+    "timestamp" : 1328205491,
+    "attachments" : [ ]
+  }, {
+    "id" : 39,
+    "commenterId" : 8937367184059112911,
+    "content" : "I wonder why mapsforge isn't in central repository.  They use Maven.  It's in my local repository.\r\nI suggest you take it up with them.",
+    "timestamp" : 1328210650,
+    "attachments" : [ ]
+  }, {
+    "id" : 40,
+    "commenterId" : -8778289522063822345,
+    "content" : "See comment #12",
+    "timestamp" : 1328211236,
+    "attachments" : [ ]
+  }, {
+    "id" : 41,
+    "commenterId" : 8937367184059112911,
+    "content" : "The reason I haven't closed this issue yet is because we need a wiki to explain all this stuff.",
+    "timestamp" : 1328211688,
+    "attachments" : [ ]
+  }, {
+    "id" : 42,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - can we please add some instructions to the wiki? I'm still using the old svn structure in Eclipse because I can't figure out how to use it with Maven. I added maven central to eclipse, but osmdroid never shows in the list. I tried to import an existing  maven project, but it doesn't add the Android stuff. I'm not even sure which direction to go down, so just some general guidance would be helpful.",
+    "timestamp" : 1344460983,
+    "attachments" : [ ]
+  }, {
+    "id" : 43,
+    "commenterId" : 8937367184059112911,
+    "content" : "What do you want to know? Perhaps you could do the document outline and I could fill in the details.",
+    "timestamp" : 1344576184,
+    "attachments" : [ ]
+  }, {
+    "id" : 44,
+    "commenterId" : -2144421035592486893,
+    "content" : "I just added this to my pom, and it worked:\r\n\r\n        <dependency>\r\n            <groupId>org.osmdroid</groupId>\r\n            <artifactId>osmdroid-android</artifactId>\r\n            <version>3.0.8</version>\r\n        </dependency>",
+    "timestamp" : 1345648479,
+    "attachments" : [ ]
+  }, {
+    "id" : 45,
+    "commenterId" : 8937367184059112911,
+    "content" : "I started on a HowToMaven wiki",
+    "timestamp" : 1345748426,
+    "attachments" : [ ]
+  }, {
+    "id" : 46,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390673568,
+    "attachments" : [ ]
+  } ]
+}

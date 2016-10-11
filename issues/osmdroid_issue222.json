@@ -1,0 +1,43 @@
+{
+  "id" : 222,
+  "status" : "Fixed",
+  "summary" : "NoSuchElementException in TileWriter.isSymbolicDirectoryLink",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3531159758278443637,
+    "content" : "A user reported this trace. Attached simple diff to catch the exception.\r\n\r\nThread: Thread[Thread-696,1,main] throwable:\r\njava.util.NoSuchElementExceptionjava.util.NoSuchElementException\r\nat java.util.LinkedList.removeFirst(LinkedList.java:634)\r\nat\r\norg.apache.harmony.luni.internal.io.FileCanonPathCache.get(FileCanonPathCache.java:87)\r\nat java.io.File.getCanonicalPath(File.java:500)\r\nat java.io.File.getCanonicalFile(File.java:678)\r\nat\r\norg.osmdroid.tileprovider.modules.TileWriter.isSymbolicDirectoryLink(TileWriter.java:169)\r\nat\r\norg.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:153)\r\nat\r\norg.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\nat\r\norg.osmdroid.tileprovider.modules.TileWriter.access$0(TileWriter.java:146)\r\nat org.osmdroid.tileprovider.modules.TileWriter$1.run(TileWriter.java:52)\r\n\r\n",
+    "timestamp" : 1306606805,
+    "attachments" : [ {
+      "id" : 2220000000,
+      "fileName" : "TileWriter.diff",
+      "fileSize" : 639
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Grrrr... lots of crazy things can happen with file systems I guess :) We should probably add lots of exception handling in this area because some manufacturer out there will probably find a way to break whatever we implement.",
+    "timestamp" : 1306865785,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "See:\r\nhttp://code.google.com/p/android/issues/detail?id=5807\r\nhttp://code.google.com/p/android/issues/detail?id=4961\r\n\r\nThis is a known bug from a cache implementation in Android that was later removed. The getCanonicalFile method should not throw this exception but it is so we will catch this specific exception (we are already catching IOExceptions which are expected).",
+    "timestamp" : 1307132699,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "We also return \"false\" when we get an exception. We should err on the side of caution and return true if we get an exception so that no further processing is done on the directory.",
+    "timestamp" : 1307132930,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r939.",
+    "timestamp" : 1307132987,
+    "attachments" : [ ]
+  } ]
+}

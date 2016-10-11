@@ -1,0 +1,147 @@
+{
+  "id" : 303,
+  "status" : "Duplicate",
+  "summary" : "Support hardware acceleration in MyLocationOverlay and ScaleOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 23,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4052688681537629636,
+    "content" : "This always worked in my code (within main activity onCreate) but crashes the app since I updated to 4.0.3 (Virtuous Quattro RC2 rom). \r\n\r\n    this.myScaleBarOverlay = new ScaleBarOverlay(this); \r\n    this.myMap.getOverlays().add(myScaleBarOverlay);\r\n\r\nNow it produces the following: \r\n\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): FATAL EXCEPTION: main\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): java.lang.UnsupportedOperationException\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.GLES20Canvas.drawPicture(GLES20Canvas.java:916)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat org.osmdroid.views.overlay.ScaleBarOverlay.draw(ScaleBarOverlay.java:263)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat org.osmdroid.views.overlay.OverlayManager.onDraw(OverlayManager.java:117)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat org.osmdroid.views.MapView.dispatchDraw(MapView.java:821)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.getDisplayList(View.java:10415)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.drawChild(ViewGroup.java:2850)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2489)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.getDisplayList(View.java:10415)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.drawChild(ViewGroup.java:2850)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2489)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.getDisplayList(View.java:10415)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.drawChild(ViewGroup.java:2850)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2489)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.getDisplayList(View.java:10415)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.drawChild(ViewGroup.java:2850)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2489)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.draw(View.java:10981)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.widget.FrameLayout.draw(FrameLayout.java:450)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat com.android.internal.policy.impl.PhoneWindow$DecorView.draw(PhoneWindow.java:2126)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.View.getDisplayList(View.java:10417)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.HardwareRenderer$GlRenderer.draw(HardwareRenderer.java:871)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewRootImpl.draw(ViewRootImpl.java:1910)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:1634)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.view.ViewRootImpl.handleMessage(ViewRootImpl.java:2442)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.os.Handler.dispatchMessage(Handler.java:99)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.os.Looper.loop(Looper.java:137)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat android.app.ActivityThread.main(ActivityThread.java:4424)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat java.lang.reflect.Method.invokeNative(Native Method)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat java.lang.reflect.Method.invoke(Method.java:511)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:784)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:551)\r\n01-25 14:53:38.303: E/AndroidRuntime(3263): \tat dalvik.system.NativeStart.main(Native Method)\r\n",
+    "timestamp" : 1327499976,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I haven't yet investigated/tested a fix, but I can tell you that the fix is to add this attribute to the activity in the manifest\r\n\r\nandroid:hardwareAccelerated=\"false\"\r\n\r\nThe reason is that hardware acceleration is enabled by default in 4.* and Canvas.drawPicture doesn't support it.\r\n\r\nSee also\r\nhttp://android-developers.blogspot.com/2011/03/android-30-hardware-acceleration.html\r\nhttps://plus.google.com/105051985738280261832/posts/2FXDCz8x93s\r\n",
+    "timestamp" : 1327502737,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Note that this doesn't effect the demo app because it has android:targetSdkVersion=\"4\".\r\nIt is only an issue if your app has android:targetSdkVersion=\"14\" or higher.",
+    "timestamp" : 1328250094,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3306654648997503252,
+    "content" : "For future googlers. This issue also affects MyLocationOverlay.drawCompass.",
+    "timestamp" : 1341522100,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I will re-open this issue with a new title.\r\n\r\nIt would be nice if we could remove the usage of drawPicture and thereby support hardware acceleration.",
+    "timestamp" : 1341561300,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "FYI - I found the maps run very slow using hardware acceleration. From what I have read it is because we are doing a lot of canvas drawing operations (canvas.drawCircle, drawBitmap, etc...) and that doesn't translate well in terms of performance when using the \"automatic\" hardware acceleration.",
+    "timestamp" : 1342729484,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 339 has been merged into this issue.",
+    "timestamp" : 1351615211,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 380 has been merged into this issue.",
+    "timestamp" : 1351615309,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue has been reported in Google Play on the following devices:\r\nARCHOS 80G9\r\nLT15i\r\nLT26i\r\nOTHER\r\n\r\nI assume these are devices that don't follow the guidelines in the links in comment 1.",
+    "timestamp" : 1351628141,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe we can set hardware acceleration off programmatically at the view level. I will try to dig up the code.",
+    "timestamp" : 1351631660,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "See comment 1. You should be able to set it in the manifest, but it /should/ be unnecessary.",
+    "timestamp" : 1351668049,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1351712686,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "We can add:\r\n\r\nthis.setLayerType(View.LAYER_TYPE_SOFTWARE, null);\r\n\r\nto the MapView constructor to force it to not use hardware acceleration without requiring the user to change their manifest. To do that, we need to target a higher API (11?) which I am in favor of but others may not be so hot on. Perhaps we can use reflection to call it if available and keep it targeted at the current API.",
+    "timestamp" : 1351712740,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't see the problem with increasing the target version, or the problem with changing the manifest.",
+    "timestamp" : 1351718561,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -8177012077806897919,
+    "content" : "Just want to add another comment to this one: people can force GPU rendering in the developer options and this will override the android:hardwareAccelerated=\"false\" setting in the manifest - making the app crash in the end after all. Keen to find out of there is a way of overriding the force GPU dev setting. Unfortunately my only ICS device is a Nexus 7 that opts to simply ignore drawing of the ScaleBar if force GPU rendering is on so that I cannot reproduce the Exception :-(\r\nAlso see\r\nhttps://groups.google.com/forum/?fromgroups=#!topic/android-developers/MDgTz-CYWmM\r\n\r\n",
+    "timestamp" : 1358578822,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -8177012077806897919,
+    "content" : "Adding this into MapView'a constructor helps overriding force GPU rendering\r\nif (Build.VERSION.SDK_INT >= 11 /* Build.VERSION_CODES.HONEYCOMB */) {\r\n  try {\r\n    Method m = View.class.getMethod(\"setLayerType\", int.class, Paint.class);\r\n    m.invoke(this, 0x01/*View.LAYER_TYPE_SOFTWARE*/, null);\r\n  } catch (Throwable t) {\r\n    logger.warn(\"Exception when trying to invoke this.setLayerType(LAYER_TYPE_SOFTWARE,0)\", t);\r\n  }\r\n}\r\n",
+    "timestamp" : 1358580187,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe we should add this as a default. Maybe add the ability to allow the user to turn it on too if they want?\r\n\r\nFor the MyLocationOverlay - it may be possible to change the drawPicture stuff into a path. However, there may be performance differences between the two.",
+    "timestamp" : 1358628307,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 413. When I turn hardware acceleration on the maps turn to buttery smooth. Let's make this happen!",
+    "timestamp" : 1364525917,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "We currently demo how to programmatically turn off hardware acceleration in the samples. The remainder of this ticket has been moved to Issue 413.",
+    "timestamp" : 1371219430,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -2707572053471146332,
+    "content" : "Hello guys\r\nI use osmdroid 3.0.10 and still getting exception mentioned above on some devices. Please, advise me how to fix it.",
+    "timestamp" : 1373901409,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 5781615991677836462,
+    "content" : "I am running into a bug with drawPath overlay. With HW acc on the path sometimes does not render depending on the location of the line points. This is consistently reproducible. No problem with HW acc off. ",
+    "timestamp" : 1374807684,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "Could you please open a new issue and attach a simple project that exhibits this bug.",
+    "timestamp" : 1374846488,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 5781615991677836462,
+    "content" : "Sure, I created Issue 454. Thanks for taking a look!",
+    "timestamp" : 1374863375,
+    "attachments" : [ ]
+  } ]
+}

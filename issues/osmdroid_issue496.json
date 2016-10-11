@@ -1,0 +1,33 @@
+{
+  "id" : 496,
+  "status" : "New",
+  "summary" : "ZoomIn jumps to top left",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2305747470111314637,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create itemizedoverlay\r\n2. double tap the map\r\n3. map zooms in properly, but after the animation it jumps to upper left\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n map zooms in properly, but after the animation it jumps to upper left\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n4.0, 3.0, 4.1\r\non android versions 4.0, 4.3, 4.4\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1384422231,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nIn my case I see zoom out at top left using the zoom buttons, using OpenStreetMapViewer as described at relative issue:\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=453#c23\r\n\r\nRegards.",
+    "timestamp" : 1384450779,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7029270962413317275,
+    "content" : "In my case it happens only when using pinch to zoom - although I doesn't happen every time - it's kinda random",
+    "timestamp" : 1385512402,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3260707329188339821,
+    "content" : "in my case its some thing like flicker . i have uploaded a video for mapbox-android-sdk which is based on osmdroid at http://www.youtube.com/watch?v=6b41EbW99_M&feature=youtu.be",
+    "timestamp" : 1387602266,
+    "attachments" : [ ]
+  } ]
+}

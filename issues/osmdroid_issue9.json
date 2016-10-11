@@ -1,0 +1,69 @@
+{
+  "id" : 9,
+  "status" : "Fixed",
+  "summary" : "OSMapView SampleExtensive crashes when bitmapsize exceeds VM budget",
+  "labels" : [ "Type-Defect", "Priority-High" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 444047512320640100,
+    "content" : "Hallo,\r\nafter zoom into the map (quickly) following exception killed the app:\r\n\r\n07-14 18:13:29.101: INFO/OPENSTREETMAP(733): Rendering overall: 15ms\r\n07-14 18:13:29.241: DEBUG/dalvikvm(733): GC freed 1931 objects / 1444312\r\nbytes in 110ms\r\n07-14 18:13:29.281: INFO/OPENSTREETMAP(733): Rendering overall: 4ms\r\n07-14 18:13:29.321: ERROR/dalvikvm-heap(733): 262144-byte external\r\nallocation too large for this process.\r\n07-14 18:13:29.321: ERROR/(733): VM won't let us allocate 262144 bytes\r\n07-14 18:13:29.331: WARN/dalvikvm(733): threadid=93: thread exiting with\r\nuncaught exception (group=0x4000fe70)\r\n07-14 18:13:29.331: ERROR/AndroidRuntime(733): Uncaught handler: thread\r\npool-13-thread-2 exiting due to uncaught exception\r\n07-14 18:13:29.361: INFO/OPENSTREETMAP(733): Rendering overall: 4ms\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733): java.lang.OutOfMemoryError:\r\nbitmap size exceeds VM budget\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\nandroid.graphics.BitmapFactory.nativeDecodeByteArray(Native Method)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\nandroid.graphics.BitmapFactory.decodeByteArray(BitmapFactory.java:308)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\nandroid.graphics.BitmapFactory.decodeByteArray(BitmapFactory.java:321)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\norg.andnav.osm.views.util.OpenStreetMapTileFilesystemProvider$1.run(OpenStreetMapTileFilesystemProvider.java:117)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\njava.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:648)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\njava.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:673)\r\n07-14 18:13:29.381: ERROR/AndroidRuntime(733):     at\r\njava.lang.Thread.run(Thread.java:1058)\r\n",
+    "timestamp" : 1247588335,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5268921252605693890,
+    "content" : "I see this as well, quit often.",
+    "timestamp" : 1257160757,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1267777634,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268289097,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268289170,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 110 contains some changes intended to help this issue.",
+    "timestamp" : 1268594758,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "And revision 117 seems to have really fixed it.",
+    "timestamp" : 1268902731,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268985029,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 111525796836376161,
+    "content" : "Hi Neil.\r\n\r\nI see this bug fixed but lately I moved to the 3.0.8 build and I am experiencing the same issue. Even just opening the map view, I see that after a while of inactivity, if I open the app again it goes into out of memory. Did something change? Should I change some config in Android?\r\n\r\nThanks a lot!\r\nArmando",
+    "timestamp" : 1336221220,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please could you attach a stack trace",
+    "timestamp" : 1336290252,
+    "attachments" : [ ]
+  } ]
+}

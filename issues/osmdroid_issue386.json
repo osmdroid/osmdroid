@@ -1,0 +1,71 @@
+{
+  "id" : 386,
+  "status" : "Fixed",
+  "summary" : "Unable to use MOBAC created OSMAND SQLite tile source offline",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6701721452134120389,
+    "content" : "<b>What steps will reproduce the problem?</b>\nUnable to load the attached OSMAND SQLite map tiles. (GeoPoint((int)(45.349622 * 1E6), (int)(-75.880700 *1E6)) can be used to center within the map tile area) Source included below. Can't locate any official documentation on how to do so, just blog posts that differ in their approach and none seem to work for me.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI want to load map tiles from a MOBAC SQLite. See my explanation below.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOSMDROID 3.0.8\r\nAndroid stock 4.2 (targeting 2.3.3, testing in emulator an on 4.2 device for now)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI've been pulling my hair out trying to get my own offline Mobile Atlas Creator OSMAND SQLite map working with OSMDROID 3.0.8 without luck. It's been a long 3 days. I'll try to explain with clips from my application. I've been extending ItemizedIconOverlay and OverlayItem so I hope it doesn't get too confusing.\r\n\r\nI created my own OSMAND SQLite map file with 3 different zoom levels for a small are, like 10 square kms. I copied the resulting &quot;base.sqlite&quot; file into my project /res/raw/ directory. Note that the GeoPoints in my application should be well within the map's tile range. The &quot;base.sqlite&quot; file should get saved to the application specific data directory.\r\n\r\nNext I turfed the /osmdroid directory on my phone so I could get the previously cached maps off. I thought I had my own offline maps working until I turned on Airplane mode and noticed the cached maps were still available.\r\n\r\nNow all I get is blanks. I have no clue how to get this going. I've see a couple of examples but after a ton of experimentation I haven't been successful in getting any of them working.\r\n\r\n\r\n\tprivate Hashtable&lt;String, NodeOverlayItem&gt; nodes = new Hashtable&lt;String, NodeOverlayItem&gt;();\r\n\r\n\tprivate MapView mapView;\r\n\tprivate Context context;\r\n\r\n\tprivate LocationManager locManager;\r\n\r\n\tprivate MapController mapController;\r\n\tprivate MapTileProviderArray mapProvider;\r\n\tprivate String mapTileArchivePath = &quot;base.sqlite&quot;;\r\n\r\n\tprivate ResourceProxy resourceProxy;\r\n\r\n\t@Override\r\n\tpublic void onCreate(final Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\r\n\t\ttry {\r\n\t\t\tthis.mapView = new MapView(this, 256);\r\n\t\t\tthis.mapView.setBuiltInZoomControls(true);\r\n\t\t\tthis.mapView.setMultiTouchControls(true);\r\n\r\n\t\t\tthis.context = this.getApplicationContext();\r\n\t\t\tthis.resourceProxy = new DefaultResourceProxyImpl(context);\r\n\r\n\t\t\tXYTileSource TILERENDERER = new XYTileSource(&quot;test&quot;, \r\n\t\t\t\tResourceProxy.string.offline_mode, \r\n\t\t\t\t1, 20, 256, &quot;.png&quot;, &quot;http://127.0.0.1&quot;);\r\n\t\t\tSimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this.context);\r\n\r\n\t\t\tIArchiveFile[] archives = { ArchiveFileFactory.getArchiveFile(this.getMapsFile()) };\r\n\t\t\tMapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(\r\n\t\t\t\t\tsimpleReceiver, \r\n\t\t\t\t\tTILERENDERER, \r\n\t\t\t\t\tarchives);\r\n\t\t\tthis.mapProvider = new MapTileProviderArray(TILERENDERER, null, new MapTileModuleProviderBase[] { moduleProvider });\r\n\t\t\tthis.mapProvider.setUseDataConnection(false);\r\n\t\t\tthis.mapView = new MapView(this, 256, this.resourceProxy, this.mapProvider);\r\n\t\t\tthis.mapView.setUseDataConnection(false);\r\n\r\n\t\t\tmapController = mapView.getController();\r\n\t\t\tmapController.setZoom(18);\r\n\t\t\tmapController.setCenter(new GeoPoint((int)(45.349622 * 1E6), (int)(-75.880700 *1E6)));\r\n\r\n\t\t\tthis.setContentView(mapView);\r\n\t\t} catch(Exception ex) {\r\n\t\t\tLog.e(&quot;test&quot;, ex.getMessage());\r\n\t\t}    \r\n\t}\r\n    \r\n    \r\n\tpublic File getMapsFile() throws IOException {\r\n\t\tLog.d(&quot;test&quot;, &quot;Trying to load map tiles to: &quot; + this.mapTileArchivePath);\r\n\t\tFileOutputStream fos = this.openFileOutput(this.mapTileArchivePath, Context.MODE_PRIVATE);\r\n\r\n\t\tInputStream in = getResources().openRawResource(R.raw.osmdroid);\r\n\t\tbyte[] buff = new byte[1024];\r\n\t\tint read = 0;\r\n\t\ttry {\r\n\t\twhile ((read = in.read(buff)) &gt; 0) {\r\n\t\t  fos.write(buff, 0, read);\r\n\t\t}\r\n\t\t} finally {\r\n\t\t  in.close();\r\n\t\t  fos.close();\r\n\t\t}\r\n\t\treturn new File(this.getFilesDir(), this.mapTileArchivePath);\r\n    \t}",
+    "timestamp" : 1355254923,
+    "attachments" : [ {
+      "id" : 3860000000,
+      "fileName" : "base.sqlite",
+      "fileSize" : 549888
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "The sqlite archive format was added in revision 683 for issue 132.",
+    "timestamp" : 1355293832,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6701721452134120389,
+    "content" : "I think what I'm saying is it's not clear how to properly load MOBAC OSMAND SQLite tiles and I'd like to know how to do so properly. Other have been asking this as well:\r\n\r\nhttp://stackoverflow.com/questions/13827324/how-to-use-mobac-created-osmand-sqlite-tile-source-file-offline\r\nhttp://stackoverflow.com/questions/12968594/downloading-specific-maptiles-to-cache-in-osmdroid\r\n\r\nAs you can see in my sample code, I'm already using ArchiveFileFactory, which indeed supports a variety of archive file types, including sqlite. The tiles are still coming up empty.\r\n\r\nCan you please comment on my use of MapTileModuleProviderBase, MapView, MapTileFileArchiveProvider and SimpleRegisterReceiver? Am I using it right? Do you have an existing sample on how to do this properly with the API? If I'm doing it right, then I should probably investigate if my MOBAC map has an issue. BTW, I'm using the latest MOBAC, downloaded 5 days ago. Thank you!",
+    "timestamp" : 1355327869,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "In issue 132 which I linked to in my previous comment it says \"you have to chose the osmdroid sqlite format\".\r\n\r\nI assume that osmdroid sqlite format is different to osmand sqlite format.",
+    "timestamp" : 1355343970,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6701721452134120389,
+    "content" : "Arg... Sorry that was a persistent typo. I've reattached a fresh MOBAC exported Osmdroid sqlite map file. I'm still getting grey squares.\r\n\r\nNow, can you please comment on my use of MapTileModuleProviderBase, MapView, MapTileFileArchiveProvider and SimpleRegisterReceiver?\r\n\r\nThank you.",
+    "timestamp" : 1355355004,
+    "attachments" : [ {
+      "id" : 3860004000,
+      "fileName" : "base.sqlite",
+      "fileSize" : 1376256
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6701721452134120389,
+    "content" : "Ok, my usage is good. I don't know exactly what my problem was, but I had some trouble with the osmdroid sqllite file written to the device. I ended up getting the zip format working. Just a suggestion, a small offline mapping sample would be really helpful. Maybe I'm just over worked or lazy. Either way I've got offline working perfectly now. Thanks for being patent with me. :)",
+    "timestamp" : 1355466328,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8202209406547965078,
+    "content" : "Kinda late, but is it still possible for you to provide your solution?\r\nWould be really helpfull, thanks :)",
+    "timestamp" : 1372771155,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6701721452134120389,
+    "content" : "Sure, I'm not certain anymore what exactly was going wrong at the time, but here's my implementation of the MapView. From what I've come up with, you can't set and offline MapView outside of its construction. Meaning you have to construct the MapView with a provided MapTileProviderArray that includes the offline source. e.g. .zip or .sqlite file. I can't remember why this was an issue for me in my actual application. I think I was having problems with app orientation change. Since MapView is a valid View, it get constructed without your help by Android. In order to construct it with my offline provider, I had to extend MapView with my own constructor, that created and supplied the offline provider.\r\n\r\nSo far my app seems to have no issues with this approach. It loads the maps correctly and I don't get any orientation change memory leaks/errors when I flip my tablet a dozen times or so.\r\n\r\nHope this helps.\r\n\r\nMainActivity.java:\r\n\t@Override\r\n\tpublic void onCreate(final Bundle savedInstanceState) {\r\n\t\ttry {\r\n\t\t\tsuper.onCreate(savedInstanceState);\r\n\t\t\t...\r\n\r\n\t\t\tthis.mapView = (FieldMapView) findViewById(R.id.mapview);\r\n\t\t\t...\r\n\t\t\t// Example getting the map controller and setting the center\r\n\t\t\tMapController mapController = this.mapView.getController();\r\n\t\t\tmapController.setCenter(new GeoPoint(Nodes.LAT_DEFAULT, Nodes.LONG_DEFAULT));\r\n\t\t\t...\r\n\t}\r\n\r\n\tpublic static String getMapTileArchiveFilename() {\r\n\t\treturn \"default_map.zip\";\r\n\t}\r\n\r\n\r\nmain_activity.xml: (the layout)\r\n\r\n    ...\r\n    <com.test.FieldMapView\r\n\t    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n\t    android:id=\"@+id/mapview\"\r\n\t    android:layout_width=\"fill_parent\"\r\n\t    android:layout_height=\"fill_parent\"\r\n\t    android:clickable=\"false\"/>\r\n    ...\r\n\r\n\r\ncom.test.FieldMapView.java:\r\npublic class FieldMapView extends MapView {\r\n\tpublic FieldMapView(Context context, AttributeSet attrs) throws Exception {\r\n\t\t// Sigh... MapView has to be constructed as an offline caching view,\r\n\t\t// which is the reason I've got these static calls in here...\r\n\t\tsuper(context, 256, new DefaultResourceProxyImpl(context), FieldMapView\r\n\t\t\t\t.getOfflineMapProvider(context, MainActivity.getMapTileArchiveFilename()), null, attrs);\r\n\t\tthis.setUseDataConnection(false);\r\n\t\tthis.setBuiltInZoomControls(true);\r\n\t\tthis.setMultiTouchControls(true);\r\n\t\tthis.setLongClickable(false);\r\n\t}\r\n\r\n\tpublic static MapTileProviderArray getOfflineMapProvider(Context context,\r\n\t\t\tString mapArchiveFilename) throws Exception {\r\n\t\tXYTileSource TILERENDERER = new XYTileSource(\"OSM CloudMade 1\",\r\n\t\t\t\tResourceProxy.string.offline_mode, 16, 18, 256, \".png\",\r\n\t\t\t\t\"http://127.0.0.1\");\r\n\t\tSimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(\r\n\t\t\t\tcontext);\r\n\t\tIArchiveFile[] archives = { ArchiveFileFactory\r\n\t\t\t\t.getArchiveFile(FieldMapView.getMapsSdCard(context,\r\n\t\t\t\t\t\tmapArchiveFilename)) };\r\n\t\tMapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(\r\n\t\t\t\tsimpleReceiver, TILERENDERER, archives);\r\n\t\tMapTileProviderArray mapProvider = new MapTileProviderArray(\r\n\t\t\t\tTILERENDERER, null,\r\n\t\t\t\tnew MapTileModuleProviderBase[] { moduleProvider });\r\n\t\tmapProvider.setUseDataConnection(false);\r\n\t\treturn mapProvider;\r\n\t}\r\n\r\n\tpublic FieldMapView(Context context, int tileSizePixels,\r\n\t\t\tResourceProxy resourceProxy, MapTileProviderBase aTileProvider,\r\n\t\t\tHandler tileRequestCompleteHandler) {\r\n\t\tsuper(context, tileSizePixels, resourceProxy, aTileProvider,\r\n\t\t\t\ttileRequestCompleteHandler);\r\n\t}\r\n\r\n\tpublic FieldMapView(Context context, int tileSizePixels,\r\n\t\t\tResourceProxy resourceProxy, MapTileProviderBase aTileProvider) {\r\n\t\tsuper(context, tileSizePixels, resourceProxy, aTileProvider);\r\n\t}\r\n\r\n\tpublic FieldMapView(Context context, int tileSizePixels,\r\n\t\t\tResourceProxy resourceProxy) {\r\n\t\tsuper(context, tileSizePixels, resourceProxy);\r\n\t}\r\n\r\n\tpublic FieldMapView(Context context, int tileSizePixels) {\r\n\t\tsuper(context, tileSizePixels);\r\n\t}\r\n\t\r\n\tpublic void onStop() {\r\n\t\tthis.getTileProvider().clearTileCache();\r\n\t}\r\n\r\n\t// TODO: Create a factory static method to construct the FieldMapView properly, use isInEditMode()\r\n\t// to skip writing the file out, so it'll work with the Eclipse visualizer!\r\n\t\r\n\tpublic static File getMapsSdCard(Context context, String mapArchiveFilename)\r\n\t\t\tthrows IOException {\r\n\t\tLog.d(\"TEC3M\", \"Trying to load map tiles to: \" + mapArchiveFilename);\r\n\t\tFile mapFile = new File(context.getFilesDir(), mapArchiveFilename);\r\n\t\tif (!mapFile.exists()) {\r\n\t\t\t// mapFile.delete();\r\n\t\t\tFileOutputStream fos = context.openFileOutput(mapArchiveFilename,\r\n\t\t\t\t\tContext.MODE_PRIVATE);\r\n\t\t\tInputStream in = context.getResources().openRawResource(\r\n\t\t\t\t\tR.raw.default_map);\r\n\t\t\tbyte[] buff = new byte[1024];\r\n\t\t\tint read = 0;\r\n\t\t\ttry {\r\n\t\t\t\twhile ((read = in.read(buff)) > 0) {\r\n\t\t\t\t\tfos.write(buff, 0, read);\r\n\t\t\t\t}\r\n\t\t\t} finally {\r\n\t\t\t\tin.close();\r\n\t\t\t\tfos.close();\r\n\t\t\t}\r\n\t\t\tmapFile = new File(context.getFilesDir(), mapArchiveFilename);\r\n\t\t}\r\n\t\treturn mapFile;\r\n\t}\r\n}",
+    "timestamp" : 1372776211,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This ticket is resolved.",
+    "timestamp" : 1373494100,
+    "attachments" : [ ]
+  } ]
+} ticket is resolved.","timestamp":1373494100,"attachments":[]}]}

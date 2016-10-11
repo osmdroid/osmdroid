@@ -1,0 +1,27 @@
+{
+  "id" : 88,
+  "status" : "Duplicate",
+  "summary" : "Intermediate Blank Tile During Zoom",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3160830107365654207,
+    "content" : "At present, during a zooming action there is a dead spot.\r\nThe zoom animation plays, then the image disappears, then the new\r\n(higher/lower) resolution image appears.\r\nIf the previous tile covers the area it should persist until the new tile actually replaces it.",
+    "timestamp" : 1284247871,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 46",
+    "timestamp" : 1284285560,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3160830107365654207,
+    "content" : "You are correct this is the same as 46.",
+    "timestamp" : 1285779824,
+    "attachments" : [ ]
+  } ]
+}

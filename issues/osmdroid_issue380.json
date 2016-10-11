@@ -1,0 +1,33 @@
+{
+  "id" : 380,
+  "status" : "Duplicate",
+  "summary" : "crash on Nexus 7 (OS ver 4.1.2)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -502136092505284359,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. instal osmdroid from googleplay\r\n2. start\r\n3. crash\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI use ver 2.0.\r\nOS ver is 4.1.2\r\nmachine is Nexus 7\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1350695054,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't see any crash reports in Google Play. Please report it with a relevant comment.",
+    "timestamp" : 1350791753,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4068517546584528154,
+    "content" : "I have the same problem. I have send a report with a link to this issue in the description.",
+    "timestamp" : 1351599319,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1351615309,
+    "attachments" : [ ]
+  } ]
+}

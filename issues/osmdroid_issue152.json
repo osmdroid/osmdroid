@@ -1,0 +1,25 @@
+{
+  "id" : 152,
+  "status" : "Fixed",
+  "summary" : "Bug in the sqlite implementation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8259744598550866754,
+    "content" : "A bug in osmmaptilepackager has been discovered when creating large databases. In the patch is also the link to osmdroid project instead of jar (as it has been done in openstreetmapviewer).",
+    "timestamp" : 1296391036,
+    "attachments" : [ {
+      "id" : -8067098378850674627,
+      "fileName" : "SQlite.patch",
+      "fileSize" : 1567
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r768.",
+    "timestamp" : 1296464552,
+    "attachments" : [ ]
+  } ]
+}

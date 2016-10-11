@@ -1,0 +1,43 @@
+{
+  "id" : 154,
+  "status" : "Fixed",
+  "summary" : "Loading tile instead of background color",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "I see that the onDraw code has some code to draw a &quot;loading&quot; tile but it is deemed too slow. Instead of drawing the loading tile from scratch every time we draw, we can creating a Bitmap at TilesOverlay startup and draw the loading tile to the bitmap. When we can't return a tile from the tile provider, we provide the loading tile instead.\r\n\r\nWe would move the mBackgroundColor stuff to TilesOverlay and that would dictate what the background color of the loading tile is. We can also have a setting for the color of the lines.\r\n\r\nI tried this out and it works nicely and there is no noticeable decrease in speed. The loading tiles look more like Google maps and we can actually tell that we are scrolling when there are no map tiles loaded to the screen yet.\r\n\r\nAre we all in favor?",
+    "timestamp" : 1296793865,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Example patch included for anyone who wants to see what it looks like. Put the phone in offline mode and check it out.",
+    "timestamp" : 1296795449,
+    "attachments" : [ {
+      "id" : -8158372597623024611,
+      "fileName" : "LoadingTilePatch.patch",
+      "fileSize" : 7673
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks good.\r\n\r\nI think we need a way to access it via MapView, or more specifically IMapView.\r\n\r\nA couple of days ago I added setBackgroundColor to IMapView. The reason was because I'd like a dark background at night. I'd also like to be able to do the same thing with this.\r\n\r\nIn fact, why not just put all this code into MapView instead of TilesOverlay?",
+    "timestamp" : 1296822466,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think the best place for it is in TilesOverlay - that is where we calculate tile-to-screen positions and really the only place where we know where the tile is supposed to be drawn (without recalculating everything over), and if there was no proper tile returned from the tile provider.\r\n\r\nHowever, there is no reason we can't pass the setBackgroundColor call from the MapView to call the TilesOverlay. In issue 155 (the OverlayManager class), one of the things I wanted to do was give better access to the TilesOverlay since it is a special case, so that should facilitate setting the background color of the loading tile.",
+    "timestamp" : 1296863543,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r775.",
+    "timestamp" : 1296936027,
+    "attachments" : [ ]
+  } ]
+}

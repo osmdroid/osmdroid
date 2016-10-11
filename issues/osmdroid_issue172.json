@@ -1,0 +1,109 @@
+{
+  "id" : 172,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay.enableMyLocation != MyLocationOverlay.isLocationFollowEnabled",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 16,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Calling enableMyLocation moves the map to the current location, regardless of whether isLocationFollowEnabled. I suggest the behavior be changed to be the following:\r\n\r\ndisableMyLocation/enableMyLocation/isMyLocationEnabled = Turns on/off the system service that provides location. If turned on, then the person/arrow icon is displayed, but it doesn't jump to current location nor does it follow the location.\r\n\r\nenableFollowLocation/disableFollowLocation/isFollowLocationEnabled = Turns on/off following the user's location. If enabled, immediately jump to current location if possible.\r\n\r\nI'd also maybe suggest getting rid of any toggleXYZ() functions since they are redundant. To me it's just clutter - but I don't mind if we want to keep them either.",
+    "timestamp" : 1298924974,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Proposed patch attached (sans removal of toggleXYZ() functions)",
+    "timestamp" : 1298925936,
+    "attachments" : [ {
+      "id" : 1385210905317872647,
+      "fileName" : "MyLocationOverlay.patch",
+      "fileSize" : 4121
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The way it's supposed to work is :\r\n\r\nwhen you enable it will show and follow\r\nif you drag the screen it will still show but stop following\r\n\r\nI think that's the way it does work, and it should stay that way.\r\n\r\nI don't know why you need explicit access to the follow flag\r\n\r\nI'm also okay with removing the toggle methods.\r\n",
+    "timestamp" : 1298969064,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "After writing the patch, I think really the only change I am suggesting is not snapping to your current location when calling enableMyLocation(). When you open the OpenStreetMapViewer, no matter where your last saved location was, it always jumps to your current location. In my opinion, the map should only jump to your location when you call enableFollowLocation(). Everything else stays the same - dragging still turns off \"follow\". The other changes are just aesthetic to keep a common naming scheme for methods.\r\n\r\nThis appears to be the way Google Maps works. When I open Google Maps, it goes to the last location I scrolled to (even if I kill the app and restart it) not my current location (unless I had \"follow me\" turned on when I quit). But if I scroll to my location, then I can still see my icon so location services are enabled. It doesn't jump to my location until I click on the \"follow me\" target button. To me, that is analogous to keeping enableMyLocation() only for turning on location services and drawing your current location icon and using enableFollowLocation() for jumping to your current location and enabling \"follow me\".\r\n\r\nActually, maybe the best implementation is to check to see if mFollow is enabled in enableMyLocation() before jumping. That would automatically jump if the user called enableFollowLocation() before calling enableMyLocation(). We should also add code to immediately jump to current location when calling enableFollowLocation() for completeness (rather than making the user do it themselves, which is how I think it is now).",
+    "timestamp" : 1299038819,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I disagree. Google doesn't have a separate follow method. The only way to follow is to enable.\r\n\r\nAnd I think Google Maps (the app) also jumps to your current location.  It first goes to the last location it knew about, but when it gets a location update it goes there. (To be confirmed when I go outside!). Although it remembers follow from the previous run, so if you enabled and then drag it won't jump next time you run the app.",
+    "timestamp" : 1299056095,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looking at it again, Google MyLocationOverlay doesn't do the following - it's up to the user to do that. The docs say that there's a constructor that takes a controller which will then follow, but that constructor doesn't actually exist.\r\n\r\nSo I guess you're right about MyLocationOverlay. enable and follow are two separate things. follow could be done in the caller, or we could add it to MyLocationOverlay itself.",
+    "timestamp" : 1299062774,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I saw the missing constructor thing too. I assume they just get the MapController from the MapView that is passed in like we do. I don't know how a user is supposed to signal to Google's MyLocationOverlay that they want to follow, but this functionality does exist in Google Maps. It makes me wonder if they are using a different internal build of the MapView and associated classes. I don't know if they necessarily use the same MapView in Google Maps as what is available to the SDK users.\r\n\r\nAnyway, I'll go ahead an make the appropriate changes.",
+    "timestamp" : 1299110609,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r848.",
+    "timestamp" : 1299126054,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "The Maps app almost certainly doesn't use the same MapView. The app uses the SVG renderer which I hope will make it's way into MapView some time.",
+    "timestamp" : 1299133463,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Marc, I don't understand what you've done to the compass in revision 848.\r\n\r\nYou've put back the register/unregister code that I removed in revision 841. So now it registers/unregisters twice.\r\n\r\nWere you trying to do something, or is it just a merge error?",
+    "timestamp" : 1299149780,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "Probably a merge error - I'll take a look later today.",
+    "timestamp" : 1299160628,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r856.\n\nRemoved extra unregister code that I mistakenly merged back in",
+    "timestamp" : 1299203160,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Yeah, sorry about that. I got a conflict error and tried to merge your changes in by hand. It should be fixed.\r\n\r\nI'd also like it if we could change the startListening and stopListening methods in the proxy to return a boolean. That value could then be passed back to enableMyLocation to indicate success or not.",
+    "timestamp" : 1299203336,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Actually, make that just startListening. It doesn't make sense for stopListening.",
+    "timestamp" : 1299203420,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r857.\n\nChanged startListening to return a boolean in LocationListenerProxy and SensorEventListenerProxy.\nChanged MyLocationOverlay to use the result of startListening",
+    "timestamp" : 1299203909,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think this ticket is now closed.",
+    "timestamp" : 1299820452,
+    "attachments" : [ ]
+  } ]
+}

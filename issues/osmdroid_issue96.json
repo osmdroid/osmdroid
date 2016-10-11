@@ -1,0 +1,21 @@
+{
+  "id" : 96,
+  "status" : "Fixed",
+  "summary" : "OpenAerialMap no longer serving imagery tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "See: http://openaerialmap.org/\r\n&quot;from Dec 2008 onwards this has been offline and no longer serving imagery tiles&quot;",
+    "timestamp" : 1285576102,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r382.",
+    "timestamp" : 1285577128,
+    "attachments" : [ ]
+  } ]
+}

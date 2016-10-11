@@ -1,0 +1,21 @@
+{
+  "id" : 5,
+  "status" : "Invalid",
+  "summary" : "Default image for missing maptiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4147870663033858678,
+    "content" : "When using an OpenStreetMapView in an application, an image is displayed\r\nduring the download of the new tiles.\r\nOsm uses R.drawable.maptile_loading, which id is 0x7f020003 in the original\r\nproject.\r\n\r\nThe problem is that the view loads the image with the same ID from the\r\ncurrent apk!\r\n\r\n- the user (programmer) has no way to specify another resource as the\r\n&quot;loading&quot; background. Or has he?\r\n- To choose a particular image, he has to get it to be the fourth file in\r\nhis drawable folder.\r\n\r\n",
+    "timestamp" : 1240183475,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "R.drawable.maptile_loading is auto generated. So it will always point the file with\r\nthe name \"maptile_loading\" after a recompile.",
+    "timestamp" : 1256850276,
+    "attachments" : [ ]
+  } ]
+}

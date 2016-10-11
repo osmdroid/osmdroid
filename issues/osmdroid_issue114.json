@@ -1,0 +1,21 @@
+{
+  "id" : 114,
+  "status" : "New",
+  "summary" : "Overlay with focus not properly adjusting to long titles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -845207052694504882,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create an overlay with focus with no description or a title longer than the description\r\n2. *OR* adjust the font typeface or size for the title or description of an overlay\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI would expect the see the size of the overlay properly adjust to the title or the description,\r\nwhichever is longer.  What I see instead is that it always adjusts to the description length.\r\n\r\nThis is as of revision 494.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem is that on line 230 of OpenStreetMapViewItemizedOverlayWithFocus, it supposed to be measuring the text width of the title, but it is measuring the text width of the description instead.  Changing the line to read:\r\n\r\nfinal int titleWidth = (int) this.mTitlePaint.measureText(itemTitle);\r\n\r\nwill fix this problem.",
+    "timestamp" : 1290098909,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "That change gives the same result. The issue is that the next line is\r\n\r\nfinal int descWidth = Math.min(maxWidth, DESCRIPTION_MAXWIDTH);\r\n\r\nwhere DESCRIPTION_MAXWIDTH is 200.\r\n\r\nSo basically it's designed that the width of the title shouldn't be more than 200.",
+    "timestamp" : 1290164230,
+    "attachments" : [ ]
+  } ]
+}

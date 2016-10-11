@@ -1,0 +1,45 @@
+{
+  "id" : 422,
+  "status" : "Fixed",
+  "summary" : "Post javadoc jar file",
+  "labels" : [ "Type-Task", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The javadoc is getting better and it contains important information for implementers. We should be posting javadoc jar files alongside our new releases.",
+    "timestamp" : 1365531663,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I was getting lazy because they're in Maven Central and it seemed a bit redundant to upload to the site as well. Anyone can do it.",
+    "timestamp" : 1365585297,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1365600825,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Maybe what we should be doing is pushing people to use Maven. I suggest we put maven install instructions right on the front page of the google code site. I think there are still issues with some requirements not being in Maven central (google APIs, mapsforge). I have a clean machine that I need to install everything on so maybe I can keep track of a good set of install instructions.",
+    "timestamp" : 1365600840,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I uploaded javadoc for the main jar.  I think that's enough.\r\n\r\nI don't have rights to edit the main page. Only Nicolas can do that.\r\n",
+    "timestamp" : 1365741857,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I'm happy with this - let's close this ticket.",
+    "timestamp" : 1365816497,
+    "attachments" : [ ]
+  } ]
+}

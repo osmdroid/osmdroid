@@ -1,0 +1,33 @@
+{
+  "id" : 29,
+  "status" : "WontFix",
+  "summary" : "Minimaps don't work because they use the Cloudmade render",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "All the samples use a minimap that uses the Cloudmade render.\r\nThe Cloudmade renderer doesn't work - see issue 28.\r\nThe samples should use the default renderer for the minimap (or the same \r\nrenderer as the main map).",
+    "timestamp" : 1269525820,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340703,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The title is no longer accurate, but the issue in the last sentence of the description \r\nstill applies.",
+    "timestamp" : 1271913546,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue is not accurate - submitted issue 69 instead.",
+    "timestamp" : 1278599960,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,143 @@
+{
+  "id" : 234,
+  "status" : "MovedToGithub",
+  "summary" : "Allow users to specify tile location",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 21,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The sdcard tile location is hard-coded. There should be a possibility for users to specify a different location.",
+    "timestamp" : 1309238973,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 174.",
+    "timestamp" : 1309238987,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 299 has been merged into this issue.",
+    "timestamp" : 1326976127,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 301 has been merged into this issue.",
+    "timestamp" : 1327050785,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 310.",
+    "timestamp" : 1329114500,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 336 has been merged into this issue.",
+    "timestamp" : 1333982094,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8177012077806897919,
+    "content" : "I have implemented a fix for this and used it in my app for quite a while now. Basically I have removed some of the configuration data from OpenStreetMapConstants and moved it to a separate default configuration class, that can be overwritten/supplied by a 3rd party application.\r\n\r\nUnfortunately this patch covers quite a number of classes, because the configuration and constants are used a lot across the package. Nevertheless I found it quite useful to give the app and potentially the user more control.\r\n",
+    "timestamp" : 1338182081,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -8177012077806897919,
+    "content" : "Comment deleted",
+    "timestamp" : 1338187676,
+    "attachments" : [ {
+      "id" : 2340007000,
+      "fileName" : "Configurability.patch",
+      "fileSize" : 45228
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : -8177012077806897919,
+    "content" : "Previous patch had issues.",
+    "timestamp" : 1338187923,
+    "attachments" : [ {
+      "id" : 2340008000,
+      "fileName" : "Configurability.patch",
+      "fileSize" : 46339
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 174 has been merged into this issue.",
+    "timestamp" : 1338752008,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 6796294883573992860,
+    "content" : "I managed to patch, but how do you use it? how do I specify the path for the SDcard cached tiles?",
+    "timestamp" : 1340358119,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 6796294883573992860,
+    "content" : "OK. I figured it out by looking at the following file: OsmDroidDefaultConfiguration.java\r\n\r\ncreate your copy (e.g MyOsmDroidDefaultConfiguration )\r\n\r\nthen you use it in your tike provider as:\r\n\r\nfinal MapTileProviderBasic tileProvider = new MapTileProviderBasic(getApplicationContext(),MyOsmDroidDefaultConfiguration.getInstance());\r\n\r\nI used getExternalCacheDir();\r\nfor the base path! according to DOCs this will ensure my tiles will be deleted once my app is uninstalled.\r\n\r\nIn my opinion this patch is a must! If i find some issues will report here.\r\n\r\n\r\n",
+    "timestamp" : 1340361471,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -8177012077806897919,
+    "content" : "Sorry, I should have provided an example implementation...",
+    "timestamp" : 1340407664,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -1918333713940407975,
+    "content" : "Are any news for this issue?",
+    "timestamp" : 1365056695,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 6796294883573992860,
+    "content" : "just apply the patch. auto using SVN client or manual, i did it manual and it took not much time. see my commetn #11 for idea how to use it.",
+    "timestamp" : 1365068044,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Actually I have already implemented a more simple solution for my projects. I was wondering if there would be an official solution some time.\r\n\r\nIn case anyone interests I just modified MapTileFileArchiveProvider and OpenStreetMapTileProviderConstants which are the only place OSMDROID_PATH used.\r\nI added a new public static variable at MapTileFileArchiveProvider which I use at findArchiveFiles method and I set it at my projects start.\r\nAlso I set the TILE_PATH_BASE at OpenStreetMapTileProviderConstants to use that variable.",
+    "timestamp" : 1365069380,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1379651793,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 3441253322154669341,
+    "content" : "Are any news for this issue?",
+    "timestamp" : 1401525558,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 6796294883573992860,
+    "content" : "I don't think the lib is under active development and after looking into the details it seems all too messy for me to bother ;)",
+    "timestamp" : 1401530232,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 7029270962413317275,
+    "content" : "Yes, there's a lot of news but we just didn't want you to know, Konstantin...\r\n\r\nHow come noone understands phrase on the right of comment box: \r\n\r\n\"Each comment triggers notification emails. So, please do not post \"+1 Me too!\".\r\nInstead, click the star icon.\"\r\n\r\nAsking \"are there any news\" all the time is pointless. And irritating (for people who keep getting spam on their mailboxes).\r\n\r\n1 - you can easily patch it yourself, just modify and build the lib by yourself - it takes like 10 minutes.\r\n2 - if you even bother to read, you would know that project was moved to github, so asking here won't do anything\r\n\r\nhttps://github.com/osmdroid/osmdroid",
+    "timestamp" : 1401531342,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "See github issue 96\r\nhttps://github.com/osmdroid/osmdroid/issues/96",
+    "timestamp" : 1430078746,
+    "attachments" : [ ]
+  } ]
+}

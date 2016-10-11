@@ -1,0 +1,39 @@
+{
+  "id" : 47,
+  "status" : "Fixed",
+  "summary" : "double tap should zoom in",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6213537561965662483,
+    "content" : "A double tap should zoom into the place where the double tap occurs. This\r\nis useful because the &quot;+&quot; button will always only zoom into the center of\r\nthe map.",
+    "timestamp" : 1272198992,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1272309404,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -6166015398256040637,
+    "content" : "I've done this.\r\n\r\nIn OpenStreetMapView.java:\r\n\r\n       /**\r\n\t * Zooms in at pixel centered at touchX, touchY\r\n\t * @param touchX\r\n\t * @param touchY\r\n\t */\r\n\tpublic void zoomInCentered(float touchX, float touchY) {\r\n\t\tGeoPoint center = this.getProjection().fromPixels(touchX, touchY);\r\n\t\tsetMapCenter(center);\r\n\t\tzoomIn();\r\n\t}\r\n\r\nand then hooking up the method:\r\n\r\nprivate class OpenStreetMapViewDoubleClickListener implements GestureDetector.OnDoubleTapListener {\r\n\t\tpublic boolean onDoubleTap(MotionEvent e) {\r\n\t\t\tLog.i(\"double tap\", \"Double tap! \" + e);\r\n\t\t\tOpenStreetMapView.this.zoomInCentered(e.getX(), e.getY());\r\n\t\t\treturn true;\r\n\t\t}\r\n\t\tpublic boolean onDoubleTapEvent(MotionEvent e) {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t\tpublic boolean onSingleTapConfirmed(MotionEvent e) {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t}\r\n\r\nin variable fields:\r\n    protected final GestureDetector.OnDoubleTapListener doubleTap = new OpenStreetMapViewDoubleClickListener();\r\n\r\nIn constructor:\r\n\r\n    this.mGestureDetector.setOnDoubleTapListener(doubleTap);\r\n\r\nWorks fine.",
+    "timestamp" : 1279916572,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r303.",
+    "timestamp" : 1280141810,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "It should really fix the point that was double-tapped, not center on it - that's what Google Maps does. But this is good enough for a start.",
+    "timestamp" : 1280141910,
+    "attachments" : [ ]
+  } ]
+}

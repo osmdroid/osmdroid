@@ -1,0 +1,39 @@
+{
+  "id" : 65,
+  "status" : "Accepted",
+  "summary" : "Ability to add \"OnZoomChanged\" event listener to OpenStreetMapView instance.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "Please add an ability to be notified on zoom level change outside of OpenStreetMapView class. Just implement ability to add &quot;OnZoomChanged&quot; event listener to OpenStreetMapView instance. This event should be fired after:\r\n- zoomIn;\r\n- zoomOut;\r\n- setZoomLevel;\r\n- any other methods, which change map zoom level?\r\n",
+    "timestamp" : 1277392517,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3456884467250674452,
+    "content" : "Ability to handle this event in Overlays will be also useful (for example, in custom overlay, which behavior depends on current zoom level).",
+    "timestamp" : 1277392656,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 55.",
+    "timestamp" : 1277401776,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1278600042,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Do the fixes for issue 55 also fix this?",
+    "timestamp" : 1284970465,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 246,
+  "status" : "Invalid",
+  "summary" : "first time to android",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8613420259299044252,
+    "content" : "<b>What steps will reproduce the problem?</b>\n<b>1.</b>\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nk",
+    "timestamp" : 1311862473,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1311866525,
+    "attachments" : [ ]
+  } ]
+},"attachments":[]}]}

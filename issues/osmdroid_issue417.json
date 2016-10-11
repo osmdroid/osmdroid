@@ -1,0 +1,45 @@
+{
+  "id" : 417,
+  "status" : "Fixed",
+  "summary" : "Public Transport map - Tile Source doesn't work anymore",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7395036762953533803,
+    "content" : "Hi,\r\n\r\nI included the public transport map in my app based on your source.\r\nThe source is http://tile.xn--pnvkarte-m4a.de/tilegen/\r\n\r\nIt has worked before, but now online an information displaying &quot;the map is designed for online use.&quot;\r\nThe same thing happens when I want to display the public transport map in your app Osmdroid.\r\n\r\nIs there an official replacement?\r\nOsmAnd uses an overlay provided by http://openptmap.org/tiles.\r\nHow can I integrate that.\r\n\r\nBest Regards\r\nAndreas\r\n \r\n",
+    "timestamp" : 1365066685,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1365070898,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8792902677186188932,
+    "content" : "Hi,\r\n\r\nas a replacement, try this:\r\n\r\nOCMTileSource=new XYTileSource(\"TransportMap\",null,\r\n                               0,17,\r\n                               256,\r\n                               \".png\",\r\n                               \"http://a.tile2.opencyclemap.org/transport/\",\r\n                               \"http://b.tile2.opencyclemap.org/transport/\",\r\n                               \"http://c.tile2.opencyclemap.org/transport/\");\r\n\r\nThis will show opencyclemap's transit map.\r\n\r\nbest regards,\r\nbéla",
+    "timestamp" : 1365251169,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7395036762953533803,
+    "content" : "Thank you, that work.\r\nI found another solution. Choose Mapnik, or the one above as main map.\r\nOpenptmap.org provides a layer, exactly the same as the original one.\r\nPut this as a tile overlay over your maP:\r\n\r\n        this.mProvider = new MapTileProviderBasic(getApplicationContext());\r\n        this.mCustomTileSource = new XYTileSource(\"Public\", null, 1, 17, 256, \".png\",\r\n                \"http://openptmap.org/tiles/\");\r\n        this.mProvider.setTileSource(this.mCustomTileSource);\r\n        this.mTilesOverlay = new TilesOverlay(mProvider, this.getBaseContext());       \r\n        this.mOsmv.getOverlays().add(this.mTilesOverlay);\r\n\r\nThen you will get the basically the same result.\r\nBest Regards\r\nAndreas",
+    "timestamp" : 1365266583,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1384113503,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1385.",
+    "timestamp" : 1384113859,
+    "attachments" : [ ]
+  } ]
+}

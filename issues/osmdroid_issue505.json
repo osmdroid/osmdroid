@@ -1,0 +1,33 @@
+{
+  "id" : 505,
+  "status" : "New",
+  "summary" : "java.lang.IllegalArgumentException: Problem decoding into existing bitmap",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8675057720987312532,
+    "content" : "I see many 'Problem decoding into existing bitmap' decoding exceptions in osmdroid logs. \r\nWhen android cannot reuse bitmap, the decode method throws an IllegalArgumentException. This often happens when the server returns a tiles in different size, or not in PNG format. This is, for example, when Cloudmade (small tiles) layer is selected.\r\n\r\nProposed patch:\r\nhttps://github.com/illarionov/OsmDroid/commit/90fb9ab31648478087f50b859ec18c9d592c9f92\r\n\r\nLog:\r\nE/o*.o*.t*.m*.MapTileDow*(17298): Error downloading MapTile: /11/19/1529\r\nE/o*.o*.t*.m*.MapTileDow*(17298): java.lang.IllegalArgumentException: Problem decoding into existing bitmap\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat android.graphics.BitmapFactory.decodeStream(BitmapFactory.java:631)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(BitmapTileSourceBase.java:135)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileDownloader.java:213)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$TileLoader.run(MapTileModuleProviderBase.java:289)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1076)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:569)\r\nE/o*.o*.t*.m*.MapTileDow*(17298): \tat java.lang.Thread.run(Thread.java:856)\r\n\r\n\r\n",
+    "timestamp" : 1387638878,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8675057720987312532,
+    "content" : "The same problem persists in osmdroid 4.1.\r\n\r\nTo reproduce, run the OpenStreetMapViewer and select the \"Cloudmade (small tiles)\" layer.\r\n\r\nThe proposed patch contains the following fixes:\r\n1. Catch 'cannot use this bitmap' exception and fall-back to non-reusable bitmaps\r\n2. Throw LowMemoryException on getDrawable(final String aFilePath)\r\n3. Check return value of getDrawable() for null (when BitmapFactory.decodeStream() fails)\r\n\r\nThrowing and IllegalArgumentException when the bitmap is not equal sized or not in JPG/PNG format - is a documented behavior. ( http://developer.android.com/reference/android/graphics/BitmapFactory.Options.html#inBitmap )\r\n\r\n",
+    "timestamp" : 1390838066,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2649969772749206194,
+    "content" : "Comment deleted",
+    "timestamp" : 1409071294,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "The patch referenced in the description doesn't exist any more.  I suggest making a new issue in github if you want this to get some attention, preferably with a pull request.",
+    "timestamp" : 1409170306,
+    "attachments" : [ ]
+  } ]
+}

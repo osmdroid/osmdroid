@@ -1,0 +1,15 @@
+{
+  "id" : 537,
+  "status" : "New",
+  "summary" : "Path Overlay drawn incorrect",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5097972219541953896,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Draw a Path Overlay over a big distance\r\n\r\nScreenshots:\r\nhttp://imgur.com/Yve8h7c\r\nhttp://imgur.com/IlBhcR2\r\n\r\nVersion:\r\nosmdroid-android-4.1\r\n\r\n\r\nPlease provide any additional information below:\r\nIt adds a horizontal stroke from left to right on the whole map. See images to understand what happens.\r\n\r\n",
+    "timestamp" : 1397482899,
+    "attachments" : [ ]
+  } ]
+}

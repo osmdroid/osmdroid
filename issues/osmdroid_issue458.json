@@ -1,0 +1,65 @@
+{
+  "id" : 458,
+  "status" : "New",
+  "summary" : "Mapview not loading after setting max zoom(Offline)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3812343423349414803,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.initiate map view \r\n      private CustomMapView                          mOsmv;\r\n      mapPreference = DatabaseManager.getInstance().getMapPreferences();\r\n      this.mOsmv = new CustomMapView(this, 256, myResourceProxy, mapPreference);\r\n      this.mLocationOverlay = new MyCustomLocationOverlay(this, this.mOsmv, myResourceProxy, mapPreference);\r\n      mLocationOverlay.start();\r\n      this.mOsmv.setBuiltInZoomControls(false);\r\n      this.mOsmv.setMultiTouchControls(true);\r\n      this.mOsmv.setUseDataConnection(false);\r\n      this.mOsmv.setMaxZoomLevel(mapPreference.getMaxZoom());\r\n\r\n2.if we remove the last line setmaxzoomlevel mapview loads fine\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n--&gt;we want to restrict user to our tiles ..if we have tiles for zoom level 17 ..the user should not able to zoom above that.if we do not set max zoom the user can zoom till level 22 ..for which we do not have tiles\r\n\r\n--&gt;we see blank mapview and load tiles fails\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n--&gt;we are using osmdroid 3.0.10,Windows\r\n\r\n<b>Please provide any additional information below.</b>\n--&gt;setMaxZoomLevel as we can understand will restrict the mapview to this zoom level \r\n\r\n",
+    "timestamp" : 1375361932,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You are going to have to post what you are doing in your CustomMapView - particularly how you are setting up your offline tile providers.",
+    "timestamp" : 1375363631,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3812343423349414803,
+    "content" : "i guess we are not doing too much with the custom map view..we are loading tiles from zip file..\r\nit loads fine when we are not using setmaxzoom..i am attaching custom map view with this ..thanx for that early resonse:)",
+    "timestamp" : 1375369456,
+    "attachments" : [ {
+      "id" : 4580002000,
+      "fileName" : "CustomMapView.java",
+      "fileSize" : 7563
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I tried your custom map view but could not reproduce your problem. Please take a look at the sample application which demonstrates this functionality and try to isolate what is different with your code.\r\n\r\nAgain, if you post the code you are using to set up your offline tile providers then that would probably help.",
+    "timestamp" : 1375409659,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3812343423349414803,
+    "content" : "Hello kurtz, we are using your tile provider array , i am attaching the same with this,and can you provide me the sample application  link which you have stated above,thanx :)",
+    "timestamp" : 1375418742,
+    "attachments" : [ {
+      "id" : 4580004000,
+      "fileName" : "MapTileProviderArray.java",
+      "fileSize" : 8083
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 3812343423349414803,
+    "content" : "1. For off line tile provider we are using zipped file of tiles and putting that in osmdroid directory.\r\n2. We have not changed anything in the osmdroid code (using the jar file 3.0.10)\r\n3. The zip contains the tiles till zoom level 17.\r\n4. Thats why we are trying to set max zoom level to 17 using setMaxZoomLevel API introduced recently.\r\n5 When we do that, the tiles disappear because then it tries to seek the tiles for different x and y (compared to those when we do not use this API )\r\n6. When we dont call this API then the values of x and y are correct and the tiles are picked up from the zip file.\r\n\r\nThanx ",
+    "timestamp" : 1375423313,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "What value is mapPreference.getMaxZoom() returning?\r\n\r\nThe sample application can be found in SVN at trunk/OpenStreetMapViewer.",
+    "timestamp" : 1375451154,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 3812343423349414803,
+    "content" : "..Mapreference getmaxzoom returns 17...that is upto whicj we have tiles available",
+    "timestamp" : 1375458130,
+    "attachments" : [ ]
+  } ]
+}

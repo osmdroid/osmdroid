@@ -1,0 +1,43 @@
+{
+  "id" : 142,
+  "status" : "Fixed",
+  "summary" : "App startup becomes slower when using osmdroid.jar",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use OSM maps for a while and file up the /sdcard/osmdroid/tiles dir\r\n2. Stop the PID of the app using osmdroid \r\n3. Start the app and run trace to profile the method calls\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the app to start quickly. I see a long black screen of blocked\r\n app.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 1.10 in open gps tracker 0.9.24 on a stock froyo nexus one\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe call to File.listFiles() in OpenStreetMapTileFilesystemProvider.calculateDirectorySize() blocks the main thread a lot. \r\n\r\nhttp://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/org/andnav/osm/tileprovider/OpenStreetMapTileFilesystemProvider.java\r\n\r\nThe workaround is to delete /sdcard/osmdroid when things get to slow.\r\n\r\nI've attached the traceview I took during a start will my app had a black blocking screen.\r\n\r\n\r\n",
+    "timestamp" : 1295297411,
+    "attachments" : [ {
+      "id" : -7611322240776770929,
+      "fileName" : "osmdroid_traceview.trace",
+      "fileSize" : 8408156
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This refers to the deprecated org.andnav package - we really should fix issue 137 soon to avoid all this confusion!\r\n\r\nHowever, the same issue occurs in TileWriter - see the TODO in the constructor\r\nhttp://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/TileWriter.java",
+    "timestamp" : 1295331119,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I made a change to TileWriter in revision 739 which should fix this.",
+    "timestamp" : 1295345389,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I can confirm that app startup is much faster for me.",
+    "timestamp" : 1295578370,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe it's safe to close this ticket. There was a version of the TileWriter that checked the disk cache on the UI thread and that was causing slow start up times. This issue has been fixed and startup time is now normal.",
+    "timestamp" : 1297580709,
+    "attachments" : [ ]
+  } ]
+}

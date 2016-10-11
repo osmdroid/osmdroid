@@ -1,0 +1,169 @@
+{
+  "id" : 433,
+  "status" : "New",
+  "summary" : "How to stretch tiles available at last zoom level in fake zoom.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 26,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3576291706422496807,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. offline map and tiles available for 7 - 16 zoom level \r\n2. Now I setzoom 17, current view max tile at zoom 16 get stretched at zoom 17  now able see road names very clearly which is perfect\r\n3. Now shift screen (move the map) little bit, tiles are unavailable and grey screen showing because at 17 tiles are not available.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI just want to stretch the tiles available at previous zoom level in my 17 zoom level while shifting screen \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.8.jar android 4.0 version\r\n\r\n",
+    "timestamp" : 1369748308,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3576291706422496807,
+    "content" : "I tried with osmdroid-android-3.0.10.jar but no effect, could it be possible to scale the available tiles in previous zoom level in fake zoom even in scrolling.",
+    "timestamp" : 1369807003,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "We don't provide this functionality. If you'd like it, write it yourself and contribute back. ",
+    "timestamp" : 1369831986,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1369832012,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1551354980677264026,
+    "content" : "It would be great if you could provide some guidelines or hint to implement the same.\r\n\r\nThanks & Regards",
+    "timestamp" : 1369833828,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "You will want to create a new tileprovider module and add it to your MapTileProviderArray. The modules are what feed tiles to the TileOverlay. It will be tricky because you will need to request tiles from other tileprovider modules for the higher zoom levels and then pull them from the tile cache and then scale them. You can either try to use the existing MapTileProviderArray or create a new one just for the scaled tiles.\r\n\r\nSo let's say you decide to use a second MapTileProviderArray for just the scaled tiles. The tile request chain should look like:\r\n\r\nRequest for tile 4/4/17.\r\nRequest tile from offline tile provider. Not found.\r\nRequest tile from new scaled tile provider.\r\n  Scaled tile provider checks its \"scaled\" tile cache for one zoom level up (2/2/16). Not found. \r\n  Request tile for one zoom level up through its \"scaled\" MapTileProviderArray. Since the request is asynchronous, the tile request will fail for this cycle.\r\nRe-request for tile 4/4/17.\r\nRequest tile from offline tile provider. Not found.\r\nRequest tile from new scaled tile provider.\r\n  Scaled tile provider checks its \"scaled\" tile cache for 2/2/16. This time it's found, scaled, and returned.\r\n\r\n\r\n",
+    "timestamp" : 1369835278,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1551354980677264026,
+    "content" : "Thanks for the suggestions!! ",
+    "timestamp" : 1369894439,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3576291706422496807,
+    "content" : "do you have any plans to implement this enhancement?\r\n\r\nThanks",
+    "timestamp" : 1369907324,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is something that is desired but there are no active plans to implement this.",
+    "timestamp" : 1369919397,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -7259364285217315855,
+    "content" : "min2bhandari I am facing the same problem, did you find any solution for the same ?\r\n\r\nIf you have resolved this issue then please share the source code.\r\nthanks in advance",
+    "timestamp" : 1372943024,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -3576291706422496807,
+    "content" : "I have tried to understand the library but unable to resolve it, its not so trivial to implement this issue by own, as it would require more help by the owner.\r\n",
+    "timestamp" : 1372993414,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -7259364285217315855,
+    "content" : "kurtzm...@gmail.com\r\n\r\nI am also facing the 18 zoom level issue.I have read you suggestion and what i understand that when i am trying to zoom for 18 level actually i should get 16 level tiles for the same position then enlarge tiles to 18 level tiles and then put on map.\r\n\r\nBut now i am facing the issue that how can i relate 18 level zoom position to 16  level zoom position so that i can get tiles and enlarge them.\r\n\r\nPlease give me some guideline for this.I am Waiting for your positive response.\r\n\r\nThanking you. ",
+    "timestamp" : 1374071136,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am attaching an experimental and rough cut at a scaled tile overlay. It needs work to be complete and to perform well but it works to some degree.\r\n\r\nAll it does is draw all cached tiles that are not in the current zoom level to the screen and properly scaled to the current zoom level.\r\n\r\nOne thing that it really needs to do is check to see if the correct tile exists in the current zoom level before drawing the scaled tile.",
+    "timestamp" : 1374183082,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1374183130,
+    "attachments" : [ {
+      "id" : 4330013000,
+      "fileName" : "ScaledTilesPatch.patch",
+      "fileSize" : 11240
+    } ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 469 has been merged into this issue.",
+    "timestamp" : 1377291393,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 6701721452134120389,
+    "content" : "Hi. This is exactly what I was looking to do as well. I tested the patch by manually incorporating your drawSafe() into my own Overlay based on the ItemizedIconOverlay class as I need markers being drawn. One thing this patch should consider if trying to combine it with ItemizedIconOverlay is that an overrided drawSafe() that attempts to scale tiles needs to call super.drawSafe() in order for the extended drawSafe to do what it's intended to. e.g. with ItemizedIconOverlay, it would actually draw markers. I don't know if this means that tiles are technically drawn twice, (by the override drawSafe, then by the super.drawSafe) but effectively it doesn't matter as the super.drawSafe doesn't have the tiles for that zoom level to draw anyways, so you get the scaled tile, and the underlying super.drawSafe can do its extra work, like draw markers, etc...\r\n\r\nOne deficiency I'd like to sort out is that when you zoom to a level where scaling is necessary and being drawn, then you pan the map to an area outside of that scaled tile, its empty. When you zoom out to the available tile level, then in again, the tiles are available and scaled like before.",
+    "timestamp" : 1389196975,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 6701721452134120389,
+    "content" : "Ah it appears that my cached tile set doesn't have the required tiles loaded when panning after zooming below the available tile max zoom level. For example, I have tiles for 17 to 19 zoom levels. I zoom to level 20, then pan over past the tiles already cached at zoom level 19. In safeDraw(), mTileProvider.getTileCache().getAllTiles(null), which are additions to MapTileProviderBase and MapTileCache, will not have the the tiles panned to cache yet.\r\n\r\nI believe because the patch implements the scaling in the Overlay, its stuck working with what it already has cached. drawSafe could be enhanced to try and pull any of the viewable tiles from the tile source,added to the cache, then scaled, if I could get access to more than the cache from my Overlay. (as a result of the patch adding a getTileCache method to MapTileProviderBase)\r\n\r\nHowever I have no clue how to determine the MapTile's that would be used in the MapView at any given time. e.g. if I knew at Overlay drawSafe or draw time what MapTile's the MapView if trying to display, then I could try loading them from the TileSource and scaling them myself.\r\n\r\nAny tips? I really want the panning support to work. This might not be the best way to do it, but I'm desperate and this is a prototype. Thanks!",
+    "timestamp" : 1389216015,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 6701721452134120389,
+    "content" : "Ugh, this is painful. I tried implementing my own MapTileFileArchiveProvider, that has a TileLoader which will attempt to retrieve tiles a zoom level up and scale them, but I have no clue how to deal with returning a scaled image. If we try to support this in a Tile Provider, then we need to scale the image from a level up then split it, and pick the correct split section and return it.\r\n\r\nWhen trying to return the image that should belong to a non-existent tile, the image from a level up that's zoomed covers a larger geographic area than the tile is intended to. So the image needs to be scaled, then split. The problem is, how do I safely split it and determine where the map tile's X/Y should be?\r\n\r\nI'd like to draw an image illustrating this, but I think you get the point. \r\n\r\nThere's two ways to work with tile images you want to scale: \r\n1) At the file load level\r\n2) At the point of drawing the tile images.\r\n\r\nAt least when the tiles are drawn you have access to the Projection, MapView, zoom, etc... and can do stuff like kurtzm has done in his patch. (from an Overlay)\r\n\r\nCan someone from osmdroid comment on this? Maybe provide some clear guidance?\r\n\r\nI'm essentially looking for zoom to levels I don't have tiles for. Sure the tile image will get pixelated, but close markers on the map can be reasonably zoomed into. This is a real problem on high resolution screens.\r\n\r\nThanks!",
+    "timestamp" : 1389225572,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 6701721452134120389,
+    "content" : "Ok, I worked out a Tile Provider only solution. This should be a stick note somewhere. As mentioned, I ended up implementing my own MapTileScaledFileArchiveProvider as an alternative to MapTileFileArchiveProvider. I probably could have extended MapTileFileArchiveProvider but I was trying to work around all the inaccessible parts and just wanted to get this working.\r\n\r\nI don't have a patch, I'm just going to paste in a clip of my TileLoader class, its got all the goods and can likely be improved/adapted to work with an online Tile Provider. I expected that Tile caching would be handled based on what's returned from loadTile, but it seems like the tiles are constantly loaded from the archive. Also, it seems to work fine with my tiles that have a maximum of 19, and \"fake\" zoom to level 21. When I zoom to level 22 I get missing tile loads. I'm not sure why, maybe there's a round error, but it's all integer. (e.g. int rx = pTile.getX()/(2*z); where rx is used as the X when looking for the tile image)\r\n\r\nPanning works with this approach as well. When I zoom in to level 20 or 21, then pan around, the higher levels tiles are loaded, resized, and cropped as needed.\r\n\r\nImprovements could include a fake zoom cache as part of the Tile Provider itself, or access to the actual tile cache from the Tile Provider so it wouldn't try to load every tile request afresh. (from what I can tell) Also, there's probably a more efficient way to resize and crop the tiles.\r\n\r\nThe up side to this approach is that no changes are needed to the osmdroid API. You can simply implement your own Tile Provider, and/or extend an existing one, then handle up sizing and cropping lower level tiles.\r\n\r\npublic class MapTileScaledFileArchiveProvider extends\r\n\t\tMapTileFileStorageProviderBase {\r\n\t...\r\n\t@Override\r\n\tprotected Runnable getTileLoader() {\r\n\t\treturn new TileLoader();\r\n\t}\r\n\r\n\tprotected class TileLoader extends MapTileModuleProviderBase.TileLoader {\r\n\r\n\t\t@Override\r\n\t\tpublic Drawable loadTile(final MapTileRequestState pState) {\r\n\r\n\t\t\tITileSource tileSource = mTileSource.get();\r\n\t\t\tif (tileSource == null) {\r\n\t\t\t\treturn null;\r\n\t\t\t}\r\n\r\n\t\t\tfinal MapTile pTile = pState.getMapTile();\r\n\t\t\t\r\n\t\t\t// if there's no sdcard then don't do anything\r\n\t\t\tif (!getSdCardAvailable()) {\r\n\t\t\t\tLog.d(TAG, \"No sdcard - do nothing for tile: \" + pTile);\r\n\t\t\t\treturn null;\r\n\t\t\t}\r\n\r\n\t\t\tInputStream inputStream = null;\r\n\t\t\ttry {\r\n\t\t\t\t\r\n\t\t\t\tinputStream = getInputStream(pTile, tileSource);\r\n\t\t\t\tif (inputStream != null) {\r\n\t\t\t\t\tLog.d(TAG, \"Use tile from archive: \" + pTile);\r\n\t\t\t\t\tfinal Drawable drawable = tileSource.getDrawable(inputStream);\r\n\t\t\t\t\treturn drawable;\r\n\t\t\t\t} else {\r\n\t\t\t\t\tfinal int requestedZoom = pTile.getZoomLevel();\r\n\t\t\t\t\tfinal int maxZoom = 3;\r\n\t\t\t\t\tMapTile rTile = null;\r\n\t\t\t\t\tfor(int z=1; z<maxZoom; z++) {\r\n\t\t\t\t\t\tint rx = pTile.getX()/(2*z);\r\n\t\t\t\t\t\tint ry = pTile.getY()/(2*z);\r\n\t\t\t\t\t\trTile = new MapTile(requestedZoom - z, rx, ry); // We have to construct a new MapTile request for the higher zoom level\r\n\t\t\t\t\t\tinputStream = getInputStream(rTile, tileSource);\r\n\t\t\t\t\t\tif (inputStream != null) {\r\n\t\t\t\t\t\t\tfinal Drawable redrawable = resize(tileSource.getDrawable(inputStream), pTile.getX(), pTile.getY(), z);\r\n\t\t\t\t\t\t\treturn redrawable;\r\n\t\t\t\t\t\t\t\r\n\t\t\t\t\t\t} else {\r\n\t\t\t\t\t\t\tLog.d(TAG, \"Tile doesn't exist and I couldn't find a tile to scale: \" + pTile);\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t\r\n\t\t\t} catch (final Throwable e) {\r\n\t\t\t\tLog.e(TAG, \"Error loading tile\", e);\r\n\t\t\t} finally {\r\n\t\t\t\tif (inputStream != null) {\r\n\t\t\t\t\tStreamUtils.closeStream(inputStream);\r\n\t\t\t\t}\r\n\t\t\t}\r\n\r\n\t\t\treturn null;\r\n\t\t}\r\n\t\t\r\n\t\tfinal int mTileSizePixels = 256;\r\n\r\n\t\tprivate Drawable resize(Drawable image, final int rx, final int ry, final int zoomLevelDiff) {\r\n\t\t\tint px = rx%(2*zoomLevelDiff);\r\n\t\t\tint py = ry%(2*zoomLevelDiff);\r\n\t\t    Bitmap b = ((BitmapDrawable)image).getBitmap();\r\n\t\t    Bitmap bitmapResized = Bitmap.createBitmap(\r\n\t\t    \t\tBitmap.createScaledBitmap(b, (mTileSizePixels*2)*zoomLevelDiff, (mTileSizePixels*2)*zoomLevelDiff, false),\r\n\t\t    \t\t(px == 0) ? 0 : mTileSizePixels*px, \r\n    \t\t\t\t(py == 0) ? 0 : mTileSizePixels*py,\r\n\t\t    \t\tmTileSizePixels,\r\n\t\t    \t\tmTileSizePixels);\r\n\t\t    return new BitmapDrawable(Tec3Application.context().getResources(), bitmapResized);\r\n\t\t}\r\n\t}\r\n\r\n",
+    "timestamp" : 1389246667,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -5588537714208204385,
+    "content" : "Hi, can you provide a readable answer on this I am stuck for like 2 days on this issue and I would appreciate it if you share your custom MapTileScaledFileArchiveProvider",
+    "timestamp" : 1392127741,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 6701721452134120389,
+    "content" : "Are you talking to me? You have the source to MapTileFileStorageProviderBase. I gave you the override and TileLoader I did in that sample along with how I scaled the tile.\r\n\r\nMaybe you should offer a bit more information on how you're \"stuck\".",
+    "timestamp" : 1392130156,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 507497573320695165,
+    "content" : "I am trying to reimplement the #18. Could you please explain where does the getInputStream come from?",
+    "timestamp" : 1398924889,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 6701721452134120389,
+    "content" : "Hi Tam.\r\n\r\nAs I mentioned, my suggested approach, (which I find doesn't perform great and needs some scaled tile caching added) is an alternative to the MapTileFileArchiveProvider class (https://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/MapTileFileArchiveProvider.java?r=687).\r\n\r\nThe code I included in post #18 were the primary changes to a copy of the MapTileFileArchiveProvider class. Basically I took MapTileFileArchiveProvider and implemented my own TileLoader. The rest is from MapTileFileArchiveProvider.\r\n\r\nThe getInputStream() method of the MapTileFileArchiveProvider which I copied into my MapTileScaledFileArchiveProvider class.\r\n\r\n",
+    "timestamp" : 1398957764,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 6701721452134120389,
+    "content" : "Also, if you're planning on C&P my code into your own copy of MapTileFileArchiveProvider, the resize() method I included in post #18 needs a little change. BitmapDrawable needs your application context. In the version I included I had my own way to retrieve it, you should too. The only change below is to \"return new BitmapDrawable()\" where you need to specify your context.\r\n\r\n\t\tprivate Drawable resize(Drawable image, final int rx, final int ry, final int zoomLevelDiff) {\r\n\t\t\tint px = rx%(2*zoomLevelDiff);\r\n\t\t\tint py = ry%(2*zoomLevelDiff);\r\n\t\t    Bitmap b = ((BitmapDrawable)image).getBitmap();\r\n\t\t    Bitmap bitmapResized = Bitmap.createBitmap(\r\n\t\t    \t\tBitmap.createScaledBitmap(b, (mTileSizePixels*2)*zoomLevelDiff, (mTileSizePixels*2)*zoomLevelDiff, false),\r\n\t\t    \t\t(px == 0) ? 0 : mTileSizePixels*px, \r\n    \t\t\t\t(py == 0) ? 0 : mTileSizePixels*py,\r\n\t\t    \t\tmTileSizePixels,\r\n\t\t    \t\tmTileSizePixels);\r\n\t\t    return new BitmapDrawable(context.getResources(), bitmapResized);\r\n\t\t}",
+    "timestamp" : 1398958153,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -854767529440338362,
+    "content" : "Excellent approach. I was thinking of doing the exact same thing and happily stumbled on your posting before doing exactly what you're doing in #18 and #23 - the resize/crop math was what I was looking for when I found your post as that is hairy to a non graphics person like me.\r\n\r\nThe only addition I was planning to make is to have a \"water mark\" tile for when there are no upper tiles to scale, or the tile to scale is too high up so as not to be useful. This is for a situation where the mapped area has a very irregular shape (definitely not a rectangle) and the app does not want to allow any underlying online map to show through. This allows me to significantly compress the MB Tiles file by using a single watermark tile (e.g. zoom=column=tile=-1) rather than lots of empty tiles that although individually take up little space will accumulate to occupy a lot of space. Also the run-time configurable maximum scale setting will allow islands of deep five zoom levels in an otherwise low zoom level wide area map, with the border being a little fuzzy at the first few zoom levels in, and then switching over to the watermark tile when probably the user is nowhere near the edge of the zoom level anyway.\r\n\r\nI also find the all the private/final method definitions frustrating requiring a copy/paste/edit model with the \"fun\" of redoing the work when upgrading to a more modern library version.  I understand why the developers have done this, I just don't like it.\r\n\r\nI'll try to remember to post back my code if I get it to work, and work efficiently.",
+    "timestamp" : 1410283690,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : -5916356054490773770,
+    "content" : "ch...@mckenzieic.com\r\n\r\nThanks for a great approach,however If I pan map to the sides, other tiles, then the one which is already fake zoomed, are not displayed. Do you have any more workaround about this?\r\n\r\nThanks",
+    "timestamp" : 1410350637,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,73 @@
+{
+  "id" : 207,
+  "status" : "Fixed",
+  "summary" : "Flickering when maps redraw.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5818197823315192816,
+    "content" : "&gt;What is the expected output? What do you see instead?\r\n\r\nI expect to smoth map scrolling, but instead sometimes 1 time in 5 - 10 sec i got flickering that are visible on screen, looks like drawing without double bufffering in games. It's more often happens at high zoom level.\r\n\r\nAlso some times there are black horisontal lines aroud tiles when zooming in/out.\r\n\r\nAndroid 2.3 on Nexus One\r\n\r\n",
+    "timestamp" : 1303909090,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8778289522063822345,
+    "content" : "I have the same issue with my Android 2.3 nexus one. ",
+    "timestamp" : 1304057878,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Might be related to issue 226.",
+    "timestamp" : 1307135761,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 6371894987723674927,
+    "content" : "I've started to see this problem after I upgraded my phone from 2.2.0 (froyo) to 2.3.4 (gingerbread).\r\n\r\nFor me the tiles appear to flicker and - very occasionally - a whole title shows the grey background when dragging.\r\n\r\nIt happens in the OpenStreetMapViewer-3.0.5.apk on the OSMdroid download page.",
+    "timestamp" : 1316292480,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -7357923048594403029,
+    "content" : "I guess maybe problem related to new window/bitmap format that was changed since gingerbeard\r\n\r\nhttp://www.curious-creature.org/2010/12/08/bitmap-quality-banding-and-dithering/",
+    "timestamp" : 1318946744,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1321077513,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "When the download provider finishes downloading a tile it puts it into the cache.\r\nThe problem is that the network could be choppy and we get a bunch of download completions for tiles that are not even relevant any more. These get put into the cache, forcing out the ones that we're actually using.\r\nThe fix would be to make the tile downloader write the tiles to file system, but not to cache.",
+    "timestamp" : 1323247167,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "The attached patch seems to fix the problem I described in my previous comment and I think it fixes this issue.",
+    "timestamp" : 1325543887,
+    "attachments" : [ {
+      "id" : 2070007000,
+      "fileName" : "issue207.patch",
+      "fileSize" : 1696
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3965022576382037332,
+    "content" : "The patch works for me, at least so far. I did get some very strange issues when updating from revision 1010 to the latest, but I'll look for another place to post those.",
+    "timestamp" : 1325683077,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1029.",
+    "timestamp" : 1325690341,
+    "attachments" : [ ]
+  } ]
+}

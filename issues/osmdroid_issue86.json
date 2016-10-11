@@ -1,0 +1,27 @@
+{
+  "id" : 86,
+  "status" : "Fixed",
+  "summary" : "Need a way to provide custom tile provider - via constructor in OpenStreetMapView?",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We would like a way to use our own tile provider rather than the OSM one. However, it appears that there is no way to provide our own via the public constructors in OpenStreetMapView.\r\n\r\nA simple solution would be to add this constructor:\r\n\r\n\tpublic OpenStreetMapView(final Context context, final OpenStreetMapRendererInfo aRendererInfo, OpenStreetMapTileProvider provider)\r\n\t{\r\n\t\tthis(context, null, aRendererInfo, provider);\r\n\t}\r\n\r\nCould you please add this constructor to the code?\r\n(unless there is some other way to do it already that I don't see)\r\n\r\nThanks!",
+    "timestamp" : 1283968036,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284017835,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r356.",
+    "timestamp" : 1284017863,
+    "attachments" : [ ]
+  } ]
+}

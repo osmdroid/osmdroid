@@ -1,0 +1,21 @@
+{
+  "id" : 127,
+  "status" : "Duplicate",
+  "summary" : "OutOfMemoryError",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8239025508715496594,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.Deploy the apps with AVD/Emulator(android 2.2)\r\n2.Crtl+F11 to switch the emulator, repeats about 10 times\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nCheck the logcat, I get the error msg shown as below:\r\n\r\n12-24 13:49:09.830: DEBUG/skia(32313): --- decoder-&gt;decode returned false\r\n12-24 13:49:09.830: ERROR/org.andnav.osm.views.util.OpenStreetMapRendererBase(32313): OutOfMemoryError loading bitmap: /mnt/sdcard/osmdroid/tiles/Mapnik/13/4094/2725.png.tile\r\n12-24 13:49:10.009: INFO/dalvikvm-heap(32313): Clamp target GC heap from 16.050MB to 16.000MB\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nOsmdroid APIs version: osmdroid-android-1.09.jar\r\nAVD: Android 2.2\r\nOS:  window XP\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nEven if I checkout the newlest source code and export a jar, I still meet this problem.\r\n\r\n",
+    "timestamp" : 1293170191,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Close all the duplicate OOM issues.",
+    "timestamp" : 1332748817,
+    "attachments" : [ ]
+  } ]
+}

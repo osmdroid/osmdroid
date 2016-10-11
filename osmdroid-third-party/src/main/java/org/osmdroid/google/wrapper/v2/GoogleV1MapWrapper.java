@@ -64,7 +64,7 @@ class GoogleV1MapWrapper implements IMap {
 
 	@Override
 	public void setCenter(final double aLatitude, final double aLongitude) {
-		mMapView.getController().setCenter(new GeoPoint((int) (aLatitude * 1E6), (int) (aLongitude * 1E6)));
+		mMapView.getController().setCenter(new GeoPoint((int)(aLatitude*1E6), (int)(aLongitude*1E6)));
 		onCameraChange();
 	}
 
@@ -130,7 +130,7 @@ class GoogleV1MapWrapper implements IMap {
 			mItemizedOverlay = new GoogleItemizedOverlay(mMapView.getContext().getResources().getDrawable(R.drawable.marker_default));
 			mMapView.getOverlays().add(mItemizedOverlay);
 		}
-		final OverlayItem item = new OverlayItem(new GeoPoint((int) (aMarker.latitude * 1E6), (int) (aMarker.longitude * 1E6)), aMarker.title, aMarker.snippet);
+		final OverlayItem item = new OverlayItem(new GeoPoint((int)(aMarker.latitude*1E6), (int)(aMarker.longitude*1E6)), aMarker.title, aMarker.snippet);
 		if (aMarker.bitmap != null || aMarker.icon != 0) {
 			final Drawable drawable = aMarker.bitmap != null
 			? new BitmapDrawable(mMapView.getResources(), aMarker.bitmap)

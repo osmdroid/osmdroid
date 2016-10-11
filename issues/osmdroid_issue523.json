@@ -1,0 +1,45 @@
+{
+  "id" : 523,
+  "status" : "New",
+  "summary" : "Osmdroid does not apply screen dpi to rendering of map tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "On devices with high dpi screens (xhdpi, e.g. SGS4 440dpi) the map tiles get physically so small that the writing on the maps becomes unreadable.\r\n\r\nOsmdroid should scale the map tiles as per device dpi setting so that the map is always displayed at the same physical size.\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1391717373,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3433002718840642805,
+    "content" : "Work around: \r\n\r\ndouble scale = getResources().getDisplayMetrics().density;\r\nnew GoogleSatelliteTileSource(\"GM\", null, 7, 17, (int)(256 * scale), \"\" );\r\n\r\nThe scale will be the css pixel ratio (for example: Old Galaxy Mini Scale = 0.75, Normal Scale = 1.0, Google Nexus 7 2013 Scale = 2.0 and Galaxy Note 3 Scale = 3.0)\r\n\r\nThe tiles will now have the same 'size' on every screen density. However: when setting a scale bigger than 1.9999 the CurrentLocationOverlay is overlay is not working anymore! The pegman is not showing and the traveled path is not drawn anymore.\r\n\r\nI didn't find a fix for this issue yet...",
+    "timestamp" : 1392208105,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 525 has been merged into this issue.",
+    "timestamp" : 1392220484,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7462461918515487661,
+    "content" : "The reason for this is located in MapViewConstants:\r\n\r\n\tpublic static final int MAXIMUM_ZOOMLEVEL = 22;\r\n\r\nThe MyLocationNewOverlay uses TileSystem.LatLongToPixelXY() with levelOfDetail set to MapViewConstants.MAXIMUM_ZOOMLEVEL. The LatLongToPixelXY() method itself uses TileSystem.MapSize():\r\n\r\n\tpublic static int MapSize(final int levelOfDetail) {\r\n\t\treturn mTileSize << levelOfDetail;\r\n\t}\r\n\r\nSince 512 << 22 gives -2147483648, the coordinate is set to 0/0 after being Clip()ped to the map boundaries in LatLongToPixelXY/().\r\n\r\nA possible solution: Set MAXIMUM_ZOOMLEVEL to 21, then the bitshift won't give a negative result and the pegman should be back there on the map. \r\n",
+    "timestamp" : 1395777027,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3433002718840642805,
+    "content" : "Great! Changing the MAXIMUM_ZOOMLEVEL to 21 fixed the problem!",
+    "timestamp" : 1396615930,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 9042153083807916418,
+    "content" : "double scale = getResources().getDisplayMetrics().density;\r\nnew GoogleSatelliteTileSource(\"GM\", null, 7, 17, (int)(256 * scale), \"\" );\r\n\r\nI wonder how do osmdroid calculate the tile coordinate with a different tile size?",
+    "timestamp" : 1398402013,
+    "attachments" : [ ]
+  } ]
+}

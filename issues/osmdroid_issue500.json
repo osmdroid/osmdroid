@@ -1,0 +1,39 @@
+{
+  "id" : 500,
+  "status" : "Fixed",
+  "summary" : "BitmapPool memory clearing",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4650868390537286674,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. App with activities A and B\r\n\r\nA opens up B which shows MapView. B is closed with finish() and extra memory clearing calls:\r\n\r\nmMapView.getController().stopAnimation(false);\r\nmMapView.getController().stopPanning();\t\t\r\ntileProvider.clearTileCache();\r\nrl.removeView(mMapView);\r\n\t\t\t\r\nmMapView = null;\r\nrl = null;\r\ntileProvider = null;\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nThe problem is that currently there is no option to clear up BitmapPool, which leaves in memory ca. 5MB extra waste,\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid SVN r1393, Android 4.0.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nBitmapPool memory could be released with the following code:\r\n\r\n\tpublic static void clearCache() {\r\n\t\tif (sInstance != null) {\r\n\t\t\tsynchronized(sInstance.mPool) {\r\n\t\t\t\twhile (!sInstance.mPool.isEmpty()) {\r\n\t\t\t\t\tBitmap bitmap = sInstance.mPool.remove();\r\n\t\t\t\t\tbitmap.recycle();\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\tsInstance = null;\r\n\t\t}\r\n\t}",
+    "timestamp" : 1386936169,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You are correct - we do need something like that. I will add a method but I am going to make it a member method rather than static.",
+    "timestamp" : 1386948770,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1395.",
+    "timestamp" : 1386948850,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nDoesn't it have to be called somewhere centrally?\r\n\r\nFor example why not having a destroy method at MapView\r\nwhich does all the proper memory clearing calls\r\nand we call it at our activity finish?\r\n\r\nBest regards, Emux",
+    "timestamp" : 1386958823,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -8675057720987312532,
+    "content" : "BitmapPool is a singleton. This leads to the fact that the memory of bitmap pool is not reclaimed when activity is destroyed.\r\nWouldn't it be better to bind BitmapTool to instance of MapView, or to the context of activity?\r\n\r\nMemory of the tile cache also requires to be reclaimed manually due to static instances of tile sources. That's bad.",
+    "timestamp" : 1387024886,
+    "attachments" : [ ]
+  } ]
+}

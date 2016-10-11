@@ -1,0 +1,45 @@
+{
+  "id" : 385,
+  "status" : "New",
+  "summary" : "RuntimeException: Canvas: trying to use a recycled bitmap in MapTileProviderBase",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9200719187243595555,
+    "content" : "Hi Guys,\r\n\r\ni got an Escalation Log Report from my Apps in the wild.\r\nThe App crashes cause of an error in osmdroid.\r\n\r\nStack Trace\r\n\r\nRuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@407a6048\r\nandroid.graphics.Canvas.throwIfRecycled(Canvas.java:955)\r\nandroid.graphics.Canvas.drawBitmap(Canvas.java:1044)\r\norg.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper.a(SourceFile:309)\r\norg.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.a(SourceFile:266)\r\norg.osmdroid.util.TileLooper.a(SourceFile:36)\r\norg.osmdroid.tileprovider.MapTileProviderBase.a(SourceFile:222)\r\norg.osmdroid.views.MapView.a(SourceFile:338)\r\norg.osmdroid.views.MapController.a(SourceFile:78)\r\norg.osmdroid.views.MapController.a(SourceFile:54)\r\nde.komoot.android.a.af.a(SourceFile:118)\r\nde.komoot.android.activity.lp.run(SourceFile:1017)\r\nandroid.os.Handler.handleCallback(Handler.java:587)\r\nandroid.os.Handler.dispatchMessage(Handler.java:92)\r\nandroid.os.Looper.loop(Looper.java:130)\r\nandroid.app.ActivityThread.main(ActivityThread.java:3687)\r\njava.lang.reflect.Method.invokeNative(Native Method)\r\njava.lang.reflect.Method.invoke(Method.java:507)\r\ncom.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:842)\r\ncom.android.internal.os.ZygoteInit.main(ZygoteInit.java:600)\r\ndalvik.system.NativeStart.main(Native Method)\r\n\r\nI am using osmdroid r1126\r\n\r\nThe defect is in the ClassMapTileProvider.ZoomInTileLooper\r\nin Method handleTile(...) at Line 309.\r\n\r\noldBitmap was already been reycled but was still in mTileCache.\r\nIt seems there is an race conditon.\r\n\r\nI dont know the side effects if i will fix the problem by myself.\r\nSo i want to discuss if we can the oldBitmap with isRecycled() to prevent a draw of oldBitmap.\r\n\r\nSome months befor i tryed these fix, but i results to the problem, \r\nthat some black tiles can apprearon the map when zooming in.\r\nBe careful before a simple solution.\r\nBut maybe that was an othe problem, i dont know cause i updates to a new version of osmdroid.\r\n\r\nGive me Feedback\r\nGreetings from Berlin\r\nArne",
+    "timestamp" : 1353682624,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 2652155384188579632,
+    "content" : "I got same issue. It is intermittent but I saw the debug message below\r\n\r\n//====================================\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): FATAL EXCEPTION: main\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@4070aab0\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat android.graphics.Canvas.throwIfRecycled(Canvas.java:955)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat android.graphics.Canvas.drawBitmap(Canvas.java:1044)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper.handleTile(MapTileProviderBase.java:309)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile(MapTileProviderBase.java:266)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.util.TileLooper.loop(TileLooper.java:36)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.tileprovider.MapTileProviderBase.rescaleCache(MapTileProviderBase.java:222)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.views.MapView.setZoomLevel(MapView.java:342)\r\n12-07 18:43:28.457: E/AndroidRuntime(19803): \tat org.osmdroid.views.MapController.setZoom(MapController.java:228)\r\n//================================================",
+    "timestamp" : 1354873594,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 384 has been merged into this issue.",
+    "timestamp" : 1357243243,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue is a little more complicated than you'd realize on first glance. It actually permeates the entire project. Whenever osmdroid gets a tile from the cache, that tile could be recycled at any time and be rendered useless. Normally this won't happen - when you request a tile it puts it at the front of the tile cache \"queue\" so it will be the last to be removed and recycled. But under certain circumstances - like this one - that maybe push tiles out of the queue quickly it could happen.\r\n\r\nAs of Gingerbread, recycle() shouldn't really need to be called, so we could up the API requirements and drop the recycle() calls but I don't think we're going that route just yet.\r\n\r\nWe could require synchronize() whenever we get a tile from the cache. We would have to put that everywhere.\r\n\r\nThe final solution is to just try/catch the tile scalers since that is where the issue definitively pops up under normal circumstances. That doesn't solve the larger problem, but since it doesn't seem to pop up in the TileOverlay for instance then maybe it's all we need.\r\n",
+    "timestamp" : 1359067374,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1361912916,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "In r1149: Updates issue 385. Only call recycle() if < GINGERBREAD. In later builds there is no need for explicitly calling recycle() and it can cause exceptions as seen\r\nin issue 385.",
+    "timestamp" : 1361913372,
+    "attachments" : [ ]
+  } ]
+}if \u003c GINGERBREAD. In later builds there is no need for explicitly calling recycle() and it can cause exceptions as seen\r\nin issue 385.","timestamp":1361913372,"attachments":[]}]}

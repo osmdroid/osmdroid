@@ -1,0 +1,15 @@
+{
+  "id" : 490,
+  "status" : "New",
+  "summary" : "My location overlay paints enhancements",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nIn all of MyLocation overlay classes at the their Paint objects we could have enabled  some flags, so that the painting at upscaled higher dpi is more smooth?\r\n\r\nFor example the mPaint object which is used for drawing the person.png and direction_arrow.png can have enabled the:\r\nmPaint.setFilterBitmap(true);\r\nThe difference for the rotated direction_arrow at high dpi is quite visible.\r\n\r\nAnd the mCirclePaint which is used for drawing the accuracy circle can have enabled the:\r\nmCirclePaint.setAntiAlias(true);\r\n\r\nRegards.",
+    "timestamp" : 1382285399,
+    "attachments" : [ ]
+  } ]
+}

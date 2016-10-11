@@ -1,0 +1,169 @@
+{
+  "id" : 169,
+  "status" : "Started",
+  "summary" : "Loading tiles from the assets directory.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 24,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8953060770147212949,
+    "content" : "Help request.\r\n\r\nI am trying to load map tiles from the assets directory.\r\n\r\nI see the I need to write a custom TileProvider, but am unsure where to go next:\r\n\r\nThe existing tile loaders make assumptions that the tile is coming from a URL or File, and the themselves translate into an InputStream. Unfortunately, the android.content.res.AssetManager can only give FileDescriptors and InputStreams.\r\n\r\nThis makes me think I need to write my own MapTileModuleProviderBase? \r\n\r\nIs this something likely to be supported in future?\r\n\r\n** Design Critique; please ignore. ** \r\n** Likely due to lack of clarity in my own head. **\r\nIt's a shame that all the translating from Tile to InputStream can't be done in a single method on TileSource, then all Executors/ThreadPool etc can be done in a more generic TileLoader and MapTileProvider\r\n** End of Design Critique **\r\n\r\nThanks. ",
+    "timestamp" : 1298764721,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The TileSource classes are designed to mostly encapsulate meta-data about the tile source and the MapTileModule classes are designed to do the work of pulling the data described by the TileSource. Your situation does probably call for creating a MapTileModule that does the work of pulling the data from the assets. You should probably extend BitmapTileSourceBase. It would likely ignore calls to setTileSource (unless the assets contains different tile sets). If you have recommendations for changes to the API to make this more generic without losing any current functionality, then we'd be happy to take a look!\r\n",
+    "timestamp" : 1298780861,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "It should be possible to read zip and gemf files from the assets directory.",
+    "timestamp" : 1300375934,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is a patch that implements this.\r\nIt only works for GEMF files because that's the only type of archive where I can influence the reading from file to also be able to handle reading from assets.\r\n\r\nI'd appreciate any feedback, especially from the people that implemented GEMF and the tile provider.\r\n\r\nAlso attached is the GEMF that should be placed in assets.",
+    "timestamp" : 1301392911,
+    "attachments" : [ {
+      "id" : 6145594608727981381,
+      "fileName" : "issue169.patch",
+      "fileSize" : 50559
+    }, {
+      "id" : -9142851012318393591,
+      "fileName" : "haarlem.gemf",
+      "fileSize" : 515917
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3127358891589409401,
+    "content" : "Has this issue been integrated into the code? Or should I download and apply it by myself?",
+    "timestamp" : 1308003761,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "No it hasn't been integrated. I asked for feedback and didn't get any.",
+    "timestamp" : 1308027535,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 3127358891589409401,
+    "content" : "I really find this a quite interesting feature to have, as this way you don't need to have the maps on the SD card... I will surely download osmdroid source code and try your patch and give some feedback!",
+    "timestamp" : 1308038899,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -7722193769709933731,
+    "content" : "Greetings,\r\n\r\nNot sure if this thread is still alive. I came upon it when looking for information about using the assets folder to store tiles in.\r\nUpon reading here, I downloaded and applied issue169.patch. Successfully testing it with haarlem.gemf, I converted the Osmdroid.zip file to gemf and put them into my assets folder. When launching the app, it failed to load the map with following error:\r\n\r\nD/szipinf ( 1827): Initializing inflate state\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): Error opening GEMF file\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): java.io.FileNotFoundException: This file can not be opened as a file descriptor; it is probably compressed\r\n\r\nI then put my gemf file in the original /sdcard/osmdroid folder and read it from there, with positive result. I could successfully view and zoom the map.\r\nSince I have zoom levels down to 18, I recreated the map file(gemf) with lowest zoom level only and added it back to the assets folder. The map loaded nicely. I kept recreating the gemf with added zoom levels. Once reaching level 14, it crashed again with above exception. I removed zoom level 14 and added 15, causing the crash again. This happened for all zoom levels between 14-18. \r\nFor above tests, I was using the CloudMade map source, but I also tested it using Mapnik, with same results, although I only had zoom levels to 16 there. The map always started failing for zoom level 14 and above.\r\n\r\nNot sure why it kept crashing on high zooms, I tested creating a new gemf file from a random different area, and here it would work just fine all the way up to 18.\r\n\r\nWas wondering if anyone have ideas of what may cause this problem? Perhaps I am using an incorrect method of creating the gemf files, though it seems to work for some places. \r\nWorst case, I can always go back to using the osmdroid folder, but I think being able to load maps from assets is a nice feature.\r\n\r\nSome info in no particular order:\r\n* patch issue169.patch added to checkout of http://osmdroid.googlecode.com/svn/trunk\r\n\tRevision: 1082\r\n* Tried with CloudMade Default Style and Mapnik from mobac(no errors reported during download/creation), zoom levels 10 - 18. Map fails to load from zoom level 14 with both formats\r\n* Atlas format used: Osmdroid ZIP\r\n* gemf file conversion: unzip archive and run generate_efficient_map_file.py (kept getting a java.lang.NoClassDefFoundError: Could not initialize class org.osmdroid.tileprovider.util.StreamUtils when trying osmdroid-packager).\r\n\r\nHere is the full trace:\r\n\r\nD/GEMFFileArchive( 1827): constructor\r\nD/GEMFFileArchive( 1827): constructor\r\nD/GEMFFileArchive( 1827): constructor\r\nD/szipinf ( 1827): Initializing inflate state\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): Error opening GEMF file\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): java.io.FileNotFoundException: This file can not be opened as a file descriptor; it is probably compressed\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.content.res.AssetManager.openAssetFd(Native Method)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.content.res.AssetManager.openFd(AssetManager.java:330)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.util.GEMFFile.getLength(GEMFFile.java:521)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.util.GEMFFile.readHeader(GEMFFile.java:465)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.util.GEMFFile.<init>(GEMFFile.java:96)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.util.GEMFFile.<init>(GEMFFile.java:83)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.tileprovider.modules.GEMFFileArchive.<init>(GEMFFileArchive.java:27)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.tileprovider.modules.GEMFFileArchive.getGEMFFileArchive(GEMFFileArchive.java:31)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.tileprovider.modules.ArchiveFileFactory.getArchiveFile(ArchiveFileFactory.java:54)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.tileprovider.modules.MapTileAssetsArchiveProvider.findArchiveFiles(MapTileAssetsArchiveProvider.java:86)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.tileprovider.modules.MapTileAssetsArchiveProvider.<init>(MapTileAssetsArchiveProvider.java:35)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat org.osmdroid.samples.SampleWithTilesInAssets.onCreate(SampleWithTilesInAssets.java:27)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1047)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.ActivityThread.performLaunchActivity(ActivityThread.java:1611)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:1663)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.ActivityThread.access$1500(ActivityThread.java:117)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.ActivityThread$H.handleMessage(ActivityThread.java:931)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.os.Handler.dispatchMessage(Handler.java:99)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.os.Looper.loop(Looper.java:123)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat android.app.ActivityThread.main(ActivityThread.java:3683)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat java.lang.reflect.Method.invokeNative(Native Method)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat java.lang.reflect.Method.invoke(Method.java:507)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:839)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:597)\r\nE/o*.o*.t*.m*.ArchiveFil*( 1827): \tat dalvik.system.NativeStart.main(Native Method)\r\n\r\n\r\nThanks",
+    "timestamp" : 1333043157,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8695857598344102503,
+    "content" : "It has been a year with no activity, any updates on this issue?",
+    "timestamp" : 1352072167,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm unlikely to work any more on this since it can only work for GEMF files and I don't use them and according to comment 7 even that isn't working.",
+    "timestamp" : 1352096456,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -792199850417692824,
+    "content" : "Apparently the compression issue is because Android SDK under 2.3 cannot read compressed files larger than 1MB.\r\n\r\nYou can skip compression by renaming the file to *.mp3.\r\n\r\nhttp://ponystyle.com/blog/2010/03/26/dealing-with-asset-compression-in-android-apps/",
+    "timestamp" : 1353547598,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -792199850417692824,
+    "content" : "Comment deleted",
+    "timestamp" : 1353896197,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -792199850417692824,
+    "content" : "I wrote a small tile source and a provider to read png from the assets folder using the \"z/x/y\" structure and it seems to work.\r\n",
+    "timestamp" : 1353896245,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not actively working on this any more, but it looks hopeful that it would work like this.\r\n@dzeikei perhaps you could post the patch here.",
+    "timestamp" : 1353909331,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -792199850417692824,
+    "content" : "This if for a special use case where you only ever need to show a small part the world and need offline access from the start.\r\nHere is a simple tilesource and a tileprovider to read tile pngs from \"assets/map/z/x/y\" assets folder structure.\r\n\r\nUse like this:\r\npublic static final AssetsTileSource ASSETS_TILE_SOURCE = new AssetsTileSource(getActivity().getAssets(), \"Map\", ResourceProxy.string.offline_mode, 14, 17, 256, \".png\"); // This will load from /Map/14/12345/12345.png\r\n\r\nMapTileModuleProviderBase moduleProvider = new MapTileFileAssetsProvider(ASSETS_TILE_SOURCE);\r\nSimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this.getActivity());\r\nMapTileProviderArray tileProviderArray = new MapTileProviderArray(ASSETS_TILE_SOURCE, simpleReceiver, new MapTileModuleProviderBase[] { moduleProvider });\r\n",
+    "timestamp" : 1354660689,
+    "attachments" : [ {
+      "id" : 1690014000,
+      "fileName" : "AssetsTileSource.java",
+      "fileSize" : 1204
+    }, {
+      "id" : 1690014001,
+      "fileName" : "MapTileFileAssetsProvider.java",
+      "fileSize" : 2044
+    } ]
+  }, {
+    "id" : 15,
+    "commenterId" : -4279384769987573878,
+    "content" : "I'm trying to use your classes to load a map from the assets.\r\nI am able to show the map, but it doesn't load very well: the map is shown only if I touch the screen to scroll or to zoom. Then, when I zoom in or out, the map disappear again (There no map, just the gray grid).\r\n\r\nI workarounded this problem by calling \"mapView.invalidate()\" just after the creation and each time I zoom, but it's not very effective, we always see the map disappearing and re appearing again...\r\n\r\nCan you help me with this?",
+    "timestamp" : 1365728360,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -792199850417692824,
+    "content" : "My code only works if you actually have tiles for the particular zoom level.\r\nI had to limit the mapview's panning and zoom levels to match the included tiles.",
+    "timestamp" : 1365730295,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -4279384769987573878,
+    "content" : "Comment deleted",
+    "timestamp" : 1365734487,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -4279384769987573878,
+    "content" : "I have the tiles in the assets, for all zoom levels.\r\nThe problem is just about refreshing after a zoom. If I scroll a little bit the map, the tiles appear.\r\n\r\nEdit: here is a screencast of my problem: http://nyphel.com/~neoz/screencast_osmdroid.webm\r\nAs you can see, I have to touch the screen to update the map. \r\nDo you see what could be the problem?",
+    "timestamp" : 1365778158,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -792199850417692824,
+    "content" : "Weird because I never had that kind of issue.\r\nI'm guessing for some reason, AssetsTileSource is not being set before the map is first shown.\r\n",
+    "timestamp" : 1365988274,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -4279384769987573878,
+    "content" : "Ok, I don't really understand, I tried to initialize \"ASSETS_TILE_SOURCE\" in different places (in the mapview, in the activity...) but my problem is still there.\r\nAnyway, I workarrouned by calling \"invalidate()\" in the \"dispatchDraw\" method of the mapview.\r\nThanks for your help!",
+    "timestamp" : 1365994034,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 9102091553697619755,
+    "content" : "Hi dzei,\r\n\r\nI couldn't get your code to work, not sure where I'm going wrong. It looks like it's working, but the map images aren't loading. Do you have an example of really simple Activity class that I could just plug in and try out? It would be great if you could provide a simple starting point which people like me could work from.",
+    "timestamp" : 1366387728,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -6898596521504275020,
+    "content" : "Hi,\r\nI tried to do load map tiles from assets but I can't understand what is \"ASSETS_TILE_SOURCE\" how can i initialize it ? \r\n\r\ncan any one tell me please ?",
+    "timestamp" : 1376482406,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -7985303663530852781,
+    "content" : "hi\r\nwhy there is not a good sample for offline map? anybody can help me? ",
+    "timestamp" : 1415351010,
+    "attachments" : [ ]
+  } ]
+}

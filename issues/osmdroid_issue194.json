@@ -1,0 +1,27 @@
+{
+  "id" : 194,
+  "status" : "Duplicate",
+  "summary" : "OutOfMemoryError on calculating directory size",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8512557989245858258,
+    "content" : "On application loading I see an OutOfMemoryError and the application crashes.\r\n\r\nI'm hunting this bug myself for days trying to reproduce it, but it's not as easy as it might sound. This error occurs really randomly.\r\n\r\nI use 3.0.2 on Android API Level 8; I see it happen only on the Dell Streak 5 device, but it might just because I don't debug on emulator so much.\r\n\r\n\r\nHere is the stack trace, it's the only thing that I managed to save.\r\n\r\nFATAL EXCEPTION: Thread-14\r\njava.lang.OutOfMemoryError\r\n    at java.lang.AbstractStringBuilder.enlargeBuffer(AbstractStringBuilder.java:97)\r\n    at java.lang.AbstractStringBuilder.append0(AbstractStringBuilder.java:144)\r\n    at java.lang.StringBuilder.append(StringBuilder.java:125)\r\n    at java.io.File.join(File.java:264)\r\n    at java.io.File.&lt;init&gt;(File.java:175)\r\n    at java.io.File.&lt;init&gt;(File.java:142)\r\n    at java.io.File.filenamesToFiles(File.java:1082)\r\n    at java.io.File.listFiles(File.java:1008)\r\n    at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:147)\r\n    at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n    at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n    at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n    at org.osmdroid.tileprovider.modules.TileWriter.access$0(TileWriter.java:146)\r\n    at org.osmdroid.tileprovider.modules.TileWriter$1.run(TileWriter.java:52)\r\n",
+    "timestamp" : 1301577952,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1301582174,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8512557989245858258,
+    "content" : "It just happened again.\r\nI don't think that it's duplicate of 188, even the stack trace is different.\r\nHere's my log\r\n\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332): FATAL EXCEPTION: Thread-13\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332): java.lang.OutOfMemoryError\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.lang.AbstractStringBuilder.enlargeBuffer(AbstractStringBuilder.java:97)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.lang.AbstractStringBuilder.append0(AbstractStringBuilder.java:144)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.lang.StringBuilder.append(StringBuilder.java:125)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.io.File.join(File.java:264)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.io.File.<init>(File.java:175)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.io.File.<init>(File.java:142)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.io.File.filenamesToFiles(File.java:1082)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at java.io.File.listFiles(File.java:1008)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:147)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:154)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter.access$0(TileWriter.java:146)\r\n04-18 15:44:47.557: ERROR/AndroidRuntime(7332):     at org.osmdroid.tileprovider.modules.TileWriter$1.run(TileWriter.java:52)\r\n",
+    "timestamp" : 1303130979,
+    "attachments" : [ ]
+  } ]
+}

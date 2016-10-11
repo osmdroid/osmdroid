@@ -1,0 +1,15 @@
+{
+  "id" : 463,
+  "status" : "New",
+  "summary" : "ArrayIndexOutOfBoundsException in TileWriter.isSymbolicDirectoryLink",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 397487641559412360,
+    "content" : "<b>What steps will reproduce the problem?</b>\nWe are occasionally getting the following exception on user's devices running Android OS API Level 7 and 8.\r\n\r\njava.lang.ArrayIndexOutOfBoundsException\r\nat java.io.File.getCanonicalPath(File.java:542)\r\nat org.osmdroid.tileprovider.modules.TileWriter.isSymbolicDirectoryLink(TileWriter.java:172)\r\nat org.osmdroid.tileprovider.modules.TileWriter.calculateDirectorySize(TileWriter.java:155)\r\nat org.osmdroid.tileprovider.modules.TileWriter.access$1(TileWriter.java:148)\r\nat org.osmdroid.tileprovider.modules.TileWriter$1.run(TileWriter.java:54)\r\n\r\nUnfortunately, issue is relatively rare and steps to reproduce were not found.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.10 on Android OS 2.1 &amp; 2.2\r\n\r\n<b>Please provide any additional information below.</b>\nCouple of ideas how to fix: 1) catch ArrayIndexOutOfBoundsException exception in TileWriter.isSymbolicDirectoryLink; or 2) make TileWriter.isSymbolicDirectoryLink protected so we could override it in our subclass.",
+    "timestamp" : 1376157781,
+    "attachments" : [ ]
+  } ]
+}

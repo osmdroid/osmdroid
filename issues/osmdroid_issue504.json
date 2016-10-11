@@ -1,0 +1,27 @@
+{
+  "id" : 504,
+  "status" : "New",
+  "summary" : "Infinite maps drawn",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4882518640988642971,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Using Offline MBtiles-file\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI would expect that the map is shown one time.\r\nInstead the map is drawn infinitely often in every direction.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOsmdroid 4.0\r\n\r\n",
+    "timestamp" : 1387637455,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Could you please provide more information? Reproducing it in the OpenStreetMapViewer example project or providing a (small) MBtiles file that exhibit this issue would be helpful.",
+    "timestamp" : 1388521143,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4882518640988642971,
+    "content" : "I wrote a small example project. But I can't add files since I got: \"Issue attachment storage quota exceeded.\" An example mbtiles is stored at: http://mexx.devsub.net/namalsk_3.mbtiles\r\nFor generating the mbtiles we use mb-util.\r\n\r\nMapView mapView;\r\n\t\r\n\t@Override\r\n\tprotected void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t\tsetContentView(R.layout.activity_main);\r\n\r\n        RelativeLayout root = (RelativeLayout) findViewById(R.id.root);\r\n \t\r\n        \r\n   \t\tFile file = new File(Environment.getExternalStorageDirectory(), \"namalsk_3.mbtiles\");\r\n\t\tMBTilesFileArchive archive = MBTilesFileArchive.getDatabaseFileArchive(file);\r\n\r\n\t\tXYTileSource MBTILESRENDER = new XYTileSource(\"mbtiles\", ResourceProxy.string.offline_mode, 0, 2, 256, \".jpeg\", \"http://example.org/\");\r\n    \tDefaultResourceProxyImpl resourceProxy = new DefaultResourceProxyImpl(this);\r\n        SimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);\r\n       \r\n        IArchiveFile[] files = { archive };\r\n        MapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, MBTILESRENDER, files);\r\n        MapTileProviderArray mProvider = new MapTileProviderArray(MBTILESRENDER, null, new MapTileModuleProviderBase[] { moduleProvider });\r\n       \r\n        mapView = new MapView(this, 256, resourceProxy, mProvider);\r\n        mapView.setMultiTouchControls(true);\r\n        mapView.setUseDataConnection(false);\r\n        \r\n        mapView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));\r\n        root.addView(mapView,0);\r\n        \r\n\t}",
+    "timestamp" : 1389373319,
+    "attachments" : [ ]
+  } ]
+}

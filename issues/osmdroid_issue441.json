@@ -1,0 +1,75 @@
+{
+  "id" : 441,
+  "status" : "ReadyForTesting",
+  "summary" : "Shape drawable does not appear as marker in ItemizedOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3820772485406050419,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create drawable as XML resource.\r\n2. Set this drawable as marker to overlay.\r\n3. Add item to overlay and overlay to map.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nCustom marker to be drawn on item location but it doesn't happen.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android-3.0.10, Android 4.0.4\r\n\r\nThis is custom marker in marker.xml file in res/drawable folder:\r\n&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;\r\n&lt;shape xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; \r\n     android:shape=&quot;oval&quot;&gt;\r\n     &lt;size android:width=&quot;20dp&quot;\r\n         android:height=&quot;20dp&quot;/&gt;\r\n     &lt;solid android:color=&quot;#F00&quot;/&gt;\r\n&lt;/shape&gt;\r\n\r\nThis is onCreate method of MainActivity:\r\n@Override\r\nprotected void onCreate(Bundle savedInstanceState) {\r\n\tsuper.onCreate(savedInstanceState);\r\n\tsetContentView(R.layout.activity_main);\r\n\r\n\tMapView mapView = (MapView) findViewById(R.id.mapview);\r\n\tmapView.setTileSource(TileSourceFactory.MAPNIK);\r\n\r\n\tDrawable marker = getResources().getDrawable(R.drawable.marker);\r\n\r\n\tItemizedIconOverlay&lt;OverlayItem&gt; overlay = new ItemizedIconOverlay&lt;OverlayItem&gt;(\r\n\t\t\tnew ArrayList&lt;OverlayItem&gt;(), marker, null,\r\n\t\t\tnew DefaultResourceProxyImpl(this));\r\n\r\n\tGeoPoint geoPoint = new GeoPoint(54.232, -4.485);\r\n\tOverlayItem item = new OverlayItem(null, null, geoPoint);\r\n\toverlay.addItem(item);\r\n\r\n\tmapView.getOverlays().add(overlay);\r\n\r\n\tmapView.setBuiltInZoomControls(true);\r\n\tmapView.getController().setZoom(8);\r\n\tmapView.getController().setCenter(geoPoint);\r\n}\r\n\r\nBut if I create overlay by this constructor then default marker is drawn\r\nItemizedIconOverlay&lt;OverlayItem&gt; overlay = new ItemizedIconOverlay&lt;OverlayItem&gt;(this, new ArrayList&lt;OverlayItem&gt;(), null);\r\n\r\n",
+    "timestamp" : 1371497641,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Hmmm... maybe ShapeDrawables don't work in ItemizedOverlay. What happens if you pull a regular icon from the resources and use that as the marker? Does that work?",
+    "timestamp" : 1371505465,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3820772485406050419,
+    "content" : "png icon is drawn correctly. I think that in Android drawable is just drawable no matter what is its source.",
+    "timestamp" : 1371540074,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371773706,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "To use ShapeDrawables (or possibly other drawables that aren't BitmapDrawable) you will need to turn off safe canvas drawing for the ItemizedOverlay. You can do this by calling mItemizedOverlay.setUsingSafeCanvas(false).\r\n\r\nAlso update to the latest trunk which includes a fix for ItemizedOverlay.",
+    "timestamp" : 1371773835,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 2895807031169856958,
+    "content" : "Tried Drawable with locationOverlay.setUseSafeCanvas(false) on 3.0.11 from trunk and still got no icons.\r\n\r\nThen i tried to make a ShapeDrawable created programatically and result is the same. Any headsup on the progress on this issue?",
+    "timestamp" : 1374765439,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I see you called the overlay locationOverlay - I just want to make sure you are setting setUseSafeCanvas(false) on the ItemizedOverlay and not the MyLocationOverlay by accident. Also try setting setUseSafeCanvas(false) on the MapView itself to see if that works.\r\n\r\nI may just put in a check for instanceof BitmapDrawable in ItemizedOverlay and if that doesn't pass then call getUnsafeCanvas() and call the draw inside that handler.",
+    "timestamp" : 1374767225,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -7826539035193158730,
+    "content" : "setUseSafeCanvas(false) on the MapView works, it displays drawable shapes, however they are drawn above their real position. All the itemizedOverlayItem are drawn above their real position, actually. So it might not be a good option.\r\nsetUseSafeCanvas(false) on the ItemizedOverlay does not solve anything :(\r\nThanks anyway for your advice.",
+    "timestamp" : 1376912918,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Did you set your Hotspot correctly? You likely want Hotspot.CENTER.",
+    "timestamp" : 1376923427,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -7826539035193158730,
+    "content" : "I finally opted for using an image to avoid to loose too much time, but yes, I used to set up hotspot. kinda weird issue :-/",
+    "timestamp" : 1376989750,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 1389913078165550644,
+    "content" : "You can make BitmapDrawable from xml resource by drawing it on temporary canvas. \r\n\r\nprivate Drawable toBitmapDrawable(Drawable anyDrawable){ \r\n    Bitmap bmp = Bitmap.createBitmap(anyDrawable.getIntrinsicWidth(), anyDrawable.getIntrinsicHeight(), Config.ARGB_8888); \r\n    Canvas canvas = new Canvas(bmp);\r\n    anyDrawable.setBounds(0, 0, anyDrawable.getIntrinsicWidth(), anyDrawable.getIntrinsicHeight());\r\n    anyDrawable.draw(canvas);\r\n    return new BitmapDrawable(getResources(), bmp);\r\n}\r\n\r\nThen use BitmapDrawable for overlay instead of xml resource.\r\nDrawable marker = toBitmapDrawable(getResources().getDrawable(R.drawable.marker));\r\n\r\nItemizedIconOverlay<OverlayItem> overlay = new ItemizedIconOverlay<OverlayItem>(\r\n\t\t\tnew ArrayList<OverlayItem>(), marker, null,\r\n\t\t\tnew DefaultResourceProxyImpl(this));\r\n\r\n\r\n",
+    "timestamp" : 1396697986,
+    "attachments" : [ ]
+  } ]
+}

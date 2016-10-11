@@ -1,0 +1,47 @@
+{
+  "id" : 139,
+  "status" : "New",
+  "summary" : "Get ToolBox-Coordinates",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9112300422288456204,
+    "content" : "I just have a suggestion for OpenStreetMapViewItemizedOverlayWithFocus.\r\n\r\nIt's now possible to show a description text in a toolbox.\r\n\r\nIt would be nice to have coordinates of this toolbox.\r\n\r\nSo it would possible to make this toolbox clickable.\r\n\r\nI did for me and use it already in my application. If you are interested in, I would send you my codesnipplet.\r\n\r\nPs.\r\nSorry if it's wrong place to publish such messages. You can remove it",
+    "timestamp" : 1295183040,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please attach a patch :-)\r\n",
+    "timestamp" : 1295187763,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 9112300422288456204,
+    "content" : "Hi Neil, sorry for a silly question, but how do I do that? I'm not a svn expert",
+    "timestamp" : 1295189947,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Or if it's only a change to one file, then you could just attach the new version.\r\n\r\nBut actually it's very easy to create a patch - if you have TortoiseSVN then just right-click on the root folder and select \"Create patch\" from the context menu.  If you use something else instead of TortoiseSVN then it should be equally simple.\r\n",
+    "timestamp" : 1295260534,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3854853821925711306,
+    "content" : "Ok. There are two patches.\r\n\r\nThe first is for itemized overlay with focus\r\n\r\nAnother one is for sample, using that overlay.\r\n\r\nHope, they will be usefull.",
+    "timestamp" : 1297673544,
+    "attachments" : [ {
+      "id" : -4689876376544539432,
+      "fileName" : "patch4overlayWithFocus.patch",
+      "fileSize" : 2553
+    }, {
+      "id" : 1438112444247440037,
+      "fileName" : "patch4sample.patch",
+      "fileSize" : 1259
+    } ]
+  } ]
+}

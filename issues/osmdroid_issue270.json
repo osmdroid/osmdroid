@@ -1,0 +1,45 @@
+{
+  "id" : 270,
+  "status" : "New",
+  "summary" : "Displaying routes in OSMDroid",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7841045706511723257,
+    "content" : "First of all, thanks to OSMDroid! I ported my app in just 1.5 days (0.5 for porting, and 1 for fixing subtle API differences and finding workarounds for some - known - bugs). \r\n\r\nA highly recurring subject in forums when building Android map apps is: how can I draw a route between 2 points. \r\nThere is no Google public API for that. Even more, when using Google Maps, displaying a route is prohibited by Google Terms&amp;Conditions. \r\n\r\nBut we are not using Google Maps anymore! \r\n\r\nThere is a ready-to-use solution proposed on StackOverflow, based on a non-public Google KML API:\r\nhttp://stackoverflow.com/questions/2023669/j2me-android-blackberry-driving-directions-route-between-two-locations/2023685#2023685\r\nNot public, not allowed, not supporting waypoints... :-(\r\n\r\nSo, working from this basis, I developped classes for getting/displaying routes, handling different OSM-based routing services: \r\n- MapQuest open API (both JSON and XML, which perfectly handles waypoints)\r\n- YOURS KML API\r\n\r\nIf the community shows interest, I can provide these classes. \r\n\r\nHaving the clone (OSMDroid) richer than the original (Google Maps API), isn't it a good idea ;-)\r\n",
+    "timestamp" : 1319618212,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't think this should be part of osmdroid.  If someone wants to make a third party overlay that would be fine.\r\n1. Google routing API isn't allowed to be used like that.\r\n2. osmdroid is an alternative to Google, so it should use Google.",
+    "timestamp" : 1319620129,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1319620156,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -7664184017558608627,
+    "content" : "yes, please provide it!",
+    "timestamp" : 1340039710,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1558421220117089513,
+    "content" : "This is now provided as a third party lib here: \r\n\r\nhttp://code.google.com/p/osmbonuspack/\r\n",
+    "timestamp" : 1346406485,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3980856965614153561,
+    "content" : "Hello could you also provide a way of displaying (tracing) a route from KML or GPX files ? Thank a lot for the job",
+    "timestamp" : 1351091401,
+    "attachments" : [ ]
+  } ]
+}

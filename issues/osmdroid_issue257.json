@@ -1,0 +1,27 @@
+{
+  "id" : 257,
+  "status" : "Invalid",
+  "summary" : "MapView not working in Fragment",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -679278729856630181,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create MapView in onCreateView in Fragment\r\n2. Lunch the fragment from an activity\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nTo see a map, however empty screen is shown.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nomsdroid 3.0.5\r\nAndroid minSdkVersion 7, targetSdkVersion 11\r\nAndroid Compatibility Package v4, rev3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1314970243,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -679278729856630181,
+    "content" : "OK, adding the MapView to RelativeLayout and returning it instead fixed the problem.",
+    "timestamp" : 1314972921,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "issue seems to be fixed",
+    "timestamp" : 1314984869,
+    "attachments" : [ ]
+  } ]
+}

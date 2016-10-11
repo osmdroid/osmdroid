@@ -1,0 +1,251 @@
+{
+  "id" : 25,
+  "status" : "Fixed",
+  "summary" : "Added a usable multitouch mode",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 37,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4639724819334268526,
+    "content" : "Checking out the source I succeeded to add a useful multitouch mode on a\r\nvery rainy sunday afternoon in Berlin, Germany.\r\n\r\nTested on Nexus One.\r\n\r\nSingle file changed:\r\n  OpenStreetMapViewer/src/org/andnav/osm/views/OpenStreetMapView.java\r\n\r\nAttached.\r\n\r\nHave fun,\r\nThomas\r\n\r\n",
+    "timestamp" : 1269196506,
+    "attachments" : [ {
+      "id" : 8322671840821958310,
+      "fileName" : "OpenStreetMapView.java",
+      "fileSize" : 33746
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4639724819334268526,
+    "content" : "Sorry, this is not a defect but an enhancement, I hope.\r\n\r\nCheers,\r\nThomas",
+    "timestamp" : 1269196552,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This looks like a nice enhancement, but it requires SDK 2.0. I'm reluctant to up the \r\nrequirements for osmdroid at this time.\r\n\r\nCoincidentally I was just looking at how to factor out the zoom controls so that the \r\ndependency for OpenStreetMapView can be reduced to 1.5.\r\n\r\nYou could easily write a new class which extends OpenStreetMapView to add this extra \r\nbit of functionality, and at some point in the future when osmdroid is updated to 2.0 \r\nthis can be merged in.\r\n\r\nI made such a class and attached it.  Anyone can use this in a project that is \r\ndependent on 2.0.\r\n",
+    "timestamp" : 1269359187,
+    "attachments" : [ {
+      "id" : 8937330714335818263,
+      "fileName" : "MultiTouchOpenStreetMapView.java",
+      "fileSize" : 2781
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : -4639724819334268526,
+    "content" : "Definitely the refactoring into a different class is the better solution.\r\n\r\nI'll try to find out a way for coexistence of the new functions within the old SDK.\r\nAnyone a better idea than reflection?",
+    "timestamp" : 1269509202,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4639724819334268526,
+    "content" : "I tried to introduce the multi touch mode, facing the problem of too many locations\r\nwhere new OpenStreetMapView is created using different constructors. It can be done,\r\nbut it does not really make the code nicer...\r\n\r\nThe solution would be to introduce a factory, creating a view depending of the\r\nversion. This looks a little bit overengineered for this tiny piece of code.\r\n\r\nA possible solution, which could be acceptable, is to integrate the stuff like in the\r\nfirst version and always build with the latest SDK.\r\n\r\nThen, check Build.Version \r\nhttp://developer.android.com/reference/android/os/Build.VERSION.html#SDK_INT\r\nagainst the version code \r\nhttp://developer.android.com/reference/android/os/Build.VERSION_CODES.html\r\nand do not enter the code where the later method unavailable on the current version\r\ncould be used. The overhead should be small.\r\n\r\nBy looking for the Build.VERSION in the code, you can easily trace the parts, which\r\nare version dependend.\r\n\r\nIMHO this would make enhancements easier without the necessity use a split code base.\r\nWhat do you think about this solution? \r\n\r\nCheers,\r\nThomas\r\n \r\n\r\n",
+    "timestamp" : 1270460876,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -6841996376054177083,
+    "content" : "It's also discussed here:\r\nhttp://android-developers.blogspot.com/2009/04/backward-compatibility-for-android.html\r\n\r\nAs I have multitouch backported in cyanogen-mod for my G1, but the SDK version is\r\nstill at Android 1.6, I'd prefer reflection ;)",
+    "timestamp" : 1271501202,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -4639724819334268526,
+    "content" : "Easiest is to check\r\nhttp://developer.android.com/reference/android/os/Build.VERSION_CODES.html, but more\r\ngeneral under any circumstances is to test the existence of the required function by\r\nreflection.\r\n\r\nMy current problem is, that the I have to replace the new OpenStreetMapView(...) by \r\nnew MultiTouchOpenStreetMapView(...) everwhere in the code, which does not make the\r\ncode nicer than without inheritance.\r\n\r\nSo I would need a factory method or some of the other sucking OO crutches. The\r\neasiest seems to be to put the decision back into OpenStreetMapView.onTouchEvent...\r\n\r\nIf this view is accepted in general, I would test with reflecton like the link above\r\non the existence of MotionEvent.getX(0) which is a perfect indication of access to\r\nthe multitouch api.\r\n\r\n\r\n",
+    "timestamp" : 1271579798,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271920171,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done the reflection change in revision 143.\r\n\r\nI've tested it on my 1.6 G1 and it works in the sense that it doesn't work ;-)\r\n\r\nRuns okay on a 2.0.1 emulator but I don't know how to do multi-touch events on the \r\nemulator.\r\n\r\nPlease can the people who commented on this issue test it on their 2.0+ devices.",
+    "timestamp" : 1271967197,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "No comments from the other people :-(\r\n\r\nBut I just received my free Nexus One from Google :-)\r\n\r\nHow is this fix supposed to work? Multi-touch is new to me. I tried what I understand \r\nby pinch-to-zoom but nothing happened. Probably I understood it wrong.",
+    "timestamp" : 1272873611,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -4639724819334268526,
+    "content" : "Cool. I did not recognize the ironic remark in comment 8 ;-)\r\nThan we have aligned all versions in a common code base and I can drop my extra changes.\r\n\r\nThanks a lot!",
+    "timestamp" : 1272902471,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "I fixed the reflection invoke in revision 160, but it still doesn't work.\r\nThe events I get when spreading are:\r\nACTION_DOWN\r\nACTION_POINTER_2_DOWN\r\na whole load of ACTION_MOVE\r\nACTION_POINTER_2_UP\r\nACTION_UP\r\n\r\nThis doesn't match what the code handles.",
+    "timestamp" : 1272958622,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -4639724819334268526,
+    "content" : "I will try it in the next days.",
+    "timestamp" : 1272960340,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "Any news on this? If it's not working then I'll remove this code.\r\n\r\nThe code seems to be trying to do a constant zoom. Shouldn't it only do the zoom on \r\nmouse up?",
+    "timestamp" : 1274430340,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -4639724819334268526,
+    "content" : "I'll have a look soon. I am very busy in two customer projects.\r\n\r\nSorry for the delay...\r\n\r\nThomas",
+    "timestamp" : 1274430752,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I also created issue 58. It's not directly related to this issue, but this one \r\ndemonstrates it.",
+    "timestamp" : 1275463745,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1275467342,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "There's some activity in AndNav2 regarding this:\r\nhttp://groups.google.com/group/andnav/browse_thread/thread/5360a830b22d70ef/\r\n\r\nActually I think our implementation is better, and I think it works okay as it is now. \r\nPlease could someone confirm.\r\n\r\nI also raised issue 59. An extra enhancement.",
+    "timestamp" : 1275467460,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "Here's an interesting article:\r\nhttp://android-developers.blogspot.com/2010/06/making-sense-of-multitouch.html\r\n\r\nIn Android 2.2 they've added android.view.ScaleGestureDetector which handles the pinch.",
+    "timestamp" : 1276161972,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -2951569362663853146,
+    "content" : "Hi,\r\nI've just added MultiTouch support for OpenSatNav (that use osmdroid).\r\nI use an external class, more info and a test version here:\r\nhttps://bugs.launchpad.net/opensatnav/+bug/579388\r\n\r\nIf you're interested I could make you a patch for OpenStreetMapView.java :)\r\nI've tested on many real devices from 1.6 to 2.2, and also Emulator 1.5.",
+    "timestamp" : 1277159534,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'd be very interested in a patch :-)\r\nOtherwise I can try and figure it out for myself.\r\nThe source doesn't seem to be in the OSN repository yet.",
+    "timestamp" : 1277200341,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -2951569362663853146,
+    "content" : "I don't find OpenStreetMapViewer/src/org/andnav/osm/views/OpenStreetMapView.java, should I use osmdroid-android/src/org/andnav/osm/views/OpenStreetMapView.java ?",
+    "timestamp" : 1277203831,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes.",
+    "timestamp" : 1277206055,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -2951569362663853146,
+    "content" : "I added my MT class in OpenStreetMapView but there's many differences with the version I use in OpenSatNav so it's quite complicated to have the same behavior.\r\nHere's my files:\r\n- my OpenStreetMapView file from OpenSatNav,\r\n- the MultitouchController class I used for both projects,\r\n- the OpenStreetMapView file (OpenStreetMapView-MT) I customized for osmdroid-android.",
+    "timestamp" : 1277280346,
+    "attachments" : [ {
+      "id" : -2952897603118429304,
+      "fileName" : "OpenStreetMapView.java",
+      "fileSize" : 34400
+    }, {
+      "id" : 4218024077655877251,
+      "fileName" : "MultiTouchController.java",
+      "fileSize" : 34208
+    }, {
+      "id" : -1034172572125869583,
+      "fileName" : "OpenStreetMapView-MT.java",
+      "fileSize" : 42850
+    } ]
+  }, {
+    "id" : 24,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thank you very much for that. I've included it as revision 238.\r\nI also tidied up a bit in revision 239.",
+    "timestamp" : 1277284386,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 8937367184059112911,
+    "content" : "I notice you also commented out the call to onTouchEvent on the overlays? Was that deliberate?",
+    "timestamp" : 1277284831,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : -2951569362663853146,
+    "content" : "No, but this code was still a work in progress!\r\nSorry I wasn't clear about that.\r\nAre you happy with it?\r\nI didn't find how to block the spanning while using MT (it's quite strange in that case).",
+    "timestamp" : 1277285467,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay, I've put back the call to overlays onTouchEvent.\r\nThe previous version was also a work in progress ;-)\r\nIt works for me on my Nexus One :-)  I'll try it later on my G1.\r\nWhat do you mean by spanning? Do you mean the way the map moves when you're trying to zoom?\r\n\r\nI'm not sure if the order of the calls to onTouchEvent is correct. Why did you nest the call to mGestureDetector.onTouchEvent inside the if mMultiTouchController.onTouchEvent? Why not just call one after the other, including the overlays?",
+    "timestamp" : 1277287890,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : -2951569362663853146,
+    "content" : "\"Do you mean the way the map moves when you're trying to zoom?\"\r\nYes, this causes strange movements while zooming.\r\n\r\n\"Why did you nest the call to mGestureDetector.onTouchEvent inside the if mMultiTouchController.onTouchEvent?\"\r\nI tried to block the map moving (mGestureDetector) when using multitouch.",
+    "timestamp" : 1277288751,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 8937367184059112911,
+    "content" : "I guess we need to get rid of mGestureDetector and handle everything in setPositionAndScale.\r\n\r\nThe multitouch demo looks so simple ;-)",
+    "timestamp" : 1277295003,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : -2951569362663853146,
+    "content" : "In OpenSatNav I couldn't handle well a simple map move using setPositionAndScale, so I let the MotionEvent.ACTION_DOWN and MotionEvent.ACTION_UP in onTouchEvent, but I need to simplify this.",
+    "timestamp" : 1277296218,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 243 lets multi-touch controller handle only multi-touch events, and gesture detector handle single-touch events. Seems to work.",
+    "timestamp" : 1277299342,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : -2951569362663853146,
+    "content" : "Good job!",
+    "timestamp" : 1277303572,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : -2951569362663853146,
+    "content" : "By the way, it could be nice to be able to disable it if the user of osmdroid.jar wants to.\r\nI couldn't see a reason for that before I played \"Parallel Kingdom\" on Android: they use Google Map as a map terrain and have disabled zoom buttons... but on a recent GMaps update multitouch was on and it was like an easter egg to see all the world :)",
+    "timestamp" : 1277305174,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes, I already made issue 59 for that.",
+    "timestamp" : 1277321166,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r278.",
+    "timestamp" : 1278328875,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : -9199549083163873786,
+    "content" : "When I zoom using two fingers in and out, specially inside fragments, the whole map image moves up before it starts zooming, making the user experience really awkward.",
+    "timestamp" : 1344261657,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 543,
+  "status" : "Invalid",
+  "summary" : "incomplete map is shown",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6280699992827769415,
+    "content" : "looks like it is very old issue, at least since early 3.X and still is not fixed\r\n\r\n<b>What steps will reproduce the problem?</b>\n\r\n  use openstreetmap in online mode, the tiles will be cached.\r\n  change to offline mode.  on start, screen is completely filled with tiles,\r\n  however, swipe any direction and some tiles is not loaded, swipe more\r\n  and just empty grid is.\r\n  the tiles are for sure in the cache, if zoom out and zoom in \r\n  everything is shown in normal way. \r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nandroid/ osmdroid 4.2\r\n\r\n\r\n\r\n",
+    "timestamp" : 1406752864,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please submit an issue on GitHub",
+    "timestamp" : 1407933579,
+    "attachments" : [ ]
+  } ]
+}

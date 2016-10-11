@@ -1,0 +1,27 @@
+{
+  "id" : 506,
+  "status" : "Invalid",
+  "summary" : "How can I get location updates via MyLocationOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6900197229714745608,
+    "content" : "I am using the MyLoctionOverlay (newest osmdroid)\r\n\r\nIs it possible to get location updates (every 5 secondes e.g.)? \r\nE.g. Can I register Location updates in the program ... and does this not have a negative effect on the MyLocationManager? \r\n\r\nSo e.g. locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,\r\n            3000, 0, gpsLocationListener);\r\n\r\nI don't want to interfere with the location updates the MyLocationOverlay needs to redraw the location etc. \r\n\r\nI know there is also a MyLocationOverlay.onLocationChanged(). Can I use that one? Via inheriting? \r\n\r\n",
+    "timestamp" : 1388085339,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Hello - I believe I have answered your question on SO: http://stackoverflow.com/questions/20825077/android-get-location-updates-without-interfering-with-osmdroid-mylocatoinoverla\r\n\r\nBut to summarize - you can add multiple listeners to Android's location manager without them interfering or you can override the onLocationChanged() event (as long as you call through to super).",
+    "timestamp" : 1388519435,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This was answered and accepted at SO.",
+    "timestamp" : 1389107080,
+    "attachments" : [ ]
+  } ]
+}

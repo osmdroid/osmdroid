@@ -1,0 +1,59 @@
+{
+  "id" : 366,
+  "status" : "Fixed",
+  "summary" : "\"Expired\" tiles from modular tile providers are not being handled properly.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We allow for the concept of &quot;Expired&quot; tiles. For example, the filesystem provider will return an &quot;expired&quot; tile if the tile in the file cache is older than a certain number of days. Osmdroid is supposed to then take that tile and present it to the user, but the tile request is supposed to stay alive and proceed through the tile provider chain. Currently the filesystem provider appears to be the only modular tile provider that uses this (the rescaleCache() also uses it but it is outside the tile provider chain).\r\n\r\nThe problem is that when MapTileModuleProviderBase.tileLoadedExpired() is called, the tile request is never removed from the mWorking queue because there is no removeTileFromQueues() call. This means that the filesystem provider will forever be &quot;working&quot; on that tile. Subsequent requests through the tile provider chain will always fall into a black hole.\r\n\r\nThe solution is simple - add a call to removeTileFromQueues() - however, while we are at it let's add a method IMapTileProviderCallback.mapTileRequestExpiredTile to make it much much clearer what is going on at the MapTileProviderBase rather than calling a mapTileRequestCompleted() followed by a mapTileRequestFailed() which is a sketchy solution.\r\n",
+    "timestamp" : 1345829267,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1345829363,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1345830227,
+    "attachments" : [ {
+      "id" : 3660002000,
+      "fileName" : "ExpiredTilesPatch.patch",
+      "fileSize" : 3521
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Adding new patch with one additional fix:\r\n\r\nWe don't want to push scaled tiles (from rescaleCache()) into the tile cache if there is a non-expired tile already in the cache.",
+    "timestamp" : 1345831570,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1345831673,
+    "attachments" : [ {
+      "id" : 3660004000,
+      "fileName" : "ExpiredTilesPatch.patch",
+      "fileSize" : 3947
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This patch has been working great for us and has fixed any stuck tile issues we were having. I am going to commit this patch and close this issue.",
+    "timestamp" : 1346358210,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1112.",
+    "timestamp" : 1346358273,
+    "attachments" : [ ]
+  } ]
+}

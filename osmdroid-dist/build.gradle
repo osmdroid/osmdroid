@@ -1,0 +1,51 @@
+description = "osmdroid distribution package"
+if (project.hasProperty('profile') && project.profile.split(',').contains("dist")) {
+    task distZip(type: Copy) {
+        distZip.configure {
+            from('../GoogleWrapperSample//build/outputs/apk') {
+                exclude '**/*unaligned*.apk'
+            }
+            from('../OpenStreetMapViewer/build/outputs/apk') {
+                exclude '**/*unaligned*.apk'
+            }
+            from('../osmdroid-forge-app/build/outputs/apk') {
+                exclude '**/*unaligned*.apk'
+            }
+            from('../osmdroid-mapsforge/build/outputs/aar') {
+                exclude '**/osmdroid-mapsforge-release.aar'
+            }
+            from('../osmdroid-mapsforge/build/libs/')   //javadoc and sources
+
+            from('../osmdroid-third-party/build/outputs/aar') {
+                exclude '**/osmdroid-third-party-release.aar'
+            }
+            from('../osmdroid-third-party/build/libs/')   //javadoc and sources
+
+            from('../osmdroid-android/build/outputs/aar') {
+                exclude '**/osmdroid-android-release.aar'
+            }
+            from('../osmdroid-android/build/libs/')   //javadoc and sources
+
+            from('../OSMMapTilePackager/build/distributions/')
+            from('../OSMMapTilePackager/build/libs/')
+
+            into('build/tmp/')
+            include('*.apk')
+            include('*.aar')
+            include('*.jar')
+            include('*.zip')
+            include('*.tar')
+            include('*.pom')
+        }
+
+    }
+
+    task(distro, type: Zip) {
+        from('build/tmp/')
+        into '/'
+        archiveName 'osmdroid-' + project.version + '.zip'
+
+
+    }.execute()
+
+}

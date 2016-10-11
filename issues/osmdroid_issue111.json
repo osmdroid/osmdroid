@@ -1,0 +1,43 @@
+{
+  "id" : 111,
+  "status" : "Fixed",
+  "summary" : "Option to reload currently visible tiles",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -501199775768989734,
+    "content" : "This is an enhancement patch.\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. View the map using OSMDroid\r\n2. The viewed tiles are now in your cache on the sdcard\r\n3. Update the map with JOSM or potlatch\r\n4. You still see the old, obsolete tiles\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThere should be an option to reload the currently visible tiles, as suggested in issue 40 and issue 44.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nCurrent svn (r454), android 2.1\r\n\r\n<b>Please provide any additional information below.</b>\nThis patch provides a new method OpenStreetMapView.removeCachedVisibleTiles , and a menu option in the OpenStreetMapViewer sample to call that method.\r\n\r\nThe method calls cache and filesystem methods to remove the tiles in a given rectangle at several zoom levels.\r\n\r\nPlease review and let me know what you think.\r\n\r\nMany thanks,\r\n-Jeremy Monin\r\n",
+    "timestamp" : 1288900107,
+    "attachments" : [ {
+      "id" : -4684617065740498246,
+      "fileName" : "refresh-visible.osmdroid-r454.patch",
+      "fileSize" : 18632
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 44 has been merged into this issue.",
+    "timestamp" : 1288938729,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1288938751,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3908359182233570738,
+    "content" : "Hi,\r\n\r\nthis one would be very helpful to solve one of the issues at OSMTracker project (see https://code.google.com/p/osmtracker-android/issues/detail?id=80 for details)\r\n\r\nbest regards\r\nMatthias",
+    "timestamp" : 1292554784,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This can be achieved with:\r\n\r\nmMapView.getTileProvider().clearTileCache();",
+    "timestamp" : 1367456138,
+    "attachments" : [ ]
+  } ]
+}

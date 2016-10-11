@@ -1,0 +1,293 @@
+{
+  "id" : 209,
+  "status" : "Fixed",
+  "summary" : "Limiting the view to an area, defined either by a rectangle or tile availability",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 44,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8953060770147212949,
+    "content" : "Cross posting this stackoverflow question: \r\nhttp://stackoverflow.com/questions/5403733/restricting-the-area-the-user-can-go-to-on-mapview\r\n\r\nIs there any facility to limit the scroll/fling behaviour to restrict the user's view to a specific area?\r\n\r\nAttempting to overide MapView.scrollTo(int x, int y)  method. This successfully limits but fling breaks.\r\n\r\nThis feels like it should be done with more access to the MapView members.\r\n\r\nIs this possible in the current implementation?",
+    "timestamp" : 1303944426,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 138.",
+    "timestamp" : 1303967969,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "How does fling break?\r\n\r\nWhat about overriding getScrollX/getScrollY?",
+    "timestamp" : 1305503731,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Nevermind getScrollX/getScrollY (they're final).\r\n\r\nHowever, this works:\r\n\r\n\t@Override\r\n\tprotected void onScrollChanged(int pL, int pT, int pOldl, int pOldt) {\r\n\t\tif (pL < -500)\r\n\t\t\tscrollTo(-500, pT);\r\n\t\tsuper.onScrollChanged(pL, pT, pOldl, pOldt);\r\n\t}\r\n\r\nSo in onScrollChanged, we can catch when scrolls go outside the bounds, and then restrict it as we want. It appears that flinging works for me - when you fling and it hits the border it stops like a wall. The danger here is an infinite loop - calling scrollTo calls onScrollChanged.\r\n\r\nI think it would be reasonable to include a way to set a boundingbox in the MapView that would restrict the map scrolling to a specific location. Patches welcome!",
+    "timestamp" : 1305504626,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4258978419555879556,
+    "content" : "Hi\r\n\r\nI'm grappling with the similar issue. I want to restrict the viewable area on the map. Is there any way to set a boundingbox rectangle in the MapView?",
+    "timestamp" : 1305582302,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Someone had asked me to elaborate on my comment above. The code snippet I wrote is a just an example of how scrolling bounds could be limited. It is limited to an arbitrary and not realistic box, but it is designed to be a guide on how we can implement this.\r\n\r\nI think being able to set a geographic bounding box is a good feature. To do this the bounds of that geographic area would have to be calculated for the current zoom level and converted into pixels and that would be the scrolling bounds. I would like to implement this at some point in the future, but I don't know when I will be able to. If someone wants to take a crack at it, then we welcome attaching a patch to this ticket!",
+    "timestamp" : 1306648410,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Update - it turns out that the better place to limit scrolling bounds is View.scrollTo(), and that is probably where we will put this functionality.",
+    "timestamp" : 1309202047,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "See Issue 232",
+    "timestamp" : 1309205173,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1309212108,
+    "attachments" : [ {
+      "id" : 2090008000,
+      "fileName" : "LimitScrollToGeographicArea.patch",
+      "fileSize" : 2805
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached. Note this patch includes the N/S scrolling limit in Issue 232.\r\n\r\nAlso note, like the patch in Issue 232, this patch allows an overscroll of half the screen size. So each of your borders can still scroll to the center of the screen. Google Maps does the same thing. I believe the idea is that if you have something all the way in the corner of your screen, you want to be able to bring it to the center of the screen for interacting with it.",
+    "timestamp" : 1309212158,
+    "attachments" : [ {
+      "id" : 2090009000,
+      "fileName" : "LimitScrollToGeographicArea.patch",
+      "fileSize" : 2805
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 5376670391952549077,
+    "content" : "Hello,\r\nhas anybody experienced a weird behavior of zoom with this patch? Sometimes when I am in one corner of the limited square and try to zoom out or zoom in the map is zoomed but also automatically scrolled to a different corner of the limited square. Have anybody seen this? I am trying to find out the reason but without success so far.",
+    "timestamp" : 1310915018,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 5376670391952549077,
+    "content" : "Well, after two days of debugging all I have is this. I added a few logs into the toScroll() method - you can find it in the attached file. I applied the patch - currentyl working with 3.0.4 but also tried with trunk version and the effect is the same. I probably know where the bug is but don't know the project enough to efficiently fix it. So If somebody knows how to do it, please provide a fix.\r\n\r\nAs I described in my previous post, the map jumps from one side of the limiting square to another depending whether you are zooming in or zooming out. \r\n\r\nMy bounding are is \r\nBoundingBoxE6 bbox = new BoundingBoxE6(48.922499, 14.765625, 48.458351, 14.062500);\r\nthis.mOsmv.setScrollableAreaLimit(bbox);\r\n\r\nNow I am in lower-left corner (ZOOM LEVEL 11) and I zoom in (to ZOOM LEVEL 12)\r\n07-17 18:47:48.265: VERBOSE/HELP(10009): Scrolling to X=20487 Y=-80896 ZL=11 - WW=262144\r\n07-17 18:47:48.265: VERBOSE/HELP(10009): Limit: minX=40960 maxX=43008 minY=-163840 maxY=-161792 ZL=11 ZLTarget=12 ZD=10\r\n07-17 18:47:48.265: VERBOSE/HELP(10009): !!! X=20487 minX=40960 CORRECTION:20473\r\n07-17 18:47:48.265: VERBOSE/HELP(10009): !!! Y=-80896 maxY=-161792 CORRECTION:-80896\r\n07-17 18:47:48.415: VERBOSE/HELP(10009): Scrolling to X=20491 Y=-80895 ZL=11 - WW=262144\r\n07-17 18:47:48.415: VERBOSE/HELP(10009): Limit: minX=40960 maxX=43008 minY=-163840 maxY=-161792 ZL=11 ZLTarget=12 ZD=10\r\n07-17 18:47:48.415: VERBOSE/HELP(10009): !!! X=20491 minX=40960 CORRECTION:20469\r\n07-17 18:47:48.415: VERBOSE/HELP(10009): !!! Y=-80895 maxY=-161792 CORRECTION:-80897\r\n07-17 18:47:48.855: VERBOSE/HELP(10009): Scrolling to X=81920 Y=-323584 ZL=12 - WW=524288\r\n07-17 18:47:48.855: VERBOSE/HELP(10009): Limit: minX=40960 maxX=43008 minY=-163840 maxY=-161792 ZL=12 ZLTarget=12 ZD=10\r\n07-17 18:47:48.855: VERBOSE/HELP(10009): !!! X=81920 maxX=43008 CORRECTION:-38912\r\n07-17 18:47:48.855: VERBOSE/HELP(10009): !!! Y=-323584 minY=-163840 CORRECTION:159744\r\nAfter the zoom the map is in upper-right corner.\r\n\r\nNow when I do a little slide (map move without zooming) I am getting this log\r\n07-17 18:56:24.805: VERBOSE/HELP(10009): Scrolling to X=43008 Y=-163836 ZL=12 - WW=524288\r\n07-17 18:56:24.805: VERBOSE/HELP(10009): Limit: minX=40960 maxX=43008 minY=-163840 maxY=-161792 ZL=12 ZLTarget=12 ZD=10\r\n07-17 18:56:24.975: VERBOSE/HELP(10009): Scrolling to X=43008 Y=-163834 ZL=12 - WW=524288\r\n07-17 18:56:24.975: VERBOSE/HELP(10009): Limit: minX=40960 maxX=43008 minY=-163840 maxY=-161792 ZL=12 ZLTarget=12 ZD=10\r\n\r\nI think the problem is following: at 18:47:48.855 I am getting very wierd coordinates to move to (X=81920 Y=-323584 ZL=12). Before the zoom it was (X=20491 Y=-80895 ZL=11) and after the move it is (Scrolling to X=43008 Y=-163836 ZL=12). So the question is: why is it so high number, and why it is sent only once? This high numbers are exceeding boundaries of limiting square and that's why X and Y are corrected to maxX and minY - upper-right corner.\r\n\r\nDoes it make sense to anybody of you?\r\nThank you very much\r\nVojtech\r\n",
+    "timestamp" : 1310923818,
+    "attachments" : [ {
+      "id" : 2090011000,
+      "fileName" : "scrollToMethod.txt",
+      "fileSize" : 1767
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 5376670391952549077,
+    "content" : "And I forgot something important - it is happening only sometimes. Usually it works correctly.",
+    "timestamp" : 1310924882,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7090262722351935939,
+    "content" : "Comment deleted",
+    "timestamp" : 1312480973,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7090262722351935939,
+    "content" : "Comment deleted",
+    "timestamp" : 1312481722,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7090262722351935939,
+    "content" : "Can we limit the no of tiles to be loaded. For example, if I need to load only a single tile( indoor map (.png) at zero zoom level) can I limit the no .of tiles?",
+    "timestamp" : 1312641991,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 266 has been merged into this issue.",
+    "timestamp" : 1318411663,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -6021902092352558365,
+    "content" : "What is a patch sir? How can I use file patches? \r\n\r\nI have a small map of a city display on Android. When the user scrolls beyond the boundaries of the city map it will just display a grey empty screen. How do I get the total map size of my small map? What I see on my /tiles/Manpik directory are just .png images but when my program runs it shows the map.\r\n\r\nWhat is the first step that I should do.",
+    "timestamp" : 1318429429,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8843100821829589320,
+    "content" : "Comment deleted",
+    "timestamp" : 1319198685,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8843100821829589320,
+    "content" : "Comment deleted",
+    "timestamp" : 1319204638,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -6021902092352558365,
+    "content" : "Sir, can you please modify your codes or patches that is understandable to us beginners. Where can I place the super.scrollTo(x,y) method, in the onCreate()? How do i get the values of x and y, should i declared it global int?\r\n\r\nSir, where should i place this code:\r\nwhile (x < -worldSize_2)\r\n\t\t\tx += (worldSize_2 * 2);\r\n\t\twhile (x > worldSize_2)\r\n\t\t\tx -= (worldSize_2 * 2);\r\n\t\tif (y < -worldSize_2)\r\n\t\t\ty = -worldSize_2;\r\n\t\tif (y > worldSize_2)\r\n\t\t\ty = worldSize_2;\r\n\r\nI am using offline map. Thank you sir for your time.",
+    "timestamp" : 1319561252,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -4379758222163023750,
+    "content" : "The patch works but we need to limit the (x,y) based on pending zoom level, not on current zoom level.",
+    "timestamp" : 1319617633,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8843100821829589320,
+    "content" : "Comment deleted",
+    "timestamp" : 1319623173,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -7253980970597281064,
+    "content" : "As stated in comment #11 strange behavior, IMO that is occurring when user double taps. When that happens scrollTo is called 2 times. First time it is called from computeScroll because of redraw (problem) because the zoom level is not yet changed. Second call is from onAnimate and that one send the correct x and y parameters. I solved this by comparing current and target zoom level in computeScroll method.\r\n\r\n@Override\r\npublic void computeScroll() {\r\n    if (mScroller.computeScrollOffset()) {\r\n        if (mScroller.isFinished()) {\r\n            // This will facilitate snapping-to any Snappable points.\r\n            setZoomLevel(mZoomLevel);\r\n        } else {\r\n            /* correction for double tap */\r\n            int targetZoomLevel = getZoomLevel();\r\n            if (targetZoomLevel == mZoomLevel)\r\n                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());\r\n        }\r\n        postInvalidate(); // Keep on drawing until the animation has\r\n        // finished.\r\n    }\r\n}\r\n\r\nHome someone will find this helpful.",
+    "timestamp" : 1321659917,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 3228902924970999842,
+    "content" : "after i applied the patch , it limits the scroll area, but when i scroll to left, after reaching scroll limit..it scrolls a bit upward, how do i prevent that behaviour???",
+    "timestamp" : 1326286772,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : -1918333713940407975,
+    "content" : "For the comment #11 strange behavior on double tap, I solved the issue by changing the getZoomLevel() for the zoomDiff in the original patch of comment #9 to getZoomLevel(false)\r\nfinal int zoomDiff = MapViewConstants.MAXIMUM_ZOOMLEVEL - getZoomLevel(false);",
+    "timestamp" : 1342775044,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 6902554616808576974,
+    "content" : "Comment deleted",
+    "timestamp" : 1345057784,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 6902554616808576974,
+    "content" : "Hi everyone,\r\n\r\nFor those of use using the .jar or otherwise not that familiar with patches, I cobbled together a subclass of MapView that supports limiting the user's view to a specific area. Details on how to use it, if not obvious, can be found at http://www.sieswerda.net/2012/08/15/boundedmapview-a-mapview-with-limits/\r\n\r\nKeep up the great work!\r\n\r\nRegards,\r\nmelle\r\n\r\n--\r\napparently I forgot to add the .java, so here goes again",
+    "timestamp" : 1345106149,
+    "attachments" : [ {
+      "id" : 2090027000,
+      "fileName" : "BoundedMapView.java",
+      "fileSize" : 5617
+    } ]
+  }, {
+    "id" : 28,
+    "commenterId" : -4391702763635204246,
+    "content" : "Hey melle nice class thank you! It's working well appart from the zoom. I'm testing it and it's possible to zoom outside the area. Is this normal?",
+    "timestamp" : 1345469676,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 7656635165767264993,
+    "content" : "OMG, more than one year and still no solution ?\r\nYour patch way is far too complicated.\r\nThe BoundedMapView class don't work with zoom.\r\nSo, what do we do ????",
+    "timestamp" : 1349869799,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : 7656635165767264993,
+    "content" : "I use now the 3.0.8.jar, but it still don't work.\r\nIt it the same for everybody ?",
+    "timestamp" : 1349873828,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 6902554616808576974,
+    "content" : "Hi Romain, sorry for the delayed response. Your usecase is simply not yet handled by my code. I'll see if I can get around to fixing that the coming week.",
+    "timestamp" : 1351330512,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 250 has been merged into this issue.",
+    "timestamp" : 1358869323,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am attaching an updated version of the patch. If applied against the trunk, all zooming issues should be resolved by now. Note that this patch does not contain the N/S scrolling patch in issue 232.",
+    "timestamp" : 1358885919,
+    "attachments" : [ {
+      "id" : 2090033000,
+      "fileName" : "LimitScrollToGeographicArea.patch",
+      "fileSize" : 2984
+    } ]
+  }, {
+    "id" : 34,
+    "commenterId" : -1918333713940407975,
+    "content" : "Nice job with the updated patch!\r\nIn my opinion there is no need for overscroll of half the screen size as it was happened with the previous patch (which we had to change to stop overscroll).\r\nBecause if we make a custom map and set a view limit, then outside the limit there are no tiles to show, only gray area. At least if there is going to be an overscroll at the future let it be optional for those who don't need it.",
+    "timestamp" : 1358930982,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : -9073216604078878234,
+    "content" : "Does someone know how to limit the map without overscroll? I'm trying to understand Melle's code, but without any comment it's hard through.",
+    "timestamp" : 1362732850,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : 7646092065249173135,
+    "content" : "The patch for limited scroll area is now in the trunk. It does not include overscroll. Note that it does not limit zooming, so a user can zoom out to an area that is larger than the limited area but they can not scroll and the limited area always stays centered.",
+    "timestamp" : 1365024172,
+    "attachments" : [ ]
+  }, {
+    "id" : 37,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well done!\r\nMay be you can make mScrollableAreaLimit public or implement its public get method at MapView?\r\nThis rect is sometimes quite useful.",
+    "timestamp" : 1365057646,
+    "attachments" : [ ]
+  }, {
+    "id" : 38,
+    "commenterId" : 7646092065249173135,
+    "content" : "What about returning the original BoundingBoxE6 since that will make more sense to users?",
+    "timestamp" : 1365087409,
+    "attachments" : [ ]
+  }, {
+    "id" : 39,
+    "commenterId" : -1918333713940407975,
+    "content" : "The original BoundingBoxE6 isn't it the one the user sets with setScrollableAreaLimit? So he knows it already.\r\nBut the calculations made in setScrollableAreaLimit in order to produce the mScrollableAreaLimit are also useful. For example I use mScrollableAreaLimit to modify offline tilesource's min zoom depending screen resolution.",
+    "timestamp" : 1365088427,
+    "attachments" : [ ]
+  }, {
+    "id" : 40,
+    "commenterId" : 7646092065249173135,
+    "content" : "As you probably know, we do those calculations to form the mScrollableAreaLimit to save CPU cycles later on and I'd like to hide that from the user. The average user doesn't have any need for the \"intermediate\" points that we calculate and wouldn't know what to do with them. Advanced users such as yourself can calculate these values easily and use them in their own classes. If you really want it, mScrollableAreaLimit is a protected field so you could subclass and get access to it that way.",
+    "timestamp" : 1365091077,
+    "attachments" : [ ]
+  }, {
+    "id" : 41,
+    "commenterId" : 7646092065249173135,
+    "content" : "Note that in r1197 we added a simple way to set min/max zoom levels on-the-fly. See issue 418 for additional info.",
+    "timestamp" : 1365100260,
+    "attachments" : [ ]
+  }, {
+    "id" : 42,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue is complete and can be closed.",
+    "timestamp" : 1367456952,
+    "attachments" : [ ]
+  }, {
+    "id" : 43,
+    "commenterId" : -7892042841795973094,
+    "content" : "You can simply call the method mapView.setScrollableAreaLimit(BoundingBoxE6)\r\nto set the scrollable area",
+    "timestamp" : 1402919862,
+    "attachments" : [ ]
+  } ]
+}

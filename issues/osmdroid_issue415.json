@@ -1,0 +1,51 @@
+{
+  "id" : 415,
+  "status" : "Fixed",
+  "summary" : "No user interaction with 3.0.9",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 966566719958037616,
+    "content" : "Hello,\r\nI have an issue with the new release of OSMDroid 3.0.9.\r\nI've developed an application based on 3.0.8 which is working great but with OutOfMemoryException.\r\nI hoped that the new release fix those exceptions but I have another critical issue.\r\nSince I've upgraded the lib, without touching any code, I'm not able to pan on my mapView. I can zoom in/out with my two fingers but I can't move on it.\r\n\r\nFind below the code I use to initialize my MapView.\r\n\r\nThanks for your replies.\r\n\r\nBruno.\r\n\r\n\r\nmapView.setUseDataConnection(true);\r\nmapView.getOverlays().clear();\r\n\r\nmapView.setTileSource(new OnlineTileSourceBase(Config.TILE_NAME, ResourceProxy.string.unknown, minZoom, Config.TILE_ZOOM_MAX_LEVEL, Config.TILE_SIZE_PIXEL, Config.TILE_FILE_NAME_ENDING, Config.TILE_PREFIX) {\r\n    @Override\r\n    public String getTileURLString(final MapTile aTile) {\r\n\r\n        return getBaseUrl() + Config.TILE_SEPARATOR + aTile.getZoomLevel() + Config.TILE_SEPARATOR + aTile.getX() + Config.TILE_SEPARATOR + aTile.getY();\r\n    }\r\n});\r\n\r\nmapView.setBuiltInZoomControls(false);\r\nmapView.setMultiTouchControls(true);\r\nmapView.setEnabled(true);\r\nmapView.getController().setZoom(Config.MAP_DEFAULT_ZOOM);\r\nmResourceProxy = new ResourceProxyImpl(getApplicationContext());\r\n\r\n\r\n// USER LOCATION\r\nmLocationOverlay = new NewLocationOverLay(this, mapView, mResourceProxy);\r\nmLocationOverlay.enableMyLocation();\r\nmLocationOverlay.enableFollowLocation();\r\nmLocationOverlay.setLocationUpdateMinDistance(Config.LOCATION_DISTANCE_UPDATE);\r\nmLocationOverlay.setLocationUpdateMinTime(Config.LOCATION_TIME_UPDATE);\r\nmapView.getOverlays().add(mLocationOverlay);",
+    "timestamp" : 1364905520,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please see issue 387. You likely have some click handler on the map view itself which is interfering with the ability for the maps gesture detectors to do their job.",
+    "timestamp" : 1364915266,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Do you have:\r\n\r\nandroid:clickable=\"true\"\r\n\r\nset on your MapView? Try removing it and see if that helps.",
+    "timestamp" : 1365216572,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4339495954875512243,
+    "content" : "I had the same issue when moving from 3.0.8 to 3.0.9.\r\n\r\n-Removing-\r\n\r\nandroid:clickable=\"true\"\r\n\r\nhelped me. Thanks for the tip!",
+    "timestamp" : 1365598339,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4279384769987573878,
+    "content" : "I had also the same issue when moving from 3.0.8 to 3.0.9.\r\nThe problem was because I registered the mapview for context menu.\r\n\r\nI fixed it by registering the mapview's parent.",
+    "timestamp" : 1366506333,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1370958846,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 440 has been merged into this issue.",
+    "timestamp" : 1373488839,
+    "attachments" : [ ]
+  } ]
+}

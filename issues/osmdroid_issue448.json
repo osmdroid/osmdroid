@@ -1,0 +1,51 @@
+{
+  "id" : 448,
+  "status" : "New",
+  "summary" : "press a button in the same moment as zoom in button brings you to Norway",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8340108693986131913,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.create a button which animates to your position\r\n2.activate the Built In Zoom Controls\r\n3.Press zoom + button while pressing your button\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nIt should zoom in while animating to your position but it centers the view north from Norway\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10 with Android 4.0.4 on Galaxy s2 but also tried with other devices\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n\r\ncode for the button:\r\n      Button btnPos = (Button) findViewById(R.id.btnPos);\r\n      btnPos.setBackgroundResource(R.drawable.ic_menu_mylocation);\r\n      btnPos.setOnClickListener(new OnClickListener() {\r\n\r\n\t\t @Override\r\n\t\t public void onClick(View v) {\r\n\t\t\t // TODO Auto-generated method stub\r\n\t\t mapController.animateTo(myLoc.getMyLocation());\r\n\t\t }\r\n      });\r\n",
+    "timestamp" : 1373380005,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI was at a similar situation - conflict between map view animateTo and zoom animation.\r\nYou can find a temporary solution at\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=391\r\n\r\nRegards.",
+    "timestamp" : 1373385902,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Maybe we should cancel any running map panning animations when we start a zoom animation.\r\n\r\nWe could alternately adjust the final destination of the pan animation to be valid for the new zoom level, however if zooming in you would lose some resolution and might not land in the exact right spot.",
+    "timestamp" : 1373393080,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Interestingly - this should be handled properly. When zooming in:\r\n\r\n1. The animation starts. The maps stay at the current zoom level.\r\n2. The view increases in scale until it is at 2.0x. The animation ends.\r\n3. The maps call setZoomLevel() to the new zoom level.\r\n4. setZoomLevel() halts all panning animation where it is at.\r\n5. setZoomLevel() adjusts the scroll position for the new zoom level.\r\n\r\nSo what *should* happen in the situation you describe is something along the lines of:\r\n1. The onLocationChanged() fires, and the maps start to pan towards your current location.\r\n2. During the animation you tap the zoom-in button.\r\n3. The scroller stops panning where it is at.\r\n4. The maps zoom in.\r\n5. You end up half-way in between your starting location and your destination location.\r\n\r\nBut it sounds like you end up completely in the wrong location that isn't along the path between your starting and destination location correct? That sounds like the scroll values are not getting translated from the old zoom level to the new zoom level, but it could be something else.\r\n\r\nI wonder if you remove lines 979 and 981 from MapView.computeScroll():\r\n\r\n\t\t\t\tscrollTo(mScroller.getCurrX(), mScroller.getCurrY());\r\n\t\t\t\tsetZoomLevel(mZoomLevel);\r\n\r\nDoes that fix the problem? There is a chance that the last scrollTo() puts those x/y values for the old zoom level into the new zoom level.\r\n\r\n",
+    "timestamp" : 1373493119,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 391 has been merged into this issue.",
+    "timestamp" : 1373493188,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nYou propably mean lines 967 and 969 at MapView.computeScroll() from the latest trunk.\r\nI removed them but the problem still exists.\r\n\r\nRegards.",
+    "timestamp" : 1373525382,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please take a look at the patch in issue 453. It changes the way we do zoom in and out animations and it may affect the issue here. I think the new code is simpler and hopefully as a side-effect, it fixes this issue.",
+    "timestamp" : 1375816619,
+    "attachments" : [ ]
+  } ]
+}

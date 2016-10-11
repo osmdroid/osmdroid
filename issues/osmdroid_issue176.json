@@ -1,0 +1,123 @@
+{
+  "id" : 176,
+  "status" : "Fixed",
+  "summary" : "Consider changing geodetic algorithms",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 17,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We've had a few reports of poor results in our projection class. Can someone provide some history on the algorithms chosen for osmdroid? The comments discuss a margin of error at some zoom levels, so was there a trade off between computation and accuracy?\r\n\r\nI've had excellent results using the sample code provided by microsoft at:\r\n\r\nhttp://msdn.microsoft.com/en-us/library/bb259689.aspx\r\n\r\nI'd suggest we at least run some tests to see if they provide different results.\r\n\r\nSee Issue 157\r\nSee Issue 175",
+    "timestamp" : 1299039750,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Maybe this is the source:\r\n\r\nhttp://wiki.openstreetmap.org/wiki/Slippy_map_tilenames",
+    "timestamp" : 1299040458,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "The sample code appears to be covered under the Microsoft Limited Public License (http://msdn.microsoft.com/en-us/cc300389.aspx#P). This sounds like all we have to do is include the license in the source code and we can use it freely.",
+    "timestamp" : 1299040818,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "That sample looks extremely useful. I suggest we just copy it as-is to our project, with a fairly trivial conversion to java of course, and then change all the other code that does similar things to use this instead. We're long overdue for some tidying up in this area.\r\n\r\nI think it would be a VERY good idea to do lots of unit tests for this.  There are already a few, but we should add some more BEFORE changing anything.  TDD.",
+    "timestamp" : 1299064234,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r847.\n\nAdds better Mercator projection code (not used yet)",
+    "timestamp" : 1299120375,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Any suggestions on how to approach the unit tests? I tried to do some searching around and haven't come up with a good reference point with known correct values. I tried to find a Google web service that would do Mercator projection mathematics but couldn't find anything.\r\n",
+    "timestamp" : 1299121812,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8334091807886418781,
+    "content" : "It's lame but in the past, I've backed all of the math out to proj4 and used that to generate baseline tests.  You'd think even some of that core math should be easy, but I've found an endless array of ways to screw it up.\r\n\r\nSee: https://github.com/stellaeof/nanomaps\r\n\r\nSpecifically projtest, client/test for tests.  See the Projections object and MapTransform class in client/lib/nanomaps.core.js and the TileSelector.selectTiles method in client/lib/nanomaps.tiles.js.\r\n\r\nThis was inspired by several sources including the Microsoft article and some experience doing this a few times and getting it wrong or not abstracted to a useful level.\r\n\r\nLet me know if I can help in any way.  Feel free to cut the calculations out of nanomaps, load 'em up an Rhino and use them as a basline if you want to.  I of course can't vouch that they are 100% bug free but its at least an accessible baseline.",
+    "timestamp" : 1299436511,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Well proj4 is highly regarded and used everywhere, so results from that are a pretty solid reference. Thanks for providing a link to your tests - we might just use your test values and build off of that.",
+    "timestamp" : 1299475589,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "I added some simple tests that exercise the TileSystem class and compare it to the Mercator class. The comments contain notes on how to go from WGS84 to EPSG:900913 to TMS to Google Maps and back using PROJ4.\r\n\r\nThe algorithms produce equal results when going from pixel to lat/long, but when going from lat/long to pixel there needs to be a delta of at least 2 to pass. I have to do some more digging when I have time to find which algorithm is off. Not sure how good the tests are, but they are a start.",
+    "timestamp" : 1299641686,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "What does everybody think about switching to using longs instead of ints for all pixel calculations? As-is we have a max zoom level of 22 (23 overflows at the max edge) which covers most tile sources, but we have a good opportunity to future-proof here and support higher zoom levels.",
+    "timestamp" : 1299806221,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding using longs: I wouldn't bother - YAGNI ;-)",
+    "timestamp" : 1299830097,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "The attached patch replaces the Mercator class with the TileSystem class. I would however like to maybe make some more changes - specifically with making nomenclature consistent, maybe consolidate a few functions.",
+    "timestamp" : 1299910698,
+    "attachments" : [ {
+      "id" : -8552686798043886228,
+      "fileName" : "TileSystemPatch.patch",
+      "fileSize" : 22943
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Final patch attached.\r\n\r\nAdditional changes include moving tile size tracking to TileSystem class, removal of dead code, explicit definitions of different nomenclature used for different tile systems.",
+    "timestamp" : 1299999237,
+    "attachments" : [ {
+      "id" : 6107043288010881235,
+      "fileName" : "TileSystemPatch.patch",
+      "fileSize" : 43049
+    } ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "I've been using this patch for a few days now and I have had good results, so I am going to check in the changes.",
+    "timestamp" : 1300244398,
+    "attachments" : [ {
+      "id" : 6591580460455757881,
+      "fileName" : "TileSystemPatch.patch",
+      "fileSize" : 43667
+    } ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updated in r877.",
+    "timestamp" : 1300244860,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r881.\n\nFix for scroll adjustments in zooms where the world size is smaller than the screen size and also fixes things like the ScaleBarOverlay getting the proper latitude in the center of the screen.",
+    "timestamp" : 1300247926,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been working swimmingly. I am going to close the ticket.",
+    "timestamp" : 1301622005,
+    "attachments" : [ ]
+  } ]
+}

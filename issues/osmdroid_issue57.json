@@ -1,0 +1,21 @@
+{
+  "id" : 57,
+  "status" : "Duplicate",
+  "summary" : "Osmdroid crashes on screen rotation or when coming from background",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7522982573818872053,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Osmdroid on 2.1 on a Desire\r\n2. Rotating the screen results in a crash \r\nreport about every 6th or 8th time.\r\n3. Bringing back Osmdroid from \r\nbackground results in a crash in almost 1 \r\nout of 2 times\r\n",
+    "timestamp" : 1275133383,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1276874011,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,33 @@
+{
+  "id" : 252,
+  "status" : "Invalid",
+  "summary" : "redraw path overlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4338371214755166606,
+    "content" : "\r\nHello and sorry for my english,\r\ni've a problem with the path overlay of the osmdroid-libary 3.0.4.\r\ni want to change the path.\r\nbut after the second methode call the path would'nt change. it still is the path of the first call.\r\n\r\nhere is the methode, which draw the path\r\nevery waypoint has a geopoint-object, which includes the coordinates\r\n\r\n\r\nprivate void setPathInMap() {\r\n\r\n\tthis.pathOverlay = new PathOverlay(Color.BLUE, this);\r\n\tthis.mapView.getOverlays().add(this.pathOverlay);\r\n\r\n\t/* Setzen der Wegpunkte */\r\n\tfor (WayPoint wayPoint : this.tour.getWayPoints()) {\r\n\r\n\t\tdouble latitude = wayPoint.getGeoPoint().getLatitude();\r\n\t\tdouble longitude = wayPoint.getGeoPoint().getLongitude();\r\n\r\n\t\tthis.pathOverlay.addPoint(new org.osmdroid.util.GeoPoint(latitude,\r\n\t\t\t\tlongitude));\r\n\t}\r\n\t\r\n\tthis.mapView.invalidate();\r\n}\r\n\r\nhas anybody an idea\r\n\r\nthanks for your help",
+    "timestamp" : 1314560508,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4338371214755166606,
+    "content" : "Sorry for my Issue. I've solved the problem. Thank you for your understanding.",
+    "timestamp" : 1314654802,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Submitter says it is not an issue",
+    "timestamp" : 1314940702,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6577323425361031389,
+    "content" : "Hey kannst mir vlt sagne wie du das gelöst hast. habe das Problem das meine wegPunkte nicht korrekt gesetz werden ",
+    "timestamp" : 1404291119,
+    "attachments" : [ ]
+  } ]
+}

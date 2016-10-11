@@ -1,0 +1,61 @@
+{
+  "id" : 178,
+  "status" : "Fixed",
+  "summary" : "OOME causes huge amount of data transfer",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1950478617448552596,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. Reproduce the OutOfMemoryExcpetion as described in issue 156, e.g.\r\n   start and finish the OpenStreetMapViewer sample several times\r\n   with enabled compass or enabled myLocation \r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n   Since the map tiles are cached, I expect that there is no data\r\n   transfer from the tile server. But as soon as the OOME occurs,\r\n   osmdroid seems to constantly reading map tiles from the server\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n   Osmdroid: a version without fix of issue 156\r\n   Android: 1.6 to 2.2, I did not test higher versions\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI didn't check in detail, but i assume the following flow: if a tile request fails because of the OOME, osmdroid tries to get the tile from the server, which also fails because of the OOME. Then the map is redrawn, which causes a new tile request, causing a loop of constantly server access.\r\nThis leads to an unexptected huge amount of data transfer which may become expensive for the user.\r\n\r\nIssue 156 is closed now, but there may be other causes for OOME, so it would be good to find a solution for this. For example, osmdroid could ignore tile requests after an OOME as long as the memory usage is still high.\r\n\r\n",
+    "timestamp" : 1299247268,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "It sounds like the issue here is that if we are in a low memory situation, then the filesystem provider will OOM, which will then proceed to the tile download provider. The tile download provider will then download the data, try to create a Bitmap, and OOM. So the phone downloaded the data from the Internet and has nothing to show for it. The screen then gets refreshed causing another tile request and more wasted data traffic.\r\n\r\nIt's a tough situation - how do we know we are in a \"major failure\" situation and then how do we know when we've recovered?\r\n\r\nI think one way we can greatly limit the impact of this situation is to throw a CantContinueException from the TileDownloader when we get an OOM. This will clear the pending queue for the TileDownloader, preventing needless download + OOM cycles, while still allowing at least one tile request to determine if we are still in a low-memory situation. We will probably have to have make ITileSource.getDrawable throw OOM rather than return null and require the tile providers to handle the exception so they can throw CantContinueException.",
+    "timestamp" : 1299376970,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Java purists are suggesting to not even catch OOM:\r\n\r\nhttp://stackoverflow.com/questions/1692230/is-it-possible-to-catch-out-of-memory-exception-in-java\r\n\r\nbut maybe in our case it's applicable since we are dealing with sizable allocations and we have a cache where we can reclaim memory to make room.\r\n\r\nThere is a lot of talk about using SoftReferences. This seems like a great solution, but apparently SoftReferences are broken in Android 1.5 - 1.6:\r\n\r\nhttp://www.mail-archive.com/android-developers@googlegroups.com/msg47879.html\r\nhttp://stackoverflow.com/questions/4337285/android-heap-size-and-softreferences\r\nhttp://stackoverflow.com/questions/4014033/android-the-gc-doesnt-respect-softreferences\r\n\r\nSo, maybe when we get an OOM the behavior should be to make a call to something like mTileCache.freeLRUTile() and then to try again. This would allow downloaded tiles to download and (eventually) properly render and save to the file cache. The unfortunate visual side-effect of an OOM situation would be \"flashing\" loading tiles on the screen since there isn't enough memory for all tiles on the screen in the cache. Also, the app would stutter as the GC hammers the system.\r\n\r\nI am not an Android memory expert, so is it reasonable to assume that if we get an OOM even after a GC that we will eventually get some memory back for our process and recover? Looking at the responses in the first link, it sounds like once you hit OOM, you're on the road to ruin and you can't really recover. So, what is our best-case scenario during a low-memory situation? Should we try to run things the best we can and perform poorly, or should we gracefully refuse to display tiles until the user frees up some memory? Perhaps offer the option of both?",
+    "timestamp" : 1299381018,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am submitting the following patch as the solution described in comment 1. We bubble up a LowMemoryException to the tile provider modules, who then throw a CantContinueException which causes their tile request queue to clear.",
+    "timestamp" : 1299384108,
+    "attachments" : [ {
+      "id" : -443247192992187158,
+      "fileName" : "LowMemoryExceptionPatch.patch",
+      "fileSize" : 6799
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1950478617448552596,
+    "content" : "I don't know which is the best way to recover from low memory situations, but I am sure that a waste of data traffic must be prevent in any case. Even a termination of the app as worst case scenario would be better than that.\r\nIn consideration of the fact that an OOME should be a very seldom exceptional event, I even would accept an error message, followed by the termination.",
+    "timestamp" : 1299487283,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am going to apply this patch, and close this ticket. I think the idea of allowing an optional \"Low memory warning\" fallback view is worth exploring so I will add a new ticket for that.",
+    "timestamp" : 1299820586,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed by r870",
+    "timestamp" : 1299821476,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1299821497,
+    "attachments" : [ ]
+  } ]
+}

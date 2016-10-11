@@ -17,6 +17,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import org.osmdroid.R;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 
@@ -37,6 +38,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     TextView cache_estimate;
     CacheManager mgr;
     AlertDialog downloadPrompt=null;
+    AlertDialog alertDialog=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,7 +105,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
 
         // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog = alertDialogBuilder.create();
 
         // show it
         alertDialog.show();
@@ -119,7 +121,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
 
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
-        BoundingBoxE6 boundingBox = mMapView.getBoundingBox();
+        BoundingBox boundingBox = mMapView.getBoundingBox();
         zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax(mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloader.this);
@@ -130,13 +132,13 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
         zoom_min.setProgress(mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
         cache_east= (EditText) view.findViewById(R.id.cache_east);
-        cache_east.setText(boundingBox.getLonEastE6() /1E6 +"");
+        cache_east.setText(boundingBox.getLonEast() +"");
         cache_north= (EditText) view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorthE6() /1E6 +"");
+        cache_north.setText(boundingBox.getLatNorth() +"");
         cache_south= (EditText) view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouthE6() /1E6 +"");
+        cache_south.setText(boundingBox.getLatSouth()  +"");
         cache_west= (EditText) view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWestE6() /1E6 +"");
+        cache_west.setText(boundingBox.getLonWest()  +"");
         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
@@ -187,7 +189,7 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();
                 //nesw
-                BoundingBoxE6 bb= new BoundingBoxE6(n, e, s, w);
+                BoundingBox bb= new BoundingBox(n, e, s, w);
                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
                 cache_estimate.setText(tilecount + " tiles");
                 if (startJob)
@@ -202,6 +204,11 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
                         @Override
                         public void onTaskComplete() {
                             Toast.makeText(getActivity(), "Download complete!", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onTaskFailed(int errors) {
+                            Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -300,5 +307,16 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if (alertDialog!=null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
+        if (downloadPrompt!=null && downloadPrompt.isShowing()){
+            downloadPrompt.dismiss();
+        }
     }
 }

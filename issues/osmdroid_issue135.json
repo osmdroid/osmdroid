@@ -1,0 +1,31 @@
+{
+  "id" : 135,
+  "status" : "Fixed",
+  "summary" : "Add Mapquest/OSM to the list of tile sources",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2951569362663853146,
+    "content" : "Mapquest recently turned into OSM [1] and launched open.mapquest.com.\r\n\r\nThey're using OSM data and a custom opensourced stylesheet [2] of their own for Mapnik.\r\n\r\nMap API is fully compatible with OSM format [3].\r\n\r\nSince it's directly OSM related I think these maps have their place in the list of tile sources.\r\n\r\nPatch attached.\r\n\r\nIn few months (when finished and on the Market) I will also add the project I'm working on to the list of applications using osmdroid jar :)\r\n\r\n[1]\r\nhttp://blog.mapquest.com/2010/12/16/mapquest-proudly-introduces-open-mapquest-com/\r\n[2]\r\nhttps://github.com/MapQuest/MapQuest-Mapnik-Style\r\n[3]\r\nhttp://developer.mapquest.com/web/products/open/map",
+    "timestamp" : 1294855067,
+    "attachments" : [ {
+      "id" : -76904275406416196,
+      "fileName" : "mapquest_osm.patch",
+      "fileSize" : 1709
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294867666,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r722.",
+    "timestamp" : 1294867920,
+    "attachments" : [ ]
+  } ]
+}

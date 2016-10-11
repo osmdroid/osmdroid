@@ -1,0 +1,51 @@
+{
+  "id" : 497,
+  "status" : "Fixed",
+  "summary" : "VerifyError on Android 1.6 (increase minSdkVersion to 7)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use an app that uses osmdroid on a device with Android 1.6\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe app crashes with VerifyError\r\n\r\nWe should increase the minSdkVersion to 8. \r\n\r\nFor more confirmation/information see\r\nhttp://lmgtfy.com/?q=verifyerror+android+1.6",
+    "timestamp" : 1386015753,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5664868089688706949,
+    "content" : "well Actually I managed to run Osmdroid on Android 2.1 device (that is API level 7) and maybe it would be runnable also on 1.6 if newer methods would be called by using reflection?",
+    "timestamp" : 1386084580,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes, I should have said API 7 rather than 8.\r\n\r\nYou could avoid all the newer methods by using reflection, but that's only necessary for 1.6 so it doesn't seem worth the effort. With newer versions you can just avoid calling unimplemented methods. With 1.6 you get the VerifyError when you load the class containing an unimplemented method.",
+    "timestamp" : 1386087309,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1388858098,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Also update Prereqs wiki page to reflect new minSdkVersion.",
+    "timestamp" : 1392910076,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1445.",
+    "timestamp" : 1393528602,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1446.",
+    "timestamp" : 1393528653,
+    "attachments" : [ ]
+  } ]
+}

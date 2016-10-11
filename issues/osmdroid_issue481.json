@@ -1,0 +1,69 @@
+{
+  "id" : 481,
+  "status" : "New",
+  "summary" : "Multitouch strange behavior",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6999585313919299855,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. open activity with the map (MapView in xml)\r\n2. zoom in/out using pinch zoom gestures\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nMap should zoom in/out to the point between my fingers\r\n\r\nHowever map sometimes &quot;jumps&quot; and is centered in random locations.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nI'm using osmdroid-android-3.0.10.jar and testing on:\r\n\r\n- Samsung Galaxy Ace\r\n- LG P970",
+    "timestamp" : 1379501396,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6441937852382994768,
+    "content" : "Got the smame issue.\r\nAfter a pinch to zoom, map seem to pan in a random direction, as if it capture a touch event on one finger when getting finger off the screen.\r\nMaybe increase the delay off MultiTouchController.EVENT_SETTLE_TIME_INTERVAL ",
+    "timestamp" : 1391006283,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3239100840179992849,
+    "content" : "Comment deleted",
+    "timestamp" : 1394152064,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3239100840179992849,
+    "content" : "Have you found any solution for that issue? Increasing MultiTouchController.EVENT_SETTLE_TIME_INTERVAL didn't help. I tried to locate the problem with debugging but didn't find anything. If I hold the fingers for some time before releasing the fingers, the zoom works fine.",
+    "timestamp" : 1394152144,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6441937852382994768,
+    "content" : "yes, i found a solution.\r\nNot the best, but it's work.\r\n\r\nI extended the map, and when user stop pinch zoom, the map can't move for some time\r\n\r\nhttp://pastebin.com/Cwady8fq",
+    "timestamp" : 1394177587,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3239100840179992849,
+    "content" : "Thanks for the solution.\r\nIt's kind of a dirty hack, but it works. The issue should stay open until someone finds a more clean solution I guess.\r\n\r\nRegarding your code: Since API-8 the constants you use are depricated and should be replaced with the new ones (e.g. ACTION_POINTER_DOWN) + MotionEvent.ACTION_MASK.",
+    "timestamp" : 1394491210,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 531 has been merged into this issue.",
+    "timestamp" : 1394550855,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6441937852382994768,
+    "content" : "Yep i know, not really pretty, but it's work.\r\nThanks for the deprecated advice",
+    "timestamp" : 1394550907,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 2716855076048042089,
+    "content" : "An alternative workaround might be to  introduce a counter variable that ignores the first X move requests after the last zoom.\r\n\r\nhttp://pastebin.com/2Zq78eSr\r\n\r\nIgnoring the first move after a zoom seems to deal with 95% of all jump cases. For the rest 2 moves have to be ignored.\r\n\r\nNot sure if this is device specific, it works on a Nexus 5.\r\n\r\nIt's still a not so pretty workaround instead of a solution.\r\n\r\n",
+    "timestamp" : 1399641601,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -1487353074550968546,
+    "content" : "The onTouchEvent workaround doesn't work in the following case:\r\n1. drag a map with one finger\r\n2. touch by second finger and perform zoom\r\n3. release the first finger\r\n4. drag a map with second finger\r\n\r\nI think some scroll state is not cleaned up after touch count change. I don't see a way to fix it without touching osmdroid sources. I will try it later.",
+    "timestamp" : 1410380852,
+    "attachments" : [ ]
+  } ]
+}

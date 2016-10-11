@@ -1,0 +1,27 @@
+{
+  "id" : 38,
+  "status" : "WontFix",
+  "summary" : "Use smaller tiles for the map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6556601514708298404,
+    "content" : "Current map tiles are quite large, 256x256 I guess.\r\nLet's make them smaller - 128x128.\r\n\r\nThat would have two benefits:\r\n- faster responses when loading new regions.\r\n- smaller lag on loading the image in memory. 256x256 image loading\r\nproduces noticable UI lag.",
+    "timestamp" : 1271159056,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "Loading a lot of tiles also adds overhead (a thread and a queue entry for each tile).\r\nAlso we depend on the prerendered tiles from OSM and these are 256x256. You can try\r\ncloudmade small tiles to compare the effects.",
+    "timestamp" : 1271497587,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "You're also limited by the tiles that are available.",
+    "timestamp" : 1286775615,
+    "attachments" : [ ]
+  } ]
+}

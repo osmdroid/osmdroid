@@ -1,0 +1,27 @@
+{
+  "id" : 220,
+  "status" : "Fixed",
+  "summary" : "Not able to install OpenStreetMapViewer-3.0.4.apk",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3648234740252880217,
+    "content" : "Steps to reproduce the problem:\r\n\r\n1. I downloaded the apk and tried to install in my Emulator using &quot;adb install&quot; through command prompt, while installing it says &quot;Failure [INSTALL_FAILED_MISSING_FEATURE]&quot;.\r\n\r\n2. I tried with 3 emulators among which one supports Google Maps, But in all three emulators, installation failed.\r\n\r\nI got the below message:\r\n\r\n685 KB/s (330670 bytes in 0.471s)\r\n        pkg: /data/local/tmp/OpenStreetMapViewer-3.0.4.apk\r\nFailure [INSTALL_FAILED_MISSING_FEATURE]\r\n",
+    "timestamp" : 1306410315,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1306413804,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r936.",
+    "timestamp" : 1306435057,
+    "attachments" : [ ]
+  } ]
+}

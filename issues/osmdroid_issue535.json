@@ -1,0 +1,15 @@
+{
+  "id" : 535,
+  "status" : "New",
+  "summary" : "Low memory exception",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7366161743434508599,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I dont know how to reproduce the problem yet. But it has happened many time. Sorry.\r\n2. I think it happened while i was shifting between horizontal and vertical directions - fast to test my own app, if it crashed or not.\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nSometime when my app is going to fetch the tiles the app get extreme slow. Today I connected the debugger in Eclipse and could see that Dalvik was complaining about &quot;Out of memeory&quot; and it looks like it has something todo with Omsdroid?\r\n\r\n04-13 08:23:36.914: W/o*.o*.t*.m*.MapTileDow*(4316): LowMemoryException downloading MapTile: /17/69813/41304 : org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase$LowMemoryException: java.lang.OutOfMemoryError\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$CantContinueException: org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase$LowMemoryException: java.lang.OutOfMemoryError\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileDownloader.java:223)\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1112)\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:587)\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): Caused by: org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase$LowMemoryException: java.lang.OutOfMemoryError\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(BitmapTileSourceBase.java:151)\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat org.osmdroid.tileprovider.modules.MapTileDownloader$TileLoader.loadTile(MapTileDownloader.java:213)\r\n04-13 08:23:36.924: I/o*.o*.t*.m*.MapTileMod*(4316): \tat org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.getDrawable(BitmapTileSourceBase.java:144)\r\n\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nIm using OsmDroid 4.1 for android :-)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1397371039,
+    "attachments" : [ ]
+  } ]
+}1397371039,"attachments":[]}]}

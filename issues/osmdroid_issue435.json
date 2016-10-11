@@ -1,0 +1,121 @@
+{
+  "id" : 435,
+  "status" : "Fixed",
+  "summary" : "OSMDroid no map loading while changing zoom level",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 18,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7925452615266139692,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use offline SQLite DB. Set to zoom level 13 \r\n2. Change to zoom level 14.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expected to see the tiles from 14 zoom level. But they are not been loaded and instead of them I saw tiles from 13 level, stretched to 14 level. On 15 level I saw no tiles at all.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nAndroid 4.0. OSMDroid 3.0.9\\3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nUsed code below:\r\n\r\npackage com.example.testprojectmaps;\r\nimport java.io.File;\r\n\r\nimport org.osmdroid.DefaultResourceProxyImpl;\r\nimport org.osmdroid.ResourceProxy;\r\nimport org.osmdroid.tileprovider.LRUMapTileCache;\r\nimport org.osmdroid.tileprovider.MapTileProviderArray;\r\nimport org.osmdroid.tileprovider.modules.IArchiveFile;\r\nimport org.osmdroid.tileprovider.modules.MBTilesFileArchive;\r\nimport org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider;\r\nimport org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;\r\nimport org.osmdroid.tileprovider.tilesource.XYTileSource;\r\nimport org.osmdroid.tileprovider.util.SimpleRegisterReceiver;\r\nimport org.osmdroid.util.BoundingBoxE6;\r\nimport org.osmdroid.util.GeoPoint;\r\nimport org.osmdroid.views.MapController;\r\n\r\nimport android.app.Activity;\r\nimport android.os.Bundle;\r\nimport android.os.Environment;\r\nimport android.view.Menu;\r\nimport android.view.MotionEvent;\r\n \r\npublic class MapActivity extends Activity {\r\n \r\n  @SuppressWarnings(&quot;unused&quot;)\r\n  private static final String TAG = &quot;RouteMapActivity&quot;;\r\n \r\n  private BoundedMapView mapView;\r\n  \r\n  \r\n  \r\n  @Override\r\n  public void onCreate(Bundle savedInstanceState) {\r\n\t  \r\n\r\n    super.onCreate(savedInstanceState);\r\n \r\n    DefaultResourceProxyImpl resProxy;\r\n    resProxy = new DefaultResourceProxyImpl(this.getApplicationContext());\r\n \r\n    XYTileSource tSource;\r\n    tSource = new XYTileSource(&quot;mbtiles&quot;,\r\n    ResourceProxy.string.offline_mode,\r\n    8, 15, 256, &quot;.png&quot;, &quot;http://who.cares/&quot;);\r\n \r\n    SimpleRegisterReceiver sr = new SimpleRegisterReceiver(this);\r\n\r\n    String packageDir = &quot;/Maps&quot;;\r\n    String p = Environment.getExternalStorageDirectory() + packageDir;\r\n    File f = new File(p, &quot;HollandRoute.mbtiles&quot;);\r\n    IArchiveFile[] files = { MBTilesFileArchive.getDatabaseFileArchive(f) };\r\n \r\n    MapTileModuleProviderBase moduleProvider;\r\n    moduleProvider = new MapTileFileArchiveProvider(sr, tSource, files);\r\n \r\n    MapTileModuleProviderBase[] pBaseArray;\r\n    pBaseArray = new MapTileModuleProviderBase[] { moduleProvider };\r\n \r\n    MapTileProviderArray provider;\r\n    provider = new MapTileProviderArray(tSource, null, pBaseArray);\r\n    \r\n\r\n    mapView = new BoundedMapView(this, resProxy, provider);\r\n\r\n    double north = 52.6297;\r\n    double east  =  5.3496;\r\n    double south = 52.1613;\r\n    double west  =  4.4638;\r\n    BoundingBoxE6 bBox = new BoundingBoxE6(north, east, south, west);\r\n\r\n    mapView.setScrollableAreaLimit(bBox);\r\n    mapView.setBuiltInZoomControls(true);\r\n\r\n    // Zoom in and go to Amsterdam\r\n    MapController controller = mapView.getController();\r\n    controller.setZoom(14);\r\n    controller.animateTo(new GeoPoint(52.373444, 4.892229));\r\n\r\n\r\n    // Set the MapView as the root View for this Activity; done!\r\n    setContentView(mapView);\r\n    \r\n  }\r\n \r\n  @Override\r\npublic boolean onTouchEvent(MotionEvent event) {\r\n\t  \r\n\t  \r\n\t \r\n\t  \r\n\t  \r\n\t//Toast.makeText(this, &quot;Hello&quot;, Toast.LENGTH_SHORT).show();\r\n\treturn super.onTouchEvent(event);\r\n}\r\n\r\n@Override\r\n  public boolean onCreateOptionsMenu(Menu menu) {\r\n    //getMenuInflater().inflate(R.menu.activity_route_map, menu);\r\n    return true;\r\n  }\r\n}\r\n\r\n\r\n",
+    "timestamp" : 1369824871,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Are you *sure* you have offline tiles at zoom level 14? Can you check your database?",
+    "timestamp" : 1369831820,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 236670418119058171,
+    "content" : "Same here. I got a database with levels 14, 15, 16 and 17. 14 and 15 are shown without a problem, but 16 and 17 will stretch from the other levels. Or if you start on level 17 everything will be blank until you zoom out to level 15.\r\nGoogle Nexus 7, Android 4.2.2 and HTC Desire, Android 2.2.2, both wrong with 3.0.10.\r\nLinking my app to OsmDroid 3.0.8 solves the problem.",
+    "timestamp" : 1371752741,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you for the additional information. Can you debug DatabaseFileArchive.getInputStream() and see what happens when you are looking at zoom level 16 or 17. Does the method get hit? If so, why doesn't it return a tile? Does it get hit at zoom level 14 and 15?\r\n\r\nAlso if you have a small database that exhibits the issue, please attach it to this ticket.",
+    "timestamp" : 1371770608,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 236670418119058171,
+    "content" : "This is the database. As you can see the tiles are located around N 51.4788 E 3.6158\r\n\r\nCan I debug the code when I'm just linking to the jar-file? I'll try.",
+    "timestamp" : 1371810229,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 236670418119058171,
+    "content" : "I debugged DatabaseFileArchive.getInputStream() with 3.0.10 and it is NOT hit on levels 16 and 17. And of course it is hit on levels 14 and 15. All 4 levels are hit with version 3.0.8",
+    "timestamp" : 1372334483,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 236670418119058171,
+    "content" : "FYI: my implementation of IArchiveFile",
+    "timestamp" : 1372334680,
+    "attachments" : [ {
+      "id" : 4350006000,
+      "fileName" : "LocusTiles.java",
+      "fileSize" : 2804
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Your problem is now clear to me:\r\n\r\nXYTileSource tSource;\r\n    tSource = new XYTileSource(\"mbtiles\",\r\n    ResourceProxy.string.offline_mode,\r\n    8, 15, 256, \".png\", \"http://who.cares/\");\r\n\r\nYou are saying that this tile source only contains tiles from zoom levels 8-15. Change the parameters to allow for the full range of zoom levels. We changed the array provider to not ask for tiles that the tile provider can't provide.\r\n\r\n",
+    "timestamp" : 1372339511,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 236670418119058171,
+    "content" : "I'm afraid you're mixing up two different problems. The topic starter has a database with level 8-15 with 14 and 15 not showing. So he is correct in limiting the zoom levels from 8 to 15.\r\nI have a database with levels 14-17 with 16 and 17 not showing. But I'm not using XYTileSource, but just implementing IArchiveFile, where/how should I indicate the needed levels? ",
+    "timestamp" : 1372340514,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Ah, yes. What TileSource are you passing to MapTileFileArchiveProvider()?",
+    "timestamp" : 1372340728,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 236670418119058171,
+    "content" : "I'm using:\r\nSimpleRegisterReceiver simpleReceiver = new SimpleRegisterReceiver(this);\r\nmResourceProxy = new DefaultResourceProxyImpl(getApplicationContext());\r\nFile sqliteDatabaseFile = new File(kaartNaam);\r\nLocusTiles locusTilesFileArchive = LocusTiles.getDatabaseFileArchive(sqliteDatabaseFile);\r\nIArchiveFile[] files = { locusTilesFileArchive };\r\nMapTileModuleProviderBase moduleProvider = new MapTileFileArchiveProvider(simpleReceiver, locusTileSource, files);\r\nmProvider = new MapTileProviderArray(locusTileSource, null, new MapTileModuleProviderBase[]{ moduleProvider } );\r\nmapView = new ZoomLimitOsmDroidMapView(this, 256, mResourceProxy, mProvider);\r\nmapView.setMinZoomLevel(locusTilesFileArchive.getMinZoom());\r\nmapView.setMaxZoomLevel(locusTilesFileArchive.getMaxZoom());\r\n\r\nwhere \"locusTilesFileArchive.getMinZoom()\" gives 14 and \"locusTilesFileArchive.getMaxZoom()\" gives 17\r\n\r\nCan it be a problem that I'm setting the min and max zoomlevels to the mapView, and not somehow to the tile provider? And if so, how do i correct that?\r\n",
+    "timestamp" : 1372342681,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Can you show me how locusTileSource gets created? That is the TileSource I am interested in.",
+    "timestamp" : 1372343616,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 236670418119058171,
+    "content" : "Arghhh! You're spot on!\r\n\r\nPrivate XYTileSource locusTileSource = new XYTileSource(\r\n\"locus\", ResourceProxy.string.offline_mode, 6, 15, 256, \".png\", \"http://i.dont.care.org/\");\r\n\r\nSo the same as the topic starter ;-)\r\nHow did I miss that :-(\r\n\r\nI will fix this and get back to you if it fixed my problem...",
+    "timestamp" : 1372343960,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 236670418119058171,
+    "content" : "Yep, problem fixed!\r\nThank you so much for your support!",
+    "timestamp" : 1372344086,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Good to know! I'd still like to know why locusTilesFileArchive.getMaxZoom() returned 17 if the tile source was at max 15...",
+    "timestamp" : 1372345335,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 236670418119058171,
+    "content" : "Because I read that value myself directly from the file...\r\nI should have used moduleProvider.getMinimumZoomLevel() I suppose?!",
+    "timestamp" : 1372345821,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "Ah - yes, you are correct.\r\n\r\nIf the original poster (avmalyutin) would like to speak up to let us know if this also solves their problem then I can close this ticket. Otherwise I will close it after a few days.",
+    "timestamp" : 1372346589,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1373489665,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 6,
+  "status" : "Fixed",
+  "summary" : "Wrong Lat / Lng- Span returned from the OpenStreetMapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8672641486114876643,
+    "content" : "I think I found a copy-paste error in the OpenStreetMapView:\r\n\r\npublic double getLatitudeSpan() {\r\n  return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;\r\n}\r\npublic int getLatitudeSpanE6() {\r\n  return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();\r\n}\r\npublic double getLongitudeSpan() {\r\n  return this.getDrawnBoundingBoxE6().getLatitudeSpanE6() / 1E6;\r\n}\r\npublic int getLongitudeSpanE6() {\r\n  return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();\r\n}\r\n\r\nWorkaround: Get the Span directly from the BoundinBoxE6\r\n\r\nKind regards\r\nMaxim\r\n",
+    "timestamp" : 1243425838,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "Fixed in rev 81.",
+    "timestamp" : 1256850433,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8778289522063822345,
+    "content" : "getLatitudeSpan() and getLongitudeSpanE6() always return wrong value:\r\n\r\n        public double getLatitudeSpan() {\r\n                return this.getDrawnBoundingBoxE6().getLongitudeSpanE6() / 1E6;\r\n        }\r\n\r\n        public int getLongitudeSpanE6() {\r\n                return this.getDrawnBoundingBoxE6().getLatitudeSpanE6();\r\n        }\r\n\r\nI noticed this in current trunk (rev 448) and in osmdroid-android-10.7.jar. \r\n\r\nRegards, \r\nJérémie",
+    "timestamp" : 1288660800,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4077663858291302058,
+    "content" : "I saw the same thing. Can someone reopen this issue ?\r\nThanks",
+    "timestamp" : 1289496844,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "fixed again in revision 482",
+    "timestamp" : 1289503247,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think you also missed:\r\n\r\n\tpublic int getLongitudeSpanE6() {\r\n\t\treturn this.getDrawnBoundingBoxE6().getLatitudeSpanE6();\r\n\t}",
+    "timestamp" : 1289535550,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Fixed in revision 486 (why didn't Google Code automatically pick up on the comment?)",
+    "timestamp" : 1289549446,
+    "attachments" : [ ]
+  } ]
+}

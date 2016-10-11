@@ -1,0 +1,87 @@
+{
+  "id" : 345,
+  "status" : "Fixed",
+  "summary" : "Icons disappear when scrolling over intl. date line",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add an icon to the map west of and close to the international date line, for example something in New Zealand (MyLocationOverlay is affected in the same way if you happen to be in that area).\r\n2. Scroll the visible map so that the international date line is appearing on the right hand side of the visible map\r\n3. The icon will disappear\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nAll icons should be visible if included in visible map area.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem occurs when the MapView spans more than 1 single world size, i.e. the MapView longitudinal range spans the world twice or more times. The method toMapPixels() puts the result point on the rightmost copy of the world - which is not always visible.\r\n\r\nThe fix is simply to subtract the world map size from the longitude if the point then is still right of the left boundary of the view port:\r\n\r\n\t\tpublic Point toMapPixels(final IGeoPoint in, final Point reuse) {\r\n\t\t\tfinal Point out = reuse != null ? reuse : new Point();\r\n\r\n\t\t\tTileSystem.LatLongToPixelXY(in.getLatitudeE6() / 1E6, in.getLongitudeE6() / 1E6,\r\n\t\t\t\t\tgetZoomLevel(), out);\r\n\t\t\tout.offset(offsetX, offsetY);\r\n\t\t\tif (out.x - TileSystem.MapSize(getZoomLevel()) &gt;= getScrollX() - getWidth() / 2) {\r\n\t\t\t\tout.x -= TileSystem.MapSize(getZoomLevel());\r\n\t\t\t}\r\n\t\t\treturn out;\r\n\t\t}\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1337510073,
+    "attachments" : [ {
+      "id" : 3450000000,
+      "fileName" : "datelin01.png",
+      "fileSize" : 42211
+    }, {
+      "id" : 3450000001,
+      "fileName" : "datelin02.png",
+      "fileSize" : 39935
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 239 and issue 285.",
+    "timestamp" : 1337587443,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8177012077806897919,
+    "content" : "Actually there is a slightly smarter fix for this. Firstly the problem can also effect the latitudinal part of the coordinate as well and secondly in some circumstances icons got moved to the right in a non-smooth way when scrolling.\r\n\r\nThis approach tries to keep the icon on the closest possible position to the map centre:\r\n\t\tpublic Point toMapPixels(final IGeoPoint in, final Point reuse) {\r\n\t\t\tfinal Point out = reuse != null ? reuse : new Point();\r\n\t\t\tTileSystem.LatLongToPixelXY(in.getLatitudeE6() / 1E6, in.getLongitudeE6() / 1E6,\r\n\t\t\t\t\tgetZoomLevel(), out);\r\n\t\t\tout.offset(offsetX, offsetY);\r\n\t\t\tif (Math.abs(out.x - getScrollX()) > Math.abs(out.x\r\n\t\t\t\t\t- TileSystem.MapSize(getZoomLevel()) - getScrollX())) {\r\n\t\t\t\tout.x -= TileSystem.MapSize(getZoomLevel());\r\n\t\t\t}\r\n\t\t\tif (Math.abs(out.y - getScrollY()) > Math.abs(out.y\r\n\t\t\t\t\t- TileSystem.MapSize(getZoomLevel()) - getScrollY())) {\r\n\t\t\t\tout.y -= TileSystem.MapSize(getZoomLevel());\r\n\t\t\t}\r\n\t\t\treturn out;\r\n\t\t}\r\n",
+    "timestamp" : 1337757765,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 285 has been merged into this issue.",
+    "timestamp" : 1337888303,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 239 has been merged into this issue.",
+    "timestamp" : 1337888316,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thanks for the patch.",
+    "timestamp" : 1337888365,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1101.",
+    "timestamp" : 1337889116,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6893030347072487526,
+    "content" : "Comment deleted",
+    "timestamp" : 1345325664,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 6893030347072487526,
+    "content" : "Thanks for reopening this as items east of dateline still disappear when map center is west of dateline.\r\n\r\nlink to issue 364",
+    "timestamp" : 1345829813,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -8177012077806897919,
+    "content" : "A small extension of my previous patch will fix this also for objects east of the date line.",
+    "timestamp" : 1349899342,
+    "attachments" : [ {
+      "id" : 3450009000,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 1333
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "The last path was applied in revision 1363.",
+    "timestamp" : 1381431433,
+    "attachments" : [ ]
+  } ]
+}

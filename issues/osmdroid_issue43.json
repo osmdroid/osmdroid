@@ -1,0 +1,129 @@
+{
+  "id" : 43,
+  "status" : "Fixed",
+  "summary" : "Make osmdroid usable as a library",
+  "labels" : [ "Type-Enhancement", "Priority-High" ],
+  "stars" : 0,
+  "commentCount" : 20,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "It would be handy if other applications using osmdroid could just include it \r\nas a library instead of copying the source code.\r\n\r\nI think this only requires that the resources are retrieved from the jar \r\ninstead of from R.\r\n\r\nPerhaps it means we make a new project for the jar and then change \r\nOpenStreetMapViewer to use the jar instead of including the code.\r\n\r\nSee also: http://code.google.com/p/osmtracker-android/issues/detail?id=19#c16",
+    "timestamp" : 1271401012,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1863237549592128961,
+    "content" : "Neil, thanks for creating the issue, I'll add some background on my need and what I intend to try to contribute.\r\n\r\nI am going to try to port osmdroid to blackberry's java APIs so I can use it in a product I am developing. I've taken a \r\nlook at Blackberry's APIs, it's Java but with differences. From a quick browser I saw the following differences : there \r\nis no equivalent to Activities and Services, no Handlers, drawing is done differently and network connections are handled \r\nwith a specific API.\r\nI would rather participate in a code refactoring of osmdroid rather than fork the project so this is the ideal issue to \r\ndiscuss this.\r\n\r\nI haven't looked at the latest trunk line nor the patches so maybe some of what I will write below has already been done, \r\nplease give me some feedback.\r\nThe line of attack I was intending to follow was to isolate all generic code (tile calculations, caching, etc) from the \r\nAndroid specific classes and have the Android classes delegate calls to methods on those generic classes. Then I would be \r\nable to build Blackberry classes to delegate to those same generic classes.\r\nIn some cases it might make sense to use inheritence such as for file IO in the tile caching subsystem or when creating \r\nstrings.\r\n\r\nRegarding R constants and resources, the way I've been doing in my project where I have an SDK that needs to display \r\nstrings is to define each string constant in an RPoxy interface and have each application using the SDK JAR provide the \r\nRPoxy interface to the activities, services, etc by subclassing my SDK classes and instantiating that class during \r\nconstruction. The SDK classes all have an abstract getRProxy() method... you get the idea.\r\nSince Android allows any file name in the strings directory, I provide a complete strings file that contains everything \r\nthat's needed (same for layouts, etc). I also provide a default RProxyImpl class that refers to those constants. If \r\nRProxyImpl is positionned in the package used in the manifest, no import is required for R and it works out of the box.\r\nI'll have to dive into the blackberry SDK to see how this would need to be modified : I'd probably have RProxy return \r\nstrings rather than ints..\r\nNicolas is going to give me write access and I'd like to do this on a branch so others can test the changes before they \r\nget merged into trunk.\r\n\r\nYour thoughts ?  Please note this is a proposed solution to a totally different problem than sharing the cache across \r\ninstalled apps.",
+    "timestamp" : 1271446147,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "That would mean having these projects:\r\n\r\n1. a pure Java (not Android) library for the common parts\r\n2. an Android library for the Android library parts (views etc) - uses common library\r\n3. the same for Blackberry (were you intending to make this a part of osmdroid?)\r\n4. the current OpenStreetMapViewer project - uses 1 and 2 (lots of code moved out)\r\n\r\nAnyone else using osmdroid would do the same kind of stuff that 4 does (or using 1 and 3 for Blackberry).",
+    "timestamp" : 1271534861,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1863237549592128961,
+    "content" : "Yeah, that's the way I see it. Anyone else want to chip in on the discussion ?\r\nDo you anticipate any problems with this line of attack ?",
+    "timestamp" : 1271626065,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "And how about putting the whole tile provider stuff into 1 instead of having a separate service?",
+    "timestamp" : 1271653634,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "@watcherFR may I suggest that you ask the project owner to make you a committer and \r\nmake these changes in a branch.\r\n\r\nSee also issue 45.",
+    "timestamp" : 1272020037,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I have created a branch for this issue.\r\n\r\nMy plan is the following:\r\n1. create empty projects for the jars\r\n2. gradually move code from OpenStreetMapViewer into the new projects *without \r\nchanging anything*\r\n3. later think about changes such as those suggested in issue 45.\r\n\r\nIf it goes well up to step 2, that would probably be a good time to merge back into \r\ntrunk.\r\n",
+    "timestamp" : 1272525896,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Done step 1 in revision 148",
+    "timestamp" : 1272531558,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1863237549592128961,
+    "content" : "@neilboyd, been caught up with something else. Won't be able to work on it as soon as I thought.\r\nAnyway, do you want me to put my changes into the branch mentioned in comment 6 of this issue or another \r\none ?",
+    "timestamp" : 1272836166,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've moved some more code into the jars, up as far as revision 157.\r\n\r\nIt also includes a simple resource provider, but having just re-read comment 1 above I could do it better.\r\n\r\n*BUT* I'm at the point where the service is interfering. The service uses a generated interface, and it's quite well \r\nembedded into the overlays and thus the main map view.\r\n\r\nI think it might be better to \"prepare\" the trunk by removing the service and the database, and a little bit of re-\r\norganising within the packages so that it becomes more obvious which package belongs in which jar. We could also do \r\nthe resource proxy beforehand. And then we can start again with extracting it into jars.",
+    "timestamp" : 1272964626,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -4559957080370849073,
+    "content" : "I think this is a great idea!\r\nMaybe this is an opportunity to make this library something that is a drop-in\r\nreplacement for Google Maps. There are many apps that use the Google Maps API and\r\nthey might want to switch to osmdroid for licensing/feature reasons so it'd be great\r\nto make this easy.",
+    "timestamp" : 1273580738,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "I have a new plan ;-)\r\n\r\n1. Get rid of the database.\r\n2. Get rid of the service.\r\n3. Make *one* new project for OpenStreetMapView library and the supporting classes.\r\n4. Split out into two libraries (one Android and one generic).\r\n\r\nI'll do each of steps 1 to 3 on it's own branch. I'll try and do each one quickly to avoid diverging the code. \r\n(When I say quickly I don't mean soon - I mean when I have time I'll do it in one big chunk).\r\n\r\nI'm not too bothered about step 4 - perhaps someone else could do it.\r\n",
+    "timestamp" : 1273590435,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done point 1 from the previous comment. This is the same as issue 41.\r\n\r\nI made a bit of a mess of the branch so I'll make a new one.",
+    "timestamp" : 1273653357,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've removed the service and I'm ready to merge this back into trunk.\r\n\r\nIt's not actually removed, I've just made it optional - if the service exists then it'll use it, otherwise \r\nit won't.\r\n\r\nI didn't do any real measurements, but my impression is that the non-service version is much quicker.\r\n\r\nI'd appreciate some people looking at it. My plan is to merge it into trunk at the beginning on next week.\r\n\r\nIt's the branch issue-43-no-service.\r\n",
+    "timestamp" : 1274437360,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 1877693134105515180,
+    "content" : "Maybe something interesting with the latest Android SDK:\r\nhttp://developer.android.com/guide/developing/other-ide.html#libraryProject",
+    "timestamp" : 1274444631,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thanks for that suggestion. This might be partly useful but my aim is still to make a \r\njar. Perhaps I can make a library project but make a jar rather than use it the way \r\nit's intended. Doing it as a regular library project would be a good second best in \r\ncase the jar doesn't work out.",
+    "timestamp" : 1274448532,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've merged in the change to allow the tile provider to run without being in a service.\r\n\r\nAnd made a new branch for the real work of this issue.\r\n\r\nRevision 194.",
+    "timestamp" : 1274789475,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I'm ready to merge the jar version back into trunk.\r\n\r\nThis is the branch issue-43-jar.\r\n\r\nI'll probably merge it in early next week.\r\n",
+    "timestamp" : 1276169231,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is now merged into trunk with revision 225.\r\n",
+    "timestamp" : 1276867693,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue is now resolved.\r\n\r\nFurther work regarding making osmdroid useable for non-Android platforms has been moved to issue 62.",
+    "timestamp" : 1276868022,
+    "attachments" : [ ]
+  } ]
+}

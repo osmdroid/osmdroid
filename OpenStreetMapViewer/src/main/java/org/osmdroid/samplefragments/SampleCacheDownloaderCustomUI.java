@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 
 import org.osmdroid.R;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.views.MapView;
 
@@ -31,9 +31,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
     }
 
     ProgressDialog progressBar;
-    private int progressBarStatus = 0;
-    private Handler progressBarHandler = new Handler();
-
+    
     Button btnCache, executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
@@ -123,7 +121,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
 
         View view = View.inflate(getActivity(), R.layout.sample_cachemgr_input, null);
 
-        BoundingBoxE6 boundingBox = mMapView.getBoundingBox();
+        BoundingBox boundingBox = mMapView.getBoundingBox();
         zoom_max = (SeekBar) view.findViewById(R.id.slider_zoom_max);
         zoom_max.setMax(mMapView.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(SampleCacheDownloaderCustomUI.this);
@@ -134,13 +132,13 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         zoom_min.setProgress(mMapView.getMinZoomLevel());
         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderCustomUI.this);
         cache_east = (EditText) view.findViewById(R.id.cache_east);
-        cache_east.setText(boundingBox.getLonEastE6() / 1E6 + "");
+        cache_east.setText(boundingBox.getLonEast() + "");
         cache_north = (EditText) view.findViewById(R.id.cache_north);
-        cache_north.setText(boundingBox.getLatNorthE6() / 1E6 + "");
+        cache_north.setText(boundingBox.getLatNorth()  + "");
         cache_south = (EditText) view.findViewById(R.id.cache_south);
-        cache_south.setText(boundingBox.getLatSouthE6() / 1E6 + "");
+        cache_south.setText(boundingBox.getLatSouth()  + "");
         cache_west = (EditText) view.findViewById(R.id.cache_west);
-        cache_west.setText(boundingBox.getLonWestE6() / 1E6 + "");
+        cache_west.setText(boundingBox.getLonWest()  + "");
         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 
         //change listeners for both validation and to trigger the download estimation
@@ -191,7 +189,7 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
                 int zoommin = zoom_min.getProgress();
                 int zoommax = zoom_max.getProgress();
                 //nesw
-                BoundingBoxE6 bb = new BoundingBoxE6(n, e, s, w);
+                BoundingBox bb = new BoundingBox(n, e, s, w);
                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
                 cache_estimate.setText(tilecount + " tiles");
                 if (startJob) {
@@ -325,5 +323,14 @@ public class SampleCacheDownloaderCustomUI extends BaseSampleFragment implements
         if (progressBar != null) {
             progressBar.setMax(total);
         }
+    }
+
+    @Override
+    public void onTaskFailed(int errors) {
+        if (progressBar!=null)
+            progressBar.dismiss();
+        progressBar = null;
+        Toast.makeText(getActivity(), "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+
     }
 }

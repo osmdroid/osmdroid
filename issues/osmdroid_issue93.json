@@ -1,0 +1,43 @@
+{
+  "id" : 93,
+  "status" : "Fixed",
+  "summary" : "NPE in OpenStreetMapTileFilesystemProvider when no andnav2 dir on startup",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "Seeing an NPE in OpenStreetMapTileFilesystemProvider when starting on a device without /sdcard/andnav2/ directory. Attached is simple fix.\r\n\r\n09-19 23:03:20.782: ERROR/AndroidRuntime(447): Caused by: java.lang.NullPointerException\r\n09-19 23:03:20.782: ERROR/AndroidRuntime(447):     at org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider.findZipFiles(OpenStreetMapTileFilesystemProvider.java:148)\r\n09-19 23:03:20.782: ERROR/AndroidRuntime(447):     at org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider.&lt;init&gt;(OpenStreetMapTileFilesystemProvider.java:63)\r\n09-19 23:03:20.782: ERROR/AndroidRuntime(447):     at org.andnav.osm.views.util.OpenStreetMapTileProviderDirect.&lt;init&gt;(OpenStreetMapTileProviderD\r\n\r\n",
+    "timestamp" : 1284957112,
+    "attachments" : [ {
+      "id" : 8493373777632865772,
+      "fileName" : "tilediff.txt",
+      "fileSize" : 676
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "You must have read my mind! I just made a note to myself to check in general how osmdroid behaves when the sdcard is not available, and then I saw this issue. I think I can do a less simple and more comprehensive fix.",
+    "timestamp" : 1285053048,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1285055112,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r379.",
+    "timestamp" : 1285079259,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 31.",
+    "timestamp" : 1285131598,
+    "attachments" : [ ]
+  } ]
+}

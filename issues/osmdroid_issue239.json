@@ -1,0 +1,39 @@
+{
+  "id" : 239,
+  "status" : "Duplicate",
+  "summary" : "overlay item disappear in the east/west border",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3950189987089543328,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nI extended Overlay class and implemented the draw function.\r\n\r\nI'm using Projection.toMapPixels and Projection.getScreenRectangle to see if the overlay item needs to be drawn or not.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nthe item will also be displayed when the map is between the east/west boarders. \r\n\r\nfor example, currently if I scroll the map east, when I cross the east boarder the item disappears before it comes out of the screen.\r\n\r\n\r\n\r\n",
+    "timestamp" : 1310633156,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3950189987089543328,
+    "content" : "Comment deleted",
+    "timestamp" : 1310635097,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 285",
+    "timestamp" : 1331500649,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 345.",
+    "timestamp" : 1337587452,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I will fix this as issue 345.",
+    "timestamp" : 1337888316,
+    "attachments" : [ ]
+  } ]
+}

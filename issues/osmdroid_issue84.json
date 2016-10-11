@@ -1,0 +1,35 @@
+{
+  "id" : 84,
+  "status" : "Duplicate",
+  "summary" : "Make OpenStreetMapView extends ViewGroup",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "Hi,\r\n\r\nI add a change in order to make OpenStreetMapView extends the ViewGroup  class rather than View class. It allows you to add a view positioned relative to a GeoPoint.\r\n\r\nAll redraw stuff and events are passed to the view so as the view is clickable as all its contents and can be redraw when state change.\r\n\r\nAs I don't have a multitouch android device I couldn't test some parts of the code. Mostly, the touch events managed by the dispatchTouchEvent method, and the dispatchDraw method especially the lines from 878 to 883 in the new class.\r\n\r\nI attach my OpenStreetMapView class and a sample project that explains a little how to use it.\r\n\r\nHope this could help your project.",
+    "timestamp" : 1283768387,
+    "attachments" : [ {
+      "id" : 5786441704683708923,
+      "fileName" : "OpenStreetMapView.java",
+      "fileSize" : 48048
+    }, {
+      "id" : 2716309163354003018,
+      "fileName" : "sample.tar",
+      "fileSize" : 1177600
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1286775450,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1296194802,
+    "attachments" : [ ]
+  } ]
+}

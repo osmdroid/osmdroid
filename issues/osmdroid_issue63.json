@@ -1,0 +1,77 @@
+{
+  "id" : 63,
+  "status" : "Fixed",
+  "summary" : "Support Android 1.5",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "It looks like the only thing being used that requires Android 1.6 are the zoom controls. If they were wrapped by something that checks for their existence first through reflection, this should work ok on 1.5, which is still 25% of the devices out there.\r\n",
+    "timestamp" : 1276971068,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 96660131602258341,
+    "content" : "Oops, missed the DisplayMetrics.DENSITY_DEFAULT and densityDpi that are in now, they'd need to be wrapped as well.",
+    "timestamp" : 1276974205,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The density stuff would be easy enough to do with reflection.\r\n\r\nI had a look at doing the zoom controls with reflection a while ago but didn't find a solution.  This project was upgraded to 1.6 a long time ago, before I started working on it, and now that 1.5 is fading fast it doesn't seem worth spending a lot of effort to make it backwards compatible.\r\n\r\nIf you can provide a nice solution then I'll be happy to use it.",
+    "timestamp" : 1277115765,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 96660131602258341,
+    "content" : "I managed to get the zoom buttons working with this, feel free to use it.",
+    "timestamp" : 1278172317,
+    "attachments" : [ {
+      "id" : -1763259759447040659,
+      "fileName" : "ZoomButtonsController.java",
+      "fileSize" : 4208
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 96660131602258341,
+    "content" : "And the diffs needed for DefaultResourceProxyImpl and CloudmadeUtil.",
+    "timestamp" : 1278177735,
+    "attachments" : [ {
+      "id" : 4069310170036943170,
+      "fileName" : "diff.txt",
+      "fileSize" : 3449
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 250956797218298740,
+    "content" : "I'm interested in 1.5 compatibility too. Thanks for looking into this, bob.hagemann!",
+    "timestamp" : 1278185588,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r271.",
+    "timestamp" : 1278256685,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thanks Bob. I've committed everything, with a few minor changes.",
+    "timestamp" : 1278256931,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "This change should be undone once 1.5 is not used any more, at least in the OpenStreetMapViewer app, because the resolution doesn't look very good in 1.5.",
+    "timestamp" : 1278340643,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "This blog has some nice tips:\r\nhttp://android-developers.blogspot.com/2010/07/how-to-have-your-cupcake-and-eat-it-too.html",
+    "timestamp" : 1279699403,
+    "attachments" : [ ]
+  } ]
+}

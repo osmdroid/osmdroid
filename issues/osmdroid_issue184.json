@@ -1,0 +1,21 @@
+{
+  "id" : 184,
+  "status" : "Invalid",
+  "summary" : "OverlayItem Drawable Hotspot incorrectly placed.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3223337063080062260,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.  Use an OverlayItem that is not square.\r\n2.  The Hotspot will not be placed correctly if y (non 0) is involved.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nThe hotspot is at the right spot.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nCan't remember.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe problem is evident in the source code.\r\n\r\nOverlayItem.java line 211\r\n\r\nmaybe it should read: \r\n\r\nthis.getWidth(), this.getHeight()  \r\n\r\ninstead of 2 calls to getWidth().\r\n",
+    "timestamp" : 1300140586,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This was fixed in r802. Please update to the latest build.",
+    "timestamp" : 1300158163,
+    "attachments" : [ ]
+  } ]
+}

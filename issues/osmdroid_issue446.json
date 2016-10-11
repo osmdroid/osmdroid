@@ -1,0 +1,81 @@
+{
+  "id" : 446,
+  "status" : "New",
+  "summary" : "Not See Map - osmdroid 3.0.10",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 12,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2665887482209025299,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Not see mapView\r\nCode:\r\nprivate MapView mapView;\r\n\tprotected static GeoPoint point = new GeoPoint(32.341609,31.863321);\r\n\r\n\t@Override\r\n\tprotected void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t\tsetContentView(R.layout.activity_main);\r\n\r\n\t\t\r\n\t\tmapView = (MapView) findViewById(R.id.mapview);\r\n\t\tmapView.setBuiltInZoomControls(true);\r\n\t\tmapView.getController().setZoom(16);\r\n\t\tmapView.getController().setCenter(point);\r\n}}\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nSmall squares of the map without markings.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\non android 4.1.2.\r\n\r\nIn osmdroid 3.0.4 All worked fine.\r\n",
+    "timestamp" : 1372661301,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please take a look at the sample application which works fine. See what is different with your implementation or provide more information.",
+    "timestamp" : 1372684239,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2665887482209025299,
+    "content" : "where is sample application?",
+    "timestamp" : 1372696079,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can get it from SVN:\r\n\r\nsvn checkout http://osmdroid.googlecode.com/svn/trunk/ osmdroid-read-only\r\n\r\nor you can browse the code here:\r\n\r\nhttps://code.google.com/p/osmdroid/source/browse/#svn%2Ftrunk%2FOpenStreetMapViewer",
+    "timestamp" : 1372723332,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4604368852987718931,
+    "content" : "I can confirm this issue. The problem happens with the setZoom() call. Without that call, the map loads correctly, and can be easily zoomed in fully. With that call, however, the map doesn't load, but there seem to be a lot of HTTP requests (based on repeat messages from Apache HTTP). My guess is that it's downloading tiles starting from zoom level 1.",
+    "timestamp" : 1377828770,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "You're going to need to provide more information. When I put mMapView.getController.setZoom(16) in the OpenStreetMapViewer project's onCreateView() I get no issue. What version of Android does it work and which does it not work? What version of osmdroid? What map tile source are you using? Where do you deviate from the OpenStreetMapViewer project which does work correctly?\r\n\r\nWhat happens if you move the setZoomLevel() to onActivityCreated()?",
+    "timestamp" : 1377872143,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 4604368852987718931,
+    "content" : "I only tested Android 4.1.2 since I only have physical access to that. I can test in a VM if need be. Osmdroid version is 3.0.10 with slf4j 1.6.1 RC1 and the Mapnik tile source.\r\n\r\nUnlike the sample project, I have an xml block that creates the map view (https://code.google.com/p/osmdroid/wiki/HowToIncludeInYourProject). The reason I have an xml block instead of instantiating it from Java itself is because I need the map to occupy only part of the view instead of the whole view, as I have other controls to display there. Also, in the onCreate() method, I'm getting the mapView I declared in the xml and am adding a location overlay, compass overlay, and a marker.\r\n\r\nAlso, I'm not using fragment, but rather just doing everything in an activity. I can try using fragments and moving setZoomLevel() to onActivityCreated(), but I'll have to get back to my room first.",
+    "timestamp" : 1377877862,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the additional information. This appears to be tied to using an XML layout and it may have to do with using an Activity directly.\r\n\r\nWe have a sample that uses XML layout - SampleFragmentXmlLayout. You can get to it by starting OpenStreetMapViewer and then going to Samples->MapView in XML Layout. Maybe use that as a starting point to reproduce the issue.\r\n\r\nWhen using a Fragment, you get a reference to the MapView in onCreateView() whereas in an Activity you get can get access to it in onCreate() - maybe that has some bearing on the problem.",
+    "timestamp" : 1377881973,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -5558051668259636806,
+    "content" : "For what it's worth, I can reproduce this on Android 4.3 (emulator and Nexus 4) with osmdroid 3.0.10 and osmdroid 4.\r\nI also use a XML layout (with a fragment). I can zoom in with the controls on the screen without a problem.\r\nFurther I can see the map for a short moment, e.g. when I tilt the phone to landscape and then back to portrait. so the tiles are loaded it's just that they are not shown.",
+    "timestamp" : 1383336474,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "If anyone can upload a sample project that exhibits this then that would be helpful!",
+    "timestamp" : 1383336608,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -5417474653098829703,
+    "content" : "I noticed the same problem using current version of osmdroid demo app (open map) as well as open gps tracker. When I have no Internet connection often some tiles stay gray. Like rhis:\r\nhttp://s1.directupload.net/images/131123/irn9ofrr.png\r\nWhen I zoom out some levels and in again, it sometimes works. Sometimes other tiles are missing. \r\n",
+    "timestamp" : 1385214060,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -5417474653098829703,
+    "content" : "Sorry, I my problem is probably this one :\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=289&can=1&sort=-id\r\n",
+    "timestamp" : 1385214475,
+    "attachments" : [ ]
+  } ]
+}

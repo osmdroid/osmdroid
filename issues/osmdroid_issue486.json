@@ -1,0 +1,27 @@
+{
+  "id" : 486,
+  "status" : "Fixed",
+  "summary" : "OverlayManager - tilesOverlay is not really optionnal",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "\r\n<b>What steps will reproduce the problem?</b>\nIn OverlayManager, tilesOverlay was planned to be optionnal. \r\nBut setting a null tilesOverlay in the constructor causes a null pointer exception: OverlayManager o = new OverlayManager(null);\r\n\r\nWhat version of the product are you using? \r\nosmdroid 3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nHere is the fix in OverlayManager.class : \r\npublic void setTilesOverlay(final TilesOverlay tilesOverlay) {\r\n  mTilesOverlay = tilesOverlay;\r\n  if (mTilesOverlay != null) //THE TEST TO ADD\r\n    mTilesOverlay.setUseSafeCanvas(this.isUsingSafeCanvas());\r\n}\r\n",
+    "timestamp" : 1381896360,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1382125688,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1369.",
+    "timestamp" : 1382127350,
+    "attachments" : [ ]
+  } ]
+}

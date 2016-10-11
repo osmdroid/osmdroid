@@ -1,0 +1,27 @@
+{
+  "id" : 376,
+  "status" : "New",
+  "summary" : "r1121 breaks MyLocationOverlay close to dateline",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. turn on MyLocation while being close to the intl. dateline (physically or tweak the emulator)\r\n2. zoom out so that the screen spans the intl. dateline\r\n3. pan left and right\r\n4. the icon will disappear\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe icon should always be visible at the correct location\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr1123\r\n\r\n<b>Please provide any additional information below.</b>\nThis is basically caused by the same reasons as is issue 345. The fix provided under 345 does not help because r1121 of MyLocationOverlay stopped using the Projection.toMapPixels() method.\r\nThe patch for issue 364 does not help either for the same reason.\r\n\r\nSee attached patch.",
+    "timestamp" : 1349898869,
+    "attachments" : [ {
+      "id" : 3760000000,
+      "fileName" : "device-2012-10-11-081604.png",
+      "fileSize" : 39785
+    }, {
+      "id" : 3760000001,
+      "fileName" : "device-2012-10-11-081622.png",
+      "fileSize" : 42804
+    }, {
+      "id" : 3760000002,
+      "fileName" : "MyLocationOverlay.java.patch",
+      "fileSize" : 1977
+    } ]
+  } ]
+}

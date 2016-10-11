@@ -12,6 +12,7 @@ import org.osmdroid.views.overlay.Overlay.Snappable;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +41,13 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public void add(final int pIndex, final Overlay pElement) {
-        mOverlayList.add(pIndex, pElement);
+        if (pElement==null){
+            //#396 fix, null check
+            Exception ex = new Exception();
+            Log.e(IMapView.LOGTAG, "Attempt to add a null overlay to the collection. This is probably a bug and should be reported!",ex);
+        } else {
+            mOverlayList.add(pIndex, pElement);
+        }
     }
 
     @Override
@@ -50,8 +57,15 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
     @Override
     public Overlay set(final int pIndex, final Overlay pElement) {
-        Overlay overlay = mOverlayList.set(pIndex, pElement);
-        return overlay;
+        //#396 fix, null check
+        if (pElement==null){
+            Exception ex = new Exception();
+            Log.e(IMapView.LOGTAG, "Attempt to set a null overlay to the collection. This is probably a bug and should be reported!",ex);
+            return null;
+        } else {
+            Overlay overlay = mOverlayList.set(pIndex, pElement);
+            return overlay;
+        }
     }
 
 
@@ -108,13 +122,15 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
         }
 
         for (final Overlay overlay : mOverlayList) {
-            if (overlay.isEnabled()) {
+            //#396 fix, null check
+            if (overlay!=null && overlay.isEnabled()) {
                 overlay.draw(c, pMapView, true);
             }
         }
 
         for (final Overlay overlay : mOverlayList) {
-            if (overlay.isEnabled()) {
+            //#396 fix, null check
+            if (overlay!=null && overlay.isEnabled()) {
                 overlay.draw(c, pMapView, false);
             }
         }

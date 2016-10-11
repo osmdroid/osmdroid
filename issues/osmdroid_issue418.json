@@ -1,0 +1,33 @@
+{
+  "id" : 418,
+  "status" : "Fixed",
+  "summary" : "Allow setting explicit minimum/maximum zoom levels on the MapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "There have been numerous people who find it difficult to get the maps to limit the allowable min/max zoom levels. Normally we suggest they create an appropriate tile source. But it would be trivial for us to add a way to override the min/max zoom level and I think people will find that easier particularly if they want to limit the zoom levels in coordination with setting a limited scroll area.\r\n\r\nSee issue 398.\r\nhttp://stackoverflow.com/questions/14065840/right-way-of-setting-minimum-and-maximum-zoom-level-for-osmdroid\r\nhttp://stackoverflow.com/questions/6773480/android-osm-droid-set-max-zoom-level)",
+    "timestamp" : 1365098746,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 398 has been merged into this issue.",
+    "timestamp" : 1365098788,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been added in r1197.\r\n",
+    "timestamp" : 1365100000,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This appears to be working okay, so we can close this ticket.",
+    "timestamp" : 1365883308,
+    "attachments" : [ ]
+  } ]
+}

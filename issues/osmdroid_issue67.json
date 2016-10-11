@@ -1,0 +1,33 @@
+{
+  "id" : 67,
+  "status" : "Fixed",
+  "summary" : "Create mailing list",
+  "labels" : [ "Type-Other", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 250956797218298740,
+    "content" : "The only way to communicate between osmdroid developers seems to be this issue tracker. Can we start a mailing list?\r\nI can do it if you like but maybe someone with prior involvement prefers to be the owner.\r\n\r\nRegards\r\nAnders\r\nhttp://code.google.com/p/geohunter/\r\n",
+    "timestamp" : 1278437538,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 250956797218298740,
+    "content" : "The mailing list is created:\r\nhttp://groups.google.com/group/osmdroid\r\n\r\nEveryone is invited to join.",
+    "timestamp" : 1278598843,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1278599631,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 250956797218298740,
+    "content" : "",
+    "timestamp" : 1278938846,
+    "attachments" : [ ]
+  } ]
+}

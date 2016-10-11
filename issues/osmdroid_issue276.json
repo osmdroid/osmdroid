@@ -1,0 +1,81 @@
+{
+  "id" : 276,
+  "status" : "Started",
+  "summary" : "How to implement ballons overlay?",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3735850890632235004,
+    "content" : "I sucessfully have implemented OnTouchEvent which respond to Drag/Drop of overlays.  However, how can I add a ballonoverlay to an overlay item? Any suggestion? I has been trying modify android-mapviewballoons (https://github.com/jgilfelt/android-mapviewballoons) which work with Google Map but still is not working for me.",
+    "timestamp" : 1322076983,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1065103830500815556,
+    "content" : "This is not really a bug, but since you've pointed out something that I'm probably going to make use of I thought I'd share my first attempt at making it work. (currently I can't actually close the balloons once they open though)\r\n\r\nI've edited BalloonItemizedOverlay to use osmdroid classes and added a few little hacks which I've attempted to comment. \r\n\r\nI suggest you compare it to the original at\r\nhttps://github.com/jgilfelt/android-mapviewballoons/blob/master/android-mapviewballoons/src/com/readystatesoftware/mapviewballoons/BalloonItemizedOverlay.java .. and open a thread on the discussions as I imagine this will be closed pretty quick!\r\n",
+    "timestamp" : 1332357389,
+    "attachments" : [ {
+      "id" : 2760001000,
+      "fileName" : "BalloonItemizedOverlay.java",
+      "fileSize" : 10877
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 573776143219557484,
+    "content" : "I've successfully modified MarkersOverlayWithFocus to display a modified BalloonOverlayView (from https://github.com/jgilfelt/android-mapviewballoons/blob/master/android-mapviewballoons/src/com/readystatesoftware/mapviewballoons/BalloonOverlayView.java).\r\n\r\nThe code is for use within a Basic4Android project so i can't post working native Android SDK example but i'll attach my MyItemizedOverlayWithFocus and MyBalloonOverlayView classes.\r\n\r\nYou can hopefully follow my logic.\r\n\r\nIt all works well but the focused OverlayItem is no longer always drawn last (so that it appears upper most of all OverlayItems), i'm trying to fix that now.\r\n",
+    "timestamp" : 1334489330,
+    "attachments" : [ {
+      "id" : 2760002000,
+      "fileName" : "MyItemizedOverlayWithFocus.java",
+      "fileSize" : 6865
+    }, {
+      "id" : 2760002001,
+      "fileName" : "MyBalloonOverlayView.java",
+      "fileSize" : 4794
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 573776143219557484,
+    "content" : "Oooops i meant \"I've successfully modified ItemizedOverlayWithFocus\" and NOT \"I've successfully modified MarkersOverlayWithFocus\".\r\n",
+    "timestamp" : 1334489450,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1334502458,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5378609241692523464,
+    "content" : "Does anyone have a generic solution?  Comments 2 and 3 did not work for me",
+    "timestamp" : 1336008145,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 573776143219557484,
+    "content" : "My posted solution was originally developed to use within Basic4Android and i don't have the time to create a native Android example.\r\nBut let me try and help.\r\n\r\nFirst look at MyBalloonOverlayView class:\r\nhttp://android.martinpearman.co.uk/b4a/osmdroid/src/uk/co/martinpearman/b4a/osmdroid/views/overlays/MyBalloonOverlayView.java\r\n\r\nThis is a much modified version of the BalloonOverlayView class that can be found here:\r\nhttps://github.com/jgilfelt/android-mapviewballoons/blob/master/android-mapviewballoons/src/com/readystatesoftware/mapviewballoons/BalloonOverlayView.java\r\n\r\nI'm basically creating a FrameLayout with setters to set the balloon label text.\r\n\r\nThen i have my MyItemizedOverlayWithFocus class, a much modified version of the similarly named OSMDroid class:\r\nhttp://android.martinpearman.co.uk/b4a/osmdroid/src/uk/co/martinpearman/b4a/osmdroid/views/overlays/MyItemizedOverlayWithFocus.java\r\n\r\nIn one of the constructors i create an instance of MyBalloonOverlay and add it to the map.\r\n\r\nThen in MyItemizedOverlayWithFocus's draw method i check to see if an OverlayItem is focused and show or hide the MyBalloonOverlayView accordingly.\r\n\r\nWorks well and performs well - easily handles 100+ OverlayItems on a modest single core device such as my ZTE Blade.\r\n\r\nYou won't be able to copy n paste my code i think but have a look through it for some ideas.\r\n",
+    "timestamp" : 1336107202,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -2692774452490027943,
+    "content" : "What is b4a and why don't you simply develop for general Android SDK so that everyone can use it ? ;/",
+    "timestamp" : 1336736183,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -2692774452490027943,
+    "content" : "Also, can someone show me their class where these are implemented? e.g. MainActivity.java\r\n\r\nBecause I can't seem to get it working...",
+    "timestamp" : 1336737908,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 573776143219557484,
+    "content" : "For anyone that's starred this request we have a new option:\r\n\r\nhttp://code.google.com/p/osmbonuspack/\r\n\r\nI haven't tested it yet but it looks good.",
+    "timestamp" : 1339160810,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,49 @@
+{
+  "id" : 125,
+  "status" : "Fixed",
+  "summary" : "Enhancement for onSingleTapConfirmed handling in overlays.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2473213968216721319,
+    "content" : "Dear Osmdroid, \r\n\r\nOne of my overlays wants to handle the onSingleTapConfirmed action so I put in an interface into OpenStreetMapViewOverlay which any overlay can implement and the code into OpenStreetMapView.  I think other events could be handled this way.  Do you think this is suitable for inclusion or is there a better way to implement this.\r\n\r\nThanks, \r\nAron.\r\n\r\n\r\n\r\n\r\nInterface in OpenStreetMapViewOverlay\r\n\r\n\tpublic interface SingleTapConfirmed\r\n\t{\r\n\t\tpublic boolean onSingleTapConfirmed(final MotionEvent e);\r\n\t}\r\n\r\nCode in OpenStreetMapView.OpenStreetMapViewDoubleClickListener\r\n\r\n\t\t@Override\r\n\t\tpublic boolean onSingleTapConfirmed(final MotionEvent e) {\r\n\t\t\tboolean handled = false;\r\n\r\n\t\t\tList&lt;OpenStreetMapViewOverlay&gt; overlays = getOverlays();\r\n\t\t\t\r\n\t\t\tfor (OpenStreetMapViewOverlay osmvo : overlays) \r\n\t\t\t{\r\n\t\t\t\tif (osmvo instanceof SingleTapConfirmed)\r\n\t\t\t\t{\r\n\t\t\t\t\tSingleTapConfirmed stc = (SingleTapConfirmed)osmvo; \r\n\t\t\t\t\tif (stc.onSingleTapConfirmed(e))\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\t// if an overlay handles it exit\r\n\t\t\t\t\t\thandled = true;\r\n\t\t\t\t\t\tbreak;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\treturn handled;\r\n\t\t}\r\n",
+    "timestamp" : 1292506558,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I tried something else. See how the attached patch works.",
+    "timestamp" : 1292515177,
+    "attachments" : [ {
+      "id" : 4776740455508595657,
+      "fileName" : "single-tap.patch",
+      "fileSize" : 1481
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 2473213968216721319,
+    "content" : "Comment deleted",
+    "timestamp" : 1292515544,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 2473213968216721319,
+    "content" : "Yeah thats great, thought I had checked the latest version.  Havent tested it yet, I am quite a bit behind the latest version at the minute so wont be able to quickly test, but it looks right.\r\nThanks, \r\nAron.\r\n",
+    "timestamp" : 1292515676,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is a sub-task of issue 51 ",
+    "timestamp" : 1294809103,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r782.",
+    "timestamp" : 1297051369,
+    "attachments" : [ ]
+  } ]
+}

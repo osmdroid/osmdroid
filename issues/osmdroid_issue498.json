@@ -1,0 +1,45 @@
+{
+  "id" : 498,
+  "status" : "Fixed",
+  "summary" : "trying to use a recycled bitmap",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. zoom in or out\r\n\r\nI frequently get an exception in\r\nMapTileProviderBase$ZoomInTileLooper.handleTile\r\nand\r\nMapTileProviderBase$ZoomOutTileLooper.handleTile\r\njava.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap\r\n",
+    "timestamp" : 1386103533,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'll start by checking for isRecycled. If that doesn't work then I'll add a catch.",
+    "timestamp" : 1386104733,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Done in revision 1390.",
+    "timestamp" : 1386105392,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Maybe not related, but I have seen ConcurrentModificationException in this code:\r\n\r\n\r\n0\t\tjava.util.ConcurrentModificationException\r\n1\tat\tjava.util.LinkedList$LinkIterator.next(LinkedList.java:124)\r\n2\tat\torg.osmdroid.tileprovider.BitmapPool.obtainSizedBitmapFromPool(BitmapPool.java:58)\r\n3\tat\torg.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper.handleTile(MapTileProviderBase.java:335)\r\n4\tat\torg.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile(MapTileProviderBase.java:292)\r\n5\tat\torg.osmdroid.util.TileLooper.loop(TileLooper.java:34)\r\n6\tat\torg.osmdroid.tileprovider.MapTileProviderBase.rescaleCache(MapTileProviderBase.java:248)\r\n7\tat\torg.osmdroid.views.MapView.setZoomLevel(MapView.java:368)\r\n8\tat\torg.osmdroid.views.MapController.setZoom(MapController.java:182)\r\n9\tat\torg.osmdroid.views.MapController.onAnimationEnd(MapController.java:263)\r\n10\tat\torg.osmdroid.views.MapController$MyZoomAnimationListener.onAnimationEnd(MapController.java:302)\r\n\r\netc\r\n",
+    "timestamp" : 1386946932,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I made a fix in revision 1394.",
+    "timestamp" : 1386947403,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Seems to be working",
+    "timestamp" : 1388857992,
+    "attachments" : [ ]
+  } ]
+}

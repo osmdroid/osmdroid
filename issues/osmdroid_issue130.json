@@ -1,0 +1,99 @@
+{
+  "id" : 130,
+  "status" : "Fixed",
+  "summary" : "Refactoring work to be done during merge",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 15,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The plan to integrate the new modular tile architecture branch is to create a new namespace in the trunk and combine parts from the current namespace and the branch to make sure we have the latest from each. This gives us a window of opportunity to implement some refactoring tasks.\r\n\r\nThe ideas that have been thrown around by Neil and me:\r\n\r\n1. Changing namespace from &quot;org.andnav&quot; to &quot;org.osmdroid&quot;\r\n2. Changing parameter prefixes from &quot;a&quot; to &quot;p&quot; \r\n3. Removing &quot;OpenStreetMap&quot; prefixes on all files - do we want to replace it with &quot;OSM&quot;, or drop the prefix altogether?\r\n4. Any desire to bump up the API requirements? According to the source, 1.6 would give us native zoom controls.\r\n5. Should we consider making osmdroid an Android library instead of a JAR? With the latest SDK, Android libraries appear to be more functional.\r\n\r\nComments? Additional refactoring requests?",
+    "timestamp" : 1293760544,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding point 3, I think we should drop it altogether, except in some cases keep \"Map\", for example MapView.\r\n\r\nI don't see any benefit in doing 4 and 5 yet.  1.5 is still fairly well used.  Perhaps you should make separate issues for these.\r\n\r\nA couple of others thing we could consider are:\r\n\r\n6. Make it more consistent with Google Maps\r\n7. Use 100 line width\r\n8. Use final wherever possible, especially parameters\r\n\r\nBTW does anyone know a good way of moving in svn?  If you move a file in Eclipse it counts as a delete/add in svn, which is not good (it loses the history).  If you move in the repository browser (or the command line) then you have to do one file at a time with an immediate commit and then fix the compile errors as a separate commit.\r\n(I could answer my own question with this: http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-dug-rename.html but I'll ask anyway).\r\n",
+    "timestamp" : 1293780738,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps we should also do issue 62 now.\r\nOr if not, then cancel that issue and rename the project and the jar to remove the -android suffix.",
+    "timestamp" : 1293787686,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 6510511914231854592,
+    "content" : "Point 1: underlines the fact that this project is independent of AndNav.\r\n\r\nPoint 2: Sounds useful - is this a pattern recommended by Google or just a \"best-practise\"?\r\n\r\nRegarding Point 3 and 6: It depends on how you define osmdroid. If its only focus is (and will be) OSM there is no need to use a OSM related prefix. If you see osmdroid as a general map abstraction including a OSM implementation you will need to keep the prefix (at least in cases like OpenStreetMapView). I'm pointing out this second point of view since most app developers will not be able to rely completely on OSM even though they personally favor it over Google Maps. Currently every of them has to develop an integration layer on top of osmdroid/Google Maps. I like and use the proxy classes of of the open-gpstracker project representing this integration layer. It should be worth considering to include them into the osmdroid project if we agree to the broader focus of osmdroid.\r\n\r\n9. Add more comments: This is a framework and it is likely that developers not familiar with osmdroid internals will sometimes have to debug into the code. Besides, the comments will preserve whatever knowledge you have acquired about this domain.\r\n\r\nReading SVN move: With SmartSVN (Java) can move files/folders without loosing their history.",
+    "timestamp" : 1293790583,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6510511914231854592,
+    "content" : "I would cancel issue 62, keep a strong Android focus but include the integration layer described in comment 3. This would be most beneficial for a lot of developers.",
+    "timestamp" : 1293790793,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "There was a discussion about making a wrapper a while ago:\r\nhttps://groups.google.com/d/msg/osmdroid/kOzmu7uwtBM/iQXBrqckef4J\r\nI'm still in favour of this. It could be done now or later. I guess we should make an issue for it. The idea is that we add interfaces for common classes, and then make a new project that wraps Google Maps up in these interfaces.\r\nHowever, I don't see that it invalidates the need to remove the OSM prefix. If osmdroid and Google both have a MapView class that's not a problem. Users will only use the IMapView interface.\r\nThe project name already includes \"osm\" in it, and I think the intention is to keep it for OSM only.\r\n\r\nThe changes Marc has been making in the branch include a lot of improvements to the documentation, so this will also be merged in.  Of course there's always room for more.",
+    "timestamp" : 1293792142,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "It's an interesting point - this branch has made the project tile-provider independent (actually, it's always been that way), so it's not as tied to OSM, but I think the project will continue to be heavily associated with and typically used with OSM. That being said, I agree with Neil that we should drop the OSM prefixes. It's adds clutter.\r\n\r\nThe abstraction layer should be a separate ticket. It sounds like a great idea!\r\n\r\n",
+    "timestamp" : 1293853303,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "\r\nUpdated list of tasks:\r\n1. Changing namespace from \"org.andnav\" to \"org.osmdroid\"\r\n2. Changing parameter prefixes from \"a\" to \"p\" \r\n3. Removing \"OpenStreetMap\" prefixes on all files (except in some cases keep \"Map\", for example MapView)\r\n4. Use \"Eclipse\" code formatting settings, but change code and comments line width to 100\r\n5. Use final wherever possible, especially parameters",
+    "timestamp" : 1293853417,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Number 3 should try to keep naming in-line with Google Maps naming as described in:\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/d3d4f3f278657427",
+    "timestamp" : 1293863452,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 250956797218298740,
+    "content" : "1: I agree\r\n2: If you see a need for parameter prefixes at all, go ahead.\r\n3: Please remove those class prefixes. I agree with Neil that \"MapView\" is a good name.\r\n4: If a good move, better done as separate commit\r\n5: If a good move, better done as separate commit\r\n6: I really agree\r\n7: Agreed\r\n8: If you care to :)\r\n\r\nRegarding moving in svn, I recommend using the command line which results in copy+rm.\r\nhttp://svnbook.red-bean.com/en/1.1/re18.html\r\nMoving a whole directory works for me. You should also be able to do multiple moves in a single commit as long as they regard separate files. Fixing the package names is better done as a subsequent, separate commit to appease svn and for clarity. I can do it for you if you give me the details.",
+    "timestamp" : 1293877784,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "Current Status:\r\n1. Done! The merge is complete, and in the trunk under a new namespace. The old API is still there for the time being. We'll likely keep it until *everything* is done.\r\n2. Pending\r\n3. Pending\r\n4. Pending\r\n5. Pending",
+    "timestamp" : 1293984390,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "Current Status:\r\n1. Done! The merge is complete, and in the trunk under a new namespace. The old API is still there for the time being. We'll likely keep it until *everything* is done.\r\n2. Pending (might not be possible to automate - can anyone confirm?)\r\n3. Pending\r\n4. Done! Formatting settings XML file added to trunk\r\n5. Done! Clean-up settings XML file added to trunk",
+    "timestamp" : 1294007177,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Current Status:\r\n1. Done! The merge is complete, and in the trunk under a new namespace. The old API is still there for the time being. We'll likely keep it until *everything* is done.\r\n2. Pending (might not be possible to automate - can anyone confirm?)\r\n3. Done!\r\n4. Done! Formatting settings XML file added to trunk\r\n5. Done! Clean-up settings XML file added to trunk",
+    "timestamp" : 1294011729,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "#2 will not get done - sorry, it's all got to be done field-by-field :)  feel free to pick a class or a package and lend a hand!\r\n\r\nOtherwise - this ticket is toast!",
+    "timestamp" : 1294112898,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "The abstraction layer is issue 131.",
+    "timestamp" : 1294121568,
+    "attachments" : [ ]
+  } ]
+}

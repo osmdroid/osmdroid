@@ -1,0 +1,39 @@
+{
+  "id" : 133,
+  "status" : "Fixed",
+  "summary" : "Changes to Projection and related mathematics classes",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "There is a lot of undocumented and redundant code with the Projection class and the associated mathematical classes. I'd like to suggest some changes to declutter and streamline the classes:\r\n\r\nProjection - This class is used to project from real world (lat/long) points to map points (Mercator projection) and back again.\r\n1. Implement full getter/setters and only access private variables through the getters/setters. This is sorely needed to create &quot;mock&quot; projections.\r\n2. Remove all int[] representations (using MAPTILE_LATITUDE_INDEX and MAPTILE_LONGITUDE_INDEX) of results from the methods. Using the Point class is cleaner and functionally equivalent.\r\n3. Review all methods to make sure they are being used. If any methods are complicated and not general-purpose (projecting paths?) then maybe move them to a separate helper class.\r\n\r\nMercator - This class contains the mathematics to convert between lat/long and a flat-projection of the Earth.\r\n1. Remove all int[] representations (using MAPTILE_LATITUDE_INDEX and MAPTILE_LONGITUDE_INDEX) of results from the methods. Using the Point class is cleaner and functionally equivalent.\r\n\r\nBoundingBoxE6 - This class represents the current map's viewport (or a generic square area bound by N/S/E/W lat/long values).\r\n1. Remove getQuarter, getNorthEastQuarter, getNorthWestQuarter, getSouthEastQuarter, and getSouthWestQuarter since they are helper functions that aren't being used.\r\n\r\nDirection - Related to BoundingBoxE6.getQuarter\r\n1. Remove the class. It's a helper class that's not being used and provides minimal functionality.\r\n\r\nBasicPoint - The same thing as a Point class\r\n1. Remove the class.\r\n\r\n\r\nI don't want to go crazy, but I think these few small changes will move us towards a cleaner code base. Then we can get a clearer picture of what's left and what needs documentation or fixing up.\r\n\r\nComments?",
+    "timestamp" : 1294199603,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I agree that there's a lot of clutter and duplication that needs to be tidied up.\r\n\r\nWhy are mock projections \"sorely needed\"? For testing?",
+    "timestamp" : 1294209444,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294220593,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think doing the mini-map as an overlay would be much easier if I could use a mock projection class that I can manipulate. Without formal getters and setters it's not really possible to do that cleanly (that's why this is blocking issue 124). It would also help with testing, and plus it's just better form to use getters and setters.\r\n\r\nI *really* want to get the mini-map fixed since that would close a bunch of tickets and it would clean up the MapView class. This ticket will help with that effort.",
+    "timestamp" : 1294240921,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "These points are all implemented, and a lot of the code has been generally cleaned up, so we can close this ticket.",
+    "timestamp" : 1294721454,
+    "attachments" : [ ]
+  } ]
+}

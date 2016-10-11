@@ -1,0 +1,51 @@
+{
+  "id" : 50,
+  "status" : "Fixed",
+  "summary" : "Use separate API key for CloudMade tiles in OpenStreetMapRendererInfo.java",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "In OpenStreetMapRendererInfo.java:\r\n       \r\nCLOUDMADESMALLTILES(&quot;http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/&quot;,\r\n&quot;Cloudmade (Small tiles)&quot;, &quot;.jpg&quot;, 13, 6),\r\n       \r\nCLOUDMADESTANDARDTILES(&quot;http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/&quot;,\r\n&quot;Cloudmade (Standard tiles)&quot;, &quot;.jpg&quot;, 18, 8);\r\n\r\nIt is not allowed to use this apikey (BC9A493B41014CAABB98F0471D759707)\r\noutside of CloudMade website.\r\nYou should go to http://cloudmade.com and generate your own API key.\r\n\r\nNote: if you'll chose &quot;Mobile&quot; API key type - you should use new\r\nAuthorization schema: http://developers.cloudmade.com/projects/show/auth\r\nI suggest to use &quot;Web&quot; apikey for now.",
+    "timestamp" : 1273056432,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Specify it in the manifest instead of OpenStreetMapRendererInfo",
+    "timestamp" : 1276179007,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 61 has been merged into this issue.",
+    "timestamp" : 1276179024,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "From the above linked site:\r\n\r\n\"All mobile applications must be fully migrated to token based authorization by 1st Sep 2010.\"",
+    "timestamp" : 1276179089,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 60 has been merged into this issue.",
+    "timestamp" : 1276179107,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1277448317,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r248.",
+    "timestamp" : 1277726958,
+    "attachments" : [ ]
+  } ]
+}

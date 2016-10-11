@@ -1,0 +1,21 @@
+{
+  "id" : 321,
+  "status" : "Invalid",
+  "summary" : "OverlayManager onDraw draws all overlays twice",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1065103830500815556,
+    "content" : "Looking at the code I guess a subversion merge has gone wrong here..\r\n\r\nOverlayManager \r\npublic void onDraw(final Canvas c, final MapView pMapView)\r\n\r\nseems to contain the same code twice...",
+    "timestamp" : 1331817198,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "It calls it once with shadow true and once with false",
+    "timestamp" : 1332014846,
+    "attachments" : [ ]
+  } ]
+}

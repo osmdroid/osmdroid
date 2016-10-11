@@ -1,0 +1,21 @@
+{
+  "id" : 336,
+  "status" : "Duplicate",
+  "summary" : "Make sdcard directory configurable",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5639145057059151300,
+    "content" : "Enhancement request:\r\n\r\nCurrently, osmdroid uses a fixed subdirectory off the sdcard.  I expect many applications (including mine, for sure) will not want to have a shared directory for maps.  OpenStreetMapTileProviderConstants.OSMDROID_PATH sets this directory as a public static final.  Perhaps this could be overridden as one of the MapView constructor AttributeSet parameter items. \r\n",
+    "timestamp" : 1333963200,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1333982094,
+    "attachments" : [ ]
+  } ]
+}

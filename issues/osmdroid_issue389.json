@@ -1,0 +1,57 @@
+{
+  "id" : 389,
+  "status" : "Fixed",
+  "summary" : "osmdroid-third-party and Mapsforge new API",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nThe Mapsforge API was changed considerably at trunk version (with most changes at overlay API), not been anymore compatible with Google API add-on.\r\nThis cause the osmdroid-third-party not able to compile against the later Mapsforge trunk version code.\r\n\r\nThanks.",
+    "timestamp" : 1355993309,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "What do you suggest? Documenting the fact that it only works for 0.3.0?  As you say, it's unlikely to work with later versions because the osmdroid API is deliberately the same as Google and mapsforge is moving away from it.",
+    "timestamp" : 1356001311,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well personally I use the osmdroid-third-party but not for its mapsforge wrapper. I have to remove the wrapper classes in order to compile it.\r\nBut eventually the osmdroid-third-party does not compile anymore with the latest mapsforge trunk version, if you want to still support it may be changes have to be made or drop its support?\r\nStill it is a problem for those who use later version of mapsforge than 0.3.0",
+    "timestamp" : 1356001867,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I haven't looked at the code for a long time, but actually there's an empty mapsforge jar in the downloads section that allows you to compile as-is.\r\n\r\nBut I guess you're right, if there's no will to upgrade then it should be removed.",
+    "timestamp" : 1356012868,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "Actually the empty mapsforge jar conflicts with the regular full one if we want to have at a project's classpath both osmdroid and mapsforge full libraries.",
+    "timestamp" : 1365055627,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "If we've come to conclusion that the mapsforge wrapper stuff is obsolete, I'd like to remove it. Mapsforge is not in central repo and it is the last big hurdle in the build instructions on the Maven wiki page.",
+    "timestamp" : 1365816210,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Seems like a fair conclusion",
+    "timestamp" : 1365835244,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1217.",
+    "timestamp" : 1365883607,
+    "attachments" : [ ]
+  } ]
+}

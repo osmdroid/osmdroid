@@ -1,0 +1,21 @@
+{
+  "id" : 64,
+  "status" : "Fixed",
+  "summary" : "marker_default.png missing in osmdroid-android package",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3804822027311196058,
+    "content" : "Using the OpenStreetMapViewItemizedOverlayWithFocus (and OpenStreetMapViewItemizedOverlay) crashes, if it is being used without a ResourceProxy implementation. It references the following resources:\r\n\r\nmarker_default_focused_base\r\nmarker_default\r\n\r\nboth images are missing in the jar file in the download area and in SVN, they should be copied from the OsmStreetMapViewer/res/drawable folder.\r\n\r\ngreetings,\r\n\r\nMartin",
+    "timestamp" : 1277297007,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r244.",
+    "timestamp" : 1277362836,
+    "attachments" : [ ]
+  } ]
+}

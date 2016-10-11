@@ -1,0 +1,21 @@
+{
+  "id" : 476,
+  "status" : "New",
+  "summary" : "OSMMapTilePackager - FolderZipper creates a zip with an empty root entry",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -946680664757629511,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Set up a directory with tiles to import, e.g. dir = &quot;tilesExample&quot;\r\n2. Call FolderZipper.zipFolderToFile\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe first level of the zip file should be &quot;tilesExample&quot; whereas it is &quot;&quot;\r\nand the second level is &quot;tilesExample&quot;\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOSMMapTilePackager 3.10\r\n\r\n<b>Please provide any additional information below.</b>\nThe pb is coming from the directory basename which should contain the final '/'.\r\nI would correct as follows:\r\nl.44: final String baseName = pFolderToZip.getParent() + '/';\r\n\r\nbut how come nobody came across this pb?? would proposed fix ruin sth???",
+    "timestamp" : 1378749338,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The OSMMapTilePackager has been retired. We suggest you use MobileAtlasCreator http://mobac.sourceforge.net/. Some very basic info can be found at the wiki: https://code.google.com/p/osmdroid/wiki/MobileAtlasCreator.",
+    "timestamp" : 1378751971,
+    "attachments" : [ ]
+  } ]
+}eator.","timestamp":1378751971,"attachments":[]}]}

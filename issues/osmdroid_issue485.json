@@ -1,0 +1,33 @@
+{
+  "id" : 485,
+  "status" : "Fixed",
+  "summary" : "Clarity of osmdroid's Open Source License. Apache or LGPL?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7284640960205412733,
+    "content" : "1. The project homepage indicates this is an Apache licensed project.\r\n2. The project POM.xml file (and the Ohloh.net page) indicates this is LGPL licensed.\r\n\r\nPlease clarify which open source license this project is licensed under. The project creators can choose how to license their code. Adding an explicit LICENSE file makes it very clear. But having an indicator in one place that conflicts with the indicator on the other makes it confusing. I'd like to use the code and follow the license obligation (giving credit in my app's credit page), but I don't know which license you are asking me to follow.\r\n\r\nMy company is very comfortable with the Apache license :-).\r\nThanks.",
+    "timestamp" : 1381796850,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "We used to be LGPL, but we (the contributors) recently changed to Apache. I will leave this ticket open until we fix the POM file.",
+    "timestamp" : 1382108862,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1382127540,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1370.",
+    "timestamp" : 1382127674,
+    "attachments" : [ ]
+  } ]
+}

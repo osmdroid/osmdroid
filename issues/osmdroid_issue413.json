@@ -1,0 +1,273 @@
+{
+  "id" : 413,
+  "status" : "Accepted",
+  "summary" : "Get hardware acceleration working",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 44,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "At least two things that must be fixed:\r\n\r\n 1. Use of drawPicture(). Hardware acceleration no longer crashes when you try to do this, it just seems to draw nothing.\r\n\r\n 2. Fix safe canvas drawing issues. This may hold some answers: https://code.google.com/p/android/issues/detail?id=24517",
+    "timestamp" : 1364521191,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Safe canvas drawing and hardware acceleration is fixed in r1189.",
+    "timestamp" : 1364525565,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nThe View.getMatrix() is \"Added in API level 11\".\r\nI see at manifest minSdkVersion=\"3\" but now I cannot compile / run osmdroid apps with Android smaller than 11.\r\nAm I missing something?\r\n\r\nThanks.",
+    "timestamp" : 1364553443,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "You're right - I will have to add code to fall back if the API is lower.",
+    "timestamp" : 1364568313,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Give the trunk a try now.",
+    "timestamp" : 1364568787,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1918333713940407975,
+    "content" : "The \"Use system API constants\" produces again issues, as the Build.VERSION_CODES.HONEYCOMB is also \"Added in API level 11\".",
+    "timestamp" : 1364574302,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "You need to target API 16, but keep the minimum API at 4.",
+    "timestamp" : 1364574501,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "For future reference: http://android-developers.blogspot.com/2011/03/android-30-hardware-acceleration.html\r\n\r\nWe should check the code for all non-supported operations and replace them.",
+    "timestamp" : 1364577761,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1918333713940407975,
+    "content" : "I understand your point but I wish to be able to compile the osmdroid projects with SDK < 11 and using same target, like I was doing till now.\r\n\r\nAnother issue I see with your change at SafeDrawOverlay in r1189 is that at devices with Android 2.3 the zoom in/out does not work properly now.\r\nAt zoom scale animations the tiles disappear (like moving off screen).",
+    "timestamp" : 1364579062,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "@devemux86 why would you want to set a target sdk < 11?",
+    "timestamp" : 1364638860,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -1918333713940407975,
+    "content" : "I used to compile a specific project with SDK 10 (and use same target) as didn't have the time to check for inconsistencies from newer API (such as the removal of menu button at >=11 and use of action bar).\r\nBut better late than never!",
+    "timestamp" : 1364644142,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you use Eclipse then Lint tells you all that stuff.",
+    "timestamp" : 1364659719,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -1918333713940407975,
+    "content" : "The Lint indeed has API check from ADT 17, but for Android projects/libraries.\r\nFor a simple java project (but compiled with Android SDK) used as library jar (like osmdroid) at an Android application, the Lint cannot be used.\r\nOr there is a way to use Android Lint rules at a java like project?",
+    "timestamp" : 1364665057,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nHave you looked SafeDrawOverlay's change at r1189 and its result at Android 2.3 devices?\r\nAs I mentioned at #8 the zoom in/out does not work properly anymore, the tiles at zoom scale animations move outside the screen.\r\nMay be the code change has to take place only for Honeycomb versions and beyond?\r\n\r\nThanks.",
+    "timestamp" : 1365056054,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "@devemux86 - That should be fixed in r1190. It should work both pre-Honeycomb and post-Honeycomb.",
+    "timestamp" : 1365081800,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Actually it doesn't. At r1190 the only change is the way of getting the matrix values.\r\nBut at r1189 there were also changes at (now) line 69, where the matrix is no more used but the canvas.\r\nThe prior code with the matrix works well pre-Honeycomb.",
+    "timestamp" : 1365083080,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1199.",
+    "timestamp" : 1365121312,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "Give it a try now - also test pinch-to-zoom.",
+    "timestamp" : 1365121341,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1200.\n\nFix multi-touch pinch to zoom with hardware acceleration.",
+    "timestamp" : 1365122385,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -1918333713940407975,
+    "content" : "Thanks kurtzmarc,\r\nSpeaking about pre-Honeycomb with safe canvas.\r\n\r\nThe r1199 fixes the zoom issue but the rotation now does not work correctly. It takes place not with the screen center.\r\nIf I remove the c.getMatrix(sMatrix) at line 74 and after sMatrix.postTranslate put back the sMatrix.preRotate then the rotation plays again. So the working code in \"else\" statement for pre-Honeycomb is:\r\n\r\nsMatrix.postTranslate(screenRect.left * sMatrixValues[Matrix.MSCALE_X], screenRect.top * sMatrixValues[Matrix.MSCALE_Y]);\r\nsMatrix.preRotate((float) Math.toDegrees(angrad), screenRect.width() / 2, screenRect.height() / 2);\r\nc.setMatrix(sMatrix);",
+    "timestamp" : 1365146243,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -1918333713940407975,
+    "content" : "About pinch-to-zoom, it does not work at pre-14 devices due to setScrollX and setScrollY added in API level 14. I'm referring at MapView lines 1147-1148.",
+    "timestamp" : 1365149209,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 7646092065249173135,
+    "content" : "Check the latest trunk. I changed the call to scrollTo which works on older devices. Unfortunately I don't currently have any older devices to test with and I can't do multi-touch on the emulator so continue to provide feedback for multi-touch.",
+    "timestamp" : 1365459676,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -1918333713940407975,
+    "content" : "Ok I can confirm that the multi-touch works again.\r\nPerhaps you can see also the #19 comment about map rotation at pre-Honeycomb devices?\r\nThanks!",
+    "timestamp" : 1365489833,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 7646092065249173135,
+    "content" : "@devemux86 See r1207. Rotation should be working again on pre-Honeycomb devices.",
+    "timestamp" : 1365726440,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -1918333713940407975,
+    "content" : "@kurtzmarc\r\nYes rotation works now at pre-Honeycomb devices.\r\nThanks!",
+    "timestamp" : 1365762909,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 303 has been merged into this issue.",
+    "timestamp" : 1371219430,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : -2707572053471146332,
+    "content" : "Hello guys\r\nI use osmdroid 3.0.10 and still getting exception mentioned in issue 303 on some devices. Please, advise me how to fix it.",
+    "timestamp" : 1373904679,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 7646092065249173135,
+    "content" : "Turn off hardware acceleration in your manifest or contribute code to fix the remaining issues.",
+    "timestamp" : 1373904980,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : 7646092065249173135,
+    "content" : "To update this ticket - I believe the only outstanding issue is:\r\n\r\n1. Use of drawPicture() in various overlays.\r\n\r\nIf you aren't using one of the overlays that uses drawPicture() then you should be able to use hardware acceleration. If you find issues, please report them here!",
+    "timestamp" : 1374000473,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 449 has been merged into this issue.",
+    "timestamp" : 1374000495,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : -2707572053471146332,
+    "content" : "Thanks, it helped.\r\nI am not thinking about fixing this issue, i am satisfied with the non accelerated rendering.\r\nOnly guys, please dont release explicitly crashing code.",
+    "timestamp" : 1374004375,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 303 has been merged into this issue.",
+    "timestamp" : 1374846488,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 454 has been merged into this issue.",
+    "timestamp" : 1375410995,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 8471135448752679589,
+    "content" : "Issue 454 got merged into this.\r\nAs far as i know i can't disable hardware acceleration for just one activity, but for the complete App. Which isn't an option in my case.\r\nIs there any possibility to fix this? Or if not, any other solution?\r\n",
+    "timestamp" : 1383211437,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nYou can try turn off acceleration at view level. See here:\r\nhttp://code.google.com/p/osmdroid/source/browse/trunk/OpenStreetMapViewer/src/org/osmdroid/MapFragment.java\r\nthe setHardwareAccelerationOff method.\r\n\r\nRegards.",
+    "timestamp" : 1383212099,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 7646092065249173135,
+    "content" : "I have a solution that will move this effort forward. What we can do is mark some overlays as non-hardware accelerated. In the case we want to draw one of these overlays, we would draw the overlay to an offscreen Bitmap buffer which would be wrapped in a Canvas and not be hw accelerated. Then we would draw the buffer to the real canvas.\r\n\r\nThe only downside I see is that each Overlay would have to retain a screen-sized Bitmap. Because of the way HW acceleration works we can't reuse the same Bitmap for all non-HW accelerated overlays in the same onDraw() cycle. HW acceleration builds a drawing list and therefore if we try to drawOverlay(backingBitmap)->clearBackingBitmap()->drawOverlay(backingBitmap) then only the last drawOverlay() would appear on the screen. We could not clear the backing bitmap between drawOverlay() calls but then we lose all \"layering\" if there are HW-accelerated overlays in between. So consequently each non-HW accelerated overlay must have it's own backing Bitmap.\r\n\r\nBut otherwise - this gets the TilesOverlay HW accelerated which is where a *huge* chunk of our draw cycles get taken up.\r\n",
+    "timestamp" : 1393344690,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : 7646092065249173135,
+    "content" : "Update issue 413.\r\nAdd experimental HW acceleration support. Allow individual Overlays to mark\r\nthemselves non-HW accelerated. In that case they will be provided a Bitmap\r\nbacked Canvas for them to draw to which will then be drawn to the HW accelerated\r\ncanvas.\r\nAllow individual Overlays to opt-out of shadow-layer drawing. If an overlay is\r\nnon-HW accelerated then this eliminates unnecessary overhead and provides a\r\nperformance boost.",
+    "timestamp" : 1393368186,
+    "attachments" : [ ]
+  }, {
+    "id" : 37,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc,\r\n\r\nAt Overlay class in onDraw method at line 152 you have a check:\r\nc.getWidth() != c.getWidth()\r\nprobably meaning:\r\nmBackingBitmap.getWidth() != c.getWidth()\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1393400205,
+    "attachments" : [ ]
+  }, {
+    "id" : 38,
+    "commenterId" : 7646092065249173135,
+    "content" : "@devemux86 Thanks for that catch! Fixed.",
+    "timestamp" : 1393426955,
+    "attachments" : [ ]
+  }, {
+    "id" : 39,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1439.\n\nChange the getCanvasIdentityMatrix() to be invertCanvas() which works with both HW accelerated and non-HW accelerated.\nReplace use of Picture with a Bitmap in CompassOverlay. This makes it HW-acceleration compatible. Make it inherit from Overlay since it doesn't need a safe canvas.\nChange the way we handle getUnsafeCanvas() when using HW-acceleration.",
+    "timestamp" : 1393456726,
+    "attachments" : [ ]
+  }, {
+    "id" : 40,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nTesting the latest update:\r\n\r\n- At CompassOverlay lines 199-200 you have fixed azimuth and compassEnabled, I guess for debug reasons?\r\n\r\n- The compass needle is not drawn smooth with antialiasing\r\n\r\n- At Android 2.3 the compass zooms in / out together with the map\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1393497412,
+    "attachments" : [ ]
+  }, {
+    "id" : 41,
+    "commenterId" : 7646092065249173135,
+    "content" : "1. Ack! Fixed.\r\n\r\n2. What do you mean here? Should we use a Paint object with AA turned on for drawing?\r\n\r\n3. I seem to recall that it always has done that. Does it do it when two-finger pinch-to-zooming?",
+    "timestamp" : 1393509559,
+    "attachments" : [ ]
+  }, {
+    "id" : 42,
+    "commenterId" : -1918333713940407975,
+    "content" : "2. Yes, using a Paint like the following at canvas.drawBitmap has much better result.\r\nprivate final Paint smoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);\r\n\r\n3. You are right, at two-finger pinch-to-zoom it doesn't do it.\r\nOnly with zoom buttons.\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1393510963,
+    "attachments" : [ ]
+  }, {
+    "id" : 43,
+    "commenterId" : 7646092065249173135,
+    "content" : "Added bitmap filtering...",
+    "timestamp" : 1393515603,
+    "attachments" : [ ]
+  } ]
+}

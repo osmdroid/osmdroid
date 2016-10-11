@@ -1,0 +1,33 @@
+{
+  "id" : 268,
+  "status" : "Invalid",
+  "summary" : "Exception Handling with Zip Files",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9169388793317990214,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Open a corrupt Zip File with ArchiveFileFactory.getArchiveFile()\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected is the file or null or -1. Instead the app crashes with Exception (in my case java.util.zip.ZipException: EOCD not found; not a Zip archive?) . Please include throws at getArchiveFile or handel the exception and return a failure.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1318843065,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "It logs the error and ignores the file. Where would you like to handle the exception?",
+    "timestamp" : 1318882448,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 9169388793317990214,
+    "content" : "ok i'm sorry for that. my mistake. was a nullPointer Exception but when looking at the log file i must have seen the log output for the caught ZipException. null is fine as return. just didn't catch the null value in my app.",
+    "timestamp" : 1318928001,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay, I'll close it then.",
+    "timestamp" : 1318930558,
+    "attachments" : [ ]
+  } ]
+}

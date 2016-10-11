@@ -6,10 +6,16 @@ import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 /**
- * Overlay able to open an InfoWindow (a bubble), displaying: a title, a snippet or description, 
- * and optionally a "sub-description". 
+ * The {@link org.osmdroid.views.overlay.OverlayWithIW} is an {@link org.osmdroid.views.overlay.Overlay} that
+ *  contain data {@link #getTitle() title} ,
+ * a {@link #getSnippet() snippet or description},
+ * and optionally a {@link #getSubDescription() "sub-description"} and that
+ * can be shown in a popup-{@link org.osmdroid.views.overlay.infowindow.InfoWindow} (a bubble).
+ *
  * Handling tap event and showing the InfoWindow at a relevant position is let to sub-classes. 
- * 
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
+ *
  * @see BasicInfoWindow
  * 
  * @author M.Kergall
@@ -21,8 +27,14 @@ public abstract class OverlayWithIW extends Overlay {
 	protected InfoWindow mInfoWindow;
 	protected Object mRelatedObject;
 
+	/** Use {@link #OverlayWithIW()} instead */
+	@Deprecated
 	public OverlayWithIW(final Context ctx) {
-		super((ctx));
+		this();
+	}
+
+	public OverlayWithIW() {
+		super();
 	}
 
 
@@ -79,6 +91,15 @@ public abstract class OverlayWithIW extends Overlay {
 	public void closeInfoWindow(){
 		if (mInfoWindow != null)
 			mInfoWindow.close();
+	}
+
+	public void onDestroy(){
+		if (mInfoWindow != null) {
+			mInfoWindow.close();
+			mInfoWindow.onDetach();
+			mInfoWindow=null;
+			mRelatedObject=null;
+		}
 	}
 
 	public boolean isInfoWindowOpen(){

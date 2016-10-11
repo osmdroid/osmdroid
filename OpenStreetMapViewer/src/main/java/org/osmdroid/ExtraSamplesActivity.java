@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
 import org.osmdroid.samplefragments.FragmentSamples;
+import org.osmdroid.samplefragments.SampleFactory;
 
 public class ExtraSamplesActivity extends FragmentActivity {
     public static final String SAMPLES_FRAGMENT_TAG = "org.osmdroid.SAMPLES_FRAGMENT_TAG";
@@ -16,7 +17,7 @@ public class ExtraSamplesActivity extends FragmentActivity {
 
         FragmentManager fm = this.getSupportFragmentManager();
         if (fm.findFragmentByTag(SAMPLES_FRAGMENT_TAG) == null) {
-            FragmentSamples fragmentSamples = FragmentSamples.newInstance();
+            FragmentSamples fragmentSamples = FragmentSamples.newInstance(SampleFactory.getInstance());
             fm.beginTransaction().add(org.osmdroid.R.id.samples_container, fragmentSamples, SAMPLES_FRAGMENT_TAG).commit();
         }
     }

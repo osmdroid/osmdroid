@@ -33,9 +33,11 @@ import android.os.Environment;
 import android.os.RemoteException;
 import android.test.AndroidTestCase;
 
+import junit.framework.Assert;
+
 /**
  * @author Neil Boyd
- * 
+ *
  */
 public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 
@@ -68,11 +70,17 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 		final Bitmap bitmap1 = Bitmap.createBitmap(60, 30, Config.ARGB_8888);
 		bitmap1.eraseColor(Color.YELLOW);
 		final Canvas canvas = new Canvas(bitmap1);
-		canvas.drawText("test", 10, 20, new Paint());
-		final FileOutputStream fos = new FileOutputStream(path);
-		bitmap1.compress(CompressFormat.JPEG, 100, fos);
-		fos.close();
 
+		canvas.drawText("test", 10, 20, new Paint());
+		try {
+			f.createNewFile();
+			final FileOutputStream fos = new FileOutputStream(path);
+			bitmap1.compress(CompressFormat.JPEG, 100, fos);
+			fos.close();
+		}catch (Exception ex){
+			ex.printStackTrace();
+			Assert.fail("unable to write temp tile " + ex);
+		}
 		final MapTileRequestState state = new MapTileRequestState(tile,
 				new MapTileModuleProviderBase[] {}, mProvider);
 		mProvider.mapTileRequestCompleted(state, TileSourceFactory.MAPNIK.getDrawable(path));

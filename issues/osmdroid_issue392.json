@@ -1,0 +1,149 @@
+{
+  "id" : 392,
+  "status" : "New",
+  "summary" : "Provide a robust way to draw Polygon Overlays on the map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 22,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7394794554298703383,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Currently it is possible to draw polygon overlays on the map by using a PathOverlay and a self-closing path. For example, the following method can be used: \r\n\tprivate void AddPolygon() {\r\n\tint diff=1000;\r\n\r\n\tGeoPoint pt1=new GeoPoint(13.002798, 77.580000);\r\n\tGeoPoint pt2= new GeoPoint(pt1.getLatitudeE6()+diff, pt1.getLongitudeE6());\r\n\tGeoPoint pt3= new GeoPoint(pt1.getLatitudeE6()+diff, pt1.getLongitudeE6()+diff);\r\n\tGeoPoint pt4= new GeoPoint(pt1.getLatitudeE6(), pt1.getLongitudeE6()+diff);\r\n\tGeoPoint pt5= new GeoPoint(pt1);\r\n\t\t\r\n\t\t\r\n\tPathOverlay myOverlay= new PathOverlay(Color.RED, this);\r\n\tmyOverlay.getPaint().setStyle(Paint.Style.FILL);\r\n\t\r\n\tmyOverlay.addPoint(pt1);\r\n\tmyOverlay.addPoint(pt2);\r\n\tmyOverlay.addPoint(pt3);\r\n\tmyOverlay.addPoint(pt4);\r\n\tmyOverlay.addPoint(pt5);\r\n\t\r\n\tmap.getOverlays().add(myOverlay);\r\n\t}\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe Overlay is correctly drawn, when all the vertices are in the current map bounds. But If you pan or zoom, so that some of the vertices go off the screen, then the polygon losses that vertex, and it is not drawn.\r\n\r\nSee the attached Images\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOsmDroid 3.0.8 &amp; Android 2.3.6\r\n\r\n<b>Please provide any additional information below.</b>\nThis is occurring due to the line 157 of the PathOverlay.java file, where those vertices outside the current extent are not projected and drawn.\r\n\r\n\r\n",
+    "timestamp" : 1357551242,
+    "attachments" : [ {
+      "id" : 3920000000,
+      "fileName" : "correct.png",
+      "fileSize" : 71274
+    }, {
+      "id" : 3920000001,
+      "fileName" : "problem.png",
+      "fileSize" : 71553
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 396027997331937488,
+    "content" : "Agree the behaviour is exacly as described above and if it can be fixed that will be fab.",
+    "timestamp" : 1362394458,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 302 has been merged into this issue.",
+    "timestamp" : 1362507244,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The problem is lines 212-217. It tries to optimize drawing by not drawing points outside of the screenrect, but as you can see that doesn't work.\r\n\r\nCan someone try removing those lines and trying it out and making sure everything else still works. I can't understand how anyone uses the PathOverlay with this glaring bug in it so maybe I am missing something.",
+    "timestamp" : 1362507357,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7394794554298703383,
+    "content" : "I did try removing the lines, and testing it out. It does not work, because somewhere else, the vertices of the line are being projected from the real world units to screen units. This is a problem since no position is returned in screen units, for when the point is outside the viewable Map.\r\n\r\n",
+    "timestamp" : 1362538407,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "The way \"off-screen\" optimization should work for polygons is that it tests whether *none* of the points are on the screen. If none of the points are on the screen it can skip drawing the entire polygon, otherwise it should draw all points. I think it might be acceptable to skip individual line segments of the polygon if *both* points of the segment are outside the viewable area, but at that point if you're drawing some points to the screen there is little benefit to skipping a few line segments.\r\n\r\nAlso calling fromPixelsToProjected (line 201) adds a significant amount of error if you are at a high zoom level. It takes a low-resolution plane and upscales it to a higher plane which loses \"fine\" resolution and is not a good representation of the current screen bounds - in essence the clip bounds will be slightly over- or under-sized. (this may not really be a problem - but it is suspect)\r\n\r\nIt also appears to do the \"too close to previous point\" in the higher resolution plane rather than at the real zoom-level. So this probably skips no points.\r\n\r\nThis overlay probably needs a re-write and modernization. It should use the SafeDrawingOverlay, and it should simplify the drawing method. It would be more performant to convert the lat/long to projected points in the addPoint() method rather than in the drawing method. I don't know if I personally will have time to do this so if anyone wants to contribute then post a patch or an updated overlay.",
+    "timestamp" : 1362582145,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Actually, to do polygon clipping testing we should get the rectangle that encloses all points in the polygon and then see if that intersects with the screen rectangle. If so, draw the whole thing. If not, we can safely skip drawing.\r\n\r\nTesting for individual points that are outside the screen is insufficient. If you want to get fancy like that, you'd have to ensure that the line segment the two points make doesn't intercept the screen rectangle.",
+    "timestamp" : 1362600069,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1259941809414144138,
+    "content" : "I created my own class, a copy of the PathOverlay and commented lines 157-162:\r\n\r\n157: if (!Rect.intersects(clipBounds, mLineBounds)) {\r\n158: // skip this line, move to next point\r\n159: projectedPoint0 = projectedPoint1;\r\n160: screenPoint0 = null;\r\n161: continue;\r\n162: }\r\n\r\n The problem has been solved.",
+    "timestamp" : 1373555771,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 5781615991677836462,
+    "content" : "If anyone is interested, I have a highly optimized PathOverlay for rendering database backed paths with >1 million points with asynchronous db access. It renders smoothly while zooming in, out, and scrolling by keeping two point containers in memory, using one for rendering while async loading the other.",
+    "timestamp" : 1374961961,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3260707329188339821,
+    "content" : "Hi vit it would be great if you share the file with me. ",
+    "timestamp" : 1375074037,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -854767529440338362,
+    "content" : "I to am interested in Vit's PathOverlay class - colin.grant [at] gmail.com",
+    "timestamp" : 1376068596,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 1558421220117089513,
+    "content" : "My opinion is that using PathOverlay for drawing polygons is just a hack. \r\nWe should have 2 different overlays: \r\n- path (or polyline) overlay, \r\n- and polygon overlay. \r\nThis would clear issues related to incompatible optimizations, allow defining 2 paints for polygons: the outline paint, and the fill color/style. \r\n\r\nBTW, Vit, we are all interested by your optimized PathOverlay... \r\n",
+    "timestamp" : 1382390402,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 1558421220117089513,
+    "content" : "OSMBonusPack provides a robust PolygonOverlay, which mimics Google Maps API v2 Polygon. ",
+    "timestamp" : 1382816965,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 6995373796629822391,
+    "content" : "Hi vit it would be great if you share the file with me.",
+    "timestamp" : 1389874520,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 529 has been merged into this issue.",
+    "timestamp" : 1392909249,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1293097328077341547,
+    "content" : "Ok since my issue has been merged into what seems to be the same issue, I see that there seem to be hacks/alternatives. May I ask what the official status is, and when this is going to be fixed in the library itself?",
+    "timestamp" : 1392909724,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "I would suggest taking a look at OSMBonusPack to see if their PolygonOverlay will meet your needs. Or you could write your own Overlay that constructs and draws a Path (which is not that difficult). I don't think anyone is working on osm's PathOverlay at this time.",
+    "timestamp" : 1392909961,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -1293097328077341547,
+    "content" : "Unfortunately I'm pretty deeply wired into a regular PathOverlay implementation, I don't think I can switch that easily now. Since paths are somewhat important, I would really appreciate if someone experienced in this project could mak a fix for an official release.\r\n\r\nOther than that I will probably try to do my own drawing, like already suggested in this thread. Thanks so far!",
+    "timestamp" : 1392910360,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -1293097328077341547,
+    "content" : "I was able to find the cause in my case and now simply avoid the option causing the paths to disappear. I'm not 100% happy with it, but not deep enough into the code to find a real fix. I tested a Polyline overlay from the BonusPack, and had the same issues!\r\n\r\nTo make the paths \"nice\", I took the Paint-object and modified it:\r\n    Paint mPaint = pathOverlay.getPaint();\r\n    mPaint.setStrokeWidth(13);\r\n    mPaint.setPathEffect(new CornerPathEffect(10));\r\n    mPaint.setAntiAlias(true);\r\n    pathOverlay.setPaint(mPaint);\r\n\r\nThe problem is caused the CornerPathEffect! AntiAlias is fine, but the PathEffect makes the path disappear in some cases. The path looks way sharper now of course, which is why I'm not 100% happy, but at least it's not disappearing. Maybe someone familiar with the drawing can find an easy fix for this?",
+    "timestamp" : 1392977168,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 9188271661260834348,
+    "content" : "Vit, I would apprechiate, if you share the file with me too... \r\nThanks! ",
+    "timestamp" : 1394498416,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 9188271661260834348,
+    "content" : "Has anybody received the file from Vit?",
+    "timestamp" : 1394636206,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8775026668299461648,
+    "content" : "Hi Vit!!!Can you share your file with me too?thanks!! :)",
+    "timestamp" : 1400362973,
+    "attachments" : [ ]
+  } ]
+}

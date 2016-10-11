@@ -1,0 +1,45 @@
+{
+  "id" : 343,
+  "status" : "Duplicate",
+  "summary" : "Overlay onTap not working!",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4126364294914035776,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Creating overlay using a class extending ItemizedOverlay&lt;OverlayItem&gt;\r\n2. Tap an overlay\r\n3. onTap doesn't get called\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nonTap working\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nHere is my code:\r\n\r\npublic class OverlayPlaces extends ItemizedOverlay&lt;OverlayItem&gt;{\r\n\t\r\n\tList&lt;OverlayItem&gt; points = new ArrayList&lt;OverlayItem&gt;();\r\n\t@SuppressWarnings(&quot;unused&quot;)\r\n\tprivate Drawable marker = null;\r\n    @SuppressWarnings(&quot;unused&quot;)\r\n\tprivate Context c;\r\n    \r\n    public OverlayPlaces(Drawable marker, MapView mapView) {\r\n    \tsuper(marker,new ResourceProxyImpl(mapView.getContext()));\r\n        this.marker=marker;\r\n        c=mapView.getContext();\r\n    }\r\n\r\n\t@Override\r\n\tpublic boolean onSnapToItem(int arg0, int arg1, Point arg2, IMapView arg3) {\r\n\t\treturn false;\r\n\t}\r\n\t\r\n\t@Override\r\n\tpublic boolean onSingleTapUp(final MotionEvent event, final MapView mapView) {\r\n\t\tLog.d(&quot;onSingleTapUp&quot;,&quot;true&quot;);\r\n\t\treturn true;\r\n\t}\r\n\t\r\n\tpublic boolean onTap(int index){\r\n\t\tLog.d(&quot;onTap&quot;,&quot;true&quot;);\r\n\t\treturn true;\r\n\t}\r\n\t\r\n\t@Override\r\n\tprotected OverlayItem createItem(int i) {\r\n\t\treturn (points.get(i));\r\n\t}\r\n\t\r\n\t@Override\r\n\tpublic int size() {\r\n\t\treturn points.size();\r\n\t}\r\n\t\r\n\tpublic void addPoint(GeoPoint point, String Title, String Desc){\r\n        this.points.add(new OverlayItem(Title,Desc,point));\r\n        populate();\r\n    }\r\n\t\r\n\tpublic void removePoint(){\r\n        this.points.clear();\r\n        populate();\r\n    }\r\n\r\n}",
+    "timestamp" : 1336564531,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is this the same as issue 245?",
+    "timestamp" : 1336575560,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4126364294914035776,
+    "content" : "I think, but I need an example of using a class like mine but using ItemizedOverlayWithFocus, which seems the workaround...",
+    "timestamp" : 1336575746,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -7841045706511723257,
+    "content" : "See issue 245, I just posted a solution. ",
+    "timestamp" : 1337179423,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4126364294914035776,
+    "content" : "Citating him, it has worked just great!!!\r\n\r\nI encountered exactly the same issue. And this is probably the only real issue when porting an app from GoogleAPI to osmdroid. So solutions should be documented well. Here is my modest contribution. \r\n\r\nFirst of all, look at ItemizedIconOverlay, as it does most of what we want. \r\nAfter struggling a lot trying to sub-class ItemizedIconOverlay with my custom onSingleTapUpHelper, I finally made a class containing ItemizedIconOverlay. \r\nApplied to your implementation, it looks like this:\r\n\r\n\r\npublic class MyOwnItemizedOverlay {\r\n\tprotected ItemizedIconOverlay<OverlayItem> mOverlay;\r\n\tprotected Context mContext;\r\n\tprotected Drawable mMarker;\r\n\r\n\tpublic MyOwnItemizedOverlay(Drawable marker, Context context) {\r\n\t\tmContext = context;\r\n\t\tArrayList<OverlayItem> items = new ArrayList<OverlayItem>();\r\n\t\tResourceProxy resourceProxy = (ResourceProxy) new DefaultResourceProxyImpl(mContext);\r\n\t\tmMarker = marker;\r\n\r\n\t\tmOverlay = new ItemizedIconOverlay<OverlayItem>(\r\n\t\t\t\titems, mMarker, \r\n\t\t\t\tnew ItemizedIconOverlay.OnItemGestureListener<OverlayItem>() {\r\n\t\t\t@Override public boolean onItemSingleTapUp(final int index, final OverlayItem item) {\r\n\t\t\t\treturn onSingleTapUpHelper(index, item);\r\n\t\t\t}\r\n\t\r\n\t\t\t@Override public boolean onItemLongPress(final int index, final OverlayItem item) {\r\n\t\t\t\treturn true;\r\n\t\t\t}\r\n\t\t}, resourceProxy);\r\n\r\n\t}\r\n\t\r\n\tpublic boolean onSingleTapUpHelper(int i, OverlayItem item) {\r\n\t\t//Toast.makeText(mContext, \"Item \" + i + \" has been tapped!\", Toast.LENGTH_SHORT).show();\r\n\t\tAlertDialog.Builder dialog = new AlertDialog.Builder(mContext);\r\n\t\tdialog.setTitle(item.getTitle());\r\n\t\tdialog.setMessage(item.getSnippet());\r\n\t\tdialog.show();\r\n\t\treturn true;\r\n\t}\r\n\t\r\n\tpublic void addItem(OverlayItem item){\r\n\t\tmOverlay.addItem(item);\r\n\t}\r\n\t\r\n\tpublic ItemizedIconOverlay<OverlayItem> getOverlay(){\r\n\t\treturn mOverlay;\r\n\t}\r\n}\r\n\r\n\r\nUsing this class is nearly identical to using a sub-class of ItemizedOverlay (as you did in your MapActivity), except that adding the overlay to the map is done this way: \r\n\tmapView.getOverlays().add(itemizedoverlay.getOverlay());\r\n\r\nNote that you can also easily implement onItemLongPress, if desired.",
+    "timestamp" : 1337263925,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1359143991,
+    "attachments" : [ ]
+  } ]
+}achments":[]}]}

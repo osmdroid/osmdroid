@@ -1,0 +1,91 @@
+{
+  "id" : 200,
+  "status" : "Duplicate",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/MapTileDownloader.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1188872730006932296,
+    "content" : "openStream() -&gt; HttpClient",
+    "timestamp" : 1302611938,
+    "attachments" : [ {
+      "id" : -7290389787324242539,
+      "fileName" : "MapTileDownloader.java.patch",
+      "fileSize" : 5443
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1188872730006932296,
+    "content" : "Additional modifications\r\n\r\nchange in:\r\ntrunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/TileWriter.java\r\n\r\nadd class:\r\ntrunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/SizedBitmapDrawable.java\r\n\r\nchange in:\r\ntrunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/IFilesystemCache.java\r\n\r\n\r\n",
+    "timestamp" : 1302612272,
+    "attachments" : [ {
+      "id" : 5646903268702211438,
+      "fileName" : "IFilesystemCache.java",
+      "fileSize" : 691
+    }, {
+      "id" : -6985285180672445815,
+      "fileName" : "SizedBitmapDrawable.java",
+      "fileSize" : 508
+    }, {
+      "id" : -162817911540193762,
+      "fileName" : "TileWriter.java",
+      "fileSize" : 7121
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The patch looks good, but how do I apply it?\r\nPlease could you do a svn patch, or just attach MapTileDownloader.java.",
+    "timestamp" : 1302793857,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1188872730006932296,
+    "content" : "Comment deleted",
+    "timestamp" : 1302876831,
+    "attachments" : [ {
+      "id" : 6511765539557609049,
+      "fileName" : "tileprovider.tar",
+      "fileSize" : 105472
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1188872730006932296,
+    "content" : "Comment deleted",
+    "timestamp" : 1302888096,
+    "attachments" : [ {
+      "id" : -5096664140037791853,
+      "fileName" : "tileprovider.tar",
+      "fileSize" : 105472
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 1188872730006932296,
+    "content" : "I made many changes in the project so it will be easier to pour the entire tileprovider folder with MapTileDownloader.java and dependency",
+    "timestamp" : 1302893932,
+    "attachments" : [ {
+      "id" : 7775940904643123548,
+      "fileName" : "tileprovider.tar",
+      "fileSize" : 104960
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "As you said, there's lots of changes in this patch, including the patch for issue 196.\r\n\r\nI'd much prefer it if you made one patch per change.  The title of this issue is not very descriptive, but the description is.\r\n\r\nPerhaps you could get yourself made as a committer, and commit each change individually.",
+    "timestamp" : 1303138547,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you for submitting these patches. Like Neil said, it's always best to keep patches (and their supporting issue tickets) separate. I know that's hard when the patches start to pile up and we haven't had time to integrate them. We appreciate your patience.\r\n\r\nAs Neil suggested, this is best broken up into separate patches. I have spun three patches out of your changes:\r\n\r\n1. Adding try/finally blocks around locking operations.\r\n\r\n2. Implementing HttpClient in the tile downloader\r\n\r\n3. Switching to an Executor/thread pool\r\n\r\nI wasn't too clear on some of the other changes, so if you think they should be considered, please resubmit as a separate patch.\r\n\r\nI am going to apply #1 right away, and spin #2 and #3 off as separate tickets since they are significant changes.",
+    "timestamp" : 1305499514,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been spun off into Issue 212 and 213. Please direct all conversation to those tickets.",
+    "timestamp" : 1305500810,
+    "attachments" : [ ]
+  } ]
+}

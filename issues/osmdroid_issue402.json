@@ -1,0 +1,15 @@
+{
+  "id" : 402,
+  "status" : "New",
+  "summary" : "Scale Down from inexistent MapTile ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -679817301774271976,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Save the tiles of the Zoomlevel 9 to the sdcard (extracted), not in an archive for offline map usage\r\n2. Turn of Internet\r\n3. Zoom out to Zoomlevel 9, and then Zoom to Zoomlevel 10\r\n4. The Map will scale up the Zoomlevel 9 Pictures, because ZoomLevel 10 is not cached\r\n5. Zoom Back to Zoomlevel 9\r\n6. The Map tries to scale down Zoomlevel 10 files, what doesn't exist, so no Tile is shown\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nOn scale down use the Map Tiles from FileSystemCache, check bevore scaling down if the Scaled down picutre exists.\r\n",
+    "timestamp" : 1361024403,
+    "attachments" : [ ]
+  } ]
+}

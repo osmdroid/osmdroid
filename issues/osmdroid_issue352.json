@@ -1,0 +1,15 @@
+{
+  "id" : 352,
+  "status" : "New",
+  "summary" : "OverlayItem.getWidth() causing NullPointerException if no marker",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nOverlayItem item = new OverlayItem(&quot;title&quot;, &quot;desc&quot;, position);\r\n//don't set a marker, to use default marker\r\nint width = item.getWidth();\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nCauses a NullPointer exception. \r\nThis is because getWidth and getHeight don't check if this.mMarker is null. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n=&gt; osmdroid 3.0.8\r\n\r\nNot easy to solve, as default marker is not accessible in OverlayItem... Return 0?\r\n",
+    "timestamp" : 1340832649,
+    "attachments" : [ ]
+  } ]
+}1340832649,"attachments":[]}]}

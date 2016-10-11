@@ -1,0 +1,75 @@
+{
+  "id" : 314,
+  "status" : "Fixed",
+  "summary" : "Tiles loading errors with OSMDroid 3.0.7",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7841045706511723257,
+    "content" : "<b>What steps will reproduce the problem?</b>\nWhen migrating a very simple app from OSMDroid 3.0.5 to OSMDroid 3.0.7,I get numerous errors when loading tiles (from TileSourceFactory.MAPNIK). \r\nHere is a typical stack trace:\r\n\r\nError downloading tile: /12/2027/1424\r\njava.lang.NullPointerException\r\nat org.osmdroid.tileprovider.modules.MapTileFilesystemProvider$TileLoader.loadTile(MapTileFilesystemProvider.java:153)\r\n\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nOSMDroid 3.0.7 on AVD, Android 2.1. \r\n",
+    "timestamp" : 1330446806,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3355736442641984058,
+    "content" : "I have the same problem.\r\n\r\nOSMDRoid 3.0.7 (3.0.6 the same problem), Android 2.3.6",
+    "timestamp" : 1330777982,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -7841045706511723257,
+    "content" : "Note that these errors don't appear on an AVD with Android 2.3.3. But some (few) tiles remain unloaded. \r\n\r\nHere is the whole code: \r\n\r\npublic class NavigationActivity extends Activity {\r\n\r\n    @Override public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.main);        \r\n        MapView map = (MapView) findViewById(R.id.map);\r\n        map.setTileSource(TileSourceFactory.MAPNIK);\r\n        map.setBuiltInZoomControls(true);\r\n        map.setMultiTouchControls(true);\r\n        MapController mapController = map.getController();\r\n        mapController.setZoom(16);\r\n\tint lat = 48131174;\r\n\tint lon = -1637256;\r\n\tmapController.setCenter(new GeoPoint(lat, lon));\r\n    }\r\n}\r\n\r\nand the main.xml layout: \r\n\r\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:orientation=\"vertical\" \r\n    android:layout_width=\"fill_parent\"\r\n    android:layout_height=\"fill_parent\">\r\n    <org.osmdroid.views.MapView android:id=\"@+id/map\"\r\n        android:layout_width=\"fill_parent\" \r\n        android:layout_height=\"fill_parent\"\r\n        android:layout_weight=\"1\" />\r\n</LinearLayout>\r\n\r\n",
+    "timestamp" : 1331287074,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1333748399,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1333748419,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This error:\r\n\r\nError downloading tile: /12/2027/1424\r\njava.lang.NullPointerException\r\n\r\nwas likely fixed in issue 325.\r\n\r\nAre you getting an actual crash or just an exception being logged into Logcat?",
+    "timestamp" : 1333748437,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -7841045706511723257,
+    "content" : "I don't have a crash, I just have: \r\n- exceptions in Logcat\r\n- and tiles that remain missing (greyed) in spite of all attempts to load them: zooming in/out, or moving the map back and forth, or exiting/restarting the app. \r\n\r\nWhen I come back to OSMDroid 3.0.5, all tiles immediately loads without any problem (same time, same kind of Internet access, same map provider). \r\n\r\nNote that I use the OSMDroid 3.0.7 jar published, without any patch. \r\nMaybe something wrong or missing in my code (not very complicated - see above)? ",
+    "timestamp" : 1333816684,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -6332161695648181708,
+    "content" : "I had this problem too, but I change to osmdroid-android-3.0.8-20120208.220818-1.jar\r\nand it seems to work fine both online and offline, but why virsion 8 is not listed in this site",
+    "timestamp" : 1334952352,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -7841045706511723257,
+    "content" : "I just updated my app from Osmdroid 3.0.5 to osmdroid-android-3.0.8.jar (which is now published here). \r\nInitially, I got the same java.lang.NullPointerException errors. \r\nI completely cleaned the SD card (containing the cache of tiles), and now everything is fine. \r\n\r\nOne additional remark: upgrading my app from Osmdroid 3.0.5 to 3.0.8 was a simple replacement of the jar: no code change needed. This was not the case to upgrade from  3.0.5 to 3.0.7 => good job, guys!\r\n",
+    "timestamp" : 1335343757,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "It sounds like this issue has been resolved, so I will close it. Glad it's working for you now!",
+    "timestamp" : 1342729647,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -6553882015509339886,
+    "content" : "osmdroid 4.3. I've got the same problem. Please, fix it.",
+    "timestamp" : 1437988922,
+    "attachments" : [ ]
+  } ]
+}

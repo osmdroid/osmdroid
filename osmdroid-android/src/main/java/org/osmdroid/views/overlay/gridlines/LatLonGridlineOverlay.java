@@ -3,10 +3,10 @@ package org.osmdroid.views.overlay.gridlines;
 import android.content.Context;
 import android.graphics.Color;
 
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.views.overlay.FolderOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.util.BoundingBoxE6;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
@@ -42,7 +42,7 @@ public class LatLonGridlineOverlay {
     }
 
     public static FolderOverlay getLatLonGrid(Context ctx, MapView mapView) {
-        BoundingBoxE6 box = mapView.getBoundingBox();
+        BoundingBox box = mapView.getBoundingBox();
         int zoom = mapView.getZoomLevel();
 
         Marker.ENABLE_TEXT_LABELS_WHEN_NO_IMAGE = true;
@@ -51,7 +51,7 @@ public class LatLonGridlineOverlay {
         if (DEBUG) {
             System.out.println("######### getLatLonGrid ");
         }
-        FolderOverlay gridlines = new FolderOverlay(ctx);
+        FolderOverlay gridlines = new FolderOverlay();
         if (zoom < 2) {
           /*  commented out for performance reasons
           the calculations due to wrap around screw things up because the bounds is more than 1 globe.
@@ -88,10 +88,10 @@ public class LatLonGridlineOverlay {
                 gridlines.add(p);
             }*/
         } else {
-            double north = box.getLatNorthE6() / 1e6;
-            double south = box.getLatSouthE6() / 1e6;
-            double east = box.getLonEastE6() / 1e6;
-            double west = box.getLonWestE6() / 1e6;
+            double north = box.getLatNorth();
+            double south = box.getLatSouth();
+            double east = box.getLonEast();
+            double west = box.getLonWest();
 
             double north_south_delta = 0d;
 
@@ -127,7 +127,7 @@ public class LatLonGridlineOverlay {
 
 
             for (double i = sn_start_point; i <= sn_stop_point; i = i + incrementor) {
-                Polyline p = new Polyline(ctx);
+                Polyline p = new Polyline();
                 p.setWidth(lineWidth);
                 p.setColor(lineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
@@ -165,7 +165,7 @@ public class LatLonGridlineOverlay {
 
 
             for (double i = we_startpoint; i <= ws_stoppoint; i = i + incrementor) {
-                Polyline p = new Polyline(ctx);
+                Polyline p = new Polyline();
                 p.setWidth(lineWidth);
                 p.setColor(lineColor);
                 List<GeoPoint> pts = new ArrayList<GeoPoint>();
@@ -183,6 +183,7 @@ public class LatLonGridlineOverlay {
 
                 Marker m =  new Marker(mapView);
                 applyMarkerAttributes(m);
+                m.setRotation(-90f);
                 if (i > 0) {
                     m.setTitle(df.format(i) + "E");
                 } else {
@@ -201,7 +202,7 @@ public class LatLonGridlineOverlay {
                 //special case to ensure that vertical lines are visible when the date line is visible.
                 //in this case western point is very positive and eastern part is very negative
                 for (double i = we_startpoint; i <= 180; i = i + incrementor) {
-                    Polyline p = new Polyline(ctx);
+                    Polyline p = new Polyline();
                     p.setWidth(lineWidth);
                     p.setColor(lineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();
@@ -219,7 +220,7 @@ public class LatLonGridlineOverlay {
 
                 }
                 for (double i = -180; i <= ws_stoppoint; i = i + incrementor) {
-                    Polyline p = new Polyline(ctx);
+                    Polyline p = new Polyline();
                     p.setWidth(lineWidth);
                     p.setColor(lineColor);
                     List<GeoPoint> pts = new ArrayList<GeoPoint>();

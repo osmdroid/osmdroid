@@ -1,0 +1,43 @@
+{
+  "id" : 11,
+  "status" : "Accepted",
+  "summary" : "overlay onSingleTapUp goes tits up when zoomed in",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5268921252605693890,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Run one of the samples with an overlay\r\n2. Zoom in x12 (whatever)\r\n3. Tapping on the overlay items stops working\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nTabbing should work ;&gt; the x,y screen coords are very weird x &gt; 1000 and y\r\nbecomes negative. It confuses me even more that the overlay items are\r\nrendered correctly even though the x,y coords are off-screen?  \r\n\r\nI have attached a screen shot where the x&amp;y coords are rendered.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nUsing the latest code from SVN\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1256209719,
+    "attachments" : [ {
+      "id" : 4951417061286655979,
+      "fileName" : "problem.png",
+      "fileSize" : 127329
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5268921252605693890,
+    "content" : "In the code below the unprojected screen coords from the MotionEvent event are\r\ncompared to the coords returned from pj.toPixels(mItem.mGeoPoint, mCurScreenCoords);\r\nwhich, as far as I can tell, are coords that are supposed to be mapped to real screen\r\ncoords (onDraw) via a Matrix set on the canvas when drawing.\r\n\r\nSo either the event coords need to be converted via pj.fromPixles? & pj.toPixels or\r\nthe matix used in ondraw should be accessible to convert (Matrix.mapPoints) the\r\npj.toPixels(mItem.mGeoPoint, mCurScreenCoords) result into coord that can compared\r\nwith the event.\r\n\r\nIn the ondraw code the canvans is also translated before the matrix is applied so\r\nthis may also have an impact on the coord comparison.\r\n\r\n        public boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView\r\nmapView) {\r\n                final OpenStreetMapViewProjection pj = mapView.getProjection();\r\n                final int eventX = (int)event.getX();\r\n                final int eventY = (int)event.getY();\r\n                \r\n                final int markerWidth = this.mMarker.getIntrinsicWidth();\r\n                final int markerHeight = this.mMarker.getIntrinsicHeight();\r\n                \r\n                /* These objects are created to avoid construct new ones every cycle. */\r\n                final Rect curMarkerBounds = new Rect();\r\n                final Point mCurScreenCoords = new Point();\r\n                \r\n                for(int i = 0; i < this.mItemList.size(); i++){\r\n                        final T mItem = this.mItemList.get(i);\r\n                        pj.toPixels(mItem.mGeoPoint, mCurScreenCoords);\r\n                        \r\n                        final int left = mCurScreenCoords.x - this.mMarkerHotSpot.x;\r\n                        final int right = left + markerWidth;\r\n                        final int top = mCurScreenCoords.y - this.mMarkerHotSpot.y;\r\n                        final int bottom = top + markerHeight;\r\n                        \r\n                        curMarkerBounds.set(left, top, right, bottom);\r\n                        if(curMarkerBounds.contains(eventX, eventY))\r\n                                if(onTap(i))\r\n                                        return true;\r\n                }\r\n                return super.onSingleTapUp(event, mapView);\r\n        }\r\n\r\n",
+    "timestamp" : 1256461058,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5268921252605693890,
+    "content" : "Here is a solution. In the your overlay add a matrix member field and keep a ref to\r\nthe matrix used for the latest draw operation eg:\r\n\r\nprivate Matrix lastDrawMatrix;\r\n\r\n@Override\r\npublic void onDraw(Canvas c, OpenStreetMapView mapView) {\r\n  super.onDraw(c, mapView);\r\n  lastDrawMatrix = c.getMatrix();  \r\n}\r\n\r\nThen override:\r\n\r\n@Override\r\npublic boolean onSingleTapUp(final MotionEvent event,\r\n\t\tfinal OpenStreetMapView mapView) {\r\n\tfinal OpenStreetMapViewProjection pj = mapView.getProjection();\r\n\tint eventX = (int) event.getX();\r\n\tint eventY = (int) event.getY();\r\n\r\n\tfinal int markerWidth = this.mMarker.getIntrinsicWidth();\r\n\tfinal int markerHeight = this.mMarker.getIntrinsicHeight();\r\n\r\n\t/*\r\n\t * These objects are created to avoid construct new ones every\r\n\t * cycle.\r\n\t */\r\n\tfinal Rect curMarkerBounds = new Rect();\r\n\tfinal Point mCurScreenCoords = new Point();\r\n\r\n\tfor (int i = 0; i < this.mItemList.size(); i++) {\r\n\t\tfinal T mItem = this.mItemList.get(i);\r\n\t\tpj.toPixels(mItem.mGeoPoint, mCurScreenCoords);\r\n\t\tfloat[] xyPoint = { mCurScreenCoords.x, mCurScreenCoords.y };\r\n\t\tlastDrawMatrix.mapPoints(xyPoint);\r\n\t\tmCurScreenCoords.set((int) xyPoint[0], (int) xyPoint[1]);\r\n\t\tfinal int left = mCurScreenCoords.x - this.mMarkerHotSpot.x;\r\n\t\tfinal int right = left + markerWidth;\r\n\t\t// the dreaded 50 px default android translation\r\n\t\t// http://mobiledevelop.blogspot.com/2009/02/android-canvas translation-discussion.html\r\n\t\tfinal int top = mCurScreenCoords.y - this.mMarkerHotSpot.y - 50;\r\n\t\tfinal int bottom = top + markerHeight;\r\n\r\n\t\tcurMarkerBounds.set(left, top, right, bottom);\r\n\t\tif (curMarkerBounds.contains(eventX, eventY))\r\n\t\t\tif (onTap(i))\r\n\t\t\t\treturn true;\r\n\t\t}\r\n\t        return super.onSingleTapUp(event, mapView);\r\n\t}\r\n\r\n",
+    "timestamp" : 1256558057,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6841996376054177083,
+    "content" : "The draw coordinates are now signed world-pixel-coordinates. If the zoom level is 5\r\nand the tiles have a size of 256=2^8, the world size is 2^(5+8)=8192. The\r\ngetScrollX() and getScrollY() will be in the range of -4096 to 4095.\r\nThis makes it easier to use the standard view scrolling mechanism (fling etc.)",
+    "timestamp" : 1256850857,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8156472814900344165,
+    "content" : "I spent a day on this issue.\r\nI wrote a function and now it works! ;)\r\n\r\nThere is a little inaccuracy in the Y coordinates. If you knows how to solve it please post the solution in this website.\r\n\r\n@Override\r\n\tpublic final boolean onSingleTapUp(MotionEvent event, MapView mapView) {\r\n\t\t/* onTap by Michele Riso - zeroc87@gmail.com */\r\n\r\n\t\tfinal Projection pj = mapView.getProjection();\r\n\t\tfinal int eventX = (int)event.getX();\r\n\t\tfinal int eventY = (int)event.getY();\r\n\r\n\t\tfinal int markerWidth = this.mDefaultMarker.getIntrinsicWidth();\r\n\t\tfinal int markerHeight = this.mDefaultMarker.getMinimumHeight();\r\n\r\n\t\t/* These objects are created to avoid construct new ones every cycle. */\r\n\t\tPoint mCurScreenCoords = new Point();\r\n\t\tPoint mItemScreenCoords = new Point();\r\n\r\n\t\tfor(int i = 0; i < this.size() ; i++){\r\n\t\t\tfinal Item mItem = this.getItem(i);\r\n\t\t\tmItemScreenCoords = pj.toMapPixels(mItem.getPoint(), mItemScreenCoords); \r\n\t\t\tmCurScreenCoords = pj.fromMapPixels(eventX, eventY, mCurScreenCoords);\r\n\r\n\t\t\tint diffX = Math.abs(mItemScreenCoords.x-mCurScreenCoords.x); //Abs() distance from touchevent and the marker (X)\r\n\t\t\tint diffY = Math.abs(mItemScreenCoords.y-mCurScreenCoords.y); //Abs() distance from touchevent and the marker (Y)\r\n\r\n\t\t\tif(diffX<=markerWidth && diffY<=markerHeight)\t//If I touched inside the marker\r\n\t\t\t\tif(onTap(i))\r\n\t\t\t\t\treturn true;\r\n\t\t}\r\n\r\n\t\tsuper.onSingleTapUp(event, mapView);\r\n\r\n\t\treturn true;\r\n\r\n\t}\r\n\r\n\r\n\tpublic boolean onTap(int index){\r\n\r\n           // DO SOMETHING\r\n\r\n\t\treturn true;\r\n\r\n\t}",
+    "timestamp" : 1315782835,
+    "attachments" : [ ]
+  } ]
+}OMETHING\r\n\r\n\t\treturn true;\r\n\r\n\t}","timestamp":1315782835,"attachments":[]}]}

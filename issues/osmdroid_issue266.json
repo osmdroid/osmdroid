@@ -1,0 +1,25 @@
+{
+  "id" : 266,
+  "status" : "Duplicate",
+  "summary" : "Limit Scrolling of an Area in an Offline City Map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6021902092352558365,
+    "content" : "Map source used: OSM Mapnik\r\nLibrary: osmdroid-android-3.0.1.jar\r\nI managed to download only a small area of a city using MOBAC.\r\n\r\nI have a small map of a city display on Android. When the user scrolls beyond the boundaries of the city map it will just display a grey empty screen. How do I get the total map size of my small map? What I see on my /tiles/Manpik directory are just .png images but when my program runs it shows the map. \r\n\r\nI have seen this existing issue but still I don't have any idea on how to solve the problem: \r\nhttp://code.google.com/p/osmdroid/issues/detail?id=209\r\nhttp://stackoverflow.com/questions/5403733/restricting-the-area-the-user-can-go-to-on-mapview\r\n\r\nI have also checked out the attached files from Issue 209: LimitScrollToGeographicArea.patch, scrollToMethod.txt but I cannot understand how to use patch files, and it is a little bit advance for I am a beginner. I have also tried to implement the class but many errors occurred. As a beginner I need a more understandable codes to implement or classes. Thank you for your support. \r\n",
+    "timestamp" : 1318408400,
+    "attachments" : [ {
+      "id" : 2660000000,
+      "fileName" : "YourMap.java",
+      "fileSize" : 1733
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1318411663,
+    "attachments" : [ ]
+  } ]
+}

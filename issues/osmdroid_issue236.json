@@ -1,0 +1,133 @@
+{
+  "id" : 236,
+  "status" : "Fixed",
+  "summary" : "Add support for Bing Maps",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 18,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "See comment 7 of issue 12.",
+    "timestamp" : 1309865615,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Get a Bing Maps API Key here:\r\nhttp://msdn.microsoft.com/en-us/library/ff428642.aspx\r\n",
+    "timestamp" : 1309879959,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've tidied up the first patch a bit and incorporated it into the sample. Still needs more work, but this is an initial working version. Looks promising!",
+    "timestamp" : 1309880649,
+    "attachments" : [ {
+      "id" : 2360002000,
+      "fileName" : "patch1.patch",
+      "fileSize" : 22676
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's probably a good idea to put this in a separate project (within osmdroid).  Perhaps we should also move the other third-party tile providers and overlays into it. So something like osmdroid-third-party project.  This is mainly for licensing reasons, and also because the primary purpose of osmdroid is displaying osm maps.",
+    "timestamp" : 1309936283,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've updated the patch to get the API key from the manifest",
+    "timestamp" : 1309949635,
+    "attachments" : [ {
+      "id" : 2360004000,
+      "fileName" : "patch2.patch",
+      "fileSize" : 24605
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is another patch with the following changes compared to patch2:\r\n - implemented the resources properly\r\n - extended QuadTreeTileSource instead of OnlineTileSourceBase\r\n - moved a few methods around\r\n\r\nI'd like to commit this, but I'm not sure how to do it. I suspect it violates our/Bing license if I just commit it as is.",
+    "timestamp" : 1310134986,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "It helps if I attach the patch!",
+    "timestamp" : 1310135572,
+    "attachments" : [ {
+      "id" : 2360006000,
+      "fileName" : "patch3.patch",
+      "fileSize" : 26803
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : -4457479747115248445,
+    "content" : "Comment deleted",
+    "timestamp" : 1310147815,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I started creating a new project osmdroid-third-party and moved the Bing stuff to there. See patch4.",
+    "timestamp" : 1310363596,
+    "attachments" : [ {
+      "id" : 2360008000,
+      "fileName" : "patch4.patch",
+      "fileSize" : 29430
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I committed this in revision 948.",
+    "timestamp" : 1310384080,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "See this link for a description of the Bing API:\r\nhttp://msdn.microsoft.com/en-us/library/ff701721.aspx\r\n",
+    "timestamp" : 1310393531,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "It would be handy if there was some kind of lazy loading of the meta data so that it is only read when it is first needed. Currently it's implemented as a static method that needs to be called before the class is instantiated, which means you always need to get the meta data even if you don't use the tiles.",
+    "timestamp" : 1310394364,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps it would be better to implement IStyledTileSource<String> instead of IStyledTileSource<Integer>, where the String is one of the constants \"Aerial\", \"AerialWithLabels\", \"Road\".\r\n\r\nAnd then only store one set of meta data, which is retrieved when you first need it.\r\n\r\nWe can then have a simpler static method to get the API key from the manifest, similar to CloudMade.",
+    "timestamp" : 1310396208,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -6796225531243314910,
+    "content" : "The use of IStyledTileSource<Integer> instead of IStyledTileSource<String> was for performance purpose (I don't know how the getStyle method is used but if there are comparisons for example, the Integer is better than String). The access of associated string is a direct access in an array in getStyleName method.\r\n\r\nGood idea to add it in a third party project, it will enable to extends functionnalities without changing the core of the SDK.\r\n",
+    "timestamp" : 1310472149,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Get/set style is not called frequently - it's just a setup thing.\r\n\r\nI intend to do what I described above, ie change to a string which is simply one of those constants, and then load the meta data the first time it's needed. This will allow me to put the Bing provider back into the default app.\r\n\r\nI'll probably also create an issue to do Google Maps in the third party package.  People keep asking for this and we've been rejecting it, but there's no reason not to do it now.",
+    "timestamp" : 1310476112,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think this is working fine now",
+    "timestamp" : 1310706697,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -3037187246721699610,
+    "content" : "Is there anywhere an example, on how to use this in the current release version? (3.0.5)",
+    "timestamp" : 1312889871,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's in the code. Have a look at MapActivity.",
+    "timestamp" : 1312891437,
+    "attachments" : [ ]
+  } ]
+}

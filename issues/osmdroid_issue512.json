@@ -1,0 +1,69 @@
+{
+  "id" : 512,
+  "status" : "Fixed",
+  "summary" : "GeoPoint perf improvement: multiply by 1E-6",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "GeoPoint conversions from internal int representation of lat/lon to double imply a division by 1E6. \r\nIt is more efficient to multiply by 1E-6: from my experiments, multiplying is twice faster than dividing. \r\n\r\nThe 2 functions for which this improvement seems relevant are: GeoPoint.getLongitude() and GeoPoint.getLatitude() - as they can be called massively when handling objects with a lot of GeoPoints. \r\n\r\n",
+    "timestamp" : 1389736734,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This question also has some nice answers:\r\nhttp://stackoverflow.com/questions/226465/should-i-use-multiplication-or-division\r\nAlways use whatever is the clearest.\r\nMultiplication is faster, division is more accurate.",
+    "timestamp" : 1389860953,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1558421220117089513,
+    "content" : "Hi Neil, \r\n\r\nIf you really didn't care about optimizations, osmdroid would be much much simpler: no file caching, no memory caching, no threads,... And it would also be useless. \r\nLook at osmdroid PathOverlay.draw method: this is fine tuned for performances (which is important for drawing long paths) - and it is also a particularly unclear piece of code... \r\n\r\nI fully agree not to replace \"/2\" by \"*0.5\" (as \"/2\" is clearest in most cases). \r\nBut franckly, in our case, I don't see why \"/1E6\" would be clearest than \"*1E-6\". \r\nAnd getLongitude and getLatitude are 2 basic operations when using GeoPoint, so easily doubling efficiency here is not irrelevant. \r\n\r\nAbout difference in accuracy: urban legend, we are using doubles. \r\n\r\nAnyway, this whole subject is a minor point, with easy workarounds. I don't want to annoy you on it, do as you prefer. \r\n\r\nBest regards, and thanks for the job!\r\n",
+    "timestamp" : 1390050348,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay! I wasn't trying to speak against the idea, I was just reporting the results of a quick bit of googling. I'll do this change.",
+    "timestamp" : 1390058270,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I made some changes in revision 1400.",
+    "timestamp" : 1390078957,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Are we sure that Java doesn't optimize this for us already at compile or runtime?",
+    "timestamp" : 1390230057,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I wrote a simple test in revision 1416. I didn't see any difference between multiply and divide.",
+    "timestamp" : 1390260446,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 1558421220117089513,
+    "content" : "In the code inside your loop: \r\n  long l = r.nextLong();\r\n  double s = l / 1E6;\r\nmost of the time is probably spent in r.nextLong(), making the difference on the second line negligible. \r\n\r\nHere is my test:\r\n\r\nvoid test1(){\r\n  double delta = 0.0;\r\n  for (int i=0; i<10000000; i++){\r\n    delta = i*1E-6; \r\n  }\r\n}\r\n\r\nvoid test2(){\r\n  double delta = 0.0;\r\n  for (int i=0; i<10000000; i++){\r\n    delta = i/1E6; \r\n  }\r\n}\r\n\r\nOn Android 2.2 and 4.3 AVD, test1 is twice faster than test2. \r\nSo, to answer to Kurtz: yes, we are sure that Java doesn't optimize this for us. \r\n",
+    "timestamp" : 1390513850,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Now I can see that for 1E7 operations you can save about 500ms on my slow 2.3.6 device.\r\nI imagine that if you're doing anything this many times then there will be worse things to worry about than this.\r\nBut anyway I already made the change as I said in comment 4.",
+    "timestamp" : 1390516733,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390673378,
+    "attachments" : [ ]
+  } ]
+}

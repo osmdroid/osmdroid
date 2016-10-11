@@ -1,0 +1,27 @@
+{
+  "id" : 335,
+  "status" : "Fixed",
+  "summary" : "Fix for \"stuck\" tiles never loading",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "There is an issue where, after scrolling a long distance, tiles will get &quot;stuck&quot; and will never load.\r\n\r\nEach tile provider has a pending queue that is implemented as a Least-Recently-Used queue. If too many tile requests queue up, then the oldest requests are discarded since they are likely no longer needed. The queue's limit is rarely reached since most tile providers can keep up with the requests, but if you scroll very fast then the download queue can grow to exceed the queue and that causes pending tiles to be dropped. The current code simply discards the pending tile requests. This is incorrect, since what is really happening is that the tile request has failed so it is imperative that we notify the Array provider that the request failed otherwise it will always assume that the tile request is still alive and queued for handling.\r\n \r\nSo the fix for this problem is to change MapTileModuleProviderBase, at line 99 change removeEldestEntry to be:\r\n \r\n    @Override\r\n    protected boolean removeEldestEntry(\r\n        final Map.Entry&lt;MapTile, MapTileRequestState&gt; pEldest) {\r\n           if (size() &gt; pPendingQueueSize) {\r\n               removeTileFromQueues(pEldest.getKey());\r\n               pEldest.getValue().getCallback().mapTileRequestFailed(pEldest.getValue());\r\n           }\r\n           return false;\r\n        }\r\n\r\nI will allow a short time for review and then commit the fix early next week. I have been running this patch for a while, and it solves the issue described above.",
+    "timestamp" : 1333743985,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1090.",
+    "timestamp" : 1334005720,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3247586724504715473,
+    "content" : "I m using osmdroid-android-3.0.7.jar.So how can i fix this problem :S\r\n",
+    "timestamp" : 1334841415,
+    "attachments" : [ ]
+  } ]
+}

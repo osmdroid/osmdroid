@@ -1,0 +1,73 @@
+{
+  "id" : 305,
+  "status" : "Fixed",
+  "summary" : "Upgrade from 3.0.1 to 3.0.7 issues",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6455426846570469686,
+    "content" : "Hi,\r\n\r\nI just tried to upgrade my app (http://osmtracker-android.googlecode.com) from v3.0.1 to the latest v3.0.7 and encountered an few issues.\r\n\r\nThe first one has to do with SimpleLocationOverlay.\r\n\r\nI was using the default &quot;person.png&quot; bitmap that comes in the JAR and with v3.0.7 creating a new SimpleLocationOverlay throws an exception with &quot;Resource not found: person.png&quot;.\r\n\r\nLooking at the DefaultResourceProxyImpl class the bitmap is loaded with getClass().getResourceAsStream() with a relative path (&quot;person.jpg&quot;). I believe that means that the resource is relative to the current package (org/osmdroid/person.png), whereas it should be an absolute URL: getResourceAsStream(&quot;/person.png&quot;).\r\n\r\nI've changed that to add a leading slash in my local copy and it doesn't throw an exception anymore.\r\nI'm surprised that this issue didn't arise before since I suspect the DefaultResrouceProxyImpl is used everywhere ? Maybe it's an environment thing or related to changes in the ClassLoader and how it resolves resources in Android ? I'm using Android 1.6.\r\n\r\nThe second issue is that the MapView doesn't display anything after the upgrade :) I just get a full black screen. All I can see is that some tiles are downloaded on the SD card under /osmdroid/tiles/Mapnik/17/65535 and 65536 folders, which looks suspicious !\r\n\r\nDo you have any idea of what could cause that, or what would be the best way to debug the issue ?\r\n\r\nThanks,\r\n\r\nNico\r\n",
+    "timestamp" : 1328098252,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think the problem is that the resources should be in the org.osmdroid package",
+    "timestamp" : 1328738387,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think revision 1077 has fixed this.",
+    "timestamp" : 1328738843,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "You can download the latest build from here: https://oss.sonatype.org/content/groups/public/org/osmdroid/",
+    "timestamp" : 1328739072,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -6455426846570469686,
+    "content" : "Comment deleted",
+    "timestamp" : 1328787503,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is it still broken in the latest? If so, please make a new issue.",
+    "timestamp" : 1328787871,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -6455426846570469686,
+    "content" : "Oops sorry deleted my comment by mistake: Thanks it fixed it indeed !\r\n\r\nI'm investigating the other issue, I'll create a ticket if I get stuck.",
+    "timestamp" : 1328789689,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6796294883573992860,
+    "content" : "working ith latest from svn I still have the issue, since : ndroid.R.drawable.ic_delete\r\nmakes pretty good lcoation marker :)",
+    "timestamp" : 1339150702,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 6796294883573992860,
+    "content" : "i figured it out! if I change the default icon for the overlay:\r\n\r\n\t\tItemizedIconOverlay<OverlayItem> myOverlay = new ItemizedIconOverlay<OverlayItem>(pList,marker, pOnItemGestureListener, new DefaultResourceProxyImpl(getApplicationContext()));\r\n\r\ninstead of :\r\n\r\n\t\t//ItemizedIconOverlay<OverlayItem> myOverlay = new ItemizedIconOverlay<OverlayItem>(getApplicationContext(), pList, pOnItemGestureListener);\r\n\r\nit does nto raise an exception for some missing default_marker.png\r\n\t\t",
+    "timestamp" : 1339170797,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 6783294413486723164,
+    "content" : "i am a beginner.i want to write offline map. i don't know how to write and i fine offline map.i see osmdroid and i am testing the osmdroid. i use osmdroid-android-3.0.7.jar and slf4j-android-1.5.8.jar .Map view is appeared. now i am testing overlay for my offline map view. the overlay is not appeared.how to do? please tell me.",
+    "timestamp" : 1375419896,
+    "attachments" : [ {
+      "id" : 3050009000,
+      "fileName" : "FinalYangonBusGuide.zip",
+      "fileSize" : 2057779
+    } ]
+  } ]
+}

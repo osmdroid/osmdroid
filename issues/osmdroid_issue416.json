@@ -1,0 +1,25 @@
+{
+  "id" : 416,
+  "status" : "New",
+  "summary" : "User location is not refreshed correctly",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 966566719958037616,
+    "content" : "I have a map following the user location.\r\nI am using a custom image for the user location and, when the location changes, the icon is redrawn but not correctly. See attached file.",
+    "timestamp" : 1364988530,
+    "attachments" : [ {
+      "id" : 4160000000,
+      "fileName" : "osmdroid_pb_position.png",
+      "fileSize" : 85134
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Are you using MyLocationNewOverlay (note the \"New\" in the class name) or the old MyLocationOverlay?",
+    "timestamp" : 1365024558,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 301,
+  "status" : "Duplicate",
+  "summary" : "Cache storage folder should be a parameter",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -10632678546972490,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Run any app using osmdroid with online tiles and file cache.\r\n2. Use the app so some tiles will be downloaded and then saved to filesystem.\r\n3. That folder can't be changed from API, plus it's not  the default cache folder.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nOSMdroid has a hard-coded property for the external storage directory.\r\nIt should be a parameter or at least a method to be overwritten.\r\nAlso, the default folder could use getExternalCacheDir() or equivalent, so the cache folder would be gone when uninstalling.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6, Android 2.2 \r\n\r\n",
+    "timestamp" : 1327047645,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1327050785,
+    "attachments" : [ ]
+  } ]
+}

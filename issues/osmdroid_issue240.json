@@ -1,0 +1,39 @@
+{
+  "id" : 240,
+  "status" : "Invalid",
+  "summary" : "Cycle Map not to be displayed",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3648234740252880217,
+    "content" : "Choose Cycle Map on MapView as Tile Source.\r\nIt is not to be displayed.\r\nFileNotFoundException seems to be coming....",
+    "timestamp" : 1310714591,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8660768000667800166,
+    "content" : "Comment deleted",
+    "timestamp" : 1312443561,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8282505804742905521,
+    "content" : "I'm not having any problems displaying it within my app. Could you perhaps provide more information? A logat would be helpful to show where the issue is.",
+    "timestamp" : 1330964459,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8282505804742905521,
+    "content" : "Comment deleted",
+    "timestamp" : 1330965057,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Could not be reproduced. No further information.",
+    "timestamp" : 1332748655,
+    "attachments" : [ ]
+  } ]
+}

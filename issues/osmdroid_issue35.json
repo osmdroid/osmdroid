@@ -1,0 +1,149 @@
+{
+  "id" : 35,
+  "status" : "Fixed",
+  "summary" : "Very slow scroll while loading tiles in background.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 22,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6556601514708298404,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Open OSM.\r\n2. Scroll around in place where the tiles have been loaded - all nice and\r\nsmooth.\r\n3. Scroll around in place with no tiles loaded - very laggy, up to 1 sec.\r\nEven without debug mode on actual device.\r\n\r\nNote that there are two things - a small freeze when a cached tile is\r\nloaded from disk - this one is quite tolerable. But there is a general lag\r\nwhen just scrolling around empty area, waiting for tiles to load.",
+    "timestamp" : 1270566703,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6556601514708298404,
+    "content" : "There was a livelock in the tile loading.\r\n\r\nBasically the file loader initialized network loader and called the callback\r\nfunction, that initialized repaint and again started the file loader worker and so on.\r\n\r\nMade file loader worker not to call the callback function if the task is deferred to\r\nthe network loader.\r\n\r\nAlso did some cleanup on the messy code in OpenStreetMapAsyncTileProvider.",
+    "timestamp" : 1270567614,
+    "attachments" : [ {
+      "id" : 1790561933611526181,
+      "fileName" : "patch-tile-load-livelock.patch",
+      "fileSize" : 11747
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6556601514708298404,
+    "content" : "Note that #15 latest patch also contains this patch.",
+    "timestamp" : 1271057244,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had a look at the patch and I have some questions/comments.\r\n\r\n1. You changed the comment from \"move it to the front of the queue\" to \"move it to the BACK of the queue\". \r\nThis is supposed to be a LRU queue, ie the most recently accessed should be the first item off the queue.  Do \r\nyou think it's not working that way?\r\n\r\n2. In TileLoader.run you call finishTileLoad in the catch and the finally.  Is that intentional?  It seems \r\nmore logical that you should call it in the success and catch cases, but not the finally.\r\n\r\n3. You call mPending.containsKey and then mPending.put.  That seems to be rather inefficient since the return \r\nvalue of put tells you whether it previously existed.  Perhaps that also makes the synchronized block \r\nredundant.\r\n\r\n4. The return value of loadMapTileAsync is not used.\r\n\r\n5. Why did you change the value of mPending from Object to IOpenStreetMapTileProviderCallback? The value is \r\nnot used.\r\n\r\n6. Using mWorking probably makes the code less messy because we don't need to bother about \r\nConcurrentModificationException, but doesn't it also make it less efficient?\r\n\r\nThese are just my immediate comments.  I haven't looked at your solution in detail.  So to summarise, I can \r\nbelieve that there might be a livelock because everything is trying to process the most recently accessed tile \r\nfirst, but perhaps there's a simpler solution - perhaps just a one-liner to \"make file loader worker not call \r\nthe callback function if the task is deferred to the network loader\".\r\n\r\nRegards\r\n\r\nNeil\r\n",
+    "timestamp" : 1271156245,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6556601514708298404,
+    "content" : "1. I read the documentation and actually tested the LinkedHashMap, it stores elements\r\nin \"access order\", the more recently accessed elements are last in the order (the\r\nones we want to download first).\r\n\r\n2. That is not intentional, haven't changed that code.\r\n\r\n3. the return value of put returns the previous value associated with that key. Null\r\nvalue is a valid value to be associated (caller passes null as the callback ). The\r\nonly way to be sure is check containsKey.\r\n\r\n4. yes, I had an idea to use it but apparently it is not valid anymore. Can safely\r\nremove the return value.\r\n\r\n5. I was planning to remove the callback member from the TileLoader calss, as it is\r\npassed around uselessly in all the constructors and store in the map instead. But it\r\ndid not work out as the FilesystemProvider actually needed it. Can be safely reverted\r\nto the old style (also eleminiates point 3).\r\n\r\n6. don't know how fast the android locking code is, but\r\nConcurrentModificationException is just a way to show developers there are errors in\r\nthe code, not a way to test for modifications. Also the speed is not relevant here.\r\nRemote service calling overhead is surely WAY more than this.\r\n\r\nI can make a 3 lines patch for this, but I wanted to make the code a bit more readable. \r\n\r\nThe original code had all kinds of possible concurrency problems apart from the\r\napparent livelock. Each tile could be actually downloaded twice, because would be\r\nreinserted in the download queue while the first download is in progress.\r\n\r\nI will sumbit a new patch addressing most of the mentioned problems.",
+    "timestamp" : 1271158000,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6556601514708298404,
+    "content" : "Improved patch.",
+    "timestamp" : 1271159428,
+    "attachments" : [ {
+      "id" : 7420493917987677713,
+      "fileName" : "patch-tile-load-livelock1.patch",
+      "fileSize" : 11650
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Yes you're right, the iterator returns the least recently accessed items first. But \r\nthat was not my intention, so I'll fix it so that gets the most recently accessed \r\nfirst.\r\nAnd you're also right about needing the mWorking list to prevent items in progress \r\nbeing re-added to the list.\r\nSurprising that my original version worked at all ;-)",
+    "timestamp" : 1271172134,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 127 contains a fix based on this patch.",
+    "timestamp" : 1271192412,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 6556601514708298404,
+    "content" : "Comments about the rev 127:\r\n\r\n0) This still does not address the initial livelock issue.\r\n\r\n1) Constructing new stack in nextTile method is not nice. Makes lots of allocations\r\nfor garbage collector. At least make the initial size as big as the mPending.\r\n\r\n2) in TileLoader.run the finishTileLoad is not called if there is an error (line\r\n#143). As result it is never removed from the mPending and mWorking maps.\r\n",
+    "timestamp" : 1271236724,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 6556601514708298404,
+    "content" : "3) No synchornization. Ons sync block does no good, if all the other access places\r\nare not synced.",
+    "timestamp" : 1271237502,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "0) Doesn't it? What else is needed? mWorking should be helping.\r\n\r\n1) I know. I would like to extend LinkedHashMap and add a reverse iterator, but all the useful \r\nstuff is private. Anyone got a better idea? Stack only has a default constructor.\r\n\r\n2) I'm working on a new version which I'll check in later. I also forgot to not redraw when the fs \r\ndelegates to the downloader. Instead of using the dummy return value you had, I've added another \r\ncallback for the internal completion.\r\n",
+    "timestamp" : 1271239203,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "3) I didn't think the synchronisation around the clear/remove of mPending/mWorking was \r\nnecessary because so long as they're done in that order it won't go wrong. It doesn't \r\nmatter if an item is in mWorking when it's already been removed from mPending.",
+    "timestamp" : 1271239423,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 6556601514708298404,
+    "content" : "The map methods are NOT atomar operations, I bet there are at least 3 places in each\r\ncommand that can go wrong if not propery synced. I took me about 1 min of browsing\r\naround the map in emulator to get a force close. Added proper syncs and no more problems.\r\n\r\nYou have misunderstood the usage of mPending (maybe should use a better name for it)\r\n- it contains BOTH the pending and working tiles. ",
+    "timestamp" : 1271242529,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 6556601514708298404,
+    "content" : "0) The real livelock fix is in the few changed lines in\r\nOpenStreetMapTileFilesystemProvider and the corresponding processing in\r\nfinishTileLoad (that you have so nicely removed).\r\n\r\n1) you cold use my original implementation that just iterates all the items in map\r\nand takes the last one.\r\n\r\n2) yes, that would fix the livelock.",
+    "timestamp" : 1271243690,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 133 contains some more changes.",
+    "timestamp" : 1271322247,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 6556601514708298404,
+    "content" : "It gets better ;)\r\n\r\nOne more note - you should also clear mWorking in OpenStreetMapAsyncTileProvider line 45.",
+    "timestamp" : 1271325467,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 6556601514708298404,
+    "content" : "Also how about fixing bug #15?",
+    "timestamp" : 1271326848,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm looking at it now. It's a bit difficult because the patch replaces all lines so \r\nit's hard to see the differences. That's because you've replaced LF with CRLF.",
+    "timestamp" : 1271327166,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "Are we finished with this now?",
+    "timestamp" : 1271361650,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 6556601514708298404,
+    "content" : "I will test it. But current trunk does not compile :( (rev 138).\r\n",
+    "timestamp" : 1271400074,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 6556601514708298404,
+    "content" : "Sorry, it compiles OK, Eclipse had not picked up all the changes.",
+    "timestamp" : 1271400162,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284129276,
+    "attachments" : [ ]
+  } ]
+}

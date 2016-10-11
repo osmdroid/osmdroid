@@ -1,0 +1,27 @@
+{
+  "id" : 371,
+  "status" : "Invalid",
+  "summary" : "How to create overlayItem by click on map?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 462469271112654667,
+    "content" : "Hello\r\nI'm developing an android program with Osmdroid &amp; custom map. I want that the users could click on map to add a point ( overlayItem ) and then forward to an other activiy. how can I push a pin on map by clicking on it? thanks.",
+    "timestamp" : 1348726337,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1558421220117089513,
+    "content" : "You can have a look here: http://code.google.com/p/osmbonuspack\r\n\r\nImplementation is done here:\r\nhttp://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPack/src/org/osmdroid/bonuspack/overlays/MapEventsOverlay.java\r\n\r\nAnd this class is used here: \r\nhttp://code.google.com/p/osmbonuspack/source/browse/trunk/OSMBonusPackDemo/src/com/osmbonuspackdemo/MapActivity.java\r\n\r\n",
+    "timestamp" : 1349708201,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1357242793,
+    "attachments" : [ ]
+  } ]
+}

@@ -9,7 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.GeometryMath;
 import org.osmdroid.views.MapView;
@@ -23,11 +23,15 @@ import microsoft.mappoint.TileSystem;
 
 /**
  * A polyline is a list of points, where line segments are drawn between consecutive points.
+ * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br>
+ * - Doesn't support Z-Index: drawing order is the order in map overlays<br>
+ * - Supports InfoWindow (must be a BasicInfoWindow). <br>
+ * <p></p>
  * Mimics the Polyline class from Google Maps Android API v2 as much as possible. Main differences:<br/>
  * - Doesn't support Z-Index: drawing order is the order in map overlays<br/>
  * - Supports InfoWindow (must be a BasicInfoWindow). <br/>
- * <p/>
- * Implementation: fork from osmdroid PathOverlay, adding Google API compatibility and Geodesic mode.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='src='./doc-files/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  * @see <a href="http://developer.android.com/reference/com/google/android/gms/maps/model/Polyline.html">Google Maps Polyline</a>
@@ -35,7 +39,7 @@ import microsoft.mappoint.TileSystem;
 public class Polyline extends OverlayWithIW {
 	
 	/** original GeoPoints */
-	private int mOriginalPoints[][]; //as an array, to reduce object creation
+	private double mOriginalPoints[][]; //as an array, to reduce object creation
 	protected boolean mGeodesic;
 	private final Path mPath = new Path();
 	protected Paint mPaint = new Paint();
@@ -52,16 +56,21 @@ public class Polyline extends OverlayWithIW {
 
 	protected OnClickListener mOnClickListener;
 
-	public Polyline(Context ctx){
+	/** Use {@link #Polyline()} instead */
+	@Deprecated
+	public Polyline(Context ctx) {
+		this();
+	}
 
-		super(ctx);
+	public Polyline(){
+		super();
 		//default as defined in Google API:
 		this.mPaint.setColor(Color.BLACK);
 		this.mPaint.setStrokeWidth(10.0f);
 		this.mPaint.setStyle(Paint.Style.STROKE);
 		mPaint.setAntiAlias(true);
 		this.clearPath();
-		mOriginalPoints = new int[0][2];
+		mOriginalPoints = new double[0][2];
 		mGeodesic = false;
 	}
 	
@@ -167,11 +176,11 @@ public class Polyline extends OverlayWithIW {
 	public void setPoints(List<GeoPoint> points){
 		clearPath();
 		int size = points.size();
-		mOriginalPoints = new int[size][2];
+		mOriginalPoints = new double[size][2];
 		for (int i=0; i<size; i++){
 			GeoPoint p = points.get(i);
-			mOriginalPoints[i][0] = p.getLatitudeE6();
-			mOriginalPoints[i][1] = p.getLongitudeE6();
+			mOriginalPoints[i][0] = p.getLatitude();
+			mOriginalPoints[i][1] = p.getLongitude();
 			if (!mGeodesic){
 				addPoint(p);
 			} else {
@@ -226,11 +235,11 @@ public class Polyline extends OverlayWithIW {
 		Point projectedPoint1;
 
 		// clipping rectangle in the intermediate projection, to avoid performing projection.
-		BoundingBoxE6 boundingBox = pj.getBoundingBox();
-		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorthE6(),
-				boundingBox.getLonWestE6(), null);
-		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouthE6(),
-				boundingBox.getLonEastE6(), null);
+		BoundingBox boundingBox = pj.getBoundingBox();
+		Point topLeft = pj.toProjectedPixels(boundingBox.getLatNorth(),
+				boundingBox.getLonWest(), null);
+		Point bottomRight = pj.toProjectedPixels(boundingBox.getLatSouth(),
+				boundingBox.getLonEast(), null);
 		final Rect clipBounds = new Rect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
 		// take into account map orientation:
 		if (mapView.getMapOrientation() != 0.0f)
@@ -489,6 +498,12 @@ public class Polyline extends OverlayWithIW {
 	protected boolean onClickDefault(Polyline polyline, MapView mapView, GeoPoint eventPos) {
 		polyline.showInfoWindow(eventPos);
 		return true;
+	}
+
+	@Override
+	public void onDetach(MapView mapView) {
+		mOnClickListener=null;
+		onDestroy();
 	}
 
 }

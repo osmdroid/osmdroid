@@ -1,0 +1,65 @@
+{
+  "id" : 213,
+  "status" : "Fixed",
+  "summary" : "Implement Executor/thread pool",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "As discussed in Issue 196 and Issue 200 this patch implements a single static Executor to serve all threads for all tile provider modules.\r\n\r\n\r\n\r\n",
+    "timestamp" : 1305499851,
+    "attachments" : [ {
+      "id" : 2130000000,
+      "fileName" : "Executor.patch",
+      "fileSize" : 21966
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This involves changing the threading architecture which is a vital section of code and one where problems can be hard to spot and can cause performance drain if malfunctioning.\r\n\r\nI would like to see some information showing that this approach has advantages over what we have been using. I also question if having one big thread pool from which all modules feed off of is a good idea. If the tile downloader starts eating up threads and the pool gets starved, then the whole map stops drawing tiles even if they are already cached. If there really is a significant advantage to using an Executor, then we may also have to add some more sophistication to get it working optimally.",
+    "timestamp" : 1305500147,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 196 has been merged into this issue.",
+    "timestamp" : 1305500753,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "So, the main advantage is that the ExecutorService will keep reusing the threads rather than constantly creating new ones. We create a *lot* of threads, so this is probably worth it. Each provider module should have its own ExecutorService and each provider should dictate how many threads should be dedicated to the module.",
+    "timestamp" : 1307129833,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is a much more simple version that follows our current pattern of each module provider having its own thread pool (or now an ExecutorService).",
+    "timestamp" : 1307130746,
+    "attachments" : [ {
+      "id" : 2130004000,
+      "fileName" : "Executor.patch",
+      "fileSize" : 3720
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1307130756,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "And one more change - this patch allows the adjustment of the thread priority and it originally set it to MIN_PRIORITY. I am not sure of the effects of this beyond the obvious and that is not how we previously set the priority so I am going to leave the ability to adjust it later, but set it to normal priority for now.",
+    "timestamp" : 1307132092,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed by r938.",
+    "timestamp" : 1307132256,
+    "attachments" : [ ]
+  } ]
+}

@@ -10,7 +10,9 @@ import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 /**
- * An overlay which is just a group of other overlays. 
+ * A {@link org.osmdroid.views.overlay.FolderOverlay} is just a group of other {@link org.osmdroid.views.overlay.Overlay}s.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  * 
  * @author M.Kergall
  */
@@ -18,9 +20,15 @@ public class FolderOverlay extends Overlay {
 
 	protected OverlayManager mOverlayManager;
 	protected String mName, mDescription;
-	
+
+	/** Use {@link #FolderOverlay()} instead */
+	@Deprecated
 	public FolderOverlay(Context ctx) {
-		super(ctx);
+		this();
+	}
+
+	public FolderOverlay() {
+		super();
 		mOverlayManager = new DefaultOverlayManager(null);
 		mName = "";
 		mDescription = "";
@@ -107,6 +115,13 @@ public class FolderOverlay extends Overlay {
 				((OverlayWithIW)overlay).closeInfoWindow();
 			}
 		}
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		if (mOverlayManager!=null)
+			mOverlayManager.onDetach(mapView);
+		mOverlayManager=null;
 	}
 
 }

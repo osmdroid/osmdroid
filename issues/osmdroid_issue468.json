@@ -1,0 +1,31 @@
+{
+  "id" : 468,
+  "status" : "New",
+  "summary" : "Add pinch to zoom detection support within mapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7826539035193158730,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. pinch to zoom on a mapView with overlay items (images displayed)\r\n2. icons are rescaled accordingly to pinch to zoom move, which is kinda uggly on big zoom\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nI think it's better to hide icons while zooming\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI am on 3.0.11-snapshot (trunk)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI attached a patch for mapView (add a simple function isPinching()), then if the behaviour does not suit to the needs, just add a call to isPinching in your custom draw method, such as :\r\n\r\n@Override\r\n  public synchronized void drawSafe(ISafeCanvas canvas, MapView mapView,\r\n      boolean shadow) {\r\n    //do not refresh as long as mapView is animating,\r\n    //avoid marker icon to scale while zooming\r\n    if (mapView.isAnimating() || mapView.isPinching()){\r\n      return;\r\n    }\r\n    super.drawSafe(canvas, mapView, shadow);\r\n  }",
+    "timestamp" : 1377092406,
+    "attachments" : [ {
+      "id" : 4680000000,
+      "fileName" : "isPinching.patch",
+      "fileSize" : 992
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Instead of hiding the icons when zooming, we want to prevent them from scaling. We do this already in the MyLocationNewOverlay - the \"little man\" icon doesn't change size when we pinch-to-zoom. We should make this configurable - if the overlay is drawing icons then you likely don't want them to scale, but if the overlay is drawing shapes that cover physical areas then you would want them to scale with the map imagery.",
+    "timestamp" : 1377121380,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -7826539035193158730,
+    "content" : "Sounds like a good solution :)",
+    "timestamp" : 1377176771,
+    "attachments" : [ ]
+  } ]
+}

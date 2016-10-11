@@ -1,0 +1,69 @@
+{
+  "id" : 138,
+  "status" : "Invalid",
+  "summary" : "Enhancements for offline maps : offset for zoomLevel ; restricted bounding boxes",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1778308742751796674,
+    "content" : "Hi guys,\r\n\r\nI'm just beginning on GIS stuff so I think I won't be able (or quite unefficiently!) to make some enhancement on this field !\r\nThat's why I dare to suggest some dreams I have... \r\n\r\n- When creating offline maps we can specify the zoom level to start with.\r\nThus, my minimal zoom level will be 13 for example.\r\nHowever, providing a minimal zoom when creating an ITileSource instances does not take this into accounts. It may suppose my files will be formatted like if I was starting from zoom level 0. (My minimal level 13 zoom is supposed to be composed of 1 tile not 2^12 as it seems to be thinking).\r\n\r\n- Second feature request: be able to restrict browsing / loading to a specific extent.\r\n\r\nI may come up some days with patches but I guess It will take some time :'(\r\n\r\nThanks again for your attention,\r\nCheers,\r\nSimon Thépot\r\n\r\n",
+    "timestamp" : 1295020214,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1295126596,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Simon,\r\n\r\nBy creating a custom tile source (ITileSource) you can specify what the minimum and maximum zoom levels are for the tile source. This will restrict both the minimum and maximum allowed zoom levels. The max/min levels can be fixed at compile time, or you can make them configurable at run-time with getters and setters. If you are using offline map tiles, then the place to start would be BitmapTileSourceBase which accepts a minimum and maximum zoom level as part of the constructor.\r\n\r\nDoes that work for you?",
+    "timestamp" : 1295500305,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1778308742751796674,
+    "content" : "In fact, I was not refering to a custom tile source, but indeed to a child class of BitMapTileSourceBase I created. This is what I went through before submitting my post (did not try again yet).\r\n(public class MyFileSystemSource extends BitmapTileSourceBase {...}).\r\n\r\nAs I told in my post, the fact is that using offline map ({Z}/{X}/{Y}) does not work, if you generated this map with your first zoom as not being zero.\r\nEg: if I generate my offline starting from zoom level 5, there is only ONE tile for this level. But it seems it is not taken into accounts. I guess, the software think 2^6 tiles have been generated for this level.\r\n\r\nRegards,\r\nSimon Thépot\r\n",
+    "timestamp" : 1295512786,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Simon,\r\n\r\nI think I misunderstood - is this a bug with the osmdroid library or with the OSMMapTilePackager?",
+    "timestamp" : 1295578640,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5434492178920575855,
+    "content" : "Hello everyone, \r\n\r\nI believe I'm facing the same error. I'm trying to use only offline maps initialized with 15 zoom level. This is what I'm doing:\r\n - I extended BitmapTileSourceBase in order to override getTileRelativeFilenameString() and configure zoomMinLevel. \r\n - Also extended MapTileProviderArray adding a new instance of MapTileFilesystemProvider (assigning the previous tile source) to mTileProviderList and setting setUseDataConnection(false). \r\n\r\nBut, when I start the application, the following happens:\r\n - Initial zoom level is 0\r\n - The tile source doesn't get the pathBase I set. \r\n - The API seems to keep downloading tiles from internet.\r\n\r\nAm I doing something wrong or this is an unsolved bug?\r\n\r\nI would really apreciate your help!!\r\nThank you very much!\r\nRegards,\r\nMagalí.-",
+    "timestamp" : 1296228827,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Magali - are you extending MapTileProviderArray or MapTileProviderBasic? If MapTileProviderArray, are you adding a MapTileDownloader to the chain? If not, then I am not sure how tiles are being actively downloaded.\r\n\r\nAlso, do you have an SD card installed? Is that where your tiles are located?\r\n\r\nFinally, could you give me the full path to one of your map tiles? Does it end in .jpg or does it end in .jpg.tile ?",
+    "timestamp" : 1296358380,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -5434492178920575855,
+    "content" : "- I'm extending MapTileProviderArray and I didn't add any MapTileDownloader, may it be taking a default configuration? Because it seems to keep downloading tiles. \r\n\r\n- My SD card, yes, it is installed. Tiles are located there.\r\n\r\n- A full path: osmdroid/tiles/myApp/15/11062/19736.png.tile\r\n\r\nI'm pretty sure that my problem is related with misconfiguration, I'll keep seeking and testing. \r\n",
+    "timestamp" : 1296852829,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Since this is confusing two issues in one, let's restrict this to the first one and continue the second in issue 209.",
+    "timestamp" : 1303967951,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "I don't think this ticket is going anywhere so we can close it.",
+    "timestamp" : 1367456317,
+    "attachments" : [ ]
+  } ]
+}

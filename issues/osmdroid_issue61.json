@@ -1,0 +1,21 @@
+{
+  "id" : 61,
+  "status" : "Duplicate",
+  "summary" : "Cloudmade APIKEY should not be hardcoded",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Specify it in the manifest instead of OpenStreetMapRendererInfo.",
+    "timestamp" : 1276168147,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1276179024,
+    "attachments" : [ ]
+  } ]
+}

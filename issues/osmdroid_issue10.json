@@ -1,0 +1,27 @@
+{
+  "id" : 10,
+  "status" : "Fixed",
+  "summary" : "Minimap doen't work in all Samples (shows only \"loading\")",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 444047512320640100,
+    "content" : "Minimap doen't work in all Samples (shows only &quot;loading&quot;)\r\n\r\nwhen zoom or pan, minimap changes but keeps on showing loading the whole\r\ntime. Loading of normal maptiles works proper.\r\n\r\ninteraction with minimap works proper\r\n\r\nDDMS log view doesn't show any error",
+    "timestamp" : 1247588639,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue is not very specific. It's also a bit out-of-date.\r\nSee also issue 28, issue 29, issue 30.\r\n",
+    "timestamp" : 1269526010,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "The mini-map is fixed in the trunk in the org.osmdroid namespace. See Issue 124.",
+    "timestamp" : 1294716827,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 427,
+  "status" : "Fixed",
+  "summary" : "Rects drawn in overriden OnDrawItem do not appear (works with 3.0.5.)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5801844553569127216,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Overriding the onDrawItem method in my ItemizedOverlay \r\n2. Calling the super\r\n3. Trying to draw a Rect below the current point, onto the canvas that onDrawItem received as parameter.\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect to have rectangular labels drawn below the markers but I don't see any when using 3.0.10., whereas on the older version, 3.0.5., they are drawn correctly. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI am using osmdroid-android-3.0.10, Eclipse SDK 4.2.2, Windows 7 x64 Professional.\r\n\r\n<b>Please provide any additional information below.</b>\nI suspect this might have something to do with the safe canvas, but I have tried to setUseSafeCanvas(false) to no avail.\r\n",
+    "timestamp" : 1368442820,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "In ItemizedOverlay line 128, change the call to onDrawItem() to be:\r\n\r\n\t\t\tcanvas.getUnsafeCanvas(new UnsafeCanvasHandler() {\r\n\t\t\t\t@Override\r\n\t\t\t\tpublic void onUnsafeCanvas(Canvas canvas) {\r\n\t\t\t\t\tonDrawItem(canvas, item, mCurScreenCoords);\r\n\t\t\t\t}\r\n\t\t\t});\r\n\r\nAnd let me know if that works!",
+    "timestamp" : 1368451993,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 5801844553569127216,
+    "content" : "Thanks, worked like a charm! Is this change something that will be included in the next release?",
+    "timestamp" : 1368465333,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This narrows down what the issue is, but as a real solution we should probably be passing ISafeCanvas to onDrawItem() rather than passing the regular canvas. It's a little more \"breaking\", but otherwise you will get icon drawing issues at high zoom levels.",
+    "timestamp" : 1368623595,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1246.\n\nPass an ISafeCanvas into onDrawItem so custom drawing can take place in that method by subclasses.",
+    "timestamp" : 1371238676,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371239251,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382708829,
+    "attachments" : [ ]
+  } ]
+}

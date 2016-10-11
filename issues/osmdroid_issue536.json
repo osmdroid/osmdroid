@@ -1,0 +1,15 @@
+{
+  "id" : 536,
+  "status" : "New",
+  "summary" : "Transparent MBTiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3433002718840642805,
+    "content" : "I have created an offline .mbtiles file with transparent tiles in it. I place this file in the osmdroid directory on the SD-card and when is start my app, the mbtiles are loaded on top of my base-map. However: there is no transparency, so the background is rendered gray.\r\n\r\nIs it possible to make MBTilesFileArchive render tiles with transparency just like tilesoruces does?\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Put .mbtiles file with transparency in OSMDroid directory \r\n2. Start map\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe transparent regions are displayed gray; I expected that they were transparent so i could see the underlaying tilesource.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nVersion 4.0, Android 4.4.2 KitKat\r\n\r\n",
+    "timestamp" : 1397471925,
+    "attachments" : [ ]
+  } ]
+}

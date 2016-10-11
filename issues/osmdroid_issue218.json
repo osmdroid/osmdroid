@@ -1,0 +1,27 @@
+{
+  "id" : 218,
+  "status" : "Invalid",
+  "summary" : "Replace TileSystem",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "As pointed out in:\r\n\r\nhttp://groups.google.com/group/osmdroid/t/cf41ceac4a0b4fa8\r\n\r\nThe TileSystem code license is not compatible with our license. The major issue is simply that we are not writing Windows software and therefore we can't use the code.\r\n\r\nLuckily there is no magic going on in the code. It's all just Haversine function mathematics and should be easily replaceable. We could easily rewrite the functions ourselves with publicly available references.",
+    "timestamp" : 1305858062,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I would suggest just removing the line that refers to ms-lpl and assume that the code is not covered by it and is intended to be used freely. The page it was taken from says \"These functions can be easily translated into other programming languages as needed\", which is exactly what we've done.",
+    "timestamp" : 1306087004,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - I am beginning to agree. These are benign mathematical functions (Mercator, not Haversine. My mistake.) that are well documented all over the web, and there is a line that encourages reuse in other languages. I'll remove the ms-lpl line since it appears it does not apply here.",
+    "timestamp" : 1307131709,
+    "attachments" : [ ]
+  } ]
+}

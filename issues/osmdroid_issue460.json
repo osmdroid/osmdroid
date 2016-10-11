@@ -1,0 +1,73 @@
+{
+  "id" : 460,
+  "status" : "Accepted",
+  "summary" : "Allow floating point (\"in-between\") zoom levels.",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Right now our zoom levels are integers. When we pinch-to-zoom we can scale the imagery to emulate &quot;in-between&quot; zoom levels but once we end the gesture it will snap back to a &quot;fixed&quot; integer zoom level. We do not allow the users to pan the maps while in an &quot;in-between&quot; zoom level. This causes a less-seamless experience as the maps &quot;snap&quot; to predefined zoom levels.\r\n\r\nIt would be nice to allow the user to pinch-to-zoom and stay in one of the &quot;in-between&quot; zoom levels. To do this we would need to:\r\n\r\n1. Return a float for getZoomLevel(). This is a breaking change unless we leave the existing methods (deprecated) for backwards compatibility.\r\n2. Remove the code that snaps pinch-to-zoom operations to integer zoom levels. Store the floating point zoom level.\r\n3. Change the dispatchDraw() method to scale the tiles appropriately. Something like scale = (1 + (floor(mZoomLevel) - mZoomLevel));\r\n\r\nThis would provide a seamless experience as you zoom in and out of the maps.",
+    "timestamp" : 1375885804,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Attaching a patch that mostly works.",
+    "timestamp" : 1375909884,
+    "attachments" : [ {
+      "id" : 4600001000,
+      "fileName" : "FloatZoomLevelPatch.patch",
+      "fileSize" : 24876
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1378135680,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1378240331,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7134136863321674386,
+    "content" : "I am trying to apply this patch. I did a\r\n\r\nsvn up -r1284\r\n\r\nfollowed by:\r\n\r\n(from /home/doriad/src/osmdroid-read-only/osmdroid-android/src/main/java/org/osmdroid):\r\n\r\npatch -p0 < ~/FloatZoomLevelPatch.patch\r\n\r\nbut I get a ton of errors (see below). Any suggestions?\r\n\r\nThanks,\r\n\r\nDavid\r\n\r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file api/IMapController.java                                                                                  \r\nHunk #1 FAILED at 13.                                                                                                  \r\n1 out of 1 hunk FAILED -- saving rejects to file api/IMapController.java.rej                                           \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file api/IMapView.java                                                                                        \r\nHunk #1 FAILED at 13.                                                                                                  \r\n1 out of 1 hunk FAILED -- saving rejects to file api/IMapView.java.rej                                                 \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file events/ZoomEvent.java                                                                                    \r\nHunk #1 FAILED at 9.                                                                                                   \r\nHunk #2 FAILED at 26.                                                                                                  \r\n2 out of 2 hunks FAILED -- saving rejects to file events/ZoomEvent.java.rej                                            \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/MapController.java                                                                                 \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/MapView.java                                                                                       \r\nHunk #1 FAILED at 78.                                                                                                  \r\nHunk #2 FAILED at 250.                                                                                                 \r\nHunk #3 FAILED at 308.                                                                                                 \r\nHunk #4 FAILED at 332.                                                                                                 \r\nHunk #5 FAILED at 347.                                                                                                 \r\nHunk #6 FAILED at 372.                                                                                                 \r\nHunk #7 FAILED at 381.                                                                                                 \r\nHunk #8 FAILED at 425.                                                                                                 \r\nHunk #9 FAILED at 515.                                                                                                 \r\nHunk #10 FAILED at 545.                                                                                                \r\nHunk #11 FAILED at 572.                                                                                                \r\nHunk #12 FAILED at 981.                                                                                                \r\nHunk #13 FAILED at 996.                                                                                                \r\nHunk #14 FAILED at 1052.                                                                                               \r\nHunk #15 FAILED at 1152.                                                                                               \r\nHunk #16 FAILED at 1169.                                                                                               \r\nHunk #17 FAILED at 1187.                                                                                               \r\nHunk #18 FAILED at 1277.                                                                                               \r\nHunk #19 FAILED at 1297.                                                                                               \r\nHunk #20 FAILED at 1353.                                                                                               \r\nHunk #21 FAILED at 1377.                                                                                               \r\nHunk #22 FAILED at 1425.                                                                                               \r\nHunk #23 FAILED at 1440.                                                                                               \r\nHunk #24 FAILED at 1490.                                                                                               \r\nHunk #25 FAILED at 1531.                                                                                               \r\n25 out of 25 hunks FAILED -- saving rejects to file views/MapView.java.rej                                             \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/overlay/MinimapOverlay.java                                                                        \r\nHunk #1 FAILED at 140.                                                                                                 \r\nHunk #2 FAILED at 181.                                                                                                 \r\n2 out of 2 hunks FAILED -- saving rejects to file views/overlay/MinimapOverlay.java.rej                                \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/overlay/mylocation/MyLocationNewOverlay.java                                                       \r\nHunk #1 FAILED at 166.                                                                                                 \r\nHunk #2 FAILED at 418.                                                                                                 \r\nHunk #3 FAILED at 435.                                                                                                 \r\n3 out of 3 hunks FAILED -- saving rejects to file views/overlay/mylocation/MyLocationNewOverlay.java.rej               \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/overlay/MyLocationOverlay.java                                                                     \r\nHunk #1 FAILED at 249.                                                                                                 \r\nHunk #2 FAILED at 396.                                                                                                 \r\nHunk #3 FAILED at 410.                                                                                                 \r\n3 out of 3 hunks FAILED -- saving rejects to file views/overlay/MyLocationOverlay.java.rej                             \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/overlay/ScaleBarOverlay.java                                                                       \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/overlay/TilesOverlay.java                                                                          \r\n(Stripping trailing CRs from patch.)                                                                                   \r\npatching file views/util/PathProjection.java                                                                           \r\nHunk #1 FAILED at 32.                                                                                                  \r\nHunk #2 FAILED at 46.                                                                                                  \r\n2 out of 2 hunks FAILED -- saving rejects to file views/util/PathProjection.java.rej            ",
+    "timestamp" : 1378730783,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -2994850334662447637,
+    "content" : "This patch doesn't work when it comes to, for example, converting screen coordinates to the map coordinates. The problem is in the calculation of the map size, and this method in the TileSystem class:\r\n\r\n\tpublic static int MapSize(final int levelOfDetail) {\r\n\t\treturn mTileSize << (int) levelOfDetail;\r\n\t}\r\n\r\nDoes anyone have an idea how can we calculate the map size for the floating point zoom levels?",
+    "timestamp" : 1387223242,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3239100840179992849,
+    "content" : "This should calculate the correct size. Note that I didn't test it myself.\r\n\r\npublic static int MapSize(final float levelOfDetail) {\r\n  int levelOfDetailFloor = Math.floor(levelOfDetail);\r\n  return (mTileSize << levelOfDetailFloor )*(levelOfDetail-levelOfDetailFloor+1);\r\n}",
+    "timestamp" : 1392060164,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3239100840179992849,
+    "content" : "In the patch I found the following line:\r\nfinal float newZoomLevel = Math.max(minZoomLevel, Math.min(maxZoomLevel, aZoomLevel));\r\n\r\nWhy do you limit the zoom to maxZoomLevel? Wouldn't it be nice to let the user zoom further in than zoom-levels available?",
+    "timestamp" : 1392060339,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -2994850334662447637,
+    "content" : "Thanks for the hint, I'll give it a try. There was a bug when panning the map - it wasn't moving correctly on the floating-point zoom levels. For example - set the zoom level to something like 17.5, put your finger over the location overlay, and pan the map - the overlay won't stay bellow the finger.",
+    "timestamp" : 1392060574,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 1558421220117089513,
+    "content" : "Hi Marc, \r\n\r\nIs this feature planned for the next osmdroid release? This would be great.\r\n\r\nNote that in the MapBox fork of osmdroid, there is a work in progress on this subject - this may help. \r\n\r\nThe link to the commit: https://github.com/Akylas/mapbox-android-sdk/commit/1940ab1d0e39b992ac9dd451c2f8ae34efee9777\r\n",
+    "timestamp" : 1394709819,
+    "attachments" : [ ]
+  } ]
+}

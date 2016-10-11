@@ -1,0 +1,147 @@
+{
+  "id" : 491,
+  "status" : "Fixed",
+  "summary" : "Adding MapBox As Tile Provider",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 23,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4014891803336859330,
+    "content" : "I see that OSMDroid currently has explicit support for maps from CloudMade, Mapquest, OpenCycleMap, and Microsoft but not MapBox.  I'm interested in adding this support and have built a proof of concept app called BikeMapBox that does so.  Please let me know what the team thinks about this possibility.\r\n\r\nhttps://github.com/bleege/BikeMapBox\r\n\r\nThanks!\r\n\r\nBrad\r\n",
+    "timestamp" : 1383926583,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks interesting",
+    "timestamp" : 1384028685,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "What would be needed to add this to osmdroid? As far as I can see it's just a standard TileSource where the URL includes the API key, so I can't see how to include that generically in osmdroid. But anyone who wants to use it with osmdroid can do so very easily, as you've done in your sample app.",
+    "timestamp" : 1384094236,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4014891803336859330,
+    "content" : "Agreed... the Tile Loading portion is pretty straightforward... now that it's done.  I'd been looking on the Web and talking with MapBox engineers about how to get their Map Tiles natively on Android for a while now but there was no good information on how to do this to be found from either source.  While building my sample app I saw that OSMDroid already had other providers (e.g., CloudmadeTileSource) in the codebase to provide straightforward integration and thought that other people, especially those new to the OSM world, might benefit by not having to re-invent the wheel.  The MapBoxTileSource definitely could be further simplified.  For example it could be setup to just require the MapBox Map Id in a constructor.  I've also started adding support for MapBox Markers (Maki) which people might find useful too.\r\n\r\nhttps://github.com/bleege/BikeMapBox/tree/master/src/com/bradleege/markers\r\n",
+    "timestamp" : 1384103467,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I could add MapBoxTileSource to osmdroid, but I couldn't add it to the list of standard providers because it requires a key and as far as I can see there's no free plan.",
+    "timestamp" : 1384114055,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 4014891803336859330,
+    "content" : "That's great!  I'm really excited about being able to contribute.\r\n\r\nI updated the MapBoxTileSource this morning to add support for a basic, intermediate, and fully customizable constructors along with JavaDoc comments.  It should be good enough starting place for most developers.\r\n\r\nhttps://github.com/bleege/BikeMapBox/blob/master/src/com/bradleege/tilesource/MapBoxTileSource.java\r\n\r\nI also did some research this morning and found out that MapBox does still offer Free plans (which is what I'm using).  It just requires signing up for an account to make your maps and get the map key.\r\n\r\nhttps://www.mapbox.com/plans/\r\n\r\nPlease let me know if there's anything else I can help with!\r\n\r\nBrad Leege\r\n",
+    "timestamp" : 1384184879,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks good. If there's a free plan I can add it to the sample app.\r\n",
+    "timestamp" : 1384204470,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "There are a lot of similarities with Bing Maps and so it should be implemented the same way.  Specifically, retrieving the key from the manifest, and being styleable.",
+    "timestamp" : 1384206139,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 4014891803336859330,
+    "content" : "I've updated the code to retrieve the mapId (aka key) from the manifest file as suggested.  I didn't implement the IStyledTileSource<T> interface as MapBox appears to only allow styles (Streets, Terrain, Satellite) to be changed via their Map Editor Web app and not via the API.\r\n\r\nCore API\r\nhttps://www.mapbox.com/developers/api/\r\n\r\nHow To: Enable Terrain Imagery\r\nhttps://www.mapbox.com/help/#enabling-terrain-visualization\r\n\r\nHow To: Enable Satellite Imagery\r\nhttps://www.mapbox.com/help/#enabling-satellite-imagery\r\n",
+    "timestamp" : 1384225916,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I refactored out the code to read the key from the manifest in revision 1386. You can use that to prevent duplication.",
+    "timestamp" : 1384274181,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 4014891803336859330,
+    "content" : "I just integrated the MapBoxTileSource file into a personal development fork of OSMDroid and refactored the retrieveKey method to use the new ManifestUtil.  All in all should be good to go.  How would you prefer to proceed?\r\n\r\nMy fork is at:\r\nhttps://github.com/bleege/OSMDroid\r\n\r\nThe MapBoxTileSource is here:\r\nhttps://github.com/bleege/OSMDroid/blob/master/osmdroid-android/src/main/java/org/osmdroid/tileprovider/tilesource/MapBoxTileSource.java\r\n",
+    "timestamp" : 1384350906,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1384376276,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've included this in revision 1387.\r\n\r\nI don't think I should add it to TileSourceFactory etc because of the limitations of the free plan.",
+    "timestamp" : 1384376299,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 4014891803336859330,
+    "content" : "Awesome!  I'm excited that it's been included in OSMDroid!  Thank you for working with me to make this happen.\r\n\r\nAs for including support with TileSourceFactory and etc, that's totally your call as a project owner.  I'd just say that no matter what TileSource provider is chosen there's going to be some licensing / terms / limitations that the end user / developer needs to accept.  For example, CloudMade also has a monthly tile limit and Microsoft has terms of use that need to be agreed to.",
+    "timestamp" : 1384394988,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Bing is already in third-party. I was thinking about doing the same for MapBox, but in the end just left it where you put it. Cloudmade has a much higher usage allowance in the free plan which is not likely to be exceeded by the sample app.",
+    "timestamp" : 1384411332,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nWhat's the need of the mapBoxMapId at MapBoxTileSource's constructors as it is set only at retrieveMapBoxMapId method ?\r\n\r\nRegards.",
+    "timestamp" : 1384426820,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "I removed it in revision 1389",
+    "timestamp" : 1384437803,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 4014891803336859330,
+    "content" : "Ah, I follow you now in regards to the sample app and monthly tile allotment.  That seems reasonable.\r\n\r\nIs there anything else that I can be doing to help move the process along?\r\n",
+    "timestamp" : 1384442573,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is there anything else to do?",
+    "timestamp" : 1384444959,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 4014891803336859330,
+    "content" : "I don't think so.  I just saw that the issue status got set to ReadyForTesting and wanted to make sure that you had everything that you needed from me.  How does the project's process work from here to official inclusion in the codebase?",
+    "timestamp" : 1384447854,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's already in the codebase ;)\r\nWhenever I decide to do another release it'll be in.  I pushed a snapshot to Maven Central just now.\r\nReadyForTesting basically means it's finished.",
+    "timestamp" : 1384461952,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 4014891803336859330,
+    "content" : "Fantastic!  Thanks again for helping make this happen!",
+    "timestamp" : 1384464908,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390336787,
+    "attachments" : [ ]
+  } ]
+}

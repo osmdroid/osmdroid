@@ -1,0 +1,19 @@
+{
+  "id" : 271,
+  "status" : "New",
+  "summary" : "Minimap: Markers from other overlays showing only in minmap",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3386107672345433616,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a MapView.\r\n2. Add an Overlay with markers.\r\n3. Add Minimap Overlay\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nWithout the Minimap, marker are shown corrctly in the map.\r\nBut afeter adding the minimap overlay, nothing is displayed on the map and the markers are displayed in the minimap instead.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6\r\n\r\n\r\n",
+    "timestamp" : 1320158530,
+    "attachments" : [ {
+      "id" : 2710000000,
+      "fileName" : "minimap_problem.png",
+      "fileSize" : 448005
+    } ]
+  } ]
+}

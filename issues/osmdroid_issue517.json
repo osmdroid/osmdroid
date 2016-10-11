@@ -1,0 +1,27 @@
+{
+  "id" : 517,
+  "status" : "Duplicate",
+  "summary" : "Not see map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -633188457862172336,
+    "content" : "Suddenly since 5 or 6 hours before OSM has stopped working for me\r\nI can't visualize the map",
+    "timestamp" : 1390297773,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6460483698349564270,
+    "content" : "Dito. Worked for months, now it just dont show anything ",
+    "timestamp" : 1390318453,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I assume this is a duplicate of issue 515",
+    "timestamp" : 1390336566,
+    "attachments" : [ ]
+  } ]
+}

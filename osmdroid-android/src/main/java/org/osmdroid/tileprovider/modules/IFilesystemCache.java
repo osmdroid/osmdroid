@@ -26,4 +26,19 @@ public interface IFilesystemCache {
 	 */
 	boolean saveFile(final ITileSource pTileSourceInfo, MapTile pTile,
 			final InputStream pStream);
+
+	/**
+	 * return true if the map file for download already exists
+	 * @param pTileSourceInfo
+	 * @param pTile
+     * @return
+     */
+	boolean exists(final ITileSource pTileSourceInfo, final MapTile pTile );
+
+	/**
+	 * Used when the map engine is shutdown, use it to perform any clean up activities and to terminate
+	 * any background threads
+	 * @since 5.3
+	 */
+	void onDetach();
 }

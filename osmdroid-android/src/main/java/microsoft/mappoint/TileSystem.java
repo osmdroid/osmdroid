@@ -162,8 +162,8 @@ public final class TileSystem {
 		final double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;
 		final double longitude = 360 * x;
 
-		out.setLatitudeE6((int) (latitude * 1E6));
-		out.setLongitudeE6((int) (longitude * 1E6));
+		out.setLatitude(latitude);
+		out.setLongitude(longitude);
 		return out;
 	}
 

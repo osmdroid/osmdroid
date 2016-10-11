@@ -1,0 +1,35 @@
+{
+  "id" : 403,
+  "status" : "New",
+  "summary" : "setBuiltInZoomControls(true) controls shown when paging",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4168261675302291891,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Place org.osmdroid.views.MapView within a ViewPager* fragment\r\n2. Show the controls, say by tapping on the map, and swipe to another fragment\r\n\r\nWhat is the expected output?\r\nThe controls to swipe with the map.\r\n\r\nWhat do you see instead?\r\nThe controls stayed in place (on the screen) and were visible over a completely different view / fragment until fading away.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n&lt;dependency&gt;\r\n &lt;groupId&gt;org.osmdroid&lt;/groupId&gt;\r\n &lt;artifactId&gt;osmdroid-android&lt;/artifactId&gt;\r\n &lt;version&gt;3.0.8&lt;/version&gt;\r\n&lt;/dependency&gt;\r\n\r\nI worked around this by defining my own zoom controls:\r\n\r\n    &lt;org.osmdroid.views.MapView\r\n        android:id=&quot;@+id/map_osm&quot;\r\n        android:layout_width=&quot;match_parent&quot;\r\n        android:layout_height=&quot;match_parent&quot;\r\n        cloudmadeStyle=&quot;1&quot;\r\n        renderer=&quot;CLOUDMADESTANDARDTILES&quot;\r\n        /&gt;\r\n\r\n    &lt;ZoomControls\r\n        android:id=&quot;@+id/map_zoom_controls&quot;\r\n        android:layout_height=&quot;wrap_content&quot;\r\n        android:layout_width=&quot;match_parent&quot;\r\n        android:paddingRight=&quot;8dp&quot;\r\n        android:layout_gravity=&quot;bottom&quot;\r\n        android:gravity=&quot;right&quot;/&gt;\r\n\r\n        mZoomControls.setOnZoomInClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                mMapView.getController().zoomIn();\r\n            }\r\n        });\r\n        mZoomControls.setOnZoomOutClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n                mMapView.getController().zoomOut();\r\n            }\r\n        });\r\n\r\n* android.support.v4.view.ViewPager\r\n",
+    "timestamp" : 1361210451,
+    "attachments" : [ {
+      "id" : 4030000000,
+      "fileName" : "2013-02-18 17.47.38.png",
+      "fileSize" : 129107
+    }, {
+      "id" : 4030000001,
+      "fileName" : "2013-02-18 17.47.50.png",
+      "fileSize" : 43069
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is because the zoom controls are attached to the window and not the view. I don't know if there is a better solution than the one you have, but maybe we can review the way we use the zoom controls widget.\r\n",
+    "timestamp" : 1365027378,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3776770252360565585,
+    "content" : "Zoom control should be tied to the Mapview, and not to the display.  Otherwise it acts as described when multiple fragment views are visible.",
+    "timestamp" : 1418014386,
+    "attachments" : [ ]
+  } ]
+}hen multiple fragment views are visible.","timestamp":1418014386,"attachments":[]}]}

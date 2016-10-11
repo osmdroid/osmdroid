@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import org.osmdroid.ExtraSamplesActivity;
+import org.osmdroid.ISampleFactory;
 
 import java.util.ArrayList;
 
@@ -16,16 +17,29 @@ import java.util.ArrayList;
  * Created by KjellbergZ on 16.12.2015.
  */
 public class FragmentSamples extends ListFragment {
-    SampleFactory sampleFactory = SampleFactory.getInstance();
+    ISampleFactory sampleFactory=null;
 
     public final static String TAG="osmfragsample";
-    public static FragmentSamples newInstance() {
-        return new FragmentSamples();
+    public static FragmentSamples newInstance(ISampleFactory fac) {
+        FragmentSamples x= new FragmentSamples();
+        x.sampleFactory=fac;
+        return x;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
+
+        //the following block of code took me an entire weekend to track down the root cause.
+        //if the code block is in onCreate, it will leak. onActivityCreated = no leak.
+        //makes no sense, but that's Android for you.
 
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
@@ -34,7 +48,10 @@ public class FragmentSamples extends ListFragment {
             final BaseSampleFragment f = sampleFactory.getSample(a);
             list.add(f.getSampleTitle());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+        //changed from getActivity to Application context per http://www.slideshare.net/AliMuzaffar2/android-preventing-common-memory-leaks
+        //prior to that, we had a memory leak that would only show on long running tests. the issue is that the array adapter
+        //wasn't being gc'd.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 android.R.layout.simple_list_item_1, list);
         setListAdapter(adapter);
     }
@@ -57,5 +74,10 @@ public class FragmentSamples extends ListFragment {
         FragmentManager fm = getFragmentManager();
         fm.popBackStack();
         System.gc();
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
     }
 }

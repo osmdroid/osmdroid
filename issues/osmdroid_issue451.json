@@ -1,0 +1,27 @@
+{
+  "id" : 451,
+  "status" : "Fixed",
+  "summary" : "ItemizedIconOverlay.addItem(int, Item) does not call populate()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "I noticed that addItem(int, Item) does not call populate(). I believe that if you use this method, then your items will never get added to the mInternalItemList and will never appear.\r\n\r\nCan anyone confirm?",
+    "timestamp" : 1373986532,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1257.\n\nAdded populate() call to addItem(int, Item)",
+    "timestamp" : 1374765203,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382709118,
+    "attachments" : [ ]
+  } ]
+}

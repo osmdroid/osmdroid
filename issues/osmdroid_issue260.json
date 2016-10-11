@@ -1,0 +1,37 @@
+{
+  "id" : 260,
+  "status" : "Fixed",
+  "summary" : "Patch to add Mapquest Aerial tiles to TileSourceFactory.java",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8327881240514518574,
+    "content" : "I noticed you included a number of tile sources for use in the project, including Mapquest's. Mapquest's OSM maps and Aerial maps are great. I mad a little patch to add the Aerial tiles as a source as well.\r\n\r\nLove the project! Thanks!\r\n",
+    "timestamp" : 1315538603,
+    "attachments" : [ {
+      "id" : 2600000000,
+      "fileName" : "add_mapquest_aerial.diff",
+      "fileSize" : 1979
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1317641187,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Mapquest aerial only supports zoom levels 0-11\r\nhttp://developer.mapquest.com/web/products/open/map\r\n",
+    "timestamp" : 1317641591,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r988.",
+    "timestamp" : 1317641684,
+    "attachments" : [ ]
+  } ]
+}

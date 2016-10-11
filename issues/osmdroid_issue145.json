@@ -1,0 +1,27 @@
+{
+  "id" : 145,
+  "status" : "Fixed",
+  "summary" : "Position of Person's icon",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9112300422288456204,
+    "content" : "Person icon position is defined in source as:\r\nprotected final android.graphics.Point PERSON_HOTSPOT = new android.graphics.Point(24, 39);\r\n\r\nFor devices with different resolution than 320x480 this icon won't be placed right.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 1.9\r\nWe've tested it on HTC Tattoo and HTC Desire HD\r\n",
+    "timestamp" : 1295530920,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "The icon's pixel values must be scaled to the screen density as described in:\r\n\r\nhttp://developer.android.com/guide/practices/screens_support.html#density-independence",
+    "timestamp" : 1295842068,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r757.",
+    "timestamp" : 1295842147,
+    "attachments" : [ ]
+  } ]
+}

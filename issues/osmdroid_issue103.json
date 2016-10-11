@@ -1,0 +1,31 @@
+{
+  "id" : 103,
+  "status" : "Fixed",
+  "summary" : "Allow turning off accuracy circle in MyLocationOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "I like to be able to turn off the accuracy bubble on MyLocationOverlay. Attached is a diff that allows it.\r\n",
+    "timestamp" : 1286635269,
+    "attachments" : [ {
+      "id" : 1689931528960788374,
+      "fileName" : "accuracydraw.diff",
+      "fileSize" : 2116
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1286775406,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r851.",
+    "timestamp" : 1299126927,
+    "attachments" : [ ]
+  } ]
+}

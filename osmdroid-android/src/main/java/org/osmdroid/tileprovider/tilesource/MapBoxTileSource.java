@@ -7,7 +7,7 @@ import android.content.Context;
 
 /**
  * MapBox tile source, revised in 5.1 to not use static map ids or tokens
- * @author Brad Leege <bleege@gmail.com>
+ * @author Brad Leege bleege AT gmail.com
  * Created on 10/15/13 at 7:57 PM
  */
 public class MapBoxTileSource extends OnlineTileSourceBase
@@ -16,8 +16,10 @@ public class MapBoxTileSource extends OnlineTileSourceBase
     //<meta-data android:name="MAPBOX_MAPID" android:value="YOUR KEY" />
 
     private static final String MAPBOX_MAPID = "MAPBOX_MAPID";
-    //<meta-data android:name="ACCESS_TOKEN" android:value="YOUR TOKEN" />
-    private static final String ACCESS_TOKEN = "ACCESS_TOKEN";
+
+    //NOTE change as of 5.3, it was ACCESS_TOKEN in the manifest, it is now MAPBOX_ACCESS_TOKEN
+    //<meta-data android:name="MAPBOX_ACCESS_TOKEN" android:value="YOUR TOKEN" />
+    private static final String ACCESS_TOKEN = "MAPBOX_ACCESS_TOKEN";
 
 	private static final String[] mapBoxBaseUrl = new String[]{
 			"http://api.tiles.mapbox.com/v4/"};
@@ -31,7 +33,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource()
     {
-		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl);
     }
     
     /**
@@ -41,9 +43,11 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource(final Context ctx)
     {
-		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl);
           retrieveAccessToken(ctx);
           retrieveMapBoxMapId(ctx);
+        //this line will ensure uniqueness in the tile cache
+        mName="mapbox"+mapBoxMapId;
     }
     
     /**
@@ -54,9 +58,11 @@ public class MapBoxTileSource extends OnlineTileSourceBase
      */
     public MapBoxTileSource(final String mapboxid, final String accesstoken)
     {
-		super("mapbox", 1, 18, 256, ".png", mapBoxBaseUrl);
+		super("mapbox", 1, 19, 256, ".png", mapBoxBaseUrl);
           this.accessToken=accesstoken;
           this.mapBoxMapId=mapboxid;
+        //this line will ensure uniqueness in the tile cache
+        mName="mapbox"+mapBoxMapId;
     }
 
     /**
@@ -109,6 +115,7 @@ public class MapBoxTileSource extends OnlineTileSourceBase
 
     public void setMapboxMapid(String key){
         mapBoxMapId=key;
+        mName="mapbox"+mapBoxMapId;
     }
 
     public String getMapBoxMapId()

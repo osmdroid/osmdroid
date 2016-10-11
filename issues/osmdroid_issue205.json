@@ -1,0 +1,55 @@
+{
+  "id" : 205,
+  "status" : "Fixed",
+  "summary" : "Integrate the MBTiles format",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1778308742751796674,
+    "content" : "\r\nThe MBTiles format is SQLite based, see:\r\nhttp://mapbox.com/documentation/mbtiles-file-format\r\n\r\nIts part of the great MapBox project : http://mapbox.com/.\r\n\r\nImplementation of the MBTiles format already exists on several platforms, including IPhone.\r\nIt would be great if we could use it in Osmdroid.\r\n",
+    "timestamp" : 1302783094,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1778308742751796674,
+    "content" : "Here is a patch that should make the MBTiles format available.\r\n\r\nCheers,\r\nSimon",
+    "timestamp" : 1302783198,
+    "attachments" : [ {
+      "id" : 2620027736285160425,
+      "fileName" : "mbtiles_format_support.diff",
+      "fileSize" : 5757
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1778308742751796674,
+    "content" : "hm, any feedback ?",
+    "timestamp" : 1303293429,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I missed this one. I can do it when I have time.",
+    "timestamp" : 1303296294,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1778308742751796674,
+    "content" : "Well, it s been more or less two weeks for a trivial patch that almost live by itself.\r\n\r\nI guess you guyz are too busy, an I dont know how I could help you merge this out. \r\nI re-add pointer seeing the patch applied and working: \r\n- https://github.com/djcoin/MBTilesOsmdroidExample\r\n- https://github.com/djcoin/MBTilesOsmdroidExample/tree/master/assets/screenshots\r\n\r\nSimon",
+    "timestamp" : 1303761218,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r927.",
+    "timestamp" : 1303813553,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 1778308742751796674,
+    "content" : "Great ! Thanks a lot for your awesome project !",
+    "timestamp" : 1303816587,
+    "attachments" : [ ]
+  } ]
+}

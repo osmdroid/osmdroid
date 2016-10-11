@@ -1,0 +1,25 @@
+{
+  "id" : 196,
+  "status" : "Duplicate",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/tileprovider/modules/MapTileModuleProviderBase.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1188872730006932296,
+    "content" : "improve performance by using thread pool, is just an example ;)",
+    "timestamp" : 1301695749,
+    "attachments" : [ {
+      "id" : 1160822156485284001,
+      "fileName" : "MapTileModuleProviderBase.java.patch",
+      "fileSize" : 3372
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Merged into Issue 213",
+    "timestamp" : 1305500753,
+    "attachments" : [ ]
+  } ]
+}

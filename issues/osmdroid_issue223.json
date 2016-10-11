@@ -1,0 +1,31 @@
+{
+  "id" : 223,
+  "status" : "Invalid",
+  "summary" : "NullPointerException in MapTileModuleProviderBase.loadMapTileAsync call to ThreadGroup.activeCount",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3531159758278443637,
+    "content" : "A user report the call to get active count on the thread group throwing a NPE on an Asus EeePad. Attached simple diff to catch the exception.\r\n\r\njava.lang.NullPointerException\r\nat java.lang.ThreadGroup.activeCount(ThreadGroup.java:135)\r\nat\r\norg.osmdroid.tileprovider.modules.MapTileModuleProviderBase.loadMapTileAsync(MapTileModuleProviderBase.java:102)\r\nat\r\norg.osmdroid.tileprovider.MapTileProviderArray.getMapTile(MapTileProviderArray.java:113)\r\nat org.osmdroid.views.overlay.TilesOverlay.drawTiles(TilesOverlay.java:164)\r\nat org.osmdroid.views.overlay.TilesOverlay.draw(TilesOverlay.java:134)\r\nat org.osmdroid.views.overlay.OverlayManager.onDraw(OverlayManager.java:112)\r\nat org.osmdroid.views.MapView.dispatchDraw(MapView.java:827)\r\nat android.view.ViewGroup.drawChild(ViewGroup.java:2506)\r\nat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2123)\r\nat android.view.ViewGroup.drawChild(ViewGroup.java:2506)\r\nat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2123)\r\nat android.view.ViewGroup.drawChild(ViewGroup.java:2506)\r\nat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2123)\r\nat android.view.ViewGroup.drawChild(ViewGroup.java:2506)\r\nat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2123)\r\nat android.view.ViewGroup.drawChild(ViewGroup.java:2506)\r\nat android.view.ViewGroup.dispatchDraw(ViewGroup.java:2123)\r\nat android.view.View.draw(View.java:9032)\r\nat android.widget.FrameLayout.draw(FrameLayout.java:419)\r\nat\r\ncom.android.internal.policy.impl.PhoneWindow$DecorView.draw(PhoneWindow.java:1910)\r\nat android.view.ViewRoot.draw(ViewRoot.java:1614)\r\nat android.view.ViewRoot.performTraversals(ViewRoot.java:1335)\r\nat android.view.ViewRoot.handleMessage(ViewRoot.java:1950)\r\nat android.os.Handler.dispatchMessage(Handler.java:99)\r\nat android.os.Looper.loop(Looper.java:126)\r\nat android.app.ActivityThread.main(ActivityThread.java:3997)\r\nat java.lang.reflect.Method.invokeNative(Native Method)\r\nat java.lang.reflect.Method.invoke(Method.java:491)\r\nat\r\ncom.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:841)\r\nat com.android.internal.os.ZygoteInit.main(ZygoteInit.java:599)\r\nat dalvik.system.NativeStart.main(Native Method)\r\n\r\n",
+    "timestamp" : 1306607084,
+    "attachments" : [ {
+      "id" : 2230000000,
+      "fileName" : "ProviderBase.diff",
+      "fileSize" : 611
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "We recently switched to an ExecutorService, so this issue is no longer present. Thank you for the report!",
+    "timestamp" : 1307136851,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "To be clearer - we no longer use a ThreadGroup which is what this issue is caused by.",
+    "timestamp" : 1307136959,
+    "attachments" : [ ]
+  } ]
+}

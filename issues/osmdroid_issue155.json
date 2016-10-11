@@ -1,0 +1,173 @@
+{
+  "id" : 155,
+  "status" : "Fixed",
+  "summary" : "Create an OverlayManager class",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 26,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The overlays are an important part of the maps, and they are only going to get more sophisticated. We should probably move much of the overlay functionality to an OverlayManager class. This would handle:\r\n\r\n1. Synchronized access to the overlays - Adding, removing, drawing are all performed in a probably unsafe way now. By controlling the overlay collection, we can synchronize access to the overlays.\r\n2. Consolidated Overlay events - the MapView has its share of work to do responding to events, and we should keep any work for the overlays out of that class. So MapView would handle click/gesture events how it wants to and then pass them to the OverlayManager to let the overlays respond.\r\n3. The effort would close issue 51, issue 116, and issue 125\r\n\r\nAgreed?\r\n",
+    "timestamp" : 1296794607,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Makes sense.",
+    "timestamp" : 1296800544,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "See r776. First revision includes thread safety, and migration of existing functionality to new manager class.",
+    "timestamp" : 1296942961,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "What about option menu handling in the overlays? I'd like to allow overlays to add option menu items. This would allow something like the MyLocationOverlay to provide the \"Enable Compass\" and \"My Location\" option menu items in OpenStreetMapViewer to all SDK users without requiring them to rewrite the code themselves.\r\n\r\nThe issue arises with resources and localization. We can provide default icons and strings in the jar, but people will want to provide localized strings and maybe even icons. I haven't really dug into the resource proxy classes yet, but I assume that is a solution to this problem.",
+    "timestamp" : 1296961193,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay - looked into the ResourceProxy class and it makes sense. I implemented \"Compass\" and \"Location\" option menu items in MyLocationOverlay, \"Map mode\" in TilesOverlay, and \"Offline/Online mode\" in the OverlayManager class (since it is a global setting rather than a particular overlay setting). Everything works nicely.\r\n\r\nI just have to add a mechanism to turn on/off adding options menu items on a per-Overlay basis and I'll commit.",
+    "timestamp" : 1296973220,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Added option menu handling, GestureDetector handling, and GestureDetector.OnDoubleTapListener handling.\r\n\r\nRather than doing virtual functions to dispense events, maybe it would be wise to create a class that allows overlays to subscribe to only the specific events they want. We are pushing a lot of events now, and probably wasting CPU cycles. Is there a common pattern or class to use for this in Java?",
+    "timestamp" : 1297052034,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I notice that you removed MapView.getOverlays().  That makes it inconsistent with Google MapView.  How about you add it back, but just pass it through to the OverlayManager?\r\n\r\nOr a bigger question: is it the intention that people do stuff directly with the manager?  Could you make it private (or remove MapView.getOverlayManager())?",
+    "timestamp" : 1297242051,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Or how about making OverlayManager implement List<Overlay> and making MapView.getOverlays() return List<Overlay>, which actually returns the overlay controller?",
+    "timestamp" : 1297278984,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - Sorry about that. I'm actually not that happy with the way the manager class is implemented yet, and I'm going to try to follow the Google API closer as we move forward. For now, I've added a method back into MapView that simply returns the overlays so that the wrapper isn't broken.",
+    "timestamp" : 1297319146,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Marc - it's not actually for the wrapper, just for consistency. I didn't do getOverlays in the wrapper because osmdroid and Google have different overlays.",
+    "timestamp" : 1297325677,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "The MapView.getOverlays() that's there now isn't very useful because you can't add an overlay that way. The way it used to be was getOverlays().add(overlay), but if you do that you're just adding to a copy of the list.\r\n\r\nProbably better to remove it again rather than having something that doesn't work.",
+    "timestamp" : 1297365643,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r790.\n\nAdded much more sensible OverlayManager implementation. The OverlayManager implements a List interface and the Overlays be directly added, removed, moved, etc... There is an optional TilesOverlay that is not a part of the regular List of Overlays, so it can't be inadvertently cleared.",
+    "timestamp" : 1297396760,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Marc, another idea:\r\n\r\nHow about changing OverlayManager to have a list of IOverlay instead of Overlay (IOverlay to be defined in org.osmdroid.api).\r\n\r\nThat will make it possible to define a class that extends Google's Overlay and implements osmdroid IOverlay. That class can then be usable as an overlay in Google *and* osmdroid.\r\n\r\nIt would also be a good idea to extract the menu stuff out of the Overlay base class.  That'll make it easier to implement an overlay without extending the base class.\r\n\r\nAm I making sense or should I explain some more?  This idea is coming from the groups thread: https://groups.google.com/d/topic/osmdroid/HiIZuOLSjts/discussion\r\n",
+    "timestamp" : 1297769942,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - I think that's a good idea. In fact, we should probably rename some methods to match the Google API's Overlay.\r\n\r\nPerhaps the approach we should take is to create the IOverlay interface that matches Google API, and then create an IOverlayExtended that will implement the rest of the stuff we implement in osmdroid. The overlay manager will keep a list of IOverlay and when an IOverlayExtended method is called it will check each overlay to see if it is an instanceof IOverlayExtended. The osmdroid base Overlay class will implement both interfaces.\r\n\r\nHow do we handle GeoPoints? Do we create an IGeoPoint class too? In the end, do we need to create interfaces for the entire Google API?",
+    "timestamp" : 1297826851,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "There's already an IGeoPoint.\r\n\r\nThe extended interfaces sounds like a reasonable idea.\r\n\r\nThe reason I suggested extracting the menu stuff is because if I implement a Google+osmdroid overlay it won't be able to extend the osmdroid Overlay base class. If that's extracted then we can reference it rather than duplicate it.\r\n\r\nI'll make a start on the IOverlay.",
+    "timestamp" : 1297851709,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "Actually I got a bit stuck with it. The methods in Overlay are not accessors - they're methods to be overridden - so I end up with an empty IOverlay.  I could just put all the \"extended\" methods into IOverlay, but then it's just a marker rather than a common implementation.\r\n\r\nThere's a lot of onManaged... methods that would be in IOverlay (because they're called by OverlayManager).  That seems a bit awkward.  Isn't the manager supposed to be managing anyway, so the overlays can just do their stuff without worrying about it.  And looking at the description of Overlay.onManagedDraw it seems to be doing the same thing as Google's Overlay is doing with the shadow parameter.\r\n\r\nSo I think a bit of refactoring of Overlay and OverlayManaged could be done first:\r\n - make Overlay a bit more similar to Google's\r\n - get the menu stuff out of Overlay.\r\n\r\nWhat I'm aiming for is something like this: \r\n\r\nclass TileOverlay extends google..Overlay implements osmdroid..IOverlay {\r\n\r\nvoid draw(Canvas, Google mapView, shadow) {\r\n   IProjection projection = mapView.getProjection();\r\n   // probably need to use the wrapper here\r\n   draw(canvas, projection)\r\n}\r\n\r\nvoid draw(Canvas, osmdroid mapView, shadow) {\r\n   IProjection projection = mapView.getProjection();\r\n   draw(canvas, projection)\r\n}\r\n\r\nand then all the real work can be in draw(canvas, projection) which will work the same for Google and osmdroid.\r\n\r\n",
+    "timestamp" : 1297860395,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 4098436938546237008,
+    "content" : "I can only judge this from the outside (as user of the osmdroid.jar), but this really sounds promising:\r\n- class TileOverlay extends google..Overlay implements osmdroid..IOverlay\r\n\r\n(Furthermore: I vote for doing it the Google way; the lower the learning curve the better)",
+    "timestamp" : 1297889089,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil, I think I see what you're saying, but I'm wary of making all of the OSM overlays directly extend a Google API class. Now we're directly mixing Google API with the main osmdroid code (if I am understanding you correctly), rather than wrapping the osmdroid stuff to work in Google Maps. I think we'd have to link to the Google APIs and along with that comes all the licensing issues with the API.\r\n\r\nAdditionally, I think we may be using a different coordinate system than Google Maps in the sense that the center of the screen is 0,0 rather than the upper left corner (which I hate, but I think assists in implementing some gesture stuff), so directly using osm Overlays in Google Maps may not work. I'm not sure about that, but I'm bringing it up in case it is true.\r\n\r\nMaybe we should write a wrapper for our Overlays that makes them Google Maps compatible. It could make any coordinate adjustments, and then call the appropriate functions in the Overlay class. I assume that if someone wanted to implement cross map compatibility for their app the way it would work is they would create the appropriate map class (org.osmdroid.MapView and/or com.google.MapView) and then create the osmdroid overlay classes and individually add each overlay to *both* map classes (or whatever map class was \"active\" at the time). When they add the overlay to the Google Maps, they would have to wrap it in the overlay wrapper first.\r\n\r\nAnd I agree that we should refactor the Overlays (and probably other classes) to be closer to the Google API. You keep mentioning removing the menu stuff - we can put that in it's appropriate place, but I would really like to keep that (optional) ability for overlays to somehow be able to add menu items. Maybe that will be it's own interface (IOverlayMenuEnabled or whatever).",
+    "timestamp" : 1297913299,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "Marc, I wasn't suggesting to make all the overlays extend Google Overlay. Although it does cause a bit of a dilemma. I imagined doing TileOverlay as I described, but that means it would be in the google-wrapper project, which is a bit odd. Or there could be the existing one in osmdroid-android and another one in google-wrapper, which is also not good.\r\nWhat I was suggesting was using IOverlay to *allow the possibility* of doing what I described.\r\n\r\nThe coordinate system is different, but that's handled by the projection so it's transparent.\r\n\r\nA wrapper for our overlays might work, but the idea was to keep the similar code together, and a wrapper would have passthrough code for osmdroid implementation and actual implementation for Google.\r\n\r\nYes, I keep mentioning the menu stuff. IOverlayMenuEnabled and an implementation in a separate class is what I had in mind. The static id stuff in Overlay can easily be somewhere else. Or maybe it doesn't matter that the static methods stay in Overlay and the implementation stays in the specific overlay that implements it. But having the separate IOverlayMenuEnabled interface means we can keep it out of the general overlay implementation.\r\n\r\nThe whole problem is that by not using a base class we don't get all the default implementations for free.  We could do a DefaultOverlayBase class for convenience, but for overlays that don't use it we want to make the implementation as simple as possible with only a few methods that are relevant to the overlay, which is what the Google Overlay looks like.",
+    "timestamp" : 1297928127,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think having a solid sample project for the wrapper would be a big help. That would give us something to play around with and give us a better idea how to proceed. I'm not sure when I'd be able to write something up, so feel free to take the lead if you have the time.",
+    "timestamp" : 1298259976,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "Agreed, and ditto ;-)",
+    "timestamp" : 1298268664,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've attached a patch for IOverlay.\r\n\r\nI haven't tested the Google wrapper Overlay yet and it almost certainly doesn't work.  I can probably add a gesture detector and that kind of stuff to implement some of the other event handlers.\r\n\r\nIOverlay looks rather messy, but everything else looks harmless.  But I'm still not sure if this whole idea is going anywhere yet.\r\n",
+    "timestamp" : 1298300529,
+    "attachments" : [ {
+      "id" : -1091651017560717098,
+      "fileName" : "IOverlay.patch",
+      "fileSize" : 24946
+    } ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've attached a patch to replace onManagedDraw with onDraw similar to Google Overlay.  Seems okay but I haven't tested it yet.  If you think the idea's okay I'll test it and commit it tomorrow.",
+    "timestamp" : 1298301801,
+    "attachments" : [ {
+      "id" : 6664308201774013901,
+      "fileName" : "onDraw.patch",
+      "fileSize" : 18573
+    } ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've made a new issue 164 for the change to onDraw.\r\n\r\nI'm beginning to think the IOverlay idea isn't going to achieve anything so I'll forget it for now.  In any case, I won't add any more comments issue about it to this.",
+    "timestamp" : 1298389463,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r839.\n\nExtracted menu functionality into its own interface.\nUpdated OverlayManager to use new IOverlayMenuProvider",
+    "timestamp" : 1298785935,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think this issue can be closed!",
+    "timestamp" : 1326747391,
+    "attachments" : [ ]
+  } ]
+}

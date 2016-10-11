@@ -1,0 +1,39 @@
+{
+  "id" : 428,
+  "status" : "Fixed",
+  "summary" : "One of my tile providers is never called in offline mode (Worked in 3.0.5.)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5801844553569127216,
+    "content" : "<b>What steps will reproduce the problem?</b>\nI don't think I can explain this problem on a step by step basis, because I don't completely understand it, so let's try with a brief description. \r\n\r\nI instantiate three tile providers and add them to the mTileProviderList. Two of them are of the type MapTileFileSystemProvider (one is used for cache providing and the other for actual user downloaded offline map tiles providing) and a MapTileNetworkProvider, which fetches the tiles from the tile server you guys so kindly maintain.\r\n\r\nIn the case when there is no map tile available from the two FileSystemProviders, We let the NetworkProvider handle this situation and return a locally generated tile which displays an 'offline' icon with short text 'not available in offline mode'.\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nWith version 3.0.5. this worked exactly as described above, but with 3.0.10., the NetworkProvider's (or rather, its inner TileLoader's) loadTile method is never even called, instead the FileSystemProvider's does, returns null and in the places where I have no actual tiles to display, the empty mapview background is shown.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI am using osmdroid-android-3.0.10, Eclipse SDK 4.2.2, Windows 7 x64 Professional. Tested on three different android 4.0.3 devices.\r\n\r\n<b>Please provide any additional information below.</b>\nI'm guessing that it has something to do with the selection process of which TileProvider to use from the mTileProviderList. I've looked through the description here:\r\nhttp://code.google.com/p/osmdroid/wiki/ModularTileProviderArchitecture\r\n\r\nBy the description it seems that all Providers are checked until one of them returns a tile or neither of them does. Since I haven't made any changes other than switching from osmdroid-android 3.0.5., where it worked, to 3.0.10., where it doesn't, the obvious conclusion to me is that you guys somehow changed the selection process and right now I don't fully understand how. Could you point me in the right direction pleas? In the mean time I'll give it another shot in trying to figure it out on my own. Thanks in advance!\r\n",
+    "timestamp" : 1368533180,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Tell me what your NetworkProvider is - is it a TileDownloader subclass, a completely custom modular tile provider, etc...\r\n\r\nIt sounds like you have an \"offline\" mode for your app - how are you setting that?\r\n\r\nFinally what TileSource are you using?\r\n\r\nSome possible reasons a tile provider would not get called include:\r\n * If osmdroid is offline, the TileDownloader class will be skipped.\r\n * If a tile provider can not service a zoom level (because of min/max zoom level of tile provider or tile source).\r\n",
+    "timestamp" : 1368534668,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Also note: \"OnlineTileSourceBase classes are the only tile sources that the MapTileDownloader can serve.\"",
+    "timestamp" : 1368534707,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 5801844553569127216,
+    "content" : "Thanks for the quick response!\r\n\r\nYou helped me narrow it down :)\r\n\r\nI have a NetworkManager singleton which keeps track of network state for the app. There are three states in the state enum, ONLINE, OFFLINE and UNAVAILABLE. Whenever an action is about to be performed which depends on, or alters the network state, the state is updated and returned to the caller so adequate actions can be taken depending on which state the app is in.\r\n\r\nMy NetworkProvider is a direct subclass of MapTileModuleProviderBase, and not of TileDownloader. My TileSource is of type OnlineTileSourceBase. Based on these two things I deduced that it probably has nothing to do with two of the three points you mentioned:\r\n- If osmdroid is offline, the TileDownloader class will be skipped.\r\n- OnlineTileSourceBase classes are the only tile sources that the MapTileDownloader can serve.\r\n\r\nWhich left me with:\r\n\r\n- If a tile provider can not service a zoom level (because of min/max zoom level of tile provider or tile source) it might not be called\r\n\r\nHow my NetworkProvider was supposed to work is that if the current mode is not OFFLINE and the tileSource us not null, then the respective min and max zoom levels from the source are returned. Otherwise the Provider will give the maximum possible zoom level for getMaximumZoomLevel and minimum possible zoom level for getMinimumZoomLevel, so it will be always used because it can provide tiles for all the zoom levels, and how it does this is that for offline mode it generates tiles with an offline icon on them to let the user know that he can't see them because of his network state.\r\n\r\nThe screw-up was in the getMinZoomLevel and getMaxZoomLevel methods, as they returned the exact opposite of what they were supposed to return, in the case the app is offline (Min returned the max value and Max returned the min value, so it was never used for offline cases). \r\n\r\nWhy this worked before I have no idea, but I'm new on the project that I'm working on, which has an extensive preexisting code base, so I'm still getting the hang of things finding my way around.\r\n\r\nI hope this helps anyone who might have a similar issue somewhere down the line.\r\n\r\nOnce again, thank you for the quick responses and for the useful pointers :)",
+    "timestamp" : 1368541146,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Good to hear! The behavior where tile modules are skipped if they can not service a zoom level is a relatively new change (3.0.9?) so it probably didn't manifest itself in the past. It is an optimization - if a tile module can not service a zoom level, then there is no reason to call it. This is particularly useful for TileDownloaders so they don't bother putting network traffic out there that will only result in a 404.\r\n\r\nIt sounds like this issue can be closed.",
+    "timestamp" : 1368623491,
+    "attachments" : [ ]
+  } ]
+}

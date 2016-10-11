@@ -44,18 +44,18 @@ public class GooglePolylineOverlay extends Overlay {
 
 	public void addPoints(final IGeoPoint... aPoints) {
 		for(final IGeoPoint geoPoint : aPoints) {
-			addPoint(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6());
+			addPoint(geoPoint.getLatitude(), geoPoint.getLongitude());
 		}
 	}
 
 	public void addPoints(final List<IGeoPoint> aPoints) {
 		for(final IGeoPoint point : aPoints) {
-			addPoint(point.getLatitudeE6(), point.getLongitudeE6());
+			addPoint(point.getLatitude(), point.getLongitude());
 		}
 	}
 
-	public void addPoint(final int latitudeE6, final int longitudeE6) {
-		mPoints.add(new GeoPoint(latitudeE6, longitudeE6));
+	public void addPoint(final double latitude, final double longitude) {
+		mPoints.add(new GeoPoint((int)(latitude*1E6), (int)(longitude*1E6)));
 	}
 
 	@Override

@@ -1,0 +1,57 @@
+{
+  "id" : 327,
+  "status" : "Fixed",
+  "summary" : "Need to close SQLite database (MBTiles)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5639145057059151300,
+    "content" : "There is a call to SQLiteDatabase.openDatabase in MBTilesFileArchive, but no corresponding close.\r\n\r\nThis might not normally be a problem in an application that always has the Activity with the MapView active.  In my app, the Activity with the MapView gets created and destroyed frequently.  This causes an error from Android and Android won't let you re-open the MBTiles archive.\r\n\r\n03-28 11:04:10.009: E/Database(16060): close() was never explicitly called on database '/mnt/sdcard/osmdroid/map.mbtiles' \r\n03-28 11:04:10.009: E/Database(16060): android.database.sqlite.DatabaseObjectNotClosedException: Application did not close the cursor or database object that was opened here\r\n03-28 11:04:10.009: E/Database(16060): \tat android.database.sqlite.SQLiteDatabase.&lt;init&gt;(SQLiteDatabase.java:1847)\r\n03-28 11:04:10.009: E/Database(16060): \tat android.database.sqlite.SQLiteDatabase.openDatabase(SQLiteDatabase.java:820)\r\n03-28 11:04:10.009: E/Database(16060): \tat org.osmdroid.tileprovider.modules.MBTilesFileArchive.getDatabaseFileArchive(MBTilesFileArchive.java:35)\r\n\r\n\r\n",
+    "timestamp" : 1332936103,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5639145057059151300,
+    "content" : "Suggested approach to fix:\r\n\r\nAdd void close(); method to IArchiveFile which means each class implementing interface, of course, needs to implement, including MBTilesFileArchive.  It's probably not a bad thing that all IArchiveFile classes do some file closing!  In MBTilesFileArchive it's nothing more complicated than:\r\n\tpublic void close()\r\n\t{\r\n\t\tmDatabase.close();\r\n\t}\r\nThen the close() needs to get called when the MapView is going away, which means overriding onDetach() and calling mTileProvider.detach() and adding mArchiveFiles.get(0).close(); to the loop in MapTileProvider.detach() that removes all the archive file references from the array.\r\n\r\nHope this helps - it seems to work for me!\r\n",
+    "timestamp" : 1332939483,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5639145057059151300,
+    "content" : "This problem might only show up when modifying the opening of the SQLite database to READ+WRITE which is necessary on some real-world (not emulator) devices - see other issue - 318.",
+    "timestamp" : 1332940718,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 318.",
+    "timestamp" : 1332948608,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -7284257576020950379,
+    "content" : "a workaround would be to expose the MBTilesFileArchive constructor so one can provide his own database, read-only or not.",
+    "timestamp" : 1337976738,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 2883807913351116031,
+    "content" : "I've created a patch with the changes mgwjenkins proposes. They work really well and I didn't observe any problems with it in my app. With this patch applied, I just call the MapView.onDetach() method in my fragment's onDestroyView() method.\r\n\r\nBecause \"Issue attachment storage quota exceeded\", I copied the patch to pastebin: http://pastebin.com/BdWWN5hX",
+    "timestamp" : 1393765167,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've committed the patch in revision 1449.",
+    "timestamp" : 1393873923,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's been in for a while so I guess it must be okay",
+    "timestamp" : 1409118900,
+    "attachments" : [ ]
+  } ]
+}

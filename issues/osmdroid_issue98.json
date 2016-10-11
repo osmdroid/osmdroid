@@ -1,0 +1,63 @@
+{
+  "id" : 98,
+  "status" : "Fixed",
+  "summary" : "Need a way to specific CloudMade style dynamically",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "It is possible to specify the CloudMade style in the attributes when loading the view from a layout xml, but there's no other way to specify it.  \r\n\r\nThere should be a way to dynamically change the CloudMade style id.\r\n\r\nProbably the easiest way would be to add a method\r\nIOpenStreetMapRendererInfo.setCloudMadeStyle(int style)\r\n\r\nBUT, the tile storage needs to be changed to keep the styles separate otherwise the cached tiles will not necessarily match the current style.\r\n\r\nProbably need to change\r\nOpenStreetMapTileFilesystemProvider.buildPath\r\nto use a new method renderer.getBasePath() instead of getName().\r\nFor all other renderers it will just return getName(), but for CloudmadeRenderer it will return getName() + &quot;/&quot; + styleId\r\n",
+    "timestamp" : 1286178306,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4347711491313101153,
+    "content" : "Thanks neilboyd for reporting this...\r\nI concur with the need for setCloudMadeStyle()\r\n\r\nI encountered the caching of mixed tile styles when I changed cloudMadeStyle in the XML layout and reran my app\r\n\r\nFrom my single user point of view, problem could be solved if an accessible class instance provided a method to flush tile cache or setCloudMadeStyle() did it. (Not sure if this is good solution since I don't know the internals of osmdroid.)\r\n ",
+    "timestamp" : 1286200944,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3456884467250674452,
+    "content" : "Could you please describe how to set specific CloudMade style for CloudmadeRenderer via XML layout?",
+    "timestamp" : 1286546862,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -4347711491313101153,
+    "content" : "See the HowToUseJar wiki. neilboyd has answered this....\r\n",
+    "timestamp" : 1286547656,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1286547713,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r452.",
+    "timestamp" : 1288778003,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -4347711491313101153,
+    "content" : "neiboyd, \r\n\r\nThanks!\r\n\r\nDo I download the latest jar file or build a new one with this revision?",
+    "timestamp" : 1288792989,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've uploaded a new jar with the latest code",
+    "timestamp" : 1288798093,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8805332014746875794,
+    "content" : "This doesn't seem to work any longer..  I have\r\n\r\n    <org.osmdroid.views.MapView\r\n        xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n        android:id=\"@+id/mapview\"\r\n        android:layout_width=\"fill_parent\"\r\n        android:layout_height=\"fill_parent\"\r\n        android:clickable=\"true\"\r\n\trenderer=\"CloudMadeStandardTiles\"\r\n    \tcloudmadeStyle=\"94371\"        \r\n        />\r\n\r\nBut it doesn't seem to be using anything other than the default.  Any ideas?",
+    "timestamp" : 1367347091,
+    "attachments" : [ ]
+  } ]
+}

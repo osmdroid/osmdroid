@@ -1,32 +1,26 @@
+description = 'Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
+
 apply plugin: 'com.android.application'
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/android-support.gradle"
 
 android {
     compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "org.osmdroid.google.sample"
         minSdkVersion 9
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
     lintOptions {
         abortOnError false
     }
 }
 
+
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testCompile "junit:junit:${project.property('junit.version')}"
     compile 'com.android.support:appcompat-v7:23.+'
     //this covers google maps v2 apis
     compile 'com.google.android.gms:play-services:8.+'
@@ -49,15 +43,67 @@ project.gradle.taskGraph.whenReady {
     //this is just for Travis CI builds, since this package needs at least api 9 with google apis
     //ignore the following build targets 1,2,3,7, 12
     if (System.getenv("ANDROID_TARGET")!=null){
-        if ("12".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
+        if ("13".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim()) ||
                 "1".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "2".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "3".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())||
                 "7".equalsIgnoreCase(System.getenv("ANDROID_TARGET").trim())) {
-            connectedDebugAndroidTest {
-                ignoreFailures = true
+            println "Skipping GoogleWrapperSample instrumentation test since the API level doesn't match this project"
 
-            }
+            installDebug { actions = []; }
+            connectedDebugAndroidTest { actions = []; }
+
         }
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.ACCESS_FINE_LOCATION'
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice2${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.WRITE_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
+    }
+}
+
+
+android.applicationVariants.all { variant ->
+    if (variant.getBuildType().name == "debug") {
+        task "configDevice3${variant.name.capitalize()}" (type: Exec){
+            dependsOn variant.install
+
+            group = 'nameofyourtaskgroup'
+            description = 'Describe your task here.'
+
+            def adb = android.getAdbExe().toString()
+            def mypermission = 'android.permission.READ_EXTERNAL_STORAGE '
+            commandLine "$adb shell pm grant ${variant.applicationId} $mypermission".split(' ')
+        }
+        variant.testVariant.connectedInstrumentTest.dependsOn "configDevice${variant.name.capitalize()}"
     }
 }

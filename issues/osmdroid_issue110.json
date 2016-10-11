@@ -1,0 +1,69 @@
+{
+  "id" : 110,
+  "status" : "Duplicate",
+  "summary" : "Map tile request failures still cause \"success\" notification and cause map redraw",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Looking at the OpenStreetMapTileFilesystemProvider as an example, there are paths through the TileLoader that result in a &quot;failure&quot;, which is handled in the code with:\r\n   tileLoaded(aTile, false);\r\n\r\nHowever the &quot;false&quot; is ignored in OpenStreetMapAsyncTileProvider.tileLoaded, and mCallback.mapTileRequestCompleted is called as if it was a successful request. This in-turn causes a MAPTILE_SUCCESS_ID message to be posted, which in-turn causes the map to be invalidated. If the user has not moved the map then the whole process repeats.\r\n\r\nI would suggest we add the following to OpenStreetMapAsyncTileProvider:\r\n\r\npublic void tileFailed(final OpenStreetMapTile aTile)\r\n{\r\n synchronized (mPending) {\r\n   mPending.remove(aTile);\r\n }\r\n mWorking.remove(aTile);\r\n mCallback.mapTileRequestFailed(aTile); \r\n}\r\n\r\n\r\nAnd add the following to IOpenStreetMapTileProviderCallback:\r\n\r\nvoid mapTileRequestFailed(OpenStreetMapTile aTile);\r\n\r\n\r\nFinally, the following to OpenStreetMapTileProvider:\r\n\r\n public void mapTileRequestFailed(final OpenStreetMapTile pTile) {\r\n mDownloadFinishedHandler.sendEmptyMessage(OpenStreetMapTile.MAPTILE_FAIL_ID);\r\n\r\n if (DEBUGMODE)\r\n  logger.debug(&quot;MapTile request failed: &quot; + pTile);\r\n}\r\n\r\n\r\nAnyone want to comment, or give thumbs up/down?\r\n",
+    "timestamp" : 1288757668,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "The way you described it is the way it's supposed to work.\r\nIt tries to get a tile, it fails but initiates the download, then tries again. If it keeps trying the same tiles it'll eventually succeed because the download has completed.\r\nIf your location changes then the tiles it's attempting will also change and it'll forget about those old failures, although maybe it downloaded them anyway.",
+    "timestamp" : 1288768085,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "But there's definitely room for improvement. See also issue 31.",
+    "timestamp" : 1288770558,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Consider this scenario - Let's say we have a renderer that is malfunctioning or something, and is throwing 404 errors. Would the following event chain happen:\r\n\r\n1. The cache is checked and fails. This calls the filesystemprovider\r\n2. The filesystemprovider fails, however this causes \"tileLoaded(aTile, false)\" to get called, which causes a MAPTILE_SUCCESS_ID, which results in an invalidate. Additionally the mailtiledownloader is called to try to download the tile from the renderer.\r\n3. The maptiledownloader tries to download the tile, however an exception is thrown (due to the 404 or whatever malfunction) and caught, nothing is written to the filesystem, but still \"tileLoaded(aTile, true)\" is called. This also causes a MAPTILE_SUCCESS_ID, which results in an invalidate.\r\n4. The two invalidations cause two requests through the map tile provider chain.\r\n5. Those two invalidations each cause two additional tile requests each, resulting in 4 asynchronous requests, which results in 8 requests, 16, 32, 64, etc...\r\n\r\nIs that what could happen?\r\n\r\n\r\nI think, looking from a higher perspective overall, my general feeling is that the map tile request chain is too tightly coupled. For example, the file system provider mixes both zip files, as well as a file-system cache rather than keeping these two things separate. Also one link calls the next link in the chain by a hard-coded reference (the filesystem provider directly calls the tile downloader) rather than a generic reference to the next link in the chain.\r\n\r\nI know this is a bigger task than the original issue, but I would propose making a general TileProvider interface and then implementing the following child classes:\r\n\r\nFileSystemCacheTileProvider - Provides map tiles from a file-system cache. Also listens for successful tile requests and stores them on the sd card.\r\n\r\nFileArchiveTileProvider - Provides map tiles from a file archive (like zip, gzip).\r\n\r\nMapTileDownloadTileProvider - Provides map tiles from an online map tile provider (a renderer, or possibly an array of renderers).\r\n\r\nTileProviderListTileProvider - Takes a list of map tile providers (like the three above), and tries each one in order for a tile. This may not be a separate TileProvider, and might just be built into the code and the user would pass a List<TileProvider> into the MapViewer or something.\r\n\r\n\r\nMy goal here is to generalize the map tile providers and allow easy implementation of new providers for SDK users, similar to the map overlay providers where anyone can implement from the generic overlay-provider base class and add it to the view.\r\n\r\nThoughts?",
+    "timestamp" : 1288824123,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I agree with everything you say. That was the original idea for issue 79 but I opted for the easier approach.\r\n\r\nIf you want to implement this I suggest it's a good idea to do so in a branch.",
+    "timestamp" : 1288856086,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "If anyone has any comments on what I've done so far in the branch, then I'd appreciate feedback. I am going to eventually open a new ticket explaining what I've done and get a yay/nay on moving it to the trunk. In short:\r\n\r\n1. The tile request comes into the ArrayProvider.\r\n2. The ArrayProvider checks the memory-cache.\r\n3. If no hit, and no previous requests are pending, then fire off a request into the map-request pipeline.\r\n4. The first async provider gets the request, and queues it where a TileLoader picks it up and tries to obtain the tile. If it can, it returns the tile (byte[], stream, or filename) to the ArrayProvider via a \"success\" call. Otherwise it returns a \"failure\" back to the ArrayProvider.\r\n5. If the ArrayProvider gets a \"failure\" from the async provider, it gets the next async provider for this tile and passes the tile to that provider to be processed (back to #4). If there are no more tile providers left, then the tile request fails.\r\n6. If the ArrayProvider gets a \"success\", it checks the AsyncProvider to see if tiles from this provider should be cached in the file-cache (on the SD card) and does so if appropriate. It then creates a Drawable and puts that into the tile cache. Finally it sends a success call which invalidates the view.\r\n\r\nIt is working, and it seems to run smoothly. I think I can get rid of the mWorking and mPending duplicate-tile checks in the async tile providers since there are duplicate-tile checks in the ArrayProvider that prevent duplicate tiles from ever getting into the map-request pipeline, so I think having the mWorking and mPending checks are redundant (we can add assertions to make sure). ",
+    "timestamp" : 1289426249,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had a look at it and it looks good. You've made some quite fundamental changes, especially regarding the way things are synchronized, so that'll need good testing to make sure the same kind of issues as before don't come up.\r\n\r\nThe zip provider isn't done yet, but you know that. I guess that would be the first one in the list, or maybe the second.\r\n\r\nYou don't use the tileProviderArray parameter in the OpenStreetMapTileProviderArray constructor, so you could remove it, or change OpenStreetMapTileProviderDirect to use it.\r\n\r\nPerhaps you could include the in-memory cache as a provider, then it's not an exception as described in point 2, 3 in your previous comment.\r\n\r\nCould you make each provider return its result to the previous provider, eg a download completion goes to the file system provider, which will save it and in turn return its result to the in-memory cache, which will store it in its cache. That makes each provider more abstract, rather than explicitly handling the specifics of each provider, eg getShouldTilesBeSavedInCache is explicitly related to the file system provider.\r\n\r\nThere's been some wide-ranging changes in trunk in the last few days, so you probably want to merge them in now.\r\n",
+    "timestamp" : 1289571097,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1289708518,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is now issue 112",
+    "timestamp" : 1289708535,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1289708590,
+    "attachments" : [ ]
+  } ]
+}

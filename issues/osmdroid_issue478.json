@@ -1,0 +1,45 @@
+{
+  "id" : 478,
+  "status" : "Fixed",
+  "summary" : "Add compatibility for Google Maps v2",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "osmdroid currently aims to be compatible with Google Maps v1.\r\n\r\nAdd an interface to osmdroid and a wrapper for Google.",
+    "timestamp" : 1378875303,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I created a branch v2.\r\n\r\nWork on this is still very much experimental.",
+    "timestamp" : 1378876490,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think I'll merge this back into trunk soon since it also contains some fixes that are useful in trunk, and I can already see that the basic idea of this wrapper is working okay. I'm still working on adding more supported features to the wrapper.",
+    "timestamp" : 1381122844,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Merged into trunk in revision 1359.",
+    "timestamp" : 1381174108,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is basically done. I may still need to add some minor features.\r\n\r\nThe main thing that's missing is rotation of the v1 map. It may not be too difficult to rotate the map but then the built-in compass and zoom controls won't work. Probably also need to rotate the overlay items.",
+    "timestamp" : 1382642378,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've been using this and it works fine so far.",
+    "timestamp" : 1386883166,
+    "attachments" : [ ]
+  } ]
+}

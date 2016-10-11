@@ -1,0 +1,21 @@
+{
+  "id" : 306,
+  "status" : "Fixed",
+  "summary" : "What to use instead of osmdroid-google-3.0.5.jar as its said its featured and deprecated",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1207886896167100756,
+    "content" : "I wanted to wrap custom tiles with google maps so wanted to download osmdroid-google-3.0.5.jar. But it is said its featured and deprecated. So what shall I use to achieve my goal.\r\n\r\nNikhil",
+    "timestamp" : 1328631356,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "osmdroid-third-party-3.0.7.jar",
+    "timestamp" : 1328739418,
+    "attachments" : [ ]
+  } ]
+}

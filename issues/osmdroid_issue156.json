@@ -1,0 +1,119 @@
+{
+  "id" : 156,
+  "status" : "Fixed",
+  "summary" : "OutOfMemoryException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 17,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3854853821925711306,
+    "content" : "First, I thought it's the problem in my application, but now I know how to get this exception also with osm-samples, which I've downloaded from downloads.\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Start 'OpenMap'. If your location is hidden, activate from context menu 'My Location'\r\n2. Begin to scroll, to zoom in and out\r\n3. Close 'OpenMap' and start with step 1\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI don't expect any OutOfMemoryExceptions, but they are there\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.1.\r\nThe strange thing is, this issue doesn't occurs on phones with Android 1.5, but on all phones with Android version higher than 1.5.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nAs I already wrote in discussions, it's probably the problem of google:\r\nhttp://code.google.com/p/android/issues/detail?id=8488\r\nBut there are also some solutions\r\n",
+    "timestamp" : 1296997170,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This has been reported many times before. The most relevant previous issue is probably issue 54. My comment of Jul 06, 2010 still applies now.\r\n\r\nYour steps to reproduce above weren't very specific, but I think I followed them okay and didn't see the issue.\r\n\r\nI've spent a lot of time in the past year looking into this and I think I've done enough to make osmdroid usable. But the ideas in the google issue you referenced look interesting. I do still get OOME occasionally, so I'll agree that there could still be room for improvement. If anyone wants to suggest a specific patch to improve memory then I'll be glad to look at it.\r\n\r\nosmdroid already has some calls to Bitmap.recycle and System.gc, although I don't think they help.  All the lifecycle stuff is out of the control of osmdroid - it's in the app that uses osmdroid.  The samples could do it, but it's probably better if the samples just demonstrate the normal usage without all kinds of os bug workarounds.",
+    "timestamp" : 1297022280,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3854853821925711306,
+    "content" : "Hi Neil,\r\n\r\ndid you get a look to logs and memory usage following steps I've described above?\r\n\r\nI'm getting outofmemory-logs on HTC-Desire and Motorola Milestone.\r\n\r\n> osmdroid already has some calls to Bitmap.recycle and System.gc\r\nThere are two System.gc() and two Bitmap.recycle() calls\r\n\r\nHave you read about this solution?\r\nhttp://mobi-solutions.blogspot.com/2010/08/how-to-if-you-want-to-create-and.html\r\n\r\nThis guy suggests to set bitmap to null after recycle.\r\n\r\n> All the lifecycle stuff is out of the control of osmdroid - \r\n> it's in the app that uses osmdroid\r\nYes, you are right, but this issue occurs because of bitmaps. What I mean, I can make everything with bitmaps I've created myself in my application, but is there some posibility to get access on bitmaps osmdroid created?\r\n\r\n\r\nUPD:\r\nAnd I've got them also in emulator, but you need really pation, to get it. I guess, the most problem is zooming, that zooming causes outofmemory-exception. But it's only a guess",
+    "timestamp" : 1297074226,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 1950478617448552596,
+    "content" : "Hello Neil,\r\n\r\nI found a fast and simple way to reproduce the OutOfMemory exception using the OpenStreetMapViewer sample, but there are some conditions and preparations:\r\n\r\n1. Android 2.0 or higher\r\n2. start OpenStreetMapViewer\r\n3. zoom into the map\r\n4. enable my location\r\n5. send a valid geolocation to the device, the current location must be shown in the map (the \"person\"-icon is visible)\r\n\r\nAfter that, do the following in a loop:\r\n\r\n1. use the back-key to return to the desktop\r\n2. Start the OpenStreetMapViewer again\r\n\r\nAfter some time, the OutOfMemory exception occurs. With Android 2.2, I had to do only 6 iterations to reproduce the error. Other OS version may require more iterations (up to 20 for Android 2.0), with Android 1.6 or lower I could not reproduce the problem at all.\r\n\r\nBecause the heap values shown by DDMS didn't look bad, I used the following command to get more memory info:\r\n\r\n\tadb shell dumpsys meminfo\r\n\r\nHere is the result with Android 2.2, after 6 iterations:\r\n\r\n** MEMINFO in pid 253 [org.osmdroid] **\r\n                    native   dalvik    other    total\r\n            size:    15932     5063      N/A    20995\r\n       allocated:    15423     2939      N/A    18362\r\n            free:      424     2124      N/A     2548\r\n           (Pss):     1840     4101    13425    19366\r\n  (shared dirty):     1436     3996     1572     7004\r\n    (priv dirty):     1692     1968    12144    15804\r\n\t\r\nAs you can see, it's the native memory usage wich makes the problems. Without enabling my location, the memory usage after 30 iterations is:\r\n\r\n** MEMINFO in pid 458 [org.osmdroid] **\r\n                    native   dalvik    other    total\r\n            size:     8220     3591      N/A    11811\r\n       allocated:     5115     2479      N/A     7594\r\n            free:      388     1112      N/A     1500\r\n           (Pss):     1217     2930     3067     7214\r\n  (shared dirty):     1464     4048     1040     6552\r\n    (priv dirty):     1044     1236     2456     4736\r\n\t\r\nThis looks OK. I know the the native memory is most likely allocated by the tile bitmaps, but I have no idea why enabling the MyLocationOverlay causes the allocated native memory to increase so much.\r\n\r\nAnother strange fact:\r\nIf I do 5 iterations with an enabled MyLocationOverlay, then the used native memory is very high. Forcing the garbage collector (via DDMS) reduces the allocated dalvik memory a little bit, but doesn't reduce the allocated native memory. One more iteration would cause an OutOfMemory exception. But when I wait some time (I tried about 30 seconds), the next iteration doesn't cause the exception, quite the contrary happens: the native memory is suddenly low again and I can do 5 more iterations without a problem!\r\n\r\nThat's very weird and I don't understand what's going on. I also don't understand why there are problems with MyLocationOverlay only.\r\n\r\nI use other overlays as well: a PathOverlay, an ItemizedOverlayWithFocus, and a DirectedLocationOverlay. None of these overlays produce the memory problem, but since I don't understand the real cause of the problem, there may be more configurations wich cause the error.\r\n\r\nI hope someone with a deeper insight into Osmdroid and the Android memory management can use this information to find the cause of the problem, because the OutOfMemory exception is really annoying.",
+    "timestamp" : 1297346925,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thanks for those clear steps. I have at least added a catch in revision 789.\r\n\r\nIt's strange that MyLocationOverlay seems to be relevant.  I tried recycling the bitmaps in MyLocationOverlay.finalize() but then I got a real crash.\r\n\r\nIt's also interesting that it seems to settle down if you leave it for 30 seconds. Hopefully that indicates that it won't be a problem in normal usage.",
+    "timestamp" : 1297354511,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 1950478617448552596,
+    "content" : "Unfortunately the patch did not work. I think that calling gc() does not help in this case. I already tried forcing the gc via the DDMS feature, without success.\r\n\r\nAdditionally, also the 30 seconds delay didn't help this time - I could only start the app 1 more time for each delay, and after the fifth time the app crashed.\r\n\r\nThis weird android memory management makes me crazy :-(\r\n\r\nI don't know, but maybe calling the recycle method is the only thing which helps, because it really frees the native memory, but I don't know when and where.\r\n",
+    "timestamp" : 1297359009,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 1950478617448552596,
+    "content" : "I've got it! It seems incredible, but it looks like that it is the Android LocatonManager which causes the problems! Maybe an Android bug?\r\n\r\nCalling \"LocationManager.removeUpdates(this)\" only stops receiving new locations, but it seems not to remove the reference to the listener, so the MyLocationOverlay will not be purged.\r\n\r\nI moved the location listener to a small helper class, which forwards location changes to the MyLocationOverlay object. Using this little modification allowed me to start the OpenStreetMapViewer sample more than 50 times without any problems. \r\n\t\r\nWhen disabling the listener, it is very important to remove any reference between the helper class and MyLocationOverlay. I have attached the helper class and the modified MyLocationOverlay class.",
+    "timestamp" : 1297436873,
+    "attachments" : [ {
+      "id" : 5273446261377815220,
+      "fileName" : "MyListener.java",
+      "fileSize" : 1664
+    }, {
+      "id" : 2732552660140545718,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 24367
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "That's great news! I'll have a look when I get time - probably next week.  Sounds like something to be aware of in other apps too.",
+    "timestamp" : 1297440717,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Implemented a slight variation of this patch in revision 805.",
+    "timestamp" : 1297689991,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 1950478617448552596,
+    "content" : "I have good and bad news - first the bad one: the OutOfMemoryException is back, you only need to enable the compass and show the map a few times.\r\n\r\nNow the good one: the Android SensorManager seems to have the same problem as the LocationManager, so a similar simple workaround using a proxy class to register as a listener should help. I have not yet tried, but I am pretty sure that it will work.",
+    "timestamp" : 1299055910,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've the the compass proxy in revision 841.",
+    "timestamp" : 1299057474,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 1950478617448552596,
+    "content" : "\r\nHi Neil,\r\nthat was a really fast fix!\r\n\r\nI tested the patch and it works :-)\r\n\r\nBtw, during the tests I found a bug in the OpenStreetMapViewer sample: a call to disable the compass is missing in the method onPause(). But even after adding that statement, I got the OutOfMemoryException (without your patch, of course), but now I had to start the sample more often (about 30 times).\r\n\r\nAfter applying the patch, I could start the sample more than 100 times, without any problems.\r\n\r\nThen I tried the sample with your patch, but without disabling the compass. Now I had to start the sample for more than 50 times to get the OutOfMemoryException, probably because the proxy leaks less memory than MyLocationOverlay.\r\n\r\nThe patch works perferctly! Thank you for the fast fix!",
+    "timestamp" : 1299061942,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I added a call to disableCompass in revision 846.\r\n\r\nI got a bit confused reading your last comment ;-)  Is it okay now?\r\n\r\nWell done for your persistence in starting 100 times!  Did you just pause and start, or did you try other things as well, like rotating the screen and zooming and panning?\r\n\r\nI don't think we're ever going to get rid of OOME altogether, but we can at least avoid wasting memory as much as possible, and handling it when it happens.",
+    "timestamp" : 1299063550,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 1950478617448552596,
+    "content" : "Sorry about my confusing comment - yes, it is okay now.\r\nI just wanted to test each combination of disable the compass or not, and using the patch or not. As expected, you need both, disable the compass and use the proxy listener.\r\n\r\nFor the tests, I only started the app and waited until the compass was initialized and showed the correct direction. Sometimes I rotated the device a little bit, but I did no zoom and pan or other things.",
+    "timestamp" : 1299068520,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 1950478617448552596,
+    "content" : "By the way, i have added a bug report to the Android bug tracker, it's issue 1570\r\nLink: http://code.google.com/p/android/issues/detail?id=15170",
+    "timestamp" : 1299083092,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "This fix may have been broken in revision 848.",
+    "timestamp" : 1299164150,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "That broken code was fixed in revision 856. Now we can close this issue.\r\n\r\nAny future OOME fixes can be submitted in a new issue.",
+    "timestamp" : 1299219267,
+    "attachments" : [ ]
+  } ]
+}

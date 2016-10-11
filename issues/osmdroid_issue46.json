@@ -1,0 +1,121 @@
+{
+  "id" : 46,
+  "status" : "Fixed",
+  "summary" : "zoom in without cache doesn't look good",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 16,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6213537561965662483,
+    "content" : "Zoom in to an area that is not cached, using Android 2.1 (HTC Legend).\r\nThere's a smooth zoom to the new level first but then the screen is grey\r\nuntil replaced with the new tiles. I think this worked better on my G1,\r\ni.e. the scaled tiles were replaced by the new tiles, without any grey\r\n&quot;tiles&quot; in between.\r\n",
+    "timestamp" : 1272198052,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also https://bugs.launchpad.net/opensatnav/+bug/579473",
+    "timestamp" : 1277214475,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1278599677,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3160830107365654207,
+    "content" : "Issue 88 has been merged into this issue.",
+    "timestamp" : 1285779824,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "So, it appears that we want to be able to retain the state of the \"zoomed in\" map tiles until the new tiles arrive. I see two possible solutions:\r\n\r\n- One way to do this is to switch to a back-buffer style approach where we keep a bitmap in memory that represents what will be drawn to the screen. We draw to the bitmap and then draw that bitmap to the canvas. The bitmap is retained between onDraw calls and therefore we can paint the zoomed tiles to the back-buffer and not lose them. An ancillary advantage of going this route is that we can get rid of the in-memory cache which ultimately doesn't save us any memory since we need an equal sized back-buffer Bitmap, but it eliminates the need to constantly allocate new Bitmaps to put in the cache thereby reducing GC. However, it's a big change and unless others can see a greater advantage to using it, then we should consider the next suggestion.\r\n\r\n- Using a SurfaceView appears to give us the ability to lock the canvas and retain what is drawn on the screen. It sounds like it is similar to a back-buffer, but wrapped for convenience and would be less implementation work against what we already have. It runs on a separate thread, so it may speed up draws and make the app feel more responsive.\r\n\r\nAnyone have any experience with SurfaceView? Is it a good fit?",
+    "timestamp" : 1295063313,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "I'm playing around with the SurfaceView and it's pretty easy, but it's not like a regular canvas. I think the drawing surface is fixed, because I have to use the ScrollX and ScrollY to offset where I draw to get it to scroll. I'm slowly figuring it out, but if someone has a quick explanation of how the drawing coordinates work when using a SurfaceView, that would make this easier.",
+    "timestamp" : 1295136532,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay, so a SurfaceView doesn't account for your scroll position - the clip bounds are always (0,0,width,height). So after trying a bunch of different things, the solution is actually easy - when we do our translate() in onDraw, we also account for x,y scroll values. So:\r\n\r\nc.translate((getWidth() / 2) - getScrollX(), (getHeight() / 2) - getScrollY());\r\n\r\nThis translates the canvas for us into post-scrolled coordinates and everything works without further changes. The final step is to now get zoom animation working, which seems to have broken (along with flinging).\r\n\r\nMy initial observation is that performance is no better, and perhaps a little worse with a SurfaceView. This seems counterintuitive, but we are doing all that math constantly since the redraw happens continuously (rather than waiting for the screen to be invalidated). We probably have to implement logic to not redraw the screen if nothing has changed.",
+    "timestamp" : 1295140714,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "So, it appears that animations don't work with SurfaceView (can anyone confirm?), so that's pretty much a dead-end unless someone can suggest a solution.\r\n\r\nOpenGL anyone?",
+    "timestamp" : 1295143372,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay, so a little more investigation and it turns out that it isn't so hard to manually apply animations. We just start the animation, and call getTransformation() when we draw. Then we apply any alpha transformations to our canvas and we postConcat() any matrix transformations. Quite easy actually!\r\n\r\nAnd after playing with this a bit, the performance actually does seem better most of the time - I think \"flinging\" is just broken so that makes it seem jerky at first. I think there might be merit in going the SurfaceView route.",
+    "timestamp" : 1295157005,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1321077494,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is a patch that seems to work. When you zoom +/-1 it will rescale the tiles and use them until the real tiles arrive. It works better for zoom in than zoom out, probably because when you zoom out you need more tiles that are not in cache.",
+    "timestamp" : 1322084375,
+    "attachments" : [ {
+      "id" : 460010000,
+      "fileName" : "issue46.patch",
+      "fileSize" : 8563
+    } ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is a new patch which seems to work quite well, including arbitrary zoom changes when pinch-to-zooming.\r\nIt still seems to have a bit of an issue of continuing to use the scaled bitmap and not requesting new tiles.",
+    "timestamp" : 1322518766,
+    "attachments" : [ {
+      "id" : 460011000,
+      "fileName" : "issue46.patch",
+      "fileSize" : 14569
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Here's another patch which has a hack that seems to fix the issue I described in the previous comment, although not in a particular elegant way.",
+    "timestamp" : 1322519823,
+    "attachments" : [ {
+      "id" : 460012000,
+      "fileName" : "issue46.patch",
+      "fileSize" : 15392
+    } ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "Here we go again!\r\nThis is a much nicer fix that keeps track of whether tiles are expired.\r\nThis can be extended for tiles that are expired on the file system.",
+    "timestamp" : 1322633935,
+    "attachments" : [ {
+      "id" : 460013000,
+      "fileName" : "issue46.patch",
+      "fileSize" : 18526
+    } ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1010.",
+    "timestamp" : 1323238034,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 279",
+    "timestamp" : 1323238201,
+    "attachments" : [ ]
+  } ]
+}

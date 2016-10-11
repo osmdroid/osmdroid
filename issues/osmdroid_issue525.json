@@ -1,0 +1,21 @@
+{
+  "id" : 525,
+  "status" : "Duplicate",
+  "summary" : "Scale tiles for better legibility (like fake zoom, but for all zoom factors)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3192915761638495347,
+    "content" : "On high resolution displays (e.g. Moto G, 329ppi) the street names are way too small to be readable without a magnifying glass.\r\n\r\nThe optimal solution would provide a scale factor (integer: 1x, 2x, 3x) which scales the map tiles up transparently to a bigger physical size while keeping all other metrics as is (pixel-to-coord, coord-to-pixel).\r\n\r\n{IMHO} you don't have to be visually impaired to benefit from this change. From this perspective one could always scale the tile images to dip (device independent pixels) with no option to change this behaviour.{/IMHO}\r\n\r\n(I'm using osmdroid 4.1 on Android 4.0.4 and 4.4)\r\n\r\nSee also http://stackoverflow.com/questions/7240568/osmdroid-display-tiles-bigger\r\n\r\n\r\n\r\n",
+    "timestamp" : 1392196837,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1392220484,
+    "attachments" : [ ]
+  } ]
+}

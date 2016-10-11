@@ -1,0 +1,15 @@
+{
+  "id" : 503,
+  "status" : "New",
+  "summary" : "MapView.zoomToBoundingBox always uses highest zoom level",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4864792965836238656,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Assume you have a working mapview in an application with zoom levels minZ to maxZ\r\n2. When calling MapView.zoomToBoundingBox with various bounding boxes, the map will always show maxZ, regardless of the actaul size of the bonding box. The center seems to be correct though\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe map view should adapt its zoom level to show &quot;just&quot; the bounding box, but it remains at its maximum zoom level regardless of the actual bounding box size.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 4.0, checked on Android 2.3x, 4.1.x, 4.2x, 4.4.x.\r\n\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1387528121,
+    "attachments" : [ ]
+  } ]
+}nts":[]}]}

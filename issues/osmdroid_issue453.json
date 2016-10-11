@@ -1,0 +1,241 @@
+{
+  "id" : 453,
+  "status" : "ReadyForTesting",
+  "summary" : "Stop using view animations for zoom in/out",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 36,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We currently use two different types of scaling for zooming:\r\n\r\n 1. View animation - when zooming in or out by double-tapping or by tapping the zoom buttons the View itself uses a ScaleAnimation to scale up or down to the next zoom level.\r\n\r\n 2. Canvas scaling - when we pinch-to-zoom we apply a scale to the canvas.\r\n\r\nThe problem with the View animation is that it scales *everything* including added views and all overlays regardless if they clear the canvas Matrix. So overlays like CompassOverlay still scale with the View animation, whereas they don't scale when using the canvas scaling since they can override that.\r\n\r\nI think we can change the ScaleAnimation to be a ValueAnimator that animates the mMultiTouchScale value. That would make everything canvas scaling and would fix the problem.\r\n\r\nAdditionally we can probably set the mMultiTouchScalePoint value to be where we double-tapped and that should allow us to &quot;fix&quot; on the tap point rather than center on it (maybe?).",
+    "timestamp" : 1374790276,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Something along these lines...",
+    "timestamp" : 1374790515,
+    "attachments" : [ {
+      "id" : 4530001000,
+      "fileName" : "MapViewZoomAnimationFix.patch",
+      "fileSize" : 4622
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 425.\r\nSee issue 248.",
+    "timestamp" : 1374790537,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Here is an updated and fully working patch. Please test and report back your results.",
+    "timestamp" : 1375816228,
+    "attachments" : [ {
+      "id" : 4530003000,
+      "fileName" : "MapViewZoomAnimationFix.patch",
+      "fileSize" : 7666
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1376777168,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1294.\n\nChange the way we do zoom animations to use canvas scaling. This will keep zoom and pinch zoom operations consistent and will eliminate issues where overlay painting will scale when zooming regardless of trying to counteract it in the canvas.\nUpdate issue 471\nUpdated MapController. Removed unsafe AbstractAnimationRunner code, moved all zoom animation code to MapController.",
+    "timestamp" : 1377889913,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1377890097,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nRegarding the changed way of doing zoom animations using the canvas scaling.\r\nNow I don't see any zoom animation at all when e.g. pressing the zoom buttons or double tap.\r\nBut an instant jump at new zoom level.\r\nIs this the new behavior, the zoom animations are removed completely?\r\n\r\nRegards.",
+    "timestamp" : 1377943286,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI see that osmdroid does not run anymore at Android version < Honeycomb, because the introduced ValueAnimator class exists from API level 11.\r\n\r\nRegards.",
+    "timestamp" : 1377952002,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I can confirm comment 8. We really need to continue to support API 10.  Perhaps the ones less than that are questionable now.",
+    "timestamp" : 1378099073,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1378135439,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "I agree - this was my mistake. \"Officially\" we support 8+ and I think we still work well on 8 but I doubt we'd want to put much work into supporting anything less than 9/10 moving forward.\r\n\r\nFixes for this issue coming up next!",
+    "timestamp" : 1378135486,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "For reference:\r\nhttp://en.wikipedia.org/wiki/Android_version_history\r\n\r\nshow up-to-date API adoption rates.",
+    "timestamp" : 1378135537,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1299.\n\nFixes for < HONEYCOMB in MapController.",
+    "timestamp" : 1378135649,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "This works for me in the emulator. Please test and report back any issues!",
+    "timestamp" : 1378135665,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Thanks for the update.\r\n\r\n- Yes it works now at API 10, though not as smoothly as previous ScaleAnimation implementations.\r\nAt the end of the zoom animations it seems to exist a snap / flash of the map just before the final zoom level.\r\n\r\n- Also if you can see my question at comment #7, about API 11+. Is the lack of zoom animation at these Android versions the final new behavior?\r\nBecause in that way the osmdroid has different zoom optical behaviors at pre / post Honeycomb versions.\r\nOr it is related to the issue #460 and the float zoom levels?\r\n\r\nRegards.",
+    "timestamp" : 1378140398,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "The animations should work the same pre-honeycomb. I'll try to take a look at it, but it should be doing the exact same thing it's always been doing (same code, just different location).\r\n\r\nI don't understand what issue you are encountering in comment #7. Are you saying that there are *no* zoom animations at all? That is obviously not correct and is not what I am seeing. (I assume hardware accel is turned off)",
+    "timestamp" : 1378141263,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "Let me re-word that - Not seeing any zoom animations at all is incorrect behavior from the maps. It is working correctly for me and I'd like to know why you are seeing different results. You should see a normal zoom in/out animation. Check to see if pinch-to-zoom works correctly too.",
+    "timestamp" : 1378142659,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -1918333713940407975,
+    "content" : "- About API 10: I understand that besides moving zoom functionality code to MapController, you also removed the AbstractAnimationRunner. Maybe this has a role at new odd behavior?\r\n\r\n- About API 11+: Yes when pressing the zoom buttons or double tap at the map there is not any zoom animation, but an instant jump at new zoom level.\r\n(Hardware acceleration if off)\r\n\r\nRegards.",
+    "timestamp" : 1378142981,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't remember us increasing minSdk to 8, but if that's the case then we should update the manifest and other configuration files.",
+    "timestamp" : 1378154673,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "I just tried it in a 1.6 emulator and it still works. I think we should/can stick with minSDK 4.\r\n\r\nMy own app (MySpeed) has 231 active users of 1.6 (4) and 661 of 2.1 (7).",
+    "timestamp" : 1378183993,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nAbout API 11+\r\nand the lack of zoom animations, I found the cause of my problem.\r\nI had at \"Android System Settings / Developer Options\" all three options \"Window animation scale, Transition animation scale and Animator duration scale\" at off state instead of default 1x (for some other tests). This was eliminating the new implemented zoom animations for me.\r\n\r\nThe other thing that I can notice now at 11+ is that at zoom out animation (from zoom buttons) the map zoom outs correctly, but the canvas seems to perform the scaling at left center of the screen instead of the absolute center.\r\n\r\nRegards.",
+    "timestamp" : 1378192481,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - yeah, I think I meant to say API 4. That's the proper minimum.\r\n\r\nDevemux86 - Can you try it in an emulator? I am not seeing any issues using the zoom buttons. It zooms from the center-point for me.",
+    "timestamp" : 1378215089,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -1918333713940407975,
+    "content" : "I tried on emulator of Android 4.2.2 and was able to capture the zoom out animation (I had to put at settings the 10x animation delay).\r\n\r\nI attach 2 images, the 1st is the map prior the zoom out and the 2nd is the map at zoom out animation end (performed with zoom buttons).\r\n\r\nThere are moments where the zoom out happens at map center, but at most times it happens at left-top.\r\n\r\nRegards.",
+    "timestamp" : 1378226230,
+    "attachments" : [ {
+      "id" : 4530023000,
+      "fileName" : "sample1.png",
+      "fileSize" : 345485
+    }, {
+      "id" : 4530023001,
+      "fileName" : "sample2.png",
+      "fileSize" : 229452
+    } ]
+  }, {
+    "id" : 24,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1302.\n\nDon't pinch-to-zoom while animating since it will throw your location off.",
+    "timestamp" : 1378239341,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 7646092065249173135,
+    "content" : "Devemux86 - interesting to know that it sometimes works. And it sounds like it's only zooming out. Tapping on the zoom out button will trigger getController().zoomOut(). That will get the center of the screen and then fix to that point.\r\n\r\nSome things to try:\r\n\r\n- Give the OpenStreetMapViewer project a try to see if that exhibits the same behavior.\r\n\r\n- Change MapController.zoomOut() line 221 to:\r\n\r\nProjection proj = mMapView.getProjection();\r\nPoint coords = proj.toMapPixels(proj.getBoundingBox().getCenter(), null);\r\n\r\n- Try mixing pinch-to-zoom in various screen locations before your zooms to see if that affects anything.\r\n",
+    "timestamp" : 1378240283,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI tried with OpenStreetMapViewer and the proposed changes and still see the same behavior at zoom out.\r\n\r\nRegards.",
+    "timestamp" : 1378281812,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : -1918333713940407975,
+    "content" : "Also with OpenStreetMapViewer at Android 10, at the end of the zoom in animation I see a flash of the map just before the final zoom level.\r\nThis is more visible if the future zoom level has already been cached, so the tiles are drawn instantly.\r\n\r\nRegards.",
+    "timestamp" : 1378282600,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : -5756665685413231711,
+    "content" : "I am curious to know whether the testing with API 10 is affected by issue 474, and if so, whether this has any bearing on the test results. If so, it might be useful to repeat the tests after applying my patch to issue 474.",
+    "timestamp" : 1378576551,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am going to spin off the zoom-level \"jumping\" issue into its own ticket. I just fired up a clean API 16 emulator with the OpenStreetMapViewer and I am still unable to reproduce the corner-zooming issue.",
+    "timestamp" : 1378771980,
+    "attachments" : [ ]
+  }, {
+    "id" : 30,
+    "commenterId" : -967463539555598909,
+    "content" : "Hi guys!\r\n\r\nReturning to #8. I still can't run osmdroid 4.1 on Android 2.3.7 powered device (not an emulator but real hardware), it gives me exception: \"java.lang.ClassNotFoundException: android.animation.ValueAnimator in loader dalvik.system.PathClassLoader\".",
+    "timestamp" : 1394349366,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 7646092065249173135,
+    "content" : "We added \"Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB\" checks to prevent devices less than Honeycomb from running the new ValueAnimator code. Can you report what value Build.VERSION.SDK_INT is returning for your 2.3.7 device? It should report \"10\" and not pass that Honeycomb check which requires \"11\".\r\n",
+    "timestamp" : 1394460957,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : -967463539555598909,
+    "content" : "It fails on https://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/main/java/org/osmdroid/views/MapView.java#143 where the MapController is constructed. So any breakpoints on MapController constructor don't trigger.\r\nI guess problem is on https://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/main/java/org/osmdroid/views/MapController.java#12 (class import) or https://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/main/java/org/osmdroid/views/MapController.java#40 (ValueAnimator property).",
+    "timestamp" : 1394468923,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 7646092065249173135,
+    "content" : "So even a breakpoint on line 52 doesn't get hit? Can you set a breakpoint on MapView:143 and then step-into the constructor. Can you also post the full exception?",
+    "timestamp" : 1394469347,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : -967463539555598909,
+    "content" : "No, it doesn't. I can't get into the contructor because of exception. Stacktrace is pretty long:\r\n<1> main@830004126112, prio=5, in group 'main', status: 'RUNNING'\r\n\t  at dalvik.system.PathClassLoader.findClass(PathClassLoader.java:240)\r\n\t  at java.lang.ClassLoader.loadClass(ClassLoader.java:551)\r\n\t  at java.lang.ClassLoader.loadClass(ClassLoader.java:511)\r\n\t  at org.osmdroid.views.MapView.<init>(MapView.java:142)\r\n\t  at org.osmdroid.views.MapView.<init>(MapView.java:200)\r\n\t  at org.osmdroid.views.MapView.<init>(MapView.java:194)\r\n\t  at com.micdm.transportlive.fragments.MapFragment.onCreateView(MapFragment.java:70)\r\n\t  at android.support.v4.app.Fragment.performCreateView(Fragment.java:1500)\r\n\t  at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:927)\r\n\t  at android.support.v4.app.FragmentManagerImpl.moveToState(FragmentManager.java:1104)\r\n\t  at android.support.v4.app.BackStackRecord.run(BackStackRecord.java:682)\r\n\t  at android.support.v4.app.FragmentManagerImpl.execPendingActions(FragmentManager.java:1467)\r\n\t  at android.support.v4.app.FragmentManagerImpl.executePendingTransactions(FragmentManager.java:472)\r\n\t  at android.support.v4.app.FragmentPagerAdapter.finishUpdate(FragmentPagerAdapter.java:141)\r\n\t  at android.support.v4.view.ViewPager.populate(ViewPager.java:1068)\r\n\t  at android.support.v4.view.ViewPager.populate(ViewPager.java:914)\r\n\t  at android.support.v4.view.ViewPager.onMeasure(ViewPager.java:1436)\r\n\t  at android.view.View.measure(View.java:8335)\r\n\t  at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:3138)\r\n\t  at android.widget.FrameLayout.onMeasure(FrameLayout.java:250)\r\n\t  at android.view.View.measure(View.java:8335)\r\n\t  at android.widget.LinearLayout.measureVertical(LinearLayout.java:531)\r\n\t  at android.widget.LinearLayout.onMeasure(LinearLayout.java:309)\r\n\t  at android.view.View.measure(View.java:8335)\r\n\t  at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:3138)\r\n\t  at android.widget.FrameLayout.onMeasure(FrameLayout.java:250)\r\n\t  at android.view.View.measure(View.java:8335)\r\n\t  at android.view.ViewGroup.measureChildWithMargins(ViewGroup.java:3138)\r\n\t  at android.widget.FrameLayout.onMeasure(FrameLayout.java:250)\r\n\t  at android.view.View.measure(View.java:8335)\r\n\t  at android.view.ViewRoot.performTraversals(ViewRoot.java:843)\r\n\t  at android.view.ViewRoot.handleMessage(ViewRoot.java:1892)\r\n\t  at android.os.Handler.dispatchMessage(Handler.java:99)\r\n\t  at android.os.Looper.loop(Looper.java:130)\r\n\t  at android.app.ActivityThread.main(ActivityThread.java:3835)\r\n\t  at java.lang.reflect.Method.invokeNative(Method.java:-1)\r\n\t  at java.lang.reflect.Method.invoke(Method.java:507)\r\n\t  at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:864)\r\n\t  at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:622)\r\n\t  at dalvik.system.NativeStart.main(NativeStart.java:-1)\r\n\r\nWell, looks like it was a false alarm. On my IDE I have an option enabled to make breakpoint on any uncaught exception. Without that option everything is okay, and the map is showing correctly.",
+    "timestamp" : 1394481581,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay, good to hear. It is probably an exception that is handled gracefully by android and non-fatal until you actually try to use the class.",
+    "timestamp" : 1394482443,
+    "attachments" : [ ]
+  } ]
+}

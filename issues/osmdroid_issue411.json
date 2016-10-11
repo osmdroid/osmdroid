@@ -1,0 +1,37 @@
+{
+  "id" : 411,
+  "status" : "Invalid",
+  "summary" : "Junk data is displayed as a tile instead of the correct tile.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6125753346405818702,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Go to any tile set, although I notice it is mostly from the cycle map tiles.\r\n2. Scroll around the map and zoom in and out while tiles are loading.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI should get the tiles from the tile server.\r\nInstead I will get random junk data in the place of a tile, or what seems like random images.\r\nHere is an example screen shot: http://imgur.com/Xq8nI4w\r\n(I also attached the same screen shot)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nThis is from revision 1152 last grabbed on 3/20 running on Android 2.3.",
+    "timestamp" : 1364238614,
+    "attachments" : [ {
+      "id" : 4110000000,
+      "fileName" : "weirdimagebug.png",
+      "fileSize" : 408056
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "We have not seen any reports like this. Can you narrow it down to a specific device, API level, tile set, etc? Is it the same image? Does that image exist somewhere on your SD card?\r\n\r\nFinally, try to clear the tile cache on your SD card and see if that clears it up.",
+    "timestamp" : 1365024700,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6125753346405818702,
+    "content" : "I am using a G2. The tile set only seems to be the Cycle Map Tiles. It is always a different image, or sometimes just a collection of colors and lines. Where the image is coming from is confusing. I thought there was a data stream confusion coming from a web browser or something.\r\n\r\nI cleared the cache, and I have not been able to recreate the issue since. It is a mystery to me how it happened.",
+    "timestamp" : 1365025468,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "There could have been a hiccup with the Cycle Map Tiles server. If you see it in other places or if it repeats itself, reopen this ticket.",
+    "timestamp" : 1365027041,
+    "attachments" : [ ]
+  } ]
+}

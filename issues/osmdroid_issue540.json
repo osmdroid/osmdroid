@@ -1,0 +1,45 @@
+{
+  "id" : 540,
+  "status" : "MovedToGithub",
+  "summary" : "NullPointerException during in Projection.toPixel() from MapController.animateTo()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1293097328077341547,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I updated osmdroid from 4.1 to 4.2 (as well as osmbonuspack to 4.6)\r\n2. In LocationOverlay.runOnFirstFix(), use the location returned by LocationOverlay.getMyLocation() for animateTo() of the MapController\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nWorked fine with 4.1: the map scrolled to the given location. Now with 4.2 the application crashes due to a NullPointerException in Projection.toPixels()\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 4.2, Android 4.4.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\njava.lang.NullPointerException\r\n            at org.osmdroid.views.Projection.toPixels(Projection.java:103)\r\n            at org.osmdroid.views.MapController.animateTo(MapController.java:110)\r\n",
+    "timestamp" : 1403693204,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1293097328077341547,
+    "content" : "Comment deleted",
+    "timestamp" : 1403693522,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1293097328077341547,
+    "content" : "The problem is that MyLocationNewOverlay.getMyLocation() now returns null instead of a valid location, even though it is called from inside MyLocationNewOverlay.runOnFirstFix(). The current location returned by the overlay shouldn't be null if a location fix was signaled.",
+    "timestamp" : 1403693680,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "We have migrated to github for this project. Please leave all future issues on that page. I have looked at this and added a new issue: https://github.com/osmdroid/osmdroid/issues/47\r\n\r\nHowever, runOnFirstFix() runs in its own thread so you should absolutely not be touching the UI in that thread. You need to push your runOnFirstFix Runnable back onto the main thread with a Handler.",
+    "timestamp" : 1403704060,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1293097328077341547,
+    "content" : "Sorry about posting here, it was the repo I remembered and I went to the issues immediately.\r\n\r\nThanks for opening a new issue there, and for the hint regarding the UI thread. I actually was using a separate runOnUiThread, but didn't think about the fact that animating to a certain location touches the UI, too. I will fix that in my code.",
+    "timestamp" : 1403705653,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1407933458,
+    "attachments" : [ ]
+  } ]
+}

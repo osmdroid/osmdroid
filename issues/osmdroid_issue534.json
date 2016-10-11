@@ -1,0 +1,21 @@
+{
+  "id" : 534,
+  "status" : "Invalid",
+  "summary" : "Add ability ta change MyLocationNewOverlay icons",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1032254838034903546,
+    "content" : "Is the any way to change MyLocationNewOverlay icons (person and arrow)? It will be good to add this ability maybe by public methods, etc.\r\nThanks!",
+    "timestamp" : 1396621658,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Take a look at the ResourceProxy. It allows you to specify your own resources such as strings, and bitmaps. For the location overlay see ResourceProxy.bitmap.person and ResourceProxy.bitmap.direction_arrow.",
+    "timestamp" : 1396622525,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,23 @@
+{
+  "id" : 358,
+  "status" : "New",
+  "summary" : "Using GoogleMapOverlay with MBTiles causes tiles at top and bottom of map to be drawn in the wrong location",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7067099384608510655,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use osmdroid 3.0.8 libraries\r\n2. Use mbtiles file as tile source\r\n3. Use GoogleMapOverlay to overlay mbtiles tiles over Google MapView\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI expect to see the mbtiles perfectly placed over the Google Mapview.  What happens at the lower zoom levels (2 and below) is that the top tiles are drawn too far south on the map and are clipped, and the bottom tiles of the map are not drawn at all.\r\n\r\nAlso, on the lowest zoom levels, the tiles are not covering the whole map, and the wrong tiles are being drawn.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid 3.0.8\r\nAndroid SDK 4.0.3\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1342442842,
+    "attachments" : [ {
+      "id" : 3580000000,
+      "fileName" : "googlemapoverlay display error.png",
+      "fileSize" : 181621
+    }, {
+      "id" : 3580000001,
+      "fileName" : "googlemapoverlay display error 2.png",
+      "fileSize" : 150304
+    } ]
+  } ]
+}

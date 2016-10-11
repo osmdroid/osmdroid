@@ -1,0 +1,121 @@
+{
+  "id" : 73,
+  "status" : "Fixed",
+  "summary" : "Fix for TODO in OpenStreetMapAsyncTileProvider",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 16,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7028052703055126110,
+    "content" : "Cleaned up OpenStreetMapAsyncTileProvider to do the TODO.  Specifically:\r\n\r\n - Changed pending map to pending TreeSet and Sorting on PendingEntry\r\n - Synchronizing on pending set to prevent concurrent modification exception.  I realize this was breaking the loop to ensure the next tile loaded was the last added...but I think using the sorted set and not iterating over the entire pending map will make this better.\r\n\r\nOpenStreetMapAsyncTileProviderTest passes.",
+    "timestamp" : 1279427254,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7028052703055126110,
+    "content" : "Ooops!  Wrong patch.  This one should be correct.",
+    "timestamp" : 1279429283,
+    "attachments" : [ {
+      "id" : 3928400995576495192,
+      "fileName" : "osm_async_tile_provider_cleanup.patch",
+      "fileSize" : 5954
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 250956797218298740,
+    "content" : "Hi\r\nBear with me as I'm not so familiar with the osmdroid code yet.\r\nCan you explain what you mean by \"I realize this was breaking the loop to ensure the next tile loaded was the last added\"?\r\n\r\nIn your patch:\r\n+\t\t\tPendingEntry ent = new PendingEntry(aTile);\r\n+\t\t\tmPending.remove(ent);\r\n+\t\t\tmPending.add(ent);\r\nWhat's the logics behind doing mPending.remove(ent)? Could two entries ever have the same System.currentTimeMillis()?\r\n",
+    "timestamp" : 1279490424,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7028052703055126110,
+    "content" : "Basically, the TileLoader.nextTile() method used to iterate over all of the entries in mPending until it reached the tail.  I believe it used ConcurrentModificationException as a signal to restart the iteration as this would have been thrown when an entry was added to mPending.  The patch I submitted should remove the need for the iteration (thus \"do the todo\") and remove the need to use ConcurrentModificationException as a signal.\r\n\r\nThe remove() followed by the add() is necessary because we want to ensure that the most recent tile requested is the next tile loaded, even if the tile has already been requested.  If the tile was previously requested and is in the mPending set, it should be moved to the top of the set.  To achieve this behavior, when PendingEntries refer to the same (.equal()) tiles, they are determined equal even with different add timestamps.  So the remove() will remove the existing entry and the add() ensures its at the head.\r\n\r\nI apologize if I've misinterpreted the code or its intent as I am new to the codebase as well.",
+    "timestamp" : 1279514134,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 250956797218298740,
+    "content" : "Thanks for your explanation. Using an exception as a control signal sounds like a bad thing so your patch seems much better.\r\n\r\n  \"To achieve this behavior, when PendingEntries refer to the same (.equal()) tiles, they are determined equal even with different add timestamps.\"\r\nDon't you need a custom equals() in PendingEntry for this?\r\n",
+    "timestamp" : 1279528113,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7028052703055126110,
+    "content" : "Because the Set uses .compareTo() for Comparable items, I used that instead.  See the first two lines of PendingEntry.compareTo for details.",
+    "timestamp" : 1279557320,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 250956797218298740,
+    "content" : "Committed in r292",
+    "timestamp" : 1279659709,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "The code that you changed was introduced as a result of issue 27.\r\n\r\nI haven't compared the performance yet, but using a LinkedHashMap had a great performance improvement.\r\n\r\nOf course catching a ConcurrentModificationException isn't great design, but it seemed like a reasonable compromise.\r\n\r\nYou've also changed a catch Throwable into a catch Exception. I haven't checked this specific case, but in general the reason for catching Throwable is because OutOfMemoryError is not an Exception.\r\n\r\nSo although the code is tidier, performance is more important. So you should check that the remove/add and the synchronization doesn't add too much performance overhead.\r\n\r\nJust to be clear, I'm not criticising this change - I'm glad that more people are looking at the code.  I'm just trying to point out the history to anyone who's newer than me.",
+    "timestamp" : 1279701710,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 250956797218298740,
+    "content" : "I'm certainly newer than neilboyd. The code seemed reasonable enough to me but if you have a better idea, of course I don't mind.",
+    "timestamp" : 1279702364,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7028052703055126110,
+    "content" : "Neil,\r\n\r\nI understand your concerns.  I can try to put together some tests which will determine if the synch decreases performance over the previous code.\r\n\r\nI did find, however, that there is a bug in my code.  The remove/add will not work properly when more than one pending entry exist between two pending entries referencing the same tile.  Basically, the sorted set will not remove the existing pending entry as I thought because the set is obviously not comparing each item for insert/removal.  Sorry...I don't know what I was thinking.\r\n\r\nAnyway...I will attach another patch shortly.  Unfortunately it will most likely require maintaining multiple collections of pending entries :(.",
+    "timestamp" : 1279753901,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7028052703055126110,
+    "content" : "Heres a new patch with an updated unit test.  I'm not sure I really like having to maintain multiple collections so I won't be upset if you simply revert my previous patch.",
+    "timestamp" : 1279754930,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7028052703055126110,
+    "content" : "Neil, andpet\r\n\r\nI think I've come up with a decent compromise.  Its still synchronized but instead of using a sorted set, its using something similar to a LinkedHashMap.  The insertion time and remove time should be constant like the LinkedHashMap but entries may be popped off the top.  \r\n\r\nLet me know what you guys think.\r\n\r\nThanks,\r\n\r\n-mark  ",
+    "timestamp" : 1279767306,
+    "attachments" : [ {
+      "id" : -7897369070641526358,
+      "fileName" : "osm_map_tile_queue.patch",
+      "fileSize" : 11115
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've remove your change because I'm pretty sure the previous version worked okay, even though it's not the best solution.\r\n\r\nI think the two lists are fundamentally required\r\n - mPending is tiles that need to be processed\r\n - mWorking is for tiles in mPending that are currently being processed.\r\nIf you removed tiles from mPending while they're being processed then they would get added back again if they're requested again. I think that's what happens with your last patch.\r\nYou could have only one queue if the items in it also had a flag to say whether they're being processed.\r\n\r\nI think the ideal solution would be to write something like LinkedHashMap that gets the most recent entry rather than the oldest entry. That's what you did with OpenStreetMapTileQueue, but I was trying to avoid duplicating code. I originally looked at extending LinkedHashMap, but the relevant bits are private, and I didn't want to duplicate the whole thing. Writing your own version is more error-prone than relying on native Java code. LinkedHashMap also has the functionality to limit the size, which is also important here.\r\nIf you do that then you wouldn't need the TODO part, and you wouldn't get the ConcurrentModificationException.\r\n\r\nMy subjective feeling is that adding synchronisation causes the code to noticeably hang occasionally. I think you can avoid it, for example by not worrying about occasional threading \"errors\", such as getting a tile that isn't strictly the correct next one, or by having tiles in mWorking that are not in mPending.\r\n\r\nSo that's my thoughts again ;-)\r\n\r\nI'd be very happy if you could continue looking at this because it's a tricky and important piece of code, but I'll reserve committing until we're all sure it's an improvement.\r\n",
+    "timestamp" : 1279806788,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7028052703055126110,
+    "content" : "\"If you removed tiles from mPending while they're being processed then they would get added back again if they're requested again.\"\r\n\r\n>  I'm not sure this is true as the code in OpenStreetMapAsyncTileProvider.loadMapTileAsync still checks mWorking.\r\n\r\nWith that said, I'm working on merging the working map with the mTileMap in OpenStreetMapTileQueue similar to the way you've suggested.\r\n\r\nI'm also going to tighten the synchronization a bit.\r\n\r\nFinally, I'm going to write some tests that will hopefully expose any performance problems with synchronization.  My plan is to write a simple app that will add/remove tiles from the different types of queues and record time.  If you guys have any other suggestions for testing performance I will gladly write the code.\r\n\r\n-mark",
+    "timestamp" : 1279820979,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue is about synchronization again. It's been fixed in issue 78.",
+    "timestamp" : 1284129552,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 7028052703055126110,
+    "content" : "Neil,\r\n\r\nI thought I would finally post the patch that I've been using for a while in case you had a change heart.  I'm also attaching a test app I wrote as an attempt to test the performance of the LinkedHashMap vs the custom queue.  Its not the best test, but its something I threw together quickly to test the performance on the phone.  Note:  If you don't want to build it, you can download it: http://www.markriley.net/files.php/a.apk.\r\n\r\nI'm not seeing any real different in performance of the OpenStreetMapTileQueue with synchronization vs the LinkedHashMapTileQueue without synchronization on my phone.  If you get a chance, give it a try and let me know if you see something different. \r\n\r\nI won't be upset if you don't want to change what exists.  I still understand your concerns.\r\n\r\n-mark",
+    "timestamp" : 1285138034,
+    "attachments" : [ {
+      "id" : -781349747582400281,
+      "fileName" : "osm_async_tile_provider_final.patch",
+      "fileSize" : 13794
+    }, {
+      "id" : 8706934189346317571,
+      "fileName" : "OSMTileQueueTest.tgz",
+      "fileSize" : 674767
+    } ]
+  } ]
+}

@@ -1,0 +1,37 @@
+{
+  "id" : 390,
+  "status" : "New",
+  "summary" : "MBTiles multiple providers",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI have a created map view and 3 tile sources, each one in all available offline formats (except zip): sqlite, mbtiles, gemf. I want to change the map view's tile source with setTileSource without having to re-create the map view. The simple way is with setTileSource but this works correctly only with the sqlite format of tile sources.\r\n\r\nThe sqlite format has at table 'tiles' a column 'provider' where we put the name of the tile source. And at DatabaseFileArchive at getInputStream I see that the query checks the provider's name and so it selects the correct sqlite file for the tile source name.\r\n\r\nBut at mbtiles format the provider's name exists at table 'metadata' as 'name', and I see that at MBTilesFileArchive at getInputStream there is not any search for it. The result is that we cannot have multiple mbtiles, each one for a different tile source name and change them with mapView.setTileSource\r\nThe map view always use the first mbtile in its list, no matter what we set with setTileSource.\r\n\r\nThe only way around that seems to work is to use the MapView constructor with MapTileProviderArray in order to feed it with the mbtile file name. But that means that in order to change tile source at map view we must re-create the map view each time.\r\n\r\nThis issue happens also for the gemf offline format.\r\n\r\nThanks.",
+    "timestamp" : 1357293605,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6679925067962250327,
+    "content" : "The gemf stuff has no name chacking in it so if you have multiple overlapping files then you just get tiles from the first one.  It's a similar sort of problem to the MBTilesFileArchive.  I have code for the gemf stuff that has the nessasary name checking added in but if I remember there were minor changes needed in the interface to the rest of the system.",
+    "timestamp" : 1357340176,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "For offline formats that don't have in them the name of tile source and the code does not search for it, an idea in order to pick the right one would be to have their file name same as the tile source name. And then the code searches for offline formats with file name same with tile source name?",
+    "timestamp" : 1357374510,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8177012077806897919,
+    "content" : "I had the same requirement and I have fixed it by adding some metadata to the archives and tweaking MBTilesFileArchive.\r\nSpecifically I have added an entry 'tilesource' with the tile source name into the metadata table, as well as 'minzoom' and 'maxzoom'.\r\n\r\nThe changed MBTilesFileArchive will only deliver tiles if the tilesource matches and the zoom level falls within minzoom and maxzoom (this enhances the performance drstically if you provide large archives or mulitple archives for the same tile source - you could do the same using bounds).\r\n\r\nApparently this only works if you have some control over the archives used, i.e. you are able to add the metadata.\r\n\r\nSee attahced patch.\r\n",
+    "timestamp" : 1373510102,
+    "attachments" : [ {
+      "id" : 3900003000,
+      "fileName" : "MBTilesFileArchive.java.patch",
+      "fileSize" : 3389
+    } ]
+  } ]
+}

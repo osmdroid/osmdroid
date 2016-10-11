@@ -1,0 +1,27 @@
+{
+  "id" : 106,
+  "status" : "Fixed",
+  "summary" : "OSMViewItemizedOverlay doesn't use mDefaultMarker in onSingleTapUp and causes NullPointerException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create an OSMViewOverlayItem object without a custom marker\r\n2. Add it to the OSMViewItemizedOverlay layer\r\n3. Click anywhere on the map\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI get a NullPointerException\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nLatest release build\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI create an OSMViewOverlayItem without a custom marker and place it on the OSMViewItemizedOverlay layer. It draws properly to the map since in onDrawItem when item.getMarker(0) returns null, the method correctly uses mDefaultMarker instead and draws that. When onSingleTapUp is called, it gets the item from mItemList and calls item.getWidth(), however the item has no custom marker and therefore the getWidth() call causes a NullPointerException.\r\n\r\nThere are probably a few solutions to this, but one approach could be that you set the item's marker to the default marker via item.setMarker() if it is null when the item is added to the overlay. This would guarantee that an item always has a marker, and you wouldn't need the extra check in onDrawItem.\r\n\r\nThanks,\r\n-Marc\r\n",
+    "timestamp" : 1287436097,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed by #417.\r\n",
+    "timestamp" : 1289186121,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1289186141,
+    "attachments" : [ ]
+  } ]
+}

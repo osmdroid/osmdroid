@@ -1,0 +1,21 @@
+{
+  "id" : 398,
+  "status" : "Duplicate",
+  "summary" : "Unable to set minimum and maximum zoom level restrictions",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4865079126932048603,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nUsage of the below codes does not help to restrict the zoom levels during viewing of maps:\r\n\r\nMyTileSource myTiles = new MyTileSource( &quot;&quot; + tID, null, 14, 16, 256, &quot;.png&quot;);\r\n\r\nFor example from what I read, this line should restrict the zoom levels to between 14 and 16.\r\n\r\nMore details can be found here in this link: http://stackoverflow.com/questions/14065840/right-way-of-setting-minimum-and-maximum-zoom-level-for-osmdroid\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe zoom levels will not be restricted and I can still zoom into levels that I did not download the maptiles for.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nI am doing this on Android Mobile, and I have tested from Android OS 2.3 - 4.1 and all doesn't work for restricting zoom level.\r\n\r\n",
+    "timestamp" : 1359773382,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Moving this to issue 418.",
+    "timestamp" : 1365098788,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,39 @@
+{
+  "id" : 190,
+  "status" : "Fixed",
+  "summary" : "Wrong pixel position when setting map center before map zoom",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4518704743210949253,
+    "content" : "osmdroid-android 3.0.3\r\n\r\nMapController.setCenter() method calculates wrong pixel position for center if setCenter() called before setZoom().\r\n\r\nTry this:\r\nPlace marker to some significant place.\r\nmapView.getController().setCenter(new GeoPoint(&lt;your marker coords&gt;));\r\nmapView.getController().setZoom(16);\r\nyou'll notice that real geographic point with these coords is some kilometers eastward of current map center.\r\n\r\nand then swap these lines:\r\nmapView.getController().setZoom(16);\r\nmapView.getController().setCenter(new GeoPoint(&lt;your marker coords&gt;));\r\n\r\neverything will be fine.\r\n\r\nI suppose this is happening because MapController doesn't store current center GeoPoint but calculates it from center pixel position.\r\n\r\nThank you in advance. You're doing a great job!",
+    "timestamp" : 1301063865,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "My initial tests don't reproduce this error. If I add this to SampleWithMinimapItemizedOverlay.java(81):\r\n\r\npublic boolean onItemSingleTapUp(final int index, final OverlayItem item) {\r\n    mOsmv.getController().setCenter(item.getPoint());\r\n    mOsmv.getController().setZoom(mOsmv.getZoomLevel() + 1);\r\n\r\nWhen I click it zooms in and the item is in the center.\r\n\r\nWhere are you calling setCenter/setZoom from?",
+    "timestamp" : 1301105696,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4518704743210949253,
+    "content" : "There is too little difference occur when zooming one level further.\r\nTry something like this:\r\n   mOsmv.getController().setCenter(item.getPoint());\r\n   mOsmv.getController().setZoom(9);\r\n\r\nIf you will set any higher zoom level you won't see marker at all :)",
+    "timestamp" : 1301303327,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I now see what you are talking about. This is an interesting bug - and if it's what I think it is then it's been present for a long time.\r\n\r\nWhen we jump from one zoom level (10) to a lower zoom level (9), we take the center point, and shift it right by zoomDiff. We go from a higher-resolution plane (zoom level 10) to a lower-resolution plane (zoom level 9) so our new center position loses no data in the process. When we zoom from a lower (9) to a higher (10) zoom level we shift the center point left by zoomDiff. Now we are going from a lower-resolution plane to a higher-resolution plane, and we lose some fidelity. When zooming in just one zoom level the loss is so small that it isn't noticeable, but if you zoom in a large distance at once it becomes apparent.\r\n\r\nThe toMapPixelsProjected and toMapPixelsTranslated work on this principal. toMapPixelProjected returns the position at the highest zoom level, and then toMapPixelsTranslated shifts it down into a lower zoom level with no loss. But you can't go back the other way.\r\n\r\nThe solution isn't too bad. When we are jumping from a lower zoom level to a higher zoom level, we get the center point's lat/long, then we find the pixelX/pixelY for that lat/long in the new zoom level and we scroll to that position.",
+    "timestamp" : 1301621372,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r911.",
+    "timestamp" : 1301621806,
+    "attachments" : [ ]
+  } ]
+}

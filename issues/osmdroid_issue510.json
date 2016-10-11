@@ -1,0 +1,21 @@
+{
+  "id" : 510,
+  "status" : "Invalid",
+  "summary" : "AnimationDrawable in ItemizedOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8711731236921908246,
+    "content" : "Hi.\r\nI need to use AnimationDrawable as marker of OverlayItem.\r\nI'm adding it in setMarker() method and then call animationDrawable.start(); but nothing happens and only 1st frame of drawable is shown.\r\n\r\nWhat is correct way to deal with this problem?",
+    "timestamp" : 1389543899,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please use the discussion forum for questions.\r\nhttp://groups.google.com/group/osmdroid\r\n",
+    "timestamp" : 1389591070,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 400,
+  "status" : "New",
+  "summary" : "Tile disappear on Zoom In and Zoom Out in offline mode",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4084816612099407769,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I have tiles of an area from 11 to 14 placed on the sdcard\r\n2. I have set min max levels in BitmapTileSourceBase\r\n3. Now on Zoom in Or Zoom Out, the rendering of tiles are not smooth.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nOn zoom in or zoom out, the tiles must rendered properly.\r\nThe problem is on Zooming from 11 to 12 the tile goes out of the visible screen,on touching the screen again i get the zoomed tile\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8 on WIN7\r\n\r\n<b>Please provide any additional information below.</b>\nI have placed the code for reference.\r\n\t\tFile aFile = new File(path + &quot;/osmdroid/abc.zip&quot;);\r\n\t\tIArchiveFile[] myArchives = new IArchiveFile[1];\r\n\t\tmyArchives[0] = ArchiveFileFactory.getArchiveFile(aFile);\r\n\t\tMapView zlMapView = (MapView) inflate\r\n\t\t\t\t.findViewById(R.id.mapview);\r\n\t\tzlMapView.setTileSource(TileSourceFactory.MAPQUESTOSM);\r\n\t\tzlMapView.setBuiltInZoomControls(true);\r\n\t\tzlMapView.getController().setZoom(11);\r\n\t\tmapView.getController().setZoom(11);\r\n//points stuttgart\r\n\t\tGeoPoint geoPoint = new GeoPoint((int) (48.777066 * 1E6),\r\n\t\t\t\t(int) (9.164408 * 1E6));\r\n\t\tmapView.getController().setCenter(geoPoint);\r\n\t\tmapView.setMultiTouchControls(true);\r\n//Just Extends BitmapTileSourceBase\r\n\t\tMyTileSource myTiles = new MyTileSource(&quot;MapQuest&quot;, null, 11, 14, 256,&quot;.jpg&quot;);\r\n\r\n\t\tMapTileModuleProviderBase[] myProviders = new MapTileModuleProviderBase[2];\r\n\r\n\t\tmyProviders[0] = new MapTileFileArchiveProvider(\r\n\t\t\t\tnew SimpleRegisterReceiver(this), myTiles, myArchives);\r\n\t\tmyProviders[1] = new MapTileDownloader(TileSourceFactory.MAPQUESTOSM);\r\n\t\tmapView.setUseDataConnection(false);\r\n\t\tmapView.setTileSource(TileSourceFactory.MAPQUESTOSM);\r\n\r\n\t\tMapTileProviderArray myTileProvider = new MapTileProviderArray(myTiles,\r\n\t\t\t\tnull, myProviders);\r\n\t\tTilesOverlay tilesOverlay = new TilesOverlay(myTileProvider,getApplicationContext());\r\n\t\tmapView.getOverlays().add(tilesOverlay);\r\n\t\tmapView.invalidate();\r\n\t\tsetContentView(mapView);",
+    "timestamp" : 1360786689,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6593743926263410891,
+    "content" : "Duplicate of issue 289 (?)",
+    "timestamp" : 1385215707,
+    "attachments" : [ ]
+  } ]
+})","timestamp":1385215707,"attachments":[]}]}

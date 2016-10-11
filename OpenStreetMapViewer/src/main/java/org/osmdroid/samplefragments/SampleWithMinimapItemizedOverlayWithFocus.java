@@ -110,7 +110,7 @@ public class SampleWithMinimapItemizedOverlayWithFocus extends BaseSampleFragmen
 
 			mMapView.getOverlays().add(mMyLocationOverlay);
 
-			mRotationGestureOverlay = new RotationGestureOverlay(context, mMapView);
+			mRotationGestureOverlay = new RotationGestureOverlay(mMapView);
 			mRotationGestureOverlay.setEnabled(false);
 			mMapView.getOverlays().add(mRotationGestureOverlay);
 		}

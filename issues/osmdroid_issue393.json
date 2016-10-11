@@ -1,0 +1,37 @@
+{
+  "id" : 393,
+  "status" : "Fixed",
+  "summary" : "Patch for /wiki/Overview.wiki",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1411889731008418229,
+    "content" : "update google maps api",
+    "timestamp" : 1357775977,
+    "attachments" : [ {
+      "id" : 3930000000,
+      "fileName" : "Overview.wiki.patch",
+      "fileSize" : 234
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "That links to maps v2.  Where's the documentation for v1 now?",
+    "timestamp" : 1357799694,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1411889731008418229,
+    "content" : "This should be link to the (deprecated) Google Maps v1 API:\r\nhttps://developers.google.com/maps/documentation/android/v1/\r\n\r\n",
+    "timestamp" : 1357832934,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Updated Overview wiki.",
+    "timestamp" : 1357892519,
+    "attachments" : [ ]
+  } ]
+}

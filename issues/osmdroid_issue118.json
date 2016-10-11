@@ -1,0 +1,39 @@
+{
+  "id" : 118,
+  "status" : "Fixed",
+  "summary" : "Ability to disable/enable map scaling on last zoom level by Pinch-To-Zoom on last zoom level.",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "It should be possible to enable/disable map scaling on last zoom level (e.g. 18 for CloudMade tiles) by Pinch-To-Zoom.\r\n\r\n",
+    "timestamp" : 1291046702,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't understand what you're asking for. Please can you describe it a bit better.\r\n\r\nAnd is it an enhancement or a bug?",
+    "timestamp" : 1291061225,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3456884467250674452,
+    "content" : "When map is shown on last zoom level (e.g. 18th zoom lvl), it is still possible to scale the map by pinch-to-zoom. But as soon as you release fingers from the screen, map is invalidated without scaling. I propose to disable this behavior, so user couldn't scale the map on the last zoom level (nothing should happen when user performs pinch-to-zoom on last zoom level).\r\nSeems to be a low priority bug.",
+    "timestamp" : 1291301990,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1291304968,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r764.",
+    "timestamp" : 1296359441,
+    "attachments" : [ ]
+  } ]
+}

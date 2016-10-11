@@ -1,0 +1,27 @@
+{
+  "id" : 121,
+  "status" : "New",
+  "summary" : "ItemizedOverlay : margin of error for activate an item",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4077663858291302058,
+    "content" : "It could be useful if we can indicate a margin of error for activating items in an ItemizedOverlay.\r\n\r\nFor example, if an item of 12x12 pixels is displayed, it is a little difficult to select it. It would be nice if a touch event catched near this item could activate it.",
+    "timestamp" : 1291405616,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Related to issue 141. If icons were scaled according to screen density, this would be less of a problem.\r\n\r\nUsers could then create icons with large enough transparent borders that would accommodate a finger press, and the icon would scale properly regardless of screen size.",
+    "timestamp" : 1296357281,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Another approach is to translate the object and the click point to screen coordinates and then do a simple distance test. If it is within a configurable distance, then it is considered a click. Maybe this should be settable on a per-item basis?",
+    "timestamp" : 1298782737,
+    "attachments" : [ ]
+  } ]
+}
