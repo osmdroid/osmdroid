@@ -84,6 +84,10 @@ public final class SampleFactory implements ISampleFactory {
 				//29
 				AsyncTaskDemoFragment.class,
 				//30
+				CacheImport.class,
+				//31
+				CachePurge.class,
+				//32
 				SampleZoomToBounding.class
 
         };

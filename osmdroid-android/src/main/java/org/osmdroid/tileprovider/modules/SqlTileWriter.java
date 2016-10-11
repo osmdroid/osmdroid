@@ -13,10 +13,13 @@ import org.osmdroid.tileprovider.util.Counters;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
  * An implementation of {@link IFilesystemCache} based on the original TileWriter. It writes tiles to a sqlite database cache.
@@ -42,7 +45,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
         try {
             db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + DatabaseFileArchive.TABLE+ " ("+DatabaseFileArchive.COLUMN_KEY+" INTEGER , "+DatabaseFileArchive.COLUMN_PROVIDER +" TEXT, "+DatabaseFileArchive.COLUMN_TILE+" BLOB, expires INTEGER, PRIMARY KEY ("+DatabaseFileArchive.COLUMN_KEY+", "+DatabaseFileArchive.COLUMN_PROVIDER+"));");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE+ " ("+DatabaseFileArchive.COLUMN_KEY+" INTEGER , "+DatabaseFileArchive.COLUMN_PROVIDER +" TEXT, "+DatabaseFileArchive.COLUMN_TILE+" BLOB, expires INTEGER, PRIMARY KEY ("+DatabaseFileArchive.COLUMN_KEY+", "+DatabaseFileArchive.COLUMN_PROVIDER+"));");
         }
         catch (Throwable ex){
             Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
@@ -66,7 +69,7 @@ public class SqlTileWriter implements IFilesystemCache {
                         //keep if now is < expiration date
                         //delete if now is > expiration date
                         long now = System.currentTimeMillis();
-                        int rows = db.delete(DatabaseFileArchive.TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
+                        int rows = db.delete(TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
                         Log.d(IMapView.LOGTAG, "Local storage cahce purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
 
                         //VACUUM the database
@@ -77,7 +80,7 @@ public class SqlTileWriter implements IFilesystemCache {
                             long diff = OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES - db_file.length();
                             long tilesToKill = diff / questimate;
                             try {
-                                db.execSQL("DELETE FROM " + DatabaseFileArchive.TABLE + " ORDER BY expires DESC LIMIT " + tilesToKill);
+                                db.execSQL("DELETE FROM " + TABLE + " ORDER BY expires DESC LIMIT " + tilesToKill);
                             } catch (Throwable t) {
                                 t.printStackTrace();
                             }
@@ -129,8 +132,8 @@ public class SqlTileWriter implements IFilesystemCache {
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
                 cv.put("expires", pTile.getExpires().getTime());
-            db.delete(DatabaseFileArchive.TABLE, DatabaseFileArchive.COLUMN_KEY+"=? and "+DatabaseFileArchive.COLUMN_PROVIDER+"=?", new String[]{index+"",pTileSourceInfo.name()});
-            db.insert(DatabaseFileArchive.TABLE, null, cv);
+            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY+"=? and "+DatabaseFileArchive.COLUMN_PROVIDER+"=?", new String[]{index+"",pTileSourceInfo.name()});
+            db.insert(TABLE, null, cv);
             Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() +  pTile.toString());
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
@@ -149,7 +152,7 @@ public class SqlTileWriter implements IFilesystemCache {
             final long y = (long) pTile.getY();
             final long z = (long) pTile.getZoomLevel();
             final long index = ((z << z) + x << z) + y;
-            final Cursor cur = db.query(DatabaseFileArchive.TABLE, tile, DatabaseFileArchive.COLUMN_KEY+" = " + index + " and "+DatabaseFileArchive.COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
+            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY+" = " + index + " and "+DatabaseFileArchive.COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
 
             if(cur.getCount() != 0) {
                 cur.close();
@@ -173,4 +176,142 @@ public class SqlTileWriter implements IFilesystemCache {
         db = null;
         db_file = null;
     }
+
+    /**
+     * purges and deletes everything from the cache database
+     * @return
+     */
+    public boolean purgeCache() {
+        if (db!=null && db.isOpen()){
+            try {
+                db.delete(TABLE, null, null);
+                return true;
+            } catch(final Throwable e) {
+                Log.w(IMapView.LOGTAG,"Error purging the db", e);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * a helper method to import file system stored map tiles into the sql tile cache
+     * on successful import, the tiles are removed from the file system
+     * @return
+     */
+    public int[] importFromFileCache(boolean removeFromFileSystem) {
+        int[] ret = new int[] {0,0,0,0};
+        //inserts
+        //insert failures
+        //deletes
+        //delete failures
+        File tilePathBase = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+        if (tilePathBase.exists()){
+            File[] tileSources = tilePathBase.listFiles();
+            if (tileSources!=null){
+                for (int i=0; i<tileSources.length; i++){
+                    if (tileSources[i].isDirectory() && !tileSources[i].isHidden()){
+                        //proceed
+                        File[] z = tileSources[i].listFiles();
+                        if (z!=null)
+                            for (int zz=0; zz<z.length; zz++){
+                                if (z[zz].isDirectory() && !z[zz].isHidden()){
+                                    File[] x = z[zz].listFiles();
+                                    if (x!=null)
+                                        for (int xx=0; xx<x.length; xx++){
+                                            if (x[xx].isDirectory() && !x[xx].isHidden()){
+                                                File[] y = x[xx].listFiles();
+                                                if (x!=null)
+                                                    for (int yy=0; yy<y.length; yy++){
+                                                        if (!y[yy].isHidden() && !y[yy].isDirectory()){
+
+                                                            try {
+                                                                ContentValues cv = new ContentValues();
+                                                                final long x1 = Long.parseLong(x[xx].getName());
+                                                                final long y1 = Long.parseLong( y[yy].getName().substring(0, y[yy].getName().indexOf(".")));
+                                                                final long z1 = Long.parseLong(z[zz].getName());
+                                                                final long index = ((z1 << z1) + x1 << z1) + y1;
+                                                                cv.put(DatabaseFileArchive.COLUMN_PROVIDER, tileSources[i].getName());
+                                                                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(y[yy]));
+
+                                                                List<Byte> list = new ArrayList<Byte>();
+                                                                //ByteArrayBuffer baf = new ByteArrayBuffer(500);
+                                                                int current = 0;
+                                                                while ((current = bis.read()) != -1) {
+                                                                    list.add((byte) current);
+                                                                }
+
+                                                                byte[] bits = new byte[list.size()];
+                                                                for (int bi = 0; bi < list.size(); bi++) bits[bi] = list.get(bi);
+                                                                cv.put(DatabaseFileArchive.COLUMN_KEY, index);
+                                                                cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
+
+                                                                long insert = db.insert(TABLE, null, cv);
+                                                                if (insert>0) {
+                                                                    Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                    ret[0]++;
+                                                                    if (removeFromFileSystem){
+                                                                        try {
+                                                                            y[yy].delete();
+                                                                            ret[2]++;;
+                                                                        }catch (Exception ex){
+                                                                            ret[3]++;;
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    Log.w(IMapView.LOGTAG, "tile NOT inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                }
+
+                                                            } catch (Throwable ex) {
+                                                                //note, although we check for db null state at the beginning of this method, it's possible for the
+                                                                //db to be closed during the execution of this method
+                                                                Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + tileSources[i].getName() + " db is " +(db==null ? "null":"not null"), ex);
+                                                                ret[1]++;
+                                                            }
+                                                        }
+                                                    }
+                                            }
+                                            if (removeFromFileSystem) {
+                                                //clean up the directories
+                                                try {
+                                                    x[xx].delete();
+                                                } catch (Exception ex) {
+                                                    Log.e(IMapView.LOGTAG, "Unable to delete directory from " + x[xx].getAbsolutePath(), ex);
+                                                    ret[3]++;
+                                                }
+                                            }
+                                        }
+                                }
+                                if (removeFromFileSystem) {
+                                    //clean up the directories
+                                    try {
+                                        z[zz].delete();
+                                    } catch (Exception ex) {
+                                        Log.e(IMapView.LOGTAG, "Unable to delete directory from " + z[zz].getAbsolutePath(), ex);
+                                        ret[3]++;
+                                    }
+                                }
+                            }
+
+
+                        if (removeFromFileSystem) {
+                            //clean up the directories
+                            try {
+                                tileSources[i].delete();
+                            } catch (Exception ex) {
+                                Log.e(IMapView.LOGTAG, "Unable to delete directory from " + tileSources[i].getAbsolutePath(), ex);
+                                ret[3]++;
+                            }
+                        }
+
+                    } else {
+                        //it's a file, nothing for us to do here
+                    }
+                }
+            }
+
+        }
+        return ret;
+    }
+
+
 }
