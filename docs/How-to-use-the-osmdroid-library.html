@@ -449,7 +449,7 @@ this.mOsmv.setMultiTouchControls(true);
 </code></pre>
 <h1>Map Overlays</h1>
 <h2>How to add the My Location overlay</h2>
-<pre><code>this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),mMapView);
+<pre><code>this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),mMapView);
 mMapView.getOverlays().add(this.mLocationOverlay);
 </code></pre>
 <h2>How to add a compass overlay</h2>
