@@ -154,7 +154,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
 		super(context, attrs);
-		if(isInEditMode()){
+		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
 			mZoomController=null;
@@ -365,7 +365,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final int curZoomLevel = this.mZoomLevel;
 
 		if (newZoomLevel != curZoomLevel) {
-			if (mScroller!=null)
+			if (mScroller!=null)	//fix for edit mode in the IDE
 				mScroller.forceFinished(true);
 			mIsFlinging = false;
 		}
@@ -964,7 +964,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void computeScroll() {
-		if (mScroller!=null)
+		if (mScroller!=null)	//fix for edit mode in the IDE
 			if (mScroller.computeScrollOffset()) {
 				if (mScroller.isFinished()) {
 					// One last scrollTo to get to the final destination
@@ -1259,7 +1259,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			// Stop scrolling if we are in the middle of a fling!
 			if (mIsFlinging) {
-				if (mScroller!=null)
+				if (mScroller!=null)	//fix for edit mode in the IDE
 					mScroller.abortAnimation();
 				mIsFlinging = false;
 			}
@@ -1288,7 +1288,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
-			if (mScroller!=null)
+			if (mScroller!=null)	//fix for edit mode in the IDE
 				mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
 						-worldSize, worldSize, -worldSize, worldSize);
 			return true;
