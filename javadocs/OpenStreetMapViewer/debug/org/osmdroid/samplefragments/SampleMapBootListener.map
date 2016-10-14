@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="15,20,169,47"/>
+<area shape="rect" id="node1" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,9,179,57"/>
+<area shape="rect" id="node2_1" href="./SampleMapBootListener.html" title="org.osmdroid.samplefragments.SampleMapBootListener" alt="" coords="107,120,274,147"/>
+<area shape="rect" id="node2" href="./SampleMapBootListener.html" title="&lt;TABLE&gt;" alt="" coords="97,109,285,157"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/MapView/OnFirstLayoutListener.html" title="org.osmdroid.views.MapView.OnFirstLayoutListener" alt="" coords="214,11,365,55"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/MapView/OnFirstLayoutListener.html" title="&lt;TABLE&gt;" alt="" coords="203,6,375,61"/>
+</map>

@@ -1,0 +1,189 @@
+
+------------------------------------------------------------
+Project :OSMMapTilePackager - A tool to package OpenStreetMap tiles
+------------------------------------------------------------
+
+archives - Configuration for archive artifacts.
+No dependencies
+
+checkstyle - The Checkstyle libraries to be used for this project.
+\--- com.puppycrawl.tools:checkstyle:5.9
+     +--- antlr:antlr:2.7.7
+     +--- commons-beanutils:commons-beanutils-core:1.8.3
+     +--- commons-cli:commons-cli:1.2
+     \--- com.google.guava:guava-jdk5:14.0.1
+
+compile - Dependencies for source set 'main'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
+\--- org.xerial:sqlite-jdbc:3.7.2
+
+compileClasspath - Compile classpath for source set 'main'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
+\--- org.xerial:sqlite-jdbc:3.7.2
+
+compileOnly - Compile dependencies for source set 'main'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
+\--- org.xerial:sqlite-jdbc:3.7.2
+
+default - Configuration for default artifacts.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
+\--- org.xerial:sqlite-jdbc:3.7.2
+
+findbugs - The FindBugs libraries to be used for this project.
+\--- com.google.code.findbugs:findbugs:3.0.1
+     +--- net.jcip:jcip-annotations:1.0
+     +--- com.google.code.findbugs:jsr305:2.0.1
+     +--- com.google.code.findbugs:bcel-findbugs:6.0
+     +--- com.google.code.findbugs:jFormatString:2.0.1
+     +--- dom4j:dom4j:1.6.1
+     |    \--- xml-apis:xml-apis:1.0.b2
+     +--- org.ow2.asm:asm-debug-all:5.0.2
+     +--- org.ow2.asm:asm-commons:5.0.2
+     |    \--- org.ow2.asm:asm-tree:5.0.2
+     |         \--- org.ow2.asm:asm:5.0.2
+     +--- commons-lang:commons-lang:2.6
+     +--- com.apple:AppleJavaExtensions:1.4
+     \--- jaxen:jaxen:1.1.6
+
+findbugsPlugins - The FindBugs plugins to be used for this project.
+No dependencies
+
+javancss
+\--- org.codehaus.javancss:javancss:33.54
+     +--- javancss:ccl:29.50
+     \--- javancss:jhbasic:29.50
+
+jdepend - The JDepend libraries to be used for this project.
++--- jdepend:jdepend:2.9.1
+\--- org.apache.ant:ant-jdepend:1.9.6
+     \--- jdepend:jdepend:2.7 -> 2.9.1
+
+pmd - The PMD libraries to be used for this project.
+\--- net.sourceforge.pmd:pmd-java:5.2.3
+     +--- jaxen:jaxen:1.1.4
+     +--- net.java.dev.javacc:javacc:5.0
+     +--- net.sourceforge.pmd:pmd-core:5.2.3
+     |    +--- com.beust:jcommander:1.35
+     |    +--- commons-io:commons-io:2.4
+     |    +--- jaxen:jaxen:1.1.4
+     |    +--- net.java.dev.javacc:javacc:5.0
+     |    +--- net.sourceforge.saxon:saxon:9.1.0.8
+     |    +--- org.apache.commons:commons-lang3:3.3.2
+     |    \--- org.ow2.asm:asm:5.0.3
+     +--- net.sourceforge.saxon:saxon:9.1.0.8
+     +--- org.ow2.asm:asm:5.0.3
+     \--- xerces:xercesImpl:2.11.0
+          \--- xml-apis:xml-apis:1.4.01
+
+runtime - Runtime dependencies for source set 'main'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
+\--- org.xerial:sqlite-jdbc:3.7.2
+
+testCompile - Dependencies for source set 'test'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
++--- org.xerial:sqlite-jdbc:3.7.2
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+testCompileClasspath - Compile classpath for source set 'test'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
++--- org.xerial:sqlite-jdbc:3.7.2
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+testCompileOnly - Compile dependencies for source set 'test'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
++--- org.xerial:sqlite-jdbc:3.7.2
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+testRuntime - Runtime dependencies for source set 'test'.
++--- org.apache.httpcomponents:httpmime:4.0.1
+|    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    +--- org.apache.httpcomponents:httpclient:4.0.1
+|    |    +--- org.apache.httpcomponents:httpcore:4.0.1
+|    |    +--- commons-logging:commons-logging:1.1.1
+|    |    \--- commons-codec:commons-codec:1.3
+|    +--- org.apache.james:apache-mime4j:0.6
+|    |    \--- commons-logging:commons-logging:1.1.1
+|    \--- commons-logging:commons-logging:1.1.1
++--- org.apache.james:apache-mime4j:0.6 (*)
++--- org.xerial:sqlite-jdbc:3.7.2
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+umljavadoc
+\--- org.umlgraph:umlgraph:5.6.6
+

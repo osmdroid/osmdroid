@@ -1,0 +1,747 @@
+<html><body><pre>
+------------------------------------------------------------
+Project :GoogleWrapperSample - Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc
+------------------------------------------------------------
+
+_debugAndroidTestApk - ## Internal use, do not manually configure ##
++--- com.android.support:support-annotations:23+ -&gt; 23.4.0
++--- com.android.support.test:runner:0.4.+ -&gt; 0.4.1
+|    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
+|    +--- com.android.support:support-annotations:23.0.1 -&gt; 23.4.0
+|    \--- junit:junit:4.12
+|         \--- org.hamcrest:hamcrest-core:1.3
+\--- com.android.support.test:rules:0.4.+ -&gt; 0.4.1
+     \--- com.android.support.test:runner:0.4.1 (*)
+
+_debugAndroidTestCompile - ## Internal use, do not manually configure ##
++--- com.android.support:support-annotations:23+ -&gt; 23.4.0
++--- com.android.support.test:runner:0.4.+ -&gt; 0.4.1
+|    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
+|    +--- com.android.support:support-annotations:23.0.1 -&gt; 23.4.0
+|    \--- junit:junit:4.12
+|         \--- org.hamcrest:hamcrest-core:1.3
+\--- com.android.support.test:rules:0.4.+ -&gt; 0.4.1
+     \--- com.android.support.test:runner:0.4.1 (*)
+
+_debugApk - ## Internal use, do not manually configure ##
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+_debugCompile - ## Internal use, do not manually configure ##
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+_debugUnitTestApk - ## Internal use, do not manually configure ##
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+_debugUnitTestCompile - ## Internal use, do not manually configure ##
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+_releaseApk - ## Internal use, do not manually configure ##
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+_releaseCompile - ## Internal use, do not manually configure ##
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+_releaseUnitTestApk - ## Internal use, do not manually configure ##
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+_releaseUnitTestCompile - ## Internal use, do not manually configure ##
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+androidJacocoAgent - The Jacoco agent to use to get coverage data.
+\--- org.jacoco:org.jacoco.agent:0.7.4.201502262128
+
+androidJacocoAnt - The Jacoco ant tasks to use to get execute Gradle tasks.
+\--- org.jacoco:org.jacoco.ant:0.7.4.201502262128
+     +--- org.jacoco:org.jacoco.core:0.7.4.201502262128
+     |    \--- org.ow2.asm:asm-debug-all:5.0.1
+     +--- org.jacoco:org.jacoco.report:0.7.4.201502262128
+     |    +--- org.jacoco:org.jacoco.core:0.7.4.201502262128 (*)
+     |    \--- org.ow2.asm:asm-debug-all:5.0.1
+     \--- org.jacoco:org.jacoco.agent:0.7.4.201502262128
+
+androidTestApk - Classpath packaged with the compiled 'androidTest' classes.
+No dependencies
+
+androidTestCompile - Classpath for compiling the androidTest sources.
++--- com.android.support:support-annotations:23+ -&gt; 23.4.0
++--- com.android.support.test:runner:0.4.+ -&gt; 0.4.1
+|    +--- com.android.support.test:exposed-instrumentation-api-publish:0.4.1
+|    +--- com.android.support:support-annotations:23.0.1 -&gt; 23.4.0
+|    \--- junit:junit:4.12
+|         \--- org.hamcrest:hamcrest-core:1.3
+\--- com.android.support.test:rules:0.4.+ -&gt; 0.4.1
+     \--- com.android.support.test:runner:0.4.1 (*)
+
+androidTestProvided - Classpath for only compiling the androidTest sources.
+No dependencies
+
+androidTestWearApp - Link to a wear app to embed for object 'androidTest'.
+No dependencies
+
+apk - Classpath packaged with the compiled 'main' classes.
+No dependencies
+
+archives - Configuration for archive artifacts.
+No dependencies
+
+checkstyle - The Checkstyle libraries to be used for this project.
+\--- com.puppycrawl.tools:checkstyle:5.9
+     +--- antlr:antlr:2.7.7
+     +--- commons-beanutils:commons-beanutils-core:1.8.3
+     +--- commons-cli:commons-cli:1.2
+     \--- com.google.guava:guava-jdk5:14.0.1
+
+compile - Classpath for compiling the main sources.
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+debug - Published Configuration for Variant debug
+No dependencies
+
+debug-classes - Published classes configuration for Variant debug
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+debug-mapping - Published mapping configuration for Variant debug
+No dependencies
+
+debug-metadata - Published APKs metadata for Variant debug
+No dependencies
+
+debugApk - Classpath packaged with the compiled 'debug' classes.
+No dependencies
+
+debugCompile - Classpath for compiling the debug sources.
+No dependencies
+
+debugProvided - Classpath for only compiling the debug sources.
+No dependencies
+
+debugWearApp - Link to a wear app to embed for object 'debug'.
+No dependencies
+
+default - Configuration for default artifacts.
+No dependencies
+
+default-mapping - Configuration for default mapping artifacts.
+No dependencies
+
+default-metadata - Metadata for the produced APKs.
+No dependencies
+
+findbugs - The FindBugs libraries to be used for this project.
+\--- com.google.code.findbugs:findbugs:3.0.1
+     +--- net.jcip:jcip-annotations:1.0
+     +--- com.google.code.findbugs:jsr305:2.0.1
+     +--- com.google.code.findbugs:bcel-findbugs:6.0
+     +--- com.google.code.findbugs:jFormatString:2.0.1
+     +--- dom4j:dom4j:1.6.1
+     |    \--- xml-apis:xml-apis:1.0.b2
+     +--- org.ow2.asm:asm-debug-all:5.0.2
+     +--- org.ow2.asm:asm-commons:5.0.2
+     |    \--- org.ow2.asm:asm-tree:5.0.2
+     |         \--- org.ow2.asm:asm:5.0.2
+     +--- commons-lang:commons-lang:2.6
+     +--- com.apple:AppleJavaExtensions:1.4
+     \--- jaxen:jaxen:1.1.6
+
+findbugsPlugins - The FindBugs plugins to be used for this project.
+No dependencies
+
+javancss
+\--- org.codehaus.javancss:javancss:33.54
+     +--- javancss:ccl:29.50
+     \--- javancss:jhbasic:29.50
+
+jdepend - The JDepend libraries to be used for this project.
++--- jdepend:jdepend:2.9.1
+\--- org.apache.ant:ant-jdepend:1.9.6
+     \--- jdepend:jdepend:2.7 -&gt; 2.9.1
+
+pmd - The PMD libraries to be used for this project.
+\--- net.sourceforge.pmd:pmd-java:5.2.3
+     +--- jaxen:jaxen:1.1.4
+     +--- net.java.dev.javacc:javacc:5.0
+     +--- net.sourceforge.pmd:pmd-core:5.2.3
+     |    +--- com.beust:jcommander:1.35
+     |    +--- commons-io:commons-io:2.4
+     |    +--- jaxen:jaxen:1.1.4
+     |    +--- net.java.dev.javacc:javacc:5.0
+     |    +--- net.sourceforge.saxon:saxon:9.1.0.8
+     |    +--- org.apache.commons:commons-lang3:3.3.2
+     |    \--- org.ow2.asm:asm:5.0.3
+     +--- net.sourceforge.saxon:saxon:9.1.0.8
+     +--- org.ow2.asm:asm:5.0.3
+     \--- xerces:xercesImpl:2.11.0
+          \--- xml-apis:xml-apis:1.4.01
+
+provided - Classpath for only compiling the main sources.
+No dependencies
+
+release - Published Configuration for Variant release
+No dependencies
+
+release-classes - Published classes configuration for Variant release
++--- com.android.support:appcompat-v7:23.+ -&gt; 23.4.0
+|    +--- com.android.support:animated-vector-drawable:23.4.0
+|    |    \--- com.android.support:support-vector-drawable:23.4.0
+|    |         \--- com.android.support:support-v4:23.4.0
+|    |              \--- com.android.support:support-annotations:23.4.0
+|    +--- com.android.support:support-v4:23.4.0 (*)
+|    \--- com.android.support:support-vector-drawable:23.4.0 (*)
++--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0
+|    +--- com.google.android.gms:play-services-ads:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0
+|    |         \--- com.android.support:support-v4:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-analytics:8.4.0
+|    |    \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appindexing:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appinvite:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-appstate:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-auth:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-cast:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.android.support:mediarouter-v7:23.0.0
+|    |         \--- com.android.support:appcompat-v7:23.0.0 -&gt; 23.4.0 (*)
+|    +--- com.google.android.gms:play-services-drive:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-fitness:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-location:8.4.0
+|    |         +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |         \--- com.google.android.gms:play-services-maps:8.4.0
+|    |              \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-games:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-drive:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-gcm:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-measurement:8.4.0
+|    |         \--- com.google.android.gms:play-services-basement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-identity:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-location:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-measurement:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-nearby:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-panorama:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-plus:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-safetynet:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-vision:8.4.0
+|    |    \--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    +--- com.google.android.gms:play-services-wallet:8.4.0
+|    |    +--- com.google.android.gms:play-services-base:8.4.0 (*)
+|    |    +--- com.google.android.gms:play-services-identity:8.4.0 (*)
+|    |    \--- com.google.android.gms:play-services-maps:8.4.0 (*)
+|    \--- com.google.android.gms:play-services-wearable:8.4.0
+|         \--- com.google.android.gms:play-services-base:8.4.0 (*)
++--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
++--- com.android.support:support-v4:23+ -&gt; 23.4.0 (*)
++--- com.android.support:appcompat-v7:23.1.1 -&gt; 23.4.0 (*)
++--- project :osmdroid-android
+\--- project :osmdroid-third-party
+     +--- project :osmdroid-android
+     +--- com.google.android.gms:play-services:8.+ -&gt; 8.4.0 (*)
+     \--- com.google.android.gms:play-services-maps:8.+ -&gt; 8.4.0 (*)
+
+release-mapping - Published mapping configuration for Variant release
+No dependencies
+
+release-metadata - Published APKs metadata for Variant release
+No dependencies
+
+releaseApk - Classpath packaged with the compiled 'release' classes.
+No dependencies
+
+releaseCompile - Classpath for compiling the release sources.
+No dependencies
+
+releaseProvided - Classpath for only compiling the release sources.
+No dependencies
+
+releaseWearApp - Link to a wear app to embed for object 'release'.
+No dependencies
+
+testApk - Classpath packaged with the compiled 'test' classes.
+No dependencies
+
+testCompile - Classpath for compiling the test sources.
+\--- junit:junit:4.12
+     \--- org.hamcrest:hamcrest-core:1.3
+
+testDebugApk - Classpath packaged with the compiled 'testDebug' classes.
+No dependencies
+
+testDebugCompile - Classpath for compiling the testDebug sources.
+No dependencies
+
+testDebugProvided - Classpath for only compiling the testDebug sources.
+No dependencies
+
+testDebugWearApp - Link to a wear app to embed for object 'testDebug'.
+No dependencies
+
+testProvided - Classpath for only compiling the test sources.
+No dependencies
+
+testReleaseApk - Classpath packaged with the compiled 'testRelease' classes.
+No dependencies
+
+testReleaseCompile - Classpath for compiling the testRelease sources.
+No dependencies
+
+testReleaseProvided - Classpath for only compiling the testRelease sources.
+No dependencies
+
+testReleaseWearApp - Link to a wear app to embed for object 'testRelease'.
+No dependencies
+
+testWearApp - Link to a wear app to embed for object 'test'.
+No dependencies
+
+umljavadoc
+\--- org.umlgraph:umlgraph:5.6.6
+
+wearApp - Link to a wear app to embed for object 'main'.
+No dependencies
+</pre></body></html>
+

@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="15,20,169,47"/>
+<area shape="rect" id="node1" href="./BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,9,179,57"/>
+<area shape="rect" id="node2_1" href="./SampleHeadingCompassUp.html" title="org.osmdroid.samplefragments.SampleHeadingCompassUp" alt="" coords="179,120,367,147"/>
+<area shape="rect" id="node2" href="./SampleHeadingCompassUp.html" title="&lt;TABLE&gt;" alt="" coords="169,109,378,157"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="android.location.LocationListener" alt="" coords="215,11,332,55"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/android/location/LocationListener.html" title="&lt;TABLE&gt;" alt="" coords="204,6,343,61"/>
+<area shape="rect" id="node4_3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="378,11,529,55"/>
+<area shape="rect" id="node4" href="http://java.sun.com/j2se/1.4.2/docs/api/org/osmdroid/views/overlay/compass/IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="367,6,539,61"/>
+</map>

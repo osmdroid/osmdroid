@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Bug164EndlessOnScolls.html" title="org.osmdroid.bugtestfragments.Bug164EndlessOnScolls" alt="" coords="15,16,182,43"/>
+<area shape="rect" id="node1" href="./Bug164EndlessOnScolls.html" title="&lt;TABLE&gt;" alt="" coords="5,5,193,53"/>
+<area shape="rect" id="node2_1" href="./Bug382Crash.html" title="org.osmdroid.bugtestfragments.Bug382Crash" alt="" coords="228,16,329,43"/>
+<area shape="rect" id="node2" href="./Bug382Crash.html" title="&lt;TABLE&gt;" alt="" coords="217,5,340,53"/>
+<area shape="rect" id="node3_2" href="./Bug419Zoom.html" title="org.osmdroid.bugtestfragments.Bug419Zoom" alt="" coords="375,16,475,43"/>
+<area shape="rect" id="node3" href="./Bug419Zoom.html" title="&lt;TABLE&gt;" alt="" coords="365,5,486,53"/>
+<area shape="rect" id="node4_3" href="./Bug82WinDeath.html" title="org.osmdroid.bugtestfragments.Bug82WinDeath" alt="" coords="521,16,639,43"/>
+<area shape="rect" id="node4" href="./Bug82WinDeath.html" title="&lt;TABLE&gt;" alt="" coords="511,5,649,53"/>
+<area shape="rect" id="node5_4" href="./Bug82WinDeath.MapOverlay.html" title="org.osmdroid.bugtestfragments.Bug82WinDeath.MapOverlay" alt="" coords="685,16,777,43"/>
+<area shape="rect" id="node5" href="./Bug82WinDeath.MapOverlay.html" title="&lt;TABLE&gt;" alt="" coords="674,5,787,53"/>
+<area shape="rect" id="node6_5" href="./BugFactory.html" title="org.osmdroid.bugtestfragments.BugFactory" alt="" coords="823,16,911,43"/>
+<area shape="rect" id="node6" href="./BugFactory.html" title="&lt;TABLE&gt;" alt="" coords="812,5,921,53"/>
+<area shape="rect" id="node7_6" href="./SampleBug57.html" title="org.osmdroid.bugtestfragments.SampleBug57" alt="" coords="956,16,1060,43"/>
+<area shape="rect" id="node7" href="./SampleBug57.html" title="&lt;TABLE&gt;" alt="" coords="945,5,1071,53"/>
+<area shape="rect" id="node8_7" href="./SampleBug57Step2.html" title="org.osmdroid.bugtestfragments.SampleBug57Step2" alt="" coords="1105,16,1244,43"/>
+<area shape="rect" id="node8" href="./SampleBug57Step2.html" title="&lt;TABLE&gt;" alt="" coords="1095,5,1255,53"/>
+</map>

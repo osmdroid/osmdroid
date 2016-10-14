@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./GeoPoint.html" title="org.osmdroid.google.wrapper.GeoPoint" alt="" coords="15,16,91,43"/>
+<area shape="rect" id="node1" href="./GeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="5,5,102,53"/>
+<area shape="rect" id="node2_1" href="./MapController.html" title="org.osmdroid.google.wrapper.MapController" alt="" coords="137,16,241,43"/>
+<area shape="rect" id="node2" href="./MapController.html" title="&lt;TABLE&gt;" alt="" coords="127,5,252,53"/>
+<area shape="rect" id="node3_2" href="./MapView.html" title="org.osmdroid.google.wrapper.MapView" alt="" coords="287,16,361,43"/>
+<area shape="rect" id="node3" href="./MapView.html" title="&lt;TABLE&gt;" alt="" coords="276,5,372,53"/>
+<area shape="rect" id="node4_3" href="./MyLocationOverlay.html" title="org.osmdroid.google.wrapper.MyLocationOverlay" alt="" coords="407,16,542,43"/>
+<area shape="rect" id="node4" href="./MyLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="397,5,553,53"/>
+<area shape="rect" id="node5_4" href="./Projection.html" title="org.osmdroid.google.wrapper.Projection" alt="" coords="588,16,668,43"/>
+<area shape="rect" id="node5" href="./Projection.html" title="&lt;TABLE&gt;" alt="" coords="577,5,679,53"/>
+</map>
