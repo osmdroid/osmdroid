@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./RotationGestureDetector.html" title="org.osmdroid.views.overlay.gestures.RotationGestureDetector" alt="" coords="16,20,184,47"/>
-<area shape="rect" id="node1" href="./RotationGestureDetector.html" title="&lt;TABLE&gt;" alt="" coords="5,9,195,57"/>
-<area shape="rect" id="node2_1" href="./RotationGestureDetector.RotationListener.html" title="org.osmdroid.views.overlay.gestures.RotationGestureDetector.RotationListener" alt="" coords="229,11,347,55"/>
-<area shape="rect" id="node2" href="./RotationGestureDetector.RotationListener.html" title="&lt;TABLE&gt;" alt="" coords="219,6,357,61"/>
-<area shape="rect" id="node3_2" href="./RotationGestureOverlay.html" title="org.osmdroid.views.overlay.gestures.RotationGestureOverlay" alt="" coords="207,120,369,147"/>
-<area shape="rect" id="node3" href="./RotationGestureOverlay.html" title="&lt;TABLE&gt;" alt="" coords="196,109,380,157"/>
-</map>

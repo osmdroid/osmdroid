@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./UtilConstants.html" title="org.osmdroid.util.constants.UtilConstants" alt="" coords="101,11,201,55"/>
-<area shape="rect" id="node1" href="./UtilConstants.html" title="&lt;TABLE&gt;" alt="" coords="90,6,211,61"/>
-<area shape="rect" id="node2_1" href="../LocationUtils.html" title="org.osmdroid.util.LocationUtils" alt="" coords="16,120,112,147"/>
-<area shape="rect" id="node2" href="../LocationUtils.html" title="&lt;TABLE&gt;" alt="" coords="5,109,123,157"/>
-<area shape="rect" id="node3_2" href="../NetworkLocationIgnorer.html" title="org.osmdroid.util.NetworkLocationIgnorer" alt="" coords="158,120,319,147"/>
-<area shape="rect" id="node3" href="../NetworkLocationIgnorer.html" title="&lt;TABLE&gt;" alt="" coords="147,109,330,157"/>
-</map>
