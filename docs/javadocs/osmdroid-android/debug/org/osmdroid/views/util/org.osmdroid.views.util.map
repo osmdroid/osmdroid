@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./Mercator.html" title="org.osmdroid.views.util.Mercator" alt="" coords="15,16,89,43"/>
-<area shape="rect" id="node1" href="./Mercator.html" title="&lt;TABLE&gt;" alt="" coords="5,5,99,53"/>
-<area shape="rect" id="node2_1" href="./MyMath.html" title="org.osmdroid.views.util.MyMath" alt="" coords="134,16,202,43"/>
-<area shape="rect" id="node2" href="./MyMath.html" title="&lt;TABLE&gt;" alt="" coords="123,5,213,53"/>
-<area shape="rect" id="node3_2" href="./PathProjection.html" title="org.osmdroid.views.util.PathProjection" alt="" coords="248,16,355,43"/>
-<area shape="rect" id="node3" href="./PathProjection.html" title="&lt;TABLE&gt;" alt="" coords="237,5,365,53"/>
-</map>

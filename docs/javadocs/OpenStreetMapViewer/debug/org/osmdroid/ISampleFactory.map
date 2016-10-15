@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./bugtestfragments/BugFactory.html" title="org.osmdroid.bugtestfragments.BugFactory" alt="" coords="16,120,104,147"/>
-<area shape="rect" id="node1" href="./bugtestfragments/BugFactory.html" title="&lt;TABLE&gt;" alt="" coords="5,109,115,157"/>
-<area shape="rect" id="node2_1" href="./ISampleFactory.html" title="org.osmdroid.ISampleFactory" alt="" coords="75,11,189,55"/>
-<area shape="rect" id="node2" href="./ISampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="65,6,199,61"/>
-<area shape="rect" id="node3_2" href="./samplefragments/SampleFactory.html" title="org.osmdroid.samplefragments.SampleFactory" alt="" coords="149,120,259,147"/>
-<area shape="rect" id="node3" href="./samplefragments/SampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="139,109,269,157"/>
-</map>

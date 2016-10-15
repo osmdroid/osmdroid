@@ -21,7 +21,7 @@ import android.widget.TextView;
  * It handles a title, a description and a sub-description.
  * Clicking on the bubble will close it.
  *
- * <img alt="Class diagram around Marker class" width="686" height="413" src='src='doc-files/marker-infowindow-classes.png' />
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-infowindow-classes.png' />
  *
  * @author M.Kergall
  * @see Marker

@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapBoxTileSource.html" title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" alt="" coords="25,112,159,139"/>
-<area shape="rect" id="node1" href="./MapBoxTileSource.html" title="&lt;TABLE&gt;" alt="" coords="15,101,169,149"/>
-<area shape="rect" id="node2_1" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="15,16,169,43"/>
-<area shape="rect" id="node2" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="5,5,179,53"/>
-</map>
