@@ -44,3 +44,5 @@ OSMMapTilePackager/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java
 OSMMapTilePackager/src/main/java/org/osmdroid/util/GEMFFile.java
 OSMMapTilePackager/src/main/java/org/osmdroid/api/
 OpenStreetMapViewer/src/androidTest/
+
+docs/

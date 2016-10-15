@@ -1,7 +1,10 @@
 description = "osmdroid distribution package"
-if (project.hasProperty('profile') && project.profile.split(',').contains("dist")) {
-    task distZip(type: Copy) {
-        distZip.configure {
+apply plugin: 'distribution'
+
+
+distributions {
+    main {
+        contents {
             from('../GoogleWrapperSample//build/outputs/apk') {
                 exclude '**/*unaligned*.apk'
             }
@@ -29,7 +32,6 @@ if (project.hasProperty('profile') && project.profile.split(',').contains("dist"
             from('../OSMMapTilePackager/build/distributions/')
             from('../OSMMapTilePackager/build/libs/')
 
-            into('build/tmp/')
             include('*.apk')
             include('*.aar')
             include('*.jar')
@@ -37,15 +39,9 @@ if (project.hasProperty('profile') && project.profile.split(',').contains("dist"
             include('*.tar')
             include('*.pom')
         }
-
     }
-
-    task(distro, type: Zip) {
-        from('build/tmp/')
-        into '/'
-        archiveName 'osmdroid-' + project.version + '.zip'
-
-
-    }.execute()
-
 }
+
+//don't publish this project to nexus when using 'publishArtifacts'
+//it will, however, publish to mavenLocal
+ext.skipPublish=true
