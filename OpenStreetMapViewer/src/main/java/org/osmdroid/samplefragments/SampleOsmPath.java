@@ -1,6 +1,10 @@
 package org.osmdroid.samplefragments;
 
+import org.osmdroid.OsmApplication;
 import org.osmdroid.R;
+import org.osmdroid.events.MapListener;
+import org.osmdroid.events.ScrollEvent;
+import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
@@ -13,16 +17,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * An example using osmbonuspacks polyline class for a simple box on around centra park, nyc
  * @author Marc Kurtz
  * 
  */
-public class SampleOsmPath extends BaseSampleFragment {
+public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 	public static final String TITLE = "OsmPath drawing";
 
@@ -116,5 +124,28 @@ public class SampleOsmPath extends BaseSampleFragment {
 		polygon.setPoints(pts);
 		mMapView.getOverlays().add(polygon);
 
+		mMapView.setMapListener(this);
+
+	}
+
+	@Override
+	public boolean onScroll(ScrollEvent event) {
+		return false;
+	}
+
+	@Override
+	public boolean onZoom(final ZoomEvent event) {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Log.i("Zoomer", "zoom event triggered");
+					Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
+				}catch (Exception ex){
+					ex.printStackTrace();
+				}
+			}
+		});
+		return true;
 	}
 }
