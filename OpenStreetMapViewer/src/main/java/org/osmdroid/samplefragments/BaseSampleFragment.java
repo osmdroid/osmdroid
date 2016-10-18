@@ -69,4 +69,12 @@ public abstract class BaseSampleFragment extends Fragment {
 	public boolean skipOnCiTests(){
 		return false;
 	}
+
+	/**
+	 * optional place to put automated test procedures, used during the connectCheck tests
+	 * this is called OFF of the UI thread. block this method call util the test is done
+	 */
+	public void runTestProcedures(){
+
+	}
 }
