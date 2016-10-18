@@ -19,6 +19,8 @@ import android.graphics.Paint.Style;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import andorid.app.Activity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
