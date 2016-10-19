@@ -72,7 +72,7 @@ The [OSMBonusPack project](https://github.com/MKergall/osmbonuspack) adds additi
 ![](images/TwoMarkers.png)
 
 ## Building from source and using the aar in your app
-Thanks to <a href="https://github.com/chrisdoyle/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
+Thanks to <a href="https://github.com/gradle-fury/gradle-fury">Gradle Fury</a>, this publishes the artifacts to mavenLocal.
 
 ```
 ./gradlew clean install
