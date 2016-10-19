@@ -32,6 +32,10 @@ dependencies {
   <type>aar</type>
 </dependency>
 ```
+** platform or api level (api level 4 = platform 1.6)**
+```xml
+<platform>8</platform>
+```
 
 You can also [compile osmdroid from source](https://github.com/osmdroid/osmdroid/wiki/How-to-build-osmdroid-from-source) or [download the dependency directly from OSS](https://oss.sonatype.org/content/groups/public/org/osmdroid/osmdroid-android/) or [download the distribution package](https://github.com/osmdroid/osmdroid/releases)
 
