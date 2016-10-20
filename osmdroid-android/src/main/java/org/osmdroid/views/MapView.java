@@ -150,9 +150,16 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Constructors
 	// ===========================================================
 
-	protected MapView(final Context context,
+	public MapView(final Context context,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
+		this(context, tileProvider, tileRequestCompleteHandler, attrs, false);
+
+	}
+	
+	public MapView(final Context context,
+					  MapTileProviderBase tileProvider,
+					  final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
 		super(context, attrs);
 		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
@@ -161,6 +168,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mScroller=null;
 			mGestureDetector=null;
 			return;
+		}
+		if (!hardwareAccelerated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);

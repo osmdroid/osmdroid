@@ -148,4 +148,40 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		});
 		return true;
 	}
+
+	@Override
+	public void runTestProcedures(){
+		final GeoPoint geoPoint = new GeoPoint(40.886788, -73.959232);
+		while (mMapView.getZoomLevel() < mMapView.getMaxZoomLevel()){
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					mMapView.getController().animateTo(geoPoint);
+					mMapView.getController().zoomIn();
+				}
+			});
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		final GeoPoint geoPoint2 = new GeoPoint(40.796788, -73.949232);
+		while (mMapView.getZoomLevel() < mMapView.getMaxZoomLevel()){
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					mMapView.getController().animateTo(geoPoint2);
+					mMapView.getController().zoomIn();
+				}
+			});
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

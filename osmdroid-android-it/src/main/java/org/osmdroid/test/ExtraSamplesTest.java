@@ -103,6 +103,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                 });
                 try {
                     Thread.sleep(2000);
+                    basefrag.runTestProcedures();
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
