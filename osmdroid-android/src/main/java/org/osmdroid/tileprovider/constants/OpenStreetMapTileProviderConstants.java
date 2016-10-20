@@ -9,6 +9,7 @@ import org.osmdroid.tileprovider.LRUMapTileCache;
 import android.os.Environment;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.util.StorageUtils;
 
 /**
  *
@@ -21,7 +22,7 @@ public class OpenStreetMapTileProviderConstants {
 
      /** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. 
           Note: also used for offline tile sources*/
-	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+	private static File OSMDROID_PATH = new File(StorageUtils.getStorage().getAbsolutePath(),
 			"osmdroid");
      
      public static File getBasePath(){
