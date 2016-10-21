@@ -19,6 +19,7 @@ import org.osmdroid.R;
 import org.osmdroid.tileprovider.cachemanager.CacheManager;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 /**
@@ -319,4 +320,10 @@ public class SampleCacheDownloader extends BaseSampleFragment implements View.On
             downloadPrompt.dismiss();
         }
     }
+
+    @Override
+    public void runTestProcedures(){
+
+    }
+
 }

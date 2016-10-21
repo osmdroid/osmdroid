@@ -133,10 +133,10 @@ public class Projection implements IProjection, MapViewConstants {
                out.x += mapSize;
           }
 
-          if (absY > Math.abs(out.y - yCompare) && mMapViewHeight < 2 * mapSize) {  // use yCorrection instead of mapSize
+          if (absY > Math.abs(out.y - yCompare) && mMapViewHeight / 2 < mapSize ) {  // use yCorrection instead of mapSize
                out.y -= mapSize;
           }
-          if (absY > Math.abs(out.y + yCompare) || mMapViewHeight >= 2 * mapSize) {  // use yCorrection instead of mapSize
+          if (absY > Math.abs(out.y + yCompare) || mMapViewHeight / 2 >= mapSize) {  // use yCorrection instead of mapSize
                out.y += mapSize;
           }
           out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
