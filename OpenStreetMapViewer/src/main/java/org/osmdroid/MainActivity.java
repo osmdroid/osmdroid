@@ -4,6 +4,7 @@ package org.osmdroid;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +26,10 @@ import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.views.MapView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,6 +50,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             checkPermissions();
         }
 
+
+        File discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        OpenStreetMapTileProviderConstants.TILE_PATH_BASE = new File(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath()));
+        OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
+        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
+        MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
+
+
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
         list.add("OSMDroid Sample map (Start Here)");
@@ -56,6 +72,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("More Samples");
         list.add("Bug Drivers");
         list.add("Report a bug");
+        list.add("Settings");
         //this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
         ListView lv = (ListView) findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
@@ -107,6 +124,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             case 8:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
                 startActivity(browserIntent);
+                break;
+            case 9:
+                Intent i = new Intent(this,PreferenceActivity.class);
+                startActivity(i);
                 break;
         }
     }
