@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
@@ -313,5 +315,22 @@ public class SqlTileWriter implements IFilesystemCache {
         return ret;
     }
 
+
+    public long getRowCount(String tileSourceName){
+        try {
+            Cursor mCount=null;
+            if (tileSourceName==null)
+                mCount= db.rawQuery("select count(*) from " + TABLE , null);
+            else
+                mCount= db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_PROVIDER + "='" + tileSourceName + "'", null);
+            mCount.moveToFirst();
+            long count= mCount.getLong(0);
+            mCount.close();
+            return count;
+        } catch (Throwable ex) {
+            Log.e(IMapView.LOGTAG, "Unable to query for row count " + tileSourceName, ex);
+        }
+        return 0;
+    }
 
 }
