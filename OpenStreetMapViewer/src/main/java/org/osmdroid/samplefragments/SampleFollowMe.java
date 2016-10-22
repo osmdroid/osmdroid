@@ -1,13 +1,10 @@
 package org.osmdroid.samplefragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -119,10 +116,9 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     @Override
     public void onPause() {
         super.onPause();
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        try{
             lm.removeUpdates(this);
-        }
+        }catch (Exception ex){}
 
         mCompassOverlay.disableCompass();
         mLocationOverlay.disableFollowLocation();
@@ -133,10 +129,14 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     public void onResume(){
         super.onResume();
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        try{
+            //this fails on AVD 19s, even with the appcompat check, says no provided named gps is available
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
-        }
+        }catch (Exception ex){}
+
+        try{
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0l,0f,this);
+        }catch (Exception ex){}
 
         mLocationOverlay.enableFollowLocation();
         mLocationOverlay.enableMyLocation();
