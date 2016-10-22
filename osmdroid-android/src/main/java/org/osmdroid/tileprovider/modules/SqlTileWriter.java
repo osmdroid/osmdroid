@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteFullException;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
 /**
@@ -33,14 +35,16 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * @since 5.1
  */
 public class SqlTileWriter implements IFilesystemCache {
+    public static final String DATABASE_FILENAME = "cache.db";
+
     protected File db_file;
     protected SQLiteDatabase db;
-    final int questimate=8000;
+    final int questimate=4000;
     static boolean hasInited=false;
 
     public SqlTileWriter() {
 
-        db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + "cache.db");
+        db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + DATABASE_FILENAME);
         OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
 
         try {
@@ -57,48 +61,59 @@ public class SqlTileWriter implements IFilesystemCache {
             final Thread t = new Thread() {
                 @Override
                 public void run() {
-                    if (db==null) {
-                        if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-                            Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
-                        }
-                        return;
-                    }
-
-                    try {
-                        //run the reaper (remove all old expired tiles)
-                        //keep if now is < expiration date
-                        //delete if now is > expiration date
-                        long now = System.currentTimeMillis();
-                        int rows = db.delete(TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
-                        Log.d(IMapView.LOGTAG, "Local storage cahce purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
-
-                        //VACUUM the database
-                        now = System.currentTimeMillis();
-                        //db.execSQL("VACUUM " + DatabaseFileArchive.TABLE + ";");
-                        // Log.d(IMapView.LOGTAG, "VACUUM completed in " + (System.currentTimeMillis()-now) + "ms, cache size is " + db_file.length() + "bytes");
-                        if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
-                            long diff = OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES - db_file.length();
-                            long tilesToKill = diff / questimate;
-                            try {
-                                db.execSQL("DELETE FROM " + TABLE + " ORDER BY expires DESC LIMIT " + tilesToKill);
-                            } catch (Throwable t) {
-                                t.printStackTrace();
-                            }
-                            Log.d(IMapView.LOGTAG, "purge completed in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
-                        }
-                    }catch (Exception ex){
-                        if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-                            Log.d(IMapView.LOGTAG, "SqliteTileWriter init thread crash, db is probably not available",ex);
-                        }
-                    }
-
-                    if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
-                        Log.d(IMapView.LOGTAG, "Finished init thread");
-                    }
+                    runCleanupOperation();
                 }
             };
             t.setPriority(Thread.MIN_PRIORITY);
             t.start();
+        }
+    }
+
+    /**
+     * this could be a long running operation, don't run on the UI thread unless necessary.
+     * This function prunes the database for old or expired tiles.
+     */
+    public void runCleanupOperation() {
+        if (db==null) {
+            if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
+            }
+            return;
+        }
+
+        try {
+            //run the reaper (remove all old expired tiles)
+            //keep if now is < expiration date
+            //delete if now is > expiration date
+            long now = System.currentTimeMillis();
+            int rows = db.delete(TABLE, "expires < ?", new String[]{System.currentTimeMillis() + ""});
+            Log.d(IMapView.LOGTAG, "Local storage cache purged " + rows + " expired tiles in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + "bytes");
+
+            //VACUUM the database
+            Log.d(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES);
+            now = System.currentTimeMillis();
+            //db.execSQL("VACUUM " + DatabaseFileArchive.TABLE + ";");
+            // Log.d(IMapView.LOGTAG, "VACUUM completed in " + (System.currentTimeMillis()-now) + "ms, cache size is " + db_file.length() + "bytes");
+            if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
+                long diff = db_file.length() - OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES ;
+                long tilesToKill = diff / questimate;
+                Log.d(IMapView.LOGTAG, "Local cache purging " +tilesToKill + " tiles.");
+                if (tilesToKill > 0)
+                try {
+                    db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY expires DESC LIMIT " + tilesToKill + ")");
+                } catch (Throwable t) {
+                    Log.e(IMapView.LOGTAG, "error purging tiles from the tile cache", t);
+                }
+                Log.d(IMapView.LOGTAG, "purge completed in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + " bytes");
+            }
+        }catch (Exception ex){
+            if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                Log.d(IMapView.LOGTAG, "SqliteTileWriter init thread crash, db is probably not available",ex);
+            }
+        }
+
+        if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+            Log.d(IMapView.LOGTAG, "Finished init thread");
         }
     }
 
@@ -132,9 +147,15 @@ public class SqlTileWriter implements IFilesystemCache {
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
                 cv.put("expires", pTile.getExpires().getTime());
-            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY+"=? and "+DatabaseFileArchive.COLUMN_PROVIDER+"=?", new String[]{index+"",pTileSourceInfo.name()});
+            db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
             db.insert(TABLE, null, cv);
-            Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() +  pTile.toString());
+            Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
+            if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES){
+                runCleanupOperation();
+            }
+        } catch (SQLiteFullException ex) {
+            //the drive is full! trigger the clean up operation
+            runCleanupOperation();
         } catch (Throwable ex) {
             //note, although we check for db null state at the beginning of this method, it's possible for the
             //db to be closed during the execution of this method
