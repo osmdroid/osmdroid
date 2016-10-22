@@ -64,7 +64,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
         MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
 
-        OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
+        //uncomment this to force a cache trim
+        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
 
         if (Build.VERSION.SDK_INT >= 9) {
             //https://github/osmdroid/osmdroid/issues/435
