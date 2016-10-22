@@ -21,7 +21,9 @@ public class CachePurge  extends BaseSampleFragment implements View.OnClickListe
     @Override
     public String getSampleTitle() {
         return "How to purge the tile cache";
-    }@Override
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.sample_cachemgr, container,false);

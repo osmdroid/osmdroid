@@ -2,6 +2,7 @@ package org.osmdroid.samplefragments;
 
 
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
 
 /**
  * factory for all examples
@@ -88,7 +89,9 @@ public final class SampleFactory implements ISampleFactory {
 				//31
 				CachePurge.class,
 				//32
-				SampleZoomToBounding.class
+				SampleZoomToBounding.class,
+				//33
+				MapInAViewPagerFragment.class
 
         };
 	}
