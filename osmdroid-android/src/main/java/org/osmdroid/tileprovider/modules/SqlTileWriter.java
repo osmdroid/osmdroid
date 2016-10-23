@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_PROVIDER;
+import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_TILE;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.COLUMN_KEY;
 import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
 
@@ -72,6 +74,7 @@ public class SqlTileWriter implements IFilesystemCache {
     /**
      * this could be a long running operation, don't run on the UI thread unless necessary.
      * This function prunes the database for old or expired tiles.
+     * @since 5.6
      */
     public void runCleanupOperation() {
         if (db==null) {
@@ -166,6 +169,13 @@ public class SqlTileWriter implements IFilesystemCache {
         return false;
     }
 
+    /**
+     * Returns true if the given tile source and tile coordinates exist in the cache
+     * @since 5.6
+     * @param pTileSource
+     * @param pTile
+     * @return
+     */
     public boolean exists(String pTileSource, MapTile pTile) {
         try {
             final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
@@ -186,6 +196,13 @@ public class SqlTileWriter implements IFilesystemCache {
         return false;
     }
 
+    /**
+     * Returns true if the given tile source and tile coordinates exist in the cache
+     * @since 5.6
+     * @param pTileSource
+     * @param pTile
+     * @return
+     */
     @Override
     public boolean exists(ITileSource pTileSource, MapTile pTile) {
         return exists(pTileSource.name(), pTile);
@@ -205,6 +222,7 @@ public class SqlTileWriter implements IFilesystemCache {
 
     /**
      * purges and deletes everything from the cache database
+     * @since 5.6
      * @return
      */
     public boolean purgeCache() {
@@ -348,7 +366,13 @@ public class SqlTileWriter implements IFilesystemCache {
     }
 
 
-
+    /**
+     * Removes a specific tile from the cache
+     * @since 5.6
+     * @param pTileSourceInfo
+     * @param pTile
+     * @return
+     */
     @Override
     public boolean remove(final ITileSource pTileSourceInfo, final MapTile pTile) {
         if (db == null) {
@@ -371,4 +395,28 @@ public class SqlTileWriter implements IFilesystemCache {
         }
         return false;
     }
+
+    /**
+     * Returns the number of tiles in the cache for the specified tile source name
+     * @since 5.6
+     * @param tileSourceName
+     * @return
+     */
+    public long getRowCount(String tileSourceName){
+        try {
+            Cursor mCount=null;
+            if (tileSourceName==null)
+                mCount= db.rawQuery("select count(*) from " + TABLE , null);
+            else
+                mCount= db.rawQuery("select count(*) from " + TABLE + " where " + COLUMN_PROVIDER + "='" + tileSourceName + "'", null);
+            mCount.moveToFirst();
+            long count= mCount.getLong(0);
+            mCount.close();
+            return count;
+        } catch (Throwable ex) {
+            Log.e(IMapView.LOGTAG, "Unable to query for row count " + tileSourceName, ex);
+        }
+        return 0;
+    }
+
 }
