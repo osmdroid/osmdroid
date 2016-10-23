@@ -44,7 +44,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource()
     {
-        super("herewego", 1, 19, 256, ".png", mapBoxBaseUrl);
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
     }
 
     /**
@@ -54,7 +54,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final Context ctx)
     {
-        super("herewego", 1, 19, 256, ".png", mapBoxBaseUrl);
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
         retrieveAppId(ctx);
         retrieveMapBoxMapId(ctx);
         retrieveAppCode(ctx);
@@ -81,7 +81,7 @@ public class HEREWeGoTileSource  extends OnlineTileSourceBase
      */
     public HEREWeGoTileSource(final String mapboxid, final String accesstoken, final String appCode)
     {
-        super("herewego", 1, 19, 256, ".png", mapBoxBaseUrl);
+        super("herewego", 1, 20, 256, ".png", mapBoxBaseUrl);
         this.appId =accesstoken;
         this.herewegoMapId =mapboxid;
         this.appCode = appCode;

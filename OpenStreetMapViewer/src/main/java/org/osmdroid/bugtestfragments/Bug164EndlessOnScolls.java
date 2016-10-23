@@ -17,7 +17,7 @@ import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
-import static org.osmdroid.samplefragments.SampleMapEventListener.df;
+import static org.osmdroid.samplefragments.events.SampleMapEventListener.df;
 
 /**
  * <a href="https://github.com/osmdroid/osmdroid/issues/164">https://github.com/osmdroid/osmdroid/issues/164</a>

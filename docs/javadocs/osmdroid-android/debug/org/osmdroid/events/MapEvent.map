@@ -1,8 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapEvent.html" title="org.osmdroid.events.MapEvent" alt="" coords="83,11,170,55"/>
-<area shape="rect" id="node1" href="./MapEvent.html" title="&lt;TABLE&gt;" alt="" coords="73,6,181,61"/>
-<area shape="rect" id="node2_1" href="./ScrollEvent.html" title="org.osmdroid.events.ScrollEvent" alt="" coords="16,120,104,147"/>
-<area shape="rect" id="node2" href="./ScrollEvent.html" title="&lt;TABLE&gt;" alt="" coords="5,109,115,157"/>
-<area shape="rect" id="node3_2" href="./ZoomEvent.html" title="org.osmdroid.events.ZoomEvent" alt="" coords="149,120,237,147"/>
-<area shape="rect" id="node3" href="./ZoomEvent.html" title="&lt;TABLE&gt;" alt="" coords="139,109,248,157"/>
-</map>

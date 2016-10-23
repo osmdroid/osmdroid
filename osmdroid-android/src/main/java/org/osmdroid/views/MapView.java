@@ -78,6 +78,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Fields
 	// ===========================================================
 
+	public static boolean hardwareAccelerated=false;
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
@@ -151,17 +152,27 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Constructors
 	// ===========================================================
 
-	protected MapView(final Context context,
+	public MapView(final Context context,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
+		this(context, tileProvider, tileRequestCompleteHandler, attrs, hardwareAccelerated);
+
+	}
+	
+	public MapView(final Context context,
+					  MapTileProviderBase tileProvider,
+					  final Handler tileRequestCompleteHandler, final AttributeSet attrs, boolean hardwareAccelerated) {
 		super(context, attrs);
-		if(isInEditMode()){
+		if(isInEditMode()){ 	//fix for edit mode in the IDE
 			mTileRequestCompleteHandler=null;
 			mController=null;
 			mZoomController=null;
 			mScroller=null;
 			mGestureDetector=null;
 			return;
+		}
+		if (!hardwareAccelerated && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 		this.mController = new MapController(this);
 		this.mScroller = new Scroller(context);
@@ -366,7 +377,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 		final int curZoomLevel = this.mZoomLevel;
 
 		if (newZoomLevel != curZoomLevel) {
-			mScroller.forceFinished(true);
+			if (mScroller!=null)	//fix for edit mode in the IDE
+				mScroller.forceFinished(true);
 			mIsFlinging = false;
 		}
 
@@ -972,19 +984,20 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 	@Override
 	public void computeScroll() {
-		if (mScroller.computeScrollOffset()) {
-			if (mScroller.isFinished()) {
-				// One last scrollTo to get to the final destination
-				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-				// This will facilitate snapping-to any Snappable points.
-				setZoomLevel(mZoomLevel);
-				mIsFlinging = false;
-			} else {
-				scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+		if (mScroller!=null)	//fix for edit mode in the IDE
+			if (mScroller.computeScrollOffset()) {
+				if (mScroller.isFinished()) {
+					// One last scrollTo to get to the final destination
+					scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+					// This will facilitate snapping-to any Snappable points.
+					setZoomLevel(mZoomLevel);
+					mIsFlinging = false;
+				} else {
+					scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+				}
+				// Keep on drawing until the animation has finished.
+				postInvalidate();
 			}
-			// Keep on drawing until the animation has finished.
-			postInvalidate();
-		}
 	}
 
 	@Override
@@ -1092,15 +1105,17 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		/* Draw background */
 		// c.drawColor(mBackgroundColor);
+		try {
+			/* Draw all Overlays. */
+			this.getOverlayManager().onDraw(c, this);
 
-		/* Draw all Overlays. */
-		this.getOverlayManager().onDraw(c, this);
-
-		// Restore the canvas matrix
-		c.restore();
-
-		super.dispatchDraw(c);
-
+			// Restore the canvas matrix
+			c.restore();
+			super.dispatchDraw(c);
+		}catch (Exception ex){
+			//for edit mode
+			Log.e(IMapView.LOGTAG, "error dispatchDraw, probably in edit mode", ex);
+		}
 		if (DEBUGMODE) {
 			final long endMs = System.currentTimeMillis();
 			Log.d(IMapView.LOGTAG,"Rendering overall: " + (endMs - startMs) + "ms");
@@ -1270,7 +1285,8 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			// Stop scrolling if we are in the middle of a fling!
 			if (mIsFlinging) {
-				mScroller.abortAnimation();
+				if (mScroller!=null)	//fix for edit mode in the IDE
+					mScroller.abortAnimation();
 				mIsFlinging = false;
 			}
 
@@ -1298,8 +1314,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			final int worldSize = TileSystem.MapSize(MapView.this.getZoomLevel(false));
 			mIsFlinging = true;
-			mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
-					-worldSize, worldSize, -worldSize, worldSize);
+			if (mScroller!=null)	//fix for edit mode in the IDE
+				mScroller.fling(getScrollX(), getScrollY(), (int) -velocityX, (int) -velocityY,
+						-worldSize, worldSize, -worldSize, worldSize);
 			return true;
 		}
 

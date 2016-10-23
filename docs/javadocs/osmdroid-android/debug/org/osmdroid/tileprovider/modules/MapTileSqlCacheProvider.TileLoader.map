@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./MapTileModuleProviderBase.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase.TileLoader" alt="" coords="16,16,99,43"/>
-<area shape="rect" id="node1" href="./MapTileModuleProviderBase.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="5,5,109,53"/>
-<area shape="rect" id="node2_1" href="./MapTileSqlCacheProvider.TileLoader.html" title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider.TileLoader" alt="" coords="16,112,99,139"/>
-<area shape="rect" id="node2" href="./MapTileSqlCacheProvider.TileLoader.html" title="&lt;TABLE&gt;" alt="" coords="5,101,109,149"/>
-</map>

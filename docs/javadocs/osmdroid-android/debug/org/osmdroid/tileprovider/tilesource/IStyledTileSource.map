@@ -1,6 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="./CloudmadeTileSource.html" title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" alt="" coords="16,120,168,147"/>
-<area shape="rect" id="node1" href="./CloudmadeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,109,179,157"/>
-<area shape="rect" id="node2_1" href="./IStyledTileSource.html" title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" alt="" coords="18,11,166,55"/>
-<area shape="rect" id="node2" href="./IStyledTileSource.html" title="&lt;TABLE&gt;" alt="" coords="7,6,177,61"/>
-</map>

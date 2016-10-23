@@ -41,4 +41,15 @@ public interface IFilesystemCache {
 	 * @since 5.3
 	 */
 	void onDetach();
+
+	/**
+	 * Removes a tile from the cache, see issue
+	 * https://github.com/osmdroid/osmdroid/issues/426
+	 *
+	 * @since 5.4.2
+	 * @param tileSource
+	 * @param tile
+	 * @return true if it was removed, false otherwise
+     */
+	boolean remove(ITileSource tileSource, MapTile tile);
 }

@@ -1,7 +1,7 @@
 description = 'Example application for 3rd party utilities, including the Google wrapper sample, Bing map sources, etc'
 
 apply plugin: 'com.android.application'
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/android-support.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/android-support.gradle"
 
 android {
     compileSdkVersion 'Google Inc.:Google APIs:23'

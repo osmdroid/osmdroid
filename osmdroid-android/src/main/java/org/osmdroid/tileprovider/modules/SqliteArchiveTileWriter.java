@@ -109,4 +109,10 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
         if (db != null)
             db.close();
     }
+
+    @Override
+    public boolean remove(ITileSource tileSource, MapTile tile) {
+        //not supported
+        return false;
+    }
 }

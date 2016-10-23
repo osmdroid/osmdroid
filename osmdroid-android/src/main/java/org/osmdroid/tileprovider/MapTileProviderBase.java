@@ -475,4 +475,10 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 	public abstract IFilesystemCache getTileWriter();
 
+	/**
+	 * @since 5.6
+	 * @return the number of tile requests currently in the queue
+     */
+	public abstract long getQueueSize();
+
 }

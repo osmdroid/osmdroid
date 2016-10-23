@@ -78,7 +78,7 @@ public class TileSourceFactory {
 	}
 
 	public static final OnlineTileSourceBase MAPNIK = new XYTileSource("Mapnik",
-			0, 18, 256, ".png", new String[] {
+			0, 19, 256, ".png", new String[] {
 					"http://a.tile.openstreetmap.org/",
 					"http://b.tile.openstreetmap.org/",
 					"http://c.tile.openstreetmap.org/" });

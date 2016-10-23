@@ -1,7 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" id="node1_0" href="../../api/IMyLocationOverlay.html" title="org.osmdroid.api.IMyLocationOverlay" alt="" coords="15,11,153,55"/>
-<area shape="rect" id="node1" href="../../api/IMyLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,6,163,61"/>
-<area shape="rect" id="node2_1" href="./MyLocationOverlay.html" title="org.osmdroid.google.wrapper.MyLocationOverlay" alt="" coords="146,120,281,147"/>
-<area shape="rect" id="node2" href="./MyLocationOverlay.html" title="&lt;TABLE&gt;" alt="" coords="135,109,291,157"/>
-<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/android/maps/MyLocationOverlay.html" title="com.google.android.maps.MyLocationOverlay" alt="" coords="199,20,489,47"/>
-</map>

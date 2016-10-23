@@ -21,7 +21,7 @@ allprojects {
     project.version =
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/maven-support.gradle"
+    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -44,15 +44,15 @@ allprojects {
     }
 
     if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-        apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/quality.gradle"
+        apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/quality.gradle"
     }
 
 }
 
 
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/encryption.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/encryption.gradle"
 
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.13/gradle/site.gradle"
+apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/site.gradle"
 
 
 //copy the readme into the site folder as the index
@@ -64,6 +64,3 @@ task copyReadme() << {
     }
 }
 site.dependsOn copyReadme
-
-//tip, you can override the output directory of the site by uncommenting the following
-ext.buildWebsiteDir = rootDir.absolutePath + "/docs/"

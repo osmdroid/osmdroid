@@ -181,6 +181,13 @@ public class MapTileProviderArray extends MapTileProviderBase {
 		return null;
 	}
 
+	@Override
+	public long getQueueSize() {
+		if (mWorking!=null)
+			return mWorking.size();
+		return -1;
+	}
+
 	/**
 	 * We want to not use a provider that doesn't exist anymore in the chain, and we want to not use
 	 * a provider that requires a data connection when one is not available.
