@@ -138,6 +138,22 @@ public class TileWriter implements IFilesystemCache {
 	}
 
 	@Override
+	public boolean remove(final ITileSource pTileSource, final MapTile pTile) {
+		final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
+		if (file.exists()) {
+			try {
+				file.delete();
+				return true;
+			}catch (Exception ex){
+				//potential io exception
+				Log.i(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSource.name() + " " + pTile.toString() , ex);
+			}
+		}
+		return false;
+	}
+
+	@Override
 	public boolean exists(final ITileSource pTileSource, final MapTile pTile) {
 		return new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION).exists();

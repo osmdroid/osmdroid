@@ -109,7 +109,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("Bug Drivers");
         list.add("Report a bug");
         list.add("Settings");
-        //this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
+
         ListView lv = (ListView) findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
