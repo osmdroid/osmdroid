@@ -2,6 +2,40 @@ package org.osmdroid.samplefragments;
 
 
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.samplefragments.cache.CacheImport;
+import org.osmdroid.samplefragments.cache.CachePurge;
+import org.osmdroid.samplefragments.cache.SampleAlternateCacheDir;
+import org.osmdroid.samplefragments.cache.SampleCacheDownloader;
+import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
+import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
+import org.osmdroid.samplefragments.cache.SampleJumboCache;
+import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.events.SampleAnimateTo;
+import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
+import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
+import org.osmdroid.samplefragments.events.SampleMapBootListener;
+import org.osmdroid.samplefragments.events.SampleMapEventListener;
+import org.osmdroid.samplefragments.events.SampleZoomToBounding;
+import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
+import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
+import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
+import org.osmdroid.samplefragments.location.SampleFollowMe;
+import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
+import org.osmdroid.samplefragments.data.AsyncTaskDemoFragment;
+import org.osmdroid.samplefragments.data.SampleGridlines;
+import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
+import org.osmdroid.samplefragments.data.SampleOsmPath;
+import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
+import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
+import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
+import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
+import org.osmdroid.samplefragments.tilesources.SampleHereWeGo;
+import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
+import org.osmdroid.samplefragments.tilesources.SampleMapBox;
+import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
+import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
 
 /**
