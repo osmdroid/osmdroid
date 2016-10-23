@@ -12,6 +12,7 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -135,17 +136,20 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 
 	@Override
 	public boolean onZoom(final ZoomEvent event) {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					Log.i("Zoomer", "zoom event triggered");
-					Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
-				}catch (Exception ex){
-					ex.printStackTrace();
+		Activity act=getActivity();
+		if (act!=null) {
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Log.i("Zoomer", "zoom event triggered");
+						Toast.makeText(getActivity(), "Zoom is " + event.getZoomLevel(), Toast.LENGTH_SHORT).show();
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
-			}
-		});
+			});
+		}
 		return true;
 	}
 
