@@ -150,9 +150,10 @@ public class SqlTileWriter implements IFilesystemCache {
             db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
             db.insert(TABLE, null, cv);
             Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
-            if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES){
-                runCleanupOperation();
-            }
+            //this is causing looping conditions
+            //if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES){
+            //    runCleanupOperation();
+            //}
         } catch (SQLiteFullException ex) {
             //the drive is full! trigger the clean up operation
             runCleanupOperation();
