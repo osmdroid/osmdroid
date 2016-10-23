@@ -314,4 +314,27 @@ public class SqlTileWriter implements IFilesystemCache {
     }
 
 
+
+    @Override
+    public boolean remove(final ITileSource pTileSourceInfo, final MapTile pTile) {
+        if (db == null) {
+            Log.d(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + ", database not available.");
+            Counters.fileCacheSaveErrors++;
+            return false;
+        }
+        try {
+            final long x = (long) pTile.getX();
+            final long y = (long) pTile.getY();
+            final long z = (long) pTile.getZoomLevel();
+            final long index = ((z << z) + x << z) + y;
+            db.delete(DatabaseFileArchive.TABLE, DatabaseFileArchive.COLUMN_KEY+"=? and "+DatabaseFileArchive.COLUMN_PROVIDER+"=?", new String[]{index+"",pTileSourceInfo.name()});
+            return true;
+        } catch (Throwable ex) {
+            //note, although we check for db null state at the beginning of this method, it's possible for the
+            //db to be closed during the execution of this method
+            Log.e(IMapView.LOGTAG, "Unable to delete cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + " db is " +(db==null ? "null":"not null"), ex);
+            Counters.fileCacheSaveErrors++;
+        }
+        return false;
+    }
 }

@@ -15,7 +15,9 @@ import org.osmdroid.views.overlay.TilesOverlay;
 import java.util.Iterator;
 
 /**
- * An example on increasing the in memory tile cache
+ * An example on increasing the in memory tile cache. This is NOT the disk cache!
+ *
+ * Caution, setting these values too high may cause OOM errors on less capable devices!
  * @author alex
  */
 public class SampleJumboCache  extends BaseSampleFragment {
@@ -24,7 +26,7 @@ public class SampleJumboCache  extends BaseSampleFragment {
 	// Constants
 	// ===========================================================
 
-	public static final String TITLE = "Jumbo Cache";
+	public static final String TITLE = "Jumbo Memory Cache";
 
 	@Override
 	public String getSampleTitle() {
