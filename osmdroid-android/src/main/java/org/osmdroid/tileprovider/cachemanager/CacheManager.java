@@ -794,10 +794,9 @@ public class CacheManager {
                         final int tileY = MyMath.mod(y, mapTileUpperBound);
                         final int tileX = MyMath.mod(x, mapTileUpperBound);
                         final MapTile tile = new MapTile(zoomLevel, tileX, tileY);
-                        File file = getFileName(tileSource, tile);
-                        if (file.exists()) {
-                            file.delete();
-                            deleted++;
+                        if (mTileWriter.exists(tileSource, tile)){
+                            if (mTileWriter.remove(tileSource, tile))
+                                deleted++;
                         }
                         tileCounter++;
                         if (tileCounter % 1000 == 0) {
