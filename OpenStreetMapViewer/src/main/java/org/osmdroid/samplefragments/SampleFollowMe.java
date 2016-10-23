@@ -133,9 +133,10 @@ public class SampleFollowMe extends BaseSampleFragment implements LocationListen
     public void onResume(){
         super.onResume();
         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);
+        try {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0l, 0f, this);
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
 
         mLocationOverlay.enableFollowLocation();

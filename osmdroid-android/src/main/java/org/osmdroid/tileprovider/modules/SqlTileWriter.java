@@ -165,15 +165,14 @@ public class SqlTileWriter implements IFilesystemCache {
         return false;
     }
 
-    @Override
-    public boolean exists(ITileSource pTileSource, MapTile pTile) {
+    public boolean exists(String pTileSource, MapTile pTile) {
         try {
             final String[] tile = {DatabaseFileArchive.COLUMN_TILE};
             final long x = (long) pTile.getX();
             final long y = (long) pTile.getY();
             final long z = (long) pTile.getZoomLevel();
             final long index = ((z << z) + x << z) + y;
-            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY+" = " + index + " and "+DatabaseFileArchive.COLUMN_PROVIDER+" = '" + pTileSource.name() + "'", null, null, null, null);
+            final Cursor cur = db.query(TABLE, tile, DatabaseFileArchive.COLUMN_KEY+" = " + index + " and "+DatabaseFileArchive.COLUMN_PROVIDER+" = '" + pTileSource + "'", null, null, null, null);
 
             if(cur.getCount() != 0) {
                 cur.close();
@@ -181,9 +180,14 @@ public class SqlTileWriter implements IFilesystemCache {
             }
             cur.close();
         } catch (Throwable ex) {
-            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource.name() + " " + pTile.toString(), ex);
+            Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSource + " " + pTile.toString(), ex);
         }
         return false;
+    }
+
+    @Override
+    public boolean exists(ITileSource pTileSource, MapTile pTile) {
+        return exists(pTileSource.name(), pTile);
     }
 
     @Override
@@ -216,7 +220,9 @@ public class SqlTileWriter implements IFilesystemCache {
 
     /**
      * a helper method to import file system stored map tiles into the sql tile cache
-     * on successful import, the tiles are removed from the file system
+     * on successful import, the tiles are removed from the file system.
+     *
+     * This can take a long time, so consider running this off of the main thread.
      * @return
      */
     public int[] importFromFileCache(boolean removeFromFileSystem) {
@@ -252,34 +258,40 @@ public class SqlTileWriter implements IFilesystemCache {
                                                                 final long z1 = Long.parseLong(z[zz].getName());
                                                                 final long index = ((z1 << z1) + x1 << z1) + y1;
                                                                 cv.put(DatabaseFileArchive.COLUMN_PROVIDER, tileSources[i].getName());
-                                                                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(y[yy]));
+                                                                if (!exists(tileSources[i].getName(), new MapTile((int)z1, (int)x1, (int)y1))) {
 
-                                                                List<Byte> list = new ArrayList<Byte>();
-                                                                //ByteArrayBuffer baf = new ByteArrayBuffer(500);
-                                                                int current = 0;
-                                                                while ((current = bis.read()) != -1) {
-                                                                    list.add((byte) current);
-                                                                }
+                                                                    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(y[yy]));
 
-                                                                byte[] bits = new byte[list.size()];
-                                                                for (int bi = 0; bi < list.size(); bi++) bits[bi] = list.get(bi);
-                                                                cv.put(DatabaseFileArchive.COLUMN_KEY, index);
-                                                                cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
-
-                                                                long insert = db.insert(TABLE, null, cv);
-                                                                if (insert>0) {
-                                                                    Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
-                                                                    ret[0]++;
-                                                                    if (removeFromFileSystem){
-                                                                        try {
-                                                                            y[yy].delete();
-                                                                            ret[2]++;;
-                                                                        }catch (Exception ex){
-                                                                            ret[3]++;;
-                                                                        }
+                                                                    List<Byte> list = new ArrayList<Byte>();
+                                                                    //ByteArrayBuffer baf = new ByteArrayBuffer(500);
+                                                                    int current = 0;
+                                                                    while ((current = bis.read()) != -1) {
+                                                                        list.add((byte) current);
                                                                     }
-                                                                } else {
-                                                                    Log.w(IMapView.LOGTAG, "tile NOT inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+
+                                                                    byte[] bits = new byte[list.size()];
+                                                                    for (int bi = 0; bi < list.size(); bi++)
+                                                                        bits[bi] = list.get(bi);
+                                                                    cv.put(DatabaseFileArchive.COLUMN_KEY, index);
+                                                                    cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
+
+                                                                    long insert = db.insert(TABLE, null, cv);
+                                                                    if (insert > 0) {
+                                                                        Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                        ret[0]++;
+                                                                        if (removeFromFileSystem) {
+                                                                            try {
+                                                                                y[yy].delete();
+                                                                                ret[2]++;
+                                                                                ;
+                                                                            } catch (Exception ex) {
+                                                                                ret[3]++;
+                                                                                ;
+                                                                            }
+                                                                        }
+                                                                    } else {
+                                                                        Log.w(IMapView.LOGTAG, "tile NOT inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                    }
                                                                 }
 
                                                             } catch (Throwable ex) {
