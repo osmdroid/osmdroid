@@ -51,6 +51,8 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
         executeTest(sampleFactory);
     }
 
+    boolean ok =true;
+
     private void executeTest(ISampleFactory sampleFactory){
         Counters.reset();
         final ExtraSamplesActivity activity = getActivity();
@@ -86,6 +88,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                     Assert.fail("OOM Detected, aborting! this test run was " + basefrag.getSampleTitle() + ", " + basefrag.getClass().getCanonicalName() + " iteration " + k);
                 }
 
+
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -96,7 +99,9 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                             //this sleep is here to give the fragment enough time to start up and do something
 
                         } catch (Exception oom) {
+                            ok=false;
                             Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
+
                         }
 
                     }
@@ -114,9 +119,13 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                             }
                         }
                     });
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception oom) {
+                    ok=false;
+                    Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
+
                 }
+
+                Assert.assertTrue("the test failed",ok);
 
 
                 System.gc();

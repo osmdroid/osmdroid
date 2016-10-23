@@ -35,5 +35,9 @@
 
     <string name="bt_center_map_description">Center on my location</string>
     <string name="bt_follow_me_description">Follow me</string>
+    <string name="debug_logging">Debug Logging</string>
+    <string name="tile_provided_debugging">Tile Provided Debugging</string>
+    <string name="cache_directory">Cache Directory</string>
+    <string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration</string>
 
 </resources>
