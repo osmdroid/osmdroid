@@ -2,9 +2,15 @@ package org.osmdroid.samplefragments;
 
 import org.osmdroid.OsmApplication;
 import org.osmdroid.R;
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
+import org.osmdroid.samplefragments.models.MyMapItem;
+import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
+import org.osmdroid.views.overlay.ItemizedIconOverlay;
+import org.osmdroid.views.overlay.PathOverlay;
 import org.osmdroid.views.overlay.infowindow.BasicInfoWindow;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
@@ -63,7 +69,13 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 	protected void addOverlays() {
 		super.addOverlays();
 
-		final Context context = getActivity();
+		OnlineTileSourceBase mapnik = new XYTileSource("Mapnik",
+				0, 22, 256, ".png", new String[] {
+				"http://a.tile.openstreetmap.org/",
+				"http://b.tile.openstreetmap.org/",
+				"http://c.tile.openstreetmap.org/" });
+		mMapView.getTileProvider().setTileSource(mapnik);
+
 
 		//mOsmPathOverlay = new OsmPathOverlay(context);
 		//mMapView.getOverlayManager().add(mOsmPathOverlay);
@@ -93,6 +105,7 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 			}
 		});*/
 		mMapView.getOverlayManager().add(line);
+		mMapView.setMaxZoomLevel(22);
 
 
 		Marker marker = new Marker(mMapView);
@@ -125,6 +138,58 @@ public class SampleOsmPath extends BaseSampleFragment implements MapListener {
 		polygon.setPoints(pts);
 		mMapView.getOverlays().add(polygon);
 
+
+		Marker m = new Marker(mMapView);
+		m.setPosition(new GeoPoint(51.7875, 6.135278));
+		m.setImage(getResources().getDrawable(R.drawable.icon));
+		line = new Polyline();
+		line.setTitle("TEST");
+		line.setSubDescription(Polyline.class.getCanonicalName());
+		line.setWidth(20f);
+		pts = new ArrayList<>();
+		//here, we create a polygon, note that you need 5 points in order to make a closed polygon (rectangle)
+
+		pts.add(new GeoPoint(51.7875, 6.135278));
+		pts.add(new GeoPoint(51.7875, 6.135288));
+		pts.add(new GeoPoint(51.7874, 6.135288));
+		pts.add(new GeoPoint(51.7874, 6.135288));
+		pts.add(new GeoPoint(51.7875, 6.135278));
+		line.setPoints(pts);
+		line.setGeodesic(true);
+		line.setInfoWindow(new BasicInfoWindow(R.layout.bonuspack_bubble, mMapView));
+
+		mMapView.getOverlayManager().add(m);
+		mMapView.getOverlayManager().add(line);
+
+
+		List<MyMapItem> list = new ArrayList<>();
+		list.add(new MyMapItem("title","description", new GeoPoint(51.7875, 6.135278)));
+		ItemizedIconOverlay<MyMapItem> layer = new ItemizedIconOverlay<MyMapItem>(list, getResources().getDrawable(R.drawable.shgpuci), new ItemizedIconOverlay.OnItemGestureListener<MyMapItem>() {
+			@Override
+			public boolean onItemSingleTapUp(int index, MyMapItem item) {
+				return false;
+			}
+
+			@Override
+			public boolean onItemLongPress(int index, MyMapItem item) {
+				return false;
+			}
+		}, getActivity());
+
+		PathOverlay path = new PathOverlay(Color.RED, 200f);
+
+		List<IGeoPoint> pathpoints = new ArrayList<>();
+
+
+		pathpoints.add(new GeoPoint(50.7865, 6.135278));
+		pathpoints.add(new GeoPoint(50.7865, 6.135288));
+		pathpoints.add(new GeoPoint(51.7864, 6.235288));
+		pathpoints.add(new GeoPoint(51.7864, 6.235288));
+		pathpoints.add(new GeoPoint(51.7865, 6.235278));
+
+		path.addPoints(pathpoints);
+		mMapView.getOverlayManager().add(path);
+		mMapView.getOverlayManager().add(layer);
 		mMapView.setMapListener(this);
 
 	}
