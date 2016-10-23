@@ -226,6 +226,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
 				// Save the data to the filesystem cache
+				//this is the only point in which we insert tiles to the db or local file system.
+
 				if (mFilesystemCache != null) {
 					mFilesystemCache.saveFile(tileSource, tile, byteStream);
 					byteStream.reset();
