@@ -39,16 +39,19 @@ public abstract class BaseSampleFragment extends Fragment {
 		Log.d(TAG, "onActivityCreated");
 		addOverlays();
 
-		mMapView.setBuiltInZoomControls(true);
-		mMapView.setMultiTouchControls(true);
-		mMapView.setTilesScaledToDpi(true);
+		if (mMapView!=null) {
+			mMapView.setBuiltInZoomControls(true);
+			mMapView.setMultiTouchControls(true);
+			mMapView.setTilesScaledToDpi(true);
+		}
 	}
 
 	@Override
 	public void onDestroyView(){
 		super.onDestroyView();
 		Log.d(TAG, "onDetach");
-		mMapView.onDetach();
+		if (mMapView!=null)
+			mMapView.onDetach();
 		mMapView=null;
 	}
 

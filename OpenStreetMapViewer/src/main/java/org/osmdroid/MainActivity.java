@@ -4,6 +4,7 @@ package org.osmdroid;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -11,7 +12,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,7 +27,11 @@ import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
+import org.osmdroid.views.MapView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +39,7 @@ import java.util.Map;
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
+    public static final String TAG = "OSM";
     /**
      * Called when the activity is first created.
      */
@@ -45,6 +53,50 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             checkPermissions();
         }
 
+
+        //cache management starts here
+        File discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+
+        //grab the current user preferences for debug settings and where to store the tile cache data
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        OpenStreetMapTileProviderConstants.setCachePath(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath()));
+        OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
+        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
+        MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
+
+        //uncomment this to force a cache trim
+        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
+
+        if (Build.VERSION.SDK_INT >= 9) {
+            //https://github/osmdroid/osmdroid/issues/435
+            //On startup, we auto set the max cache size to be the current cache size + free disk space
+            //this reduces the chance of osmdroid completely filling up the storage device
+
+            //if the default max cache size is greater than the available free space
+            //reduce it to 95% of the available free space + the size of the cache
+            File dbFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
+            if (dbFile.exists()) {
+                long cacheSize = dbFile.length();
+                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getFreeSpace();
+
+                Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
+                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace + cacheSize)){
+                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.95);
+                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.90);
+                }
+            } else {
+                //this is probably the first time running osmdroid
+                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.length();
+                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace)){
+                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.95);
+                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.90);
+                }
+            }
+        }
+
+        //cache management ends here
+
+
         // Generate a ListView with Sample Maps
         final ArrayList<String> list = new ArrayList<>();
         list.add("OSMDroid Sample map (Start Here)");
@@ -56,7 +108,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("More Samples");
         list.add("Bug Drivers");
         list.add("Report a bug");
-        //this.setListAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list));
+        list.add("Settings");
+
         ListView lv = (ListView) findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
 
@@ -107,6 +160,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
             case 8:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/osmdroid/osmdroid/issues"));
                 startActivity(browserIntent);
+                break;
+            case 9:
+                Intent i = new Intent(this,PreferenceActivity.class);
+                startActivity(i);
                 break;
         }
     }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:text="@string/tile_provided_debugging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxDebugTileProvider" />
+
+    <CheckBox
+        android:text="@string/debug_logging"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxDebugMode" />
+
+    <CheckBox
+        android:text="@string/enable_mapview_hardware_acceleration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxHardwareAcceleration" />
+
+    <TextView
+        android:text="@string/cache_directory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         />
+
+    <TextView
+        android:text="/storage/sdcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewCacheDirectory" />
+
+    <Button
+        android:text="Pick Cache Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonSetCache" />
+
+    <Button
+        android:text="Enter Cache Location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonManualCacheEntry" />
+</LinearLayout>

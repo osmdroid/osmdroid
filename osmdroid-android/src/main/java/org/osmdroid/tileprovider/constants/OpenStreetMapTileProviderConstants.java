@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import org.osmdroid.tileprovider.LRUMapTileCache;
 
-import android.os.Environment;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.util.StorageUtils;
@@ -41,7 +40,9 @@ public class OpenStreetMapTileProviderConstants {
               } catch (Exception ex) {
                    Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery. " + ex.getMessage());
               }
-     }
+	 }
+
+
 	public static boolean DEBUGMODE = false;
 	public static boolean DEBUG_TILE_PROVIDERS = false;
 	public static String USER_AGENT="User-Agent";

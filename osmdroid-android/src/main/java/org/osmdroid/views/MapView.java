@@ -78,6 +78,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Fields
 	// ===========================================================
 
+	public static boolean hardwareAccelerated=false;
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
@@ -153,7 +154,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public MapView(final Context context,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
-		this(context, tileProvider, tileRequestCompleteHandler, attrs, false);
+		this(context, tileProvider, tileRequestCompleteHandler, attrs, hardwareAccelerated);
 
 	}
 	
