@@ -28,6 +28,7 @@ import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
+import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.views.MapView;
 
@@ -63,6 +64,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
         OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
         MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
+        MapTileDownloader.DEBUG = prefs.getBoolean("checkBoxDebugDownloading", false);
 
         //uncomment this to force a cache trim
         //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
