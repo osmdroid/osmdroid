@@ -16,8 +16,10 @@ import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
 import org.osmdroid.samplefragments.events.SampleMapBootListener;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.samplefragments.events.SampleZoomToBounding;
+import org.osmdroid.samplefragments.layouts.DrivingMode;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
+import org.osmdroid.samplefragments.layouts.pager.MapInAViewPagerFragment;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
 import org.osmdroid.samplefragments.location.SampleFollowMe;
 import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
@@ -36,7 +38,7 @@ import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
-import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
+import org.osmdroid.samplefragments.layouts.SampleRotationMapAroundPoint;
 
 /**
  * factory for all examples
@@ -127,7 +129,9 @@ public final class SampleFactory implements ISampleFactory {
 				//33
 				MapInAViewPagerFragment.class,
 				//34
-				SampleAdvancedNav.class
+				SampleRotationMapAroundPoint.class,
+				//35
+				DrivingMode.class
 
         };
 	}

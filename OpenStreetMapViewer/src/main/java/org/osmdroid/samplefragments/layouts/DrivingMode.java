@@ -1,4 +1,4 @@
-package org.osmdroid.samplefragments;
+package org.osmdroid.samplefragments.layouts;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -18,7 +18,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.osmdroid.R;
-import org.osmdroid.samplefragments.location.SampleHeadingCompassUp;
+import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.compass.IOrientationConsumer;
 import org.osmdroid.views.overlay.compass.IOrientationProvider;
@@ -26,12 +28,19 @@ import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 /**
- * Created by alex on 10/10/16.
+ * gps heading/bearing up, with my location at 3/4 screen position (heightwise)
+ * Created by alex on 10/23/16.
  */
-public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClickListener, LocationListener, IOrientationConsumer {
+
+public class DrivingMode extends BaseSampleFragment implements LocationListener, IOrientationConsumer {
+    @Override
+    public String getSampleTitle() {
+        return "Driving Mode";
+    }
+
 
     int deviceOrientation = 0;
-    MyLocationNewOverlay overlay = null;
+    MyLocationNewOverlay mLocationOverlay = null;
     IOrientationProvider compass = null;
     float gpsspeed;
     float gpsbearing;
@@ -40,6 +49,8 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
     float alt = 0;
     long timeOfFix = 0;
     String screen_orientation = "";
+    int width = 0;
+    int height = 0;
 
     ImageButton btnRotateLeft, btnRotateRight;
     protected TextView textViewCurrentLocation = null;
@@ -48,24 +59,13 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
     //IMapController.void animateTo(IGeoPoint geoPoint, Point screenPoint, int animationDuration);
     //MapView public void setMapRotationPoint(Point point) {
     //instead of rotating about the center point of the map while in a driving mode, you can rotate at any point
-    @Override
-    public String getSampleTitle() {
 
-        return "Advanced Driving Mode";
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.map_with_locationbox_controls, container, false);
-
         mMapView = (MapView) root.findViewById(R.id.mapview);
-        btnRotateLeft = (ImageButton) root.findViewById(R.id.btnRotateLeft);
-        btnRotateLeft.setOnClickListener(this);
-        btnRotateRight = (ImageButton) root.findViewById(R.id.btnRotateRight);
-        btnRotateRight.setOnClickListener(this);
         textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
-
         return root;
     }
 
@@ -73,36 +73,18 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
         super.addOverlays();
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
+        width = dm.widthPixels;
+        height = dm.heightPixels;
         mMapView.setMapRotationPoint(new Point(width / 2, height * 3 / 4));
-        mMapView.getOverlayManager().getTilesOverlay().setOvershootTileCache(mMapView.getOverlayManager().getTilesOverlay().getOvershootTileCache()*4);
-    }
+        mMapView.getOverlayManager().getTilesOverlay().setOvershootTileCache(mMapView.getOverlayManager().getTilesOverlay().getOvershootTileCache() * 4);
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnRotateLeft: {
-                float angle = mMapView.getMapOrientation() + 10;
-                if (angle > 360)
-                    angle = 360 - angle;
-                mMapView.setMapOrientation(angle);
-            }
-            break;
-            case R.id.btnRotateRight: {
-
-
-                float angle = mMapView.getMapOrientation() - 10;
-                if (angle < 0)
-                    angle += 360f;
-                mMapView.setMapOrientation(angle);
-            }
-            break;
-
-        }
+        mLocationOverlay = new MyLocationNewOverlay(mMapView);
+        mLocationOverlay.enableMyLocation();
+        mLocationOverlay.enableFollowLocation();
+        mLocationOverlay.setOptionsMenuEnabled(true);
 
     }
+
 
     @Override
     public void onResume() {
@@ -148,6 +130,9 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
         compass = new InternalCompassOrientationProvider(getActivity());
         compass.startOrientationProvider(this);
 
+        mLocationOverlay.disableFollowLocation();   //we're going to control the location of the map
+        mLocationOverlay.enableMyLocation();
+
 
     }
 
@@ -160,33 +145,43 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
             lm.removeUpdates(this);
         } catch (Exception ex) {
         }
+        mLocationOverlay.disableFollowLocation();
+        mLocationOverlay.disableMyLocation();
 
         //unlock the orientation
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
-        compass.destroy();
-        overlay.disableMyLocation();
-        overlay.disableFollowLocation();
-        overlay.onDetach(mMapView);
-        if (mMapView!=null)
+        if (compass != null)
+            compass.destroy();
+        if (mLocationOverlay != null) {
+            mLocationOverlay.disableMyLocation();
+            mLocationOverlay.disableFollowLocation();
+            mLocationOverlay.onDetach(mMapView);
+        }
+        if (mMapView != null)
             mMapView.onDetach();
-        mMapView=null;
-        overlay=null;
-        compass=null;
-        textViewCurrentLocation=null;
+        mMapView = null;
+        mLocationOverlay = null;
+        compass = null;
+        textViewCurrentLocation = null;
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if (mMapView==null)
+        if (mMapView == null)
             return;
-        //after the first fix, schedule the task to change the icon
-        //mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        float mapAngle = mMapView.getMapOrientation();
+
+        mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
+
+        //FIXME this part is wrong
+        IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels(width / 2, height - (height / 4));
+        mMapView.getController().setCenter(iGeoPoint);
         mMapView.invalidate();
         gpsbearing = location.getBearing();
         gpsspeed = location.getSpeed();
@@ -219,7 +214,7 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
 
         GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
         trueNorth = orientationToMagneticNorth + gf.getDeclination();
-        gf=null;
+        gf = null;
         synchronized (trueNorth) {
             if (trueNorth > 360.0f) {
                 trueNorth = trueNorth - 360.0f;
@@ -234,7 +229,7 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
                 if (t > 360) {
                     t -= 360;
                 }
-                //mMapView.setMapOrientation(t);
+                mMapView.setMapOrientation(t);
             } else {
                 //this part adjusts the desired map rotation based on device orientation and compass heading
 
@@ -245,13 +240,13 @@ public class SampleAdvancedNav extends BaseSampleFragment implements View.OnClic
                 if (t > 360) {
                     t -= 360;
                 }
-                //mMapView.setMapOrientation(t);
+                mMapView.setMapOrientation(t);
             }
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (getActivity()!=null && textViewCurrentLocation!=null) {
+                    if (getActivity() != null && textViewCurrentLocation != null) {
                         textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
