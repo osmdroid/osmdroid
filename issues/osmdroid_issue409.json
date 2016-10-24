@@ -1,0 +1,21 @@
+{
+  "id" : 409,
+  "status" : "Fixed",
+  "summary" : "MyLocationOverlay continues to draw the last location after call to disableMyLocation()",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add MyLocationOverlay to map\r\n2. enable location updates to be drawn\r\n3. call disableMyLocation() to stop location updates\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nMyLocationOverlay should stop drawing the location, but it still does draw the latest location it has received.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr1129\r\n\r\n<b>Please provide any additional information below.</b>\nTo fix this the 4th line in the draw() method needs to be changed from \r\n\r\n\t\tif (mLocation != null) {\r\n\r\nto\r\n\r\n\t\tif (mLocationListener != null &amp;&amp; mLocation != null) {\r\n\r\n\r\n",
+    "timestamp" : 1362714133,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1202.",
+    "timestamp" : 1365131789,
+    "attachments" : [ ]
+  } ]
+}

@@ -76,7 +76,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 	 * @param aLocale	The language used with BingMap REST service to retrieve tiles.<br> If null, the system default locale is used.
 	 */
 	public BingMapTileSource(final String aLocale) {
-		super("BingMaps",  0, 22, 256, FILENAME_ENDING, null);
+		super("BingMaps",  0, 19, 256, FILENAME_ENDING, null);
 		mLocale = aLocale;
 		if(mLocale==null) {
 			mLocale=Locale.getDefault().getLanguage()+"-"+Locale.getDefault().getCountry();
@@ -179,7 +179,16 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		return mStyle;
 	}
 
-	private ImageryMetaDataResource initMetaData() {
+	/**
+	 * Fire this after you've set up your prefered tile styles and locale
+	 * if you forget, it should fire on the first request for tiles.
+	 *
+	 * See issue <a href="https://github.com/osmdroid/osmdroid/issues/383">https://github.com/osmdroid/osmdroid/issues/383</a>
+	 * It was made public since v5.3
+	 * @since 5.3
+	 * @return
+     */
+	public ImageryMetaDataResource initMetaData() {
 		if (!mImageryData.m_isInitialised) {
 			synchronized (this) {
 				if (!mImageryData.m_isInitialised) {

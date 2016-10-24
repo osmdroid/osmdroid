@@ -1,0 +1,61 @@
+{
+  "id" : 483,
+  "status" : "Fixed",
+  "summary" : "Items in ItemizedOverlay should not be rotated when map is rotated",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use an ItemizedOverlay, for example like in SampleWithMinimapItemizedoverlayWithFocus\r\n2. Call setMapOrientation on MapView\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the map to be rotated with the items in the correct position but still aligned with the top facing up.\r\nWhat actually happens is that the items are also rotated.\r\n",
+    "timestamp" : 1380775762,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is a piece of code to demonstrate the bug.",
+    "timestamp" : 1380775843,
+    "attachments" : [ {
+      "id" : 4830001000,
+      "fileName" : "issue483.patch",
+      "fileSize" : 1416
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I have already fixed it in the branch for issue 478 in revision 1346, but this needs to be done in trunk.",
+    "timestamp" : 1380776436,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "We should also do this with the MyLocationNewOverlay for the \"little man\" icon. I will probably do this today.",
+    "timestamp" : 1380903057,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updated in r1350. Rotate the \"little man\" so he is always facing up.",
+    "timestamp" : 1380903858,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Change in branch v2 merged into trunk in revision 1359.",
+    "timestamp" : 1381174174,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is this finished?",
+    "timestamp" : 1390336851,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390673425,
+    "attachments" : [ ]
+  } ]
+}

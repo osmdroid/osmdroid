@@ -6,9 +6,9 @@ import java.util.Locale;
 
 import org.osmdroid.tileprovider.LRUMapTileCache;
 
-import android.os.Environment;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.tileprovider.util.StorageUtils;
 
 /**
  *
@@ -21,7 +21,7 @@ public class OpenStreetMapTileProviderConstants {
 
      /** Base path for osmdroid files. Zip/sqlite/mbtiles/etc files are in this folder. 
           Note: also used for offline tile sources*/
-	private static File OSMDROID_PATH = new File(Environment.getExternalStorageDirectory(),
+	private static File OSMDROID_PATH = new File(StorageUtils.getStorage().getAbsolutePath(),
 			"osmdroid");
      
      public static File getBasePath(){
@@ -40,7 +40,9 @@ public class OpenStreetMapTileProviderConstants {
               } catch (Exception ex) {
                    Log.e(IMapView.LOGTAG, "unable to create a nomedia file. downloaded tiles may be visible to the gallery. " + ex.getMessage());
               }
-     }
+	 }
+
+
 	public static boolean DEBUGMODE = false;
 	public static boolean DEBUG_TILE_PROVIDERS = false;
 	public static String USER_AGENT="User-Agent";
@@ -73,10 +75,10 @@ public class OpenStreetMapTileProviderConstants {
 	public static final String TILE_PATH_EXTENSION = ".tile";
 
 	/**
-	 * Initial tile cache size. The size will be increased as required by calling
+	 * Initial tile cache size (in memory). The size will be increased as required by calling
 	 * {@link LRUMapTileCache#ensureCapacity(int)} The tile cache will always be at least 3x3.
 	 */
-	public static final int CACHE_MAPTILECOUNT_DEFAULT = 9;
+	public static int CACHE_MAPTILECOUNT_DEFAULT = 9;
 
 	/**
 	 * number of tile download threads, conforming to OSM policy:
@@ -95,7 +97,7 @@ public class OpenStreetMapTileProviderConstants {
       * @param threads
       * @since 5.1
 	 */
-     public void setNumberOfTileDownloadThreads(int threads){
+     public static void setNumberOfTileDownloadThreads(int threads){
           if (threads > 12)
                NUMBER_OF_TILE_DOWNLOAD_THREADS=12;
           else if (threads < 1)

@@ -1,0 +1,21 @@
+{
+  "id" : 140,
+  "status" : "Duplicate",
+  "summary" : "Wrong compass direction",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9112300422288456204,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Phone is in portrait mode. Notice compass direction.\r\n2. Rotate phone so that you map is in landscape mode now.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nIt's expected, that compass shows the same direction. You'll see that direction is wrong (probaly 90° error)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nWe've tested in on HTC Tattoo (Android 1.6) and on T-Mobile Pulse (Android 1.5). We are using osmdroid 1.9\r\n",
+    "timestamp" : 1295189883,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Duplicate of Issue 95. Fix imminent.",
+    "timestamp" : 1295840235,
+    "attachments" : [ ]
+  } ]
+}

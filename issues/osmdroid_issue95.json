@@ -1,0 +1,39 @@
+{
+  "id" : 95,
+  "status" : "Fixed",
+  "summary" : "Rotate the direction arrow according to the bearing AND screen orientation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8979207430023180390,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. check green arrow orientation.\r\n2. rotate the screen.\r\n3. the map rotates but the arrow does not.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe arrow should rotate accordingly to the screen orientation\r\n\r\n\r\n",
+    "timestamp" : 1285434214,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3804822027311196058,
+    "content" : "I suppose you're talking about the MyLocationOverlay class, right?",
+    "timestamp" : 1285756920,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 140 has been merged into this issue.",
+    "timestamp" : 1295840235,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r756.",
+    "timestamp" : 1295840924,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I took a look into this and it does make sense - when the orientation of the phone changes, Android changes the screen coordinate system by rotating it, however the physical orientation sensor also rotates with the device but does not change its orientation along with the screen (since it doesn't know that the screen orientation changed). So we have to offset by +90 manually. This assumes that Android only allows two screen rotations - 0 degrees (portrait) and 90 degrees (landscape) and does not permit 180 or 270 degrees (upside-down portrait and upside-down landscape respectively). This is probably a bad assumption, so maybe there is a better way to do this. SensorManager.remapCoordinateSystem might be able to help.\r\n\r\nBut for now, it works. The above issues are notated in the code.",
+    "timestamp" : 1295840937,
+    "attachments" : [ ]
+  } ]
+}

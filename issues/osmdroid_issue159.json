@@ -1,0 +1,33 @@
+{
+  "id" : 159,
+  "status" : "Fixed",
+  "summary" : "CLOUDMADE_KEY is not retrieved from Manifest - So, CloudMadeStandardTiles tileSource doesn't load tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Updated my application to latest version of osmdroid (trunk, rev. 784)\r\n2. Resolved errors, related to changes in package names / method signatures, etc.\r\n\r\nAfter application started, I just see empty MapView with cells in background. Map tiles are not loaded.\r\nI got the following warnings in LogCat: \r\n02-08 17:45:48.648: WARN/org.osmdroid.tileprovider.modules.MapTileDownloader(1133): Tile not found: /1/0/1 : java.io.FileNotFoundException: http://b.tile.cloudmade.com//1/256/1/0/1.png?token=\r\n\r\nAs you can see, CLOUDMADE_KEY &amp; CLOUDMADE_TOKEN are not present in URL. I'm using CloudmadeStandardTiles tilesource.",
+    "timestamp" : 1297180956,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3456884467250674452,
+    "content" : "Should I call CloudmadeUtil.retrieveCloudmadeKey(context) manually?\r\nSeems like it was handled inside library earlier.",
+    "timestamp" : 1297181512,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "You should call CloudmadeUtil.retrieveCloudmadeKey(context) manually.  The sample does that. I guess it should be documented somewhere, but I'm not sure where the best place would be. Or it should log a more informative error.\r\n\r\nPreviously CloudMade didn't use token authorisation (or osmdroid used a hard-coded key - I don't remember).  That's why you didn't need to do this before.",
+    "timestamp" : 1297241033,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r861.",
+    "timestamp" : 1299253945,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 60,
+  "status" : "Duplicate",
+  "summary" : "Cloudmade API requires Token Authorization",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Cloudmade tiles should use the new authorization API\r\n\r\nhttp://developers.cloudmade.com/projects/show/auth\r\n\r\n&quot;All mobile applications must be fully migrated to token based authorization by 1st Sep 2010.&quot;\r\n",
+    "timestamp" : 1276167728,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1276179107,
+    "attachments" : [ ]
+  } ]
+}

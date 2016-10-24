@@ -1,0 +1,33 @@
+{
+  "id" : 228,
+  "status" : "Accepted",
+  "summary" : "OutOfMemoryError when using tile archive",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "When trying to use a tile archive with 380000 tiles and 484 MB in size I get an OutOfMemoryError in ZipFileArchive, when trying to instantiate a new ZipFile().\r\nI don't even get a stacktrace in LogCat or a call to my UncaughtExceptionHandler, but the app just dies.\r\n\r\nI'm using osmdroid-android-3.0.3.jar within my app on a HTC Desire running Android 2.2.\r\n\r\nI did some research and there seem to be this kind of issues with ZipFile in different versions J2SE. Im not sure how they relate to Android, because the actual method that causes the error is a native one.\r\n\r\nI've been wondering if ZipInputStream could be an alternative, but I guess not.\r\n",
+    "timestamp" : 1308204004,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "There have also been bug report in Market about this.",
+    "timestamp" : 1309238701,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 337 has been merged into this issue.",
+    "timestamp" : 1334120755,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 372 has been merged into this issue.",
+    "timestamp" : 1349364127,
+    "attachments" : [ ]
+  } ]
+}

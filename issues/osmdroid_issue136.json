@@ -1,0 +1,69 @@
+{
+  "id" : 136,
+  "status" : "Fixed",
+  "summary" : "Zoom in animates beyond next level, screen flickers then map shown at correct level",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 817395957683575128,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. Using cached tiles (you dont see this otherwise) \r\n2. Navigate any map dataset to a zoom level which shows the whole of the UK and some of the sea around (i.e Mapnik at Zoom 5)\r\n3. Zoom in using a button (not multitouch)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nAfter the zoom in animation completes the screen flickers briefly with a more zoomed in view than the resulting zoom level tiles, i.e if you are zooming from 5 - 6 it appears to resize the tiles to 6.5 then refresh with zoom level 6 tiles.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n3.0 Market release, HTC Desire\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1294933008,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1295500466,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1296348989,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I've looked into this and here is a possible scenario for what is happening:\r\n\r\n0. Zoom level is 10. User zooms in. Animation starts.\r\n1. Animation ends on non-UI thread, sends signal to change zoom level on the non-UI thread. Zoom level change to 11 happens on non UI-thread. Animation posts message to end matrix transformation.\r\n2. meanwhile, on the UI-thread, the onDraw gets called before the animation matrix transformation gets cleared, but after the zoom level has been set to 11. This causes one cycle of incorrectly drawn tiles.\r\n3. The animation matrix transformation is cleared.\r\n4. OnDraw is called. It properly draws a blank gray canvas while it caches the tiles for the zoom level 11.\r\n5. OnDraw is called. It now has the proper tiles for zoom level 11 and it draws them.\r\n\r\n\r\nIt appears the solution is to post the setZoomLevel() to the UI-thread to keep everything in sync.",
+    "timestamp" : 1296351759,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r761.",
+    "timestamp" : 1296351912,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "A little bit of follow-up - it appears the actual order of events happening is:\r\n\r\n1. Zoom-in\r\n2. Animation Ends\r\n3. Gray screen (tiles caching)\r\n4. Mis-drawn tiles (from zoomed-in level)\r\n5. Correct tiles (again from zoomed-in level)\r\n\r\nThe onAnimationEnd is taking place on the UI-thread. There are some bad dependency issues between the projection and the MapView that could cause all sorts of synchronization issues. That may be the true root of the problem.\r\n\r\nFor now, the fix works.",
+    "timestamp" : 1296354406,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "It appears others are having problems with onAnimationEnd not really being the end:\r\n\r\nhttp://stackoverflow.com/questions/4750939/android-animation-is-not-finished-in-onanimationend\r\n\r\nhttp://groups.google.com/group/android-developers/browse_thread/thread/7fd6976e5e01d8e6\r\n\r\nIf you set a breakpoint in drawTiles(), you can see that the viewPort is changing size between steps 4 and 5 in the previous comment, and I suspect this is the residual scaling going on from the Animation. By posting a new runnable to change the zoom level, we must be getting in line after the message to perform fully resetting the Animation scaling.",
+    "timestamp" : 1296355761,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Unfortunately, it appears this issue is still happening, so I'm re-opening it.",
+    "timestamp" : 1297401060,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r796.",
+    "timestamp" : 1297490615,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "Clearing the Animation from the View manually seems to stop the post-\r\nonAnimationEnd scaling happening to the Canvas. It is still necessary to post it\r\nto the UI thread to prevent visual glitches. This might be a bug that is fixed in a later API, but for now this works.",
+    "timestamp" : 1297490667,
+    "attachments" : [ ]
+  } ]
+}

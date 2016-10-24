@@ -1,0 +1,25 @@
+{
+  "id" : 286,
+  "status" : "Fixed",
+  "summary" : "Patch for MapView : change LayoutParams type",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "Replace GeoPoint type by IGeoPoint to make it consistant with other changes in the library.",
+    "timestamp" : 1324559742,
+    "attachments" : [ {
+      "id" : 2860000000,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 815
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1016.",
+    "timestamp" : 1324564743,
+    "attachments" : [ ]
+  } ]
+}

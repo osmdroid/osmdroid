@@ -1,0 +1,81 @@
+{
+  "id" : 364,
+  "status" : "Accepted",
+  "summary" : "Overlays spanning dateline and r1108",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6893030347072487526,
+    "content" : "r1108 breaks PathOverlays crossing the Prime Meridian now.\r\n\r\nPlease revert PathOverlay back to last revision r1093.  Attached is also a fix for the original issue 363.  I believe this is the right approach now.\r\n\r\nAdditionally this fixes issues 345 and 285 which were still broken ... items east of dateline would still disappear when map center was west of dateline.\r\n\r\nThanks,\r\n\r\nWill",
+    "timestamp" : 1345411800,
+    "attachments" : [ {
+      "id" : 3640000000,
+      "fileName" : "MapView.java",
+      "fileSize" : 47824
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've put back the previous revision but I don't have time for testing patches.",
+    "timestamp" : 1345486432,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6893030347072487526,
+    "content" : "Thanks Neil... understood.  I'll thoroughly test and report back. ",
+    "timestamp" : 1345829395,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the contribution manimaul - this has been a long-standing issue that I would love to see resolved. If you could post the changes as a patch-file so we can see exactly what you changed in MapView rather than posting the entire file then that would help. Also an explanation of how you fixed the issue would be useful. Thanks again!",
+    "timestamp" : 1347481554,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6893030347072487526,
+    "content" : "Thanks, I've attached the patch.\r\n\r\nExplanation:\r\n\r\nWhen getScrollX() is East of Prime Meridian (West of Dateline) and point is between dateline and 90W then pixels are a added to point.x to wrap around MapView\r\n\r\nor\r\n\r\nWhen getScrollX() is West of Prime Meridian (East of Dateline) and point is between dateline and 90E then pixels are a subtracted to point.x to wrap around MapView",
+    "timestamp" : 1347572878,
+    "attachments" : [ {
+      "id" : 3640004000,
+      "fileName" : "MapView.patch",
+      "fileSize" : 2391
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6893030347072487526,
+    "content" : "To get this working perfectly on path overlays... some additional work needs to be done in PathOverlay with regard to the intersection clipBounds and mLineBounds which does not work properly when lines are drawn.",
+    "timestamp" : 1347581107,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6893030347072487526,
+    "content" : "Ok I've put some work in to get this working fully with PathOverlays also.  Attached are two patches that fixes this issue, issue 285, issue 345 and issue 363. Two demonstration screenshots showing various overlays spanning dateline correctly.\r\n\r\nWill",
+    "timestamp" : 1347913770,
+    "attachments" : [ {
+      "id" : 3640006000,
+      "fileName" : "MapView.patch",
+      "fileSize" : 3336
+    }, {
+      "id" : 3640006001,
+      "fileName" : "PathOverlay.patch",
+      "fileSize" : 2504
+    }, {
+      "id" : 3640006002,
+      "fileName" : "dateline.png",
+      "fileSize" : 247010
+    }, {
+      "id" : 3640006003,
+      "fileName" : "fiji_dateline.png",
+      "fileSize" : 420476
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6893030347072487526,
+    "content" : "Just to report back... I've had this patch in production now for about a month with 0 known issues.",
+    "timestamp" : 1351364259,
+    "attachments" : [ ]
+  } ]
+}

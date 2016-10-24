@@ -1,0 +1,15 @@
+{
+  "id" : 405,
+  "status" : "New",
+  "summary" : "enhancement for gpx creator",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2060118034196697627,
+    "content" : "hi,\r\ncould you please allow to create gpx file from classes that extend RecordedGeoPoint?\r\n\r\npublic static String create(final List&lt;RecordedGeoPoint&gt; someRecords)\r\n\r\nchange to\r\n\r\npublic static String create(final List&lt;? extends RecordedGeoPoint&gt; someRecords)\r\n\r\nin\r\n\r\npublic class RecordedRouteGPXFormatter implements OpenStreetMapContributorConstants\r\n",
+    "timestamp" : 1361289771,
+    "attachments" : [ ]
+  } ]
+}

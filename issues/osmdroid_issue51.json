@@ -1,0 +1,21 @@
+{
+  "id" : 51,
+  "status" : "Fixed",
+  "summary" : "Gestures handling in OpenStreetMapViewOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "Add possibility to handle all OpenStreetMapViewGestureDetectorListener\r\ngestures in OpenStreetMapViewOverlay.\r\n\r\nE.g. onDown(), onShowPress(), onScroll() gestures handling is not done in\r\noverlay.",
+    "timestamp" : 1273334709,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r782.",
+    "timestamp" : 1297051351,
+    "attachments" : [ ]
+  } ]
+}

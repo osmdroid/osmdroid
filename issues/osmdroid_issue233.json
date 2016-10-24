@@ -1,0 +1,143 @@
+{
+  "id" : 233,
+  "status" : "Fixed",
+  "summary" : "Unexpected behaviour: Tiles removed autometically from folders in offline mode.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 21,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5635043304501389373,
+    "content" : "<b>What steps will reproduce the problem?</b>\nI am using osmdroid. In offline mode when i open the activity that has \r\nosmmap. it works fine and when i revisit this activity. It shows \r\nnothing. When i check the folders that has tiles from sdcard. All \r\nfolders are now empty. It is unexpected and strange behaviour for me.  \r\n\r\n<b>What is the expected output? What do you see instead?</b>\nTiles should remain until manually i remove them.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.4\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1309168435,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 191.",
+    "timestamp" : 1309238831,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3386107672345433616,
+    "content" : "I have the same behaviour. In offline mode, all the cached tiles are deleted after a while.",
+    "timestamp" : 1320158876,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -46238301387888754,
+    "content" : "I recently updated to 3.0.5 and this problem remains. I found myself out on a survey and without maps.\r\nThis issue should be raised to critical in my opinion, since it is not possible to avoid it and it can well be seen as a showstopper.\r\n\r\nIs there any chance to know if the resolution of this bug is being considered or if we can do something to help out?\r\n\r\nThanks",
+    "timestamp" : 1320242636,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "As far as I can see there are only two places where tiles are deleted. So if anyone wants to help you could see what are the unexpected conditions that cause that to happen.",
+    "timestamp" : 1320243633,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5876604996716452356,
+    "content" : "Comment deleted",
+    "timestamp" : 1320509484,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -5876604996716452356,
+    "content" : "Comment deleted",
+    "timestamp" : 1320510355,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -5876604996716452356,
+    "content" : "It seems to affect all tiles from all providers (even providers which have not been used recently).  So my money's on cutCurrentCache being the culprit.  I'm trying to get my head around the lifecycle of mUsedCacheSpace, and when / where it should be zeroed...",
+    "timestamp" : 1320510518,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -5876604996716452356,
+    "content" : "Yes, I'm pretty sure the problem is in the handling of mUsedCacheSpace in TileWriter.java.  To reproduce the problem, I emptied the tile cache, then loaded up 90MB of tiles.  Then started my application and flipped from portrait to landscape a few times.  I soon got the following in my Logcat...\r\n\r\nINFO/o*.o*.t*.m*.TileWriter(3893): Trimming tile cache from 655943233 to 524288000\r\n\r\nA quick fix would be to add mUsedCacheSpace=0 at the start of the thread, before calling calculateDirectorySize().  However, this would have the effect of stopping any existing cutCurrentCache threads whenever someone did something to re-instantiate TileWriter.  That's probably a less-bad bug than the current behaviour, but...\r\n\r\nHow about passing the usedCacheSpace into cutCurrentCache as a parameter, rather than a member variable?\r\n\r\nSorry I've only come up with coding suggestions, rather than providing a properly tested patch.  But I've not yet been able to successfully compile osmdroid myself. :-(",
+    "timestamp" : 1320512076,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -2449436961076870026,
+    "content" : "Hi, I started last week with Android and OSM and I´ve got the same error (Ver. 3.0.5).\r\nI think the problem is in the method TileWriter.cutCurrentCache().\r\nThis method reads all (physical) files out of the directory TILE_PATH_BASE (sdcard/osmdroid/tiles)\r\nfinal List<File> z = getDirectoryFileList(TILE_PATH_BASE);\r\nThis files are sorted into files Array and at the end this (physical) files were deleted.\r\nfinal long length = file.length();\r\nif (file.delete()) <- This is a file at the sdcard, isn´t it?\r\n{\r\n mUsedCacheSpace -= length;\r\n}\r\nPerhaps there is a real file cache (I didn´t find something) where the tiles should be deleted from but not the files in TILE_PATH_BASE.\r\n\r\nSomething like this:\r\nfinal List<File> z = getDirectoryFileList(TILE_CACHE_MEMORY);\r\n\r\nWhat do you think?\r\n",
+    "timestamp" : 1323941106,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -3386107672345433616,
+    "content" : "I think that TILE_PATH_BASE itself is the cache, that's why tiles gets deleted from it.\r\nAnyway I solved this by simply commenting out the file.delete() line. Might be a dumb solution but it solved the problem.",
+    "timestamp" : 1323960923,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -2449436961076870026,
+    "content" : "During debugging I saw that TILE_PATH_BASE points to the SD Card so it is not a (the) cache. \r\nI think there must be a list with loaded tiles and from this list we have to remove the loaded files. \r\n   tileList.remove(tile)\r\n   mUsedCacheSpace -= tile.length..\r\n\r\n",
+    "timestamp" : 1324022374,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Based on comment 8, it seems like mUsedCacheSpace should be set to zero at the start of calculateDirectorySize.",
+    "timestamp" : 1324025320,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -6679925067962250327,
+    "content" : "Yes comment 8 looks right to me, mUsedCacheSpace is static and the when constructing the TileWriter it gets updated in the background.  This is presumably happening multiple times without the value ever being zeroed.  I am not clear if there are multiple TileWriter objects, if so then the calculating of the inital count should realy only happen once.  I Will try and get the source building tommorow and work it out. ",
+    "timestamp" : 1326152137,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -6679925067962250327,
+    "content" : "OK I got it building localy today.  Added in some more logging and reduced the cache size down to help test.  There looks to be only one instance of the TileWriter so just zeroing mUsedCacheSpace before starting the init thread looks to solve the issue.  I can flip form portrait to landscape lots of times without the cache size growing all the time with the one line fix in.\r\n\r\nI am not at all sure about how to go about commiting in, and it's a one line fix hopefully someone can do the job.\r\n\r\nThere is somthing elsewhere badely broken with the tile scaling that looks to of gone in, so I will be moveing back to an older jar myself for a bit.",
+    "timestamp" : 1326211908,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you can attach a patch, or just the modified file, to this issue then I can commit it.",
+    "timestamp" : 1326357433,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -6679925067962250327,
+    "content" : "Sorry totaly missed comment 15 till now....\r\n\r\nFile attached built under the mavern setup for me just now.",
+    "timestamp" : 1328121978,
+    "attachments" : [ {
+      "id" : 2330016000,
+      "fileName" : "TileWriter.java",
+      "fileSize" : 7366
+    } ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1075.",
+    "timestamp" : 1328187367,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 191 has been merged into this issue.",
+    "timestamp" : 1333740220,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 6824934752185943053,
+    "content" : "Hi Folks,\r\n\r\nif anybody is interested in avoiding deleting their own tiles cache, I have found a suitable\r\nsolution. In TileWriter.java @ line 194, you can add the check for your directory,\r\nso it will not be cut:\r\nif (file.isDirectory() && !file.getName().equalsIgnoreCase(\"your directory\")) {\r\n\r\nThe much better way would be to make this configurable ; )",
+    "timestamp" : 1343562645,
+    "attachments" : [ {
+      "id" : 2330019000,
+      "fileName" : "TileWriter.java",
+      "fileSize" : 7456
+    } ]
+  }, {
+    "id" : 20,
+    "commenterId" : -6631878275604919642,
+    "content" : "Is this issue fixed? If yes kindly inform in which version of osmdroid.\r\n\r\nThanks\r\nMuhammad Babar",
+    "timestamp" : 1423153058,
+    "attachments" : [ ]
+  } ]
+}

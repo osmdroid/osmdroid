@@ -1,0 +1,127 @@
+{
+  "id" : 101,
+  "status" : "Fixed",
+  "summary" : "OpenStreetMapTilesOverlay gives OutOfMemoryError",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 17,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4098436938546237008,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nAdd the attached sample class (SampleWithTilesOverlay) to the org.andnav.osm.samples package in the OpenStreetMapViewer project. Within this project update AndroidManifest.xml and src/org/andnav/osm/samples/SampleLoader.java in order to include it to the list of samples (e.g. with name &quot;OSMapView with TilesOverlay&quot;).\r\n\r\nRun the OpenStreetMapViewer project and click menu &gt; Samples &gt; OSMapView with TilesOverlay\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI expect a base map (MAPNIK) with an overlay of bicycle routes in the Netherlands. Instead, when starting to zoom and navigate to the Netherlands, the device becomes unresponsive. The following typical log messsage shows up very many times:\r\n\r\n10-05 22:07:50.411: ERROR/dalvikvm-heap(7904): 65536-byte external allocation too large for this process.\r\n10-05 22:07:50.431: ERROR/(7904): VM won't let us allocate 65536 bytes\r\n10-05 22:07:50.441: DEBUG/skia(7904): --- decoder-&gt;decode returned false\r\n10-05 22:07:50.441: ERROR/org.andnav.osm.views.util.OpenStreetMapRendererBase(7904): OutOfMemoryError loading bitmap: /sdcard/osmdroid/tiles/Mapnik/8/130/83.png.x\r\n10-05 22:07:50.531: DEBUG/dalvikvm(7904): GC freed 834 objects / 134128 bytes in 87ms\r\n10-05 22:07:50.562: ERROR/dalvikvm-heap(7904): 65536-byte external allocation too large for this process.\r\n10-05 22:07:50.562: ERROR/(7904): VM won't let us allocate 65536 bytes\r\n10-05 22:07:50.562: DEBUG/skia(7904): --- decoder-&gt;decode returned false\r\n10-05 22:07:50.562: ERROR/org.andnav.osm.views.util.OpenStreetMapRendererBase(7904): OutOfMemoryError loading bitmap: /sdcard/osmdroid/tiles/Mapnik/8/130/82.png.x\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nLatest code (r405) on Android Virtual Device 2.1\r\n",
+    "timestamp" : 1286407381,
+    "attachments" : [ {
+      "id" : -1684682839231406663,
+      "fileName" : "SampleWithTilesOverlay.java",
+      "fileSize" : 3387
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 2473213968216721319,
+    "content" : "I came across this in my app, there was still enough memory free at the time (though I was using a lot) but the dalvikvm couldnt seem to use it.  \r\nThis is total speculation, but I guess it was due to dalvikvm not being able to find a contiguous block big enough to allocate.\r\nThe problem can be fixed by the following. (The code has been restructured since I made my change so I'm going to have to work out the exact changes to the latest code).\r\n\r\nWhere BitmapFactory.decodeFile we need to add an options parameter.\r\n\r\ni.e.\r\nfinal Bitmap bitmap = BitmapFactory.decodeFile(pTilePath, options);\r\n\r\nSo in the class we need a member\r\nprotected final BitmapFactory.Options options = new BitmapFactory.Options();\r\nand in the constructor\r\noptions.inPurgeable =true;\r\n\r\nhttp://developer.android.com/reference/android/graphics/BitmapFactory.Options.html#inInputShareable\r\n\r\nMy understanding is that this does mean that android may have to re-read the file if it decides to purge the bitmap, but I guess thats better than allocations failing.\r\n\r\nHaving read the docs again we might want to add \r\n inInputShareable = false as well to options, to be slightly safer.\r\n\r\nI have been using this for a while without problem, though its only going to postpone memory leak issues ;-)\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1286438832,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Changing CACHE_MAPTILECOUNT_DEFAULT from 40 to 20 works.\r\n\r\nRather than making that a global change, it could be passed as a parameter, but there's rather a long path through constructors to pass that in.\r\n\r\nOr perhaps there should be a more dynamic solution.",
+    "timestamp" : 1286441405,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I read the docs on purgeable and it sounds like it'll make it worse rather than better, but it'll be interesting to try.",
+    "timestamp" : 1286442318,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps I should explain my comment ;-)\r\nIf you let the os purge and recreate the bitmap as it's needed then it's going to be unpredictable and could result in the kind of issues described in issue 99. As it is the bitmaps are manually purged when no longer needed.\r\nFailing to create the tiles doesn't seem so bad, although we'd like to recover at some point, which it doesn't do now.",
+    "timestamp" : 1286442665,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I added the sample in revision 408, even though it has this memory error.",
+    "timestamp" : 1286443483,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 2473213968216721319,
+    "content" : "Failing to create the tiles is quite bad because the system starts thrashing (hence the \"unresponsive\" in the original post).  I can assure you that in my case at least making the bitmaps purgeable made the situation a lot better.  Agreed it will probably make issue 99 worse, depending on what the strategy is for purging, however in this case performance has already suffered terribly.\r\n\r\n\r\n",
+    "timestamp" : 1286445495,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 2473213968216721319,
+    "content" : "Failing to create the tiles is quite bad because the system starts thrashing (hence the \"unresponsive\" in the original post).  I can assure you that in my case at least making the bitmaps purgeable made the situation a lot better.  Agreed it will probably make issue 99 worse, depending on what the strategy is for purging, however in this case performance has already suffered terribly.\r\n\r\n\r\n",
+    "timestamp" : 1286445504,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "The \"thrashing\" is much the same as issue 31, and that should be fixed.  Okay, so issue 31 is marked as fixed, but the point is that it shouldn't thrash in this case.\r\n\r\nIt seems like making the bitmaps purgeable is a bit of a duct-tape fix, and if the gc starts purging them then the app will still be unresponsive, although in a nicer way.\r\n\r\nMaybe the purgeable fix allows the system to calm down (not thrash) and eventually get its memory back.\r\n\r\nWhat I'd really like is to avoid the OOME in the first place, or if you get it then recover immediately and permanently.  Perhaps I hope for too much!\r\n\r\nOf course if you say making the bitmaps purgeable made the situation a lot better then I believe you. I'm just trying to think my around a better solution before I jump at this one.",
+    "timestamp" : 1286447665,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 2473213968216721319,
+    "content" : "I had spotted another problem which I now think may be affecting this.\r\nin LRUMapTileCache there are a number of issues.\r\n\r\nfirstly the loop to remove them will only ever remove one entry and then clear the map.  This is because the KeySet used to iterate will throw a ConcurrentModificationException as soon as it is used after an entry has been removed (I have already been bitten by this one).\r\n\r\nSecondly the removeEldestEntry doesn't call remove, simply clears it from the cache.\r\n\r\nclear itself doesnt call remove and there is (as far as I can see) no removeAll for a linkedhashlist.\r\n\r\nI have included my test files which show the problem and show an improved mechanism which does work (though surely there must be a better way to remove all the entries).\r\n\r\nThis problem means that you would be far more dependant on the gc to clear bitmaps than you might have expected, which might lead to this issue.\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1286454662,
+    "attachments" : [ {
+      "id" : 997368480019062473,
+      "fileName" : "LinkedListTesting.java",
+      "fileSize" : 4702
+    }, {
+      "id" : -6962822821840526669,
+      "fileName" : "ListTestClass.java",
+      "fileSize" : 453
+    }, {
+      "id" : -5383481415446160349,
+      "fileName" : "JavaTesting.java",
+      "fileSize" : 585
+    } ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Well spotted. I'm ashamed at my lack of testing!\r\n\r\nFixed in revision 409.",
+    "timestamp" : 1286462188,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 8937367184059112911,
+    "content" : "I can't actually see anywhere where LRUMapTileCache.clear() is called. It is called in OpenStreetMapTileCache.clear(), but that is never called.",
+    "timestamp" : 1286462677,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 2473213968216721319,
+    "content" : "I think you are right, but the bit about removing the oldest entries is still applicable and will be causing problems.  Probably worth fixing the other bit, cut and paste does cause a lot of bugs, even without starting with a bug!\r\n\r\n\r\n",
+    "timestamp" : 1286465422,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 4098436938546237008,
+    "content" : "Hello great developers,\r\n\r\nThanks for putting all the effort in! I put in some more test effort :) Maybe below test information is usefull when debugging.\r\n\r\nThe FIETS renderer also gives the OutOfMemoryError when used as a map mode in the main OpenStreetMapViewer application. Allthough it seems to take a longer time (move and or pan about 10 times) before the error shows up.\r\n\r\nI also tested the TilesOverlay Sample with another renderer (CYCLEMAP) and this doesn't give the OutOfMemoryError.\r\n\r\nRegards, your tester, Alex",
+    "timestamp" : 1286568985,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "The fix for revision 451 should fix the OOME for fiets renderer.",
+    "timestamp" : 1288688335,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 4098436938546237008,
+    "content" : "I tested the fix. Result: OK (Thank you!)\r\n\r\nDetails on testing:\r\n- On the AVD I tested with OpenStreetViewer project using latest code of osmdroid-android. I zoomed and panned a bit. The error didn't show up anymore.\r\n- On my HTC Legend I tested with my own app using osmdroid-android-1.08.jar (a build after revision 451). I zoomed and panned intensively. The error didn't show up anymore.",
+    "timestamp" : 1291566104,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1291627561,
+    "attachments" : [ ]
+  } ]
+}

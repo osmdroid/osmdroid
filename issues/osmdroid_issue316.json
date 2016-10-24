@@ -1,0 +1,21 @@
+{
+  "id" : 316,
+  "status" : "Invalid",
+  "summary" : "Ability to catch event when loading map tile is done?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3349464977610278109,
+    "content" : "I wanna know when Map Tiles are loaded complete to can move Map to the next region and continue loading another map tiles automatically.\r\n\r\nAnybody can help me,i'll appreciated for this.\r\n\r\n",
+    "timestamp" : 1331092834,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can extend the MapTileProviderArray and override the mapTileRequestCompleted method to know when a tile request has been successfully loaded.\r\n\r\nPlease direct questions like this to the google group or Stack Overflow. Thank you.",
+    "timestamp" : 1333746442,
+    "attachments" : [ ]
+  } ]
+}

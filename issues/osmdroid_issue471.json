@@ -1,0 +1,45 @@
+{
+  "id" : 471,
+  "status" : "ReadyForTesting",
+  "summary" : "Clean up MapController code",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "There are a few things we can do to clean up the MapController.\r\n\r\n1. Implement the remaining API calls for the Google API v1 MapController.\r\n2. Remove the AbstractAnimationRunner. It accesses MapView UI elements and fields on a background thread and is not thread-safe.\r\n3. Move all the zoom-in/out animation code to the controller and out of the MapView.\r\n4. Let the MapView.getController() return an IMapController so that it can return custom implementations of MapController.\r\n",
+    "timestamp" : 1377888073,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1377888127,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1294.\r\n\r\nChange the way we do zoom animations to use canvas scaling. This will keep zoom and pinch zoom operations consistent and will eliminate issues where overlay painting will scale when zooming regardless of trying to counteract it in the canvas.\r\nUpdate issue 471\r\nUpdated MapController. Removed unsafe AbstractAnimationRunner code, moved all zoom animation code to MapController.",
+    "timestamp" : 1377890075,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1377890092,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nWith the latest updates the osmdroid-third-party does not compile anymore.\r\nThe org.osmdroid.google.wrapper.MapController class does not implement all methods of org.osmdroid.api.IMapController interface.\r\n\r\nRegards.",
+    "timestamp" : 1377938747,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1298.\n\nAdded missing methods from third-party MapController.",
+    "timestamp" : 1378133322,
+    "attachments" : [ ]
+  } ]
+}

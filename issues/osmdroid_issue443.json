@@ -1,0 +1,33 @@
+{
+  "id" : 443,
+  "status" : "Fixed",
+  "summary" : "Get Tile Count of a Map View In android",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2069253635818436126,
+    "content" : "1. Load OSM MapView in android.\r\n\r\n2. Determine whether all tile are loaded.\r\n\r\n3. To determine whether all tiles are loaded or not, there is no method.\r\n\r\nhttp://stackoverflow.com/questions/17311557/get-tile-count-of-a-map-view-in-android\r\n",
+    "timestamp" : 1372227213,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1372252199,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Take a look at TilesOverlay and the TileLooper implementation. This is what we use to load and then draw each tile on the screen. In handleTile we attempt to get the tile from the tile provider mTileProvider.getMapTile(pTile). If that returns a Drawable then the tile is loaded, if not it will return null.\r\n\r\nA simple way to do this is to extend TilesOverlay, override drawTiles(...) and call your own TileLooper before calling super.drawTiles(...) that will check to see if all the tiles that get passed to handleTile(...) are not null. To use your TilesOverlay call mMapView.getOverlayManager().setTilesOverlay(myTilesOverlay).",
+    "timestamp" : 1372252207,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been answered in http://stackoverflow.com/questions/17079359/detect-if-the-osm-mapview-is-still-loading-or-not-in-android\r\n",
+    "timestamp" : 1372339737,
+    "attachments" : [ ]
+  } ]
+}

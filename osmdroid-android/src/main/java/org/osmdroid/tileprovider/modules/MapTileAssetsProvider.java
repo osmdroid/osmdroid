@@ -139,7 +139,8 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 				InputStream is = mAssets.open(tileSource.getTileRelativeFilenameString(tile));
 				final Drawable drawable = tileSource.getDrawable(is);
 				if (drawable != null) {
-					ExpirableBitmapDrawable.setDrawableExpired(drawable);
+					//https://github.com/osmdroid/osmdroid/issues/272 why was this set to expired?
+					//ExpirableBitmapDrawable.setDrawableExpired(drawable);
 				}
 				return drawable;
 			} catch (IOException e) {

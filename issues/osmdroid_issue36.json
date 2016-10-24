@@ -1,0 +1,149 @@
+{
+  "id" : 36,
+  "status" : "Started",
+  "summary" : "Improvement - path overlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 20,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6556601514708298404,
+    "content" : "Hi,\r\n\r\nI implemented a path overlay, for drawing GPS traces.\r\n\r\nMade some modifications in OpenStreetMapViewProjection, to get better\r\nperformance on large traces.\r\n\r\n",
+    "timestamp" : 1270641056,
+    "attachments" : [ {
+      "id" : 6703974264624432075,
+      "fileName" : "path-overlay.patch",
+      "fileSize" : 9616
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271193389,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r128.",
+    "timestamp" : 1271193499,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3649467699727318466,
+    "content" : "Hi,\r\n\r\nI'm just trying to implement the onSingleTap method to recognize if a line has been \r\ntouched using your posted code.\r\n\r\nI've slightly rewritten your concept, so it is structured more like \r\nOpenStreetMapItemizedOverlay. This means I'm having one Object \r\nOpenStreetMapViewOverlayPath which contains all information for one path. Then I add \r\na list of OpenStreetMapViewOverlayPath objects to OpenStreetMapViewPathOverlay which \r\nis then added to OpenStreetMapView.mOverlays. This is working for me.\r\n\r\nBut I'm struggling with the projections to recognize if a line has been touched by \r\nthe user.\r\n\r\nHere's my current onSingleTab:\r\n\r\n[code]\r\n@Override\r\n\tpublic boolean onSingleTapUp(MotionEvent event,\r\n\t\t\tOpenStreetMapView mapView)\r\n\t{\r\n\t\tfinal OpenStreetMapViewProjection pj = mapView.getProjection();\r\n\t\tfinal int eventX = (int)event.getX();\r\n\t\tfinal int eventY = (int)event.getY();\r\n\r\n\t\tPoint mCurScreenCoordsLinePoint1 = new Point();\r\n\t\tPoint mCurScreenCoordsLinePoint2 = new Point();\r\n\t\tPoint mTabCoords = new Point();\r\n\t\t\r\n\t\tfor(int i = 0; i < this.mItemList.size(); i++)\r\n\t\t{\r\n\t\t\tfinal OpenStreetMapViewOverlayPath mItem = \r\nthis.mItemList.get(i);\r\n\t\t\t\r\n\t\t\tfor(int n = 0; n < mItem.mPoints.size(); n++)\r\n\t\t\t{\r\n\t\t\t\tif(n+1 < mItem.mPoints.size())\r\n\t\t\t\t{\r\n\t\t\t\t\t// line point 1\r\n\t\t\t\t\tpj.toMapPixels(new \r\nGeoPoint(mItemList.get(i).mPoints.get(n).y, \r\n\t\t\t\t\t\t\t\t\t\t\t\t\r\nmItemList.get(i).mPoints.get(n).x)\r\n\t\t\t\t\t\t\t\t, \r\nmCurScreenCoordsLinePoint1);\r\n\t\t\t\t\t// line point 2\r\n\t\t\t\t\tpj.toMapPixels(new \r\nGeoPoint(mItemList.get(i).mPoints.get(n+1).y, \r\n\t\t\t\t\t\t\t\t\t\t\t\t\r\nmItemList.get(i).mPoints.get(n+1).x)\r\n\t\t\t\t\t\t\t\t, \r\nmCurScreenCoordsLinePoint2);\r\n\t\t\t\t\t// my tap position\r\n\t\t\t\t\tmTabCoords = pj.fromPixels(eventX, eventY, \r\nOpenStreetMap.isSlided);\r\n\t\t\t\t\t\r\n\t\t\t\t\t\r\nif(isPointOnLine(mCurScreenCoordsLinePoint1.x, mCurScreenCoordsLinePoint1.y, \r\n\t\t\t\t\t\t\t\t\t\r\nmCurScreenCoordsLinePoint2.x, mCurScreenCoordsLinePoint2.y, \r\n\t\t\t\t\t\t\t\t\tmTabCoords.x, \r\nmTabCoords.y))\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\tif(onTap(i))\r\n\t\t\t\t\t\t\treturn true;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\t\r\n\t\treturn super.onSingleTapUp(event, mapView);\r\n\t}\r\n\r\n\t\r\n\tpublic static boolean isPointOnLine(float lox, float loy, float ltx, float \r\nlty, float x, float y) \r\n\t{ \r\n        //determine if point is on line \r\n        Float dx = x - lox; \r\n        Float dy = y - loy; \r\n        Float tx = ltx - lox; \r\n        Float ty = lty - loy; \r\n        \r\n        //normalise the line vector \r\n        Float t1 = new Float(1/Math.sqrt(tx*tx+ty*ty));\r\n        \r\n        tx *= t1; \r\n        ty *= t1; \r\n        \r\n        //calculate inverse length of secondary vector \r\n        Float dl = new Float(1/Math.sqrt(dx*dx+dy*dy)); \r\n        \r\n        //take dot product of normalised line vector, and rotated normalised \r\nsecondary vector \r\n        Float dot = (dy*tx-dx*ty)*dl; \r\n        //Increase these values for less or more picky \r\n        if (dot < -0.2 || dot > 0.2) \r\n           return false; \r\n        \r\n        //calculate distance along line segment by taking dot product of normalised \r\nline vector and un-normalised secondary vector \r\n        Float dis = tx*dx+ty*dy; \r\n        if (dis < 0 || dis > 1 / t1)\r\n           return false; \r\n        \r\n        return true; \r\n\t}\r\n[/code]\r\n\r\n\r\nCurrently I'm using the same type of projection as used in \r\nOpenStreetMapViewItemizedOverlay - I don't think that's correct, is it?\r\n\r\nWhen I have the starting and endpoint of a subline in an overall line, I check if it \r\nhas been touched using the PointOnLine algorithm.\r\n\r\nWhen it's possible to recognize a correct touch event I would love to add some kind \r\nof bubble as in OpenStreetMapViewItemizedOverlayWithFocus. But right now I'm really \r\nstruggling with the projection stuff.\r\n\r\nI attached my two classes.\r\n\r\nThank you in advance and thanks for the great path overlay!",
+    "timestamp" : 1272553830,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3649467699727318466,
+    "content" : "I'm sorry, I forgot to attach the code. Here it is now.",
+    "timestamp" : 1272553950,
+    "attachments" : [ {
+      "id" : 1566957508318068444,
+      "fileName" : "OpenStreetMapViewPathOverlay.java",
+      "fileSize" : 9440
+    }, {
+      "id" : -8858244200372366786,
+      "fileName" : "OpenStreetMapViewOverlayPath.java",
+      "fileSize" : 1459
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 6556601514708298404,
+    "content" : "Hi!\r\n\r\nI will implement a hit testing method, that takes care of the projections.",
+    "timestamp" : 1272611948,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6556601514708298404,
+    "content" : "Made a simple patch that demoes hit testing in path overlay.\r\n\r\nNote that the code tests only for distance to points, not distance to lines.",
+    "timestamp" : 1272622087,
+    "attachments" : [ {
+      "id" : -24533943162977387,
+      "fileName" : "path-overlay-ontap.patch",
+      "fileSize" : 6534
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3649467699727318466,
+    "content" : "wow, thanks viesturz! I'm going to test it as soon as possible. But problems could \r\noccur when the starting and end point of a line are farther from eachother away, am I \r\nright?\r\n\r\ncheers,\r\nd.schre",
+    "timestamp" : 1272625633,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 6556601514708298404,
+    "content" : "Here is a patch that tests line segments.\r\n\r\n",
+    "timestamp" : 1272630547,
+    "attachments" : [ {
+      "id" : 2413981473916312887,
+      "fileName" : "path-overlay-ontap1.patch",
+      "fileSize" : 8167
+    } ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3649467699727318466,
+    "content" : "thank you very much viesturz!\r\n\r\nI'm trying to understand the algorithm you implemented.\r\nThis part in findPointInPath confuses me a little bit:\r\n\r\n// call in onSingleTap\r\nfindPointInPath(canvasPxels.x, canvasPxels.y, Math.max(event.getSize(), \r\nthis.mPaint.getStrokeWidth()) + 5, mapView.getProjection());\r\n\r\n// code in findPointInPath\r\nfloat approxDist = Math.max(Math.abs(pt.x - testX), Math.abs(pt.y - testY)) - \r\nMath.abs(pt.x - prevX) - Math.abs(pt.y - prevY);\r\n\r\nif (approxDist <= maxDistance) // <-- Couldn't be there a problem if the line \r\nsegment's points are too far away from eachother?\r\n\r\n\r\nAs I am understanding it right now, the start and end point of a line segment can not \r\nbe farther away from eachother than the size of the touch event (finger) or the \r\nStrokeWidth + 5 (pixels) to be recognized as touched? Is my assumption correct?\r\n\r\nBecause it's working really good if you touch the line near it's points but it gets \r\ntricky when you try to touch a (very) long line in the middle.\r\n\r\nThanks!",
+    "timestamp" : 1273062892,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 6556601514708298404,
+    "content" : "Hi!\r\n\r\nYes your assumption is correct. I tried to make some approximation of the touch size\r\nas max from touch size and line width, added the 5 units, just in case. Feel free to\r\nuse some other values.\r\n\r\n// code in findPointInPath\r\nfloat approxDist = Math.max(Math.abs(pt.x - testX), Math.abs(pt.y - testY)) - \r\nMath.abs(pt.x - prevX) - Math.abs(pt.y - prevY);\r\n\r\nA very rough approximation to test if the line is far away from the point. Try to\r\nfollow me here carefully:\r\nThe current point is at least Math.max(Math.abs(pt.x - testX), Math.abs(pt.y -\r\ntestY)) from test point. And the previous point is no more than Math.abs(pt.x -\r\nprevX) + Math.abs(pt.y - prevY) closer to test point than the current point (imagine\r\nit being in middle between test point and current point). Thus the test point is at\r\nleast (the whole expr.) away from any point on the line segment.\r\n\r\nYou can try to replace the *if (approxDist <= maxDistance)* with *if (true)* and test\r\nif it makes the code work better in your case.\r\n\r\nViesturs",
+    "timestamp" : 1273063742,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -3649467699727318466,
+    "content" : "Ok, thanks for the explanation! I just increased maxDist to make it work for longer \r\nlines.",
+    "timestamp" : 1273218011,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 6556601514708298404,
+    "content" : "Just a note:\r\n\r\nmaxDist is maximum distance from the line, regardless of the length of the line.",
+    "timestamp" : 1273219323,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is this finished now? What patch should I apply to the source?",
+    "timestamp" : 1273562412,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 6556601514708298404,
+    "content" : "It's not quite ready for the source, just a implementation of a hit testing function.\r\nThere is still a problem of defining a nice API.\r\n\r\nd.schre has his own path overlay implementation that supports multiple paths.\r\n\r\nI suggest we make a generic item view overlay that can house both POIs and paths.",
+    "timestamp" : 1273577324,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps I should remove the patch I applied for revision r128 then? And wait until it's \r\nfinished.",
+    "timestamp" : 1273577789,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 6556601514708298404,
+    "content" : "Nope, that patch is fine. But it contains only the basic functionality for displaying\r\ntracks. The later patches are for interacting with the tracks.\r\n\r\nPerhaps we should move it to another issue.",
+    "timestamp" : 1273580106,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's a bit late now ;-)",
+    "timestamp" : 1273589664,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 6556601514708298404,
+    "content" : "Not really, just 6 pm at UTC+02 ;)",
+    "timestamp" : 1273589768,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1287082685,
+    "attachments" : [ ]
+  } ]
+}

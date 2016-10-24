@@ -1,0 +1,27 @@
+{
+  "id" : 171,
+  "status" : "Fixed",
+  "summary" : "Remove onSave/RestoreInstanceState from MapView",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Right now the MapView tries to save and restore the scroll X/Y and zoom level in between runs using onSave/RestoreInstanceState. It seems to me that this is something that should be relegated to the Activity that houses the MapView and therefore should be removed from the MapView. For activities that implement this themselves (like MapActivity) the MapView's implementation can actually interfere and override the Activity's implementation and render it useless. Almost every Activity has to implement saving scroll X/Y and zoom level (among other things) in onPause/onResume since onSave/RestoreInstanceState is only called when the Activity is killed, and doesn't cover simply rotating the screen.\r\n\r\nCan we all agree or am I missing something?",
+    "timestamp" : 1298923428,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think we can move forward with this. It's a small change that can always be reverted if need be.",
+    "timestamp" : 1299205244,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r858.",
+    "timestamp" : 1299205312,
+    "attachments" : [ ]
+  } ]
+}

@@ -9,8 +9,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxyImpl;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -41,7 +39,6 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 
 	private MapView mOsmv;
 	private ItemizedOverlay<OverlayItem> mMyLocationOverlay;
-	private ResourceProxy mResourceProxy;
 
 	// ===========================================================
 	// Constructors
@@ -50,8 +47,6 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mResourceProxy = new ResourceProxyImpl(getApplicationContext());
 
 		final RelativeLayout rl = new RelativeLayout(this);
 
@@ -90,7 +85,7 @@ public class SampleWithMinimapItemizedoverlay extends Activity {
 											+ ") got long pressed", Toast.LENGTH_LONG).show();
 							return false;
 						}
-					}, mResourceProxy);
+					}, getApplicationContext());
 			this.mOsmv.getOverlays().add(this.mMyLocationOverlay);
 		}
 

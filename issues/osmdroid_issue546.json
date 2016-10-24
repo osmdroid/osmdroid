@@ -1,0 +1,15 @@
+{
+  "id" : 546,
+  "status" : "New",
+  "summary" : "empty tiles download",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6542097374240216476,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.automatical connect to public WiFi networks, which requires web authorization\r\n2.empty tiles download\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\noutput depends of theme you use for layout (black tiles in my case) \r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nv.4.2, any android device\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1411546855,
+    "attachments" : [ ]
+  } ]
+},"attachments":[]}]}

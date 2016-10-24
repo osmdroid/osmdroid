@@ -1,0 +1,73 @@
+{
+  "id" : 72,
+  "status" : "New",
+  "summary" : "Zoom controls like in GMaps",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "Is it possible to get somewhere the same zoom controls like in Google Maps (their width is less than current one, see screenshot attached).",
+    "timestamp" : 1278765909,
+    "attachments" : [ {
+      "id" : -2734802004349732839,
+      "fileName" : "google-map-for-android.png",
+      "fileSize" : 168422
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3456884467250674452,
+    "content" : "Comment deleted",
+    "timestamp" : 1278847417,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 250956797218298740,
+    "content" : "",
+    "timestamp" : 1279490475,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 3456884467250674452,
+    "content" : "Comment deleted",
+    "timestamp" : 1279523469,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3456884467250674452,
+    "content" : "There is a simple way to have such zoom controls. See osmand source code:\r\nhttps://code.google.com/p/osmand/source/browse/trunk/OsmAnd/src/com/osmand/views/OsmZoomControls.java",
+    "timestamp" : 1280821914,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not quite sure where you intend to use that code, but osmand looks really good!",
+    "timestamp" : 1280933952,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3804822027311196058,
+    "content" : "did anyone find the images used in OsmAnd ?",
+    "timestamp" : 1282584432,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 3456884467250674452,
+    "content" : "OsmAnd just extends ZoomControls class and overrides onMeasure method to make buttons width less.",
+    "timestamp" : 1282632455,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3804822027311196058,
+    "content" : "Thanks! Didn't know that ZoomControls are a builtin class ...",
+    "timestamp" : 1282642087,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also OsmAnd issue 84: http://code.google.com/p/osmand/issues/detail?id=84",
+    "timestamp" : 1286428390,
+    "attachments" : [ ]
+  } ]
+}

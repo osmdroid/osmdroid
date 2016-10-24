@@ -1,0 +1,27 @@
+{
+  "id" : 37,
+  "status" : "WontFix",
+  "summary" : "ReDraw Person Icon on LocationChange",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5709035672632107645,
+    "content" : "is it possible to redraw the person icon (in  OpenStreetMapViewSimpleLocationOverlay)  when I \r\nchange the location without reloading the map?\r\n\r\nThanks\r\n",
+    "timestamp" : 1270832243,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "No, all overlays are drawn in the same buffer. You'd have to store the map overlay in\r\nsome buffer. This could be nice to prevent flicker after zooming, too. So we might\r\nconsider to implement it.",
+    "timestamp" : 1271497728,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1359144117,
+    "attachments" : [ ]
+  } ]
+}

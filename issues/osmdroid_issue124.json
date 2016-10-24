@@ -1,0 +1,69 @@
+{
+  "id" : 124,
+  "status" : "Fixed",
+  "summary" : "Mini-map should be an overlay?",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "There is obviously a lot of overlap between the main map and the mini-map, but it would be much cleaner if we implement the mini-map as an overlay rather than intertwined with the OpenStreetMapView. They can share the same tileprovider, and there just needs to be a sync mechanism between the two.\r\n\r\nThoughts?",
+    "timestamp" : 1292468925,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This can probably be done - either by creating an additional MapView or by creating a TilesOverlay and drawing it during the onDraw in the overlay. The biggest problem is manipulating the projection, and some changes to allow mock projections would be helpful to get this done.",
+    "timestamp" : 1294200307,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1294200326,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been implemented. Any comments before I remove the old minimap from the MapView class?",
+    "timestamp" : 1294618780,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's nice to see the mini-map working again!  And better than before!\r\n\r\nI have a comment though.  There used to be a zoom difference between the main map and the mini-map.  So for example if the difference was 3 and the main map was zoom 9 then the mini-map would be zoom 6.\r\n\r\nAnother comment - perhaps a more difficult one - double-tapping on the mini-map zooms somewhere, but not to the point where you double-tapped.",
+    "timestamp" : 1294653852,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - there absolutely should be a zoom difference of three (set by ZOOM_LEVEL_DIFFERENCE). On my phone, I can definitely see that the tiles in the mini-map are zoomed out from the main map. But also make sure that your main map is zoomed in a bit so you can see the difference. At zoom level 0, the mini map will be at zoom level 0 also (since it can't zoom out any more). Let me know if you see differently.\r\n\r\nDouble-clicking on the mini-map is going to register as a zoom-in to the point on the main map, not a zoom-in on the mini-map. That might be able to be implemented, but I think it makes more sense the way it is. I actually hope to add better click, double-click, and long-click support to the overlays at some point, which would help the situation if we wanted to change the behavior.\r\n\r\nI hope everyone enjoys the mini-map. It doesn't look like a lot of code, but it was a *lot* of work to do. I definitely have a much better understanding of that section of the code now, so that's a good thing!\r\n",
+    "timestamp" : 1294716767,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "Okay, I can see a difference, although it only looks like 1.  I think the previous version had it as a parameter though.\r\n\r\nSomething else I noticed - similar to the double-tap thing - dragging the mini-map actually drags the main map.\r\n\r\nPerhaps you could make the outstanding issues that I mentioned as new issues - they're not worth holding this one up for. Or I could do it if you prefer.\r\n\r\nAnyway, I can imagine that it was a lot of work - well done!\r\n\r\nFor reference, this also fixes issue 10, issue 30, issue 69.",
+    "timestamp" : 1294738131,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "You're right - actions in the area of the mini-map shouldn't trigger things on the main map. It's an overlay and it should manage events in it's area. At a minimum it will consume these events and not respond to them. This will prevent situations like having an itemized item overlay underneath a mini-map overlay and having clicks on the mini-map trigger events to a hidden item underneath the mini-map.\r\n\r\nIt would be interesting to be able to scroll and zoom on the mini-map and have it change the main map, but I think that will be difficult. It's up to you if you want to add a new ticket for something like that. I'll add the ability to change the zoom difference, which is definitely needed.",
+    "timestamp" : 1294799754,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "Okay - the mini-map no longer responds to clicks, double-clicks, or long-clicks. I also made everything configurable - zoom difference, height, width, padding. Much better.\r\n\r\n(we might want to create an overlay manager class to handle overlay interaction)",
+    "timestamp" : 1294808193,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is complete and appears to be working well, so it can be closed.",
+    "timestamp" : 1295500632,
+    "attachments" : [ ]
+  } ]
+}

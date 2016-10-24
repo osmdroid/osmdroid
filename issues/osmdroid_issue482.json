@@ -1,0 +1,19 @@
+{
+  "id" : 482,
+  "status" : "New",
+  "summary" : "Can't find the position X e Y of the touch ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1631968624186521991,
+    "content" : "Hi.\r\nI want to create one script that writes one square on the map with dimensions of 100m x 100m. I have created the simple code to do that, but the problems are:\r\n1. I can't catch the event onSingleTapUp, it doesn't work;\r\n2. If I take the event with OnClick I can't take the position X and Y of the click.\r\n\r\n\r\nI use the version of Osmdroid 3.0.8 on Linux\r\n\r\nIn attachment of the text there is the most important source of my script.. \r\n\r\nThank you all in advance for the help!\r\n\r\n",
+    "timestamp" : 1380054899,
+    "attachments" : [ {
+      "id" : 4820000000,
+      "fileName" : "suorce.zip",
+      "fileSize" : 2555
+    } ]
+  } ]
+}

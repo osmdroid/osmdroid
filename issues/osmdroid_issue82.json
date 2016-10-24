@@ -1,0 +1,21 @@
+{
+  "id" : 82,
+  "status" : "Duplicate",
+  "summary" : "Add customs OpenStreetMapRendererInfo",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7123499698179822215,
+    "content" : "Hi,\r\n\r\nI would like to use osmdroid with my own web service, it would be nice to add customs OpenStreetMapRendererInfo. Since this class is an enumeration I have to change it manually an rebuild the jar file to put it into my project, so it makes the upgrading more complicated. Making this class not enumerate and providing the defaults web services through an other enumerate class or as separates constants would be a good idea.",
+    "timestamp" : 1283414929,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1283427366,
+    "attachments" : [ ]
+  } ]
+}

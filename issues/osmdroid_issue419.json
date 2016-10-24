@@ -1,0 +1,39 @@
+{
+  "id" : 419,
+  "status" : "New",
+  "summary" : "osmdroid + SlidingMenu",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 555532340531522214,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add a MapView on a Fragment and then add to SlidingMenu instance.\r\n2. Show the menu.\r\n\r\nWhat is the expected output?\r\nMapView and all overlays scroll to the side.\r\n\r\nWhat do you see instead?\r\nWhen the SlidingMenu moves, only the overlays over the MapView moves as well. The map itself  doesn't. So the SlidingMenu steps over the Mapview. \r\n\r\nI don't know if this helps, but computeScroll() was called 3 times, but in all mScroller.computeScrollOffset() returns false and scrollTo(int x, int y) is never called.\r\n\r\nIs it becouse the event doesn't come from a gesture? Do you have any idea of how to solve this issue?\r\n\r\nWhat version of the product are you using?\r\n3.0.9-SNAPSHOT\r\n",
+    "timestamp" : 1365104499,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Are you sure you have hardware acceleration turned off? What API are you building against?",
+    "timestamp" : 1365111406,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 555532340531522214,
+    "content" : "Yes, I have disabled hardware acceleration in the manifest at the activity level, and I'm using API 17.\r\n\r\nI was wrong before, MyLocationOverlay is the only Overlay that moves as well. The other Overlays (ItemizedIconOverlay) and the MapView remain still.\r\n\r\nAnd with the menu opened, MyLocationOverlay not is redrawn in successive \"onLocationChanged\" over my location. That make me think it recognises that the map moved (because it is drawed where the map should be). But the map is not redrawn (at least in the right place, perhaps it does but it happens it the very same place).\r\n\r\nRegards\r\n",
+    "timestamp" : 1365187792,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 5781615991677836462,
+    "content" : "I have a working app with SlidingMenu and MapView with overlays in a Fragment. I am not aware of any osm issues involved. Let me know if you want a sample project.",
+    "timestamp" : 1374962180,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6885740341898323989,
+    "content" : "please you can get me a sample project slidingmenu an mapview with osmdroid in a fragment please.",
+    "timestamp" : 1395944498,
+    "attachments" : [ ]
+  } ]
+}

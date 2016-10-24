@@ -1,0 +1,83 @@
+{
+  "id" : 351,
+  "status" : "Fixed",
+  "summary" : "Double-tap zooming in rapid succession can relocate maps to wildly incorrect location",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Occasionally double-tapping in rapid succession will scroll the maps to a wildly incorrect location. It does not happen all the time, but is pretty easy to recreate after a few attempts. Reproducibility may depend on your hardware since this appears to be a race condition. This has been a long-standing (but rare) bug.\r\n\r\nBy checking the stack trace at scrollTo() it appears that the scroll position goes haywire after a call to computeScroll(). The scrollTo() call preceding that is from setZoomLevel() and this appears to scroll to the correct position. In computeScroll() the scroll position is set by the mScroller. The Scroller keeps track of animated scrolls and it feeds the tweened scroll position to scrollTo() in computeScroll(). The Scroller is triggered from onFling() and setMapCenter().\r\n\r\nSo the key to this bug is this - it appears in onFling() and setMapCenter() it uses mZoomLevel to determine the world size and this is used to determine how far the Scroller will scroll. If the map is zooming when this happens, the Scroller will be fed a world size that is incorrect. We should be using getZoomLevel(true) which will return the zoom level we are zooming to (the target zoom level).\r\n\r\nThe attached patch fixes this. Please review and comment. If all looks good, I will commit.\r\n",
+    "timestamp" : 1340225907,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1340225933,
+    "attachments" : [ {
+      "id" : 3510001000,
+      "fileName" : "ScrollerDuringZoomAnimationFix.patch",
+      "fileSize" : 1268
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1107.",
+    "timestamp" : 1342728918,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Reopening ticket. Problem still not solved.",
+    "timestamp" : 1344975220,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "So after using and reviewing the patch I'm not convinced it was the right way to go. After looking deeper into it I realized there is still an issue if the scrolling started before the zoom. So we start by reverting the changes in the revision and let those functions (setMapCenter, scrollTo, onFling) use the non-target zoom level again. Bringing us back to where we started, we still have the issue of the scroller tweening values that are in the wrong zoom level. The solution to that is to force scrolling to finish early before changing zoom levels in setZoomLevel. So the Scroller will always scroll values in the current (non-target) zoom level, but if we change zoom levels then we force it to finish scrolling early since the map coordinate system is about to change. So in setZoomLevel:\r\n\r\n\t\tif (newZoomLevel != curZoomLevel) {\r\n\t\t    // We could use abortAnimation() to jump to the final scroll location but that may cause perceived \"jumpiness\".\r\n\t\t    // Seems best to just stop the Scroller dead in its tracks.\r\n\t\t    mScroller.forceFinished(true);\r\n\t\t}\r\n\r\nWill continue to test this internally and apply a patch after a review period. Please leave comments.",
+    "timestamp" : 1344976378,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1344976509,
+    "attachments" : [ {
+      "id" : 3510005000,
+      "fileName" : "ScrollerDuringZoomAnimationFixTake2.patch",
+      "fileSize" : 1624
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1128.",
+    "timestamp" : 1353351215,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 5781615991677836462,
+    "content" : "I am experiencing this or a related issue in 3.0.10 very frequently. While a zoom is in transition and animating, a tap/scroll will wildly mess up the location. Is this patch in 3.0.10?",
+    "timestamp" : 1374806488,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 5781615991677836462,
+    "content" : "On a related note, is the a way to disable the zoom animation and just jump on the new zoom level? ",
+    "timestamp" : 1374807262,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 448.",
+    "timestamp" : 1374846350,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "To disable zoom-animation you can add your own zoom buttons and call setZoom() directly.",
+    "timestamp" : 1374846387,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,33 @@
+{
+  "id" : 330,
+  "status" : "WontFix",
+  "summary" : "Error Inflating class",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1577041480556131463,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. After the upgrade of ADT from 16 to 17 version. Starting the app\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe app stop on startup \r\nin adb logcat i have this error Binary XML file line #7. Error inflating class org.osmdroid.views.MapView\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nAndroid 2.2\r\nEclipse 3.7.2\r\nADT 17\r\n\r\n<b>Please provide any additional information below.</b>\nbefore the compiler upgrade the app was working fine\r\n",
+    "timestamp" : 1333524049,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "You didn't provide the rest of the error, but I guess this is caused by the documented changes in ADT 17. You need to export the jars in libs.",
+    "timestamp" : 1333530825,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1577041480556131463,
+    "content" : "yes following this post\r\nhttp://xrigau.wordpress.com/2012/03/22/fix-some-problems-with-libraries-in-the-adt-17-plugin-10/ \r\neverything works fine again",
+    "timestamp" : 1333616409,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1333632385,
+    "attachments" : [ ]
+  } ]
+}

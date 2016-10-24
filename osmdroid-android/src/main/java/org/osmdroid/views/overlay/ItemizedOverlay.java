@@ -3,11 +3,11 @@ package org.osmdroid.views.overlay;
 
 import java.util.ArrayList;
 
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.OverlayItem.HotspotPlace;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -70,10 +70,15 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// Constructors
 	// ===========================================================
 
-	public ItemizedOverlay(final Drawable pDefaultMarker, final ResourceProxy pResourceProxy) {
+	/** Use {@link #ItemizedOverlay(Drawable)} instead */
+	@Deprecated
+	public ItemizedOverlay(Context ctx, final Drawable pDefaultMarker) {
+		this(pDefaultMarker);
+	}
 
-		super(pResourceProxy);
+	public ItemizedOverlay(final Drawable pDefaultMarker) {
 
+		super();
 		if (pDefaultMarker == null) {
 			throw new IllegalArgumentException("You must pass a default marker to ItemizedOverlay.");
 		}
@@ -87,6 +92,12 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	// Methods from SuperClass/Interfaces (and supporting methods)
 	// ===========================================================
 
+	@Override
+	public void onDetach(MapView mapView){
+		if (mDefaultMarker!=null){
+			//release the bitmap
+		}
+	}
 	/**
 	 * Draw a marker on each of our items. populate() must have been called first.<br>
 	 * <br>
@@ -100,7 +111,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 * <br>
 	 * The focused item is always drawn last, which puts it visually on top of the other items.<br>
 	 *
-	 * @param c
+	 * @param canvas
 	 *            the Canvas upon which to draw. Note that this may already have a transformation
 	 *            applied, so be sure to leave it the way you found it
 	 * @param mapView

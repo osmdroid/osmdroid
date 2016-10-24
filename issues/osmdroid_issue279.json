@@ -1,0 +1,37 @@
+{
+  "id" : 279,
+  "status" : "Fixed",
+  "summary" : "use ExpiredBitmapDrawable in MapTileFilesystemProvider",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "ExpiredBitmapDrawable was introduced with issue 46.\r\nThis can also be used in MapTileFilesystemProvider when returning a tile that has expired on the file system.",
+    "timestamp" : 1323238188,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Attached is a patch that handles expired tiles on file system.\r\nNot extensively tested, but I guess it should work.\r\n\r\nThe only flaw I can see is that when an expired tile is retrieved from the file system it is removed from mWorking, which means it may get requested twice - once from the continuation of the first request, and again if it's requested again from the top level. But maybe that was a problem in the previous implementation as well.",
+    "timestamp" : 1323358775,
+    "attachments" : [ {
+      "id" : 2790001000,
+      "fileName" : "issue279.patch",
+      "fileSize" : 13114
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I committed this in revision 1012.",
+    "timestamp" : 1323719955,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Looks good to me.",
+    "timestamp" : 1323720699,
+    "attachments" : [ ]
+  } ]
+}

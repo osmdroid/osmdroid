@@ -1,0 +1,27 @@
+{
+  "id" : 41,
+  "status" : "Fixed",
+  "summary" : "Get rid of the database",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The database is supposed to keep a track of the tiles that are on the file system, and delete old \r\nones when the cache exceeds a certain size.\r\n\r\nThis isn't fully implemented because OpenStreetMapTileProviderDataBase.deleteOldest is commented \r\nout.\r\n\r\nBut it is never going to work properly because you can never be sure that the database corresponds \r\nto the reality of the file system, especially if you use an external tool to download tiles, such \r\nas OSMMapTilePackager.\r\n\r\nThe database adds quite an overhead to the CPU usage.\r\n\r\nSo it would be better to just get rid of the database altogether.\r\n",
+    "timestamp" : 1271255139,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340774,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r174.",
+    "timestamp" : 1273653219,
+    "attachments" : [ ]
+  } ]
+}

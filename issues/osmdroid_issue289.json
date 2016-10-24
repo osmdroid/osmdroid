@@ -1,0 +1,279 @@
+{
+  "id" : 289,
+  "status" : "Reopened",
+  "summary" : "osmdroid-android-3.0.6.jar, tile loading slow or fails",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 43,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4962403259194227200,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1.  I've just replaced a working project's 3.0.5 jar with the new 3.0.6 version. I've made no code changes in my app other than the version number. I've built the project using the latest SDK tools (r16) and Ant on a Windows 64 bit machine. I've downloaded a release version on to a Galaxy S2 running  Android 2.3.5 \r\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI expected the smooth loading of tiles as with previous versions of the jar. As I zoom and pan the map, the tile loading is very 'blocky' and slow compared to the 3.0.5 build. Sometimes the tiles do not appear at all. I rebuilt the app with 3.0.5 and tested again - it's fine.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid-android-3.0.6.jar, real phone running 2.3.5 Android, Wifi connection through ADSL router\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI'll try and build a minimal code example to test on an emulator when I get a chance\r\n\r\n",
+    "timestamp" : 1325455880,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4962403259194227200,
+    "content" : " I ran this minimal app code (android 2.1 compatible)\r\n\r\nimport org.osmdroid.tileprovider.tilesource.TileSourceFactory;\r\nimport org.osmdroid.util.GeoPoint;\r\nimport org.osmdroid.views.MapController;\r\nimport org.osmdroid.views.MapView;\r\n\r\nimport android.app.Activity;\r\nimport android.os.Bundle;\r\n\r\n// This is all you need to display an OSM map using osmdroid\r\npublic class OsmdroidDemoMap extends Activity {\r\n\r\n\tprivate MapView \t\tmMapView;\r\n\tprivate MapController \tmMapController;\r\n\r\n\t@Override\r\n\tpublic void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t\tsetContentView(R.layout.osm_main);\r\n\t\tmMapView = (MapView) findViewById(R.id.mapview);\r\n\t\tmMapView.setTileSource(TileSourceFactory.MAPNIK);\r\n\t\tmMapView.setBuiltInZoomControls(true);\r\n\t\tmMapController = mMapView.getController();\r\n\t\tmMapController.setZoom(13);\r\n\t\tGeoPoint gPt = new GeoPoint(51500000, -150000);\r\n\t\t//Centre map near to Hyde Park Corner, London\r\n\t\tmMapController.setCenter(gPt);\r\n\t}\r\n}\r\n/* HAVE THIS AS YOUR osm_main.xml\r\n---------------------------------------------------------- XML START\r\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:orientation=\"vertical\"\r\n    android:layout_width=\"fill_parent\"\r\n    android:layout_height=\"fill_parent\"\r\n    >\r\n\t<org.osmdroid.views.MapView\r\n\t\txmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n\t\tandroid:layout_width=\"fill_parent\" \r\n    \tandroid:layout_height=\"fill_parent\"\r\n    \tandroid:id=\"@+id/mapview\"\r\n    \t></org.osmdroid.views.MapView>\r\n</LinearLayout>\r\n---------------------------------------------------------- XML END\r\n\r\nIt was much the same on the emulator (perhaps a few less missing tiles) The missing tiles never appeared (see attached screen dump)",
+    "timestamp" : 1325456890,
+    "attachments" : [ {
+      "id" : 2890001000,
+      "fileName" : "Osmdroid306Dump.jpg",
+      "fileSize" : 36767
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4438511841876332529,
+    "content" : "Comment deleted",
+    "timestamp" : 1325512012,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -4438511841876332529,
+    "content" : "I have the same problem. I found that on the Samsung Galaxy Nexus with Android 4.0.1 several tiles do not load at all. Loading tiles seems a bit slower than 3.0.5. I did not find any solution yet.",
+    "timestamp" : 1325512169,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's also easy to test by just comparing the two apk's:\r\nhttp://osmdroid.googlecode.com/files/OpenStreetMapViewer-3.0.6.apk\r\nhttp://osmdroid.googlecode.com/files/OpenStreetMapViewer-3.0.5.apk\r\n\r\nI don't know about the \"blocky\" loading, but it does appear to never load tiles sometimes. I haven't had a chance to look at the code yet, but I guess it's when a download fails and somehow the pending cache gets stuck thinking it's still in progress.",
+    "timestamp" : 1325515568,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4438511841876332529,
+    "content" : "Do you think you could make a fix for this issue? thanks.",
+    "timestamp" : 1325593736,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 3228902924970999842,
+    "content" : "this problem is persisting even in offline mode . ",
+    "timestamp" : 1325661092,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think the fix for issue 207 helps this, although that doesn't make sense if the issue is also happening in offline mode.",
+    "timestamp" : 1325714979,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3965022576382037332,
+    "content" : "The fix for issue 207 did not alleviate this. This was the strange new issue I was talking about in that issue. It happened when I updated to latest version and applied the patch you posted there, so unless other things have been changed it still persists.",
+    "timestamp" : 1325759709,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -6679925067962250327,
+    "content" : "This issue makes 3.0.6 unusable in my opinion. You should revert to 3.0.5 being the downloadable jar till it is sorted anyone trying to start off with osmdroid now is liable to stop in a hurry.",
+    "timestamp" : 1326363527,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -3965022576382037332,
+    "content" : "Yeah, I agree. And that would be too bad, because things were working fine before.",
+    "timestamp" : 1326364423,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -6679925067962250327,
+    "content" : "Looking at the commits from 3.0.5 to 3.0.6 the work putting in the background scaling for issue 46 is probobly the cause.  I will try and get to know the code some more in that area, just to see if I can switch it off for a start.",
+    "timestamp" : 1326365928,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 3228902924970999842,
+    "content" : "Did any one try r1010 on 3.0.5 ?? \r\n",
+    "timestamp" : 1326435482,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -6679925067962250327,
+    "content" : "I just tried reming out line 338 in mapView.java\r\n\r\nmTileProvider.rescaleCache(newZoomLevel, curZoomLevel, getScreenRect(null));\r\n\r\nThis looks to workaround the problem.  I am not farmiliar enough with the code to know if there is anything else needed but it looks OK in my App given a quick test.\r\n\r\nAn option to enable / disable this cache rescaling and a default to off would probobly be the right short term workaround antil the code is cleaned up properly.",
+    "timestamp" : 1326491200,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you think there's a problem with the fix for issue 46 then you could disable it, but of course then issue 46 is still an issue. It would be better if you could identify an issue with the scaling and fix it.",
+    "timestamp" : 1326693882,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 1065103830500815556,
+    "content" : "I think I found the problem. The scaled bitmaps aren't being replaced by real unscaled tiles.\r\n\r\nIn ScaleTileLooper, finaliseLoop() the scaled map tile added to the cache is not marked as expired.\r\n\r\nExpirableBitmapDrawable expiredBitmap = new ExpirableBitmapDrawable(bitmap);\r\nexpiredBitmap.setState(new int[]{-1}); // expired\r\nmTileCache.putTile(tile, expiredBitmap);\r\n\r\nOn a separate note is there some clever programming reason why is state an int array? ",
+    "timestamp" : 1328101233,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 8937367184059112911,
+    "content" : "That makes good sense. When I wrote ExpirableBitmapDrawable it was originally called ExpiredBitmapDrawable and it was always expired, but then I changed it to be not expired by default. Seems I forgot to change this.\r\n\r\nstate is an int array in Bitmap.getState\r\nhttp://developer.android.com/reference/android/graphics/drawable/Drawable.html#getState()",
+    "timestamp" : 1328105193,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1073.",
+    "timestamp" : 1328105542,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 4962403259194227200,
+    "content" : "That's good news - thank you. I'm still using the 3.0.5 jar but with the change of URL the cycle map doesn't work. I guess that I'll have to wait for 3.0.8 to have a jar which fixes 289 and the cycle map URL issues?",
+    "timestamp" : 1328106877,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -939386581748909667,
+    "content" : "Still having this issue and I'm using the 3.0.8 jar.  It will stop loading tiles completely.  I have tested on a motorola droid(gingerbread) and galaxy tab 10.1(honeycomb).  Not sure what the issue is, but if I use the osmDroid app from the market it works fine...Tried earlier jars and same issue.\r\n",
+    "timestamp" : 1345577603,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8684358774100406040,
+    "content" : "I also have the problem with 3.0.8 and 3.0.9-20120628.050326-1: no tiles shown at all, just the background grid, even though the app keeps downloading data (tiles I suppose) from the internet forever.  I'm relieved I found that bug report; I was starting to think I'm crazy/stupid.  Using 3.0.5, I now have a functional map.  I'm new to all this but my little investigation led me to think the view port was somehow incorrectly set and tiles were downloaded outside (even very far) from the requested bounding box.  Just an hypothesis from a newcomer so please don't pay too much attention to it.  Let me know if I can help in some way.",
+    "timestamp" : 1350563206,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -3530711889417038714,
+    "content" : "Hello, I have also the same problem with 3.0.8 - tiles are randomly not displayed as shown on 'Osmdroid306Dump.jpg'. Application is running offline with local tile cache, don't know, if it is important. Same map scale and position renders well when new map component is created. \r\nVersion 3.0.5 works well, but 3.0.8 performs smoothly and therefore it is preferred for me. Is there any chance this problem to be fixed?",
+    "timestamp" : 1364153045,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 5781615991677836462,
+    "content" : "Same problem here with 3.0.10 - when zooming or scrolling using an offline sqlite db some random tiles are not displayed. I can also confirm 3.0.5 does not have this problem.",
+    "timestamp" : 1373925428,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -7704997322648904368,
+    "content" : "Comment deleted",
+    "timestamp" : 1378053896,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : -7704997322648904368,
+    "content" : "I have the same issue with 3.0.8 and 3.0.10 also. It happens only in offline mode.\r\nresourceProxy = new DefaultResourceProxyImpl(getApplicationContext());\r\n\t\tsetContentView(R.layout.activity_map_view);\r\n\t\tmyMapView.setTileSource(new XYTileSource(\"OSMmaptracker\",\r\n\t\t\t\tResourceProxy.string.offline_mode, 10, 18, 256, \".png\",\r\n\t\t\t\t\"http://tile.openstreetmap.org/\"));\r\n\t\tmyMapView.setBuiltInZoomControls(true);\t\t\r\n\t\tmyMapView.setClickable(true);\r\n\t\tmyMapView.setMultiTouchControls(true);\r\n\t\tmyMapView.setUseDataConnection(false);\r\n\t\tmyMapView.setMapViewActivity(this);\r\n\t\tmyMapView.setScrollableAreaLimit(new BoundingBoxE6(49.4400781318,\r\n\t\t\t\t20.4353853749, 49.4005902108, 20.3925485542));\r\nHas anybody find a solution?",
+    "timestamp" : 1378056073,
+    "attachments" : [ ]
+  }, {
+    "id" : 25,
+    "commenterId" : 4989054676832302459,
+    "content" : "Seeing the same problem on Samsung Replenish (model SPH-M580 with Android version 2.3.6) using library version 3.0.10. Problem occurs in both my APK and with the sample APK provided (https://code.google.com/p/osmdroid/downloads/list).",
+    "timestamp" : 1378503454,
+    "attachments" : [ ]
+  }, {
+    "id" : 26,
+    "commenterId" : 7646092065249173135,
+    "content" : "People are still having this issue, so I am going to re-open this. If you have a small offline SQL database that exhibits this then please post it here so we can reproduce this issue.",
+    "timestamp" : 1379945722,
+    "attachments" : [ ]
+  }, {
+    "id" : 27,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1379945792,
+    "attachments" : [ ]
+  }, {
+    "id" : 28,
+    "commenterId" : 7646092065249173135,
+    "content" : "FYI - the changes between 3.0.5 (the last working version?) and 3.0.6 (the first broken version?) span approximately r974 to r1033. So what broke in that span?",
+    "timestamp" : 1379946068,
+    "attachments" : [ ]
+  }, {
+    "id" : 29,
+    "commenterId" : -3298600403240576735,
+    "content" : "Comment deleted",
+    "timestamp" : 1380244956,
+    "attachments" : [ {
+      "id" : 2890029000,
+      "fileName" : "Bugs.zip",
+      "fileSize" : 923127
+    }, {
+      "id" : 2890029001,
+      "fileName" : "Screenshot_2013-09-27-03-13-08.png",
+      "fileSize" : 69500
+    } ]
+  }, {
+    "id" : 30,
+    "commenterId" : -2653013136409168895,
+    "content" : "Same problem with 4.0.  I sometimes find if a tile has been drawn correctly, then I pan it off-screen and back, it is no longer drawn (either plane grey or a grey grid).",
+    "timestamp" : 1382707647,
+    "attachments" : [ ]
+  }, {
+    "id" : 31,
+    "commenterId" : 6593743926263410891,
+    "content" : "Would patch of issue 332 (which seems to be a duplicate of this issue) help?",
+    "timestamp" : 1385216034,
+    "attachments" : [ ]
+  }, {
+    "id" : 32,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390673693,
+    "attachments" : [ ]
+  }, {
+    "id" : 33,
+    "commenterId" : 603937806481643587,
+    "content" : "I have the same problem (Version 4.1). Is there any fix?",
+    "timestamp" : 1391534609,
+    "attachments" : [ ]
+  }, {
+    "id" : 34,
+    "commenterId" : 6593743926263410891,
+    "content" : "Here finally a patch: http://www.file-upload.net/download-8633927/fixTileLoadFailure.patch.html\r\n\r\nchanges:\r\n- fix problem tiles not loading in offline mode (fixes https://code.google.com/p/osmdroid/issues/detail?id=289 by increasing cache size dynamically)\r\n- added warning if network permissions not granted\r\n- use 0.75 as load factor for LRUMapTileCache\r\n\r\n@devs: this is just a small fix but it finally makes osmdroid usable. please verify and include asap. thanks.\r\n",
+    "timestamp" : 1392737616,
+    "attachments" : [ ]
+  }, {
+    "id" : 35,
+    "commenterId" : 6593743926263410891,
+    "content" : "I do not trust file-upload: http://textuploader.com/1hhl",
+    "timestamp" : 1392737779,
+    "attachments" : [ ]
+  }, {
+    "id" : 36,
+    "commenterId" : 6593743926263410891,
+    "content" : "As long my fix is not included. Increasing the cache size should help:\r\n\r\n    mMapView.getOverlayManager().getTilesOverlay().setOvershootTileCache(300);\r\n\r\n",
+    "timestamp" : 1392805433,
+    "attachments" : [ ]
+  }, {
+    "id" : 37,
+    "commenterId" : -5141826301062919657,
+    "content" : "Thanks for creating this patch. I'm having troubles including it in my Project. Would you be so kind to create a jar file that includes this patch?\r\n\r\nThanks alot",
+    "timestamp" : 1393953825,
+    "attachments" : [ ]
+  }, {
+    "id" : 38,
+    "commenterId" : -5438284801675107478,
+    "content" : "I tried to incorporate the patch from #34 into my copy of the library. Unfortunately I started getting LowMemory exceptions, caused by this line in \r\nMapTileProviderBase.ScaleTileLooper.finaliseLoop(): \r\n\r\nmTileCache.ensureCapacity(mTileCache.getCapacity() + mNewTiles.size());\r\n\r\nThe above keeps increasing mTileCache capacity indefinitely, and at some point we run out of memory. I admit though, that as long as there is enough memory, missing tiles do not appear. \r\nIt seems to me that missing tiles appear when the loading of actual tiles from disk is a bit slow. If it's fast enough, all is well. I'll try to investigate a little further.",
+    "timestamp" : 1399719135,
+    "attachments" : [ ]
+  }, {
+    "id" : 39,
+    "commenterId" : 1606294020934033953,
+    "content" : "Sir,\r\ni have inculcated your OsmdroidDemoMap in eclipse and trying to get offline map.\r\nbut iam getting error after including the libraries which you have suggested the error was as follows:\" Could not find class org.osmdroid.util.geopoint, referenced from method with the package name\".\r\nPlease suggest me how to get rid off those errors and displays a map.\r\nThanks \r\nRegards",
+    "timestamp" : 1404462493,
+    "attachments" : [ ]
+  }, {
+    "id" : 40,
+    "commenterId" : 2742315794433795753,
+    "content" : "Any progress on this? Happens with offline maps on osmdroid 4.0 and the latest (at time of this post) 4.2 built from source code. Tested on HTC Wildfire (Android 2.2), and I was even able to reproduce it on Genymotion emulator, though it happens there rarely comparing to HTC Wildfire (probably because Genymotion loads offline tiles faster, or has more memory - I do not know).",
+    "timestamp" : 1414079980,
+    "attachments" : [ ]
+  }, {
+    "id" : 41,
+    "commenterId" : 2742315794433795753,
+    "content" : "Patch http://www.file-upload.net/download-8633927/fixTileLoadFailure.patch.html doesn't work for me, I still get the same issue (missing tiles after zoom in/out). osmdroid 4.2",
+    "timestamp" : 1414086581,
+    "attachments" : [ ]
+  }, {
+    "id" : 42,
+    "commenterId" : -6553882015509339886,
+    "content" : "The same thing with 4.3. If I remove tile folder and download it again, everything will be fine. What do?",
+    "timestamp" : 1437985964,
+    "attachments" : [ ]
+  } ]
+}

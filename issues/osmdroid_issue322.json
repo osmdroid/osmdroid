@@ -1,0 +1,33 @@
+{
+  "id" : 322,
+  "status" : "WontFix",
+  "summary" : "Very long tile loading time",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7289133215110792864,
+    "content" : "<b>What steps will reproduce the problem?</b>\ncreate a simple project with only mapview add osmdroid jar version\r\n3.0.2 and above and the tile loading is taking very long time.\r\nif using versions 3.0.1 and earlier the tile loading is very fast.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe tile loading in the new versions should be as fast as before.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nany version.\r\n\r\n<b>Please provide any additional information below.</b>\nsomewhere between versions 3.0.1 and 3.0.2  something changed in the\r\ntile loading that made it much slower.\r\n",
+    "timestamp" : 1331835473,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Is this issue still present in the latest version? If so, please provide trace files before the speed issues and after the speed issues for us to look at.",
+    "timestamp" : 1333746737,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1926649588004726303,
+    "content" : "While checking the last revision(1088) it seems that the tile loading is much faster.\r\nguess the problem was addressed in the meantime.\r\nthanks guys for all of your amazing work.",
+    "timestamp" : 1333868718,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Good to hear!",
+    "timestamp" : 1333925531,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,49 @@
+{
+  "id" : 226,
+  "status" : "Fixed",
+  "summary" : "Add functionality to overshoot LRU cache size",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Right now we try to only keep enough tiles in the cache to cover the entire screen (plus 2 in the constructor I believe). This is fine, but if you drag in one direction and back quickly, the screen has the tendency to blank (meaning only loading tiles are shown) since we have such a small border around our visible viewport. The tiles get pushed out very quickly and then it takes at least one draw cycle to bring them back into the cache.\r\n\r\nJust artificially bumping up the tile cache causes visible improvements in drawing and virtually eliminates complete screen blanking after quick back and forth scrolling. If we all agree that it's worth it, we can permanently artificially overshoot the cache size, but that puts pressure on the memory and although reports of memory issues have been quiet lately, they have been an issue in the past.\r\n\r\nThe other option is to keep our logic as-is, but add a clear path to allow the user to overshoot the cache size themselves.",
+    "timestamp" : 1306866472,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached!",
+    "timestamp" : 1308258739,
+    "attachments" : [ {
+      "id" : 2260001000,
+      "fileName" : "OvershootTileCache.patch",
+      "fileSize" : 2456
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1309205233,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3965022576382037332,
+    "content" : "Is there any reason this hasn't been included? It really helps with the issue of constant GC_CONCURRENT garbage collection during quickly scrolling between places near each other as well.",
+    "timestamp" : 1323262007,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I have been using this patch for a while and I think it's worth finally putting into the trunk.",
+    "timestamp" : 1333738904,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in r1086.",
+    "timestamp" : 1333739274,
+    "attachments" : [ ]
+  } ]
+}

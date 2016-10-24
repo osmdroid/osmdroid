@@ -1,0 +1,21 @@
+{
+  "id" : 508,
+  "status" : "Invalid",
+  "summary" : "Create context menu at long press in MapView (or Overlay) ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6900197229714745608,
+    "content" : "How can I create and use a contextMenu on a longpress on a MapView? \r\n\r\nI can detect a long-press in an Overlay, but how can I create the ContextMenu? \r\n\r\n    @Override \r\n    public boolean onLongPress(MotionEvent e, MapView mapView) {\r\n        System.out.println( &quot;Detected long press ... yes, this works!&quot;); \r\n        MenuInflater inflater3 = ?via an activity?.getMenuInflater();\r\n        inflater3.inflate( R.menu.wp_list_contextmenu, ?what to enter here?);\r\n        return true;\r\n    }\r\n\r\nExpected output: long press on the MapView giving a contextMenu. E.g. to create a new waypoint / coordinate,. \r\n\r\nI use the newest version of osmdroid. ",
+    "timestamp" : 1388842195,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Sorry, this is not an osmdroid-specific question (it is general Android) and is not a bug. You would probably be better off asking on StackOverflow.",
+    "timestamp" : 1389107036,
+    "attachments" : [ ]
+  } ]
+}

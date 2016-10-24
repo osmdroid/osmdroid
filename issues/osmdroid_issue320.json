@@ -1,0 +1,27 @@
+{
+  "id" : 320,
+  "status" : "New",
+  "summary" : "Pinch zoom flickering",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -687363422340697515,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use osmdroid library\r\n2. Pinch to zoom without release the touch\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect to smoth map render, but instead sometimes I see black lines flickering on the tiles margins\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.8 also it's true for osmdroid 3.0.7 on\r\nAndroid 2.3.3 and Android 2.3.4\r\n\r\n<b>Please provide any additional information below.</b>\nThe issue is valable for default map tiles but it's more(often) pronounced  on custom map tiles\r\n\r\nif I change in MapView class in method dispatchDraw(final Canvas c) the following line:\r\n\r\n/* Draw background */\r\nc.drawColor(Color.LTGRAY);\r\n\r\nthe lines become less observable\r\n\r\n\r\n\r\n",
+    "timestamp" : 1331801694,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1065103830500815556,
+    "content" : "Another work around is to expand the tile by 1 pixel in each direction before its drawn, this of course causes the tiles to overlap eliminating the scaling gap but the final render the tiles actually overlap\r\n\r\nin TilesOverlay.java\r\n\r\n\tprotected void onTileReadyToDraw(final Canvas c, final Drawable currentMapTile,\r\n\t\t\tfinal Rect tileRect) {\r\n\t\ttileRect.offset(-mWorldSize_2, -mWorldSize_2);\r\n\t\tcurrentMapTile.setBounds(tileRect.left - 1, tileRect.top - 1, tileRect.right + 1, tileRect.bottom + 1);\r\n\t\tcurrentMapTile.draw(c);\r\n\t}\r\n\r\nFor now I'm looking at instructing the tiles to overlap only when the map is being pinch zoomed and removing the overlap when rendered normally\r\n\r\nsuch that the second line becomes:\r\n        if (pinched)\r\n            currentMapTile.setBounds(tileRect.left - 1, tileRect.top - 1, tileRect.right + 1, tileRect.bottom + 1);\r\n        else\r\n            currentMapTile.setBounds(tileRect);\r\n\r\n",
+    "timestamp" : 1341489653,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 381 has been merged into this issue.",
+    "timestamp" : 1359145217,
+    "attachments" : [ ]
+  } ]
+}

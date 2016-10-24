@@ -1,0 +1,39 @@
+{
+  "id" : 442,
+  "status" : "Fixed",
+  "summary" : "Fix issue with setClickable causing no scrolling",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Because of the way dispatchTouchEvent is handled, if setClickable() is true for the MapView then scrolling doesn't work since the MapView consumes the touch event. This is causing a lot of confusion with users who errantly set the clickable property.\r\n\r\nI have been trying the following solution in MapView, and it appears to be working well for me:\r\n\r\n\t@Override\r\n\tpublic boolean onTouchEvent(MotionEvent event) {\r\n\t\treturn false;\r\n\t}\r\n\r\nThis will prevent the MapView itself from consuming touch events, even if setClickable is true. Child views to the MapView can still receive touch events, multi-touch works, overlay touches work, etc...\r\n\r\nI am going to commit the fix. Please report any issues to this ticket.",
+    "timestamp" : 1372167792,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1250.\n\nPrevent MapView from consuming touch events when setClickable(true).",
+    "timestamp" : 1372195821,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1372195854,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1380873284,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382708968,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,103 @@
+{
+  "id" : 452,
+  "status" : "ReadyForTesting",
+  "summary" : "Establish a Bitmap pool for tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 15,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "When scrolling new tiles get loaded from the tile providers and put into the cache. The old tiles get pushed out and eventually recycled by the GC.\r\n\r\nThis causes a lot of garbage collection and memory thrashing. Consequently scrolling can randomly become slower or stuttery.\r\n\r\nWe should establish a bitmap pool where bitmaps can be reused without being GCed and re-allocated. The BitmapFactory.options inBitmap allows a Bitmap to be reused. When the LRUCache pushes a tile out it should return it to the pool. When the BitmapTileSource needs a tile it should first try to request one from the pool and reuse it if available.\r\n\r\nNote that threading becomes an issue here. It is possible that tiles could be retained from the cache, then get pushed out of the cache and then reused by the retaining owner. This may be a problem for things like the ScaleTileLooper (where we had issues in the past with recycle() getting called on tiles and then the tiles being used in ScaleTileLooper).\r\n",
+    "timestamp" : 1374270027,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "First shot at an implementation. This patch adds a ReusableBitmapDrawable which keeps track of references and will only recycle the bitmap if there are no remaining references. Documentation is added to MapTileProviderBase.getMapTile() to inform the user of their responsibilities when the method returns a ReusableBitmapDrawable. Established a BitmapPool to keep track of bitmaps ready to be reused. Changed BitmapTileSource to reuse Bitmaps from the BitmapPool. Changed LRUMapTileCache to return recyclable Bitmaps to the BitmapPool.\r\n\r\nWe should probably establish a limit to the number of Bitmaps in BitmapPool or maybe attach to a low memory event and remove Bitmaps when memory is getting squeezed.\r\n\r\nOtherwise this makes scrolling much smoother and loses a lot of the jitteriness!",
+    "timestamp" : 1375197837,
+    "attachments" : [ {
+      "id" : 4520001000,
+      "fileName" : "BitmapPool.patch",
+      "fileSize" : 11776
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1375381373,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Note that BitmapPool.returnDrawableToPool() should be:\r\n\r\n\tpublic void returnDrawableToPool(ReusableBitmapDrawable drawable) {\r\n\t\tBitmap b = drawable.tryRecycle();\r\n\t\tif (b != null && b.isMutable())\r\n\t\t\tsynchronized (mPool) {\r\n\t\t\t\tmPool.addLast(b);\r\n\t\t\t}\r\n\t}\r\n\r\nadding an isMutable() check.",
+    "timestamp" : 1375381390,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "And we should return a mutable Bitmap always:\r\n\r\n\tpublic void applyReusableOptions(BitmapFactory.Options bitmapOptions) {\r\n\t\tBitmap pooledBitmap = obtainBitmapFromPool();\r\n\t\tbitmapOptions.inBitmap = pooledBitmap;\r\n\t\tbitmapOptions.inSampleSize = 1;\r\n\t\tbitmapOptions.inMutable = true;\r\n\t}\r\n",
+    "timestamp" : 1375381627,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1376777155,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Committed in r1328.",
+    "timestamp" : 1380293660,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nAt BitmapPool at method applyReusableOptions the SDK check needs to be \">= Build.VERSION_CODES.HONEYCOMB\", as the inBitmap and inMutable are added in API level 11.\r\nThe Build.VERSION_CODES.GINGERBREAD is API 9, now the osmdroid does not work at API 10.\r\n\r\nRegards.",
+    "timestamp" : 1380358302,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "I updated the SDK check.",
+    "timestamp" : 1380570730,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -1918333713940407975,
+    "content" : "Wouldn't it be better if the SDK check is >= instead of > as it works with HONEYCOMB?\r\n\r\nRegards.",
+    "timestamp" : 1380608418,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Changed. I missed that subtlety in your comment ;)",
+    "timestamp" : 1380635901,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1341.\n\nRevert the changes in r1120 and issue 368. Two reasons - first, the canvas is ARGB_8888 and having bitmaps that are RGB_565 causes additional work to blit the bitmaps to the screen (see http://www.curious-creature.org/2010/12/04/gingerbread-and-32-bits-windows/ and follow up article). Second - when we reuse Bitmaps in the BitmapPool they need to be ARGB_8888 (the same as the tiles) otherwise tiles that are supposed to be transparent (like bike path overlays for instance) can sometimes not be transparent anymore.",
+    "timestamp" : 1380655205,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 7646092065249173135,
+    "content" : "Update issue 452.\r\nAdd obtainSizedBitmapFromPool() to get a Bitmap that is a specific size for\r\nreuse when needed. Since we only put map tile-sized bitmaps in there, they\r\nshould always be the same size but it doesn't hurt to throw that in there. When\r\nwe use Bitmap.Options.inBitmap it is okay if the Bitmap is mis-sized, because it\r\nwill just ignore that Bitmap and allocate a properly sized one.\r\nChanged ZoomInTileLooper/ZoomOutTileLooper to use obtainSizedBitmapFromPool()\r\nrather than allocate a new Bitmap. This prevents the BitmapPool from growing\r\nendlessly.",
+    "timestamp" : 1382721898,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 7646092065249173135,
+    "content" : "We should do one of the following:\r\n\r\n 1. Put a hard-limit on the number of Bitmaps the pool can keep. This could be linked to the size of the tile cache.\r\n 2. Purge Bitmaps when low-memory notification is received. We can subscribe to ComponentCallbacks.onLowMemory() in API < 14, and ComponentCallbacks2.onTrimMemory() on newer APIs.",
+    "timestamp" : 1382722193,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 1389913078165550644,
+    "content" : "\tpublic void returnDrawableToPool(ReusableBitmapDrawable drawable) {\r\n\t\tBitmap b = drawable.tryRecycle();\r\n\t\tif (b != null && b.isMutable())\r\n\t\t\tsynchronized (mPool) {\r\n\t\t\t\tmPool.addLast(b);\r\n\t\t\t}\r\n\t}\r\n\r\nGuess will be better to recycle bitmap if it is not mutable to reclaim memory as soon as possible and avoid a lot of garbage collection:\r\n\r\n\tpublic void returnDrawableToPool(ReusableBitmapDrawable drawable) {\r\n\t\tBitmap b = drawable.tryRecycle();\r\n\t\tif (b != null) {\r\n\t\t\tif(b.isMutable()) {\r\n\t\t\t\tsynchronized (mPool) {\r\n\t\t\t\t\tmPool.addLast(b);\r\n\t\t\t\t}\r\n\t\t\t} else \r\n\t\t\t\tb.recycle();\r\n\t\t}\r\n\t}\r\n\r\n",
+    "timestamp" : 1401886481,
+    "attachments" : [ ]
+  } ]
+}

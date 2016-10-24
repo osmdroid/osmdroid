@@ -1,0 +1,27 @@
+{
+  "id" : 492,
+  "status" : "New",
+  "summary" : "Performance optimization for tiles downloading",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2994850334662447637,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use an online tilesource for the first time, with no tiles cached\r\n2. Fetching of the tiles will perform badly on a 3G network\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nA better performance.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\nIs there a chance to implement some performance optimizations for the tiles downloading?\r\n",
+    "timestamp" : 1383999277,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "How do you expect to achieve this?",
+    "timestamp" : 1384153371,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -2994850334662447637,
+    "content" : "Would it maybe help if you integrated Volley or something similar, and then, when the new tile request comes - immediately cancel all the download requests for the tiles that are not visible on the map? ",
+    "timestamp" : 1384165961,
+    "attachments" : [ ]
+  } ]
+}

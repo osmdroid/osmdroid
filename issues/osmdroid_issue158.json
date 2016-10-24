@@ -1,0 +1,51 @@
+{
+  "id" : 158,
+  "status" : "Fixed",
+  "summary" : "speech bubbles of ItemizedOverlayWithFocus are at wrong location",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3213039640869052093,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. click on a pointer of ItemizedOverlayWithFocus\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe tip of the speech bubble should be at the same location where the\r\ntip of the pointer was. instead its allways a few pixels to the top left\r\nwitch makes the whole overlay pretty useless.\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.1\r\n\r\n\r\n",
+    "timestamp" : 1297175511,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1297573049,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Scratch that last comment...",
+    "timestamp" : 1297574640,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I suspect this is an issue with the hotspot being incorrectly set for the \"focused\" state. It looks like getMarkerHotspot ignores the stateBitSet - I wonder if this is on purpose?",
+    "timestamp" : 1297574815,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Confirmed - getMarkerHotspot will return the same hotspot regardless of which state bits you pass in. Hacking in a fix that recalculates the hotspot every time will resolve the issue and selected items will point to the correct location on the map.",
+    "timestamp" : 1297576988,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r802.",
+    "timestamp" : 1297579243,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "The itemized overlay classes are a little messy and should be cleaned up, but for now they seem to be working again.",
+    "timestamp" : 1297579352,
+    "attachments" : [ ]
+  } ]
+}

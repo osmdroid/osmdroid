@@ -1,0 +1,57 @@
+{
+  "id" : 397,
+  "status" : "Fixed",
+  "summary" : "ItemizedIconOverlay never get called OnItemGestureListener",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1490409245018264395,
+    "content" : "Hi \r\nIn the latest trunk 3.0.9  the OnItemGestureListener is no more called.\r\n\r\nIn 3.0.8 the following works (solution from issue 245):\r\n\r\nimport java.util.ArrayList;\r\nimport org.osmdroid.DefaultResourceProxyImpl;\r\nimport org.osmdroid.ResourceProxy;\r\nimport org.osmdroid.views.overlay.ItemizedIconOverlay;\r\nimport org.osmdroid.views.overlay.OverlayItem;\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.graphics.drawable.Drawable;\r\n\r\npublic class osmItemizedOverlay  \r\n{\r\n\tprotected ItemizedIconOverlay&lt;OverlayItem&gt; mOverlay;\r\n\tprotected Context mContext;\r\n\tprotected Drawable mMarker;\r\n\tpublic boolean bVisible = true;\r\n\r\n\tpublic osmItemizedOverlay(Drawable marker, Context context) \r\n\t{\r\n\t\tmContext = context;\r\n\t\tArrayList&lt;OverlayItem&gt; items = new ArrayList&lt;OverlayItem&gt;();\r\n\t\tResourceProxy resourceProxy = (ResourceProxy) new DefaultResourceProxyImpl(mContext);\r\n\t\tmMarker = marker;\r\n\t\t\r\n\t\tmOverlay = new ItemizedIconOverlay&lt;OverlayItem&gt;(\r\n\t\t\t\titems, mMarker, \r\n\t\t\t\tnew ItemizedIconOverlay.OnItemGestureListener&lt;OverlayItem&gt;() \r\n\t\t\t{\r\n\t\t\t@Override public boolean onItemSingleTapUp(final int index, final OverlayItem item) {\r\n\t\t\t\treturn onSingleTapUpHelper(index, item);\r\n\t\t\t}\r\n\t\r\n\t\t\t@Override public boolean onItemLongPress(final int index, final OverlayItem item) {\r\n\t\t\t\treturn true;\r\n\t\t\t}\r\n\t\t\t}, resourceProxy);\r\n\r\n\t}\r\n\t\r\n\tpublic boolean onSingleTapUpHelper(int i, OverlayItem item) {\r\n\t\t//Toast.makeText(mContext, &quot;Item &quot; + i + &quot; has been tapped!&quot;, Toast.LENGTH_SHORT).show();\r\n\t\tAlertDialog.Builder dialog = new AlertDialog.Builder(mContext);\r\n\t\t//dialog.setTitle(item.getTitle());\r\n\t\tdialog.setMessage(item.getSnippet());\r\n\t\tdialog.show();\r\n\t\treturn true;\r\n\t\t\r\n\t}\r\n\t\r\n\tpublic void addItem(OverlayItem item){\r\n\t\tmOverlay.addItem(item);\r\n\t}\r\n\t\r\n\tpublic ItemizedIconOverlay&lt;OverlayItem&gt; getOverlay(){\r\n\t\treturn mOverlay;\r\n\t}\r\n\t\r\n}\r\n",
+    "timestamp" : 1359030600,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This appears to be still working in the samples app - are you doing anything differently from SampleWithMinimapItemizedoverlayWithFocus for example?",
+    "timestamp" : 1359143809,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1490409245018264395,
+    "content" : "I think no. Also myLocation is always about 50 Pixel different to my real location. \r\nThe coordinates are correct but the maptiles have this offset. I will try a new source download first. ",
+    "timestamp" : 1359712913,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1490409245018264395,
+    "content" : "Ok I try the samples app now with the latest trunk of today and the fact is, also with my project, that I have to tap about 20 Pixels underneath marker_default.png than it works. I use a Samsung S3 I guess that has something to do with the size of \"Overlayicon\". In compare to 3.0.8 the iscon size is now fine on all kinds of different resolutions that I can test (S3,HTC Evo, HTC Desire, Sony V,SonyTablet, Galaxytablet).",
+    "timestamp" : 1360149367,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 1360101231699883638,
+    "content" : "I also experience this issue with the latest trunk.\r\nMy project hosts the map inside a fragment which is embedded in a sliding menu.\r\n\r\nWhat I see:\r\n- The mapped does not render correctly, it leaves a white strip at te bottom. I guess the calculation goes wrong somewhere because the strip varies in size depending on map movement.\r\n- My Location and itemizedoverlays are not in the correct position. On the x-axis the position is correct, but on the y-axis it is off.\r\n\r\nWhen I disable the use of the safecanvas and revert the changes in r1129 my problems are solved.\r\n\r\nI had to revert r1129 because the view below the map always handles touch events.",
+    "timestamp" : 1360789366,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1490409245018264395,
+    "content" : "I just tried the 3.0.9 release again. And have the same issues, but saw a tip to disable hardware acceleration.\r\nAdding:\r\n<application android:hardwareAccelerated=\"false\" />\r\nHelps me too. Now I can tap Items on the right position, not 20 Pixels below.",
+    "timestamp" : 1365677135,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "@hansvdg See issue 415 to fix the touch event issue.\r\n\r\nAre there any more issues regarding this ticket?",
+    "timestamp" : 1365692790,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "We have better hardware acceleration support in 3.0.10. This ticket can be closed.",
+    "timestamp" : 1367585228,
+    "attachments" : [ ]
+  } ]
+}

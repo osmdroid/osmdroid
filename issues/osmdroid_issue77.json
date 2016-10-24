@@ -1,0 +1,179 @@
+{
+  "id" : 77,
+  "status" : "Fixed",
+  "summary" : "Add compass to MyLocationOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 23,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3804822027311196058,
+    "content" : "Add enableCompass() and disableCompass() to make MyLocationOverlay more equivalent to the Google Maps overlay.\r\n\r\nThe attached modified version does a compass implementation with Picture objects for performance reasons. Additional methods are:\r\n\r\nsetCompassCenter(x,y): Define compass center. Default: (35,35)\r\n\r\nNote: replace package name and remove comments from commented out Overrides\r\n",
+    "timestamp" : 1281985106,
+    "attachments" : [ {
+      "id" : 6416648733087607064,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 16638
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Committed in revision 316.\r\nIt would be a good idea to add it to one of the samples.",
+    "timestamp" : 1282033002,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3804822027311196058,
+    "content" : "for the sample - add a variable\r\n\r\n   private MyLocationOverlay mMyLocationOverlay = null;\r\n\r\nin onCreate():\r\n\r\n    mMyLocationOverlay = new MyLocationOverlay(this, mOsmv);\r\n    mOsmv.getOverlays().add(mMyLocationOverlay);\r\n            \r\n    mMyLocationOverlay.runOnFirstFix(new Runnable() {\r\n            public void run() {\r\n                mOsmv.getController().animateTo(mMyLocationOverlay.getMyLocation());\r\n            }\r\n    });\r\n\r\nin onResume():\r\n\r\n   mMyLocationOverlay.enableCompass();\r\n   mMyLocationOverlay.enableMyLocation();             \r\n   mMyLocationOverlay.followLocation(true);\r\n\r\nand onPause():\r\n\r\n   mMyLocationOverlay.disableMyLocation();\r\n   mMyLocationOverlay.disableCompass();\r\n",
+    "timestamp" : 1282034188,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I think it's obvious how it works, but I meant to add it to one of the samples in org.andnav.osm.samples.  However I see that none of them have a MyLocationOverlay, so that means either making a new sample or adding it to org.andnav.osm.OpenStreetMap.  So I'll go for the easy option and close this issue without doing a sample. If anyone wants to, go ahead!",
+    "timestamp" : 1282115009,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3804822027311196058,
+    "content" : "ok I'll create a new small example file!",
+    "timestamp" : 1282115571,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3804822027311196058,
+    "content" : "Here's a simple sample plus screenshot.\r\n\r\nchange the package to\r\n\r\n    package org.andnav.osm.samples;\r\n\r\nand add an import for the MyLocationOverlay.\r\n",
+    "timestamp" : 1282151130,
+    "attachments" : [ {
+      "id" : 4677334130969110261,
+      "fileName" : "SampleMyLocationOverlay.java",
+      "fileSize" : 3208
+    }, {
+      "id" : 7025402678436984165,
+      "fileName" : "Screen shot 2010-08-18 at 19.03.19.png",
+      "fileSize" : 89807
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 96660131602258341,
+    "content" : "I gave this a try on my nexus one, and when outside the compass works better than I was expecting. One thing though, blue seemed to be pointing north, I would have expected red to be north. Is that just me?",
+    "timestamp" : 1282161924,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 96660131602258341,
+    "content" : "Also, when zooming in the compass grows and moves towards the center of the screen until the whole thing is redrawn at the next zoomlevel.",
+    "timestamp" : 1282166110,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3804822027311196058,
+    "content" : "regarding colors, I'm not sure where I got that information that blue points north from ... guess that's a mistake of mine. having had a look at some pictures, it might be good to change colors to red/black with red pointing north.\r\n\r\nI noticed, that the compass grows. interestingly the person icon doesn't so Picture objects seem to behave different than Bitmaps. Maybe it's the easiest way to create Bitmaps instead of drawing those Pictures manually ...\r\n\r\n\r\n",
+    "timestamp" : 1282199541,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't think the growing is anything to do with the Picture. If you do it the same way as the person then it should work.\r\nie, use a member variable matrix and don't do save/restore etc.",
+    "timestamp" : 1282202967,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -3804822027311196058,
+    "content" : "Ok, I'll fix that tomorrow ... ",
+    "timestamp" : 1282285275,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -3804822027311196058,
+    "content" : "Here's a patch that fixes / changes:\r\n\r\n- compass is only being drawn, if compass values are available\r\n- color changed. north is now red, south black, added little white dot in the middle\r\n- draw direction arrow instead of PERSON if GPS provider and compass value is available\r\n- fixed zoom issues\r\n",
+    "timestamp" : 1282388829,
+    "attachments" : [ {
+      "id" : 7930428296984471082,
+      "fileName" : "MyLocationOverlay.diff",
+      "fileSize" : 4748
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Could you do that as a patch instead of a diff. Then I can apply it directly.\r\n",
+    "timestamp" : 1282552520,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -3804822027311196058,
+    "content" : "Here's a patch file created with diff -uN ... hope that's better. I've also added my original new file (as usual with wrong namespace etc. ...)\r\n",
+    "timestamp" : 1282582123,
+    "attachments" : [ {
+      "id" : 2272042794851371639,
+      "fileName" : "MyLocationOverlay.patch",
+      "fileSize" : 7102
+    }, {
+      "id" : 6462279055805119644,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 18010
+    } ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't think that's right.\r\nIf bearing >= 0 it draws the compass, otherwise the person.\r\n1. what if bearing actually is zero?\r\n2. what if compass is disabled?\r\n\r\nI've committed the red/blue bit in revision 319.",
+    "timestamp" : 1282662775,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -3804822027311196058,
+    "content" : "that's why the bearing value defaults to -1. \r\nit can only be >= 0 if a compass value has been read ...\r\n",
+    "timestamp" : 1282663509,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -3804822027311196058,
+    "content" : "Here's another update with the following changes:\r\n\r\n- added a check, whether the orientation sensor is available or not\r\n- show error message when enabling compass and compass not available\r\n- removed an unnecessary check for mCompassEnabled in onSensorChanged()\r\n- changed visibility of mContext and mMapView for classes extending MyLocationOverlay\r\n",
+    "timestamp" : 1282898115,
+    "attachments" : [ {
+      "id" : -2258887224520087586,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 19236
+    } ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've committed a slightly modified version of this in revision 321.\r\n\r\nI removed the Toast because I don't think it's worth holding on to the context just for that. Instead enableCompass returns a boolean so that the caller can do a Toast if he likes.\r\n\r\nI added some comments to the code, marked with // XXX\r\n\r\nPlease get latest before doing another patch.\r\n",
+    "timestamp" : 1282909157,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -3804822027311196058,
+    "content" : "Hi,\r\n\r\nyou're right about the context ... \r\n\r\nregarding your comments. it's true, that checking mAzimuth >= 0 is enough, actually that's what I had in my previous version ... resetting the value to -1 has been missing in my latest changes, true. I don't know exactly about the >= 1 speed check. I'm not sure wether you get any bearing values if you only have the network provider ...\r\n\r\nhere's a modified version with code changes related to your XXX comments.\r\n\r\n",
+    "timestamp" : 1283004086,
+    "attachments" : [ {
+      "id" : -2388542331383458905,
+      "fileName" : "MyLocationOverlay.java",
+      "fileSize" : 19558
+    } ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "Committed in revision 324.\r\n\r\nRegarding this line:\r\nif (mLocation.hasSpeed() && mLocation.getSpeed() > 1 && mLocation.hasBearing()) {\r\n\r\nMy point was that if you have speed then it doesn't matter if it's 0 or 1. Or alternatively maybe you're only interested if it's a slightly higher speed.  And also I imagine that you don't have bearing unless you have speed, so the speed check might be redundant, but I haven't checked that.\r\n\r\nI assume you don't have speed or bearing with the network provider.",
+    "timestamp" : 1283159721,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "Can I close this issue now?",
+    "timestamp" : 1284129658,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -3804822027311196058,
+    "content" : "sorry, I have been offline for a while ... yes, please close this one. If anything's wrong with it, then it's a new bug ...",
+    "timestamp" : 1284138389,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284285718,
+    "attachments" : [ ]
+  } ]
+}

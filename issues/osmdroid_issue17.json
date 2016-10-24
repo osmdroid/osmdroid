@@ -1,0 +1,27 @@
+{
+  "id" : 17,
+  "status" : "Fixed",
+  "summary" : "Rounding error in Mercator.tile2lon",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is the code of org.andnav.osm.views.util.Mercator\r\n\r\n    public static double tile2lon(final int x, final int aZoom) {\r\n        return x / (1 &lt;&lt; aZoom) * 360.0 - 180;\r\n    }\r\n\r\nx should be cast to a double, ie\r\n\r\n        return (double)x / (1 &lt;&lt; aZoom) * 360.0 - 180;\r\n\r\notherwise it always returns -180 because a relatively small number divided\r\nby a much bigger number is always zero when rounded to an int.\r\n\r\n",
+    "timestamp" : 1265299170,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1267777248,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r98.",
+    "timestamp" : 1267997016,
+    "attachments" : [ ]
+  } ]
+}

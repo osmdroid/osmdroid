@@ -1,0 +1,27 @@
+{
+  "id" : 16,
+  "status" : "Fixed",
+  "summary" : "Improvement: load currently viewed map tiles first",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6094860372549882898,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. View map\r\n2. Scroll wide into uncached region\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe viewed map region should be loaded first.\r\nIt seems that the map tiles are loaded in the order they are first viewed.\r\nThis means that te currently viewed map tile is shown last and needs the\r\nmaximum time to show up\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nVersion 1.1 on Motorola Milestone\r\n\r\n\r\n",
+    "timestamp" : 1264345227,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "There is a change in revision 110 which might be what is meant by this issue",
+    "timestamp" : 1268594715,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Revision 112 completes this fix.",
+    "timestamp" : 1268720097,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 313,
+  "status" : "New",
+  "summary" : "Intermitent ANR on calling zoomToSpan",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6679925067962250327,
+    "content" : "There are already issues for this but they are old and marked as want fix hence a new issue.\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. I have a activity with a MapView that loads a PathOverlay in an AsyncTask.\r\n2. I call zoomToSpan in postExecute\r\n3. intermitently when the loading is quick I get an ANR error\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe map to zoom to show the path I have loaded.\r\nThe screen is still black my activity has never drawn fully when the system hangs and I get an ANR\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.7 and code as of revision 1080\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThe thread is stuck in getNextSquareNumberAbove(float factor) in MyMaths.java\r\n\r\nfactor is comming in as Infinity and the while loop never exits.  I have not traced back the calling into this to work out the route cause but somthing is clearly not initalised and I have a race condition of some form.\r\n\r\nThe attached version of MyMath.java tests for this condition and thus will avoid the ANR although the zoomToSpan will not zoom correctly.  It writes to the log on detecting the problem.",
+    "timestamp" : 1329934730,
+    "attachments" : [ {
+      "id" : 3130000000,
+      "fileName" : "MyMath.java",
+      "fileSize" : 2648
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 573776143219557484,
+    "content" : "I had this problem every time I tried to use zoomToSpan.\r\nThis was always in Activity onCreate().\r\n\r\nThen i noticed that the MapView has a similar method:\r\n\r\nzoomToBoundingBox(BoundingBoxE6 boundingBox)\r\n\r\nThe documentation for zoomToBoundingBox states:\r\n\r\n\"Zoom the map to enclose the specified bounding box, as closely as possible. Must be called after display layout is complete, or screen dimensions are not known, and will always zoom to center of zoom level 0.\"\r\n\r\nMy MapView always has dimensions of zero pixels square in onCreate, so using some code i found on StackOverflow i came up with this solution:\r\n\r\npublic void fitMapToMarkers() {\r\n\tLog.d(\"B4A\", \"MapView has height of \" + mMapView.getHeight());\r\n\tif (mMapView.getHeight() > 0) {\r\n\t\tLog.d(\"B4A\", \"Debug #1a\");\r\n\t\t//\tmMapView.getController().zoomToSpan(mOverlayItemsBounds);\t//\tdoes not work but no ANR\r\n\t\tmMapView.zoomToBoundingBox(mOverlayItemsBounds);\t//\tworks\r\n\t} else {\r\n\t\t//\twait for layout\r\n\t\tViewTreeObserver vto1 = mMapView.getViewTreeObserver();\r\n\t\tvto1.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {\r\n\t\t\t@Override\r\n\t\t\tpublic void onGlobalLayout() {\r\n\t\t\t\tLog.d(\"B4A\", \"Debug #2a\");\r\n\t\t\t\t//\tmMapView.getController().zoomToSpan(mOverlayItemsBounds);\t//\tdoes not work but no ANR\r\n\t\t\t\tmMapView.zoomToBoundingBox(mOverlayItemsBounds);\t//\tworks\r\n\t\t\t\tViewTreeObserver vto2 = mMapView.getViewTreeObserver();\r\n\t\t\t\tvto2.removeGlobalOnLayoutListener(this);\r\n\t\t\t}\r\n\t\t});\r\n\t}\r\n}\r\n\r\nmOverlayItemsBounds is an ArrayList of GeoPoints.\r\n",
+    "timestamp" : 1332074305,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 1826712241253758532,
+    "content" : "I tested MyMath.getNextSquareNumberAbove(float factor) by throwing in values of 1,10,100,1000 and so on and noticed that it would work perfectly fine with 1E9 and freeze (loop forever) with 1E10.",
+    "timestamp" : 1338903360,
+    "attachments" : [ ]
+  } ]
+}

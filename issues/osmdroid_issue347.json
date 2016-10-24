@@ -1,0 +1,55 @@
+{
+  "id" : 347,
+  "status" : "Fixed",
+  "summary" : "Can't draw in Overlay when shadow = true",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1030031410523638281,
+    "content" : "To reproduce: Run the code below.\r\n\r\nProblem: I expect to see a red circle with a black dot in the middle, however, I only see the black dot.\r\nIt seems that my code cannot successfully draw anything when shadow=true\r\n\r\nI am using osmdroid-android-3.0.8.\r\n\r\nHere is the code:\r\n\r\nimport org.osmdroid.views.MapView;\r\nimport org.osmdroid.views.overlay.Overlay;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.os.Bundle;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.LinearLayout.LayoutParams;\r\n\r\npublic class OsmShadowDrawTest extends Activity\r\n{\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState)\r\n    {\r\n        super.onCreate(savedInstanceState);\r\n        test();\r\n    }\r\n    \r\n    public void test()\r\n    {\r\n        LinearLayout mainLayout = new LinearLayout(this);\r\n        setContentView(mainLayout);\r\n        MapView oMap = new org.osmdroid.views.MapView(this, null);\r\n        oMap.getOverlays().add(new ShadowOverlay(this));\r\n        mainLayout.addView(oMap,\r\n            new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,\r\n                LayoutParams.MATCH_PARENT));\r\n    }\r\n    \r\n    class ShadowOverlay extends Overlay\r\n    {\r\n        public ShadowOverlay(Context context)\r\n        {\r\n            super(context);\r\n        }\r\n        \r\n        @Override\r\n        protected void draw(Canvas canvas, MapView map, boolean shadow)\r\n        {\r\n            //draw a bulls-eye: A large red circle, with a black middle\r\n            //it should draw the red when shadow = true and\r\n            //the center circle when shadow = false, but it\r\n            //only draws the middle.\r\n            if (shadow)\r\n            {\r\n                //ISSUE: NEVER DRAWS THIS!!!\r\n                Paint paint = new Paint();\r\n                paint.setColor(Color.RED);\r\n                canvas.drawCircle(10, 10, 200, paint);\r\n            }\r\n            else\r\n            {\r\n                Paint paint = new Paint();\r\n                paint.setColor(Color.BLACK);\r\n                canvas.drawCircle(10, 10, 10, paint);\r\n            }\r\n        }\r\n    }\r\n}\r\n\r\n",
+    "timestamp" : 1337852211,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1337886113,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "The attached patch fixes it, but I'm not sure why TilesOverlay is messing it up.",
+    "timestamp" : 1337886708,
+    "attachments" : [ {
+      "id" : 3470002000,
+      "fileName" : "OverlayManager.java.patch",
+      "fileSize" : 921
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1030031410523638281,
+    "content" : "Thanks. Will you include this fix in the next release?",
+    "timestamp" : 1337933452,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Does it work?  I didn't test it very thoroughly which is why I just attached a patch instead of immediately committing it.",
+    "timestamp" : 1337936838,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1030031410523638281,
+    "content" : "It works in my code! I will report here if I discover any problems with the patch.",
+    "timestamp" : 1337939357,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1102.",
+    "timestamp" : 1338494597,
+    "attachments" : [ ]
+  } ]
+}

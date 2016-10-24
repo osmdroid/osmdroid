@@ -1,0 +1,21 @@
+{
+  "id" : 377,
+  "status" : "WontFix",
+  "summary" : "Make JavaDoc available",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -584262255310545358,
+    "content" : "Can you make the JavaDoc download available with the JARs?",
+    "timestamp" : 1349900793,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please follow the link in the HowToMaven wiki",
+    "timestamp" : 1349952041,
+    "attachments" : [ ]
+  } ]
+}

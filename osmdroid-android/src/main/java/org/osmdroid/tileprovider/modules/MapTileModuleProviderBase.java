@@ -165,6 +165,7 @@ public abstract class MapTileModuleProviderBase {
 	public void detach() {
 		this.clearQueue();
 		this.mExecutor.shutdown();
+
 	}
 
 	void removeTileFromQueues(final MapTile mapTile) {
@@ -284,7 +285,11 @@ public abstract class MapTileModuleProviderBase {
 			Drawable result = null;
 			while ((state = nextTile()) != null) {
 				if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
-					Log.d(IMapView.LOGTAG,"TileLoader.run() processing next tile: " + state.getMapTile());
+					Log.d(IMapView.LOGTAG,"TileLoader.run() processing next tile: "
+							+ state.getMapTile()
+							+ ", pending:" + mPending.size()
+							+ ", working:" + mWorking.size()
+					);
 				}
 				try {
 					result = null;

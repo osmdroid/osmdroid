@@ -1,0 +1,81 @@
+{
+  "id" : 477,
+  "status" : "ReadyForTesting",
+  "summary" : "Zoom animation \"jumps\" in API 10",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 12,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "In API 10 when the maps are zoomed in or out there is a visual &quot;jump&quot; to the tiles at the end. What appears to be happening is that the zoom level is changing before the scale operation is over (or vice-versa) and the wrong zoom-level is being shown for a brief moment.",
+    "timestamp" : 1378772081,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is likely a regression. See Issue 136 and Issue 230.",
+    "timestamp" : 1378772472,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nAre there any new on this?\r\n\r\nRegards.",
+    "timestamp" : 1380358489,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1918333713940407975,
+    "content" : "Regarding r1365 and Neil's comment for \"Prepare for next release which will be 4.0\"..\r\nPlease don't forget this issue!\r\n\r\nAs those who want to use the latest osmdroid version have the unpleasant visual \"jump\" at API 10 (over 1/4 of active Android devices).\r\n\r\nBest regards.",
+    "timestamp" : 1382037231,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nJust a reminder, as it has been some time.\r\nWe cannot use osmdroid at API 10 devices, due to this issue.\r\n\r\nWe're stuck with 3.0.10 version, the latest working nicely at Gingerbread.\r\n\r\nAre there any plans to fix zoom behavior?\r\n\r\nBest regards, Emux",
+    "timestamp" : 1386143216,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Try adding this to the bottom of MapController.onAnimationEnd():\r\n\r\n\t\tif (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {\r\n\t\t\tmMapView.clearAnimation();\r\n\t\t\tmZoomInAnimationOld.reset();\r\n\t\t\tmZoomOutAnimationOld.reset();\r\n\t\t}\r\n\r\nLet me know if that fixes it for you.\r\n",
+    "timestamp" : 1386170995,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "Thanks for your suggestion.\r\nIt seems to fix the zoom animation issue.\r\n\r\nBest regards.",
+    "timestamp" : 1386182700,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1918333713940407975,
+    "content" : "Another more minor issue at API 10, is that when we double tap the map, the zoom is performed at the view center and not at the tapped point.\r\n\r\nBest regards.",
+    "timestamp" : 1386183865,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nThe fix at #5 works at API 10.\r\nCan be committed at main source?\r\n\r\nBest regards.",
+    "timestamp" : 1389344763,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1399.\n\nAdd fix for API <= 10 and zoom animation.",
+    "timestamp" : 1389711118,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1389711539,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -4508552969283386278,
+    "content" : "This issues still appears on my Nexus 7 and Samsung Galaxy S2 Plus.\r\n\r\nWhenever I zoom in, the Map \"jumps\" afterwards. The faster the zoom gesture, the larger the \"jump\". If I zoom slowly and smooth, the results are better, but still not perfect/as intended.",
+    "timestamp" : 1400758187,
+    "attachments" : [ ]
+  } ]
+}

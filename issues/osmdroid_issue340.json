@@ -1,0 +1,57 @@
+{
+  "id" : 340,
+  "status" : "Fixed",
+  "summary" : "Disable scrolling",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1753731217047966697,
+    "content" : "In Google Maps MapView, calling &quot;setClickable(false);&quot; disables all touch events to the MapView.\r\nI use this in combination with a lock/unlockbutton to lock the map and prevent scrolling.\r\n\r\nSetting &quot;setClickable(false);&quot; in org.osmdroid.views.MapView will not lock the map, touch events are still being handled.\r\n\r\nOverriding all the touch- and scrolllisteners, and disabling them won't work either.\r\n\r\nThere is  currently no easy way to disable scrolling, please consider adding this in a next release. Thanks in advance!",
+    "timestamp" : 1335364865,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1753731217047966697,
+    "content" : "Okay, so I got it working in 3.0.8 by extending from MapView and overriding scrollTo, like this:\r\n\r\n\t\r\n\t@Override\r\n\tpublic void scrollTo(int arg0, int arg1) {\r\n\t\tif(unlocked){\r\n\t\t\tsuper.scrollTo(arg0, arg1);\r\n\t\t}\r\n\t}\r\n\r\nThen I disable zooming using\r\n\r\nthis.setBuiltInZoomControls(false);\r\nthis.setMultiTouchControls(false);\r\n\r\nI'm glad I could get it to work, but \"setClickable(false)\" would still be more elegant imho.\r\n\t\t\r\n",
+    "timestamp" : 1335374794,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5378609241692523464,
+    "content" : "builtinzoomcontrols and multitouchcontrols still allows double taps to zoom into the map",
+    "timestamp" : 1336000758,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1753731217047966697,
+    "content" : "Comment deleted",
+    "timestamp" : 1336001549,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1753731217047966697,
+    "content" : "Jep, so I've noticed. There's no easy way to double tapping either",
+    "timestamp" : 1336001603,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -7804787304059401543,
+    "content" : "hi! I am facing the same problem here. I want to disable all touch event to MapView. I've tried to extend MapView and also override scrollTo, but the map just show nothing but blue color if I set unlocked = false from the very beginning. did i do something wrong? thank's for your help :)",
+    "timestamp" : 1344909921,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6741326912345122609,
+    "content" : "You need to override dispatchTouchEvent instead because scrollTo is used to move map to new location (i.e. when you call getController().setCenter())",
+    "timestamp" : 1352798010,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "This can now be implemented with setScrollableAreaLimit() and setMinZoomLevel()/setMaxZoomLevel().",
+    "timestamp" : 1367456835,
+    "attachments" : [ ]
+  } ]
+}

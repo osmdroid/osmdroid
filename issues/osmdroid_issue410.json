@@ -1,0 +1,39 @@
+{
+  "id" : 410,
+  "status" : "New",
+  "summary" : "Tiles doesn't show when SD card is unmounted but device is connected to Internet",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3820772485406050419,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Unmound SD card\r\n2. Connect to Internet\r\n3. Try use MapView in usual way\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expected that tiles will load from Internet but only background grid is visible, no map tiles.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.8, Android 4.0.4 and 2.3.3\r\n\r\nCan osmdroid work only with mounted SD card?\r\n\r\nThanks, Lukas",
+    "timestamp" : 1364081625,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3950189987089543328,
+    "content" : "Comment deleted",
+    "timestamp" : 1368091346,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3950189987089543328,
+    "content" : "I think the fix for issue207 has caused this issue",
+    "timestamp" : 1368091392,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Ori.klein1 is correct. The tile downloader requires a file cache. When a tile is downloaded it is written to the file cache and then the tile is served by the filesystem provider. If you read issue 207 it explains that this prevents the situation where tiles are downloaded for an area that is now off-screen. Previously this would push out tiles from the memory cache that were on the screen causing the tiles to \"flash\".",
+    "timestamp" : 1371218470,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3820772485406050419,
+    "content" : "ok, thanks for explanation.",
+    "timestamp" : 1371538542,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,27 @@
+{
+  "id" : 382,
+  "status" : "New",
+  "summary" : "center and animation issue",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5911385031748889464,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Set MapView.getController().setCenter(point)\r\n2. set MapView.getController().animateTo(point)\r\n3. set MapView.getController().setZoom(point) //It doesn't matter where it goes, before or after setCenter\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expected to see the point set as center, instead of that I see the low-left corner of the image used as map\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nandroid 2.3.6 using osmdroid-android-3.0.8.jar and slf4j-android-1.5.8.jar\r\n\r\n<b>Please provide any additional information below.</b>\nI'm working with custom overlay, but it doesn't animate to the point or even show the point set alone whith a GeoPoint either.\r\n",
+    "timestamp" : 1351543770,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1357242724,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please check to see if this was solved in r1135.",
+    "timestamp" : 1357242742,
+    "attachments" : [ ]
+  } ]
+}

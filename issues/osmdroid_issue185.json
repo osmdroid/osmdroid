@@ -1,0 +1,35 @@
+{
+  "id" : 185,
+  "status" : "Fixed",
+  "summary" : "Relative Destionation Filenames result in StringIndexOutOfBoundsException",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7752552957100076593,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. start the exporter with a RELATIVE filename and the tmp dir elsewhere(e.g &quot;-d result.zip -t /tmp/osm_bug/&quot; \r\n2. use any detail and proceed to the last step\r\n3. there it will fail.\r\nZipping files to ./result.zip ...java.lang.StringIndexOutOfBoundsException: String index out of range: 24\r\n\tat java.lang.String.substring(String.java:1946)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nCreation of the file is expected =&gt; actual excpt an no zip file\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nSVN and 1.05\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI attached a log and a proposed fix (as diff)",
+    "timestamp" : 1300315393,
+    "attachments" : [ {
+      "id" : 8110545674662993918,
+      "fileName" : "log",
+      "fileSize" : 1307
+    }, {
+      "id" : 4647772211364088566,
+      "fileName" : "propose.diff",
+      "fileSize" : 1127
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Makes sense.  When I have time I'll try it out and commit it.",
+    "timestamp" : 1303285320,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r928.",
+    "timestamp" : 1303882729,
+    "attachments" : [ ]
+  } ]
+}

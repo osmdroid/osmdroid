@@ -1,0 +1,15 @@
+{
+  "id" : 547,
+  "status" : "New",
+  "summary" : "Delete selected area cache.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7174824247415041477,
+    "content" : "I want to add a download manager for my application that user can download and delete, map of each city separately.\r\nRight now I only have one city in application which load tiles from a zip file.\r\n\r\nQuestion one : \r\n    Can I make osmdroid to load tiles from multiple zip files?\r\nby this approach I can download multiple zip files and delete each one I want.\r\n\r\nQuestion two :\r\n    If I can't load tiles from multiple zip file how can delete a bounding box area from cache folder? I mean how can I found out that some cached tile are for a bounding box so I can delete them.\r\n\r\n",
+    "timestamp" : 1425371665,
+    "attachments" : [ ]
+  } ]
+}

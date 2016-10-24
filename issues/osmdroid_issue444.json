@@ -1,0 +1,27 @@
+{
+  "id" : 444,
+  "status" : "New",
+  "summary" : "Too Much Synchronize in MapTileProvider ==> Contention that slow too much the Map Display",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4994536136807241380,
+    "content" : "Too Much Synchronize in some class like   \r\n - org.osmdroid.tileprovider.MapTileProviderArray \r\n - org.osmdroid.tileprovider.MapTileCache\r\n  \r\nIn MapTileProviderArray  A solution is to replace \r\nprotected final HashMap&lt;MapTile, MapTileRequestState&gt; mWorking;\r\nprotected final List&lt;MapTileModuleProviderBase&gt; mTileProviderList;\r\nby \r\nprotected final HashMap ConcurrentHashMap&lt;MapTile, MapTileRequestState&gt; mWorking;\r\nprotected final CopyOnWriteArrayList&lt;MapTileModuleProviderBase&gt; mTileProviderList;\r\n\r\n\r\nThat permit to remove all synchronize in the MapTileProviderArray\r\n\r\nThe change was very spectacular.... in display speed of tiles",
+    "timestamp" : 1372448473,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "There are very subtle locking issues in these areas and any changes to this area must be done with care.\r\n\r\nCan you provide concrete numbers for the speed improvement for these changes? Can you also confirm that you never get \"stuck\" tiles that don't load with these changes?\r\n",
+    "timestamp" : 1372684939,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "I tried the changes for MapTileProviderArray and found no difference in speed. I pre-cached all the tiles in zoom level 5 and then quickly panned in one direction. Both ways the maps loaded tiles at about the same speed. Additionally, I reviewed the logs and we actually used to use a ConcurrentHashMap for mWorking but we found that it added unnecessary locking overhead when we profiled the app. Since we don't have a high rate of concurrency, a synchronized lock worked better for us.\r\n\r\nThe CopyOnWriteArrayList would probably be a good fit for mTileProviderList. I don't think that would have any side-effects.\r\n\r\nI just want to make sure also that you aren't getting confused by tiles that are downloaded and tiles that are cached. Naturally, cached tiles appear almost instantly whereas downloaded tiles take a few seconds. If you still think that changes to the synchronization methods dramatically change the performance of the maps, can you send some traces before and after the changes? ",
+    "timestamp" : 1373488551,
+    "attachments" : [ ]
+  } ]
+}

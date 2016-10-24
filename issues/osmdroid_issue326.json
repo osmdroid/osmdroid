@@ -1,0 +1,33 @@
+{
+  "id" : 326,
+  "status" : "Fixed",
+  "summary" : "Only the nine center tiles are shown with GoogleTilesOverlay (osmdroid-third-party)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4098436938546237008,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use device with a big screen/resolution (like Galaxy Nexus phone or Asus Transformer tablet).\r\n2. Use the GoogleTilesOverlay class from the osmdroid-third-party jar to shown an OSM layer on top of a base google map layer.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the OSM tiles to be loaded for the complete screen/view. Instead only the nine center OSM tiles are shown on top of the complete google map layer. The OSM tiles along the edges of the phone/tablet are not shown.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-third-party-3.0.7.jar\r\n\r\n<b>Please provide any additional information below.</b>\nI created a solution which I will attach to this issue.\r\n",
+    "timestamp" : 1332700789,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4098436938546237008,
+    "content" : "I updated the draw() method at org.osmdroid.google.overlay.GoogleTilesOverlay at my local environment to below code. This works for me. I think this fixes the issue.\r\n\r\n==============\r\n\t@Override\r\n\tpublic void draw(final Canvas c, final MapView osmv, final boolean shadow) {\r\n\t\tif (DEBUGMODE) {\r\n\t\t\tlogger.trace(\"draw\");\r\n\t\t}\r\n\r\n\t\t// Calculate the half-world size\r\n\t\tfinal Projection pj = osmv.getProjection();\r\n\t\tfinal int zoomLevel = osmv.getZoomLevel() - 1;\r\n\t\tfinal int tileSizePx = this.mTileProvider.getTileSource().getTileSizePixels();\r\n\r\n\t\t// Calculate the tiles needed for each side around the center one.\r\n\t\tfinal int latSpan = osmv.getLatitudeSpan();\r\n\t\tfinal int longSpan = osmv.getLongitudeSpan();\r\n\t\tfinal int topLatitude = osmv.getMapCenter().getLatitudeE6() + latSpan/2;\r\n\t\tfinal int leftLongitude = osmv.getMapCenter().getLongitudeE6() - longSpan/2;\r\n\t\tfinal int bottomLatitude = osmv.getMapCenter().getLatitudeE6() - latSpan/2;\r\n\t\tfinal int rightLongitude = osmv.getMapCenter().getLongitudeE6() + longSpan/2;\r\n\t\tfinal Point leftTopXY = Mercator.projectGeoPoint(topLatitude/1E6, leftLongitude/1E6, zoomLevel, new Point(0,0));\r\n\t\tfinal Point rightBottomXY = Mercator.projectGeoPoint(bottomLatitude/1E6, rightLongitude/1E6, zoomLevel, new Point(0,0));\r\n\t\tfinal int tileNeededAtLeft = leftTopXY.x;\r\n\t\tfinal int tileNeededAtRight = rightBottomXY.x;\r\n\t\tfinal int tileNeededAtTop = leftTopXY.y;\r\n\t\tfinal int tileNeededAtBottom = rightBottomXY.y;\r\n\t\t\r\n\t\tfinal int mapTileUpperBound = 1 << zoomLevel;\r\n\t\t// make sure the cache is big enough for all the tiles\r\n\t\tfinal int numNeeded = (tileNeededAtBottom - tileNeededAtTop + 1)\r\n\t\t\t\t* (tileNeededAtRight - tileNeededAtLeft + 1);\r\n\t\tmTileProvider.ensureCapacity(numNeeded);\r\n\t\t/* Draw all the MapTiles (from the upper left to the lower right). */\r\n\t\tfor (int y = tileNeededAtTop; y <= tileNeededAtBottom; y++) {\r\n\t\t\tfor (int x = tileNeededAtLeft; x <= tileNeededAtRight; x++) {\r\n\t\t\t\t// Construct a MapTile to request from the tile provider.\r\n\t\t\t\tfinal int tileY = MyMath.mod(y, mapTileUpperBound);\r\n\t\t\t\tfinal int tileX = MyMath.mod(x, mapTileUpperBound);\r\n\t\t\t\tfinal MapTile tile = new MapTile(zoomLevel, tileX, tileY);\r\n\t\t\t\tfinal Drawable currentMapTile = mTileProvider.getMapTile(tile);\r\n\t\t\t\tif (currentMapTile != null) {\r\n\t\t\t\t\tfinal GeoPoint gp = new GeoPoint(\r\n\t\t\t\t\t\t\t(int) (Mercator.tile2lat(y, zoomLevel) * 1E6),\r\n\t\t\t\t\t\t\t(int) (Mercator.tile2lon(x, zoomLevel) * 1E6));\r\n\t\t\t\t\tpj.toPixels(gp, mTilePos);\r\n\t\t\t\t\tmTileRect.set(mTilePos.x, mTilePos.y, mTilePos.x + tileSizePx, mTilePos.y + tileSizePx);\r\n\t\t\t\t\tcurrentMapTile.setBounds(mTileRect);\r\n\t\t\t\t\tcurrentMapTile.draw(c);\r\n\t\t\t\t}\r\n\r\n\t\t\t\tif (DEBUGMODE) {\r\n\t\t\t\t\tc.drawText(tile.toString(), mTileRect.left + 1, mTileRect.top + mPaint.getTextSize(), mPaint);\r\n\t\t\t\t\tc.drawLine(mTileRect.left, mTileRect.top, mTileRect.right, mTileRect.top, mPaint);\r\n\t\t\t\t\tc.drawLine(mTileRect.left, mTileRect.top, mTileRect.left, mTileRect.bottom, mPaint);\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\r\n\t\t// draw a cross at center in debug mode\r\n\t\tif (DEBUGMODE) {\r\n\t\t\tfinal GeoPoint center = osmv.getMapCenter();\r\n\t\t\tfinal Point centerPoint = pj.toPixels(center, null);\r\n\t\t\tc.drawLine(centerPoint.x, centerPoint.y - 9, centerPoint.x, centerPoint.y + 9, mPaint);\r\n\t\t\tc.drawLine(centerPoint.x - 9, centerPoint.y, centerPoint.x + 9, centerPoint.y, mPaint);\r\n\t\t}\r\n\t}\r\n==============",
+    "timestamp" : 1332701114,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I haven't tested it, but I checked this in in revision 1082. It seems to make sense ;-)",
+    "timestamp" : 1332748499,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1333982517,
+    "attachments" : [ ]
+  } ]
+}is in in revision 1082. It seems to make sense ;-)","timestamp":1332748499,"attachments":[]},{"id":3,"commenterId":8937367184059112911,"content":"","timestamp":1333982517,"attachments":[]}]}

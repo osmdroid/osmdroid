@@ -1,0 +1,57 @@
+{
+  "id" : 421,
+  "status" : "Fixed",
+  "summary" : "Offset on PathOverlay drawing",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7113885010640927753,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a sample am with a map on android 4.2.2\r\n2. add an pathoverlay\r\n3. run the app\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nIt was expected to see a map with a path overlay of a route over the road. But the pathOverlay has an offset. While I do &quot;pinch&quot; to zoom the map the route is correctly places (see Screenshot_2013-04-05-13-05-55.png image) but when the map is loadded or realoaded in the desired zoom level then pathOverlay is placed with an offset (see Screenshot_2013-04-05-13-06-02.png image)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nI am using osmdroid-android-3.0.9.jar and slf4j-android-1.5.8.jar over android 4.2.2\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n\r\n",
+    "timestamp" : 1365160745,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -7113885010640927753,
+    "content" : "I have tested with osmdroid-android-3.0.8.jar and works properly so may be a bug of new 3.0.9 versión.",
+    "timestamp" : 1365161716,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Do you have hardware acceleration turned off?",
+    "timestamp" : 1365167073,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -7113885010640927753,
+    "content" : "no, but i have attached project if you want to test it. I am running it on Galaxy Nexus device.\r\n\r\n",
+    "timestamp" : 1365168316,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Try turning hardware acceleration to \"false\" in the manifest.",
+    "timestamp" : 1365170428,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1490409245018264395,
+    "content" : "Issue 397 is also solved when I disable hardware acceleration!",
+    "timestamp" : 1365677256,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please try this issue with 3.0.10 and report back if you still experience it.",
+    "timestamp" : 1367585262,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1370959385,
+    "attachments" : [ ]
+  } ]
+}

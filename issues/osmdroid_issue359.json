@@ -1,0 +1,27 @@
+{
+  "id" : 359,
+  "status" : "Fixed",
+  "summary" : "BoundingBoxE6 fromGeoPoints() mismatch between min and max lat/lon",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "In BoundingBoxE6.java, when building a box using BoundingBoxE6.fromGeoPoints(), this causes north/south and east/west values to be inversed. \r\n\r\nThis is due to the final construction: \r\n\r\n    return new BoundingBoxE6(minLat, minLon, maxLat, maxLon);\r\n\r\nshould be replaced by:\r\n    return new BoundingBoxE6(maxLat, maxLon, minLat, minLon);\r\n\r\n(because North &gt; South and East &gt; West)\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.8\r\n\r\n",
+    "timestamp" : 1342445208,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I wonder what happens around the date line...",
+    "timestamp" : 1342450511,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1240.",
+    "timestamp" : 1370034368,
+    "attachments" : [ ]
+  } ]
+}

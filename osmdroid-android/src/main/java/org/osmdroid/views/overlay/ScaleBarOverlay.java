@@ -32,9 +32,8 @@ package org.osmdroid.views.overlay;
 
 import java.lang.reflect.Field;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IGeoPoint;
+import org.osmdroid.library.R;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.constants.GeoConstants;
 import org.osmdroid.views.MapView;
@@ -78,22 +77,21 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 
 	// Internal
 
-	private final Context context;
-	private final MapView mMapView;
+	private Context context;
+	private MapView mMapView;
 
 	protected final Path barPath = new Path();
 	protected final Rect latitudeBarRect = new Rect();
 	protected final Rect longitudeBarRect = new Rect();
 
 	private int lastZoomLevel = -1;
-	private float lastLatitude = 0;
+	private double lastLatitude = 0.0;
 
 	public float xdpi;
 	public float ydpi;
 	public int screenWidth;
 	public int screenHeight;
 
-	private final ResourceProxy resourceProxy;
 	private Paint barPaint;
 	private Paint bgPaint;
 	private Paint textPaint;
@@ -107,13 +105,8 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	public ScaleBarOverlay(final MapView mapView) {
-		this(mapView, new DefaultResourceProxyImpl(mapView.getContext()));
-	}
-
-	public ScaleBarOverlay(final MapView mapView, final ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+		super();
 		this.mMapView = mapView;
-		this.resourceProxy = pResourceProxy;
 		this.context = mapView.getContext();
 		final DisplayMetrics dm = context.getResources().getDisplayMetrics();
 
@@ -259,24 +252,24 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	 * @param centred
 	 *            set true to centre the bar around the given screen coordinates
 	 */
-public void setCentred(final boolean centred) {
-    this.centred = centred;
-    alignBottom  = !centred;
-    alignRight   = !centred;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setCentred(final boolean centred) {
+		this.centred = centred;
+		alignBottom  = !centred;
+		alignRight   = !centred;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 
-public void setAlignBottom(final boolean alignBottom) {
-    this.centred = false;
-    this.alignBottom  = alignBottom;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setAlignBottom(final boolean alignBottom) {
+		this.centred = false;
+		this.alignBottom  = alignBottom;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 
-public void setAlignRight(final boolean alignRight) {
-    this.centred = false;
-    this.alignRight  = alignRight;
-    lastZoomLevel = -1; // Force redraw of scalebar
-}
+	public void setAlignRight(final boolean alignRight) {
+		this.centred = false;
+		this.alignRight  = alignRight;
+		lastZoomLevel = -1; // Force redraw of scalebar
+	}
 	/**
 	 * Return's the paint used to draw the bar
 	 * 
@@ -385,9 +378,9 @@ public void setAlignRight(final boolean alignRight) {
 			screenHeight   = mapView.getHeight();
 			final IGeoPoint center = projection.fromPixels(screenWidth / 2, screenHeight / 2, null);
 			if (zoomLevel != lastZoomLevel
-					|| (int) (center.getLatitudeE6() / 1E6) != (int) (lastLatitude / 1E6)) {
+					|| (int) center.getLatitude() != (int) lastLatitude) {
 				lastZoomLevel = zoomLevel;
-				lastLatitude = center.getLatitudeE6();
+				lastLatitude = center.getLatitude();
 				rebuildBarPath(projection);
 			}
 
@@ -656,38 +649,46 @@ public void setAlignRight(final boolean alignRight) {
 		default:
 		case metric:
 			if (meters >= 1000 * 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
-						(meters / 1000));
+				return context.getResources().getString(R.string.format_distance_kilometers,(meters / 1000));
 			} else if (meters >= 1000 / 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_kilometers,
+				return context.getResources().getString(R.string.format_distance_kilometers,
 						(int) (meters / 100.0) / 10.0);
 			} else {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_meters, meters);
+				return context.getResources().getString(R.string.format_distance_meters, meters);
 			}
 		case imperial:
 			if (meters >= METERS_PER_STATUTE_MILE * 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_miles,
+				return context.getResources().getString(R.string.format_distance_miles,
 						(int) (meters / METERS_PER_STATUTE_MILE));
 
 			} else if (meters >= METERS_PER_STATUTE_MILE / 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_miles,
+				return context.getResources().getString(R.string.format_distance_miles,
 						((int) (meters / (METERS_PER_STATUTE_MILE / 10.0))) / 10.0);
 			} else {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
+				return context.getResources().getString(R.string.format_distance_feet,
 						(int) (meters * FEET_PER_METER));
 			}
 		case nautical:
 			if (meters >= METERS_PER_NAUTICAL_MILE * 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,
+				return context.getResources().getString(R.string.format_distance_nautical_miles,
 						((int) (meters / METERS_PER_NAUTICAL_MILE)));
 			} else if (meters >= METERS_PER_NAUTICAL_MILE / 5) {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_nautical_miles,
+				return context.getResources().getString(R.string.format_distance_nautical_miles,
 						(((int) (meters / (METERS_PER_NAUTICAL_MILE / 10.0))) / 10.0));
 			} else {
-				return resourceProxy.getString(ResourceProxy.string.format_distance_feet,
+				return context.getResources().getString(R.string.format_distance_feet,
 						((int) (meters * FEET_PER_METER)));
 			}
 		}
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		this.context=null;
+		this.mMapView=null;
+		barPaint=null;
+		bgPaint=null;
+		textPaint=null;
 	}
 
 }

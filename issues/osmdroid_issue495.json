@@ -1,0 +1,21 @@
+{
+  "id" : 495,
+  "status" : "New",
+  "summary" : "tap happens on geopoint, not on marker drawable",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2305747470111314637,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create MyItemizedOverlay\r\n2. put marker hotspot to CENTER_BOTTOM\r\n3. run app\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nYou'd expect the click to work when you tap the marker. Instead, the tap only works when you click the bottom of the marker, or underneath the marker. This means the tap is working on the geopoint, not on the marker drawable.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nversion 4.0\r\nandroid 4.4\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1384421833,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2305747470111314637,
+    "content" : "It seems that in ItemizedOverlay, \"boundToHotspot\" is called, but the resulting mRect is never used. I fixed that for my app, I'll think about a proper fix for osmdroid.",
+    "timestamp" : 1384423557,
+    "attachments" : [ ]
+  } ]
+}

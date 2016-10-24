@@ -1,0 +1,21 @@
+{
+  "id" : 282,
+  "status" : "Accepted",
+  "summary" : "What if the SDCard is not present in the mobile",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4859073866323269614,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Remove SDCard from mobile\r\n2. Start the application which uses OSMDroid Jars for Tiles\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nNeed to know where are the maps stored\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nlatest\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1324298184,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 174",
+    "timestamp" : 1324303045,
+    "attachments" : [ ]
+  } ]
+}

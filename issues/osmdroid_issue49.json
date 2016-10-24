@@ -1,0 +1,27 @@
+{
+  "id" : 49,
+  "status" : "Fixed",
+  "summary" : "Icon tapped doesn't show description until zoom",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5709035672632107645,
+    "content" : "When i press an icon in ItemizedOverlayWithFocus, it should show the description immediately. \r\nHowever, it doesn't until i do zoom in/out into the map. \r\n\r\nSo.. is it possible to redraw the icon when it's pressed?\r\n",
+    "timestamp" : 1272898310,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 5709035672632107645,
+    "content" : "I've tried adding the following line in the method onItemTap and it works:\r\n\r\nmOsmv.postInvalidate();\r\n\r\nis it correct?",
+    "timestamp" : 1272899110,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284464171,
+    "attachments" : [ ]
+  } ]
+}

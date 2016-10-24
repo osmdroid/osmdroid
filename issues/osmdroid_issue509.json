@@ -1,0 +1,39 @@
+{
+  "id" : 509,
+  "status" : "New",
+  "summary" : "Update OsmdroidMapWrapper on osmdroid-third-party",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3684749093163268294,
+    "content" : "OsmdroidMapWrapper don't complies with the IMap interface on v4.0. The following changes are needed:\r\n\r\n\r\n\r\nIndex: osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java\r\n===================================================================\r\n--- osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (revisión: 1395)\r\n+++ osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (copia de trabajo)\r\n@@ -169,17 +169,19 @@\r\n                        mPolylines = new HashMap&lt;Integer, PathOverlay&gt;();\r\n                }\r\n                final PathOverlay overlay = new PathOverlay(aPolyline.color, aPolyline.width, getResourceProxy());\r\n-               overlay.addPoints(aPolyline.points);\r\n+        for (IGeoPoint point: aPolyline.points) {\r\n+            overlay.addPoint(point);\r\n+        } \r\n                mMapView.getOverlays().add(0, overlay); // add polyline overlay below markers, etc\r\n                final int id = random.nextInt();\r\n                mPolylines.put(id, overlay);\r\n                return id;\r\n        }\r\n \r\n-       @Override\r\n-       public void addPointsToPolyline(final int id, final IGeoPoint... aPoints) {\r\n-               getPolyline(id).addPoints(aPoints);\r\n-       }\r\n+    @Override                                                                       \r\n+    public void addPointToPolyline(final int id, final IGeoPoint aPoint) {          \r\n+        getPolyline(id).addPoint(aPoint);                                           \r\n+    }\r\n \r\n        @Override\r\n        public void clearPolyline(final int id) {",
+    "timestamp" : 1389215317,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3684749093163268294,
+    "content" : "A second patch implementing 'onCameraChange':\r\n\r\nIndex: osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java\r\n===================================================================\r\n--- osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (revisión: 1395)\r\n+++ osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (copia de trabajo)\r\n@@ -13,6 +13,7 @@\r\n import org.osmdroid.api.OnCameraChangeListener;\r\n import org.osmdroid.api.Polyline;\r\n import org.osmdroid.util.GeoPoint;\r\n+import org.osmdroid.util.Position;\r\n import org.osmdroid.util.ResourceProxyImpl;\r\n import org.osmdroid.views.MapView;\r\n import org.osmdroid.views.overlay.ItemizedIconOverlay;\r\n@@ -226,7 +229,11 @@\r\n \r\n        private void onCameraChange() {\r\n                if (mOnCameraChangeListener != null) {\r\n-                       mOnCameraChangeListener.onCameraChange(null); // TODO set the parameter\r\n+                       IGeoPoint center = getCenter();\r\n+                       Position position = new Position(center.getLatitude(), center.getLongitude());\r\n+                       position.setBearing(getBearing());\r\n+                       position.setZoomLevel(getZoomLevel());\r\n+                       mOnCameraChangeListener.onCameraChange(position);\r\n                }\r\n        }\r\n }\r\n",
+    "timestamp" : 1389224917,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -3684749093163268294,
+    "content" : "The description of the 'clear()' function on IMap says:\r\n\"Removes all markers, polylines, polygons, overlays, etc from the map.\"\r\n\r\nBut the actual implementation of OsmdroidMapWrapper don't removes the overlays. Here there is a third patch to fix that:\r\n\r\nIndex: osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java\r\n===================================================================\r\n--- osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (revisión: 1395)\r\n+++ osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/OsmdroidMapWrapper.java   (copia de trabajo)\r\n@@ -205,11 +208,9 @@\r\n                        mItemizedOverlay.removeAllItems();\r\n                }\r\n                if (mPolylines != null) {\r\n-                       for(final PathOverlay polyline : mPolylines.values()) {\r\n-                               mMapView.getOverlays().remove(mPolylines.remove(polyline));\r\n-                       }\r\n                        mPolylines.clear();\r\n                }\r\n+               mMapView.getOverlays().clear();\r\n        }\r\n \r\n        @Override",
+    "timestamp" : 1389263841,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I don't understand your first point because IMap has a method addPointsToPolyline, not addPointToPolyline.\r\n\r\nYour second point could be done, but I figured it's a lot of overhead when you may not actually need the position. If the caller needs it then it can also get it itself in the same way. The parameter is only there for consistency with Google Maps API v2.\r\n\r\nYour third point is not right because IMap doesn't have a way to add overlays and therefore the implementation doesn't remove them.  Polylines are implemented as overlays which is why they're explicitly removed.  If you just remove all overlays then you will also remove MyLocationOverlay and anything else that may have been added.  Again, the comment is just copied from Google Maps API v2.\r\n",
+    "timestamp" : 1389555024,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -3684749093163268294,
+    "content" : "I see now that addPointsToPolyline is in the svn, it was not in the 4.0 version (what I'm using). Sorry.\r\n\r\nI'm ok with discarding my patches. Maybe the documentation could be improved so we are not surprise by unexpected behavior, right now you need to read the actual implementation to know what will be the result of a method.",
+    "timestamp" : 1389646482,
+    "attachments" : [ ]
+  } ]
+}not right because IMap doesn\u0027t have a way to add overlays and therefore the implementation doesn\u0027t remove them.  Polylines are implemented as overlays which is why they\u0027re explicitly removed.  If you just remove all overlays then you will also remove MyLocationOverlay and anything else that may have been added.  Again, the comment is just copied from Google Maps API v2.\r\n","timestamp":1389555024,"attachments":[]},{"id":4,"commenterId":-3684749093163268294,"content":"I see now that addPointsToPolyline is in the svn, it was not in the 4.0 version (what I\u0027m using). Sorry.\r\n\r\nI\u0027m ok with discarding my patches. Maybe the documentation could be improved so we are not surprise by unexpected behavior, right now you need to read the actual implementation to know what will be the result of a method.","timestamp":1389646482,"attachments":[]}]}

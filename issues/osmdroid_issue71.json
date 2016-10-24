@@ -1,0 +1,27 @@
+{
+  "id" : 71,
+  "status" : "Invalid",
+  "summary" : "MapTilesPackager improvements",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5099997279765732937,
+    "content" : "Could you please add the following features to the map tiles packager:\r\n\r\n1) -d and thus creating a compressed archive in the end should be optional:\r\nMost applications I know need the uncompressed tree structure anyway,... and it's often useful, to simply just create that tree.\r\nApart from that, people can do the compression manually better (especially in any format they want).\r\n\r\n2) Support kind of a no-clobber option, so that files in a given temp-dir, that are already existing, are not re-downloaded.\r\nThis is especially useful, if one downloads large areas, which takes very long and one wants to interrupt this.\r\n\r\n3) Improve the option from (2), so that one can specify that files with a modification date older than foo, are still downloaded, even if they already exist.\r\n\r\nCheers,\r\nChris.",
+    "timestamp" : 1278616929,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -5099997279765732937,
+    "content" : "sorry,... please close that,... google seemed to created this twice...",
+    "timestamp" : 1278616972,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1278620871,
+    "attachments" : [ ]
+  } ]
+}

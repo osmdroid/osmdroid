@@ -1,0 +1,31 @@
+{
+  "id" : 331,
+  "status" : "Fixed",
+  "summary" : "mScale in Overlay not necessary",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1826712241253758532,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. use Overlay or any Subclass.\r\n2. display some markers\r\n3. may be influenced by whether or not you are using different image files ind the drawable-hdpi folder and similar.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nOn Phones with different resolution densities(I tested hdpi(motodefy) and ldpi(xperia 10 mini pro)) the markers should be about the same size.\r\n\r\nInstead i see that on ldpi-phones all markers are displayed far too small on the screen and on hdpi-phones markers are really big. When I subclassed ItemizedOverlayWithFocus and Overrode the boundToHotspot() method, so that mScale would be ignored, all markers were displayed in a reasonable size.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI'm using osmdroid 3.0.7 on Android 2.1 and 2.2\r\n\r\n",
+    "timestamp" : 1333524991,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -7284257576020950379,
+    "content" : "the problem still persist in 3.0.8. the \"scale factor\" is applied to the marker intrinsic size which already takes the density into account.\r\n\r\npatch attached",
+    "timestamp" : 1336474159,
+    "attachments" : [ {
+      "id" : 3310001000,
+      "fileName" : "fix-itemized--overlay-icon-size.patch",
+      "fileSize" : 851
+    } ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1099.",
+    "timestamp" : 1336541903,
+    "attachments" : [ ]
+  } ]
+}

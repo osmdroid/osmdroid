@@ -1,0 +1,27 @@
+{
+  "id" : 407,
+  "status" : "Duplicate",
+  "summary" : "problem resizing map into layout",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8920791396703325610,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create an activity and put one map and a listview bottom the map\r\n2. linear layout vertica (-&gt;map -&gt; listview) as child of linear layout\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\ni expect that the map still work... but instead the tiles are shown not complete or better not even show\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nlast one\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1361962807,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please download the latest build and retry this. Make sure you have hardware acceleration turned off. If you still have issues, upload a project that exhibits the issue.",
+    "timestamp" : 1365027187,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371219112,
+    "attachments" : [ ]
+  } ]
+}

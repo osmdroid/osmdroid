@@ -1,0 +1,81 @@
+{
+  "id" : 54,
+  "status" : "Fixed",
+  "summary" : "Out of memory when rotating display",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 12,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Copied from issue 27 comment 18 point 4 and comment 24:\r\n\r\nIf you turn the display from horizontal to vertical or vice versa, the cache seems unnecessarily to fetch everything again.\r\n\r\nI can reproduce the OutOfMemory error very easily by rotating my screen about 10 times.\r\n\r\nIt seems after a screen rotation all the tiles are reloaded into memory, but the garbage collector hasn't freed the memory from \r\nthe old tiles yet, which eventually leads to an OutOfMemory error.\r\n",
+    "timestamp" : 1274950295,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6556601514708298404,
+    "content" : "Did some debugging.\r\n\r\nWhen rotating the activitiy is \"relaunched\".\r\n\r\nIt means onPause is called on the old activity and a new activity instance is created\r\nand initialized. \r\nPresumably the old activity is up for garbage collection, unless there are some\r\npointers that point to it or some subparts (the tile cache).\r\n\r\nI don't know a good way to carry over the tile cache between activities.",
+    "timestamp" : 1274955984,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4486136779772134676,
+    "content" : "I don't think there is a good way to carry over the tile cache, but maybe there is a\r\nway to call recycle() on the old image tiles when the old activity is no longer needed.\r\n\r\nI know the docs say calling recycle() manually is not needed as it is called\r\nautomatically by the garbage collector, but I think the issue here is that more free\r\nmemory is required before the garbage collector has run. \r\nCalling recycle() would clear the used memory manually, immediately freeing the image\r\nmemory, without having to wait for the GC.\r\n\r\nMaybe that would already help ?",
+    "timestamp" : 1274956538,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -4486136779772134676,
+    "content" : "I forgot to mention: I tried forcing a recycle of the image tiles, but I couldn't\r\nfigure out how to remove them from the tile cache. I ended up with the memory being\r\nrecycled, but the overlay still tried to use the tiles on the next screen redraw,\r\nresulting in gray areas on the map.\r\nWhat is the proper way of invalidating a tile in the tile cache, so it is re-read\r\nfrom memory when needed again ?",
+    "timestamp" : 1274956700,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Probably the view is holding a reference back to the activity that created it. The context is the usual culprit. Passing \r\ngetApplicationContext() instead of \"this\" for the context parameter often helps.  But this also depends on the activity that's using \r\nthe view.\r\n\r\nFor example, in SampleWithMinimapItemizedoverlay, change\r\nmOsmv = new OpenStreetMapView(this, OpenStreetMapRendererInfo.MAPNIK);\r\nto\r\nmOsmv = new OpenStreetMapView(getApplicationContext(), OpenStreetMapRendererInfo.MAPNIK);\r\n\r\nThat's just a suggestion. I haven't looked into this issue.\r\n",
+    "timestamp" : 1274957977,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4486136779772134676,
+    "content" : "I tried the above suggestion (passing application context in stead of activity), but\r\nit doesn't seem to help. Still the same out of memory error after about 10 screen\r\nrotations.",
+    "timestamp" : 1275228925,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8015006813755621819,
+    "content" : "The Activity.getLastNonConfigurationInstance() method might be what you are looking for. It allows you to pass claimed resources (e.g. memory, IO-references) between orientation switches lifecyle event.\r\n\r\nThen a relaunched app doesnt need to reload everything.",
+    "timestamp" : 1276430312,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 57 has been merged into this issue.",
+    "timestamp" : 1276874011,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "After rotating the screen over 50 times on my 2.2 Nexus One it was as responsive as it was at the beginning. And the same on my 1.6 G1.\r\n\r\nI think it's time to close this issue.",
+    "timestamp" : 1278479368,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284129146,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 717681597336073274,
+    "content" : "I have the same problem. After a few orientation changes or after pressing back button and restarting a couple of times the app crashes on HTC Desire. Easily repeatable.",
+    "timestamp" : 1308573120,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 3950189987089543328,
+    "content" : "I have the same issue. it crashes both on the emulator and on galaxy (1.5)",
+    "timestamp" : 1312121159,
+    "attachments" : [ ]
+  } ]
+}

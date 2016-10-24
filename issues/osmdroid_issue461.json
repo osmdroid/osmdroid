@@ -1,0 +1,19 @@
+{
+  "id" : 461,
+  "status" : "New",
+  "summary" : "The OSM increases the image of tags on the map ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5188469697950147501,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1.The OSM increases the image of tags on the map \r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nHello everybody, I from Russia and badly speak English. I have a problem with a map marker. at the density of the Hdpi 320 screen (standard) my tags of the map become biger then standard osm tags. standard osm tags look well ,but when i use my own images they looks awful (look in attachment). \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nI use OSM 3.0.8 library and an api android slf4j-android-1.6.1-RC1 package\r\n\r\n\r\n",
+    "timestamp" : 1376030537,
+    "attachments" : [ {
+      "id" : 4610000000,
+      "fileName" : "help.png",
+      "fileSize" : 181305
+    } ]
+  } ]
+}

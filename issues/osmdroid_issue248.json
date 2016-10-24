@@ -1,0 +1,63 @@
+{
+  "id" : 248,
+  "status" : "Accepted",
+  "summary" : "Zooming the map scales Overlays too (and then redraws them when the animation completes)",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6371894987723674927,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add Overlays to a MapView (OverlayItem in my case)\r\n2. Zoom the map using pinch to zoom or programatically zooming in or out.\r\n3. The Overlay images are scaled up or down with the tiles.\r\n4. After the animation completes the overlay items are redrawn at the original size in their new location.\r\n\r\nWhat is the expected output? \r\nI was expecting the overlay items to move to the new location like the MyLocationOverlay &quot;little man&quot; does. The equivalent items in the Google Maps API do behave correctly too.\r\n\r\nWhat do you see instead?\r\nThe icons change size and then redraw at the original size in the new location.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.5 jar, Android 1.6, 2.1, 2.2, 2.3 (all in emulator), 2.2 on my phone.\r\n\r\n<b>Please provide any additional information below.</b>\nThe fact that the MyLocationOverlay man icon behaves correctly implies that someone has already solved this problem. I've not had a chance to look through the code to see what that Overlay does differently.\r\n",
+    "timestamp" : 1312297804,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1312311133,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please look through the MyLocationOverlay code for an example of how to prevent scaling when zooming. If you need further help, then please contact the google group or StackOverflow.",
+    "timestamp" : 1333739490,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "(Neil - please re-open, if you think this needs further attention)",
+    "timestamp" : 1333739525,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "It's also an issue with the osmdroid overlays that are in the samples, so they should be fixed.\r\nI guess you're saying that custom overlays can be written to avoid this behavior, but then the samples should give a good example.",
+    "timestamp" : 1333747271,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3576291706422496807,
+    "content" : "yes I am exactly facing the same problem Some how i managed to solve this issue I have made transparent the default scalbar overlay and using my own view for that..",
+    "timestamp" : 1368458817,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 453.",
+    "timestamp" : 1374790582,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "A working patch has been posted to issue 453. Please apply to the trunk, test, and report back results.",
+    "timestamp" : 1375816280,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -7826539035193158730,
+    "content" : "I applied your patch, nevertheless when I zoom in / out, everything (including overlay with icons on it) is scaled accordingly instead of just being replaced on the scaled map.",
+    "timestamp" : 1376471880,
+    "attachments" : [ ]
+  } ]
+}

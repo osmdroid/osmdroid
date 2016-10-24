@@ -1,8 +1,7 @@
 // Created by plusminus on 22:01:11 - 29.09.2008
 package org.osmdroid.views.overlay.compass;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 import org.osmdroid.views.overlay.IOverlayMenuProvider;
@@ -27,13 +26,17 @@ import android.view.WindowManager;
 
 /**
  * Note: the compass overlay causes issues on API 8 devices. See https://github.com/osmdroid/osmdroid/issues/218
+ *
+ * <br><br>
+ *     Note: this class can cause issues if you're also relying on {@link MapView#addOnFirstLayoutListener}
+ *     If you happen to be using both, see <a href="https://github.com/osmdroid/osmdroid/issues/324">Issue 324</a>
  * @author Marc Kurtz
  * @author Manuel Stahl
  * 
  */
 public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOrientationConsumer {
-	private static final Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
-	protected final MapView mMapView;
+	private Paint sSmoothPaint = new Paint(Paint.FILTER_BITMAP_FLAG);
+	protected MapView mMapView;
 	private final Display mDisplay;
 
 	public IOrientationProvider mOrientationProvider;
@@ -61,6 +64,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	private boolean mOptionsMenuEnabled = true;
 
+	protected final float mScale;
 	// ===========================================================
 	// Constructors
 	// ===========================================================
@@ -69,13 +73,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		this(context, new InternalCompassOrientationProvider(context), mapView);
 	}
 
-	public CompassOverlay(Context context, IOrientationProvider orientationProvider, MapView mapView) {
-		this(context, orientationProvider, mapView, new DefaultResourceProxyImpl(context));
-	}
 
 	public CompassOverlay(Context context, IOrientationProvider orientationProvider,
-			MapView mapView, ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+			MapView mapView) {
+		super();
+		mScale = context.getResources().getDisplayMetrics().density;
 
 		mMapView = mapView;
 		final WindowManager windowManager = (WindowManager) context
@@ -95,7 +97,11 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 	@Override
 	public void onDetach(MapView mapView) {
+		this.mMapView=null;
+		sSmoothPaint=null;
 		this.disableCompass();
+		mCompassFrameBitmap.recycle();
+		mCompassRoseBitmap.recycle();
 		super.onDetach(mapView);
 	}
 
@@ -128,7 +134,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		return mOrientationProvider;
 	}
 
-	protected void setOrientationProvider(IOrientationProvider orientationProvider) {
+	public void setOrientationProvider(IOrientationProvider orientationProvider) throws RuntimeException {
 		if (orientationProvider == null)
 			throw new RuntimeException(
 					"You must pass an IOrientationProvider to setOrientationProvider()");
@@ -198,8 +204,9 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		pMenu.add(0, MENU_COMPASS + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.compass))
-				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_compass))
+				pMapView.getContext().getResources().getString(R.string.compass))
+
+				.setIcon(pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_compass))
 				.setCheckable(true);
 
 		return true;
@@ -273,6 +280,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		if (mOrientationProvider != null) {
 			mOrientationProvider.stopOrientationProvider();
 		}
+		mOrientationProvider=null;
 
 		// Reset values
 		mAzimuth = Float.NaN;
@@ -357,7 +365,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
-
+		if (mCompassFrameBitmap!=null)
+			mCompassFrameBitmap.recycle();
 		mCompassFrameBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassFrameBitmap);
@@ -400,6 +409,8 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 		final int picBorderWidthAndHeight = (int) ((mCompassRadius + 5) * 2 * mScale);
 		final int center = picBorderWidthAndHeight / 2;
 
+		if (mCompassRoseBitmap!=null)
+			mCompassRoseBitmap.recycle();
 		mCompassRoseBitmap = Bitmap.createBitmap(picBorderWidthAndHeight, picBorderWidthAndHeight,
 				Config.ARGB_8888);
 		final Canvas canvas = new Canvas(mCompassRoseBitmap);

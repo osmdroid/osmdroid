@@ -1,0 +1,135 @@
+{
+  "id" : 19,
+  "status" : "Fixed",
+  "summary" : "I can't tap on the itemizedoverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 21,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6652997573487125063,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. open the itemizedoverlay sample\r\n2. click on any overlay\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nI should see the Toast, instead nothing happens\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nLinux - ubuntu\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1267407647,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6652997573487125063,
+    "content" : "I have found that the problem is in this line:\r\nOpenStreetMapViewItemizedOverlay:\r\nline 127:\r\npj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords);",
+    "timestamp" : 1267549365,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This worked in revision 65, is broken in revision 66.",
+    "timestamp" : 1268126241,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1268126363,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 6652997573487125063,
+    "content" : "I (somehow) solved this problem, what you should do is convert the position tapped on\r\nthe map to the correct pixels on the view. and also change the origin point of the\r\nmap to (0,0) of the view ( to the left corner) not in the center. ",
+    "timestamp" : 1268218847,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please could you be more explicit about what you changed to get it to work.",
+    "timestamp" : 1268373727,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6652997573487125063,
+    "content" : "ok, here is the method I used:\r\n@Override\r\n\tpublic boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {\r\n\t\tfinal OpenStreetMapViewProjection pj = mapView.getProjection();\r\n\t\tfinal int eventX = (int)event.getX();\r\n\t\tfinal int eventY = (int)event.getY();\r\n\t\tfinal int markerWidth = this.mMarker.getIntrinsicWidth();\r\n\t\tfinal int markerHeight = this.mMarker.getIntrinsicHeight();\r\n\t\t\r\n\t\t/* These objects are created to avoid construct new ones every cycle. */\r\n\t\tfinal Rect curMarkerBounds = new Rect();\r\n\t\tfinal Point mCurScreenCoords = new Point();\r\n\t\tPoint mCurScreenCoords2 = new Point();\r\n\t\t\r\n\t\tfor(int i = 0; i < this.mItemList.size(); i++){\r\n\t\t\tfinal T mItem = this.mItemList.get(i);\r\n\t\t\tLog.d(\"NEWITEM\", \"**********************************************\");\r\n\t\t\tpj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords); \r\n//\t\t\tpj.toPixels(mItem.mGeoPoint, mCurScreenCoords); \r\n\t\t\tLog.d(\"CURSOR COORDINATES CHECKING(onsingletapup)\", mCurScreenCoords.x + \" \" +\r\nmCurScreenCoords.y);\r\n\t\t\t\r\n\t\t\tfinal int left = (mCurScreenCoords.x -this.mMarkerHotSpot.x - 15);\r\n\t\t\tfinal int right = left + markerWidth + 30;\r\n\t\t\tfinal int top = (mCurScreenCoords.y - this.mMarkerHotSpot.y - 15);\r\n\t\t\tfinal int bottom = top + markerHeight + 30 ;\r\n\t\t\t/* checking the marker attributes */\r\n\t\t\tLog.d(\"THE MARKER ATTRIBUTES(onsingletapup)\", \"\" + this.mMarkerHotSpot.x + \" \" +\r\nthis.mMarkerHotSpot.y + \" \" + this.mMarkerWidth + \" \" + this.mMarkerHeight);\r\n\t\t\tcurMarkerBounds.set(left, top, right, bottom);\r\n\t\t\tLog.d(\"THE POSITION ON THE MAP(onsingletapup)\", \"\" + left + \" \" + right + \" \" +\r\ntop + \" \" + bottom);\r\n\t\t\tLog.d(\"THE EVENT POSITIONS(onsingletapup)\", \" \"+eventX+\" \"+eventY );\r\n\t\t\tmCurScreenCoords2 = pj.fromPixels(eventX, eventY,OpenStreetMap.isSlided);\r\n\t\t\tLog.d(\"CURSOR COORDINATES CHECKING 2 (onsingletapup)\", mCurScreenCoords2.x + \" \" +\r\nmCurScreenCoords2.y);\r\n\t\t\tif(curMarkerBounds.contains(mCurScreenCoords2.x , mCurScreenCoords2.y ))\r\n\t\t\t{\r\n\t\t\t\t\r\n\t\t\t\t{if(onTap(i))\r\n\t\t\t\tLog.d(\"TAP HAPPENED\", \"**********************************************\");\r\n\t\t\t\t\treturn true;\r\n\t\t\t\t\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn super.onSingleTapUp(event, mapView);\r\n\t}\r\n\r\n\r\n@Override\r\n\tpublic boolean onSingleTapUp(final MotionEvent event, final OpenStreetMapView mapView) {\r\n\t\tfinal OpenStreetMapViewProjection pj = mapView.getProjection();\r\n\t\tfinal int eventX = (int)event.getX();\r\n\t\tfinal int eventY = (int)event.getY();\r\n\t\tfinal int markerWidth = this.mMarker.getIntrinsicWidth();\r\n\t\tfinal int markerHeight = this.mMarker.getIntrinsicHeight();\r\n\t\t\r\n\t\t/* These objects are created to avoid construct new ones every cycle. */\r\n\t\tfinal Rect curMarkerBounds = new Rect();\r\n\t\tfinal Point mCurScreenCoords = new Point();\r\n\t\tPoint mCurScreenCoords2 = new Point();\r\n\t\t\r\n\t\tfor(int i = 0; i < this.mItemList.size(); i++){\r\n\t\t\tfinal T mItem = this.mItemList.get(i);\r\n\t\t\tLog.d(\"NEWITEM\", \"**********************************************\");\r\n\t\t\tpj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords); \r\n//\t\t\tpj.toPixels(mItem.mGeoPoint, mCurScreenCoords); \r\n\t\t\tLog.d(\"CURSOR COORDINATES CHECKING(onsingletapup)\", mCurScreenCoords.x + \" \" +\r\nmCurScreenCoords.y);\r\n\t\t\t\r\n\t\t\tfinal int left = (mCurScreenCoords.x -this.mMarkerHotSpot.x - 15);\r\n\t\t\tfinal int right = left + markerWidth + 30;\r\n\t\t\tfinal int top = (mCurScreenCoords.y - this.mMarkerHotSpot.y - 15);\r\n\t\t\tfinal int bottom = top + markerHeight + 30 ;\r\n\t\t\t/* checking the marker attributes */\r\n\t\t\tLog.d(\"THE MARKER ATTRIBUTES(onsingletapup)\", \"\" + this.mMarkerHotSpot.x + \" \" +\r\nthis.mMarkerHotSpot.y + \" \" + this.mMarkerWidth + \" \" + this.mMarkerHeight);\r\n\t\t\tcurMarkerBounds.set(left, top, right, bottom);\r\n\t\t\tLog.d(\"THE POSITION ON THE MAP(onsingletapup)\", \"\" + left + \" \" + right + \" \" +\r\ntop + \" \" + bottom);\r\n\t\t\tLog.d(\"THE EVENT POSITIONS(onsingletapup)\", \" \"+eventX+\" \"+eventY );\r\n\t\t\tmCurScreenCoords2 = pj.fromPixels(eventX, eventY,OpenStreetMap.isSlided);\r\n\t\t\tLog.d(\"CURSOR COORDINATES CHECKING 2 (onsingletapup)\", mCurScreenCoords2.x + \" \" +\r\nmCurScreenCoords2.y);\r\n\t\t\tif(curMarkerBounds.contains(mCurScreenCoords2.x , mCurScreenCoords2.y ))\r\n\t\t\t{\r\n\t\t\t\t\r\n\t\t\t\t{if(onTap(i))\r\n\t\t\t\tLog.d(\"TAP HAPPENED\", \"**********************************************\");\r\n\t\t\t\t\treturn true;\r\n\t\t\t\t\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t\treturn super.onSingleTapUp(event, mapView);\r\n\t}\r\n////////////////////////////////////////////////////////\r\n\r\nthe slider is a boolean for the current configuration of the phone, \r\n@Override\r\n\t\tpublic void onConfigurationChanged(Configuration newConfig) {\r\n\t\t\t  super.onConfigurationChanged(newConfig);\r\n\t\t\t  isSlided= !isSlided;\r\n\t\t\t} \r\n\r\n\r\n\r\nI hope this could help you solve it :D",
+    "timestamp" : 1268403445,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6652997573487125063,
+    "content" : "I would like to know your opinion about this solution as It took me some time, and\r\nalso I needed help from my supervisor :), but any ways It is now working :D",
+    "timestamp" : 1268404170,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 26 has been merged into this issue.",
+    "timestamp" : 1269497520,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -3649467699727318466,
+    "content" : "Hi, \r\n\r\nI just realized that you merged issue 26 with this one. I've seen this issue before \r\nmy issue post but I couldn't solve it with the code posted above. Has this issue been \r\nresolved? \r\nAnd if the above code is the correct answer - where do I put onConfigurationChanged \r\nand why can't I find OpenStreetMap.isSlided? (or do I have to implement isSlided \r\nmyself)\r\n\r\nThanks alot!",
+    "timestamp" : 1269509043,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 5709035672632107645,
+    "content" : "I have the same problem that d.schre. Where is OpenStreeMap.isSlided and \r\nonConfigurationChanged? \r\n\r\nThanks",
+    "timestamp" : 1269515140,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : 6652997573487125063,
+    "content" : "The onConfigurationChanged()  should be in the main Activity (the one with the map).",
+    "timestamp" : 1269515290,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 6652997573487125063,
+    "content" : "the isSlided is a boolean that should be added also to the main Activity.\r\n",
+    "timestamp" : 1269515341,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : 6652997573487125063,
+    "content" : "this method should be added to the openStreetMapView.java, in the\r\nOpenStreetMapViewProjection class, \r\n\r\npublic Point fromPixels(int x, int y,final boolean slider) {\r\n\t\t\tif(!slider){\r\n\t\t\tPoint out = new Point();\r\n\t\t\t// 1 Pixel equals \r\n\t\t\tout.set(x,y);\r\n\t\t\tout.offset(-160, -230); //orientation !!\r\n\t\t\t// determine scale and multiply\r\n\t\t\tout.offset(getScrollX(),getScrollY());\r\n\t\t\tLog.d(\"OUT (value)(fromPixels)\", \"\" + out.x + \" \" + out.y);\r\n\t\t\tLog.d(\"OFFSET PROJECTION (offsets)(fromPixels)\", \"\" + offsetX + \" \" + offsetY);\r\n\t\t\r\n\t\t\t//return Mercator.projectPoint((int) x, (int) y, getPixelZoomLevel());\r\n\t\t\t//return bb.getGeoPointOfRelativePositionWithLinearInterpolation(x / viewWidth_2, y\r\n\t\t\t//\t\t/ viewHeight_2);\r\n\t\t\treturn out;\r\n\t\t\t}\r\n\t\t\telse{\r\n\t\t\t\tPoint out = new Point();\r\n\t\t\t\tout.set(x,y);\r\n\t\t\t\tout.offset(-230, -160); //orientation !!\r\n\t\t\t\t// determine scale and multiply\r\n\t\t\t\tout.offset(getScrollX(),getScrollY());\r\n\t\t\t\tLog.d(\"OUT (value)(fromPixels)\", \"\" + out.x + \" \" + out.y);\r\n\t\t\t\tLog.d(\"OFFSET PROJECTION (offsets)(fromPixels)\", \"\" + offsetX + \" \" + offsetY);\r\n\t\t\t\treturn out;\r\n\t\t\t}\r\n\t\t\t\r\n\t\t}",
+    "timestamp" : 1269515543,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 6652997573487125063,
+    "content" : "you should also take care where you put the isSlided and the onConfigurationChanged,\r\nbecause you will have to change it in the onSingleTapUp()\r\nspecifically in this line:\r\nmCurScreenCoords2 = pj.fromPixels(eventX, eventY,OpenStreetMap.isSlided); \r\nyou can change it to whatever class you use as the main activity.\r\nI hope it is ok now.\r\n ",
+    "timestamp" : 1269515726,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : 5709035672632107645,
+    "content" : "thanks a lot. it works",
+    "timestamp" : 1269516729,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 6652997573487125063,
+    "content" : "you 're welcome ;)",
+    "timestamp" : 1269516863,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -3649467699727318466,
+    "content" : "Thank you for your detailed instructions! Now it's working!",
+    "timestamp" : 1269519492,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1269526062,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r120.",
+    "timestamp" : 1269584944,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 8937367184059112911,
+    "content" : "Fixed in revision r121.",
+    "timestamp" : 1269591461,
+    "attachments" : [ ]
+  } ]
+}

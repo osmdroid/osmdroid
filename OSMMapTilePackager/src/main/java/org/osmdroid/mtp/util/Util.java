@@ -30,9 +30,9 @@ public class Util {
 
 	/**
 	 * For a description see:
-	 * @see http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames
+	 * see <a href="http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames">http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames</a>
 	 * For a code-description see:
-	 * @see http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames#compute_bounding_box_for_tile_number
+	 * see <a href="http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames#compute_bounding_box_for_tile_number">http://wiki.openstreetmap.org/index.php/Slippy_map_tilenames#compute_bounding_box_for_tile_number</a>
 	 * @param aLat latitude to get the {@link OSMTileInfo} for.
 	 * @param aLon longitude to get the {@link OSMTileInfo} for.
 	 * @return The {@link OSMTileInfo} providing 'x' 'y' and 'z'(oom) for the coordinates passed.

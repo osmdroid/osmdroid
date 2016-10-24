@@ -1,0 +1,33 @@
+{
+  "id" : 466,
+  "status" : "New",
+  "summary" : "event : onItemSingleTapUp / onItemLongPress",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6844363183181632391,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. Do new project eclipse with following code :\r\nhttp://android-er.blogspot.fr/2012/05/implement-onitemgesturelistener-on.html\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n2. use onItemSingleTapUp or onItemLongPress to see the toast display.. \r\n\r\n3. toast is not display :-(\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid-android-3.0.10.jar\r\n\r\nand http://www.slf4j.org/android/\r\nslf4j-android-1.5.8.jar\r\n\r\nOn Debian Wheezy 7.0\r\n\r\nPlease provide any additional information below:\r\n\r\nWhen I using osmdroid-android-3.0.8.jar\r\n\r\nand http://www.slf4j.org/android/\r\n \r\nslf4j-android-1.6.1-RC1.jar\r\n\r\ntoast displayed :-)\r\n\r\n",
+    "timestamp" : 1377015284,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 6844363183181632391,
+    "content" : "Android 4.2.2 zte blade S",
+    "timestamp" : 1377150566,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 9019505132691600845,
+    "content" : "i have the same problem, i think i'll come back to version 3.0.8",
+    "timestamp" : 1380611792,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 9019505132691600845,
+    "content" : "when using the single tap the app just stop runing, but in the earlier version didn't happend it",
+    "timestamp" : 1380611987,
+    "attachments" : [ ]
+  } ]
+}

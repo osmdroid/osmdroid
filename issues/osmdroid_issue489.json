@@ -1,0 +1,51 @@
+{
+  "id" : 489,
+  "status" : "Fixed",
+  "summary" : "New implementation of ResourceProxy",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nLet's say we want to use a different icon for my location instead of the default person.png, but keeping the default direction_arrow.png\r\nSo we construct MyLocationNewOverlay and pass to it the new org.osmdroid.util.ResourceProxyImpl\r\nBut several issues now happen:\r\n\r\n- The new ResourceProxyImpl does not have a getBitmap method.\r\nSo the MyLocationNewOverlay which uses getBitmap for retrieving its icons, uses the default ones (We see the old person.png)\r\n\r\n- Even if we implement a getBitmap method (like the previous one):\r\n\r\n@Override\r\npublic Bitmap getBitmap(final bitmap pResId) {\r\n\tfinal int id = getId(&quot;drawable&quot;, pResId.name());\r\n\treturn id != 0 ? BitmapFactory.decodeResource(mResources, id) : super.getBitmap(pResId);\r\n}\r\n\r\nThe different packages of the org.osmdroid.DefaultResourceProxyImpl and the org.osmdroid.util.ResourceProxyImpl cause problem at DefaultResourceProxyImpl.getBitmap line 116:\r\nis = getClass().getResourceAsStream(resName)\r\nThe getClass() is now the org.osmdroid.util.ResourceProxyImpl and tries to find the png at org.osmdroid.util location, where they aren't.\r\n\r\nRegards.",
+    "timestamp" : 1382194164,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not sure exactly what this issue is about.  If it's just about the package name, would it be enough to just replace getClass() with ResourceProxy.class?\r\n\r\nI deliberately didn't implement getBitmap because I had the impression that the scaling for different resolutions isn't working as intended.  This implementation only uses resources because then it avoids that problem.  Of course it contains the base implementation, so if that's broken it should be fixed.\r\n\r\nIt would be better to look for bitmaps a bit more intelligently, as you suggested in the discussion group.  Please feel free to suggest a patch :)",
+    "timestamp" : 1382902767,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well it's actually about 2 issues:\r\n\r\n1) There is no new implementation of getBitmap, but the osmdroid MyLocation overlays use the getBitmap method for retrieving their icons (person, arrow etc).\r\nSo with the new ResourceProxyImpl we cannot use custom MyLocation icons as the called getBitmap always use the super.getBitmap of DefaultResourceProxyImpl.\r\n\r\n2) Also if the new ResourceProxyImpl is at different package (as now) vs the DefaultResourceProxyImpl, there is always a conflict between them.\r\nThat's why I suggested the move of the icons to the root of the project src.\r\nAnother fix would be indeed to replace getClass() with ResourceProxy.class\r\n\r\nBest regards.",
+    "timestamp" : 1382964883,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done the simple fix in revision 1382.",
+    "timestamp" : 1382988777,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nAbout (1) are there any thoughts?\r\n\r\nBecause the lack of getBitmap method at new ResourceProxyImpl\r\nprevents us from using custom icons.\r\n\r\nAs osmdroid classes use bitmaps and not drawables (e.g. MyLocation overlays).\r\n\r\nBest regards, Emux",
+    "timestamp" : 1386143661,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI wanted to attach a patch regarding the missing getBitmap method from the new ResourceProxyImpl,\r\nbut I cannot because of the message \"Issue attachment storage quota exceeded\".\r\n\r\nI posted at:\r\nhttps://groups.google.com/forum/#!topic/osmdroid/dGBMkkyZgic\r\n\r\nI think it's essential, as right now we cannot use custom icons with osmdroid.\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser\r\n",
+    "timestamp" : 1392279139,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1432.",
+    "timestamp" : 1392581714,
+    "attachments" : [ ]
+  } ]
+}

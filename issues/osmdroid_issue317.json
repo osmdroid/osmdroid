@@ -1,0 +1,21 @@
+{
+  "id" : 317,
+  "status" : "Fixed",
+  "summary" : "osmarender tile server is no longer active",
+  "labels" : [ "Type-Task", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The tile source defined as TileSourceFactory.OSMARENDER is retired so we should remove all references to it.\r\n\r\nhttp://tah.openstreetmap.org/\r\nhttp://lists.openstreetmap.org/pipermail/dev/2012-February/024301.html\r\n",
+    "timestamp" : 1331114841,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1081.",
+    "timestamp" : 1331501326,
+    "attachments" : [ ]
+  } ]
+}

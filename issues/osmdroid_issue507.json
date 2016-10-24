@@ -1,0 +1,21 @@
+{
+  "id" : 507,
+  "status" : "Fixed",
+  "summary" : "GeoPoint.clone without altitude",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1558421220117089513,
+    "content" : "GeoPoint clone method doesn't copy the altitude attribute. \r\n\r\nThe method could also return a GeoPoint instead of an Object (legal - and practical - since Java 5). \r\n\r\nSo the full fix: \r\n\r\n@Override public GeoPoint clone() {\r\n   return new GeoPoint(this.mLatitudeE6, this.mLongitudeE6, this.mAltitude);\r\n}\r\n",
+    "timestamp" : 1388702768,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1396.",
+    "timestamp" : 1388777824,
+    "attachments" : [ ]
+  } ]
+}

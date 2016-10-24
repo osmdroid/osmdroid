@@ -1,0 +1,27 @@
+{
+  "id" : 319,
+  "status" : "Invalid",
+  "summary" : "osmdroid ItemizedOverlay error: The method boundCenterBottom(Drawable) is undefined for the type",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2503135153494993750,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create own MyDynamicItemizedOverlay extends ItemizedOverlay&lt;OverlayItem&gt;\r\n2. use osmdroid-android-3.0.8 or 7\r\n3. use the source below:\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n&quot;The method boundCenterBottom(Drawable) is undefined for the type MapActivity.MyDynamicItemizedOverlay&quot;\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid-android-3.0.8 or 7\r\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n\r\nI'm struggling for some hours now with this problem:\r\nI'm trying to get my itemizedoverlay to work, but I keep getting this error:\r\n\r\n&quot;The method boundCenterBottom(Drawable) is undefined for the type MapActivity.MyDynamicItemizedOverlay&quot;\r\n\r\nsource:\r\n\r\npublic class MyDynamicItemizedOverlay extends ItemizedOverlay&lt;OverlayItem&gt; {\r\n\r\n\t\tprivate ArrayList&lt;OverlayItem&gt; items;\r\n\r\n\t\tpublic MyDynamicItemizedOverlay(Drawable defaultMarker) {\r\n\t\t\tsuper(boundCenterBottom(defaultMarker));\r\n\r\n\t\t\titems = new ArrayList&lt;OverlayItem&gt;();\r\n\t\t\tpopulate();\r\n\r\n\t\t}\r\n\r\n\t\tpublic void addNewItem(GeoPoint location, String markerText,\r\n\t\t\t\tString snippet) {\r\n\t\t\titems.add(new OverlayItem(snippet, markerText, location));\r\n\t\t\tpopulate();\r\n\t\t}\r\n\r\n\t\tpublic void removeItem(int index) {\r\n\t\t\titems.remove(index);\r\n\t\t\tpopulate();\r\n\t\t}\r\n\r\n\t\t@Override\r\n\t\tprotected OverlayItem createItem(int index) {\r\n\t\t\treturn items.get(index);\r\n\t\t}\r\n\r\n\t\t@Override\r\n\t\tpublic int size() {\r\n\t\t\treturn items.size();\r\n\t\t}\r\n\r\n\t\t@Override\r\n\t\tpublic boolean onSnapToItem(int arg0, int arg1, Point arg2,\r\n\t\t\t\tIMapView arg3) {\r\n\t\t\t// TODO Auto-generated method stub\r\n\t\t\treturn false;\r\n\t\t}\r\n\r\n\t}\r\n\r\n",
+    "timestamp" : 1331560045,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 5587354198007720378,
+    "content" : "You are getting that error because \"boundCenterBottom\" a Google Maps feature that is not supported by osmdroid.\r\n\r\nosmdroid's equivalent is:\r\n\"item.setMarkerHotspot(HotspotPlace.BOTTOM_CENTER);\"",
+    "timestamp" : 1333558802,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please follow felipenamal's advice and use the item.setMarkerHotspot() method in osmdroid.",
+    "timestamp" : 1333740533,
+    "attachments" : [ ]
+  } ]
+}[]}]}

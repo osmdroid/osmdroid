@@ -1,0 +1,15 @@
+{
+  "id" : 550,
+  "status" : "New",
+  "summary" : "Default image tiles in place for null maptiles because there is no tile for that zoom level .",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3520011194703192558,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.you scroll to a location ,where you have't any tile in your local memory.\r\n2.null tile will be shown .i want to show an image showing &quot;zoom out to see&quot;\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 4.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1436881426,
+    "attachments" : [ ]
+  } ]
+}amp":1436881426,"attachments":[]}]}

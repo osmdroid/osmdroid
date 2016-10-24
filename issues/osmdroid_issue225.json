@@ -1,0 +1,63 @@
+{
+  "id" : 225,
+  "status" : "Duplicate",
+  "summary" : "Not able to Drag and Drop OverlayItems on Map using osmdroid 3.0.4",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3648234740252880217,
+    "content" : "Using osmdroid-3.0.1, I have implemented putting OverlayItems and Dragging it to different places on map, with help of ItemizedOverlay.\r\n\r\nBut now in 3.0.4, the API has been changed, so when I am trying to implement in same way, I am facing lot many problems.\r\n\r\n1. Not able to Drag\r\n2. Not able to get Old Items with different marker icon\r\n\r\nUsing new API 3.0.4, It seems I have to rebuild the whole App, which is not a good idea.\r\n\r\nPlease suggest me for best way.",
+    "timestamp" : 1306832480,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "How did you implement it before, and what features are missing from the latest build to accomplish your goal?",
+    "timestamp" : 1306865388,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -131314245172652713,
+    "content" : "I'm also trying to make Overlay items draggable. I used this sample code which works fine with the Google Maps API but doesn't seem to work with the OSMDroid jar:\r\n\r\nhttps://github.com/commonsguy/cw-advandroid/blob/master/Maps/NooYawkTouch/src/com/commonsware/android/maps/NooYawk.java\r\n\r\nI also tried to use the lastDrawMatrix solution in Issue 11, but I just can't get the hitTest to pass. If anyone could help me out with some sample code, I'd really appreciate it.",
+    "timestamp" : 1306866140,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Regarding HitTest: Issue 11 is quite old and probably not valid anymore (we should close that!). Our HitTest works exactly like Google Maps' HitTest. From the API: \"The hit point is relative to the marker's bounds. The default implementation just checks to see if the hit point is within the touchable bounds of the marker.\"\r\n\r\nWe should have some examples in the code on how to use HitTest. It requires a little work on your end setting things up.\r\n\r\nRegarding drag-and-drop - this would be a neat feature and something we may want to consider as a packaged overlay available to all users.",
+    "timestamp" : 1306867001,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -131314245172652713,
+    "content" : "Thanks! I got drag-and-drop OverlayItems working now with osmdroid-android-3.0.4.jar using the example I linked above and the code changes below. Hope it helps someone.\r\n\r\nIt would be awesome to have it included as a packaged overlay, although it requires a ImageView in your layout file as in the example.\r\n\r\nLooks like HitTest wasn't passing because the pixel to coordinate conversion stuff is a bit different than GoogleMaps. Thanks for the hint regarding an example for HitTest.\r\n\r\n@Override\r\npublic boolean onTouchEvent(MotionEvent event, MapView mapView) {\r\n\tfinal int action = event.getAction();\r\n\tfinal int x = (int) event.getX();\r\n\tfinal int y = (int) event.getY();\r\n\tfinal Projection pj = mapView.getProjection();\r\n\r\n\tboolean result = false;\r\n\r\n\tif (action == MotionEvent.ACTION_DOWN) {\r\n\t\tfor (OverlayItem item : items) {\r\n\r\n\t\t\tpj.fromMapPixels(x, y, t);\r\n\t\t\tpj.toPixels(item.getPoint(), p);\r\n\r\n\t\t\tif (hitTest(item, marker, t.x - p.x, t.y - p.y)) {\r\n\t\t\t\tresult = true;\r\n\t\t\t\tinDrag = item;\r\n\t\t\t\titems.remove(inDrag);\r\n\t\t\t\tpopulate();\r\n\r\n\t\t\t\txDragTouchOffset = 0;\r\n\t\t\t\tyDragTouchOffset = 0;\r\n\r\n\t\t\t\tsetDragImagePosition(x, y);\r\n\t\t\t\tdragImage.setVisibility(View.VISIBLE);\r\n\r\n\t\t\t\txDragTouchOffset = t.x - p.x;\r\n\t\t\t\tyDragTouchOffset = t.y - p.y;\r\n\r\n\t\t\t\tbreak;\r\n\t\t\t}\r\n\t\t}\r\n\t} else if (action == MotionEvent.ACTION_MOVE && inDrag != null) {\r\n\t\tdragImage.setVisibility(View.VISIBLE);\r\n\t\tsetDragImagePosition(x, y);\r\n\t\tresult = true;\r\n\t} else if (action == MotionEvent.ACTION_UP && inDrag != null) {\r\n\t\tdragImage.setVisibility(View.GONE);\r\n\r\n\t\tGeoPoint pt = pj.fromPixels(x - xDragTouchOffset, y - yDragTouchOffset);\r\n\t\tOverlayItem toDrop = new OverlayItem(inDrag.getTitle(),\r\n\t\t\t\tinDrag.getSnippet(), pt);\r\n\r\n\t\titems.add(toDrop);\r\n\t\tpopulate();\r\n\t\tinDrag = null;\r\n\t\tresult = true;\r\n\r\n\t\tpj.fromMapPixels(x, y, t);\r\n\r\n\t\tif((t.x - p.x) == xDragTouchOffset && (t.y - p.y) == yDragTouchOffset){\r\n\t\t\tLog.d(TAG, \"Do something here if desired because we didn't move item \" + toDrop.getTitle());\r\n\t\t}\r\n\t}\r\n\r\n\treturn (result || super.onTouchEvent(event, mapView));\r\n}",
+    "timestamp" : 1306995758,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -3735850890632235004,
+    "content" : "Hi,\r\n\r\nCan anyone elaborate on this? I am getting this error:\r\n\r\n\"The method onTouchEvent(MotionEvent, MapView) of type OpenstreetmapdroidActivity must override a superclass method.\"\r\n\r\nWhere should I include this method? On the main activity or within the ItemizedOverlay class which is within another .java?\r\n\r\nFinally, when I copied the code it started complaning abou \"t\" and other stuff?\r\n\r\nThanks. ",
+    "timestamp" : 1320089452,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3735850890632235004,
+    "content" : "Ok, I figure out that on JAVA 1.5 you cannot use @Override on interfaces but only on super class.  However, even when that is true, still onTouchEvent is not getting fired when I touch the overlay item.  I had also tried OnTap without any luck:\r\n\r\nprotected boolean onTap(int index) {\r\n\t  //OverlayItem item = mOverlays.get(index);\r\n\t  System.out.println(\"onTap!\");\r\n\t  return true;\r\n\t}\r\n\r\nFurthremore, onTouch is either getting called:\r\n\r\n    m_mapView.setOnTouchListener(new View.OnTouchListener() {\r\n     \t   \r\n     \t   public boolean onTouch(View v, MotionEvent event) {\r\n         \t// TODO Auto-generated method stub\r\n         \tSystem.out.println(\"onTouch!\");\r\n         \treturn false;\r\n     \t   }\r\n\r\nThe only one that seems to be working for me is dispatchTouchEvent which cannot be used:\r\n\r\n    @Override\r\n    public boolean dispatchTouchEvent(MotionEvent ev) {\r\n    \tSystem.out.println(\"dTouchEvent!\"); \r\n    \treturn true; \r\n    }\r\n\r\nThanks. ",
+    "timestamp" : 1320162450,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3735850890632235004,
+    "content" : "onTouchEvent is getting called which is a progress. Nonetheless, when it get to hitTest my application is crashing, I believe the problem is defaultMaker?\r\n\r\nThanks. \r\n\r\npublic boolean onTouchEvent(MotionEvent event, MapView mapView) {\r\n\t\t\r\n\t\tfinal int action = event.getAction();\r\n\t\tfinal int x = (int) event.getX();\r\n\t\tfinal int y = (int) event.getY();\r\n\t\t\r\n\t\tfinal Projection pj = mapView.getProjection();\r\n\t\t\r\n\t\tboolean result = false;\r\n\t\t//Object TAG;\r\n\t\t//Log.d(TAG, \"onTouchEvent entered\");\r\n\t\t\r\n\t\tSystem.out.println(\"onTouchEvent!\");\t\t\r\n\t\tPoint p = new Point(0,0);\r\n\t\tPoint t = new Point(0,0);\r\n\t\t\r\n\t\t//System.out.print(MotionEvent.ACTION_DOWN);\r\n\t\t//System.out.print(action);\r\n\t\t\r\n\t\tif (action == MotionEvent.ACTION_DOWN) {\r\n\t\t\t\r\n\t\t\tSystem.out.println(\"Action Down!\");\r\n\t\t\t\r\n\t\t\tfor (OverlayItem item : mOverlays) {\r\n\t\t\t\t\r\n\t\t\t\t// Create a new GeoPoint from pixel coordinates (x, y, pointReuse):\r\n\t\t\t\t//pj.fromMapPixels(x, y, t);\r\n\t\t\t\t\r\n\t\t\t\t// Convert the given GeoPoint to onscreen pixel coordinates (GeoPoint, pointOut):\r\n\t\t\t\tpj.toPixels(item.getPoint(), p);\r\n\t\t\t\t\r\n\t\t\t\t//System.out.println(t.x);\r\n\t\t\t\t//System.out.println(p.x);\r\n\t\t\t\t\r\n\t\t\t\t//System.out.println(t.y);\r\n\t\t\t\t//System.out.println(p.y);\r\n\t\t\t\t\r\n\t\t\t\tdefaultMarker = item.getDrawable();\r\n\t\t\t\t\r\n\t\t\t\tif (hitTest(item, defaultMarker, x - p.x, y - p.y)) {\r\n\t\t\t\t\tSystem.out.println(\"Action Down -> IF!\");\r\n\t\t\t\t\tresult = true;\r\n\t\t\t\t\tinDrag = item;\r\n\t\t\t\t\tmOverlays.remove(inDrag);\r\n\t\t\t\t\tpopulate();\r\n\r\n\t\t\t\t\txDragTouchOffset = 0;\r\n\t\t\t\t\tyDragTouchOffset = 0;\r\n\r\n\t\t\t\t\tsetDragImagePosition(x, y);\r\n\t\t\t\t\tdragImage.setVisibility(View.VISIBLE);\r\n\r\n\t\t\t\t\txDragTouchOffset = t.x - p.x;\r\n\t\t\t\t\tyDragTouchOffset = t.y - p.y;\r\n\r\n\t\t\t\t\tbreak;\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t\r\n\t\t} \r\n\t\t\r\n\t\telse if (action == MotionEvent.ACTION_MOVE && inDrag != null) {\r\n\t\t\t//dragImage.setVisibility(View.VISIBLE);\r\n\t\t\tsetDragImagePosition(x, y);\r\n\t\t\tSystem.out.println(\"Action Move!\");\r\n\t\t\tresult = true;\r\n\t\t} \r\n\t\t\r\n\t\telse if (action == MotionEvent.ACTION_UP && inDrag != null) {\r\n\t\t\tdragImage.setVisibility(View.GONE);\r\n\r\n\t\t\tGeoPoint pt = (GeoPoint) pj.fromPixels(x - xDragTouchOffset, y - yDragTouchOffset);\r\n\t\t\tOverlayItem toDrop = new OverlayItem(inDrag.getTitle(),\r\n\t\t\t\t\tinDrag.getSnippet(), pt);\r\n\r\n\t\t\tmOverlays.add(toDrop);\r\n\t\t\tpopulate();\r\n\t\t\t\r\n\t\t\tinDrag = null;\r\n\t\t\tresult = true; \r\n\r\n\t\t\tpj.fromMapPixels(x, y, t);\r\n\r\n\t\t\tif((t.x - p.x) == xDragTouchOffset && (t.y - p.y) == yDragTouchOffset) {\r\n\t\t\t\tSystem.out.println (\"Do something here if desired because we didn't move item \" + toDrop.getTitle() );\r\n\t\t\t}\r\n\t\t\t\r\n\t\t\tSystem.out.println(\"Action Up!\");\r\n\r\n\t\t}\r\n\t\tSystem.out.print(inDrag);\r\n\t\treturn (result || super.onTouchEvent(event, mapView));\r\n\t}",
+    "timestamp" : 1320333692,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1365737610,
+    "attachments" : [ ]
+  } ]
+}nts":[]}]}

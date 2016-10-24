@@ -74,7 +74,7 @@ public class GeoPointTest {
 		// this test is based on the actual result, not calculated expectations,
 		// but it is at least a basic sanity check for rounding errors and regression
 		final GeoPoint start = new GeoPoint(52387524, 4891604);
-		final GeoPoint end = new GeoPoint(52390698, 4886399);
+		final GeoPoint end = new GeoPoint(52.3906999098369, 4.886399738520584);
 		assertEquals("destinationPoint north west", end, start.destinationPoint(500, -45));
 	}
 
@@ -88,7 +88,10 @@ public class GeoPointTest {
 	@Test
 	public void test_toFromString_withAltitude() {
 		final GeoPoint in = new GeoPoint(52387524, 4891604, 12345);
-		final GeoPoint out = GeoPoint.fromIntString(in.toString());
+          System.out.println("GeoPoint to intString " + in.toIntString());
+          System.out.println("GeoPoint to doubleString " + in.toDoubleString());
+          System.out.println("GeoPoint to toString " + in.toString());
+		final GeoPoint out = GeoPoint.fromIntString(in.toIntString());
 		assertEquals("toFromString with altitude", in, out);
 	}
 

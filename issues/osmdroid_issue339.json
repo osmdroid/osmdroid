@@ -1,0 +1,57 @@
+{
+  "id" : 339,
+  "status" : "Duplicate",
+  "summary" : "Doesn't work in Android 4.0.4 - no tiles shown",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4274269033985422524,
+    "content" : "\r\nThis simple code:\r\nhttps://github.com/jarofgreen/Real-Virtual-Maze-Android/commit/1777d862758af759c11d15414e9c009577ef46fb\r\n\r\nWorks on the Android 2.1 (API 7) emulator.\r\n\r\nOn the Android 4.0.3 (API 15) emulator no map tiles show. There is network activity so I assume they are being loaded, but nothing shows.",
+    "timestamp" : 1334442287,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Is there anything in the log?",
+    "timestamp" : 1334502892,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4274269033985422524,
+    "content" : "Not that I saw.",
+    "timestamp" : 1334528664,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4962403259194227200,
+    "content" : "It works OK for me with a 4.0.3 emulator with basically the same code, except I set a map centre. ( I don't know what 4.0.4 is ?)\r\n\r\npublic class OsmdroidDemoMap extends Activity {\r\n\r\n\tprivate MapView \tmMapView;\r\n\tprivate MapController \tmMapController;\r\n\r\n\t@Override\r\n\tpublic void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t    \tsetContentView(R.layout.osm_main);\r\n\t\tmMapView = (MapView) findViewById(R.id.mapview);\r\n\t\tmMapView.setTileSource(TileSourceFactory.MAPNIK);\r\n\t\tmMapView.setBuiltInZoomControls(true);\r\n\t   \tmMapController = mMapView.getController();\r\n\t\tmMapController.setZoom(13);\r\n\t\tGeoPoint gPt = new GeoPoint(51500000, -150000);\r\n\t\t//Centre map near to Hyde Park Corner, London\r\n\t\tmMapController.setCenter(gPt);\r\n\t}\r\n}\r\n\r\n",
+    "timestamp" : 1334575338,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4274269033985422524,
+    "content" : "Aggh, 4.0.4 is a typo, I meant 4.0.3, can you edit the subject? Sorry.\r\n\r\nSo I took the code I have and added:\r\n\r\nMapController mMapController = mapView.getController();\r\nmMapController.setZoom(13);\r\nGeoPoint gPt = new GeoPoint(51500000, -150000);\r\n//Centre map near to Hyde Park Corner, London\r\nmMapController.setCenter(gPt);\r\n\r\nAnd I still have the same symptoms, works fine on 2.1 but no tiles appear in 4.0.3.\r\n\r\nThe code I have is really very simple, hopefully it's a good test case? (I'm not sure what you mean by \"basically the same code\"?)\r\n\r\nThe only difference I can see is you haven't called setMultiTouchControls(true); but I tried removing that and it still happens.\r\n\r\nThanks for looking at this,\r\nJames\r\n",
+    "timestamp" : 1334587982,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 5587354198007720378,
+    "content" : "I had a similar issue ... except I was specifically trying offline maps.\r\nsee my question here: https://groups.google.com/d/topic/osmdroid/RDYtt6f0OQo/discussion\r\n\r\nOnline maps works for OSMViewer on 4.0.3 but I can't get offline maps to work on 4.0.3.",
+    "timestamp" : 1334840689,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 573776143219557484,
+    "content" : "I can get OSMDroid to work on ICS 4.0.3 but found that adding a ScaleBarOverlay causes an exception if the device has hardware acceleration available.\r\n\r\nA typical exception is:\r\n\r\njava.lang.UnsupportedOperationException\r\nat android.view.GLES20Canvas.drawPicture(GLES20Canvas .java:900)\r\nat uk.co.martinpearman.b4a.osmdroid.views.overlays.My ScaleBarOverlay.draw(MyScaleBarOverlay.java:287)\r\nat org.osmdroid.views.overlay.OverlayManager.onDraw(OverlayManager.java:119)\r\nat org.osmdroid.views.MapView.dispatchDraw(MapView.java:867) \r\n\r\nThere may be other classes which will cause a similar exception if hardware accleration is available - i shall do some tests and report my findings when i have the time.\r\n\r\nMartin.\r\n",
+    "timestamp" : 1344579867,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1351615211,
+    "attachments" : [ ]
+  } ]
+}

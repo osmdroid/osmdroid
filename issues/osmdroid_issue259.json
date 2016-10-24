@@ -1,0 +1,49 @@
+{
+  "id" : 259,
+  "status" : "Fixed",
+  "summary" : "Views not drawn on MapView on zoom",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3926018049081992033,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add a custom view to the MapView component:\r\n\r\nView customView = inflateView...\r\nfinal android.view.ViewGroup.LayoutParams layout =\r\n\t\tnew org.osmdroid.views.MapView.LayoutParams(\r\n\t\t\t\tandroid.view.ViewGroup.LayoutParams.WRAP_CONTENT,\r\n\t\t\t\tandroid.view.ViewGroup.LayoutParams.WRAP_CONTENT,\r\n\t\t\t\tnew GeoPoint(...),\r\n\t\t\t\torg.osmdroid.views.MapView.LayoutParams.BOTTOM_CENTER,\r\n\t\t\t\t0,\r\n\t\t\t\t0);\r\ncustomView.setLayoutParams(layout);\t\t\t\t\r\nfinal MapView osmMapView = new MapView(this, 256, resourceProxy);\r\nosmMapView.addView(customView);\r\nosmMapView.getController().setCenter(g);\r\nosmMapView.getController().setZoom(9);\r\n\r\n2. Start the app and check the child view is draw correctly.\r\n3. Zoom in. \r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe child view should be redrawn when zooming in. Instead the child view disappears and is no longer drawn. If you later call osmMapView.removeAllViews() and osmMapView.add(customView) then the view appears again.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nThe bug occurs with 3.0.3 and 3.0.5. The bug does not occur when the Google Maps API is being used instead of OSMDroid.\r\n\r\nHelp!\r\n",
+    "timestamp" : 1315492431,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4379758222163023750,
+    "content" : "This issue can be fixed by adding a MapListener to MapView then call PostInvalidate after each zoom event.",
+    "timestamp" : 1319446797,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4455381950240800093,
+    "content" : "Adding a MapListenerwith a PostInvalidate does not solve this issue for me",
+    "timestamp" : 1325357535,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -7284257576020950379,
+    "content" : "the problem still persists in osmdroid 3.0.8\r\n\r\nwhat poster #1 might have meant ist to call requestLayout() on the MapView in MapListener.onZoom(), not postInvalidate() which would only trigger a redraw of the view.\r\n\r\na patch for 3.0.8 is attached",
+    "timestamp" : 1338589487,
+    "attachments" : [ {
+      "id" : 2590003000,
+      "fileName" : "fix-no-layout-on-zoom.patch",
+      "fileSize" : 800
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been fixed by r1103. What was happening is that when you change zoom levels it wasn't adjusting the x,y fixed location for the added view. So the view would still be there, but in the wrong location. Please re-open if it is not fixed for you.",
+    "timestamp" : 1342730349,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -7284257576020950379,
+    "content" : "@#4: the change introduced in r1103 requests a layout even if the zoom level doesn't change. is there a reason for that overhead?",
+    "timestamp" : 1342766968,
+    "attachments" : [ ]
+  } ]
+}

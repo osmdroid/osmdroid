@@ -1,0 +1,171 @@
+{
+  "id" : 8,
+  "status" : "WontFix",
+  "summary" : "Share tile cache with AndNav2 and/or other apps using osmdroid",
+  "labels" : [ "Type-Task", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 25,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1586374087699430807,
+    "content" : "It'd be nice if osmdroid didn't use the internal memory by default for\r\nstoring cache images, there is a lack of space to begin with and the SD\r\ncard is usually 1G compared to the paltry 64M of internal memory.\r\n\r\nPeople already run out of space on the internal memory just by installing\r\napps, which is why Apps2SD is popular.\r\n\r\nAlso wouldn't it be advantageous for all osmdroid clients, including\r\nAndNav2, to share the same cache location/database on the sdcard, that way\r\nthey all get the benefit of previously downloaded tiles without needing to\r\nreload them.",
+    "timestamp" : 1244658814,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1586374087699430807,
+    "content" : "I've modified the code and supply you with patches, although the code I have at\r\npresent doesn't dump to a central location although /sdcard/andnav2/tiles etc would\r\nprobably be best at a guess.\r\n\r\nAlso the code I changed adds .osmdroid to the end of the file name, similar to\r\nandnav2 to prevent the OS from showing the files in any image searches, the default\r\ncode just uses .png",
+    "timestamp" : 1244663901,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 6092915221742563212,
+    "content" : "I second this request.  I'd make a small change though.  Rather than using using the filesystem on the sdcard, it \r\nmight be nicer to use a sqlite db.  The image files are small and an sqlite db with blobs in it might make better \r\nuse of the space of the sd-card.\r\n\r\nAnyway, deltafoxtrot: could you attach your patches here so that others can apply them?\r\n",
+    "timestamp" : 1255506031,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 6092915221742563212,
+    "content" : "Okie - here are my patches to make it happen.  They need some cleaning up in places, but they work for me. :)\r\n",
+    "timestamp" : 1255526453,
+    "attachments" : [ {
+      "id" : -2257088575841623721,
+      "fileName" : "FSTileCache.diff",
+      "fileSize" : 4770
+    }, {
+      "id" : -4770939952983253435,
+      "fileName" : "OpenStreetMapWritableTileCache.java",
+      "fileSize" : 1608
+    }, {
+      "id" : 4229291211649372296,
+      "fileName" : "OpenStreetMapTileSDDBProvider.java",
+      "fileSize" : 18027
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : -6841996376054177083,
+    "content" : "As far as I know, it's not possible to use a sqlite database on the sd-card. My first\r\nsolution is to use a seperate service which provides map tiles to other applications.\r\nMaybe AndNav could use this service too.",
+    "timestamp" : 1256851042,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1586374087699430807,
+    "content" : "You can use sqlite db from sdcard, you just have to build your own sqlite wrapper\r\ncode instead of using the default api/code...",
+    "timestamp" : 1256874632,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6092915221742563212,
+    "content" : "The patches I posted put the sqlite db on the sd card.  So it is possible, and the code is right there...\r\n\r\nHaving said that, I tried this with some OpenSatNav patches and it doesn't seem to work very well for storing the \r\ntiles themselves (as blobs).",
+    "timestamp" : 1256889002,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -1586374087699430807,
+    "content" : "Ideally the tiles need to be packed into a tar file to reduce wasted space from half\r\nused clusters on the sdcard, vfat has 32k clusters or something stupid, although\r\nreformatting the main sdcard might help by using 4k clusters.",
+    "timestamp" : 1256891534,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -6841996376054177083,
+    "content" : "That was also my idea, though there is no tar support in the SDK. Maybe zip files\r\nwith no compression would do it too.\r\nThe question is how to organize the archives optimally.\r\n\r\nOne archive per 100 tiles?\r\nOne archive per zoom level?\r\nQuadtree like?",
+    "timestamp" : 1256921235,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -1586374087699430807,
+    "content" : "I have no idea, but trekbuddy stores meta information about tiles outside a tar file\r\nand then has all the tile files in a single tar file.\r\n\r\ntar is an old/simple format, there is bound to be a java library for it somewhere,\r\ntrekbuddy is written in java and it supports reading tar files at least.",
+    "timestamp" : 1256926437,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -6841996376054177083,
+    "content" : "Osmdroid has a separate store for meta info, too. With one archive I don't see how\r\nold tile could be deleted effeciently without rewriting the whole archive.",
+    "timestamp" : 1256929115,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -1586374087699430807,
+    "content" : "@ThyMythos, the first/simplest thing that comes to mind is you could start a new tar\r\nfile for a new session, that way old tiles/session just need to remove one file, the\r\nmeta information points to the current file.",
+    "timestamp" : 1256931406,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -6841996376054177083,
+    "content" : "AndNav2 compatible storage is now implemented. Should the TileProviderService be a\r\nseparate app?",
+    "timestamp" : 1257596259,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -6841996376054177083,
+    "content" : "",
+    "timestamp" : 1257596828,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : -1586374087699430807,
+    "content" : "You could have a library that any app can hook into and request tiles, and the\r\nlibrary handles caching and storage.",
+    "timestamp" : 1257610618,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -6841996376054177083,
+    "content" : "Yes, but with a lib there is a big risk of having incompatible versions included in\r\ndifferent apps. With a separate service every app can gain from the latest\r\nimprovements without shipping a new version.\r\nAlso I think this is more in the spirit of android, not having a jar included in\r\nevery up, but making a service with intents out of it.",
+    "timestamp" : 1257610985,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : -1586374087699430807,
+    "content" : "I meant an android library, not a jar file that gets included in each app.",
+    "timestamp" : 1257611154,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : -6841996376054177083,
+    "content" : "What exactly do you mean by \"android library\"? An application can not touch the\r\nclasses of another app, the only IPC method in android is by intents, isn't it? And\r\nthere are only apps, nothing like a shared library except the framework itself, right?",
+    "timestamp" : 1257611580,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -1586374087699430807,
+    "content" : "If you have a look in android market there is a \"software libraries\" sub-category\r\nunder applications, these can't be used directly by the user but instead are designed\r\nto be integrated with other apps.",
+    "timestamp" : 1257614736,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : -6841996376054177083,
+    "content" : "Yes, that's what I said. In there are real apps, but without any activity, just\r\nservices or content providers.",
+    "timestamp" : 1257617135,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -6183720853672266369,
+    "content" : "I am really hopeful that this can be implemented in osmdroid. It seems far more sensible than each application doing its own thing.\r\n\r\nAs far as I can see, this is already implemented in AndNav2:\r\nhttp://wiki.andnav.org/index.php/List_Of_MapTilePacks\r\n\r\nAnd there is a proposal to do similar in OpenSatNav:\r\nhttps://bugs.launchpad.net/opensatnav/+bug/579448\r\n\r\nCreating and updating maptilepacks will be time-consuming and needs to be as current as possible. Therefore, if someone is going to all that effort to do an updated tilemap of Auckland for AndNav2, it would be great to use it in OSN, and vice versa. Any code to, for example, get citywide tilepack and then only download changed tiles when on the road, would also be best shared between all osmdroid projects.\r\n\r\nIt would be great if it could be designed in such a way as to allow delivery of maptilepacks as packages that could be bought or given away and updated through the Android Marketplace. With the high cost of mobile bandwidth in NZ, it could actually be worthwhile paying a very small amount to be able to download current tilepacks over my home WiFi (preferably updated with deltas!) and not download anything on the road. This could be a way for osmdroid to fund development.",
+    "timestamp" : 1284095047,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1284102639,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 79.\r\nAndNav2 tile packs are just jars created by OSMMapTilePackager.",
+    "timestamp" : 1284102759,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : -7671162804067319620,
+    "content" : "I'm sure you know that the extra extension at the end of the filename is not needed when an empty file named .nomedia is in the directory.",
+    "timestamp" : 1285335387,
+    "attachments" : [ ]
+  }, {
+    "id" : 24,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1286775524,
+    "attachments" : [ ]
+  } ]
+}

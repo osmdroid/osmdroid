@@ -1,0 +1,21 @@
+{
+  "id" : 292,
+  "status" : "Duplicate",
+  "summary" : "OutOfMemory Loading Tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 2966377902928119634,
+    "content" : "I got a problem with the OSMDROID Library, When I am going to close the activity and reopen it for 4 times, the 4th times the application crashed\r\n\r\nLogs:\r\n\r\n01-05 21:03:20.185: D/dalvikvm(22521): GC_EXTERNAL_ALLOC freed 496K, 59% free 7467K/17927K, external 29243K/31035K, paused 91ms\r\n01-05 21:03:20.205: E/dalvikvm-heap(22521): 2097152-byte external allocation too large for this process.\r\n01-05 21:03:20.245: E/GraphicsJNI(22521): VM won't let us allocate 2097152 bytes\r\n01-05 21:03:20.245: D/dalvikvm(22521): GC_FOR_MALLOC freed 0K, 59% free 7467K/17927K, external 29243K/31035K, paused 29ms\r\n01-05 21:03:20.245: D/skia(22521): --- decoder-&gt;decode returned false\r\n01-05 21:03:20.245: D/AndroidRuntime(22521): Shutting down VM\r\n\r\nThe reason that I am going to open and close the activity is because the application is a game, I am going to tap on the map and then when the game is finished I go back to the map.\r\n\r\nThe loading of the tiles after the 4th times gave me the error. I tried to change the CACHE size from 9 to 20 and the thread from 2 to 8 but nothing is changed.\r\n\r\nI am looking how to clear the cache and dis-allocate the memory.\r\n\r\n",
+    "timestamp" : 1325797878,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Increasing those numbers will increase the memory requirements so only make it worse.",
+    "timestamp" : 1325829862,
+    "attachments" : [ ]
+  } ]
+}

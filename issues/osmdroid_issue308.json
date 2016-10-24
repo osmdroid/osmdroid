@@ -1,0 +1,31 @@
+{
+  "id" : 308,
+  "status" : "Invalid",
+  "summary" : "Google map not loading when using custom tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1207886896167100756,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a MapView using OSMDroid google latest wrapper jar file\r\n2. load custom tiles using the following code\r\nmProvider = new MapTileProviderBasic(getActivity().getApplicationContext());\r\nmProvider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);\r\nmTilesOverlay = new GoogleTilesOverlay(mProvider,getActivity());\r\nmTilesOverlay.setUseDataConnection(false);\r\nmTilesOverlay.useDataConnection();\r\nmapView.getOverlays().add(mTilesOverlay);\r\n3. Start the map based activity.\r\n4. Custom map gets loaded but not the google default maps outside the custom map\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nGoogle maps should be loaded for the tiles which are not customized\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nlatest 3.0.7\r\n\r\n<b>Please provide any additional information below.</b>\nI have tried modifying the code with different TileSourceFactory types... still the issue is reproducible.\r\nThere is network connection and I am testing the issue on HTC desire\r\n\r\nNikhil\r\n",
+    "timestamp" : 1328799152,
+    "attachments" : [ {
+      "id" : 3080000000,
+      "fileName" : "device-2012-02-08-121136.png",
+      "fileSize" : 265581
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1207886896167100756,
+    "content" : "Please close this issue as this issue is fixed by recreating the map api key",
+    "timestamp" : 1328805676,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1328814865,
+    "attachments" : [ ]
+  } ]
+}

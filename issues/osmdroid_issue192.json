@@ -1,0 +1,67 @@
+{
+  "id" : 192,
+  "status" : "Started",
+  "summary" : "OSM TilesOverlay over Google Map",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2951569362663853146,
+    "content" : "Following the discussion on the forum:\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/1e2219b8e2d28edb\r\n\r\nI created a java project called &quot;osmdroid-google-overlay&quot; including a custom TilesOverlay class (credits to Alex) in order to display any osm source over google maps.\r\n\r\nHowto use in Eclipse:\r\n- import osmdroid-google-overlay,\r\n- setup ANDROID_MAPS_API variable to $YOURANDROIDSDK/add-ons/addon_google_apis_google_inc_4/libs/maps.jar,\r\n- add slf4j and osmdroid to the build path of osmdroid-google-overlay,\r\n- finally add osmdroid-google-overlay into the build path of your project.\r\n\r\nSee the forum for a code example.\r\n\r\nPlease integrate this project on the svn.\r\n\r\nWe should then create a jar and a wiki page to detail how to use this library.\r\n\r\nCheers,\r\nJulien",
+    "timestamp" : 1301522239,
+    "attachments" : [ {
+      "id" : 609257867455805777,
+      "fileName" : "osmdroid-google-overlay.zip",
+      "fileSize" : 4096
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303104553,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Added in revision 921.",
+    "timestamp" : 1303244276,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Why is this a separate project?  Couldn't it just be included in osmdroid-google-wrapper?  It's not strictly the same thing, but it's kind of related and saves making a new project for just one class. ",
+    "timestamp" : 1303284913,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -2951569362663853146,
+    "content" : "That's possible, do you think it makes sense to rename the osmdroid-google-wrapper project into a generic osmdroid-google or osmdroid-google-tools?",
+    "timestamp" : 1303344363,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "That would be even better. I prefer osmdroid-google.",
+    "timestamp" : 1303362984,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done the rearranging.\r\nI still need to update the wiki.",
+    "timestamp" : 1303385284,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 6796294883573992860,
+    "content" : "where can I find it now?",
+    "timestamp" : 1336412317,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "osmdroid-third-party project",
+    "timestamp" : 1336416331,
+    "attachments" : [ ]
+  } ]
+}

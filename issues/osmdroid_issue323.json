@@ -1,0 +1,21 @@
+{
+  "id" : 323,
+  "status" : "New",
+  "summary" : "Tiles not getting loaded when mapview is moves with thrid party jar",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1207886896167100756,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create custom tiles and place them under sdcard as required for osmdroid\r\n2. use thrid party jar (osmdroid-third-party-3.0.7.jar) along with osmdroid-android-3.0.7.jar to load custom tiles on google maps\r\n3. start app. custom Map tiles get loaded.\r\n4. Move/drag the map such a way that the loaded tiles are out of the device window. \r\n5. Drag back to the initial location \r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected to load back the custom tiles. Loads Google tiles instead\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-third-party-3.0.7.jar) along with osmdroid-android-3.0.7.jar\r\n\r\n<b>Please provide any additional information below.</b>\n\r\ncode using for loading custom tiles\r\n\r\n                        mapView.getOverlays().clear();\r\n\t\t\tmProvider = new MapTileProviderBasic(getActivity().getApplicationContext());\r\n\t\t\tmProvider.setTileSource(TileSourceFactory.FIETS_OVERLAY_NL);\r\n\t\t\tmTilesOverlay = new GoogleTilesOverlay(mProvider,getActivity().getApplicationContext());\r\n\t\t\tmTilesOverlay.setUseDataConnection(false);\r\n\t\t\tmTilesOverlay.useDataConnection();\r\n\t\t\tmapView.getOverlays().add(mTilesOverlay);\r\n",
+    "timestamp" : 1331913976,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4098436938546237008,
+    "content" : "The code below shows how I use this. I do use a dataconnection however.\r\nThis works well for me, except for issue 326.\r\n\r\n==========\r\n\tpublic static final OnlineTileSourceBase FIETS_OVERLAY_NL = new XYTileSource(\"Fiets\",\r\n\t\t\tnull, 3, 18, 256, \".png\",\r\n\t\t\t\"http://overlay.openstreetmap.nl/openfietskaart-overlay/\");\r\n\r\n\t@Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.main);\r\n\r\n\t\t// Google map base layer\r\n        this.mapView = (MapView) findViewById(R.id.mapview);\r\n\t\tthis.mapView.setBuiltInZoomControls(true);\r\n\t\tthis.mapController = mapView.getController();\r\n\r\n\t    // Add tiles layer\r\n\t\tthis.mProvider = new MapTileProviderBasic(getApplicationContext());\r\n\t\tthis.mProvider.setTileSource(FIETS_OVERLAY_NL);\r\n\t\tthis.mTilesOverlay = new GoogleTilesOverlay(this.mProvider, this.getBaseContext());\r\n\t\tthis.mapView.getOverlays().add(0, this.mTilesOverlay);\r\n\t\tthis.mapView.invalidate();\r\n\t}\r\n==========",
+    "timestamp" : 1332701821,
+    "attachments" : [ ]
+  } ]
+}03d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d","timestamp":1332701821,"attachments":[]}]}

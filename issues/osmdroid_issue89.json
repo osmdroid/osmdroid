@@ -1,0 +1,75 @@
+{
+  "id" : 89,
+  "status" : "Fixed",
+  "summary" : "Map center is changed to initial location if I'm trying to zoom in far from it.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Start osmdroid app from Android Market (2.0 version)\r\n2. Press &quot;Menu -&gt; My Location&quot;. Your location will be found (place #1).\r\n3. Using zoom buttons and map panning go to any other place far from your location.\r\n4. Try to zoom in at this place (#2) (up to 18th zoom level).\r\nExpected: map center is still the same (place #2).\r\nActual: map is centered on you initial location (from step 2).\r\n",
+    "timestamp" : 1284394727,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I couldn't reproduce this with the latest version. The Market version is pretty old.",
+    "timestamp" : 1284450113,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3456884467250674452,
+    "content" : "Reproducible in revision 354 of OpenStreetMapViewer (revision 356 of osmdroid-android).\r\n\r\nSteps:\r\n1. Start the application.\r\n2. Find your location (e.g. Kyiv, Ukraine).\r\n3. Zoom in at your location up to 18th zoom level.\r\n4. Zoom out to 2nd zoom level.\r\n5. Center the map on some other place in other country (e.g. London, UK).\r\n6. Zoom in up to to 12th zoom level.\r\nExpected result: London is displayed on the map.\r\nActual result: During zoom in from 11th to 12th zoom level map center is moved to original location (Kyiv, Ukraine).",
+    "timestamp" : 1284454696,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 3456884467250674452,
+    "content" : "Comment deleted",
+    "timestamp" : 1284456872,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3456884467250674452,
+    "content" : "Video is available here: http://www.youtube.com/watch?v=0skh1lbLQC8",
+    "timestamp" : 1284456907,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284460738,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "The reason is because MyLocationOverlay.onSnapToItem is returning true in this case.\r\n\r\nNow I just have to figure out why it shouldn't be.",
+    "timestamp" : 1284462338,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm not sure. Maybe I should check for mFollow, but actually I can't think of any reason why MyLocationOverlay needs to implement Snappable at all.",
+    "timestamp" : 1284463980,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Checking for mFollow seems to work.\r\nBut can anyone tell me why MyLocationOverlay implements Snappable?\r\nMaybe you could use Snappable instead of manually moving in onLocationUpdate, but it does that as well.",
+    "timestamp" : 1284994132,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 2473213968216721319,
+    "content" : "I came across this problem and it occurs due to an integer overflow.\r\nFollowing in MyLocationOverlay.java fixes problem.\r\n\r\n\r\n\t@Override\r\n\tpublic boolean onSnapToItem(int x, int y, Point snapPoint, OpenStreetMapView mapView) {\r\n\t\tif(this.mLocation != null) {\r\n\t\t\tfinal OpenStreetMapViewProjection pj = mapView.getProjection();\r\n\t\t\tpj.toMapPixels(new GeoPoint(mLocation), mMapCoords);\r\n\t\t\tsnapPoint.x = mMapCoords.x;\r\n\t\t\tsnapPoint.y = mMapCoords.y;\r\n\r\n\t\t\tdouble xDiff = (x - mMapCoords.x);\r\n\t\t\tdouble yDiff = (y - mMapCoords.y);\r\n\t\t\tboolean snap = xDiff *xDiff + yDiff *yDiff < 64.0;\r\n            if (DEBUGMODE) {\r\n                logger.debug(\"snap=\" + snap);\r\n        }\r\n\r\n\t\t\treturn snap;\r\n\t\t} else {\r\n\t\t\treturn false;\r\n\t\t}\r\n\t}\r\n",
+    "timestamp" : 1286200833,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Fixed in revision 405.",
+    "timestamp" : 1286514460,
+    "attachments" : [ ]
+  } ]
+}

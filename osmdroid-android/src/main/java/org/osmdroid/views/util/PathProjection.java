@@ -2,7 +2,7 @@ package org.osmdroid.views.util;
 
 import java.util.List;
 
-import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.Projection;
@@ -31,7 +31,7 @@ public class PathProjection {
 		boolean first = true;
 		for (final GeoPoint gp : in) {
 			final Point underGeopointTileCoords = TileSystem.LatLongToPixelXY(
-					gp.getLatitudeE6() / 1E6, gp.getLongitudeE6() / 1E6, projection.getZoomLevel(),
+					gp.getLatitude(), gp.getLongitude(), projection.getZoomLevel(),
 					null);
 			TileSystem.PixelXYToTileXY(underGeopointTileCoords.x, underGeopointTileCoords.y,
 					underGeopointTileCoords);
@@ -48,19 +48,19 @@ public class PathProjection {
 					projection.getZoomLevel(), null);
 			final GeoPoint swGeoPoint = TileSystem.PixelXYToLatLong(lowerLeft.x, lowerLeft.y,
 					projection.getZoomLevel(), null);
-			final BoundingBoxE6 bb = new BoundingBoxE6(neGeoPoint.getLatitudeE6(),
-					neGeoPoint.getLongitudeE6(), swGeoPoint.getLatitudeE6(),
-					swGeoPoint.getLongitudeE6());
+			final BoundingBox bb = new BoundingBox(neGeoPoint.getLatitude(),
+					neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
+					swGeoPoint.getLongitude());
 
 			final PointF relativePositionInCenterMapTile;
 			if (doGudermann && (projection.getZoomLevel() < 7)) {
 				relativePositionInCenterMapTile = bb
 						.getRelativePositionOfGeoPointInBoundingBoxWithExactGudermannInterpolation(
-								gp.getLatitudeE6(), gp.getLongitudeE6(), null);
+								gp.getLatitude(), gp.getLongitude(), null);
 			} else {
 				relativePositionInCenterMapTile = bb
 						.getRelativePositionOfGeoPointInBoundingBoxWithLinearInterpolation(
-								gp.getLatitudeE6(), gp.getLongitudeE6(), null);
+								gp.getLatitude(), gp.getLongitude(), null);
 			}
 
 			final Rect screenRect = projection.getScreenRect();

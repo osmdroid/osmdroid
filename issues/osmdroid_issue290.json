@@ -1,0 +1,27 @@
+{
+  "id" : 290,
+  "status" : "New",
+  "summary" : "zoom-in zoom-out lag in osmdroid 3.0.6 jar",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3228902924970999842,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Download tiles for a region using mobac for zoom-level 12-15 and copy in sd card\r\n2. use zoom in starting from level 12\r\n3. use zoom out starting from level 15\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nexpected output: smooth zooming capability\r\nactual result: lagging zoom-in zoom-out, sometimes blank tiles(while zooming out) despite tiles being on the sd card \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.6 jar\r\nFedora 12 (emulator) , Android 2.1.1 (device)\r\n\r\n<b>Please provide any additional information below.</b>\ntested on device as well as emulator\r\nIt seems center tile does not zoom in as expected\r\nOnce it is out of focus (i.e user goes to a different location) , the tiles appear to have positioned properly without any lag/distortion\r\n",
+    "timestamp" : 1325660776,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "How is this different to issue 289?",
+    "timestamp" : 1325665743,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3228902924970999842,
+    "content" : "@neilboyd: yes its kind of similar to issue 289 , but this refers to offline mode..happened to see issue 289 after reporting this",
+    "timestamp" : 1325669123,
+    "attachments" : [ ]
+  } ]
+}

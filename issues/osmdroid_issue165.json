@@ -1,0 +1,21 @@
+{
+  "id" : 165,
+  "status" : "Invalid",
+  "summary" : "is it possible to add a WebView as an overlay?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3360656017166821111,
+    "content" : "I'm trying to load a webview as an overlay when tap on marker. Is this possible? \r\n",
+    "timestamp" : 1298473493,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Now that the MapView is a ViewGroup, you can add views that are fixed to a geopoint. If you want to add a View that is fixed to the screen, like a dialog, then put your MapView inside another ViewGroup and add your view to the parent ViewGroup.\r\n\r\nFor further help, please post on the google group or on StackOverflow.",
+    "timestamp" : 1333745318,
+    "attachments" : [ ]
+  } ]
+}

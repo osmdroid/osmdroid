@@ -1,0 +1,21 @@
+{
+  "id" : 91,
+  "status" : "Duplicate",
+  "summary" : "Use network location if GPS location is not available",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6213537561965662483,
+    "content" : "If I use the menu item to got to my location but I'm inside a building it won't work because I don't have a GPS signal. In these cases the network location should be used as a fallback automatically. As soon as GPS becomes available, it should be used.",
+    "timestamp" : 1284671369,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284699989,
+    "attachments" : [ ]
+  } ]
+}

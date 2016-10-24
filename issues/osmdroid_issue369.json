@@ -1,0 +1,21 @@
+{
+  "id" : 369,
+  "status" : "Fixed",
+  "summary" : "Optimizations for MyLocationOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The MyLocationOverlay can be optimized to reduce wasted CPU cycles. Two things jump out:\r\n\r\n 1. We are invalidating the entire maps on every location update. We should only invalidate the little man icon and the accuracy circle (if enabled).\r\n 2. We are calculating coordinates on every draw cycle. We should calculate this once and store the MAX_ZOOM x,y coordinates and shift down to the appropriate zoom level.\r\n\r\nThis will give us back a very nice slice of CPU!",
+    "timestamp" : 1347559514,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1121.",
+    "timestamp" : 1347570952,
+    "attachments" : [ ]
+  } ]
+}

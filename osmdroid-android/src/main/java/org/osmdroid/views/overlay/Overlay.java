@@ -3,8 +3,6 @@ package org.osmdroid.views.overlay;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.util.constants.OverlayConstants;
@@ -19,14 +17,17 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 
 /**
- * Base class representing an overlay which may be displayed on top of a {@link MapView}. To add an
- * overlay, subclass this class, create an instance, and add it to the list obtained from
+ * {@link Overlay}: Base class representing an overlay which may be displayed on top of a {@link MapView}.
+ *
+ * To add an overlay, subclass this class, create an instance, and add it to the list obtained from
  * getOverlays() of {@link MapView}.
  *
  * This class implements a form of Gesture Handling similar to
  * {@link android.view.GestureDetector.SimpleOnGestureListener} and
  * {@link GestureDetector.OnGestureListener}. The difference is there is an additional argument for
  * the item.
+ *
+ * <img alt="Class diagram around Marker class" width="686" height="413" src='./doc-files/marker-classes.png' />
  *
  * @author Nicolas Gramlich
  */
@@ -46,8 +47,6 @@ public abstract class Overlay implements OverlayConstants {
 	// Fields
 	// ===========================================================
 
-	protected final ResourceProxy mResourceProxy;
-	protected final float mScale;
 	private static final Rect mRect = new Rect();
 	private boolean mEnabled = true;
 
@@ -55,14 +54,12 @@ public abstract class Overlay implements OverlayConstants {
 	// Constructors
 	// ===========================================================
 
+	/** Use {@link #Overlay()} instead */
+	@Deprecated
 	public Overlay(final Context ctx) {
-		mResourceProxy = new DefaultResourceProxyImpl(ctx);
-		mScale = ctx.getResources().getDisplayMetrics().density;
 	}
 
-	public Overlay(final ResourceProxy pResourceProxy) {
-		mResourceProxy = pResourceProxy;
-		mScale = mResourceProxy.getDisplayMetrics().density;
+	public Overlay() {
 	}
 
 	// ===========================================================

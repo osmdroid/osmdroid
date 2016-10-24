@@ -1,0 +1,21 @@
+{
+  "id" : 538,
+  "status" : "New",
+  "summary" : "minimap rotating error",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6050106222126454683,
+    "content" : "When you rotate the map, minimap overlay is rotating also.\r\nI think is a good idea that minimap overlay remain fixed, and only map inside this to be rotated.",
+    "timestamp" : 1399126575,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1399459229,
+    "attachments" : [ ]
+  } ]
+}

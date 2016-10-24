@@ -1,0 +1,21 @@
+{
+  "id" : 469,
+  "status" : "Duplicate",
+  "summary" : "Scale-up zoom on high resolution devices",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -679817301774271976,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Open a map with a high resolution device (like HTC ONE)\r\n2. Zoom in at the maximum Zoomlevel of the tilesource (Online Tile Source, pngs, mapnik)\r\n3. We can't read the names of some locations because they are so small.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nIt should be possible to zoom in, when we reached the maximum zoomlevel of the Tile Source, tiles should be loaded from the previous zoomlevel and scaled up.",
+    "timestamp" : 1377280722,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1377291393,
+    "attachments" : [ ]
+  } ]
+}

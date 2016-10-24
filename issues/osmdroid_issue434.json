@@ -1,0 +1,27 @@
+{
+  "id" : 434,
+  "status" : "Invalid",
+  "summary" : "How to jar in osmdroid-android 3.0.10 / 3-0-11-SNAPSHOT",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -677229063697428591,
+    "content" : "Hello,\r\n\r\nI need to generate (compiling and run) the.jar of latest version of osmdroid code  (http://osmdroid.googlecode.com/svn/trunk/ osmdroid-android) for testing and create an application with the library. How to can do it, there is no product build-jar.xml, now there build.gradle and I can't follow this wiki https://code.google.com/p/osmdroid/wiki/HowToEclipse  \r\n\r\nSorry for my english, and thanks for all.\r\n\r\nRegards",
+    "timestamp" : 1369818061,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "https://code.google.com/p/osmdroid/wiki/HowToMaven\r\n\r\nLook at how to build using Eclipse.. ",
+    "timestamp" : 1369831916,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1370959684,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 75,
+  "status" : "Fixed",
+  "summary" : "CloudMade token doesn't change",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "The CloudMade token doesn't change:\r\nhttp://support.cloudmade.com/answers/api-keys-and-authentication\r\n&quot;you will always get the same token for the unique user id&quot;\r\n\r\nSo we could persist the user id and CloudMade token, and so long as the user id hasn't changed then we can use the same CloudMade token.  This will improve startup time.\r\n",
+    "timestamp" : 1279809634,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r684.",
+    "timestamp" : 1294329267,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 293,
+  "status" : "Fixed",
+  "summary" : "Circle size not consistent with ScaleBarOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8431221861647762040,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Import the attached demo project into Eclipse, launch. Enter half of what the scale bar shows.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe resulting circle's diameter should match the length of the scale bar. Instead, the circle is much smaller.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI'm using a patched version of osmdroid (jar included), the patch's only change being changing a method of ScaleBarOverlay from private to protected to show the actual length in meters.",
+    "timestamp" : 1325932850,
+    "attachments" : [ {
+      "id" : 2930000000,
+      "fileName" : "CircleDemo.zip",
+      "fileSize" : 590195
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had a look and I think the code to draw the circle is wrong. The scale bar seems to be correct. I realise you copied that code from MyLocationOverlay, which means that code is wrong. I think MyLocationOverlay uses the distance at the equator, whereas ScaleBarOverlay uses the distance at your location. Perhaps you'd like to submit a patch for MyLocationOverlay :-)",
+    "timestamp" : 1325972935,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Comment deleted",
+    "timestamp" : 1325973649,
+    "attachments" : [ {
+      "id" : 2930002000,
+      "fileName" : "issue293.patch",
+      "fileSize" : 1021
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Actually I've done it myself ;-)\r\n\r\nIn your code, change calculation of actualRadius :\r\nfloat actualRadius = radius / (float) TileSystem.GroundResolution(location.getLatitude(), mapView.getZoomLevel());\r\n",
+    "timestamp" : 1325973729,
+    "attachments" : [ {
+      "id" : 2930003000,
+      "fileName" : "issue293.patch",
+      "fileSize" : 1021
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1033.",
+    "timestamp" : 1326398940,
+    "attachments" : [ ]
+  } ]
+}

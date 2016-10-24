@@ -1,0 +1,33 @@
+{
+  "id" : 206,
+  "status" : "WontFix",
+  "summary" : "Overlay.onDraw() + Picture.beginRecording() impossible",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 196228236604470580,
+    "content" : "I've found it impossible to use the Picture class in the Overlay onDraw method.\r\nIn many cases it can improve performance quite a bit to draw a single picture object instead of doing all canvas operations in sequence.\r\n\r\nWhile it is of course possible to draw a picture on the canvas the coordinates make it impossible to use the feature.\r\n\r\nPicture.beginRecording requires (WIDTH and HEIGHT).\r\nBut the canvas has virtual coordinates ranging from \r\nx=-127,y=-127 (zooomed out) up to x=2419227,y=-10183099  (zoomed in)\r\n\r\n\r\nAlmost all coordinates resolve to an X or an Y coordinate with a negative number.\r\nThe only coordinates that I found reachable using the Picture method are close to Africa, those coordinates translate into positive numbers.\r\n\r\nMaybe there is some solution, I've been talking to various people and trying to find one for quite a while and was not successful.\r\nThe negative pixel coordinates make it impossible to draw using a Picture class. (and probably several other classes will fail the same way)",
+    "timestamp" : 1302959170,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Use pMapView.getProkjection().getScreenRect() to get the current coordinates that are on the screen. If you want to draw something at 50,50 the code would be\r\n\r\nint x = screenRect.top + 50\r\nint y = screenRect.left + 50",
+    "timestamp" : 1305051013,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 196228236604470580,
+    "content" : "\r\nThe issue is when drawing on the MAP not on the screen, so you need map-relative coordinates which are incompatible with Picture because of the huge range and offsets.\r\nI guess it's just impossible by design, I solved it by creating an image instead of a Picture and using matrix transformations to place it on the map.",
+    "timestamp" : 1305102285,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1305502325,
+    "attachments" : [ ]
+  } ]
+}

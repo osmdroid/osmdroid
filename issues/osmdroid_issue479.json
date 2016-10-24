@@ -1,0 +1,27 @@
+{
+  "id" : 479,
+  "status" : "Fixed",
+  "summary" : "Remove calls to getScaleX()/getScaleY() in SafeDrawOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "In SafeDrawOverlay when we translate the coordinates, we use getScaleX/Y(). I don't know what the original intention was for this, but it is unnecessary. Since we don't call setScaleX/Y() on the view, the getter will always return 1. We should remove that and just use the regular canvas.translate() which works in all APIs.",
+    "timestamp" : 1379084185,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1379084198,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1438.",
+    "timestamp" : 1393448076,
+    "attachments" : [ ]
+  } ]
+}

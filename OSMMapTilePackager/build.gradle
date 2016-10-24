@@ -1,15 +1,18 @@
+description = "A tool to package OpenStreetMap tiles"
 apply plugin: 'java'
 apply plugin: 'distribution'
 apply plugin: 'application'
+apply plugin: 'maven'
 
 mainClassName = "org.osmdroid.mtp.OSMMapTilePackager"
 
 dependencies {
     compile 'org.apache.httpcomponents:httpmime:4.0.1'
     compile 'org.apache.james:apache-mime4j:0.6'
+    compile 'org.xerial:sqlite-jdbc:3.7.2'
 
 
-    testCompile 'junit:junit:4.11'
+    testCompile "junit:junit:${project.property('junit.version')}"
 }
 
 //copy the instrumentation tests from the maven osmdroid-android-it src folder
@@ -25,7 +28,7 @@ task preBuildTask2(type: Copy) {
     println("copying GEMF sources");
     description 'copy java classes from osmdroid-android.'
     from("${rootDir}/osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java")
-    into "src/main/java/org/osmdroid/tileprovider/util/"
+    into "src/main/java/org/osmdroid/util/"
 
 }
 

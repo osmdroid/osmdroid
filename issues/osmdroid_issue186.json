@@ -1,0 +1,25 @@
+{
+  "id" : 186,
+  "status" : "Fixed",
+  "summary" : "toMapPixels does not use new IGeoPoint",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1599835799564921388,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. using MapView.Projection.toMapPixels with a GeoPoint extending IGeoPoint\r\n\r\nI have appended a minimalistic patch which changes the GeoPoint parameter of toMapPixels to the IGeoPoint interface",
+    "timestamp" : 1300460283,
+    "attachments" : [ {
+      "id" : -9121179472314063883,
+      "fileName" : "MapViewProjectionGeoPointPatch.patch",
+      "fileSize" : 1031
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r886.",
+    "timestamp" : 1300510498,
+    "attachments" : [ ]
+  } ]
+}

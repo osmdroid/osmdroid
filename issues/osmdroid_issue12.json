@@ -1,0 +1,67 @@
+{
+  "id" : 12,
+  "status" : "Fixed",
+  "summary" : "Adding support for other tiling engines e.g. Bing Maps",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 9,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5268921252605693890,
+    "content" : "It is difficult to add support for other tiling engines as the\r\nOpenStreetMapRendererInfo is an enum could it be an interface perhaps?\r\n\r\nHere is how to add support for Bing Maps by hacking the\r\nOpenStreetMapRendererInfo directly\r\n\r\npackage org.andnav.osm.views.util;\r\n\r\nimport org.andnav.osm.views.util.constants.OpenStreetMapViewConstants;\r\n\r\n/**\r\n *\r\n * @author Nicolas Gramlich\r\n *\r\n */\r\npublic enum OpenStreetMapRendererInfo {\r\n    OSMARENDER(&quot;http://tah.openstreetmap.org/Tiles/tile/&quot;, &quot;OsmaRender&quot;,\r\n            &quot;.png&quot;, 17, 8), MAPNIK(&quot;http://tile.openstreetmap.org/&quot;, &quot;Mapnik&quot;,\r\n            &quot;.png&quot;, 18, 8), CYCLEMAP(\r\n            &quot;http://b.andy.sandbox.cloudmade.com/tiles/cycle/&quot;, &quot;Cycle Map&quot;,\r\n            &quot;.png&quot;, 17, 8), OPENARIELMAP(\r\n            &quot;http://tile.openaerialmap.org/tiles/1.0.0/openaerialmap-900913/&quot;,\r\n            &quot;OpenArialMap (Satellite)&quot;, &quot;.jpg&quot;, 13, 8), CLOUDMADESMALLTILES(\r\n            &quot;http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/64/&quot;,\r\n            &quot;Cloudmade (Small tiles)&quot;, &quot;.jpg&quot;, 13, 6), CLOUDMADESTANDARDTILES(\r\n           \r\n&quot;http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/&quot;,\r\n            &quot;Cloudmade (Standard tiles)&quot;, &quot;.jpg&quot;, 18, 8), VIRTUALEARTHROADS(\r\n            &quot;http://r2.ortho.tiles.virtualearth.net/tiles/r&quot;, &quot;VE ROADS&quot;,\r\n            &quot;.png?g=2&quot;, 18, 8, true), VIRTUALEARTHHYBRID(\r\n            &quot;http://r2.ortho.tiles.virtualearth.net/tiles/h&quot;, &quot;VE ARIAL+ROADS&quot;,\r\n            &quot;.png?g=2&quot;, 18, 8, true), VIRTUALEARTHARIAL(\r\n            &quot;http://r2.ortho.tiles.virtualearth.net/tiles/a&quot;, &quot;VE ARIAL&quot;,\r\n            &quot;.png?g=2&quot;, 18, 8, true);\r\n\r\n    // ===========================================================\r\n    // Fields\r\n    // ===========================================================\r\n\r\n    public final String BASEURL, NAME, IMAGE_FILENAMEENDING;\r\n    public final int ZOOM_MAXLEVEL, MAPTILE_ZOOM, MAPTILE_SIZEPX;\r\n    private boolean quadKeyBased = false;\r\n\r\n    // ===========================================================\r\n    // Constructors\r\n    // ===========================================================\r\n\r\n    private OpenStreetMapRendererInfo(final String aBaseUrl,\r\n            final String aName, final String aImageFilenameEnding,\r\n            final int aZoomMax, final int aTileZoom) {\r\n        this.BASEURL = aBaseUrl;\r\n        this.NAME = aName;\r\n        this.ZOOM_MAXLEVEL = aZoomMax;\r\n        this.IMAGE_FILENAMEENDING = aImageFilenameEnding;\r\n        this.MAPTILE_ZOOM = aTileZoom;\r\n        this.MAPTILE_SIZEPX = 1 &lt;&lt; aTileZoom;\r\n    }\r\n\r\n    public static OpenStreetMapRendererInfo getDefault() {\r\n        return MAPNIK;\r\n    }\r\n\r\n    // ===========================================================\r\n    // Methods\r\n    // ===========================================================\r\n\r\n    public String getTileURLString(final int[] tileID, final int zoomLevel) {\r\n        if (!quadKeyBased)\r\n            return new StringBuilder()\r\n                    .append(this.BASEURL)\r\n                    .append(zoomLevel)\r\n                    .append(&quot;/&quot;)\r\n                    .append(\r\n                           \r\ntileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX])\r\n                    .append(&quot;/&quot;)\r\n                    .append(\r\n                           \r\ntileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX])\r\n                    .append(this.IMAGE_FILENAMEENDING).toString();\r\n        else\r\n            return new StringBuilder()\r\n                    .append(BASEURL)\r\n                    .append(\r\n                            quadTree(\r\n                                   \r\ntileID[OpenStreetMapViewConstants.MAPTILE_LONGITUDE_INDEX],\r\n                                   \r\ntileID[OpenStreetMapViewConstants.MAPTILE_LATITUDE_INDEX],\r\n\r\n                                    zoomLevel)).append(IMAGE_FILENAMEENDING)\r\n                    .toString();\r\n    }\r\n\r\n    private OpenStreetMapRendererInfo(final String aBaseUrl,\r\n            final String aName, final String aImageFilenameEnding,\r\n            final int aZoomMax, final int aTileZoom, boolean qkeyBased) {\r\n        this.BASEURL = aBaseUrl;\r\n        this.NAME = aName;\r\n        this.ZOOM_MAXLEVEL = aZoomMax;\r\n        this.IMAGE_FILENAMEENDING = aImageFilenameEnding;\r\n        this.MAPTILE_ZOOM = aTileZoom;\r\n        this.MAPTILE_SIZEPX = 1 &lt;&lt; aTileZoom;\r\n        quadKeyBased = qkeyBased;\r\n    }\r\n\r\n    private String quadTree(int tx, int ty, int zoom) {\r\n        // &quot;Converts TMS tile coordinates to Microsoft QuadTree&quot;\r\n        StringBuilder quadKey = new StringBuilder();\r\n        // ty = (((int) Math.pow(2, zoom) - 1)) - ty;\r\n        // for (int i = 1; i &lt; zoom; i++) {// in range(zoom, 0, -1):\r\n        for (int i = zoom; i &gt; 0; i--) {\r\n            int digit = 0;\r\n            int mask = 1 &lt;&lt; (i - 1);\r\n            if ((tx &amp; mask) != 0)\r\n                digit += 1;\r\n            if ((ty &amp; mask) != 0)\r\n                digit += 2;\r\n            quadKey.append(&quot;&quot; + digit);\r\n        }\r\n\r\n        return quadKey.toString();\r\n    }\r\n}\r\n",
+    "timestamp" : 1257161098,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -6841996376054177083,
+    "content" : "Is it legal to display VE images in other applications? For google tiles it's not, so\r\nI won't include it in the official code.",
+    "timestamp" : 1257596512,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5235018905517159239,
+    "content" : "MapCruncher can produce Quadkey-organized tiles from any data source, without using VE \r\nimages, so if you can build in support for generic URLs passing the quadkey as part of \r\nthe URL for the tile, that would allow custom maps created by MapCruncher.",
+    "timestamp" : 1257650785,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -5268921252605693890,
+    "content" : "The Bing Map legal terms are here http://www.microsoft.com/maps/product/terms.html\r\n\r\nThe terms for Non-commercial use:\r\n\r\nRestrictions on your use: We do have some restrictions on your use of the service.\r\nYou may not:\r\n\r\n    * copy, store, archive, or create a database of the content, except that geocodes\r\nmay be stored locally only for use with your Applications;\r\n    * exceed 50,000 geocoding transactions in any 24 hour period;\r\n    * download more than 250 points of interest at any one time;\r\n    * provide guidance based on the position or routing of multiple objects tracked\r\nusing GPS or other sensor-generated methods;\r\n    * present or alert an end user to individual maneuvers of a route in any way that\r\nis synchronized with the end-user’s sensor-based position along the route, (e.g.\r\n“real-time” navigation);\r\n    * change, obscure or remove any portion of the results (including, without\r\nlimitation, any logo, trademark, copyright or other notice of Microsoft or its\r\nsuppliers, digital watermarks, or any advertisement);\r\n    * integrate the Bing Maps for Enterprise Platform or any of its content with any\r\nother mapping platform.\r\n",
+    "timestamp" : 1257670996,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -6841996376054177083,
+    "content" : "I have included the quadTree support but not the VE URLs. In future the info will not\r\nbe stored in an enum but in a sqlite database. Users can then supply their own schemes.",
+    "timestamp" : 1257677666,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -6796225531243314910,
+    "content" : "It is possible to support Bing Map only extending the OnlineTileSourceBase class (and implementing IStyledTileSource) in order to use Bing Map REST, the use the setTileSource method of the MapView to switch on this tile source.",
+    "timestamp" : 1302614921,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've spent the last week or so struggling to incorporate Bing Maps, but without success.  There are some similarities in the API, but not enough to make it really compatible with osmdroid/Google.\r\nhttp://bingmapsandroidsdk.codeplex.com/\r\n",
+    "timestamp" : 1302671866,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -6796225531243314910,
+    "content" : "This is code to support Bing Map.\r\nIt is not integrated to the lib but it should be included in your project or additional lib.\r\nThis is a sample use:\r\n\r\n// init the BingMapTileSource\r\n        try\r\n        {\r\n        \tBingMapTileSource.initMetaData(BING_MAP_KEY);\r\n        }\r\n        catch(Exception e)\r\n        {\r\n        \tLog.e(TAG, e.getMessage());\r\n        }\r\n        \r\n        // create an instance of BingMapTileSource using French labels\r\n        BingMapTileSource tileSource = new BingMapTileSource(\"BingMap\",\"en-US\");\r\n        mapView.setTileSource(tileSource);\r\n        ((IStyledTileSource) mapView.getTileProvider().getTileSource()).setStyle(BingMapTileSource.IMAGERYSET_ROAD);",
+    "timestamp" : 1309863095,
+    "attachments" : [ {
+      "id" : 120007000,
+      "fileName" : "tilesource.zip",
+      "fileSize" : 5660
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thank's for this patch. It seems you've used the tiles directly rather than using the SDK.\r\n\r\nPlease do not add any more comments to this issue and use issue 236 instead.\r\n\r\nA couple of comments (t ocarry forward to issue 236):\r\n\r\n1. You could get the key from the manifest the same as the CloudMade key.\r\n2. How does this fit with the Bing license?\r\n3. Couldn't you extend QuadTreeTileSource instead of OnlineTileSourceBase?",
+    "timestamp" : 1309866009,
+    "attachments" : [ ]
+  } ]
+}MapView to switch on this tile source.","timestamp":1302614921,"attachments":[]},{"id":6,"commenterId":8937367184059112911,"content":"I\u0027ve spent the last week or so struggling to incorporate Bing Maps, but without success.  There are some similarities in the API, but not enough to make it really compatible with osmdroid/Google.\r\nhttp://bingmapsandroidsdk.codeplex.com/\r\n","timestamp":1302671866,"attachments":[]},{"id":7,"commenterId":-6796225531243314910,"content":"This is code to support Bing Map.\r\nIt is not integrated to the lib but it should be included in your project or additional lib.\r\nThis is a sample use:\r\n\r\n// init the BingMapTileSource\r\n        try\r\n        {\r\n        \tBingMapTileSource.initMetaData(BING_MAP_KEY);\r\n        }\r\n        catch(Exception e)\r\n        {\r\n        \tLog.e(TAG, e.getMessage());\r\n        }\r\n        \r\n        // create an instance of BingMapTileSource using French labels\r\n        BingMapTileSource tileSource \u003d new BingMapTileSource(\"BingMap\",\"en-US\");\r\n        mapView.setTileSource(tileSource);\r\n        ((IStyledTileSource) mapView.getTileProvider().getTileSource()).setStyle(BingMapTileSource.IMAGERYSET_ROAD);","timestamp":1309863095,"attachments":[{"id":120007000,"fileName":"tilesource.zip","fileSize":5660}]},{"id":8,"commenterId":8937367184059112911,"content":"Thank\u0027s for this patch. It seems you\u0027ve used the tiles directly rather than using the SDK.\r\n\r\nPlease do not add any more comments to this issue and use issue 236 instead.\r\n\r\nA couple of comments (t ocarry forward to issue 236):\r\n\r\n1. You could get the key from the manifest the same as the CloudMade key.\r\n2. How does this fit with the Bing license?\r\n3. Couldn\u0027t you extend QuadTreeTileSource instead of OnlineTileSourceBase?","timestamp":1309866009,"attachments":[]}]}

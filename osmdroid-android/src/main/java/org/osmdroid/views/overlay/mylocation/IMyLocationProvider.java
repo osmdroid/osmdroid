@@ -8,4 +8,6 @@ public interface IMyLocationProvider {
 	void stopLocationProvider();
 
 	Location getLastKnownLocation();
+
+	void destroy();
 }

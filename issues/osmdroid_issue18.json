@@ -1,0 +1,27 @@
+{
+  "id" : 18,
+  "status" : "Fixed",
+  "summary" : "If you enable MyLocationOverlay, disable it, and then enable again, the second enable doesn't work.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Fix:\r\nMyLocationOverlay.disableMyLocation() should set mMyLocationEnabled to false.\r\n",
+    "timestamp" : 1267176132,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1267777272,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r99.",
+    "timestamp" : 1267997180,
+    "attachments" : [ ]
+  } ]
+}

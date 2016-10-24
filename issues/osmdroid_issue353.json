@@ -1,0 +1,39 @@
+{
+  "id" : 353,
+  "status" : "Duplicate",
+  "summary" : "OutOfMemory when loading Tiles from Network or Cache",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9200719187243595555,
+    "content" : "When Running OSMDROID on low Performance Phones with small RAM like HTC Wildfire i get OutOfMemory Exceptions and some tiles wont be displayed.\r\nIt seems that the Bitmap Memory runns full on all Android 2.x Devices.\r\n\r\nThe error hits also Android 4.x Devices but without Exceptions in the Log. All Tiles are loaded from Network or the inside osm cache.\r\n\r\nI know that my App consume some dalvik-heap memory and bitmap memory too. But maybe how that can be optimized in OSM-DROID ?\r\n\r\nSometimes the erro occures and sometimes not. When i change zomm level the tiles lower could be loaded. I will try to append an Example Tomorrow.\r\n\r\nUsing OSM-DROID Repository Version r1103.\r\n",
+    "timestamp" : 1340898252,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Let's try not to make too many OOME issues",
+    "timestamp" : 1340953567,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 9200719187243595555,
+    "content" : "I have done some little improvements and now fixed the OOME Problem.\r\n\r\nChanges if done:\r\nClass MapTileProviderBase Inner class ZoomInTileLooper and ZoomOutTileLooper Method handleTile()\r\n\r\nThe Line were the Bitmap will be created, i changed the BitMap Config.\r\nBitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.RGB_565); //  // KMT EXTENSION ARGB_8888 \r\n\r\nNext Improvement: Class BitmapTileSourceBase.getDrawable(...) both Methods\r\n\r\nfinal BitmapFactory.Options options = new BitmapFactory.Options(); // KMT EXTENSION\r\noptions.inTempStorage = new byte[131072];\t// maybe 32768 is enough\r\nfinal Bitmap bitmap = BitmapFactory.decodeFile(aFilePath, options);\r\n\r\nWith these improvements i had no more OOME on a range of different devices.\r\n\r\nBut there is another Problem.\r\nWhen i Zoom In or Zoom Out it could happen that some tiles wont be shown.\r\nA black tile or an loading tile placeholder will occure but will never disappear.\r\nThis is very frustrating. Sometimes the map has a lot of black tiles.\r\nAnd even when i move arround the map and go back to where a tile was black befor. The same tile will be shown an black.\r\n\r\nI think it could be an caching Problem. Or an error in Zooming In and out.\r\n\r\nAny other Ideas ?\r\n\r\n\r\n\r\n\r\n",
+    "timestamp" : 1342615318,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 9200719187243595555,
+    "content" : "Comment deleted",
+    "timestamp" : 1342615411,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 9200719187243595555,
+    "content" : "Comment deleted",
+    "timestamp" : 1342615561,
+    "attachments" : [ ]
+  } ]
+}

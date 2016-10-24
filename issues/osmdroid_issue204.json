@@ -1,0 +1,75 @@
+{
+  "id" : 204,
+  "status" : "Accepted",
+  "summary" : "MapController animate and setcenter - multiple bugs",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 196228236604470580,
+    "content" : "I've multiple bugs when using animateto:\r\n\r\na) mapController.animateTo(loc_home,AnimationType.EXPONENTIALDECELERATING,255,10000);\r\nThis works but you only see a gray grid. \r\nThat's actually a pretty slow animation and the tiles were all cached.\r\nIt looks like the map is not able to load the tiles before they are displayed and so it shows a gray grid all the time until the animation stops. There should be at least a low resolution image being animated, but a gray grid looks cheap.\r\n\r\nb)\r\nmapController.animateTo(loc_home);\r\nThis does -&gt; nothing &lt;- if setzoom is not called BEFORE issuing the command.\r\n\r\nc)\r\nmapController.animateTo(loc_home,AnimationType.LINEAR);\r\nUsing a linear animation type does nothing, the animation does not start\r\n\r\nd)\r\nmapController.setCenter(loc_home);\r\nif setZoom is not issued before this function call then it does not seem to do anything.",
+    "timestamp" : 1302710353,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 196228236604470580,
+    "content" : "I'd like to add that the animation does actually not even hit the right target.\r\n\r\nExample used:\r\n        \tmapController.setZoom(14);\r\nmapController.animateTo(loc_home,MapController.AnimationType.EXPONENTIALDECELERATING,MapController.ANIMATION_SMOOTHNESS_DEFAULT,1500);\r\n\r\nThis always finds a wrong location, it's \"close\" to the right one but 10-30 km away.\r\n\r\n\r\n\r\n\r\nSame code, same startup etc:\r\nmapController.setZoom(14);\r\nmapController.setCenter(loc_home);\r\n\r\nThis centers on the location correctly.\r\n",
+    "timestamp" : 1302712304,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -2642955872843398937,
+    "content" : "This is related to issue 202. The animateTo causes a call to MapView.setZoomLevel at the end of the animation, and the calculation of the center is wrong when it's zooming in.\r\n\r\nHowever, there are some other issues as well. One would think that setting the zoom level and then animating to a location should result in the same result as visa versa. And with Google Maps it is indeed this case. However, with osmdroid, I've had to reverse all calls to set the Zoom first, then the animateTo. I'm still investigating this.\r\n",
+    "timestamp" : 1303072782,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1303104465,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -4636647203936286308,
+    "content" : "Problem:\r\nIt seems to me that if you call animateTo(p) right at the application launch, it gives me a fairly random location.\r\n\r\nReason may be: \r\nthe animation timeouts as the starting location is random (likely to be 1000+ kms?)\r\n\r\nWorkaround:\r\nWhen I used setCenter(p) instead, it worked ok.\r\n\r\n(The same code worked ok with Google maps, now testing with OSMdroid.)",
+    "timestamp" : 1304515433,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -5638818544010644715,
+    "content" : "Comment deleted",
+    "timestamp" : 1308255754,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This may be related to Issue 230",
+    "timestamp" : 1308255924,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8194040743704784931,
+    "content" : "Have the same problem. But setCenter(geoPoint) doesn't work either. Even with a setZoom call before.",
+    "timestamp" : 1314269534,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8194040743704784931,
+    "content" : "Comment deleted",
+    "timestamp" : 1314269985,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8194040743704784931,
+    "content" : "Haha! Got a pretty ugly workaround:\r\n\r\nnew Handler().postDelayed(new Runnable() {\r\n    @Override\r\n    public void run() {\r\n        mapController.animateTo(geoPoint);\r\n    }\r\n}, 200);\r\n\r\nThis will bypass the initialization time issues. The 200ms works for me, but...",
+    "timestamp" : 1314270039,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -8772658424228745485,
+    "content" : "Have same issues.\r\n\r\nIf i'm using this code\r\n\r\nmapController.animateTo(center);\r\nmapController.zoomToSpan(spanLatDelta, spanLngDelta);\r\n\r\ncenter will be faraway from this point. But if i'll swap lines - everything fine.\r\n\r\nmapController.zoomToSpan(spanLatDelta, spanLngDelta);\r\nmapController.animateTo(center);",
+    "timestamp" : 1327514546,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 526,
+  "status" : "New",
+  "summary" : "Markers are behind map",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 603937806481643587,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. create a custom map\r\n2. add an marker itemized overlay\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nmarkers are behind the map, instead of on top\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n4.1\r\n\r\n<b>Please provide any additional information below.</b>\nandroid 4.4.2\r\n",
+    "timestamp" : 1392407553,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Can you provide any additional information or a screenshot? Can you reproduce this in the OpenStreetMapViewer demo project?\r\n",
+    "timestamp" : 1393531451,
+    "attachments" : [ ]
+  } ]
+}

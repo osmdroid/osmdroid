@@ -1,0 +1,65 @@
+{
+  "id" : 166,
+  "status" : "Fixed",
+  "summary" : "Enhancement: Extend TileSourceFactory with three overlay tile-sources and a method to get an overlay tile-source",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4098436938546237008,
+    "content" : "Extend TileSourceFactory.java\r\n\r\n1) Add three overlay tile-sources:\r\n   - http://overlay.openstreetmap.nl/openfietskaart-ncn/\r\n   - http://overlay.openstreetmap.nl/openfietskaart-rcn/\r\n   - http://overlay.openstreetmap.nl/openfietskaart-lcn/\r\n\r\n2) Add method to retreive an overlay tile source (getOverlayTileSource)\r\n\r\n3) Update tilesource FIETS_OVERLAY_NL: set aZoomMaxLevel to 18 (instead of 16)\r\n\r\n\r\nIn the attached files I performed the requested updates.",
+    "timestamp" : 1298495505,
+    "attachments" : [ {
+      "id" : -4706587930807970425,
+      "fileName" : "TileSourceFactory.java",
+      "fileSize" : 7069
+    }, {
+      "id" : 364214883005633467,
+      "fileName" : "ResourceProxy.java",
+      "fileSize" : 1395
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4098436938546237008,
+    "content" : "I just read this topic about specifying your own tile-source:\r\nhttps://groups.google.com/d/topic/osmdroid/8nkkxd8c3HM/discussion\r\nThis looks good. Is this the way to do it? (What to do with ResourceProxy argument?)\r\n\r\nShould I specify my own tile-source as shown in this discussion, instead of requesting for an enhancement?\r\n\r\nBTW: What's the phylosophy for osmdroid?\r\n- Include 'all' stable public tile-sources?\r\n- Only include a few most used tile-sources?\r\n\r\nRegards,\r\nAlex",
+    "timestamp" : 1298723850,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I changed the max zoom in revision 821.\r\n\r\nI'm not sure about a philosophy. It's nice to have overlays of lots of different types, but these three new ones are very similar to the original fiets overlay, so I'm not sure if it's adding much to osmdroid.  If you're able to use these overlays by just defining them in your own project, perhaps that's the way to go. I'd be interested in other people's opinions though.",
+    "timestamp" : 1298746939,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4098436938546237008,
+    "content" : "The three extra ones indeed are very similar (the original one shows three types of bicycles routes, the three new ones show only one type).\r\n\r\nI will try defining the overlays in my own project. Can I fill in a null for the ResourceProxy argument at the TileSource constructor?",
+    "timestamp" : 1298748635,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4098436938546237008,
+    "content" : "The class XYTileSource is not public. See issue 163. I think this issue should be solved in order to create own tile-sources.",
+    "timestamp" : 1298752701,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 4098436938546237008,
+    "content" : "Specifying an own custom tile source seems to work now (see new added example at OpenStreetMapViewer project).",
+    "timestamp" : 1298762974,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1299251250,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7056757945212054236,
+    "content" : "How do you call the added TileoVerlays ??\r\n",
+    "timestamp" : 1323275896,
+    "attachments" : [ ]
+  } ]
+}

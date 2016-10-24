@@ -1,0 +1,21 @@
+{
+  "id" : 2,
+  "status" : "Fixed",
+  "summary" : "Provide ability to upload saved GPX files",
+  "labels" : [ "Type-Task", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2045842279819876121,
+    "content" : "The new GPX capture tool does not yet upload the traces to the OSM website.",
+    "timestamp" : 1226525019,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2045842279819876121,
+    "content" : "",
+    "timestamp" : 1228324882,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,51 @@
+{
+  "id" : 115,
+  "status" : "Fixed",
+  "summary" : "Add ability to read GEMF archive files.",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Support the GEMF file archive format.  This is a more efficient storage method than zip files.\r\n\r\nSee the discussion thread:\r\nhttp://groups.google.com/group/osmdroid/browse_thread/thread/2b56f7869b1ca87\r\n\r\nAnd the file format description:\r\nhttp://sites.google.com/site/abudden/android-map-store\r\n\r\nChange OpenStreetMapTileFilesystemProvider to read files of this format, using the code in GEMFReader.java.  It can just read the GEMF files in the same way and at the same time as it reads zip files.\r\n\r\nThis can be done similarly but better in the new_tile_request_chain branch.\r\n\r\nOnce this is implemented we can create a patch for Mobile Atlas Creator so that it can create the archives.\r\n",
+    "timestamp" : 1290507996,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I was reading the groups discussion on this - is the GEMF format still slower, or as-fast-as an uncompressed ZIP file? If so, then I'm not sure a proprietary format adds much, but I'm not sure what the status is regarding this.\r\n\r\nAnother alternative would be to use a TAR file, but I'm not sure if TAR files have a header up-front to point to the files in the archive. Without one, it will be very slow to pull a random file.",
+    "timestamp" : 1293721504,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -4165961574177389202,
+    "content" : "The latest results that were captured (using the emulator) were (for a single 'initialise' and 1000 reads with a 248 MB data set):\r\n\r\nZIP File time to \"initialise\" (create the ZipFile instance): 9246 ms\r\nZIP File time to read 1000 copies of the image: 64823 ms\r\nGEMF File time to \"initialise\" (read the GEMF header): 22 ms\r\nGEMF File time to read 1000 copies of the image: 22620 ms.\r\n\r\nOn an HTC Desire, the proportions were similar but the times were shorter (details on the groups discussion).  So the GEMF file is about 500 times faster to load and a bit over twice as fast to read the images (but only on Android: on a PC with Sun's Java, the Zip file is a bit quicker than the GEMF file).\r\n\r\nThe GEMF file also has the advantage of dealing with larger data sets.  The Zip file implementation is limited to 64k files.  The GEMF file has no limit and I've successfully tested it with a 6 GB data set and it seems to work just fine.  I've not done an enormous amount of testing though.  Note that the GEMF file also allows splitting across multiple physical files (section 6 of the file format specification), so this 6 GB data set can be stored on a FAT32 disk despite the 4 GB file size limit.\r\n\r\nAs you say, TAR files are a concatenation of metadata, file, metadata, file etc, so getting to a specific file is time-consuming.  It also uses 512 bytes per file for metadata so isn't that efficient for storing small files.",
+    "timestamp" : 1293734635,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -2727146692173700108,
+    "content" : "Addded GEMF read functionality. GEMF archive creation on the way.",
+    "timestamp" : 1294539662,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -2727146692173700108,
+    "content" : "Added writer functionality to GEMFFile class, and added GEMF file creation to OSMMapTilePackager. Will close issue in a couple of weeks to allow for others to test/use and provide feedback.",
+    "timestamp" : 1294969541,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been implemented and is working correctly.",
+    "timestamp" : 1367456049,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nActually the GEMF (as well the MBTiles) have some issues. You can check:\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=360\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=390\r\n\r\nRegards.",
+    "timestamp" : 1367475009,
+    "attachments" : [ ]
+  } ]
+}

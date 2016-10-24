@@ -1,0 +1,39 @@
+{
+  "id" : 374,
+  "status" : "Accepted",
+  "summary" : "NPE in Canvas after MapView.onAnimationEnd() on Huawei devices",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Unknown. I've received a number of bug reports (ACRA). They all come from Huawei devices (u8150, u8800) on Android 2.2/2.2.1.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8 on Android 2.2/2.2.1\r\n\r\n<b>Please provide any additional information below.</b>\n\r\njava.lang.NullPointerException\r\n at android.graphics.Canvas.&lt;init&gt;(Canvas.java:82)\r\n at org.osmdroid.tileprovider.MapTileProviderBase$ZoomInTileLooper.handleTile(SourceFile:278)\r\n at org.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile(SourceFile:238)\r\nhandleTile\r\n at org.osmdroid.util.TileLooper.loop(SourceFile:36)\r\n                                 initialiseLoop\r\n                                 handleTile\r\n                                 finaliseLoop\r\n at org.osmdroid.tileprovider.MapTileProviderBase.getMapTile(SourceFile:194)\r\n                                                  detach\r\n                                                  rescaleCache\r\n at org.osmdroid.views.MapView.setZoomLevel(SourceFile:345)\r\n at org.osmdroid.views.MapView.onAnimationEnd(SourceFile:911)\r\n at android.view.ViewGroup.finishAnimatingView(ViewGroup.java:3275)\r\n at android.view.ViewGroup.drawChild(ViewGroup.java:1661)\r\n at android.view.ViewGroup.dispatchDraw(ViewGroup.java:1367)\r\n at android.view.ViewGroup.drawChild(ViewGroup.java:1638)\r\n at android.view.ViewGroup.dispatchDraw(ViewGroup.java:1367)\r\n at android.view.View.draw(View.java:6743)\r\n at android.widget.FrameLayout.draw(FrameLayout.java:352)\r\n at android.view.ViewGroup.drawChild(ViewGroup.java:1640)\r\n at android.view.ViewGroup.dispatchDraw(ViewGroup.java:1367)\r\n at android.view.View.draw(View.java:6743)\r\n at android.widget.FrameLayout.draw(FrameLayout.java:352)\r\n at com.android.internal.policy.impl.PhoneWindow$DecorView.draw(PhoneWindow.java:1842)\r\n at android.view.ViewRoot.draw(ViewRoot.java:1407)\r\n at android.view.ViewRoot.performTraversals(ViewRoot.java:1163)\r\n at android.view.ViewRoot.handleMessage(ViewRoot.java:1727)\r\n at android.os.Handler.dispatchMessage(Handler.java:99)\r\n at android.os.Looper.loop(Looper.java:123)\r\n at android.app.ActivityThread.main(ActivityThread.java:4627)\r\n at java.lang.reflect.Method.invokeNative(Native Method)\r\n at java.lang.reflect.Method.invoke(Method.java:521)\r\n at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:868)\r\n at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:626)\r\n at dalvik.system.NativeStart.main(Native Method)\r\n",
+    "timestamp" : 1349754046,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8177012077806897919,
+    "content" : "I had a look at the source code for Canvas and it appears that the passed bitmap is null:\r\n\r\n81  public  [More ...] <a name=\"Canvas.<init>(android.graphics.Bitmap)\" style=\"padding: 0px; margin: 0px; \">Canvas(Bitmap bitmap) {\r\n82    if (!bitmap.isMutable()) {\r\n83      throw new IllegalStateException(\r\n84        \"Immutable bitmap passed to Canvas constructor\");\r\n85    }\r\n\r\n\r\nA look at the calling code suggests that the createBitmap method call in ZoomInTileLooper returns null as Bitmap:\r\n                final Bitmap bitmap = Bitmap.createBitmap(pTileSizePx, pTileSizePx, Bitmap.Config.ARGB_8888);\r\n                final Canvas canvas = new Canvas(bitmap);\r\n\r\nChecking the source for Bitmap this refers to a native method, which might explain why the fault only happens on specific devices:\r\n\r\n  public static Bitmap createBitmap(int width, int height, Config config) {\r\n    Bitmap bm = nativeCreate(null, 0, width, width, height, config.nativeInt, true);\r\n    bm.eraseColor(0);    // start with black/transparent pixels\r\n    return bm;\r\n  }\r\n\r\nBut if the Bitmap returned by createBitmap was null it would fail with a NPE in bm.eraseColor(0). Is it possible that Huawei uses different libraries?\r\n",
+    "timestamp" : 1349754131,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "In the latest source the code has been changed to use Bitmap.Config.RGB_565 instead of Bitmap.Config.ARGB_8888.  It's possible that may help.",
+    "timestamp" : 1349761351,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8177012077806897919,
+    "content" : "I have noticed that change and will post here if it happens again with the changed code.",
+    "timestamp" : 1349765867,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -8177012077806897919,
+    "content" : "This still occurs with Bitmap.Config.RGB_565 - I just got more error reports. Any ideas?",
+    "timestamp" : 1364180010,
+    "attachments" : [ ]
+  } ]
+}

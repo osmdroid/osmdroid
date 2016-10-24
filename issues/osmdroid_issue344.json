@@ -1,0 +1,21 @@
+{
+  "id" : 344,
+  "status" : "New",
+  "summary" : "IProjection unable to translated lon/lat to screen X/Y pixel coordinates",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\nIMapView map = (MapView) findViewById(R.id.myMapView);\r\nIGeoPoint center = map.getMapCenter();\r\nPoint point = map.getProjection().toPixels(center, null);\r\n\r\nThe center contains the lon and lat of the center of the part of the map shown. Bit both point.x and point.y contain values which do not match the screen pixel X and Y coordinates of the center of displayed map.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nI expect the a screen pixel X/Y coordinate to match the location where the lon/lat is rendered.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nosmdroid 3.0.8 / android 4.0.4 Galaxy Nexus\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nBare example of the problem at:\r\nhttps://github.com/rcgroot/osmdroidexample\r\n\r\n\r\n\r\n",
+    "timestamp" : 1337281608,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -7826539035193158730,
+    "content" : "Comment deleted",
+    "timestamp" : 1377586463,
+    "attachments" : [ ]
+  } ]
+}

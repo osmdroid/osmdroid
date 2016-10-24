@@ -1,0 +1,33 @@
+{
+  "id" : 66,
+  "status" : "WontFix",
+  "summary" : "OSMMapTilePackager doesn't work with Cloudmade tiles",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "OSMMapTilePackager only works with CodeScheme.X_Y tile providers.\r\n\r\nIt needs an option to allow it to work with Cloudmade.\r\n\r\nAdd a new parameter -c for the Cloudmade API key.\r\n\r\nThe -u parameter will also need a %s for the API key.  The downloader can get the token and append ?token=TOKEN to the URL.\r\n",
+    "timestamp" : 1277975210,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 50.",
+    "timestamp" : 1277975225,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1284129414,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The OSMMapTilePackager is no longer maintained.",
+    "timestamp" : 1362506125,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,39 @@
+{
+  "id" : 429,
+  "status" : "Fixed",
+  "summary" : "When map is fast scrolling as result of swipe, touching display should stop scrolling",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -5121518593493719730,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Quickly swipe finger across the map, so that it starts automatically scrolling, lift your finger at the end of gesture\r\n2. While the map is still scrolling by itself, put your finger on display\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nMap should stop scrolling in step 2. \r\nInstead map continues to scroll as if I'm not touching it\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1368612676,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This may be as simple as calling mScroller.abortAnimation() in MapViewGestureDetectorListener.onDown(). Give that a try.\r\n\r\nIf that works, we should do it!",
+    "timestamp" : 1368625311,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -5121518593493719730,
+    "content" : "Awesome, it works. I just put it as the first line of onDown(). Thank you very much!\r\n\r\nIn the long it should probably check if the scrolling animation was initiated by user, or was it start programatically.",
+    "timestamp" : 1368627083,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been implemented in r1233. It should only stop if you did a fling and not a call to setMapCenter.",
+    "timestamp" : 1369331087,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1370959652,
+    "attachments" : [ ]
+  } ]
+}

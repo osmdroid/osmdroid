@@ -1,0 +1,181 @@
+{
+  "id" : 346,
+  "status" : "Fixed",
+  "summary" : "Clipping in TileSystem creates problems close to international date line",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 24,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use MapView.getBoundingBox() around the international date line, for example to crop items before drawing them. Make sure the visible screen extends over the date line.\r\n2. Validate the results (logging, etc)\r\n3. The results are widely wrong because of clipping\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe bounding box to work properly.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8\r\n\r\n<b>Please provide any additional information below.</b>\nPixelXYToLatLong (and other methods in TileSystem) clips input points, but instead it should be wrapping them (i.e. 181 -&gt; -179).\r\n\r\nYou could argue that input into these methods should be wrapped/limited already, but doing it here is actually a quite convenient place to do so and makes this class a bit more versatile.\r\n\r\nNew wrap method:\r\n\t/**\r\n\t * Returns a value that lies within &lt;code&gt;minValue&lt;/code&gt; and &lt;code&gt;maxValue&lt;/code&gt; by\r\n\t * subtracting/adding &lt;code&gt;interval&lt;/code&gt;.\r\n\t * \r\n\t * @param n\r\n\t *            the input number\r\n\t * @param minValue\r\n\t *            the minimum value\r\n\t * @param maxValue\r\n\t *            the maximum value\r\n\t * @param interval\r\n\t *            the interval length\r\n\t * @return a value that lies within &lt;code&gt;minValue&lt;/code&gt; and &lt;code&gt;maxValue&lt;/code&gt; by\r\n\t *         subtracting/adding &lt;code&gt;interval&lt;/code&gt;\r\n\t */\r\n\tprivate static double wrap(double n, final double minValue, final double maxValue,\r\n\t\t\tfinal double interval) {\r\n\t\tif (minValue &gt; maxValue)\r\n\t\t\tthrow new IllegalArgumentException(&quot;minValue must be smaller than maxValue: &quot;\r\n\t\t\t\t\t+ minValue + &quot;&gt;&quot; + maxValue);\r\n\t\tif (interval &gt; maxValue - minValue + 1)\r\n\t\t\tthrow new IllegalArgumentException(\r\n\t\t\t\t\t&quot;interval must be equal or smaller than maxValue-minValue: &quot; + &quot;min: &quot;\r\n\t\t\t\t\t\t\t+ minValue + &quot; max:&quot; + maxValue + &quot; int:&quot; + interval);\r\n\t\twhile (n &lt; minValue) {\r\n\t\t\tn += interval;\r\n\t\t}\r\n\t\twhile (n &gt; maxValue) {\r\n\t\t\tn -= interval;\r\n\t\t}\r\n\t\treturn n;\r\n\t}\r\n\r\nEnhanced existing methods:\r\n\tpublic static double GroundResolution(double latitude, final int levelOfDetail) {\r\n\t\tlatitude = Clip(wrap(latitude, -90, 90, 180), MinLatitude, MaxLatitude);\r\n\t\treturn Math.cos(latitude * Math.PI / 180) * 2 * Math.PI * EarthRadius\r\n\t\t\t\t/ MapSize(levelOfDetail);\r\n\t}\r\n\r\n\r\n\tpublic static Point LatLongToPixelXY(double latitude, double longitude,\r\n\t\t\tfinal int levelOfDetail, final Point reuse) {\r\n\t\tfinal Point out = (reuse == null ? new Point() : reuse);\r\n\r\n\t\tlatitude = Clip(wrap(latitude, -90, 90, 180), MinLatitude, MaxLatitude);\r\n\t\tlongitude = wrap(longitude, MinLongitude, MaxLongitude, 360);\r\n\r\n\t\tfinal double x = (longitude + 180) / 360;\r\n\t\tfinal double sinLatitude = Math.sin(latitude * Math.PI / 180);\r\n\t\tfinal double y = 0.5 - Math.log((1 + sinLatitude) / (1 - sinLatitude)) / (4 * Math.PI);\r\n\r\n\t\tfinal int mapSize = MapSize(levelOfDetail);\r\n\t\tout.x = (int) Clip(x * mapSize + 0.5, 0, mapSize - 1);\r\n\t\tout.y = (int) Clip(y * mapSize + 0.5, 0, mapSize - 1);\r\n\t\treturn out;\r\n\t}\r\n\r\nBTW, the clippings in the end should not be required at all if you look closely at the vlaues.\r\n\r\n\r\n\tpublic static GeoPoint PixelXYToLatLong(final int pixelX, final int pixelY,\r\n\t\t\tfinal int levelOfDetail, final GeoPoint reuse) {\r\n\t\tfinal GeoPoint out = (reuse == null ? new GeoPoint(0, 0) : reuse);\r\n\r\n\t\tfinal double mapSize = MapSize(levelOfDetail);\r\n\t\tfinal double x = (wrap(pixelX, 0, mapSize - 1, mapSize) / mapSize) - 0.5;\r\n\t\tfinal double y = 0.5 - (wrap(pixelY, 0, mapSize - 1, mapSize) / mapSize);\r\n\r\n\t\tfinal double latitude = 90 - 360 * Math.atan(Math.exp(-y * 2 * Math.PI)) / Math.PI;\r\n\t\tfinal double longitude = 360 * x;\r\n\r\n\t\tout.setLatitudeE6((int) (latitude * 1E6));\r\n\t\tout.setLongitudeE6((int) (longitude * 1E6));\r\n\t\treturn out;\r\n\t}\r\n\r\nAnother question would be why it restricts the latitude to +/-85.0511287. I don't think that's required but +/-90 should work.\r\n",
+    "timestamp" : 1337511194,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Regarding your last question, read a bit on Mercator projection: \"the Mercator projection distorts the size and shape of large objects, as the scale increases from the Equator to the poles, where it becomes infinite\".",
+    "timestamp" : 1337587652,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Do you have an easy way of demonstrating this issue?\r\nAnd to make my life easier applying the suggested change, please could you make a patch :-)",
+    "timestamp" : 1337889382,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -8177012077806897919,
+    "content" : "Will retry. Wasn't that straightforward.\r\nHow do I make a patch?\r\n",
+    "timestamp" : 1337889601,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I use TortoiseSVN to make patches, but I'm sure there's other ways if you use other SVN tools.\r\nOr you could just attached the changed file(s).",
+    "timestamp" : 1337889794,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -8177012077806897919,
+    "content" : "Ok (cheers to the Eclipse local history), to reproduce add the following logging statement to the getBoundingBox() method in MapView:\r\n\r\n\t\tlogger.debug(\"getBoundingBox \" + \"centre: \" + getScrollX() + \", screen <->: (\"\r\n\t\t\t\t+ screenRect.left + \",\" + screenRect.right + \")\" + \", geo <->: (\"\r\n\t\t\t\t+ swGeoPoint.getLongitudeE6() + \",\" + neGeoPoint.getLongitudeE6() + \")\");\r\n\r\nScrolling over 180 deg lon will get you something like the attached log file.\r\n",
+    "timestamp" : 1337890798,
+    "attachments" : [ {
+      "id" : 3460005000,
+      "fileName" : "log.txt",
+      "fileSize" : 39680
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8177012077806897919,
+    "content" : "And here's the patch",
+    "timestamp" : 1337891174,
+    "attachments" : [ {
+      "id" : 3460006000,
+      "fileName" : "TileSystem.java.patch",
+      "fileSize" : 2962
+    } ]
+  }, {
+    "id" : 7,
+    "commenterId" : 8937367184059112911,
+    "content" : "Thanks. I'll have a look at it soon.",
+    "timestamp" : 1337893247,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "TileSystem is a straight translation from the class referred to in it's header, so I don't want to change that.\r\nI guess that means you should change the calling classes instead.",
+    "timestamp" : 1338495361,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -8177012077806897919,
+    "content" : "Well, as a matter of fact, the effected methods do not return correct results - for some input values (which do get passed in from osmdroid). But they fail to declare that and neither do any validation or throwing IllegalArgumentExceptions.\r\nThey do get called from a number of other places within the osmdroid, but potentially also from anybody referring to them not knowing they are broken.\r\nSo fixing the referring methods only helps if we did prevent calling the broken methods externally as well - or at least telling people they are not working correctly.\r\n\r\nSuggestions?\r\n\r\nA wrapper class around it that does longitude wrapping before passing input values through? I'm not that convinced.\r\n",
+    "timestamp" : 1338536989,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "I wonder what would happen if you pointed out the limitation of the original code. Perhaps they will be able to explain its intended use. There's a possibility to comment on it.\r\nhttp://msdn.microsoft.com/en-us/library/bb259689.aspx\r\n",
+    "timestamp" : 1338539024,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -8177012077806897919,
+    "content" : "Ok, I've done two more patches, the first wraps TileSystem into a class that does all the wrapping and acts as a proxy to TileSystem and the second one does the wrapping separately externally.\r\n",
+    "timestamp" : 1338621091,
+    "attachments" : [ {
+      "id" : 3460011000,
+      "fileName" : "WrappingTileSystem.patch",
+      "fileSize" : 25691
+    }, {
+      "id" : 3460011001,
+      "fileName" : "ExternalWrapping.patch",
+      "fileSize" : 13093
+    } ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "I prefer the first one, except I'd keep the same name so that only the import needs to change in the external classes. I've attached a patch modified like this.",
+    "timestamp" : 1338754774,
+    "attachments" : [ {
+      "id" : 3460012000,
+      "fileName" : "wrap_TileSystem.patch",
+      "fileSize" : 11460
+    } ]
+  }, {
+    "id" : 13,
+    "commenterId" : -5403737639671515603,
+    "content" : "Hi, thank you for this awesome library.\r\nI encountered this issue while developing an app that draws a weather overlay on the map. Basically, the returned bounding box is incorrect.\r\nAre you planning to have the fix released in the next version? That would be much appreciated.",
+    "timestamp" : 1381129666,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 8937367184059112911,
+    "content" : "Before I look into this again, can you tell me if the last patch fixes the problem? Then I can probably just apply that.",
+    "timestamp" : 1381134018,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -5403737639671515603,
+    "content" : "I have tested the patch.\r\nIt is better as the bounding box is now correct.\r\nBut, as far as I can tell, there is still an issue.\r\n- if the longitude of the map center is west(negative ) then all is fine. The x coordinates of the points close to the International Date Line (IDL) are all negative.\r\n- if the longitude of the map center is east (positive) then the points with a positive longitude are not drawn. Their x coordinate are positive for the eastern points and negative for the western ones.\r\n\r\nHere is a simple project that illustrates this.\r\nI try to draw a circle for 3 points:\r\n- the first one has a longitude of 179E (+179),\r\n- the second one is on the International Date Line (IDL) with a 180E longitude (+180)\r\n- the third one has a 179W longitude (-179).\r\n\r\nMain activity\r\n=============\r\npackage com.hl.osmdroid_test_idl;\r\n\r\nimport android.os.Bundle;\r\nimport android.app.Activity;\r\nimport android.content.Context;\r\nimport android.view.Menu;\r\n\r\nimport org.osmdroid.api.IMapController;\r\nimport org.osmdroid.tileprovider.tilesource.TileSourceFactory;\r\nimport org.osmdroid.util.GeoPoint;\r\nimport org.osmdroid.views.MapView;\r\nimport org.osmdroid.views.overlay.Overlay;\r\n\r\nimport java.util.List;\r\n\r\npublic class MainActivity extends Activity {\r\n    private Context mContext;\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        mContext = getApplicationContext();        \r\n        setContentView(R.layout.activity_main);\r\n        \r\n        // Configure Log4J\r\n        try{\r\n            ConfigureLog4J.configure();\r\n        } catch (Exception e) {\r\n            // do nothing\r\n        }\r\n\r\n        // Set MapView\r\n        MapView mapView = (MapView) findViewById(R.id.mapview);\r\n        mapView.setMultiTouchControls(true);\r\n        mapView.setClickable(false);\r\n        mapView.setBuiltInZoomControls(true);\r\n        ((MapView)findViewById(R.id.mapview)).setTileSource(TileSourceFactory.MAPNIK); \r\n        IMapController mapController = mapView.getController();\r\n        mapController.setZoom(6);\r\n       \r\n        // Center map on IDL\r\n        GeoPoint centre = new GeoPoint(10*1000000, 180*1000000);\r\n        mapController.setCenter(centre);\r\n        \r\n        // create map  overlay\r\n        List<Overlay> mapOverlays = mapView.getOverlays();\r\n        \r\n        //Draw around the IDL\r\n        IDLMapOverlay idlMapOverlay = new IDLMapOverlay(mContext);\r\n         mapOverlays.add(idlMapOverlay);\r\n                \r\n    }\r\n\r\n    @Override\r\n    public boolean onCreateOptionsMenu(Menu menu) {\r\n        // Inflate the menu; this adds items to the action bar if it is present.\r\n        getMenuInflater().inflate(R.menu.main, menu);\r\n        return true;\r\n    }\r\n\r\n}\r\n\r\n\r\nIDLMapOverlay Overlay\r\n=====================\r\npackage com.hl.osmdroid_test_idl;\r\n\r\nimport android.content.Context;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.graphics.Point;\r\nimport android.graphics.RectF;\r\nimport android.graphics.Paint.Style;\r\nimport android.util.Log;\r\n\r\nimport org.osmdroid.util.GeoPoint;\r\nimport org.osmdroid.views.MapView;\r\nimport org.osmdroid.views.overlay.Overlay;\r\n\r\npublic class IDLMapOverlay extends Overlay{\r\n    private Paint p;\r\n    \r\n    public IDLMapOverlay(Context ctx) {\r\n        super(ctx);\r\n    }\r\n\r\n    @Override\r\n    protected void draw(Canvas c, MapView osmv, boolean shadow) {\r\n        \r\n        int lat1 = (int)(10*1000000);\r\n        int lng1 = (int)(179*1000000);\r\n        \r\n        int lat2 = (int)(10*1000000);\r\n        int lng2 = (int)(180*1000000);\r\n        \r\n        int lat3 = (int)(10*1000000);\r\n        int lng3 = (int)(-179*1000000);\r\n        \r\n        GeoPoint point1 = new GeoPoint(lat1, lng1);\r\n        GeoPoint point2 = new GeoPoint(lat2, lng2);\r\n        GeoPoint point3 = new GeoPoint(lat3, lng3);\r\n        GeoPoint mapCenter = (GeoPoint) osmv.getMapCenter();\r\n        \r\n        Point pt1 = osmv.getProjection().toPixels(point1, null);\r\n        Point pt2 = osmv.getProjection().toPixels(point2, null);\r\n        Point pt3 = osmv.getProjection().toPixels(point3, null);\r\n        Point mc = osmv.getProjection().toPixels(mapCenter, null);\r\n        \r\n        Log.v(\"IDLMapOverlay\",\"======================================\");\r\n        Log.v(\"IDLMapOverlay\",\"mapCenter long = \" + mapCenter.getLongitudeE6()/10000 +\r\n                \" mc.x \" + mc.x);\r\n        Log.v(\"IDLMapOverlay\",\"point1 long = \" + point1.getLongitudeE6()/10000 +\r\n                \" pt1.x \" + pt1.x);\r\n        Log.v(\"IDLMapOverlay\",\"point2 long = \" + point2.getLongitudeE6()/10000 +\r\n            \" pt2.x \" + pt2.x);\r\n        Log.v(\"IDLMapOverlay\",\"point3 long = \" + point3.getLongitudeE6()/10000 +\r\n        \" pt3.x \" + pt3.x);\r\n        \r\n        //Initialize Paint\r\n        p = new Paint();\r\n        p.setStrokeWidth(4);\r\n        p.setAntiAlias(true);\r\n        p.setStyle(Style.STROKE);\r\n        p.setColor(Color.RED);\r\n        \r\n        // Draw circles at points\r\n        float r = (float) (10);\r\n        RectF moval = new RectF(pt1.x - r, pt1.y - r, pt1.x + r,pt1.y  + r);\r\n        c.drawOval(moval, p);\r\n        moval = new RectF(pt2.x - r, pt2.y - r, pt2.x + r,pt2.y  + r);\r\n        c.drawOval(moval, p);\r\n        moval = new RectF(pt3.x - r, pt3.y - r, pt3.x + r, pt3.y  + r);\r\n        c.drawOval(moval, p);\r\n    }\r\n }\r\n\r\n    \r\nHere is the Log created while we pan the map around the IDL\r\n10-08 22:05:38.624: V/IDLMapOverlay(4741): ======================================\r\n10-08 22:05:38.624: V/IDLMapOverlay(4741): mapCenter long = -17995 mc.x -8190\r\n10-08 22:05:38.624: V/IDLMapOverlay(4741): point1 long = 17900 pt1.x -8238\r\n10-08 22:05:38.624: V/IDLMapOverlay(4741): point2 long = 18000 pt2.x -8193\r\n10-08 22:05:38.624: V/IDLMapOverlay(4741): point3 long = -17900 pt3.x -8146\r\n10-08 22:05:38.664: V/IDLMapOverlay(4741): ======================================\r\n10-08 22:05:38.664: V/IDLMapOverlay(4741): mapCenter long = 17995 mc.x 8190\r\n10-08 22:05:38.664: V/IDLMapOverlay(4741): point1 long = 17900 pt1.x 8146\r\n10-08 22:05:38.664: V/IDLMapOverlay(4741): point2 long = 18000 pt2.x 8191\r\n10-08 22:05:38.664: V/IDLMapOverlay(4741): point3 long = -17900 pt3.x -8146\r\n\r\nI attach the project and 2 screen shots",
+    "timestamp" : 1381263451,
+    "attachments" : [ {
+      "id" : 3460015000,
+      "fileName" : "device-2013-10-08-221023.png",
+      "fileSize" : 46716
+    }, {
+      "id" : 3460015002,
+      "fileName" : "OSM_IDL_Test.zip",
+      "fileSize" : 20070
+    } ]
+  }, {
+    "id" : 16,
+    "commenterId" : -5403737639671515603,
+    "content" : "I attached twice the same screenshot, ..; and I can't attach a new one ( attachment storage quota exceeded). Anyway, only 2 points are beeing drawn.",
+    "timestamp" : 1381263706,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 8937367184059112911,
+    "content" : "I see there's a patch attached to the end of issue 345 that seems to be related. Does that fix it?",
+    "timestamp" : 1381326157,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : -5403737639671515603,
+    "content" : "Yes! After adding on top of the June 3rd, 2012 patch the  one attached at the end of issue 345, the issue seems to be fixed.\r\n",
+    "timestamp" : 1381328164,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1364.",
+    "timestamp" : 1381432274,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi Neil,\r\n\r\nProbably the new\r\nimport org.osmdroid.util.TileSystem;\r\nhas to be put at all classes that use directly the microsoft.mappoint.TileSystem ?\r\nLike the MyLocationNewOverlay etc.\r\n\r\nRegards.",
+    "timestamp" : 1381478022,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : 8937367184059112911,
+    "content" : "I thought about that, but I wanted to limit the scope of the change to the problem that was discussed. More investigation would be required for the other fixes. There's quite a lot of code that still uses the original one.",
+    "timestamp" : 1381488755,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : -1918333713940407975,
+    "content" : "I see your point.\r\nBut doesn't the new TileSystem has to be put at least at MyLocationNewOverlay as it is already at MyLocationOverlay?\r\nIt seems to be used at the same places at both classes.\r\n\r\nRegards.",
+    "timestamp" : 1381491128,
+    "attachments" : [ ]
+  }, {
+    "id" : 23,
+    "commenterId" : 8937367184059112911,
+    "content" : "Ok, I've done that in revision 1366.",
+    "timestamp" : 1381688885,
+    "attachments" : [ ]
+  } ]
+}aces at both classes.\r\n\r\nRegards.","timestamp":1381491128,"attachments":[]},{"id":23,"commenterId":8937367184059112911,"content":"Ok, I\u0027ve done that in revision 1366.","timestamp":1381688885,"attachments":[]}]}

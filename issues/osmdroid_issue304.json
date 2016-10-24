@@ -1,0 +1,21 @@
+{
+  "id" : 304,
+  "status" : "Invalid",
+  "summary" : "Use StatFs instead of counting individual files",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "TileWriter.calculateDirectorySize has a loop for every file and every directory. Presumably it would be quicker and more efficient to use StatFs instead.",
+    "timestamp" : 1327918660,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "StatFs gets the size of the file system that the directory is in, not the size of the directory.",
+    "timestamp" : 1328189875,
+    "attachments" : [ ]
+  } ]
+}

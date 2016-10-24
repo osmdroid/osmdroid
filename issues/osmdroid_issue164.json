@@ -1,0 +1,43 @@
+{
+  "id" : 164,
+  "status" : "Fixed",
+  "summary" : "Do Overlay.onDraw the same as Google Maps Overlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Currently Overlay has two methods\r\nonDraw - this is called first\r\nonDrawFinished - this is called last\r\nBoth methods are called sequentially for each overlay.\r\n\r\nGoogle Maps overlay has on method onDraw with a parameter &quot;shadow&quot;. It calls all overlays with shadow = true first, then all overlays with shadow = false afterwards.\r\n\r\nI am submitting this issue to suggest that we change osmdroid to work the same way as Google.\r\n\r\nI've attached a patch which seems to work.\r\n\r\nThis issue is derived from some comments on issue 155.",
+    "timestamp" : 1298389346,
+    "attachments" : [ {
+      "id" : -337721164261688113,
+      "fileName" : "onDraw.patch",
+      "fileSize" : 24697
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Actually I just noticed that Google has draw, not onDraw, so I should change it to that.\r\n\r\nhttp://code.google.com/android/add-ons/google-apis/reference/com/google/android/maps/Overlay.html",
+    "timestamp" : 1298457691,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - this looks good, but it loses the \"enabled\" setting functionality for individual overlays. The reason we called onManagedDraw is so that we could short-circuit calling onDraw if !mEnabled. However, this functionality can easily be handled by the OverlayManager, and I'll note in the comments that the \"enabled\" functionality must be checked externally before calling onDraw.",
+    "timestamp" : 1298758106,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r827.\n\nApplied Neil's patch, changed onDraw to draw, and added isEnabled() checks",
+    "timestamp" : 1298758693,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1299250779,
+    "attachments" : [ ]
+  } ]
+}

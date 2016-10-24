@@ -1,0 +1,27 @@
+{
+  "id" : 28,
+  "status" : "Fixed",
+  "summary" : "Cloudmade renderer doesn't work",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you use the Cloudmade renderer it gives an error downloading the tiles, \r\nfor example\r\nIOException downloading MapTile: 7/0/0/0 : java.io.FileNotFoundException: \r\nhttp://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/0/0/0.jpg\r\n\r\nPresumably because this url contains an out-of-date API key.\r\n",
+    "timestamp" : 1269525678,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3456884467250674452,
+    "content" : "Actually, this you get 404 because CloudMade doesn't support .jpg tiles:\r\n\r\nUse .png: http://tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/2/256/0/0/0.png",
+    "timestamp" : 1270375688,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r124.",
+    "timestamp" : 1271184896,
+    "attachments" : [ ]
+  } ]
+}

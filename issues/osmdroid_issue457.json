@@ -1,0 +1,75 @@
+{
+  "id" : 457,
+  "status" : "Invalid",
+  "summary" : "Map \"jumps\" during scroll and onFling() Event",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4433103095862679357,
+    "content" : "Hello :)\r\n\r\nI managed to run osmdroid in offline mode with tiles created with Mobile Atlas Creator. My problem now is that the map &quot;jumps&quot; when I try to scroll the map. Especially onFling() event seems not to work. In the OSMdroid Demo on playstore it seems to work. I tried to override the onFling() method from the Class MapViewGestureDetectorListener in MapView in order to turn it off but it's private.\r\n\r\nI only have this code to run the map in my MainActivity, nothing special:\r\n\r\n        @Override\r\n\tprotected void onCreate(Bundle savedInstanceState) {\r\n\t\tsuper.onCreate(savedInstanceState);\r\n\t\tMapView mapView = new MapView(this, 256);\r\n\t\tmapView.setTileSource(TileSourceFactory.MAPQUESTOSM);\r\n                mapView.setBuiltInZoomControls(true);\r\n                mapView.getController().setZoom(2);\r\n                mapView.getController().setCenter(new GeoPoint(52.221, 6.893));\r\n                mapView.setUseDataConnection(false);\r\n\t\tsetContentView(mapView);\r\n\t}\r\n\r\nAny Ideas? :/ Thanks for your help!\r\n\r\nBest Regards\r\n\r\nArtur",
+    "timestamp" : 1375350954,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "What version of osmdroid? What version of Android are you targeting and what version are you running on?",
+    "timestamp" : 1375363494,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 4433103095862679357,
+    "content" : "Hello,\r\n\r\nosmdroid version is 3.0.10, target SDK Version is 17, I'm running on SDK Version 15.\r\n\r\nCurrently I'm aiming at disabling the fling-Event because I really don't know why it jumps randomly from one corner to another (I limited the scroll area).\r\n\r\nWhat I did for now is I extended the MapView class and implemented the GestureDetector.SimpleOnGestureListener on that class in order to catch the onFling-Event (it works). Then I call mapView.getScroller().abortAnimation() but it seems to be ignored. Intercepting the onDown() gesture and aborting the animation seems to work for \"small flings\"  but when I swipe across the whole screen onFling animation starts and again the animation \"jumps\" randomly.\r\n\r\nAnother way was to intercept touchevents with the dispatchTouchEvent method from a parent framelayout in which the MapView lies. Here I'm catching the ACTION_UP event and returning true so that the child MapView doesn't receive any Touch event. This works well for disabling the fling, but it also disables other gestures and touch events. So it's not an adequate solution.\r\n\r\nOverriding the MapViews MapViewGestureDetectorListener Class onFling-Method would be really nice. ",
+    "timestamp" : 1375393970,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "What about if you don't limit the scroll area? Does it still cause problems. Please try to isolate what is different in your application and the sample application which has a limited scroll area demo that does not exhibit this behavior for me.",
+    "timestamp" : 1375394210,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4433103095862679357,
+    "content" : "Without limited scroll area it's the same behaviour. Can I somewhere get the sourcecode of the sample application? I didn't find it in the repository. Beside that I'd like to know how to disable fling. It can't be that difficult... But I don't get it.",
+    "timestamp" : 1375395235,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "The source code is available in the project's SVN repository under trunk/OpenStreetMapViewer",
+    "timestamp" : 1375409708,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Also make sure you have hardware acceleration turned off.",
+    "timestamp" : 1375409784,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 4433103095862679357,
+    "content" : "Hey, I found a solution that works for me. I still don't know why it crashes but I disabled the fling successfully. I'm overriding the onTouchEvent from my extended MapView class and returning true if onFling Gesture occurs (from my SimpleOnGestureListener).\r\n\r\nIn my extended MapView Class I only do this:\r\n\r\n@Override\r\npublic boolean onTouchEvent(MotionEvent event) {\r\n    //Call onTouchEvent from the GestureDetector, returns true on fling\r\n    if(gd.onTouchEvent(event))\r\n       return true;\r\n   \r\n    return super.onTouchEvent(event);\r\n}\r\n\r\n",
+    "timestamp" : 1375429987,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "If this fixes your issue then close the ticket, but there is no reason that the MapView should be displaying this behavior and you shouldn't have to disable flinging. If you find any more information, please post it here.",
+    "timestamp" : 1375451281,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 4433103095862679357,
+    "content" : "Hey, sorry I have no Idea how to close tickets, it's my first post here..",
+    "timestamp" : 1375623316,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 7646092065249173135,
+    "content" : "I am closing this ticket but if you have any more information then please post it here.",
+    "timestamp" : 1375759577,
+    "attachments" : [ ]
+  } ]
+}

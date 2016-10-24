@@ -1,0 +1,33 @@
+{
+  "id" : 56,
+  "status" : "Invalid",
+  "summary" : "Osmdroid stops loading tiles despite a good network connection",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -7522982573818872053,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. I'm using Osmdroid in 2.1 on a Desire.\r\n2. There is no special way to reproduce this issue. It just happens in \r\nnormal usage. Even though the network connection is perfect as I'm on \r\nWiFi at home, Osmdroid just stops loading the missing tiles. My network \r\ntraffic monitor shows no traffic at all during that. Neither in nor out.\r\nSwitching to different map styles or scrolling around changes nothing.\r\n3. Most of the time Osmdroid resumes loading after about half a \r\nminute up to two minutes. Sometimes I have to quit and restart. That \r\nhelps and the map tiles are loaded immediately.\r\n\r\n",
+    "timestamp" : 1275132643,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is probably the same as issue 31. Even when the network is \"good\" you sometimes get errors. In this case it clears the queue and stops trying. Normally if you get a new location update then it'll start loading again so you won't notice, but if you're not moving then it'll just stay blank.",
+    "timestamp" : 1278247938,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue is old and probably not valid anymore with the new tile providers. Unless someone can confirm this issue still exists, I suggest we close it.",
+    "timestamp" : 1294808996,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think it's safe to invalidate this ticket. Our networking code has been refined and this ticket refers to a code base that is a generation removed from where it is now.",
+    "timestamp" : 1297580532,
+    "attachments" : [ ]
+  } ]
+}

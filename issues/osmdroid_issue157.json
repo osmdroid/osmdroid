@@ -1,0 +1,39 @@
+{
+  "id" : 157,
+  "status" : "New",
+  "summary" : "Wrong ZoomToSpan for Latitude",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3854853821925711306,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Call ZoomToSpan with Lat, Lon, where Lat &gt; Lon\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpecting to get the right zoom level, getting a wrong one instead. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nUsing osmdroid 3.0.1,\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nProbably: \r\n  wrongLevel = rightLevel - 2 on normal screen devices\r\n\r\nand\r\n  wrongLevel = rightLevel - 1 on small screen devices\r\n\r\n",
+    "timestamp" : 1297155074,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please retest and let us know if you are still seeing these results. We have recently switched algorithms.",
+    "timestamp" : 1301622042,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 3854853821925711306,
+    "content" : "I'm using jar-library ... but probably i can test it",
+    "timestamp" : 1301646154,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The latest release jar has the new algorithms.",
+    "timestamp" : 1301672367,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 3854853821925711306,
+    "content" : "I've tested 3.0.3-jar in emulator (WVGA800, Android 2.2)\r\n\r\nI called zoomToSpan(10000, 10);\r\n\r\nSo i'm waiting for bounding box, where delta_lat ~ 10000, but i'm getting following values.\r\nlat_north = 49500297\r\nlat_south = 49459923\r\ndelta_lat = 40374\r\n\r\nI don't have a device now (or better to say, no datacable). But tomorrow i'll send you results.\r\n\r\nAre u sure new algorithms are within 3.0.3?",
+    "timestamp" : 1302192441,
+    "attachments" : [ ]
+  } ]
+}

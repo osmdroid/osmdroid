@@ -1,0 +1,35 @@
+{
+  "id" : 97,
+  "status" : "Fixed",
+  "summary" : "OutOfMemoryError: bitmap size exceeds VM budget",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "Saw some &quot;OutOfMemoryError: bitmap size exceeds VM budget&quot; errors. Found that it boiled down to an inner class broadcast listener that is a registered BroadcastListener but is never unregistered, so when more Activities are loaded on orientation changes the old ones cannot be garbage collected.\r\n\r\nI was able to solve it for our use of the jar source with the attached diff's. The main OpenStreetMap app might need more done, to make it's own unregister calls. And I realize you may want to handle this in an entirely different way :)\r\n\r\nSide note: Tracked this down, and some bugs in our own code, using the Eclipse Memory Analyzer plugin, which is rather powerful. I hadn't used before, but would now be happy to recommend. http://www.eclipse.org/mat/\r\n\r\n",
+    "timestamp" : 1286040489,
+    "attachments" : [ {
+      "id" : 2198652224144440219,
+      "fileName" : "OpenStreetMapViewer.diff",
+      "fileSize" : 3303
+    }, {
+      "id" : 1009671612611215550,
+      "fileName" : "osmdroid-android.diff",
+      "fileSize" : 4498
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 94.",
+    "timestamp" : 1286051228,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r400.",
+    "timestamp" : 1286263269,
+    "attachments" : [ ]
+  } ]
+}

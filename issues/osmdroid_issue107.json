@@ -1,0 +1,27 @@
+{
+  "id" : 107,
+  "status" : "Fixed",
+  "summary" : "Conform to Developer Guidelines",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3160830107365654207,
+    "content" : "http://code.google.com/p/osmdroid/wiki/DeveloperGuidelines\r\n\r\nConvert to using org.slf4j.Logger, not android.util.Log in OsmMapViewer.\r\n\r\n\r\n\r\n",
+    "timestamp" : 1288098487,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "That particular guideline was referring to the osmdroid-android, not the OpenStreetMapViewer project, but yeah, why not?",
+    "timestamp" : 1288101574,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "Resolved in revision 477",
+    "timestamp" : 1289290682,
+    "attachments" : [ ]
+  } ]
+}

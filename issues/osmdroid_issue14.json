@@ -1,0 +1,27 @@
+{
+  "id" : 14,
+  "status" : "WontFix",
+  "summary" : "Database error in bicycle mode",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 6094860372549882898,
+    "content" : "<b>What steps will reproduce the problem?</b>\nView the map in bicycle mode \r\n\r\n01-24 15:44:03.063: ERROR/Database(1602): Error updating\r\ntimestamp=2010-01-24T15:44:01.877 countused=countused + 1 using UPDATE\r\nt_fscache SET timestamp=?, countused=? WHERE rendererID=? AND zoomLevel=?\r\nAND tileX=? AND tileY=?\r\n01-24 15:44:03.094: WARN/dalvikvm(1602): threadid=97: thread exiting with\r\nuncaught exception (group=0x4001b170)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602): Uncaught handler: thread\r\npool-10-thread-4 exiting due to uncaught exception\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):\r\nandroid.database.sqlite.SQLiteException: error code 5: database is locked\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\nandroid.database.sqlite.SQLiteStatement.native_execute(Native Method)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\nandroid.database.sqlite.SQLiteStatement.execute(SQLiteStatement.java:66)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\nandroid.database.sqlite.SQLiteDatabase.updateWithOnConflict(SQLiteDatabase.java:1576)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\nandroid.database.sqlite.SQLiteDatabase.update(SQLiteDatabase.java:1499)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\norg.andnav.osm.services.util.OpenStreetMapTileProviderDataBase.incrementUse(OpenStreetMapTileProviderDataBase.java:110)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\norg.andnav.osm.services.util.OpenStreetMapTileProviderDataBase.addTileOrIncrement(OpenStreetMapTileProviderDataBase.java:114)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\norg.andnav.osm.services.util.OpenStreetMapTileFilesystemProvider.saveFile(OpenStreetMapTileFilesystemProvider.java:89)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\norg.andnav.osm.services.util.OpenStreetMapTileDownloader$TileLoader.run(OpenStreetMapTileDownloader.java:104)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\njava.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1068)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\njava.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:561)\r\n01-24 15:44:03.094: ERROR/AndroidRuntime(1602):     at\r\njava.lang.Thread.run(Thread.java:1096)\r\n01-24 15:44:03.102: INFO/Process(1170): Sending signal. PID: 1602 SIG: 3\r\n01-24 15:44:03.102: WARN/ActivityManager(1170): Process org.andnav.osm has\r\ncrashed too many times: killing!\r\n\r\n(on Milestone)\r\n",
+    "timestamp" : 1264344385,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also http://opensatnav.org/issues/show/108\r\n\r\nI think the synchronisation in OpenStreetMapTileFilesystemProvider.saveFile is\r\nsupposed to be preventing this error, but obviously it's not.",
+    "timestamp" : 1268227610,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "There's no database any more",
+    "timestamp" : 1278599710,
+    "attachments" : [ ]
+  } ]
+}

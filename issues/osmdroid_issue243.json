@@ -1,0 +1,25 @@
+{
+  "id" : 243,
+  "status" : "Invalid",
+  "summary" : "PathOverlay draw an itinerary with transparence problem",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 476572048224933488,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. add an overlay of sub class PathOverlay,\r\n2. use the overlay to draw an itinerary with transparence, and use the code below for blend in the constructor of the overlay:\r\nthis.mPaint.setStyle(Paint.Style.STROKE);\r\nthis.mPaint.setFlags(Paint.ANTI_ALIAS_FLAG);\r\nthis.mPaint.setStrokeCap(Paint.Cap.ROUND);\r\nthis.mPaint.setStrokeJoin(Paint.Join.ROUND);\r\n3. add the overlay into map view \r\n\r\n<b>What is the expected output? What do you see instead?</b>\nthe color of the junction point between two section of the itinerary is darker than the color of the section. ref. the picture. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI use the latest version of osmdroid for android (version 3.0.4), and test it in emulator API 7 (WVGA800).\r\n\r\n<b>Please provide any additional information below.</b>\nI think it is because osmdroid draw all things in the same canvas, the method setXfermode\r\ncan not give me the right result even I write like this in the constructor:\r\nthis.mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));\r\n\r\n",
+    "timestamp" : 1311079662,
+    "attachments" : [ {
+      "id" : 2430000000,
+      "fileName" : "1.png",
+      "fileSize" : 73183
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is not an osmdroid related issue.",
+    "timestamp" : 1362505784,
+    "attachments" : [ ]
+  } ]
+}

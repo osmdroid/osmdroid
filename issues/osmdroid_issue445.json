@@ -1,0 +1,21 @@
+{
+  "id" : 445,
+  "status" : "MovedToGithub",
+  "summary" : "Delete the \"contributor\" code",
+  "labels" : [ "Type-Other", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm pretty sure that the code in org.osmdroid.contributor and sub-packages is not used by anyone.\r\n\r\nYou are required to edit the URL in GpxToPHPUploader in order to use it, which means you would need to make your own fork of this project.\r\n\r\nThe sample has this:\r\n\r\n/*\r\n * You need to do exactly nothing, to contribute to the OSM-Project, except extending from\r\n * OpenStreetMapActivity and passing true to its onCreate(...) .\r\n */\r\nsuper.onCreate(savedInstanceState, false);\r\n\r\nie it passes false to super.onCreate which means that it's not using it.\r\n\r\nDelete it so that we don't need to pretend to maintain it.\r\n",
+    "timestamp" : 1372656931,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "See https://github.com/osmdroid/osmdroid/issues/80",
+    "timestamp" : 1416560257,
+    "attachments" : [ ]
+  } ]
+}

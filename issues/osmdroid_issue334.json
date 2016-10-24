@@ -1,0 +1,43 @@
+{
+  "id" : 334,
+  "status" : "Fixed",
+  "summary" : "Limit invalidate calls for drawing compass in MyLocationOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Every time the compass gets a new bearing, the MyLocationOverlay throws a full invalidate() call. This happens often enough that it causes the maps to *constantly* redraw. This causes a constant high CPU usage.\r\n\r\nI discuss this as a larger problem in Ticket 211, but the compass drawing is the worst offender and we really should fix that if nothing else.\r\n\r\nAttached is a patch that does this. The patch works, but I'm a little shady on the calculations I used to get the invalidation area. I had to use trial-and-error and the mechanics seem reasonable, but I'm not particularly familiar with the combination of matrix operations used in the drawing for the compass so having someone validate it would be nice.\r\n\r\nAfter a short period of review, I expect to commit this early next week.",
+    "timestamp" : 1333741333,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1333741355,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached.",
+    "timestamp" : 1333741673,
+    "attachments" : [ {
+      "id" : 3340002000,
+      "fileName" : "MyLocationOverlayCompassInvalidate.java.patch",
+      "fileSize" : 3144
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Sorry - to be clear, this patch will limit the compass's invalidate() call to just the dirty Rect, not the entire screen.",
+    "timestamp" : 1333741744,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1121.",
+    "timestamp" : 1347570952,
+    "attachments" : [ ]
+  } ]
+}

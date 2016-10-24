@@ -1,0 +1,15 @@
+{
+  "id" : 264,
+  "status" : "New",
+  "summary" : "adding different itemized overlay icon for different points",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4743491591277444398,
+    "content" : "<b>What steps will reproduce the problem?</b>\n<b>1.</b>\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nI want to create different overlay icon for different point of interest at the same time.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nThe latest version osmdroid 3.05 on android 2.2.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI can create overlay icons with itemizediconoverlay properties, but this icon is default marker icon for every points. But I want to use different icon (such as sketch (image)of the object on that point) for each point. This is possible with google map. How can I do this with osmdroid? If it is possible I need an example. Thank you for your interest.",
+    "timestamp" : 1316954044,
+    "attachments" : [ ]
+  } ]
+}r your interest.","timestamp":1316954044,"attachments":[]}]}

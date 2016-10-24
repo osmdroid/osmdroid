@@ -1,20 +1,5 @@
 package org.osmdroid.views.overlay.mylocation;
 
-import java.util.LinkedList;
-
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.api.IMapView;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.util.TileSystem;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.Projection;
-import org.osmdroid.views.overlay.IOverlayMenuProvider;
-import org.osmdroid.views.overlay.Overlay;
-import org.osmdroid.views.overlay.Overlay.Snappable;
-
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -23,6 +8,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,6 +16,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+
+import org.osmdroid.api.IMapController;
+import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.util.TileSystem;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.Projection;
+import org.osmdroid.views.overlay.IOverlayMenuProvider;
+import org.osmdroid.views.overlay.Overlay;
+import org.osmdroid.views.overlay.Overlay.Snappable;
+
+import java.util.LinkedList;
 
 /**
  * 
@@ -48,23 +47,30 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// Fields
 	// ===========================================================
 
-	protected final Paint mPaint = new Paint();
-	protected final Paint mCirclePaint = new Paint();
+	protected Paint mPaint = new Paint();
+	protected Paint mCirclePaint = new Paint();
+
+	protected final float mScale;
 
 	protected Bitmap mPersonBitmap;
-	protected final Bitmap mDirectionArrowBitmap;
+	protected Bitmap mDirectionArrowBitmap;
 
-	protected final MapView mMapView;
+	protected MapView mMapView;
 
-	private final IMapController mMapController;
+	private IMapController mMapController;
 	public IMyLocationProvider mMyLocationProvider;
 
 	private final LinkedList<Runnable> mRunOnFirstFix = new LinkedList<Runnable>();
 	private final Point mMapCoordsProjected = new Point();
 	private final Point mMapCoordsTranslated = new Point();
-	private final Handler mHandler;
-	private final Object mHandlerToken = new Object();
+	private Handler mHandler;
+	private Object mHandlerToken = new Object();
 
+	/**
+	 * if true, when the user pans the map, follow my location will automatically disable
+	 * if false, when the user pans the map, the map will continue to follow current location
+	 */
+	protected boolean enableAutoStop=true;
 	private Location mLocation;
 	private final GeoPoint mGeoPoint = new GeoPoint(0, 0); // for reuse
 	private boolean mIsLocationEnabled = false;
@@ -74,8 +80,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	/** Coordinates the feet of the person are located scaled for display density. */
 	protected final PointF mPersonHotspot;
 
-	protected final float mDirectionArrowCenterX;
-	protected final float mDirectionArrowCenterY;
+	protected float mDirectionArrowCenterX;
+	protected float mDirectionArrowCenterY;
 
 	public static final int MENU_MY_LOCATION = getSafeMenuId();
 
@@ -83,26 +89,21 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 
 	// to avoid allocations during onDraw
 	private final float[] mMatrixValues = new float[9];
-	private final Matrix mMatrix = new Matrix();
-	private final Rect mMyLocationRect = new Rect();
-	private final Rect mMyLocationPreviousRect = new Rect();
+	private Matrix mMatrix = new Matrix();
+	private Rect mMyLocationRect = new Rect();
+	private Rect mMyLocationPreviousRect = new Rect();
 
 	// ===========================================================
 	// Constructors
 	// ===========================================================
 
-	public MyLocationNewOverlay(Context context, MapView mapView) {
-		this(context, new GpsMyLocationProvider(context), mapView);
+	public MyLocationNewOverlay(MapView mapView) {
+		this(new GpsMyLocationProvider(mapView.getContext()), mapView);
 	}
 
-	public MyLocationNewOverlay(Context context, IMyLocationProvider myLocationProvider,
-			MapView mapView) {
-		this(myLocationProvider, mapView, new DefaultResourceProxyImpl(context));
-	}
-
-	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView,
-			ResourceProxy resourceProxy) {
-		super(resourceProxy);
+	public MyLocationNewOverlay(IMyLocationProvider myLocationProvider, MapView mapView) {
+		super();
+		mScale = mapView.getContext().getResources().getDisplayMetrics().density;
 
 		mMapView = mapView;
 		mMapController = mapView.getController();
@@ -110,11 +111,9 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mCirclePaint.setAntiAlias(true);
 		mPaint.setFilterBitmap(true);
 
-		mPersonBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.person);
-		mDirectionArrowBitmap = mResourceProxy.getBitmap(ResourceProxy.bitmap.direction_arrow);
 
-		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
-		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
+		setDirectionArrow(((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.person)).getBitmap(),
+				((BitmapDrawable)mapView.getContext().getResources().getDrawable(R.drawable.direction_arrow)).getBitmap());
 
 		// Calculate position of person icon's feet, scaled to screen density
 		mPersonHotspot = new PointF(24.0f * mScale + 0.5f, 39.0f * mScale + 0.5f);
@@ -123,9 +122,45 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		setMyLocationProvider(myLocationProvider);
 	}
 
+	/**
+	 * fix for https://github.com/osmdroid/osmdroid/issues/249
+	 * @param personBitmap
+	 * @param directionArrowBitmap
+     */
+	public void setDirectionArrow(final Bitmap personBitmap, final Bitmap directionArrowBitmap){
+		this.mPersonBitmap = personBitmap;
+		this.mDirectionArrowBitmap=directionArrowBitmap;
+
+
+		mDirectionArrowCenterX = mDirectionArrowBitmap.getWidth() / 2.0f - 0.5f;
+		mDirectionArrowCenterY = mDirectionArrowBitmap.getHeight() / 2.0f - 0.5f;
+
+	}
+
 	@Override
 	public void onDetach(MapView mapView) {
 		this.disableMyLocation();
+		/*if (mPersonBitmap != null) {
+			mPersonBitmap.recycle();
+		}
+		if (mDirectionArrowBitmap != null) {
+			mDirectionArrowBitmap.recycle();
+		}*/
+		this.mMapView = null;
+		this.mMapController = null;
+		mHandler = null;
+		mMatrix = null;
+		mCirclePaint = null;
+		//mPersonBitmap = null;
+		//mDirectionArrowBitmap = null;
+		mHandlerToken = null;
+		mLocation = null;
+		mMapController = null;
+		mMyLocationPreviousRect = null;
+		if (mMyLocationProvider!=null)
+			mMyLocationProvider.destroy();
+
+		mMyLocationProvider = null;
 		super.onDetach(mapView);
 	}
 
@@ -212,8 +247,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 				* mMatrixValues[Matrix.MSKEW_X]);
 		if (lastFix.hasBearing()) {
 			canvas.save();
-			// Rotate the icon
-			canvas.rotate(lastFix.getBearing(), mMapCoordsTranslated.x, mMapCoordsTranslated.y);
+			// Rotate the icon if we have a GPS fix, take into account if the map is already rotated
+			float mapRotation=mapView.getMapOrientation();
+			mapRotation=lastFix.getBearing();
+			if (mapRotation >=360.0f)
+				mapRotation=mapRotation-360f;
+			canvas.rotate(mapRotation, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Counteract any scaling that may be happening so the icon stays the same size
 			canvas.scale(1 / scaleX, 1 / scaleY, mMapCoordsTranslated.x, mMapCoordsTranslated.y);
 			// Draw the bitmap
@@ -305,10 +344,20 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		}
 	}
 
+	public void setEnableAutoStop(boolean value){
+		this.enableAutoStop=value;
+	}
+	public boolean getEnableAutoStop(){
+		return this.enableAutoStop;
+	}
+
 	@Override
 	public boolean onTouchEvent(final MotionEvent event, final MapView mapView) {
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			this.disableFollowLocation();
+			if (enableAutoStop)
+				this.disableFollowLocation();
+			else
+				return true;//prevent the pan
 		}
 
 		return super.onTouchEvent(event, mapView);
@@ -332,8 +381,11 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		pMenu.add(0, MENU_MY_LOCATION + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.my_location))
-				.setIcon(mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mylocation))
+				pMapView.getContext().getResources().getString(R.string.my_location)
+				)
+				.setIcon(
+						pMapView.getContext().getResources().getDrawable(R.drawable.ic_menu_mylocation)
+						)
 				.setCheckable(true);
 
 		return true;
@@ -451,12 +503,12 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		mLocation = location;
 
 		// Cache location point
-		mMapView.getProjection().toProjectedPixels((int) (mLocation.getLatitude() * 1E6),
-				(int) (mLocation.getLongitude() * 1E6), mMapCoordsProjected);
+		mMapView.getProjection().toProjectedPixels(mLocation.getLatitude(),
+				mLocation.getLongitude(), mMapCoordsProjected);
 
 		if (mIsFollowing) {
-			mGeoPoint.setLatitudeE6((int) (mLocation.getLatitude() * 1E6));
-			mGeoPoint.setLongitudeE6((int) (mLocation.getLongitude() * 1E6));
+			mGeoPoint.setLatitude(mLocation.getLatitude());
+			mGeoPoint.setLongitude(mLocation.getLongitude());
 			mMapController.animateTo(mGeoPoint);
 		} else {
 			// Get new drawing bounds
@@ -529,7 +581,8 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 		if (mMyLocationProvider != null) {
 			mMyLocationProvider.stopLocationProvider();
 		}
-		mHandler.removeCallbacksAndMessages(mHandlerToken);
+		if (mHandler!=null && mHandlerToken!=null)
+			mHandler.removeCallbacksAndMessages(mHandlerToken);
 	}
 
 	/**

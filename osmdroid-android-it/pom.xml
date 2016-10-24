@@ -5,7 +5,7 @@
      <parent>
 	  <groupId>org.osmdroid</groupId>
 	  <artifactId>osmdroid-parent</artifactId>
-	  <version>5.2-SNAPSHOT</version>
+	  <version>5.3-SNAPSHOT</version>
      </parent>
 
      <artifactId>osmdroid-android-it</artifactId>
@@ -43,6 +43,10 @@
 	       <type>aar</type>
 	       <scope>provided</scope>
 	  </dependency>
+	 <dependency>
+		 <groupId>com.squareup.leakcanary</groupId>
+		 <artifactId>leakcanary-android</artifactId>
+	 </dependency>
 
      </dependencies>
 

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <Match>
+        <Class name="~.*\.R\$.*"/>
+    </Match>
+    <Match>
+        <Class name="~.*\.Manifest\$.*"/>
+    </Match>
+    <Match>
+        <Class name="~.*\.*Test" />
+        <Not>
+            <Bug code="IJU" />
+        </Not>
+    </Match>
+
+    <Match>
+        <Package name="com.actionbarsherlock.internal.nineoldandroids.animation" />
+    </Match>
+
+    <Match>
+        <Package name="com.actionbarsherlock.view" />
+    </Match>
+
+    <Match>
+        <Package name="com.actionbarsherlock.internal.widget" />
+    </Match>
+
+</FindBugsFilter>

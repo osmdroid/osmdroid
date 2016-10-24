@@ -8,7 +8,7 @@ public interface OverlayConstants {
 	// Final Fields
 	// ===========================================================
 
-	public static final boolean DEBUGMODE = false;
+	public static boolean DEBUGMODE = false;
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 

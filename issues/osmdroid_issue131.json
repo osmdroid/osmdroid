@@ -1,0 +1,45 @@
+{
+  "id" : 131,
+  "status" : "Fixed",
+  "summary" : "Make an abstraction layer for osmdroid and Google Maps",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "Make a new project that contains a wrapper for Google Maps.\r\n\r\nMake osmdroid API similar to the Google Maps API.\r\n\r\nAdd interfaces for the common parts in the osmdroid-android project.",
+    "timestamp" : 1294057186,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1294069634,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'm a little undecided about MapView/MapController. Google and osmdroid are inconsistent about which methods are in MapView and which are in MapController.\r\n\r\nI could just add methods to IMapView that are implemented in either class.\r\n\r\nOr I could add a new interface IMapController and make osmdroid MapView/MapController have the same separation as the Google implementation.\r\n\r\nWhat does anyone think?\r\n",
+    "timestamp" : 1294177030,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I haven't looked at this in-depth, but my initial inclination is to stay close to the way Google Maps does things. I always try to do things \"the Android way\" whenever writing code for Android. Google and Android aren't perfect (Lord knows!), but oftentimes there is a reason they do things the way they do. Plus our tagline is that we are a \"replacement for MapView\", and I think we'll be embraced quicker by developers if we stick to that mantra. We certainly should try to push our project to be *better* than Google Maps (overlays, tile providers), but still try to make it as easy as possible when developers get to the Google API license and go \"this license doesn't work for us, how can we quickly move to a different solution?\"",
+    "timestamp" : 1294180942,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 4098436938546237008,
+    "content" : "I fully agree to kurtzm. Please stay as close to the Google Maps API as possible. Make my life as developer easy :)",
+    "timestamp" : 1294529221,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "I've done as much as I intend to.  If anyone other than me starts to use it then any further changes can be done as new feature requests.",
+    "timestamp" : 1295510065,
+    "attachments" : [ ]
+  } ]
+}

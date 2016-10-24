@@ -1,0 +1,21 @@
+{
+  "id" : 542,
+  "status" : "Invalid",
+  "summary" : "image layout",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6286874656386302946,
+    "content" : "\r\nis there any way to set the map base layout to be a single png image\r\n\r\n(not many tiles)\r\n\r\ni need it to function like this http://jsfiddle.net/rdt2/N7dSu/37/\r\n\r\n",
+    "timestamp" : 1404651050,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Please ask questions in the discussion group",
+    "timestamp" : 1407933543,
+    "attachments" : [ ]
+  } ]
+}

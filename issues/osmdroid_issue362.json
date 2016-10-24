@@ -1,0 +1,51 @@
+{
+  "id" : 362,
+  "status" : "New",
+  "summary" : "maps tiles move up when zooming with multitouch on XHDPI screens.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -9199549083163873786,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom in using two fingers (multitouch)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe whole tiles move up before zooming.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8 Android XHDPI screen.\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1343827417,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -9199549083163873786,
+    "content" : "Map is inside a fragment... if that helps",
+    "timestamp" : 1343853869,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -9199549083163873786,
+    "content" : "Actually it moves up because it is inside a fragment inside a tab.\r\nLine of code 860 of MapView should take in consideration the height of the header tabs:\r\nmMatrix.postTranslate(getWidth() / 2, getHeight() / 2 + headerHeight);",
+    "timestamp" : 1344265885,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 2078449255686900995,
+    "content" : "I have the same problem but with an mdpi device, but I also use fragments and actionbar.",
+    "timestamp" : 1344520489,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 5580162609703132315,
+    "content" : "I did the following to prevent the jumping\r\nInside the dispatchDraw of the MapView I replaced\r\n c.getMatrix(mMatrix);\r\n mMatrix.postTranslate(getWidth() / 2, getHeight() / 2);\r\n mMatrix.preScale(mMultiTouchScale, mMultiTouchScale, getScrollX(), getScrollY());\r\n c.setMatrix(mMatrix);\r\n\r\nwith\r\n c.translate(getWidth() / 2, getHeight() / 2);\r\n c.scale(mMultiTouchScale,mMultiTouchScale,getScrollX(),getScrollY());",
+    "timestamp" : 1362761504,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -679817301774271976,
+    "content" : "Confirmed the Bug, also with ActionBar, Fragment.\r\nAndroid 4.2.2, HTC One.\r\n\r\n c.translate(getWidth() / 2, getHeight() / 2);\r\n c.scale(mMultiTouchScale,mMultiTouchScale,getScrollX(),getScrollY());\r\n\r\ndoesn't resolve the issue for me.\r\nWere you able to solve this problem?",
+    "timestamp" : 1377281223,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -679817301774271976,
+    "content" : "I detected that this only happens when zooming in and out very fast.\r\nWhen not releasing the fingers immideately after Pinch to Zoom this problem doesn't exist.",
+    "timestamp" : 1379889199,
+    "attachments" : [ ]
+  } ]
+}

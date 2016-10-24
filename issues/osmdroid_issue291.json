@@ -1,0 +1,39 @@
+{
+  "id" : 291,
+  "status" : "Fixed",
+  "summary" : "org.osmdroid.util.TileLooper.loop not terminating, causing an ANR",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3965022576382037332,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom all the way in somewhere, in my case near Copenhagen (55.66f, 12.59)\r\n2. Call zoomToSpan(1676626, 6040010) or with something that will cause the map to zoom out the same amount of levels.\r\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect the map to just zoom out to show the required span. Instead the phone enters and endless loop somewhere within zoomToSpan and I get an ANR. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nThis happens with revisions after 1010 I think, and at least on my Desire running CM7 (android 2.3)\r\n\r\n<b>Please provide any additional information below.</b>\nThese are some of the repeated call stacks I can see when doing an inspection on the running thread in DDMS:\r\n\r\norg.osmdroid.tileprovider.MapTile.&lt;init&gt;\r\norg.osmdroid.tileprovider.MapTileProviderBase$ZoomOutTileLooper.handleTile\r\norg.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile\r\norg.osmdroid.util.TileLooper.loop\r\norg.osmdroid.tileprovider.MapTileProviderBase.rescaleCache\r\norg.osmdroid.views.MapView.setZoomLevel\r\norg.osmdroid.views.MapController.zoomToSpan\r\n\r\njava.util.concurrent.locks.ReentrantReadWriteLock$Sync.tryReleaseShared\r\njava.util.concurrent.locks.AbstractQueuedSynchronizer.releaseShared\r\njava.util.concurrent.locks.ReentrantReadWriteLock$ReadLock.unlock\r\norg.osmdroid.tileprovider.MapTileCache.getMapTile\r\norg.osmdroid.tileprovider.MapTileProviderBase$ZoomOutTileLooper.handleTile\r\norg.osmdroid.tileprovider.MapTileProviderBase$ScaleTileLooper.handleTile\r\norg.osmdroid.util.TileLooper.loop\r\norg.osmdroid.tileprovider.MapTileProviderBase.rescaleCache\r\norg.osmdroid.views.MapView.setZoomLevel\r\norg.osmdroid.views.MapController.zoomToSpan\r\n\r\nLet me know if you need more information, or are unable to reproduce. Thanks for a great API by the way!\r\n",
+    "timestamp" : 1325761127,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -3926018049081992033,
+    "content" : "I had a similar problem. IIRC before using zoomToSpan you should try to set a zoom level manually. HTH.",
+    "timestamp" : 1328538589,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7214714727183591751,
+    "content" : "The problem is in ZoomOutTileLooper.handleTile which will take multiple tiles and scale them down into a single tile. If the zoom difference (mDiff) is too large, then it tries to make a single tile out of a large number of tiles.\r\n\r\nSo the fix would be that if the zoom difference is larger than one (mDiff>1), the tiles should not be scaled.",
+    "timestamp" : 1332784384,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -6679925067962250327,
+    "content" : "Soulds like the same is issue 315 http://code.google.com/p/osmdroid/issues/detail?id=315 where I have posted code that will fix the issue by restricting the scaling to only a small number of levels.",
+    "timestamp" : 1332786874,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "Patch applied in revision 1084.\r\nSee issue 315.",
+    "timestamp" : 1333139917,
+    "attachments" : [ ]
+  } ]
+}

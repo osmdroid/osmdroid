@@ -1,0 +1,21 @@
+{
+  "id" : 501,
+  "status" : "New",
+  "summary" : "Automatically clean cache and reclaim memory when activity is destroyed",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8675057720987312532,
+    "content" : "BitmapPool is a singleton. This leads to the fact that the memory of bitmap pool is not reclaimed when activity is destroyed.\r\nMemory of the tile cache also requires to be reclaimed manually due to static instances of tile sources.\r\nApplication can consume a lot of memory, while activity with the map is a secondary importance.",
+    "timestamp" : 1387036846,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 500.\r\n",
+    "timestamp" : 1387400954,
+    "attachments" : [ ]
+  } ]
+}

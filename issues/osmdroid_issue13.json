@@ -1,0 +1,15 @@
+{
+  "id" : 13,
+  "status" : "Accepted",
+  "summary" : "Store link of equivalent tiles",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6841996376054177083,
+    "content" : "Some tiles (eg. water) are completely equal for different coordinates.\r\nThese should be stored only once in the cache.\r\n\r\nTasks:\r\n- find tiles that are probably used more than once\r\n- create link in tile db instead of storing a new tile",
+    "timestamp" : 1257596703,
+    "attachments" : [ ]
+  } ]
+}

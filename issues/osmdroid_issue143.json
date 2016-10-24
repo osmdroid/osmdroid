@@ -1,0 +1,61 @@
+{
+  "id" : 143,
+  "status" : "Fixed",
+  "summary" : "MyLocation doesn't animate to current position",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 9112300422288456204,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Add MyLocationOverlay to OSMView\r\n2. Start View\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect that map part with my current position will be shown, of course if at least one location provider is available.\r\n\r\nIm most cases completely wrong map part (but pretty close to current location) will be shown.\r\n\r\nAssumption: problem is in animateTo.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 1.9",
+    "timestamp" : 1295343745,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I had this on my list of things to do. I think the actual problem is that it never attempts to get the initial location - it only animates after you get a location update.",
+    "timestamp" : 1295346435,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 9112300422288456204,
+    "content" : "I guess, that it is the problem of animateTo. I modificated the part where animateTo will be called so that setCenter will be called instead and everything works fine now.\r\n\r\nProbably an issue for animateTo should be created",
+    "timestamp" : 1295347045,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r741.",
+    "timestamp" : 1295348561,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "I didn't see your last comment until after I made this fix. Please explain your point about animateTo.",
+    "timestamp" : 1295348773,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 9112300422288456204,
+    "content" : "After I saw your fix, I'm not sure anymore, that animateTo could cause this issue.\r\nI add a part of code I meant above.",
+    "timestamp" : 1295352710,
+    "attachments" : [ {
+      "id" : -6116615275846869382,
+      "fileName" : "mylocation.txt",
+      "fileSize" : 561
+    } ]
+  }, {
+    "id" : 6,
+    "commenterId" : 9112300422288456204,
+    "content" : "I would say, the issue isn't fixed. If I'm testing it on device or with emulator, MyLocationOverlay (person icon) doesn't follow with, if current position changes.\r\n\r\nP.s.\r\nDon't really know, if I should create the new issue or if somebody can re-open this one.",
+    "timestamp" : 1295879174,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3965022576382037332,
+    "content" : "Hello people,\r\n\r\nI think there's an issue in animateTo as well. I my application animateTo centers on some place quite near but still so far that I can't see the icon symbolizing the current location. When I resend the same coordinates using the telnet interface with the emulator two or three times more, it finally reaches the correct position. After this it appears that nearby locations are animated to correctly. Therefore the problem might be solved by using setCenter before the first call to animateTo. Using osmdroid-android-3.0.3 and running on a 2.2 virtual device.",
+    "timestamp" : 1301913008,
+    "attachments" : [ ]
+  } ]
+}

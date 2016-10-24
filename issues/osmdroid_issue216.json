@@ -1,0 +1,15 @@
+{
+  "id" : 216,
+  "status" : "Accepted",
+  "summary" : "Add toScreenPoint and toMapPoint functions in projection",
+  "labels" : [ "Type-Enhancement", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We took the time to define a screen point and a map point and how they are used differently, but don't really provide clear guidance on how to translate between the two.\r\n\r\nIt would be nice to provide simple methods to do this in the projection class:\r\n\r\ntoMapPoint(Point pScreenPoint, int pLevelOfDetail, Point reuse);\r\ntoScreenPoint(Point pMapPoint, int pLevelOfDetail, Point reuse);\r\n",
+    "timestamp" : 1305747435,
+    "attachments" : [ ]
+  } ]
+}

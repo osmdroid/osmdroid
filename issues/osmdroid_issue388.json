@@ -1,0 +1,147 @@
+{
+  "id" : 388,
+  "status" : "Fixed",
+  "summary" : "r1130 'Apply SafeTranslatedCanvas patch' breaks current Osmdroid based apps",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 23,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nI am referring to:\r\nhttp://code.google.com/p/osmdroid/source/detail?r=1130\r\nr1130: &quot;Update issue 221. Apply SafeTranslatedCanvas patch. Migrate ScaleBarOverlay, TilesOverlay, and MinimapOverlay to SafeDrawOverlay. See issue 221 for more info.&quot;\r\n\r\nIt seems that the approach with the safe canvas has side effects, breaking already working apps which are based on Osmdroid extending its capabilities.\r\n\r\nFor example to an application in order to accomplish map rotation I use the Google MapsDemo example as described in &quot;\\android-sdk\\add-ons\\addon-google_apis-google-10\\samples\\MapsDemo\\&quot;.\r\nThere the map view size is made bigger than the screen in order for the rotation to not have black areas at the screen corners.\r\nI suppose that the translation 'to a coordinate system where the origin (0,0) is the center of the screen' is the cause that the overlay items and the map are now misplaced and shifted. And at rotation the center of rotation is not anymore the center of the visible map, but a shift of about half the screen.\r\n\r\nI don't know what changes the developers have to make at their code in order to use the latest Osmdroid but any help to point the right direction is mostly appreciated, as this is a serious issue.\r\n\r\nThanks.",
+    "timestamp" : 1355427999,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 1065103830500815556,
+    "content" : "Glad it wasn't just me that had issues... I didn't think about the rotation modification I also am using it for my main code but I'm sure I reverted to just osmdroid's trunk code for the map library and its still broken.\r\n\r\nI didn't log an issue as it seemed to only be me affected:\r\nhttps://groups.google.com/forum/?fromgroups=#!topic/osmdroid/LN8iyeXQebU",
+    "timestamp" : 1355494139,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1918333713940407975,
+    "content" : "Well I had to change the SafeDrawOverlay.draw method in order to take care of above issues. I retrieve the rotation angle (if any) from the matrix values. Also I take account of map view being bigger than screen (that is if it is hosted in a RotateView) with proper traslation.\r\n\r\n//sMatrix.setValues(sMatrixValues);\r\nsMatrix.setRotate(\r\n\t\t(float) Math.toDegrees(Math.atan2(sMatrixValues[Matrix.MSKEW_Y], sMatrixValues[Matrix.MSCALE_X])),\r\n\t\tosmv.getWidth() * 0.5f,\r\n\t\tosmv.getHeight() * 0.5f);\r\nsMatrix.postTranslate(\r\n\t\t-(osmv.getWidth() / 2 - ((View) osmv.getParent()).getWidth() / 2),\r\n\t\t-(osmv.getHeight() / 2 - ((View) osmv.getParent()).getHeight() / 2) + (c.getHeight() - ((View) osmv.getParent()).getHeight()));\r\n\r\nHope these help those that have issues with safe canvas.",
+    "timestamp" : 1355513412,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1918333713940407975,
+    "content" : "A better solution which also takes care of scale would be:\r\n\r\nfinal double angrad = Math.atan2(sMatrixValues[Matrix.MSKEW_Y], sMatrixValues[Matrix.MSCALE_X]);\r\nif (angrad != 0) {\r\n\tsMatrix.setRotate((float) Math.toDegrees(angrad), osmv.getWidth() * 0.5f, osmv.getHeight() * 0.5f);\r\n\tsMatrix.postTranslate(-osmv.getWidth() * 0.5f, -osmv.getHeight() * 0.5f);\r\n}\r\nelse\r\n\tsMatrix.setTranslate(-osmv.getWidth() * 0.5f, -osmv.getHeight() * 0.5f);\r\nfinal double angcos = Math.cos(angrad);\r\nsMatrix.postScale(sMatrixValues[Matrix.MSCALE_X] / (float) angcos, sMatrixValues[Matrix.MSCALE_Y] / (float) angcos);\r\nsMatrix.postTranslate(\r\n\t\t((View) osmv.getParent()).getWidth() * 0.5f,\r\n\t\t((View) osmv.getParent()).getHeight() * 0.5f + (c.getHeight() - ((View) osmv.getParent()).getHeight()));",
+    "timestamp" : 1355735524,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "In the end, it's probably easiest to add an option to disable the safe canvas, but really I'd rather fix these things proper. If you are doing any manipulation of the Matrix it must all be done with consideration to the x/yOffset. If all modifications are done directly to the ISafeCanvas then it should all be handled for you.",
+    "timestamp" : 1355927869,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Added ability to disable safe canvas drawing - r1133",
+    "timestamp" : 1355948338,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -1918333713940407975,
+    "content" : "The option to disable safe canvas drawing is most welcomed!\r\n\r\nAs many of us already use the provided default canvas in order to draw extra things on top of map view and overlays, and simply replacing draw with drawSafe does not work as expected.\r\nFor example I tried your advise for MyLocationOverlay at\r\nhttp://code.google.com/p/osmdroid/issues/detail?id=378#c21\r\nand it didn't work for me, the my location arrow disappeared.\r\nThe change of origin (if it is the cause) probably has confused existing code at many of us.",
+    "timestamp" : 1355999711,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -5949201040506357259,
+    "content" : "Hi , by using this safe canvas drawing, I notice on my application using osmdroid that at high zoom, my markers on the map are shaking. When disabling safe canvas, it's going back to a normal behavior.\r\n\r\nusing svn rev 1134",
+    "timestamp" : 1357204175,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 7646092065249173135,
+    "content" : "When you have safe canvas drawing off and are zoomed in look closely at the tiles at the edge as you scroll - are they really scrolling one pixel at a time or are they jumping a few pixels at a time?\r\n\r\nI see that the ItemizedOverlay is not a SafeDrawOverlay - I assume you are using this overlay and that is why the Markers are jumping. That needs to be changed.\r\n",
+    "timestamp" : 1357218787,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "I updated ItemizedOverlay in r1136 to use SafeDrawOverlay. Give safe drawing another shot and see if that works now.",
+    "timestamp" : 1357229961,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -5949201040506357259,
+    "content" : "yes I'm currently using ItemizedIconOverlay which come from ItemizedOverlay.\r\nAnd actually I made a mistake, even with the flag of safe canvas set to false, the markers of the overlay are shaking,and seem to jump a few pixels.",
+    "timestamp" : 1357231570,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -5949201040506357259,
+    "content" : "and if I revert to svn 1129, markers are effectively properly displayed",
+    "timestamp" : 1357232974,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : -5949201040506357259,
+    "content" : "ok I'll try\r\n",
+    "timestamp" : 1357232998,
+    "attachments" : [ ]
+  }, {
+    "id" : 13,
+    "commenterId" : -5949201040506357259,
+    "content" : "Works perfeclty with r1136\r\nthanks a lot.. :-)",
+    "timestamp" : 1357233243,
+    "attachments" : [ ]
+  }, {
+    "id" : 14,
+    "commenterId" : 7646092065249173135,
+    "content" : "@davemux86: Let me know if this works for you with rotation. Replace this block in SafeDrawOverlay.draw():\r\n\r\n\t\tif (this.isUsingSafeCanvas()) {\r\n\r\n\t\t\t// Find the screen offset\r\n\t\t\tRect screenRect = osmv.getProjection().getScreenRect();\r\n\t\t\tsSafeCanvas.xOffset = -screenRect.left;\r\n\t\t\tsSafeCanvas.yOffset = -screenRect.top;\r\n\r\n\t\t\t// Save the canvas state\r\n\t\t\tc.save();\r\n\r\n\t\t\t// Get the matrix values\r\n\t\t\tc.getMatrix(sMatrix);\r\n\t\t\tsMatrix.getValues(sMatrixValues);\r\n\r\n\t\t\t// If we're rotating, then reverse the rotation for now.\r\n\t\t\t// This gets us proper MSCALE values in the matrix.\r\n\t\t\tfinal double angrad = Math.atan2(sMatrixValues[Matrix.MSKEW_Y],\r\n\t\t\t\t\tsMatrixValues[Matrix.MSCALE_X]);\r\n\t\t\tsMatrix.preRotate((float) -Math.toDegrees(angrad), screenRect.right, screenRect.bottom);\r\n\r\n\t\t\t// Get the new matrix values to find the scaling factor\r\n\t\t\tsMatrix.getValues(sMatrixValues);\r\n\r\n\t\t\t// If we're scaling, then we need to adjust our position accordingly\r\n\t\t\tint xScalingOffset = (screenRect.width() / 2 - (int) (screenRect.width()\r\n\t\t\t\t\t* sMatrixValues[Matrix.MSCALE_X] / 2));\r\n\t\t\tint yScalingOffset = (screenRect.height() / 2 - (int) (screenRect.height()\r\n\t\t\t\t\t* sMatrixValues[Matrix.MSCALE_Y] / 2));\r\n\r\n\t\t\t// Adjust to remove scroll\r\n\t\t\tsMatrix.postTranslate(screenRect.left, screenRect.top);\r\n\t\t\t// Adjust to account for scaling\r\n\t\t\tsMatrix.postTranslate(xScalingOffset, (c.getHeight() - osmv.getHeight())\r\n\t\t\t\t\t+ yScalingOffset);\r\n\t\t\t// Put back the rotation.\r\n\t\t\tsMatrix.preRotate((float) Math.toDegrees(angrad), screenRect.width() / 2,\r\n\t\t\t\t\tscreenRect.height() / 2);\r\n\r\n\t\t\tc.setMatrix(sMatrix);\r\n\t\t} else {\r\n\t\t\tsSafeCanvas.xOffset = 0;\r\n\t\t\tsSafeCanvas.yOffset = 0;\r\n\t\t}\r\n\r\n",
+    "timestamp" : 1358461461,
+    "attachments" : [ ]
+  }, {
+    "id" : 15,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi kurtzmarc and thanks for your help!\r\nUnfortunately there are still problems with the first tests.\r\n\r\nFor start the zoom in/out is not working correctly. Between the fixed zoom levels when I press the zoom controls, the intermediate scale seems to position the map at the corners of the screen until the zoom animation completes.\r\n\r\nAlso the rotation is taking place with center the top left corner of the screen instead of its center. I have mentioned that my map view size is made bigger than screen in order for the rotation to not have black areas at the screen corners.\r\n\r\nI'll look more in your new implementation.",
+    "timestamp" : 1358536647,
+    "attachments" : [ ]
+  }, {
+    "id" : 16,
+    "commenterId" : 7646092065249173135,
+    "content" : "@davemux86: I should point out this is intended to do away with the need for a oversized view so maybe that is complicating the situation. There is more to the patch and I will probably post a separate ticket at some point which would probably be more useful to you. The patch includes consideration for rotating touches properly, and for increasing the area where tiles are drawn (to get rid of the black corners). But it's still not perfect - pinch to zoom is not working for me and a few other small things. I was hoping the above code might be a quick fix.",
+    "timestamp" : 1358541694,
+    "attachments" : [ ]
+  }, {
+    "id" : 17,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 396. A new maps rotation patch.",
+    "timestamp" : 1358955317,
+    "attachments" : [ ]
+  }, {
+    "id" : 18,
+    "commenterId" : 7646092065249173135,
+    "content" : "Everyone with issues\r\n\r\n*** Make sure you have Hardware Acceleration turned OFF ***\r\n\r\nWith it on, I see a some of the problems that have been posted here. With the way we do canvas drawing, hardware acceleration is not desirable.",
+    "timestamp" : 1364007493,
+    "attachments" : [ ]
+  }, {
+    "id" : 19,
+    "commenterId" : 7646092065249173135,
+    "content" : "See issue 413 regarding hardware acceleration.\r\n\r\nI'd like to close this ticket soon - are there any remaining issues that are still outstanding?",
+    "timestamp" : 1364526295,
+    "attachments" : [ ]
+  }, {
+    "id" : 20,
+    "commenterId" : 7646092065249173135,
+    "content" : "See r1154 for additional compatibility options.",
+    "timestamp" : 1364526347,
+    "attachments" : [ ]
+  }, {
+    "id" : 21,
+    "commenterId" : -1918333713940407975,
+    "content" : "No, there are no any remaining issues about this ticket.\r\nThanks!",
+    "timestamp" : 1364580128,
+    "attachments" : [ ]
+  }, {
+    "id" : 22,
+    "commenterId" : 7646092065249173135,
+    "content" : "This ticket can now be closed. Thanks for all the feedback!",
+    "timestamp" : 1365024252,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 74,
+  "status" : "Fixed",
+  "summary" : "jar 1.03, OpenStreetMapView line 142, null checking may be of wrong value",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 96660131602258341,
+    "content" : "Seeing a NPE if a &quot;renderer&quot; is not set in attributes, it looks like because a null check is on renderer instead of rendererAttr:\r\n\r\nfinal String rendererAttr = attrs.getAttributeValue(null, &quot;renderer&quot;);\r\nif (renderer != null) {\r\n\r\n",
+    "timestamp" : 1279555606,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r293.",
+    "timestamp" : 1279700317,
+    "attachments" : [ ]
+  } ]
+}

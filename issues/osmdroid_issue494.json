@@ -1,0 +1,39 @@
+{
+  "id" : 494,
+  "status" : "Fixed",
+  "summary" : "Projection.fromPixels() returns wrong lat/long when map is rotated",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4467607751311596901,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Display a map, \r\n2. touch screen and in ontouch event get the screen xy and convert to lat/lon via the mapview's projection fromPixels().\r\n3. Rotate that map by some amount (via calling the mapview's setMapOrientation() function)\r\n4. Touch again (at same location 0n the rotated map) and convert the xy to lat/lon, and note the lat/lon returned is not correct.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected output would be the same lat/lon returned for touching the same location on a map, regardless of map rotation. What I see is the lat/lon returned on the rotated map is (unsure correct terms) arc-shifted by the amount of rotation (ie from center point, if rotated 25 degrees, draw a radius to original point from center, then draw a line of same radius, 25 degrees to the rotation direction, and that is the lat/lon returned).\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 4.0, android  4.2.1\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1384289492,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4467607751311596901,
+    "content" : "To duplicate:\r\nTake the stock OpenStreetMapViewer project and do the following:\r\n\r\nMapActivity.java - add \r\n    @Override\r\n    public boolean onTouchEvent(MotionEvent event) {\r\n    \t// TODO Auto-generated method stub\r\n    \tLog.d(\"mapactivity\", \"touchevent\");\r\n    \tLog.d(\"mapactivity\", \"Map x/y\" + event.getX() + \" / \" + event.getY());\r\n    \tMapFragment mapFragment = (MapFragment) this.getSupportFragmentManager().findFragmentById(R.id.map_container);\r\n    \tif (mapFragment != null) {\r\n    \t\tGeoPoint p = mapFragment.toLatLon(event.getX(), event.getY());\r\n    \t\tLog.d(\"mapactivity\", \"Lat/lon - \"  + p.getLatitude() + p.getLongitude());\r\n    \t\t\r\n    \t}\r\n    \treturn super.onTouchEvent(event);\r\n    }\r\nMapFragment.java, add:\r\n\tpublic GeoPoint toLatLon(float x, float y) {\r\n\t\treturn (GeoPoint) mMapView.getProjection().fromPixels(x, y);\r\n\t}\r\n\t\r\n\tpublic Point fromLatLon(GeoPoint p) {\r\n\t\treturn mMapView.getProjection().toMapPixels(p, null);\r\n\t}\r\n\r\nThen launch the app. \r\nZoom to continental US, touch \"Washington DC\"\r\nGet a Logcat saying \"11-13 12:43:19.171: D/mapactivity(24255): Lat/lon - 36.244273 -77.124023\"\r\nOverflow menu, and enable rotation.\r\nRotate map ~45 degrees\r\nTap Washington DC again, logcat says \"11-13 12:44:35.581: D/mapactivity(24255): Lat/lon - 34.597041-80.112304\"\r\nLat/lon returned from the projection functions doesn't correct for the rotation.\r\n\r\n(Sorry that I don't quite have the math/time on hand to dig into what is needed to correct this and offer a patch)\r\n\r\n",
+    "timestamp" : 1384364764,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Updates in 499 may fix this issue once complete.",
+    "timestamp" : 1386711888,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "Comment deleted",
+    "timestamp" : 1386711889,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in Github.",
+    "timestamp" : 1397687306,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 150,
+  "status" : "Invalid",
+  "summary" : "Italian/Sardinian Translation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8233392148197635470,
+    "content" : "Hello!\r\n\r\nI translated this software in italian and in sardinian language. Please contact me to have any infos about.\r\n\r\nI'd like to have access to svn to update also graphic and styles. \r\n\r\nPlease contact me: rex.sanna&lt;at&gt;gmail.com",
+    "timestamp" : 1296224481,
+    "attachments" : [ {
+      "id" : -8857562875252330662,
+      "fileName" : "values-it.tar.gz",
+      "fileSize" : 73908
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you for submitting, but what you uploaded is for Andnav and doesn't apply to osmdroid directly. I think you want to submit it to them: http://code.google.com/p/andnav/\r\n",
+    "timestamp" : 1298762890,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1299040862,
+    "attachments" : [ ]
+  } ]
+}

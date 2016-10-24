@@ -1,0 +1,75 @@
+{
+  "id" : 141,
+  "status" : "Fixed",
+  "summary" : "Galaxy Tablet: map view is not drawn using entire screen",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4347711491313101153,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Problem when I execute my app on the large screen of the Samsung Galaxy tablet\r\n2. App draws ok on a typical Android phone (such as Samsung Galaxy)\r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect to see the map view use the entire screen of the tablet.\r\nHowever, it only uses a portion of the screen.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nI am using the Android 2.2 OS on the Galaxy Tablet.\r\nI am using osmdroid jar Version 3.0\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1295288532,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I see the same thing on an emulator with a screen resolution of 1024x600.\r\n\r\nI think it's because OpenStreetMapViewer has sdk version 3 (1.5) which doesn't support large screens.  If I change to 4 then it uses the full screen.  Perhaps someone can confirm this.  Then it's \"by design\".",
+    "timestamp" : 1295341350,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil, this is likely the case. I've had similar experiences in other projects where not setting a min sdk version wouldn't utilize the maximum resolution of the screen, and then once I set the min sdk (to 4 in my case) it would magically go hi-res. Personally, I'm in favor of bumping the API requirements to Android version 1.6, but I think there were some reservations in the past to doing this, but I don't remember what they were.",
+    "timestamp" : 1295499811,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "The reservations are that 1.5 is still quite widely used. So if there's no reason to increase to 1.6 then don't do so. But if this is a reason, then perhaps it's time. 1.6 is better at handling screen resolutions.",
+    "timestamp" : 1295504056,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil,\r\n\r\nI am using an X10 which I believe has a medium-density screen. When I bump up the API to 4, the map is \"smaller\" which translates to that it is using the real resolution of the device now. Also the MyLocation \"person\" icon is correctly sized.\r\n\r\nAnd I'm not so sure that 1.5 is widely used anymore:\r\nhttp://developer.android.com/resources/dashboard/platform-versions.html\r\n",
+    "timestamp" : 1295575034,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "4.7% of a very large number is a lot of phones!  The old osmdroid was downloaded from Market approximately 15000 times, which makes about 700 users.  I don't know how many users have tablets, but I'd guess it's much less than 4.7%.\r\n\r\nSo basically I'd prefer to defer this until the 1.5 users drop some more.",
+    "timestamp" : 1295608018,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "I may have a solution - in API 4 they added a targetSdkVersion attribute (http://developer.android.com/guide/topics/manifest/uses-sdk-element.html). We can compile against API 4, set our minSdkVersion to 3 and set our targetSdkVersion to 4. This works in an 1.5 emulator, and it allows my phone (API 7) to properly scale the screen.\r\n\r\nThe only downside I can see is that we have to be careful to not use API 4 calls. If we do they will compile without complaint and run on all API 4+ phones. However if it runs on an API 3 phone it will throw a VerifyError. Maybe there is a way to make eclipse throw a warning if we use an API 4 call.",
+    "timestamp" : 1296370872,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "Neil - I think it's time to pull the trigger on this. I've been using this solution for the past two weeks and it seems like a good solution. It keeps compatibility with API 3 and allows the app to run at full resolution. Agreed?\r\n",
+    "timestamp" : 1297580310,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "Agreed. It means we have to remember to switch back to API 3 now and then to make sure it still compiles.",
+    "timestamp" : 1297623757,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r803.",
+    "timestamp" : 1297624130,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : -4347711491313101153,
+    "content" : "Thanks!!\r\n\r\nWill this fix be in the next jar?\r\nOlaf\r\n",
+    "timestamp" : 1297699043,
+    "attachments" : [ ]
+  } ]
+}

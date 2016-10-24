@@ -1,0 +1,39 @@
+{
+  "id" : 287,
+  "status" : "Fixed",
+  "summary" : "misleading documentation",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3306654648997503252,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.  create a GeoPoint with coordinates some set of coordinates (OUTSIDE OF YOUR CURRENT MAPS VIEW, something like 15.0, 135.0) and an empty Point\r\n2.  call projection.toPixels (createdGeoPoint, createdEmptyPoint);\r\n3. call projection.fromPixels (createdEmptyPoint.x, createdEmptyPoint.y) and compare the lat lon to createdGeoPoin\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nexpect the two lat lon's to be the same, the second lat lon seems to be based on my current screenrect and very different\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.5 jar\r\n\r\n<b>Please provide any additional information below.</b>\nThe docs say that toPixels goes from geopoint to screen coordinates, and that fromPixels goes from screen coordinates to geopoint.  It seems then that you should be able to go straight from a geopoint to pixels and back and end up with the same point.  \r\n\r\nI think two things would help: the current function fromPixels should have the name changed and the docs changed to more accurately describe what it does (not completely sure what that is though so i can't help) and then create a second function called fromPixels that operates independently of the screenrect.\r\n",
+    "timestamp" : 1324591761,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -2023343401859409477,
+    "content" : "I don't see a problem in fromPixels but rather in toPixels. Even when calling toPixels() of the mapcenter, the Result is very odd.\r\n\r\nTry:\r\nmapView.getProjection().toPixels(mapView.getMapCenter(), out)\r\n\r\nExpected:\r\nout should point to mapView.height/2, mapView.width/2\r\n\r\nActual Result:\r\nout points to -18944, -6912",
+    "timestamp" : 1328624462,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8015006813755621819,
+    "content" : "      mMapView.getOverlays().add( new Overlay(this)\r\n      {\r\n         \r\n         @Override\r\n         protected void draw(Canvas arg0, MapView map, boolean arg2)\r\n         {\r\n            Projection projecton = map.getProjection();\r\n            IGeoPoint gepoint = map.getMapCenter();\r\n            Point point = projecton.toPixels(gepoint, null);\r\n            Log.d(TAG, \"Found center (\"+gepoint.getLatitudeE6()+\",\"+gepoint.getLongitudeE6()+\") matching screen point (\"+point.x+\",\"+point.y+\") \");\r\n         }\r\n      } );\r\n\r\nThe osmdroid projection only returns nonsense:\r\n05-13 21:23:57.328: D/OsmMap(24173): Found center (48875554,5899658) matching screen point (4296,-40908) \r\n",
+    "timestamp" : 1336937124,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1386711770,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Fixed in Github.",
+    "timestamp" : 1397687373,
+    "attachments" : [ ]
+  } ]
+}

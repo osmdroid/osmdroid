@@ -1,0 +1,19 @@
+{
+  "id" : 480,
+  "status" : "New",
+  "summary" : "setScrollableAreaLimit + getController().setCenter = fail",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 1,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6724765739905973646,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create MapView and apply setScrollableAreaLimit on it\r\n2. Try to setCenter / animateTo the controller the MapView \r\n\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nInstead of animating to the point it simply doesn't do a thing\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.10\r\n\r\n<b>Please provide any additional information below.</b>\nI am attaching my map class below - when you comment :\r\n  getController ( ).setCenter ( bb.getCenter ( ) );\r\n  setScrollableAreaLimit ( bb );\r\nThe setCenter miraculously starts working",
+    "timestamp" : 1379345997,
+    "attachments" : [ {
+      "id" : 4800000000,
+      "fileName" : "MinimapView.java",
+      "fileSize" : 2701
+    } ]
+  } ]
+}

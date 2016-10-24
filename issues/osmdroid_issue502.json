@@ -1,0 +1,21 @@
+{
+  "id" : 502,
+  "status" : "Invalid",
+  "summary" : "Can osmdroid support indoor map?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4742098233390623582,
+    "content" : "We have a project use indoor map. the map is private do not related to google or other public map. Is OSMdroid suppoest to do it?\r\nWhere can I find sample project\r\n\r\nThanks\r\nYours Sincerely\r\n\r\nJames Lee\r\n",
+    "timestamp" : 1387274935,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This is not the place for discussion. Please use the discussion group: http://groups.google.com/group/osmdroid",
+    "timestamp" : 1387361171,
+    "attachments" : [ ]
+  } ]
+}

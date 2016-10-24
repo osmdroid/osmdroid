@@ -1,0 +1,49 @@
+{
+  "id" : 109,
+  "status" : "Fixed",
+  "summary" : "No limit to disk space used when caching",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -845207052694504882,
+    "content" : "As of right now osmdroid does not limit the amount of disk space used when caching tiles.   They have an expiry date set of about a month, but will keep  using more and more space on disk.   It might not be a bad idea to limit the amount of cached tiles on disk to 100? or so.",
+    "timestamp" : 1288375444,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -845207052694504882,
+    "content" : "Apologies, I meant to enter this as an enhancement request.",
+    "timestamp" : 1288375502,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1288430113,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8118618068272438705,
+    "content" : "Hey,\r\n\r\nThis is a small patch to introduce a limit to disk space used when caching tiles. The limit is 600Mb.\r\n\r\nLet me know your comments\r\n\r\nThanks",
+    "timestamp" : 1291848795,
+    "attachments" : [ {
+      "id" : 3325118776116549266,
+      "fileName" : "cachesize.patch.zip",
+      "fileSize" : 1595
+    } ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r511.",
+    "timestamp" : 1291884985,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "@Fabien\r\n\r\nI've committed your patch with a few changes. If you think the changes I made are wrong, please let me know.\r\n",
+    "timestamp" : 1291885065,
+    "attachments" : [ ]
+  } ]
+}

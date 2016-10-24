@@ -1,0 +1,43 @@
+{
+  "id" : 232,
+  "status" : "Started",
+  "summary" : "Prevent north-south scroll wrapping",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "We allow our map to endless scroll in any direction. This makes sense when scrolling East/West since the flat map projection wraps around from the left to the right border. However, it doesn't make sense for North/South scrolling since the flat map does not wrap from top to bottom.\r\n\r\nThis issue is related to Issue 209 in that we want to limit the scroll area. However, this is limiting scrolling in only one direction.\r\n\r\nI suggest that we prevent the user from scrolling beyond the North/South borders period and that will close this ticket. We can then move towards having a BoundingBox that limits scrolling further.",
+    "timestamp" : 1308598233,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Additionally, Google Maps restricts North/South scroll wrapping",
+    "timestamp" : 1308598270,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached.\r\n\r\nThis patch mirrors the functionality of Google Maps. The maps will be prevented from scrolling endlessly to the North or South and instead will be blocked from scrolling beyond the N/S border. However, as does Google Maps, we allow overscrolling by one half the screen size. This additional overscroll area will be filled with \"loading\" tiles. The patch makes sure that the tiles in the overscroll area are not requested in the tile provider since they don't really exist.",
+    "timestamp" : 1309205148,
+    "attachments" : [ {
+      "id" : 2320002000,
+      "fileName" : "LimitNorthSouthScrolling.patch",
+      "fileSize" : 1731
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1309205160,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch enhanced in Issue 209.",
+    "timestamp" : 1309212183,
+    "attachments" : [ ]
+  } ]
+}

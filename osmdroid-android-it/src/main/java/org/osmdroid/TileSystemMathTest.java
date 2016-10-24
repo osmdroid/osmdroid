@@ -45,9 +45,9 @@ public class TileSystemMathTest extends AndroidTestCase {
 	}
 
 	/**
-	 * lat,long = 60.0, 60.0 <br />
-	 * gdaltransform -s_srs WGS84 -t_srs EPSG:900913 = 6679169.44759642 8399737.88981836<br />
-	 * MetersToPixels(6679169.44759642, 8399737.88981836, 10) = 174763, 76127 <br />
+	 * lat,long = 60.0, 60.0 <br>
+	 * gdaltransform -s_srs WGS84 -t_srs EPSG:900913 = 6679169.44759642 8399737.88981836<br>
+	 * MetersToPixels(6679169.44759642, 8399737.88981836, 10) = 174763, 76127 <br>
 	 */
 	public void test_LatLongToPixelXY() {
 		final double latitude = 60.0d;
@@ -61,8 +61,8 @@ public class TileSystemMathTest extends AndroidTestCase {
 	}
 
 	/**
-	 * PixelsToMeters(45, 45, 8) = -2.000999101260658E7, 2.000999101260658E7 <br />
-	 * gdaltransform -s_srs EPSG:900913 -t_srs WGS84 = -179.752807617187 85.0297584051224 <br />
+	 * PixelsToMeters(45, 45, 8) = -2.000999101260658E7, 2.000999101260658E7 <br>
+	 * gdaltransform -s_srs EPSG:900913 -t_srs WGS84 = -179.752807617187 85.0297584051224 <br>
 	 */
 	public void test_PixelXYToLatLong() {
 		final int pixelX = 45;
@@ -74,6 +74,8 @@ public class TileSystemMathTest extends AndroidTestCase {
 
 		assertEquals("TODO describe test", -179.752807617187, point.getLongitudeE6() / 1E6, delta);
 		assertEquals("TODO describe test", 85.0297584051224, point.getLatitudeE6() / 1E6, delta);
+		assertEquals("TODO describe test", -179.752807617187, point.getLongitude(), delta);
+		assertEquals("TODO describe test", 85.0297584051224, point.getLatitude(), delta);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import org.osmdroid.api.IMapView;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
+import org.osmdroid.tileprovider.util.Counters;
 
 import java.io.File;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	private final int mMaximumZoomLevel;
 
 	private final int mOrdinal;
-	protected final String mName;
+	protected String mName;
 	protected final String mImageFilenameEnding;
 	protected final Random random = new Random();
 
@@ -119,6 +120,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 			throw new LowMemoryException(e);
 		} catch (final Exception e){
 			Log.e(IMapView.LOGTAG,"Unexpected error loading bitmap: " + aFilePath,e);
+			Counters.tileDownloadErrors++;
 			System.gc();
 		}
 		return null;
@@ -157,7 +159,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		return null;
 	}
 
-	public final class LowMemoryException extends Exception {
+	public static final class LowMemoryException extends Exception {
 		private static final long serialVersionUID = 146526524087765134L;
 
 		public LowMemoryException(final String pDetailMessage) {

@@ -1,0 +1,21 @@
+{
+  "id" : 26,
+  "status" : "Duplicate",
+  "summary" : "tap on items does not work",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3649467699727318466,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Start OSMapView with ItemizedOverlay or OSMapView with \r\nItemizedOverlayWithFocus\r\n2. Tap on item\r\n3. Toast does not appear.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected output: Toast message about item.\r\nCurrent state: Nothing happens\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nr119 (March 19 2010)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nOpenStreetMapViewItemizedOverlay.java contains error in onSingleTapUp. Take \r\na look at: pj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords).\r\n\r\n\t@Override\r\n\tpublic boolean onSingleTapUp(final MotionEvent event, final \r\nOpenStreetMapView mapView) {\r\n\t\tfinal OpenStreetMapViewProjection pj = \r\nmapView.getProjection();\r\n\t\tfinal int eventX = (int)event.getX();\r\n\t\tfinal int eventY = (int)event.getY();\r\n\t\t\r\n\t\tfinal int markerWidth = this.mMarker.getIntrinsicWidth();\r\n\t\tfinal int markerHeight = this.mMarker.getIntrinsicHeight();\r\n\t\t\r\n\t\tfinal Rect curMarkerBounds = new Rect();\r\n\t\tfinal Point mCurScreenCoords = new Point();\r\n\t\t\r\n\t\tfor(int i = 0; i &lt; this.mItemList.size(); i++){\r\n\t\t\tfinal T mItem = this.mItemList.get(i);\r\n\t\t\tpj.toMapPixels(mItem.mGeoPoint, mCurScreenCoords); \r\n// &lt;&lt;&lt;&lt; Error: Coordinates relative to map center in pixel get returned \r\n(very high values) \r\n\t\t\t\r\n\t\t\tfinal int left = mCurScreenCoords.x - \r\nthis.mMarkerHotSpot.x;\r\n\t\t\tfinal int right = left + markerWidth;\r\n\t\t\tfinal int top = mCurScreenCoords.y - \r\nthis.mMarkerHotSpot.y;\r\n\t\t\tfinal int bottom = top + markerHeight;\r\n\t\t\t\r\n\t\t\tcurMarkerBounds.set(left, top, right, bottom);\r\n\t\t\tif(curMarkerBounds.contains(eventX, eventY)) // \r\n&lt;&lt;&lt;&lt; Error: Cannot compare physical screen coordinates with relative map \r\ncoordinates\r\n\t\t\t\tif(onTap(i))\r\n\t\t\t\t\treturn true;\r\n\t\t}\r\n\t\treturn super.onSingleTapUp(event, mapView);\r\n\t}",
+    "timestamp" : 1269450036,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1269497520,
+    "attachments" : [ ]
+  } ]
+}67184059112911,"content":"","timestamp":1269497520,"attachments":[]}]}

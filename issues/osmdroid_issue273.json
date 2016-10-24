@@ -1,0 +1,27 @@
+{
+  "id" : 273,
+  "status" : "Accepted",
+  "summary" : "Use HttpURLConnection instead of HttpClient",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5515062512165854251,
+    "content" : "Google has indicated that developers should use HttpURLConnection instead of HttpClient, and that HttpClient will not receive further attention from them (in fact, HttpClient in Android is a pre-release of HttpClient 4.0, and is already woefully out of date). See http://android-developers.blogspot.com/2011/09/androids-http-clients.html\r\n\r\nThis seems to go opposite issue 212",
+    "timestamp" : 1320636778,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "If you read the end of that blog article you'll see that which one is best depends on the SDK level, so perhaps we should use one or the other depending on that.",
+    "timestamp" : 1320688150,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 5515062512165854251,
+    "content" : "If you use HttpUrlConnection, and never use HttpClient, you can recommend that users use ICS's HttpResponseCache and/or the backport of ICS's HttpResponseCache which you can get from https://github.com/candrews/HttpResponseCache (which is in Maven, btw).\r\n\r\nThis seems like a more future-proof, more maintainable solution than the one currently employed.",
+    "timestamp" : 1329094608,
+    "attachments" : [ ]
+  } ]
+}

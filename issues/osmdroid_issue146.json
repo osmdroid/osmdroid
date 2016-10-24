@@ -1,0 +1,33 @@
+{
+  "id" : 146,
+  "status" : "Fixed",
+  "summary" : "Linked files have a hard-reference to a folder rather than a relative location in the OpenStreetMapViewer project",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "Revision 742 migrated from using a jar file to linked code in the OpenStreetMapViewer project. The problem is that the &quot;.project&quot; file contains a hard reference to &quot;C:/Documents and Settings/admin/workspace/osmdroid/osmdroid-android/src&quot; which is only valid in one specific developer's workspace configuration.\r\n\r\nI'm not sure the best way to resolve this, but at a minimum the reference should be to something along the lines of &quot;../osmdroid/osmdroid-android/src&quot; however Eclipse doesn't allow &quot;..&quot; references. Maybe there is a better way of including the osmdroid reference. It seems to work if we just remove the linked source folder and include the osmdroid project in the &quot;Required projects on the build path&quot;, but maybe there is a reason to keep the src folder directly linked in the project.",
+    "timestamp" : 1295571737,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Actually it seems like I get a VerifyError when I just have the project in the \"Required projects on the build path\". I'm no Eclipse expert so maybe someone else has an idea. ",
+    "timestamp" : 1295572897,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Apparently PARENT-1-PROJECT_LOC was added as a solution to this. So OpenStreetMapViewer's link to osmdroid should point to PROJECT_LOC/../osmdroid-android/src\r\n\r\nI hope that makes sense.",
+    "timestamp" : 1297568805,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r800.",
+    "timestamp" : 1297568874,
+    "attachments" : [ ]
+  } ]
+}

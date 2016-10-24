@@ -1,0 +1,27 @@
+{
+  "id" : 533,
+  "status" : "Invalid",
+  "summary" : "BoundingBoxE6 contains method has unexpected behaivour",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -4830663443768511249,
+    "content" : "\r\nThe method looks like this:\r\n\r\npublic boolean contains(final int aLatitudeE6, final int aLongitudeE6) {\r\n       return ((aLatitudeE6 &lt; this.mLatNorthE6) &amp;&amp; (aLatitudeE6 &gt; this.mLatSouthE6))\r\n             || ((aLongitudeE6 &lt; this.mLonEastE6) &amp;&amp; (aLongitudeE6 &gt; this.mLonWestE6));\r\n        }\r\n\r\nIs there a reason it checks whether the the point is within the north and south bound or est and west bounds, rather than within the north and south bounds and within the east and west bounds?  \r\n\r\nI expected it to check if the given point was within the box, the way it is written now, it doesn't",
+    "timestamp" : 1396600577,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : -4830663443768511249,
+    "content" : "nvm I was looking at an old version of the class",
+    "timestamp" : 1396601718,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1396622452,
+    "attachments" : [ ]
+  } ]
+}

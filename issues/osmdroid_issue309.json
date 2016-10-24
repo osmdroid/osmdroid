@@ -1,0 +1,21 @@
+{
+  "id" : 309,
+  "status" : "Invalid",
+  "summary" : "NullPointerException in MapTileFilesystemProvider.loadTile() line 153",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3371388084956739717,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create an activity with osm MapView\r\n2. Create an XYTileSource with seamark and a overlay\r\n3. Add the overlay with the tile source  \r\n4. Load the activity on the emulator or the device\r\n\r\n///// Java code \r\nXYTileSource openSeaSource = new XYTileSource(&quot;seamark&quot;, string.mapnik, 0, 18, 256, &quot;.png&quot;, &quot;http://tiles.openseamap.org/seamark/&quot;);\r\n\r\nMapTileProviderBasic mapTileProviderBasic = new MapTileProviderBasic(getApplicationContext());\t\t\tmapTileProviderBasic.setTileSource(openSeaSource);\r\nTilesOverlay seamarkOverlay = new TilesOverlay(mapTileProviderBasic,getApplicationContext());\r\nmap.getOverlays().add(seamarkOverlay);\r\n\r\n///// End Java code\r\n\r\nWhat version of the product are you using? \r\nosmdroid-android-3.0.7\r\n\r\nOn what operating system?\r\nUbuntu\r\n\r\n<b>Please provide any additional information below.</b>\nFull stacktrace\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): Error downloading tile: /10/529/375\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): java.lang.NullPointerException\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): \tat org.osmdroid.tileprovider.modules.MapTileFilesystemProvider$TileLoader.loadTile(MapTileFilesystemProvider.java:153)\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): \tat org.osmdroid.tileprovider.modules.MapTileModuleProviderBase$TileLoader.run(MapTileModuleProviderBase.java:237)\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): \tat java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1068)\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): \tat java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:561)\r\n02-09 15:03:03.639: E/org.osmdroid.tileprovider.modules.MapTileModuleProviderBase(385): \tat java.lang.Thread.run(Thread.java:1096)",
+    "timestamp" : 1328800423,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is for an older version of osmdroid. Please post a new issue if the problem is still present. Check the samples app and compare it to your app.",
+    "timestamp" : 1365883942,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,31 @@
+{
+  "id" : 254,
+  "status" : "Fixed",
+  "summary" : "Patch for../modules/MBTilesFileArchive.java to allow unmodified mbtiles to be used on android",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3306654648997503252,
+    "content" : "This is only a small addition, I added SQLiteDatabase.NO_LOCALIZED_COLLATORS to the getDatabaseFileArchive function which will prevent people from having to modify the mbtiles files to add the android metadata table",
+    "timestamp" : 1314648431,
+    "attachments" : [ {
+      "id" : 2540000000,
+      "fileName" : "MBTilesFileArchive.java.patch",
+      "fileSize" : 701
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I'll take your word for it that this works.",
+    "timestamp" : 1314941498,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r984.",
+    "timestamp" : 1314941560,
+    "attachments" : [ ]
+  } ]
+}

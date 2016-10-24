@@ -1,0 +1,21 @@
+{
+  "id" : 263,
+  "status" : "New",
+  "summary" : "onScroll gives wrong lat/lon",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 867056507455094702,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. implement mapListener\r\n2. in onScroll get x and y from scroll event\r\n3. use projection.formPixels with these screen coordinates(x and y) to get the map coordinates\r\n\r\n<b>What is the expected output? What do you see instead?</b>\ni am scrolling around lon:0 lat:52 and after projecting get lon:0 lat:71\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.05 android 2.3\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1316584878,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 867056507455094702,
+    "content" : "just wanted to mention that if i feed the projection with (0,0) or something like\r\nthat everything is ok. that is the problem is with the x and y stored  in the scrollEvent",
+    "timestamp" : 1316681262,
+    "attachments" : [ ]
+  } ]
+}

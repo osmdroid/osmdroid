@@ -1,0 +1,21 @@
+{
+  "id" : 459,
+  "status" : "Invalid",
+  "summary" : "listen map events",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -547406035547740460,
+    "content" : "I need listen follow map events:\r\n1.on  MotionEvent.ACTION_DOWN\r\n2.on  MotionEvent.UP\r\n3.on map moving\r\n4. on map moved\r\n5.on map zooming\r\n6.on map zoomed\r\n\r\nI find MapEvent,But it can't meet the above requirements.\r\nany idea can help me ?\r\n\r\nif you not understand what I say,please read follow words for Chinese:\r\n我想监听地图事件：\r\n1.按下地图事件\r\n2.按下后再松开地图事件\r\n3.移动地图事件\r\n4.移动地图完成后事件\r\n5.放大或缩小时地图事件\r\n6.放大或缩小完成后地图事件",
+    "timestamp" : 1375798428,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You can extend MapView and override onTouchEvent() or you can create your own Overlay and override onTouchEvent(). That will handle 1-4.\r\n\r\nFor the zoom events, you can extend MapView and override zoomIn()/zoomOut() for #5 and setZoomLevel for #6.\r\n\r\nAnother way to do it is to create a MapListener and call setMapListener() on your MapView which will give you scroll and zoom events.\r\n",
+    "timestamp" : 1375807969,
+    "attachments" : [ ]
+  } ]
+}

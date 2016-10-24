@@ -1,0 +1,27 @@
+{
+  "id" : 529,
+  "status" : "Duplicate",
+  "summary" : "PathOverlay disappearing while scrolling",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1293097328077341547,
+    "content" : "<b>What steps will reproduce the problem?</b>\nI do have a path where this problem is reproducable: http://pastebin.com/0yZwsaEN\r\n\r\nThe paste is the #toString() of each GeoPoint in the path. If you zoom in to level 18 and scroll among the path (try to move left/right, too), you can hopefully reproduce the problem and will see the path disappear/reappear.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nWhen drawing a path with a PathOverlay, sometimes paths disappear while scrolling (so far I've seen it mostly on a high zoom-level like 18, but not only). They reappear when the user scrolls out of a certain rectangular area, and disappear again when the user scrolls back into the same area. I need the path to stay visible in all areas and zoom-levels.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\nLatest osmdroid 4.0 lib, Nexus 4, Android 4.4 (same behaviour on a different Nexus 4 with Android 4.3).\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI am subclassing PathOverlay, because I needed a Getter for the parcelable GeoPoint-Arraylist and the color. However, I am calling super where needed, e.g. in #addPoint, so this should not matter. Let me know if you need any more info.",
+    "timestamp" : 1392908983,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "I believe what you are describing is detailed in 392.",
+    "timestamp" : 1392909249,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -1293097328077341547,
+    "content" : "I'm not sure if the problem I was describing is caused be the same issue described in 392. I found the reason (PathEffect): https://code.google.com/p/osmdroid/issues/detail?id=392#c18\r\n\r\nNot familiar with the drawing, So I don't know if these issues are really connected.",
+    "timestamp" : 1392977279,
+    "attachments" : [ ]
+  } ]
+}

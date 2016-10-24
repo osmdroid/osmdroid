@@ -1,0 +1,45 @@
+{
+  "id" : 32,
+  "status" : "Fixed",
+  "summary" : "Italian translation",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4260820432186481175,
+    "content" : "Hi,\r\ni completed the italian translation of the app.\r\n\r\nHope this can be useful.\r\n\r\nBye,\r\nDiego Pierotto\r\n\r\n\r\n\r\n",
+    "timestamp" : 1270232440,
+    "attachments" : [ {
+      "id" : -4028370011187047944,
+      "fileName" : "Intro.txt",
+      "fileSize" : 287
+    }, {
+      "id" : -1683620734131014144,
+      "fileName" : "renderers.xml",
+      "fileSize" : 473
+    }, {
+      "id" : 2333020446945684619,
+      "fileName" : "strings.xml",
+      "fileSize" : 575
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271163987,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r125.",
+    "timestamp" : 1271184986,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "Added the two xml files. Not done anything with intro.txt. Not tested by me.\r\n",
+    "timestamp" : 1271185046,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,37 @@
+{
+  "id" : 219,
+  "status" : "Duplicate",
+  "summary" : "Patch for /trunk/osmdroid-android/src/org/osmdroid/views/MapView.java",
+  "labels" : [ "Type-Patch" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8778289522063822345,
+    "content" : "Better event management on MapView children. \r\n\r\nWhen you add child view to a MapView in an xml UI file, events fired on these view are always dispatched to the underlying Osmdroid overlays. In our case, we wanted the event to be stopped if a view listener intercepted it. ",
+    "timestamp" : 1306348261,
+    "attachments" : [ {
+      "id" : 2190000000,
+      "fileName" : "MapView.java.patch",
+      "fileSize" : 1582
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1306389203,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -8778289522063822345,
+    "content" : "Hello, \r\nThe patch I submitted changes the way events are handled, but doesn't solve correctly the issue. In addition it causes the events to be fired multiple times without any reason.\r\nPlease close this issue and don't include the previous patch. \r\n\r\nI'm working on a better solution, I will let you know.",
+    "timestamp" : 1315168712,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1372078048,
+    "attachments" : [ ]
+  } ]
+}

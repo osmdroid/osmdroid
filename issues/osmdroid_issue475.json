@@ -1,0 +1,21 @@
+{
+  "id" : 475,
+  "status" : "New",
+  "summary" : "MapTiles loads very slowly at lower zoom levels",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3812343423349414803,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1.For off line tile provider we are using sqlite db and putting that in osmdroid directory.\r\n2.We have not changed anything in the osmdroid code (using the jar file 3.0.10)\r\n3.In phase one The sqlite db contains the tiles till zoom level 17.\r\n4.Map Tiles load fine in this phase at every zoom level.\r\n5.In phase second we have upgrade that db tiles till zoom level 19.\r\n6.Now the map scaling and tile loading is very slow at lower zoom level(when the map scale is above 2 km)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\nMap tiles loads very slowly or do not load at all\r\n\r\n",
+    "timestamp" : 1378480212,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Can you please run the performance profiler on the app and see where the slow-down is happening? Or can you attach a (small) database that exhibits this issue and any relevant source code.",
+    "timestamp" : 1378771849,
+    "attachments" : [ ]
+  } ]
+}

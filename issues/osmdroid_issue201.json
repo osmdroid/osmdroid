@@ -1,0 +1,21 @@
+{
+  "id" : 201,
+  "status" : "Accepted",
+  "summary" : "Add Interfaces for Overlay and OverlayItem",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -6796225531243314910,
+    "content" : "Customized overlays and/or overlayItems could be easier to create if interfaces was used for these objects.\r\n\r\n",
+    "timestamp" : 1302615199,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1302672075,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 129,
+  "status" : "Fixed",
+  "summary" : "MyLocation does not dissapear after disableMylocation() call",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8015006813755621819,
+    "content" : "The mMyLocationEnabled is set to false but is not used by the onDraw() to determine if to draw the image. \r\n\r\nAlso an update to redraw is not triggered after disabling MyLocation. \r\n",
+    "timestamp" : 1293483884,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thanks for the bug report! This has been fixed in revision 750.",
+    "timestamp" : 1295574048,
+    "attachments" : [ ]
+  } ]
+}

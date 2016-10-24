@@ -1,0 +1,33 @@
+{
+  "id" : 439,
+  "status" : "New",
+  "summary" : "Infinite loading loop of expired tiles when in offline mode",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 389711605628345409,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Have map with expired tiles on SD card\r\n2. Turn off Internet connection or disable tiles downloading\r\n3. Display map and look into logs\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nExpected: After failed download, map stops trying to download tiles\r\nWhat happens: tiles provider goes into infinite loop reloading expired tiles from file and failing to download newer.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.10, tested on Android 4.0.4 (Xperia Neo V) and 4.2.1 (ASUS TF300T)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nAfter some code research I've found out how it works:\r\n1. Expired tile is loaded from file. Download is disabled\r\n2. MapTileProviderBase adds this expired tile to cache \r\n3. MapTileProviderBase sends MAPTILE_SUCCESS_ID message through mTileRequestCompleteHandler, which leads to calling invalidate() on MapView\r\n4. During MapView's repaint all expired tiles are set for re-load (added to mPending in MapTileModuleProviderBase)\r\n5. GoTo 1.\r\n\r\nMy fast workaround is to check at point 2. if there is already a tile in the cache. If there is one, don't send MAPTILE_SUCCESS_ID message, as nothing has changed. This way I'm breaking the loading loop.\r\n\r\n",
+    "timestamp" : 1371154071,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Create your own tile-provider array and when you create your MapTileFilesystemProvider, pass it Long.MAX_VALUE for the pMaximumCachedFileAge parameter. This will effectively make it so that tiles don't expire.",
+    "timestamp" : 1371217814,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 389711605628345409,
+    "content" : "Nice workaround, but I'd like to re-download expired tiles from time to time :)",
+    "timestamp" : 1372078007,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 6593743926263410891,
+    "content" : "Is this related to issue 289. Maybe even the reason for it?",
+    "timestamp" : 1385215801,
+    "attachments" : [ ]
+  } ]
+}

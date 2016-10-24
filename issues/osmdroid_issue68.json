@@ -1,0 +1,99 @@
+{
+  "id" : 68,
+  "status" : "Fixed",
+  "summary" : "Patch: OpenStreetMapViewItemizedOverlayCustom",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 13,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 250956797218298740,
+    "content" : "This is an overlay where the user supplies custom graphics for each item.\r\nI chose to position the items using their own bounds and Canvas.setMatrix().\r\n\r\nUsing a concrete class for the Items would be more efficient since interface calls are expensive in Android but would decrease flexibility.\r\n",
+    "timestamp" : 1278535677,
+    "attachments" : [ {
+      "id" : 4059816127116138801,
+      "fileName" : "OpenStreetMapViewItemizedOverlayCustom.java",
+      "fileSize" : 5244
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "I admit I haven't looked too deeply at the overlays, but it seems that OpenStreetMapViewItemizedOverlay is intended to be customisable. Couldn't you achieve the same thing by just adding a bit more flexibility to the existing code, eg by adding a Drawable to OpenStreetMapViewOverlayItem?\r\nOr by diversifying OpenStreetMapViewOverlayItem into a text item and a drawable item?\r\n\r\nThe point being to avoid duplicate code.",
+    "timestamp" : 1278581356,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 250956797218298740,
+    "content" : "It should be possible to merge the two overlays into one. From my viewpoint, and using Google's API as reference, the text items is the special case. It could inherit from a general OverlayItem.\r\n\r\nI started off inheriting from the existing ItemizedOverlay but abandoned that because ItemizedOverlay requires resources that I won't ever need.\r\n\r\nI agree on avoiding duplicate code. I can look more into it once I gain member status. In the meantime, I'm using the supplied code in my own project.",
+    "timestamp" : 1278583644,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 250956797218298740,
+    "content" : "",
+    "timestamp" : 1278938888,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 377282626040017500,
+    "content" : "Here's an alternate implementation which modifies the existing ItemizedOverlay.  It attempts to retrieve an icon from the item using getMarker().  If this is null, then it falls back to the existing behavior of using the default icon specified when the ItemizedOverlay is created.",
+    "timestamp" : 1284761853,
+    "attachments" : [ {
+      "id" : 4315966556881417903,
+      "fileName" : "overlaymarkers.patch",
+      "fileSize" : 9526
+    } ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "This patch looks fine with my superficial glance. I suggest that andpet incorporates it since he knows more about this and he is already the owner of this issue.",
+    "timestamp" : 1284970999,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -3160830107365654207,
+    "content" : "I think andpet... http://groups.google.com/group/osmdroid/browse_thread/thread/b616c3509a34a98d#\r\n...has pretty much approved the patch.\r\nI'm interested in seeing this issue resolved.  I'm going to check it out a bit more and unless somebody complains I'll commit the patch.",
+    "timestamp" : 1285631991,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -3160830107365654207,
+    "content" : "Here is my combined patch.\r\nI also changed the andnav Point to be BasicPoint so as to not be confused with the android Point.\r\nI am still testing this patch but I wanted to get your input.\r\n",
+    "timestamp" : 1285696140,
+    "attachments" : [ {
+      "id" : 4928611741723875313,
+      "fileName" : "patch",
+      "fileSize" : 21469
+    } ]
+  }, {
+    "id" : 8,
+    "commenterId" : -3160830107365654207,
+    "content" : "I have committed revision 383.\r\nThe usage is something like... \r\n[from OpenStreetMapViewer::OpenStreetMap.java::loadItems() a mechanism for loading items from a content provider]\r\n\r\nfinal ArrayList<OpenStreetMapViewOverlayItem> items = new ArrayList<OpenStreetMapViewOverlayItem>();\r\n\r\nCursor cursor = this.managedQuery(IncidentSchema.EventTableSchema.CONTENT_URI,\r\n    null, null, null, null);\r\nif (cursor == null) {\r\n  Toast.makeText(this, R.string.missing_content_provider, Toast.LENGTH_LONG);\r\n  return;\r\n}\r\n\r\nint counter = 100;\r\nfor (boolean more = cursor.moveToFirst(); more; more = cursor.moveToNext()) {\r\n   ++counter;\r\n   long latitude = cursor.getLong(cursor\r\n                            .getColumnIndex(IncidentSchema.EventTableSchema.LATITUDE));\r\n   long longitude = cursor.getLong(cursor\r\n                            .getColumnIndex(IncidentSchema.EventTableSchema.LONGITUDE));\r\n   GeoPoint gpoint = new GeoPoint(latitude, longitude);\r\n   OpenStreetMapViewOverlayItem item = new OpenStreetMapViewOverlayItem(\"Category: \"\r\n        + counter, \"Sample Description: \" + counter, gpoint);\r\n\t\t\r\n   item.setMarker(this.getResources().getDrawable(R.drawable.brand_icon));\r\n   item.setMarkerHotspotPlace(null);\r\n   items.add(item);\r\n}\r\n\r\nthis.mIncidentOverlay = new OpenStreetMapViewItemizedOverlay<OpenStreetMapViewOverlayItem>(\r\n   this, items, mOnItemTapListener);\r\n\r\n---------\r\nI'm working on a sample using a content provider.\r\nI'll commit that as a separate example when it is done.",
+    "timestamp" : 1285707035,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "You forgot to check in org.andnav.osm.util.BasicPoint",
+    "timestamp" : 1285747155,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "You could also delete org.andnav.osm.util.Point since it's not used any more.",
+    "timestamp" : 1285747301,
+    "attachments" : [ ]
+  }, {
+    "id" : 11,
+    "commenterId" : -3160830107365654207,
+    "content" : "Corrected by revision 386.",
+    "timestamp" : 1285824054,
+    "attachments" : [ ]
+  }, {
+    "id" : 12,
+    "commenterId" : 8937367184059112911,
+    "content" : "Or why not just use android.graphics.Point instead of BasicPoint as you did in some other places?",
+    "timestamp" : 1285829106,
+    "attachments" : [ ]
+  } ]
+}

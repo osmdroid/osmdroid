@@ -1,0 +1,27 @@
+{
+  "id" : 149,
+  "status" : "Fixed",
+  "summary" : "MapQuest alternative tiles sources seems to not use filesystem cache",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8778289522063822345,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Set MapView tiles source to MapQuestOSM\r\n2. Use you app to load and save tiles on the sdcard\r\n3. Turn the device into flight mode (no network connectivity)\r\n4. Close and reopen your app : previous saved tiles are not displayed\r\nThese steps put in an obvious place the issue, but in common usage the filesystem cache is never used to load MapQuestOSM tiles.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nTiles available on the sdcard should be displayed and not downloaded.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid-android jar 3.0.1\r\n\r\n<b>Please provide any additional information below.</b>\nThe problem seems to be located in MapTileProviderBasic, line 51 : \r\n\r\nfinal MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(\r\n\t\t\t\tpRegisterReceiver);\r\n\r\nWe should do :\r\n\r\nfinal MapTileFilesystemProvider fileSystemProvider = new MapTileFilesystemProvider(\r\n\t\t\t\tpRegisterReceiver, pTileSource);",
+    "timestamp" : 1296216768,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is correct. The filesystem provider should be provided the tile source upon initialization.",
+    "timestamp" : 1296345628,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r760.",
+    "timestamp" : 1296345708,
+    "attachments" : [ ]
+  } ]
+}

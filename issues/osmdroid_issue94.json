@@ -1,0 +1,69 @@
+{
+  "id" : 94,
+  "status" : "Fixed",
+  "summary" : "Exception when closing the application, which uses OpenStreetMapView.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "09-22 20:15:09.584: ERROR/ActivityThread(2724): Activity com.my_test_app.MapActivity has leaked IntentReceiver org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider$MyBroadcastReceiver@43836470 that was originally registered here. Are you missing a call to unregisterReceiver()?\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724): android.app.IntentReceiverLeaked: Activity com.my_test_app.MapActivity has leaked IntentReceiver org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider$MyBroadcastReceiver@43836470 that was originally registered here. Are you missing a call to unregisterReceiver()?\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread$PackageInfo$ReceiverDispatcher.&lt;init&gt;(ActivityThread.java:748)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread$PackageInfo.getReceiverDispatcher(ActivityThread.java:576)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ApplicationContext.registerReceiverInternal(ApplicationContext.java:770)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ApplicationContext.registerReceiver(ApplicationContext.java:757)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ApplicationContext.registerReceiver(ApplicationContext.java:751)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.content.ContextWrapper.registerReceiver(ContextWrapper.java:290)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at org.andnav.osm.views.OpenStreetMapView$1.registerReceiver(OpenStreetMapView.java:137)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at org.andnav.osm.tileprovider.OpenStreetMapTileFilesystemProvider.&lt;init&gt;(OpenStreetMapTileFilesystemProvider.java:78)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at org.andnav.osm.views.util.OpenStreetMapTileProviderDirect.&lt;init&gt;(OpenStreetMapTileProviderDirect.java:23)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at org.andnav.osm.views.OpenStreetMapView.&lt;init&gt;(OpenStreetMapView.java:140)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at org.andnav.osm.views.OpenStreetMapView.&lt;init&gt;(OpenStreetMapView.java:163)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at java.lang.reflect.Constructor.constructNative(Native Method)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at java.lang.reflect.Constructor.newInstance(Constructor.java:446)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.createView(LayoutInflater.java:499)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:564)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.rInflate(LayoutInflater.java:617)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.inflate(LayoutInflater.java:407)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.inflate(LayoutInflater.java:320)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.view.LayoutInflater.inflate(LayoutInflater.java:276)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at com.android.internal.policy.impl.PhoneWindow.setContentView(PhoneWindow.java:313)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.Activity.setContentView(Activity.java:1620)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at com.my_test_app.MapActivity.onCreate(MapActivity.java:141)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1123)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2364)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2417)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread.access$2100(ActivityThread.java:116)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1794)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.os.Handler.dispatchMessage(Handler.java:99)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.os.Looper.loop(Looper.java:123)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at android.app.ActivityThread.main(ActivityThread.java:4203)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at java.lang.reflect.Method.invokeNative(Native Method)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at java.lang.reflect.Method.invoke(Method.java:521)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:791)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:549)\r\n09-22 20:15:09.584: ERROR/ActivityThread(2724):     at dalvik.system.NativeStart.main(Native Method)\r\n",
+    "timestamp" : 1285176118,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 3456884467250674452,
+    "content" : "Does anyone have an idea why it appears?",
+    "timestamp" : 1285779416,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See the TODO in OpenStreetMapTileFilesystemProvider constructor.",
+    "timestamp" : 1285828885,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 97.",
+    "timestamp" : 1286051213,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r400.",
+    "timestamp" : 1286263269,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -4233620243831283211,
+    "content" : "I'm using current version (4.0/r???) and still (or again) have this issue?\r\nWas it really fixed in r400?\r\nAm I using the correct Version?",
+    "timestamp" : 1386681522,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 6999585313919299855,
+    "content" : "Today I got the same exception. I'm using org.osmdroid:osmdroid-android:4.1.",
+    "timestamp" : 1392904164,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -4082294753683572809,
+    "content" : "Getting this exception using osmdroid 4.1. I have a mapview in a fragment inside another fragment (nested fragments). I'm getting the exception after couple of orientation changes.",
+    "timestamp" : 1398754649,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 236670418119058171,
+    "content" : "Also getting this error, OsmDroid 4.0",
+    "timestamp" : 1399303998,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : -5897312162544846073,
+    "content" : "Using osmdroid 4.2 - I am using MapView in fragment and i call:\r\n\r\nmapView.getTileProvider().detach();\r\n\r\nin my onDetach() fragment's method to fix this issue",
+    "timestamp" : 1409766767,
+    "attachments" : [ ]
+  } ]
+}

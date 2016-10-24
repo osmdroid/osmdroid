@@ -1,0 +1,27 @@
+{
+  "id" : 404,
+  "status" : "Invalid",
+  "summary" : "Building to SDK level 16 causing misaligned overlays and sometimes crashing.",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -514379348423212608,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Build to SDK level 16\r\n2. The compass rendering fails which causes the map orientation to shift and some cases crashes.\r\n\r\nhttp://www.yousaytoo.com/display-compass-on-osmdroid-mapview/2807827",
+    "timestamp" : 1361281545,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Our samples are now built at SDK level 16 and working properly.\r\n\r\nMake sure you turn off hardware acceleration in your manifest or in code as we do in MapFragment.",
+    "timestamp" : 1364526497,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371219207,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,37 @@
+{
+  "id" : 373,
+  "status" : "Fixed",
+  "summary" : "ScaleBar length text applies to screen centre",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -8177012077806897919,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Zoom out to a quite low level, have the ScaleBar overlay turned on\r\n2. Pan up/down over the equator or the poles and watch the length text on the ScaleBar\r\n3. The ScaleBar length shows the correct distance for the map at the centre of the screen, but not the top (or wherever you placed the ScaleBar)\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe ScaleBar length should be correct for where the ScaleBar is displayed\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nLatest from trunk\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThis obviously is a minor issue, but there is a simple fix for it (see patch)\r\n",
+    "timestamp" : 1349753722,
+    "attachments" : [ {
+      "id" : 3730000000,
+      "fileName" : "ScaleBarOverlay.java.patch",
+      "fileSize" : 819
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -8177012077806897919,
+    "content" : "See Issue 379",
+    "timestamp" : 1350506143,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1350536273,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by r1137 and Issue 379.",
+    "timestamp" : 1357241603,
+    "attachments" : [ ]
+  } ]
+}

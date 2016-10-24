@@ -1,0 +1,21 @@
+{
+  "id" : 179,
+  "status" : "Fixed",
+  "summary" : "Unreasonable API change in LocationOverlay",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -2146092838134698056,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Change from 3.0.2 to the trunk version of osmdroid in an existing project\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect that the project still compiles. Instead, I see errors.\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nTrunk on Android 1.5.\r\n\r\n<b>Please provide any additional information below.</b>\nreplacing followLocation(boolean) with enableFollowLocation() and disableFollowLocation() without adding\r\npublic void followLocation(boolean follow) {\r\n  if(follow) enableFollowLocation(); else disableFollowLocation();\r\n}\r\nis just rude. You can indicate in the javadoc comment that the API is deprecated, you can discourage its use, but providing no backward compatibility when it costs so little is unacceptable.",
+    "timestamp" : 1299681249,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r868.",
+    "timestamp" : 1299745276,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,45 @@
+{
+  "id" : 365,
+  "status" : "Invalid",
+  "summary" : "ItemizedOverlay synchronization on draw",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -222734824513844156,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Create a list of a lot of OverlayItem (here it was 101)\r\n2. Add the list to an ItemizedIconOverlay&lt;OverlayItem&gt; contained in the MapView.\r\n3. Refresh view at the end or after adding each OverlayItem.\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nDisplay of all items on map expected but following exception occurs:\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115): FATAL EXCEPTION: main\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115): java.lang.IndexOutOfBoundsException: Invalid index 92, size is 68\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at java.util.ArrayList.throwIndexOutOfBoundsException(ArrayList.java:255)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at java.util.ArrayList.get(ArrayList.java:308)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at org.osmdroid.views.overlay.ItemizedOverlay.getItem(ItemizedOverlay.java:149)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at org.osmdroid.views.overlay.ItemizedOverlay.draw(ItemizedOverlay.java:116)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at org.osmdroid.views.overlay.OverlayManager.onDraw(OverlayManager.java:119)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at org.osmdroid.views.MapView.dispatchDraw(MapView.java:867)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.drawChild(ViewGroup.java:2582)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.dispatchDraw(ViewGroup.java:2189)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.drawChild(ViewGroup.java:2582)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.dispatchDraw(ViewGroup.java:2189)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.drawChild(ViewGroup.java:2582)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.dispatchDraw(ViewGroup.java:2189)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.drawChild(ViewGroup.java:2582)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.dispatchDraw(ViewGroup.java:2189)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.drawChild(ViewGroup.java:2582)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewGroup.dispatchDraw(ViewGroup.java:2189)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.View.draw(View.java:9282)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.widget.FrameLayout.draw(FrameLayout.java:419)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at com.android.internal.policy.impl.PhoneWindow$DecorView.draw(PhoneWindow.java:1923)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewRoot.draw(ViewRoot.java:1695)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewRoot.performTraversals(ViewRoot.java:1410)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.view.ViewRoot.handleMessage(ViewRoot.java:2040)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.os.Handler.dispatchMessage(Handler.java:99)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.os.Looper.loop(Looper.java:132)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at android.app.ActivityThread.main(ActivityThread.java:4135)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at java.lang.reflect.Method.invokeNative(Native Method)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at java.lang.reflect.Method.invoke(Method.java:491)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:841)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:599)\r\n08-24 09:34:09.965: ERROR/AndroidRuntime(1115):     at dalvik.system.NativeStart.main(Native Method)\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nVersion 3.0.8 on Android 3.2\r\n\r\nAdditional informations:\r\n\r\n  private MapView mapView;\r\n  private ItemizedIconOverlay&lt;OverlayItem&gt; mapPoints;\r\n\r\n...\r\n\r\nmapView.getOverlays().add(mapPoints);\r\n\r\n...add all overlay items in list\r\n\r\n      this.mapPoints.addItem(myOverlayItem);\r\n\r\n\r\nProposed fix:\r\nWe have the exception because the list is not synchronized. It is accessed simultaneously in draw method and by the addItem, addItems, removeItem and removeAllItems methods.\r\nThe problem is solved by synchronizing all those methods.\r\nAnother solution (better in my opinion but I didn't test it) is to do the synchronization one step lower in ItemizedOverlay&lt;Item&gt; class on populate, getItem and draw methods.\r\n\r\n\r\n",
+    "timestamp" : 1345795225,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "The problem is that it calculates the size at line 112 and then loops, but in the meantime the size has changed.\r\nIt would probably be better to use an iterator and quit on ConcurrentModificationException.\r\nAlternatively you could use .size() directly in the for loop, but it in that case it would still be using an index that doesn't quite make sense any more.\r\n\r\nWhen you say \"synchronizing all those methods\" do you mean adding a synchronized keyword to the method declaration, or do you mean a synchronized block?\r\n\r\nFrom what I hear from people cleverer than me is that you should avoid the Java native implementations like synchronized because Android has better implementations.",
+    "timestamp" : 1345807542,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -222734824513844156,
+    "content" : "I ment adding a synchronized block but now that you say it, I think your proposed solution with the synchronize keyword on method declaration is cleaner.\r\nI didn't know of this synchronisation mechanism in Android, I will investigate on it.\r\n\r\n",
+    "timestamp" : 1346149166,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -5949201040506357259,
+    "content" : "you can also use an asyncpost by doing like this \r\ndo on the doinbackground the :\r\nmapView.getOverlays().add(mapPoints);\r\nand in the onPostexecute :\r\nthis.mapPoints.addItem(myOverlayItem);",
+    "timestamp" : 1355393624,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This problem is not osmdroid related and appears to be fixed anyway.",
+    "timestamp" : 1362507595,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -8408451901990572205,
+    "content" : "I am still getting this issue regularly. Exactly same procedure to reproduce it as Laurent.",
+    "timestamp" : 1378123205,
+    "attachments" : [ ]
+  } ]
+}

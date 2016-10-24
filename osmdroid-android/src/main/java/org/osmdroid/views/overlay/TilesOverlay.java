@@ -1,7 +1,7 @@
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
+import org.osmdroid.library.R;
+import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.ReusableBitmapDrawable;
@@ -31,6 +31,8 @@ import android.view.SubMenu;
 import org.osmdroid.api.IMapView;
 
 /**
+ * A {@link TilesOverlay} is responsible to display a {@link MapTile}.
+ *
  * These objects are the principle consumer of map tiles.
  *
  * see {@link MapTile} for an overview of how tiles are acquired by this overlay.
@@ -45,9 +47,11 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 			.getTileSources().size());
 	public static final int MENU_OFFLINE = getSafeMenuId();
 
+	private Context ctx;
 	/** Current tile source */
 	protected final MapTileProviderBase mTileProvider;
 
+	protected Drawable userSelectedLoadingDrawable = null;
 	/* to avoid allocations during draw */
 	protected final Paint mDebugPaint = new Paint();
 	private final Rect mTileRect = new Rect();
@@ -84,11 +88,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 
 	public TilesOverlay(final MapTileProviderBase aTileProvider, final Context aContext) {
-		this(aTileProvider, new DefaultResourceProxyImpl(aContext));
-	}
-
-	public TilesOverlay(final MapTileProviderBase aTileProvider, final ResourceProxy pResourceProxy) {
-		super(pResourceProxy);
+		super();
+		this.ctx=aContext;
 		if (aTileProvider == null) {
 			throw new IllegalArgumentException(
 					"You must pass a valid tile provider to the tiles overlay.");
@@ -96,9 +97,48 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		this.mTileProvider = aTileProvider;
 	}
 
+	/**
+	 * See issue https://github.com/osmdroid/osmdroid/issues/330
+	 * customizable override for the grey grid
+	 * @since 5.2+
+	 * @param drawable
+     */
+	public void setLoadingDrawable(final Drawable drawable){
+		userSelectedLoadingDrawable = drawable;
+	}
+
 	@Override
 	public void onDetach(final MapView pMapView) {
 		this.mTileProvider.detach();
+		ctx=null;
+		if (mLoadingTile!=null) {
+			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+				if (mLoadingTile instanceof BitmapDrawable) {
+					final Bitmap bitmap = ((BitmapDrawable) mLoadingTile).getBitmap();
+					if (bitmap != null) {
+						bitmap.recycle();
+					}
+				}
+			}
+			if (mLoadingTile instanceof ReusableBitmapDrawable)
+				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) mLoadingTile);
+		}
+		mLoadingTile=null;
+		if (userSelectedLoadingDrawable!=null){
+			// Only recycle if we are running on a project less than 2.3.3 Gingerbread.
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+				if (userSelectedLoadingDrawable instanceof BitmapDrawable) {
+					final Bitmap bitmap = ((BitmapDrawable) userSelectedLoadingDrawable).getBitmap();
+					if (bitmap != null) {
+						bitmap.recycle();
+					}
+				}
+			}
+			if (userSelectedLoadingDrawable instanceof ReusableBitmapDrawable)
+				BitmapPool.getInstance().returnDrawableToPool((ReusableBitmapDrawable) userSelectedLoadingDrawable);
+		}
+		userSelectedLoadingDrawable=null;
 	}
 
 	public int getMinimumZoomLevel() {
@@ -142,10 +182,14 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		// Get the area we are drawing to
 		Rect screenRect = projection.getScreenRect();
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "BEFORE Rect is " + screenRect.toString() + mTopLeftMercator.toString());
 		projection.toMercatorPixels(screenRect.left, screenRect.top, mTopLeftMercator);
+
 		projection.toMercatorPixels(screenRect.right, screenRect.bottom, mBottomRightMercator);
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + screenRect.toString()  + mTopLeftMercator.toString() + mBottomRightMercator.toString());
 		mViewPort.set(mTopLeftMercator.x, mTopLeftMercator.y, mBottomRightMercator.x,
 				mBottomRightMercator.y);
+		//No overflow detected here! Log.d(IMapView.LOGTAG, "AFTER Rect is " + mViewPort.toString());
 
 		// Draw the tiles!
 		drawTiles(c, projection, projection.getZoomLevel(), TileSystem.getTileSize(), mViewPort);
@@ -182,6 +226,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		@Override
 		public void handleTile(final Canvas pCanvas, final int pTileSizePx, final MapTile pTile, final int pX, final int pY) {
+			//no overflow detected here Log.d(IMapView.LOGTAG, "handleTile " + pTile.toString() + ","+pX + "," + pY);
 			Drawable currentMapTile = mTileProvider.getMapTile(pTile);
 			boolean isReusable = currentMapTile instanceof ReusableBitmapDrawable;
 			final ReusableBitmapDrawable reusableBitmapDrawable =
@@ -248,8 +293,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	public boolean onCreateOptionsMenu(final Menu pMenu, final int pMenuIdOffset,
 			final MapView pMapView) {
 		final SubMenu mapMenu = pMenu.addSubMenu(0, MENU_MAP_MODE + pMenuIdOffset, Menu.NONE,
-				mResourceProxy.getString(ResourceProxy.string.map_mode)).setIcon(
-				mResourceProxy.getDrawable(ResourceProxy.bitmap.ic_menu_mapmode));
+				R.string.map_mode).setIcon(R.drawable.ic_menu_mapmode);
 
 		for (int a = 0; a < TileSourceFactory.getTileSources().size(); a++) {
 			final ITileSource tileSource = TileSourceFactory.getTileSources().get(a);
@@ -258,13 +302,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 		mapMenu.setGroupCheckable(MENU_MAP_MODE + pMenuIdOffset, true, true);
 
-		final String title = pMapView.getResourceProxy().getString(
-				pMapView.useDataConnection() ? ResourceProxy.string.offline_mode
-						: ResourceProxy.string.online_mode);
-		final Drawable icon = pMapView.getResourceProxy().getDrawable(
-				ResourceProxy.bitmap.ic_menu_offline);
-		pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
-
+		if (ctx!=null) {
+			final String title = ctx.getString(
+					pMapView.useDataConnection() ? R.string.set_mode_offline
+							: R.string.set_mode_online);
+			final Drawable icon = ctx.getResources().getDrawable(R.drawable.ic_menu_offline);
+			pMenu.add(0, MENU_OFFLINE + pMenuIdOffset, Menu.NONE, title).setIcon(icon);
+		}
 		return true;
 	}
 
@@ -278,9 +322,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		}
 
 		pMenu.findItem(MENU_OFFLINE + pMenuIdOffset).setTitle(
-				pMapView.getResourceProxy().getString(
-						pMapView.useDataConnection() ? ResourceProxy.string.offline_mode
-								: ResourceProxy.string.online_mode));
+						pMapView.useDataConnection() ? R.string.set_mode_offline
+								: R.string.set_mode_online);
 
 		return true;
 	}
@@ -335,6 +378,8 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	private Drawable getLoadingTile() {
+		if (userSelectedLoadingDrawable!=null)
+			return userSelectedLoadingDrawable;
 		if (mLoadingTile == null && mLoadingBackgroundColor != Color.TRANSPARENT) {
 			try {
 				final int tileSize = mTileProvider.getTileSource() != null ? mTileProvider

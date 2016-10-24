@@ -1,0 +1,39 @@
+{
+  "id" : 408,
+  "status" : "Fixed",
+  "summary" : "OverlayItem and ItemizedOverlay do not support real-time position updates",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 5,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 5779484743093249839,
+    "content" : "I have an item on the map who's geo position changes often. I need to update its placement on the map without removing and re-adding it. This works in Google's map API.\r\n\r\n<b>What steps will reproduce the problem?</b>\n1. Override OverlayItem.getPoint() and return an updated geo point\r\n2. Call MapView.invalidate()\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe item is redrawn but its position is not changed. \r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8 on Android\r\n\r\n<b>Please provide any additional information below.</b>\nThe problem is caused by a bug in ItemizedOverlay.draw. It does not invoke getPoint() to an item's location. \r\nThis line:\r\n   pj.toMapPixels(item.mGeoPoint, mCurScreenCoords);\r\nshould be changed to:\r\n   pj.toMapPixels(item.getPoint(), mCurScreenCoords);\r\n\r\nIt looks like OverlayItem started life as a POD but evolved into something more. I spent hours trying to get this to work. Another alternative (less compatible with Google's API) is to make all of the methods of OverlayItem final so it doesn't mislead people.\r\n\r\nWork around:\r\nOverride this method in your ItemizedOverlay implementation:\r\n\r\nprotected void onDrawItem(final Canvas canvas, final MyOverlayItem item, \r\n      final Point incorrectScreenCoords) \r\n{\r\n  Projection proj = mapView_.getProjection();\r\n  Point correctScreenCoords = proj.toMapPixels(item.getPoint(), null);\r\n  super.onDrawItem(canvas, item, correctScreenCoords);\r\n}",
+    "timestamp" : 1362175460,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "You are correct - this is a bug. I don't know why the all the member variables are public (it appears they have been that way since very early on). The Google API shows that they should be protected and (even though ItemizedOverlay would have access to the protected variables) the getters should be used to access those properties.",
+    "timestamp" : 1371218920,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1244.\n\nMake Uid, Title, Description/Snippet, and Point variables protected rather than public which matches the Google API. This forces use of the getters for those variables and permits subclasses to provide custom behavior.",
+    "timestamp" : 1371238070,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1371239811,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "This has been released in 4.0.",
+    "timestamp" : 1382708169,
+    "attachments" : [ ]
+  } ]
+}

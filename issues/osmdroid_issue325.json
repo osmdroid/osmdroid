@@ -1,0 +1,27 @@
+{
+  "id" : 325,
+  "status" : "Fixed",
+  "summary" : "MapTileDownloader throws NullPointerException on 404",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 3,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -3440786881272028554,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Point the tile downloader to a server that gives 404's for requests\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nNull pointer exceptions when the server returns a 404 on tile requests\r\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nHEAD\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nThis code fixes it (from line 169 in MapTileDownloader):\r\n\r\n\t\t\t\tfinal HttpClient client = new DefaultHttpClient();\r\n\t\t\t\tfinal HttpUriRequest head = new HttpGet(tileURLString);\r\n\t\t\t\tfinal HttpResponse response = client.execute(head);\r\n\t\t\t\tfinal org.apache.http.StatusLine line = response.getStatusLine();\r\n\t\t\t\tif( line.getStatusCode() != 200 ) {\r\n\t\t\t\t\tlogger.warn( &quot;Problem downloading MapTile: &quot; + tile + &quot; HTTP response: &quot; + line );\r\n\t\t\t\t\treturn null;\r\n\t\t\t\t}\r\n\t\t\t\tfinal HttpEntity entity = response.getEntity();\r\n\t\t\t\tif (entity == null) {\r\n\t\t\t\t\tlogger.warn(&quot;No content downloading MapTile: &quot; + tile);\r\n\t\t\t\t\treturn null;\r\n\t\t\t\t}\r\n",
+    "timestamp" : 1332197815,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Thank you for providing this bug report along with a fix! I have tested this and am going to commit it now.",
+    "timestamp" : 1333747956,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r1088.",
+    "timestamp" : 1333748088,
+    "attachments" : [ ]
+  } ]
+}

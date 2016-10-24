@@ -1,0 +1,33 @@
+{
+  "id" : 324,
+  "status" : "Invalid",
+  "summary" : "Download osmdroid.zip from android app.",
+  "labels" : [ "Type-Other", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4335488640438512661,
+    "content" : "Is there any method to download map programatically i don't want to use MOBAC for download osmdroid.zip but download from my android application.\r\nIs it possible to do this?\r\n",
+    "timestamp" : 1332153502,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 4335488640438512661,
+    "content" : "http://stackoverflow.com/questions/9747765/how-can-download-map-in-osmdroid/9749861#9749861",
+    "timestamp" : 1332153763,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "There's also the packager - see the wiki HowToUsePackager.  But if you want to write your own that's also possible.",
+    "timestamp" : 1332162667,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "There is no method to do this. You will have to write your own.\r\n\r\nStack Overflow is a more appropriate place for a question like this. Thank you.\r\n",
+    "timestamp" : 1333746589,
+    "attachments" : [ ]
+  } ]
+}

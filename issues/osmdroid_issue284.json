@@ -1,0 +1,33 @@
+{
+  "id" : 284,
+  "status" : "Fixed",
+  "summary" : "Abstract the sensor and menu code out of MyLocationOverlay",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "MyLocationOverlay is very cluttered with code to handle the sensors (location and compass) and the menu. This code should be extracted out into a separate class.\r\nThe sensors could be done in a similar way to the way GeoHunter uses GeoFixProvider in FixedMyLocationOverlay.\r\nhttp://code.google.com/p/geohunter/source/browse/trunk/GeoHunter/src/org/geohunter/activity/map/FixedMyLocationOverlay.java",
+    "timestamp" : 1324447504,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "Perhaps I should come clean and admit what I'm really trying to do ;-)\r\n\r\nWhat I want to do is a wrapper around mapsforge, similar to the one we have around Google. But mapsforge doesn't have a MyLocationOverlay, which means we'd need an actual implementation, not just a wrapper. In order to do that, I don't want to have to duplicate everything, but to refactor most of the code out into shared code.\r\n\r\nOn a related subject, I think it would make sense to combine the google wrapper project into the third party project, and also put the mapsforge wrapper in there.",
+    "timestamp" : 1324534822,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 383.",
+    "timestamp" : 1351942023,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The MyLocationOverlay was modularized in issue 383 and we have removed the mapsforge stuff. This issue can be closed.",
+    "timestamp" : 1372078341,
+    "attachments" : [ ]
+  } ]
+}

@@ -4,6 +4,7 @@ package org.osmdroid.views;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IProjection;
 import org.osmdroid.util.BoundingBoxE6;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.util.TileSystem;
 import org.osmdroid.views.util.constants.MapViewConstants;
@@ -11,13 +12,14 @@ import org.osmdroid.views.util.constants.MapViewConstants;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.Rect;
+import org.osmdroid.util.BoundingBoxE6;
 
 /**
  * A Projection serves to translate between the coordinate system of x/y on-screen pixel coordinates
  * and that of latitude/longitude points on the surface of the earth. You obtain a Projection from
  * MapView.getProjection(). You should not hold on to this object for more than one draw, since the
  * projection of the map could change. <br>
- * <br>
+ * <br>Uses the web mercator projection
  * <b>Note:</b> This class will "wrap" all pixel and lat/long values that overflow their bounds
  * (rather than clamping to their bounds).
  * 
@@ -39,7 +41,7 @@ public class Projection implements IProjection, MapViewConstants {
 	private final Matrix mUnrotateAndScaleMatrix = new Matrix();
 	private final float[] mRotateScalePoints = new float[2];
 
-	private final BoundingBoxE6 mBoundingBoxProjection;
+	private final BoundingBox mBoundingBoxProjection;
 	private final int mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
@@ -64,17 +66,25 @@ public class Projection implements IProjection, MapViewConstants {
 		final IGeoPoint neGeoPoint = fromPixels(mMapViewWidth, 0, null);
 		final IGeoPoint swGeoPoint = fromPixels(0, mMapViewHeight, null);
 
-		mBoundingBoxProjection = new BoundingBoxE6(neGeoPoint.getLatitudeE6(),
-				neGeoPoint.getLongitudeE6(), swGeoPoint.getLatitudeE6(),
-				swGeoPoint.getLongitudeE6());
+		mBoundingBoxProjection = new BoundingBox(neGeoPoint.getLatitude(),
+				neGeoPoint.getLongitude(), swGeoPoint.getLatitude(),
+				swGeoPoint.getLongitude());
 	}
 
 	public int getZoomLevel() {
 		return mZoomLevelProjection;
 	}
 
-	public BoundingBoxE6 getBoundingBox() {
+	public BoundingBox getBoundingBox() {
 		return mBoundingBoxProjection;
+	}
+     
+     @Deprecated
+     public BoundingBoxE6 getBoundingBoxE6() {
+          BoundingBoxE6 x = new BoundingBoxE6(mBoundingBoxProjection.getLatNorth(),
+               mBoundingBoxProjection.getLonEast(), mBoundingBoxProjection.getLatSouth(),
+               mBoundingBoxProjection.getLonWest());
+		return x;
 	}
 
 	public Rect getScreenRect() {
@@ -123,10 +133,10 @@ public class Projection implements IProjection, MapViewConstants {
                out.x += mapSize;
           }
 
-          if (absY > Math.abs(out.y - yCompare) && mMapViewHeight < 2 * mapSize) {  // use yCorrection instead of mapSize
+          if (absY > Math.abs(out.y - yCompare) && mMapViewHeight / 2 < mapSize ) {  // use yCorrection instead of mapSize
                out.y -= mapSize;
           }
-          if (absY > Math.abs(out.y + yCompare) || mMapViewHeight >= 2 * mapSize) {  // use yCorrection instead of mapSize
+          if (absY > Math.abs(out.y + yCompare) || mMapViewHeight / 2 >= mapSize) {  // use yCorrection instead of mapSize
                out.y += mapSize;
           }
           out.offset(mMapViewWidth / 2, mMapViewHeight / 2);
@@ -137,7 +147,7 @@ public class Projection implements IProjection, MapViewConstants {
 	 * A wrapper for {@link #toProjectedPixels(int, int, Point)}
 	 */
 	public Point toProjectedPixels(final GeoPoint geoPoint, final Point reuse) {
-		return toProjectedPixels(geoPoint.getLatitudeE6(), geoPoint.getLongitudeE6(), reuse);
+		return toProjectedPixels(geoPoint.getLatitude(), geoPoint.getLongitude(), reuse);
 	}
 
 	/**
@@ -156,6 +166,23 @@ public class Projection implements IProjection, MapViewConstants {
 		return TileSystem.LatLongToPixelXY(latituteE6 * 1E-6, longitudeE6 * 1E-6,
 				microsoft.mappoint.TileSystem.getMaximumZoomLevel(), reuse);
 	}
+
+    /**
+     * Performs only the first computationally heavy part of the projection. Call
+     * {@link #toPixelsFromProjected(Point, Point)} to get the final position.
+     *
+     * @param latitude
+     *            the latitute of the point
+     * @param longitude
+     *            the longitude of the point
+     * @param reuse
+     *            just pass null if you do not have a Point to be 'recycled'.
+     * @return intermediate value to be stored and passed to toMapPixelsTranslated.
+     */
+    public Point toProjectedPixels(final double latitude, final double longitude, final Point reuse) {
+        return TileSystem.LatLongToPixelXY(latitude, longitude,
+                microsoft.mappoint.TileSystem.getMaximumZoomLevel(), reuse);
+    }
 
 	/**
 	 * Performs the second computationally light part of the projection.

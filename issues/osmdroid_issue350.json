@@ -1,0 +1,69 @@
+{
+  "id" : 350,
+  "status" : "Fixed",
+  "summary" : "MapTilesPackager missing maven pom sourceDirectory properties",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 8,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -9037840852115493051,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. in folder OSMMapTilePackager : mvn clean install\r\n2. unzip the file target/osmdroid-packager-3.0.9-SNAPSHOT.jar\r\n3. No classe compile was include\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nThe compile jar lib should contain the classes\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.8 or 3.0.9-SNAPSHOT\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nTo manual correct :\r\n1* add osmdroid-android dependencies\r\n2* add &lt;sourceDirectory&gt;${basedir}/src&lt;/sourceDirectory&gt;\r\n\r\n\r\nThe svn correctif path is join to this tichet.\r\n",
+    "timestamp" : 1339882780,
+    "attachments" : [ {
+      "id" : 3500000000,
+      "fileName" : "pom.xml.patch",
+      "fileSize" : 660
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -9037840852115493051,
+    "content" : "The maven repository also containt the artifact \r\n   \t\t<dependency>\r\n  \t\t\t<groupId>org.osmdroid</groupId>\r\n  \t\t\t<artifactId>osmdroid-packager</artifactId>\r\n  \t\t\t<version>${osmdroid.version}</version> \r\n  \t\t</dependency> \r\nwith no classes inside",
+    "timestamp" : 1339882848,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : -9037840852115493051,
+    "content" : "The website download link osmdroid-packager-3.0.8.jar\r\nhttps://osmdroid.googlecode.com/files/osmdroid-packager-3.0.8.jar\r\nhave the same problem.\r\n",
+    "timestamp" : 1339883019,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r1105.",
+    "timestamp" : 1340775259,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -8613610806422676899,
+    "content" : "neilboyd, Can we get a new osmdroid-packager-3.0.8.jar.  I am unable to use the OSMMapTilePackager currently.\r\n",
+    "timestamp" : 1340819714,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 8937367184059112911,
+    "content" : "3.0.8 is history, but I put a snapshot on nexus https://oss.sonatype.org/index.html#nexus-search;quick~osmdroid",
+    "timestamp" : 1340860134,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : -8613610806422676899,
+    "content" : "awesome, thanks neilboyd.",
+    "timestamp" : 1340923619,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : -4994536136807241380,
+    "content" : "See attach the patched artefact.",
+    "timestamp" : 1341502098,
+    "attachments" : [ {
+      "id" : 3500007000,
+      "fileName" : "osmdroid-packager-3.0.8.jar",
+      "fileSize" : 27717
+    }, {
+      "id" : 3500007001,
+      "fileName" : "osmdroid-packager-3.0.8.pom",
+      "fileSize" : 1612
+    } ]
+  } ]
+}

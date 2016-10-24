@@ -1,0 +1,63 @@
+{
+  "id" : 423,
+  "status" : "Fixed",
+  "summary" : "My location marker position good only while zooming. ",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 7,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1272904635426035735,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Enable myLocation\r\n2. Zoom in/out\r\n3. Move map\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nWhile zooming in/out position is correct. Sometimes it stays so until map is moved. Then it changes back to wrong position. It should point to same position\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n3.0.9 on Android 4.1.2\r\n\r\n<b>Please provide any additional information below.</b>\n",
+    "timestamp" : 1366835889,
+    "attachments" : [ {
+      "id" : 4230000000,
+      "fileName" : "device-2013-04-24-223007.png",
+      "fileSize" : 145849
+    }, {
+      "id" : 4230000001,
+      "fileName" : "device-2013-04-24-223025.png",
+      "fileSize" : 132085
+    }, {
+      "id" : 4230000002,
+      "fileName" : "device-2013-04-24-223111.png",
+      "fileSize" : 119037
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : -1272904635426035735,
+    "content" : "First and third images were taken while map was zooming. Second one is after it.",
+    "timestamp" : 1366836015,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Do you have hardware acceleration turned off?",
+    "timestamp" : 1366896132,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -1272904635426035735,
+    "content" : "Yes. It's strange. It seems that version 3.0.8 doesn't have that bug. But it has bug with other custom map icons...",
+    "timestamp" : 1366899446,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "Please take a look at the sample application which doesn't have this issue. Determine what is different between your application and the sample application and report back here.",
+    "timestamp" : 1366984189,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : -1272904635426035735,
+    "content" : "Just to let you know, this issue is resolved with new version (3.0.10)",
+    "timestamp" : 1367499374,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "Excellent! I still suspect you may have hardware acceleration on - if you can't display the compass overlay for example, then you have it on - but either way, it's fixed. Thanks for reporting back.",
+    "timestamp" : 1367501347,
+    "attachments" : [ ]
+  } ]
+}

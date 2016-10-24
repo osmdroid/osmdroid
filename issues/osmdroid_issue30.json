@@ -1,0 +1,45 @@
+{
+  "id" : 30,
+  "status" : "Fixed",
+  "summary" : "Minimap is not synchronised with main map",
+  "labels" : [ "Type-Defect", "Priority-Low" ],
+  "stars" : 0,
+  "commentCount" : 6,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 8937367184059112911,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Use one of the samples with a minimap, eg SampleWithMinimapItemizedoverlay\r\n2. Drag the main map\r\n3. Drag the minimap\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nWhen you drag the main map, the minimap should move, and vice versa\r\n",
+    "timestamp" : 1269525915,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1271340714,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 80.",
+    "timestamp" : 1283145875,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : -3804822027311196058,
+    "content" : "I'm not sure about that ... I think it does move sometimes, but not always. I'll have a look at that ...",
+    "timestamp" : 1283151550,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 8937367184059112911,
+    "content" : "See also issue 10.",
+    "timestamp" : 1283158385,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "The mini-map is fixed in the trunk in the org.osmdroid namespace. See Issue 124.",
+    "timestamp" : 1294716853,
+    "attachments" : [ ]
+  } ]
+}

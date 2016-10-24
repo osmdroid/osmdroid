@@ -1,0 +1,21 @@
+{
+  "id" : 85,
+  "status" : "Fixed",
+  "summary" : "Add copy constructor to GeoPoint",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3456884467250674452,
+    "content" : "Sometimes it is required to create a copy of GeoPoint.\r\nIt will be cool if copy constructor will be added:\r\n\r\npublic GeoPoint(GeoPoint gp) {\r\n  this.mLongitudeE6 = gp.getLongitudeE6();\r\n  this.mLatitudeE6 = gp.getLatitudeE6();\r\n}\r\n\r\n",
+    "timestamp" : 1283881771,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r359.",
+    "timestamp" : 1284128869,
+    "attachments" : [ ]
+  } ]
+}

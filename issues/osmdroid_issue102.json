@@ -1,0 +1,33 @@
+{
+  "id" : 102,
+  "status" : "Fixed",
+  "summary" : "Add two more layers",
+  "labels" : [ "Type-Enhancement", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 4,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 4098436938546237008,
+    "content" : "Enhancement request.\r\n\r\nCan you add the following two renderers to http://code.google.com/p/osmdroid/source/browse/trunk/osmdroid-android/src/org/andnav/osm/views/util/OpenStreetMapRendererFactory.java\r\n\r\n1) http://overlay.openstreetmap.nl/basemap/\r\n2) http://overlay.openstreetmap.nl/roads/\r\n\r\nBoth these layers are applicable to The Netherlands and Belgium. I would suggest to exclude them from the list of renderers (like FIETS). \r\n\r\n\r\n<b>What steps will reproduce the problem?</b>\n<b>1.</b>\n<b>2.</b>\n<b>3.</b>\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n\r\n",
+    "timestamp" : 1286488263,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1286525215,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 8937367184059112911,
+    "content" : "This issue was closed by revision r415.",
+    "timestamp" : 1286797924,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 4098436938546237008,
+    "content" : "great, thanks",
+    "timestamp" : 1286809561,
+    "attachments" : [ ]
+  } ]
+}

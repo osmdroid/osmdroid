@@ -1,0 +1,21 @@
+{
+  "id" : 361,
+  "status" : "Invalid",
+  "summary" : "Overlay Bitmap Tiles Google Maps",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3102420170171759277,
+    "content" : "Hello i have been developing a app to a festival that use googlemaps.\r\n\r\nI need to overlay the map with a bitmap tilling. I need to load the tiles from inside the app, without resourcing to an server.\r\n\r\n1 - How can i create the tiles, what is the best program?\r\n\r\n2 - I use the class &quot;GoogleTilesOverlay.java&quot;. How can i load the tiles?\r\n\r\nThanks in advanced",
+    "timestamp" : 1343038824,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is not a valid issue. Please ask questions on the mailing list.",
+    "timestamp" : 1362507939,
+    "attachments" : [ ]
+  } ]
+}

@@ -1,0 +1,21 @@
+{
+  "id" : 105,
+  "status" : "Fixed",
+  "summary" : "Error in OpenStreetMapViewItemizedOverlay overloaded constructor",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "The following constructor for OpenStreetMapViewItemizedOverlay is not passing the pMarker or pMarkerHotspot parameters properly:\r\n\r\npublic OpenStreetMapViewItemizedOverlay(\r\n           final Context ctx,\r\n           final List&lt;T&gt; aList,\r\n           final Drawable pMarker,\r\n           final Point pMarkerHotspot,\r\n           final OnItemGestureListener&lt;T&gt; aOnItemGestureListener,\r\n           final ResourceProxy pResourceProxy) {\r\n           this(ctx, aList, null, null, null, aOnItemGestureListener, pResourceProxy);\r\n        }\r\n\r\nNote that the overloaded constructor has a pMarker and a pMarkerHotspot being passed in, however it doesn't pass them along to the next constructor and instead passes along nulls. The &quot;this&quot; call should be:\r\n\r\nthis(ctx, aList, pMarker, pMarkerHotspot, null, aOnItemGestureListener, pResourceProxy);\r\n\r\nThanks!\r\n-Marc",
+    "timestamp" : 1287435228,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was closed by revision r447.",
+    "timestamp" : 1288312099,
+    "attachments" : [ ]
+  } ]
+}

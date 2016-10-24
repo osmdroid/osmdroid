@@ -1,0 +1,25 @@
+{
+  "id" : 238,
+  "status" : "Invalid",
+  "summary" : "memory leaks",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : -1289432291906405789,
+    "content" : "I'm checking for memory leaks using Eclipse MAT and I'm getting 3 leaks suspects, one of them is duplicated strings.\r\n\r\nit says there are 6,806 instances if String which occupy 423,536 (24.6%) bytes.\r\n\r\nI attached the hprof file.",
+    "timestamp" : 1310487494,
+    "attachments" : [ {
+      "id" : 2380000000,
+      "fileName" : "android258977248368501198.hprof",
+      "fileSize" : 2808435
+    } ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is normal behavior. These strings are from the apache libraries we include.",
+    "timestamp" : 1342729803,
+    "attachments" : [ ]
+  } ]
+}

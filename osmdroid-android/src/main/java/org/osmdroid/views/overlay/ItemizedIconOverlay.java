@@ -2,10 +2,8 @@ package org.osmdroid.views.overlay;
 
 import java.util.List;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
-import org.osmdroid.ResourceProxy.bitmap;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.library.R;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.Projection;
 
@@ -16,7 +14,7 @@ import android.view.MotionEvent;
 
 public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverlay<Item> {
 
-	protected final List<Item> mItemList;
+	protected List<Item> mItemList;
 	protected OnItemGestureListener<Item> mOnItemGestureListener;
 	private int mDrawnItemsLimit = Integer.MAX_VALUE;
 	private final Point mItemPoint = new Point();
@@ -25,8 +23,8 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 			final List<Item> pList,
 			final Drawable pDefaultMarker,
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
-			final ResourceProxy pResourceProxy) {
-		super(pDefaultMarker, pResourceProxy);
+			final Context pContext) {
+		super(pDefaultMarker);
 
 		this.mItemList = pList;
 		this.mOnItemGestureListener = pOnItemGestureListener;
@@ -36,17 +34,25 @@ public class ItemizedIconOverlay<Item extends OverlayItem> extends ItemizedOverl
 	public ItemizedIconOverlay(
 			final List<Item> pList,
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener,
-			final ResourceProxy pResourceProxy) {
-		this(pList, pResourceProxy.getDrawable(bitmap.marker_default), pOnItemGestureListener,
-				pResourceProxy);
+			final Context pContext) {
+		this(pList, pContext.getResources().getDrawable(R.drawable.marker_default), pOnItemGestureListener,
+				pContext);
 	}
 
 	public ItemizedIconOverlay(
 			final Context pContext,
 			final List<Item> pList,
 			final org.osmdroid.views.overlay.ItemizedIconOverlay.OnItemGestureListener<Item> pOnItemGestureListener) {
-		this(pList, new DefaultResourceProxyImpl(pContext).getDrawable(bitmap.marker_default),
-				pOnItemGestureListener, new DefaultResourceProxyImpl(pContext));
+		this(pList,  pContext.getResources().getDrawable(R.drawable.marker_default),
+				pOnItemGestureListener,pContext);
+	}
+
+	@Override
+	public void onDetach(MapView mapView){
+		if (mItemList!=null)
+			mItemList.clear();
+		mItemList=null;
+		mOnItemGestureListener=null;
 	}
 
 	@Override

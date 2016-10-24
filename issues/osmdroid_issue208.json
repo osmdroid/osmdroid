@@ -1,0 +1,21 @@
+{
+  "id" : 208,
+  "status" : "Invalid",
+  "summary" : "No view invalidation after zoomIn / zoomOut",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 3854853821925711306,
+    "content" : "<b>What steps will reproduce the problem?</b>\n1. Call zoomOut / zoomIn\r\n\r\n<b>What is the expected output? What do you see instead?</b>\nI expect, that coordinates of visible bounding box are changed. Bounding box coordinates are staying the same before and after zoomIn / zoomOut\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\nosmdroid 3.0.3\r\nAndroid 1.5 (TMobile Pulse), 1.6 (HTC Tattoo), 2.2 (HTC Desire, Emulator)\r\n\r\n<b>Please provide any additional information below.</b>\n\r\nI added onWindowFocusChanged to the Map Activity with some logs.\r\nThere are no changes after calling zoomOut, but if I do it in different way (i get current zoom level and set zoom level to one lower), coordinates are different before and after changing.\r\n\r\n\t@Override\r\n\tpublic void onWindowFocusChanged(boolean hasFocus)\r\n\t{\r\n\t\tsuper.onWindowFocusChanged(hasFocus);\r\n\t\tBoundingBoxE6 bb = mOsmv.getBoundingBox();\r\n\t\tint lat_max = bb.getLatNorthE6();\r\n\t\tint lat_min = bb.getLatSouthE6();\r\n\t\tint lon_max = bb.getLonEastE6();\r\n\t\tint lon_min = bb.getLonWestE6();\r\n\t\tLog.i(&quot;zoomOut:&quot;, lat_max + &quot;,&quot; + lat_min + &quot;,&quot; + lon_max + &quot;,&quot; + lon_min);\r\n\t\t\r\n\t\tmOsmv.getController().zoomOut();\r\n\t\tbb = mOsmv.getBoundingBox();\r\n\t\tlat_max = bb.getLatNorthE6();\r\n\t\tlat_min = bb.getLatSouthE6();\r\n\t\tlon_max = bb.getLonEastE6();\r\n\t\tlon_min = bb.getLonWestE6();\r\n\t\tLog.i(&quot;zoomOut:&quot;, lat_max + &quot;,&quot; + lat_min + &quot;,&quot; + lon_max + &quot;,&quot; + lon_min);\r\n\t\t\r\n\t\tint zoomLevel = mOsmv.getZoomLevel();\r\n\t\tmOsmv.getController().setZoom(zoomLevel - 1);\r\n\t\tbb = mOsmv.getBoundingBox();\r\n\t\tlat_max = bb.getLatNorthE6();\r\n\t\tlat_min = bb.getLatSouthE6();\r\n\t\tlon_max = bb.getLonEastE6();\r\n\t\tlon_min = bb.getLonWestE6();\r\n\t\tLog.i(&quot;zoomOut alt:&quot;, lat_max + &quot;,&quot; + lat_min + &quot;,&quot; + lon_max + &quot;,&quot; + lon_min);\t\t\r\n\r\n\t\tzoomLevel = mOsmv.getZoomLevel();\r\n\t\tmOsmv.getController().setZoom(zoomLevel - 1);\r\n\t\tbb = mOsmv.getBoundingBox();\r\n\t\tlat_max = bb.getLatNorthE6();\r\n\t\tlat_min = bb.getLatSouthE6();\r\n\t\tlon_max = bb.getLonEastE6();\r\n\t\tlon_min = bb.getLonWestE6();\r\n\t\tLog.i(&quot;zoomOut alt:&quot;, lat_max + &quot;,&quot; + lat_min + &quot;,&quot; + lon_max + &quot;,&quot; + lon_min);\t\t\r\n\t}",
+    "timestamp" : 1303916441,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This is because the bounding box doesn't change until the zoom animation is finished when you call zoomIn/zoomOut.",
+    "timestamp" : 1362506754,
+    "attachments" : [ ]
+  } ]
+},"attachments":[]},{"id":1,"commenterId":7646092065249173135,"content":"This is because the bounding box doesn\u0027t change until the zoom animation is finished when you call zoomIn/zoomOut.","timestamp":1362506754,"attachments":[]}]}

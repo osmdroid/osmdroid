@@ -1,14 +1,14 @@
 // Created by plusminus on 22:59:38 - 12.09.2008
 package org.osmdroid.views.overlay;
 
-import org.osmdroid.DefaultResourceProxyImpl;
-import org.osmdroid.ResourceProxy;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import org.osmdroid.library.R;
 
 public class ItemizedOverlayControlView extends LinearLayout {
 
@@ -33,26 +33,21 @@ public class ItemizedOverlayControlView extends LinearLayout {
 
 	public ItemizedOverlayControlView(final Context context,
 			final AttributeSet attrs) {
-		this(context, attrs, new DefaultResourceProxyImpl(context));
-	}
-
-	public ItemizedOverlayControlView(final Context context,
-			final AttributeSet attrs, final ResourceProxy pResourceProxy) {
 		super(context, attrs);
 
 		this.mPreviousButton = new ImageButton(context);
 		this.mPreviousButton
-				.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.previous));
+				.setImageDrawable(context.getResources().getDrawable(R.drawable.previous));
 
 		this.mNextButton = new ImageButton(context);
-		this.mNextButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.next));
+		this.mNextButton.setImageDrawable(context.getResources().getDrawable(R.drawable.next));
 
 		this.mCenterToButton = new ImageButton(context);
-		this.mCenterToButton.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.center));
+		this.mCenterToButton.setImageDrawable(context.getResources().getDrawable(R.drawable.center));
 
 		this.mNavToButton = new ImageButton(context);
 		this.mNavToButton
-				.setImageBitmap(pResourceProxy.getBitmap(ResourceProxy.bitmap.navto_small));
+				.setImageDrawable(context.getResources().getDrawable(R.drawable.navto_small));
 
 		this.addView(mPreviousButton, new LayoutParams(
 				android.view.ViewGroup.LayoutParams.WRAP_CONTENT,

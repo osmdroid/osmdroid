@@ -1,0 +1,21 @@
+{
+  "id" : 161,
+  "status" : "Invalid",
+  "summary" : "Overlay OnDraw canvas leak ?",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 2,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 1915646142142573205,
+    "content" : "<b>What steps will reproduce the problem?</b>\n\r\n1. Define any class that extends OpenStreetMapViewOverlay\r\nUnder the OnDraw Method do the following\r\nget final Rect canvasBounds= canvas.getClipBounds();\r\n\r\ncanvas.drawText(&quot;TEST&quot; , canvasBounds.Right-textWidth-5, canvasBounds.bottom-5-fontSpacing, somePaint);\r\n\r\n2. Layout -\r\n&lt;RelativeLayout fill parent, fill parent&gt;\r\n  &lt;MapView fill parent, fill parent/&gt;\r\n  &lt;RelativeLayout fill parent, fill parent&gt;\r\n     &lt;button background = img1 height=fill parent width=wrap content/&gt;\r\n  &lt;/RelativeLayout&gt;\r\n&lt;/RelativeLayout&gt;\r\n\r\n3. In the map activity, When the button is clicked, have it alternate background images between img1 and img 2 using OnClickListener\r\n\r\n4. Clicking the button causes the overlay(s)(text) to be drawn behind the button\r\n\r\n<b>What is the expected output? What do you see instead?</b>\n\r\nSteps above i had the button height fill the parent, So when you click the button the &quot;TEST&quot; text will be easily visible on the bottom part of the screen\r\n\r\n<b>What version of the product are you using? On what operating system?</b>\n\r\n\r\n<b>Please provide any additional information below.</b>\n Make sure to align the button to the left and the overlay text drawing to the right. So when the button is click, you will see the canvas drawing overlap.\r\n",
+    "timestamp" : 1297891061,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue is quite old and not particularly clear. I suspect it is no longer valid and can be closed.",
+    "timestamp" : 1359144473,
+    "attachments" : [ ]
+  } ]
+}d can be closed.","timestamp":1359144473,"attachments":[]}]}

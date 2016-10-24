@@ -1,0 +1,75 @@
+{
+  "id" : 515,
+  "status" : "Fixed",
+  "summary" : "Send a better user-agent when downloading tiles",
+  "labels" : [ "Type-Defect", "Priority-Critical" ],
+  "stars" : 0,
+  "commentCount" : 11,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 976651778023333297,
+    "content" : "The default Apache HttpClient user-agent was recently banned from accessing tile.openstreetmap.org (server returns 403). As a result, the Mapnik provider is no longer serving any tiles for osmdroid.\r\n\r\nOpenStreetMap's tile usage policy ( http://wiki.openstreetmap.org/wiki/Tile_usage_policy ) says that a &quot;Valid User-Agent identifying application&quot; must be sent. The current user-agent osmdroid sends when it downloads a tile is &quot;Apache-HttpClient/UNAVAILABLE (java 1.4)&quot; which is pretty generic.\r\n\r\nI've created a patch that will send a user-agent that is more compliant with OSM's tile usage policy. The new user-agent is &quot;osmdroid ([package name])&quot; where [package name] is the package name of the application using osmdroid.\r\n\r\nThe patch can be found here: http://pastebin.com/kxBh1gQ5\r\n\r\nThe patch is not very pretty, but it does its job.",
+    "timestamp" : 1390181069,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 516 has been merged into this issue.",
+    "timestamp" : 1390238512,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1401.\n\nAdd user-agent field to TileSource.\nSet proper user-agent for some tile sources like Mapnik.\nAdded createHttpClient() method to MapTileDownloader.",
+    "timestamp" : 1390239254,
+    "attachments" : [ ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "I think the proper way to implement this is to associate the user-agent with the TileSource (which define the \"instructions\" for how to pull tiles from the server). However, I think it's worth it to add a createHttpClient() protected method for overriding for further customization if needed.\r\n\r\nWe will probably post a new version soon.",
+    "timestamp" : 1390239573,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : -1918333713940407975,
+    "content" : "Hi,\r\n\r\nMay I ask why the change of aBaseUrl parameter from varargs to String[] ?\r\n\r\nBest regards, Emux\r\nhttps://play.google.com/store/apps/details?id=gr.talent.cruiser",
+    "timestamp" : 1390244606,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Sure - that was an intentional change. The problem is that the TileSource constructor parameters were taking a bunch of String arguments followed by a varargs String parameter(s). So if I add a new String parameter before the varargs parameter, then all existing TileSources would continue to compile without any error but now they would be incorrect since the first \"url\" would now be used as the User-Agent. By changing to String[] we force implementors to deal with the change and force them to address the new userAgent parameter (this also applies to any String parameters we add in the future). I hope that makes sense.",
+    "timestamp" : 1390244966,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "This issue was updated by revision r1402.\n\nRolled back some of the previous changes. Instead of per-tile source user-agents, use a global one which better meets the definition/use of user-agent.\nAdded global user-agent to HttpClientFactory. Custom user-agents can easily be installed here at run-time.",
+    "timestamp" : 1390250124,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 7646092065249173135,
+    "content" : "I rolled back some of those changes. By definition, the user-agent should be one value and not a per-tile source value. So instead we set the default user-agent in the HttpClientFactory (where it really belongs).\r\n\r\nIf you want to set a custom user-agent, then simply create your own factory for HttpClientFactory.\r\n\r\nFinally, I left in the varargs to String[] change. If we want to add parameters to that class later it will be a problem and I feel like it's better to change it now.\r\n",
+    "timestamp" : 1390250514,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : 8937367184059112911,
+    "content" : "",
+    "timestamp" : 1390336486,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 8937367184059112911,
+    "content" : "Issue 517 has been merged into this issue.",
+    "timestamp" : 1390336566,
+    "attachments" : [ ]
+  }, {
+    "id" : 10,
+    "commenterId" : 8937367184059112911,
+    "content" : "Fixed in release 4.1",
+    "timestamp" : 1390673314,
+    "attachments" : [ ]
+  } ]
+}

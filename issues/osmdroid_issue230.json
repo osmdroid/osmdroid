@@ -1,0 +1,73 @@
+{
+  "id" : 230,
+  "status" : "Fixed",
+  "summary" : "Change onAnimationEnd listener to (hopefully) fix a few bugs",
+  "labels" : [ "Type-Defect", "Priority-Medium" ],
+  "stars" : 0,
+  "commentCount" : 10,
+  "comments" : [ {
+    "id" : 0,
+    "commenterId" : 7646092065249173135,
+    "content" : "In  Issue 136  I tried implement a fix for a visual bug where, when zooming, the animation would throw a couple of bad frames at the end. The issue was related to the fact that onAnimationEnd isn't accurate:\r\n\r\nhttp://code.google.com/p/android-misc-widgets/issues/detail?id=8\r\n\r\nI tried to push all of the actions from onAnimationEnd to the main UI thread, hoping that it could be synchronized with drawing the screen on that handler. It seemed to work at the time, but now appears to be not working.\r\n\r\nThere is an additional error that I highly believe is related to this issue. If you double-tap on the map rapidly, eventually one of the zooms &quot;overlaps&quot; the other and the center of the map is offset by MapSize(zoomLevel) / 2 and that puts you somewhere far off from your original location. I debugged this from many different angles, and the only fix appears to be removing the onAnimationEnd post() to the UI thread.\r\n\r\nThere appears to be a solution here:\r\nhttp://stackoverflow.com/questions/4750939/android-animation-is-not-finished-in-onanimationend/5110476#5110476\r\n\r\nand it simply states that we should use the View's onAnimationEnd rather than the AnimationListener. I suggest we implement this!",
+    "timestamp" : 1308255909,
+    "attachments" : [ ]
+  }, {
+    "id" : 1,
+    "commenterId" : 7646092065249173135,
+    "content" : "Issue 204 may be related to this.",
+    "timestamp" : 1308255973,
+    "attachments" : [ ]
+  }, {
+    "id" : 2,
+    "commenterId" : 7646092065249173135,
+    "content" : "Patch attached!\r\n\r\nSo far, it works for me!",
+    "timestamp" : 1308257015,
+    "attachments" : [ {
+      "id" : 2300002000,
+      "fileName" : "OnAnimationEndFix.patch",
+      "fileSize" : 5916
+    } ]
+  }, {
+    "id" : 3,
+    "commenterId" : 7646092065249173135,
+    "content" : "The zoom issue (jumping to a bad location) is still present for me. However, the visual bugs were no longer present.",
+    "timestamp" : 1308259234,
+    "attachments" : [ ]
+  }, {
+    "id" : 4,
+    "commenterId" : 7646092065249173135,
+    "content" : "I have been using this patch for a week and it appears to fix the visual errors associated with onAnimationEnd so I will go ahead and commit it. I am going to keep the issue open a little longer to try and further investigate the double-click zoom issue.",
+    "timestamp" : 1309201442,
+    "attachments" : [ ]
+  }, {
+    "id" : 5,
+    "commenterId" : 7646092065249173135,
+    "content" : "Added in r944.\r\n",
+    "timestamp" : 1309201961,
+    "attachments" : [ ]
+  }, {
+    "id" : 6,
+    "commenterId" : 7646092065249173135,
+    "content" : "",
+    "timestamp" : 1309205221,
+    "attachments" : [ ]
+  }, {
+    "id" : 7,
+    "commenterId" : 3950189987089543328,
+    "content" : "there's still an issue with the zoom in that maybe is related to this issue.\r\n\r\nwhen zoom in with the zoom in button, the map center should stay fixed on the same center it was.\r\n\r\nsometimes the offset is vertical and sometimes horizontal ",
+    "timestamp" : 1312198465,
+    "attachments" : [ ]
+  }, {
+    "id" : 8,
+    "commenterId" : -4455381950240800093,
+    "content" : "this patch seemed to fix my zoom issue. map stays centered for me now.",
+    "timestamp" : 1326207530,
+    "attachments" : [ ]
+  }, {
+    "id" : 9,
+    "commenterId" : 7646092065249173135,
+    "content" : "The double-tap zoom issue was fixed in another issue. This can be closed.",
+    "timestamp" : 1359144746,
+    "attachments" : [ ]
+  } ]
+}

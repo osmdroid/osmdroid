@@ -9,11 +9,12 @@ package org.osmdroid.views.util.constants;
  * 
  */
 public interface MapViewConstants {
+
+	public static boolean DEBUGMODE = false;
+
 	// ===========================================================
 	// Final Fields
 	// ===========================================================
-
-	public static final boolean DEBUGMODE = false;
 
 	public static final int NOT_SET = Integer.MIN_VALUE;
 
@@ -27,4 +28,5 @@ public interface MapViewConstants {
 
 	/** Minimum Zoom Level */
 	public static final int MINIMUM_ZOOMLEVEL = 0;
+     public static final int MAXIMUM_ZOOMLEVEL = 23;
 }
