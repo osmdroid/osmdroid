@@ -16,6 +16,7 @@ import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
 import org.osmdroid.samplefragments.events.SampleMapBootListener;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.samplefragments.events.SampleZoomToBounding;
+import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
@@ -125,7 +126,9 @@ public final class SampleFactory implements ISampleFactory {
 				//32
 				SampleZoomToBounding.class,
 				//33
-				MapInAViewPagerFragment.class
+				MapInAViewPagerFragment.class,
+				//34
+				ZoomToBoundsOnStartup.class,
 
         };
 	}

@@ -22,6 +22,7 @@ public class BugsTestingActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.updateStoragePrefreneces(this);    //needed for unit tests
         setContentView(R.layout.activity_extra_samples);
 
         FragmentManager fm = this.getSupportFragmentManager();

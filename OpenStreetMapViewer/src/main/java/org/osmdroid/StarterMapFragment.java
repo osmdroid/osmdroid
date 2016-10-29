@@ -11,15 +11,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
+import android.view.InputDevice;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.constants.OpenStreetMapConstants;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.samplefragments.SampleFactory;
@@ -81,6 +84,36 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView = new MapView(inflater.getContext());
         // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
+
+         if (Build.VERSION.SDK_INT >= 12) {
+             mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+                 /**
+                  * mouse wheel zooming ftw
+                  * http://stackoverflow.com/questions/11024809/how-can-my-view-respond-to-a-mousewheel
+                  * @param v
+                  * @param event
+                  * @return
+                  */
+                 @Override
+                 public boolean onGenericMotion(View v, MotionEvent event) {
+                     if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+                         switch (event.getAction()) {
+                             case MotionEvent.ACTION_SCROLL:
+                                 if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f)
+                                     mMapView.getController().zoomOut();
+                                 else {
+                                     //this part just centers the map on the current mouse location before the zoom action occurs
+                                     IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels((int) event.getX(), (int) event.getY());
+                                     mMapView.getController().animateTo(iGeoPoint);
+                                     mMapView.getController().zoomIn();
+                                 }
+                                 return true;
+                         }
+                     }
+                     return false;
+                 }
+             });
+         }
           return mMapView;
      }
 

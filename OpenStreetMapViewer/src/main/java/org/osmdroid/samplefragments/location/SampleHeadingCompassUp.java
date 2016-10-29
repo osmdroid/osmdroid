@@ -1,11 +1,13 @@
 package org.osmdroid.samplefragments.location;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.GeomagneticField;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Surface;
@@ -67,35 +69,39 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
     @Override
     public void onResume() {
         super.onResume();
+        //hack for x86
+        if (!"Android-x86".equalsIgnoreCase(Build.BRAND)) {
 
-        //lock the device in current screen orientation
-        int orientation;
-        int rotation = ((WindowManager) getActivity().getSystemService(
+
+            //lock the device in current screen orientation
+            int orientation;
+            int rotation = ((WindowManager) getActivity().getSystemService(
                 Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-                this.deviceOrientation = 0;
-                screen_orientation = "ROTATION_0 SCREEN_ORIENTATION_PORTRAIT";
-                break;
-            case Surface.ROTATION_90:
-                this.deviceOrientation = 90;
-                orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
-                screen_orientation = "ROTATION_90 SCREEN_ORIENTATION_LANDSCAPE";
-                break;
-            case Surface.ROTATION_180:
-                this.deviceOrientation = 180;
-                orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
-                screen_orientation = "ROTATION_180 SCREEN_ORIENTATION_REVERSE_PORTRAIT";
-                break;
-            default:
-                this.deviceOrientation = 270;
-                orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
-                screen_orientation = "ROTATION_270 SCREEN_ORIENTATION_REVERSE_LANDSCAPE";
-                break;
-        }
+            switch (rotation) {
+                case Surface.ROTATION_0:
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+                    this.deviceOrientation = 0;
+                    screen_orientation = "ROTATION_0 SCREEN_ORIENTATION_PORTRAIT";
+                    break;
+                case Surface.ROTATION_90:
+                    this.deviceOrientation = 90;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+                    screen_orientation = "ROTATION_90 SCREEN_ORIENTATION_LANDSCAPE";
+                    break;
+                case Surface.ROTATION_180:
+                    this.deviceOrientation = 180;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+                    screen_orientation = "ROTATION_180 SCREEN_ORIENTATION_REVERSE_PORTRAIT";
+                    break;
+                default:
+                    this.deviceOrientation = 270;
+                    orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+                    screen_orientation = "ROTATION_270 SCREEN_ORIENTATION_REVERSE_LANDSCAPE";
+                    break;
+            }
 
-        getActivity().setRequestedOrientation(orientation);
+            getActivity().setRequestedOrientation(orientation);
+        }
 
 
         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -208,17 +214,21 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
                 mMapView.setMapOrientation(t);
             }
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (getActivity()!=null && textViewCurrentLocation!=null) {
-                        textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-                                "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-                                "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
-                                screen_orientation);
-                    }
-                }
-            });
+            try {
+                Activity act = getActivity();
+                if (act != null)
+                    act.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (getActivity() != null && textViewCurrentLocation != null) {
+                                textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
+                                    "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
+                                    "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
+                                    screen_orientation);
+                            }
+                        }
+                    });
+            }catch (Exception ex){}
         }
     }
 }
