@@ -16,6 +16,12 @@
         android:id="@+id/checkBoxDebugMode" />
 
     <CheckBox
+        android:text="Debug Logging Downloading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBoxDebugDownloading" />
+
+    <CheckBox
         android:text="@string/enable_mapview_hardware_acceleration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -23,6 +23,7 @@ import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
+import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -449,6 +450,10 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			getMaxZoomLevel() -
 			Math.ceil(Math.log(boundingBox.getLongitudeSpan() / maxZoomLongitudeSpan) / Math.log(2));
 
+		if (OpenStreetMapTileProviderConstants.DEBUGMODE){
+			Log.d(LOGTAG, "current bounds " +currentBox.toString());
+			Log.d(LOGTAG, "ZoomToBoundingBox calculations: " + maxZoomLatitudeSpan + ","+maxZoomLongitudeSpan + ","+requiredLatitudeZoom + ","+requiredLongitudeZoom );
+		}
 
 		// Zoom to boundingBox center, at calculated maximum allowed zoom level
 		if(animated) {

@@ -29,7 +29,13 @@ public class OsmApplication extends Application{
     @Override
     public void onCreate(){
         super.onCreate();
-        LeakCanary.install(this);
+        try {
+            LeakCanary.install(this);
+        }catch (Throwable ex){
+
+            //this can happen on androidx86 getExternalStorageDir is not writable
+            ex.printStackTrace();
+        }
         Thread.currentThread().setUncaughtExceptionHandler(new OsmUncaughtExceptionHandler());
 
         //https://github.com/osmdroid/osmdroid/issues/366
@@ -45,11 +51,14 @@ public class OsmApplication extends Application{
         super.attachBaseContext(base);
 
 
-
-        // Initialise ACRA
-        ACRA.init(this);
-        ACRA.getErrorReporter().setReportSender(new ErrorFileWriter());
-
+        try {
+            // Initialise ACRA
+            ACRA.init(this);
+            ACRA.getErrorReporter().setReportSender(new ErrorFileWriter());
+        }catch (Throwable t){
+            t.printStackTrace();
+            //this can happen on androidx86 getExternalStorageDir is not writable
+        }
 
 
     }

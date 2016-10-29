@@ -1,5 +1,6 @@
-package org.osmdroid;
+package org.osmdroid.samplefragments.models;
 
+import org.osmdroid.R;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;

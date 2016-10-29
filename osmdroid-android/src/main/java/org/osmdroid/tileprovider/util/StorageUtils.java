@@ -1,5 +1,6 @@
 package org.osmdroid.tileprovider.util;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
@@ -134,9 +135,12 @@ public class StorageUtils {
     }
 
 
-
+    /**
+     * gets the best possible storage location by freespace
+     * @return
+     */
     public static File getStorage(){
-        Map<String, File> allStorageLocations = getAllStorageLocations();
+        //Map<String, File> allStorageLocations = getAllStorageLocations();
         //if (allStorageLocations.isEmpty()){
             //use the current app's storage
           //  return Environment.getDataDirectory();
@@ -160,8 +164,41 @@ public class StorageUtils {
         if (ptr!=null){
             return new File(ptr.path);
         }
+        //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
+        return Environment.getExternalStorageDirectory();
+    }
 
-        return Environment.getDataDirectory();
+    /**
+     * gets the best possible storage location by freespace
+     * @return
+     */
+    public static File getStorage(final Context ctx){
+        //Map<String, File> allStorageLocations = getAllStorageLocations();
+        //if (allStorageLocations.isEmpty()){
+        //use the current app's storage
+        //  return Environment.getDataDirectory();
+        //}
+
+        StorageInfo ptr=null;
+        List<StorageInfo> storageList = getStorageList();
+        for (int i = 0; i < storageList.size(); i++) {
+            StorageInfo storageInfo = storageList.get(i);
+            if (!storageInfo.readonly && isWritable(new File(storageInfo.path))){
+                if (ptr!=null){
+                    //compare free space
+                    if (ptr.freeSpace < storageInfo.freeSpace){
+                        ptr = storageInfo;
+                    }
+                } else {
+                    ptr = storageInfo;
+                }
+            }
+        }
+        if (ptr!=null){
+            return new File(ptr.path);
+        }
+        //http://stackoverflow.com/questions/21230629/getfilesdir-vs-environment-getdatadirectory
+        return new File(ctx.getDatabasePath("temp.sqlite").getAbsolutePath().replace("temp.sqlite",""));
     }
 
 

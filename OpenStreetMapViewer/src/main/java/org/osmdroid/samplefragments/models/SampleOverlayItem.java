@@ -1,4 +1,4 @@
-package org.osmdroid;
+package org.osmdroid.samplefragments.models;
 
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.OverlayItem;

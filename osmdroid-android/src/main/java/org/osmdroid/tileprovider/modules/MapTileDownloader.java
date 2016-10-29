@@ -209,6 +209,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
+				//default is 1 week from now
 				Date dateExpires = new Date(System.currentTimeMillis() + MAX_CACHED_TILE_AGE);
 				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
 				if (expires!=null && expires.length() > 0) {
@@ -219,13 +220,16 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 							Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires,ex);
 					}
 				}
+				if (DEBUG) {
+					Log.d(IMapView.LOGTAG, tileURLString + " expires in " + (dateExpires.getTime()-System.currentTimeMillis() + "ms"));
+				}
 				tile.setExpires(dateExpires);
 				StreamUtils.copy(in, out);
 				out.flush();
 				final byte[] data = dataStream.toByteArray();
 				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
-				// Save the data to the filesystem cache
+				// Save the data to the cache
 				//this is the only point in which we insert tiles to the db or local file system.
 
 				if (mFilesystemCache != null) {
