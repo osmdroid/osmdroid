@@ -133,24 +133,24 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         compass.destroy();
         overlay.disableMyLocation();
         overlay.disableFollowLocation();
         overlay.onDetach(mMapView);
-        if (mMapView!=null)
+        if (mMapView != null)
             mMapView.onDetach();
-        mMapView=null;
-        overlay=null;
-        compass=null;
-        textViewCurrentLocation=null;
+        mMapView = null;
+        overlay = null;
+        compass = null;
+        textViewCurrentLocation = null;
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        if (mMapView==null)
+        if (mMapView == null)
             return;
         //after the first fix, schedule the task to change the icon
         //mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
@@ -162,6 +162,25 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
         alt = (float) location.getAltitude(); //meters
         timeOfFix = location.getTime();
 
+
+        //use gps bearing instead of the compass
+        if (gpsspeed > 0.01f) {
+            float t = (360 - gpsbearing - this.deviceOrientation);
+            if (t < 0) {
+                t += 360;
+            }
+            if (t > 360) {
+                t -= 360;
+            }
+            //help smooth everything out
+            t = (int) t;
+            t = t / 10;
+            t = (int) t;
+            t = t * 10;
+
+            mMapView.setMapOrientation(t);
+            updateDisplay(location.getBearing());
+        }
     }
 
     @Override
@@ -183,53 +202,54 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
 
     @Override
     public void onOrientationChanged(final float orientationToMagneticNorth, IOrientationProvider source) {
-
+        //note, on devices without a compass this never fires...
         GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
         trueNorth = orientationToMagneticNorth + gf.getDeclination();
-        gf=null;
+        gf = null;
         synchronized (trueNorth) {
             if (trueNorth > 360.0f) {
                 trueNorth = trueNorth - 360.0f;
             }
+            float actualHeading = 0f;
 
-            //use gps bearing instead of the compass
-            if (gpsspeed > 0.01f) {
-                float t = (360 - gpsbearing - this.deviceOrientation);
-                if (t < 0) {
-                    t += 360;
-                }
-                if (t > 360) {
-                    t -= 360;
-                }
-                mMapView.setMapOrientation(t);
-            } else {
-                //this part adjusts the desired map rotation based on device orientation and compass heading
-
-                float t = (360 - trueNorth - this.deviceOrientation);
-                if (t < 0) {
-                    t += 360;
-                }
-                if (t > 360) {
-                    t -= 360;
-                }
-                mMapView.setMapOrientation(t);
+            //this part adjusts the desired map rotation based on device orientation and compass heading
+            float t = (360 - trueNorth - this.deviceOrientation);
+            if (t < 0) {
+                t += 360;
             }
+            if (t > 360) {
+                t -= 360;
+            }
+            actualHeading = t;
+            //help smooth everything out
+            t = (int) t;
+            t = t / 10;
+            t = (int) t;
+            t = t * 10;
+            mMapView.setMapOrientation(t);
+            updateDisplay(actualHeading);
 
-            try {
-                Activity act = getActivity();
-                if (act != null)
-                    act.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (getActivity() != null && textViewCurrentLocation != null) {
-                                textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-                                    "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-                                    "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
-                                    screen_orientation);
-                            }
-                        }
-                    });
-            }catch (Exception ex){}
         }
     }
+
+    private void updateDisplay(final float bearing) {
+        try {
+            Activity act = getActivity();
+            if (act != null)
+                act.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (getActivity() != null && textViewCurrentLocation != null) {
+                            textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
+                                "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) bearing + "\n" +
+                                "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
+                                screen_orientation);
+                        }
+                    }
+                });
+        } catch (Exception ex) {
+        }
+    }
+
+
 }

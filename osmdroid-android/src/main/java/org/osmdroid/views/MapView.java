@@ -612,7 +612,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	public Point getMapRotationPoint() {
-		return mapRotationPoint;
+		return ((mapRotationPoint == null) ?  new Point(getWidth() / 2, getHeight() / 2) : mapRotationPoint);
 	}
 
 	/**
@@ -867,6 +867,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
 		}
 		mTileRequestCompleteHandler=null;
+		mProjection=null;
 	}
 
 	@Override

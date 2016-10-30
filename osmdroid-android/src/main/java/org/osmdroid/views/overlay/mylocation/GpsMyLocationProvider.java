@@ -1,5 +1,6 @@
 package org.osmdroid.views.overlay.mylocation;
 
+import org.osmdroid.api.IMapView;
 import org.osmdroid.util.NetworkLocationIgnorer;
 
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -139,6 +141,10 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 
 	@Override
 	public void onLocationChanged(final Location location) {
+		if (mIgnorer==null) {
+			Log.w(IMapView.LOGTAG, "GpsMyLocation proivider, mIgnore is null, unexpected. Location update will be ignored");
+			return;
+		}
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis()))
 			return;
