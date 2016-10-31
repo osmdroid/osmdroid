@@ -194,6 +194,7 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
     public void onLocationChanged(Location location) {
         if (mMapView == null)
             return;
+        //this appears to be broken on hardware. x86/emulator is fine though
 
         gpsbearing = location.getBearing();
         gpsspeed = location.getSpeed();
