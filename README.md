@@ -22,7 +22,12 @@ dependencies {
     compile 'org.osmdroid:osmdroid-android:5.5:release@aar'
 }
 ```
-
+**Gradle API Dependency**
+```
+dependencies {
+    compile gradleApi()
+}
+```
 **Maven dependency**
 ```xml
 <dependency>
@@ -32,7 +37,7 @@ dependencies {
   <type>aar</type>
 </dependency>
 ```
-** platform or api level (api level 4 = platform 1.6)**
+**Platform or API Level (API level 4 = Platform 1.6)**
 ```xml
 <platform>8</platform>
 ```
