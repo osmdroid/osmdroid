@@ -36,7 +36,7 @@ public class RotationGestureOverlay extends Overlay implements
     }
 
     @Override
-	protected void draw(Canvas c, MapView osmv, boolean shadow) {
+	public void draw(Canvas c, MapView osmv, boolean shadow) {
         // No drawing necessary
     }
 

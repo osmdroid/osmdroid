@@ -37,7 +37,7 @@ class OsmdroidMapWrapper implements IMap {
 
 		mMapView.getOverlays().add(new Overlay(mMapView.getContext()) {
 			@Override
-			protected void draw(final Canvas c, final MapView osmv, final boolean shadow) {
+			public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
 				// nothing to draw
 			}
 
