@@ -151,9 +151,7 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
     public void onLocationChanged(Location location) {
         if (mMapView == null)
             return;
-        //after the first fix, schedule the task to change the icon
-        //mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
-        mMapView.invalidate();
+
         gpsbearing = location.getBearing();
         gpsspeed = location.getSpeed();
         lat = (float) location.getLatitude();
@@ -163,23 +161,23 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
 
 
         //use gps bearing instead of the compass
-        if (gpsspeed > 0.01f) {
-            float t = (360 - gpsbearing - this.deviceOrientation);
-            if (t < 0) {
-                t += 360;
-            }
-            if (t > 360) {
-                t -= 360;
-            }
-            //help smooth everything out
-            t = (int) t;
-            t = t / 10;
-            t = (int) t;
-            t = t * 10;
 
-            mMapView.setMapOrientation(t);
-            updateDisplay(location.getBearing());
+        float t = (360 - gpsbearing - this.deviceOrientation);
+        if (t < 0) {
+            t += 360;
         }
+        if (t > 360) {
+            t -= 360;
+        }
+        //help smooth everything out
+        t = (int) t;
+        t = t / 10;
+        t = (int) t;
+        t = t * 10;
+
+        mMapView.setMapOrientation(t);
+        updateDisplay(location.getBearing());
+
     }
 
     @Override
@@ -202,32 +200,35 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
     @Override
     public void onOrientationChanged(final float orientationToMagneticNorth, IOrientationProvider source) {
         //note, on devices without a compass this never fires...
-        GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
-        trueNorth = orientationToMagneticNorth + gf.getDeclination();
-        gf = null;
-        synchronized (trueNorth) {
-            if (trueNorth > 360.0f) {
-                trueNorth = trueNorth - 360.0f;
-            }
-            float actualHeading = 0f;
 
-            //this part adjusts the desired map rotation based on device orientation and compass heading
-            float t = (360 - trueNorth - this.deviceOrientation);
-            if (t < 0) {
-                t += 360;
-            }
-            if (t > 360) {
-                t -= 360;
-            }
-            actualHeading = t;
-            //help smooth everything out
-            t = (int) t;
-            t = t / 10;
-            t = (int) t;
-            t = t * 10;
-            mMapView.setMapOrientation(t);
-            updateDisplay(actualHeading);
+        //only use the compass bit if we aren't moving, since gps is more accurate
+        if (gpsspeed > 0.01) {
+            GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
+            trueNorth = orientationToMagneticNorth + gf.getDeclination();
+            gf = null;
+            synchronized (trueNorth) {
+                if (trueNorth > 360.0f) {
+                    trueNorth = trueNorth - 360.0f;
+                }
+                float actualHeading = 0f;
 
+                //this part adjusts the desired map rotation based on device orientation and compass heading
+                float t = (360 - trueNorth - this.deviceOrientation);
+                if (t < 0) {
+                    t += 360;
+                }
+                if (t > 360) {
+                    t -= 360;
+                }
+                actualHeading = t;
+                //help smooth everything out
+                t = (int) t;
+                t = t / 10;
+                t = (int) t;
+                t = t * 10;
+                mMapView.setMapOrientation(t);
+                updateDisplay(actualHeading);
+            }
         }
     }
 
