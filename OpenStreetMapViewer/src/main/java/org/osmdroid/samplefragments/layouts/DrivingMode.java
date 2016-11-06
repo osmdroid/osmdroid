@@ -36,13 +36,14 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
  * @since 5.6
  */
 
-public class DrivingMode extends BaseSampleFragment implements LocationListener, IOrientationConsumer {
+public class DrivingMode extends BaseSampleFragment implements LocationListener, IOrientationConsumer, View.OnClickListener {
     @Override
     public String getSampleTitle() {
         return "Driving Mode";
     }
 
 
+    Float manualBearing=null;
     int deviceOrientation = 0;
     MyLocationNewOverlay mLocationOverlay = null;
     IOrientationProvider compass = null;
@@ -74,6 +75,10 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
         mMapView = (MapView) root.findViewById(R.id.mapview);
         mMapView.getController().setZoom(12);
         textViewCurrentLocation = (TextView) root.findViewById(R.id.textViewCurrentLocation);
+        btnRotateLeft = (ImageButton) root.findViewById(R.id.btnRotateLeft);
+        btnRotateLeft.setOnClickListener(this);
+        btnRotateRight = (ImageButton) root.findViewById(R.id.btnRotateRight);
+        btnRotateRight.setOnClickListener(this);
         return root;
     }
 
@@ -198,17 +203,19 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
 
         gpsbearing = location.getBearing();
         gpsspeed = location.getSpeed();
+        if (manualBearing!=null)
+            gpsbearing = manualBearing;
         lat = (float) location.getLatitude();
         lon = (float) location.getLongitude();
         alt = (float) location.getAltitude(); //meters
         timeOfFix = location.getTime();
 
         //use gps bearing
-        float t = (360 - gpsbearing - this.deviceOrientation);
+        float t = (gpsbearing - this.deviceOrientation);
         if (t < 0) {
             t += 360;
         }
-        if (t > 360) {
+        if (t >= 360) {
             t -= 360;
         }
         //help smooth everything out
@@ -220,14 +227,22 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
         mMapView.setMapOrientation(t);
         updateDisplay(location.getBearing());
 
+
+        //get the slope of the line from the origin
+        //double m = location.getLatitude() / location.getLongitude();
+
+
         //center on current location
         mMapView.getController().setCenter(new GeoPoint(location.getLatitude(), location.getLongitude()));
         mMapView.invalidate();
 
         //get the lat/lon of the point 1/4 of the map "up" of the current loction
-        IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels(width / 2, height - (height / 4));
+        IGeoPoint iGeoPoint = mMapView.getProjection().fromPixels(width / 2, height - (height*9/10));
         //center the map on that point, thus making my location near the screen center, 1/4 from the bottom of the map view
-        //aninate to is not recommended in this case
+        //animate to is not recommended in this case
+
+        //tan(angle) = lat/long = distance from origin
+
         mMapView.getController().setCenter(iGeoPoint);
 
         //update the icons
@@ -236,9 +251,9 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
         mMapView.getOverlayManager().add(mylocation);
 
         //this is debug code for putting an icon at screen center
-        //centerOnPoint.setPosition((GeoPoint) iGeoPoint);
-        //mMapView.getOverlayManager().remove(centerOnPoint);
-        //mMapView.getOverlayManager().add(centerOnPoint);
+        centerOnPoint.setPosition((GeoPoint) iGeoPoint);
+        mMapView.getOverlayManager().remove(centerOnPoint);
+        mMapView.getOverlayManager().add(centerOnPoint);
 
         mMapView.invalidate();
         if (mylocation.isInfoWindowShown()) {
@@ -269,8 +284,7 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
 
     @Override
     public void onOrientationChanged(final float orientationToMagneticNorth, IOrientationProvider source) {
-        if (gpsspeed > 0.01)
-            return;
+
         //note, on devices without a compass this never fires...
         GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
         trueNorth = orientationToMagneticNorth + gf.getDeclination();
@@ -295,8 +309,11 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
             t = t / 10;
             t = (int) t;
             t = t * 10;
-            mMapView.setMapOrientation(t);
+
             updateDisplay(actualHeading);
+            if (true)
+                return;
+            mMapView.setMapOrientation(t);
 
         }
     }
@@ -317,6 +334,31 @@ public class DrivingMode extends BaseSampleFragment implements LocationListener,
                     }
                 });
         } catch (Exception ex) {
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnRotateLeft:
+                if (manualBearing==null)
+                    manualBearing=0f;
+                manualBearing+=5;
+                if (manualBearing > 360)
+                    manualBearing = manualBearing-360;
+                if (manualBearing < 0)
+                    manualBearing = manualBearing+360;
+                break;
+            case R.id.btnRotateRight:
+                if (manualBearing==null)
+                    manualBearing=0f;
+                manualBearing-=5;
+                if (manualBearing > 360)
+                    manualBearing = manualBearing-360;
+                if (manualBearing < 0)
+                    manualBearing = manualBearing+360;
+
+                break;
         }
     }
 }

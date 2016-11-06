@@ -45,7 +45,6 @@ public class Projection implements IProjection, MapViewConstants {
 	private final int mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
-	private final float mMapOrientation;
 	private MapView mapView;
 
 	Projection(MapView mapView) {
@@ -54,7 +53,6 @@ public class Projection implements IProjection, MapViewConstants {
 		mZoomLevelProjection = mapView.getZoomLevel(false);
 		mScreenRectProjection = mapView.getScreenRect(null);
 		mIntrinsicScreenRectProjection = mapView.getIntrinsicScreenRect(null);
-		mMapOrientation = mapView.getMapOrientation();
 
 		mMapViewWidth = mapView.getWidth();
 		mMapViewHeight = mapView.getHeight();
@@ -107,7 +105,7 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
-		Point point = rotateAndScalePoint(x, y, null);
+		Point point = unrotateAndScalePoint(x, y, null);
 		return TileSystem.PixelXYToLatLong(point.x - mOffsetX, point.y - mOffsetY, mZoomLevelProjection, reuse);
 
 	}
