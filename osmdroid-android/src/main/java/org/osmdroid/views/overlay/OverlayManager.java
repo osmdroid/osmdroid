@@ -84,4 +84,11 @@ public interface OverlayManager extends List<Overlay> {
     boolean onPrepareOptionsMenu(Menu pMenu, int menuIdOffset, MapView mapView);
 
     boolean onOptionsItemSelected(MenuItem item, int menuIdOffset, MapView mapView);
+
+    /**
+     * This event is called whenever the map extent changes, that is, whenever a onZoom or onScroll
+     * event is dispatched to the MapListener. Note that it is not called during animations.
+     * @param mapView the MapView
+     */
+    void onExtentChange(MapView mapView);
 }

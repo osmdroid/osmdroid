@@ -15,9 +15,11 @@ import java.util.Arrays;
 /**
  * Overlay to draw a layer of clickable simple points, optimized for rendering speed. Nice
  * performance up to 100k points. Does not support styling each point individually, the style
- * applies to all points. There are two rendering algorithms:
- * FAST: not recommended for >10k points. Recalculates the grid index on each draw event.
- * ULTRAFAST: for >10k points, only recalculates the grid on touch up, hence much faster.
+ * applies to all points. There are three rendering algorithms:
+ * NO_OPTIMIZATION: all points all drawn in every draw event
+ * MEDIUM_OPTIMIZATION: not recommended for >10k points. Recalculates the grid index on each draw
+ *     event and only draws one point per grid cell.
+ * MAXIMUM_OPTIMIZATION: for >10k points, only recalculates the grid on touch up, hence much faster.
  *
  * TODO: a quadtree index would improve rendering speed!
  * Created by Miguel Porto on 25-10-2016.
@@ -72,7 +74,7 @@ public class SimpleFastPointOverlay extends Overlay {
         viewHei = mapView.getHeight();
         gridWid = (int) Math.floor((float) viewWid / mStyle.mCellSize) + 1;
         gridHei = (int) Math.floor((float) viewHei / mStyle.mCellSize) + 1;
-        if(mStyle.mAlgorithm == SimpleFastPointOverlayOptions.RenderingAlgorithm.ULTRAFAST)
+        if(mStyle.mAlgorithm == SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
             grid = new Point[gridWid][gridHei];
         else
             gridBool = new boolean[gridWid][gridHei];
@@ -117,7 +119,7 @@ public class SimpleFastPointOverlay extends Overlay {
 
     @Override
     public boolean onTouchEvent(MotionEvent event, MapView mapView) {
-        if(mStyle.mAlgorithm == SimpleFastPointOverlayOptions.RenderingAlgorithm.FAST) return false;
+        if(mStyle.mAlgorithm != SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) return false;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 prevNumPointers = event.getPointerCount();
@@ -165,6 +167,20 @@ public class SimpleFastPointOverlay extends Overlay {
     }
 
     /**
+     * This event happens every time the extent changes. So, we only care about it in maximum
+     * optimization and when the change is not due to a touch event (i.e. click buttons, inertia)
+     * @param mapView
+     */
+    @Override
+    public void onExtentChange(MapView mapView) {
+        if(mStyle.mAlgorithm != SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) return;
+        if(curX != 0 || curY != 0) return;
+        computeGrid(mapView);
+        mapView.invalidate();
+        super.onExtentChange(mapView);
+    }
+
+    /**
      * Default action on tap is to select the nearest point.
      */
     @Override
@@ -179,6 +195,7 @@ public class SimpleFastPointOverlay extends Overlay {
         for(int i = 0; i < mPointList.size(); i++) {
             if(mPointList.get(i) == null) continue;
             pj.toPixels(mPointList.get(i), tmp);
+            if(Math.abs(event.getX() - tmp.x) > 50 || Math.abs(event.getY() - tmp.y) > 50) continue;
             hyp = (event.getX() - tmp.x) * (event.getX() - tmp.x)
                     + (event.getY() - tmp.y) * (event.getY() - tmp.y);
             if(minHyp == null || hyp < minHyp) {
@@ -186,6 +203,7 @@ public class SimpleFastPointOverlay extends Overlay {
                 closest = i;
             }
         }
+        if(minHyp == null) return false;
         setSelectedPoint(closest);
         mapView.invalidate();
         if(clickListener != null) clickListener.onClick(closest);
@@ -197,7 +215,7 @@ public class SimpleFastPointOverlay extends Overlay {
      * @param toSelect The index of the point (zero-based) in the original list.
      */
     public void setSelectedPoint(Integer toSelect) {
-        if(toSelect < 0 || toSelect >= mPointList.size())
+        if(toSelect == null || toSelect < 0 || toSelect >= mPointList.size())
             mSelectedPoint = null;
         else
             mSelectedPoint = toSelect;
@@ -217,58 +235,101 @@ public class SimpleFastPointOverlay extends Overlay {
 
     @Override
     protected void draw(Canvas canvas, MapView mapView, boolean b) {
+        final BoundingBox viewBBox;
         if (b) return;
         final Point mPositionPixels = new Point();
         final Projection pj = mapView.getProjection();
 
         if(mStyle.mPointStyle != null) {
-            if (mStyle.mAlgorithm == SimpleFastPointOverlayOptions.RenderingAlgorithm.ULTRAFAST) {
-                // this is the algorithm optimized for speed, recommended for > 10k points
-                if (grid == null) computeGrid(mapView);
+            switch (mStyle.mAlgorithm) {
+                case MAXIMUM_OPTIMIZATION:
+                    // optimized for speed, recommended for > 10k points, recompute grid only on specific events
+                    if (grid == null) computeGrid(mapView);
 
-                // draw points
-                float offX = curX - startX;
-                float offY = curY - startY;
-                for (int x = 0; x < gridWid; x++) {
-                    for (int y = 0; y < gridHei; y++) {
-                        if (grid[x][y] != null) {
-                            canvas.drawCircle(grid[x][y].x + offX - offsetX, grid[x][y].y + offY
-                                    - offsetY, mStyle.mCircleRadius, mStyle.mPointStyle);
+                    // draw points
+                    float offX = curX - startX;
+                    float offY = curY - startY;
+                    for (int x = 0; x < gridWid; x++) {
+                        for (int y = 0; y < gridHei; y++) {
+                            if (grid[x][y] != null) {
+                                if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+                                    canvas.drawCircle(grid[x][y].x + offX - offsetX, grid[x][y].y + offY
+                                            - offsetY, mStyle.mCircleRadius, mStyle.mPointStyle);
+                                else
+                                    canvas.drawRect(grid[x][y].x + offX - offsetX - mStyle.mCircleRadius
+                                            , grid[x][y].y + offY - offsetY - mStyle.mCircleRadius
+                                            , grid[x][y].x + offX - offsetX + mStyle.mCircleRadius
+                                            , grid[x][y].y + offY - offsetY + mStyle.mCircleRadius
+                                            , mStyle.mPointStyle);
+                            }
                         }
                     }
-                }
-            } else {
-                if (grid == null || viewHei != mapView.getHeight() || viewWid != mapView.getWidth())
-                    updateGrid(mapView);
-                else
-                    for (boolean[] row : gridBool)
-                        Arrays.fill(row, false);
+                    break;
 
-                int gridX, gridY;
-                final BoundingBox viewBBox = mapView.getBoundingBox();
+                case MEDIUM_OPTIMIZATION:
+                    // recompute grid index on every draw
+                    if (grid == null || viewHei != mapView.getHeight() || viewWid != mapView.getWidth())
+                        updateGrid(mapView);
+                    else
+                        for (boolean[] row : gridBool)
+                            Arrays.fill(row, false);
 
-                for (IGeoPoint pt1 : mPointList) {
-                    if (pt1 == null) continue;
-                    if (pt1.getLatitude() > viewBBox.getLatSouth()
-                            && pt1.getLatitude() < viewBBox.getLatNorth()
-                            && pt1.getLongitude() > viewBBox.getLonWest()
-                            && pt1.getLongitude() < viewBBox.getLonEast()) {
-                        pj.toPixels(pt1, mPositionPixels);
-                        // test whether in this grid cell there is already a point, skip if yes
-                        // this makes a lot of difference in rendering speed
-                        gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
-                        gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
-                        if (gridX >= gridWid || gridY >= gridHei || gridBool[gridX][gridY])
-                            continue;
-                        gridBool[gridX][gridY] = true;
-                        canvas.drawCircle((float) mPositionPixels.x, (float) mPositionPixels.y
-                                , mStyle.mCircleRadius, mStyle.mPointStyle);
+                    int gridX, gridY;
+                    viewBBox = mapView.getBoundingBox();
+
+                    for (IGeoPoint pt1 : mPointList) {
+                        if (pt1 == null) continue;
+                        if (pt1.getLatitude() > viewBBox.getLatSouth()
+                                && pt1.getLatitude() < viewBBox.getLatNorth()
+                                && pt1.getLongitude() > viewBBox.getLonWest()
+                                && pt1.getLongitude() < viewBBox.getLonEast()) {
+                            pj.toPixels(pt1, mPositionPixels);
+                            // test whether in this grid cell there is already a point, skip if yes
+                            // this makes a lot of difference in rendering speed
+                            gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
+                            gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
+                            if (gridX >= gridWid || gridY >= gridHei || gridBool[gridX][gridY])
+                                continue;
+                            gridBool[gridX][gridY] = true;
+                            if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+                                canvas.drawCircle((float) mPositionPixels.x, (float) mPositionPixels.y
+                                        , mStyle.mCircleRadius, mStyle.mPointStyle);
+                            else
+                                canvas.drawRect((float) mPositionPixels.x - mStyle.mCircleRadius
+                                        , (float) mPositionPixels.y - mStyle.mCircleRadius
+                                        , (float) mPositionPixels.x + mStyle.mCircleRadius
+                                        , (float) mPositionPixels.y + mStyle.mCircleRadius
+                                        , mStyle.mPointStyle);
+                        }
                     }
-                }
+                    break;
+
+                case NO_OPTIMIZATION:
+                    // draw all points
+                    viewBBox = mapView.getBoundingBox();
+                    for (IGeoPoint pt1 : mPointList) {
+                        if (pt1 == null) continue;
+                        if (pt1.getLatitude() > viewBBox.getLatSouth()
+                                && pt1.getLatitude() < viewBBox.getLatNorth()
+                                && pt1.getLongitude() > viewBBox.getLonWest()
+                                && pt1.getLongitude() < viewBBox.getLonEast()) {
+                            pj.toPixels(pt1, mPositionPixels);
+                            if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+                                canvas.drawCircle((float) mPositionPixels.x, (float) mPositionPixels.y
+                                        , mStyle.mCircleRadius, mStyle.mPointStyle);
+                            else
+                                canvas.drawRect((float) mPositionPixels.x - mStyle.mCircleRadius
+                                        , (float) mPositionPixels.y - mStyle.mCircleRadius
+                                        , (float) mPositionPixels.x + mStyle.mCircleRadius
+                                        , (float) mPositionPixels.y + mStyle.mCircleRadius
+                                        , mStyle.mPointStyle);
+                        }
+                    }
+                    break;
             }
         }
 
-        if(mSelectedPoint != null && mPointList.get(mSelectedPoint) != null
+        if(mSelectedPoint != null && mSelectedPoint < mPointList.size() && mPointList.get(mSelectedPoint) != null
                 && mStyle.mSelectedPointStyle != null) {
             pj.toPixels(mPointList.get(mSelectedPoint), mPositionPixels);
             canvas.drawCircle(mPositionPixels.x, mPositionPixels.y

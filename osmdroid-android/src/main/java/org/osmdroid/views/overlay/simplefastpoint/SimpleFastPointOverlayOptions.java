@@ -9,14 +9,16 @@ import android.graphics.Paint;
  */
 
 public class SimpleFastPointOverlayOptions {
-    public enum RenderingAlgorithm {FAST, ULTRAFAST}
+    public enum RenderingAlgorithm {NO_OPTIMIZATION, MEDIUM_OPTIMIZATION, MAXIMUM_OPTIMIZATION}
+    public enum Shape {CIRCLE, SQUARE}
     protected Paint mPointStyle;
     protected Paint mSelectedPointStyle;
     protected float mCircleRadius = 5;
     protected float mSelectedCircleRadius = 13;
     protected boolean mClickable = true;
     protected int mCellSize = 10;   // the size of the grid cells in pixels. could be adjusted according to the nr of data points...
-    protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.ULTRAFAST;
+    protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.MAXIMUM_OPTIMIZATION;
+    protected Shape mSymbol = Shape.CIRCLE;
 
     public SimpleFastPointOverlayOptions() {
         mPointStyle = new Paint();
@@ -101,15 +103,25 @@ public class SimpleFastPointOverlayOptions {
 
     /**
      * Sets the rendering algorithm. There are two options:
-     * FAST: not recommended for >10k points. Recalculates the grid index on each draw event.
+     * MEDIUM_OPTIMIZATION: not recommended for >10k points. Recalculates the grid index on each draw event.
      *       Better UX, but may be choppier.
-     * ULTRAFAST: recommended for >10k points. Only recalculates the grid on touch up, hence much
+     * MAXIMUM_OPTIMIZATION: recommended for >10k points. Only recalculates the grid on touch up, hence much
      *       faster display on move.
      * @param algorithm A {@link RenderingAlgorithm}.
      * @return The updated {@link SimpleFastPointOverlayOptions}
      */
     public SimpleFastPointOverlayOptions setAlgorithm(RenderingAlgorithm algorithm) {
         mAlgorithm = algorithm;
+        return this;
+    }
+
+    /**
+     * Sets the symbol shape for this layer.
+     * @param symbol The symbol.
+     * @return The updated {@link SimpleFastPointOverlayOptions}
+     */
+    public SimpleFastPointOverlayOptions setSymbol(Shape symbol) {
+        mSymbol = symbol;
         return this;
     }
 

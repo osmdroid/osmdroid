@@ -377,4 +377,11 @@ public class DefaultOverlayManager extends AbstractList<Overlay> implements Over
 
         return false;
     }
+
+    @Override
+    public void onExtentChange(final MapView mapView) {
+        for (final Overlay overlay : this.overlaysReversed()) {
+            overlay.onExtentChange(mapView);
+        }
+    }
 }
