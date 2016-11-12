@@ -16,13 +16,11 @@ import java.util.List;
 
 public class XYPointTheme implements SimpleFastPointOverlay.PointAdapter {
     private final List<IGeoPoint> mPoints;
+    private boolean mLabelled;
 
-    public XYPointTheme() {
-        mPoints = new ArrayList<>();
-    }
-
-    public XYPointTheme(List<IGeoPoint> pPoints) {
+    public XYPointTheme(List<IGeoPoint> pPoints, boolean labelled) {
         mPoints = pPoints;
+        mLabelled = labelled;
     }
 
     @Override
@@ -33,6 +31,11 @@ public class XYPointTheme implements SimpleFastPointOverlay.PointAdapter {
     @Override
     public IGeoPoint get(int i) {
         return mPoints.get(i);
+    }
+
+    @Override
+    public boolean isLabelled() {
+        return mLabelled;
     }
 
     /**

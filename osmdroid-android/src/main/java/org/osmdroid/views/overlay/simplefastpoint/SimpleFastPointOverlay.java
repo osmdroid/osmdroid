@@ -31,19 +31,34 @@ public class SimpleFastPointOverlay extends Overlay {
     private Integer mSelectedPoint;
     private OnClickListener clickListener;
     // grid index for optimizing drawing k's of points
-    private Point grid[][];
+    private LabelledPoint grid[][];
     private boolean gridBool[][];
     private int gridWid, gridHei, viewWid, viewHei;
     private float startX, startY, curX, curY, offsetX, offsetY;
-    private int prevNumPointers;
+    private int prevNumPointers, numLabels;
+
+    public class LabelledPoint extends Point {
+        private String mlabel;
+
+        public LabelledPoint(Point point, String label) {
+            super(point);
+            this.mlabel = label;
+        }
+    }
 
     public interface PointAdapter extends Iterable<IGeoPoint> {
         int size();
         IGeoPoint get(int i);
+
+        /**
+         * Whether this adapter has labels
+         * @return
+         */
+        boolean isLabelled();
     }
 
     public interface OnClickListener {
-        void onClick(Integer point);
+        void onClick(PointAdapter points, Integer point);
     }
 
     public SimpleFastPointOverlay(PointAdapter pointList, SimpleFastPointOverlayOptions style) {
@@ -75,7 +90,7 @@ public class SimpleFastPointOverlay extends Overlay {
         gridWid = (int) Math.floor((float) viewWid / mStyle.mCellSize) + 1;
         gridHei = (int) Math.floor((float) viewHei / mStyle.mCellSize) + 1;
         if(mStyle.mAlgorithm == SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-            grid = new Point[gridWid][gridHei];
+            grid = new LabelledPoint[gridWid][gridHei];
         else
             gridBool = new boolean[gridWid][gridHei];
 
@@ -100,6 +115,7 @@ public class SimpleFastPointOverlay extends Overlay {
         final Point mPositionPixels = new Point();
         final Projection pj = pMapView.getProjection();
         final BoundingBox viewBBox = pMapView.getBoundingBox();
+        numLabels = 0;
 
         for (IGeoPoint pt1 : mPointList) {
             if (pt1 == null) continue;
@@ -112,7 +128,8 @@ public class SimpleFastPointOverlay extends Overlay {
                 gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
                 gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
                 if (gridX >= gridWid || gridY >= gridHei || grid[gridX][gridY] != null) continue;
-                grid[gridX][gridY] = new Point(mPositionPixels);
+                grid[gridX][gridY] = new LabelledPoint(mPositionPixels, mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null);
+                numLabels++;
             }
         }
     }
@@ -194,6 +211,7 @@ public class SimpleFastPointOverlay extends Overlay {
 
         for(int i = 0; i < mPointList.size(); i++) {
             if(mPointList.get(i) == null) continue;
+            // TODO avoid projecting coordinates, do a test before calling next line
             pj.toPixels(mPointList.get(i), tmp);
             if(Math.abs(event.getX() - tmp.x) > 50 || Math.abs(event.getY() - tmp.y) > 50) continue;
             hyp = (event.getX() - tmp.x) * (event.getX() - tmp.x)
@@ -206,7 +224,7 @@ public class SimpleFastPointOverlay extends Overlay {
         if(minHyp == null) return false;
         setSelectedPoint(closest);
         mapView.invalidate();
-        if(clickListener != null) clickListener.onClick(closest);
+        if(clickListener != null) clickListener.onClick(mPointList, closest);
         return true;
     }
 
@@ -239,6 +257,7 @@ public class SimpleFastPointOverlay extends Overlay {
         if (b) return;
         final Point mPositionPixels = new Point();
         final Projection pj = mapView.getProjection();
+        String tmpLabel;
 
         if(mStyle.mPointStyle != null) {
             switch (mStyle.mAlgorithm) {
@@ -261,6 +280,13 @@ public class SimpleFastPointOverlay extends Overlay {
                                             , grid[x][y].x + offX - offsetX + mStyle.mCircleRadius
                                             , grid[x][y].y + offY - offsetY + mStyle.mCircleRadius
                                             , mStyle.mPointStyle);
+
+                                if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels && (tmpLabel = grid[x][y].mlabel) != null)
+                                    canvas.drawText(tmpLabel
+                                            , grid[x][y].x + offX - offsetX
+                                            , grid[x][y].y + offY - offsetY - mStyle.mCircleRadius - 5
+                                            , mStyle.mTextStyle);
+
                             }
                         }
                     }
@@ -276,7 +302,6 @@ public class SimpleFastPointOverlay extends Overlay {
 
                     int gridX, gridY;
                     viewBBox = mapView.getBoundingBox();
-
                     for (IGeoPoint pt1 : mPointList) {
                         if (pt1 == null) continue;
                         if (pt1.getLatitude() > viewBBox.getLatSouth()
@@ -291,6 +316,7 @@ public class SimpleFastPointOverlay extends Overlay {
                             if (gridX >= gridWid || gridY >= gridHei || gridBool[gridX][gridY])
                                 continue;
                             gridBool[gridX][gridY] = true;
+
                             if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
                                 canvas.drawCircle((float) mPositionPixels.x, (float) mPositionPixels.y
                                         , mStyle.mCircleRadius, mStyle.mPointStyle);
@@ -300,6 +326,12 @@ public class SimpleFastPointOverlay extends Overlay {
                                         , (float) mPositionPixels.x + mStyle.mCircleRadius
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
                                         , mStyle.mPointStyle);
+
+                            if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels && (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
+                                canvas.drawText(tmpLabel
+                                        , (float) mPositionPixels.x
+                                        , (float) mPositionPixels.y - mStyle.mCircleRadius - 5
+                                        , mStyle.mTextStyle);
                         }
                     }
                     break;
@@ -323,6 +355,13 @@ public class SimpleFastPointOverlay extends Overlay {
                                         , (float) mPositionPixels.x + mStyle.mCircleRadius
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
                                         , mStyle.mPointStyle);
+
+                            if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels && (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
+                                canvas.drawText(tmpLabel
+                                        , (float) mPositionPixels.x
+                                        , (float) mPositionPixels.y - mStyle.mCircleRadius - 5
+                                        , mStyle.mTextStyle);
+
                         }
                     }
                     break;
@@ -332,8 +371,15 @@ public class SimpleFastPointOverlay extends Overlay {
         if(mSelectedPoint != null && mSelectedPoint < mPointList.size() && mPointList.get(mSelectedPoint) != null
                 && mStyle.mSelectedPointStyle != null) {
             pj.toPixels(mPointList.get(mSelectedPoint), mPositionPixels);
-            canvas.drawCircle(mPositionPixels.x, mPositionPixels.y
-                    , mStyle.mSelectedCircleRadius, mStyle.mSelectedPointStyle);
+            if(mStyle.mSymbol == SimpleFastPointOverlayOptions.Shape.CIRCLE)
+                canvas.drawCircle(mPositionPixels.x, mPositionPixels.y
+                        , mStyle.mSelectedCircleRadius, mStyle.mSelectedPointStyle);
+            else
+                canvas.drawRect((float) mPositionPixels.x - mStyle.mSelectedCircleRadius
+                        , (float) mPositionPixels.y - mStyle.mSelectedCircleRadius
+                        , (float) mPositionPixels.x + mStyle.mSelectedCircleRadius
+                        , (float) mPositionPixels.y + mStyle.mSelectedCircleRadius
+                        , mStyle.mSelectedPointStyle);
         }
     }
 }

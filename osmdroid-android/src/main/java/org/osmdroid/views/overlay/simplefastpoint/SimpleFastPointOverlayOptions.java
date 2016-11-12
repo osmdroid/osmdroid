@@ -13,12 +13,14 @@ public class SimpleFastPointOverlayOptions {
     public enum Shape {CIRCLE, SQUARE}
     protected Paint mPointStyle;
     protected Paint mSelectedPointStyle;
+    protected Paint mTextStyle;
     protected float mCircleRadius = 5;
     protected float mSelectedCircleRadius = 13;
     protected boolean mClickable = true;
     protected int mCellSize = 10;   // the size of the grid cells in pixels. could be adjusted according to the nr of data points...
     protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.MAXIMUM_OPTIMIZATION;
     protected Shape mSymbol = Shape.CIRCLE;
+    protected int mMaxNumLabels = 200;
 
     public SimpleFastPointOverlayOptions() {
         mPointStyle = new Paint();
@@ -29,6 +31,12 @@ public class SimpleFastPointOverlayOptions {
         mSelectedPointStyle.setStrokeWidth(5);
         mSelectedPointStyle.setStyle(Paint.Style.STROKE);
         mSelectedPointStyle.setColor(Color.parseColor("#ffff00"));
+
+        mTextStyle = new Paint();
+        mTextStyle.setStyle(Paint.Style.FILL);
+        mTextStyle.setColor(Color.parseColor("#ffff00"));
+        mTextStyle.setTextAlign(Paint.Align.CENTER);
+        mTextStyle.setTextSize(24);
     }
 
     /**
@@ -125,4 +133,24 @@ public class SimpleFastPointOverlayOptions {
         return this;
     }
 
+    /**
+     * Sets the style for the labels.
+     * @param textStyle The style.
+     * @return The updated {@link SimpleFastPointOverlayOptions}
+     */
+    public SimpleFastPointOverlayOptions setTextStyle(Paint textStyle) {
+        mTextStyle = textStyle;
+        return this;
+    }
+
+    /**
+     * Sets the maximum threshold of the visible number of labels after which no labels will be
+     * drawn.
+     * @param maxNumLabels
+     * @return
+     */
+    public SimpleFastPointOverlayOptions setMaxNumLabels(int maxNumLabels) {
+        mMaxNumLabels = maxNumLabels;
+        return this;
+    }
 }
