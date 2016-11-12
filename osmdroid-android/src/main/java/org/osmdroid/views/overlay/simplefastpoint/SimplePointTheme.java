@@ -1,24 +1,24 @@
 package org.osmdroid.views.overlay.simplefastpoint;
 
 import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.util.GeoPoint;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class is just a wrapper for a List of {@link IGeoPoint} to be used in
- * {@link SimpleFastPointOverlay}.
- * More complex datasets should implement {@link SimpleFastPointOverlay.PointAdapter}
+ * This class is just a simple wrapper for a List of {@link IGeoPoint}s to be used in
+ * {@link SimpleFastPointOverlay}. Can be used for unlabelled or labelled GeoPoints. Be sure to set
+ * the labelled parameter of the constructor to match the kind of points.
+ * More complex cases should implement {@link SimpleFastPointOverlay.PointAdapter}, not extend this
+ * one.
  * Created by Miguel Porto on 26-10-2016.
  */
 
-public class XYPointTheme implements SimpleFastPointOverlay.PointAdapter {
+public final class SimplePointTheme implements SimpleFastPointOverlay.PointAdapter {
     private final List<IGeoPoint> mPoints;
     private boolean mLabelled;
 
-    public XYPointTheme(List<IGeoPoint> pPoints, boolean labelled) {
+    public SimplePointTheme(List<IGeoPoint> pPoints, boolean labelled) {
         mPoints = pPoints;
         mLabelled = labelled;
     }

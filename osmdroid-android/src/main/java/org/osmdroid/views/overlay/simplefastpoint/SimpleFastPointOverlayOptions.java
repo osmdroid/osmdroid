@@ -17,7 +17,7 @@ public class SimpleFastPointOverlayOptions {
     protected float mCircleRadius = 5;
     protected float mSelectedCircleRadius = 13;
     protected boolean mClickable = true;
-    protected int mCellSize = 10;   // the size of the grid cells in pixels. could be adjusted according to the nr of data points...
+    protected int mCellSize = 10;   // the size of the grid cells in pixels.
     protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.MAXIMUM_OPTIMIZATION;
     protected Shape mSymbol = Shape.CIRCLE;
     protected int mMaxNumLabels = 200;
@@ -110,11 +110,12 @@ public class SimpleFastPointOverlayOptions {
     }
 
     /**
-     * Sets the rendering algorithm. There are two options:
-     * MEDIUM_OPTIMIZATION: not recommended for >10k points. Recalculates the grid index on each draw event.
-     *       Better UX, but may be choppier.
-     * MAXIMUM_OPTIMIZATION: recommended for >10k points. Only recalculates the grid on touch up, hence much
-     *       faster display on move.
+     * Sets the rendering algorithm. There are three options:
+     * NO_OPTIMIZATION: Slowest option. Draw all points on each draw event.
+     * MEDIUM_OPTIMIZATION: Faster. Recalculates the grid index on each draw event.
+     *          Not recommended for >10k points. Better UX, but may be choppier.
+     * MAXIMUM_OPTIMIZATION: Fastest. Only recalculates the grid on touch up and animation end
+     *          , hence much faster display on move. Recommended for >10k points.
      * @param algorithm A {@link RenderingAlgorithm}.
      * @return The updated {@link SimpleFastPointOverlayOptions}
      */

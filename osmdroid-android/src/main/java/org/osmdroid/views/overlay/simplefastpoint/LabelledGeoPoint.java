@@ -49,7 +49,8 @@ public class LabelledGeoPoint extends GeoPoint {
     }
 
     public LabelledGeoPoint(LabelledGeoPoint aLabelledGeopoint) {
-        this(aLabelledGeopoint.getLatitude(), aLabelledGeopoint.getLongitude(), aLabelledGeopoint.getAltitude(), aLabelledGeopoint.getLabel());
+        this(aLabelledGeopoint.getLatitude(), aLabelledGeopoint.getLongitude()
+                , aLabelledGeopoint.getAltitude(), aLabelledGeopoint.getLabel());
     }
 
     public String getLabel() {
@@ -62,7 +63,8 @@ public class LabelledGeoPoint extends GeoPoint {
 
     @Override
     public LabelledGeoPoint clone() {
-        return new LabelledGeoPoint(this.getLatitude(), this.getLongitude(), this.getAltitude(), this.mLabel);
+        return new LabelledGeoPoint(this.getLatitude(), this.getLongitude(), this.getAltitude()
+                , this.mLabel);
     }
 
     // ===========================================================
@@ -79,7 +81,8 @@ public class LabelledGeoPoint extends GeoPoint {
         out.writeString(mLabel);
     }
 
-    public static final Parcelable.Creator<LabelledGeoPoint> CREATOR = new Parcelable.Creator<LabelledGeoPoint>() {
+    public static final Parcelable.Creator<LabelledGeoPoint> CREATOR =
+            new Parcelable.Creator<LabelledGeoPoint>() {
         @Override
         public LabelledGeoPoint createFromParcel(final Parcel in) {
             return new LabelledGeoPoint(in);

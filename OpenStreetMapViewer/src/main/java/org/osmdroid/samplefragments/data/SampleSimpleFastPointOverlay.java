@@ -7,24 +7,21 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
-import org.osmdroid.R;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions;
-import org.osmdroid.views.overlay.simplefastpoint.XYPointTheme;
+import org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by miguel on 12-11-2016.
+ * Example of SimpleFastPointOverlay
+ * Created by Miguel Porto on 12-11-2016.
  */
 
 public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
@@ -35,17 +32,19 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container
+            , Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
         // create 100k labelled points
         List<IGeoPoint> points = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
-            points.add(new LabelledGeoPoint(37 + Math.random() * 5, -8 + Math.random() * 5, "Point #" + i));
+            points.add(new LabelledGeoPoint(37 + Math.random() * 5, -8 + Math.random() * 5
+                    , "Point #" + i));
         }
 
         // wrap them in a theme
-        XYPointTheme pt = new XYPointTheme(points, true);
+        SimplePointTheme pt = new SimplePointTheme(points, true);
 
         // create label style
         Paint textStyle = new Paint();
@@ -66,7 +65,9 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         sfpo.setOnClickListener(new SimpleFastPointOverlay.OnClickListener() {
             @Override
             public void onClick(SimpleFastPointOverlay.PointAdapter points, Integer point) {
-                Toast.makeText(mMapView.getContext(), "You clicked " + ((LabelledGeoPoint) points.get(point)).getLabel(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mMapView.getContext()
+                        , "You clicked " + ((LabelledGeoPoint) points.get(point)).getLabel()
+                        , Toast.LENGTH_SHORT).show();
             }
         });
 
