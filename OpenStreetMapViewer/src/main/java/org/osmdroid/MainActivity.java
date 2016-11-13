@@ -3,6 +3,7 @@ package org.osmdroid;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,6 +32,7 @@ import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
+import org.osmdroid.tileprovider.util.StorageUtils;
 import org.osmdroid.views.MapView;
 
 import java.io.File;
@@ -41,6 +44,7 @@ import java.util.Map;
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
 
     public static final String TAG = "OSM";
+
     /**
      * Called when the activity is first created.
      */
@@ -55,48 +59,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         }
 
 
-        //cache management starts here
-        File discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
-
-        //grab the current user preferences for debug settings and where to store the tile cache data
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        OpenStreetMapTileProviderConstants.setCachePath(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath()));
-        OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
-        MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
-        MapTileDownloader.DEBUG = prefs.getBoolean("checkBoxDebugDownloading", false);
-
-        //uncomment this to force a cache trim
-        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
-
-        if (Build.VERSION.SDK_INT >= 9) {
-            //https://github/osmdroid/osmdroid/issues/435
-            //On startup, we auto set the max cache size to be the current cache size + free disk space
-            //this reduces the chance of osmdroid completely filling up the storage device
-
-            //if the default max cache size is greater than the available free space
-            //reduce it to 95% of the available free space + the size of the cache
-            File dbFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-            if (dbFile.exists()) {
-                long cacheSize = dbFile.length();
-                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getFreeSpace();
-
-                Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
-                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace + cacheSize)){
-                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.95);
-                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.90);
-                }
-            } else {
-                //this is probably the first time running osmdroid
-                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.length();
-                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace)){
-                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.95);
-                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.90);
-                }
-            }
-        }
-
-        //cache management ends here
 
 
         // Generate a ListView with Sample Maps
@@ -118,18 +80,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(this);
 
-        TextView tv = (TextView) findViewById(R.id.sdcardstate_value);
-        final String state = Environment.getExternalStorageState();
-
-        boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-        tv.setText(mSdCardAvailable ? "Mounted" : "Not Available");
-        if (!mSdCardAvailable) {
-            tv.setTextColor(Color.RED);
-            tv.setTypeface(null, Typeface.BOLD);
-        }
-
-        tv = (TextView) findViewById(R.id.version_text);
-        tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
     }
 
     @Override
@@ -168,6 +118,88 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 startActivity(i);
                 break;
         }
+    }
+
+
+    public void onResume(){
+        super.onResume();
+        updateStorageInfo();
+    }
+
+    /**
+     * refreshes the current osmdroid cache paths with user preferences plus soe logic to work around
+     * file system permissions on api23 devices. it's primarily used for out android tests
+     * @param ctx
+     * @return current cache size in bytes
+     */
+    public static long updateStoragePrefreneces(Context ctx){
+        //cache management starts here
+        File discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+        if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+            new File("/data/data/" + ctx.getPackageName() + "/tiles/").mkdirs();
+            OpenStreetMapTileProviderConstants.setCachePath("/data/data/" + ctx.getPackageName() + "/tiles/");
+        }
+        discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+
+        //grab the current user preferences for debug settings and where to store the tile cache data
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        OpenStreetMapTileProviderConstants.setCachePath(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath()));
+        OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
+        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
+        MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
+        MapTileDownloader.DEBUG = prefs.getBoolean("checkBoxDebugDownloading", false);
+
+        //uncomment this to force a cache trim
+        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
+
+        long cacheSize=-1;
+        if (Build.VERSION.SDK_INT >= 9) {
+            //https://github/osmdroid/osmdroid/issues/435
+            //On startup, we auto set the max cache size to be the current cache size + free disk space
+            //this reduces the chance of osmdroid completely filling up the storage device
+
+            //if the default max cache size is greater than the available free space
+            //reduce it to 95% of the available free space + the size of the cache
+            File dbFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
+            if (dbFile.exists()) {
+                cacheSize = dbFile.length();
+                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getFreeSpace();
+
+                Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
+                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace + cacheSize)){
+                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.95);
+                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.90);
+                }
+            } else {
+                //this is probably the first time running osmdroid
+                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.length();
+                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace)){
+                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.95);
+                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.90);
+                }
+            }
+        }
+        return cacheSize;
+    }
+
+    private void updateStorageInfo(){
+
+        long cacheSize = updateStoragePrefreneces(this);
+        //cache management ends here
+
+        TextView tv = (TextView) findViewById(R.id.sdcardstate_value);
+        final String state = Environment.getExternalStorageState();
+
+        boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
+        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" +  OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + "\n" +
+            "Cache size: " + Formatter.formatFileSize(this,cacheSize));
+        if (!mSdCardAvailable) {
+            tv.setTextColor(Color.RED);
+            tv.setTypeface(null, Typeface.BOLD);
+        }
+
+        tv = (TextView) findViewById(R.id.version_text);
+        tv.setText(BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);
     }
 
     // START PERMISSION CHECK
@@ -217,6 +249,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                     Toast.makeText(MainActivity.this, "Storage permission is required to store map tiles to reduce data usage and for offline usage." +
                             "\nLocation permission is required to show the user's location on map.", Toast.LENGTH_SHORT).show();
                 }
+                updateStorageInfo();
             }
             break;
             default:

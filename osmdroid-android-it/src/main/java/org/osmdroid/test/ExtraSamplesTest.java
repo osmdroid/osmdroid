@@ -19,6 +19,7 @@ import junit.framework.Assert;
 
 import org.osmdroid.ExtraSamplesActivity;
 import org.osmdroid.ISampleFactory;
+import org.osmdroid.MainActivity;
 import org.osmdroid.OsmApplication;
 import org.osmdroid.bugtestfragments.BugFactory;
 import org.osmdroid.samplefragments.*;
@@ -100,6 +101,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
 
                         } catch (Exception oom) {
                             ok=false;
+                            oom.printStackTrace();
                             Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
 
                         }
@@ -121,6 +123,7 @@ public class ExtraSamplesTest extends ActivityInstrumentationTestCase2<ExtraSamp
                     });
                 } catch (Exception oom) {
                     ok=false;
+                    oom.printStackTrace();
                     Assert.fail("Error popping fragment " + basefrag.getSampleTitle() + basefrag.getClass().getCanonicalName() + oom);
 
                 }

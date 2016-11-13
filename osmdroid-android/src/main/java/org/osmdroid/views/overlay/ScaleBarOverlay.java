@@ -355,7 +355,7 @@ public class ScaleBarOverlay extends Overlay implements GeoConstants {
 	// ===========================================================
 
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+	public void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (shadow) {
 			return;
 		}
