@@ -2,6 +2,7 @@ package org.osmdroid.views.overlay.simplefastpoint;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
@@ -187,21 +188,6 @@ public class SimpleFastPointOverlay extends Overlay {
     }
 
     /**
-     * This event happens every time the extent changes. So, we only care about it in maximum
-     * optimization and when the change is not due to a touch event (i.e. click buttons, inertia)
-     * @param mapView
-     */
-    @Override
-    public void onExtentChange(MapView mapView) {
-        if(mStyle.mAlgorithm !=
-                SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION) return;
-        if(curX != 0 || curY != 0) return;
-        computeGrid(mapView);
-        mapView.invalidate();
-        super.onExtentChange(mapView);
-    }
-
-    /**
      * Default action on tap is to select the nearest point.
      */
     @Override
@@ -267,8 +253,11 @@ public class SimpleFastPointOverlay extends Overlay {
             switch (mStyle.mAlgorithm) {
                 case MAXIMUM_OPTIMIZATION:
                     // optimized for speed, recommended for > 10k points
-                    // recompute grid only on specific events
-                    if (grid == null) computeGrid(mapView);
+                    // recompute grid only on specific events - only onDraw but when not animating
+                    // and not in the middle of a touch scroll gesture
+                    if (grid == null
+                            || (curX == 0 && curY == 0 && !mapView.isAnimating()))
+                        computeGrid(mapView);
 
                     // draw points
                     float offX = curX - startX;

@@ -410,9 +410,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			mListener.onZoom(event);
 		}
 
-		// do callback in all overlays
-		getOverlayManager().onExtentChange(this);
-
 		// Allows any views fixed to a Location in the MapView to adjust
 		this.requestLayout();
 		return this.mZoomLevel;
@@ -1057,9 +1054,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final ScrollEvent event = new ScrollEvent(this, x, y);
 			mListener.onScroll(event);
 		}
-
-		// do callback in all overlays
-		getOverlayManager().onExtentChange(this);
 	}
 
 	@Override

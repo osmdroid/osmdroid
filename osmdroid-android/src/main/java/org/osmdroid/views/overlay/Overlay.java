@@ -246,8 +246,6 @@ public abstract class Overlay implements OverlayConstants {
 		return false;
 	}
 
-	public void onExtentChange(final MapView mapView) {	}
-
 	/**
 	 * Convenience method to draw a Drawable at an offset. x and y are pixel coordinates. You can
 	 * find appropriate coordinates from latitude/longitude using the MapView.getProjection() method
