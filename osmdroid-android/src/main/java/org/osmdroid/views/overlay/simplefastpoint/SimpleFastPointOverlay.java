@@ -2,7 +2,6 @@ package org.osmdroid.views.overlay.simplefastpoint;
 
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import org.osmdroid.api.IGeoPoint;
@@ -242,7 +241,7 @@ public class SimpleFastPointOverlay extends Overlay {
     }
 
     @Override
-    protected void draw(Canvas canvas, MapView mapView, boolean b) {
+    public void draw(Canvas canvas, MapView mapView, boolean b) {
         final BoundingBox viewBBox;
         if (b) return;
         final Point mPositionPixels = new Point();
