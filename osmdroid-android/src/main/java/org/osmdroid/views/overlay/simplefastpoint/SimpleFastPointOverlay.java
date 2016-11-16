@@ -15,12 +15,14 @@ import java.util.Arrays;
 /**
  * Overlay to draw a layer of clickable simple points, optimized for rendering speed. Nice
  * performance up to 100k points. Does not support styling each point individually, the style
- * applies to all points. There are three rendering algorithms:
+ * applies to all points. Does not support rotated maps.
+ * There are three rendering algorithms:
  * NO_OPTIMIZATION: all points all drawn in every draw event
  * MEDIUM_OPTIMIZATION: not recommended for >10k points. Recalculates the grid index on each draw
  *     event and only draws one point per grid cell.
  * MAXIMUM_OPTIMIZATION: for >10k points, only recalculates the grid on touch up, hence much faster.
  *
+ * TODO: support for rotated maps!
  * TODO: a quadtree index would improve rendering speed!
  * Created by Miguel Porto on 25-10-2016.
  */
@@ -36,6 +38,7 @@ public class SimpleFastPointOverlay extends Overlay {
     private int gridWid, gridHei, viewWid, viewHei;
     private float startX, startY, curX, curY, offsetX, offsetY;
     private int prevNumPointers, numLabels;
+    private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
 
     public class LabelledPoint extends Point {
         private String mlabel;
@@ -106,32 +109,48 @@ public class SimpleFastPointOverlay extends Overlay {
      * @param pMapView
      */
     private void computeGrid(final MapView pMapView) {
-        if (grid == null || viewHei != pMapView.getHeight() || viewWid != pMapView.getWidth())
-            updateGrid(pMapView);
-        else
-            for (Point[] row : grid)
-                Arrays.fill(row, null);
+        // TODO: 15-11-2016 should take map orientation into account in the BBox!
+        BoundingBox viewBBox = pMapView.getBoundingBox();
 
-        int gridX, gridY;
-        final Point mPositionPixels = new Point();
-        final Projection pj = pMapView.getProjection();
-        final BoundingBox viewBBox = pMapView.getBoundingBox();
-        numLabels = 0;
+        // do not compute grid if BBox is the same
+        if(viewBBox.getLatNorth() != prevBoundingBox.getLatNorth()
+                || viewBBox.getLatSouth() != prevBoundingBox.getLatSouth()
+                || viewBBox.getLonWest() != prevBoundingBox.getLonWest()
+                || viewBBox.getLonEast() != prevBoundingBox.getLonEast()) {
 
-        for (IGeoPoint pt1 : mPointList) {
-            if (pt1 == null) continue;
-            if (pt1.getLatitude() > viewBBox.getLatSouth()
-                    && pt1.getLatitude() < viewBBox.getLatNorth()
-                    && pt1.getLongitude() > viewBBox.getLonWest()
-                    && pt1.getLongitude() < viewBBox.getLonEast()) {
-                pj.toPixels(pt1, mPositionPixels);
-                // test whether in this grid cell there is already a point, skip if yes
-                gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
-                gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
-                if (gridX >= gridWid || gridY >= gridHei || grid[gridX][gridY] != null) continue;
-                grid[gridX][gridY] = new LabelledPoint(mPositionPixels
-                        , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null);
-                numLabels++;
+            prevBoundingBox = new BoundingBox(viewBBox.getLatNorth(), viewBBox.getLonEast()
+                    , viewBBox.getLatSouth(), viewBBox.getLonWest());
+
+            if (grid == null || viewHei != pMapView.getHeight() || viewWid != pMapView.getWidth()) {
+                updateGrid(pMapView);
+            } else {
+                // empty grid.
+                // TODO: we might leave the grid as it was before to avoid the "flickering"?
+                for (Point[] row : grid)
+                    Arrays.fill(row, null);
+            }
+
+            int gridX, gridY;
+            final Point mPositionPixels = new Point();
+            final Projection pj = pMapView.getProjection();
+            numLabels = 0;
+
+            for (IGeoPoint pt1 : mPointList) {
+                if (pt1 == null) continue;
+                if (pt1.getLatitude() > viewBBox.getLatSouth()
+                        && pt1.getLatitude() < viewBBox.getLatNorth()
+                        && pt1.getLongitude() > viewBBox.getLonWest()
+                        && pt1.getLongitude() < viewBBox.getLonEast()) {
+                    pj.toPixels(pt1, mPositionPixels);
+                    // test whether in this grid cell there is already a point, skip if yes
+                    gridX = (int) Math.floor((float) mPositionPixels.x / mStyle.mCellSize);
+                    gridY = (int) Math.floor((float) mPositionPixels.y / mStyle.mCellSize);
+                    if (gridX >= gridWid || gridY >= gridHei || grid[gridX][gridY] != null)
+                        continue;
+                    grid[gridX][gridY] = new LabelledPoint(mPositionPixels
+                            , mPointList.isLabelled() ? ((LabelledGeoPoint) pt1).getLabel() : null);
+                    numLabels++;
+                }
             }
         }
     }
@@ -179,7 +198,6 @@ public class SimpleFastPointOverlay extends Overlay {
                 curY = 0;
                 offsetX = 0;
                 offsetY = 0;
-                computeGrid(mapView);
                 mapView.invalidate();
                 break;
         }
@@ -247,6 +265,7 @@ public class SimpleFastPointOverlay extends Overlay {
         final Point mPositionPixels = new Point();
         final Projection pj = mapView.getProjection();
         String tmpLabel;
+        boolean showLabels;
 
         if(mStyle.mPointStyle != null) {
             switch (mStyle.mAlgorithm) {
@@ -258,6 +277,11 @@ public class SimpleFastPointOverlay extends Overlay {
                             || (curX == 0 && curY == 0 && !mapView.isAnimating()))
                         computeGrid(mapView);
 
+                    showLabels =
+                            ((mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.DENSITY_THRESHOLD
+                                    && numLabels <= mStyle.mMaxNShownLabels)
+                                    || (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
+                                    && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels));
                     // draw points
                     float offX = curX - startX;
                     float offY = curY - startY;
@@ -276,7 +300,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                             , grid[x][y].y + offY - offsetY + mStyle.mCircleRadius
                                             , mStyle.mPointStyle);
 
-                                if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels &&
+                                if(mPointList.isLabelled() && showLabels &&
                                         (tmpLabel = grid[x][y].mlabel) != null)
                                     canvas.drawText(tmpLabel
                                             , grid[x][y].x + offX - offsetX
@@ -297,6 +321,9 @@ public class SimpleFastPointOverlay extends Overlay {
                     else
                         for (boolean[] row : gridBool)
                             Arrays.fill(row, false);
+
+                    showLabels = (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
+                            && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels);
 
                     int gridX, gridY;
                     viewBBox = mapView.getBoundingBox();
@@ -326,7 +353,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
                                         , mStyle.mPointStyle);
 
-                            if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels &&
+                            if(mPointList.isLabelled() && showLabels &&
                                     (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
                                 canvas.drawText(tmpLabel
                                         , (float) mPositionPixels.x
@@ -338,6 +365,8 @@ public class SimpleFastPointOverlay extends Overlay {
 
                 case NO_OPTIMIZATION:
                     // draw all points
+                    showLabels = (mStyle.mLabelPolicy == SimpleFastPointOverlayOptions.LabelPolicy.ZOOM_THRESHOLD
+                            && mapView.getZoomLevel() >= mStyle.mMinZoomShowLabels);
                     viewBBox = mapView.getBoundingBox();
                     for (IGeoPoint pt1 : mPointList) {
                         if (pt1 == null) continue;
@@ -357,7 +386,7 @@ public class SimpleFastPointOverlay extends Overlay {
                                         , (float) mPositionPixels.y + mStyle.mCircleRadius
                                         , mStyle.mPointStyle);
 
-                            if(mPointList.isLabelled() && numLabels <= mStyle.mMaxNumLabels &&
+                            if(mPointList.isLabelled() && showLabels &&
                                     (tmpLabel = ((LabelledGeoPoint) pt1).getLabel()) != null)
                                 canvas.drawText(tmpLabel
                                         , (float) mPositionPixels.x

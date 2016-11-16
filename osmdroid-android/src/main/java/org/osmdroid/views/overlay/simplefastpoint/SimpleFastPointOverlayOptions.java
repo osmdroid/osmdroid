@@ -11,6 +11,7 @@ import android.graphics.Paint;
 public class SimpleFastPointOverlayOptions {
     public enum RenderingAlgorithm {NO_OPTIMIZATION, MEDIUM_OPTIMIZATION, MAXIMUM_OPTIMIZATION}
     public enum Shape {CIRCLE, SQUARE}
+    public enum LabelPolicy {ZOOM_THRESHOLD, DENSITY_THRESHOLD}
     protected Paint mPointStyle;
     protected Paint mSelectedPointStyle;
     protected Paint mTextStyle;
@@ -20,7 +21,9 @@ public class SimpleFastPointOverlayOptions {
     protected int mCellSize = 10;   // the size of the grid cells in pixels.
     protected RenderingAlgorithm mAlgorithm = RenderingAlgorithm.MAXIMUM_OPTIMIZATION;
     protected Shape mSymbol = Shape.CIRCLE;
-    protected int mMaxNumLabels = 200;
+    protected LabelPolicy mLabelPolicy = LabelPolicy.ZOOM_THRESHOLD;
+    protected int mMaxNShownLabels = 250;
+    protected int mMinZoomShowLabels = 11;
 
     public SimpleFastPointOverlayOptions() {
         mPointStyle = new Paint();
@@ -145,13 +148,39 @@ public class SimpleFastPointOverlayOptions {
     }
 
     /**
-     * Sets the maximum threshold of the visible number of labels after which no labels will be
-     * drawn.
-     * @param maxNumLabels
+     * Sets the minimum zoom level at which the labels should be drawn. This option is
+     * <b>ignored</b> if LabelPolicy is DENSITY_THRESHOLD.
+     * @param minZoomShowLabels The zoom level.
      * @return
      */
-    public SimpleFastPointOverlayOptions setMaxNumLabels(int maxNumLabels) {
-        mMaxNumLabels = maxNumLabels;
+    public SimpleFastPointOverlayOptions setMinZoomShowLabels(int minZoomShowLabels) {
+        mMinZoomShowLabels = minZoomShowLabels;
+        return this;
+    }
+
+    /**
+     * Sets the threshold (nr. of visible points) after which labels will not be drawn. <b>This
+     * option only works when LabelPolicy is DENSITY_THRESHOLD and the algorithm is
+     * MAXIMUM_OPTIMIZATION</b>.
+     * @param maxNShownLabels The maximum number of visible points
+     * @return
+     */
+    public SimpleFastPointOverlayOptions setMaxNShownLabels(int maxNShownLabels) {
+        mMaxNShownLabels = maxNShownLabels;
+        return this;
+    }
+
+    /**
+     * Sets the policy for displaying point labels. Can be:<br/>
+     *     ZOOM_THRESHOLD: Labels are not displayed is current map zoom level is lower than
+     *         <code>MinZoomShowLabels</code>
+     *     DENSITY_THRESHOLD: Labels are not displayed when the number of visible points is larger
+     *         than <code>MaxNShownLabels</code>. <b>This only works for MAXIMUM_OPTIMIZATION</b><br/>
+     * @param labelPolicy One of <code>ZOOM_THRESHOLD</code> or <code>DENSITY_THRESHOLD</code>
+     * @return
+     */
+    public SimpleFastPointOverlayOptions setLabelPolicy(LabelPolicy labelPolicy) {
+        mLabelPolicy = labelPolicy;
         return this;
     }
 }

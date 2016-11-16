@@ -3,7 +3,6 @@ package org.osmdroid.samplefragments.data;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.Toast;
 
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.samplefragments.BaseSampleFragment;
+import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay;
 import org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions;
@@ -36,6 +36,12 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
             , Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        return mMapView;
+    }
+
+    @Override
+    protected void addOverlays() {
+        super.addOverlays();
         // create 100k labelled points
         List<IGeoPoint> points = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
@@ -56,7 +62,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         // set some visual options for the overlay
         SimpleFastPointOverlayOptions opt = SimpleFastPointOverlayOptions.getDefaultStyle()
                 .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
-                .setRadius(10).setIsClickable(true).setCellSize(15).setTextStyle(textStyle);
+                .setRadius(7).setIsClickable(true).setCellSize(15).setTextStyle(textStyle);
 
         // create the overlay with the theme
         final SimpleFastPointOverlay sfpo = new SimpleFastPointOverlay(pt, opt);
@@ -75,17 +81,19 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         mMapView.getOverlays().add(sfpo);
 
         // zoom to its bounding box
-        new Handler().postDelayed(new Runnable() {
+        mMapView.addOnFirstLayoutListener(new MapView.OnFirstLayoutListener() {
+
             @Override
-            public void run() {
-                mMapView.getController().zoomTo(6);
-                mMapView.zoomToBoundingBox(sfpo.getBoundingBox(), true);
+            public void onFirstLayout(View v, int left, int top, int right, int bottom) {
+                if(mMapView != null && mMapView.getController() != null) {
+                    mMapView.getController().zoomTo(6);
+                    mMapView.zoomToBoundingBox(sfpo.getBoundingBox(), true);
+                }
+
             }
-        }, 1500);
+        });
 
-        return mMapView;
     }
-
 
 }
 
