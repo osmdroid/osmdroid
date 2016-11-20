@@ -32,14 +32,6 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container
-            , Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        return mMapView;
-    }
-
-    @Override
     protected void addOverlays() {
         super.addOverlays();
 /*
