@@ -42,6 +42,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
     @Override
     protected void addOverlays() {
         super.addOverlays();
+/*
         // create 10k labelled points
         List<IGeoPoint> points = new ArrayList<>();
         for (int i = 0; i < 10000; i++) {
@@ -92,6 +93,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
             }
         });
+*/
 
     }
 
