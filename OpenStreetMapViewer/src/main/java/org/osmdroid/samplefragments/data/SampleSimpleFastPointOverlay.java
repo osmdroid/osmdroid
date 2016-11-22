@@ -28,15 +28,15 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Simple Fast Point Overlay with 10k points";
+        return "Simple Fast Point Overlay with 100k points";
     }
 
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        // create 10k labelled points
+        // create 100k labelled points
         List<IGeoPoint> points = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100000; i++) {
             points.add(new LabelledGeoPoint(37 + Math.random() * 5, -8 + Math.random() * 5
                     , "Point #" + i));
         }
