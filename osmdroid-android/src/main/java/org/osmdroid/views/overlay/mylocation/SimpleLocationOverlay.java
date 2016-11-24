@@ -70,7 +70,9 @@ public class SimpleLocationOverlay extends Overlay {
 
 	@Override
 	public void onDetach(MapView mapView){
-		this.PERSON_ICON.recycle();
+		//https://github.com/osmdroid/osmdroid/issues/477
+		//commented out to prevent issues
+		//this.PERSON_ICON.recycle();
 	}
 	@Override
 	public void draw(final Canvas c, final MapView osmv, final boolean shadow) {
