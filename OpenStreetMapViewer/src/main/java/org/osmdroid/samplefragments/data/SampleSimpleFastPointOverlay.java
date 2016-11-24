@@ -28,15 +28,16 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
 
     @Override
     public String getSampleTitle() {
-        return "Simple Fast Point Overlay with 100k points";
+        return "Simple Fast Point Overlay with 10k points";
     }
 
     @Override
     protected void addOverlays() {
         super.addOverlays();
-        // create 100k labelled points
+        // create 10k labelled points
+        // in most cases, there will be no problems of displaying >100k points, feel free to try
         List<IGeoPoint> points = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10000; i++) {
             points.add(new LabelledGeoPoint(37 + Math.random() * 5, -8 + Math.random() * 5
                     , "Point #" + i));
         }
@@ -52,6 +53,7 @@ public class SampleSimpleFastPointOverlay extends BaseSampleFragment {
         textStyle.setTextSize(24);
 
         // set some visual options for the overlay
+        // we use here MAXIMUM_OPTIMIZATION algorithm, which works well with >100k points
         SimpleFastPointOverlayOptions opt = SimpleFastPointOverlayOptions.getDefaultStyle()
                 .setAlgorithm(SimpleFastPointOverlayOptions.RenderingAlgorithm.MAXIMUM_OPTIMIZATION)
                 .setRadius(7).setIsClickable(true).setCellSize(15).setTextStyle(textStyle);
