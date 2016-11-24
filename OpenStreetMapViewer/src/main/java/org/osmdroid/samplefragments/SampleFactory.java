@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
@@ -130,7 +131,9 @@ public final class SampleFactory implements ISampleFactory {
 				MapInAViewPagerFragment.class,
 				//34
 				ZoomToBoundsOnStartup.class,
-                //35
+				//35
+				SampleSimpleLocation.class,
+                //36
 				SampleSimpleFastPointOverlay.class
 
         };
