@@ -15,9 +15,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 import org.osmdroid.views.MapView;
 
@@ -34,7 +36,8 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
             checkBoxHardwareAcceleration,
             checkBoxDebugDownloading;
     Button buttonSetCache,
-            buttonManualCacheEntry;
+            buttonManualCacheEntry,
+            buttonPurgeCache;
     TextView textViewCacheDirectory;
 
     @Override
@@ -48,18 +51,19 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
         buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
         textViewCacheDirectory = (TextView) findViewById(R.id.textViewCacheDirectory);
+        buttonPurgeCache = (Button) findViewById(R.id.buttonPurgeCache);
 
         checkBoxDebugTileProvider.setOnClickListener(this);
         checkBoxDebugMode.setOnClickListener(this);
         checkBoxHardwareAcceleration.setOnClickListener(this);
         buttonSetCache.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
+        buttonPurgeCache.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //TODO load from preferneces
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         checkBoxDebugMode.setChecked(prefs.getBoolean("checkBoxDebugMode", OpenStreetMapTileProviderConstants.DEBUGMODE));
         checkBoxDebugTileProvider.setChecked(prefs.getBoolean("checkBoxDebugTileProvider", OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS));
@@ -99,14 +103,29 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                 showPickCacheFromList();
             }
             break;
+            case R.id.buttonPurgeCache: {
+                purgeCache();
+            }
+            break;
 
         }
+    }
+
+    private void purgeCache() {
+        SqlTileWriter sqlTileWriter = new SqlTileWriter();
+        boolean b = sqlTileWriter.purgeCache();
+        sqlTileWriter.onDetach();
+        sqlTileWriter=null;
+        if (b)
+            Toast.makeText(this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, "SQL Cache purge failed, see logcat for details", Toast.LENGTH_LONG).show();
     }
 
     private void showPickCacheFromList() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Cache Location");
+        builder.setTitle(R.string.enterCacheLocation);
 
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
 
@@ -142,7 +161,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     private void showManualEntry() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Enter Cache Location");
+        builder.setTitle(R.string.enterCacheLocation);
 
         // Set up the input
         final EditText input = new EditText(this);

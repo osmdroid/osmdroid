@@ -39,5 +39,10 @@
     <string name="tile_provided_debugging">Tile Provided Debugging</string>
     <string name="cache_directory">Cache Directory</string>
     <string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration</string>
+    <string name="purge_cache">Purge Cache</string>
+    <string name="enter_cache_location">Enter Cache Location</string>
+    <string name="pick_cache_location">Pick Cache Location</string>
+    <string name="debug_logging_downloading">Debug Logging Downloading</string>
+    <string name="enterCacheLocation">Enter Cache Location</string>
 
 </resources>

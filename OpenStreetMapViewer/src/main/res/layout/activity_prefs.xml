@@ -16,7 +16,7 @@
         android:id="@+id/checkBoxDebugMode" />
 
     <CheckBox
-        android:text="Debug Logging Downloading"
+        android:text="@string/debug_logging_downloading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/checkBoxDebugDownloading" />
@@ -40,14 +40,20 @@
         android:id="@+id/textViewCacheDirectory" />
 
     <Button
-        android:text="Pick Cache Location"
+        android:text="@string/pick_cache_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonSetCache" />
 
     <Button
-        android:text="Enter Cache Location"
+        android:text="@string/enter_cache_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/buttonManualCacheEntry" />
+
+    <Button
+        android:text="@string/purge_cache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonPurgeCache" />
 </LinearLayout>
