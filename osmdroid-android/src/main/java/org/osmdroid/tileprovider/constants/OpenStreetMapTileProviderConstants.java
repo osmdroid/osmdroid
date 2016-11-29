@@ -84,7 +84,7 @@ public class OpenStreetMapTileProviderConstants {
 	 * number of tile download threads, conforming to OSM policy:
 	 * http://wiki.openstreetmap.org/wiki/Tile_usage_policy
 	 */
-	private static int NUMBER_OF_TILE_DOWNLOAD_THREADS = 2;
+	 private static int NUMBER_OF_TILE_DOWNLOAD_THREADS = 2;
      public static int getNumberOfTileDownloadThreads(){
           return NUMBER_OF_TILE_DOWNLOAD_THREADS;
      }
@@ -108,7 +108,7 @@ public class OpenStreetMapTileProviderConstants {
      
      
 
-	public static final short NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
+	public static short NUMBER_OF_TILE_FILESYSTEM_THREADS = 8;
 
 	public static final long ONE_SECOND = 1000;
 	public static final long ONE_MINUTE = ONE_SECOND * 60;
@@ -118,8 +118,8 @@ public class OpenStreetMapTileProviderConstants {
 	public static final long ONE_YEAR = ONE_DAY * 365;
 	public static final long DEFAULT_MAXIMUM_CACHED_FILE_AGE = ONE_WEEK;
 
-	public static final short TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
-	public static final short TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
+	public static short TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE = 40;
+	public static short TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE = 40;
 
 	/** 30 days */
 	public static final long TILE_EXPIRY_TIME_MILLISECONDS = 1000L * 60 * 60 * 24 * 30;
@@ -175,7 +175,7 @@ public class OpenStreetMapTileProviderConstants {
 	 */
 	public static final String HTTP_EXPIRES_HEADER_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";
 	/**
-	 * used for HTTP expires headers
+	 * used for HTTP expires headers. This apparently isn't thread safe so expect an update at some point
 	 * @since 5.1
 	 */
 	public static final SimpleDateFormat HTTP_HEADER_SDF = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
