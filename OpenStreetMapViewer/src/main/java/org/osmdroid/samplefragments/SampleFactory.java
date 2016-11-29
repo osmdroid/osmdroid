@@ -29,6 +29,7 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -132,6 +133,8 @@ public final class SampleFactory implements ISampleFactory {
 				ZoomToBoundsOnStartup.class,
 				//35
 				SampleSimpleLocation.class,
+                //36
+				SampleSimpleFastPointOverlay.class
 
         };
 	}

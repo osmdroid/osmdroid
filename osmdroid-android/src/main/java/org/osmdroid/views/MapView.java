@@ -410,6 +410,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			final ZoomEvent event = new ZoomEvent(this, newZoomLevel);
 			mListener.onZoom(event);
 		}
+
 		// Allows any views fixed to a Location in the MapView to adjust
 		this.requestLayout();
 		return this.mZoomLevel;
