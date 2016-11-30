@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
@@ -65,22 +66,23 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     public void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        checkBoxDebugMode.setChecked(prefs.getBoolean("checkBoxDebugMode", OpenStreetMapTileProviderConstants.DEBUGMODE));
-        checkBoxDebugTileProvider.setChecked(prefs.getBoolean("checkBoxDebugTileProvider", OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS));
-        checkBoxHardwareAcceleration.setChecked(prefs.getBoolean("checkBoxHardwareAcceleration", MapView.hardwareAccelerated));
-        checkBoxDebugDownloading.setChecked(prefs.getBoolean("checkBoxDebugDownloading", MapTileDownloader.DEBUG));
-        textViewCacheDirectory.setText(prefs.getString("textViewCacheDirectory", OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath()));
+        checkBoxDebugMode.setChecked(prefs.getBoolean("checkBoxDebugMode", Configuration.getInstance().isDebugMode()));
+        checkBoxDebugTileProvider.setChecked(prefs.getBoolean("checkBoxDebugTileProvider", Configuration.getInstance().isDebugTileProviders()));
+        checkBoxHardwareAcceleration.setChecked(prefs.getBoolean("checkBoxHardwareAcceleration", Configuration.getInstance().isMapViewHardwareAccelerated()));
+        checkBoxDebugDownloading.setChecked(prefs.getBoolean("checkBoxDebugDownloading", Configuration.getInstance().isDebugMapTileDownloader()));
+        textViewCacheDirectory.setText(prefs.getString("textViewCacheDirectory", Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath()));
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        OpenStreetMapTileProviderConstants.DEBUGMODE = checkBoxDebugMode.isChecked();
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = checkBoxDebugTileProvider.isChecked();
-        MapView.hardwareAccelerated = checkBoxHardwareAcceleration.isChecked();
-        OpenStreetMapTileProviderConstants.setCachePath(textViewCacheDirectory.getText().toString());
-        MapTileDownloader.DEBUG = checkBoxDebugDownloading.isChecked();
+        Configuration.getInstance().setDebugMode(checkBoxDebugMode.isChecked());
+        Configuration.getInstance().setDebugTileProviders(checkBoxDebugTileProvider.isChecked());
+        Configuration.getInstance().setMapViewHardwareAccelerated(checkBoxHardwareAcceleration.isChecked());
+        Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
+        Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
+
 
         SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
         edit.putBoolean("checkBoxDebugMode", checkBoxDebugMode.isChecked());

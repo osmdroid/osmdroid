@@ -8,6 +8,7 @@ import java.util.Locale;
 import microsoft.mappoint.TileSystem;
 
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.IStyledTileSource;
@@ -218,7 +219,7 @@ public class BingMapTileSource extends QuadTreeTileSource implements IStyledTile
 		try {
 			client = (HttpURLConnection)(new URL(String.format(BASE_URL_PATTERN, mStyle, mBingMapKey)).openConnection());
 			Log.d(Constants.LOGTAG,"make request "+client.getURL().toString().toString());
-			client.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
+			client.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), Configuration.getInstance().getUserAgentValue());
 			client.connect();
 
 			if (client.getResponseCode()!= 200) {

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteFullException;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -30,7 +31,7 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * It supports expiration timestamps if provided by the server from which the tile was downloaded. Trimming
  * of expired
  * <p>
- * If the database exceeds {@link OpenStreetMapTileProviderConstants#TILE_TRIM_CACHE_SIZE_BYTES}
+ * If the database exceeds {@link Configuration.getInstance().getTileFileSystemCacheTrimBytes()}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
  *
  * @author Alex O'Ree
@@ -46,8 +47,9 @@ public class SqlTileWriter implements IFilesystemCache {
 
     public SqlTileWriter() {
 
-        db_file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + DATABASE_FILENAME);
-        OpenStreetMapTileProviderConstants.TILE_PATH_BASE.mkdirs();
+        Configuration.getInstance().getOsmdroidTileCache().mkdirs();
+        db_file = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + DATABASE_FILENAME);
+
 
         try {
             db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
@@ -78,14 +80,14 @@ public class SqlTileWriter implements IFilesystemCache {
      */
     public void runCleanupOperation() {
         if (db == null) {
-            if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+            if (Configuration.getInstance().isDebugMode()) {
                 Log.d(IMapView.LOGTAG, "Finished init thread, aborted due to null database reference");
             }
             return;
         }
 
         try {
-            if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
+            if (db_file.length() > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
                 //run the reaper (remove all old expired tiles)
                 //keep if now is < expiration date
                 //delete if now is > expiration date
@@ -97,8 +99,8 @@ public class SqlTileWriter implements IFilesystemCache {
                 //attempt to trim the database
                 //note, i considered adding a looping mechanism here but sqlite can behave differently
                 //i.e. there's no guarantee that the database file size shrinks immediately.
-                Log.d(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES);
-                long diff = db_file.length() - OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES;
+                Log.d(IMapView.LOGTAG, "Local cache is now " + db_file.length() + " max size is " + Configuration.getInstance().getTileFileSystemCacheMaxBytes());
+                long diff = db_file.length() - Configuration.getInstance().getTileFileSystemCacheMaxBytes();
                 long tilesToKill = diff / questimate;
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
@@ -110,12 +112,12 @@ public class SqlTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "purge completed in " + (System.currentTimeMillis() - now) + "ms, cache size is " + db_file.length() + " bytes");
             }
         } catch (Exception ex) {
-            if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+            if (Configuration.getInstance().isDebugMode()) {
                 Log.d(IMapView.LOGTAG, "SqliteTileWriter init thread crash, db is probably not available", ex);
             }
         }
 
-        if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+        if (Configuration.getInstance().isDebugMode()) {
             Log.d(IMapView.LOGTAG, "Finished init thread");
         }
     }
@@ -156,7 +158,7 @@ public class SqlTileWriter implements IFilesystemCache {
             db.insert(TABLE, null, cv);
             Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
             //this is causing looping conditions
-            if (db_file.length() > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES){
+            if (db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()){
                 runCleanupOperation();
             }
         } catch (SQLiteFullException ex) {
@@ -256,7 +258,7 @@ public class SqlTileWriter implements IFilesystemCache {
         //insert failures
         //deletes
         //delete failures
-        File tilePathBase = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+        File tilePathBase = Configuration.getInstance().getOsmdroidTileCache();
         if (tilePathBase.exists()) {
             File[] tileSources = tilePathBase.listFiles();
             if (tileSources != null) {

@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider.modules;
 import java.io.File;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
@@ -54,8 +55,8 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final long pMaximumCachedFileAge) {
 		this(pRegisterReceiver, pTileSource, pMaximumCachedFileAge,
-				OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+			Configuration.getInstance().getTileFileSystemThreads(),
+			Configuration.getInstance().getTileFileSystemMaxQueueSize());
 	}
 
 	/**
@@ -136,7 +137,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 			// if there's no sdcard then don't do anything
 			if (!isSdCardAvailable()) {
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMode()) {
                          Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + tile);
 				}
 				Counters.fileCacheMiss++;
@@ -145,7 +146,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 			// Check the tile source to see if its file is available and if so, then render the
 			// drawable and return the tile
-			final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+			final File file = new File(Configuration.getInstance().getOsmdroidTileCache(),
 					tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 			if (file.exists()) {
 
@@ -158,7 +159,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 					final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
 					if (fileExpired && drawable != null) {
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (Configuration.getInstance().isDebugMode()) {
 							Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
 					}
 						ExpirableBitmapDrawable.setDrawableExpired(drawable);

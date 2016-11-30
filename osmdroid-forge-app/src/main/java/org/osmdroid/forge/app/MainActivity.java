@@ -25,6 +25,7 @@ import org.osmdroid.mapsforge.MapsForgeTileSource;
 import org.osmdroid.tileprovider.MapTileProviderArray;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.util.SimpleRegisterReceiver;
+import org.osmdroid.tileprovider.util.StorageUtils;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
@@ -53,9 +54,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
-        OpenStreetMapTileProviderConstants.DEBUGMODE = true;
 
         /**
          * super important to configure some of the mapsforge settings first

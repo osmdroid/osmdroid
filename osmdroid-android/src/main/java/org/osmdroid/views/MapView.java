@@ -17,6 +17,7 @@ import org.metalev.multitouch.controller.MultiTouchController.PositionAndScale;
 import org.osmdroid.api.IGeoPoint;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
@@ -79,7 +80,6 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	// Fields
 	// ===========================================================
 
-	public static boolean hardwareAccelerated=false;
 	/** Current zoom level for map tiles. */
 	private int mZoomLevel = 0;
 
@@ -155,7 +155,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	public MapView(final Context context,
 					  MapTileProviderBase tileProvider,
 					  final Handler tileRequestCompleteHandler, final AttributeSet attrs) {
-		this(context, tileProvider, tileRequestCompleteHandler, attrs, hardwareAccelerated);
+		this(context, tileProvider, tileRequestCompleteHandler, attrs, Configuration.getInstance().isMapViewHardwareAccelerated());
 
 	}
 	
@@ -450,7 +450,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			getMaxZoomLevel() -
 			Math.ceil(Math.log(boundingBox.getLongitudeSpan() / maxZoomLongitudeSpan) / Math.log(2));
 
-		if (OpenStreetMapTileProviderConstants.DEBUGMODE){
+		if (Configuration.getInstance().isDebugMode()){
 			Log.d(LOGTAG, "current bounds " +currentBox.toString());
 			Log.d(LOGTAG, "ZoomToBoundingBox calculations: " + maxZoomLatitudeSpan + ","+maxZoomLongitudeSpan + ","+requiredLatitudeZoom + ","+requiredLongitudeZoom );
 		}
@@ -890,7 +890,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	@Override
 	public boolean dispatchTouchEvent(final MotionEvent event) {
 
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugMapView()) {
 			Log.d(IMapView.LOGTAG,"dispatchTouchEvent(" + event + ")");
 		}
 
@@ -903,7 +903,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 		try {
 			if (super.dispatchTouchEvent(event)) {
-				if (DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMapView()) {
 					Log.d(IMapView.LOGTAG,"super handled onTouchEvent");
 				}
 				return true;
@@ -915,14 +915,14 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 
 			boolean handled = false;
 			if (mMultiTouchController != null && mMultiTouchController.onTouchEvent(event)) {
-				if (DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMapView()) {
 					Log.d(IMapView.LOGTAG,"mMultiTouchController handled onTouchEvent");
 				}
 				handled = true;
 			}
 
 			if (mGestureDetector.onTouchEvent(rotatedEvent)) {
-				if (DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMapView()) {
 					Log.d(IMapView.LOGTAG,"mGestureDetector handled onTouchEvent");
 				}
 				handled = true;
@@ -935,7 +935,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 				rotatedEvent.recycle();
 		}
 
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugMapView()) {
 			Log.d(IMapView.LOGTAG,"no-one handled onTouchEvent");
 		}
 		return false;
@@ -1107,7 +1107,7 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			//for edit mode
 			Log.e(IMapView.LOGTAG, "error dispatchDraw, probably in edit mode", ex);
 		}
-		if (DEBUGMODE) {
+		if (Configuration.getInstance().isDebugMapView()) {
 			final long endMs = System.currentTimeMillis();
 			Log.d(IMapView.LOGTAG,"Rendering overall: " + (endMs - startMs) + "ms");
 		}
