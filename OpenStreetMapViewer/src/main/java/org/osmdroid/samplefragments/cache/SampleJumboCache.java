@@ -8,6 +8,7 @@ package org.osmdroid.samplefragments.cache;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.views.overlay.Overlay;
@@ -58,13 +59,14 @@ public class SampleJumboCache  extends BaseSampleFragment {
 			}
 		}
 		//this will set the disk cache size in MB to 1GB , 900MB trim size
-		OpenStreetMapTileProviderConstants.setCacheSizes(1000L, 900L);
+		//Configuration.getInstance().setTileFileSystemCacheTrimBytes(900L * 1024 * 1024);
+		//Configuration.getInstance().setTileFileSystemCacheMaxBytes(1000L * 1024 * 1024);
 	}
 
 	@Override
 	public void onPause(){
 		super.onPause();
-		OpenStreetMapTileProviderConstants.setCacheSizes(500L, 600L);
+		//OpenStreetMapTileProviderConstants.setCacheSizes(500L, 600L);
 		Iterator<Overlay> iterator = mMapView.getOverlays().iterator();
 		while(iterator.hasNext()){
 			Overlay next = iterator.next();

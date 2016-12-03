@@ -12,6 +12,7 @@ import org.acra.annotation.ReportsCrashes;
 import org.acra.collector.CrashReportData;
 import org.acra.sender.ReportSender;
 import org.acra.sender.ReportSenderException;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import java.io.File;
@@ -43,7 +44,7 @@ public class OsmApplication extends Application{
         //super important. Many tile servers, including open street maps, will BAN applications by user
         //agent. Do not use the sample application's user agent for your app! Use your own setting, such
         //as the app id.
-        OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
+        Configuration.getInstance().setUserAgentValue(getPackageName());
     }
 
     @Override

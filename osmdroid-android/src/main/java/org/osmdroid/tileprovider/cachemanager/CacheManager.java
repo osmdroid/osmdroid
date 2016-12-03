@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
@@ -91,7 +92,7 @@ public class CacheManager {
     }
 
     public static File getFileName(ITileSource tileSource, MapTile tile) {
-        final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE,
+        final File file = new File(Configuration.getInstance().getOsmdroidTileCache(),
                 tileSource.getTileRelativeFilenameString(tile) + OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
         return file;
     }
@@ -818,7 +819,7 @@ public class CacheManager {
      */
     public long currentCacheUsage() {
         //return TileWriter.getUsedCacheSpace(); //returned value is not stable! Increase and decrease, for unknown reasons.
-        return directorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+        return directorySize(Configuration.getInstance().getOsmdroidTileCache());
     }
 
     /**
@@ -826,7 +827,7 @@ public class CacheManager {
      * This capacity is currently a hard-coded constant inside osmdroid.
      */
     public long cacheCapacity() {
-        return OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES;
+        return Configuration.getInstance().getTileFileSystemCacheMaxBytes();
     }
 
     /**

@@ -52,7 +52,6 @@ public class MapsForgeMapTileProviderDirectTest extends AndroidTestCase {
 
     public void test_getMapTile_found() throws RemoteException, FileNotFoundException, BitmapTileSourceBase.LowMemoryException, IOException {
 
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=true;
         for (int i = 3; i < 22; i++) {
             final MapTile tile = new MapTile(i, 3, 4);
 

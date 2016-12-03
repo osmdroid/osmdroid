@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 /**
@@ -113,7 +114,7 @@ public class CloudmadeUtil  {
 						urlConnection.setDoOutput(true);
 						urlConnection.setRequestMethod("POST");
 						urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-						urlConnection.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
+						urlConnection.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(), Configuration.getInstance().getUserAgentValue());
 						urlConnection.connect();
 						if (DEBUGMODE) {
 							Log.d(IMapView.LOGTAG,"Response from Cloudmade auth: " + urlConnection.getResponseMessage());

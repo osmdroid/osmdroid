@@ -22,6 +22,7 @@ import org.osmdroid.BuildConfig;
 import org.osmdroid.MainActivity;
 import org.osmdroid.R;
 import org.osmdroid.api.IMapController;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.model.BaseActivity;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -62,8 +63,11 @@ public class WeathForceActivity extends BaseActivity implements LocationListener
         //if (intent)
         final double lat1 = 25.633;
         final double long1 = 71.094;
-        //important! set your user agent to prevent getting banned from the osm servers
-        org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
+
+        //super important. Many tile servers, including open street maps, will BAN applications by user
+        //agent. Do not use the sample application's user agent for your app! Use your own setting, such
+        //as the app id.
+        Configuration.getInstance().setUserAgentValue(getPackageName());
 
         mMapView = (MapView) findViewById(R.id.mapview);
         mMapView.setTileSource(TileSourceFactory.MAPNIK);

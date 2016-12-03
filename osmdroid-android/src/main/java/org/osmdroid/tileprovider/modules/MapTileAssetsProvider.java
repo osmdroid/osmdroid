@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
@@ -56,8 +57,9 @@ public class MapTileAssetsProvider extends MapTileFileStorageProviderBase {
 								 final AssetManager pAssets,
 								 final ITileSource pTileSource) {
 		this(pRegisterReceiver, pAssets, pTileSource,
-				OpenStreetMapTileProviderConstants.getNumberOfTileDownloadThreads(),
-				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+			Configuration.getInstance().getTileDownloadThreads(),
+			Configuration.getInstance().getTileDownloadMaxQueueSize()
+				);
 	}
 
 	public MapTileAssetsProvider(final IRegisterReceiver pRegisterReceiver,
