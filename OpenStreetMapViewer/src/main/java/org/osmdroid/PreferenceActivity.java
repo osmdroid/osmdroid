@@ -18,11 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.util.List;
@@ -66,31 +63,25 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
     public void onResume() {
         super.onResume();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        checkBoxDebugMode.setChecked(prefs.getBoolean("checkBoxDebugMode", Configuration.getInstance().isDebugMode()));
-        checkBoxDebugTileProvider.setChecked(prefs.getBoolean("checkBoxDebugTileProvider", Configuration.getInstance().isDebugTileProviders()));
-        checkBoxHardwareAcceleration.setChecked(prefs.getBoolean("checkBoxHardwareAcceleration", Configuration.getInstance().isMapViewHardwareAccelerated()));
-        checkBoxDebugDownloading.setChecked(prefs.getBoolean("checkBoxDebugDownloading", Configuration.getInstance().isDebugMapTileDownloader()));
-        textViewCacheDirectory.setText(prefs.getString("textViewCacheDirectory", Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath()));
-
+        checkBoxDebugMode.setChecked(Configuration.getInstance().isDebugMode());
+        checkBoxDebugTileProvider.setChecked(Configuration.getInstance().isDebugTileProviders());
+        checkBoxHardwareAcceleration.setChecked(Configuration.getInstance().isMapViewHardwareAccelerated());
+        checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
+        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        //save the configuration
         Configuration.getInstance().setDebugMode(checkBoxDebugMode.isChecked());
         Configuration.getInstance().setDebugTileProviders(checkBoxDebugTileProvider.isChecked());
         Configuration.getInstance().setMapViewHardwareAccelerated(checkBoxHardwareAcceleration.isChecked());
         Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
         Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
 
-
-        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        edit.putBoolean("checkBoxDebugMode", checkBoxDebugMode.isChecked());
-        edit.putBoolean("checkBoxDebugTileProvider", checkBoxDebugTileProvider.isChecked());
-        edit.putBoolean("checkBoxDebugDownloading", checkBoxDebugDownloading.isChecked());
-        edit.putBoolean("checkBoxHardwareAcceleration", checkBoxHardwareAcceleration.isChecked());
-        edit.putString("textViewCacheDirectory", textViewCacheDirectory.getText().toString());
-        edit.commit();
+        SharedPreferences edit = PreferenceManager.getDefaultSharedPreferences(this);
+        Configuration.getInstance().save(this,edit);
     }
 
     @Override

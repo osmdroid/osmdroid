@@ -2,7 +2,11 @@ package org.osmdroid.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
@@ -40,6 +44,14 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     private File osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
     private File osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
 
+    public DefaultConfigurationProvider(){
+        try {
+            osmdroidBasePath.mkdirs();
+            osmdroidTileCache.mkdirs();
+        }catch (Exception ex){
+            //IO/permissions issue
+        }
+    }
     /**
      * default is 20 seconds
      * @return time in ms
@@ -226,8 +238,66 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     }
 
     @Override
-    public void load(Context ctx, SharedPreferences preferences) {
+    public void load(Context ctx, SharedPreferences prefs) {
+        //cache management starts here
 
+        //check to see if the shared preferences is set for the tile cache
+        if (!prefs.contains("osmdroid.basePath")){
+            //this is the first time startup. run the discovery bit
+            File discoveredBestPath = getOsmdroidBasePath();
+            File discoveredCachPath = getOsmdroidTileCache();
+            if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+                //this should always be writable...
+                discoveredCachPath=discoveredBestPath=new File("/data/data/" + ctx.getPackageName() + "/osmdroid/");
+                discoveredCachPath.mkdirs();
+            }
+
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
+            edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
+            edit.commit();
+            setOsmdroidBasePath(discoveredBestPath);
+            setOsmdroidTileCache(discoveredCachPath);
+        } else {
+            //normal startup, load user preferences and populate the config object
+            setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath().getAbsolutePath())));
+            setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache().getAbsolutePath())));
+            setDebugMode(prefs.getBoolean("osmdroid.DebugMode",false));
+            setDebugTileProviders(prefs.getBoolean("osmdroid.DebugTileProvider",false));
+            setMapViewHardwareAccelerated(prefs.getBoolean("osmdroid.HardwareAcceleration",false));
+            setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", false));
+        }
+
+
+        long cacheSize=-1;
+        if (Build.VERSION.SDK_INT >= 9) {
+            //unfortunately API 8 doesn't support File.length()
+
+            //https://github/osmdroid/osmdroid/issues/435
+            //On startup, we auto set the max cache size to be the current cache size + free disk space
+            //this reduces the chance of osmdroid completely filling up the storage device
+
+            //if the default max cache size is greater than the available free space
+            //reduce it to 95% of the available free space + the size of the cache
+            File dbFile = new File(getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
+            if (dbFile.exists()) {
+                cacheSize = dbFile.length();
+                long freeSpace = getOsmdroidTileCache().getFreeSpace();
+
+                //Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
+                if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
+                    setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
+                }
+            } else {
+                //this is probably the first time running osmdroid
+                long freeSpace = getOsmdroidTileCache().length();
+                if (getTileFileSystemCacheMaxBytes() > (freeSpace)){
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.95));
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.90));
+                }
+            }
+        }
     }
 
     @Override
