@@ -84,6 +84,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
           mMapView = new MapView(inflater.getContext());
         // Call this method to turn off hardware acceleration at the View level but only if you run into problems ( please report them too!)
           // setHardwareAccelerationOff();
+         //update, no longer needed, the mapView is hardware acceleration off by defaul tnow
 
          if (Build.VERSION.SDK_INT >= 12) {
              mMapView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
@@ -151,6 +152,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);
+          mMapView.setTilesScaledToDpi(true);
           mMapView.getOverlays().add(this.mLocationOverlay);
 
           mMapView.getOverlays().add(this.mMinimapOverlay);
