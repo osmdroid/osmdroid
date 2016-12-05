@@ -152,6 +152,7 @@ public class StarterMapFragment extends Fragment implements OpenStreetMapConstan
 
           mMapView.setBuiltInZoomControls(true);
           mMapView.setMultiTouchControls(true);
+
           mMapView.setTilesScaledToDpi(true);
           mMapView.getOverlays().add(this.mLocationOverlay);
 
