@@ -8,12 +8,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/buttonReset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Reset to defaults"/>
-
 
         <TextView
             android:textSize="22sp"
@@ -213,6 +207,13 @@
             android:layout_height="wrap_content"
             android:text="@string/enable_mapview_hardware_acceleration"/>
 
+
+        <Button
+            android:layout_marginTop="40dp"
+            android:id="@+id/buttonReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset to defaults"/>
 
     </LinearLayout>
 </ScrollView>
