@@ -186,7 +186,19 @@ public interface IConfigurationProvider {
 
     void setUserAgentHttpHeader(String userAgentHttpHeader);
 
+    /**
+     * loads the configuration from shared preferences, if the preferences defined in this file are not already
+     * set, them they will be populated with defaults. This also initializes the tile storage cache to
+     * the largested writable storage partition available.
+     * @param ctx
+     * @param preferences
+     */
     void load(Context ctx, SharedPreferences preferences);
 
+    /**
+     * saves the current configuration to the shared preference location
+     * @param ctx
+     * @param preferences
+     */
     void save(Context ctx, SharedPreferences preferences);
 }

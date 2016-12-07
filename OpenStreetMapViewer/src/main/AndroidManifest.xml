@@ -195,6 +195,7 @@
 
 
         <activity android:name=".PreferenceActivity"
+                  android:windowSoftInputMode="stateHidden"
             android:label="OpenStreetMap Preferences">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

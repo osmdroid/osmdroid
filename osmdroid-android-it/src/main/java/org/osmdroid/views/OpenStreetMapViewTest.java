@@ -76,7 +76,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 		final Point point = projection.toPixels(hannover, null);
 		projection.toMercatorPixels(point.x, point.y, point);
 
-		final Point expected = new Point(34540, 21537);
+		final Point expected = new Point(51811, 32306);
 		assertEquals("TODO describe test", expected, point);
 	}
 }

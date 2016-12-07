@@ -5,7 +5,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,7 +15,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,11 +28,7 @@ import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -124,6 +118,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     public void onResume(){
         super.onResume();
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         updateStorageInfo();
     }
 
@@ -134,56 +129,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
      * @return current cache size in bytes
      */
     public static long updateStoragePrefreneces(Context ctx){
-        //cache management starts here
-        File discoveredBestPath = Configuration.getInstance().getOsmdroidTileCache();
-        if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
-            new File("/data/data/" + ctx.getPackageName() + "/tiles/").mkdirs();
-            Configuration.getInstance().setOsmdroidTileCache(new File("/data/data/" + ctx.getPackageName() + "/tiles/"));
-        }
-        discoveredBestPath = Configuration.getInstance().getOsmdroidTileCache();
-
-        //grab the current user preferences for debug settings and where to store the tile cache data
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-
-        Configuration.getInstance().setOsmdroidTileCache(new File(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath())));
-        Configuration.getInstance().setDebugMode(prefs.getBoolean("checkBoxDebugMode",false));
-        Configuration.getInstance().setDebugTileProviders(prefs.getBoolean("checkBoxDebugTileProvider",false));
-        Configuration.getInstance().setMapViewHardwareAccelerated(prefs.getBoolean("checkBoxHardwareAcceleration",false));
-        Configuration.getInstance().setDebugMapTileDownloader(prefs.getBoolean("checkBoxDebugDownloading", false));
-
-        //uncomment this to force a cache trim
-        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
-
-        long cacheSize=-1;
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
         if (Build.VERSION.SDK_INT >= 9) {
-            //https://github/osmdroid/osmdroid/issues/435
-            //On startup, we auto set the max cache size to be the current cache size + free disk space
-            //this reduces the chance of osmdroid completely filling up the storage device
-
-            //if the default max cache size is greater than the available free space
-            //reduce it to 95% of the available free space + the size of the cache
-            File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-            if (dbFile.exists()) {
-                cacheSize = dbFile.length();
-                long freeSpace = Configuration.getInstance().getOsmdroidTileCache().getFreeSpace();
-
-                Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
-                if (Configuration.getInstance().getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
-                    Configuration.getInstance().setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
-                    Configuration.getInstance().setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
-                }
-            } else {
-                //this is probably the first time running osmdroid
-                long freeSpace = Configuration.getInstance().getOsmdroidTileCache().length();
-                if (Configuration.getInstance().getTileFileSystemCacheMaxBytes() > (freeSpace)){
-                    Configuration.getInstance().setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.95));
-                    Configuration.getInstance().setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.90));
-                }
-            }
+            return dbFile.length();
         }
-        return cacheSize;
+        return -1;
     }
 
+    /**
+     * gets storage state and current cache size
+     */
     private void updateStorageInfo(){
 
         long cacheSize = updateStoragePrefreneces(this);

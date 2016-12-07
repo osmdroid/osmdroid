@@ -18,11 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
+import org.osmdroid.config.DefaultConfigurationProvider;
+import org.osmdroid.model.PositiveLongTextValidator;
+import org.osmdroid.model.PositiveShortTextValidator;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.util.List;
@@ -33,13 +33,22 @@ import java.util.List;
 
 public class PreferenceActivity extends Activity implements View.OnClickListener {
     CheckBox checkBoxDebugTileProvider,
-            checkBoxDebugMode,
-            checkBoxHardwareAcceleration,
-            checkBoxDebugDownloading;
+        checkBoxDebugMode,
+        checkBoxHardwareAcceleration,
+        checkBoxMapViewDebug,
+        checkBoxDebugDownloading;
     Button buttonSetCache,
-            buttonManualCacheEntry,
-            buttonPurgeCache;
+        buttonManualCacheEntry,
+        buttonPurgeCache,
+        buttonReset;
     TextView textViewCacheDirectory;
+    EditText httpUserAgent,
+        tileDownloadThreads,
+        tileDownloadMaxQueueSize,
+        cacheMapTileCount,
+        tileFileSystemThreads,
+        tileFileSystemMaxQueueSize, gpsWaitTime;
+    boolean abortSave=false;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -49,48 +58,110 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         checkBoxDebugMode = (CheckBox) findViewById(R.id.checkBoxDebugMode);
         checkBoxHardwareAcceleration = (CheckBox) findViewById(R.id.checkBoxHardwareAcceleration);
         checkBoxDebugDownloading = (CheckBox) findViewById(R.id.checkBoxDebugDownloading);
-        buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
-        buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
-        textViewCacheDirectory = (TextView) findViewById(R.id.textViewCacheDirectory);
-        buttonPurgeCache = (Button) findViewById(R.id.buttonPurgeCache);
-
+        checkBoxMapViewDebug = (CheckBox) findViewById(R.id.checkBoxMapViewDebug);
         checkBoxDebugTileProvider.setOnClickListener(this);
         checkBoxDebugMode.setOnClickListener(this);
         checkBoxHardwareAcceleration.setOnClickListener(this);
+        checkBoxMapViewDebug.setOnClickListener(this);
+
+        textViewCacheDirectory = (TextView) findViewById(R.id.textViewCacheDirectory);
+        buttonPurgeCache = (Button) findViewById(R.id.buttonPurgeCache);
+        httpUserAgent = (EditText) findViewById(R.id.httpUserAgent);
+        tileDownloadThreads = (EditText) findViewById(R.id.tileDownloadThreads);
+        tileDownloadThreads.addTextChangedListener(new PositiveShortTextValidator(tileDownloadThreads));
+        tileDownloadMaxQueueSize = (EditText) findViewById(R.id.tileDownloadMaxQueueSize);
+        tileDownloadMaxQueueSize.addTextChangedListener(new PositiveShortTextValidator(tileDownloadMaxQueueSize));
+        cacheMapTileCount = (EditText) findViewById(R.id.cacheMapTileCount);
+        cacheMapTileCount.addTextChangedListener(new PositiveShortTextValidator(cacheMapTileCount));
+        tileFileSystemThreads = (EditText) findViewById(R.id.tileFileSystemThreads);
+        tileFileSystemThreads.addTextChangedListener(new PositiveShortTextValidator(tileFileSystemThreads));
+        tileFileSystemMaxQueueSize = (EditText) findViewById(R.id.tileFileSystemMaxQueueSize);
+        tileFileSystemMaxQueueSize.addTextChangedListener(new PositiveShortTextValidator(tileFileSystemMaxQueueSize));
+        gpsWaitTime = (EditText) findViewById(R.id.gpsWaitTime);
+        gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime));
+
+        buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
+        buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
         buttonSetCache.setOnClickListener(this);
         buttonManualCacheEntry.setOnClickListener(this);
         buttonPurgeCache.setOnClickListener(this);
+        buttonReset = (Button) findViewById(R.id.buttonReset);
+        buttonReset.setOnClickListener(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        checkBoxDebugMode.setChecked(prefs.getBoolean("checkBoxDebugMode", Configuration.getInstance().isDebugMode()));
-        checkBoxDebugTileProvider.setChecked(prefs.getBoolean("checkBoxDebugTileProvider", Configuration.getInstance().isDebugTileProviders()));
-        checkBoxHardwareAcceleration.setChecked(prefs.getBoolean("checkBoxHardwareAcceleration", Configuration.getInstance().isMapViewHardwareAccelerated()));
-        checkBoxDebugDownloading.setChecked(prefs.getBoolean("checkBoxDebugDownloading", Configuration.getInstance().isDebugMapTileDownloader()));
-        textViewCacheDirectory.setText(prefs.getString("textViewCacheDirectory", Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath()));
+        tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+        tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+        tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+        tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+        gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
 
+        cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+        httpUserAgent.setText(Configuration.getInstance().getUserAgentValue());
+        checkBoxMapViewDebug.setChecked(Configuration.getInstance().isDebugMapView());
+        checkBoxDebugMode.setChecked(Configuration.getInstance().isDebugMode());
+        checkBoxDebugTileProvider.setChecked(Configuration.getInstance().isDebugTileProviders());
+        checkBoxHardwareAcceleration.setChecked(Configuration.getInstance().isMapViewHardwareAccelerated());
+        checkBoxDebugDownloading.setChecked(Configuration.getInstance().isDebugMapTileDownloader());
+        textViewCacheDirectory.setText(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath());
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        if (abortSave)
+            return;
+        //save the configuration
+        try {
+            if (tileDownloadThreads.getError() == null)
+                Configuration.getInstance().setTileDownloadThreads(Short.parseShort(tileDownloadThreads.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            if (tileDownloadMaxQueueSize.getError() == null)
+                Configuration.getInstance().setTileDownloadMaxQueueSize(Short.parseShort(tileDownloadMaxQueueSize.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            if (cacheMapTileCount.getError() == null)
+                Configuration.getInstance().setCacheMapTileCount(Short.parseShort(cacheMapTileCount.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            if (tileFileSystemThreads.getError() == null)
+                Configuration.getInstance().setTileFileSystemThreads(Short.parseShort(tileFileSystemThreads.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            if (tileFileSystemMaxQueueSize.getError() == null)
+                Configuration.getInstance().setTileFileSystemMaxQueueSize(Short.parseShort(tileFileSystemMaxQueueSize.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            if (gpsWaitTime.getError() == null)
+                Configuration.getInstance().setGpsWaitTime(Long.parseLong(gpsWaitTime.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+        Configuration.getInstance().setUserAgentValue(httpUserAgent.getText().toString());
+        Configuration.getInstance().setDebugMapView(checkBoxMapViewDebug.isChecked());
         Configuration.getInstance().setDebugMode(checkBoxDebugMode.isChecked());
         Configuration.getInstance().setDebugTileProviders(checkBoxDebugTileProvider.isChecked());
         Configuration.getInstance().setMapViewHardwareAccelerated(checkBoxHardwareAcceleration.isChecked());
         Configuration.getInstance().setDebugMapTileDownloader(checkBoxDebugDownloading.isChecked());
         Configuration.getInstance().setOsmdroidTileCache(new File(textViewCacheDirectory.getText().toString()));
 
-
-        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        edit.putBoolean("checkBoxDebugMode", checkBoxDebugMode.isChecked());
-        edit.putBoolean("checkBoxDebugTileProvider", checkBoxDebugTileProvider.isChecked());
-        edit.putBoolean("checkBoxDebugDownloading", checkBoxDebugDownloading.isChecked());
-        edit.putBoolean("checkBoxHardwareAcceleration", checkBoxHardwareAcceleration.isChecked());
-        edit.putString("textViewCacheDirectory", textViewCacheDirectory.getText().toString());
-        edit.commit();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Configuration.getInstance().save(this, prefs);
     }
 
     @Override
@@ -109,15 +180,32 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                 purgeCache();
             }
             break;
+            case R.id.buttonReset: {
+                resetSettings();
+                abortSave=true;
+                finish();
+            }
+            break;
 
         }
+    }
+
+    private void resetSettings() {
+        //delete all preference keys, if you're using this for your own application
+        //you may want to consider some additional logic here (only clear osmdroid settings or
+        //use something other than the default shared preferences map
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+        edit.clear();
+        edit.commit();
+        Configuration.setConfigurationProvider(new DefaultConfigurationProvider());
+        Configuration.getInstance().save(this, PreferenceManager.getDefaultSharedPreferences(this));
     }
 
     private void purgeCache() {
         SqlTileWriter sqlTileWriter = new SqlTileWriter();
         boolean b = sqlTileWriter.purgeCache();
         sqlTileWriter.onDetach();
-        sqlTileWriter=null;
+        sqlTileWriter = null;
         if (b)
             Toast.makeText(this, "SQL Cache purged", Toast.LENGTH_SHORT).show();
         else
@@ -132,7 +220,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_singlechoice);
 
         final List<StorageUtils.StorageInfo> storageList = StorageUtils.getStorageList();
-        for (int i=0; i < storageList.size(); i++) {
+        for (int i = 0; i < storageList.size(); i++) {
             if (!storageList.get(i).readonly)
                 arrayAdapter.add(storageList.get(i).path);
         }
@@ -143,7 +231,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                 String item = arrayAdapter.getItem(which);
                 try {
                     new File(item + File.separator + "osmdroid" + File.separator + "tiles" + File.separator).mkdirs();
-                }catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 textViewCacheDirectory.setText(item + File.separator + "osmdroid" + File.separator + "tiles");
@@ -189,7 +277,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                     input.setError("Does not exist");
                 } else if (file.exists() && !file.isDirectory()) {
                     input.setError("Not a directory");
-                } else if (!StorageUtils.isWritable(file)){
+                } else if (!StorageUtils.isWritable(file)) {
                     input.setError("Not writable");
                 } else {
                     input.setError(null);
@@ -202,7 +290,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (input.getError()==null) {
+                if (input.getError() == null) {
                     textViewCacheDirectory.setText(input.getText().toString());
                 }
             }

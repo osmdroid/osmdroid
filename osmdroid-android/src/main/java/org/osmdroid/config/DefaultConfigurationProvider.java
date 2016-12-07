@@ -2,7 +2,11 @@ package org.osmdroid.config;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.util.StorageUtils;
 
 import java.io.File;
@@ -21,25 +25,49 @@ import static org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConst
  */
 public class DefaultConfigurationProvider implements IConfigurationProvider {
 
-    private long gpsWaitTime =20000;
-    private boolean debugMode= false;
-    private boolean debugMapView = false;
-    private boolean debugTileProviders = false;
-    private boolean debugMapTileDownloader=false;
-    private boolean isMapViewHardwareAccelerated=false;
-    private String userAgentValue="osmdroid";
-    private String userAgentHttpHeader = "User-Agent";
-    private short cacheMapTileCount = 9;
-    private short tileDownloadThreads = 2;
-    private short tileFileSystemThreads = 8;
-    private short tileDownloadMaxQueueSize = 40;
-    private short tileFileSystemMaxQueueSize = 40;
-    private long tileFileSystemCacheMaxBytes = 600L * 1024 * 1024;
-    private long tileFileSystemCacheTrimBytes = 500L * 1024 * 1024;
-    private SimpleDateFormat httpHeaderDateTimeFormat = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
-    private File osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
-    private File osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
+    /*public final String[] preferenceKeys = new String[]{
+        "osmdroid.basePath",
+        "osmdroid.cachePath",
+        "osmdroid.DebugMode",
+        "osmdroid.DebugDownloading",
+        "osmdroid.DebugMapView",
+        "osmdroid.DebugTileProvider",
+        "osmdroid.HardwareAcceleration",
+        "osmdroid.userAgentValue",
+        "osmdroid.gpsWaitTime",
+        "osmdroid.tileDownloadThreads",
+        "osmdroid.tileFileSystemThreads",
+        "osmdroid.tileDownloadMaxQueueSize",
+        "osmdroid.tileFileSystemMaxQueueSize"
+    };*/
+    //<editor-fold>
+    protected long gpsWaitTime =20000;
+    protected boolean debugMode= false;
+    protected boolean debugMapView = false;
+    protected boolean debugTileProviders = false;
+    protected boolean debugMapTileDownloader=false;
+    protected boolean isMapViewHardwareAccelerated=false;
+    protected String userAgentValue="osmdroid";
+    protected String userAgentHttpHeader = "User-Agent";
+    protected short cacheMapTileCount = 9;
+    protected short tileDownloadThreads = 2;
+    protected short tileFileSystemThreads = 8;
+    protected short tileDownloadMaxQueueSize = 40;
+    protected short tileFileSystemMaxQueueSize = 40;
+    protected long tileFileSystemCacheMaxBytes = 600L * 1024 * 1024;
+    protected long tileFileSystemCacheTrimBytes = 500L * 1024 * 1024;
+    protected SimpleDateFormat httpHeaderDateTimeFormat = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
+    protected File osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
+    protected File osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
 
+    public DefaultConfigurationProvider(){
+        try {
+            osmdroidBasePath.mkdirs();
+            osmdroidTileCache.mkdirs();
+        }catch (Exception ex){
+            //IO/permissions issue
+        }
+    }
     /**
      * default is 20 seconds
      * @return time in ms
@@ -225,13 +253,99 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         this.userAgentHttpHeader = userAgentHttpHeader;
     }
 
+    //</editor-fold>
     @Override
-    public void load(Context ctx, SharedPreferences preferences) {
+    public void load(Context ctx, SharedPreferences prefs) {
+        //cache management starts here
 
+        //check to see if the shared preferences is set for the tile cache
+        if (!prefs.contains("osmdroid.basePath")){
+            //this is the first time startup. run the discovery bit
+            File discoveredBestPath = getOsmdroidBasePath();
+            File discoveredCachPath = getOsmdroidTileCache();
+            if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+                //this should always be writable...
+                discoveredCachPath=discoveredBestPath=new File("/data/data/" + ctx.getPackageName() + "/osmdroid/");
+                discoveredCachPath.mkdirs();
+            }
+
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putString("osmdroid.basePath",discoveredBestPath.getAbsolutePath());
+            edit.putString("osmdroid.cachePath",discoveredCachPath.getAbsolutePath());
+            edit.commit();
+            setOsmdroidBasePath(discoveredBestPath);
+            setOsmdroidTileCache(discoveredCachPath);
+            setUserAgentValue(ctx.getPackageName());
+            save(ctx,prefs);
+        } else {
+            //normal startup, load user preferences and populate the config object
+            setOsmdroidBasePath(new File(prefs.getString("osmdroid.basePath", getOsmdroidBasePath().getAbsolutePath())));
+            setOsmdroidTileCache(new File(prefs.getString("osmdroid.cachePath", getOsmdroidTileCache().getAbsolutePath())));
+            setDebugMode(prefs.getBoolean("osmdroid.DebugMode",false));
+            setDebugMapTileDownloader(prefs.getBoolean("osmdroid.DebugDownloading", false));
+            setDebugMapView(prefs.getBoolean("osmdroid.DebugMapView", false));
+            setDebugTileProviders(prefs.getBoolean("osmdroid.DebugTileProvider",false));
+            setMapViewHardwareAccelerated(prefs.getBoolean("osmdroid.HardwareAcceleration",false));
+            setUserAgentValue(prefs.getString("osmdroid.userAgentValue",ctx.getPackageName()));
+            setGpsWaitTime(prefs.getLong("osmdroid.gpsWaitTime", gpsWaitTime));
+            setTileDownloadThreads((short)(prefs.getInt("osmdroid.tileDownloadThreads",tileDownloadThreads)));
+            setTileFileSystemThreads((short)(prefs.getInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads)));
+            setTileDownloadMaxQueueSize((short)(prefs.getInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize)));
+            setTileFileSystemMaxQueueSize((short)(prefs.getInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize)));
+
+        }
+
+
+        long cacheSize=-1;
+        if (Build.VERSION.SDK_INT >= 9) {
+            //unfortunately API 8 doesn't support File.length()
+
+            //https://github/osmdroid/osmdroid/issues/435
+            //On startup, we auto set the max cache size to be the current cache size + free disk space
+            //this reduces the chance of osmdroid completely filling up the storage device
+
+            //if the default max cache size is greater than the available free space
+            //reduce it to 95% of the available free space + the size of the cache
+            File dbFile = new File(getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
+            if (dbFile.exists()) {
+                cacheSize = dbFile.length();
+                long freeSpace = getOsmdroidTileCache().getFreeSpace();
+
+                //Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
+                if (getTileFileSystemCacheMaxBytes() > (freeSpace + cacheSize)){
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace + cacheSize) * 0.95));
+                    setTileFileSystemCacheTrimBytes((long)((freeSpace + cacheSize) * 0.90));
+                }
+            } else {
+                //this is probably the first time running osmdroid
+                long freeSpace = getOsmdroidTileCache().length();
+                if (getTileFileSystemCacheMaxBytes() > (freeSpace)){
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.95));
+                    setTileFileSystemCacheMaxBytes((long)((freeSpace) * 0.90));
+                }
+            }
+        }
     }
 
     @Override
-    public void save(Context ctx, SharedPreferences preferences) {
+    public void save(Context ctx, SharedPreferences prefs) {
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putString("osmdroid.basePath",getOsmdroidBasePath().getAbsolutePath());
+        edit.putString("osmdroid.cachePath",getOsmdroidTileCache().getAbsolutePath());
+        edit.putBoolean("osmdroid.DebugMode",isDebugMode());
+        edit.putBoolean("osmdroid.DebugDownloading",isDebugMapTileDownloader());
+        edit.putBoolean("osmdroid.DebugMapView",isDebugMapView());
+        edit.putBoolean("osmdroid.DebugTileProvider",isDebugTileProviders());
+        edit.putBoolean("osmdroid.HardwareAcceleration", isMapViewHardwareAccelerated());
+        edit.putString("osmdroid.userAgentValue", getUserAgentValue());
+        edit.putLong("osmdroid.gpsWaitTime",gpsWaitTime);
+        edit.putInt("osmdroid.cacheMapTileCount", cacheMapTileCount);
+        edit.putInt("osmdroid.tileDownloadThreads", tileDownloadThreads);
+        edit.putInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads);
+        edit.putInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize);
+        edit.putInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize);
+        //TODO save other fields?
 
+        edit.commit();
     }
 }
