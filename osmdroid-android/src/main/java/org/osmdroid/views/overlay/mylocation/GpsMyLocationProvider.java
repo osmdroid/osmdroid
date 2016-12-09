@@ -145,12 +145,14 @@ public class GpsMyLocationProvider implements IMyLocationProvider, LocationListe
 			Log.w(IMapView.LOGTAG, "GpsMyLocation proivider, mIgnore is null, unexpected. Location update will be ignored");
 			return;
 		}
+		if (location==null || location.getProvider()==null)
+			return;
 		// ignore temporary non-gps fix
 		if (mIgnorer.shouldIgnore(location.getProvider(), System.currentTimeMillis()))
 			return;
 
 		mLocation = location;
-		if (mMyLocationConsumer != null)
+		if (mMyLocationConsumer != null && mLocation !=null)
 			mMyLocationConsumer.onLocationChanged(mLocation, this);
 	}
 
