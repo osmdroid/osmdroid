@@ -1,6 +1,6 @@
 # What's this?
 
-Long long ago, Google offered open source projects a home for code, 
+Long time ago, Google offered open source projects a home for code,
 issue tracking, etc.
 
 At one point, there was a tool to automagically migrate everything from 

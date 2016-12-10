@@ -21,7 +21,7 @@ allprojects {
     project.version =
             ( project.hasProperty('pom.version') ? project.property('pom.version') : "1.0" )
 
-    apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/maven-support.gradle"
+    apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.2/gradle/maven-support.gradle"
 
     // forces all changing dependencies (i.e. SNAPSHOTs) to automagicially download
     // (thanks, @BillBarnhill!)
@@ -44,15 +44,15 @@ allprojects {
     }
 
     if (project.hasProperty('profile') && project.profile.split(',').contains("ci")) {
-        apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/quality.gradle"
+        apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.2/gradle/quality.gradle"
     }
 
 }
 
 
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/encryption.gradle"
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.2/gradle/encryption.gradle"
 
-apply from: "https://raw.githubusercontent.com/chrisdoyle/gradle-fury/v1.0.18/gradle/site.gradle"
+apply from: "https://raw.githubusercontent.com/gradle-fury/gradle-fury/v1.1.2/gradle/site.gradle"
 
 
 //copy the readme into the site folder as the index
