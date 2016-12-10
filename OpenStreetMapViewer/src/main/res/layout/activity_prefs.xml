@@ -1,53 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <CheckBox
-        android:text="@string/tile_provided_debugging"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBoxDebugTileProvider" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <CheckBox
-        android:text="@string/debug_logging"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBoxDebugMode" />
 
-    <CheckBox
-        android:text="Debug Logging Downloading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBoxDebugDownloading" />
+        <TextView
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logging and Debugging"
+            />
 
-    <CheckBox
-        android:text="@string/enable_mapview_hardware_acceleration"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/checkBoxHardwareAcceleration" />
 
-    <TextView
-        android:text="@string/cache_directory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-         />
 
-    <TextView
-        android:text="/storage/sdcard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewCacheDirectory" />
+        <CheckBox
+            android:id="@+id/checkBoxDebugTileProvider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tile_provider_debugging"/>
 
-    <Button
-        android:text="Pick Cache Location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonSetCache" />
+        <CheckBox
+            android:id="@+id/checkBoxDebugMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/debug_mode"/>
 
-    <Button
-        android:text="Enter Cache Location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonManualCacheEntry" />
-</LinearLayout>
+        <CheckBox
+            android:id="@+id/checkBoxDebugDownloading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/debug_logging_downloading"/>
+
+
+        <CheckBox
+            android:id="@+id/checkBoxMapViewDebug"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Map View Debug"/>
+
+
+        <TextView
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cache Management"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cache_directory"
+            />
+
+        <TextView
+            android:id="@+id/textViewCacheDirectory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="/storage/sdcard"/>
+
+        <Button
+            android:id="@+id/buttonSetCache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pick_cache_location"/>
+
+        <Button
+            android:id="@+id/buttonManualCacheEntry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_cache_location"/>
+
+        <Button
+            android:id="@+id/buttonPurgeCache"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/purge_cache"/>
+
+
+        <TextView
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Downloads, Memory Cache and Offline Storage Settings"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HTTP User Agent to use when downloading"
+            />
+
+        <EditText
+            android:id="@+id/httpUserAgent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:inputType="text"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tile download threads"
+            />
+
+        <EditText
+            android:id="@+id/tileDownloadThreads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Map tile download max queue size"
+            />
+
+        <EditText
+            android:id="@+id/tileDownloadMaxQueueSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="In memory tile cache size"
+            />
+
+        <EditText
+            android:id="@+id/cacheMapTileCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="File system loading threads"
+            />
+
+        <EditText
+            android:id="@+id/tileFileSystemThreads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Map tile file system max queue size"
+            />
+
+        <EditText
+            android:id="@+id/tileFileSystemMaxQueueSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
+        <TextView
+            android:textSize="22sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Miscellaneous"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time to wait for a GPS fix to switch to Network based location (ms)"
+            />
+        <EditText
+            android:id="@+id/gpsWaitTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+        <CheckBox
+            android:id="@+id/checkBoxHardwareAcceleration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/enable_mapview_hardware_acceleration"/>
+
+
+        <Button
+            android:layout_marginTop="40dp"
+            android:id="@+id/buttonReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reset to defaults"/>
+
+    </LinearLayout>
+</ScrollView>

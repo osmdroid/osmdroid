@@ -6,11 +6,13 @@
 package org.osmdroid.samplefragments.cache;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.io.File;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.views.MapView;
@@ -28,7 +30,7 @@ public class SampleAlternateCacheDir extends BaseSampleFragment {
      @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
-          OpenStreetMapTileProviderConstants.setCachePath(new File("/sdcard/osmdroid2/").getAbsolutePath());
+        Configuration.getInstance().setOsmdroidTileCache((new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/osmdroid2")));
 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
           
 		return v;

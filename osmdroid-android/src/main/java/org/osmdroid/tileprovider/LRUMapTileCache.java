@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
@@ -68,7 +69,7 @@ public class LRUMapTileCache extends LinkedHashMap<MapTile, Drawable> {
 	protected boolean removeEldestEntry(final java.util.Map.Entry<MapTile, Drawable> aEldest) {
 		if (size() > mCapacity) {
 			final MapTile eldest = aEldest.getKey();
-			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+			if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"LRU Remove old tile: " + eldest);
 			}
 			remove(eldest);

@@ -1,6 +1,8 @@
 // Created by plusminus on 18:00:24 - 25.09.2008
 package org.osmdroid.views.util.constants;
 
+import org.osmdroid.config.Configuration;
+
 /**
  * 
  * This class contains constants used by the map view.
@@ -10,7 +12,8 @@ package org.osmdroid.views.util.constants;
  */
 public interface MapViewConstants {
 
-	public static boolean DEBUGMODE = false;
+	@Deprecated
+	public static boolean DEBUGMODE = Configuration.getInstance().isDebugMapView();
 
 	// ===========================================================
 	// Final Fields

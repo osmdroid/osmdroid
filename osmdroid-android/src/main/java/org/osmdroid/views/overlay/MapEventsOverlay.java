@@ -34,7 +34,7 @@ public class MapEventsOverlay extends Overlay {
 		mReceiver = receiver;
     }
 
-	@Override protected void draw(Canvas c, MapView osmv, boolean shadow) {
+	@Override public void draw(Canvas c, MapView osmv, boolean shadow) {
 		//Nothing to draw
 	}
 	

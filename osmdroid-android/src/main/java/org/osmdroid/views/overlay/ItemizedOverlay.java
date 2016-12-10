@@ -121,7 +121,7 @@ public abstract class ItemizedOverlay<Item extends OverlayItem> extends Overlay 
 	 *            if true, draw the shadow layer. If false, draw the overlay contents.
 	 */
 	@Override
-    protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
+    public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
         if (shadow) {
             return;

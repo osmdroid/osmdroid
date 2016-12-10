@@ -175,7 +175,7 @@ public class CompassOverlay extends Overlay implements IOverlayMenuProvider, IOr
 	// ===========================================================
 
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+	public void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (shadow) {
 			return;
 		}

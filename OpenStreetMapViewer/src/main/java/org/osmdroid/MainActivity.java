@@ -5,7 +5,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -16,7 +15,6 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,16 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.samples.SampleExtensive;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
 import org.osmdroid.samples.SampleWithTilesOverlay;
 import org.osmdroid.samples.SampleWithTilesOverlayAndCustomTileSource;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
-import org.osmdroid.tileprovider.modules.MapTileDownloader;
 import org.osmdroid.tileprovider.modules.SqlTileWriter;
-import org.osmdroid.tileprovider.util.StorageUtils;
-import org.osmdroid.views.MapView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -123,6 +118,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     public void onResume(){
         super.onResume();
+        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         updateStorageInfo();
     }
 
@@ -133,55 +129,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
      * @return current cache size in bytes
      */
     public static long updateStoragePrefreneces(Context ctx){
-        //cache management starts here
-        File discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
-        if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
-            new File("/data/data/" + ctx.getPackageName() + "/tiles/").mkdirs();
-            OpenStreetMapTileProviderConstants.setCachePath("/data/data/" + ctx.getPackageName() + "/tiles/");
-        }
-        discoveredBestPath = OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
-
-        //grab the current user preferences for debug settings and where to store the tile cache data
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        OpenStreetMapTileProviderConstants.setCachePath(prefs.getString("textViewCacheDirectory", discoveredBestPath.getAbsolutePath()));
-        OpenStreetMapTileProviderConstants.DEBUGMODE=prefs.getBoolean("checkBoxDebugMode",false);
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=prefs.getBoolean("checkBoxDebugTileProvider",false);
-        MapView.hardwareAccelerated=prefs.getBoolean("checkBoxHardwareAcceleration",false);
-        MapTileDownloader.DEBUG = prefs.getBoolean("checkBoxDebugDownloading", false);
-
-        //uncomment this to force a cache trim
-        //OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = 16000;
-
-        long cacheSize=-1;
+        Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+        File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
         if (Build.VERSION.SDK_INT >= 9) {
-            //https://github/osmdroid/osmdroid/issues/435
-            //On startup, we auto set the max cache size to be the current cache size + free disk space
-            //this reduces the chance of osmdroid completely filling up the storage device
-
-            //if the default max cache size is greater than the available free space
-            //reduce it to 95% of the available free space + the size of the cache
-            File dbFile = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-            if (dbFile.exists()) {
-                cacheSize = dbFile.length();
-                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getFreeSpace();
-
-                Log.i(TAG, "Current cache size is " + cacheSize + " free space is " + freeSpace);
-                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace + cacheSize)){
-                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.95);
-                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace + cacheSize) * 0.90);
-                }
-            } else {
-                //this is probably the first time running osmdroid
-                long freeSpace = OpenStreetMapTileProviderConstants.TILE_PATH_BASE.length();
-                if (OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES > (freeSpace)){
-                    OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.95);
-                    OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES = (long)((freeSpace) * 0.90);
-                }
-            }
+            return dbFile.length();
         }
-        return cacheSize;
+        return -1;
     }
 
+    /**
+     * gets storage state and current cache size
+     */
     private void updateStorageInfo(){
 
         long cacheSize = updateStoragePrefreneces(this);
@@ -191,7 +149,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         final String state = Environment.getExternalStorageState();
 
         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
-        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" +  OpenStreetMapTileProviderConstants.TILE_PATH_BASE.getAbsolutePath() + "\n" +
+        tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
             "Cache size: " + Formatter.formatFileSize(this,cacheSize));
         if (!mSdCardAvailable) {
             tv.setTextColor(Color.RED);

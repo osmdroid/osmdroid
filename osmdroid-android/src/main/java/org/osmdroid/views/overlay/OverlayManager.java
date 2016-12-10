@@ -84,4 +84,5 @@ public interface OverlayManager extends List<Overlay> {
     boolean onPrepareOptionsMenu(Menu pMenu, int menuIdOffset, MapView mapView);
 
     boolean onOptionsItemSelected(MenuItem item, int menuIdOffset, MapView mapView);
+
 }

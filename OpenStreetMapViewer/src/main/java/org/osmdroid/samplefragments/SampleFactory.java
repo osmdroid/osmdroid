@@ -10,6 +10,7 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
@@ -30,6 +31,7 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -131,11 +133,13 @@ public final class SampleFactory implements ISampleFactory {
 				MapInAViewPagerFragment.class,
 				//34
 				ZoomToBoundsOnStartup.class,
-			    //35
-				MapInAViewPagerFragment.class,
-				//36
-				SampleRotationMapAroundPoint.class,
+				//35
+				SampleSimpleLocation.class,
+                //36
+				SampleSimpleFastPointOverlay.class,
 				//37
+				SampleRotationMapAroundPoint.class,
+				//38
 				DrivingMode.class
 
         };

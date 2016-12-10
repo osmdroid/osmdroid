@@ -168,7 +168,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	}
 
 	@Override
-	protected void draw(Canvas c, MapView osmv, boolean shadow) {
+	public void draw(Canvas c, MapView osmv, boolean shadow) {
 
 		if (DEBUGMODE) {
                Log.d(IMapView.LOGTAG,"onDraw(" + shadow + ")");

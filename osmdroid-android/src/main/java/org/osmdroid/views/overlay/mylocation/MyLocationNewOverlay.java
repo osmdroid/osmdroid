@@ -315,7 +315,7 @@ public class MyLocationNewOverlay extends Overlay implements IMyLocationConsumer
 	// ===========================================================
 
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+	public void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (shadow)
 			return;
 

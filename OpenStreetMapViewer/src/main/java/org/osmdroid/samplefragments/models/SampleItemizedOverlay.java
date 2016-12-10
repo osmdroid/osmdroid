@@ -58,7 +58,7 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 
 
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+	public void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (mFocusChanged) {
 			mFocusChanged = false;
 

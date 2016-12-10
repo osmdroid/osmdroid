@@ -1,5 +1,6 @@
 package org.osmdroid.util;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.util.constants.UtilConstants;
 
 import android.location.Location;
@@ -30,7 +31,7 @@ public class LocationUtils implements UtilConstants {
 			return gpsLocation;
 		} else {
 			// both are non-null - use the most recent
-			if (networkLocation.getTime() > gpsLocation.getTime() + GPS_WAIT_TIME) {
+			if (networkLocation.getTime() > gpsLocation.getTime() + Configuration.getInstance().getGpsWaitTime()) {
 				return networkLocation;
 			} else {
 				return gpsLocation;

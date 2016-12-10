@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -114,7 +115,7 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
         }
         compass = new InternalCompassOrientationProvider(getActivity());
         compass.startOrientationProvider(this);
-        mMapView.getController().zoomTo(18);
+        mMapView.getController().zoomTo(16);
 
     }
 
@@ -162,23 +163,26 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
 
 
         //use gps bearing instead of the compass
-        if (gpsspeed > 0.01f) {
-            float t = (360 - gpsbearing - this.deviceOrientation);
-            if (t < 0) {
-                t += 360;
-            }
-            if (t > 360) {
-                t -= 360;
-            }
-            //help smooth everything out
-            t = (int) t;
-            t = t / 10;
-            t = (int) t;
-            t = t * 10;
 
-            mMapView.setMapOrientation(t);
-            updateDisplay(location.getBearing());
+        float t = (360 - gpsbearing - this.deviceOrientation);
+        if (t < 0) {
+            t += 360;
         }
+        if (t > 360) {
+            t -= 360;
+        }
+        //help smooth everything out
+        t = (int) t;
+        t = t / 5;
+        t = (int) t;
+        t = t * 5;
+
+        if (gpsspeed >= 0.01) {
+            mMapView.setMapOrientation(t);
+            //otherwise let the compass take over
+        }
+        updateDisplay(location.getBearing(), true);
+
     }
 
     @Override
@@ -202,8 +206,8 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
     public void onOrientationChanged(final float orientationToMagneticNorth, IOrientationProvider source) {
         //note, on devices without a compass this never fires...
 
-        //only use the compass bit if we aren't moving, since gps is more accurate
-        if (gpsspeed > 0.01) {
+        //only use the compass bit if we aren't moving, since gps is more accurate when we are moving
+        if (gpsspeed < 0.01) {
             GeomagneticField gf = new GeomagneticField(lat, lon, alt, timeOfFix);
             trueNorth = orientationToMagneticNorth + gf.getDeclination();
             gf = null;
@@ -224,16 +228,16 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
                 actualHeading = t;
                 //help smooth everything out
                 t = (int) t;
-                t = t / 10;
+                t = t / 5;
                 t = (int) t;
-                t = t * 10;
+                t = t * 5;
                 mMapView.setMapOrientation(t);
-                updateDisplay(actualHeading);
+                updateDisplay(actualHeading,false);
             }
         }
     }
 
-    private void updateDisplay(final float bearing) {
+    private void updateDisplay(final float bearing, boolean isGps) {
         try {
             Activity act = getActivity();
             if (act != null)
@@ -250,6 +254,7 @@ public class SampleHeadingCompassUp extends BaseSampleFragment implements Locati
                 });
         } catch (Exception ex) {
         }
+        Log.i(TAG,isGps + ","+gpsspeed + "," + gpsbearing + "," + deviceOrientation + "," + bearing + "," + trueNorth.intValue() + "," + mMapView.getMapOrientation() + "," + screen_orientation);
     }
 
 

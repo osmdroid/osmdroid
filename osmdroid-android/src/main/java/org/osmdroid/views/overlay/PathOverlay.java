@@ -198,7 +198,7 @@ public class PathOverlay extends Overlay {
 	 * Should be fine up to 10K points.
 	 */
 	@Override
-	protected void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
+	public void draw(final Canvas canvas, final MapView mapView, final boolean shadow) {
 
 		if (shadow) {
 			return;

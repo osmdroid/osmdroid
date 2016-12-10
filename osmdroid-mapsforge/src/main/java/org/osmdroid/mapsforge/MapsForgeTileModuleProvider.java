@@ -6,10 +6,10 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
@@ -37,7 +37,9 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
      */
     public MapsForgeTileModuleProvider(IRegisterReceiver receiverRegistrar, MapsForgeTileSource tileSource, IFilesystemCache tilewriter) {
 
-        super(receiverRegistrar, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS, OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+        super(receiverRegistrar,
+            Configuration.getInstance().getTileFileSystemThreads(),
+            Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         this.tileSource = tileSource;
         this.tilewriter = tilewriter;
@@ -89,7 +91,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
             //TODO find a more efficient want to do this, seems overlay complicated
             MapTile mapTile = pState.getMapTile();
             String dbgPrefix = null;
-            if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+            if (Configuration.getInstance().isDebugTileProviders()) {
                 dbgPrefix = "MapsForgeTileModuleProvider.TileLoader.loadTile(" + mapTile + "): ";
                 Log.d(IMapView.LOGTAG,dbgPrefix + "tileSource.renderTile");
             }
@@ -99,7 +101,7 @@ public class MapsForgeTileModuleProvider extends MapTileFileStorageProviderBase 
                 ((BitmapDrawable)image).getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] bitmapdata = stream.toByteArray();
 
-                if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+                if (Configuration.getInstance().isDebugTileProviders()) {
                     Log.d(IMapView.LOGTAG, dbgPrefix +
                             "save tile " + bitmapdata.length +
                             " bytes to " + tileSource.getTileRelativeFilenameString(mapTile));

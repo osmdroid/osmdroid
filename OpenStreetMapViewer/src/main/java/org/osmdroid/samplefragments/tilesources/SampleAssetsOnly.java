@@ -2,7 +2,6 @@ package org.osmdroid.samplefragments.tilesources;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
 import org.osmdroid.tileprovider.MapTileProviderArray;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.MapTileAssetsProvider;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -21,8 +20,6 @@ public class SampleAssetsOnly extends BaseSampleFragment {
 
     @Override
     public void addOverlays() {
-        OpenStreetMapTileProviderConstants.DEBUGMODE=true;
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS=true;
         this.mMapView.setUseDataConnection(false);
         MapTileAssetsProvider prov = new MapTileAssetsProvider(new SimpleRegisterReceiver(getContext()  ), getActivity().getAssets());
 

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.ExpirableBitmapDrawable;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
@@ -49,8 +50,9 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
      */
     public MapTileSqlCacheProvider(final IRegisterReceiver pRegisterReceiver,
                                       final ITileSource pTileSource, final long pMaximumCachedFileAge) {
-        super(pRegisterReceiver, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
-                OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+        super(pRegisterReceiver,
+            Configuration.getInstance().getTileFileSystemThreads(),
+            Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
         setTileSource(pTileSource);
         mMaximumCachedFileAge = pMaximumCachedFileAge;
@@ -176,13 +178,13 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
             // if there's no sdcard then don't do anything
             if (!isSdCardAvailable()) {
-                if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
                 }
                 return null;
             }
             if (mWriter==null || mWriter.db == null) {
-                if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"Sqlwriter cache is offline - do nothing for tile: " + pTile);
                 }
                 return null;
@@ -190,7 +192,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
 
             InputStream inputStream = null;
             try {
-                if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                if (Configuration.getInstance().isDebugMode()) {
                     Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
                 }
 
@@ -217,7 +219,7 @@ public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
                 final boolean fileExpired = lastModified < now - mMaximumCachedFileAge;
 
                 if (fileExpired && drawable != null) {
-                    if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+                    if (Configuration.getInstance().isDebugMode()) {
                         Log.d(IMapView.LOGTAG,"Tile expired: " + tile);
                     }
                     ExpirableBitmapDrawable.setDrawableExpired(drawable);

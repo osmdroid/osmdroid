@@ -130,7 +130,7 @@ public class MinimapOverlay extends TilesOverlay {
 	}
 
 	@Override
-	protected void draw(Canvas c, MapView osmv, boolean shadow) {
+	public void draw(Canvas c, MapView osmv, boolean shadow) {
 		if (shadow) {
 			return;
 		}
