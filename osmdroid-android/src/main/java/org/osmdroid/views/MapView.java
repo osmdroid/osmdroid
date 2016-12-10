@@ -863,6 +863,9 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 			((SimpleInvalidationHandler) mTileRequestCompleteHandler).destroy();
 		}
 		mTileRequestCompleteHandler=null;
+		if (mProjection!=null)
+			mProjection.detach();
+		mProjection=null;
 	}
 
 	@Override
