@@ -353,8 +353,12 @@ public class MapView extends ViewGroup implements IMapView, MapViewConstants,
 	}
 
 	private void updateTileSizeForDensity(final ITileSource aTileSource) {
-		float density = isTilesScaledToDpi() ? getResources().getDisplayMetrics().density : 1;
-		TileSystem.setTileSize((int) (aTileSource.getTileSizePixels() * density));
+		int tile_size = aTileSource.getTileSizePixels();
+		float density =  getResources().getDisplayMetrics().density * 256 / tile_size ;
+		int size = (int) ( tile_size * (isTilesScaledToDpi() ? density : 1));
+		if (Configuration.getInstance().isDebugMapView())
+			Log.d(IMapView.LOGTAG, "Scaling tiles to " + size);
+		TileSystem.setTileSize(size);
 	}
 
 	public void setTileSource(final ITileSource aTileSource) {
