@@ -22,7 +22,12 @@ dependencies {
     compile 'org.osmdroid:osmdroid-android:5.5:release@aar'
 }
 ```
-
+**Gradle API Dependency**
+```
+dependencies {
+    compile gradleApi()
+}
+```
 **Maven dependency**
 ```xml
 <dependency>
