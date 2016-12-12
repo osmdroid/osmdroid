@@ -6,12 +6,20 @@ This list only includes major highlights or breaking changes. Check [here](https
 
 ## 5.x (some future version)
  * WMS Map Source Client
-
-## 5.5 (not yet released)
  * osmdroid JDK and ADK raster tile server
- * IMap, IMapView API clean up
 
-## 5.4  (current release from 2016-09-07)
+## 5.6 (under dev)
+ * Bug fixes
+ * Thread pool is now adjustable
+ * MapView is now hardware disabled by default
+ * New overlay type, SimpleFastPointOverlay 
+
+## 5.5 (current release from 2016-10-11)
+ * IMap, IMapView API clean up
+ * bug fixes
+ * SqlTileWriter (tile cache) changes
+
+## 5.4
  * Use SQLite database for tile cache instead of file system
  * Removal of MapControllerOld (been deprecated for a long time)
  * Cache manager improvements, can download tiles from a path, customizable UIs and can create MOBAC like tile archives

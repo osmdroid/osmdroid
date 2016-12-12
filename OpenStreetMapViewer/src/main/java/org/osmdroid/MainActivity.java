@@ -118,20 +118,29 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     public void onResume(){
         super.onResume();
-        Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
         updateStorageInfo();
     }
 
     /**
      * refreshes the current osmdroid cache paths with user preferences plus soe logic to work around
-     * file system permissions on api23 devices. it's primarily used for out android tests
+     * file system permissions on api23 devices. it's primarily used for out android tests.
      * @param ctx
      * @return current cache size in bytes
      */
     public static long updateStoragePrefreneces(Context ctx){
+
+        //loads the osmdroid config from the shared preferences object.
+        //if this is the first time launching this app, all settings are set defaults with one exception,
+        //the tile cache. the default is the largest write storage partition, which could end up being
+        //this app's private storage, depending on device config and permissions
+
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
+
+        //also note that our preference activity has the corresponding save method on the config object, but it can be called at any time.
+
+
         File dbFile = new File(Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + File.separator + SqlTileWriter.DATABASE_FILENAME);
-        if (Build.VERSION.SDK_INT >= 9) {
+        if (Build.VERSION.SDK_INT >= 9 && dbFile.exists()) {
             return dbFile.length();
         }
         return -1;

@@ -393,5 +393,5 @@ Yes, as long as the endpoint supports the `export` API with bounding box then th
 250k | 11-12
 50 | 13-14
 25k | 15
-8k | 1
+8k | 16
 

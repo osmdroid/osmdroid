@@ -6,9 +6,9 @@ Edit gradle.properties and update the version information :
  - pom.version (usually just remove SNAPSHOT)
  - android.versionCode (it’s probably already okay)
 
-Commit the change and tag with git.
-
-Use the tag name: 'osmdroid-parent-{version}' to keep in line with the previous releases.
+Commit the change and tag with git.  
+Use the tag name: 'osmdroid-parent-{version}' to keep in line with the previous releases.  
+git push
 
 ## Set credentials in gradle.properties
 
@@ -33,8 +33,10 @@ android.signingConfigs.release.keyPassword=***
 
 ```
 ./gradlew clean
-./gradlew install -Pprofile=sources,javadoc
+./gradlew install -Pprofile=ci
 ./gradlew publishArtifacts -Pprofile=sources,javadoc
+./gradlew cC
+./gradlew site
 ```
 
 You may need to repeat the `install` step a couple of times until it succeeds.
@@ -58,6 +60,10 @@ Output zip is at osmdroid-dist/build/distributions/
 
 Output APK is at OpenStreetMapViewer\build\outputs\apk\OpenStreetMapViewer-{version}-release.apk
 
+## Push the site changes
+
+Copy the contents of "docs" into a separate clone of osmdroid on the branch `gh-pages`, commit and push.
+
 ## Post-release steps
 
 Update readme.md to have the current version number listed.
@@ -67,3 +73,8 @@ Edit gradle.properties and update the version information :
  - android.versionCode (increment by 1)
 
 git commit and push
+
+## Wiki updates
+
+Update the change log
+Update the upgrade guide
