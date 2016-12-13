@@ -38,7 +38,8 @@ build/
 # vim swap files
 *.swp`
 *.swo
-
+*.jks
+src/site/index.md
 
 OSMMapTilePackager/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java
 OSMMapTilePackager/src/main/java/org/osmdroid/util/GEMFFile.java
