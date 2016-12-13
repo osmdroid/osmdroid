@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.2">
+<issues format="4" by="lint 25.2.3">
 
     <issue
         id="MissingPermission"
@@ -11,12 +11,12 @@
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="    mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,"
+        errorLine1="    mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,"
         errorLine2="    ^"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java"
-            line="107"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\mylocation\GpsMyLocationProvider.java"
+            line="109"
             column="5"/>
     </issue>
 
@@ -30,12 +30,12 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="   mLocationManager.removeUpdates(this);"
+        errorLine1="   mLocationManager.removeUpdates(this);"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java"
-            line="118"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\mylocation\GpsMyLocationProvider.java"
+            line="120"
             column="4"/>
     </issue>
 
@@ -49,11 +49,11 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="    mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,"
+        errorLine1="    mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,"
         errorLine2="    ^"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/LocationListenerProxy.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\LocationListenerProxy.java"
             line="24"
             column="5"/>
     </issue>
@@ -68,11 +68,11 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="  mLocationManager.removeUpdates(this);"
+        errorLine1="  mLocationManager.removeUpdates(this);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/LocationListenerProxy.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\LocationListenerProxy.java"
             line="33"
             column="3"/>
     </issue>
@@ -87,12 +87,12 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="  return pLocationManager.getLastKnownLocation(pProvider);"
+        errorLine1="  return pLocationManager.getLastKnownLocation(pProvider);"
         errorLine2="         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/LocationUtils.java"
-            line="49"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\LocationUtils.java"
+            line="50"
             column="10"/>
     </issue>
 
@@ -108,10 +108,10 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
         url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
         urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
-        errorLine1="  Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.toLowerCase());"
+        errorLine1="  Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.toLowerCase());"
         errorLine2="                                                                    ~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/tileprovider/modules/ArchiveFileFactory.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\ArchiveFileFactory.java"
             line="59"
             column="69"/>
     </issue>
@@ -128,12 +128,33 @@ If you want the methods to just perform ASCII replacement, for example to conver
 If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
         url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
         urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
-        errorLine1="   return String.format("
+        errorLine1="   return String.format("
         errorLine2="          ^">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="637"
             column="11"/>
+    </issue>
+
+    <issue
+        id="InlinedApi"
+        severity="Warning"
+        message="Field requires API level 11 (current min is 8): `android.view.View#LAYER_TYPE_SOFTWARE`"
+        category="Correctness"
+        priority="6"
+        summary="Using inlined constants on older versions"
+        explanation="This check scans through all the Android API field references in the application and flags certain constants, such as static final integers and Strings, which were introduced in later versions. These will actually be copied into the class files rather than being referenced, which means that the value is available even when running on older devices. In some cases that&apos;s fine, and in other cases it can result in a runtime crash or incorrect behavior. It depends on the context, so consider the code carefully and device whether it&apos;s safe and can be suppressed or whether the code needs tbe guarded.
+
+If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
+If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
+"
+        errorLine1="   this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);"
+        errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~"
+        quickfix="studio,adt">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
+            line="175"
+            column="22"/>
     </issue>
 
     <issue
@@ -148,11 +169,11 @@ If you want the methods to just perform ASCII replacement, for example to conver
 If you really want to use this API and don&apos;t need to support older devices just set the `minSdkVersion` in your `build.gradle` or `AndroidManifest.xml` files.
 If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. with conditional execution) that this code will only ever be called on a supported platform, then you can annotate your class or method with the `@TargetApi` annotation specifying the local minimum SDK to apply, such as `@TargetApi(11)`, such that this check considers 11 rather than your manifest file&apos;s minimum SDK as the required API level.
 "
-        errorLine1="  return mIsX86 &amp;&amp; networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;"
+        errorLine1="  return mIsX86 &amp;&amp; networkInfo.getType() == ConnectivityManager.TYPE_ETHERNET;"
         errorLine2="                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\tileprovider\modules\NetworkAvailabliltyCheck.java"
             line="45"
             column="45"/>
     </issue>
@@ -173,12 +194,12 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = mZoomInAnimation;"
+        errorLine1="     mCurrentAnimator = mZoomInAnimation;"
         errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/MapController.java"
-            line="297"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
+            line="302"
             column="6"/>
     </issue>
 
@@ -198,12 +219,12 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = mZoomOutAnimation;"
+        errorLine1="     mCurrentAnimator = mZoomOutAnimation;"
         errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/MapController.java"
-            line="330"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
+            line="335"
             column="6"/>
     </issue>
 
@@ -223,12 +244,12 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="     mCurrentAnimator = zoomToAnimator;"
+        errorLine1="     mCurrentAnimator = zoomToAnimator;"
         errorLine2="     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/MapController.java"
-            line="375"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapController.java"
+            line="380"
             column="6"/>
     </issue>
 
@@ -248,11 +269,11 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="  if (isUsingBackingBitmap() &amp;&amp; atLeastHoneycomb &amp;&amp; c.isHardwareAccelerated()) {"
+        errorLine1="  if (isUsingBackingBitmap() &amp;&amp; atLeastHoneycomb &amp;&amp; c.isHardwareAccelerated()) {"
         errorLine2="                                                      ~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\NonAcceleratedOverlay.java"
             line="78"
             column="55"/>
     </issue>
@@ -269,13 +290,33 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
 To fix this issue, set the `targetSdkVersion` to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         url="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         urls="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/AndroidManifest.xml"
+            file=".\osmdroid-android\src\main\AndroidManifest.xml"
             line="6"
             column="38"/>
+    </issue>
+
+    <issue
+        id="SdCardPath"
+        severity="Warning"
+        message="Do not hardcode &quot;`/data/`&quot;; use `Context.getFilesDir().getPath()` instead"
+        category="Correctness"
+        priority="6"
+        summary="Hardcoded reference to `/sdcard`"
+        explanation="Your code should not reference the `/sdcard` path directly; instead use `Environment.getExternalStorageDirectory().getPath()`.
+
+Similarly, do not reference the `/data/data/` path directly; it can vary in multi-user scenarios. Instead, use `Context.getFilesDir().getPath()`."
+        url="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal"
+        urls="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal"
+        errorLine1="                discoveredCachPath=discoveredBestPath=new File(&quot;/data/data/&quot; + ctx.getPackageName() + &quot;/osmdroid/&quot;);"
+        errorLine2="                                                               ~~~~~~~~~~~~~">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\config\DefaultConfigurationProvider.java"
+            line="268"
+            column="64"/>
     </issue>
 
     <issue
@@ -286,12 +327,12 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="6"
         summary="Using wrong draw/layout method"
         explanation="Custom views typically need to call `measure()` on their children, not `onMeasure`. Ditto for onDraw, onLayout, etc."
-        errorLine1="   onLayout(true, getLeft(), getTop(), getRight(), getBottom());"
+        errorLine1="   onLayout(true, getLeft(), getTop(), getRight(), getBottom());"
         errorLine2="   ~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/MapView.java"
-            line="1038"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\MapView.java"
+            line="1062"
             column="4"/>
     </issue>
 
@@ -303,10 +344,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
+        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/AndroidManifest.xml"
+            file=".\osmdroid-android\src\main\AndroidManifest.xml"
             line="4"
             column="3"/>
     </issue>
@@ -314,15 +355,15 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6-SNAPSHOT`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
+        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/AndroidManifest.xml"
+            file=".\osmdroid-android\src\main\AndroidManifest.xml"
             line="4"
             column="27"/>
     </issue>
@@ -335,10 +376,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/AndroidManifest.xml"
+            file=".\osmdroid-android\src\main\AndroidManifest.xml"
             line="6"
             column="12"/>
     </issue>
@@ -351,12 +392,31 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;8&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/AndroidManifest.xml"
+            file=".\osmdroid-android\src\main\AndroidManifest.xml"
             line="6"
             column="38"/>
+    </issue>
+
+    <issue
+        id="ParcelCreator"
+        severity="Error"
+        message="This class implements `Parcelable` but does not provide a `CREATOR` field"
+        category="Correctness"
+        priority="3"
+        summary="Missing Parcelable `CREATOR` field"
+        explanation="According to the `Parcelable` interface documentation, &quot;Classes implementing the Parcelable interface must also have a static field called `CREATOR`, which is an object implementing the `Parcelable.Creator` interface.&quot;"
+        url="http://developer.android.com/reference/android/os/Parcelable.html"
+        urls="http://developer.android.com/reference/android/os/Parcelable.html"
+        errorLine1="    public class LabelledPoint extends Point {"
+        errorLine2="                 ~~~~~~~~~~~~~"
+        quickfix="studio">
+        <location
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\simplefastpoint\SimpleFastPointOverlay.java"
+            line="43"
+            column="18"/>
     </issue>
 
     <issue
@@ -371,11 +431,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
 There *are* cases where you might need to use `dp`; typically this happens when the text is in a container with a specific dp-size. This will prevent the text from spilling outside the container. Note however that this means that the user&apos;s font size settings are not respected, so consider adjusting the layout itself to be more flexible."
         url="http://developer.android.com/training/multiscreen/screendensities.html"
         urls="http://developer.android.com/training/multiscreen/screendensities.html"
-        errorLine1="   android:textSize=&quot;12dp&quot;"
+        errorLine1="   android:textSize=&quot;12dp&quot;"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="40"
             column="4"/>
     </issue>
@@ -392,11 +452,11 @@ There *are* cases where you might need to use `dp`; typically this happens when 
 There *are* cases where you might need to use `dp`; typically this happens when the text is in a container with a specific dp-size. This will prevent the text from spilling outside the container. Note however that this means that the user&apos;s font size settings are not respected, so consider adjusting the layout itself to be more flexible."
         url="http://developer.android.com/training/multiscreen/screendensities.html"
         urls="http://developer.android.com/training/multiscreen/screendensities.html"
-        errorLine1="   android:textSize=&quot;10dp&quot;"
+        errorLine1="   android:textSize=&quot;10dp&quot;"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="47"
             column="4"/>
     </issue>
@@ -409,11 +469,11 @@ There *are* cases where you might need to use `dp`; typically this happens when 
         priority="3"
         summary="Missing @IntDef in Switch"
         explanation="This check warns if a `switch` statement does not explicitly include all the values declared by the typedef `@IntDef` declaration."
-        errorLine1="  switch (mDisplay.getOrientation()) {"
+        errorLine1="  switch (mDisplay.getOrientation()) {"
         errorLine2="  ~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/overlay/compass/CompassOverlay.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\compass\CompassOverlay.java"
             line="338"
             column="3"/>
     </issue>
@@ -432,11 +492,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;offline&quot;>Offline mode&lt;/string>"
+        errorLine1="    &lt;string name=&quot;offline&quot;>Offline mode&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="8"
             column="13"/>
     </issue>
@@ -455,11 +515,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;samples&quot;>Samples&lt;/string>"
+        errorLine1="    &lt;string name=&quot;samples&quot;>Samples&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="9"
             column="13"/>
     </issue>
@@ -478,11 +538,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;first_fix_message&quot;>Got the first fix&lt;/string>"
+        errorLine1="    &lt;string name=&quot;first_fix_message&quot;>Got the first fix&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="13"
             column="13"/>
     </issue>
@@ -501,11 +561,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;set_mode_offline&quot;>Set to offline mode&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_offline&quot;>Set to offline mode&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="15"
             column="13"/>
     </issue>
@@ -524,11 +584,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;set_mode_online&quot;>Set to online mode&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_online&quot;>Set to online mode&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="16"
             column="13"/>
     </issue>
@@ -547,11 +607,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;set_mode_show_me&quot;>showing and tracking my current location&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_show_me&quot;>showing and tracking my current location&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="18"
             column="13"/>
     </issue>
@@ -570,11 +630,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;set_mode_hide_me&quot;>hiding my current location&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_hide_me&quot;>hiding my current location&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="19"
             column="13"/>
     </issue>
@@ -593,11 +653,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;format_distance_meters&quot;>%s m&lt;/string>"
+        errorLine1="    &lt;string name=&quot;format_distance_meters&quot;>%s m&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="21"
             column="13"/>
     </issue>
@@ -616,11 +676,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;format_distance_kilometers&quot;>%s km&lt;/string>"
+        errorLine1="    &lt;string name=&quot;format_distance_kilometers&quot;>%s km&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="22"
             column="13"/>
     </issue>
@@ -639,11 +699,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;format_distance_miles&quot;>%s mi&lt;/string>"
+        errorLine1="    &lt;string name=&quot;format_distance_miles&quot;>%s mi&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="23"
             column="13"/>
     </issue>
@@ -662,11 +722,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;format_distance_nautical_miles&quot;>%s nm&lt;/string>"
+        errorLine1="    &lt;string name=&quot;format_distance_nautical_miles&quot;>%s nm&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="24"
             column="13"/>
     </issue>
@@ -685,11 +745,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;format_distance_feet&quot;>%s ft&lt;/string>"
+        errorLine1="    &lt;string name=&quot;format_distance_feet&quot;>%s ft&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="25"
             column="13"/>
     </issue>
@@ -708,11 +768,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;compass&quot;>Compass&lt;/string>"
+        errorLine1="    &lt;string name=&quot;compass&quot;>Compass&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="27"
             column="13"/>
     </issue>
@@ -731,11 +791,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;public_transport&quot;>Public transport&lt;/string>"
+        errorLine1="    &lt;string name=&quot;public_transport&quot;>Public transport&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="5"
             column="13"/>
     </issue>
@@ -754,11 +814,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;base&quot;>OSM base layer&lt;/string>"
+        errorLine1="    &lt;string name=&quot;base&quot;>OSM base layer&lt;/string>"
         errorLine2="            ~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="6"
             column="13"/>
     </issue>
@@ -777,11 +837,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;mapquest_osm&quot;>Mapquest&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapquest_osm&quot;>Mapquest&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="9"
             column="13"/>
     </issue>
@@ -800,11 +860,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;mapquest_aerial&quot;>Mapquest Aerial&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapquest_aerial&quot;>Mapquest Aerial&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="10"
             column="13"/>
     </issue>
@@ -823,11 +883,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;bing&quot;>Bing&lt;/string>"
+        errorLine1="    &lt;string name=&quot;bing&quot;>Bing&lt;/string>"
         errorLine2="            ~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="11"
             column="13"/>
     </issue>
@@ -846,11 +906,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;mapbox&quot;>MapBox&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapbox&quot;>MapBox&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="12"
             column="13"/>
     </issue>
@@ -869,11 +929,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;fiets_nl&quot;>OpenFietsKaart overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;fiets_nl&quot;>OpenFietsKaart overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="13"
             column="13"/>
     </issue>
@@ -892,11 +952,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;base_nl&quot;>Netherlands base overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;base_nl&quot;>Netherlands base overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="14"
             column="13"/>
     </issue>
@@ -915,11 +975,11 @@ If the string should *not* be translated, you can add the attribute `translatabl
 By default this detector allows regions of a language to just provide a subset of the strings and fall back to the standard language strings. You can require all regions to provide a full translation by setting the environment variable `ANDROID_LINT_COMPLETE_REGIONS`.
 
 You can tell lint (and other tools) which language is the default language in your `res/values/` folder by specifying `tools:locale=&quot;languageCode&quot;` for the root `&lt;resources>` element in your resource file. (The `tools` prefix refers to the namespace declaration `http://schemas.android.com/tools`.)"
-        errorLine1="    &lt;string name=&quot;roads_nl&quot;>Netherlands roads overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;roads_nl&quot;>Netherlands roads overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="15"
             column="13"/>
     </issue>
@@ -932,11 +992,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="     xList.put(new Integer(xDir.getName()), yList);"
+        errorLine1="     xList.put(new Integer(xDir.getName()), yList);"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="171"
             column="16"/>
     </issue>
@@ -949,11 +1009,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="   sourceIndex.put(source, new Integer(si));"
+        errorLine1="   sourceIndex.put(source, new Integer(si));"
         errorLine2="                           ~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="185"
             column="28"/>
     </issue>
@@ -966,11 +1026,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="   indexSource.put(new Integer(si), source);"
+        errorLine1="   indexSource.put(new Integer(si), source);"
         errorLine2="                   ~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="186"
             column="20"/>
     </issue>
@@ -983,11 +1043,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="      if (xList.contains(new Integer(i))) {"
+        errorLine1="      if (xList.contains(new Integer(i))) {"
         errorLine2="                         ~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="230"
             column="26"/>
     </issue>
@@ -1000,11 +1060,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="       xSet.add(new Integer(i));"
+        errorLine1="       xSet.add(new Integer(i));"
         errorLine2="                ~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="231"
             column="17"/>
     </issue>
@@ -1017,11 +1077,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="      if (yList.contains(new Integer(i))) {"
+        errorLine1="      if (yList.contains(new Integer(i))) {"
         errorLine2="                         ~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="258"
             column="26"/>
     </issue>
@@ -1034,11 +1094,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="   mSources.put(new Integer(sourceIndex), sourceName);"
+        errorLine1="   mSources.put(new Integer(sourceIndex), sourceName);"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="480"
             column="17"/>
     </issue>
@@ -1051,11 +1111,11 @@ You can tell lint (and other tools) which language is the default language in yo
         priority="4"
         summary="Should use `valueOf` instead of `new`"
         explanation="You should not call the constructor for wrapper classes directly, such as`new Integer(42)`. Instead, call the `valueOf` factory method, such as `Integer.valueOf(42)`. This will typically use less memory because common integers such as 0 and 1 will share a single instance."
-        errorLine1="  if (mSources.containsKey(new Integer(pSource))) {"
+        errorLine1="  if (mSources.containsKey(new Integer(pSource))) {"
         errorLine2="                           ~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/util/GEMFFile.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\util\GEMFFile.java"
             line="523"
             column="28"/>
     </issue>
@@ -1075,10 +1135,10 @@ If you want your custom background on multiple pages, then you should consider m
 
 Of course it&apos;s possible that your custom drawable is translucent and you want it to be mixed with the background. However, you will get better performance if you pre-mix the background with your drawable and use that resulting image or color as a custom theme background instead.
 "
-        errorLine1=" android:background=&quot;@drawable/bonuspack_bubble&quot; >"
+        errorLine1=" android:background=&quot;@drawable/bonuspack_bubble&quot; >"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="6"
             column="2"/>
     </issue>
@@ -1091,10 +1151,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1=" &lt;string name=&quot;app_name&quot; translatable=&quot;false&quot;>Open Map&lt;/string>"
+        errorLine1=" &lt;string name=&quot;app_name&quot; translatable=&quot;false&quot;>Open Map&lt;/string>"
         errorLine2="         ~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="3"
             column="10"/>
     </issue>
@@ -1107,10 +1167,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;offline&quot;>Offline mode&lt;/string>"
+        errorLine1="    &lt;string name=&quot;offline&quot;>Offline mode&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="8"
             column="13"/>
     </issue>
@@ -1123,10 +1183,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;samples&quot;>Samples&lt;/string>"
+        errorLine1="    &lt;string name=&quot;samples&quot;>Samples&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="9"
             column="13"/>
     </issue>
@@ -1139,18 +1199,18 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;about&quot;>About&lt;/string>"
+        errorLine1="    &lt;string name=&quot;about&quot;>About&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="10"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/strings.xml"
+            file=".\osmdroid-android\src\main\res\values-de\strings.xml"
             line="5"
             column="10"/>
         <location
-            file="./osmdroid-android/src/main/res/values-it/strings.xml"
+            file=".\osmdroid-android\src\main\res\values-it\strings.xml"
             line="6"
             column="10"/>
     </issue>
@@ -1163,18 +1223,18 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;about_message&quot;>This software uses map data provided by OpenStreetMap.org&lt;/string>"
+        errorLine1="    &lt;string name=&quot;about_message&quot;>This software uses map data provided by OpenStreetMap.org&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="11"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/strings.xml"
+            file=".\osmdroid-android\src\main\res\values-de\strings.xml"
             line="6"
             column="10"/>
         <location
-            file="./osmdroid-android/src/main/res/values-it/strings.xml"
+            file=".\osmdroid-android\src\main\res\values-it\strings.xml"
             line="7"
             column="10"/>
     </issue>
@@ -1187,10 +1247,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;first_fix_message&quot;>Got the first fix&lt;/string>"
+        errorLine1="    &lt;string name=&quot;first_fix_message&quot;>Got the first fix&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="13"
             column="13"/>
     </issue>
@@ -1203,10 +1263,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;set_mode_show_me&quot;>showing and tracking my current location&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_show_me&quot;>showing and tracking my current location&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="18"
             column="13"/>
     </issue>
@@ -1219,10 +1279,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;set_mode_hide_me&quot;>hiding my current location&lt;/string>"
+        errorLine1="    &lt;string name=&quot;set_mode_hide_me&quot;>hiding my current location&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/strings.xml"
+            file=".\osmdroid-android\src\main\res\values\strings.xml"
             line="19"
             column="13"/>
     </issue>
@@ -1235,10 +1295,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;mapnik&quot; translatable=&quot;false&quot;>Mapnik&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapnik&quot; translatable=&quot;false&quot;>Mapnik&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="3"
             column="13"/>
     </issue>
@@ -1251,18 +1311,18 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;cyclemap&quot;>Cycle Map&lt;/string>"
+        errorLine1="    &lt;string name=&quot;cyclemap&quot;>Cycle Map&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="4"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-de\tile_sources.xml"
             line="4"
             column="87"/>
         <location
-            file="./osmdroid-android/src/main/res/values-it/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-it\tile_sources.xml"
             line="3"
             column="13"/>
     </issue>
@@ -1275,10 +1335,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;public_transport&quot;>Public transport&lt;/string>"
+        errorLine1="    &lt;string name=&quot;public_transport&quot;>Public transport&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="5"
             column="13"/>
     </issue>
@@ -1291,14 +1351,14 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;base&quot;>OSM base layer&lt;/string>"
+        errorLine1="    &lt;string name=&quot;base&quot;>OSM base layer&lt;/string>"
         errorLine2="            ~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="6"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-de\tile_sources.xml"
             line="3"
             column="9"/>
     </issue>
@@ -1311,18 +1371,18 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;topo&quot;>Topographic&lt;/string>"
+        errorLine1="    &lt;string name=&quot;topo&quot;>Topographic&lt;/string>"
         errorLine2="            ~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="7"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-de\tile_sources.xml"
             line="4"
             column="9"/>
         <location
-            file="./osmdroid-android/src/main/res/values-it/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-it\tile_sources.xml"
             line="4"
             column="13"/>
     </issue>
@@ -1335,18 +1395,18 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;hills&quot;>Hills&lt;/string>"
+        errorLine1="    &lt;string name=&quot;hills&quot;>Hills&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="8"
             column="13"/>
         <location
-            file="./osmdroid-android/src/main/res/values-de/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-de\tile_sources.xml"
             line="4"
             column="51"/>
         <location
-            file="./osmdroid-android/src/main/res/values-it/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values-it\tile_sources.xml"
             line="5"
             column="13"/>
     </issue>
@@ -1359,10 +1419,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;mapquest_osm&quot;>Mapquest&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapquest_osm&quot;>Mapquest&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="9"
             column="13"/>
     </issue>
@@ -1375,10 +1435,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;mapquest_aerial&quot;>Mapquest Aerial&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapquest_aerial&quot;>Mapquest Aerial&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="10"
             column="13"/>
     </issue>
@@ -1391,10 +1451,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;bing&quot;>Bing&lt;/string>"
+        errorLine1="    &lt;string name=&quot;bing&quot;>Bing&lt;/string>"
         errorLine2="            ~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="11"
             column="13"/>
     </issue>
@@ -1407,10 +1467,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;mapbox&quot;>MapBox&lt;/string>"
+        errorLine1="    &lt;string name=&quot;mapbox&quot;>MapBox&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="12"
             column="13"/>
     </issue>
@@ -1423,10 +1483,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;fiets_nl&quot;>OpenFietsKaart overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;fiets_nl&quot;>OpenFietsKaart overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="13"
             column="13"/>
     </issue>
@@ -1439,10 +1499,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;base_nl&quot;>Netherlands base overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;base_nl&quot;>Netherlands base overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="14"
             column="13"/>
     </issue>
@@ -1455,10 +1515,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;roads_nl&quot;>Netherlands roads overlay&lt;/string>"
+        errorLine1="    &lt;string name=&quot;roads_nl&quot;>Netherlands roads overlay&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/values/tile_sources.xml"
+            file=".\osmdroid-android\src\main\res\values\tile_sources.xml"
             line="15"
             column="13"/>
     </issue>
@@ -1472,7 +1532,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="./osmdroid-android/src/main/res/drawable/zoom_in.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\zoom_in.png"/>
     </issue>
 
     <issue
@@ -1484,7 +1544,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds.">
         <location
-            file="./osmdroid-android/src/main/res/drawable/zoom_out.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\zoom_out.png"/>
     </issue>
 
     <issue
@@ -1498,7 +1558,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/bonuspack_bubble.9.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\bonuspack_bubble.9.png"/>
     </issue>
 
     <issue
@@ -1512,7 +1572,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/center.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\center.png"/>
     </issue>
 
     <issue
@@ -1526,7 +1586,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/direction_arrow.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\direction_arrow.png"/>
     </issue>
 
     <issue
@@ -1540,7 +1600,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/ic_menu_compass.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\ic_menu_compass.png"/>
     </issue>
 
     <issue
@@ -1554,7 +1614,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/ic_menu_mapmode.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\ic_menu_mapmode.png"/>
     </issue>
 
     <issue
@@ -1568,7 +1628,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/ic_menu_mylocation.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\ic_menu_mylocation.png"/>
     </issue>
 
     <issue
@@ -1582,7 +1642,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/ic_menu_offline.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\ic_menu_offline.png"/>
     </issue>
 
     <issue
@@ -1596,7 +1656,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/marker_default.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\marker_default.png"/>
     </issue>
 
     <issue
@@ -1610,7 +1670,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/marker_default_focused_base.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\marker_default_focused_base.png"/>
     </issue>
 
     <issue
@@ -1624,7 +1684,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/moreinfo_arrow.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\moreinfo_arrow.png"/>
     </issue>
 
     <issue
@@ -1638,7 +1698,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/moreinfo_arrow_pressed.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\moreinfo_arrow_pressed.png"/>
     </issue>
 
     <issue
@@ -1652,7 +1712,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/navto_small.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\navto_small.png"/>
     </issue>
 
     <issue
@@ -1666,7 +1726,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/next.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\next.png"/>
     </issue>
 
     <issue
@@ -1680,7 +1740,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/person.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\person.png"/>
     </issue>
 
     <issue
@@ -1694,7 +1754,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/previous.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\previous.png"/>
     </issue>
 
     <issue
@@ -1708,7 +1768,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/zoom_in.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\zoom_in.png"/>
     </issue>
 
     <issue
@@ -1722,7 +1782,7 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-android/src/main/res/drawable/zoom_out.png"/>
+            file=".\osmdroid-android\src\main\res\drawable\zoom_out.png"/>
     </issue>
 
     <issue
@@ -1733,10 +1793,10 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
         priority="6"
         summary="Accessibility in Custom Views"
         explanation="If a `View` that overrides `onTouchEvent` or uses an `OnTouchListener` does not also implement `performClick` and call it when clicks are detected, the `View` may not handle accessibility actions properly. Logic handling the click actions should ideally be placed in `View#performClick` as some accessibility services invoke `performClick` when a click action should occur."
-        errorLine1="   @Override public boolean onTouch(View v, MotionEvent e) {"
+        errorLine1="   @Override public boolean onTouch(View v, MotionEvent e) {"
         errorLine2="                            ~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/java/org/osmdroid/views/overlay/infowindow/BasicInfoWindow.java"
+            file=".\osmdroid-android\src\main\java\org\osmdroid\views\overlay\infowindow\BasicInfoWindow.java"
             line="61"
             column="29"/>
     </issue>
@@ -1753,11 +1813,11 @@ Of course it&apos;s possible that your custom drawable is translucent and you wa
 Note that elements in application screens that are purely decorative and do not provide any content or enable a user action should not have accessibility content descriptions. In this case, just suppress the lint warning with a tools:ignore=&quot;ContentDescription&quot; attribute.
 
 Note that for text fields, you should not set both the `hint` and the `contentDescription` attributes since the hint will never be shown. Just set the `hint`. See http://developer.android.com/guide/topics/ui/accessibility/checklist.html#special-cases."
-        errorLine1=" &lt;ImageView android:id=&quot;@+id/bubble_image&quot; "
+        errorLine1=" &lt;ImageView android:id=&quot;@+id/bubble_image&quot; "
         errorLine2=" ^"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="7"
             column="2"/>
     </issue>
@@ -1776,11 +1836,11 @@ Note that for text fields, you should not set both the `hint` and the `contentDe
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
 In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
-        errorLine1="    android:text=&quot;Title&quot; />"
+        errorLine1="    android:text=&quot;Title&quot; />"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="27"
             column="5"/>
     </issue>
@@ -1799,11 +1859,11 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
 In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
-        errorLine1="   android:text=&quot;Description&quot; />"
+        errorLine1="   android:text=&quot;Description&quot; />"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="42"
             column="4"/>
     </issue>
@@ -1822,11 +1882,11 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
 In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
-        errorLine1="   android:text=&quot;Address&quot;"
+        errorLine1="   android:text=&quot;Address&quot;"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="49"
             column="4"/>
     </issue>
@@ -1839,10 +1899,10 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
         priority="6"
         summary="Padding and margin symmetry"
         explanation="If you specify padding or margin on the left side of a layout, you should probably also specify padding on the right side (and vice versa) for right-to-left layout symmetry."
-        errorLine1="  android:paddingLeft=&quot;5dp&quot;"
+        errorLine1="  android:paddingLeft=&quot;5dp&quot;"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="14"
             column="3"/>
     </issue>
@@ -1859,10 +1919,10 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStart` and `layout_marginStart`. *NOTE*: If your `minSdkVersion` is less than 17, you should add *both* the older left/right attributes *as well as* the new start/right attributes. On older platforms, where RTL is not supported and the start/right attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.
 
 (Note: For `Gravity#LEFT` and `Gravity#START`, you can use these constants even when targeting older platforms, because the `start` bitmask is a superset of the `left` bitmask. Therefore, you can use `gravity=&quot;start&quot;` rather than `gravity=&quot;left|start&quot;`.)"
-        errorLine1="  android:paddingLeft=&quot;5dp&quot;"
+        errorLine1="  android:paddingLeft=&quot;5dp&quot;"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="14"
             column="3"/>
     </issue>
@@ -1879,10 +1939,10 @@ For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStar
 For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStart` and `layout_marginStart`. *NOTE*: If your `minSdkVersion` is less than 17, you should add *both* the older left/right attributes *as well as* the new start/right attributes. On older platforms, where RTL is not supported and the start/right attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.
 
 (Note: For `Gravity#LEFT` and `Gravity#START`, you can use these constants even when targeting older platforms, because the `start` bitmask is a superset of the `left` bitmask. Therefore, you can use `gravity=&quot;start&quot;` rather than `gravity=&quot;left|start&quot;`.)"
-        errorLine1="    android:layout_gravity=&quot;left&quot;"
+        errorLine1="    android:layout_gravity=&quot;left&quot;"
         errorLine2="                            ~~~~">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="25"
             column="29"/>
     </issue>
@@ -1899,10 +1959,10 @@ For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStar
 For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStart` and `layout_marginStart`. *NOTE*: If your `minSdkVersion` is less than 17, you should add *both* the older left/right attributes *as well as* the new start/right attributes. On older platforms, where RTL is not supported and the start/right attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.
 
 (Note: For `Gravity#LEFT` and `Gravity#START`, you can use these constants even when targeting older platforms, because the `start` bitmask is a superset of the `left` bitmask. Therefore, you can use `gravity=&quot;start&quot;` rather than `gravity=&quot;left|start&quot;`.)"
-        errorLine1="    android:layout_gravity=&quot;right&quot;"
+        errorLine1="    android:layout_gravity=&quot;right&quot;"
         errorLine2="                            ~~~~~">
         <location
-            file="./osmdroid-android/src/main/res/layout/bonuspack_bubble.xml"
+            file=".\osmdroid-android\src\main\res\layout\bonuspack_bubble.xml"
             line="33"
             column="29"/>
     </issue>

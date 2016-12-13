@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
+<area shape="rect" id="node2_1" href="./SampleCacheDownloaderCustomUI.html" title="org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI" alt="" coords="77,118,301,143"/>
+<area shape="rect" id="node2" href="./SampleCacheDownloaderCustomUI.html" title="&lt;TABLE&gt;" alt="" coords="66,107,311,155"/>
+<area shape="rect" id="node3_2" href="../../tileprovider/cachemanager/CacheManager.CacheManagerCallback.html" title="org.osmdroid.tileprovider.cachemanager.CacheManager.CacheManagerCallback" alt="" coords="209,11,365,53"/>
+<area shape="rect" id="node3" href="../../tileprovider/cachemanager/CacheManager.CacheManagerCallback.html" title="&lt;TABLE&gt;" alt="" coords="199,5,376,59"/>
+</map>

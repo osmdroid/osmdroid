@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Fri Oct 14 18:45:09 EDT 2016.<br/>
+Check performed at Mon Dec 12 19:55:58 EST 2016.<br/>
 0 errors and 19 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -90,13 +90,13 @@ Check performed at Fri Oct 14 18:45:09 EDT 2016.<br/>
 <div class="id"><a href="#" title="Return to top">DefaultLocale: Implied default locale in case conversion</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/forge/app/MainActivity.java">../../src/main/java/org/osmdroid/forge/app/MainActivity.java</a>:195</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno"> 192</span>         File[] files = f.listFiles(new FileFilter() {
-<span class="lineno"> 193</span>             @Override
-<span class="lineno"> 194</span>             public boolean accept(File pathname) {
-<span class="lineno"> 195</span>                 if (pathname.getName().<span class="errorspan">toLowerCase().endsWith(".map"))</span>
-<span class="lineno"> 196</span>                     return true;
-<span class="lineno"> 197</span>                 return false;
+<span class="location"><a href="../../src/main/java/org/osmdroid/forge/app/MainActivity.java">../../src/main/java/org/osmdroid/forge/app/MainActivity.java</a>:193</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 190</span>         File[] files = f.listFiles(new FileFilter() {
+<span class="lineno"> 191</span>             @Override
+<span class="lineno"> 192</span>             public boolean accept(File pathname) {
+<span class="lineno"> 193</span>                 if (pathname.getName().<span class="errorspan">toLowerCase().endsWith(".map"))</span>
+<span class="lineno"> 194</span>                     return true;
+<span class="lineno"> 195</span>                 return false;
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -120,7 +120,7 @@ If you want the methods to just perform ASCII replacement, for example to conver
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;uses-sdk
 <span class="lineno">   6</span>         android:minSdkVersion="10"
-<span class="lineno">   7</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   7</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   8</span> 
 <span class="lineno">   9</span>     &lt;supports-screens
 </pre>
@@ -144,19 +144,19 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  21</span> 
 <span class="lineno">  22</span> dependencies {
 <span class="lineno">  23</span>     //Android stuff
-<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
 <span class="lineno">  25</span> 
 <span class="lineno">  26</span>     //crash logging
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:34</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:34</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  31</span>     compile project(':osmdroid-mapsforge')
 <span class="lineno">  32</span> 
 <span class="lineno">  33</span>     //test support
-<span class="lineno">  34</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  34</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  35</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -181,7 +181,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  21</span> 
 <span class="lineno">  22</span> dependencies {
 <span class="lineno">  23</span>     //Android stuff
-<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
 <span class="lineno">  25</span> 
 <span class="lineno">  26</span>     //crash logging
 </pre>
@@ -189,7 +189,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  31</span>     compile project(':osmdroid-mapsforge')
 <span class="lineno">  32</span> 
 <span class="lineno">  33</span>     //test support
-<span class="lineno">  34</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  34</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  35</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -197,7 +197,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  32</span> 
 <span class="lineno">  33</span>     //test support
 <span class="lineno">  34</span>     androidTestCompile 'com.android.support:support-annotations:23+'
-<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
+<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 <span class="lineno">  37</span> 
 </pre>
@@ -205,7 +205,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  33</span>     //test support
 <span class="lineno">  34</span>     androidTestCompile 'com.android.support:support-annotations:23+'
 <span class="lineno">  35</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
-<span class="lineno">  36</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
+<span class="lineno">  36</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
 <span class="lineno">  37</span> 
 <span class="lineno">  38</span>     testCompile "junit:junit:${project.property('junit.version')}"
 </pre>
@@ -230,7 +230,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   3</span>     package="org.osmdroid.forge.app">
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;uses-sdk
-<span class="lineno">   6</span>         <span class="errorspan">android:minSdkVersion="10"</span>
+<span class="lineno">   6</span>         <span class="errorspan">android:minSdkVersion="10"</span>
 <span class="lineno">   7</span>         android:targetSdkVersion="23" />
 <span class="lineno">   8</span> 
 </pre>
@@ -238,7 +238,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;uses-sdk
 <span class="lineno">   6</span>         android:minSdkVersion="10"
-<span class="lineno">   7</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   7</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   8</span> 
 <span class="lineno">   9</span>     &lt;supports-screens
 </pre>
@@ -265,7 +265,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno">  34</span>         android:name="android.hardware.wifi"
 <span class="lineno">  35</span>         android:required="false" />
 <span class="lineno">  36</span> 
-<span class="lineno">  37</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  37</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  38</span>         android:name=".OsmApplication"
 <span class="lineno">  39</span>         android:allowBackup="true"
 </pre>
@@ -305,7 +305,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="location"><a href="../../src/main/res/values/colors.xml">../../src/main/res/values/colors.xml</a>:3</span>: <span class="message">The resource <code>R.color.colorPrimary</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
-<span class="lineno">   3</span>     &lt;color <span class="errorspan">name="colorPrimary">#3F51B5&lt;/color></span>
+<span class="lineno">   3</span>     &lt;color <span class="errorspan">name="colorPrimary">#3F51B5&lt;/color></span>
 <span class="lineno">   4</span>     &lt;color name="colorPrimaryDark">#303F9F&lt;/color>
 <span class="lineno">   5</span>     &lt;color name="colorAccent">#FF4081&lt;/color>
 </pre>
@@ -313,7 +313,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
 <span class="lineno">   3</span>     &lt;color name="colorPrimary">#3F51B5&lt;/color>
-<span class="lineno">   4</span>     &lt;color <span class="errorspan">name="colorPrimaryDark">#303F9F&lt;/color></span>
+<span class="lineno">   4</span>     &lt;color <span class="errorspan">name="colorPrimaryDark">#303F9F&lt;/color></span>
 <span class="lineno">   5</span>     &lt;color name="colorAccent">#FF4081&lt;/color>
 <span class="lineno">   6</span> &lt;/resources>
 </pre>
@@ -321,7 +321,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   2</span> &lt;resources>
 <span class="lineno">   3</span>     &lt;color name="colorPrimary">#3F51B5&lt;/color>
 <span class="lineno">   4</span>     &lt;color name="colorPrimaryDark">#303F9F&lt;/color>
-<span class="lineno">   5</span>     &lt;color <span class="errorspan">name="colorAccent">#FF4081&lt;/color></span>
+<span class="lineno">   5</span>     &lt;color <span class="errorspan">name="colorAccent">#FF4081&lt;/color></span>
 <span class="lineno">   6</span> &lt;/resources>
 <span class="lineno">   7</span> 
 </pre>
@@ -329,7 +329,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   2</span>     &lt;!-- Default screen margins, per the Android Design guidelines. -->
 <span class="lineno">   3</span>     &lt;dimen name="activity_horizontal_margin">16dp&lt;/dimen>
 <span class="lineno">   4</span>     &lt;dimen name="activity_vertical_margin">16dp&lt;/dimen>
-<span class="lineno">   5</span>     &lt;dimen <span class="errorspan">name="fab_margin">16dp&lt;/dimen></span>
+<span class="lineno">   5</span>     &lt;dimen <span class="errorspan">name="fab_margin">16dp&lt;/dimen></span>
 <span class="lineno">   6</span> &lt;/resources>
 <span class="lineno">   7</span> 
 </pre>
@@ -377,7 +377,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno">  34</span>         android:name="android.hardware.wifi"
 <span class="lineno">  35</span>         android:required="false" />
 <span class="lineno">  36</span> 
-<span class="lineno">  37</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  37</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  38</span>         android:name=".OsmApplication"
 <span class="lineno">  39</span>         android:allowBackup="true"
 </pre>
@@ -403,13 +403,13 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <div class="id"><a href="#" title="Return to top">SetTextI18n: TextView Internationalization</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/forge/app/MainActivity.java">../../src/main/java/org/osmdroid/forge/app/MainActivity.java</a>:162</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 159</span>             @Override
-<span class="lineno"> 160</span>             public boolean onScroll(ScrollEvent event) {
-<span class="lineno"> 161</span>                 IGeoPoint mapCenter = mMap.getMapCenter();
-<span class="lineno"> 162</span>                 currentCenter.setText(<span class="errorspan">mapCenter.getLatitude() + "," + mapCenter.getLongitude() + " " + mMap.getZoomLevel());</span>
-<span class="lineno"> 163</span>                 return false;
-<span class="lineno"> 164</span>             }
+<span class="location"><a href="../../src/main/java/org/osmdroid/forge/app/MainActivity.java">../../src/main/java/org/osmdroid/forge/app/MainActivity.java</a>:160</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 157</span>             @Override
+<span class="lineno"> 158</span>             public boolean onScroll(ScrollEvent event) {
+<span class="lineno"> 159</span>                 IGeoPoint mapCenter = mMap.getMapCenter();
+<span class="lineno"> 160</span>                 currentCenter.setText(<span class="errorspan">mapCenter.getLatitude() + "," + mapCenter.getLongitude() + " " + mMap.getZoomLevel());</span>
+<span class="lineno"> 161</span>                 return false;
+<span class="lineno"> 162</span>             }
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -438,7 +438,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  24</span>         android:background="@android:color/black"
 <span class="lineno">  25</span>         android:textColor="@android:color/white"
 <span class="lineno">  26</span>         android:layout_alignParentTop="true"
-<span class="lineno">  27</span>         <span class="errorspan">android:layout_alignParentRight="true"/></span>
+<span class="lineno">  27</span>         <span class="errorspan">android:layout_alignParentRight="true"/></span>
 <span class="lineno">  28</span> &lt;/RelativeLayout>
 <span class="lineno">  29</span> 
 </pre>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.2">
+<issues format="4" by="lint 25.2.3">
 
     <issue
         id="MissingPermission"
@@ -11,11 +11,11 @@
         explanation="This check scans through your code and libraries and looks at the APIs being used, and checks this against the set of permissions required to access those APIs. If the code using those APIs is called at runtime, then the program will crash.
 
 Furthermore, for permissions that are revocable (with targetSdkVersion 23), client code must also be prepared to handle the calls throwing an exception if the user rejects the request for permission at runtime."
-        errorLine1="  mGoogleMap.setMyLocationEnabled(aEnabled);"
+        errorLine1="  mGoogleMap.setMyLocationEnabled(aEnabled);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/MapWrapper.java"
+            file=".\osmdroid-third-party\src\main\java\org\osmdroid\google\wrapper\v2\MapWrapper.java"
             line="105"
             column="3"/>
     </issue>
@@ -36,11 +36,11 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="  final GoogleMap map = aMapFragment.getMap();"
+        errorLine1="  final GoogleMap map = aMapFragment.getMap();"
         errorLine2="                                     ~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/MapFactory.java"
+            file=".\osmdroid-third-party\src\main\java\org\osmdroid\google\wrapper\v2\MapFactory.java"
             line="28"
             column="38"/>
     </issue>
@@ -57,11 +57,11 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
 To fix this issue, set the `targetSdkVersion` to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         url="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         urls="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/src/main/AndroidManifest.xml"
+            file=".\osmdroid-third-party\src\main\AndroidManifest.xml"
             line="6"
             column="38"/>
     </issue>
@@ -69,16 +69,16 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1"
+        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 10.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/build.gradle"
+            file=".\osmdroid-third-party\build.gradle"
             line="20"
             column="5"/>
     </issue>
@@ -86,16 +86,16 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1"
+        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 10.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/build.gradle"
+            file=".\osmdroid-third-party\build.gradle"
             line="21"
             column="5"/>
     </issue>
@@ -108,11 +108,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/build.gradle"
+            file=".\osmdroid-third-party\build.gradle"
             line="20"
             column="5"/>
     </issue>
@@ -125,11 +125,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-third-party/build.gradle"
+            file=".\osmdroid-third-party\build.gradle"
             line="21"
             column="5"/>
     </issue>
@@ -142,10 +142,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
+        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/AndroidManifest.xml"
+            file=".\osmdroid-third-party\src\main\AndroidManifest.xml"
             line="4"
             column="3"/>
     </issue>
@@ -153,15 +153,15 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6-SNAPSHOT`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
+        errorLine1="  android:versionCode=&quot;1&quot; android:versionName=&quot;5.3-SNAPSHOT&quot;>"
         errorLine2="                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/AndroidManifest.xml"
+            file=".\osmdroid-third-party\src\main\AndroidManifest.xml"
             line="4"
             column="27"/>
     </issue>
@@ -174,10 +174,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/AndroidManifest.xml"
+            file=".\osmdroid-third-party\src\main\AndroidManifest.xml"
             line="6"
             column="12"/>
     </issue>
@@ -190,10 +190,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1=" &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/AndroidManifest.xml"
+            file=".\osmdroid-third-party\src\main\AndroidManifest.xml"
             line="6"
             column="38"/>
     </issue>
@@ -210,10 +210,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
 This is *particularly* useful when the value types are primitives like ints, where you can use `SparseIntArray` and avoid auto-boxing the values from `int` to `Integer`.
 
 If you need to construct a `HashMap` because you need to call an API outside of your control which requires a `Map`, you can suppress this warning using for example the `@SuppressLint` annotation."
-        errorLine1="   mPolylines = new HashMap&lt;Integer, GooglePolylineOverlay>();"
+        errorLine1="   mPolylines = new HashMap&lt;Integer, GooglePolylineOverlay>();"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/GoogleV1MapWrapper.java"
+            file=".\osmdroid-third-party\src\main\java\org\osmdroid\google\wrapper\v2\GoogleV1MapWrapper.java"
             line="149"
             column="17"/>
     </issue>
@@ -230,10 +230,10 @@ If you need to construct a `HashMap` because you need to call an API outside of 
 This is *particularly* useful when the value types are primitives like ints, where you can use `SparseIntArray` and avoid auto-boxing the values from `int` to `Integer`.
 
 If you need to construct a `HashMap` because you need to call an API outside of your control which requires a `Map`, you can suppress this warning using for example the `@SuppressLint` annotation."
-        errorLine1="   mPolylines = new HashMap&lt;Integer, com.google.android.gms.maps.model.Polyline>();"
+        errorLine1="   mPolylines = new HashMap&lt;Integer, com.google.android.gms.maps.model.Polyline>();"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-third-party/src/main/java/org/osmdroid/google/wrapper/v2/MapWrapper.java"
+            file=".\osmdroid-third-party\src\main\java\org\osmdroid\google\wrapper\v2\MapWrapper.java"
             line="144"
             column="17"/>
     </issue>

@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./USGSTileSource.html" title="org.osmdroid.samplefragments.tilesources.USGSTileSource" alt="" coords="31,113,149,138"/>
+<area shape="rect" id="node1" href="./USGSTileSource.html" title="&lt;TABLE&gt;" alt="" coords="21,101,159,149"/>
+<area shape="rect" id="node2_1" href="../../tileprovider/tilesource/OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="16,17,164,42"/>
+<area shape="rect" id="node2" href="../../tileprovider/tilesource/OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="5,5,175,53"/>
+</map>

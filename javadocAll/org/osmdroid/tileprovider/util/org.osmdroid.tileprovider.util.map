@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./StreamUtils.html" title="org.osmdroid.tileprovider.util.StreamUtils" alt="" coords="16,17,104,42"/>
+<area shape="rect" id="node1" href="./StreamUtils.html" title="&lt;TABLE&gt;" alt="" coords="5,5,115,53"/>
+<area shape="rect" id="node2_1" href="./CloudmadeUtil.html" title="org.osmdroid.tileprovider.util.CloudmadeUtil" alt="" coords="149,17,253,42"/>
+<area shape="rect" id="node2" href="./CloudmadeUtil.html" title="&lt;TABLE&gt;" alt="" coords="139,5,264,53"/>
+<area shape="rect" id="node3_2" href="./Counters.html" title="org.osmdroid.tileprovider.util.Counters" alt="" coords="299,17,371,42"/>
+<area shape="rect" id="node3" href="./Counters.html" title="&lt;TABLE&gt;" alt="" coords="288,5,381,53"/>
+<area shape="rect" id="node4_3" href="./ManifestUtil.html" title="org.osmdroid.tileprovider.util.ManifestUtil" alt="" coords="416,17,504,42"/>
+<area shape="rect" id="node4" href="./ManifestUtil.html" title="&lt;TABLE&gt;" alt="" coords="405,5,515,53"/>
+<area shape="rect" id="node5_4" href="./SimpleInvalidationHandler.html" title="org.osmdroid.tileprovider.util.SimpleInvalidationHandler" alt="" coords="550,17,717,42"/>
+<area shape="rect" id="node5" href="./SimpleInvalidationHandler.html" title="&lt;TABLE&gt;" alt="" coords="539,5,727,53"/>
+<area shape="rect" id="node6_5" href="./SimpleRegisterReceiver.html" title="org.osmdroid.tileprovider.util.SimpleRegisterReceiver" alt="" coords="762,17,918,42"/>
+<area shape="rect" id="node6" href="./SimpleRegisterReceiver.html" title="&lt;TABLE&gt;" alt="" coords="751,5,929,53"/>
+<area shape="rect" id="node7_6" href="./StorageUtils.html" title="org.osmdroid.tileprovider.util.StorageUtils" alt="" coords="964,17,1055,42"/>
+<area shape="rect" id="node7" href="./StorageUtils.html" title="&lt;TABLE&gt;" alt="" coords="953,5,1065,53"/>
+<area shape="rect" id="node8_7" href="./StorageUtils.StorageInfo.html" title="org.osmdroid.tileprovider.util.StorageUtils.StorageInfo" alt="" coords="1101,17,1185,42"/>
+<area shape="rect" id="node8" href="./StorageUtils.StorageInfo.html" title="&lt;TABLE&gt;" alt="" coords="1090,5,1195,53"/>
+</map>

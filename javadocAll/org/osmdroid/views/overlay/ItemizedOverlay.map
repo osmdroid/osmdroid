@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../../samplefragments/models/SampleItemizedOverlay.html" title="org.osmdroid.samplefragments.models.SampleItemizedOverlay" alt="" coords="16,214,172,239"/>
+<area shape="rect" id="node1" href="../../samplefragments/models/SampleItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="5,203,183,251"/>
+<area shape="rect" id="node2_1" href="./ItemizedIconOverlay.html" title="org.osmdroid.views.overlay.ItemizedIconOverlay" alt="" coords="218,214,517,239"/>
+<area shape="rect" id="node2" href="./ItemizedIconOverlay.html" title="&lt;TABLE&gt;" alt="" coords="207,203,527,251"/>
+<area shape="rect" id="node3_2" href="./ItemizedOverlay.html" title="org.osmdroid.views.overlay.ItemizedOverlay" alt="" coords="92,118,368,143"/>
+<area shape="rect" id="node3" href="./ItemizedOverlay.html" title="&lt;TABLE&gt;" alt="" coords="81,107,379,155"/>
+<area shape="rect" id="node4_3" href="./Overlay.html" title="org.osmdroid.views.overlay.Overlay" alt="" coords="140,19,203,45"/>
+<area shape="rect" id="node4" href="./Overlay.html" title="&lt;TABLE&gt;" alt="" coords="129,8,213,56"/>
+<area shape="rect" id="node5_4" href="./Overlay.Snappable.html" title="org.osmdroid.views.overlay.Overlay.Snappable" alt="" coords="249,11,331,53"/>
+<area shape="rect" id="node5" href="./Overlay.Snappable.html" title="&lt;TABLE&gt;" alt="" coords="238,5,342,59"/>
+</map>

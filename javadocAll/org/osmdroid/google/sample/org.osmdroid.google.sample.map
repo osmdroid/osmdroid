@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Googlev1WrapperSample.html" title="org.osmdroid.google.sample.Googlev1WrapperSample" alt="" coords="16,17,181,42"/>
+<area shape="rect" id="node1" href="./Googlev1WrapperSample.html" title="&lt;TABLE&gt;" alt="" coords="5,5,192,53"/>
+<area shape="rect" id="node2_1" href="./Googlev2WrapperSample.html" title="org.osmdroid.google.sample.Googlev2WrapperSample" alt="" coords="227,17,392,42"/>
+<area shape="rect" id="node2" href="./Googlev2WrapperSample.html" title="&lt;TABLE&gt;" alt="" coords="216,5,403,53"/>
+<area shape="rect" id="node3_2" href="./MainActivity.html" title="org.osmdroid.google.sample.MainActivity" alt="" coords="438,17,527,42"/>
+<area shape="rect" id="node3" href="./MainActivity.html" title="&lt;TABLE&gt;" alt="" coords="427,5,538,53"/>
+<area shape="rect" id="node4_3" href="./MapsActivity.html" title="org.osmdroid.google.sample.MapsActivity" alt="" coords="573,17,667,42"/>
+<area shape="rect" id="node4" href="./MapsActivity.html" title="&lt;TABLE&gt;" alt="" coords="563,5,677,53"/>
+<area shape="rect" id="node5_4" href="./OsmMapActivity.html" title="org.osmdroid.google.sample.OsmMapActivity" alt="" coords="712,17,827,42"/>
+<area shape="rect" id="node5" href="./OsmMapActivity.html" title="&lt;TABLE&gt;" alt="" coords="701,5,837,53"/>
+<area shape="rect" id="node6_5" href="./MainActivityTest.html" title="org.osmdroid.google.sample.MainActivityTest" alt="" coords="872,17,987,42"/>
+<area shape="rect" id="node6" href="./MainActivityTest.html" title="&lt;TABLE&gt;" alt="" coords="861,5,997,53"/>
+</map>

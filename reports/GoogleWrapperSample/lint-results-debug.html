@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Fri Oct 14 18:43:41 EDT 2016.<br/>
+Check performed at Mon Dec 12 19:52:56 EST 2016.<br/>
 1 errors and 28 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -92,7 +92,7 @@ Check performed at Fri Oct 14 18:43:41 EDT 2016.<br/>
 <span class="lineno"> 106</span>         if (!permissions.isEmpty()) {
 <span class="lineno"> 107</span>             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
 <span class="lineno"> 108</span>             String[] params = permissions.toArray(new String[permissions.size()]);
-<span class="lineno"> 109</span>             <span class="errorspan">requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);</span>
+<span class="lineno"> 109</span>             <span class="errorspan">requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);</span>
 <span class="lineno"> 110</span>         } // else: We already have permissions, so handle as normal
 <span class="lineno"> 111</span>     }
 </pre>
@@ -125,7 +125,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid.google.sample">
-<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </pre>
@@ -153,7 +153,7 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
 <span class="lineno">  15</span>         android:text="PLACEHOLDER"
-<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
+<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
 <span class="lineno">  17</span>         android:gravity="center"
 <span class="lineno">  18</span>         android:textColor="@android:color/white"
 </pre>
@@ -178,51 +178,51 @@ Note: This check does not only apply to attributes. For example, some tags can b
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:24</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  21</span> 
 <span class="lineno">  22</span> dependencies {
 <span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
-<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
 <span class="lineno">  25</span>     //this covers google maps v2 apis
 <span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:26</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:26</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 10.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
 <span class="lineno">  24</span>     compile 'com.android.support:appcompat-v7:23.+'
 <span class="lineno">  25</span>     //this covers google maps v2 apis
-<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:28</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:28</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 10.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  25</span>     //this covers google maps v2 apis
 <span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
 <span class="lineno">  27</span> 
-<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
 <span class="lineno">  29</span> 
 <span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  29</span> 
-<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
 <span class="lineno">  31</span>     compile 'com.android.support:appcompat-v7:23.1.1'
 <span class="lineno">  32</span>     compile project(':osmdroid-android')
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:31</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:31</span>: <span class="message">A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  29</span> 
 <span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
-<span class="lineno">  31</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.1.1'</span>
+<span class="lineno">  31</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.1.1'</span>
 <span class="lineno">  32</span>     compile project(':osmdroid-android')
 <span class="lineno">  33</span>     compile project(':osmdroid-third-party')
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:35</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:35</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  32</span>     compile project(':osmdroid-android')
 <span class="lineno">  33</span>     compile project(':osmdroid-third-party')
 <span class="lineno">  34</span> 
-<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -247,7 +247,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  21</span> 
 <span class="lineno">  22</span> dependencies {
 <span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
-<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
+<span class="lineno">  24</span>     <span class="errorspan">compile 'com.android.support:appcompat-v7:23.+'</span>
 <span class="lineno">  25</span>     //this covers google maps v2 apis
 <span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
 </pre>
@@ -255,7 +255,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  23</span>     testCompile "junit:junit:${project.property('junit.version')}"
 <span class="lineno">  24</span>     compile 'com.android.support:appcompat-v7:23.+'
 <span class="lineno">  25</span>     //this covers google maps v2 apis
-<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  26</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 </pre>
@@ -263,7 +263,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  25</span>     //this covers google maps v2 apis
 <span class="lineno">  26</span>     compile 'com.google.android.gms:play-services:8.+'
 <span class="lineno">  27</span> 
-<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  28</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
 <span class="lineno">  29</span> 
 <span class="lineno">  30</span>     compile 'com.android.support:support-v4:23+'
 </pre>
@@ -271,7 +271,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  29</span> 
-<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
 <span class="lineno">  31</span>     compile 'com.android.support:appcompat-v7:23.1.1'
 <span class="lineno">  32</span>     compile project(':osmdroid-android')
 </pre>
@@ -279,7 +279,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  32</span>     compile project(':osmdroid-android')
 <span class="lineno">  33</span>     compile project(':osmdroid-third-party')
 <span class="lineno">  34</span> 
-<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  35</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -287,7 +287,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  33</span>     compile project(':osmdroid-third-party')
 <span class="lineno">  34</span> 
 <span class="lineno">  35</span>     androidTestCompile 'com.android.support:support-annotations:23+'
-<span class="lineno">  36</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
+<span class="lineno">  36</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
 <span class="lineno">  37</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 <span class="lineno">  38</span> 
 </pre>
@@ -295,7 +295,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  34</span> 
 <span class="lineno">  35</span>     androidTestCompile 'com.android.support:support-annotations:23+'
 <span class="lineno">  36</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
-<span class="lineno">  37</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
+<span class="lineno">  37</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
 <span class="lineno">  38</span> 
 <span class="lineno">  39</span> 
 </pre>
@@ -320,7 +320,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid.google.sample">
-<span class="lineno">   4</span>     &lt;uses-sdk <span class="errorspan">android:minSdkVersion="9" android:targetSdkVersion="23" /></span>
+<span class="lineno">   4</span>     &lt;uses-sdk <span class="errorspan">android:minSdkVersion="9" android:targetSdkVersion="23" /></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </pre>
@@ -328,7 +328,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid.google.sample">
-<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   4</span>     &lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span>     &lt;uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </pre>
@@ -355,7 +355,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno">  17</span>     &lt;uses-feature android:name="android.hardware.wifi" android:required="false" />
 <span class="lineno">  18</span>     &lt;uses-feature android:glEsVersion="0x00020000" android:required="false"/>
 <span class="lineno">  19</span>     
-<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  21</span>         android:allowBackup="true"
 <span class="lineno">  22</span>         android:icon="@drawable/icon"
 </pre>
@@ -396,7 +396,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;string name="app_name">OSMDroid 3rd Party Examples&lt;/string>
 <span class="lineno">   6</span> 
-<span class="lineno">   7</span>     &lt;string <span class="errorspan">name="map_view_google_v1">Google Map v1&lt;/string></span>
+<span class="lineno">   7</span>     &lt;string <span class="errorspan">name="map_view_google_v1">Google Map v1&lt;/string></span>
 <span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
 </pre>
@@ -404,7 +404,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   5</span>     &lt;string name="app_name">OSMDroid 3rd Party Examples&lt;/string>
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
-<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="map_view_google_v2">Google Map v2&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="map_view_google_v2">Google Map v2&lt;/string></span>
 <span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="map_view_osm">OpenStreetMap&lt;/string>
 </pre>
@@ -412,7 +412,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="map_view_osm">OpenStreetMap&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="google_app_id">Android key 1&lt;/string>
 </pre>
@@ -420,7 +420,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">   7</span>     &lt;string name="map_view_google_v1">Google Map v1&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="map_view_google_v2">Google Map v2&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="map_view_osm_bing_aerial">OSMDroid with Bing Maps&lt;/string>
-<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="map_view_osm">OpenStreetMap&lt;/string></span>
+<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="map_view_osm">OpenStreetMap&lt;/string></span>
 <span class="lineno">  11</span>     &lt;string name="google_app_id">Android key 1&lt;/string>
 <span class="lineno">  12</span> 
 </pre>
@@ -471,7 +471,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno">  17</span>     &lt;uses-feature android:name="android.hardware.wifi" android:required="false" />
 <span class="lineno">  18</span>     &lt;uses-feature android:glEsVersion="0x00020000" android:required="false"/>
 <span class="lineno">  19</span>     
-<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  20</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  21</span>         android:allowBackup="true"
 <span class="lineno">  22</span>         android:icon="@drawable/icon"
 </pre>
@@ -501,7 +501,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
-<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
+<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
 <span class="lineno">  16</span>         android:textAlignment="center"
 <span class="lineno">  17</span>         android:gravity="center"
 </pre>

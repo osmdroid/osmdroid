@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Configuration.html" title="org.osmdroid.config.Configuration" alt="" coords="16,19,111,45"/>
+<area shape="rect" id="node1" href="./Configuration.html" title="&lt;TABLE&gt;" alt="" coords="5,8,121,56"/>
+<area shape="rect" id="node2_1" href="./DefaultConfigurationProvider.html" title="org.osmdroid.config.DefaultConfigurationProvider" alt="" coords="139,118,319,143"/>
+<area shape="rect" id="node2" href="./DefaultConfigurationProvider.html" title="&lt;TABLE&gt;" alt="" coords="128,107,329,155"/>
+<area shape="rect" id="node3_2" href="./IConfigurationProvider.html" title="org.osmdroid.config.IConfigurationProvider" alt="" coords="157,11,301,53"/>
+<area shape="rect" id="node3" href="./IConfigurationProvider.html" title="&lt;TABLE&gt;" alt="" coords="146,5,311,59"/>
+</map>

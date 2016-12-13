@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20161014"/>
+    <meta name="Date-Revision-yyyymmdd" content="20161212"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2016-10-14
+                2016-12-12
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6-SNAPSHOT
+                5.6
             </li>
 
         </ul>
@@ -100,6 +100,11 @@
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
+                            </li> <li>
+
+                                <a href="Debugging-osmdroid.html" title="Debugging   osmdroid">
+                                    <span class="none"></span>
+                                    Debugging   osmdroid</a>
                             </li> <li>
 
                                 <a href="Developer-Guidelines.html" title="Developer   Guidelines">
@@ -195,6 +200,11 @@
                                 <a href="Tile-Caching-Settings.html" title="Tile   Caching   Settings">
                                     <span class="none"></span>
                                     Tile   Caching   Settings</a>
+                            </li> <li>
+
+                                <a href="Tile-Caching.html" title="Tile   Caching">
+                                    <span class="none"></span>
+                                    Tile   Caching</a>
                             </li> <li>
 
                                 <a href="Upgrade-Guide.html" title="Upgrade   Guide">
@@ -324,7 +334,20 @@
         <div id="bodyColumn" class="span10">
             <a name="topOfPage"></a>
             <h1>A guide for upgrading your app</h1>
-<h2>From version 5.4 to x.y (future placeholder)</h2>
+<h2>From version 5.6 to x.y</h2>
+<h2>From version 5.5 to 5.6 (under dev)</h2>
+<ul>
+<li>New overlay type added, efficient for many thousands of icons (up to 100k depending on device), see <code>SimpleFastPointOverlay</code></li>
+<li>The SqlTileWriter will at start up, will check its size and trim to be under the maximum size set by the OpenStreetMapTileProviderConstants setting. Expired tiles are not touched until the trim size is reached</li>
+<li>Behavior change for hardware acceleration. At start up, the osmdroid mapview is now automatically set to oftware acceleration mode only due to unpredictable crashes when using polylines or polygons. This behavior can be overridden using the constructor or by <code>Configuration.getInstance().setMapViewHardwareAccelerated()</code> before the MapView is created (layout inflation counts!)</li>
+<li><code>Overlay.onDraw()</code> is now a public method.</li>
+<li>OpenStreetMapTileProviderConstants has been majorly redesign and refactored. Sorry if I caused you pain, but having a class with the name&quot;constants&quot; in it always irked me since the were in fact configuration settings. So all settings that was there, have been relocated to the IConfiguration/DefaultConfiguration settings class. In addition, all of the debug settings throughout the code base have been moved there. Also included are some automagic classes to help you set the tile cache locations and to store and load from shared preferences. See the sample application's MainActivity</li>
+<li>Behavioral change for tile caching. At start up, osmdroid will now scan for all mounted partitions and storage devices and will use the device with the largest free space be default. If there's no other solutions, it will use application private storage. See the sample application's MainActivity to override, as always, you can set the Cache Directory via <code>Configuration.getInstance()</code>. This is a significant change and may cause unexpected behavior if you don't handle this situation in the future (the mount point with the most free space, can change, therefore you should handle setting the cache path as a user preference). Threadpools are now adjustable via this mechanism. User Agent is autopopulated by the application package name.</li>
+<li>Many bug fixes, most of the issues at zoom 19-22 were fixed</li>
+<li>Many changes to the sample app</li>
+</ul>
+<h2>From version 5.4 to 5.5</h2>
+<p>No APIs changes, just bug fixes</p>
 <h2>From version 5.4 to 5.4.1 (current release from 2016-09-13)</h2>
 <p>No APIs changes, just bug fixes</p>
 <h2>From version 5.2 to 5.4</h2>

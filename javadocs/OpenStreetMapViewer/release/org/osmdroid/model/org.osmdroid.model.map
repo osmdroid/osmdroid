@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BaseActivity.html" title="org.osmdroid.model.BaseActivity" alt="" coords="16,17,108,42"/>
+<area shape="rect" id="node1" href="./BaseActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,5,119,53"/>
+<area shape="rect" id="node2_1" href="./PositiveLongTextValidator.html" title="org.osmdroid.model.PositiveLongTextValidator" alt="" coords="154,17,322,42"/>
+<area shape="rect" id="node2" href="./PositiveLongTextValidator.html" title="&lt;TABLE&gt;" alt="" coords="143,5,333,53"/>
+<area shape="rect" id="node3_2" href="./PositiveShortTextValidator.html" title="org.osmdroid.model.PositiveShortTextValidator" alt="" coords="368,17,540,42"/>
+<area shape="rect" id="node3" href="./PositiveShortTextValidator.html" title="&lt;TABLE&gt;" alt="" coords="357,5,551,53"/>
+</map>

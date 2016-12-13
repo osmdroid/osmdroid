@@ -18,8 +18,8 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Fri Oct 14 18:44:54 EDT 2016.<br/>
-32 errors and 69 warnings found:<br/><br/>
+Check performed at Mon Dec 12 19:54:27 EST 2016.<br/>
+33 errors and 71 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
@@ -32,7 +32,7 @@ Check performed at Fri Oct 14 18:44:54 EDT 2016.<br/>
 <a href="#DefaultLocale">DefaultLocale: Implied default locale in case conversion</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#InlinedApi">InlinedApi: Using inlined constants on older versions</a>
 </td></tr>
 <tr>
@@ -44,12 +44,20 @@ Check performed at Fri Oct 14 18:44:54 EDT 2016.<br/>
 <a href="#OldTargetApi">OldTargetApi: Target SDK attribute is not targeting latest version</a>
 </td></tr>
 <tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#SdCardPath">SdCardPath: Hardcoded reference to <code>/sdcard</code></a>
+</td></tr>
+<tr>
 <td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#WrongCall">WrongCall: Using wrong draw/layout method</a>
 </td></tr>
 <tr>
 <td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#GradleOverrides">GradleOverrides: Value overridden by Gradle build script</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<a href="#ParcelCreator">ParcelCreator: Missing Parcelable <code>CREATOR</code> field</a>
 </td></tr>
 <tr>
 <td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
@@ -122,27 +130,27 @@ Check performed at Fri Oct 14 18:44:54 EDT 2016.<br/>
 <div class="id"><a href="#" title="Return to top">MissingPermission: Missing Permissions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:107</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 104</span> 		for (final String provider : mLocationManager.getProviders(true)) {
-<span class="lineno"> 105</span> 			if (locationSources.contains(provider)) {
-<span class="lineno"> 106</span> 				result = true;
-<span class="lineno"> 107</span> 				<span class="errorspan">mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,</span>
-<span class="lineno"> 108</span> 						mLocationUpdateMinDistance, this);
-<span class="lineno"> 109</span> 			}
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:109</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 106</span> 		for (final String provider : mLocationManager.getProviders(true)) {
+<span class="lineno"> 107</span> 			if (locationSources.contains(provider)) {
+<span class="lineno"> 108</span> 				result = true;
+<span class="lineno"> 109</span> 				<span class="errorspan">mLocationManager.requestLocationUpdates(provider, mLocationUpdateMinTime,</span>
+<span class="lineno"> 110</span> 						mLocationUpdateMinDistance, this);
+<span class="lineno"> 111</span> 			}
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:118</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 115</span> 	public void stopLocationProvider() {
-<span class="lineno"> 116</span> 		mMyLocationConsumer = null;
-<span class="lineno"> 117</span> 		if(mLocationManager != null){
-<span class="lineno"> 118</span> 			<span class="errorspan">mLocationManager.removeUpdates(this);</span>
-<span class="lineno"> 119</span> 		}
-<span class="lineno"> 120</span> 	}
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java">../../src/main/java/org/osmdroid/views/overlay/mylocation/GpsMyLocationProvider.java</a>:120</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 117</span> 	public void stopLocationProvider() {
+<span class="lineno"> 118</span> 		mMyLocationConsumer = null;
+<span class="lineno"> 119</span> 		if(mLocationManager != null){
+<span class="lineno"> 120</span> 			<span class="errorspan">mLocationManager.removeUpdates(this);</span>
+<span class="lineno"> 121</span> 		}
+<span class="lineno"> 122</span> 	}
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/LocationListenerProxy.java">../../src/main/java/org/osmdroid/LocationListenerProxy.java</a>:24</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
 <span class="lineno">  21</span> 			if (LocationManager.GPS_PROVIDER.equals(provider)
 <span class="lineno">  22</span> 					|| LocationManager.NETWORK_PROVIDER.equals(provider)) {
 <span class="lineno">  23</span> 				result = true;
-<span class="lineno">  24</span> 				<span class="errorspan">mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,</span>
+<span class="lineno">  24</span> 				<span class="errorspan">mLocationManager.requestLocationUpdates(provider, pUpdateTime, pUpdateDistance,</span>
 <span class="lineno">  25</span> 						this);
 <span class="lineno">  26</span> 			}
 </pre>
@@ -150,17 +158,17 @@ Check performed at Fri Oct 14 18:44:54 EDT 2016.<br/>
 <span class="lineno">  30</span> 
 <span class="lineno">  31</span> 	public void stopListening() {
 <span class="lineno">  32</span> 		mListener = null;
-<span class="lineno">  33</span> 		<span class="errorspan">mLocationManager.removeUpdates(this);</span>
+<span class="lineno">  33</span> 		<span class="errorspan">mLocationManager.removeUpdates(this);</span>
 <span class="lineno">  34</span> 	}
 <span class="lineno">  35</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/util/LocationUtils.java">../../src/main/java/org/osmdroid/util/LocationUtils.java</a>:49</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno">  46</span> 		} catch (final IllegalArgumentException e) {
-<span class="lineno">  47</span> 			return null;
-<span class="lineno">  48</span> 		}
-<span class="lineno">  49</span> 		return <span class="errorspan">pLocationManager.getLastKnownLocation(pProvider);</span>
-<span class="lineno">  50</span> 	}
-<span class="lineno">  51</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/util/LocationUtils.java">../../src/main/java/org/osmdroid/util/LocationUtils.java</a>:50</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno">  47</span> 		} catch (final IllegalArgumentException e) {
+<span class="lineno">  48</span> 			return null;
+<span class="lineno">  49</span> 		}
+<span class="lineno">  50</span> 		return <span class="errorspan">pLocationManager.getLastKnownLocation(pProvider);</span>
+<span class="lineno">  51</span> 	}
+<span class="lineno">  52</span> 
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -185,7 +193,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <span class="lineno">  56</span> 				//just to catch any potential out of index errors
 <span class="lineno">  57</span> 			}
 <span class="lineno">  58</span> 		}
-<span class="lineno">  59</span> 		Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.<span class="errorspan">toLowerCase());</span>
+<span class="lineno">  59</span> 		Class&lt;? extends IArchiveFile> aClass = extensionMap.get(extension.<span class="errorspan">toLowerCase());</span>
 <span class="lineno">  60</span> 		if (aClass!=null){
 <span class="lineno">  61</span> 			try {
 </pre>
@@ -193,7 +201,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <span class="lineno"> 634</span> 
 <span class="lineno"> 635</span> 		@Override
 <span class="lineno"> 636</span> 		public String toString() {
-<span class="lineno"> 637</span> 			return <span class="errorspan">String.format(</span>
+<span class="lineno"> 637</span> 			return <span class="errorspan">String.format(</span>
 <span class="lineno"> 638</span> 					"GEMF Range: source=%d, zoom=%d, x=%d-%d, y=%d-%d, offset=0x%08X",
 <span class="lineno"> 639</span> 					sourceIndex, zoom, xMin, xMax, yMin, yMax, offset);
 </pre>
@@ -215,11 +223,19 @@ If you want the methods to just perform ASCII replacement, for example to conver
 <div class="id"><a href="#" title="Return to top">InlinedApi: Using inlined constants on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:175</span>: <span class="message">Field requires API level 11 (current min is 8): <code>android.view.View#LAYER_TYPE_SOFTWARE</code></span><br /><pre class="errorlines">
+<span class="lineno"> 172</span> 			return;
+<span class="lineno"> 173</span> 		}
+<span class="lineno"> 174</span> 		if (!hardwareAccelerated &amp;&amp; Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 175</span> 			this.setLayerType(<span class="errorspan">View.LAYER_TYPE_SOFTWARE, null);</span>
+<span class="lineno"> 176</span> 		}
+<span class="lineno"> 177</span> 		this.mController = new MapController(this);
+</pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java">../../src/main/java/org/osmdroid/tileprovider/modules/NetworkAvailabliltyCheck.java</a>:45</span>: <span class="message">Field requires API level 13 (current min is 8): <code>android.net.ConnectivityManager#TYPE_ETHERNET</code></span><br /><pre class="errorlines">
 <span class="lineno">  42</span> 		if (networkInfo.isAvailable()) {
 <span class="lineno">  43</span> 			return true;
 <span class="lineno">  44</span> 		}
-<span class="lineno">  45</span> 		return mIsX86 &amp;&amp; networkInfo.getType() == <span class="errorspan">ConnectivityManager.TYPE_ETHERNET;</span>
+<span class="lineno">  45</span> 		return mIsX86 &amp;&amp; networkInfo.getType() == <span class="errorspan">ConnectivityManager.TYPE_ETHERNET;</span>
 <span class="lineno">  46</span> 	}
 <span class="lineno">  47</span> 
 </pre>
@@ -244,35 +260,35 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:297</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 294</span> 			} else {
-<span class="lineno"> 295</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
-<span class="lineno"> 296</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 297</span> 					<span class="errorspan">mCurrentAnimator = mZoomInAnimation;</span>
-<span class="lineno"> 298</span> 					mZoomInAnimation.start();
-<span class="lineno"> 299</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:302</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 299</span> 			} else {
+<span class="lineno"> 300</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) + 1);
+<span class="lineno"> 301</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 302</span> 					<span class="errorspan">mCurrentAnimator = mZoomInAnimation;</span>
+<span class="lineno"> 303</span> 					mZoomInAnimation.start();
+<span class="lineno"> 304</span> 				} else {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:330</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 327</span> 			} else {
-<span class="lineno"> 328</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) - 1);
-<span class="lineno"> 329</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-<span class="lineno"> 330</span> 					<span class="errorspan">mCurrentAnimator = mZoomOutAnimation;</span>
-<span class="lineno"> 331</span> 					mZoomOutAnimation.start();
-<span class="lineno"> 332</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:335</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 332</span> 			} else {
+<span class="lineno"> 333</span> 				mMapView.mTargetZoomLevel.set(mMapView.getZoomLevel(false) - 1);
+<span class="lineno"> 334</span> 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+<span class="lineno"> 335</span> 					<span class="errorspan">mCurrentAnimator = mZoomOutAnimation;</span>
+<span class="lineno"> 336</span> 					mZoomOutAnimation.start();
+<span class="lineno"> 337</span> 				} else {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:375</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
-<span class="lineno"> 372</span> 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
-<span class="lineno"> 373</span> 					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
-<span class="lineno"> 374</span> 
-<span class="lineno"> 375</span> 					<span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
-<span class="lineno"> 376</span> 					zoomToAnimator.start();
-<span class="lineno"> 377</span> 				} else {
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapController.java">../../src/main/java/org/osmdroid/views/MapController.java</a>:380</span>: <span class="message">Cast from ValueAnimator to Animator requires API level 11 (current min is 8)</span><br /><pre class="errorlines">
+<span class="lineno"> 377</span> 					zoomToAnimator.addUpdateListener(zoomAnimatorListener);
+<span class="lineno"> 378</span> 					zoomToAnimator.setDuration(ANIMATION_DURATION_SHORT);
+<span class="lineno"> 379</span> 
+<span class="lineno"> 380</span> 					<span class="errorspan">mCurrentAnimator = zoomToAnimator;</span>
+<span class="lineno"> 381</span> 					zoomToAnimator.start();
+<span class="lineno"> 382</span> 				} else {
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java">../../src/main/java/org/osmdroid/views/overlay/NonAcceleratedOverlay.java</a>:78</span>: <span class="message">Call requires API level 11 (current min is 8): <code>android.graphics.Canvas#isHardwareAccelerated</code></span><br /><pre class="errorlines">
-<span class="lineno">  75</span> 	protected final void draw(Canvas c, MapView osmv, boolean shadow) {
+<span class="lineno">  75</span> 	public final void draw(Canvas c, MapView osmv, boolean shadow) {
 <span class="lineno">  76</span> 		// First check to see if we want to use the backing bitmap
 <span class="lineno">  77</span> 		final boolean atLeastHoneycomb = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-<span class="lineno">  78</span> 		if (isUsingBackingBitmap() &amp;&amp; atLeastHoneycomb &amp;&amp; c.<span class="errorspan">isHardwareAccelerated()) {</span>
+<span class="lineno">  78</span> 		if (isUsingBackingBitmap() &amp;&amp; atLeastHoneycomb &amp;&amp; c.<span class="errorspan">isHardwareAccelerated()) {</span>
 <span class="lineno">  79</span> 			// Drawing a shadow layer would require a second backing Bitmap due to the way HW
 <span class="lineno">  80</span> 			// accelerated drawBitmap works. One could extend this Overlay to implement that if
 </pre>
@@ -305,7 +321,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -324,18 +340,44 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html">http://developer.android.com/reference/android/os/Build.VERSION_CODES.html</a>
 </div><br/>To suppress this error, use the issue id "OldTargetApi" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="SdCardPath"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java">../../src/main/java/org/osmdroid/config/DefaultConfigurationProvider.java</a>:268</span>: <span class="message">Do not hardcode "<code>/data/</code>"; use <code>Context.getFilesDir().getPath()</code> instead</span><br /><pre class="errorlines">
+<span class="lineno"> 265</span>             File discoveredCachPath = getOsmdroidTileCache();
+<span class="lineno"> 266</span>             if (!discoveredBestPath.exists() || !StorageUtils.isWritable(discoveredBestPath)) {
+<span class="lineno"> 267</span>                 //this should always be writable...
+<span class="lineno"> 268</span>                 discoveredCachPath=discoveredBestPath=new File(<span class="errorspan">"/data/data/" + ctx.getPackageName() + "/osmdroid/");</span>
+<span class="lineno"> 269</span>                 discoveredCachPath.mkdirs();
+<span class="lineno"> 270</span>             }
+</pre>
+</div>
+<div class="metadata">Priority: 6 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: Hardcoded reference to <code>/sdcard</code></div>
+<div class="explanation">
+Your code should not reference the <code>/sdcard</code> path directly; instead use <code>Environment.getExternalStorageDirectory().getPath()</code>.<br/>
+<br/>
+Similarly, do not reference the <code>/data/data/</code> path directly; it can vary in multi-user scenarios. Instead, use <code>Context.getFilesDir().getPath()</code>.
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal">http://developer.android.com/guide/topics/data/data-storage.html#filesExternal</a>
+</div><br/>To suppress this error, use the issue id "SdCardPath" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="WrongCall"></a>
 <div class="issue">
 <div class="id"><a href="#" title="Return to top">WrongCall: Using wrong draw/layout method</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:1038</span>: <span class="message">Suspicious method call; should probably call "<code>layout</code>" rather than "<code>onLayout</code>"</span><br /><pre class="errorlines">
-<span class="lineno">1035</span> 
-<span class="lineno">1036</span> 		// Force a layout, so that children are correctly positioned according to map orientation
-<span class="lineno">1037</span> 		if (getMapOrientation() != 0f)
-<span class="lineno">1038</span> 			<span class="errorspan">onLayout(true, getLeft(), getTop(), getRight(), getBottom());</span>
-<span class="lineno">1039</span> 
-<span class="lineno">1040</span> 		// do callback on listener
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/MapView.java">../../src/main/java/org/osmdroid/views/MapView.java</a>:1062</span>: <span class="message">Suspicious method call; should probably call "<code>layout</code>" rather than "<code>onLayout</code>"</span><br /><pre class="errorlines">
+<span class="lineno">1059</span> 
+<span class="lineno">1060</span> 		// Force a layout, so that children are correctly positioned according to map orientation
+<span class="lineno">1061</span> 		if (getMapOrientation() != 0f)
+<span class="lineno">1062</span> 			<span class="errorspan">onLayout(true, getLeft(), getTop(), getRight(), getBottom());</span>
+<span class="lineno">1063</span> 
+<span class="lineno">1064</span> 		// do callback on listener
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -358,15 +400,15 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
-<span class="lineno">   4</span> 		<span class="errorspan">android:versionCode="1" android:versionName="5.3-SNAPSHOT"></span>
+<span class="lineno">   4</span> 		<span class="errorspan">android:versionCode="1" android:versionName="5.3-SNAPSHOT"></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6-SNAPSHOT</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
-<span class="lineno">   4</span> 		android:versionCode="1" <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
+<span class="lineno">   4</span> 		android:versionCode="1" <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" android:targetSdkVersion="23" />
 </pre>
@@ -374,7 +416,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk <span class="errorspan">android:minSdkVersion="8" android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk <span class="errorspan">android:minSdkVersion="8" android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -382,7 +424,7 @@ Custom views typically need to call <code>measure()</code> on their children, no
 <span class="lineno">   3</span> 		package="org.osmdroid.library"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="8" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -396,6 +438,32 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "GradleOverrides" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="ParcelCreator"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">ParcelCreator: Missing Parcelable <code>CREATOR</code> field</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java">../../src/main/java/org/osmdroid/views/overlay/simplefastpoint/SimpleFastPointOverlay.java</a>:43</span>: <span class="message">This class implements <code>Parcelable</code> but does not provide a <code>CREATOR</code> field</span><br /><pre class="errorlines">
+<span class="lineno">  40</span>     private int prevNumPointers, numLabels;
+<span class="lineno">  41</span>     private BoundingBox prevBoundingBox = new BoundingBox(0, 0, 0, 0);
+<span class="lineno">  42</span> 
+<span class="lineno">  43</span>     public class <span class="errorspan">LabelledPoint extends Point {</span>
+<span class="lineno">  44</span>         private String mlabel;
+<span class="lineno">  45</span> 
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 3 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="error">Error</span><div class="summary">
+Explanation: Missing Parcelable <code>CREATOR</code> field.</div>
+<div class="explanation">
+According to the <code>Parcelable</code> interface documentation, "Classes implementing the Parcelable interface must also have a static field called <code>CREATOR</code>, which is an object implementing the <code>Parcelable.Creator</code> interface."
+</div>
+<br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Parcelable.html">http://developer.android.com/reference/android/os/Parcelable.html</a>
+</div><br/>To suppress this error, use the issue id "ParcelCreator" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="SpUsage"></a>
 <div class="issue">
 <div class="id"><a href="#" title="Return to top">SpUsage: Using <code>dp</code> instead of <code>sp</code> for text sizes</a><div class="issueSeparator"></div>
@@ -405,7 +473,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno">  37</span> 			android:layout_width="wrap_content"
 <span class="lineno">  38</span> 			android:layout_height="wrap_content"
 <span class="lineno">  39</span> 			android:textColor="#000000" 
-<span class="lineno">  40</span> 			<span class="errorspan">android:textSize="12dp"</span>
+<span class="lineno">  40</span> 			<span class="errorspan">android:textSize="12dp"</span>
 <span class="lineno">  41</span> 			android:maxEms="17"
 <span class="lineno">  42</span> 			android:text="Description" />
 </pre>
@@ -413,7 +481,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno">  44</span> 			android:layout_width="wrap_content"
 <span class="lineno">  45</span> 			android:layout_height="wrap_content"
 <span class="lineno">  46</span> 			android:textColor="#000000" 
-<span class="lineno">  47</span> 			<span class="errorspan">android:textSize="10dp"</span>
+<span class="lineno">  47</span> 			<span class="errorspan">android:textSize="10dp"</span>
 <span class="lineno">  48</span> 			android:maxEms="17"
 <span class="lineno">  49</span> 			android:text="Address"
 </pre>
@@ -441,7 +509,7 @@ There <b>are</b> cases where you might need to use <code>dp</code>; typically th
 <span class="lineno"> 335</span> 	}
 <span class="lineno"> 336</span> 
 <span class="lineno"> 337</span> 	private int getDisplayOrientation() {
-<span class="lineno"> 338</span> 		<span class="errorspan">switch (mDisplay.getOrientation()) {</span>
+<span class="lineno"> 338</span> 		<span class="errorspan">switch (mDisplay.getOrientation()) {</span>
 <span class="lineno"> 339</span> 		case Surface.ROTATION_90:
 <span class="lineno"> 340</span> 			return 90;
 </pre>
@@ -470,7 +538,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
-<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
 <span class="lineno">   9</span>     &lt;string name="samples">Samples&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 </pre>
@@ -478,7 +546,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="offline">Offline mode&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 </pre>
@@ -486,7 +554,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 <span class="lineno">  12</span> 
-<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
+<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
 <span class="lineno">  14</span> 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 </pre>
@@ -494,7 +562,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 <span class="lineno">  14</span> 
-<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="set_mode_offline">Set to offline mode&lt;/string></span>
+<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="set_mode_offline">Set to offline mode&lt;/string></span>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
 </pre>
@@ -502,7 +570,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 <span class="lineno">  14</span> 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
-<span class="lineno">  16</span>     &lt;string <span class="errorspan">name="set_mode_online">Set to online mode&lt;/string></span>
+<span class="lineno">  16</span>     &lt;string <span class="errorspan">name="set_mode_online">Set to online mode&lt;/string></span>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
 </pre>
@@ -512,7 +580,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
-<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
+<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
 </pre>
@@ -520,7 +588,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
-<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
+<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 </pre>
@@ -528,7 +596,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
-<span class="lineno">  21</span>     &lt;string <span class="errorspan">name="format_distance_meters">%s m&lt;/string></span>
+<span class="lineno">  21</span>     &lt;string <span class="errorspan">name="format_distance_meters">%s m&lt;/string></span>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 </pre>
@@ -536,7 +604,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
-<span class="lineno">  22</span>     &lt;string <span class="errorspan">name="format_distance_kilometers">%s km&lt;/string></span>
+<span class="lineno">  22</span>     &lt;string <span class="errorspan">name="format_distance_kilometers">%s km&lt;/string></span>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 </pre>
@@ -544,7 +612,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
-<span class="lineno">  23</span>     &lt;string <span class="errorspan">name="format_distance_miles">%s mi&lt;/string></span>
+<span class="lineno">  23</span>     &lt;string <span class="errorspan">name="format_distance_miles">%s mi&lt;/string></span>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 </pre>
@@ -552,7 +620,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
-<span class="lineno">  24</span>     &lt;string <span class="errorspan">name="format_distance_nautical_miles">%s nm&lt;/string></span>
+<span class="lineno">  24</span>     &lt;string <span class="errorspan">name="format_distance_nautical_miles">%s nm&lt;/string></span>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 <span class="lineno">  26</span> 
 </pre>
@@ -560,7 +628,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
-<span class="lineno">  25</span>     &lt;string <span class="errorspan">name="format_distance_feet">%s ft&lt;/string></span>
+<span class="lineno">  25</span>     &lt;string <span class="errorspan">name="format_distance_feet">%s ft&lt;/string></span>
 <span class="lineno">  26</span> 
 <span class="lineno">  27</span>     &lt;string name="compass">Compass&lt;/string>
 </pre>
@@ -568,7 +636,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 <span class="lineno">  26</span> 
-<span class="lineno">  27</span>     &lt;string <span class="errorspan">name="compass">Compass&lt;/string></span>
+<span class="lineno">  27</span>     &lt;string <span class="errorspan">name="compass">Compass&lt;/string></span>
 <span class="lineno">  28</span> 
 <span class="lineno">  29</span> &lt;/resources>
 </pre>
@@ -576,7 +644,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   2</span> &lt;resources>
 <span class="lineno">   3</span>     &lt;string name="mapnik" translatable="false">Mapnik&lt;/string>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
-<span class="lineno">   5</span>     &lt;string <span class="errorspan">name="public_transport">Public transport&lt;/string></span>
+<span class="lineno">   5</span>     &lt;string <span class="errorspan">name="public_transport">Public transport&lt;/string></span>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 </pre>
@@ -584,7 +652,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   3</span>     &lt;string name="mapnik" translatable="false">Mapnik&lt;/string>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
-<span class="lineno">   6</span>     &lt;string <span class="errorspan">name="base">OSM base layer&lt;/string></span>
+<span class="lineno">   6</span>     &lt;string <span class="errorspan">name="base">OSM base layer&lt;/string></span>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 </pre>
@@ -592,7 +660,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="mapquest_osm">Mapquest&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="mapquest_osm">Mapquest&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 </pre>
@@ -600,7 +668,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
-<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="mapquest_aerial">Mapquest Aerial&lt;/string></span>
+<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="mapquest_aerial">Mapquest Aerial&lt;/string></span>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 </pre>
@@ -608,7 +676,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
-<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="bing">Bing&lt;/string></span>
+<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="bing">Bing&lt;/string></span>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 </pre>
@@ -616,7 +684,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
-<span class="lineno">  12</span>     &lt;string <span class="errorspan">name="mapbox">MapBox&lt;/string></span>
+<span class="lineno">  12</span>     &lt;string <span class="errorspan">name="mapbox">MapBox&lt;/string></span>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
 </pre>
@@ -624,7 +692,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
-<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="fiets_nl">OpenFietsKaart overlay&lt;/string></span>
+<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="fiets_nl">OpenFietsKaart overlay&lt;/string></span>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
 <span class="lineno">  15</span>     &lt;string name="roads_nl">Netherlands roads overlay&lt;/string>
 </pre>
@@ -632,7 +700,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
-<span class="lineno">  14</span>     &lt;string <span class="errorspan">name="base_nl">Netherlands base overlay&lt;/string></span>
+<span class="lineno">  14</span>     &lt;string <span class="errorspan">name="base_nl">Netherlands base overlay&lt;/string></span>
 <span class="lineno">  15</span>     &lt;string name="roads_nl">Netherlands roads overlay&lt;/string>
 <span class="lineno">  16</span> &lt;/resources>
 </pre>
@@ -640,7 +708,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
-<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="roads_nl">Netherlands roads overlay&lt;/string></span>
+<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="roads_nl">Netherlands roads overlay&lt;/string></span>
 <span class="lineno">  16</span> &lt;/resources>
 <span class="lineno">  17</span> 
 </pre>
@@ -676,7 +744,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 168</span> 								0, yFile.getName().indexOf('.'))), yFile);
 <span class="lineno"> 169</span> 					}
 <span class="lineno"> 170</span> 
-<span class="lineno"> 171</span> 					xList.put(<span class="errorspan">new Integer(xDir.getName()), yList);</span>
+<span class="lineno"> 171</span> 					xList.put(<span class="errorspan">new Integer(xDir.getName()), yList);</span>
 <span class="lineno"> 172</span> 				}
 <span class="lineno"> 173</span> 
 </pre>
@@ -684,7 +752,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 182</span> 		final LinkedHashMap&lt;Integer, String> indexSource = new LinkedHashMap&lt;Integer, String>();
 <span class="lineno"> 183</span> 		int si = 0;
 <span class="lineno"> 184</span> 		for (final String source: dirIndex.keySet()) {
-<span class="lineno"> 185</span> 			sourceIndex.put(source, <span class="errorspan">new Integer(si));</span>
+<span class="lineno"> 185</span> 			sourceIndex.put(source, <span class="errorspan">new Integer(si));</span>
 <span class="lineno"> 186</span> 			indexSource.put(new Integer(si), source);
 <span class="lineno"> 187</span> 			++si;
 </pre>
@@ -692,7 +760,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 183</span> 		int si = 0;
 <span class="lineno"> 184</span> 		for (final String source: dirIndex.keySet()) {
 <span class="lineno"> 185</span> 			sourceIndex.put(source, new Integer(si));
-<span class="lineno"> 186</span> 			indexSource.put(<span class="errorspan">new Integer(si), source);</span>
+<span class="lineno"> 186</span> 			indexSource.put(<span class="errorspan">new Integer(si), source);</span>
 <span class="lineno"> 187</span> 			++si;
 <span class="lineno"> 188</span> 		}
 </pre>
@@ -700,7 +768,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 227</span> 
 <span class="lineno"> 228</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
 <span class="lineno"> 229</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
-<span class="lineno"> 230</span> 						if (xList.contains(<span class="errorspan">new Integer(i))) {</span>
+<span class="lineno"> 230</span> 						if (xList.contains(<span class="errorspan">new Integer(i))) {</span>
 <span class="lineno"> 231</span> 							xSet.add(new Integer(i));
 <span class="lineno"> 232</span> 						} else {
 </pre>
@@ -708,7 +776,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 228</span> 					List&lt;Integer> xSet = new ArrayList&lt;Integer>();
 <span class="lineno"> 229</span> 					for(int i = xList.first(); i &lt; xList.last() + 1; ++i) {
 <span class="lineno"> 230</span> 						if (xList.contains(new Integer(i))) {
-<span class="lineno"> 231</span> 							xSet.add(<span class="errorspan">new Integer(i));</span>
+<span class="lineno"> 231</span> 							xSet.add(<span class="errorspan">new Integer(i));</span>
 <span class="lineno"> 232</span> 						} else {
 <span class="lineno"> 233</span> 							if (xSet.size() > 0) {
 </pre>
@@ -716,7 +784,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 255</span> 					range.xMax = xList.last();
 <span class="lineno"> 256</span> 
 <span class="lineno"> 257</span> 					for(int i = yList.first(); i &lt; yList.last() + 1; ++i) {
-<span class="lineno"> 258</span> 						if (yList.contains(<span class="errorspan">new Integer(i))) {</span>
+<span class="lineno"> 258</span> 						if (yList.contains(<span class="errorspan">new Integer(i))) {</span>
 <span class="lineno"> 259</span> 							if (range.yMin == null) {
 <span class="lineno"> 260</span> 								range.yMin = i;
 </pre>
@@ -724,7 +792,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 477</span> 			baseFile.read(nameData, 0, sourceNameLength);
 <span class="lineno"> 478</span> 
 <span class="lineno"> 479</span> 			final String sourceName = new String(nameData);
-<span class="lineno"> 480</span> 			mSources.put(<span class="errorspan">new Integer(sourceIndex), sourceName);</span>
+<span class="lineno"> 480</span> 			mSources.put(<span class="errorspan">new Integer(sourceIndex), sourceName);</span>
 <span class="lineno"> 481</span> 		}
 <span class="lineno"> 482</span> 
 </pre>
@@ -732,7 +800,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno"> 520</span> 	 * with specified Z/X/Y coordinates will be returned.
 <span class="lineno"> 521</span> 	 */
 <span class="lineno"> 522</span> 	public void selectSource(final int pSource) {
-<span class="lineno"> 523</span> 		if (mSources.containsKey(<span class="errorspan">new Integer(pSource))) {</span>
+<span class="lineno"> 523</span> 		if (mSources.containsKey(<span class="errorspan">new Integer(pSource))) {</span>
 <span class="lineno"> 524</span> 			mSourceLimited = true;
 <span class="lineno"> 525</span> 			mCurrentSource = pSource;
 </pre>
@@ -757,7 +825,7 @@ You should not call the constructor for wrapper classes directly, such as`new In
 <span class="lineno">   3</span> 	android:layout_width="wrap_content"
 <span class="lineno">   4</span> 	android:layout_height="wrap_content" 
 <span class="lineno">   5</span> 	android:orientation="horizontal"
-<span class="lineno">   6</span> 	<span class="errorspan">android:background="@drawable/bonuspack_bubble" ></span>
+<span class="lineno">   6</span> 	<span class="errorspan">android:background="@drawable/bonuspack_bubble" ></span>
 <span class="lineno">   7</span> 	&lt;ImageView android:id="@+id/bubble_image" 
 <span class="lineno">   8</span> 		android:layout_width="65dp"
 </pre>
@@ -786,7 +854,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:3</span>: <span class="message">The resource <code>R.string.app_name</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
-<span class="lineno">   3</span> 	&lt;string <span class="errorspan">name="app_name" translatable="false">Open Map&lt;/string></span>
+<span class="lineno">   3</span> 	&lt;string <span class="errorspan">name="app_name" translatable="false">Open Map&lt;/string></span>
 <span class="lineno">   4</span> 
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 </pre>
@@ -794,7 +862,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
-<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
 <span class="lineno">   9</span>     &lt;string name="samples">Samples&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 </pre>
@@ -802,7 +870,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="offline">Offline mode&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 </pre>
@@ -810,7 +878,7 @@ Of course it's possible that your custom drawable is translucent and you want it
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="offline">Offline mode&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="samples">Samples&lt;/string>
-<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="about">About&lt;/string></span>
+<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="about">About&lt;/string></span>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 <span class="lineno">  12</span> 
 </pre>
@@ -825,7 +893,7 @@ Additional locations: <ul>
 <span class="lineno">   8</span>     &lt;string name="offline">Offline mode&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="samples">Samples&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
-<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string></span>
+<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string></span>
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 </pre>
@@ -842,7 +910,7 @@ Additional locations: <ul>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 <span class="lineno">  12</span> 
-<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
+<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
 <span class="lineno">  14</span> 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 </pre>
@@ -850,7 +918,7 @@ Additional locations: <ul>
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
-<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
+<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
 </pre>
@@ -858,14 +926,14 @@ Additional locations: <ul>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
-<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
+<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 </pre>
 <span class="location"><a href="../../src/main/res/values/tile_sources.xml">../../src/main/res/values/tile_sources.xml</a>:3</span>: <span class="message">The resource <code>R.string.mapnik</code> appears to be unused</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
-<span class="lineno">   3</span>     &lt;string <span class="errorspan">name="mapnik" translatable="false">Mapnik&lt;/string></span>
+<span class="lineno">   3</span>     &lt;string <span class="errorspan">name="mapnik" translatable="false">Mapnik&lt;/string></span>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
 </pre>
@@ -873,7 +941,7 @@ Additional locations: <ul>
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;resources>
 <span class="lineno">   3</span>     &lt;string name="mapnik" translatable="false">Mapnik&lt;/string>
-<span class="lineno">   4</span>     &lt;string <span class="errorspan">name="cyclemap">Cycle Map&lt;/string></span>
+<span class="lineno">   4</span>     &lt;string <span class="errorspan">name="cyclemap">Cycle Map&lt;/string></span>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 </pre>
@@ -888,7 +956,7 @@ Additional locations: <ul>
 <span class="lineno">   2</span> &lt;resources>
 <span class="lineno">   3</span>     &lt;string name="mapnik" translatable="false">Mapnik&lt;/string>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
-<span class="lineno">   5</span>     &lt;string <span class="errorspan">name="public_transport">Public transport&lt;/string></span>
+<span class="lineno">   5</span>     &lt;string <span class="errorspan">name="public_transport">Public transport&lt;/string></span>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 </pre>
@@ -896,7 +964,7 @@ Additional locations: <ul>
 <span class="lineno">   3</span>     &lt;string name="mapnik" translatable="false">Mapnik&lt;/string>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
-<span class="lineno">   6</span>     &lt;string <span class="errorspan">name="base">OSM base layer&lt;/string></span>
+<span class="lineno">   6</span>     &lt;string <span class="errorspan">name="base">OSM base layer&lt;/string></span>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 </pre>
@@ -910,7 +978,7 @@ Additional locations: <ul>
 <span class="lineno">   4</span>     &lt;string name="cyclemap">Cycle Map&lt;/string>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
-<span class="lineno">   7</span>     &lt;string <span class="errorspan">name="topo">Topographic&lt;/string></span>
+<span class="lineno">   7</span>     &lt;string <span class="errorspan">name="topo">Topographic&lt;/string></span>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 </pre>
@@ -925,7 +993,7 @@ Additional locations: <ul>
 <span class="lineno">   5</span>     &lt;string name="public_transport">Public transport&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
-<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="hills">Hills&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="hills">Hills&lt;/string></span>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 </pre>
@@ -940,7 +1008,7 @@ Additional locations: <ul>
 <span class="lineno">   6</span>     &lt;string name="base">OSM base layer&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="mapquest_osm">Mapquest&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="mapquest_osm">Mapquest&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 </pre>
@@ -948,7 +1016,7 @@ Additional locations: <ul>
 <span class="lineno">   7</span>     &lt;string name="topo">Topographic&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
-<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="mapquest_aerial">Mapquest Aerial&lt;/string></span>
+<span class="lineno">  10</span>     &lt;string <span class="errorspan">name="mapquest_aerial">Mapquest Aerial&lt;/string></span>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 </pre>
@@ -956,7 +1024,7 @@ Additional locations: <ul>
 <span class="lineno">   8</span>     &lt;string name="hills">Hills&lt;/string>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
-<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="bing">Bing&lt;/string></span>
+<span class="lineno">  11</span>     &lt;string <span class="errorspan">name="bing">Bing&lt;/string></span>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 </pre>
@@ -964,7 +1032,7 @@ Additional locations: <ul>
 <span class="lineno">   9</span>     &lt;string name="mapquest_osm">Mapquest&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
-<span class="lineno">  12</span>     &lt;string <span class="errorspan">name="mapbox">MapBox&lt;/string></span>
+<span class="lineno">  12</span>     &lt;string <span class="errorspan">name="mapbox">MapBox&lt;/string></span>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
 </pre>
@@ -972,7 +1040,7 @@ Additional locations: <ul>
 <span class="lineno">  10</span>     &lt;string name="mapquest_aerial">Mapquest Aerial&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
-<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="fiets_nl">OpenFietsKaart overlay&lt;/string></span>
+<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="fiets_nl">OpenFietsKaart overlay&lt;/string></span>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
 <span class="lineno">  15</span>     &lt;string name="roads_nl">Netherlands roads overlay&lt;/string>
 </pre>
@@ -980,7 +1048,7 @@ Additional locations: <ul>
 <span class="lineno">  11</span>     &lt;string name="bing">Bing&lt;/string>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
-<span class="lineno">  14</span>     &lt;string <span class="errorspan">name="base_nl">Netherlands base overlay&lt;/string></span>
+<span class="lineno">  14</span>     &lt;string <span class="errorspan">name="base_nl">Netherlands base overlay&lt;/string></span>
 <span class="lineno">  15</span>     &lt;string name="roads_nl">Netherlands roads overlay&lt;/string>
 <span class="lineno">  16</span> &lt;/resources>
 </pre>
@@ -988,7 +1056,7 @@ Additional locations: <ul>
 <span class="lineno">  12</span>     &lt;string name="mapbox">MapBox&lt;/string>
 <span class="lineno">  13</span>     &lt;string name="fiets_nl">OpenFietsKaart overlay&lt;/string>
 <span class="lineno">  14</span>     &lt;string name="base_nl">Netherlands base overlay&lt;/string>
-<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="roads_nl">Netherlands roads overlay&lt;/string></span>
+<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="roads_nl">Netherlands roads overlay&lt;/string></span>
 <span class="lineno">  16</span> &lt;/resources>
 <span class="lineno">  17</span> 
 </pre>
@@ -1058,7 +1126,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno">  58</span> 		
 <span class="lineno">  59</span> 		//default behavior: close it when clicking on the bubble:
 <span class="lineno">  60</span> 		mView.setOnTouchListener(new View.OnTouchListener() {
-<span class="lineno">  61</span> 			@Override public boolean <span class="errorspan">onTouch(View v, MotionEvent e) {</span>
+<span class="lineno">  61</span> 			@Override public boolean <span class="errorspan">onTouch(View v, MotionEvent e) {</span>
 <span class="lineno">  62</span> 				if (e.getAction() == MotionEvent.ACTION_UP)
 <span class="lineno">  63</span> 					close();
 </pre>
@@ -1081,7 +1149,7 @@ If a <code>View</code> that overrides <code>onTouchEvent</code> or uses an <code
 <span class="lineno">   4</span> 	android:layout_height="wrap_content" 
 <span class="lineno">   5</span> 	android:orientation="horizontal"
 <span class="lineno">   6</span> 	android:background="@drawable/bonuspack_bubble" >
-<span class="lineno">   7</span> 	<span class="errorspan">&lt;ImageView android:id="@+id/bubble_image" </span>
+<span class="lineno">   7</span> 	<span class="errorspan">&lt;ImageView android:id="@+id/bubble_image" </span>
 <span class="lineno">   8</span> 		android:layout_width="65dp"
 <span class="lineno">   9</span> 		android:layout_height="65dp" 
 </pre>
@@ -1114,7 +1182,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  24</span> 				android:maxEms="17"
 <span class="lineno">  25</span> 				android:layout_gravity="left"
 <span class="lineno">  26</span> 				android:layout_weight="1"
-<span class="lineno">  27</span> 				<span class="errorspan">android:text="Title" /></span>
+<span class="lineno">  27</span> 				<span class="errorspan">android:text="Title" /></span>
 <span class="lineno">  28</span> 			&lt;Button android:id="@+id/bubble_moreinfo" 
 <span class="lineno">  29</span> 				android:background="@drawable/btn_moreinfo"
 </pre>
@@ -1122,7 +1190,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  39</span> 			android:textColor="#000000" 
 <span class="lineno">  40</span> 			android:textSize="12dp"
 <span class="lineno">  41</span> 			android:maxEms="17"
-<span class="lineno">  42</span> 			<span class="errorspan">android:text="Description" /></span>
+<span class="lineno">  42</span> 			<span class="errorspan">android:text="Description" /></span>
 <span class="lineno">  43</span> 		&lt;TextView android:id="@+id/bubble_subdescription" 
 <span class="lineno">  44</span> 			android:layout_width="wrap_content"
 </pre>
@@ -1130,7 +1198,7 @@ Note that for text fields, you should not set both the <code>hint</code> and the
 <span class="lineno">  46</span> 			android:textColor="#000000" 
 <span class="lineno">  47</span> 			android:textSize="10dp"
 <span class="lineno">  48</span> 			android:maxEms="17"
-<span class="lineno">  49</span> 			<span class="errorspan">android:text="Address"</span>
+<span class="lineno">  49</span> 			<span class="errorspan">android:text="Address"</span>
 <span class="lineno">  50</span> 			android:visibility="gone" />
 <span class="lineno">  51</span> 	&lt;/LinearLayout>
 </pre>
@@ -1165,7 +1233,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 <span class="lineno">  11</span> 	&lt;LinearLayout 
 <span class="lineno">  12</span> 		android:layout_width="wrap_content"
 <span class="lineno">  13</span> 		android:layout_height="wrap_content" 
-<span class="lineno">  14</span> 		<span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  14</span> 		<span class="errorspan">android:paddingLeft="5dp"</span>
 <span class="lineno">  15</span> 		android:orientation="vertical" >
 <span class="lineno">  16</span> 		&lt;LinearLayout 
 </pre>
@@ -1188,7 +1256,7 @@ If you specify padding or margin on the left side of a layout, you should probab
 <span class="lineno">  11</span> 	&lt;LinearLayout 
 <span class="lineno">  12</span> 		android:layout_width="wrap_content"
 <span class="lineno">  13</span> 		android:layout_height="wrap_content" 
-<span class="lineno">  14</span> 		<span class="errorspan">android:paddingLeft="5dp"</span>
+<span class="lineno">  14</span> 		<span class="errorspan">android:paddingLeft="5dp"</span>
 <span class="lineno">  15</span> 		android:orientation="vertical" >
 <span class="lineno">  16</span> 		&lt;LinearLayout 
 </pre>
@@ -1196,7 +1264,7 @@ If you specify padding or margin on the left side of a layout, you should probab
 <span class="lineno">  22</span> 				android:layout_height="wrap_content"
 <span class="lineno">  23</span> 				android:textColor="#000000" 
 <span class="lineno">  24</span> 				android:maxEms="17"
-<span class="lineno">  25</span> 				android:layout_gravity="<span class="errorspan">left"</span>
+<span class="lineno">  25</span> 				android:layout_gravity="<span class="errorspan">left"</span>
 <span class="lineno">  26</span> 				android:layout_weight="1"
 <span class="lineno">  27</span> 				android:text="Title" />
 </pre>
@@ -1204,7 +1272,7 @@ If you specify padding or margin on the left side of a layout, you should probab
 <span class="lineno">  30</span> 				android:visibility="gone"
 <span class="lineno">  31</span> 				android:layout_width="wrap_content"
 <span class="lineno">  32</span> 				android:layout_height="wrap_content" 
-<span class="lineno">  33</span> 				android:layout_gravity="<span class="errorspan">right"</span>
+<span class="lineno">  33</span> 				android:layout_gravity="<span class="errorspan">right"</span>
 <span class="lineno">  34</span> 				android:layout_weight="0" />
 <span class="lineno">  35</span> 		&lt;/LinearLayout>
 </pre>

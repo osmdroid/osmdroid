@@ -1,0 +1,20 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../../samplefragments/tilesources/USGSTileSource.html" title="org.osmdroid.samplefragments.tilesources.USGSTileSource" alt="" coords="16,209,133,234"/>
+<area shape="rect" id="node1" href="../../samplefragments/tilesources/USGSTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,197,144,245"/>
+<area shape="rect" id="node2_1" href="./BitmapTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase" alt="" coords="557,17,709,42"/>
+<area shape="rect" id="node2" href="./BitmapTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="547,5,720,53"/>
+<area shape="rect" id="node7_2" href="./OnlineTileSourceBase.html" title="org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase" alt="" coords="559,113,707,138"/>
+<area shape="rect" id="node7" href="./OnlineTileSourceBase.html" title="&lt;TABLE&gt;" alt="" coords="549,101,718,149"/>
+<area shape="rect" id="node3_3" href="./CloudmadeTileSource.html" title="org.osmdroid.tileprovider.tilesource.CloudmadeTileSource" alt="" coords="179,209,325,234"/>
+<area shape="rect" id="node3" href="./CloudmadeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="169,197,335,245"/>
+<area shape="rect" id="node4_4" href="./HEREWeGoTileSource.html" title="org.osmdroid.tileprovider.tilesource.HEREWeGoTileSource" alt="" coords="370,209,523,234"/>
+<area shape="rect" id="node4" href="./HEREWeGoTileSource.html" title="&lt;TABLE&gt;" alt="" coords="359,197,534,245"/>
+<area shape="rect" id="node5_5" href="./MapBoxTileSource.html" title="org.osmdroid.tileprovider.tilesource.MapBoxTileSource" alt="" coords="569,209,697,234"/>
+<area shape="rect" id="node5" href="./MapBoxTileSource.html" title="&lt;TABLE&gt;" alt="" coords="559,197,708,245"/>
+<area shape="rect" id="node6_6" href="./MapQuestTileSource.html" title="org.osmdroid.tileprovider.tilesource.MapQuestTileSource" alt="" coords="743,209,883,234"/>
+<area shape="rect" id="node6" href="./MapQuestTileSource.html" title="&lt;TABLE&gt;" alt="" coords="733,197,894,245"/>
+<area shape="rect" id="node8_7" href="./QuadTreeTileSource.html" title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" alt="" coords="929,209,1065,234"/>
+<area shape="rect" id="node8" href="./QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="919,197,1076,245"/>
+<area shape="rect" id="node9_8" href="./XYTileSource.html" title="org.osmdroid.tileprovider.tilesource.XYTileSource" alt="" coords="1111,209,1207,234"/>
+<area shape="rect" id="node9" href="./XYTileSource.html" title="&lt;TABLE&gt;" alt="" coords="1100,197,1217,245"/>
+</map>

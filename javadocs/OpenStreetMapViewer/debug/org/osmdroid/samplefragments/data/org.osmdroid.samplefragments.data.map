@@ -1,0 +1,18 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./AsyncTaskDemoFragment.html" title="org.osmdroid.samplefragments.data.AsyncTaskDemoFragment" alt="" coords="16,17,189,42"/>
+<area shape="rect" id="node1" href="./AsyncTaskDemoFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,200,53"/>
+<area shape="rect" id="node2_1" href="./SampleGridlines.html" title="org.osmdroid.samplefragments.data.SampleGridlines" alt="" coords="235,17,349,42"/>
+<area shape="rect" id="node2" href="./SampleGridlines.html" title="&lt;TABLE&gt;" alt="" coords="224,5,360,53"/>
+<area shape="rect" id="node3_2" href="./SampleMilitaryIcons.html" title="org.osmdroid.samplefragments.data.SampleMilitaryIcons" alt="" coords="395,17,531,42"/>
+<area shape="rect" id="node3" href="./SampleMilitaryIcons.html" title="&lt;TABLE&gt;" alt="" coords="384,5,541,53"/>
+<area shape="rect" id="node4_3" href="./SampleOsmPath.html" title="org.osmdroid.samplefragments.data.SampleOsmPath" alt="" coords="577,17,695,42"/>
+<area shape="rect" id="node4" href="./SampleOsmPath.html" title="&lt;TABLE&gt;" alt="" coords="566,5,706,53"/>
+<area shape="rect" id="node5_4" href="./SampleSimpleFastPointOverlay.html" title="org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay" alt="" coords="741,17,944,42"/>
+<area shape="rect" id="node5" href="./SampleSimpleFastPointOverlay.html" title="&lt;TABLE&gt;" alt="" coords="731,5,955,53"/>
+<area shape="rect" id="node6_5" href="./SampleSimpleLocation.html" title="org.osmdroid.samplefragments.data.SampleSimpleLocation" alt="" coords="989,17,1141,42"/>
+<area shape="rect" id="node6" href="./SampleSimpleLocation.html" title="&lt;TABLE&gt;" alt="" coords="979,5,1152,53"/>
+<area shape="rect" id="node7_6" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus" alt="" coords="1187,17,1482,42"/>
+<area shape="rect" id="node7" href="./SampleWithMinimapItemizedOverlayWithFocus.html" title="&lt;TABLE&gt;" alt="" coords="1177,5,1493,53"/>
+<area shape="rect" id="node8_7" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale" alt="" coords="1527,17,1819,42"/>
+<area shape="rect" id="node8" href="./SampleWithMinimapItemizedOverlayWithScale.html" title="&lt;TABLE&gt;" alt="" coords="1517,5,1830,53"/>
+</map>

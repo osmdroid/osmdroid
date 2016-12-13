@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20161014"/>
+    <meta name="Date-Revision-yyyymmdd" content="20161212"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2016-10-14
+                2016-12-12
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6-SNAPSHOT
+                5.6
             </li>
 
         </ul>
@@ -100,6 +100,11 @@
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
+                            </li> <li>
+
+                                <a href="Debugging-osmdroid.html" title="Debugging   osmdroid">
+                                    <span class="none"></span>
+                                    Debugging   osmdroid</a>
                             </li> <li>
 
                                 <a href="Developer-Guidelines.html" title="Developer   Guidelines">
@@ -195,6 +200,11 @@
                                 <a href="Tile-Caching-Settings.html" title="Tile   Caching   Settings">
                                     <span class="none"></span>
                                     Tile   Caching   Settings</a>
+                            </li> <li>
+
+                                <a href="Tile-Caching.html" title="Tile   Caching">
+                                    <span class="none"></span>
+                                    Tile   Caching</a>
                             </li> <li>
 
                                 <a href="Upgrade-Guide.html" title="Upgrade   Guide">
@@ -326,13 +336,13 @@
             <h1>osmdroid-android (the map engine)</h1>
 <p>If you use <a href="http://www.gradle.org">Gradle</a> you have to add the following dependency to your <code>build.gradle</code> file:</p>
 <pre><code class="language-groovy">dependencies {
-    compile 'org.osmdroid:osmdroid-android:(INSERT_VERSION_HERE)@aar'
+    compile 'org.osmdroid:osmdroid-android:(INSERT_VERSION_HERE):release@aar'
 }
 </code></pre>
 <h1>osmdroid-third-party (google maps and bing support)</h1>
 <p>osmdroid also has an optional library to provide additional features of 3rd party organizations.</p>
 <pre><code class="language-groovy">dependencies {
-    compile 'org.osmdroid:osmdroid-third-party:(INSERT_VERSION_HERE)@aar'
+    compile 'org.osmdroid:osmdroid-third-party:(INSERT_VERSION_HERE):release@aar'
 }
 </code></pre>
 

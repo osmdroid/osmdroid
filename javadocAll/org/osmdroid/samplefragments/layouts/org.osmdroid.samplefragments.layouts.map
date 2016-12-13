@@ -1,0 +1,6 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./SampleFragmentXmlLayout.html" title="org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout" alt="" coords="16,17,195,42"/>
+<area shape="rect" id="node1" href="./SampleFragmentXmlLayout.html" title="&lt;TABLE&gt;" alt="" coords="5,5,205,53"/>
+<area shape="rect" id="node2_1" href="./SampleSplitScreen.html" title="org.osmdroid.samplefragments.layouts.SampleSplitScreen" alt="" coords="240,17,371,42"/>
+<area shape="rect" id="node2" href="./SampleSplitScreen.html" title="&lt;TABLE&gt;" alt="" coords="229,5,381,53"/>
+</map>

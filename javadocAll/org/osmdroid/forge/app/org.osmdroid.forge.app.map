@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MainActivity.html" title="org.osmdroid.forge.app.MainActivity" alt="" coords="16,17,105,42"/>
+<area shape="rect" id="node1" href="./MainActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,5,116,53"/>
+<area shape="rect" id="node2_1" href="./OsmApplication.html" title="org.osmdroid.forge.app.OsmApplication" alt="" coords="151,17,263,42"/>
+<area shape="rect" id="node2" href="./OsmApplication.html" title="&lt;TABLE&gt;" alt="" coords="141,5,274,53"/>
+<area shape="rect" id="node3_2" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="org.osmdroid.forge.app.OsmApplication.OsmUncaughtExceptionHandler" alt="" coords="309,17,513,42"/>
+<area shape="rect" id="node3" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="&lt;TABLE&gt;" alt="" coords="299,5,524,53"/>
+<area shape="rect" id="node4_3" href="./ApplicationTest.html" title="org.osmdroid.forge.app.ApplicationTest" alt="" coords="559,17,667,42"/>
+<area shape="rect" id="node4" href="./ApplicationTest.html" title="&lt;TABLE&gt;" alt="" coords="548,5,677,53"/>
+<area shape="rect" id="node5_4" href="./MainActivityTest.html" title="org.osmdroid.forge.app.MainActivityTest" alt="" coords="713,17,827,42"/>
+<area shape="rect" id="node5" href="./MainActivityTest.html" title="&lt;TABLE&gt;" alt="" coords="702,5,838,53"/>
+<area shape="rect" id="node6_5" href="./MapsForgeMapTileProviderDirectTest.html" title="org.osmdroid.forge.app.MapsForgeMapTileProviderDirectTest" alt="" coords="873,17,1107,42"/>
+<area shape="rect" id="node6" href="./MapsForgeMapTileProviderDirectTest.html" title="&lt;TABLE&gt;" alt="" coords="862,5,1118,53"/>
+<area shape="rect" id="node7_6" href="./ExampleUnitTest.html" title="org.osmdroid.forge.app.ExampleUnitTest" alt="" coords="1153,17,1272,42"/>
+<area shape="rect" id="node7" href="./ExampleUnitTest.html" title="&lt;TABLE&gt;" alt="" coords="1143,5,1283,53"/>
+</map>

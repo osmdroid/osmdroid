@@ -5,8 +5,8 @@
 #
 
 digraph G {
-	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
-	node [fontname="Helvetica",fontsize=10,shape=plaintext];
+	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
+	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.util.DbCreator
@@ -14,6 +14,6 @@ digraph G {
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> DbCreator </td></tr>
 		</table></td></tr>
-		</table>>, URL="./DbCreator.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./DbCreator.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

@@ -1,0 +1,22 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./LabelledGeoPoint.html" title="org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint" alt="" coords="16,19,137,45"/>
+<area shape="rect" id="node1" href="./LabelledGeoPoint.html" title="&lt;TABLE&gt;" alt="" coords="5,8,148,56"/>
+<area shape="rect" id="node2_1" href="./SimpleFastPointOverlay.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay" alt="" coords="183,19,341,45"/>
+<area shape="rect" id="node2" href="./SimpleFastPointOverlay.html" title="&lt;TABLE&gt;" alt="" coords="172,8,352,56"/>
+<area shape="rect" id="node3_2" href="./SimpleFastPointOverlay.LabelledPoint.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.LabelledPoint" alt="" coords="387,19,484,45"/>
+<area shape="rect" id="node3" href="./SimpleFastPointOverlay.LabelledPoint.html" title="&lt;TABLE&gt;" alt="" coords="376,8,495,56"/>
+<area shape="rect" id="node4_3" href="./SimpleFastPointOverlay.PointAdapter.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.PointAdapter" alt="" coords="529,11,624,53"/>
+<area shape="rect" id="node4" href="./SimpleFastPointOverlay.PointAdapter.html" title="&lt;TABLE&gt;" alt="" coords="519,5,635,59"/>
+<area shape="rect" id="node10_4" href="./SimplePointTheme.html" title="org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme" alt="" coords="513,118,641,143"/>
+<area shape="rect" id="node10" href="./SimplePointTheme.html" title="&lt;TABLE&gt;" alt="" coords="502,107,651,155"/>
+<area shape="rect" id="node5_5" href="./SimpleFastPointOverlay.OnClickListener.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay.OnClickListener" alt="" coords="670,11,782,53"/>
+<area shape="rect" id="node5" href="./SimpleFastPointOverlay.OnClickListener.html" title="&lt;TABLE&gt;" alt="" coords="659,5,793,59"/>
+<area shape="rect" id="node6_6" href="./SimpleFastPointOverlayOptions.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions" alt="" coords="828,19,1032,45"/>
+<area shape="rect" id="node6" href="./SimpleFastPointOverlayOptions.html" title="&lt;TABLE&gt;" alt="" coords="817,8,1043,56"/>
+<area shape="rect" id="node7_7" href="./SimpleFastPointOverlayOptions.RenderingAlgorithm.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.RenderingAlgorithm" alt="" coords="1077,11,1209,53"/>
+<area shape="rect" id="node7" href="./SimpleFastPointOverlayOptions.RenderingAlgorithm.html" title="&lt;TABLE&gt;" alt="" coords="1067,5,1220,59"/>
+<area shape="rect" id="node8_8" href="./SimpleFastPointOverlayOptions.Shape.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.Shape" alt="" coords="1255,11,1359,53"/>
+<area shape="rect" id="node8" href="./SimpleFastPointOverlayOptions.Shape.html" title="&lt;TABLE&gt;" alt="" coords="1245,5,1370,59"/>
+<area shape="rect" id="node9_9" href="./SimpleFastPointOverlayOptions.LabelPolicy.html" title="org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions.LabelPolicy" alt="" coords="1405,11,1509,53"/>
+<area shape="rect" id="node9" href="./SimpleFastPointOverlayOptions.LabelPolicy.html" title="&lt;TABLE&gt;" alt="" coords="1394,5,1519,59"/>
+</map>

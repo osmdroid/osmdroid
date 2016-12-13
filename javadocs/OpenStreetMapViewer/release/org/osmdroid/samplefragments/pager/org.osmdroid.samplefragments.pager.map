@@ -1,0 +1,12 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MapFragment.html" title="org.osmdroid.samplefragments.pager.MapFragment" alt="" coords="16,17,116,42"/>
+<area shape="rect" id="node1" href="./MapFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,5,127,53"/>
+<area shape="rect" id="node2_1" href="./MapInAViewPagerFragment.html" title="org.osmdroid.samplefragments.pager.MapInAViewPagerFragment" alt="" coords="161,17,341,42"/>
+<area shape="rect" id="node2" href="./MapInAViewPagerFragment.html" title="&lt;TABLE&gt;" alt="" coords="151,5,352,53"/>
+<area shape="rect" id="node3_2" href="./MapSliderAdapter.html" title="org.osmdroid.samplefragments.pager.MapSliderAdapter" alt="" coords="387,17,510,42"/>
+<area shape="rect" id="node3" href="./MapSliderAdapter.html" title="&lt;TABLE&gt;" alt="" coords="377,5,521,53"/>
+<area shape="rect" id="node4_3" href="./SimpleTextFragment.html" title="org.osmdroid.samplefragments.pager.SimpleTextFragment" alt="" coords="556,17,696,42"/>
+<area shape="rect" id="node4" href="./SimpleTextFragment.html" title="&lt;TABLE&gt;" alt="" coords="545,5,707,53"/>
+<area shape="rect" id="node5_4" href="./WebviewFragment.html" title="org.osmdroid.samplefragments.pager.WebviewFragment" alt="" coords="742,17,867,42"/>
+<area shape="rect" id="node5" href="./WebviewFragment.html" title="&lt;TABLE&gt;" alt="" coords="731,5,878,53"/>
+</map>

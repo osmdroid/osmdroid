@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../BaseSampleFragment.html" title="org.osmdroid.samplefragments.BaseSampleFragment" alt="" coords="16,19,164,45"/>
+<area shape="rect" id="node1" href="../BaseSampleFragment.html" title="&lt;TABLE&gt;" alt="" coords="5,8,175,56"/>
+<area shape="rect" id="node2_1" href="./SampleHeadingCompassUp.html" title="org.osmdroid.samplefragments.location.SampleHeadingCompassUp" alt="" coords="95,118,277,143"/>
+<area shape="rect" id="node2" href="./SampleHeadingCompassUp.html" title="&lt;TABLE&gt;" alt="" coords="85,107,287,155"/>
+<area shape="rect" id="node3_2" href="../../views/overlay/compass/IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="210,11,354,53"/>
+<area shape="rect" id="node3" href="../../views/overlay/compass/IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="199,5,365,59"/>
+</map>

@@ -18,7 +18,7 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Fri Oct 14 18:45:35 EDT 2016.<br/>
+Check performed at Mon Dec 12 19:56:19 EST 2016.<br/>
 2 errors and 11 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
@@ -68,7 +68,7 @@ Check performed at Fri Oct 14 18:45:35 EDT 2016.<br/>
 <span class="lineno"> 102</span> 
 <span class="lineno"> 103</span> 	@Override
 <span class="lineno"> 104</span> 	public void setMyLocationEnabled(final boolean aEnabled) {
-<span class="lineno"> 105</span> 		<span class="errorspan">mGoogleMap.setMyLocationEnabled(aEnabled);</span>
+<span class="lineno"> 105</span> 		<span class="errorspan">mGoogleMap.setMyLocationEnabled(aEnabled);</span>
 <span class="lineno"> 106</span> 	}
 <span class="lineno"> 107</span> 
 </pre>
@@ -95,7 +95,7 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 <span class="lineno">  25</span> 	}
 <span class="lineno">  26</span> 
 <span class="lineno">  27</span> 	public static IMap getMap(final com.google.android.gms.maps.MapFragment aMapFragment) {
-<span class="lineno">  28</span> 		final GoogleMap map = aMapFragment.<span class="errorspan">getMap();</span>
+<span class="lineno">  28</span> 		final GoogleMap map = aMapFragment.<span class="errorspan">getMap();</span>
 <span class="lineno">  29</span> 		return map != null ? new MapWrapper(map) : null;
 <span class="lineno">  30</span> 	}
 </pre>
@@ -128,7 +128,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -152,19 +152,19 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:20</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:20</span>: <span class="message">A newer version of com.google.android.gms:play-services than 8.+ is available: 10.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  17</span>     compile project(':osmdroid-android')
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
-<span class="lineno">  20</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  20</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
 <span class="lineno">  21</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  22</span> }
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:21</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:21</span>: <span class="message">A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 10.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
 <span class="lineno">  20</span>     compile 'com.google.android.gms:play-services:8.+'
-<span class="lineno">  21</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  21</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
 <span class="lineno">  22</span> }
 <span class="lineno">  23</span> 
 </pre>
@@ -189,7 +189,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  17</span>     compile project(':osmdroid-android')
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
-<span class="lineno">  20</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
+<span class="lineno">  20</span>     <span class="errorspan">compile 'com.google.android.gms:play-services:8.+'</span>
 <span class="lineno">  21</span>     compile 'com.google.android.gms:play-services-maps:8.+'
 <span class="lineno">  22</span> }
 </pre>
@@ -197,7 +197,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  18</span>     //compile(group: 'org.apache.james', name: 'apache-mime4j', version: '0.6') {}
 <span class="lineno">  19</span> 
 <span class="lineno">  20</span>     compile 'com.google.android.gms:play-services:8.+'
-<span class="lineno">  21</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
+<span class="lineno">  21</span>     <span class="errorspan">compile 'com.google.android.gms:play-services-maps:8.+'</span>
 <span class="lineno">  22</span> }
 <span class="lineno">  23</span> 
 </pre>
@@ -222,15 +222,15 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"
-<span class="lineno">   4</span> 		<span class="errorspan">android:versionCode="1" android:versionName="5.3-SNAPSHOT"></span>
+<span class="lineno">   4</span> 		<span class="errorspan">android:versionCode="1" android:versionName="5.3-SNAPSHOT"></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6-SNAPSHOT</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:4</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"
-<span class="lineno">   4</span> 		android:versionCode="1" <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
+<span class="lineno">   4</span> 		android:versionCode="1" <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
 </pre>
@@ -238,7 +238,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk <span class="errorspan">android:minSdkVersion="9" android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk <span class="errorspan">android:minSdkVersion="9" android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -246,7 +246,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   3</span> 		package="org.osmdroid.thirdparty"
 <span class="lineno">   4</span> 		android:versionCode="1" android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   5</span> 
-<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   6</span> 	&lt;uses-sdk android:minSdkVersion="9" <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">   7</span> 	&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" />
 <span class="lineno">   8</span> 
 </pre>
@@ -273,7 +273,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno"> 146</span> 	@Override
 <span class="lineno"> 147</span> 	public int addPolyline(final Polyline aPolyline) {
 <span class="lineno"> 148</span> 		if (mPolylines == null) {
-<span class="lineno"> 149</span> 			mPolylines = <span class="errorspan">new HashMap&lt;Integer, GooglePolylineOverlay>();</span>
+<span class="lineno"> 149</span> 			mPolylines = <span class="errorspan">new HashMap&lt;Integer, GooglePolylineOverlay>();</span>
 <span class="lineno"> 150</span> 		}
 <span class="lineno"> 151</span> 		final GooglePolylineOverlay overlay = new GooglePolylineOverlay(aPolyline.color, aPolyline.width);
 </pre>
@@ -281,7 +281,7 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <span class="lineno"> 141</span> 	@Override
 <span class="lineno"> 142</span> 	public int addPolyline(final Polyline aPolyline) {
 <span class="lineno"> 143</span> 		if (mPolylines == null) {
-<span class="lineno"> 144</span> 			mPolylines = <span class="errorspan">new HashMap&lt;Integer, com.google.android.gms.maps.model.Polyline>();</span>
+<span class="lineno"> 144</span> 			mPolylines = <span class="errorspan">new HashMap&lt;Integer, com.google.android.gms.maps.model.Polyline>();</span>
 <span class="lineno"> 145</span> 		}
 <span class="lineno"> 146</span> 		final PolylineOptions polylineOptions = new PolylineOptions().color(aPolyline.color).width(aPolyline.width);
 </pre>

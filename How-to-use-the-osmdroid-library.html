@@ -8,7 +8,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="Date-Creation-yyyymmdd" content="20080101"/>
-    <meta name="Date-Revision-yyyymmdd" content="20161014"/>
+    <meta name="Date-Revision-yyyymmdd" content="20161212"/>
     <meta http-equiv="Content-Language" content="en"/>
     <title> osmdroid</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.4.min.css"/>
@@ -65,10 +65,10 @@
             </li>
 
             <li id="publishDate" class="pull-right"><span class="divider">|</span> Last Published:
-                2016-10-14
+                2016-12-12
             </li>
             <li id="projectVersion" class="pull-right">
-                5.6-SNAPSHOT
+                5.6
             </li>
 
         </ul>
@@ -100,6 +100,11 @@
                                 <a href="Changelog.html" title="Changelog">
                                     <span class="none"></span>
                                     Changelog</a>
+                            </li> <li>
+
+                                <a href="Debugging-osmdroid.html" title="Debugging   osmdroid">
+                                    <span class="none"></span>
+                                    Debugging   osmdroid</a>
                             </li> <li>
 
                                 <a href="Developer-Guidelines.html" title="Developer   Guidelines">
@@ -195,6 +200,11 @@
                                 <a href="Tile-Caching-Settings.html" title="Tile   Caching   Settings">
                                     <span class="none"></span>
                                     Tile   Caching   Settings</a>
+                            </li> <li>
+
+                                <a href="Tile-Caching.html" title="Tile   Caching">
+                                    <span class="none"></span>
+                                    Tile   Caching</a>
                             </li> <li>
 
                                 <a href="Upgrade-Guide.html" title="Upgrade   Guide">
@@ -449,11 +459,13 @@ this.mOsmv.setMultiTouchControls(true);
 </code></pre>
 <h1>Map Overlays</h1>
 <h2>How to add the My Location overlay</h2>
-<pre><code>this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),mMapView);
+<pre><code>this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),mMapView);
+this.mLocationOverlay.enableMyLocation();
 mMapView.getOverlays().add(this.mLocationOverlay);
 </code></pre>
 <h2>How to add a compass overlay</h2>
 <pre><code>this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), mMapView);
+this.mCompassOverlay.enableCompass();
 mMapView.getOverlays().add(this.mCompassOverlay);
 </code></pre>
 <h2>How to enable rotation gestures</h2>
@@ -496,7 +508,7 @@ ItemizedOverlayWithFocus&lt;OverlayItem&gt; mOverlay = new ItemizedOverlayWithFo
 	public boolean onItemLongPress(final int index, final OverlayItem item) {
 		return false;
 	}
-}, mResourceProxy);
+});
 mOverlay.setFocusItemsOnTap(true);
 
 mMapView.getOverlays().add(mOverlay);

@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="../IStyledTileSource.html" title="org.osmdroid.tileprovider.tilesource.IStyledTileSource" alt="" coords="16,11,160,53"/>
+<area shape="rect" id="node1" href="../IStyledTileSource.html" title="&lt;TABLE&gt;" alt="" coords="5,5,171,59"/>
+<area shape="rect" id="node3_1" href="./BingMapTileSource.html" title="org.osmdroid.tileprovider.tilesource.bing.BingMapTileSource" alt="" coords="114,118,246,143"/>
+<area shape="rect" id="node3" href="./BingMapTileSource.html" title="&lt;TABLE&gt;" alt="" coords="103,107,257,155"/>
+<area shape="rect" id="node2_2" href="../QuadTreeTileSource.html" title="org.osmdroid.tileprovider.tilesource.QuadTreeTileSource" alt="" coords="205,19,341,45"/>
+<area shape="rect" id="node2" href="../QuadTreeTileSource.html" title="&lt;TABLE&gt;" alt="" coords="195,8,352,56"/>
+</map>

@@ -5,8 +5,8 @@
 #
 
 digraph G {
-	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
-	node [fontname="Helvetica",fontsize=10,shape=plaintext];
+	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
+	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.mtp.OSMMapTilePackager.ProgressNotification
@@ -15,6 +15,6 @@ digraph G {
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> ProgressNotification </td></tr>
 		</table></td></tr>
-		</table>>, URL="./OSMMapTilePackager.ProgressNotification.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./OSMMapTilePackager.ProgressNotification.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

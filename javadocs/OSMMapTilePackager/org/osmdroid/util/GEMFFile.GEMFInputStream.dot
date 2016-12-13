@@ -5,8 +5,8 @@
 #
 
 digraph G {
-	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
-	node [fontname="Helvetica",fontsize=10,shape=plaintext];
+	edge [fontname="arial",fontsize=10,labelfontname="arial",labelfontsize=10];
+	node [fontname="arial",fontsize=10,shape=plaintext];
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.util.GEMFFile.GEMFInputStream
@@ -14,14 +14,14 @@ digraph G {
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> GEMFInputStream </td></tr>
 		</table></td></tr>
-		</table>>, URL="./GEMFFile.GEMFInputStream.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="./GEMFFile.GEMFInputStream.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.util.GEMFFile.GEMFInputStream extends java.io.InputStream
 	c233:p -> c231:p [dir=back,arrowtail=empty];
 	// java.io.InputStream
 	c233 [label=<<table title="java.io.InputStream" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-<tr><td align="center" balign="center"><font face="Helvetica-Oblique"> InputStream </font></td></tr>
+<tr><td align="center" balign="center"><font face="arial italic"> InputStream </font></td></tr>
 		</table></td></tr>
-		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html", fontname="Helvetica", fontcolor="black", fontsize=10.0];
+		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/java/io/InputStream.html", fontname="arial", fontcolor="black", fontsize=10.0];
 }
 

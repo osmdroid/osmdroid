@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.2">
+<issues format="4" by="lint 25.2.3">
 
     <issue
         id="DefaultLocale"
@@ -13,11 +13,11 @@
 If you want the methods to just perform ASCII replacement, for example to convert an enum name, call `String#toUpperCase(Locale.US)` instead. If you really want to use the current locale, call `String#toUpperCase(Locale.getDefault())` instead."
         url="http://developer.android.com/reference/java/util/Locale.html#default_locale"
         urls="http://developer.android.com/reference/java/util/Locale.html#default_locale"
-        errorLine1="                if (pathname.getName().toLowerCase().endsWith(&quot;.map&quot;))"
+        errorLine1="                if (pathname.getName().toLowerCase().endsWith(&quot;.map&quot;))"
         errorLine2="                                       ~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java"
-            line="195"
+            file=".\osmdroid-forge-app\src\main\java\org\osmdroid\forge\app\MainActivity.java"
+            line="193"
             column="40"/>
     </issue>
 
@@ -33,11 +33,11 @@ If you want the methods to just perform ASCII replacement, for example to conver
 To fix this issue, set the `targetSdkVersion` to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         url="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         urls="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        errorLine1="        android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1="        android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/src/main/AndroidManifest.xml"
+            file=".\osmdroid-forge-app\src\main\AndroidManifest.xml"
             line="7"
             column="9"/>
     </issue>
@@ -45,16 +45,16 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.1"
+        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
+        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="24"
             column="5"/>
     </issue>
@@ -62,16 +62,16 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1"
+        message="A newer version of com.android.support:support-annotations than 23.+ is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="34"
             column="5"/>
     </issue>
@@ -84,11 +84,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
+        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="24"
             column="5"/>
     </issue>
@@ -101,11 +101,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="34"
             column="5"/>
     </issue>
@@ -118,11 +118,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support.test:runner:0.4.+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support.test:runner:0.4.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="35"
             column="5"/>
     </issue>
@@ -135,11 +135,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support.test:rules:0.4.+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support.test:rules:0.4.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/build.gradle"
+            file=".\osmdroid-forge-app\build.gradle"
             line="36"
             column="5"/>
     </issue>
@@ -152,10 +152,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="        android:minSdkVersion=&quot;10&quot;"
+        errorLine1="        android:minSdkVersion=&quot;10&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/AndroidManifest.xml"
+            file=".\osmdroid-forge-app\src\main\AndroidManifest.xml"
             line="6"
             column="9"/>
     </issue>
@@ -168,10 +168,10 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="        android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1="        android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/AndroidManifest.xml"
+            file=".\osmdroid-forge-app\src\main\AndroidManifest.xml"
             line="7"
             column="9"/>
     </issue>
@@ -196,11 +196,11 @@ To fix this warning, decide whether your application should support backup, and 
 If not set to false, and if targeting API 23 or later, lint will also warn that you should set `android:fullBackupContent` to configure auto backup."
         url="https://developer.android.com/preview/backup/index.html"
         urls="https://developer.android.com/preview/backup/index.html,http://developer.android.com/reference/android/R.attr.html#allowBackup"
-        errorLine1="    &lt;application"
+        errorLine1="    &lt;application"
         errorLine2="    ^"
         quickfix="studio,adt">
         <location
-            file="./osmdroid-forge-app/src/main/AndroidManifest.xml"
+            file=".\osmdroid-forge-app\src\main\AndroidManifest.xml"
             line="37"
             column="5"/>
     </issue>
@@ -213,10 +213,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#3F51B5&lt;/color>"
+        errorLine1="    &lt;color name=&quot;colorPrimary&quot;>#3F51B5&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/res/values/colors.xml"
+            file=".\osmdroid-forge-app\src\main\res\values\colors.xml"
             line="3"
             column="12"/>
     </issue>
@@ -229,10 +229,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;color name=&quot;colorPrimaryDark&quot;>#303F9F&lt;/color>"
+        errorLine1="    &lt;color name=&quot;colorPrimaryDark&quot;>#303F9F&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/res/values/colors.xml"
+            file=".\osmdroid-forge-app\src\main\res\values\colors.xml"
             line="4"
             column="12"/>
     </issue>
@@ -245,10 +245,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;color name=&quot;colorAccent&quot;>#FF4081&lt;/color>"
+        errorLine1="    &lt;color name=&quot;colorAccent&quot;>#FF4081&lt;/color>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/res/values/colors.xml"
+            file=".\osmdroid-forge-app\src\main\res\values\colors.xml"
             line="5"
             column="12"/>
     </issue>
@@ -261,10 +261,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;dimen name=&quot;fab_margin&quot;>16dp&lt;/dimen>"
+        errorLine1="    &lt;dimen name=&quot;fab_margin&quot;>16dp&lt;/dimen>"
         errorLine2="           ~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/res/values/dimens.xml"
+            file=".\osmdroid-forge-app\src\main\res\values\dimens.xml"
             line="5"
             column="12"/>
     </issue>
@@ -280,7 +280,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./osmdroid-forge-app/src/main/res/drawable/icon.png"/>
+            file=".\osmdroid-forge-app\src\main\res\drawable\icon.png"/>
     </issue>
 
     <issue
@@ -293,11 +293,11 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         explanation="Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search."
         url="https://g.co/AppIndexing/AndroidStudio"
         urls="https://g.co/AppIndexing/AndroidStudio"
-        errorLine1="    &lt;application"
+        errorLine1="    &lt;application"
         errorLine2="    ^"
         quickfix="studio">
         <location
-            file="./osmdroid-forge-app/src/main/AndroidManifest.xml"
+            file=".\osmdroid-forge-app\src\main\AndroidManifest.xml"
             line="37"
             column="5"/>
     </issue>
@@ -315,11 +315,11 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 * Do not build messages by concatenating text chunks. Such messages can not be properly translated."
         url="http://developer.android.com/guide/topics/resources/localization.html"
         urls="http://developer.android.com/guide/topics/resources/localization.html"
-        errorLine1="                currentCenter.setText(mapCenter.getLatitude() + &quot;,&quot; + mapCenter.getLongitude() + &quot; &quot; + mMap.getZoomLevel());"
+        errorLine1="                currentCenter.setText(mapCenter.getLatitude() + &quot;,&quot; + mapCenter.getLongitude() + &quot; &quot; + mMap.getZoomLevel());"
         errorLine2="                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java"
-            line="162"
+            file=".\osmdroid-forge-app\src\main\java\org\osmdroid\forge\app\MainActivity.java"
+            line="160"
             column="39"/>
     </issue>
 
@@ -335,10 +335,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 For XML attributes such as paddingLeft and `layout_marginLeft`, use `paddingStart` and `layout_marginStart`. *NOTE*: If your `minSdkVersion` is less than 17, you should add *both* the older left/right attributes *as well as* the new start/right attributes. On older platforms, where RTL is not supported and the start/right attributes are unknown and therefore ignored, you need the older left/right attributes. There is a separate lint check which catches that type of error.
 
 (Note: For `Gravity#LEFT` and `Gravity#START`, you can use these constants even when targeting older platforms, because the `start` bitmask is a superset of the `left` bitmask. Therefore, you can use `gravity=&quot;start&quot;` rather than `gravity=&quot;left|start&quot;`.)"
-        errorLine1="        android:layout_alignParentRight=&quot;true&quot;/>"
+        errorLine1="        android:layout_alignParentRight=&quot;true&quot;/>"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./osmdroid-forge-app/src/main/res/layout/content_main.xml"
+            file=".\osmdroid-forge-app\src\main\res\layout\content_main.xml"
             line="27"
             column="9"/>
     </issue>

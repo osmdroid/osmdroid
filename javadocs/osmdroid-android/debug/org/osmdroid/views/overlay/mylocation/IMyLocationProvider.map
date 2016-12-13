@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" id="node1_0" href="./GpsMyLocationProvider.html" title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" alt="" coords="16,120,179,147"/>
-<area shape="rect" id="node1" href="./GpsMyLocationProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,109,189,157"/>
-<area shape="rect" id="node2_1" href="./IMyLocationProvider.html" title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" alt="" coords="27,11,168,55"/>
-<area shape="rect" id="node2" href="./IMyLocationProvider.html" title="&lt;TABLE&gt;" alt="" coords="16,6,179,61"/>
+<area shape="rect" id="node1_0" href="./GpsMyLocationProvider.html" title="org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider" alt="" coords="16,118,172,143"/>
+<area shape="rect" id="node1" href="./GpsMyLocationProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,107,183,155"/>
+<area shape="rect" id="node2_1" href="./IMyLocationProvider.html" title="org.osmdroid.views.overlay.mylocation.IMyLocationProvider" alt="" coords="26,11,162,53"/>
+<area shape="rect" id="node2" href="./IMyLocationProvider.html" title="&lt;TABLE&gt;" alt="" coords="15,5,173,59"/>
 </map>

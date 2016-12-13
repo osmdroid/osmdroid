@@ -1,0 +1,24 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./BugsTestingActivity.html" title="org.osmdroid.BugsTestingActivity" alt="" coords="16,19,149,45"/>
+<area shape="rect" id="node1" href="./BugsTestingActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,8,160,56"/>
+<area shape="rect" id="node2_1" href="./ExtraSamplesActivity.html" title="org.osmdroid.ExtraSamplesActivity" alt="" coords="195,19,339,45"/>
+<area shape="rect" id="node2" href="./ExtraSamplesActivity.html" title="&lt;TABLE&gt;" alt="" coords="184,8,349,56"/>
+<area shape="rect" id="node3_2" href="./ISampleFactory.html" title="org.osmdroid.ISampleFactory" alt="" coords="385,11,495,53"/>
+<area shape="rect" id="node3" href="./ISampleFactory.html" title="&lt;TABLE&gt;" alt="" coords="374,5,506,59"/>
+<area shape="rect" id="node4_3" href="./MainActivity.html" title="org.osmdroid.MainActivity" alt="" coords="541,19,630,45"/>
+<area shape="rect" id="node4" href="./MainActivity.html" title="&lt;TABLE&gt;" alt="" coords="530,8,641,56"/>
+<area shape="rect" id="node5_4" href="./OsmApplication.html" title="org.osmdroid.OsmApplication" alt="" coords="676,19,788,45"/>
+<area shape="rect" id="node5" href="./OsmApplication.html" title="&lt;TABLE&gt;" alt="" coords="665,8,799,56"/>
+<area shape="rect" id="node6_5" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="org.osmdroid.OsmApplication.OsmUncaughtExceptionHandler" alt="" coords="834,19,1038,45"/>
+<area shape="rect" id="node6" href="./OsmApplication.OsmUncaughtExceptionHandler.html" title="&lt;TABLE&gt;" alt="" coords="823,8,1049,56"/>
+<area shape="rect" id="node7_6" href="./PreferenceActivity.html" title="org.osmdroid.PreferenceActivity" alt="" coords="1083,19,1207,45"/>
+<area shape="rect" id="node7" href="./PreferenceActivity.html" title="&lt;TABLE&gt;" alt="" coords="1073,8,1218,56"/>
+<area shape="rect" id="node8_7" href="./StarterMapActivity.html" title="org.osmdroid.StarterMapActivity" alt="" coords="1253,19,1379,45"/>
+<area shape="rect" id="node8" href="./StarterMapActivity.html" title="&lt;TABLE&gt;" alt="" coords="1243,8,1389,56"/>
+<area shape="rect" id="node9_8" href="./StarterMapFragment.html" title="org.osmdroid.StarterMapFragment" alt="" coords="1424,19,1563,45"/>
+<area shape="rect" id="node9" href="./StarterMapFragment.html" title="&lt;TABLE&gt;" alt="" coords="1413,8,1573,56"/>
+<area shape="rect" id="node10_9" href="./LocationListenerProxy.html" title="org.osmdroid.LocationListenerProxy" alt="" coords="1609,19,1757,45"/>
+<area shape="rect" id="node10" href="./LocationListenerProxy.html" title="&lt;TABLE&gt;" alt="" coords="1598,8,1767,56"/>
+<area shape="rect" id="node11_10" href="./SensorEventListenerProxy.html" title="org.osmdroid.SensorEventListenerProxy" alt="" coords="1802,19,1974,45"/>
+<area shape="rect" id="node11" href="./SensorEventListenerProxy.html" title="&lt;TABLE&gt;" alt="" coords="1791,8,1985,56"/>
+</map>

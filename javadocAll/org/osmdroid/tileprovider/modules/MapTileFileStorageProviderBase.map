@@ -1,0 +1,16 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./MapTileAssetsProvider.html" title="org.osmdroid.tileprovider.modules.MapTileAssetsProvider" alt="" coords="16,209,168,234"/>
+<area shape="rect" id="node1" href="./MapTileAssetsProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,197,179,245"/>
+<area shape="rect" id="node2_1" href="./MapTileFileArchiveProvider.html" title="org.osmdroid.tileprovider.modules.MapTileFileArchiveProvider" alt="" coords="213,209,387,234"/>
+<area shape="rect" id="node2" href="./MapTileFileArchiveProvider.html" title="&lt;TABLE&gt;" alt="" coords="203,197,397,245"/>
+<area shape="rect" id="node3_2" href="./MapTileFileStorageProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileFileStorageProviderBase" alt="" coords="416,113,624,138"/>
+<area shape="rect" id="node3" href="./MapTileFileStorageProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="405,101,635,149"/>
+<area shape="rect" id="node4_3" href="./MapTileFilesystemProvider.html" title="org.osmdroid.tileprovider.modules.MapTileFilesystemProvider" alt="" coords="433,209,607,234"/>
+<area shape="rect" id="node4" href="./MapTileFilesystemProvider.html" title="&lt;TABLE&gt;" alt="" coords="422,197,618,245"/>
+<area shape="rect" id="node6_4" href="./MapTileSqlCacheProvider.html" title="org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider" alt="" coords="653,209,819,234"/>
+<area shape="rect" id="node6" href="./MapTileSqlCacheProvider.html" title="&lt;TABLE&gt;" alt="" coords="642,197,830,245"/>
+<area shape="rect" id="node7_5" href="../../mapsforge/MapsForgeTileModuleProvider.html" title="org.osmdroid.mapsforge.MapsForgeTileModuleProvider" alt="" coords="865,209,1057,234"/>
+<area shape="rect" id="node7" href="../../mapsforge/MapsForgeTileModuleProvider.html" title="&lt;TABLE&gt;" alt="" coords="855,197,1068,245"/>
+<area shape="rect" id="node5_6" href="./MapTileModuleProviderBase.html" title="org.osmdroid.tileprovider.modules.MapTileModuleProviderBase" alt="" coords="429,17,611,42"/>
+<area shape="rect" id="node5" href="./MapTileModuleProviderBase.html" title="&lt;TABLE&gt;" alt="" coords="418,5,622,53"/>
+</map>

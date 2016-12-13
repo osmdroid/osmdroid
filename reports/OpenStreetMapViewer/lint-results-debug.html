@@ -18,25 +18,29 @@ document.getElementById(id+'Link').style.display = 'none';
 <body>
 <h1>Lint Report</h1>
 <div class="titleSeparator"></div>
-Check performed at Fri Oct 14 18:44:26 EDT 2016.<br/>
-28 errors and 111 warnings found:<br/><br/>
+Check performed at Mon Dec 12 19:53:50 EST 2016.<br/>
+46 errors and 144 warnings found:<br/><br/>
 <table class="overview">
 <tr><td></td><td class="categoryColumn"><a href="#Correctness">Correctness</a>
 </td></tr>
 <tr>
-<td class="countColumn">6</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">9</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#MissingPermission">MissingPermission: Missing Permissions</a>
+</td></tr>
+<tr>
+<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<a href="#ScrollViewSize">ScrollViewSize: ScrollView size validation</a>
 </td></tr>
 <tr>
 <td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#DefaultLocale">DefaultLocale: Implied default locale in case conversion</a>
 </td></tr>
 <tr>
-<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#InlinedApi">InlinedApi: Using inlined constants on older versions</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">7</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#NewApi">NewApi: Calling new methods on older versions</a>
 </td></tr>
 <tr>
@@ -44,15 +48,11 @@ Check performed at Fri Oct 14 18:44:26 EDT 2016.<br/>
 <a href="#OldTargetApi">OldTargetApi: Target SDK attribute is not targeting latest version</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
-<a href="#SdCardPath">SdCardPath: Hardcoded reference to <code>/sdcard</code></a>
-</td></tr>
-<tr>
 <td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#UnusedAttribute">UnusedAttribute: Attribute unused on older versions</a>
 </td></tr>
 <tr>
-<td class="countColumn">4</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">7</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#InflateParams">InflateParams: Layout Inflation without a Parent</a>
 </td></tr>
 <tr>
@@ -68,13 +68,13 @@ Check performed at Fri Oct 14 18:44:26 EDT 2016.<br/>
 <a href="#GradleOverrides">GradleOverrides: Value overridden by Gradle build script</a>
 </td></tr>
 <tr>
-<td class="countColumn">1</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">2</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#SwitchIntDef">SwitchIntDef: Missing @IntDef in Switch</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Correctness:Messages">Correctness:Messages</a>
 </td></tr>
 <tr>
-<td class="countColumn">21</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
+<td class="countColumn">30</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-error.png" alt="Error" />
 <a href="#MissingTranslation">MissingTranslation: Incomplete translation</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Security">Security</a>
@@ -102,17 +102,17 @@ Check performed at Fri Oct 14 18:44:26 EDT 2016.<br/>
 <tr><td></td><td class="categoryColumn"><a href="#Usability">Usability</a>
 </td></tr>
 <tr>
-<td class="countColumn">8</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">10</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#GoogleAppIndexingWarning">GoogleAppIndexingWarning: Missing support for Google App Indexing</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Internationalization">Internationalization</a>
 </td></tr>
 <tr>
-<td class="countColumn">31</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">42</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#SetTextI18n">SetTextI18n: TextView Internationalization</a>
 </td></tr>
 <tr>
-<td class="countColumn">20</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
+<td class="countColumn">34</td><td class="issueColumn"><img border="0" align="top" src="lint-results-debug_files/lint-warning.png" alt="Warning" />
 <a href="#HardcodedText">HardcodedText: Hardcoded text</a>
 </td></tr>
 <tr><td></td><td class="categoryColumn"><a href="#Internationalization:Bidirectional Text">Internationalization:Bidirectional Text</a>
@@ -136,54 +136,81 @@ Check performed at Fri Oct 14 18:44:26 EDT 2016.<br/>
 <div class="id"><a href="#" title="Return to top">MissingPermission: Missing Permissions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java</a>:42</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno">  39</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-<span class="lineno">  40</span>         try {
-<span class="lineno">  41</span>             //on API15 AVDs,network provider fails. no idea why
-<span class="lineno">  42</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);</span>
-<span class="lineno">  43</span>             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
-<span class="lineno">  44</span>         }
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java</a>:38</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno">  35</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+<span class="lineno">  36</span>         try {
+<span class="lineno">  37</span>             //on API15 AVDs,network provider fails. no idea why
+<span class="lineno">  38</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);</span>
+<span class="lineno">  39</span>             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+<span class="lineno">  40</span>         }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java</a>:43</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno">  40</span>         try {
-<span class="lineno">  41</span>             //on API15 AVDs,network provider fails. no idea why
-<span class="lineno">  42</span>             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-<span class="lineno">  43</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);</span>
-<span class="lineno">  44</span>         }
-<span class="lineno">  45</span>         catch (Exception ex){}
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java</a>:39</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno">  36</span>         try {
+<span class="lineno">  37</span>             //on API15 AVDs,network provider fails. no idea why
+<span class="lineno">  38</span>             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+<span class="lineno">  39</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);</span>
+<span class="lineno">  40</span>         }
+<span class="lineno">  41</span>         catch (Exception ex){}
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/SampleCustomIconDirectedLocationOverlay.java</a>:52</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno">  49</span>     public void onPause(){
-<span class="lineno">  50</span>         super.onPause();
-<span class="lineno">  51</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-<span class="lineno">  52</span>         <span class="errorspan">lm.removeUpdates(this);</span>
-<span class="lineno">  53</span> 
-<span class="lineno">  54</span>     }
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleCustomIconDirectedLocationOverlay.java</a>:48</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno">  45</span>     public void onPause(){
+<span class="lineno">  46</span>         super.onPause();
+<span class="lineno">  47</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+<span class="lineno">  48</span>         <span class="errorspan">lm.removeUpdates(this);</span>
+<span class="lineno">  49</span> 
+<span class="lineno">  50</span>     }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:103</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 100</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-<span class="lineno"> 101</span>         try {
-<span class="lineno"> 102</span>             //on API15 AVDs,network provider fails. no idea why
-<span class="lineno"> 103</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);</span>
-<span class="lineno"> 104</span>             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
-<span class="lineno"> 105</span>         } catch (Exception ex) {
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java</a>:121</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 118</span>     public void onPause() {
+<span class="lineno"> 119</span>         super.onPause();
+<span class="lineno"> 120</span>         try{
+<span class="lineno"> 121</span>             <span class="errorspan">lm.removeUpdates(this);</span>
+<span class="lineno"> 122</span>         }catch (Exception ex){}
+<span class="lineno"> 123</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:104</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 101</span>         try {
-<span class="lineno"> 102</span>             //on API15 AVDs,network provider fails. no idea why
-<span class="lineno"> 103</span>             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-<span class="lineno"> 104</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);</span>
-<span class="lineno"> 105</span>         } catch (Exception ex) {
-<span class="lineno"> 106</span>         }
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java</a>:135</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 132</span>         lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+<span class="lineno"> 133</span>         try{
+<span class="lineno"> 134</span>             //this fails on AVD 19s, even with the appcompat check, says no provided named gps is available
+<span class="lineno"> 135</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,0l,0f,this);</span>
+<span class="lineno"> 136</span>         }catch (Exception ex){}
+<span class="lineno"> 137</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:119</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
-<span class="lineno"> 116</span>         compass.stopOrientationProvider();
-<span class="lineno"> 117</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-<span class="lineno"> 118</span>         try {
-<span class="lineno"> 119</span>             <span class="errorspan">lm.removeUpdates(this);</span>
-<span class="lineno"> 120</span>         } catch (Exception ex) {
-<span class="lineno"> 121</span>         }
+<button id="MissingPermissionDivLink" onclick="reveal('MissingPermissionDiv');" />+ 4 More Occurrences...</button>
+<div id="MissingPermissionDiv" style="display: none">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java</a>:139</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 136</span>         }catch (Exception ex){}
+<span class="lineno"> 137</span> 
+<span class="lineno"> 138</span>         try{
+<span class="lineno"> 139</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0l,0f,this);</span>
+<span class="lineno"> 140</span>         }catch (Exception ex){}
+<span class="lineno"> 141</span> 
 </pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:111</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 108</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+<span class="lineno"> 109</span>         try {
+<span class="lineno"> 110</span>             //on API15 AVDs,network provider fails. no idea why
+<span class="lineno"> 111</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);</span>
+<span class="lineno"> 112</span>             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);
+<span class="lineno"> 113</span>         } catch (Exception ex) {
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:112</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 109</span>         try {
+<span class="lineno"> 110</span>             //on API15 AVDs,network provider fails. no idea why
+<span class="lineno"> 111</span>             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
+<span class="lineno"> 112</span>             <span class="errorspan">lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) this);</span>
+<span class="lineno"> 113</span>         } catch (Exception ex) {
+<span class="lineno"> 114</span>         }
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:127</span>: <span class="message">Call requires permission which may be rejected by user: code should explicitly check to see if permission is available (with <code>checkPermission</code>) or explicitly handle a potential <code>SecurityException</code></span><br /><pre class="errorlines">
+<span class="lineno"> 124</span>         compass.stopOrientationProvider();
+<span class="lineno"> 125</span>         LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+<span class="lineno"> 126</span>         try {
+<span class="lineno"> 127</span>             <span class="errorspan">lm.removeUpdates(this);</span>
+<span class="lineno"> 128</span>         } catch (Exception ex) {
+<span class="lineno"> 129</span>         }
+</pre>
+</div>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
 <br>
@@ -198,26 +225,51 @@ Furthermore, for permissions that are revocable (with targetSdkVersion 23), clie
 </div>
 <br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "MissingPermission" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
+<a name="ScrollViewSize"></a>
+<div class="issue">
+<div class="id"><a href="#" title="Return to top">ScrollViewSize: ScrollView size validation</a><div class="issueSeparator"></div>
+</div>
+<div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:8</span>: <span class="message">This LinearLayout should use <code>android:layout_height="wrap_content"</code></span><br /><pre class="errorlines">
+<span class="lineno">   5</span> 
+<span class="lineno">   6</span>     &lt;LinearLayout
+<span class="lineno">   7</span>         android:layout_width="match_parent"
+<span class="lineno">   8</span>         <span class="errorspan">android:layout_height="match_parent"</span>
+<span class="lineno">   9</span>         android:orientation="vertical">
+<span class="lineno">  10</span> 
+</pre>
+</div>
+<div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
+<br>
+Priority: 7 / 10<br/>
+Category: Correctness</div>
+Severity: <span class="warning">Warning</span><div class="summary">
+Explanation: ScrollView size validation.</div>
+<div class="explanation">
+ScrollView children must set their <code>layout_width</code> or <code>layout_height</code> attributes to <code>wrap_content</code> rather than <code>fill_parent</code> or <code>match_parent</code> in the scrolling dimension
+</div>
+<br/><div class="moreinfo">More info: </div><br/>To suppress this error, use the issue id "ScrollViewSize" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+</div>
 <a name="DefaultLocale"></a>
 <div class="issue">
 <div class="id"><a href="#" title="Return to top">DefaultLocale: Implied default locale in case conversion</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleOfflineOnly.java">../../src/main/java/org/osmdroid/samplefragments/SampleOfflineOnly.java</a>:51</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno">  48</span>                     if (list[i].isDirectory()) {
-<span class="lineno">  49</span>                         continue;
-<span class="lineno">  50</span>                     }
-<span class="lineno">  51</span>                     String name = list[i].getName().<span class="errorspan">toLowerCase();</span>
-<span class="lineno">  52</span>                     if (!name.contains(".")) {
-<span class="lineno">  53</span>                         continue; //skip files without an extension
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/tilesources/SampleOfflineOnly.java">../../src/main/java/org/osmdroid/samplefragments/tilesources/SampleOfflineOnly.java</a>:52</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno">  49</span>                     if (list[i].isDirectory()) {
+<span class="lineno">  50</span>                         continue;
+<span class="lineno">  51</span>                     }
+<span class="lineno">  52</span>                     String name = list[i].getName().<span class="errorspan">toLowerCase();</span>
+<span class="lineno">  53</span>                     if (!name.contains(".")) {
+<span class="lineno">  54</span>                         continue; //skip files without an extension
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleSqliteOnly.java">../../src/main/java/org/osmdroid/samplefragments/SampleSqliteOnly.java</a>:45</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
-<span class="lineno">  42</span>                     if (list[i].isDirectory()) {
-<span class="lineno">  43</span>                         continue;
-<span class="lineno">  44</span>                     }
-<span class="lineno">  45</span>                     String name = list[i].getName().<span class="errorspan">toLowerCase();</span>
-<span class="lineno">  46</span>                     if (!name.contains(".")) {
-<span class="lineno">  47</span>                         continue; //skip files without an extension
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleSqliteOnly.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleSqliteOnly.java</a>:43</span>: <span class="message">Implicitly using the default locale is a common source of bugs: Use <code>toLowerCase(Locale)</code> instead</span><br /><pre class="errorlines">
+<span class="lineno">  40</span>                     if (list[i].isDirectory()) {
+<span class="lineno">  41</span>                         continue;
+<span class="lineno">  42</span>                     }
+<span class="lineno">  43</span>                     String name = list[i].getName().<span class="errorspan">toLowerCase();</span>
+<span class="lineno">  44</span>                     if (!name.contains(".")) {
+<span class="lineno">  45</span>                         continue; //skip files without an extension
 </pre>
 </div>
 <div class="metadata">Priority: 6 / 10<br/>
@@ -237,21 +289,37 @@ If you want the methods to just perform ASCII replacement, for example to conver
 <div class="id"><a href="#" title="Return to top">InlinedApi: Using inlined constants on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:87</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_PORTRAIT</code></span><br /><pre class="errorlines">
-<span class="lineno">  84</span>                 break;
-<span class="lineno">  85</span>             case Surface.ROTATION_180:
-<span class="lineno">  86</span>                 this.deviceOrientation = 180;
-<span class="lineno">  87</span>                 orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;</span>
-<span class="lineno">  88</span>                 screen_orientation = "ROTATION_180 SCREEN_ORIENTATION_REVERSE_PORTRAIT";
-<span class="lineno">  89</span>                 break;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:94</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_PORTRAIT</code></span><br /><pre class="errorlines">
+<span class="lineno">  91</span>                     break;
+<span class="lineno">  92</span>                 case Surface.ROTATION_180:
+<span class="lineno">  93</span>                     this.deviceOrientation = 180;
+<span class="lineno">  94</span>                     orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;</span>
+<span class="lineno">  95</span>                     screen_orientation = "ROTATION_180 SCREEN_ORIENTATION_REVERSE_PORTRAIT";
+<span class="lineno">  96</span>                     break;
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:92</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_LANDSCAPE</code></span><br /><pre class="errorlines">
-<span class="lineno">  89</span>                 break;
-<span class="lineno">  90</span>             default:
-<span class="lineno">  91</span>                 this.deviceOrientation = 270;
-<span class="lineno">  92</span>                 orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;</span>
-<span class="lineno">  93</span>                 screen_orientation = "ROTATION_270 SCREEN_ORIENTATION_REVERSE_LANDSCAPE";
-<span class="lineno">  94</span>                 break;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:99</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_LANDSCAPE</code></span><br /><pre class="errorlines">
+<span class="lineno">  96</span>                     break;
+<span class="lineno">  97</span>                 default:
+<span class="lineno">  98</span>                     this.deviceOrientation = 270;
+<span class="lineno">  99</span>                     orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;</span>
+<span class="lineno"> 100</span>                     screen_orientation = "ROTATION_270 SCREEN_ORIENTATION_REVERSE_LANDSCAPE";
+<span class="lineno"> 101</span>                     break;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java">../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java</a>:127</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_PORTRAIT</code></span><br /><pre class="errorlines">
+<span class="lineno"> 124</span>                 break;
+<span class="lineno"> 125</span>             case Surface.ROTATION_180:
+<span class="lineno"> 126</span>                 this.deviceOrientation = 180;
+<span class="lineno"> 127</span>                 orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;</span>
+<span class="lineno"> 128</span>                 break;
+<span class="lineno"> 129</span>             default:
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java">../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java</a>:131</span>: <span class="message">Field requires API level 9 (current min is 8): <code>android.content.pm.ActivityInfo#SCREEN_ORIENTATION_REVERSE_LANDSCAPE</code></span><br /><pre class="errorlines">
+<span class="lineno"> 128</span>                 break;
+<span class="lineno"> 129</span>             default:
+<span class="lineno"> 130</span>                 this.deviceOrientation = 270;
+<span class="lineno"> 131</span>                 orientation = <span class="errorspan">ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;</span>
+<span class="lineno"> 132</span>                 break;
+<span class="lineno"> 133</span>         }
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -274,13 +342,61 @@ If your code is <b>deliberately</b> accessing newer APIs, and you have ensured (
 <div class="id"><a href="#" title="Return to top">NewApi: Calling new methods on older versions</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:131</span>: <span class="message">Call requires API level 23 (current min is 8): <code>android.app.Activity#requestPermissions</code></span><br /><pre class="errorlines">
-<span class="lineno"> 128</span>         if (!permissions.isEmpty()) {
-<span class="lineno"> 129</span>             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-<span class="lineno"> 130</span>             String[] params = permissions.toArray(new String[permissions.size()]);
-<span class="lineno"> 131</span>             <span class="errorspan">requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);</span>
-<span class="lineno"> 132</span>         } // else: We already have permissions, so handle as normal
-<span class="lineno"> 133</span>     }
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java">../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java</a>:43</span>: <span class="message">Class requires API level 12 (current min is 8): <code>android.view.View.OnGenericMotionListener</code></span><br /><pre class="errorlines">
+<span class="lineno">  40</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  41</span> 		mMapView = new MapView(inflater.getContext());
+<span class="lineno">  42</span> 		if (Build.VERSION.SDK_INT >= 12) {
+<span class="lineno">  43</span> 			mMapView.setOnGenericMotionListener(new View.<span class="errorspan">OnGenericMotionListener() {</span>
+<span class="lineno">  44</span> 				/**
+<span class="lineno">  45</span> 				 * mouse wheel zooming ftw
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java">../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java</a>:53</span>: <span class="message">Call requires API level 9 (current min is 8): <code>android.view.MotionEvent#getSource</code></span><br /><pre class="errorlines">
+<span class="lineno">  50</span> 				 */
+<span class="lineno">  51</span> 				@Override
+<span class="lineno">  52</span> 				public boolean onGenericMotion(View v, MotionEvent event) {
+<span class="lineno">  53</span> 					if (0 != (event.<span class="errorspan">getSource() &amp; InputDevice.SOURCE_CLASS_POINTER)) {</span>
+<span class="lineno">  54</span> 						switch (event.getAction()) {
+<span class="lineno">  55</span> 							case MotionEvent.ACTION_SCROLL:
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java">../../src/main/java/org/osmdroid/samplefragments/BaseSampleFragment.java</a>:56</span>: <span class="message">Call requires API level 12 (current min is 8): <code>android.view.MotionEvent#getAxisValue</code></span><br /><pre class="errorlines">
+<span class="lineno">  53</span> 					if (0 != (event.getSource() &amp; InputDevice.SOURCE_CLASS_POINTER)) {
+<span class="lineno">  54</span> 						switch (event.getAction()) {
+<span class="lineno">  55</span> 							case MotionEvent.ACTION_SCROLL:
+<span class="lineno">  56</span> 								if (event.<span class="errorspan">getAxisValue(MotionEvent.AXIS_VSCROLL) &lt; 0.0f)</span>
+<span class="lineno">  57</span> 									mMapView.getController().zoomOut();
+<span class="lineno">  58</span> 								else {
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:189</span>: <span class="message">Call requires API level 23 (current min is 8): <code>android.app.Activity#requestPermissions</code></span><br /><pre class="errorlines">
+<span class="lineno"> 186</span>         if (!permissions.isEmpty()) {
+<span class="lineno"> 187</span>             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+<span class="lineno"> 188</span>             String[] params = permissions.toArray(new String[permissions.size()]);
+<span class="lineno"> 189</span>             <span class="errorspan">requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);</span>
+<span class="lineno"> 190</span>         } // else: We already have permissions, so handle as normal
+<span class="lineno"> 191</span>     }
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/StarterMapFragment.java">../../src/main/java/org/osmdroid/StarterMapFragment.java</a>:90</span>: <span class="message">Class requires API level 12 (current min is 8): <code>android.view.View.OnGenericMotionListener</code></span><br /><pre class="errorlines">
+<span class="lineno">  87</span>          //update, no longer needed, the mapView is hardware acceleration off by defaul tnow
+<span class="lineno">  88</span> 
+<span class="lineno">  89</span>          if (Build.VERSION.SDK_INT >= 12) {
+<span class="lineno">  90</span>              mMapView.setOnGenericMotionListener(new View.<span class="errorspan">OnGenericMotionListener() {</span>
+<span class="lineno">  91</span>                  /**
+<span class="lineno">  92</span>                   * mouse wheel zooming ftw
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/StarterMapFragment.java">../../src/main/java/org/osmdroid/StarterMapFragment.java</a>:100</span>: <span class="message">Call requires API level 9 (current min is 8): <code>android.view.MotionEvent#getSource</code></span><br /><pre class="errorlines">
+<span class="lineno">  97</span>                   */
+<span class="lineno">  98</span>                  @Override
+<span class="lineno">  99</span>                  public boolean onGenericMotion(View v, MotionEvent event) {
+<span class="lineno"> 100</span>                      if (0 != (event.<span class="errorspan">getSource() &amp; InputDevice.SOURCE_CLASS_POINTER)) {</span>
+<span class="lineno"> 101</span>                          switch (event.getAction()) {
+<span class="lineno"> 102</span>                              case MotionEvent.ACTION_SCROLL:
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/StarterMapFragment.java">../../src/main/java/org/osmdroid/StarterMapFragment.java</a>:103</span>: <span class="message">Call requires API level 12 (current min is 8): <code>android.view.MotionEvent#getAxisValue</code></span><br /><pre class="errorlines">
+<span class="lineno"> 100</span>                      if (0 != (event.getSource() &amp; InputDevice.SOURCE_CLASS_POINTER)) {
+<span class="lineno"> 101</span>                          switch (event.getAction()) {
+<span class="lineno"> 102</span>                              case MotionEvent.ACTION_SCROLL:
+<span class="lineno"> 103</span>                                  if (event.<span class="errorspan">getAxisValue(MotionEvent.AXIS_VSCROLL) &lt; 0.0f)</span>
+<span class="lineno"> 104</span>                                      mMapView.getController().zoomOut();
+<span class="lineno"> 105</span>                                  else {
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ & Eclipse/ADT&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -311,7 +427,7 @@ Similarly, you can use tools:targetApi="11" in an XML file to indicate that the 
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;uses-sdk
 <span class="lineno">   8</span>         android:minSdkVersion="8"
-<span class="lineno">   9</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   9</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">  10</span> 
 <span class="lineno">  11</span>     &lt;supports-screens
 </pre>
@@ -330,32 +446,6 @@ To fix this issue, set the <code>targetSdkVersion</code> to the highest availabl
 <br/><div class="moreinfo">More info: <a href="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html">http://developer.android.com/reference/android/os/Build.VERSION_CODES.html</a>
 </div><br/>To suppress this error, use the issue id "OldTargetApi" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 </div>
-<a name="SdCardPath"></a>
-<div class="issue">
-<div class="id"><a href="#" title="Return to top">SdCardPath: Hardcoded reference to <code>/sdcard</code></a><div class="issueSeparator"></div>
-</div>
-<div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleAlternateCacheDir.java">../../src/main/java/org/osmdroid/samplefragments/SampleAlternateCacheDir.java</a>:29</span>: <span class="message">Do not hardcode "/sdcard/"; use <code>Environment.getExternalStorageDirectory().getPath()</code> instead</span><br /><pre class="errorlines">
-<span class="lineno">  26</span>      @Override
-<span class="lineno">  27</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-<span class="lineno">  28</span> 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
-<span class="lineno">  29</span>           OpenStreetMapTileProviderConstants.setCachePath(new File(<span class="errorspan">"/sdcard/osmdroid2/").getAbsolutePath());</span>
-<span class="lineno">  30</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
-<span class="lineno">  31</span>           
-</pre>
-</div>
-<div class="metadata">Priority: 6 / 10<br/>
-Category: Correctness</div>
-Severity: <span class="warning">Warning</span><div class="summary">
-Explanation: Hardcoded reference to <code>/sdcard</code></div>
-<div class="explanation">
-Your code should not reference the <code>/sdcard</code> path directly; instead use <code>Environment.getExternalStorageDirectory().getPath()</code>.<br/>
-<br/>
-Similarly, do not reference the <code>/data/data/</code> path directly; it can vary in multi-user scenarios. Instead, use <code>Context.getFilesDir().getPath()</code>.
-</div>
-<br/><div class="moreinfo">More info: <a href="http://developer.android.com/guide/topics/data/data-storage.html#filesExternal">http://developer.android.com/guide/topics/data/data-storage.html#filesExternal</a>
-</div><br/>To suppress this error, use the issue id "SdCardPath" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
-</div>
 <a name="UnusedAttribute"></a>
 <div class="issue">
 <div class="id"><a href="#" title="Return to top">UnusedAttribute: Attribute unused on older versions</a><div class="issueSeparator"></div>
@@ -365,7 +455,7 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 <span class="lineno">  38</span> 
 <span class="lineno">  39</span>     &lt;application
 <span class="lineno">  40</span>         android:name=".OsmApplication"
-<span class="lineno">  41</span>         <span class="errorspan">android:hardwareAccelerated="true"</span>
+<span class="lineno">  41</span>         <span class="errorspan">android:hardwareAccelerated="true"</span>
 <span class="lineno">  42</span>         android:largeHeap="true"
 <span class="lineno">  43</span>         android:icon="@drawable/icon"
 </pre>
@@ -373,7 +463,7 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 <span class="lineno">  39</span>     &lt;application
 <span class="lineno">  40</span>         android:name=".OsmApplication"
 <span class="lineno">  41</span>         android:hardwareAccelerated="true"
-<span class="lineno">  42</span>         <span class="errorspan">android:largeHeap="true"</span>
+<span class="lineno">  42</span>         <span class="errorspan">android:largeHeap="true"</span>
 <span class="lineno">  43</span>         android:icon="@drawable/icon"
 <span class="lineno">  44</span>         android:label="@string/app_name">
 </pre>
@@ -381,7 +471,7 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
 <span class="lineno">  15</span>         android:text="PLACEHOLDER"
-<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
+<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
 <span class="lineno">  17</span>         android:gravity="center"
 <span class="lineno">  18</span>         android:textColor="@android:color/white"
 </pre>
@@ -389,7 +479,7 @@ Similarly, do not reference the <code>/data/data/</code> path directly; it can v
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
 <span class="lineno">  15</span>         android:text="PLACEHOLDER"
-<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
+<span class="lineno">  16</span>         <span class="errorspan">android:textAlignment="center"</span>
 <span class="lineno">  17</span>         android:gravity="center"
 <span class="lineno">  18</span>         android:textColor="@android:color/white"
 </pre>
@@ -414,37 +504,61 @@ Note: This check does not only apply to attributes. For example, some tags can b
 <div class="id"><a href="#" title="Return to top">InflateParams: Layout Inflation without a Parent</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleAlternateCacheDir.java">../../src/main/java/org/osmdroid/samplefragments/SampleAlternateCacheDir.java</a>:28</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
-<span class="lineno">  25</span>      }
-<span class="lineno">  26</span>      @Override
-<span class="lineno">  27</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-<span class="lineno">  28</span> 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
-<span class="lineno">  29</span>           OpenStreetMapTileProviderConstants.setCachePath(new File("/sdcard/osmdroid2/").getAbsolutePath());
-<span class="lineno">  30</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/pager/MapInAViewPagerFragment.java">../../src/main/java/org/osmdroid/samplefragments/pager/MapInAViewPagerFragment.java</a>:35</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  32</span> 
+<span class="lineno">  33</span>     @Override
+<span class="lineno">  34</span>     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  35</span>         View v = inflater.inflate(R.layout.map_viewpager, <span class="errorspan">null);</span>
+<span class="lineno">  36</span>         mPager = (ViewPager) v.findViewById(R.id.pager);
+<span class="lineno">  37</span>         mPagerAdapter = new MapSliderAdapter(getActivity().getSupportFragmentManager());
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleFollowMe.java">../../src/main/java/org/osmdroid/samplefragments/SampleFollowMe.java</a>:48</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
-<span class="lineno">  45</span> 
-<span class="lineno">  46</span>     @Override
-<span class="lineno">  47</span>     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-<span class="lineno">  48</span>         View v = inflater.inflate(R.layout.sample_followme, <span class="errorspan">null);</span>
-<span class="lineno">  49</span>         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleAlternateCacheDir.java</a>:32</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  29</span>      }
+<span class="lineno">  30</span>      @Override
+<span class="lineno">  31</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  32</span> 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
+<span class="lineno">  33</span>         Configuration.getInstance().setOsmdroidTileCache((new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/osmdroid2")));
+<span class="lineno">  34</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleFollowMe.java</a>:46</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  43</span> 
+<span class="lineno">  44</span>     @Override
+<span class="lineno">  45</span>     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  46</span>         View v = inflater.inflate(R.layout.sample_followme, <span class="errorspan">null);</span>
+<span class="lineno">  47</span>         mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+<span class="lineno">  48</span> 
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/layouts/SampleFragmentXmlLayout.java">../../src/main/java/org/osmdroid/samplefragments/layouts/SampleFragmentXmlLayout.java</a>:32</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  29</span> 
+<span class="lineno">  30</span> 	@Override
+<span class="lineno">  31</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  32</span> 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
+<span class="lineno">  33</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
+<span class="lineno">  34</span> 		return v;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/tilesources/SampleMapBox.java">../../src/main/java/org/osmdroid/samplefragments/tilesources/SampleMapBox.java</a>:53</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
 <span class="lineno">  50</span> 
+<span class="lineno">  51</span>         // get prompts.xml view
+<span class="lineno">  52</span>         LayoutInflater li = LayoutInflater.from(getActivity());
+<span class="lineno">  53</span>          promptsView = li.inflate(R.layout.mapbox_prompt, <span class="errorspan">null);</span>
+<span class="lineno">  54</span> 
+<span class="lineno">  55</span>         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleFragmentXmlLayout.java">../../src/main/java/org/osmdroid/samplefragments/SampleFragmentXmlLayout.java</a>:31</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
-<span class="lineno">  28</span> 
-<span class="lineno">  29</span> 	@Override
-<span class="lineno">  30</span> 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-<span class="lineno">  31</span> 		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, <span class="errorspan">null);</span>
-<span class="lineno">  32</span> 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
-<span class="lineno">  33</span> 		return v;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/pager/SimpleTextFragment.java">../../src/main/java/org/osmdroid/samplefragments/pager/SimpleTextFragment.java</a>:24</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  21</span> 
+<span class="lineno">  22</span>     @Override
+<span class="lineno">  23</span>     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  24</span>         View v = inflater.inflate(R.layout.map_viewpager_simple, <span class="errorspan">null);</span>
+<span class="lineno">  25</span>         return v;
+<span class="lineno">  26</span>     }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleMapBox.java">../../src/main/java/org/osmdroid/samplefragments/SampleMapBox.java</a>:52</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
-<span class="lineno">  49</span> 
-<span class="lineno">  50</span>         // get prompts.xml view
-<span class="lineno">  51</span>         LayoutInflater li = LayoutInflater.from(getActivity());
-<span class="lineno">  52</span>          promptsView = li.inflate(R.layout.mapbox_prompt, <span class="errorspan">null);</span>
-<span class="lineno">  53</span> 
-<span class="lineno">  54</span>         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/pager/WebviewFragment.java">../../src/main/java/org/osmdroid/samplefragments/pager/WebviewFragment.java</a>:28</span>: <span class="message">Avoid passing <code>null</code> as the view root (needed to resolve layout parameters on the inflated layout's root element)</span><br /><pre class="errorlines">
+<span class="lineno">  25</span> 
+<span class="lineno">  26</span>     @Override
+<span class="lineno">  27</span>     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+<span class="lineno">  28</span>         View v = inflater.inflate(R.layout.map_viewpager_webview, <span class="errorspan">null);</span>
+<span class="lineno">  29</span>         webview = (WebView) v.findViewById(R.id.webview1);
+<span class="lineno">  30</span>         return v;
 </pre>
 </div>
 <div class="metadata">Priority: 5 / 10<br/>
@@ -462,19 +576,19 @@ When inflating a layout, avoid passing in null as the parent view, since otherwi
 <div class="id"><a href="#" title="Return to top">GradleDependency: Obsolete Gradle Dependency</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:30</span>: <span class="message">A newer version of com.android.support:support-v4 than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span> 
 <span class="lineno">  29</span> dependencies {
-<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
 <span class="lineno">  31</span>     compile project(':osmdroid-android')
 <span class="lineno">  32</span> 
 </pre>
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:42</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1</span><br /><pre class="errorlines">
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:42</span>: <span class="message">A newer version of com.android.support:support-annotations than 23.+ is available: 25.0.1</span><br /><pre class="errorlines">
 <span class="lineno">  39</span>     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 <span class="lineno">  40</span> 
 <span class="lineno">  41</span>     //on device testing
-<span class="lineno">  42</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  42</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  43</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  44</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -499,7 +613,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  27</span> 
 <span class="lineno">  28</span> 
 <span class="lineno">  29</span> dependencies {
-<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
+<span class="lineno">  30</span>     <span class="errorspan">compile 'com.android.support:support-v4:23+'</span>
 <span class="lineno">  31</span>     compile project(':osmdroid-android')
 <span class="lineno">  32</span> 
 </pre>
@@ -507,7 +621,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  39</span>     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 <span class="lineno">  40</span> 
 <span class="lineno">  41</span>     //on device testing
-<span class="lineno">  42</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
+<span class="lineno">  42</span>     <span class="errorspan">androidTestCompile 'com.android.support:support-annotations:23+'</span>
 <span class="lineno">  43</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
 <span class="lineno">  44</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 </pre>
@@ -515,7 +629,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  40</span> 
 <span class="lineno">  41</span>     //on device testing
 <span class="lineno">  42</span>     androidTestCompile 'com.android.support:support-annotations:23+'
-<span class="lineno">  43</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
+<span class="lineno">  43</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:runner:0.4.+'</span>
 <span class="lineno">  44</span>     androidTestCompile 'com.android.support.test:rules:0.4.+'
 <span class="lineno">  45</span> }
 </pre>
@@ -523,7 +637,7 @@ This detector looks for usages of libraries where the version you are using is n
 <span class="lineno">  41</span>     //on device testing
 <span class="lineno">  42</span>     androidTestCompile 'com.android.support:support-annotations:23+'
 <span class="lineno">  43</span>     androidTestCompile 'com.android.support.test:runner:0.4.+'
-<span class="lineno">  44</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
+<span class="lineno">  44</span>     <span class="errorspan">androidTestCompile 'com.android.support.test:rules:0.4.+'</span>
 <span class="lineno">  45</span> }
 <span class="lineno">  46</span> 
 </pre>
@@ -548,15 +662,15 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   1</span> &lt;?xml version="1.0" encoding="utf-8"?>
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid"
-<span class="lineno">   4</span>     <span class="errorspan">android:versionCode="20"</span>
+<span class="lineno">   4</span>     <span class="errorspan">android:versionCode="20"</span>
 <span class="lineno">   5</span>     android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   6</span> 
 </pre>
-<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6-SNAPSHOT</code>)</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:5</span>: <span class="message">This <code>versionName</code> value (<code>5.3-SNAPSHOT</code>) is not used; it is always overridden by the value specified in the Gradle build script (<code>5.6</code>)</span><br /><pre class="errorlines">
 <span class="lineno">   2</span> &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
 <span class="lineno">   3</span>     package="org.osmdroid"
 <span class="lineno">   4</span>     android:versionCode="20"
-<span class="lineno">   5</span>     <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
+<span class="lineno">   5</span>     <span class="errorspan">android:versionName="5.3-SNAPSHOT"></span>
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;uses-sdk
 </pre>
@@ -564,7 +678,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   5</span>     android:versionName="5.3-SNAPSHOT">
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;uses-sdk
-<span class="lineno">   8</span>         <span class="errorspan">android:minSdkVersion="8"</span>
+<span class="lineno">   8</span>         <span class="errorspan">android:minSdkVersion="8"</span>
 <span class="lineno">   9</span>         android:targetSdkVersion="23" />
 <span class="lineno">  10</span> 
 </pre>
@@ -572,7 +686,7 @@ Using <code>+</code> in dependencies lets you automatically pick up the latest a
 <span class="lineno">   6</span> 
 <span class="lineno">   7</span>     &lt;uses-sdk
 <span class="lineno">   8</span>         android:minSdkVersion="8"
-<span class="lineno">   9</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
+<span class="lineno">   9</span>         <span class="errorspan">android:targetSdkVersion="23" /></span>
 <span class="lineno">  10</span> 
 <span class="lineno">  11</span>     &lt;supports-screens
 </pre>
@@ -591,13 +705,21 @@ The value of (for example) <code>minSdkVersion</code> is only used if it is not 
 <div class="id"><a href="#" title="Return to top">SwitchIntDef: Missing @IntDef in Switch</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:74</span>: <span class="message">Switch statement on an <code>int</code> with known associated constant missing case <code>ROTATION_270</code></span><br /><pre class="errorlines">
-<span class="lineno">  71</span>         int orientation;
-<span class="lineno">  72</span>         int rotation = ((WindowManager) getActivity().getSystemService(
-<span class="lineno">  73</span>                 Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
-<span class="lineno">  74</span>         <span class="errorspan">switch (rotation) {</span>
-<span class="lineno">  75</span>             case Surface.ROTATION_0:
-<span class="lineno">  76</span>                 orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:81</span>: <span class="message">Switch statement on an <code>int</code> with known associated constant missing case <code>ROTATION_270</code></span><br /><pre class="errorlines">
+<span class="lineno">  78</span>             int orientation;
+<span class="lineno">  79</span>             int rotation = ((WindowManager) getActivity().getSystemService(
+<span class="lineno">  80</span>                 Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+<span class="lineno">  81</span>             <span class="errorspan">switch (rotation) {</span>
+<span class="lineno">  82</span>                 case Surface.ROTATION_0:
+<span class="lineno">  83</span>                     orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java">../../src/main/java/org/osmdroid/bugtestfragments/WeathForceActivity.java</a>:116</span>: <span class="message">Switch statement on an <code>int</code> with known associated constant missing case <code>ROTATION_270</code></span><br /><pre class="errorlines">
+<span class="lineno"> 113</span>         int orientation;
+<span class="lineno"> 114</span>         int rotation = ((WindowManager) this.getSystemService(
+<span class="lineno"> 115</span>                 Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+<span class="lineno"> 116</span>         <span class="errorspan">switch (rotation) {</span>
+<span class="lineno"> 117</span>             case Surface.ROTATION_0:
+<span class="lineno"> 118</span>                 orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 </pre>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
@@ -624,7 +746,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   5</span>     &lt;string name="unknown">Unknown&lt;/string>
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
-<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
+<span class="lineno">   8</span>     &lt;string <span class="errorspan">name="offline">Offline mode&lt;/string></span>
 <span class="lineno">   9</span>     &lt;string name="samples">Samples&lt;/string>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 </pre>
@@ -632,7 +754,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">   6</span>     &lt;string name="map_mode">Map Source&lt;/string>
 <span class="lineno">   7</span>     &lt;string name="my_location">My location&lt;/string>
 <span class="lineno">   8</span>     &lt;string name="offline">Offline mode&lt;/string>
-<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
+<span class="lineno">   9</span>     &lt;string <span class="errorspan">name="samples">Samples&lt;/string></span>
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 </pre>
@@ -640,7 +762,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  10</span>     &lt;string name="about">About&lt;/string>
 <span class="lineno">  11</span>     &lt;string name="about_message">This software uses map data provided by OpenStreetMap.org&lt;/string>
 <span class="lineno">  12</span> 
-<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
+<span class="lineno">  13</span>     &lt;string <span class="errorspan">name="first_fix_message">Got the first fix&lt;/string></span>
 <span class="lineno">  14</span> 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 </pre>
@@ -648,7 +770,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 <span class="lineno">  14</span> 
-<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="set_mode_offline">Set to offline mode&lt;/string></span>
+<span class="lineno">  15</span>     &lt;string <span class="errorspan">name="set_mode_offline">Set to offline mode&lt;/string></span>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
 </pre>
@@ -656,17 +778,17 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  13</span>     &lt;string name="first_fix_message">Got the first fix&lt;/string>
 <span class="lineno">  14</span> 
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
-<span class="lineno">  16</span>     &lt;string <span class="errorspan">name="set_mode_online">Set to online mode&lt;/string></span>
+<span class="lineno">  16</span>     &lt;string <span class="errorspan">name="set_mode_online">Set to online mode&lt;/string></span>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
 </pre>
-<button id="MissingTranslationDivLink" onclick="reveal('MissingTranslationDiv');" />+ 16 More Occurrences...</button>
+<button id="MissingTranslationDivLink" onclick="reveal('MissingTranslationDiv');" />+ 25 More Occurrences...</button>
 <div id="MissingTranslationDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:18</span>: <span class="message">"<code>set_mode_show_me</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
 <span class="lineno">  15</span>     &lt;string name="set_mode_offline">Set to offline mode&lt;/string>
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
-<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
+<span class="lineno">  18</span>     &lt;string <span class="errorspan">name="set_mode_show_me">showing and tracking my current location&lt;/string></span>
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
 </pre>
@@ -674,7 +796,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  16</span>     &lt;string name="set_mode_online">Set to online mode&lt;/string>
 <span class="lineno">  17</span> 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
-<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
+<span class="lineno">  19</span>     &lt;string <span class="errorspan">name="set_mode_hide_me">hiding my current location&lt;/string></span>
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 </pre>
@@ -682,7 +804,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  18</span>     &lt;string name="set_mode_show_me">showing and tracking my current location&lt;/string>
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
-<span class="lineno">  21</span>     &lt;string <span class="errorspan">name="format_distance_meters">%s m&lt;/string></span>
+<span class="lineno">  21</span>     &lt;string <span class="errorspan">name="format_distance_meters">%s m&lt;/string></span>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 </pre>
@@ -690,7 +812,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  19</span>     &lt;string name="set_mode_hide_me">hiding my current location&lt;/string>
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
-<span class="lineno">  22</span>     &lt;string <span class="errorspan">name="format_distance_kilometers">%s km&lt;/string></span>
+<span class="lineno">  22</span>     &lt;string <span class="errorspan">name="format_distance_kilometers">%s km&lt;/string></span>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 </pre>
@@ -698,7 +820,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  20</span> 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
-<span class="lineno">  23</span>     &lt;string <span class="errorspan">name="format_distance_miles">%s mi&lt;/string></span>
+<span class="lineno">  23</span>     &lt;string <span class="errorspan">name="format_distance_miles">%s mi&lt;/string></span>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 </pre>
@@ -706,7 +828,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  21</span>     &lt;string name="format_distance_meters">%s m&lt;/string>
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
-<span class="lineno">  24</span>     &lt;string <span class="errorspan">name="format_distance_nautical_miles">%s nm&lt;/string></span>
+<span class="lineno">  24</span>     &lt;string <span class="errorspan">name="format_distance_nautical_miles">%s nm&lt;/string></span>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 <span class="lineno">  26</span> 
 </pre>
@@ -714,7 +836,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  22</span>     &lt;string name="format_distance_kilometers">%s km&lt;/string>
 <span class="lineno">  23</span>     &lt;string name="format_distance_miles">%s mi&lt;/string>
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
-<span class="lineno">  25</span>     &lt;string <span class="errorspan">name="format_distance_feet">%s ft&lt;/string></span>
+<span class="lineno">  25</span>     &lt;string <span class="errorspan">name="format_distance_feet">%s ft&lt;/string></span>
 <span class="lineno">  26</span> 
 <span class="lineno">  27</span>     &lt;string name="compass">Compass&lt;/string>
 </pre>
@@ -722,7 +844,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  24</span>     &lt;string name="format_distance_nautical_miles">%s nm&lt;/string>
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 <span class="lineno">  26</span> 
-<span class="lineno">  27</span>     &lt;string <span class="errorspan">name="compass">Compass&lt;/string></span>
+<span class="lineno">  27</span>     &lt;string <span class="errorspan">name="compass">Compass&lt;/string></span>
 <span class="lineno">  28</span>     &lt;string name="cancel">Cancel&lt;/string>
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
 </pre>
@@ -730,7 +852,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  25</span>     &lt;string name="format_distance_feet">%s ft&lt;/string>
 <span class="lineno">  26</span> 
 <span class="lineno">  27</span>     &lt;string name="compass">Compass&lt;/string>
-<span class="lineno">  28</span>     &lt;string <span class="errorspan">name="cancel">Cancel&lt;/string></span>
+<span class="lineno">  28</span>     &lt;string <span class="errorspan">name="cancel">Cancel&lt;/string></span>
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
 </pre>
@@ -738,7 +860,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  26</span> 
 <span class="lineno">  27</span>     &lt;string name="compass">Compass&lt;/string>
 <span class="lineno">  28</span>     &lt;string name="cancel">Cancel&lt;/string>
-<span class="lineno">  29</span>     &lt;string <span class="errorspan">name="cache_current_size">Cache Current Size&lt;/string></span>
+<span class="lineno">  29</span>     &lt;string <span class="errorspan">name="cache_current_size">Cache Current Size&lt;/string></span>
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
 <span class="lineno">  31</span>     &lt;string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string>
 </pre>
@@ -746,7 +868,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  27</span>     &lt;string name="compass">Compass&lt;/string>
 <span class="lineno">  28</span>     &lt;string name="cancel">Cancel&lt;/string>
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
-<span class="lineno">  30</span>     &lt;string <span class="errorspan">name="cache_manager">Cache Manager&lt;/string></span>
+<span class="lineno">  30</span>     &lt;string <span class="errorspan">name="cache_manager">Cache Manager&lt;/string></span>
 <span class="lineno">  31</span>     &lt;string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string>
 <span class="lineno">  32</span>     &lt;string name="cache_download">Start Download&lt;/string>
 </pre>
@@ -754,7 +876,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  28</span>     &lt;string name="cancel">Cancel&lt;/string>
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
-<span class="lineno">  31</span>     &lt;string <span class="errorspan">name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string></span>
+<span class="lineno">  31</span>     &lt;string <span class="errorspan">name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string></span>
 <span class="lineno">  32</span>     &lt;string name="cache_download">Start Download&lt;/string>
 <span class="lineno">  33</span>     &lt;string name="sdcardstate">External Storage State:&lt;/string>
 </pre>
@@ -762,7 +884,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
 <span class="lineno">  31</span>     &lt;string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string>
-<span class="lineno">  32</span>     &lt;string <span class="errorspan">name="cache_download">Start Download&lt;/string></span>
+<span class="lineno">  32</span>     &lt;string <span class="errorspan">name="cache_download">Start Download&lt;/string></span>
 <span class="lineno">  33</span>     &lt;string name="sdcardstate">External Storage State:&lt;/string>
 <span class="lineno">  34</span>     &lt;string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid&lt;/string>
 </pre>
@@ -770,7 +892,7 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
 <span class="lineno">  31</span>     &lt;string name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string>
 <span class="lineno">  32</span>     &lt;string name="cache_download">Start Download&lt;/string>
-<span class="lineno">  33</span>     &lt;string <span class="errorspan">name="sdcardstate">External Storage State:&lt;/string></span>
+<span class="lineno">  33</span>     &lt;string <span class="errorspan">name="sdcardstate">External Storage State:&lt;/string></span>
 <span class="lineno">  34</span>     &lt;string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid&lt;/string>
 <span class="lineno">  35</span> 
 </pre>
@@ -778,17 +900,89 @@ This check warns if a <code>switch</code> statement does not explicitly include 
 <span class="lineno">  33</span>     &lt;string name="sdcardstate">External Storage State:&lt;/string>
 <span class="lineno">  34</span>     &lt;string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid&lt;/string>
 <span class="lineno">  35</span> 
-<span class="lineno">  36</span>     &lt;string <span class="errorspan">name="bt_center_map_description">Center on my location&lt;/string></span>
+<span class="lineno">  36</span>     &lt;string <span class="errorspan">name="bt_center_map_description">Center on my location&lt;/string></span>
 <span class="lineno">  37</span>     &lt;string name="bt_follow_me_description">Follow me&lt;/string>
-<span class="lineno">  38</span> 
+<span class="lineno">  38</span>     &lt;string name="debug_mode">Debug Mode&lt;/string>
 </pre>
 <span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:37</span>: <span class="message">"<code>bt_follow_me_description</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
 <span class="lineno">  34</span>     &lt;string name="osmdroid_welcome">Welcome to the osmdroid example app. This app is used to demonstrate some of osmdroid\'s features and functions. Enjoy! Please report any issues to https://github.com/osmdroid/osmdroid&lt;/string>
 <span class="lineno">  35</span> 
 <span class="lineno">  36</span>     &lt;string name="bt_center_map_description">Center on my location&lt;/string>
-<span class="lineno">  37</span>     &lt;string <span class="errorspan">name="bt_follow_me_description">Follow me&lt;/string></span>
-<span class="lineno">  38</span> 
-<span class="lineno">  39</span> &lt;/resources>
+<span class="lineno">  37</span>     &lt;string <span class="errorspan">name="bt_follow_me_description">Follow me&lt;/string></span>
+<span class="lineno">  38</span>     &lt;string name="debug_mode">Debug Mode&lt;/string>
+<span class="lineno">  39</span>     &lt;string name="tile_provider_debugging">Tile Provider Debugging&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:38</span>: <span class="message">"<code>debug_mode</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  35</span> 
+<span class="lineno">  36</span>     &lt;string name="bt_center_map_description">Center on my location&lt;/string>
+<span class="lineno">  37</span>     &lt;string name="bt_follow_me_description">Follow me&lt;/string>
+<span class="lineno">  38</span>     &lt;string <span class="errorspan">name="debug_mode">Debug Mode&lt;/string></span>
+<span class="lineno">  39</span>     &lt;string name="tile_provider_debugging">Tile Provider Debugging&lt;/string>
+<span class="lineno">  40</span>     &lt;string name="cache_directory">Cache Directory&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:39</span>: <span class="message">"<code>tile_provider_debugging</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  36</span>     &lt;string name="bt_center_map_description">Center on my location&lt;/string>
+<span class="lineno">  37</span>     &lt;string name="bt_follow_me_description">Follow me&lt;/string>
+<span class="lineno">  38</span>     &lt;string name="debug_mode">Debug Mode&lt;/string>
+<span class="lineno">  39</span>     &lt;string <span class="errorspan">name="tile_provider_debugging">Tile Provider Debugging&lt;/string></span>
+<span class="lineno">  40</span>     &lt;string name="cache_directory">Cache Directory&lt;/string>
+<span class="lineno">  41</span>     &lt;string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:40</span>: <span class="message">"<code>cache_directory</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  37</span>     &lt;string name="bt_follow_me_description">Follow me&lt;/string>
+<span class="lineno">  38</span>     &lt;string name="debug_mode">Debug Mode&lt;/string>
+<span class="lineno">  39</span>     &lt;string name="tile_provider_debugging">Tile Provider Debugging&lt;/string>
+<span class="lineno">  40</span>     &lt;string <span class="errorspan">name="cache_directory">Cache Directory&lt;/string></span>
+<span class="lineno">  41</span>     &lt;string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string>
+<span class="lineno">  42</span>     &lt;string name="purge_cache">Purge Cache&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:41</span>: <span class="message">"<code>enable_mapview_hardware_acceleration</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  38</span>     &lt;string name="debug_mode">Debug Mode&lt;/string>
+<span class="lineno">  39</span>     &lt;string name="tile_provider_debugging">Tile Provider Debugging&lt;/string>
+<span class="lineno">  40</span>     &lt;string name="cache_directory">Cache Directory&lt;/string>
+<span class="lineno">  41</span>     &lt;string <span class="errorspan">name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string></span>
+<span class="lineno">  42</span>     &lt;string name="purge_cache">Purge Cache&lt;/string>
+<span class="lineno">  43</span>     &lt;string name="enter_cache_location">Enter Cache Location&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:42</span>: <span class="message">"<code>purge_cache</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  39</span>     &lt;string name="tile_provider_debugging">Tile Provider Debugging&lt;/string>
+<span class="lineno">  40</span>     &lt;string name="cache_directory">Cache Directory&lt;/string>
+<span class="lineno">  41</span>     &lt;string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string>
+<span class="lineno">  42</span>     &lt;string <span class="errorspan">name="purge_cache">Purge Cache&lt;/string></span>
+<span class="lineno">  43</span>     &lt;string name="enter_cache_location">Enter Cache Location&lt;/string>
+<span class="lineno">  44</span>     &lt;string name="pick_cache_location">Pick Cache Location&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:43</span>: <span class="message">"<code>enter_cache_location</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  40</span>     &lt;string name="cache_directory">Cache Directory&lt;/string>
+<span class="lineno">  41</span>     &lt;string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string>
+<span class="lineno">  42</span>     &lt;string name="purge_cache">Purge Cache&lt;/string>
+<span class="lineno">  43</span>     &lt;string <span class="errorspan">name="enter_cache_location">Enter Cache Location&lt;/string></span>
+<span class="lineno">  44</span>     &lt;string name="pick_cache_location">Pick Cache Location&lt;/string>
+<span class="lineno">  45</span>     &lt;string name="debug_logging_downloading">Debug Downloading&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:44</span>: <span class="message">"<code>pick_cache_location</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  41</span>     &lt;string name="enable_mapview_hardware_acceleration">Enable MapView Hardware Acceleration (normally off)&lt;/string>
+<span class="lineno">  42</span>     &lt;string name="purge_cache">Purge Cache&lt;/string>
+<span class="lineno">  43</span>     &lt;string name="enter_cache_location">Enter Cache Location&lt;/string>
+<span class="lineno">  44</span>     &lt;string <span class="errorspan">name="pick_cache_location">Pick Cache Location&lt;/string></span>
+<span class="lineno">  45</span>     &lt;string name="debug_logging_downloading">Debug Downloading&lt;/string>
+<span class="lineno">  46</span>     &lt;string name="enterCacheLocation">Enter Cache Location&lt;/string>
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:45</span>: <span class="message">"<code>debug_logging_downloading</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  42</span>     &lt;string name="purge_cache">Purge Cache&lt;/string>
+<span class="lineno">  43</span>     &lt;string name="enter_cache_location">Enter Cache Location&lt;/string>
+<span class="lineno">  44</span>     &lt;string name="pick_cache_location">Pick Cache Location&lt;/string>
+<span class="lineno">  45</span>     &lt;string <span class="errorspan">name="debug_logging_downloading">Debug Downloading&lt;/string></span>
+<span class="lineno">  46</span>     &lt;string name="enterCacheLocation">Enter Cache Location&lt;/string>
+<span class="lineno">  47</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/values/strings.xml">../../src/main/res/values/strings.xml</a>:46</span>: <span class="message">"<code>enterCacheLocation</code>" is not translated in "de" (German), "it" (Italian)</span><br /><pre class="errorlines">
+<span class="lineno">  43</span>     &lt;string name="enter_cache_location">Enter Cache Location&lt;/string>
+<span class="lineno">  44</span>     &lt;string name="pick_cache_location">Pick Cache Location&lt;/string>
+<span class="lineno">  45</span>     &lt;string name="debug_logging_downloading">Debug Downloading&lt;/string>
+<span class="lineno">  46</span>     &lt;string <span class="errorspan">name="enterCacheLocation">Enter Cache Location&lt;/string></span>
+<span class="lineno">  47</span> 
+<span class="lineno">  48</span> &lt;/resources>
 </pre>
 </div>
 </div>
@@ -822,7 +1016,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno">  36</span>         android:name="android.hardware.wifi"
 <span class="lineno">  37</span>         android:required="false" />
 <span class="lineno">  38</span> 
-<span class="lineno">  39</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  39</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  40</span>         android:name=".OsmApplication"
 <span class="lineno">  41</span>         android:hardwareAccelerated="true"
 </pre>
@@ -830,7 +1024,7 @@ You can tell lint (and other tools) which language is the default language in yo
 <span class="lineno">  36</span>         android:name="android.hardware.wifi"
 <span class="lineno">  37</span>         android:required="false" />
 <span class="lineno">  38</span> 
-<span class="lineno">  39</span>     <span class="errorspan">&lt;application</span>
+<span class="lineno">  39</span>     <span class="errorspan">&lt;application</span>
 <span class="lineno">  40</span>         android:name=".OsmApplication"
 <span class="lineno">  41</span>         android:hardwareAccelerated="true"
 </pre>
@@ -871,7 +1065,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 <span class="lineno">  28</span>     &lt;string name="cancel">Cancel&lt;/string>
 <span class="lineno">  29</span>     &lt;string name="cache_current_size">Cache Current Size&lt;/string>
 <span class="lineno">  30</span>     &lt;string name="cache_manager">Cache Manager&lt;/string>
-<span class="lineno">  31</span>     &lt;string <span class="errorspan">name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string></span>
+<span class="lineno">  31</span>     &lt;string <span class="errorspan">name="cache_manager_description">The Cache Manager lets you manage what\'s cached on this device and enables you to download and cache tiles locally. Keep in mind, there may be legal implications. Use with caution and be sure to read the usage agreement(s) or terms of service with the tile source.&lt;/string></span>
 <span class="lineno">  32</span>     &lt;string name="cache_download">Start Download&lt;/string>
 <span class="lineno">  33</span>     &lt;string name="sdcardstate">External Storage State:&lt;/string>
 </pre>
@@ -894,7 +1088,7 @@ Unused resources make applications larger and slow down builds.
 <span class="lineno">   4</span>     android:layout_height="match_parent">
 <span class="lineno">   5</span> 
 <span class="lineno">   6</span> 
-<span class="lineno">   7</span>     <span class="errorspan">&lt;ScrollView</span>
+<span class="lineno">   7</span>     <span class="errorspan">&lt;ScrollView</span>
 <span class="lineno">   8</span>         android:layout_width="match_parent"
 <span class="lineno">   9</span>         android:layout_height="match_parent"
 </pre>
@@ -967,7 +1161,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 117</span>             android:name=".StarterMapActivity"
 <span class="lineno"> 118</span>             android:icon="@drawable/icon"
 <span class="lineno"> 119</span>             android:label="OSMDroid Sample Map">
-<span class="lineno"> 120</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 120</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 121</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 122</span> 
 </pre>
@@ -975,7 +1169,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 126</span>         &lt;activity
 <span class="lineno"> 127</span>             android:name=".samples.SampleWithMinimapItemizedoverlay"
 <span class="lineno"> 128</span>             android:label="OSMapView with ItemizedOverlay">
-<span class="lineno"> 129</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 129</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 130</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 131</span> 
 </pre>
@@ -983,7 +1177,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 135</span>         &lt;activity
 <span class="lineno"> 136</span>             android:name=".samples.SampleExtensive"
 <span class="lineno"> 137</span>             android:label="OSMapView with UI Tools">
-<span class="lineno"> 138</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 138</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 139</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 140</span> 
 </pre>
@@ -991,7 +1185,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 144</span>         &lt;activity
 <span class="lineno"> 145</span>             android:name=".samples.SampleWithMinimapZoomcontrols"
 <span class="lineno"> 146</span>             android:label="OSMapView with MiniMap &amp;amp; Zoom">
-<span class="lineno"> 147</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 147</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 148</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 149</span> 
 </pre>
@@ -999,15 +1193,17 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 153</span>         &lt;activity
 <span class="lineno"> 154</span>             android:name=".samples.SampleWithTilesOverlay"
 <span class="lineno"> 155</span>             android:label="OSMapView with Tiles Overlay">
-<span class="lineno"> 156</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 156</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 157</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 158</span> 
 </pre>
+<button id="GoogleAppIndexingWarningDivLink" onclick="reveal('GoogleAppIndexingWarningDiv');" />+ 5 More Occurrences...</button>
+<div id="GoogleAppIndexingWarningDiv" style="display: none">
 <span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:165</span>: <span class="message">Missing URL</span><br /><pre class="errorlines">
 <span class="lineno"> 162</span>         &lt;activity
 <span class="lineno"> 163</span>             android:name=".samples.SampleWithTilesOverlayAndCustomTileSource"
 <span class="lineno"> 164</span>             android:label="OSMapView with Custom Tiles">
-<span class="lineno"> 165</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 165</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 166</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 167</span> 
 </pre>
@@ -1015,7 +1211,7 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 170</span>         &lt;/activity>
 <span class="lineno"> 171</span>         &lt;activity android:name=".BugsTestingActivity"
 <span class="lineno"> 172</span>             android:label="OpenStreetMap Bug Drivers">
-<span class="lineno"> 173</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 173</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 174</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 175</span> 
 </pre>
@@ -1023,10 +1219,27 @@ The res/drawable folder is intended for density-independent graphics such as sha
 <span class="lineno"> 178</span>         &lt;/activity>
 <span class="lineno"> 179</span>         &lt;activity android:name=".ExtraSamplesActivity"
 <span class="lineno"> 180</span>             android:label="OpenStreetMap Extra Samples">
-<span class="lineno"> 181</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 181</span>             <span class="errorspan">&lt;intent-filter></span>
 <span class="lineno"> 182</span>                 &lt;action android:name="android.intent.action.VIEW" />
 <span class="lineno"> 183</span> 
 </pre>
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:189</span>: <span class="message">Missing URL</span><br /><pre class="errorlines">
+<span class="lineno"> 186</span>         &lt;/activity>
+<span class="lineno"> 187</span>         &lt;activity android:name=".bugtestfragments.WeathForceActivity"
+<span class="lineno"> 188</span>             android:label="WeathForce Test">
+<span class="lineno"> 189</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 190</span>                 &lt;action android:name="android.intent.action.VIEW" />
+<span class="lineno"> 191</span> 
+</pre>
+<span class="location"><a href="../../src/main/AndroidManifest.xml">../../src/main/AndroidManifest.xml</a>:200</span>: <span class="message">Missing URL</span><br /><pre class="errorlines">
+<span class="lineno"> 197</span>         &lt;activity android:name=".PreferenceActivity"
+<span class="lineno"> 198</span>                   android:windowSoftInputMode="stateHidden"
+<span class="lineno"> 199</span>             android:label="OpenStreetMap Preferences">
+<span class="lineno"> 200</span>             <span class="errorspan">&lt;intent-filter></span>
+<span class="lineno"> 201</span>                 &lt;action android:name="android.intent.action.VIEW" />
+<span class="lineno"> 202</span> 
+</pre>
+</div>
 </div>
 <div class="metadata">Note: This issue has an associated quickfix operation in Android Studio/IntelliJ&nbsp;<img alt="Fix" border="0" align="top" src="lint-results-debug_files/lint-run.png" />
 <br>
@@ -1053,7 +1266,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  70</span> 
 <span class="lineno">  71</span>     private void updateInfo(){
 <span class="lineno">  72</span>         IGeoPoint mapCenter = mMapView.getMapCenter();
-<span class="lineno">  73</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
+<span class="lineno">  73</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
 <span class="lineno">  74</span>                 df.format(mapCenter.getLongitude())
 <span class="lineno">  75</span>                 +","+mMapView.getZoomLevel() +"\nonScroll: " + callsScoll + " onZoom: " + callsZoom);
 </pre>
@@ -1061,7 +1274,7 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  72</span>         IGeoPoint mapCenter = mMapView.getMapCenter();
 <span class="lineno">  73</span>         textViewCurrentLocation.setText(df.format(mapCenter.getLatitude())+","+
 <span class="lineno">  74</span>                 df.format(mapCenter.getLongitude())
-<span class="lineno">  75</span>                 +","+mMapView.getZoomLevel() +"\nonScroll: " + callsScoll + <span class="errorspan">" onZoom: " + callsZoom);</span>
+<span class="lineno">  75</span>                 +","+mMapView.getZoomLevel() +"\nonScroll: " + callsScoll + <span class="errorspan">" onZoom: " + callsZoom);</span>
 <span class="lineno">  76</span> 
 <span class="lineno">  77</span>     }
 </pre>
@@ -1069,235 +1282,323 @@ Adds URLs to get your app into the Google index, to get installs and traffic to 
 <span class="lineno">  33</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
 <span class="lineno">  34</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
 <span class="lineno">  35</span>         btnCache.setOnClickListener(this);
-<span class="lineno">  36</span>         btnCache.setText(<span class="errorspan">"Zoom Test");</span>
+<span class="lineno">  36</span>         btnCache.setText(<span class="errorspan">"Zoom Test");</span>
 <span class="lineno">  37</span>         return root;
 <span class="lineno">  38</span>     }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/CacheImport.java">../../src/main/java/org/osmdroid/samplefragments/CacheImport.java</a>:42</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno">  39</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
-<span class="lineno">  40</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
-<span class="lineno">  41</span>         btnCache.setOnClickListener(this);
-<span class="lineno">  42</span>         btnCache.setText(<span class="errorspan">"Cache Filesystem Import");</span>
-<span class="lineno">  43</span> 
-<span class="lineno">  44</span>         return root;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/CacheImport.java">../../src/main/java/org/osmdroid/samplefragments/cache/CacheImport.java</a>:43</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  40</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
+<span class="lineno">  41</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
+<span class="lineno">  42</span>         btnCache.setOnClickListener(this);
+<span class="lineno">  43</span>         btnCache.setText(<span class="errorspan">"Cache Filesystem Import");</span>
+<span class="lineno">  44</span> 
+<span class="lineno">  45</span>         return root;
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/CachePurge.java">../../src/main/java/org/osmdroid/samplefragments/CachePurge.java</a>:32</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno">  29</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
-<span class="lineno">  30</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
-<span class="lineno">  31</span>         btnCache.setOnClickListener(this);
-<span class="lineno">  32</span>         btnCache.setText(<span class="errorspan">"Cache Purge (database)");</span>
-<span class="lineno">  33</span> 
-<span class="lineno">  34</span>         return root;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/CachePurge.java">../../src/main/java/org/osmdroid/samplefragments/cache/CachePurge.java</a>:35</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  32</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
+<span class="lineno">  33</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
+<span class="lineno">  34</span>         btnCache.setOnClickListener(this);
+<span class="lineno">  35</span>         btnCache.setText(<span class="errorspan">"Cache Purge (database)");</span>
+<span class="lineno">  36</span> 
+<span class="lineno">  37</span>         return root;
 </pre>
-<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 26 More Occurrences...</button>
+<button id="SetTextI18nDivLink" onclick="reveal('SetTextI18nDiv');" />+ 37 More Occurrences...</button>
 <div id="SetTextI18nDiv" style="display: none">
-<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:77</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno">  74</span>         }
-<span class="lineno">  75</span> 
-<span class="lineno">  76</span>         tv = (TextView) findViewById(R.id.version_text);
-<span class="lineno">  77</span>         tv.setText(<span class="errorspan">BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);</span>
-<span class="lineno">  78</span>     }
-<span class="lineno">  79</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:161</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 158</span>         final String state = Environment.getExternalStorageState();
+<span class="lineno"> 159</span> 
+<span class="lineno"> 160</span>         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
+<span class="lineno"> 161</span>         tv.setText(<span class="errorspan">(mSdCardAvailable ? "Mounted" : "Not Available") + "\n" + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +</span>
+<span class="lineno"> 162</span>             "Cache size: " + Formatter.formatFileSize(this,cacheSize));
+<span class="lineno"> 163</span>         if (!mSdCardAvailable) {
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:162</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 159</span> 
+<span class="lineno"> 160</span>         boolean mSdCardAvailable = Environment.MEDIA_MOUNTED.equals(state);
+<span class="lineno"> 161</span>         tv.setText((mSdCardAvailable ? "Mounted" : "Not Available") + "\n" + Configuration.getInstance().getOsmdroidTileCache().getAbsolutePath() + "\n" +
+<span class="lineno"> 162</span>             <span class="errorspan">"Cache size: " + Formatter.formatFileSize(this,cacheSize));</span>
+<span class="lineno"> 163</span>         if (!mSdCardAvailable) {
+<span class="lineno"> 164</span>             tv.setTextColor(Color.RED);
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/MainActivity.java">../../src/main/java/org/osmdroid/MainActivity.java</a>:169</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 166</span>         }
+<span class="lineno"> 167</span> 
+<span class="lineno"> 168</span>         tv = (TextView) findViewById(R.id.version_text);
+<span class="lineno"> 169</span>         tv.setText(<span class="errorspan">BuildConfig.VERSION_NAME + " " + BuildConfig.BUILD_TYPE);</span>
+<span class="lineno"> 170</span>     }
+<span class="lineno"> 171</span> 
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:95</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  92</span>     @Override
+<span class="lineno">  93</span>     public void onResume() {
+<span class="lineno">  94</span>         super.onResume();
+<span class="lineno">  95</span>         tileFileSystemMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");</span>
+<span class="lineno">  96</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno">  97</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:96</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  93</span>     public void onResume() {
+<span class="lineno">  94</span>         super.onResume();
+<span class="lineno">  95</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno">  96</span>         tileFileSystemThreads.setText(<span class="errorspan">Configuration.getInstance().getTileFileSystemThreads() + "");</span>
+<span class="lineno">  97</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno">  98</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:97</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  94</span>         super.onResume();
+<span class="lineno">  95</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno">  96</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno">  97</span>         tileDownloadMaxQueueSize.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadMaxQueueSize() + "");</span>
+<span class="lineno">  98</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno">  99</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:98</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  95</span>         tileFileSystemMaxQueueSize.setText(Configuration.getInstance().getTileFileSystemMaxQueueSize() + "");
+<span class="lineno">  96</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno">  97</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno">  98</span>         tileDownloadThreads.setText(<span class="errorspan">Configuration.getInstance().getTileDownloadThreads() + "");</span>
+<span class="lineno">  99</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 100</span> 
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:99</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  96</span>         tileFileSystemThreads.setText(Configuration.getInstance().getTileFileSystemThreads() + "");
+<span class="lineno">  97</span>         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
+<span class="lineno">  98</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno">  99</span>         gpsWaitTime.setText(<span class="errorspan">Configuration.getInstance().getGpsWaitTime() + "");</span>
+<span class="lineno"> 100</span> 
+<span class="lineno"> 101</span>         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:101</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  98</span>         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
+<span class="lineno">  99</span>         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
+<span class="lineno"> 100</span> 
+<span class="lineno"> 101</span>         cacheMapTileCount.setText(<span class="errorspan">Configuration.getInstance().getCacheMapTileCount() + "");</span>
+<span class="lineno"> 102</span>         httpUserAgent.setText(Configuration.getInstance().getUserAgentValue());
+<span class="lineno"> 103</span>         checkBoxMapViewDebug.setChecked(Configuration.getInstance().isDebugMapView());
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:237</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 234</span>                 } catch (Exception ex) {
+<span class="lineno"> 235</span>                     ex.printStackTrace();
+<span class="lineno"> 236</span>                 }
+<span class="lineno"> 237</span>                 textViewCacheDirectory.setText(<span class="errorspan">item + File.separator + "osmdroid" + File.separator + "tiles");</span>
+<span class="lineno"> 238</span>             }
+<span class="lineno"> 239</span>         });
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/PreferenceActivity.java">../../src/main/java/org/osmdroid/PreferenceActivity.java</a>:237</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 234</span>                 } catch (Exception ex) {
+<span class="lineno"> 235</span>                     ex.printStackTrace();
+<span class="lineno"> 236</span>                 }
+<span class="lineno"> 237</span>                 textViewCacheDirectory.setText(item + File.separator + <span class="errorspan">"osmdroid" + File.separator + "tiles");</span>
+<span class="lineno"> 238</span>             }
+<span class="lineno"> 239</span>         });
 </pre>
 <span class="location"><a href="../../src/main/java/org/osmdroid/bugtestfragments/SampleBug57.java">../../src/main/java/org/osmdroid/bugtestfragments/SampleBug57.java</a>:36</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno">  33</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
 <span class="lineno">  34</span>         Button btn = (Button) root.findViewById(R.id.btnCache);
 <span class="lineno">  35</span>         btn.setOnClickListener(this);
-<span class="lineno">  36</span>         btn.setText(<span class="errorspan">"To Step 2");</span>
+<span class="lineno">  36</span>         btn.setText(<span class="errorspan">"To Step 2");</span>
 <span class="lineno">  37</span>         return root;
 <span class="lineno">  38</span>     }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 132</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
-<span class="lineno"> 133</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
-<span class="lineno"> 134</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 135</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
-<span class="lineno"> 136</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 137</span>         cache_north.setText(boundingBox.getLatNorth() +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:137</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 134</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
+<span class="lineno"> 135</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloader.this);
+<span class="lineno"> 136</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
+<span class="lineno"> 137</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
+<span class="lineno"> 138</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 139</span>         cache_north.setText(boundingBox.getLatNorth() +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:137</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 134</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 135</span>         cache_east.setText(boundingBox.getLonEast() +"");
-<span class="lineno"> 136</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 137</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth() +"");</span>
-<span class="lineno"> 138</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 139</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:139</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 136</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
+<span class="lineno"> 137</span>         cache_east.setText(boundingBox.getLonEast() +"");
+<span class="lineno"> 138</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 139</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth() +"");</span>
+<span class="lineno"> 140</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 141</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:139</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 136</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 137</span>         cache_north.setText(boundingBox.getLatNorth() +"");
-<span class="lineno"> 138</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 139</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
-<span class="lineno"> 140</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 141</span>         cache_west.setText(boundingBox.getLonWest()  +"");
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:141</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 138</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
+<span class="lineno"> 139</span>         cache_north.setText(boundingBox.getLatNorth() +"");
+<span class="lineno"> 140</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 141</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
+<span class="lineno"> 142</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
+<span class="lineno"> 143</span>         cache_west.setText(boundingBox.getLonWest()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:141</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 138</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 139</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
-<span class="lineno"> 140</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 141</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
-<span class="lineno"> 142</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
-<span class="lineno"> 143</span> 
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:143</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 140</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
+<span class="lineno"> 141</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
+<span class="lineno"> 142</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
+<span class="lineno"> 143</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
+<span class="lineno"> 144</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+<span class="lineno"> 145</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:194</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 191</span>                 //nesw
-<span class="lineno"> 192</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
-<span class="lineno"> 193</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 194</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
-<span class="lineno"> 195</span>                 if (startJob)
-<span class="lineno"> 196</span>                 {
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:196</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 193</span>                 //nesw
+<span class="lineno"> 194</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
+<span class="lineno"> 195</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+<span class="lineno"> 196</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
+<span class="lineno"> 197</span>                 if (startJob)
+<span class="lineno"> 198</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloader.java</a>:194</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 191</span>                 //nesw
-<span class="lineno"> 192</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
-<span class="lineno"> 193</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 194</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
-<span class="lineno"> 195</span>                 if (startJob)
-<span class="lineno"> 196</span>                 {
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloader.java</a>:196</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 193</span>                 //nesw
+<span class="lineno"> 194</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
+<span class="lineno"> 195</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+<span class="lineno"> 196</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
+<span class="lineno"> 197</span>                 if (startJob)
+<span class="lineno"> 198</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:144</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:144</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 141</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
 <span class="lineno"> 142</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderArchive.this);
 <span class="lineno"> 143</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 144</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
+<span class="lineno"> 144</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() +"");</span>
 <span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
 <span class="lineno"> 146</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:146</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:146</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 143</span>         cache_east= (EditText) view.findViewById(R.id.cache_east);
 <span class="lineno"> 144</span>         cache_east.setText(boundingBox.getLonEast() +"");
 <span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 146</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  +"");</span>
+<span class="lineno"> 146</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  +"");</span>
 <span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
 <span class="lineno"> 148</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:148</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:148</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 145</span>         cache_north= (EditText) view.findViewById(R.id.cache_north);
 <span class="lineno"> 146</span>         cache_north.setText(boundingBox.getLatNorth()  +"");
 <span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 148</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
+<span class="lineno"> 148</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  +"");</span>
 <span class="lineno"> 149</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
 <span class="lineno"> 150</span>         cache_west.setText(boundingBox.getLonWest()  +"");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:150</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:150</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 147</span>         cache_south= (EditText) view.findViewById(R.id.cache_south);
 <span class="lineno"> 148</span>         cache_south.setText(boundingBox.getLatSouth()  +"");
 <span class="lineno"> 149</span>         cache_west= (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 150</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
+<span class="lineno"> 150</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  +"");</span>
 <span class="lineno"> 151</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 <span class="lineno"> 152</span>         cache_output=(EditText) view.findViewById(R.id.cache_output);
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 210</span>                 //nesw
 <span class="lineno"> 211</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
 <span class="lineno"> 212</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 213</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
+<span class="lineno"> 213</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
 <span class="lineno"> 214</span>                 if (startJob)
 <span class="lineno"> 215</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderArchive.java</a>:213</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno"> 210</span>                 //nesw
 <span class="lineno"> 211</span>                 BoundingBox bb= new BoundingBox(n, e, s, w);
 <span class="lineno"> 212</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 213</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
+<span class="lineno"> 213</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
 <span class="lineno"> 214</span>                 if (startJob)
 <span class="lineno"> 215</span>                 {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:135</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 132</span>         zoom_min.setProgress(mMapView.getMinZoomLevel());
 <span class="lineno"> 133</span>         zoom_min.setOnSeekBarChangeListener(SampleCacheDownloaderCustomUI.this);
 <span class="lineno"> 134</span>         cache_east = (EditText) view.findViewById(R.id.cache_east);
-<span class="lineno"> 135</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() + "");</span>
+<span class="lineno"> 135</span>         cache_east.setText(<span class="errorspan">boundingBox.getLonEast() + "");</span>
 <span class="lineno"> 136</span>         cache_north = (EditText) view.findViewById(R.id.cache_north);
 <span class="lineno"> 137</span>         cache_north.setText(boundingBox.getLatNorth()  + "");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:137</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:137</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 134</span>         cache_east = (EditText) view.findViewById(R.id.cache_east);
 <span class="lineno"> 135</span>         cache_east.setText(boundingBox.getLonEast() + "");
 <span class="lineno"> 136</span>         cache_north = (EditText) view.findViewById(R.id.cache_north);
-<span class="lineno"> 137</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  + "");</span>
+<span class="lineno"> 137</span>         cache_north.setText(<span class="errorspan">boundingBox.getLatNorth()  + "");</span>
 <span class="lineno"> 138</span>         cache_south = (EditText) view.findViewById(R.id.cache_south);
 <span class="lineno"> 139</span>         cache_south.setText(boundingBox.getLatSouth()  + "");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:139</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:139</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 136</span>         cache_north = (EditText) view.findViewById(R.id.cache_north);
 <span class="lineno"> 137</span>         cache_north.setText(boundingBox.getLatNorth()  + "");
 <span class="lineno"> 138</span>         cache_south = (EditText) view.findViewById(R.id.cache_south);
-<span class="lineno"> 139</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  + "");</span>
+<span class="lineno"> 139</span>         cache_south.setText(<span class="errorspan">boundingBox.getLatSouth()  + "");</span>
 <span class="lineno"> 140</span>         cache_west = (EditText) view.findViewById(R.id.cache_west);
 <span class="lineno"> 141</span>         cache_west.setText(boundingBox.getLonWest()  + "");
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:141</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:141</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 138</span>         cache_south = (EditText) view.findViewById(R.id.cache_south);
 <span class="lineno"> 139</span>         cache_south.setText(boundingBox.getLatSouth()  + "");
 <span class="lineno"> 140</span>         cache_west = (EditText) view.findViewById(R.id.cache_west);
-<span class="lineno"> 141</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  + "");</span>
+<span class="lineno"> 141</span>         cache_west.setText(<span class="errorspan">boundingBox.getLonWest()  + "");</span>
 <span class="lineno"> 142</span>         cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
 <span class="lineno"> 143</span> 
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:194</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:194</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
 <span class="lineno"> 191</span>                 //nesw
 <span class="lineno"> 192</span>                 BoundingBox bb = new BoundingBox(n, e, s, w);
 <span class="lineno"> 193</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 194</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
+<span class="lineno"> 194</span>                 cache_estimate.setText(<span class="errorspan">tilecount + " tiles");</span>
 <span class="lineno"> 195</span>                 if (startJob) {
 <span class="lineno"> 196</span>                     if (downloadPrompt != null) {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/SampleCacheDownloaderCustomUI.java</a>:194</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java">../../src/main/java/org/osmdroid/samplefragments/cache/SampleCacheDownloaderCustomUI.java</a>:194</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
 <span class="lineno"> 191</span>                 //nesw
 <span class="lineno"> 192</span>                 BoundingBox bb = new BoundingBox(n, e, s, w);
 <span class="lineno"> 193</span>                 int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-<span class="lineno"> 194</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
+<span class="lineno"> 194</span>                 cache_estimate.setText(tilecount + <span class="errorspan">" tiles");</span>
 <span class="lineno"> 195</span>                 if (startJob) {
 <span class="lineno"> 196</span>                     if (downloadPrompt != null) {
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:214</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno"> 211</span>                 @Override
-<span class="lineno"> 212</span>                 public void run() {
-<span class="lineno"> 213</span>                     if (getActivity()!=null &amp;&amp; textViewCurrentLocation!=null) {
-<span class="lineno"> 214</span>                         textViewCurrentLocation.setText(<span class="errorspan">"GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +</span>
-<span class="lineno"> 215</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-<span class="lineno"> 216</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:247</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 244</span>                     @Override
+<span class="lineno"> 245</span>                     public void run() {
+<span class="lineno"> 246</span>                         if (getActivity() != null &amp;&amp; textViewCurrentLocation != null) {
+<span class="lineno"> 247</span>                             textViewCurrentLocation.setText(<span class="errorspan">"GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +</span>
+<span class="lineno"> 248</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) bearing + "\n" +
+<span class="lineno"> 249</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:214</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 211</span>                 @Override
-<span class="lineno"> 212</span>                 public void run() {
-<span class="lineno"> 213</span>                     if (getActivity()!=null &amp;&amp; textViewCurrentLocation!=null) {
-<span class="lineno"> 214</span>                         textViewCurrentLocation.setText(<span class="errorspan">"GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +</span>
-<span class="lineno"> 215</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-<span class="lineno"> 216</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:247</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 244</span>                     @Override
+<span class="lineno"> 245</span>                     public void run() {
+<span class="lineno"> 246</span>                         if (getActivity() != null &amp;&amp; textViewCurrentLocation != null) {
+<span class="lineno"> 247</span>                             textViewCurrentLocation.setText(<span class="errorspan">"GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +</span>
+<span class="lineno"> 248</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) bearing + "\n" +
+<span class="lineno"> 249</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:215</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 212</span>                 public void run() {
-<span class="lineno"> 213</span>                     if (getActivity()!=null &amp;&amp; textViewCurrentLocation!=null) {
-<span class="lineno"> 214</span>                         textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-<span class="lineno"> 215</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + <span class="errorspan">"  Compass heading: " + (int) orientationToMagneticNorth + "\n" +</span>
-<span class="lineno"> 216</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
-<span class="lineno"> 217</span>                                 screen_orientation);
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:248</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 245</span>                     public void run() {
+<span class="lineno"> 246</span>                         if (getActivity() != null &amp;&amp; textViewCurrentLocation != null) {
+<span class="lineno"> 247</span>                             textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
+<span class="lineno"> 248</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + <span class="errorspan">"  Compass heading: " + (int) bearing + "\n" +</span>
+<span class="lineno"> 249</span>                                 "True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +
+<span class="lineno"> 250</span>                                 screen_orientation);
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/SampleHeadingCompassUp.java</a>:216</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno"> 213</span>                     if (getActivity()!=null &amp;&amp; textViewCurrentLocation!=null) {
-<span class="lineno"> 214</span>                         textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
-<span class="lineno"> 215</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) orientationToMagneticNorth + "\n" +
-<span class="lineno"> 216</span>                                 <span class="errorspan">"True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +</span>
-<span class="lineno"> 217</span>                                 screen_orientation);
-<span class="lineno"> 218</span>                     }
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java">../../src/main/java/org/osmdroid/samplefragments/location/SampleHeadingCompassUp.java</a>:249</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno"> 246</span>                         if (getActivity() != null &amp;&amp; textViewCurrentLocation != null) {
+<span class="lineno"> 247</span>                             textViewCurrentLocation.setText("GPS Speed: " + gpsspeed + "m/s  GPS Bearing: " + gpsbearing +
+<span class="lineno"> 248</span>                                 "\nDevice Orientation: " + (int) deviceOrientation + "  Compass heading: " + (int) bearing + "\n" +
+<span class="lineno"> 249</span>                                 <span class="errorspan">"True north: " + trueNorth.intValue() + " Map Orientation: " + (int) mMapView.getMapOrientation() + "\n" +</span>
+<span class="lineno"> 250</span>                                 screen_orientation);
+<span class="lineno"> 251</span>                         }
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleMapEventListener.java">../../src/main/java/org/osmdroid/samplefragments/SampleMapEventListener.java</a>:81</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
-<span class="lineno">  78</span> 
-<span class="lineno">  79</span>     private void updateInfo(){
-<span class="lineno">  80</span>         IGeoPoint mapCenter = mMapView.getMapCenter();
-<span class="lineno">  81</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
-<span class="lineno">  82</span>                 df.format(mapCenter.getLongitude())
-<span class="lineno">  83</span>                 +","+mMapView.getZoomLevel());
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/events/SampleMapEventListener.java">../../src/main/java/org/osmdroid/samplefragments/events/SampleMapEventListener.java</a>:82</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno">  79</span> 
+<span class="lineno">  80</span>     private void updateInfo(){
+<span class="lineno">  81</span>         IGeoPoint mapCenter = mMapView.getMapCenter();
+<span class="lineno">  82</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
+<span class="lineno">  83</span>                 df.format(mapCenter.getLongitude())
+<span class="lineno">  84</span>                 +","+mMapView.getZoomLevel());
 </pre>
-<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/SampleZoomToBounding.java">../../src/main/java/org/osmdroid/samplefragments/SampleZoomToBounding.java</a>:32</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
-<span class="lineno">  29</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
-<span class="lineno">  30</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
-<span class="lineno">  31</span>         btnCache.setOnClickListener(this);
-<span class="lineno">  32</span>         btnCache.setText(<span class="errorspan">"Zoom to bounds");</span>
-<span class="lineno">  33</span> 
-<span class="lineno">  34</span>         return root;
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/events/SampleZoomToBounding.java">../../src/main/java/org/osmdroid/samplefragments/events/SampleZoomToBounding.java</a>:33</span>: <span class="message">String literal in <code>setText</code> can not be translated. Use Android resources instead.</span><br /><pre class="errorlines">
+<span class="lineno">  30</span>         mMapView = (MapView) root.findViewById(R.id.mapview);
+<span class="lineno">  31</span>         btnCache = (Button) root.findViewById(R.id.btnCache);
+<span class="lineno">  32</span>         btnCache.setOnClickListener(this);
+<span class="lineno">  33</span>         btnCache.setText(<span class="errorspan">"Zoom to bounds");</span>
+<span class="lineno">  34</span> 
+<span class="lineno">  35</span>         return root;
+</pre>
+<span class="location"><a href="../../src/main/java/org/osmdroid/samplefragments/events/ZoomToBoundsOnStartup.java">../../src/main/java/org/osmdroid/samplefragments/events/ZoomToBoundsOnStartup.java</a>:126</span>: <span class="message">Do not concatenate text displayed with <code>setText</code>. Use resource string with placeholders.</span><br /><pre class="errorlines">
+<span class="lineno"> 123</span> 
+<span class="lineno"> 124</span>     private void updateInfo(){
+<span class="lineno"> 125</span>         IGeoPoint mapCenter = mMapView.getMapCenter();
+<span class="lineno"> 126</span>         textViewCurrentLocation.setText(<span class="errorspan">df.format(mapCenter.getLatitude())+","+</span>
+<span class="lineno"> 127</span>             df.format(mapCenter.getLongitude())
+<span class="lineno"> 128</span>             +","+mMapView.getZoomLevel());
 </pre>
 </div>
 </div>
@@ -1319,11 +1620,125 @@ When calling <code>TextView#setText</code><br/>
 <div class="id"><a href="#" title="Return to top">HardcodedText: Hardcoded text</a><div class="issueSeparator"></div>
 </div>
 <div class="warningslist">
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:16</span>: <span class="message">[I18N] Hardcoded string "Logging and Debugging", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  13</span>             android:textSize="22sp"
+<span class="lineno">  14</span>             android:layout_width="match_parent"
+<span class="lineno">  15</span>             android:layout_height="wrap_content"
+<span class="lineno">  16</span>             <span class="errorspan">android:text="Logging and Debugging"</span>
+<span class="lineno">  17</span>             />
+<span class="lineno">  18</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:44</span>: <span class="message">[I18N] Hardcoded string "Map View Debug", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  41</span>             android:id="@+id/checkBoxMapViewDebug"
+<span class="lineno">  42</span>             android:layout_width="match_parent"
+<span class="lineno">  43</span>             android:layout_height="wrap_content"
+<span class="lineno">  44</span>             <span class="errorspan">android:text="Map View Debug"/></span>
+<span class="lineno">  45</span> 
+<span class="lineno">  46</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:51</span>: <span class="message">[I18N] Hardcoded string "Cache Management", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  48</span>             android:textSize="22sp"
+<span class="lineno">  49</span>             android:layout_width="match_parent"
+<span class="lineno">  50</span>             android:layout_height="wrap_content"
+<span class="lineno">  51</span>             <span class="errorspan">android:text="Cache Management"</span>
+<span class="lineno">  52</span>             />
+<span class="lineno">  53</span>         &lt;TextView
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:63</span>: <span class="message">[I18N] Hardcoded string "/storage/sdcard", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  60</span>             android:id="@+id/textViewCacheDirectory"
+<span class="lineno">  61</span>             android:layout_width="match_parent"
+<span class="lineno">  62</span>             android:layout_height="wrap_content"
+<span class="lineno">  63</span>             <span class="errorspan">android:text="/storage/sdcard"/></span>
+<span class="lineno">  64</span> 
+<span class="lineno">  65</span>         &lt;Button
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:88</span>: <span class="message">[I18N] Hardcoded string "Downloads, Memory Cache and Offline Storage Settings", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  85</span>             android:textSize="22sp"
+<span class="lineno">  86</span>             android:layout_width="match_parent"
+<span class="lineno">  87</span>             android:layout_height="wrap_content"
+<span class="lineno">  88</span>             <span class="errorspan">android:text="Downloads, Memory Cache and Offline Storage Settings"</span>
+<span class="lineno">  89</span>             />
+<span class="lineno">  90</span> 
+</pre>
+<button id="HardcodedTextDivLink" onclick="reveal('HardcodedTextDiv');" />+ 29 More Occurrences...</button>
+<div id="HardcodedTextDiv" style="display: none">
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:95</span>: <span class="message">[I18N] Hardcoded string "HTTP User Agent to use when downloading", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno">  92</span>         &lt;TextView
+<span class="lineno">  93</span>             android:layout_width="match_parent"
+<span class="lineno">  94</span>             android:layout_height="wrap_content"
+<span class="lineno">  95</span>             <span class="errorspan">android:text="HTTP User Agent to use when downloading"</span>
+<span class="lineno">  96</span>             />
+<span class="lineno">  97</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:109</span>: <span class="message">[I18N] Hardcoded string "Tile download threads", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 106</span>         &lt;TextView
+<span class="lineno"> 107</span>             android:layout_width="match_parent"
+<span class="lineno"> 108</span>             android:layout_height="wrap_content"
+<span class="lineno"> 109</span>             <span class="errorspan">android:text="Tile download threads"</span>
+<span class="lineno"> 110</span>             />
+<span class="lineno"> 111</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:125</span>: <span class="message">[I18N] Hardcoded string "Map tile download max queue size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 122</span>         &lt;TextView
+<span class="lineno"> 123</span>             android:layout_width="match_parent"
+<span class="lineno"> 124</span>             android:layout_height="wrap_content"
+<span class="lineno"> 125</span>             <span class="errorspan">android:text="Map tile download max queue size"</span>
+<span class="lineno"> 126</span>             />
+<span class="lineno"> 127</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:141</span>: <span class="message">[I18N] Hardcoded string "In memory tile cache size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 138</span>         &lt;TextView
+<span class="lineno"> 139</span>             android:layout_width="match_parent"
+<span class="lineno"> 140</span>             android:layout_height="wrap_content"
+<span class="lineno"> 141</span>             <span class="errorspan">android:text="In memory tile cache size"</span>
+<span class="lineno"> 142</span>             />
+<span class="lineno"> 143</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:157</span>: <span class="message">[I18N] Hardcoded string "File system loading threads", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 154</span>         &lt;TextView
+<span class="lineno"> 155</span>             android:layout_width="match_parent"
+<span class="lineno"> 156</span>             android:layout_height="wrap_content"
+<span class="lineno"> 157</span>             <span class="errorspan">android:text="File system loading threads"</span>
+<span class="lineno"> 158</span>             />
+<span class="lineno"> 159</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:172</span>: <span class="message">[I18N] Hardcoded string "Map tile file system max queue size", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 169</span>         &lt;TextView
+<span class="lineno"> 170</span>             android:layout_width="match_parent"
+<span class="lineno"> 171</span>             android:layout_height="wrap_content"
+<span class="lineno"> 172</span>             <span class="errorspan">android:text="Map tile file system max queue size"</span>
+<span class="lineno"> 173</span>             />
+<span class="lineno"> 174</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:188</span>: <span class="message">[I18N] Hardcoded string "Miscellaneous", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 185</span>             android:textSize="22sp"
+<span class="lineno"> 186</span>             android:layout_width="match_parent"
+<span class="lineno"> 187</span>             android:layout_height="wrap_content"
+<span class="lineno"> 188</span>             <span class="errorspan">android:text="Miscellaneous"</span>
+<span class="lineno"> 189</span>             />
+<span class="lineno"> 190</span> 
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:194</span>: <span class="message">[I18N] Hardcoded string "Time to wait for a GPS fix to switch to Network based location (ms)", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 191</span>         &lt;TextView
+<span class="lineno"> 192</span>             android:layout_width="match_parent"
+<span class="lineno"> 193</span>             android:layout_height="wrap_content"
+<span class="lineno"> 194</span>             <span class="errorspan">android:text="Time to wait for a GPS fix to switch to Network based location (ms)"</span>
+<span class="lineno"> 195</span>             />
+<span class="lineno"> 196</span>         &lt;EditText
+</pre>
+<span class="location"><a href="../../src/main/res/layout/activity_prefs.xml">../../src/main/res/layout/activity_prefs.xml</a>:216</span>: <span class="message">[I18N] Hardcoded string "Reset to defaults", should use <code>@string</code> resource</span><br /><pre class="errorlines">
+<span class="lineno"> 213</span>             android:id="@+id/buttonReset"
+<span class="lineno"> 214</span>             android:layout_width="match_parent"
+<span class="lineno"> 215</span>             android:layout_height="wrap_content"
+<span class="lineno"> 216</span>             <span class="errorspan">android:text="Reset to defaults"/></span>
+<span class="lineno"> 217</span> 
+<span class="lineno"> 218</span>     &lt;/LinearLayout>
+</pre>
 <span class="location"><a href="../../src/main/res/layout/fragment_sample_bug57_step2.xml">../../src/main/res/layout/fragment_sample_bug57_step2.xml</a>:10</span>: <span class="message">[I18N] Hardcoded string "Hello world", should use <code>@string</code> resource</span><br /><pre class="errorlines">
 <span class="lineno">   7</span>     &lt;TextView
 <span class="lineno">   8</span>         android:layout_width="match_parent"
 <span class="lineno">   9</span>         android:layout_height="match_parent"
-<span class="lineno">  10</span>         <span class="errorspan">android:text="Hello world" /></span>
+<span class="lineno">  10</span>         <span class="errorspan">android:text="Hello world" /></span>
 <span class="lineno">  11</span> 
 <span class="lineno">  12</span> &lt;/FrameLayout>
 </pre>
@@ -1331,7 +1746,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
-<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
+<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
 <span class="lineno">  16</span>         android:textAlignment="center"
 <span class="lineno">  17</span>         android:gravity="center"
 </pre>
@@ -1339,7 +1754,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;TextView android:id="@+id/textViewCurrentLocation"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
-<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
+<span class="lineno">  15</span>         <span class="errorspan">android:text="PLACEHOLDER"</span>
 <span class="lineno">  16</span>         android:textAlignment="center"
 <span class="lineno">  17</span>         android:gravity="center"
 </pre>
@@ -1347,7 +1762,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  18</span>         android:textColor="@android:color/white"
 <span class="lineno">  19</span>         android:background="@android:color/black"
 <span class="lineno">  20</span>         android:layout_height="wrap_content">&lt;/TextView>
-<span class="lineno">  21</span>     &lt;Button android:id="@+id/animateTo" <span class="errorspan">android:text="Random"</span>
+<span class="lineno">  21</span>     &lt;Button android:id="@+id/animateTo" <span class="errorspan">android:text="Random"</span>
 <span class="lineno">  22</span>         android:layout_below="@+id/textViewCurrentLocation"
 <span class="lineno">  23</span>         android:layout_width="wrap_content"
 </pre>
@@ -1355,17 +1770,15 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">   9</span>     &lt;TextView
 <span class="lineno">  10</span>         android:layout_width="wrap_content"
 <span class="lineno">  11</span>         android:layout_height="wrap_content"
-<span class="lineno">  12</span>         <span class="errorspan">android:text="Map Id"</span>
+<span class="lineno">  12</span>         <span class="errorspan">android:text="Map Id"</span>
 <span class="lineno">  13</span>         android:textAppearance="?android:attr/textAppearanceLarge" />
 <span class="lineno">  14</span> 
 </pre>
-<button id="HardcodedTextDivLink" onclick="reveal('HardcodedTextDiv');" />+ 15 More Occurrences...</button>
-<div id="HardcodedTextDiv" style="display: none">
 <span class="location"><a href="../../src/main/res/layout/mapbox_prompt.xml">../../src/main/res/layout/mapbox_prompt.xml</a>:19</span>: <span class="message">[I18N] Hardcoded string "mapbox.dark", should use <code>@string</code> resource</span><br /><pre class="errorlines">
 <span class="lineno">  16</span>         android:id="@+id/editTextDialogUserInputMapboxId"
 <span class="lineno">  17</span>         android:layout_width="match_parent"
 <span class="lineno">  18</span>         android:inputType="text"
-<span class="lineno">  19</span>         <span class="errorspan">android:text="mapbox.dark"</span>
+<span class="lineno">  19</span>         <span class="errorspan">android:text="mapbox.dark"</span>
 <span class="lineno">  20</span>         android:layout_height="wrap_content" >
 <span class="lineno">  21</span> 
 </pre>
@@ -1373,7 +1786,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  26</span>     &lt;TextView
 <span class="lineno">  27</span>         android:layout_width="wrap_content"
 <span class="lineno">  28</span>         android:layout_height="wrap_content"
-<span class="lineno">  29</span>         <span class="errorspan">android:text="Access Token"</span>
+<span class="lineno">  29</span>         <span class="errorspan">android:text="Access Token"</span>
 <span class="lineno">  30</span>         android:textAppearance="?android:attr/textAppearanceLarge" />
 <span class="lineno">  31</span> 
 </pre>
@@ -1381,7 +1794,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  34</span>         android:layout_width="match_parent"
 <span class="lineno">  35</span>         android:inputType="text"
 <span class="lineno">  36</span>         android:text=""
-<span class="lineno">  37</span>         <span class="errorspan">android:hint="pk.eyJ1Ij........."</span>
+<span class="lineno">  37</span>         <span class="errorspan">android:hint="pk.eyJ1Ij........."</span>
 <span class="lineno">  38</span>         android:layout_height="wrap_content" >
 <span class="lineno">  39</span> 
 </pre>
@@ -1389,7 +1802,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  12</span> 
 <span class="lineno">  13</span>     &lt;Button android:id="@+id/btnCache"
 <span class="lineno">  14</span>         android:layout_width="fill_parent"
-<span class="lineno">  15</span>         <span class="errorspan">android:text="Cache Manager"</span>
+<span class="lineno">  15</span>         <span class="errorspan">android:text="Cache Manager"</span>
 <span class="lineno">  16</span>         android:layout_height="wrap_content">&lt;/Button>
 <span class="lineno">  17</span> 
 </pre>
@@ -1397,7 +1810,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  18</span>             android:layout_width="wrap_content"
 <span class="lineno">  19</span>             android:layout_height="wrap_content"
 <span class="lineno">  20</span>             android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  21</span>             <span class="errorspan">android:text="Northern most Latitude"</span>
+<span class="lineno">  21</span>             <span class="errorspan">android:text="Northern most Latitude"</span>
 <span class="lineno">  22</span>             />
 <span class="lineno">  23</span>         &lt;EditText
 </pre>
@@ -1405,7 +1818,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  31</span>                 android:layout_width="wrap_content"
 <span class="lineno">  32</span>                 android:layout_height="wrap_content"
 <span class="lineno">  33</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  34</span>                 <span class="errorspan">android:text="Southern most Latitude"</span>
+<span class="lineno">  34</span>                 <span class="errorspan">android:text="Southern most Latitude"</span>
 <span class="lineno">  35</span>                 />
 <span class="lineno">  36</span>             &lt;EditText
 </pre>
@@ -1413,7 +1826,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  43</span>                 android:layout_width="wrap_content"
 <span class="lineno">  44</span>                 android:layout_height="wrap_content"
 <span class="lineno">  45</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  46</span>                 <span class="errorspan">android:text="Eastern most Longitude"</span>
+<span class="lineno">  46</span>                 <span class="errorspan">android:text="Eastern most Longitude"</span>
 <span class="lineno">  47</span>                 />
 <span class="lineno">  48</span>             &lt;EditText
 </pre>
@@ -1421,7 +1834,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  55</span>                 android:layout_width="wrap_content"
 <span class="lineno">  56</span>                 android:layout_height="wrap_content"
 <span class="lineno">  57</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  58</span>                 <span class="errorspan">android:text="Western most Longitude"</span>
+<span class="lineno">  58</span>                 <span class="errorspan">android:text="Western most Longitude"</span>
 <span class="lineno">  59</span>                 />
 <span class="lineno">  60</span>             &lt;EditText
 </pre>
@@ -1429,7 +1842,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  68</span>                 android:layout_width="wrap_content"
 <span class="lineno">  69</span>                 android:layout_height="wrap_content"
 <span class="lineno">  70</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  71</span>                 <span class="errorspan">android:text="Zoom Level Min"</span>
+<span class="lineno">  71</span>                 <span class="errorspan">android:text="Zoom Level Min"</span>
 <span class="lineno">  72</span>                  />
 <span class="lineno">  73</span>             &lt;SeekBar
 </pre>
@@ -1437,7 +1850,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  80</span>                 android:layout_width="wrap_content"
 <span class="lineno">  81</span>                 android:layout_height="wrap_content"
 <span class="lineno">  82</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  83</span>                 <span class="errorspan">android:text="Zoom Level Max"</span>
+<span class="lineno">  83</span>                 <span class="errorspan">android:text="Zoom Level Max"</span>
 <span class="lineno">  84</span>                 />
 <span class="lineno">  85</span> 
 </pre>
@@ -1445,7 +1858,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno">  94</span>                 android:layout_width="wrap_content"
 <span class="lineno">  95</span>                 android:layout_height="wrap_content"
 <span class="lineno">  96</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno">  97</span>                 <span class="errorspan">android:text="Tile download estimate:"</span>
+<span class="lineno">  97</span>                 <span class="errorspan">android:text="Tile download estimate:"</span>
 <span class="lineno">  98</span>                 />
 <span class="lineno">  99</span> 
 </pre>
@@ -1453,7 +1866,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno"> 114</span>                 android:layout_width="wrap_content"
 <span class="lineno"> 115</span>                 android:layout_height="wrap_content"
 <span class="lineno"> 116</span>                 android:textAppearance="?android:attr/textAppearanceLarge"
-<span class="lineno"> 117</span>                 <span class="errorspan">android:text="Archive File name:"</span>
+<span class="lineno"> 117</span>                 <span class="errorspan">android:text="Archive File name:"</span>
 <span class="lineno"> 118</span>                 />
 <span class="lineno"> 119</span> 
 </pre>
@@ -1461,7 +1874,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno"> 121</span>                 android:layout_width="wrap_content"
 <span class="lineno"> 122</span>                 android:layout_height="wrap_content"
 <span class="lineno"> 123</span>                 android:id="@+id/cache_output"
-<span class="lineno"> 124</span>                 <span class="errorspan">android:hint="archive.sqlite"</span>
+<span class="lineno"> 124</span>                 <span class="errorspan">android:hint="archive.sqlite"</span>
 <span class="lineno"> 125</span>                 android:text="archive.sqlite"
 <span class="lineno"> 126</span>                 android:lines="1"
 </pre>
@@ -1469,7 +1882,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno"> 122</span>                 android:layout_height="wrap_content"
 <span class="lineno"> 123</span>                 android:id="@+id/cache_output"
 <span class="lineno"> 124</span>                 android:hint="archive.sqlite"
-<span class="lineno"> 125</span>                 <span class="errorspan">android:text="archive.sqlite"</span>
+<span class="lineno"> 125</span>                 <span class="errorspan">android:text="archive.sqlite"</span>
 <span class="lineno"> 126</span>                 android:lines="1"
 <span class="lineno"> 127</span> 
 </pre>
@@ -1477,7 +1890,7 @@ When calling <code>TextView#setText</code><br/>
 <span class="lineno"> 135</span>                 android:layout_height="wrap_content"
 <span class="lineno"> 136</span> 
 <span class="lineno"> 137</span>                 android:id="@+id/executeJob"
-<span class="lineno"> 138</span>                 <span class="errorspan">android:text="Start Download"/></span>
+<span class="lineno"> 138</span>                 <span class="errorspan">android:text="Start Download"/></span>
 <span class="lineno"> 139</span> 
 <span class="lineno"> 140</span> 
 </pre>
@@ -1513,7 +1926,7 @@ In Android Studio and Eclipse there are quickfixes to automatically extract this
 <span class="lineno">  19</span>         android:layout_alignParentRight="true"
 <span class="lineno">  20</span>         android:layout_alignParentEnd="true"
 <span class="lineno">  21</span>         android:layout_marginTop="10dp"
-<span class="lineno">  22</span>         <span class="errorspan">android:layout_marginRight="10dp"</span>
+<span class="lineno">  22</span>         <span class="errorspan">android:layout_marginRight="10dp"</span>
 <span class="lineno">  23</span>         android:background="#00ffffff"
 <span class="lineno">  24</span>         android:contentDescription="@string/bt_center_map_description"
 </pre>

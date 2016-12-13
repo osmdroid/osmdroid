@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./WeathForceActivity.html" title="org.osmdroid.bugtestfragments.WeathForceActivity" alt="" coords="153,118,285,143"/>
+<area shape="rect" id="node1" href="./WeathForceActivity.html" title="&lt;TABLE&gt;" alt="" coords="143,107,296,155"/>
+<area shape="rect" id="node2_1" href="../model/BaseActivity.html" title="org.osmdroid.model.BaseActivity" alt="" coords="16,19,108,45"/>
+<area shape="rect" id="node2" href="../model/BaseActivity.html" title="&lt;TABLE&gt;" alt="" coords="5,8,119,56"/>
+<area shape="rect" id="node3_2" href="../events/MapEventsReceiver.html" title="org.osmdroid.events.MapEventsReceiver" alt="" coords="153,11,285,53"/>
+<area shape="rect" id="node3" href="../events/MapEventsReceiver.html" title="&lt;TABLE&gt;" alt="" coords="143,5,296,59"/>
+<area shape="rect" id="node4_3" href="../views/overlay/compass/IOrientationConsumer.html" title="org.osmdroid.views.overlay.compass.IOrientationConsumer" alt="" coords="331,11,475,53"/>
+<area shape="rect" id="node4" href="../views/overlay/compass/IOrientationConsumer.html" title="&lt;TABLE&gt;" alt="" coords="321,5,486,59"/>
+</map>

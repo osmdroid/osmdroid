@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<issues format="4" by="lint 25.2.2">
+<issues format="4" by="lint 25.2.3">
 
     <issue
         id="NewApi"
@@ -17,11 +17,11 @@ If your code is *deliberately* accessing newer APIs, and you have ensured (e.g. 
 If you are deliberately setting `android:` attributes in style definitions, make sure you place this in a `values-vNN` folder in order to avoid running into runtime conflicts on certain devices where manufacturers have added custom attributes whose ids conflict with the new ones on later platforms.
 
 Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate that the element will only be inflated in an adequate context."
-        errorLine1="            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);"
+        errorLine1="            requestPermissions(params, REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);"
         errorLine2="            ~~~~~~~~~~~~~~~~~~"
         quickfix="studio,adt">
         <location
-            file="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/MainActivity.java"
+            file=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\MainActivity.java"
             line="109"
             column="13"/>
     </issue>
@@ -38,11 +38,11 @@ Similarly, you can use tools:targetApi=&quot;11&quot; in an XML file to indicate
 To fix this issue, set the `targetSdkVersion` to the highest available value. Then test your app to make sure everything works correctly. You may want to consult the compatibility notes to see what changes apply to each version you are adding support for: http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         url="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
         urls="http://developer.android.com/reference/android/os/Build.VERSION_CODES.html"
-        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/src/main/AndroidManifest.xml"
+            file=".\GoogleWrapperSample\src\main\AndroidManifest.xml"
             line="4"
             column="41"/>
     </issue>
@@ -59,11 +59,11 @@ To fix this issue, set the `targetSdkVersion` to the highest available value. Th
 This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance of functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.
 
 Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `&lt;tag>` element in layouts introduced in API 21."
-        errorLine1="        android:textAlignment=&quot;center&quot;"
+        errorLine1="        android:textAlignment=&quot;center&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/src/main/res/layout/map_with_locationbox.xml"
+            file=".\GoogleWrapperSample\src\main\res\layout\map_with_locationbox.xml"
             line="16"
             column="9"/>
     </issue>
@@ -71,16 +71,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 24.2.1"
+        message="A newer version of com.android.support:appcompat-v7 than 23.+ is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
+        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="24"
             column="5"/>
     </issue>
@@ -88,16 +88,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 9.6.1"
+        message="A newer version of com.google.android.gms:play-services than 8.+ is available: 10.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="26"
             column="5"/>
     </issue>
@@ -105,16 +105,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 9.6.1"
+        message="A newer version of com.google.android.gms:play-services-maps than 8.+ is available: 10.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="28"
             column="5"/>
     </issue>
@@ -122,16 +122,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-v4 than 23.+ is available: 24.2.1"
+        message="A newer version of com.android.support:support-v4 than 23.+ is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
+        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="30"
             column="5"/>
     </issue>
@@ -139,16 +139,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 24.2.1"
+        message="A newer version of com.android.support:appcompat-v7 than 23.1.1 is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.1.1&apos;"
+        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.1.1&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="31"
             column="5"/>
     </issue>
@@ -156,16 +156,16 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleDependency"
         severity="Warning"
-        message="A newer version of com.android.support:support-annotations than 23.+ is available: 24.2.1"
+        message="A newer version of com.android.support:support-annotations than 23.+ is available: 25.0.1"
         category="Correctness"
         priority="4"
         summary="Obsolete Gradle Dependency"
         explanation="This detector looks for usages of libraries where the version you are using is not the current stable release. Using older versions is fine, and there are cases where you deliberately want to stick with an older version. However, you may simply not be aware that a more recent version is available, and that is what this lint check helps find."
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="35"
             column="5"/>
     </issue>
@@ -178,11 +178,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
+        errorLine1="    compile &apos;com.android.support:appcompat-v7:23.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="24"
             column="5"/>
     </issue>
@@ -195,11 +195,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="26"
             column="5"/>
     </issue>
@@ -212,11 +212,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
+        errorLine1="    compile &apos;com.google.android.gms:play-services-maps:8.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="28"
             column="5"/>
     </issue>
@@ -229,11 +229,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
+        errorLine1="    compile &apos;com.android.support:support-v4:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="30"
             column="5"/>
     </issue>
@@ -246,11 +246,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support:support-annotations:23+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="35"
             column="5"/>
     </issue>
@@ -263,11 +263,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support.test:runner:0.4.+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support.test:runner:0.4.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="36"
             column="5"/>
     </issue>
@@ -280,11 +280,11 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Gradle Dynamic Version"
         explanation="Using `+` in dependencies lets you automatically pick up the latest available version rather than a specific, named version. However, this is not recommended; your builds are not repeatable; you may have tested with a slightly different version than what the build server used. (Using a dynamic version as the major version number is more problematic than using it in the minor version position.)"
-        errorLine1="    androidTestCompile &apos;com.android.support.test:rules:0.4.+&apos;"
+        errorLine1="    androidTestCompile &apos;com.android.support.test:rules:0.4.+&apos;"
         errorLine2="    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/build.gradle"
+            file=".\GoogleWrapperSample\build.gradle"
             line="37"
             column="5"/>
     </issue>
@@ -297,10 +297,10 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="              ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/AndroidManifest.xml"
+            file=".\GoogleWrapperSample\src\main\AndroidManifest.xml"
             line="4"
             column="15"/>
     </issue>
@@ -313,10 +313,10 @@ Note: This check does not only apply to attributes. For example, some tags can b
         priority="4"
         summary="Value overridden by Gradle build script"
         explanation="The value of (for example) `minSdkVersion` is only used if it is not specified in the `build.gradle` build scripts. When specified in the Gradle build scripts, the manifest value is ignored and can be misleading, so should be removed to avoid ambiguity."
-        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
+        errorLine1="    &lt;uses-sdk android:minSdkVersion=&quot;9&quot; android:targetSdkVersion=&quot;23&quot; />"
         errorLine2="                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/AndroidManifest.xml"
+            file=".\GoogleWrapperSample\src\main\AndroidManifest.xml"
             line="4"
             column="41"/>
     </issue>
@@ -341,11 +341,11 @@ To fix this warning, decide whether your application should support backup, and 
 If not set to false, and if targeting API 23 or later, lint will also warn that you should set `android:fullBackupContent` to configure auto backup."
         url="https://developer.android.com/preview/backup/index.html"
         urls="https://developer.android.com/preview/backup/index.html,http://developer.android.com/reference/android/R.attr.html#allowBackup"
-        errorLine1="    &lt;application"
+        errorLine1="    &lt;application"
         errorLine2="    ^"
         quickfix="studio,adt">
         <location
-            file="./GoogleWrapperSample/src/main/AndroidManifest.xml"
+            file=".\GoogleWrapperSample\src\main\AndroidManifest.xml"
             line="20"
             column="5"/>
     </issue>
@@ -358,10 +358,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;map_view_google_v1&quot;>Google Map v1&lt;/string>"
+        errorLine1="    &lt;string name=&quot;map_view_google_v1&quot;>Google Map v1&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/res/values/strings.xml"
+            file=".\GoogleWrapperSample\src\main\res\values\strings.xml"
             line="7"
             column="13"/>
     </issue>
@@ -374,10 +374,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;map_view_google_v2&quot;>Google Map v2&lt;/string>"
+        errorLine1="    &lt;string name=&quot;map_view_google_v2&quot;>Google Map v2&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/res/values/strings.xml"
+            file=".\GoogleWrapperSample\src\main\res\values\strings.xml"
             line="8"
             column="13"/>
     </issue>
@@ -390,10 +390,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;map_view_osm_bing_aerial&quot;>OSMDroid with Bing Maps&lt;/string>"
+        errorLine1="    &lt;string name=&quot;map_view_osm_bing_aerial&quot;>OSMDroid with Bing Maps&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/res/values/strings.xml"
+            file=".\GoogleWrapperSample\src\main\res\values\strings.xml"
             line="9"
             column="13"/>
     </issue>
@@ -406,10 +406,10 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         priority="3"
         summary="Unused resources"
         explanation="Unused resources make applications larger and slow down builds."
-        errorLine1="    &lt;string name=&quot;map_view_osm&quot;>OpenStreetMap&lt;/string>"
+        errorLine1="    &lt;string name=&quot;map_view_osm&quot;>OpenStreetMap&lt;/string>"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~">
         <location
-            file="./GoogleWrapperSample/src/main/res/values/strings.xml"
+            file=".\GoogleWrapperSample\src\main\res\values\strings.xml"
             line="10"
             column="13"/>
     </issue>
@@ -425,7 +425,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./GoogleWrapperSample/src/main/res/drawable/berlin.jpg"/>
+            file=".\GoogleWrapperSample\src\main\res\drawable\berlin.jpg"/>
     </issue>
 
     <issue
@@ -439,7 +439,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./GoogleWrapperSample/src/main/res/drawable/icon.png"/>
+            file=".\GoogleWrapperSample\src\main\res\drawable\icon.png"/>
     </issue>
 
     <issue
@@ -453,7 +453,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./GoogleWrapperSample/src/main/res/drawable/marker_default.png"/>
+            file=".\GoogleWrapperSample\src\main\res\drawable\marker_default.png"/>
     </issue>
 
     <issue
@@ -467,7 +467,7 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         url="http://developer.android.com/guide/practices/screens_support.html"
         urls="http://developer.android.com/guide/practices/screens_support.html">
         <location
-            file="./GoogleWrapperSample/src/main/res/drawable/marker_default_focused_base.png"/>
+            file=".\GoogleWrapperSample\src\main\res\drawable\marker_default_focused_base.png"/>
     </issue>
 
     <issue
@@ -480,11 +480,11 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
         explanation="Adds URLs to get your app into the Google index, to get installs and traffic to your app from Google Search."
         url="https://g.co/AppIndexing/AndroidStudio"
         urls="https://g.co/AppIndexing/AndroidStudio"
-        errorLine1="    &lt;application"
+        errorLine1="    &lt;application"
         errorLine2="    ^"
         quickfix="studio">
         <location
-            file="./GoogleWrapperSample/src/main/AndroidManifest.xml"
+            file=".\GoogleWrapperSample\src\main\AndroidManifest.xml"
             line="20"
             column="5"/>
     </issue>
@@ -503,11 +503,11 @@ If not set to false, and if targeting API 23 or later, lint will also warn that 
 * The application cannot be translated to other languages by just adding new translations for existing string resources.
 
 In Android Studio and Eclipse there are quickfixes to automatically extract this hardcoded string into a resource lookup."
-        errorLine1="        android:text=&quot;PLACEHOLDER&quot;"
+        errorLine1="        android:text=&quot;PLACEHOLDER&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~"
         quickfix="adt">
         <location
-            file="./GoogleWrapperSample/src/main/res/layout/map_with_locationbox.xml"
+            file=".\GoogleWrapperSample\src\main\res\layout\map_with_locationbox.xml"
             line="15"
             column="9"/>
     </issue>
