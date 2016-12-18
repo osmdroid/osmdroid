@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-10-14</date>
-  <time>18:45:07</time>
+  <date>2016-12-18</date>
+  <time>09:37:58</time>
   <packages>
     <package>
       <name>org.osmdroid.forge.app</name>
-      <classes>7</classes>
-      <functions>18</functions>
-      <ncss>334</ncss>
-      <javadocs>10</javadocs>
-      <javadoc_lines>39</javadoc_lines>
-      <single_comment_lines>45</single_comment_lines>
+      <classes>6</classes>
+      <functions>17</functions>
+      <ncss>253</ncss>
+      <javadocs>9</javadocs>
+      <javadoc_lines>35</javadoc_lines>
+      <single_comment_lines>41</single_comment_lines>
       <multi_comment_lines>10</multi_comment_lines>
     </package>
     <total>
-      <classes>7</classes>
-      <functions>18</functions>
-      <ncss>334</ncss>
-      <javadocs>10</javadocs>
-      <javadoc_lines>39</javadoc_lines>
-      <single_comment_lines>45</single_comment_lines>
+      <classes>6</classes>
+      <functions>17</functions>
+      <ncss>253</ncss>
+      <javadocs>9</javadocs>
+      <javadoc_lines>35</javadoc_lines>
+      <single_comment_lines>41</single_comment_lines>
       <multi_comment_lines>10</multi_comment_lines>
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>1.00</td><td>7.00</td><td>18.00</td><td>334.00</td><td>10.00</td><td>Project</td></tr>
-      <tr><td></td><td>7.00</td><td>18.00</td><td>334.00</td><td>10.00</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>2.57</td><td>47.71</td><td>1.43</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>18.56</td><td>0.56</td><td>Function</td></tr>
+      <tr><td>1.00</td><td>6.00</td><td>17.00</td><td>253.00</td><td>9.00</td><td>Project</td></tr>
+      <tr><td></td><td>6.00</td><td>17.00</td><td>253.00</td><td>9.00</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>2.83</td><td>42.17</td><td>1.50</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>14.88</td><td>0.53</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -54,7 +54,7 @@
     </object>
     <object>
       <name>org.osmdroid.forge.app.MapsForgeMapTileProviderDirectTest</name>
-      <ncss>17</ncss>
+      <ncss>16</ncss>
       <functions>2</functions>
       <classes>0</classes>
       <javadocs>1</javadocs>
@@ -64,7 +64,7 @@
     </object>
     <object>
       <name>org.osmdroid.forge.app.MainActivity</name>
-      <ncss>110</ncss>
+      <ncss>108</ncss>
       <functions>8</functions>
       <classes>3</classes>
       <javadocs>2</javadocs>
@@ -83,16 +83,6 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <object>
-      <name>org.osmdroid.forge.app.StorageUtils</name>
-      <ncss>67</ncss>
-      <functions>1</functions>
-      <classes>1</classes>
-      <javadocs>1</javadocs>
-      <javadocs_lines>4</javadocs_lines>
-      <single_comment_lines>4</single_comment_lines>
-      <implementation_comment_lines>0</implementation_comment_lines>
-    </object>
-    <object>
       <name>org.osmdroid.forge.app.ExampleUnitTest</name>
       <ncss>3</ncss>
       <functions>1</functions>
@@ -103,15 +93,15 @@
       <implementation_comment_lines>0</implementation_comment_lines>
     </object>
     <averages>
-      <ncss>34.43</ncss>
-      <functions>2.57</functions>
-      <classes>0.86</classes>
-      <javadocs>1.43</javadocs>
-      <javadocs_lines>5.57</javadocs_lines>
-      <single_comment_lines>6.43</single_comment_lines>
-      <implementation_comment_lines>1.43</implementation_comment_lines>
+      <ncss>28.50</ncss>
+      <functions>2.83</functions>
+      <classes>0.83</classes>
+      <javadocs>1.50</javadocs>
+      <javadocs_lines>5.83</javadocs_lines>
+      <single_comment_lines>6.83</single_comment_lines>
+      <implementation_comment_lines>1.67</implementation_comment_lines>
     </averages>
-    <ncss>334.00</ncss>
+    <ncss>253.00</ncss>
   </objects>
 
   <functions>
@@ -141,7 +131,7 @@
     </function>
     <function>
       <name>org.osmdroid.forge.app.MapsForgeMapTileProviderDirectTest.test_getMapTile_found()</name>
-      <ncss>6</ncss>
+      <ncss>5</ncss>
       <ccn>2</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -153,7 +143,7 @@
     </function>
     <function>
       <name>org.osmdroid.forge.app.MainActivity.onCreate(Bundle)</name>
-      <ncss>31</ncss>
+      <ncss>29</ncss>
       <ccn>4</ccn>
       <javadocs>0</javadocs>
     </function>
@@ -248,35 +238,17 @@
       <javadocs>0</javadocs>
     </function>
     <function>
-      <name>org.osmdroid.forge.app.StorageUtils.StorageInfo.StorageInfo(String,boolean,boolean,int)</name>
-      <ncss>5</ncss>
-      <ccn>1</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.forge.app.StorageUtils.StorageInfo.getDisplayName()</name>
-      <ncss>12</ncss>
-      <ccn>4</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
-      <name>org.osmdroid.forge.app.StorageUtils.getStorageList()</name>
-      <ncss>43</ncss>
-      <ccn>19</ccn>
-      <javadocs>0</javadocs>
-    </function>
-    <function>
       <name>org.osmdroid.forge.app.ExampleUnitTest.addition_isCorrect()</name>
       <ncss>2</ncss>
       <ccn>1</ccn>
       <javadocs>0</javadocs>
     </function>
     <function_averages>
-      <ncss>8.88</ncss>
-      <ccn>2.77</ccn>
-      <javadocs>0.08</javadocs>
+      <ncss>7.30</ncss>
+      <ccn>2.09</ccn>
+      <javadocs>0.09</javadocs>
     </function_averages>
-    <ncss>334.00</ncss>
+    <ncss>253.00</ncss>
   </functions>
 </javancss>
 

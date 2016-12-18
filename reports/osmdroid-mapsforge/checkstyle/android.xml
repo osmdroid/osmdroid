@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
-<file name="./osmdroid-mapsforge/src/main/java/org/osmdroid/mapsforge/MapsForgeTileModuleProvider.java">
+<file name=".\osmdroid-mapsforge\src\main\java\org\osmdroid\mapsforge\MapsForgeTileModuleProvider.java">
 <error line="25" severity="warning" message="Line is longer than 100 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="38" severity="warning" message="Line is longer than 100 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="40" severity="warning" message="Line is longer than 100 characters (found 174)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="94" column="39" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="96" column="27" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="97" column="22" severity="warning" message="&apos;!=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="97" column="24" severity="warning" message="&apos;!=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="99" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="99" column="34" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="99" column="89" severity="warning" message="&apos;100&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="103" column="54" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
-<error line="104" column="62" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
+<error line="96" column="39" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="98" column="27" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="99" column="22" severity="warning" message="&apos;!=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="99" column="24" severity="warning" message="&apos;!=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="101" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="101" column="34" severity="warning" message="&apos;cast&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="101" column="89" severity="warning" message="&apos;100&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="105" column="54" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
+<error line="106" column="62" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
 </file>
-<file name="./osmdroid-mapsforge/src/main/java/org/osmdroid/mapsforge/MapsForgeTileProvider.java">
+<file name=".\osmdroid-mapsforge\src\main\java\org\osmdroid\mapsforge\MapsForgeTileProvider.java">
 <error line="18" severity="warning" message="Line is longer than 100 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="26" severity="warning" message="Line is longer than 100 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="42" severity="warning" message="Line is longer than 100 characters (found 151)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./osmdroid-mapsforge/src/main/java/org/osmdroid/mapsforge/MapsForgeTileSource.java">
+<file name=".\osmdroid-mapsforge\src\main\java\org\osmdroid\mapsforge\MapsForgeTileSource.java">
 <error line="10" column="8" severity="warning" message="Unused import - org.mapsforge.core.graphics.GraphicFactory." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="14" column="8" severity="warning" message="Unused import - org.mapsforge.map.datastore.MapDataStore." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="17" column="8" severity="warning" message="Unused import - org.mapsforge.map.layer.cache.TileCache." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
@@ -49,7 +48,7 @@
 <error line="185" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="194" column="41" severity="warning" message="&apos;6500000&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="./osmdroid-mapsforge/src/main/java/org/osmdroid/mapsforge/package-info.java">
+<file name=".\osmdroid-mapsforge\src\main\java\org\osmdroid\mapsforge\package-info.java">
 </file>
 </checkstyle>
 

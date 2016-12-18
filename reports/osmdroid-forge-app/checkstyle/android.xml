@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
-<file name="./osmdroid-forge-app/src/androidTest/java/org/osmdroid/forge/app/ApplicationTest.java">
+<file name=".\osmdroid-forge-app\src\androidTest\java\org\osmdroid\forge\app\ApplicationTest.java">
 </file>
-<file name="./osmdroid-forge-app/src/androidTest/java/org/osmdroid/forge/app/MainActivityTest.java">
+<file name=".\osmdroid-forge-app\src\androidTest\java\org\osmdroid\forge\app\MainActivityTest.java">
 <error line="4" column="8" severity="warning" message="Unused import - android.test.InstrumentationTestCase." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="9" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - org.junit.Assert.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
 <error line="28" column="47" severity="warning" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="29" column="65" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
 </file>
-<file name="./osmdroid-forge-app/src/androidTest/java/org/osmdroid/forge/app/MapsForgeMapTileProviderDirectTest.java">
+<file name=".\osmdroid-forge-app\src\androidTest\java\org\osmdroid\forge\app\MapsForgeMapTileProviderDirectTest.java">
 <error line="3" column="8" severity="warning" message="Unused import - android.graphics.Bitmap." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="11" column="8" severity="warning" message="Unused import - org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="16" column="8" severity="warning" message="Unused import - java.io.ByteArrayInputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="17" column="8" severity="warning" message="Unused import - java.io.ByteArrayOutputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="20" column="8" severity="warning" message="Unused import - java.io.FileOutputStream." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
@@ -17,61 +18,60 @@
 <error line="53" column="17" severity="warning" message="Name &apos;test_getMapTile_found&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MethodNameCheck"/>
 <error line="53" column="65" severity="warning" message="Redundant throws: &apos;FileNotFoundException&apos; is subclass of &apos;IOException&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.RedundantThrowsCheck"/>
 <error line="53" column="88" severity="warning" message="Redundant throws: &apos;BitmapTileSourceBase.LowMemoryException&apos; listed more then one time." source="com.puppycrawl.tools.checkstyle.checks.coding.RedundantThrowsCheck"/>
-<error line="55" column="64" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="55" column="65" severity="warning" message="&apos;=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="56" column="22" severity="warning" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="56" column="29" severity="warning" message="&apos;22&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="63" severity="warning" message="Line is longer than 100 characters (found 117)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="65" severity="warning" message="Line is longer than 100 characters (found 152)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="55" column="22" severity="warning" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="55" column="29" severity="warning" message="&apos;22&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="62" severity="warning" message="Line is longer than 100 characters (found 117)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="64" severity="warning" message="Line is longer than 100 characters (found 152)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/MainActivity.java">
+<file name=".\osmdroid-forge-app\src\main\java\org\osmdroid\forge\app\MainActivity.java">
 <error line="25" column="8" severity="warning" message="Unused import - org.osmdroid.tileprovider.MapTileProviderArray." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
-<error line="52" column="5" severity="warning" message="Method length is 98 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
-<error line="87" column="22" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="87" column="23" severity="warning" message="&apos;=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="90" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="96" column="24" severity="warning" message="&apos;==&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="96" column="26" severity="warning" message="&apos;==&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="96" column="28" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="106" severity="warning" message="Line is longer than 100 characters (found 183)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="108" column="46" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="109" column="68" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="121" column="9" severity="warning" message="&apos;}&apos; should be on the same line." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
-<error line="122" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="128" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="129" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="131" severity="warning" message="Line is longer than 100 characters (found 107)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="136" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="136" column="84" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="137" column="10" severity="warning" message="&apos;catch&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="137" column="10" severity="warning" message="&apos;}&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="137" column="30" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="142" column="58" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
-<error line="156" column="38" severity="warning" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="157" column="37" severity="warning" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
-<error line="162" severity="warning" message="Line is longer than 100 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="175" severity="warning" message="Line is longer than 100 characters (found 109)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="182" severity="warning" message="Line is longer than 100 characters (found 102)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="190" column="12" severity="warning" message="&apos;private&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
-<error line="195" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="231" column="11" severity="warning" message="&apos;private&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
-<error line="238" severity="warning" message="Line is longer than 100 characters (found 133)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="242" severity="warning" message="Line is longer than 100 characters (found 135)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="256" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="258" column="57" severity="warning" message="Avoid nested blocks." source="com.puppycrawl.tools.checkstyle.checks.blocks.AvoidNestedBlocksCheck"/>
-<error line="261" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="262" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="264" severity="warning" message="&apos;for&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-<error line="267" severity="warning" message="Line is longer than 100 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="268" severity="warning" message="Line is longer than 100 characters (found 125)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="271" severity="warning" message="Line is longer than 100 characters (found 108)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="273" severity="warning" message="Line is longer than 100 characters (found 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="275" severity="warning" message="Line is longer than 100 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="278" severity="warning" message="Line is longer than 100 characters (found 151)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="278" column="151" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
-<error line="279" severity="warning" message="Line is longer than 100 characters (found 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="26" column="8" severity="warning" message="Unused import - org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="53" column="5" severity="warning" message="Method length is 95 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
+<error line="85" column="22" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="85" column="23" severity="warning" message="&apos;=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="88" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="94" column="24" severity="warning" message="&apos;==&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="94" column="26" severity="warning" message="&apos;==&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="94" column="28" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="104" severity="warning" message="Line is longer than 100 characters (found 183)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="106" column="46" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="107" column="68" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="119" column="9" severity="warning" message="&apos;}&apos; should be on the same line." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
+<error line="120" severity="warning" message="&apos;else&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="126" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="127" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="129" severity="warning" message="Line is longer than 100 characters (found 107)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="134" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="134" column="84" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="135" column="10" severity="warning" message="&apos;catch&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="135" column="10" severity="warning" message="&apos;}&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="135" column="30" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="140" column="58" severity="warning" message="&apos;,&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAfterCheck"/>
+<error line="154" column="38" severity="warning" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="155" column="37" severity="warning" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="160" severity="warning" message="Line is longer than 100 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="173" severity="warning" message="Line is longer than 100 characters (found 109)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="180" severity="warning" message="Line is longer than 100 characters (found 102)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="188" column="12" severity="warning" message="&apos;private&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
+<error line="193" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="229" column="11" severity="warning" message="&apos;private&apos; modifier out of order with the JLS suggestions." source="com.puppycrawl.tools.checkstyle.checks.modifier.ModifierOrderCheck"/>
+<error line="236" severity="warning" message="Line is longer than 100 characters (found 133)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="240" severity="warning" message="Line is longer than 100 characters (found 135)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="254" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="256" column="57" severity="warning" message="Avoid nested blocks." source="com.puppycrawl.tools.checkstyle.checks.blocks.AvoidNestedBlocksCheck"/>
+<error line="259" severity="warning" message="Line is longer than 100 characters (found 103)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="260" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="262" severity="warning" message="&apos;for&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
+<error line="265" severity="warning" message="Line is longer than 100 characters (found 124)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="266" severity="warning" message="Line is longer than 100 characters (found 125)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="269" severity="warning" message="Line is longer than 100 characters (found 108)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="271" severity="warning" message="Line is longer than 100 characters (found 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="273" severity="warning" message="Line is longer than 100 characters (found 138)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="276" severity="warning" message="Line is longer than 100 characters (found 151)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="276" column="151" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
+<error line="277" severity="warning" message="Line is longer than 100 characters (found 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/OsmApplication.java">
+<file name=".\osmdroid-forge-app\src\main\java\org\osmdroid\forge\app\OsmApplication.java">
 <error line="20" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="23" column="17" severity="warning" message="&apos;(&apos; is followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.ParenPadCheck"/>
 <error line="24" column="48" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -86,25 +86,6 @@
 <error line="59" column="153" severity="warning" message="&apos;+&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="72" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="86" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
-</file>
-<file name="./osmdroid-forge-app/src/main/java/org/osmdroid/forge/app/StorageUtils.java">
-<error line="20" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
-<error line="31" column="74" severity="warning" message="Name &apos;display_number&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.ParameterNameCheck"/>
-<error line="54" column="5" severity="warning" message="Fields and methods should be before inner classes." source="com.puppycrawl.tools.checkstyle.checks.design.InnerTypeLastCheck"/>
-<error line="54" column="5" severity="warning" message="Method length is 62 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
-<error line="57" column="16" severity="warning" message="Name &apos;def_path&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="58" column="17" severity="warning" message="Name &apos;def_path_internal&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="59" column="16" severity="warning" message="Name &apos;def_path_state&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="60" column="17" severity="warning" message="Name &apos;def_path_available&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="62" severity="warning" message="Line is longer than 100 characters (found 118)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="62" column="17" severity="warning" message="Name &apos;def_path_readonly&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="63" column="24" severity="warning" message="Name &apos;buf_reader&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="68" column="17" severity="warning" message="Name &apos;cur_display_number&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="75" column="28" severity="warning" message="Name &apos;mount_point&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.LocalVariableNameCheck"/>
-<error line="93" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
-<error line="111" column="42" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
-<error line="111" column="43" severity="warning" message="&apos;{&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
-<error line="111" column="43" severity="warning" message="&apos;}&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
 </checkstyle>
 

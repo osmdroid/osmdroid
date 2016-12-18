@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
-<file name="./GoogleWrapperSample/src/androidTest/java/org/osmdroid/google/sample/MainActivityTest.java">
+<file name=".\GoogleWrapperSample\src\androidTest\java\org\osmdroid\google\sample\MainActivityTest.java">
 <error line="3" column="8" severity="warning" message="Unused import - android.app.Application." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 <error line="5" column="8" severity="warning" message="Unused import - android.test.ApplicationTestCase." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
 </file>
-<file name="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/Googlev1WrapperSample.java">
+<file name=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\Googlev1WrapperSample.java">
 <error line="91" severity="warning" message="Line is longer than 100 characters (found 119)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="92" severity="warning" message="Line is longer than 100 characters (found 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="115" column="49" severity="warning" message="&apos;45&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
@@ -32,7 +32,7 @@
 <error line="185" column="27" severity="warning" message="&apos;1000&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="186" column="55" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
 </file>
-<file name="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/Googlev2WrapperSample.java">
+<file name=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\Googlev2WrapperSample.java">
 <error line="102" severity="warning" message="Line is longer than 100 characters (found 119)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="103" severity="warning" message="Line is longer than 100 characters (found 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="126" column="49" severity="warning" message="&apos;45&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
@@ -61,7 +61,7 @@
 <error line="218" column="36" severity="warning" message="&apos;{&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="218" column="69" severity="warning" message="&apos;}&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
-<file name="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/MainActivity.java">
+<file name=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\MainActivity.java">
 <error line="39" column="38" severity="warning" message="&apos;23&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="48" column="42" severity="warning" message="&apos;=&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="48" column="43" severity="warning" message="&apos;=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -89,11 +89,11 @@
 <error line="136" column="151" severity="warning" message="&apos;+&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.whitespace.OperatorWrapCheck"/>
 <error line="137" severity="warning" message="Line is longer than 100 characters (found 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/MapsActivity.java">
+<file name=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\MapsActivity.java">
 <error line="42" column="36" severity="warning" message="&apos;-34&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="42" column="41" severity="warning" message="&apos;151&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="./GoogleWrapperSample/src/main/java/org/osmdroid/google/sample/OsmMapActivity.java">
+<file name=".\GoogleWrapperSample\src\main\java\org\osmdroid\google\sample\OsmMapActivity.java">
 <error line="23" column="39" severity="warning" message="Name &apos;df&apos; must match pattern &apos;^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.ConstantNameCheck"/>
 <error line="27" column="42" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="37" column="34" severity="warning" message="&apos;19&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>

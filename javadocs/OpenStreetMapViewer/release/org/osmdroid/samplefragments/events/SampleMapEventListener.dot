@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c5584 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c5588 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.events.SampleMapEventListener
-	c5607 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapEventListener.html">
+	c5611 [label=<<table title="org.osmdroid.samplefragments.events.SampleMapEventListener" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleMapEventListener.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleMapEventListener </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleMapEventListener.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.events.SampleMapEventListener extends org.osmdroid.samplefragments.BaseSampleFragment
-	c5584:p -> c5607:p [dir=back,arrowtail=empty];
+	c5588:p -> c5611:p [dir=back,arrowtail=empty];
 }
 

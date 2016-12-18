@@ -71,16 +71,16 @@
 <p>FindBugs version: 3.0.1</p>
 <p>Code analyzed:</p>
 <ul>
-<li>./OpenStreetMapViewer/build/intermediates/classes</li>
+<li>.\OpenStreetMapViewer\build\intermediates\classes</li>
 </ul>
 <p>
 <br/>
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>3386 lines of code analyzed,
-	in 141 classes, 
-	in 8 packages.</p>
+<p>4540 lines of code analyzed,
+	in 185 classes, 
+	in 16 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">4</td>
-<td align="right">1.18</td>
+<td align="right">5</td>
+<td align="right">1.10</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>4</b>
+<b>5</b>
 </td>
 <td align="right">
-<b>1.18</b>
+<b>1.10</b>
 </td>
 </tr>
 </table>
@@ -156,7 +156,7 @@
 <td>
 <a href="#Warnings_MT_CORRECTNESS">Multithreaded correctness Warnings</a>
 </td>
-<td align="right">1</td>
+<td align="right">2</td>
 </tr>
 <tr class="tablerow1">
 <td>
@@ -169,7 +169,7 @@
 <b>Total</b>
 </td>
 <td align="right">
-<b>4</b>
+<b>5</b>
 </td>
 </tr>
 </table>
@@ -183,18 +183,18 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65796');">
+<tr class="tablerow1" onclick="toggleRow('N65907');">
 <td>
 <span class="priority-1">DE</span>
 </td>
-<td>org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay.onResume() might ignore java.lang.Exception</td>
+<td>org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay.onResume() might ignore java.lang.Exception</td>
 </tr>
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65796" style="display: none;">
+<p id="N65907" style="display: none;">
 <a href="#DE_MIGHT_IGNORE">Bug type DE_MIGHT_IGNORE (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay<br/>In method org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay.onResume()<br/>Exception class java.lang.Exception<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 45]<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 45]</p>
+<br/>In class org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay<br/>In method org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay.onResume()<br/>Exception class java.lang.Exception<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]<br/>At SampleCustomIconDirectedLocationOverlay.java:[line 41]</p>
 </td>
 </tr>
 </table>
@@ -206,7 +206,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65674');">
+<tr class="tablerow1" onclick="toggleRow('N65718');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -215,9 +215,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65674" style="display: none;">
+<p id="N65718" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 106]</p>
+<br/>In class org.osmdroid.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 120]</p>
 </td>
 </tr>
 </table>
@@ -229,18 +229,32 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65874');">
+<tr class="tablerow1" onclick="toggleRow('N65787');">
+<td>
+<span class="priority-1">ML</span>
+</td>
+<td>Synchronization on WeathForceActivity.trueNorth in futile attempt to guard it</td>
+</tr>
+<tr class="detailrow1">
+<td/>
+<td>
+<p id="N65787" style="display: none;">
+<a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
+<br/>In class org.osmdroid.bugtestfragments.WeathForceActivity<br/>In method org.osmdroid.bugtestfragments.WeathForceActivity.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.bugtestfragments.WeathForceActivity.trueNorth<br/>At WeathForceActivity.java:[line 212]</p>
+</td>
+</tr>
+<tr class="tablerow0" onclick="toggleRow('N65985');">
 <td>
 <span class="priority-1">ML</span>
 </td>
 <td>Synchronization on SampleHeadingCompassUp.trueNorth in futile attempt to guard it</td>
 </tr>
-<tr class="detailrow1">
+<tr class="detailrow0">
 <td/>
 <td>
-<p id="N65874" style="display: none;">
+<p id="N65985" style="display: none;">
 <a href="#ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD">Bug type ML_SYNC_ON_FIELD_TO_GUARD_CHANGING_THAT_FIELD (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 184]</p>
+<br/>In class org.osmdroid.samplefragments.location.SampleHeadingCompassUp<br/>In method org.osmdroid.samplefragments.location.SampleHeadingCompassUp.onOrientationChanged(float, IOrientationProvider)<br/>Field org.osmdroid.samplefragments.location.SampleHeadingCompassUp.trueNorth<br/>At SampleHeadingCompassUp.java:[line 215]</p>
 </td>
 </tr>
 </table>
@@ -252,7 +266,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65743');">
+<tr class="tablerow1" onclick="toggleRow('N65854');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -261,9 +275,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65743" style="display: none;">
+<p id="N65854" style="display: none;">
 <a href="#DM_GC">Bug type DM_GC (click for details)</a>
-<br/>In class org.osmdroid.samplefragments.FragmentSamples<br/>In method org.osmdroid.samplefragments.FragmentSamples.onResume()<br/>At FragmentSamples.java:[line 76]</p>
+<br/>In class org.osmdroid.samplefragments.FragmentSamples<br/>In method org.osmdroid.samplefragments.FragmentSamples.onResume()<br/>At FragmentSamples.java:[line 93]</p>
 </td>
 </tr>
 </table>

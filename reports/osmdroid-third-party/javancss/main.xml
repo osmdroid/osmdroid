@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <javancss>
-  <date>2016-10-14</date>
-  <time>18:45:32</time>
+  <date>2016-12-18</date>
+  <time>09:39:15</time>
   <packages>
     <package>
       <name>org.osmdroid.api</name>
@@ -57,7 +57,7 @@
       <name>org.osmdroid.tileprovider.tilesource.bing</name>
       <classes>1</classes>
       <functions>15</functions>
-      <ncss>116</ncss>
+      <ncss>117</ncss>
       <javadocs>10</javadocs>
       <javadoc_lines>51</javadoc_lines>
       <single_comment_lines>9</single_comment_lines>
@@ -86,7 +86,7 @@
     <total>
       <classes>25</classes>
       <functions>220</functions>
-      <ncss>1074</ncss>
+      <ncss>1075</ncss>
       <javadocs>70</javadocs>
       <javadoc_lines>333</javadoc_lines>
       <single_comment_lines>48</single_comment_lines>
@@ -94,10 +94,10 @@
     </total>
     <table>
       <tr><td>Packages</td><td>Classes</td><td>Functions</td><td>NCSS</td><td>Javadocs</td><td>per</td></tr>
-      <tr><td>8.00</td><td>25.00</td><td>220.00</td><td>1,074.00</td><td>70.00</td><td>Project</td></tr>
-      <tr><td></td><td>3.13</td><td>27.50</td><td>134.25</td><td>8.75</td><td>Package</td></tr>
-      <tr><td></td><td></td><td>8.80</td><td>42.96</td><td>2.80</td><td>Class</td></tr>
-      <tr><td></td><td></td><td></td><td>4.88</td><td>0.32</td><td>Function</td></tr>
+      <tr><td>8.00</td><td>25.00</td><td>220.00</td><td>1,075.00</td><td>70.00</td><td>Project</td></tr>
+      <tr><td></td><td>3.13</td><td>27.50</td><td>134.38</td><td>8.75</td><td>Package</td></tr>
+      <tr><td></td><td></td><td>8.80</td><td>43.00</td><td>2.80</td><td>Class</td></tr>
+      <tr><td></td><td></td><td></td><td>4.89</td><td>0.32</td><td>Function</td></tr>
     </table>
   </packages>
 
@@ -361,7 +361,7 @@
       <single_comment_lines>1.88</single_comment_lines>
       <implementation_comment_lines>0.84</implementation_comment_lines>
     </averages>
-    <ncss>1,074.00</ncss>
+    <ncss>1,075.00</ncss>
   </objects>
 
   <functions>
@@ -1726,7 +1726,7 @@
       <ccn>1.63</ccn>
       <javadocs>0.23</javadocs>
     </function_averages>
-    <ncss>1,074.00</ncss>
+    <ncss>1,075.00</ncss>
   </functions>
 </javancss>
 

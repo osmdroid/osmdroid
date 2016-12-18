@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
-<file name="./OSMMapTilePackager/src/test/java/org/osmdroid/mtp/TilePackagerTest.java">
+<file name=".\OSMMapTilePackager\src\test\java\org\osmdroid\mtp\TilePackagerTest.java">
 <error line="15" column="31" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="20" column="34" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="25" column="35" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>

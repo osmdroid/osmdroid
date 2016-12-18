@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="5.9">
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/OSMMapTilePackager.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\OSMMapTilePackager.java">
 <error line="19" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="33" column="6" severity="warning" message="Method length is 117 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
 <error line="127" column="55" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -41,7 +41,7 @@
 <error line="371" column="39" severity="warning" message="Must have at least one statement." source="com.puppycrawl.tools.checkstyle.checks.blocks.EmptyBlockCheck"/>
 <error line="372" column="29" severity="warning" message="&apos;}&apos; should be on a new line." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/adt/OSMTileInfo.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\adt\OSMTileInfo.java">
 <error line="14" severity="warning" message="Line is longer than 100 characters (found 106)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="15" severity="warning" message="Line is longer than 100 characters (found 108)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="16" severity="warning" message="Line is longer than 100 characters (found 114)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
@@ -65,7 +65,7 @@
 <error line="73" column="14" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="79" column="29" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/download/DownloadManager.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\download\DownloadManager.java">
 <error line="40" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="50" column="62" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="55" column="47" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -80,7 +80,7 @@
 <error line="130" severity="warning" message="Line is longer than 100 characters (found 105)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="139" severity="warning" message="Line is longer than 100 characters (found 116)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/ui/BatchExecutorGUI.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\ui\BatchExecutorGUI.java">
 <error line="49" column="45" severity="warning" message="&apos;300&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="49" column="50" severity="warning" message="&apos;200&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="58" column="68" severity="warning" message="&apos;8&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
@@ -92,7 +92,7 @@
 <error line="123" column="51" severity="warning" message="&apos;{&apos; should have line break after." source="com.puppycrawl.tools.checkstyle.checks.blocks.LeftCurlyCheck"/>
 <error line="123" column="74" severity="warning" message="&apos;}&apos; should have line break before." source="com.puppycrawl.tools.checkstyle.checks.blocks.RightCurlyCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/ui/OSMMapTilePackagerUI.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\ui\OSMMapTilePackagerUI.java">
 <error line="38" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="44" severity="warning" message="Line is longer than 100 characters (found 102)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="77" column="44" severity="warning" message="&apos;640&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
@@ -127,7 +127,7 @@
 <error line="485" severity="warning" message="Line is longer than 100 characters (found 196)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="492" severity="warning" message="Line is longer than 100 characters (found 177)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/DbCreator.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\DbCreator.java">
 <error line="13" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="15" severity="warning" message="Line is longer than 100 characters (found 173)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="15" column="6" severity="warning" message="Method length is 47 lines (max allowed is 40)." source="com.puppycrawl.tools.checkstyle.checks.sizes.MethodLengthCheck"/>
@@ -143,7 +143,7 @@
 <error line="46" severity="warning" message="Line is longer than 100 characters (found 104)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="49" column="55" severity="warning" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/FolderDeleter.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\FolderDeleter.java">
 <error line="6" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="34" column="59" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="37" column="12" severity="warning" message="&apos;for&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -159,7 +159,7 @@
 <error line="44" column="19" severity="warning" message="&apos;if&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="44" column="32" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/FolderFileCounter.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\FolderFileCounter.java">
 <error line="6" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="34" column="69" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="38" column="12" severity="warning" message="&apos;for&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
@@ -171,7 +171,7 @@
 <error line="41" column="18" severity="warning" message="&apos;else&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="41" column="18" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/FolderZipper.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\FolderZipper.java">
 <error line="14" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="39" column="93" severity="warning" message="&apos;{&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="45" severity="warning" message="&apos;if&apos; construct must use &apos;{}&apos;s." source="com.puppycrawl.tools.checkstyle.checks.blocks.NeedBracesCheck"/>
@@ -181,7 +181,7 @@
 <error line="46" column="30" severity="warning" message="&apos;=&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
 <error line="59" severity="warning" message="Line is longer than 100 characters (found 128)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/mtp/util/Util.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\mtp\util\Util.java">
 <error line="6" column="1" severity="warning" message="Utility classes should not have a public or default constructor." source="com.puppycrawl.tools.checkstyle.checks.design.HideUtilityClassConstructorCheck"/>
 <error line="33" severity="warning" message="Line is longer than 100 characters (found 146)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
 <error line="35" severity="warning" message="Line is longer than 100 characters (found 220)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
@@ -192,10 +192,10 @@
 <error line="42" column="48" severity="warning" message="&apos;180&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 <error line="42" column="55" severity="warning" message="&apos;360&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/tileprovider/util/StreamUtils.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\tileprovider\util\StreamUtils.java">
 <error line="12" severity="warning" message="Class StreamUtils should be declared as final." source="com.puppycrawl.tools.checkstyle.checks.design.FinalClassCheck"/>
 </file>
-<file name="./OSMMapTilePackager/src/main/java/org/osmdroid/util/GEMFFile.java">
+<file name=".\OSMMapTilePackager\src\main\java\org\osmdroid\util\GEMFFile.java">
 <error line="77" column="21" severity="warning" message="&apos;(&apos; is preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.MethodParamPadCheck"/>
 <error line="77" column="51" severity="warning" message="Redundant throws: &apos;FileNotFoundException&apos; is subclass of &apos;IOException&apos;." source="com.puppycrawl.tools.checkstyle.checks.coding.RedundantThrowsCheck"/>
 <error line="88" column="21" severity="warning" message="&apos;(&apos; is preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.MethodParamPadCheck"/>

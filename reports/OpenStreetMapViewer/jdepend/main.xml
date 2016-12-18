@@ -2,6 +2,10 @@
 <JDepend>
     <Packages>
 
+        <Package name="android">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="android.accessibilityservice">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -263,11 +267,11 @@
                 <TotalClasses>210</TotalClasses>
                 <ConcreteClasses>167</ConcreteClasses>
                 <AbstractClasses>43</AbstractClasses>
-                <Ca>6</Ca>
+                <Ca>12</Ca>
                 <Ce>25</Ce>
                 <A>0.2</A>
-                <I>0.81</I>
-                <D>0.01</D>
+                <I>0.68</I>
+                <D>0.12</D>
                 <V>1</V>
             </Stats>
 
@@ -942,6 +946,12 @@
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
             </UsedBy>
         </Package>
 
@@ -2908,11 +2918,11 @@
                 <TotalClasses>199</TotalClasses>
                 <ConcreteClasses>162</ConcreteClasses>
                 <AbstractClasses>37</AbstractClasses>
-                <Ca>5</Ca>
+                <Ca>6</Ca>
                 <Ce>23</Ce>
                 <A>0.19</A>
-                <I>0.82</I>
-                <D>0.01</D>
+                <I>0.79</I>
+                <D>0.02</D>
                 <V>1</V>
             </Stats>
 
@@ -3551,6 +3561,7 @@
                 <Package>android.support.v4.internal.view</Package>
                 <Package>android.support.v4.media</Package>
                 <Package>android.support.v4.widget</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
             </UsedBy>
         </Package>
 
@@ -5526,14 +5537,14 @@
 
         <Package name="org.osmdroid">
             <Stats>
-                <TotalClasses>25</TotalClasses>
-                <ConcreteClasses>24</ConcreteClasses>
+                <TotalClasses>30</TotalClasses>
+                <ConcreteClasses>29</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>35</Ce>
-                <A>0.04</A>
-                <I>0.95</I>
-                <D>0.01</D>
+                <Ca>11</Ca>
+                <Ce>41</Ce>
+                <A>0.03</A>
+                <I>0.79</I>
+                <D>0.18</D>
                 <V>1</V>
             </Stats>
 
@@ -5571,6 +5582,24 @@
                 <Class sourceFile="OsmApplication.java">
                     org.osmdroid.OsmApplication$OsmUncaughtExceptionHandler
                 </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity
+                </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity$1
+                </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity$2
+                </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity$3
+                </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity$4
+                </Class>
+                <Class sourceFile="PreferenceActivity.java">
+                    org.osmdroid.PreferenceActivity$5
+                </Class>
                 <Class sourceFile="R.java">
                     org.osmdroid.R
                 </Class>
@@ -5595,12 +5624,6 @@
                 <Class sourceFile="R.java">
                     org.osmdroid.R$style
                 </Class>
-                <Class sourceFile="SampleItemizedOverlay.java">
-                    org.osmdroid.SampleItemizedOverlay
-                </Class>
-                <Class sourceFile="SampleOverlayItem.java">
-                    org.osmdroid.SampleOverlayItem
-                </Class>
                 <Class sourceFile="SensorEventListenerProxy.java">
                     org.osmdroid.SensorEventListenerProxy
                 </Class>
@@ -5616,20 +5639,27 @@
                 <Class sourceFile="StarterMapFragment.java">
                     org.osmdroid.StarterMapFragment$2
                 </Class>
+                <Class sourceFile="StarterMapFragment.java">
+                    org.osmdroid.StarterMapFragment$3
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.app</Package>
                 <Package>android.content</Package>
+                <Package>android.content.pm</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
-                <Package>android.graphics.drawable</Package>
                 <Package>android.hardware</Package>
                 <Package>android.location</Package>
                 <Package>android.net</Package>
                 <Package>android.os</Package>
+                <Package>android.preference</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.support.v4.content</Package>
+                <Package>android.text</Package>
+                <Package>android.text.format</Package>
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>android.widget</Package>
@@ -5642,13 +5672,15 @@
                 <Package>org.acra.sender</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.constants</Package>
+                <Package>org.osmdroid.model</Package>
                 <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.constants</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
-                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -5659,6 +5691,15 @@
             <UsedBy>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.models</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
+                <Package>org.osmdroid.samples</Package>
             </UsedBy>
         </Package>
 
@@ -5667,11 +5708,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>9</Ca>
+                <Ca>23</Ca>
                 <Ce>2</Ce>
                 <A>1</A>
-                <I>0.18</I>
-                <D>0.18</D>
+                <I>0.08</I>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -5701,26 +5742,40 @@
             <UsedBy>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.models</Package>
                 <Package>org.osmdroid.samples</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
 
         <Package name="org.osmdroid.bugtestfragments">
             <Stats>
-                <TotalClasses>14</TotalClasses>
-                <ConcreteClasses>14</ConcreteClasses>
+                <TotalClasses>25</TotalClasses>
+                <ConcreteClasses>25</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>17</Ce>
+                <Ce>30</Ce>
                 <A>0</A>
-                <I>0.94</I>
-                <D>0.06</D>
+                <I>0.97</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -5755,6 +5810,33 @@
                 <Class sourceFile="Bug419Zoom.java">
                     org.osmdroid.bugtestfragments.Bug419Zoom$5
                 </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$1
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$2
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$3
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$4
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$5
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$6
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$7
+                </Class>
+                <Class sourceFile="Bug445Caching.java">
+                    org.osmdroid.bugtestfragments.Bug445Caching$8
+                </Class>
                 <Class sourceFile="Bug82WinDeath.java">
                     org.osmdroid.bugtestfragments.Bug82WinDeath
                 </Class>
@@ -5770,10 +5852,21 @@
                 <Class sourceFile="SampleBug57Step2.java">
                     org.osmdroid.bugtestfragments.SampleBug57Step2
                 </Class>
+                <Class sourceFile="WeathForceActivity.java">
+                    org.osmdroid.bugtestfragments.WeathForceActivity
+                </Class>
+                <Class sourceFile="WeathForceActivity.java">
+                    org.osmdroid.bugtestfragments.WeathForceActivity$1
+                </Class>
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
+                <Package>android.content</Package>
+                <Package>android.content.pm</Package>
                 <Package>android.graphics</Package>
+                <Package>android.hardware</Package>
+                <Package>android.location</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
                 <Package>android.util</Package>
@@ -5784,16 +5877,80 @@
                 <Package>java.util</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.model</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.compass</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.config">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>12</Ca>
+                <Ce>9</Ce>
+                <A>0.33</A>
+                <I>0.43</I>
+                <D>0.24</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="IConfigurationProvider.java">
+                    org.osmdroid.config.IConfigurationProvider
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Configuration.java">
+                    org.osmdroid.config.Configuration
+                </Class>
+                <Class sourceFile="DefaultConfigurationProvider.java">
+                    org.osmdroid.config.DefaultConfigurationProvider
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.util.constants</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.util.constants</Package>
             </UsedBy>
         </Package>
 
@@ -5834,11 +5991,11 @@
                 <TotalClasses>8</TotalClasses>
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>5</Ce>
+                <Ca>6</Ca>
+                <Ce>6</Ce>
                 <A>0.5</A>
-                <I>0.56</I>
-                <D>0.06</D>
+                <I>0.5</I>
+                <D>0</D>
                 <V>1</V>
             </Stats>
 
@@ -5876,13 +6033,16 @@
                 <Package>android.os</Package>
                 <Package>android.util</Package>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid.bugtestfragments</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
@@ -5893,11 +6053,11 @@
                 <TotalClasses>6</TotalClasses>
                 <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>3</Ca>
+                <Ca>4</Ca>
                 <Ce>1</Ce>
                 <A>0</A>
-                <I>0.25</I>
-                <D>0.75</D>
+                <I>0.2</I>
+                <D>0.8</D>
                 <V>1</V>
             </Stats>
 
@@ -5930,22 +6090,65 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.views.overlay</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
             </UsedBy>
         </Package>
 
+        <Package name="org.osmdroid.model">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>3</Ca>
+                <Ce>4</Ce>
+                <A>0.33</A>
+                <I>0.57</I>
+                <D>0.1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="BaseActivity.java">
+                    org.osmdroid.model.BaseActivity
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="PositiveLongTextValidator.java">
+                    org.osmdroid.model.PositiveLongTextValidator
+                </Class>
+                <Class sourceFile="PositiveShortTextValidator.java">
+                    org.osmdroid.model.PositiveShortTextValidator
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.text</Package>
+                <Package>android.widget</Package>
+                <Package>java.lang</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
         <Package name="org.osmdroid.samplefragments">
             <Stats>
-                <TotalClasses>80</TotalClasses>
-                <ConcreteClasses>79</ConcreteClasses>
+                <TotalClasses>7</TotalClasses>
+                <ConcreteClasses>6</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>35</Ce>
-                <A>0.01</A>
-                <I>0.95</I>
-                <D>0.04</D>
+                <Ca>9</Ca>
+                <Ce>23</Ce>
+                <A>0.14</A>
+                <I>0.72</I>
+                <D>0.14</D>
                 <V>1</V>
             </Stats>
 
@@ -5956,17 +6159,8 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="AsyncTaskDemoFragment.java">
-                    org.osmdroid.samplefragments.AsyncTaskDemoFragment
-                </Class>
-                <Class sourceFile="AsyncTaskDemoFragment.java">
-                    org.osmdroid.samplefragments.AsyncTaskDemoFragment$1
-                </Class>
-                <Class sourceFile="AsyncTaskDemoFragment.java">
-                    org.osmdroid.samplefragments.AsyncTaskDemoFragment$2
-                </Class>
-                <Class sourceFile="AsyncTaskDemoFragment.java">
-                    org.osmdroid.samplefragments.AsyncTaskDemoFragment$BackgroundMarkerLoaderTask
+                <Class sourceFile="BaseSampleFragment.java">
+                    org.osmdroid.samplefragments.BaseSampleFragment$1
                 </Class>
                 <Class sourceFile="BugReportingTest.java">
                     org.osmdroid.samplefragments.BugReportingTest
@@ -5974,224 +6168,266 @@
                 <Class sourceFile="BugReportingTest.java">
                     org.osmdroid.samplefragments.BugReportingTest$1
                 </Class>
-                <Class sourceFile="CacheImport.java">
-                    org.osmdroid.samplefragments.CacheImport
-                </Class>
-                <Class sourceFile="CacheImport.java">
-                    org.osmdroid.samplefragments.CacheImport$1
-                </Class>
-                <Class sourceFile="CacheImport.java">
-                    org.osmdroid.samplefragments.CacheImport$2
-                </Class>
-                <Class sourceFile="CachePurge.java">
-                    org.osmdroid.samplefragments.CachePurge
-                </Class>
-                <Class sourceFile="CachePurge.java">
-                    org.osmdroid.samplefragments.CachePurge$1
-                </Class>
                 <Class sourceFile="FragmentSamples.java">
                     org.osmdroid.samplefragments.FragmentSamples
-                </Class>
-                <Class sourceFile="SampleAlternateCacheDir.java">
-                    org.osmdroid.samplefragments.SampleAlternateCacheDir
-                </Class>
-                <Class sourceFile="SampleAnimateTo.java">
-                    org.osmdroid.samplefragments.SampleAnimateTo
-                </Class>
-                <Class sourceFile="SampleAnimateTo.java">
-                    org.osmdroid.samplefragments.SampleAnimateTo$1
-                </Class>
-                <Class sourceFile="SampleAnimateTo.java">
-                    org.osmdroid.samplefragments.SampleAnimateTo$2
-                </Class>
-                <Class sourceFile="SampleAnimatedZoomToLocation.java">
-                    org.osmdroid.samplefragments.SampleAnimatedZoomToLocation
-                </Class>
-                <Class sourceFile="SampleAnimatedZoomToLocation.java">
-                    org.osmdroid.samplefragments.SampleAnimatedZoomToLocation$1
-                </Class>
-                <Class sourceFile="SampleAnimatedZoomToLocation.java">
-                    org.osmdroid.samplefragments.SampleAnimatedZoomToLocation$1$1
-                </Class>
-                <Class sourceFile="SampleAssetsOnly.java">
-                    org.osmdroid.samplefragments.SampleAssetsOnly
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$2
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$3
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$4
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$4$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloader.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloader$4$2
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$2
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$3
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$4
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$4$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderArchive.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderArchive$4$2
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI$2
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI$3
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI$3$1
-                </Class>
-                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
-                    org.osmdroid.samplefragments.SampleCacheDownloaderCustomUI$3$2
-                </Class>
-                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
-                    org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay
-                </Class>
-                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
-                    org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay$1
-                </Class>
-                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
-                    org.osmdroid.samplefragments.SampleCustomIconDirectedLocationOverlay$1$1
-                </Class>
-                <Class sourceFile="SampleCustomLoadingImage.java">
-                    org.osmdroid.samplefragments.SampleCustomLoadingImage
-                </Class>
-                <Class sourceFile="SampleCustomTileSource.java">
-                    org.osmdroid.samplefragments.SampleCustomTileSource
                 </Class>
                 <Class sourceFile="SampleFactory.java">
                     org.osmdroid.samplefragments.SampleFactory
                 </Class>
-                <Class sourceFile="SampleFollowMe.java">
-                    org.osmdroid.samplefragments.SampleFollowMe
-                </Class>
-                <Class sourceFile="SampleFollowMe.java">
-                    org.osmdroid.samplefragments.SampleFollowMe$1
-                </Class>
-                <Class sourceFile="SampleFollowMe.java">
-                    org.osmdroid.samplefragments.SampleFollowMe$2
-                </Class>
-                <Class sourceFile="SampleFragmentXmlLayout.java">
-                    org.osmdroid.samplefragments.SampleFragmentXmlLayout
-                </Class>
-                <Class sourceFile="SampleGridlines.java">
-                    org.osmdroid.samplefragments.SampleGridlines
-                </Class>
-                <Class sourceFile="SampleHeadingCompassUp.java">
-                    org.osmdroid.samplefragments.SampleHeadingCompassUp
-                </Class>
-                <Class sourceFile="SampleHeadingCompassUp.java">
-                    org.osmdroid.samplefragments.SampleHeadingCompassUp$1
-                </Class>
-                <Class sourceFile="SampleHereWeGo.java">
-                    org.osmdroid.samplefragments.SampleHereWeGo
-                </Class>
-                <Class sourceFile="SampleInvertedTiles_NightMode.java">
-                    org.osmdroid.samplefragments.SampleInvertedTiles_NightMode
-                </Class>
-                <Class sourceFile="SampleJumboCache.java">
-                    org.osmdroid.samplefragments.SampleJumboCache
-                </Class>
-                <Class sourceFile="SampleLimitedScrollArea.java">
-                    org.osmdroid.samplefragments.SampleLimitedScrollArea
-                </Class>
-                <Class sourceFile="SampleLimitedScrollArea.java">
-                    org.osmdroid.samplefragments.SampleLimitedScrollArea$ShadeAreaOverlay
-                </Class>
-                <Class sourceFile="SampleMapBootListener.java">
-                    org.osmdroid.samplefragments.SampleMapBootListener
-                </Class>
-                <Class sourceFile="SampleMapBox.java">
-                    org.osmdroid.samplefragments.SampleMapBox
-                </Class>
-                <Class sourceFile="SampleMapBox.java">
-                    org.osmdroid.samplefragments.SampleMapBox$1
-                </Class>
-                <Class sourceFile="SampleMapBox.java">
-                    org.osmdroid.samplefragments.SampleMapBox$2
-                </Class>
-                <Class sourceFile="SampleMapEventListener.java">
-                    org.osmdroid.samplefragments.SampleMapEventListener
-                </Class>
-                <Class sourceFile="SampleMapEventListener.java">
-                    org.osmdroid.samplefragments.SampleMapEventListener$1
-                </Class>
-                <Class sourceFile="SampleMapEventListener.java">
-                    org.osmdroid.samplefragments.SampleMapEventListener$2
-                </Class>
-                <Class sourceFile="SampleMapQuest.java">
-                    org.osmdroid.samplefragments.SampleMapQuest
-                </Class>
-                <Class sourceFile="SampleMilitaryIcons.java">
-                    org.osmdroid.samplefragments.SampleMilitaryIcons
-                </Class>
-                <Class sourceFile="SampleMilitaryIcons.java">
-                    org.osmdroid.samplefragments.SampleMilitaryIcons$1
-                </Class>
-                <Class sourceFile="SampleOfflineOnly.java">
-                    org.osmdroid.samplefragments.SampleOfflineOnly
-                </Class>
-                <Class sourceFile="SampleOsmPath.java">
-                    org.osmdroid.samplefragments.SampleOsmPath
-                </Class>
-                <Class sourceFile="SampleSplitScreen.java">
-                    org.osmdroid.samplefragments.SampleSplitScreen
-                </Class>
-                <Class sourceFile="SampleSqliteOnly.java">
-                    org.osmdroid.samplefragments.SampleSqliteOnly
-                </Class>
                 <Class sourceFile="SampleTester.java">
                     org.osmdroid.samplefragments.SampleTester
                 </Class>
-                <Class sourceFile="SampleWhackyColorFilter.java">
-                    org.osmdroid.samplefragments.SampleWhackyColorFilter
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android</Package>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.model</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay.compass</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.cache">
+            <Stats>
+                <TotalClasses>28</TotalClasses>
+                <ConcreteClasses>28</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>23</Ce>
+                <A>0</A>
+                <I>0.96</I>
+                <D>0.04</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="CacheImport.java">
+                    org.osmdroid.samplefragments.cache.CacheImport
+                </Class>
+                <Class sourceFile="CacheImport.java">
+                    org.osmdroid.samplefragments.cache.CacheImport$1
+                </Class>
+                <Class sourceFile="CacheImport.java">
+                    org.osmdroid.samplefragments.cache.CacheImport$2
+                </Class>
+                <Class sourceFile="CachePurge.java">
+                    org.osmdroid.samplefragments.cache.CachePurge
+                </Class>
+                <Class sourceFile="CachePurge.java">
+                    org.osmdroid.samplefragments.cache.CachePurge$1
+                </Class>
+                <Class sourceFile="SampleAlternateCacheDir.java">
+                    org.osmdroid.samplefragments.cache.SampleAlternateCacheDir
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$2
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$3
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$4
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$4$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloader.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloader$4$2
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$2
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$3
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$4
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$4$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderArchive.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive$4$2
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI$2
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI$3
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI$3$1
+                </Class>
+                <Class sourceFile="SampleCacheDownloaderCustomUI.java">
+                    org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI$3$2
+                </Class>
+                <Class sourceFile="SampleJumboCache.java">
+                    org.osmdroid.samplefragments.cache.SampleJumboCache
+                </Class>
+                <Class sourceFile="SampleSqliteOnly.java">
+                    org.osmdroid.samplefragments.cache.SampleSqliteOnly
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.content.res</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.text</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.data">
+            <Stats>
+                <TotalClasses>20</TotalClasses>
+                <ConcreteClasses>20</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>2</Ca>
+                <Ce>27</Ce>
+                <A>0</A>
+                <I>0.93</I>
+                <D>0.07</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="AsyncTaskDemoFragment.java">
+                    org.osmdroid.samplefragments.data.AsyncTaskDemoFragment
+                </Class>
+                <Class sourceFile="AsyncTaskDemoFragment.java">
+                    org.osmdroid.samplefragments.data.AsyncTaskDemoFragment$1
+                </Class>
+                <Class sourceFile="AsyncTaskDemoFragment.java">
+                    org.osmdroid.samplefragments.data.AsyncTaskDemoFragment$2
+                </Class>
+                <Class sourceFile="AsyncTaskDemoFragment.java">
+                    org.osmdroid.samplefragments.data.AsyncTaskDemoFragment$BackgroundMarkerLoaderTask
+                </Class>
+                <Class sourceFile="SampleGridlines.java">
+                    org.osmdroid.samplefragments.data.SampleGridlines
+                </Class>
+                <Class sourceFile="SampleMilitaryIcons.java">
+                    org.osmdroid.samplefragments.data.SampleMilitaryIcons
+                </Class>
+                <Class sourceFile="SampleMilitaryIcons.java">
+                    org.osmdroid.samplefragments.data.SampleMilitaryIcons$1
+                </Class>
+                <Class sourceFile="SampleOsmPath.java">
+                    org.osmdroid.samplefragments.data.SampleOsmPath
+                </Class>
+                <Class sourceFile="SampleOsmPath.java">
+                    org.osmdroid.samplefragments.data.SampleOsmPath$1
+                </Class>
+                <Class sourceFile="SampleOsmPath.java">
+                    org.osmdroid.samplefragments.data.SampleOsmPath$2
+                </Class>
+                <Class sourceFile="SampleOsmPath.java">
+                    org.osmdroid.samplefragments.data.SampleOsmPath$3
+                </Class>
+                <Class sourceFile="SampleOsmPath.java">
+                    org.osmdroid.samplefragments.data.SampleOsmPath$4
+                </Class>
+                <Class sourceFile="SampleSimpleFastPointOverlay.java">
+                    org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay
+                </Class>
+                <Class sourceFile="SampleSimpleFastPointOverlay.java">
+                    org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay$1
+                </Class>
+                <Class sourceFile="SampleSimpleFastPointOverlay.java">
+                    org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay$2
+                </Class>
+                <Class sourceFile="SampleSimpleLocation.java">
+                    org.osmdroid.samplefragments.data.SampleSimpleLocation
                 </Class>
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithFocus.java">
-                    org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithFocus
+                    org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus
                 </Class>
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithFocus.java">
-                    org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithFocus$1
+                    org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus$1
                 </Class>
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithScale.java">
-                    org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithScale
+                    org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale
                 </Class>
                 <Class sourceFile="SampleWithMinimapItemizedOverlayWithScale.java">
-                    org.osmdroid.samplefragments.SampleWithMinimapItemizedOverlayWithScale$1
-                </Class>
-                <Class sourceFile="SampleZoomToBounding.java">
-                    org.osmdroid.samplefragments.SampleZoomToBounding
+                    org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale$1
                 </Class>
             </ConcreteClasses>
 
@@ -6201,54 +6437,46 @@
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
                 <Package>android.graphics.drawable</Package>
-                <Package>android.hardware</Package>
-                <Package>android.location</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
-                <Package>android.text</Package>
                 <Package>android.util</Package>
                 <Package>android.view</Package>
                 <Package>android.widget</Package>
-                <Package>java.io</Package>
                 <Package>java.lang</Package>
-                <Package>java.text</Package>
                 <Package>java.util</Package>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.samplefragments</Package>
                 <Package>org.osmdroid.samplefragments.models</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.cachemanager</Package>
-                <Package>org.osmdroid.tileprovider.constants</Package>
-                <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
-                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
-                <Package>org.osmdroid.views.overlay.compass</Package>
                 <Package>org.osmdroid.views.overlay.gestures</Package>
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
             </UsedBy>
         </Package>
 
-        <Package name="org.osmdroid.samplefragments.models">
+        <Package name="org.osmdroid.samplefragments.events">
             <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>16</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>1</Ca>
-                <Ce>3</Ce>
+                <Ca>2</Ca>
+                <Ce>23</Ce>
                 <A>0</A>
-                <I>0.75</I>
-                <D>0.25</D>
+                <I>0.92</I>
+                <D>0.08</D>
                 <V>1</V>
             </Stats>
 
@@ -6256,15 +6484,395 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="USGSTileSource.java">
-                    org.osmdroid.samplefragments.models.USGSTileSource
+                <Class sourceFile="SampleAnimateTo.java">
+                    org.osmdroid.samplefragments.events.SampleAnimateTo
+                </Class>
+                <Class sourceFile="SampleAnimateTo.java">
+                    org.osmdroid.samplefragments.events.SampleAnimateTo$1
+                </Class>
+                <Class sourceFile="SampleAnimateTo.java">
+                    org.osmdroid.samplefragments.events.SampleAnimateTo$2
+                </Class>
+                <Class sourceFile="SampleAnimatedZoomToLocation.java">
+                    org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation
+                </Class>
+                <Class sourceFile="SampleAnimatedZoomToLocation.java">
+                    org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation$1
+                </Class>
+                <Class sourceFile="SampleAnimatedZoomToLocation.java">
+                    org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation$1$1
+                </Class>
+                <Class sourceFile="SampleLimitedScrollArea.java">
+                    org.osmdroid.samplefragments.events.SampleLimitedScrollArea
+                </Class>
+                <Class sourceFile="SampleLimitedScrollArea.java">
+                    org.osmdroid.samplefragments.events.SampleLimitedScrollArea$ShadeAreaOverlay
+                </Class>
+                <Class sourceFile="SampleMapBootListener.java">
+                    org.osmdroid.samplefragments.events.SampleMapBootListener
+                </Class>
+                <Class sourceFile="SampleMapEventListener.java">
+                    org.osmdroid.samplefragments.events.SampleMapEventListener
+                </Class>
+                <Class sourceFile="SampleMapEventListener.java">
+                    org.osmdroid.samplefragments.events.SampleMapEventListener$1
+                </Class>
+                <Class sourceFile="SampleMapEventListener.java">
+                    org.osmdroid.samplefragments.events.SampleMapEventListener$2
+                </Class>
+                <Class sourceFile="SampleZoomToBounding.java">
+                    org.osmdroid.samplefragments.events.SampleZoomToBounding
+                </Class>
+                <Class sourceFile="ZoomToBoundsOnStartup.java">
+                    org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup
+                </Class>
+                <Class sourceFile="ZoomToBoundsOnStartup.java">
+                    org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup$1
+                </Class>
+                <Class sourceFile="ZoomToBoundsOnStartup.java">
+                    org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup$2
                 </Class>
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.graphics</Package>
+                <Package>android.location</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
                 <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.gestures</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.layouts">
+            <Stats>
+                <TotalClasses>2</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>9</Ce>
+                <A>0</A>
+                <I>0.9</I>
+                <D>0.1</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="SampleFragmentXmlLayout.java">
+                    org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout
+                </Class>
+                <Class sourceFile="SampleSplitScreen.java">
+                    org.osmdroid.samplefragments.layouts.SampleSplitScreen
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.os</Package>
+                <Package>android.view</Package>
+                <Package>java.lang</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.events</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.views</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.location">
+            <Stats>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>23</Ce>
+                <A>0</A>
+                <I>0.96</I>
+                <D>0.04</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
+                    org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay
+                </Class>
+                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
+                    org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay$1
+                </Class>
+                <Class sourceFile="SampleCustomIconDirectedLocationOverlay.java">
+                    org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay$1$1
+                </Class>
+                <Class sourceFile="SampleFollowMe.java">
+                    org.osmdroid.samplefragments.location.SampleFollowMe
+                </Class>
+                <Class sourceFile="SampleFollowMe.java">
+                    org.osmdroid.samplefragments.location.SampleFollowMe$1
+                </Class>
+                <Class sourceFile="SampleFollowMe.java">
+                    org.osmdroid.samplefragments.location.SampleFollowMe$2
+                </Class>
+                <Class sourceFile="SampleHeadingCompassUp.java">
+                    org.osmdroid.samplefragments.location.SampleHeadingCompassUp
+                </Class>
+                <Class sourceFile="SampleHeadingCompassUp.java">
+                    org.osmdroid.samplefragments.location.SampleHeadingCompassUp$1
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.content.pm</Package>
+                <Package>android.content.res</Package>
+                <Package>android.graphics.drawable</Package>
+                <Package>android.hardware</Package>
+                <Package>android.location</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.compass</Package>
+                <Package>org.osmdroid.views.overlay.gestures</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.models">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>3</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>12</Ce>
+                <A>0</A>
+                <I>0.92</I>
+                <D>0.08</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="MyMapItem.java">
+                    org.osmdroid.samplefragments.models.MyMapItem
+                </Class>
+                <Class sourceFile="SampleItemizedOverlay.java">
+                    org.osmdroid.samplefragments.models.SampleItemizedOverlay
+                </Class>
+                <Class sourceFile="SampleOverlayItem.java">
+                    org.osmdroid.samplefragments.models.SampleOverlayItem
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.content.res</Package>
+                <Package>android.graphics</Package>
+                <Package>android.graphics.drawable</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.lang</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments.data</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.pager">
+            <Stats>
+                <TotalClasses>10</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>10</Ce>
+                <A>0</A>
+                <I>0.91</I>
+                <D>0.09</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="MapFragment.java">
+                    org.osmdroid.samplefragments.pager.MapFragment
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment$1
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment$2
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment$3
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment$4
+                </Class>
+                <Class sourceFile="MapInAViewPagerFragment.java">
+                    org.osmdroid.samplefragments.pager.MapInAViewPagerFragment$5
+                </Class>
+                <Class sourceFile="MapSliderAdapter.java">
+                    org.osmdroid.samplefragments.pager.MapSliderAdapter
+                </Class>
+                <Class sourceFile="SimpleTextFragment.java">
+                    org.osmdroid.samplefragments.pager.SimpleTextFragment
+                </Class>
+                <Class sourceFile="WebviewFragment.java">
+                    org.osmdroid.samplefragments.pager.WebviewFragment
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.support.v4.view</Package>
+                <Package>android.util</Package>
+                <Package>android.view</Package>
+                <Package>android.webkit</Package>
+                <Package>java.lang</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.views</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.samplefragments.tilesources">
+            <Stats>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>12</ConcreteClasses>
+                <AbstractClasses>0</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>20</Ce>
+                <A>0</A>
+                <I>0.95</I>
+                <D>0.05</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="SampleAssetsOnly.java">
+                    org.osmdroid.samplefragments.tilesources.SampleAssetsOnly
+                </Class>
+                <Class sourceFile="SampleCustomLoadingImage.java">
+                    org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage
+                </Class>
+                <Class sourceFile="SampleCustomTileSource.java">
+                    org.osmdroid.samplefragments.tilesources.SampleCustomTileSource
+                </Class>
+                <Class sourceFile="SampleHereWeGo.java">
+                    org.osmdroid.samplefragments.tilesources.SampleHereWeGo
+                </Class>
+                <Class sourceFile="SampleInvertedTiles_NightMode.java">
+                    org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode
+                </Class>
+                <Class sourceFile="SampleMapBox.java">
+                    org.osmdroid.samplefragments.tilesources.SampleMapBox
+                </Class>
+                <Class sourceFile="SampleMapBox.java">
+                    org.osmdroid.samplefragments.tilesources.SampleMapBox$1
+                </Class>
+                <Class sourceFile="SampleMapBox.java">
+                    org.osmdroid.samplefragments.tilesources.SampleMapBox$2
+                </Class>
+                <Class sourceFile="SampleMapQuest.java">
+                    org.osmdroid.samplefragments.tilesources.SampleMapQuest
+                </Class>
+                <Class sourceFile="SampleOfflineOnly.java">
+                    org.osmdroid.samplefragments.tilesources.SampleOfflineOnly
+                </Class>
+                <Class sourceFile="SampleWhackyColorFilter.java">
+                    org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter
+                </Class>
+                <Class sourceFile="USGSTileSource.java">
+                    org.osmdroid.samplefragments.tilesources.USGSTileSource
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android</Package>
+                <Package>android.app</Package>
+                <Package>android.content</Package>
+                <Package>android.content.res</Package>
+                <Package>android.graphics</Package>
+                <Package>android.os</Package>
+                <Package>android.support.v4.app</Package>
+                <Package>android.view</Package>
+                <Package>android.widget</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
             </DependsUpon>
 
             <UsedBy>
@@ -6278,10 +6886,10 @@
                 <ConcreteClasses>10</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>17</Ce>
+                <Ce>20</Ce>
                 <A>0</A>
-                <I>0.94</I>
-                <D>0.06</D>
+                <I>0.95</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -6324,6 +6932,7 @@
             <DependsUpon>
                 <Package>android.app</Package>
                 <Package>android.content.res</Package>
+                <Package>android.graphics</Package>
                 <Package>android.graphics.drawable</Package>
                 <Package>android.os</Package>
                 <Package>android.util</Package>
@@ -6331,8 +6940,10 @@
                 <Package>android.widget</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.constants</Package>
+                <Package>org.osmdroid.library</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.util</Package>
@@ -6351,11 +6962,11 @@
                 <TotalClasses>16</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
-                <Ca>11</Ca>
-                <Ce>14</Ce>
+                <Ca>14</Ca>
+                <Ce>16</Ce>
                 <A>0.31</A>
-                <I>0.56</I>
-                <D>0.13</D>
+                <I>0.53</I>
+                <D>0.15</D>
                 <V>1</V>
             </Stats>
 
@@ -6422,6 +7033,8 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
@@ -6432,8 +7045,11 @@
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.samplefragments</Package>
-                <Package>org.osmdroid.samplefragments.models</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
@@ -6451,10 +7067,10 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>17</Ce>
+                <Ce>20</Ce>
                 <A>0.33</A>
-                <I>0.94</I>
-                <D>0.28</D>
+                <I>0.95</I>
+                <D>0.29</D>
                 <V>1</V>
             </Stats>
 
@@ -6493,17 +7109,20 @@
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
             </UsedBy>
         </Package>
 
@@ -6512,8 +7131,8 @@
                 <TotalClasses>1</TotalClasses>
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>6</Ca>
-                <Ce>6</Ce>
+                <Ca>4</Ca>
+                <Ce>4</Ce>
                 <A>0</A>
                 <I>0.5</I>
                 <D>0.5</D>
@@ -6530,21 +7149,17 @@
             </ConcreteClasses>
 
             <DependsUpon>
-                <Package>android.os</Package>
-                <Package>android.util</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
-                <Package>java.text</Package>
-                <Package>java.util</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
-                <Package>org.osmdroid.tileprovider.util</Package>
             </UsedBy>
         </Package>
 
@@ -6553,11 +7168,11 @@
                 <TotalClasses>34</TotalClasses>
                 <ConcreteClasses>28</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>24</Ce>
+                <Ca>8</Ca>
+                <Ce>27</Ce>
                 <A>0.18</A>
-                <I>0.86</I>
-                <D>0.03</D>
+                <I>0.77</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -6670,6 +7285,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.content.pm</Package>
                 <Package>android.content.res</Package>
@@ -6689,6 +7305,8 @@
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>java.util.zip</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
@@ -6697,7 +7315,11 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.views</Package>
@@ -6709,11 +7331,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
-                <Ca>9</Ca>
-                <Ce>10</Ce>
+                <Ca>13</Ca>
+                <Ce>11</Ce>
                 <A>0.27</A>
-                <I>0.53</I>
-                <D>0.21</D>
+                <I>0.46</I>
+                <D>0.27</D>
                 <V>1</V>
             </Stats>
 
@@ -6777,14 +7399,19 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.samplefragments</Package>
-                <Package>org.osmdroid.samplefragments.models</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
@@ -6796,14 +7423,14 @@
 
         <Package name="org.osmdroid.tileprovider.util">
             <Stats>
-                <TotalClasses>6</TotalClasses>
-                <ConcreteClasses>6</ConcreteClasses>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>6</Ca>
-                <Ce>12</Ce>
+                <Ca>10</Ca>
+                <Ce>14</Ce>
                 <A>0</A>
-                <I>0.67</I>
-                <D>0.33</D>
+                <I>0.58</I>
+                <D>0.42</D>
                 <V>1</V>
             </Stats>
 
@@ -6826,6 +7453,12 @@
                 <Class sourceFile="SimpleRegisterReceiver.java">
                     org.osmdroid.tileprovider.util.SimpleRegisterReceiver
                 </Class>
+                <Class sourceFile="StorageUtils.java">
+                    org.osmdroid.tileprovider.util.StorageUtils
+                </Class>
+                <Class sourceFile="StorageUtils.java">
+                    org.osmdroid.tileprovider.util.StorageUtils$StorageInfo
+                </Class>
                 <Class sourceFile="StreamUtils.java">
                     org.osmdroid.tileprovider.util.StreamUtils
                 </Class>
@@ -6842,14 +7475,20 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.constants</Package>
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.views</Package>
@@ -6861,11 +7500,11 @@
                 <TotalClasses>16</TotalClasses>
                 <ConcreteClasses>15</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>16</Ca>
-                <Ce>11</Ce>
+                <Ca>21</Ca>
+                <Ce>12</Ce>
                 <A>0.06</A>
-                <I>0.41</I>
-                <D>0.53</D>
+                <I>0.36</I>
+                <D>0.57</D>
                 <V>1</V>
             </Stats>
 
@@ -6932,6 +7571,7 @@
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
@@ -6939,10 +7579,14 @@
 
             <UsedBy>
                 <Package>microsoft.mappoint</Package>
-                <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.models</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
@@ -6953,6 +7597,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -6962,11 +7607,11 @@
                 <TotalClasses>2</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>1</Ce>
+                <Ca>3</Ca>
+                <Ce>2</Ce>
                 <A>1</A>
-                <I>0.33</I>
-                <D>0.33</D>
+                <I>0.4</I>
+                <D>0.4</D>
                 <V>1</V>
             </Stats>
 
@@ -6984,9 +7629,11 @@
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.config</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
@@ -6997,11 +7644,11 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>15</Ca>
-                <Ce>25</Ce>
+                <Ca>24</Ca>
+                <Ce>26</Ce>
                 <A>0.07</A>
-                <I>0.62</I>
-                <D>0.31</D>
+                <I>0.52</I>
+                <D>0.41</D>
                 <V>1</V>
             </Stats>
 
@@ -7073,6 +7720,7 @@
                 <Package>microsoft.mappoint</Package>
                 <Package>org.metalev.multitouch.controller</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
@@ -7089,6 +7737,14 @@
                 <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.layouts</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.models</Package>
+                <Package>org.osmdroid.samplefragments.pager</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
@@ -7099,6 +7755,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -7143,10 +7800,10 @@
                 <TotalClasses>44</TotalClasses>
                 <ConcreteClasses>29</ConcreteClasses>
                 <AbstractClasses>15</AbstractClasses>
-                <Ca>10</Ca>
-                <Ce>24</Ce>
+                <Ca>16</Ca>
+                <Ce>25</Ce>
                 <A>0.34</A>
-                <I>0.71</I>
+                <I>0.61</I>
                 <D>0.05</D>
                 <V>1</V>
             </Stats>
@@ -7290,6 +7947,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
@@ -7319,7 +7977,12 @@
             <UsedBy>
                 <Package>org.osmdroid</Package>
                 <Package>org.osmdroid.bugtestfragments</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.cache</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
+                <Package>org.osmdroid.samplefragments.models</Package>
+                <Package>org.osmdroid.samplefragments.tilesources</Package>
                 <Package>org.osmdroid.samples</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay.compass</Package>
@@ -7327,6 +7990,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
             </UsedBy>
         </Package>
 
@@ -7335,11 +7999,11 @@
                 <TotalClasses>4</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>2</Ca>
+                <Ca>4</Ca>
                 <Ce>10</Ce>
                 <A>0.5</A>
-                <I>0.83</I>
-                <D>0.33</D>
+                <I>0.71</I>
+                <D>0.21</D>
                 <V>1</V>
             </Stats>
 
@@ -7376,7 +8040,9 @@
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
                 <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
             </UsedBy>
         </Package>
 
@@ -7385,11 +8051,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>6</Ce>
+                <Ca>4</Ca>
+                <Ce>7</Ce>
                 <A>0.33</A>
-                <I>0.75</I>
-                <D>0.08</D>
+                <I>0.64</I>
+                <D>0.03</D>
                 <V>1</V>
             </Stats>
 
@@ -7409,6 +8075,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
                 <Package>android.view</Package>
@@ -7419,7 +8086,9 @@
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
             </UsedBy>
         </Package>
 
@@ -7429,10 +8098,10 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>7</Ce>
+                <Ce>8</Ce>
                 <A>0</A>
-                <I>0.88</I>
-                <D>0.12</D>
+                <I>0.89</I>
+                <D>0.11</D>
                 <V>1</V>
             </Stats>
 
@@ -7447,6 +8116,7 @@
 
             <DependsUpon>
                 <Package>android.content</Package>
+                <Package>android.graphics</Package>
                 <Package>java.lang</Package>
                 <Package>java.text</Package>
                 <Package>java.util</Package>
@@ -7456,7 +8126,7 @@
             </DependsUpon>
 
             <UsedBy>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
             </UsedBy>
         </Package>
 
@@ -7466,10 +8136,10 @@
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>3</Ca>
-                <Ce>12</Ce>
+                <Ce>13</Ce>
                 <A>0.25</A>
-                <I>0.8</I>
-                <D>0.05</D>
+                <I>0.81</I>
+                <D>0.06</D>
                 <V>1</V>
             </Stats>
 
@@ -7501,6 +8171,7 @@
                 <Package>android.widget</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -7508,7 +8179,7 @@
 
             <UsedBy>
                 <Package>org.osmdroid.bugtestfragments</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
         </Package>
@@ -7518,11 +8189,11 @@
                 <TotalClasses>7</TotalClasses>
                 <ConcreteClasses>5</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>3</Ca>
-                <Ce>15</Ce>
+                <Ca>6</Ca>
+                <Ce>16</Ce>
                 <A>0.29</A>
-                <I>0.83</I>
-                <D>0.12</D>
+                <I>0.73</I>
+                <D>0.01</D>
                 <V>1</V>
             </Stats>
 
@@ -7569,12 +8240,89 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid</Package>
-                <Package>org.osmdroid.samplefragments</Package>
+                <Package>org.osmdroid.bugtestfragments</Package>
+                <Package>org.osmdroid.samplefragments.data</Package>
+                <Package>org.osmdroid.samplefragments.events</Package>
+                <Package>org.osmdroid.samplefragments.location</Package>
                 <Package>org.osmdroid.samples</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.views.overlay.simplefastpoint">
+            <Stats>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>1</Ca>
+                <Ce>10</Ce>
+                <A>0.17</A>
+                <I>0.91</I>
+                <D>0.08</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$OnClickListener
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$PointAdapter
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="LabelledGeoPoint.java">
+                    org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
+                </Class>
+                <Class sourceFile="LabelledGeoPoint.java">
+                    org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint$1
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$1
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$LabelledPoint
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$LabelPolicy
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$RenderingAlgorithm
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$Shape
+                </Class>
+                <Class sourceFile="SimplePointTheme.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.graphics</Package>
+                <Package>android.location</Package>
+                <Package>android.os</Package>
+                <Package>android.view</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.samplefragments.data</Package>
             </UsedBy>
         </Package>
 
@@ -7626,11 +8374,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>1</Ce>
+                <Ca>5</Ca>
+                <Ce>2</Ce>
                 <A>1</A>
-                <I>0.2</I>
-                <D>0.2</D>
+                <I>0.29</I>
+                <D>0.29</D>
                 <V>1</V>
             </Stats>
 
@@ -7651,12 +8399,14 @@
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.config</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -7724,20 +8474,20 @@
 
         <Package Name="microsoft.mappoint">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.acra">
             <Package>org.acra.annotation</Package>
-            <Package>org.acra.sender</Package>
             <Package>org.acra</Package>
         </Package>
 
         <Package Name="org.acra.annotation">
-            <Package>org.acra.sender</Package>
             <Package>org.acra</Package>
             <Package>org.acra.annotation</Package>
         </Package>
@@ -7745,192 +8495,345 @@
         <Package Name="org.acra.collector">
             <Package>org.acra</Package>
             <Package>org.acra.annotation</Package>
-            <Package>org.acra.sender</Package>
             <Package>org.acra</Package>
         </Package>
 
         <Package Name="org.acra.sender">
             <Package>org.acra</Package>
             <Package>org.acra.annotation</Package>
-            <Package>org.acra.sender</Package>
+            <Package>org.acra</Package>
         </Package>
 
         <Package Name="org.acra.util">
             <Package>org.acra.sender</Package>
             <Package>org.acra</Package>
             <Package>org.acra.annotation</Package>
-            <Package>org.acra.sender</Package>
+            <Package>org.acra</Package>
         </Package>
 
         <Package Name="org.osmdroid">
             <Package>org.osmdroid.bugtestfragments</Package>
-            <Package>org.osmdroid.events</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.bugtestfragments">
-            <Package>org.osmdroid.events</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.config">
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.events">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments">
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.cache">
+            <Package>org.osmdroid</Package>
+            <Package>org.osmdroid.bugtestfragments</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.data">
             <Package>org.osmdroid.events</Package>
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.events">
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.layouts">
+            <Package>org.osmdroid</Package>
+            <Package>org.osmdroid.bugtestfragments</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.location">
+            <Package>org.osmdroid</Package>
+            <Package>org.osmdroid.bugtestfragments</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.samplefragments.models">
+            <Package>org.osmdroid.views.overlay</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.pager">
+            <Package>org.osmdroid</Package>
+            <Package>org.osmdroid.bugtestfragments</Package>
+            <Package>org.osmdroid.samplefragments</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.samplefragments.tilesources">
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.samples">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.tileprovider.constants">
+            <Package>org.osmdroid.tileprovider.util</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.tilesource">
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.util">
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.util">
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.util.constants">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.drawing">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.compass">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gestures">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gridlines">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.infowindow">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.views.overlay.simplefastpoint">
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.util">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.views.util.constants">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
     </Cycles>

@@ -10,18 +10,18 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.samplefragments.BaseSampleFragment
-	c3975 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
+	c3979 [label=<<table title="org.osmdroid.samplefragments.BaseSampleFragment" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../BaseSampleFragment.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"><font face="arial italic"> BaseSampleFragment </font></td></tr>
 		</table></td></tr>
 		</table>>, URL="../BaseSampleFragment.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// org.osmdroid.samplefragments.cache.SampleCacheDownloader
-	c3980 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloader.html">
+	c3984 [label=<<table title="org.osmdroid.samplefragments.cache.SampleCacheDownloader" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./SampleCacheDownloader.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> SampleCacheDownloader </td></tr>
 		</table></td></tr>
 		</table>>, URL="./SampleCacheDownloader.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.samplefragments.cache.SampleCacheDownloader extends org.osmdroid.samplefragments.BaseSampleFragment
-	c3975:p -> c3980:p [dir=back,arrowtail=empty];
+	c3979:p -> c3984:p [dir=back,arrowtail=empty];
 }
 

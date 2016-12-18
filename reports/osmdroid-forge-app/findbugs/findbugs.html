@@ -71,15 +71,15 @@
 <p>FindBugs version: 3.0.1</p>
 <p>Code analyzed:</p>
 <ul>
-<li>./osmdroid-forge-app/build/intermediates/classes</li>
+<li>.\osmdroid-forge-app\build\intermediates\classes</li>
 </ul>
 <p>
 <br/>
 <br/>
 </p>
 <h2>Metrics</h2>
-<p>3110 lines of code analyzed,
-	in 49 classes, 
+<p>3041 lines of code analyzed,
+	in 47 classes, 
 	in 4 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
@@ -89,8 +89,8 @@
 </tr>
 <tr class="tablerow0">
 <td>High Priority Warnings</td>
-<td align="right">2</td>
-<td align="right">0.64</td>
+<td align="right">1</td>
+<td align="right">0.33</td>
 </tr>
 <tr class="tablerow1">
 <td>Medium Priority Warnings</td>
@@ -102,10 +102,10 @@
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>2</b>
+<b>1</b>
 </td>
 <td align="right">
-<b>0.64</b>
+<b>0.33</b>
 </td>
 </tr>
 </table>
@@ -135,14 +135,14 @@
 <td>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
 </td>
-<td align="right">2</td>
+<td align="right">1</td>
 </tr>
 <tr class="tablerow1">
 <td>
 <b>Total</b>
 </td>
 <td align="right">
-<b>2</b>
+<b>1</b>
 </td>
 </tr>
 </table>
@@ -156,7 +156,7 @@
 <th align="left">Code</th>
 <th align="left">Warning</th>
 </tr>
-<tr class="tablerow1" onclick="toggleRow('N65562');">
+<tr class="tablerow1" onclick="toggleRow('N65560');">
 <td>
 <span class="priority-1">Dm</span>
 </td>
@@ -165,23 +165,9 @@
 <tr class="detailrow1">
 <td/>
 <td>
-<p id="N65562" style="display: none;">
+<p id="N65560" style="display: none;">
 <a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
 <br/>In class org.osmdroid.forge.app.OsmApplication$ErrorFileWriter<br/>In method org.osmdroid.forge.app.OsmApplication$ErrorFileWriter.send(Context, CrashReportData)<br/>Called method new java.io.FileWriter(File)<br/>At OsmApplication.java:[line 91]</p>
-</td>
-</tr>
-<tr class="tablerow0" onclick="toggleRow('N65631');">
-<td>
-<span class="priority-1">Dm</span>
-</td>
-<td>Found reliance on default encoding in org.osmdroid.forge.app.StorageUtils.getStorageList(): new java.io.FileReader(String)</td>
-</tr>
-<tr class="detailrow0">
-<td/>
-<td>
-<p id="N65631" style="display: none;">
-<a href="#DM_DEFAULT_ENCODING">Bug type DM_DEFAULT_ENCODING (click for details)</a>
-<br/>In class org.osmdroid.forge.app.StorageUtils<br/>In method org.osmdroid.forge.app.StorageUtils.getStorageList()<br/>Called method new java.io.FileReader(String)<br/>At StorageUtils.java:[line 66]</p>
 </td>
 </tr>
 </table>

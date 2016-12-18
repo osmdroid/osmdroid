@@ -2,6 +2,10 @@
 <JDepend>
     <Packages>
 
+        <Package name="android">
+            <error>No stats available: package referenced, but not analyzed.</error>
+        </Package>
+
         <Package name="android.accessibilityservice">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -30967,11 +30971,11 @@
                 <TotalClasses>11</TotalClasses>
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>8</AbstractClasses>
-                <Ca>9</Ca>
+                <Ca>17</Ca>
                 <Ce>5</Ce>
                 <A>0.73</A>
-                <I>0.36</I>
-                <D>0.08</D>
+                <I>0.23</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -31023,15 +31027,77 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.google.overlay</Package>
                 <Package>org.osmdroid.google.sample</Package>
                 <Package>org.osmdroid.google.wrapper</Package>
                 <Package>org.osmdroid.google.wrapper.v2</Package>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.config">
+            <Stats>
+                <TotalClasses>3</TotalClasses>
+                <ConcreteClasses>2</ConcreteClasses>
+                <AbstractClasses>1</AbstractClasses>
+                <Ca>10</Ca>
+                <Ce>9</Ce>
+                <A>0.33</A>
+                <I>0.47</I>
+                <D>0.19</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="IConfigurationProvider.java">
+                    org.osmdroid.config.IConfigurationProvider
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="Configuration.java">
+                    org.osmdroid.config.Configuration
+                </Class>
+                <Class sourceFile="DefaultConfigurationProvider.java">
+                    org.osmdroid.config.DefaultConfigurationProvider
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.content</Package>
+                <Package>android.os</Package>
+                <Package>java.io</Package>
+                <Package>java.lang</Package>
+                <Package>java.text</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+            </DependsUpon>
+
+            <UsedBy>
+                <Package>org.osmdroid.tileprovider</Package>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
+                <Package>org.osmdroid.tileprovider.modules</Package>
+                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.util.constants</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.util.constants</Package>
             </UsedBy>
         </Package>
 
@@ -31041,10 +31107,10 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
                 <Ca>3</Ca>
-                <Ce>5</Ce>
+                <Ce>6</Ce>
                 <A>0.5</A>
-                <I>0.62</I>
-                <D>0.12</D>
+                <I>0.67</I>
+                <D>0.17</D>
                 <V>1</V>
             </Stats>
 
@@ -31082,6 +31148,7 @@
                 <Package>android.os</Package>
                 <Package>android.util</Package>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
             </DependsUpon>
@@ -31146,7 +31213,7 @@
                 <ConcreteClasses>28</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>24</Ce>
+                <Ce>27</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -31244,8 +31311,11 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.app</Package>
                 <Package>android.content</Package>
+                <Package>android.content.pm</Package>
+                <Package>android.graphics</Package>
                 <Package>android.location</Package>
                 <Package>android.os</Package>
                 <Package>android.support.v4.app</Package>
@@ -31534,10 +31604,10 @@
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>5</AbstractClasses>
                 <Ca>9</Ca>
-                <Ce>14</Ce>
+                <Ce>16</Ce>
                 <A>0.31</A>
-                <I>0.61</I>
-                <D>0.08</D>
+                <I>0.64</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -31604,6 +31674,8 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
@@ -31631,7 +31703,7 @@
                 <ConcreteClasses>4</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>17</Ce>
+                <Ce>20</Ce>
                 <A>0.33</A>
                 <I>1</I>
                 <D>0.33</D>
@@ -31673,12 +31745,15 @@
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
                 <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views</Package>
             </DependsUpon>
 
@@ -31691,11 +31766,11 @@
                 <TotalClasses>1</TotalClasses>
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>5</Ca>
-                <Ce>6</Ce>
+                <Ca>4</Ca>
+                <Ce>4</Ce>
                 <A>0</A>
-                <I>0.55</I>
-                <D>0.45</D>
+                <I>0.5</I>
+                <D>0.5</D>
                 <V>1</V>
             </Stats>
 
@@ -31709,20 +31784,17 @@
             </ConcreteClasses>
 
             <DependsUpon>
-                <Package>android.os</Package>
-                <Package>android.util</Package>
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
-                <Package>java.text</Package>
-                <Package>java.util</Package>
+                <Package>org.osmdroid.config</Package>
+                <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
-                <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
-                <Package>org.osmdroid.tileprovider.util</Package>
             </UsedBy>
         </Package>
 
@@ -31731,11 +31803,11 @@
                 <TotalClasses>34</TotalClasses>
                 <ConcreteClasses>28</ConcreteClasses>
                 <AbstractClasses>6</AbstractClasses>
-                <Ca>3</Ca>
-                <Ce>24</Ce>
+                <Ca>4</Ca>
+                <Ce>27</Ce>
                 <A>0.18</A>
-                <I>0.89</I>
-                <D>0.07</D>
+                <I>0.87</I>
+                <D>0.05</D>
                 <V>1</V>
             </Stats>
 
@@ -31848,6 +31920,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.content.pm</Package>
                 <Package>android.content.res</Package>
@@ -31867,6 +31940,8 @@
                 <Package>java.util.concurrent.atomic</Package>
                 <Package>java.util.zip</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
@@ -31875,6 +31950,7 @@
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.views</Package>
@@ -31887,10 +31963,10 @@
                 <ConcreteClasses>11</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
                 <Ca>7</Ca>
-                <Ce>10</Ce>
+                <Ce>11</Ce>
                 <A>0.27</A>
-                <I>0.59</I>
-                <D>0.15</D>
+                <I>0.61</I>
+                <D>0.12</D>
                 <V>1</V>
             </Stats>
 
@@ -31954,6 +32030,7 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
             </DependsUpon>
@@ -31999,9 +32076,9 @@
                 <Package>java.net</Package>
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.thirdparty</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing.imagerymetadata</Package>
                 <Package>org.osmdroid.tileprovider.util</Package>
@@ -32049,14 +32126,14 @@
 
         <Package name="org.osmdroid.tileprovider.util">
             <Stats>
-                <TotalClasses>6</TotalClasses>
-                <ConcreteClasses>6</ConcreteClasses>
+                <TotalClasses>8</TotalClasses>
+                <ConcreteClasses>8</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
-                <Ca>7</Ca>
-                <Ce>12</Ce>
+                <Ca>9</Ca>
+                <Ce>14</Ce>
                 <A>0</A>
-                <I>0.63</I>
-                <D>0.37</D>
+                <I>0.61</I>
+                <D>0.39</D>
                 <V>1</V>
             </Stats>
 
@@ -32079,6 +32156,12 @@
                 <Class sourceFile="SimpleRegisterReceiver.java">
                     org.osmdroid.tileprovider.util.SimpleRegisterReceiver
                 </Class>
+                <Class sourceFile="StorageUtils.java">
+                    org.osmdroid.tileprovider.util.StorageUtils
+                </Class>
+                <Class sourceFile="StorageUtils.java">
+                    org.osmdroid.tileprovider.util.StorageUtils$StorageInfo
+                </Class>
                 <Class sourceFile="StreamUtils.java">
                     org.osmdroid.tileprovider.util.StreamUtils
                 </Class>
@@ -32095,14 +32178,18 @@
                 <Package>java.io</Package>
                 <Package>java.lang</Package>
                 <Package>java.net</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
-                <Package>org.osmdroid.tileprovider.constants</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.google.sample</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.cachemanager</Package>
+                <Package>org.osmdroid.tileprovider.constants</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
                 <Package>org.osmdroid.tileprovider.tilesource</Package>
                 <Package>org.osmdroid.tileprovider.tilesource.bing</Package>
@@ -32115,11 +32202,11 @@
                 <TotalClasses>17</TotalClasses>
                 <ConcreteClasses>16</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>15</Ca>
-                <Ce>11</Ce>
+                <Ca>16</Ca>
+                <Ce>12</Ce>
                 <A>0.06</A>
-                <I>0.42</I>
-                <D>0.52</D>
+                <I>0.43</I>
+                <D>0.51</D>
                 <V>1</V>
             </Stats>
 
@@ -32189,6 +32276,7 @@
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.util.constants</Package>
                 <Package>org.osmdroid.views.util.constants</Package>
@@ -32209,6 +32297,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -32218,11 +32307,11 @@
                 <TotalClasses>2</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
-                <Ca>2</Ca>
-                <Ce>1</Ce>
+                <Ca>3</Ca>
+                <Ce>2</Ce>
                 <A>1</A>
-                <I>0.33</I>
-                <D>0.33</D>
+                <I>0.4</I>
+                <D>0.4</D>
                 <V>1</V>
             </Stats>
 
@@ -32240,9 +32329,11 @@
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.config</Package>
             </DependsUpon>
 
             <UsedBy>
+                <Package>org.osmdroid.tileprovider.cachemanager</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views.overlay</Package>
             </UsedBy>
@@ -32253,10 +32344,10 @@
                 <TotalClasses>15</TotalClasses>
                 <ConcreteClasses>14</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
-                <Ca>13</Ca>
-                <Ce>25</Ce>
+                <Ca>14</Ca>
+                <Ce>26</Ce>
                 <A>0.07</A>
-                <I>0.66</I>
+                <I>0.65</I>
                 <D>0.28</D>
                 <V>1</V>
             </Stats>
@@ -32329,6 +32420,7 @@
                 <Package>microsoft.mappoint</Package>
                 <Package>org.metalev.multitouch.controller</Package>
                 <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.events</Package>
                 <Package>org.osmdroid.tileprovider</Package>
                 <Package>org.osmdroid.tileprovider.modules</Package>
@@ -32353,6 +32445,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -32397,11 +32490,11 @@
                 <TotalClasses>44</TotalClasses>
                 <ConcreteClasses>29</ConcreteClasses>
                 <AbstractClasses>15</AbstractClasses>
-                <Ca>7</Ca>
-                <Ce>24</Ce>
+                <Ca>8</Ca>
+                <Ce>25</Ce>
                 <A>0.34</A>
-                <I>0.77</I>
-                <D>0.12</D>
+                <I>0.76</I>
+                <D>0.1</D>
                 <V>1</V>
             </Stats>
 
@@ -32544,6 +32637,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.content.res</Package>
                 <Package>android.graphics</Package>
@@ -32578,6 +32672,7 @@
                 <Package>org.osmdroid.views.overlay.gridlines</Package>
                 <Package>org.osmdroid.views.overlay.infowindow</Package>
                 <Package>org.osmdroid.views.overlay.mylocation</Package>
+                <Package>org.osmdroid.views.overlay.simplefastpoint</Package>
             </UsedBy>
         </Package>
 
@@ -32635,7 +32730,7 @@
                 <ConcreteClasses>2</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>6</Ce>
+                <Ce>7</Ce>
                 <A>0.33</A>
                 <I>1</I>
                 <D>0.33</D>
@@ -32658,6 +32753,7 @@
             </ConcreteClasses>
 
             <DependsUpon>
+                <Package>android</Package>
                 <Package>android.content</Package>
                 <Package>android.graphics</Package>
                 <Package>android.view</Package>
@@ -32676,7 +32772,7 @@
                 <ConcreteClasses>1</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>7</Ce>
+                <Ce>8</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -32694,6 +32790,7 @@
 
             <DependsUpon>
                 <Package>android.content</Package>
+                <Package>android.graphics</Package>
                 <Package>java.lang</Package>
                 <Package>java.text</Package>
                 <Package>java.util</Package>
@@ -32712,10 +32809,10 @@
                 <ConcreteClasses>3</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>12</Ce>
+                <Ce>13</Ce>
                 <A>0.25</A>
-                <I>0.92</I>
-                <D>0.17</D>
+                <I>0.93</I>
+                <D>0.18</D>
                 <V>1</V>
             </Stats>
 
@@ -32747,6 +32844,7 @@
                 <Package>android.widget</Package>
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
@@ -32763,10 +32861,10 @@
                 <ConcreteClasses>5</ConcreteClasses>
                 <AbstractClasses>2</AbstractClasses>
                 <Ca>1</Ca>
-                <Ce>15</Ce>
+                <Ce>16</Ce>
                 <A>0.29</A>
                 <I>0.94</I>
-                <D>0.22</D>
+                <D>0.23</D>
                 <V>1</V>
             </Stats>
 
@@ -32813,10 +32911,83 @@
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.util.constants</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid.google.wrapper.v2</Package>
+            </UsedBy>
+        </Package>
+
+        <Package name="org.osmdroid.views.overlay.simplefastpoint">
+            <Stats>
+                <TotalClasses>12</TotalClasses>
+                <ConcreteClasses>10</ConcreteClasses>
+                <AbstractClasses>2</AbstractClasses>
+                <Ca>0</Ca>
+                <Ce>10</Ce>
+                <A>0.17</A>
+                <I>1</I>
+                <D>0.17</D>
+                <V>1</V>
+            </Stats>
+
+            <AbstractClasses>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$OnClickListener
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$PointAdapter
+                </Class>
+            </AbstractClasses>
+
+            <ConcreteClasses>
+                <Class sourceFile="LabelledGeoPoint.java">
+                    org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint
+                </Class>
+                <Class sourceFile="LabelledGeoPoint.java">
+                    org.osmdroid.views.overlay.simplefastpoint.LabelledGeoPoint$1
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$1
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlay.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlay$LabelledPoint
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$LabelPolicy
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$RenderingAlgorithm
+                </Class>
+                <Class sourceFile="SimpleFastPointOverlayOptions.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimpleFastPointOverlayOptions$Shape
+                </Class>
+                <Class sourceFile="SimplePointTheme.java">
+                    org.osmdroid.views.overlay.simplefastpoint.SimplePointTheme
+                </Class>
+            </ConcreteClasses>
+
+            <DependsUpon>
+                <Package>android.graphics</Package>
+                <Package>android.location</Package>
+                <Package>android.os</Package>
+                <Package>android.view</Package>
+                <Package>java.lang</Package>
+                <Package>java.util</Package>
+                <Package>org.osmdroid.api</Package>
+                <Package>org.osmdroid.util</Package>
+                <Package>org.osmdroid.views</Package>
+                <Package>org.osmdroid.views.overlay</Package>
+            </DependsUpon>
+
+            <UsedBy>
             </UsedBy>
         </Package>
 
@@ -32869,11 +33040,11 @@
                 <TotalClasses>3</TotalClasses>
                 <ConcreteClasses>0</ConcreteClasses>
                 <AbstractClasses>3</AbstractClasses>
-                <Ca>4</Ca>
-                <Ce>1</Ce>
+                <Ca>5</Ca>
+                <Ce>2</Ce>
                 <A>1</A>
-                <I>0.2</I>
-                <D>0.2</D>
+                <I>0.29</I>
+                <D>0.29</D>
                 <V>1</V>
             </Stats>
 
@@ -32894,12 +33065,14 @@
 
             <DependsUpon>
                 <Package>java.lang</Package>
+                <Package>org.osmdroid.config</Package>
             </DependsUpon>
 
             <UsedBy>
                 <Package>org.osmdroid.util</Package>
                 <Package>org.osmdroid.views</Package>
                 <Package>org.osmdroid.views.overlay</Package>
+                <Package>org.osmdroid.views.overlay.mylocation</Package>
                 <Package>org.osmdroid.views.util</Package>
             </UsedBy>
         </Package>
@@ -32983,9 +33156,7 @@
         </Package>
 
         <Package Name="android.support.v7.view">
-            <Package>android.support.v7.view.menu</Package>
-            <Package>android.support.v4.content</Package>
-            <Package>android.support.v4.app</Package>
+            <Package>android.support.v4.internal.view</Package>
             <Package>android.support.v4.view</Package>
             <Package>android.support.v4.widget</Package>
             <Package>android.support.v4.view</Package>
@@ -33008,32 +33179,22 @@
         <Package Name="com.google.ads">
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.ads.afma.nano">
             <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.ads.mediation">
             <Package>com.google.ads</Package>
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.ads.mediation.admob">
@@ -33041,141 +33202,100 @@
             <Package>com.google.ads</Package>
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.ads.mediation.customevent">
-            <Package>com.google.ads</Package>
-            <Package>com.google.android.gms.ads</Package>
+            <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads">
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.doubleclick">
-            <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.formats">
+            <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.identifier">
-            <Package>com.google.android.gms.common.stats</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal">
-            <Package>com.google.android.gms.ads.internal.formats</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.client">
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.formats">
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.overlay">
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.purchase">
-            <Package>com.google.android.gms.ads.internal</Package>
-            <Package>com.google.android.gms.ads.internal.formats</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.request">
             <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.reward.client">
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.reward.mediation.client">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.internal.util.client">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.mediation">
             <Package>com.google.android.gms.ads.formats</Package>
+            <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.mediation.admob">
@@ -33183,128 +33303,113 @@
             <Package>com.google.ads</Package>
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.mediation.customevent">
-            <Package>com.google.android.gms.ads.mediation</Package>
-            <Package>com.google.android.gms.ads.formats</Package>
+            <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.purchase">
             <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.reward">
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.reward.mediation">
             <Package>com.google.android.gms.ads.reward</Package>
             <Package>com.google.android.gms.ads</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.ads.search">
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
         </Package>
 
         <Package Name="com.google.android.gms.analytics">
             <Package>com.google.android.gms.analytics.internal</Package>
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.analytics.ecommerce">
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.measurement</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.analytics.internal">
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.appdatasearch">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.appindexing">
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.appinvite">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth">
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api">
             <Package>com.google.android.gms.auth.api.signin</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.auth.api.signin.internal</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.consent">
+            <Package>com.google.android.gms.auth.firstparty.shared</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.credentials">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.credentials.internal">
@@ -33312,31 +33417,37 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.proxy">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.signin">
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.auth.api.signin.internal</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.api.signin.internal">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.auth.firstparty.shared">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.cast">
@@ -33347,8 +33458,7 @@
         <Package Name="com.google.android.gms.cast.games">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.cast.internal">
@@ -33359,222 +33469,239 @@
         <Package Name="com.google.android.gms.clearcut">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common">
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.api">
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.api.internal">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.data">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.images">
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.internal">
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.internal.safeparcel">
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.server">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.server.converter">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.server.response">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.common.stats">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.events">
             <Package>com.google.android.gms.drive.internal</Package>
-            <Package>com.google.android.gms.drive.events</Package>
+            <Package>com.google.android.gms.drive.events.internal</Package>
+            <Package>com.google.android.gms.drive</Package>
+            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.events.internal">
+            <Package>com.google.android.gms.drive</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.internal">
-            <Package>com.google.android.gms.drive.events</Package>
-            <Package>com.google.android.gms.drive.internal</Package>
+            <Package>com.google.android.gms.drive.events.internal</Package>
+            <Package>com.google.android.gms.drive</Package>
+            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.metadata">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.metadata.internal">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.query">
-            <Package>com.google.android.gms.drive.metadata</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.drive.query.internal</Package>
+            <Package>com.google.android.gms.drive.query</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.query.internal">
             <Package>com.google.android.gms.drive.query</Package>
-            <Package>com.google.android.gms.drive.metadata</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.drive.query.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.realtime.internal">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.realtime.internal.event">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.drive.widget">
-            <Package>com.google.android.gms.drive.internal</Package>
-            <Package>com.google.android.gms.drive.events</Package>
-            <Package>com.google.android.gms.drive.internal</Package>
+            <Package>com.google.android.gms.common.data</Package>
+            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.dynamic">
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness">
-            <Package>com.google.android.gms.fitness.request</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.fitness.data</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness.data">
-            <Package>com.google.android.gms.fitness</Package>
-            <Package>com.google.android.gms.fitness.request</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness.internal.service">
-            <Package>com.google.android.gms.fitness.service</Package>
-            <Package>com.google.android.gms.fitness.internal.service</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness.request">
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.fitness.data</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness.result">
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.fitness.data</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.fitness.service">
             <Package>com.google.android.gms.fitness.internal.service</Package>
-            <Package>com.google.android.gms.fitness.service</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.flags.impl">
             <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.achievement">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.appcontent">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.event">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal">
@@ -33582,7 +33709,8 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.api">
@@ -33590,7 +33718,8 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.constants">
@@ -33599,61 +33728,69 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.experience">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.game">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.multiplayer">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.notification">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.player">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.internal.request">
+            <Package>com.google.android.gms.games.request</Package>
+            <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.leaderboard">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.multiplayer">
-            <Package>com.google.android.gms.games</Package>
-            <Package>com.google.android.gms.common.api</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
@@ -33661,28 +33798,31 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.multiplayer.turnbased">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.quest">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.request">
-            <Package>com.google.android.gms.games</Package>
-            <Package>com.google.android.gms.common.api</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
@@ -33690,20 +33830,21 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.stats">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.games.video">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.gcm">
@@ -33714,14 +33855,14 @@
         <Package Name="com.google.android.gms.identity.intents">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.identity.intents.model">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.iid">
@@ -33731,11 +33872,7 @@
 
         <Package Name="com.google.android.gms.internal">
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.location">
@@ -33749,28 +33886,28 @@
         </Package>
 
         <Package Name="com.google.android.gms.location.places">
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.location.places.internal">
-            <Package>com.google.android.gms.location.places</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.location.places.personalized">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.location.places.ui">
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
@@ -33779,49 +33916,49 @@
             <Package>com.google.android.gms.maps.model</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.maps.internal">
             <Package>com.google.android.gms.maps.model</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.maps.model">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.maps.model.internal">
             <Package>com.google.android.gms.dynamic</Package>
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.measurement">
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.measurement.internal">
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby">
-            <Package>com.google.android.gms.nearby.bootstrap</Package>
-            <Package>com.google.android.gms.common.api.internal</Package>
-            <Package>com.google.android.gms.common.data</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.bootstrap">
@@ -33829,80 +33966,83 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.bootstrap.request">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.connection">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.messages">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.messages.devices">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.messages.internal">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.sharing">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.nearby.sharing.internal">
             <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.panorama">
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.playlog.internal">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus">
-            <Package>com.google.android.gms.plus.model.moments</Package>
-            <Package>com.google.android.gms.common.data</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus.internal">
-            <Package>com.google.android.gms.plus</Package>
-            <Package>com.google.android.gms.plus.model.moments</Package>
+            <Package>com.google.android.gms.common.api.internal</Package>
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus.internal.model.moments">
@@ -33910,83 +34050,84 @@
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus.internal.model.people">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus.model.moments">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.plus.model.people">
             <Package>com.google.android.gms.common.data</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.safetynet">
-            <Package>com.google.android.gms.common.api</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.search">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.security">
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.signin.internal">
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.tagmanager">
             <Package>com.google.android.gms.internal</Package>
             <Package>com.google.android.gms.ads.internal.client</Package>
-            <Package>com.google.android.gms.dynamic</Package>
-            <Package>com.google.android.gms.common</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.vision">
             <Package>com.google.android.gms.common.images</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.vision.barcode">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.vision.barcode.internal.client">
             <Package>com.google.android.gms.dynamic</Package>
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
@@ -33995,7 +34136,7 @@
             <Package>com.google.android.gms.dynamic</Package>
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
@@ -34003,217 +34144,291 @@
             <Package>com.google.android.gms.dynamic</Package>
             <Package>com.google.android.gms.common</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
             <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.vision.internal.client">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wallet">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wallet.firstparty">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wallet.fragment">
-            <Package>android.support.v4.app</Package>
-            <Package>android.support.v4.view</Package>
-            <Package>android.support.v4.widget</Package>
-            <Package>android.support.v4.view</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wallet.wobs">
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
-            <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.internal</Package>
+            <Package>com.google.android.gms.ads.internal.client</Package>
+            <Package>com.google.android.gms.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wearable">
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="com.google.android.gms.wearable.internal">
             <Package>com.google.android.gms.wearable</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="microsoft.mappoint">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.config">
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.events">
             <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.google.overlay">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.google.sample">
-            <Package>android.support.v4.app</Package>
-            <Package>android.support.v4.view</Package>
-            <Package>android.support.v4.widget</Package>
-            <Package>android.support.v4.view</Package>
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.google.wrapper.v2">
             <Package>com.google.android.gms.maps.model</Package>
             <Package>com.google.android.gms.common.internal.safeparcel</Package>
             <Package>com.google.android.gms.common.internal</Package>
-            <Package>com.google.android.gms.common.internal.safeparcel</Package>
+            <Package>com.google.android.gms.common.api</Package>
+            <Package>com.google.android.gms.common.internal</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.cachemanager">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.tileprovider.constants">
+            <Package>org.osmdroid.tileprovider.util</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.modules">
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.tilesource">
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.tilesource.bing">
-            <Package>org.osmdroid.tileprovider.tilesource</Package>
             <Package>org.osmdroid.tileprovider.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.tileprovider.util">
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.util">
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.util.constants">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.drawing">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay">
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.compass">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gestures">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.gridlines">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.infowindow">
-            <Package>org.osmdroid.views.overlay</Package>
             <Package>org.osmdroid.views</Package>
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.overlay.mylocation">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.views.overlay.simplefastpoint">
+            <Package>org.osmdroid.util</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
         <Package Name="org.osmdroid.views.util">
-            <Package>org.osmdroid.util</Package>
-            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.views.util.constants</Package>
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
             <Package>org.osmdroid.tileprovider.tilesource</Package>
-            <Package>org.osmdroid.tileprovider.util</Package>
             <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
+        </Package>
+
+        <Package Name="org.osmdroid.views.util.constants">
+            <Package>org.osmdroid.config</Package>
+            <Package>org.osmdroid.tileprovider.modules</Package>
+            <Package>org.osmdroid.tileprovider.tilesource</Package>
+            <Package>org.osmdroid.tileprovider</Package>
+            <Package>org.osmdroid.config</Package>
         </Package>
 
     </Cycles>
