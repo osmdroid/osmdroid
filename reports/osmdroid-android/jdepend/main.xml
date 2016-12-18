@@ -159,10 +159,6 @@
             </UsedBy>
         </Package>
 
-        <Package name="org.junit">
-            <error>No stats available: package referenced, but not analyzed.</error>
-        </Package>
-
         <Package name="org.metalev.multitouch.controller">
             <Stats>
                 <TotalClasses>4</TotalClasses>
@@ -975,14 +971,14 @@
 
         <Package name="org.osmdroid.util">
             <Stats>
-                <TotalClasses>18</TotalClasses>
-                <ConcreteClasses>17</ConcreteClasses>
+                <TotalClasses>16</TotalClasses>
+                <ConcreteClasses>15</ConcreteClasses>
                 <AbstractClasses>1</AbstractClasses>
                 <Ca>13</Ca>
-                <Ce>13</Ce>
+                <Ce>12</Ce>
                 <A>0.06</A>
-                <I>0.5</I>
-                <D>0.44</D>
+                <I>0.48</I>
+                <D>0.46</D>
                 <V>1</V>
             </Stats>
 
@@ -993,9 +989,6 @@
             </AbstractClasses>
 
             <ConcreteClasses>
-                <Class sourceFile="BoundBoxTest.java">
-                    org.osmdroid.util.BoundBoxTest
-                </Class>
                 <Class sourceFile="BoundingBox.java">
                     org.osmdroid.util.BoundingBox
                 </Class>
@@ -1026,9 +1019,6 @@
                 <Class sourceFile="GeoPoint.java">
                     org.osmdroid.util.GeoPoint$1
                 </Class>
-                <Class sourceFile="GeoPointTest.java">
-                    org.osmdroid.util.GeoPointTest
-                </Class>
                 <Class sourceFile="GeometryMath.java">
                     org.osmdroid.util.GeometryMath
                 </Class>
@@ -1054,7 +1044,6 @@
                 <Package>java.lang</Package>
                 <Package>java.util</Package>
                 <Package>microsoft.mappoint</Package>
-                <Package>org.junit</Package>
                 <Package>org.osmdroid.api</Package>
                 <Package>org.osmdroid.config</Package>
                 <Package>org.osmdroid.tileprovider</Package>

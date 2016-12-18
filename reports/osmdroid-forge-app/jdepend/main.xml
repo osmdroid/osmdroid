@@ -6655,10 +6655,6 @@
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
 
-        <Package name="org.junit">
-            <error>No stats available: package referenced, but not analyzed.</error>
-        </Package>
-
         <Package name="org.mapsforge.core.model">
             <error>No stats available: package referenced, but not analyzed.</error>
         </Package>
@@ -6953,11 +6949,11 @@
 
         <Package name="org.osmdroid.forge.app">
             <Stats>
-                <TotalClasses>24</TotalClasses>
-                <ConcreteClasses>24</ConcreteClasses>
+                <TotalClasses>23</TotalClasses>
+                <ConcreteClasses>23</ConcreteClasses>
                 <AbstractClasses>0</AbstractClasses>
                 <Ca>0</Ca>
-                <Ce>25</Ce>
+                <Ce>24</Ce>
                 <A>0</A>
                 <I>1</I>
                 <D>0</D>
@@ -6970,9 +6966,6 @@
             <ConcreteClasses>
                 <Class sourceFile="BuildConfig.java">
                     org.osmdroid.forge.app.BuildConfig
-                </Class>
-                <Class sourceFile="ExampleUnitTest.java">
-                    org.osmdroid.forge.app.ExampleUnitTest
                 </Class>
                 <Class sourceFile="MainActivity.java">
                     org.osmdroid.forge.app.MainActivity
@@ -7059,7 +7052,6 @@
                 <Package>org.acra</Package>
                 <Package>org.acra.collector</Package>
                 <Package>org.acra.sender</Package>
-                <Package>org.junit</Package>
                 <Package>org.mapsforge.map.android.rendertheme</Package>
                 <Package>org.mapsforge.map.rendertheme</Package>
                 <Package>org.osmdroid.api</Package>

@@ -824,7 +824,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionCode` value (`20`) is not used; it is always overridden by the value specified in the Gradle build script (`26`)"
+        message="This `versionCode` value (`20`) is not used; it is always overridden by the value specified in the Gradle build script (`25`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"
@@ -840,7 +840,7 @@ Note: This check does not only apply to attributes. For example, some tags can b
     <issue
         id="GradleOverrides"
         severity="Warning"
-        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.2-SNAPSHOT`)"
+        message="This `versionName` value (`5.3-SNAPSHOT`) is not used; it is always overridden by the value specified in the Gradle build script (`5.6.1`)"
         category="Correctness"
         priority="4"
         summary="Value overridden by Gradle build script"

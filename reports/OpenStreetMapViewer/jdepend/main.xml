@@ -4456,8 +4456,8 @@
 
         <Package name="com.squareup.leakcanary">
             <Stats>
-                <TotalClasses>66</TotalClasses>
-                <ConcreteClasses>62</ConcreteClasses>
+                <TotalClasses>65</TotalClasses>
+                <ConcreteClasses>61</ConcreteClasses>
                 <AbstractClasses>4</AbstractClasses>
                 <Ca>2</Ca>
                 <Ce>16</Ce>
@@ -4663,9 +4663,6 @@
                 <Class sourceFile="R.java">
                     com.squareup.leakcanary.R$style
                 </Class>
-                <Class sourceFile="RefWatcher.java">
-                    com.squareup.leakcanary.RefWatcher
-                </Class>
                 <Class sourceFile="ServiceHeapDumpListener.java">
                     com.squareup.leakcanary.ServiceHeapDumpListener
                 </Class>
@@ -4693,36 +4690,6 @@
             <UsedBy>
                 <Package>com.squareup.leakcanary.internal</Package>
                 <Package>org.osmdroid</Package>
-            </UsedBy>
-        </Package>
-
-        <Package name="com.squareup.leakcanary.android.noop">
-            <Stats>
-                <TotalClasses>1</TotalClasses>
-                <ConcreteClasses>1</ConcreteClasses>
-                <AbstractClasses>0</AbstractClasses>
-                <Ca>0</Ca>
-                <Ce>1</Ce>
-                <A>0</A>
-                <I>1</I>
-                <D>0</D>
-                <V>1</V>
-            </Stats>
-
-            <AbstractClasses>
-            </AbstractClasses>
-
-            <ConcreteClasses>
-                <Class sourceFile="BuildConfig.java">
-                    com.squareup.leakcanary.android.noop.BuildConfig
-                </Class>
-            </ConcreteClasses>
-
-            <DependsUpon>
-                <Package>java.lang</Package>
-            </DependsUpon>
-
-            <UsedBy>
             </UsedBy>
         </Package>
 

@@ -10,24 +10,24 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.google.sample.MapsActivity
-	c38 [label=<<table title="org.osmdroid.google.sample.MapsActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsActivity.html">
+	c33 [label=<<table title="org.osmdroid.google.sample.MapsActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./MapsActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> MapsActivity </td></tr>
 		</table></td></tr>
 		</table>>, URL="./MapsActivity.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	//org.osmdroid.google.sample.MapsActivity extends android.support.v4.app.FragmentActivity
-	c40:p -> c38:p [dir=back,arrowtail=empty];
+	c38:p -> c33:p [dir=back,arrowtail=empty];
 	//org.osmdroid.google.sample.MapsActivity implements com.google.android.gms.maps.OnMapReadyCallback
-	c41:p -> c38:p [dir=back,arrowtail=empty,style=dashed];
+	c39:p -> c33:p [dir=back,arrowtail=empty,style=dashed];
 	// com.google.android.gms.maps.OnMapReadyCallback
-	c41 [label=<<table title="com.google.android.gms.maps.OnMapReadyCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/android/gms/maps/OnMapReadyCallback.html">
+	c39 [label=<<table title="com.google.android.gms.maps.OnMapReadyCallback" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/com/google/android/gms/maps/OnMapReadyCallback.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> &#171;interface&#187; </td></tr>
 <tr><td align="center" balign="center"> OnMapReadyCallback </td></tr>
 		</table></td></tr>
 		</table>>, URL="http://java.sun.com/j2se/1.4.2/docs/api/com/google/android/gms/maps/OnMapReadyCallback.html", fontname="arial", fontcolor="black", fontsize=10.0];
 	// android.support.v4.app.FragmentActivity
-	c40 [label=<<table title="android.support.v4.app.FragmentActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html">
+	c38 [label=<<table title="android.support.v4.app.FragmentActivity" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="http://java.sun.com/j2se/1.4.2/docs/api/android/support/v4/app/FragmentActivity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> FragmentActivity </td></tr>
 		</table></td></tr>

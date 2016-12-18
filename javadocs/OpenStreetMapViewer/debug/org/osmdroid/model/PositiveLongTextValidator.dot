@@ -10,7 +10,7 @@ digraph G {
 	nodesep=0.25;
 	ranksep=0.5;
 	// org.osmdroid.model.PositiveLongTextValidator
-	c3252 [label=<<table title="org.osmdroid.model.PositiveLongTextValidator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PositiveLongTextValidator.html">
+	c3248 [label=<<table title="org.osmdroid.model.PositiveLongTextValidator" border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./PositiveLongTextValidator.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 <tr><td align="center" balign="center"> PositiveLongTextValidator </td></tr>
 		</table></td></tr>
