@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 
@@ -75,7 +76,8 @@ public class SqliteArchiveTileWriter implements IFilesystemCache {
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             //this shouldn't happen, but just in case
             db.insert(DatabaseFileArchive.TABLE, null, cv);
-            Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
+            if (Configuration.getInstance().isDebugMode())
+                Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString(), ex);
         }

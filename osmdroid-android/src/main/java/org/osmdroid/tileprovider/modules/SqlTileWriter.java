@@ -156,7 +156,8 @@ public class SqlTileWriter implements IFilesystemCache {
                 cv.put("expires", pTile.getExpires().getTime());
             db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
             db.insert(TABLE, null, cv);
-            Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
+            if (Configuration.getInstance().isDebugMode())
+                Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
             //this is causing looping conditions
             if (db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()){
                 runCleanupOperation();
@@ -305,7 +306,8 @@ public class SqlTileWriter implements IFilesystemCache {
 
                                                                     long insert = db.insert(TABLE, null, cv);
                                                                     if (insert > 0) {
-                                                                        Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
+                                                                        if (Configuration.getInstance().isDebugMode())
+                                                                            Log.d(IMapView.LOGTAG, "tile inserted " + tileSources[i].getName() + "/" + z1 + "/" + x1 + "/" + y1);
                                                                         ret[0]++;
                                                                         if (removeFromFileSystem) {
                                                                             try {

@@ -21,6 +21,10 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
+ * Sqlite based tile cache mechansism
+ *
+ * @since 5.1
+ * @see SqlTileWriter
  * Created by alex on 1/16/16.
  */
 public class MapTileSqlCacheProvider  extends MapTileFileStorageProviderBase{
