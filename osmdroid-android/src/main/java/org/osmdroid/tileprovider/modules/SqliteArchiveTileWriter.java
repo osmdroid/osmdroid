@@ -24,7 +24,8 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * Uses the same schema as MOBAC osm sqlite and the {@link DatabaseFileArchive}
  * <p>
  * https://github.com/osmdroid/osmdroid/issues/348
- *
+ * @see SqlTileWriter
+ * @see DatabaseFileArchive
  * @author Alex O'Ree
  * @since 5.2 7/8/16.
  */

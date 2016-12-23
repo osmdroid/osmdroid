@@ -59,6 +59,8 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
     protected SimpleDateFormat httpHeaderDateTimeFormat = new SimpleDateFormat(HTTP_EXPIRES_HEADER_FORMAT, Locale.US);
     protected File osmdroidBasePath = new File(StorageUtils.getStorage().getAbsolutePath(), "osmdroid");
     protected File osmdroidTileCache =  new File(getOsmdroidBasePath(), "tiles");
+    protected long expirationAdder = 0;
+    protected Long expirationOverride=null;
 
     public DefaultConfigurationProvider(){
         try {
@@ -292,7 +294,12 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
             setTileFileSystemThreads((short)(prefs.getInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads)));
             setTileDownloadMaxQueueSize((short)(prefs.getInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize)));
             setTileFileSystemMaxQueueSize((short)(prefs.getInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize)));
-
+            setExpirationExtendedDuration((long)prefs.getLong("osmdroid.ExpirationExtendedDuration", expirationAdder));
+            if (prefs.contains("osmdroid.ExpirationOverride")) {
+                expirationOverride = prefs.getLong("osmdroid.ExpirationOverride",-1);
+                if (expirationOverride!=null && expirationOverride==-1)
+                    expirationOverride=null;
+            }
         }
 
 
@@ -344,8 +351,34 @@ public class DefaultConfigurationProvider implements IConfigurationProvider {
         edit.putInt("osmdroid.tileFileSystemThreads",tileFileSystemThreads);
         edit.putInt("osmdroid.tileDownloadMaxQueueSize",tileDownloadMaxQueueSize);
         edit.putInt("osmdroid.tileFileSystemMaxQueueSize",tileFileSystemMaxQueueSize);
+        edit.putLong("osmdroid.ExpirationExtendedDuration",expirationAdder);
+        if (expirationOverride!=null)
+            edit.putLong("osmdroid.ExpirationOverride",expirationOverride);
         //TODO save other fields?
 
         edit.commit();
+    }
+
+    @Override
+    public long getExpirationExtendedDuration() {
+        return expirationAdder ;
+    }
+
+    @Override
+    public void setExpirationExtendedDuration(final long period) {
+        if (period < 0)
+            expirationAdder=0;
+        else
+            expirationAdder=period;
+    }
+
+    @Override
+    public void setExpirationOverrideDuration(Long period) {
+        expirationOverride=period;
+    }
+
+    @Override
+    public Long getExpirationOverrideDuration() {
+        return expirationOverride;
     }
 }

@@ -20,6 +20,7 @@ import java.util.Set;
  * CREATE TABLE tiles (key INTEGER PRIMARY KEY, provider TEXT, tile BLOB)
  * where the key is the X/Y/Z coordinates bitshifted using the following algorithm
  * key = ((z &lt;&lt; z) + x &lt;&lt; z) + y;
+ * @see SqlTileWriter
  */
 public class DatabaseFileArchive implements IArchiveFile {
 

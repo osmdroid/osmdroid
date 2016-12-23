@@ -172,7 +172,21 @@
             android:label="OpenStreetMap Bug Drivers">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        CacheBrowserActivity
+        <activity android:name=".debug.browser.CacheBrowserActivity"
+                  android:label="OpenStreetMap Cache Browser">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".debug.CacheAnalyzerActivity"
+                  android:label="OpenStreetMap Cache Analyzer">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

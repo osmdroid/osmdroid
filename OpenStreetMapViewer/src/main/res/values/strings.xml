@@ -44,5 +44,23 @@
     <string name="pick_cache_location">Pick Cache Location</string>
     <string name="debug_logging_downloading">Debug Downloading</string>
     <string name="enterCacheLocation">Enter Cache Location</string>
+    <string name="extend_downloaded_tiles_by_this_much_time_in_milliseconds">Extend downloaded tiles by this much time (in milliseconds)</string>
+    <string name="time_to_wait_for_a_gps_fix_to_switch_to_network_based_location_ms">Time to wait for a GPS fix to switch to Network based location (ms)</string>
+    <string name="miscellaneous">Miscellaneous</string>
+    <string name="map_tile_file_system_max_queue_size">Map tile file system max queue size</string>
+    <string name="file_system_loading_threads">File system loading threads</string>
+    <string name="in_memory_tile_cache_size">In memory tile cache size</string>
+    <string name="map_tile_download_max_queue_size">Map tile download max queue size</string>
+    <string name="tile_download_threads">Tile download threads</string>
+    <string name="downloads_memory_cache_and_offline_storage_settings">Downloads, Memory Cache and Offline Storage Settings</string>
+    <string name="http_user_agent_to_use_when_downloading">HTTP User Agent to use when downloading</string>
+    <string name="logging_and_debugging">Logging and Debugging</string>
+    <string name="map_view_debug">Map View Debug</string>
+    <string name="cache_management">Cache Management</string>
+    <string name="reset_to_defaults">Reset to defaults</string>
+    <string name="total_rows">Total rows</string>
+    <string name="cache_size_bytes">Cache size </string>
+    <string name="loading_stats">Loading stats...</string>
+    <string name="cache_analyzer_tasks">Cache Analyzer Tasks</string>
 
 </resources>

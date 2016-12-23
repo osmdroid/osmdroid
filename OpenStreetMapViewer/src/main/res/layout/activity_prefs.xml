@@ -13,7 +13,7 @@
             android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logging and Debugging"
+            android:text="@string/logging_and_debugging"
             />
 
 
@@ -41,14 +41,14 @@
             android:id="@+id/checkBoxMapViewDebug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Map View Debug"/>
+            android:text="@string/map_view_debug"/>
 
 
         <TextView
             android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cache Management"
+            android:text="@string/cache_management"
             />
         <TextView
             android:layout_width="match_parent"
@@ -85,14 +85,14 @@
             android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Downloads, Memory Cache and Offline Storage Settings"
+            android:text="@string/downloads_memory_cache_and_offline_storage_settings"
             />
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HTTP User Agent to use when downloading"
+            android:text="@string/http_user_agent_to_use_when_downloading"
             />
 
         <EditText
@@ -106,7 +106,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tile download threads"
+            android:text="@string/tile_download_threads"
             />
 
         <EditText
@@ -122,7 +122,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Map tile download max queue size"
+            android:text="@string/map_tile_download_max_queue_size"
             />
 
         <EditText
@@ -138,7 +138,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="In memory tile cache size"
+            android:text="@string/in_memory_tile_cache_size"
             />
 
         <EditText
@@ -154,7 +154,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="File system loading threads"
+            android:text="@string/file_system_loading_threads"
             />
 
         <EditText
@@ -169,7 +169,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Map tile file system max queue size"
+            android:text="@string/map_tile_file_system_max_queue_size"
             />
 
         <EditText
@@ -185,13 +185,13 @@
             android:textSize="22sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Miscellaneous"
+            android:text="@string/miscellaneous"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Time to wait for a GPS fix to switch to Network based location (ms)"
+            android:text="@string/time_to_wait_for_a_gps_fix_to_switch_to_network_based_location_ms"
             />
         <EditText
             android:id="@+id/gpsWaitTime"
@@ -200,6 +200,34 @@
             android:inputType="number"
             android:lines="1"
             />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/extend_downloaded_tiles_by_this_much_time_in_milliseconds"
+            />
+        <EditText
+            android:id="@+id/additionalExpirationTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Override the expiration duration of download tiles"
+            />
+        <EditText
+            android:id="@+id/overrideExpirationTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:lines="1"
+            />
+
+
 
         <CheckBox
             android:id="@+id/checkBoxHardwareAcceleration"
@@ -213,7 +241,7 @@
             android:id="@+id/buttonReset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reset to defaults"/>
+            android:text="@string/reset_to_defaults"/>
 
     </LinearLayout>
 </ScrollView>

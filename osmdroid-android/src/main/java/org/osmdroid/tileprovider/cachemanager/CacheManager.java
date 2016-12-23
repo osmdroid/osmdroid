@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,8 +17,11 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
+import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
+import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
+import org.osmdroid.tileprovider.util.Counters;
 import org.osmdroid.tileprovider.util.StreamUtils;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
@@ -37,6 +42,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 
 ;
 
@@ -100,7 +106,7 @@ public class CacheManager {
     /**
      * @return true if success, false if error
      */
-    public boolean loadTile(OnlineTileSourceBase tileSource, MapTile tile) {
+    public boolean loadTile(final OnlineTileSourceBase tileSource, final MapTile tile) {
         //check if file is already downloaded:
         File file = getFileName(tileSource, tile);
         if (file.exists()) {
@@ -112,52 +118,82 @@ public class CacheManager {
         }
 
         InputStream in = null;
-        OutputStream out = null;
-        HttpURLConnection urlConnection = null;
+        HttpURLConnection c=null;
+
         try {
+
+
             final String tileURLString = tileSource.getTileURLString(tile);
 
-            urlConnection = (HttpURLConnection) new URL(tileURLString).openConnection();
+            if (Configuration.getInstance().isDebugMode()) {
+                Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
+            }
 
-            // Check to see if we got success
-            if (urlConnection.getResponseCode() != 200) {
-                Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + urlConnection.getResponseMessage());
+            if (TextUtils.isEmpty(tileURLString)) {
                 return false;
             }
 
-            in = urlConnection.getInputStream();
+            c = (HttpURLConnection) new URL(tileURLString).openConnection();
+            c.setUseCaches(true);
+            c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
+            c.connect();
+
+
+            // Check to see if we got success
+
+            if (c.getResponseCode() != 200) {
+                Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
+                Counters.tileDownloadErrors++;
+                return false;
+            }
+
+
+            in = c.getInputStream();
 
             final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
-            out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-            StreamUtils.copy(in, out);
-            out.flush();
-            final byte[] data = dataStream.toByteArray();
-            final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
+            //default is 1 week from now
+            Date dateExpires;
+            Long override=Configuration.getInstance().getExpirationOverrideDuration();
+            if (override!=null) {
+                dateExpires= new Date(System.currentTimeMillis() + override);
+            } else {
+                dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + Configuration.getInstance().getExpirationExtendedDuration());
+                final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+                if (expires != null && expires.length() > 0) {
+                    try {
+                        dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(expires);
+                        dateExpires.setTime(dateExpires.getTime() + Configuration.getInstance().getExpirationExtendedDuration());
+                    } catch (Exception ex) {
+                        if (Configuration.getInstance().isDebugMapTileDownloader())
+                            Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires, ex);
+                    }
+                }
+            }
+            tile.setExpires(dateExpires);
             // Save the data to the filesystem cache
-            mTileWriter.saveFile(tileSource, tile, byteStream);
-            byteStream.reset();
-
-            //final Drawable result = tileSource.getDrawable(byteStream);
+            mTileWriter.saveFile(tileSource, tile, in);
             return true;
         } catch (final UnknownHostException e) {
-            // no network connection
-            Log.w(IMapView.LOGTAG, "UnknownHostException downloading MapTile: " + tile + " : " + e);
+            // no network connection so empty the queue
+            Log.w(IMapView.LOGTAG,"UnknownHostException downloading MapTile: " + tile + " : " + e);
+            Counters.tileDownloadErrors++;
+            return false;
         } catch (final FileNotFoundException e) {
-            Log.w(IMapView.LOGTAG, "Tile not found: " + tile + " : " + e);
+            Counters.tileDownloadErrors++;
+            Log.w(IMapView.LOGTAG,"Tile not found: " + tile + " : " + e);
         } catch (final IOException e) {
-            Log.w(IMapView.LOGTAG, "IOException downloading MapTile: " + tile + " : " + e);
+            Counters.tileDownloadErrors++;
+            Log.w(IMapView.LOGTAG,"IOException downloading MapTile: " + tile + " : " + e);
         } catch (final Throwable e) {
-            Log.e(IMapView.LOGTAG, "Error downloading MapTile: " + tile, e);
+            Counters.tileDownloadErrors++;
+            Log.e(IMapView.LOGTAG,"Error downloading MapTile: " + tile, e);
         } finally {
             StreamUtils.closeStream(in);
-            StreamUtils.closeStream(out);
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            urlConnection = null;
+            try{
+                c.disconnect();
+            } catch (Exception ex){}
         }
-
         return false;
     }
 

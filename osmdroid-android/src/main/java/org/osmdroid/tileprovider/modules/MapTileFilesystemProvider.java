@@ -12,6 +12,7 @@ import org.osmdroid.tileprovider.tilesource.BitmapTileSourceBase.LowMemoryExcept
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
@@ -49,7 +50,7 @@ public class MapTileFilesystemProvider extends MapTileFileStorageProviderBase {
 
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource aTileSource) {
-		this(pRegisterReceiver, aTileSource, OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
+		this(pRegisterReceiver, aTileSource, Configuration.getInstance().getExpirationExtendedDuration() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
 	}
 
 	public MapTileFilesystemProvider(final IRegisterReceiver pRegisterReceiver,

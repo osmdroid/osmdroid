@@ -8,13 +8,16 @@ import android.widget.EditText;
  * created on 12/4/2016.
  *
  * @author Alex O'Ree
+ * @since 5.6.1
  */
 
 public class PositiveLongTextValidator  implements TextWatcher {
 
     EditText parent;
-    public PositiveLongTextValidator(EditText parent){
+    long minValue;
+    public PositiveLongTextValidator(EditText parent, long minValue){
         this.parent=parent;
+        this.minValue=minValue;
     }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -33,8 +36,8 @@ public class PositiveLongTextValidator  implements TextWatcher {
             parent.setError("Not a valid number");
         try{
             long val=Long.parseLong(txt);
-            if (val < 1) {
-                parent.setError("Must be at least 1");
+            if (val < minValue) {
+                parent.setError("Must be at least " + minValue);
             } else {
                 parent.setError(null);
             }

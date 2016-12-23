@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.osmdroid.config.Configuration;
+import org.osmdroid.debug.CacheAnalyzerActivity;
+import org.osmdroid.debug.browser.CacheBrowserActivity;
 import org.osmdroid.samples.SampleExtensive;
 import org.osmdroid.samples.SampleWithMinimapItemizedoverlay;
 import org.osmdroid.samples.SampleWithMinimapZoomcontrols;
@@ -68,6 +70,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         list.add("Bug Drivers");
         list.add("Report a bug");
         list.add("Settings");
+        if (BuildConfig.VERSION_CODE >= 11 && Configuration.getInstance().isDebugMode())
+            list.add("Cache Analyzer");
 
         ListView lv = (ListView) findViewById(R.id.activitylist);
         ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
@@ -112,6 +116,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
                 Intent i = new Intent(this,PreferenceActivity.class);
                 startActivity(i);
                 break;
+            case 10:
+            {
+                if (BuildConfig.VERSION_CODE >= 11){
+                    Intent starter = new Intent(this,CacheAnalyzerActivity.class);
+                    startActivity(starter );
+                    break;
+                }
+            }
         }
     }
 

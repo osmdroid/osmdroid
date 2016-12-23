@@ -33,17 +33,32 @@ import static org.osmdroid.tileprovider.modules.DatabaseFileArchive.TABLE;
  * <p>
  * If the database exceeds {@link Configuration.getInstance().getTileFileSystemCacheTrimBytes()}
  * cache exceeds 600 Mb then it will be trimmed to 500 Mb by deleting files that expire first.
- *
+ * @see DatabaseFileArchive
+ * @see SqliteArchiveTileWriter
  * @author Alex O'Ree
  * @since 5.1
  */
 public class SqlTileWriter implements IFilesystemCache {
     public static final String DATABASE_FILENAME = "cache.db";
-
+    public static final String COLUMN_EXPIRES ="expires";
+    /**
+     * disables cache purge of expired tiled on start up
+     * if this is set to false, the database will only purge tiles if manually called or if
+     * the storage device runs out of space.
+     *
+     * expired tiles will continue to be overwritten as new versions are downloaded regardless
+     *
+     * @since 5.6
+     */
+    public static boolean CLEANUP_ON_START=true;
     protected File db_file;
     protected SQLiteDatabase db;
-    final int questimate = 4000;
-    static boolean hasInited = false;
+
+    /**
+     * a questimated size (average-ish) size of a tile
+     */
+    final int questimate=4000;
+    static boolean hasInited=false;
 
     public SqlTileWriter() {
 
@@ -53,22 +68,24 @@ public class SqlTileWriter implements IFilesystemCache {
 
         try {
             db = SQLiteDatabase.openOrCreateDatabase(db_file, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, expires INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLE + " (" + DatabaseFileArchive.COLUMN_KEY + " INTEGER , " + DatabaseFileArchive.COLUMN_PROVIDER + " TEXT, " + DatabaseFileArchive.COLUMN_TILE + " BLOB, " + COLUMN_EXPIRES +" INTEGER, PRIMARY KEY (" + DatabaseFileArchive.COLUMN_KEY + ", " + DatabaseFileArchive.COLUMN_PROVIDER + "));");
         } catch (Throwable ex) {
             Log.e(IMapView.LOGTAG, "Unable to start the sqlite tile writer. Check external storage availability.", ex);
         }
         if (!hasInited) {
             hasInited = true;
 
-            // do this in the background because it takes a long time
-            final Thread t = new Thread() {
-                @Override
-                public void run() {
-                    runCleanupOperation();
-                }
-            };
-            t.setPriority(Thread.MIN_PRIORITY);
-            t.start();
+            if (CLEANUP_ON_START) {
+                // do this in the background because it takes a long time
+                final Thread t = new Thread() {
+                    @Override
+                    public void run() {
+                        runCleanupOperation();
+                    }
+                };
+                t.setPriority(Thread.MIN_PRIORITY);
+                t.start();
+            }
         }
     }
 
@@ -105,7 +122,7 @@ public class SqlTileWriter implements IFilesystemCache {
                 Log.d(IMapView.LOGTAG, "Local cache purging " + tilesToKill + " tiles.");
                 if (tilesToKill > 0)
                     try {
-                        db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY expires DESC LIMIT " + tilesToKill + ")");
+                        db.execSQL("DELETE FROM " + TABLE + " WHERE " + COLUMN_KEY + " in (SELECT " + COLUMN_KEY + " FROM " + TABLE + " ORDER BY " + COLUMN_EXPIRES + " DESC LIMIT " + tilesToKill + ")");
                     } catch (Throwable t) {
                         Log.e(IMapView.LOGTAG, "error purging tiles from the tile cache", t);
                     }
@@ -123,7 +140,7 @@ public class SqlTileWriter implements IFilesystemCache {
     }
 
     @Override
-    public boolean saveFile(ITileSource pTileSourceInfo, MapTile pTile, InputStream pStream) {
+    public boolean saveFile(final ITileSource pTileSourceInfo, final MapTile pTile, final InputStream pStream) {
         if (db == null) {
             Log.d(IMapView.LOGTAG, "Unable to store cached tile from " + pTileSourceInfo.name() + " " + pTile.toString() + ", database not available.");
             Counters.fileCacheSaveErrors++;
@@ -153,7 +170,7 @@ public class SqlTileWriter implements IFilesystemCache {
             cv.put(DatabaseFileArchive.COLUMN_TILE, bits);
             //this shouldn't happen, but just in case
             if (pTile.getExpires() != null)
-                cv.put("expires", pTile.getExpires().getTime());
+                cv.put(COLUMN_EXPIRES, pTile.getExpires().getTime());
             db.delete(TABLE, DatabaseFileArchive.COLUMN_KEY + "=? and " + DatabaseFileArchive.COLUMN_PROVIDER + "=?", new String[]{index + "", pTileSourceInfo.name()});
             db.insert(TABLE, null, cv);
             if (Configuration.getInstance().isDebugMode())
@@ -237,6 +254,24 @@ public class SqlTileWriter implements IFilesystemCache {
         if (db != null && db.isOpen()) {
             try {
                 db.delete(TABLE, null, null);
+                return true;
+            } catch (final Throwable e) {
+                Log.w(IMapView.LOGTAG, "Error purging the db", e);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * purges and deletes all tiles from the given tile source name from the cache database
+     *
+     * @return
+     * @since 5.6.1
+     */
+    public boolean purgeCache(String mTileSourceName) {
+        if (db != null && db.isOpen()) {
+            try {
+                db.delete(TABLE, COLUMN_PROVIDER + " = ?", new String[]{mTileSourceName});
                 return true;
             } catch (final Throwable e) {
                 Log.w(IMapView.LOGTAG, "Error purging the db", e);

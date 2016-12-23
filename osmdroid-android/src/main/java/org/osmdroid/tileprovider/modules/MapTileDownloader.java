@@ -208,18 +208,22 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
 				//default is 1 week from now
-				Date dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE);
-				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
-				if (expires!=null && expires.length() > 0) {
-					try {
-						dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(expires);
-					}catch (Exception ex){
-						if (Configuration.getInstance().isDebugMapTileDownloader())
-							Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires,ex);
+				Date dateExpires;
+				Long override=Configuration.getInstance().getExpirationOverrideDuration();
+				if (override!=null) {
+					dateExpires= new Date(System.currentTimeMillis() + override);
+				} else {
+					dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + Configuration.getInstance().getExpirationExtendedDuration());
+					final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+					if (expires != null && expires.length() > 0) {
+						try {
+							dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(expires);
+							dateExpires.setTime(dateExpires.getTime() + Configuration.getInstance().getExpirationExtendedDuration());
+						} catch (Exception ex) {
+							if (Configuration.getInstance().isDebugMapTileDownloader())
+								Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires, ex);
+						}
 					}
-				}
-				if (Configuration.getInstance().isDebugMapTileDownloader()) {
-					Log.d(IMapView.LOGTAG, tileURLString + " expires in " + (dateExpires.getTime()-System.currentTimeMillis() + "ms"));
 				}
 				tile.setExpires(dateExpires);
 				StreamUtils.copy(in, out);

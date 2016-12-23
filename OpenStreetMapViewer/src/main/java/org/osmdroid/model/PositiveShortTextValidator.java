@@ -8,6 +8,7 @@ import android.widget.EditText;
  * created on 12/4/2016.
  *
  * @author Alex O'Ree
+ * @since 5.6.1
  */
 
 public class PositiveShortTextValidator implements TextWatcher {

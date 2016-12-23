@@ -201,4 +201,40 @@ public interface IConfigurationProvider {
      * @param preferences
      */
     void save(Context ctx, SharedPreferences preferences);
+
+    /**
+     * Returns the amount of time in ms added to server specified tile expiration time
+     * Added as part of issue https://github.com/osmdroid/osmdroid/issues/490
+     * @since 5.6.1
+     * @return time in ms
+     */
+    long getExpirationExtendedDuration();
+
+    /**
+     * Optionally extends the amount of time that downloaded tiles remain in the cache beyond either the
+     * server specified expiration time stamp or the default expiration time {{@link org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants#DEFAULT_MAXIMUM_CACHED_FILE_AGE}}
+     *
+     * Note: this setting only controls tiles as they are downloaded. tiles already in the cache are
+     * not effected by this setting
+     * Added as part of issue https://github.com/osmdroid/osmdroid/issues/490
+     * @since 5.6.1
+     * @param period time in ms, if 0, no additional time to the 'server provided expiration' or the
+     *               'default expiration time' is added. If the value is less than 0, 0 will be used
+     */
+    void setExpirationExtendedDuration(long period);
+
+    /**
+     * Optional period of time in ms that will override any downloaded tile's expiration timestamp
+     * @since 5.6.1
+     * @param period if null, this setting is unset, server value + getExpirationExtendedDuration apply
+     *               if not null, this this value is used
+     */
+    void setExpirationOverrideDuration(Long period);
+    /**
+     * Optional period of time in ms that will override any downloaded tile's expiration timestamp
+     * @since 5.6.1
+     * @return period if null, this setting is unset, server value + getExpirationExtendedDuration apply
+     *               if not null, this this value is used
+     */
+    Long getExpirationOverrideDuration();
 }

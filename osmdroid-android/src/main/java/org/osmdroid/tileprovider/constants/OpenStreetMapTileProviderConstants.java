@@ -24,9 +24,9 @@ public class OpenStreetMapTileProviderConstants {
           Note: also used for offline tile sources*/
 	private static File OSMDROID_PATH = new File(StorageUtils.getStorage().getAbsolutePath(),
 			"osmdroid");
-     
+     @Deprecated
      public static File getBasePath(){
-          return OSMDROID_PATH;
+          return Configuration.getInstance().getOsmdroidBasePath();
      }
      
 	/** Base path for tiles. 
@@ -106,10 +106,13 @@ public class OpenStreetMapTileProviderConstants {
 
 
 	/**
+	 * this is the expected http header to expect from a tile server
 	 * @since 5.1
 	 */
 	public static final String HTTP_EXPIRES_HEADER = "Expires";
 	/**
+	 * this is the default and expected http header for Expires, date time format that is used
+	 * for more http servers. Can be overridden via Configuration
 	 * @since 5.1
 	 */
 	public static final String HTTP_EXPIRES_HEADER_FORMAT = "EEE, dd MMM yyyy HH:mm:ss z";

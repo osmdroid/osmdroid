@@ -162,7 +162,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		}
 
           // path should be optionally configurable
-          File cachePaths = OpenStreetMapTileProviderConstants.getBasePath();
+          File cachePaths = Configuration.getInstance().getOsmdroidBasePath();
           final File[] files = cachePaths.listFiles();
           if (files != null) {
                for (final File file : files) {

@@ -28,6 +28,11 @@ import java.io.File;
 import java.util.List;
 
 /**
+ * OK so why is here?
+ * Stupid reason #1: Android Studio's wizard generates a bunch of stupid complex code
+ * Stupid reason #2: Android's Preference Activity is API10+ and we (osmdroid) are API8+
+ * Stupid reason #3: Simple is better, usually
+ * @since 5.6
  * Created by alex on 10/21/16.
  */
 
@@ -47,7 +52,7 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         tileDownloadMaxQueueSize,
         cacheMapTileCount,
         tileFileSystemThreads,
-        tileFileSystemMaxQueueSize, gpsWaitTime;
+        tileFileSystemMaxQueueSize, gpsWaitTime, additionalExpirationTime,overrideExpirationTime;
     boolean abortSave=false;
 
     @Override
@@ -78,7 +83,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         tileFileSystemMaxQueueSize = (EditText) findViewById(R.id.tileFileSystemMaxQueueSize);
         tileFileSystemMaxQueueSize.addTextChangedListener(new PositiveShortTextValidator(tileFileSystemMaxQueueSize));
         gpsWaitTime = (EditText) findViewById(R.id.gpsWaitTime);
-        gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime));
+        gpsWaitTime.addTextChangedListener(new PositiveLongTextValidator(gpsWaitTime,1));
+        additionalExpirationTime = (EditText) findViewById(R.id.additionalExpirationTime);
+        additionalExpirationTime .addTextChangedListener(new PositiveLongTextValidator(additionalExpirationTime,0));
+
+        overrideExpirationTime = (EditText) findViewById(R.id.overrideExpirationTime);
 
         buttonSetCache = (Button) findViewById(R.id.buttonSetCache);
         buttonManualCacheEntry = (Button) findViewById(R.id.buttonManualCacheEntry);
@@ -97,8 +106,11 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
         tileDownloadMaxQueueSize.setText(Configuration.getInstance().getTileDownloadMaxQueueSize() + "");
         tileDownloadThreads.setText(Configuration.getInstance().getTileDownloadThreads() + "");
         gpsWaitTime.setText(Configuration.getInstance().getGpsWaitTime() + "");
-
+        additionalExpirationTime.setText(Configuration.getInstance().getExpirationExtendedDuration()+"");
         cacheMapTileCount.setText(Configuration.getInstance().getCacheMapTileCount() + "");
+        if (Configuration.getInstance().getExpirationOverrideDuration()!=null)
+            overrideExpirationTime.setText(Configuration.getInstance().getExpirationOverrideDuration()+"");
+
         httpUserAgent.setText(Configuration.getInstance().getUserAgentValue());
         checkBoxMapViewDebug.setChecked(Configuration.getInstance().isDebugMapView());
         checkBoxDebugMode.setChecked(Configuration.getInstance().isDebugMode());
@@ -149,6 +161,22 @@ public class PreferenceActivity extends Activity implements View.OnClickListener
                 Configuration.getInstance().setGpsWaitTime(Long.parseLong(gpsWaitTime.getText().toString()));
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+        try {
+            if (additionalExpirationTime.getError() == null)
+                Configuration.getInstance().setExpirationExtendedDuration(Long.parseLong(additionalExpirationTime.getText().toString()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        try {
+            Long val=Long.parseLong(overrideExpirationTime.getText().toString());
+            if (val > 0)
+                Configuration.getInstance().setExpirationOverrideDuration(val);
+            else
+                Configuration.getInstance().setExpirationOverrideDuration(null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Configuration.getInstance().setExpirationOverrideDuration(null);
         }
 
 

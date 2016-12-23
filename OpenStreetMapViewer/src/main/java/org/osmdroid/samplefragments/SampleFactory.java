@@ -38,6 +38,7 @@ import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
 import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
 
@@ -134,7 +135,9 @@ public final class SampleFactory implements ISampleFactory {
 				//35
 				SampleSimpleLocation.class,
                 //36
-				SampleSimpleFastPointOverlay.class
+				SampleSimpleFastPointOverlay.class,
+				//37
+				SampleOpenSeaMap.class,
 
         };
 	}
