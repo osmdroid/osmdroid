@@ -132,6 +132,10 @@ public class TileSourceFactory {
                     "http://b.tiles.wmflabs.org/hikebike/",
                     "http://c.tiles.wmflabs.org/hikebike/"  });
 
+	/**
+	 * This is actually another tile overlay
+	 * @sunce 5.6.2
+	 */
 	public static final OnlineTileSourceBase OPEN_SEAMAP = new XYTileSource("OpenSeaMap",
 			3,18,256,".png", new String[] { "http://tiles.openseamap.org/seamark/"});
 
@@ -152,6 +156,28 @@ public class TileSourceFactory {
 	};
 
 
+	/**
+	 * Chart Bundle US Aeronautical Charts
+	 * @since 5.6.2
+	 */
+	public static final OnlineTileSourceBase ChartbundleWAC = new XYTileSource("ChartbundleWAC", 4, 12, 256, ".png?type=google",
+		new String[]{"http://wms.chartbundle.com/tms/v1.0/wac/"});
+
+	/**
+	 * Chart Bundle US Aeronautical Charts Enroute High
+	 * @since 5.6.2
+	 */
+	public static final OnlineTileSourceBase ChartbundleENRH = new XYTileSource("ChartbundleENRH", 4, 12, 256, ".png?type=google",
+		new String[]{"http://wms.chartbundle.com/tms/v1.0/enrh/"});
+	/**
+	 * Chart Bundle US Aeronautical Charts Enroute Low
+	 * @since 5.6.2
+	 */
+	public static final OnlineTileSourceBase ChartbundleENRL = new XYTileSource("ChartbundleENRL", 4, 12, 256, ".png?type=google",
+		new String[]{"http://wms.chartbundle.com/tms/v1.0/enrl/"});
+
+
+
 	private static List<ITileSource> mTileSources;
 	static {
 		mTileSources = new ArrayList<ITileSource>();
@@ -161,6 +187,8 @@ public class TileSourceFactory {
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
 		mTileSources.add(USGS_SAT);
-		mTileSources.add(OPEN_SEAMAP);
+		mTileSources.add(ChartbundleWAC);
+		mTileSources.add(ChartbundleENRH);
+		mTileSources.add(ChartbundleENRL);
 	}
 }

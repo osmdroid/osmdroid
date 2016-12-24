@@ -198,6 +198,9 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				
 				if (c.getResponseCode() != 200) {
 					Log.w(IMapView.LOGTAG, "Problem downloading MapTile: " + tile + " HTTP response: " + c.getResponseMessage());
+					if (Configuration.getInstance().isDebugMapTileDownloader()) {
+						Log.d(IMapView.LOGTAG, tileURLString);
+					}
 					Counters.tileDownloadErrors++;
 					return null;
 				}
