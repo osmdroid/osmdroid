@@ -137,7 +137,7 @@ public class TileSourceFactory {
 
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
-               new String[] { "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" },"USGS The National Map: National Boundaries Dataset, National Elevation Dataset, Geographic Names Information System, National Hydrography Dataset, National Land Cover Database, National Structures Dataset, and National Transportation Dataset; U.S. Census Bureau - TIGER/Line; HERE Road Data ") {
+               new String[] { "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" },"USGS") {
                @Override
                public String getTileURLString(MapTile aTile) {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
@@ -161,6 +161,5 @@ public class TileSourceFactory {
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
 		mTileSources.add(USGS_SAT);
-		mTileSources.add(OPEN_SEAMAP);
 	}
 }

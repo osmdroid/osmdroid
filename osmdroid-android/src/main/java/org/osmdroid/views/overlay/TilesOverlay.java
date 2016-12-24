@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -65,7 +66,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	protected boolean alignRight  = false;
 
 	private Projection mProjection;
-
+	private float densityDpi =240;
 	private boolean mOptionsMenuEnabled = true;
 
 	/** A drawable loading tile **/
@@ -98,6 +99,13 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 					"You must pass a valid tile provider to the tiles overlay.");
 		}
 		this.mTileProvider = aTileProvider;
+		DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
+		densityDpi = dm.density;
+		paintTileSourceCopyright.setTextSize(14 * densityDpi);
+
+		// Set text size to make text fill half canvas width
+		paintTileSourceCopyright.setAntiAlias(true);
+
 	}
 
 	/**
@@ -208,12 +216,7 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 		int width = canvas.getWidth();
 		int height = canvas.getHeight();
 
-		float length = paintTileSourceCopyright.measureText(pTileSource.getCopyrightNotice());
-		float size = paintTileSourceCopyright.getTextSize();
-
-		// Set text size to make text fill half canvas width
-		paintTileSourceCopyright.setTextSize(size * (width / 3) / length);
-		paintTileSourceCopyright.setAntiAlias(true);
+		//float length = paintTileSourceCopyright.measureText(pTileSource.getCopyrightNotice());
 
 		float x = 0;
 		float y = 0;
