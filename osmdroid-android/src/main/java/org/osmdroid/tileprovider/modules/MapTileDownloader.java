@@ -204,7 +204,9 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 					Counters.tileDownloadErrors++;
 					return null;
 				}
-
+				if (Configuration.getInstance().isDebugMapTileDownloader()) {
+					Log.d(IMapView.LOGTAG, tileURLString + " success");
+				}
 				
 				in = c.getInputStream();
 

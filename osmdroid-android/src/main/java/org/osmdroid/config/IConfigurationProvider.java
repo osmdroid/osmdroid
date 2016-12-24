@@ -119,8 +119,16 @@ public interface IConfigurationProvider {
 
     void setTileDownloadThreads(short tileDownloadThreads);
 
+    /**
+     * used for both file system cache and the sqlite cache
+     * @return
+     */
     short getTileFileSystemThreads();
 
+    /**
+     * used for both file system cache and the sqlite cache
+     * @param tileFileSystemThreads
+     */
     void setTileFileSystemThreads(short tileFileSystemThreads);
 
     short getTileDownloadMaxQueueSize();
