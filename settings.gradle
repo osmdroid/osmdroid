@@ -15,6 +15,7 @@ include ':osmdroid-forge-app'
 
 //jdk specific tools and applications
 include ':OSMMapTilePackager'
+include ':osmdroid-server-jdk'
 
 //dist package
 include ':osmdroid-dist'

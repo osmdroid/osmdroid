@@ -34,8 +34,16 @@ public class TileServer {
           System.out.println("Attempting to bind to " + ENDPOINT_ADDRESS);
           startServer();
 
-          System.out.println("Server started at " + ENDPOINT_ADDRESS + " press enter to stop.");
-          System.console().readLine();
+
+          if (System.console()!=null) {
+               System.out.println("Server started at " + ENDPOINT_ADDRESS + " press enter to stop.");
+               System.console().readLine();
+          } else {
+               System.out.println("Server started at " + ENDPOINT_ADDRESS + " press Ctrl-C to stop.");
+               while (true){
+                    Thread.sleep(5000);
+               }
+          }
           server.stop();
           server.destroy();
 

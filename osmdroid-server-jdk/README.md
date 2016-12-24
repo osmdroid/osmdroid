@@ -3,7 +3,10 @@ A simple Java server that serves up OSM Sqlite database files. This tool
 will serve up map tiles stored in a osmdroid sqlite database created by [MOBAC](http://mobac.sourceforge.net/).
 
 # Usage Scenario
-This tool is not designed for a high volume, production scale system. It's most appropriate for testing, development and disconnected (from the internet) environments where you needed to serve up map tiles quickly and don't want to generate tiles using the Open Street Map database and associated tooling. This tool is not meant to be internet facing.
+This tool is not designed for a high volume, production scale systems. It's most appropriate for testing, development and disconnected (from the internet) environments where you needed to serve up map tiles quickly and don't want to generate tiles using the Open Street Map database and associated tooling. This tool is not meant to be internet facing.
+
+# Why?
+Primarily for those want to test osmdroid on a network that can't reach the internet.
 
 # Usage
 
@@ -11,9 +14,9 @@ This tool is not designed for a high volume, production scale system. It's most 
 Fire up MOBAC and create an [OsmDroid](https://github.com/osmdroid/osmdroid) sqlite database. Use 256x256pixel tiles.
 
 ## Build
-`git clone `https://github.com/....../....git`
+`git clone `https://github.com/osmdroid/osmdroid.git`
 
-`mvn clean install`
+`gradlew install`
 
 ## configure
 `vi sources.properties`
@@ -21,7 +24,10 @@ Fire up MOBAC and create an [OsmDroid](https://github.com/osmdroid/osmdroid) sql
 Add in whatever OsmDroid style Sqlite database files that you have using the example. A very small example database using the USGS Topographic maps is provided.
 
 ## Start it up
-`java -jar target/OpenStreetMapsTileServer-<version>-jar-with-dependencies.jar (optional port, default 80)`
+
+`java -jar target/osmdroid-server-jdk-<version>-jar-with-dependencies.jar (optional port, default 80)`
+
+`../gradlew run <port>`
 
 Point browser to: http://localhost:port/,  tile sources can be changed using the drop down menu.
 
