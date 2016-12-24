@@ -8,8 +8,11 @@ import org.osmdroid.views.overlay.TilesOverlay;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+
+import static org.osmdroid.samplefragments.FragmentSamples.TAG;
 
 /**
  *
@@ -29,6 +32,7 @@ public class SampleWithTilesOverlay extends Activity {
 	private MapView mOsmv;
 	private TilesOverlay mTilesOverlay;
 	private MapTileProviderBasic mProvider;
+	private RelativeLayout rl;
 
 	// ===========================================================
 	// Constructors
@@ -39,7 +43,7 @@ public class SampleWithTilesOverlay extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// Setup base map
-		final RelativeLayout rl = new RelativeLayout(this);
+		rl = new RelativeLayout(this);
 
 		this.mOsmv = new MapView(this);
 		this.mOsmv.setTilesScaledToDpi(true);
@@ -60,6 +64,17 @@ public class SampleWithTilesOverlay extends Activity {
 		this.setContentView(rl);
 	}
 
+
+	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if (mOsmv!=null)
+			mOsmv.onDetach();
+		mOsmv=null;
+		if (mProvider!=null)
+			mProvider.detach();
+		mProvider = null;
+	}
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================

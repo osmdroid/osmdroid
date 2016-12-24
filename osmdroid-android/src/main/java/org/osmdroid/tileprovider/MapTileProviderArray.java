@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
 import org.osmdroid.tileprovider.modules.TileWriter;
@@ -101,7 +102,7 @@ public class MapTileProviderArray extends MapTileProviderBase {
 			}
 
 			if (!alreadyInProgress) {
-				if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+				if (Configuration.getInstance().isDebugTileProviders()) {
                          Log.d(IMapView.LOGTAG,"MapTileProviderArray.getMapTile() requested but not in cache, trying from async providers: "
 							+ pTile);
 				}

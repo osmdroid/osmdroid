@@ -45,14 +45,14 @@ public class Projection implements IProjection, MapViewConstants {
 	private final int mZoomLevelProjection;
 	private final Rect mScreenRectProjection;
 	private final Rect mIntrinsicScreenRectProjection;
-	private final float mMapOrientation;
+	private MapView mapView;
 
 	Projection(MapView mapView) {
 
+		this.mapView=mapView;
 		mZoomLevelProjection = mapView.getZoomLevel(false);
 		mScreenRectProjection = mapView.getScreenRect(null);
 		mIntrinsicScreenRectProjection = mapView.getIntrinsicScreenRect(null);
-		mMapOrientation = mapView.getMapOrientation();
 
 		mMapViewWidth = mapView.getWidth();
 		mMapViewHeight = mapView.getHeight();
@@ -96,7 +96,7 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	public float getMapOrientation() {
-		return mMapOrientation;
+		return mapView.getMapOrientation();
 	}
 
 	@Override
@@ -105,7 +105,9 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
-		return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
+		Point point = unrotateAndScalePoint(x, y, null);
+		return TileSystem.PixelXYToLatLong(point.x - mOffsetX, point.y - mOffsetY, mZoomLevelProjection, reuse);
+
 	}
 
 	@Override
@@ -293,5 +295,12 @@ public class Projection implements IProjection, MapViewConstants {
 		} else
 			reuse.set(x, y);
 		return reuse;
+	}
+
+	/**
+	 * @since 5.6
+	 */
+	public void detach(){
+		mapView=null;
 	}
 }

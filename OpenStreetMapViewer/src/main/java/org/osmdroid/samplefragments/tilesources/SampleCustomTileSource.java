@@ -1,7 +1,6 @@
 package org.osmdroid.samplefragments.tilesources;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.samplefragments.models.USGSTileSource;
 
 /**
  * Simple how to for setting a custom tile source

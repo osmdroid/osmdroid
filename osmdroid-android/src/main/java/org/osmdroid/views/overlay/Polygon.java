@@ -291,7 +291,7 @@ public class Polygon extends OverlayWithIW {
 		return points;
 	}
 	
-	@Override protected void draw(Canvas canvas, MapView mapView, boolean shadow) {
+	@Override public void draw(Canvas canvas, MapView mapView, boolean shadow) {
 
 		if (shadow) {
 			return;

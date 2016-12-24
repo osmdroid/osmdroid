@@ -4,7 +4,7 @@ If you use [Gradle](http://www.gradle.org) you have to add the following depende
 
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:(INSERT_VERSION_HERE)@aar'
+    compile 'org.osmdroid:osmdroid-android:(INSERT_VERSION_HERE):release@aar'
 }
 ```
 
@@ -13,6 +13,6 @@ osmdroid also has an optional library to provide additional features of 3rd part
 
 ```groovy
 dependencies {
-    compile 'org.osmdroid:osmdroid-third-party:(INSERT_VERSION_HERE)@aar'
+    compile 'org.osmdroid:osmdroid-third-party:(INSERT_VERSION_HERE):release@aar'
 }
 ```

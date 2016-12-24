@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import org.osmdroid.api.IMapView;
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.BitmapPool;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -48,9 +49,6 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 	// Fields
 	// ===========================================================
 
-	public static long MAX_CACHED_TILE_AGE=OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE;
-
-	public static boolean DEBUG=false;
 	private final IFilesystemCache mFilesystemCache;
 
 	private final AtomicReference<OnlineTileSourceBase> mTileSource = new AtomicReference<OnlineTileSourceBase>();
@@ -73,8 +71,8 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 			final IFilesystemCache pFilesystemCache,
 			final INetworkAvailablityCheck pNetworkAvailablityCheck) {
 		this(pTileSource, pFilesystemCache, pNetworkAvailablityCheck,
-				OpenStreetMapTileProviderConstants.getNumberOfTileDownloadThreads(), 
-                    OpenStreetMapTileProviderConstants.TILE_DOWNLOAD_MAXIMUM_QUEUE_SIZE);
+			Configuration.getInstance().getTileDownloadThreads(),
+			Configuration.getInstance().getTileDownloadMaxQueueSize());
 	}
 
 	public MapTileDownloader(final ITileSource pTileSource,
@@ -174,7 +172,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				if (mNetworkAvailablityCheck != null
 						&& !mNetworkAvailablityCheck.getNetworkAvailable()) {
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (Configuration.getInstance().isDebugMode()) {
 						Log.d(IMapView.LOGTAG,"Skipping " + getName() + " due to NetworkAvailabliltyCheck.");
 					}
 					return null;
@@ -182,7 +180,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final String tileURLString = tileSource.getTileURLString(tile);
 
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"Downloading Maptile from url: " + tileURLString);
 				}
 
@@ -192,7 +190,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				c = (HttpURLConnection) new URL(tileURLString).openConnection();
 				c.setUseCaches(true);
-				c.setRequestProperty(OpenStreetMapTileProviderConstants.USER_AGENT, OpenStreetMapTileProviderConstants.getUserAgentValue());
+				c.setRequestProperty(Configuration.getInstance().getUserAgentHttpHeader(),Configuration.getInstance().getUserAgentValue());
 				c.connect();
                                 
 
@@ -209,14 +207,22 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 
 				final ByteArrayOutputStream dataStream = new ByteArrayOutputStream();
 				out = new BufferedOutputStream(dataStream, StreamUtils.IO_BUFFER_SIZE);
-				Date dateExpires = new Date(System.currentTimeMillis() + MAX_CACHED_TILE_AGE);
-				final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
-				if (expires!=null && expires.length() > 0) {
-					try {
-						dateExpires = OpenStreetMapTileProviderConstants.HTTP_HEADER_SDF.parse(expires);
-					}catch (Exception ex){
-						if (DEBUG)
-							Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires,ex);
+				//default is 1 week from now
+				Date dateExpires;
+				Long override=Configuration.getInstance().getExpirationOverrideDuration();
+				if (override!=null) {
+					dateExpires= new Date(System.currentTimeMillis() + override);
+				} else {
+					dateExpires = new Date(System.currentTimeMillis() + OpenStreetMapTileProviderConstants.DEFAULT_MAXIMUM_CACHED_FILE_AGE + Configuration.getInstance().getExpirationExtendedDuration());
+					final String expires = c.getHeaderField(OpenStreetMapTileProviderConstants.HTTP_EXPIRES_HEADER);
+					if (expires != null && expires.length() > 0) {
+						try {
+							dateExpires = Configuration.getInstance().getHttpHeaderDateTimeFormat().parse(expires);
+							dateExpires.setTime(dateExpires.getTime() + Configuration.getInstance().getExpirationExtendedDuration());
+						} catch (Exception ex) {
+							if (Configuration.getInstance().isDebugMapTileDownloader())
+								Log.d(IMapView.LOGTAG, "Unable to parse expiration tag for tile, using default, server returned " + expires, ex);
+						}
 					}
 				}
 				tile.setExpires(dateExpires);
@@ -225,7 +231,7 @@ public class MapTileDownloader extends MapTileModuleProviderBase {
 				final byte[] data = dataStream.toByteArray();
 				final ByteArrayInputStream byteStream = new ByteArrayInputStream(data);
 
-				// Save the data to the filesystem cache
+				// Save the data to the cache
 				//this is the only point in which we insert tiles to the db or local file system.
 
 				if (mFilesystemCache != null) {

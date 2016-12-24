@@ -114,8 +114,10 @@ public abstract class Overlay implements OverlayConstants {
 	 * Draw the overlay over the map. This will be called on all active overlays with shadow=true,
 	 * to lay down the shadow layer, and then again on all overlays with shadow=false. Callers
 	 * should check isEnabled() before calling draw(). By default, draws nothing.
+	 *
+	 * changed for 5.6 to be public see https://github.com/osmdroid/osmdroid/issues/466
 	 */
-	protected abstract void draw(final Canvas c, final MapView osmv, final boolean shadow);
+	public abstract void draw(final Canvas c, final MapView osmv, final boolean shadow);
 
 	// ===========================================================
 	// Methods

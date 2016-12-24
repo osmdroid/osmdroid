@@ -1,5 +1,6 @@
-package org.osmdroid;
+package org.osmdroid.samplefragments.models;
 
+import org.osmdroid.R;
 import org.osmdroid.api.IMapView;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -57,7 +58,7 @@ public class SampleItemizedOverlay extends ItemizedOverlay<SampleOverlayItem> im
 
 
 	@Override
-	protected void draw(Canvas c, MapView mapView, boolean shadow) {
+	public void draw(Canvas c, MapView mapView, boolean shadow) {
 		if (mFocusChanged) {
 			mFocusChanged = false;
 

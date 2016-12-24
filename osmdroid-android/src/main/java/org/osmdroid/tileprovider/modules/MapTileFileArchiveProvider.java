@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.IRegisterReceiver;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBase;
@@ -54,8 +55,9 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 	 */
 	public MapTileFileArchiveProvider(final IRegisterReceiver pRegisterReceiver,
 			final ITileSource pTileSource, final IArchiveFile[] pArchives) {
-		super(pRegisterReceiver, OpenStreetMapTileProviderConstants.NUMBER_OF_TILE_FILESYSTEM_THREADS,
-				OpenStreetMapTileProviderConstants.TILE_FILESYSTEM_MAXIMUM_QUEUE_SIZE);
+		super(pRegisterReceiver,
+			Configuration.getInstance().getTileFileSystemThreads(),
+			Configuration.getInstance().getTileFileSystemMaxQueueSize());
 
 		setTileSource(pTileSource);
 
@@ -160,7 +162,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 		}
 
           // path should be optionally configurable
-          File cachePaths = OpenStreetMapTileProviderConstants.getBasePath();
+          File cachePaths = Configuration.getInstance().getOsmdroidBasePath();
           final File[] files = cachePaths.listFiles();
           if (files != null) {
                for (final File file : files) {
@@ -178,7 +180,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 			if (archiveFile!=null) {
 				final InputStream in = archiveFile.getInputStream(tileSource, pTile);
 				if (in != null) {
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (Configuration.getInstance().isDebugMode()) {
 						Log.d(IMapView.LOGTAG, "Found tile " + pTile + " in " + archiveFile);
 					}
 					return in;
@@ -207,7 +209,7 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 			// if there's no sdcard then don't do anything
 			if (!isSdCardAvailable()) {
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"No sdcard - do nothing for tile: " + pTile);
 				}
 				return null;
@@ -215,13 +217,13 @@ public class MapTileFileArchiveProvider extends MapTileFileStorageProviderBase {
 
 			InputStream inputStream = null;
 			try {
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"Tile doesn't exist: " + pTile);
 				}
 
 				inputStream = getInputStream(pTile, tileSource);
 				if (inputStream != null) {
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (Configuration.getInstance().isDebugMode()) {
 						Log.d(IMapView.LOGTAG,"Use tile from archive: " + pTile);
 					}
 					final Drawable drawable = tileSource.getDrawable(inputStream);

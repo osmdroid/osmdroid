@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.MapTileProviderBasic;
 import org.osmdroid.tileprovider.MapTileRequestState;
@@ -61,9 +62,18 @@ public class OpenStreetMapTileProviderDirectTest extends AndroidTestCase {
 
 	public void test_getMapTile_found() throws RemoteException, FileNotFoundException, BitmapTileSourceBase.LowMemoryException, java.io.IOException {
 		final MapTile tile = new MapTile(2, 3, 4);
+		if (Build.VERSION.SDK_INT >=23)
+			return;
 
+		//this can fail if storage permissions isn't available.
 		// create a bitmap, draw something on it, write it to a file and put it in the cache
-		final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "OpenStreetMapTileProviderTest.png";
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator;
+
+		File temp= new File(path);
+		if (!temp.exists())
+			temp.mkdirs();
+		Configuration.getInstance().setOsmdroidTileCache(temp);;
+		path = path + "OpenStreetMapTileProviderTest.png";
 		File f = new File(path);
 		if (f.exists())
 			f.delete();

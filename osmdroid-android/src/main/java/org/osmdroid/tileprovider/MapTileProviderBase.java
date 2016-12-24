@@ -3,6 +3,7 @@ package org.osmdroid.tileprovider;
 
 import java.util.HashMap;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileModuleProviderBase;
@@ -161,7 +162,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
 		}
 
-		if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+		if (Configuration.getInstance().isDebugTileProviders()) {
                Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestCompleted(): " + pState.getMapTile());
 		}
 	}
@@ -186,7 +187,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 				mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_FAIL_ID);
 			}
 		}
-		if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+		if (Configuration.getInstance().isDebugTileProviders()) {
 			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestFailed(): " + pState.getMapTile());
 		}
 	}
@@ -211,7 +212,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 			mTileRequestCompleteHandler.sendEmptyMessage(MapTile.MAPTILE_SUCCESS_ID);
 		}
 
-		if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS) {
+		if (Configuration.getInstance().isDebugTileProviders()) {
 			Log.d(IMapView.LOGTAG,"MapTileProviderBase.mapTileRequestExpiredTile(): " + pState.getMapTile());
 		}
 	}
@@ -397,7 +398,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 						final Bitmap oldBitmap = bitmapDrawable.getBitmap();
 						canvas.drawBitmap(oldBitmap, mSrcRect, mDestRect, null);
 						success = true;
-						if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+						if (Configuration.getInstance().isDebugMode()) {
 							Log.d(IMapView.LOGTAG,"Created scaled tile: " + pTile);
 							mDebugPaint.setTextSize(40);
 							canvas.drawText("scaled", 50, 50, mDebugPaint);
@@ -462,7 +463,7 @@ public abstract class MapTileProviderBase implements IMapTileProviderCallback {
 
 			if (bitmap != null) {
 				mNewTiles.put(pTile, bitmap);
-				if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+				if (Configuration.getInstance().isDebugMode()) {
 					Log.d(IMapView.LOGTAG,"Created scaled tile: " + pTile);
 					mDebugPaint.setTextSize(40);
 					canvas.drawText("scaled", 50, 50, mDebugPaint);

@@ -98,9 +98,59 @@ See `setCachePath` and `TILE_PATH_BASE`. Even though the class is called `Consta
 
 # What other mechanisms exists for loading tiles?
 
-Out of the box, we have the following (any they are checked in this order)
+Out of the box, we have the following (and they are checked in this order)
 
  - Assets, you can place exploded zip archives in the assets folder of your app
  - Local file system (archives like zip, sqlite, etc)
  - Network sources cache - by default /sdcard/osmdroid/tiles/SOURCE/Z/X/Y.extension
  - Network sources - download what you need, when you need it
+
+# Using offline tile archives
+
+## Storage location
+
+This part is fairly simple. Copy your tiles into the osmdroid base path (which is by default /sdcard/osmdroid). This location can be changed programmatically (note this behavior will change with v5.6). You should have the following director structure
+
+````
+/sdcard/osmdroid/
+                 myZippedArchive.zip
+                 myOsmdroidDatabase.sqlite
+                 myMBTiles.mbtile
+                 myGEMF.gemf
+/sdcard/osmdroid/tiles/
+                       cache.db (this is used for downloaded tiles)
+````
+
+So now that your archives are there, there's a few options a few mechanisms that can be used to help you on your way towards disconnected bliss. The next step is to tell osmdroid's `map tile provider` about the map tiles.
+
+## Map Tile Provider options
+
+The default Map Tile Provider for osmdroid will automatically scan the osmdroid base path (again /sdcard/osmdroid/) for tile archives that it knows about, as well as search in your APK's Assets folder (exploded tiles only) then finally online sources.
+
+If this doesn't scratch your itch, there's also the `OfflineOnlyTileProvider`. See Javadoc for more info.
+
+### But I have my own tile archive format that I was to use!
+
+Great, implement the IArchiveFile interface, then register your implementation with the `ArchiveFileFactory`
+
+## Set the tile source
+
+You now need to tell osmdroid about what tile source name to use. This is needed because file archives can have more than one tile source and tile sources can be spanned across multiple archives. If you know the source name ahead of time, you can use the following.
+````
+mapView.setTileSource(new XYTileSource(
+        "MAP TILE SOURCE HERE",
+        MINZOOM,
+        MAXZOOM,
+        TILESIZE (256 is the normal one),
+        ".jpg",
+        new String[]{}
+));
+````
+
+If you don't know the tile source name ahead or plan on changing it frequently, you can discover the available tile source names at runtime. The IArchiveFile interface has a method that can be used to query an archive for the "tile source name". See `getTileSources`. See the `SampleOfflineOnly` example for usage.
+
+## Caveats and exemptions
+
+MBTiles does not store a tile source name in the database. Calling IArchiveFile.getTileSources will return an empty set in this case. On the flip side, MBTiles files will display to on the map regardless of what tile source the mapView is set to.
+
+It is possible to remove all checks for tile source name comparisons for offline tiles, which would in effect, create a composite tile source. This could work out great if your archives don't overlap. To do this, extend the existing IArchiveFile providers to remove the checks, then register them as the with the `ArchiveFileFactory`

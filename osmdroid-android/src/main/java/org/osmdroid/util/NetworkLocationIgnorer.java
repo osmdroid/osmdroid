@@ -1,5 +1,6 @@
 package org.osmdroid.util;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.util.constants.UtilConstants;
 
 import android.location.LocationManager;
@@ -32,7 +33,7 @@ public class NetworkLocationIgnorer implements UtilConstants {
 		if (LocationManager.GPS_PROVIDER.equals(pProvider)) {
 			mLastGps = pTime;
 		} else {
-			if (pTime < mLastGps + GPS_WAIT_TIME) {
+			if (pTime < mLastGps + Configuration.getInstance().getGpsWaitTime()) {
 				return true;
 			}
 		}

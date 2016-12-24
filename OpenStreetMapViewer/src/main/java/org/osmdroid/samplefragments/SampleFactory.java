@@ -10,12 +10,14 @@ import org.osmdroid.samplefragments.cache.SampleCacheDownloaderArchive;
 import org.osmdroid.samplefragments.cache.SampleCacheDownloaderCustomUI;
 import org.osmdroid.samplefragments.cache.SampleJumboCache;
 import org.osmdroid.samplefragments.cache.SampleSqliteOnly;
+import org.osmdroid.samplefragments.data.SampleSimpleLocation;
 import org.osmdroid.samplefragments.events.SampleAnimateTo;
 import org.osmdroid.samplefragments.events.SampleAnimatedZoomToLocation;
 import org.osmdroid.samplefragments.events.SampleLimitedScrollArea;
 import org.osmdroid.samplefragments.events.SampleMapBootListener;
 import org.osmdroid.samplefragments.events.SampleMapEventListener;
 import org.osmdroid.samplefragments.events.SampleZoomToBounding;
+import org.osmdroid.samplefragments.events.ZoomToBoundsOnStartup;
 import org.osmdroid.samplefragments.layouts.SampleFragmentXmlLayout;
 import org.osmdroid.samplefragments.layouts.SampleSplitScreen;
 import org.osmdroid.samplefragments.location.SampleCustomIconDirectedLocationOverlay;
@@ -27,6 +29,7 @@ import org.osmdroid.samplefragments.data.SampleMilitaryIcons;
 import org.osmdroid.samplefragments.data.SampleOsmPath;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithFocus;
 import org.osmdroid.samplefragments.data.SampleWithMinimapItemizedOverlayWithScale;
+import org.osmdroid.samplefragments.data.SampleSimpleFastPointOverlay;
 import org.osmdroid.samplefragments.tilesources.SampleAssetsOnly;
 import org.osmdroid.samplefragments.tilesources.SampleCustomLoadingImage;
 import org.osmdroid.samplefragments.tilesources.SampleCustomTileSource;
@@ -35,6 +38,7 @@ import org.osmdroid.samplefragments.tilesources.SampleInvertedTiles_NightMode;
 import org.osmdroid.samplefragments.tilesources.SampleMapBox;
 import org.osmdroid.samplefragments.tilesources.SampleMapQuest;
 import org.osmdroid.samplefragments.tilesources.SampleOfflineOnly;
+import org.osmdroid.samplefragments.tilesources.SampleOpenSeaMap;
 import org.osmdroid.samplefragments.tilesources.SampleWhackyColorFilter;
 import org.osmdroid.samplefragments.pager.MapInAViewPagerFragment;
 
@@ -125,7 +129,15 @@ public final class SampleFactory implements ISampleFactory {
 				//32
 				SampleZoomToBounding.class,
 				//33
-				MapInAViewPagerFragment.class
+				MapInAViewPagerFragment.class,
+				//34
+				ZoomToBoundsOnStartup.class,
+				//35
+				SampleSimpleLocation.class,
+                //36
+				SampleSimpleFastPointOverlay.class,
+				//37
+				SampleOpenSeaMap.class,
 
         };
 	}

@@ -8,7 +8,7 @@
 
 osmdroid is a (almost) full/free replacement for Android's MapView (v1 API) class. It also includes a modular tile provider system with support for numerous online and offline tile sources and overlay support with built-in overlays for plotting icons, tracking location, and drawing shapes.
 
-Current Release: **5.5 Oct 10th, 2016**
+Current Release: **5.6.1 Dec 17th, 2016**
 
 Please read the [osmdroid wiki](https://github.com/osmdroid/osmdroid/wiki) for  tutorials on integration.
 
@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.5:release@aar'
+    compile 'org.osmdroid:osmdroid-android:5.6.1'
 }
 ```
 
@@ -28,11 +28,11 @@ dependencies {
 <dependency>
   <groupId>org.osmdroid</groupId>
   <artifactId>osmdroid-android</artifactId>
-  <version>5.5</version>
+  <version>5.6.1</version>
   <type>aar</type>
 </dependency>
 ```
-** platform or api level (api level 4 = platform 1.6)**
+**Platform or API Level (API level 8 = Platform 2.2)**
 ```xml
 <platform>8</platform>
 ```
@@ -89,9 +89,9 @@ allprojects {
 
 ```
 
-Then in your APK or AAR project that needs osmdroid. Future readers: you may have to update the version numbers to match the source. Hint: the version number is defined in osmdroid gradle.properties file, key = pom.version.
+Then in your APK or AAR project that needs osmdroid.
 
 ```
-    compile 'org.osmdroid:osmdroid-android:5.5-SNAPSHOT:debug@aar'
+    compile 'org.osmdroid:osmdroid-android:VERSION-SNAPSHOT:debug@aar'
 ```
-
+Where VERSION is the version listed as the value for `pom.version` in `gradle.properties`. Note that when using the release versions from Maven Central, drop the `:debug@aar` part. When using a "release" version that you build locally with gradle, you'll need `:release@aar` instead.

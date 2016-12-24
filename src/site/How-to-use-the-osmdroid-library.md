@@ -171,7 +171,8 @@ this.mOsmv.setMultiTouchControls(true);
 ## How to add the My Location overlay
 
 ````
-this.mLocationOverlay = new MyLocationNewOverlay(context, new GpsMyLocationProvider(context),mMapView);
+this.mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context),mMapView);
+this.mLocationOverlay.enableMyLocation();
 mMapView.getOverlays().add(this.mLocationOverlay);
 ````
 
@@ -179,6 +180,7 @@ mMapView.getOverlays().add(this.mLocationOverlay);
 
 ````
 this.mCompassOverlay = new CompassOverlay(context, new InternalCompassOrientationProvider(context), mMapView);
+this.mCompassOverlay.enableCompass();
 mMapView.getOverlays().add(this.mCompassOverlay);
 ````
 
@@ -238,7 +240,7 @@ ItemizedOverlayWithFocus<OverlayItem> mOverlay = new ItemizedOverlayWithFocus<Ov
 	public boolean onItemLongPress(final int index, final OverlayItem item) {
 		return false;
 	}
-}, mResourceProxy);
+});
 mOverlay.setFocusItemsOnTap(true);
 
 mMapView.getOverlays().add(mOverlay);

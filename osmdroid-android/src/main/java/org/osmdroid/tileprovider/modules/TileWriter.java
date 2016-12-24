@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 
 import org.osmdroid.api.IMapView;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
@@ -58,12 +59,12 @@ public class TileWriter implements IFilesystemCache {
 				public void run() {
 					mUsedCacheSpace = 0; // because it's static
 
-					calculateDirectorySize(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+					calculateDirectorySize(Configuration.getInstance().getOsmdroidTileCache());
 
-					if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
+					if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
 						cutCurrentCache();
 					}
-					if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+					if (Configuration.getInstance().isDebugMode()) {
 						Log.d(IMapView.LOGTAG, "Finished init thread");
 					}
 				}
@@ -95,10 +96,10 @@ public class TileWriter implements IFilesystemCache {
 	public boolean saveFile(final ITileSource pTileSource, final MapTile pTile,
 			final InputStream pStream) {
 
-		final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+		final File file = new File(Configuration.getInstance().getOsmdroidTileCache(), pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 
-		if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS){
+		if (Configuration.getInstance().isDebugTileProviders()){
 			Log.d(IMapView.LOGTAG, "TileWrite " + file.getAbsolutePath());
 		}
 		final File parent = file.getParentFile();
@@ -113,7 +114,7 @@ public class TileWriter implements IFilesystemCache {
 			final long length = StreamUtils.copy(pStream, outputStream);
 
 			mUsedCacheSpace += length;
-			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_MAX_CACHE_SIZE_BYTES) {
+			if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheMaxBytes()) {
 				cutCurrentCache(); // TODO perhaps we should do this in the background
 			}
 		} catch (final IOException e) {
@@ -139,7 +140,7 @@ public class TileWriter implements IFilesystemCache {
 
 	@Override
 	public boolean remove(final ITileSource pTileSource, final MapTile pTile) {
-		final File file = new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+		final File file = new File(Configuration.getInstance().getOsmdroidTileCache(), pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION);
 		if (file.exists()) {
 			try {
@@ -155,7 +156,7 @@ public class TileWriter implements IFilesystemCache {
 
 	@Override
 	public boolean exists(final ITileSource pTileSource, final MapTile pTile) {
-		return new File(OpenStreetMapTileProviderConstants.TILE_PATH_BASE, pTileSource.getTileRelativeFilenameString(pTile)
+		return new File(Configuration.getInstance().getOsmdroidTileCache(), pTileSource.getTileRelativeFilenameString(pTile)
 				+ OpenStreetMapTileProviderConstants.TILE_PATH_EXTENSION).exists();
 	}
 
@@ -167,7 +168,7 @@ public class TileWriter implements IFilesystemCache {
 		if (pFile.mkdirs()) {
 			return true;
 		}
-		if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+		if (Configuration.getInstance().isDebugMode()) {
 			Log.d(IMapView.LOGTAG,"Failed to create " + pFile + " - wait and check again");
 		}
 
@@ -178,12 +179,12 @@ public class TileWriter implements IFilesystemCache {
 		}
 		// and then check again
 		if (pFile.exists()) {
-			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+			if (Configuration.getInstance().isDebugMode()) {
 				Log.d(IMapView.LOGTAG,"Seems like another thread created " + pFile);
 			}
 			return true;
 		} else {
-			if (OpenStreetMapTileProviderConstants.DEBUGMODE) {
+			if (Configuration.getInstance().isDebugMode()) {
 				Log.d(IMapView.LOGTAG,"File still doesn't exist: " + pFile);
 			}
 			return false;
@@ -251,15 +252,15 @@ public class TileWriter implements IFilesystemCache {
 	 */
 	private void cutCurrentCache() {
 
-          final File lock=OpenStreetMapTileProviderConstants.TILE_PATH_BASE;
+          final File lock=Configuration.getInstance().getOsmdroidTileCache();
 		synchronized (lock) {
 
-			if (mUsedCacheSpace > OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES) {
+			if (mUsedCacheSpace > Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
 
 				Log.d(IMapView.LOGTAG,"Trimming tile cache from " + mUsedCacheSpace + " to "
-						+ OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES);
+						+ Configuration.getInstance().getTileFileSystemCacheTrimBytes());
 
-				final List<File> z = getDirectoryFileList(OpenStreetMapTileProviderConstants.TILE_PATH_BASE);
+				final List<File> z = getDirectoryFileList(Configuration.getInstance().getOsmdroidTileCache());
 
 				// order list by files day created from old to new
 				final File[] files = z.toArray(new File[0]);
@@ -271,13 +272,13 @@ public class TileWriter implements IFilesystemCache {
 				});
 
 				for (final File file : files) {
-					if (mUsedCacheSpace <= OpenStreetMapTileProviderConstants.TILE_TRIM_CACHE_SIZE_BYTES) {
+					if (mUsedCacheSpace <= Configuration.getInstance().getTileFileSystemCacheTrimBytes()) {
 						break;
 					}
 
 					final long length = file.length();
 					if (file.delete()) {
-						if (OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS){
+						if (Configuration.getInstance().isDebugTileProviders()){
 							Log.d(IMapView.LOGTAG,"Cache trim deleting " + file.getAbsolutePath());
 						}
 						mUsedCacheSpace -= length;

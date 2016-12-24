@@ -196,9 +196,14 @@ public class MapController implements IMapController, OnFirstLayoutListener {
 			mercatorPoint.offset(-mMapView.getWidth() / 2, -mMapView.getHeight() / 2);
 			final int xStart = mMapView.getScrollX();
 			final int yStart = mMapView.getScrollY();
-			mMapView.getScroller().startScroll(xStart, yStart, mercatorPoint.x - xStart,
-					mercatorPoint.y - yStart, ANIMATION_DURATION_DEFAULT);
-			mMapView.postInvalidate();
+
+			final int dx = mercatorPoint.x - xStart;
+			final int dy = mercatorPoint.y - yStart;
+
+			if(dx != 0 || dy != 0) {
+				mMapView.getScroller().startScroll(xStart, yStart, dx, dy, ANIMATION_DURATION_DEFAULT);
+				mMapView.postInvalidate();
+			}
 		}
 	}
 

@@ -12,8 +12,6 @@ import java.util.List;
  */
 public class TileSourceFactory {
 
-	// private static final Logger logger = LoggerFactory.getLogger(TileSourceFactory.class);
-
 	/**
 	 * Get the tile source with the specified name. The tile source must be one of the registered sources
 	 * as defined in the static list mTileSources of this class.
@@ -133,6 +131,10 @@ public class TileSourceFactory {
 			new String[] { "http://a.tiles.wmflabs.org/hikebike/",
                     "http://b.tiles.wmflabs.org/hikebike/",
                     "http://c.tiles.wmflabs.org/hikebike/"  });
+
+	public static final OnlineTileSourceBase OPEN_SEAMAP = new XYTileSource("OpenSeaMap",
+			3,18,256,".png", new String[] { "http://tiles.openseamap.org/seamark/"});
+
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
                new String[] { "http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" }) {
@@ -141,7 +143,7 @@ public class TileSourceFactory {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
                }
           };
-	public static final OnlineTileSourceBase USGS_SAT = new OnlineTileSourceBase("USGS National Map Sat", 0, 18, 256, "",
+	public static final OnlineTileSourceBase USGS_SAT = new OnlineTileSourceBase("USGS National Map Sat", 0, 19, 256, "",
 			new String[]{"http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/"}) {
 		@Override
 		public String getTileURLString(MapTile aTile) {
@@ -159,5 +161,6 @@ public class TileSourceFactory {
 		mTileSources.add(HIKEBIKEMAP);
 		mTileSources.add(USGS_TOPO);
 		mTileSources.add(USGS_SAT);
+		mTileSources.add(OPEN_SEAMAP);
 	}
 }

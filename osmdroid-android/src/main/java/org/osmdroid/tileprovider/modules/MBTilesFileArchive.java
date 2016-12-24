@@ -16,6 +16,12 @@ import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import org.osmdroid.api.IMapView;
 
+/**
+ * supports raster imagery in the MBTiles 1.1 spec
+ https://sourceforge.net/p/mobac/code/HEAD/tree/trunk/MOBAC/src/main/java/mobac/program/atlascreators/MBTiles.java
+ https://github.com/mapbox/mbtiles-spec/tree/master/1.1
+ @author neilboyd circa 2011
+  */
 public class MBTilesFileArchive implements IArchiveFile {
 
 	private SQLiteDatabase mDatabase;

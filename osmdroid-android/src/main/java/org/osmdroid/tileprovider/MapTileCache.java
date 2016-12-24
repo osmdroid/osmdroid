@@ -1,6 +1,7 @@
 // Created by plusminus on 17:58:57 - 25.09.2008
 package org.osmdroid.tileprovider;
 
+import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 
 import android.graphics.drawable.Drawable;
@@ -27,7 +28,7 @@ public class MapTileCache {
 	// ===========================================================
 
 	public MapTileCache() {
-		this(OpenStreetMapTileProviderConstants.CACHE_MAPTILECOUNT_DEFAULT);
+		this(Configuration.getInstance().getCacheMapTileCount());
 	}
 
 	/**

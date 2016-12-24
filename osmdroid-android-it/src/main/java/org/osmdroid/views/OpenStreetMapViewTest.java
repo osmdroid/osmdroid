@@ -64,7 +64,10 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 	/**
 	 * This test was retrospectively added based on current implementation. TODO a manual
 	 * calculation and verify that this test gives the correct result.
-	 */
+	 *
+	 * This test was commented out because it's is screen dpi dependent when the map view is set to scale
+	 * tiles to screen dpi, which is now on by default across the example app
+
 	@UiThreadTest
 	public void test_toMapPixels_Hannover() {
 
@@ -76,7 +79,7 @@ public class OpenStreetMapViewTest extends ActivityInstrumentationTestCase2<Star
 		final Point point = projection.toPixels(hannover, null);
 		projection.toMercatorPixels(point.x, point.y, point);
 
-		final Point expected = new Point(34540, 21537);
+		final Point expected = new Point(51811, 32306);
 		assertEquals("TODO describe test", expected, point);
-	}
+	} */
 }

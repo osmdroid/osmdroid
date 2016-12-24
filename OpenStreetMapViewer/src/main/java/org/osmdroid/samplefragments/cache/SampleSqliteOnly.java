@@ -4,7 +4,6 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import org.osmdroid.samplefragments.BaseSampleFragment;
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.ArchiveFileFactory;
 import org.osmdroid.tileprovider.modules.IArchiveFile;
 import org.osmdroid.tileprovider.modules.OfflineTileProvider;
@@ -17,8 +16,10 @@ import java.util.Set;
 
 
 /**
- * test to force assets only loaded
+ * test to force sqlite tiles only loaded
  * https://github.com/osmdroid/osmdroid/issues/272
+ *
+ * requires API 11 or higher in order to function properly
  * Created by alex on 2/21/16.
  */
 public class SampleSqliteOnly extends BaseSampleFragment {
@@ -29,8 +30,6 @@ public class SampleSqliteOnly extends BaseSampleFragment {
 
     @Override
     public void addOverlays() {
-        OpenStreetMapTileProviderConstants.DEBUGMODE = true;
-        OpenStreetMapTileProviderConstants.DEBUG_TILE_PROVIDERS = true;
         this.mMapView.setUseDataConnection(false);
 
         //first we'll look at the default location for tiles that we support
