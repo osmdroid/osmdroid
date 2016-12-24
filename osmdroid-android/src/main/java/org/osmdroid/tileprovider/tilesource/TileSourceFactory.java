@@ -79,17 +79,17 @@ public class TileSourceFactory {
 			0, 19, 256, ".png", new String[] {
 					"http://a.tile.openstreetmap.org/",
 					"http://b.tile.openstreetmap.org/",
-					"http://c.tile.openstreetmap.org/" });
+					"http://c.tile.openstreetmap.org/" },"© OpenStreetMap contributors");
 
 	public static final OnlineTileSourceBase CYCLEMAP = new XYTileSource("CycleMap",
 			0, 17, 256, ".png", new String[] {
 					"http://a.tile.opencyclemap.org/cycle/",
 					"http://b.tile.opencyclemap.org/cycle/",
-					"http://c.tile.opencyclemap.org/cycle/" });
+					"http://c.tile.opencyclemap.org/cycle/" }, "Maps © Thunderforest, Data © OpenStreetMap contributors.");
 
 	public static final OnlineTileSourceBase PUBLIC_TRANSPORT = new XYTileSource(
 			"OSMPublicTransport", 0, 17, 256, ".png",
-			new String[] { "http://openptmap.org/tiles/" });
+			new String[] { "http://openptmap.org/tiles/" },"© OpenStreetMap contributors");
 
 
 
@@ -116,7 +116,7 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase FIETS_OVERLAY_NL = new XYTileSource("Fiets",
 			3, 18, 256, ".png",
-			new String[] { "http://overlay.openstreetmap.nl/openfietskaart-overlay/" });
+			new String[] { "http://overlay.openstreetmap.nl/openfietskaart-overlay/" },"© OpenStreetMap contributors");
 
 	public static final OnlineTileSourceBase BASE_OVERLAY_NL = new XYTileSource("BaseNL",
 			0, 18, 256, ".png",
@@ -124,7 +124,7 @@ public class TileSourceFactory {
 
 	public static final OnlineTileSourceBase ROADS_OVERLAY_NL = new XYTileSource("RoadsNL",
 			0, 18, 256, ".png",
-			new String[] { "http://overlay.openstreetmap.nl/roads/" });
+			new String[] { "http://overlay.openstreetmap.nl/roads/" },"© OpenStreetMap contributors");
      
      public static final OnlineTileSourceBase HIKEBIKEMAP = new XYTileSource("HikeBikeMap",
 			 0, 18, 256, ".png",
@@ -137,14 +137,14 @@ public class TileSourceFactory {
 
      
      public static final OnlineTileSourceBase USGS_TOPO = new OnlineTileSourceBase("USGS National Map Topo",  0, 18, 256, "",
-               new String[] { "http://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" }) {
+               new String[] { "https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/" },"USGS The National Map: National Boundaries Dataset, National Elevation Dataset, Geographic Names Information System, National Hydrography Dataset, National Land Cover Database, National Structures Dataset, and National Transportation Dataset; U.S. Census Bureau - TIGER/Line; HERE Road Data ") {
                @Override
                public String getTileURLString(MapTile aTile) {
                     return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();
                }
           };
 	public static final OnlineTileSourceBase USGS_SAT = new OnlineTileSourceBase("USGS National Map Sat", 0, 19, 256, "",
-			new String[]{"http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/"}) {
+			new String[]{"https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/"},"USGS") {
 		@Override
 		public String getTileURLString(MapTile aTile) {
 			return getBaseUrl() + aTile.getZoomLevel() + "/" + aTile.getY() + "/" + aTile.getX();

@@ -74,4 +74,11 @@ public interface ITileSource {
 	 * @return the tile size in pixels
 	 */
 	public int getTileSizePixels();
+
+	/**
+	 * Returns an I18N sensitive string representing the copy right notice (if any) of the tile source
+	 * @since 5.6.1
+	 * @return a string or null
+     */
+	String getCopyrightNotice();
 }

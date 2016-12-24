@@ -4,6 +4,7 @@ import org.osmdroid.tileprovider.MapTile;
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase;
 
 /**
+ * sample custom tile source
  * Created by alex on 6/20/16.
  */
 public class USGSTileSource extends OnlineTileSourceBase {

@@ -60,6 +60,9 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 	private Point mTopLeftMercator = new Point();
 	private Point mBottomRightMercator = new Point();
 	private Point mTilePointMercator = new Point();
+	private Paint paintTileSourceCopyright = new Paint();
+	protected boolean alignBottom = true;
+	protected boolean alignRight  = false;
 
 	private Projection mProjection;
 
@@ -193,6 +196,48 @@ public class TilesOverlay extends Overlay implements IOverlayMenuProvider {
 
 		// Draw the tiles!
 		drawTiles(c, projection, projection.getZoomLevel(), TileSystem.getTileSize(), mViewPort);
+
+		drawCopyrightNotice(c, osmv.getTileProvider().getTileSource());
+	}
+
+	private void drawCopyrightNotice(final Canvas canvas, final ITileSource pTileSource) {
+		if (pTileSource.getCopyrightNotice()==null ||
+			pTileSource.getCopyrightNotice().length() == 0)
+			return;
+
+		int width = canvas.getWidth();
+		int height = canvas.getHeight();
+
+		float length = paintTileSourceCopyright.measureText(pTileSource.getCopyrightNotice());
+		float size = paintTileSourceCopyright.getTextSize();
+
+		// Set text size to make text fill half canvas width
+		paintTileSourceCopyright.setTextSize(size * (width / 3) / length);
+		paintTileSourceCopyright.setAntiAlias(true);
+
+		float x = 0;
+		float y = 0;
+
+		if (alignRight)
+		{
+			x = width - 8;
+			paintTileSourceCopyright.setTextAlign(Paint.Align.RIGHT);
+		}
+
+		else
+		{
+			x = 8;
+			paintTileSourceCopyright.setTextAlign(Paint.Align.LEFT);
+		}
+
+		if (alignBottom)
+			y = height - 10;
+
+		else
+			y = paintTileSourceCopyright.getTextSize();
+
+		// Draw the text
+		canvas.drawText(pTileSource.getCopyrightNotice(), x, y, paintTileSourceCopyright);
 	}
 
 	/**

@@ -25,6 +25,7 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 
 	private final int mOrdinal;
 	protected String mName;
+	protected String mCopyright;
 	protected final String mImageFilenameEnding;
 	protected final Random random = new Random();
 
@@ -43,13 +44,29 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 	public BitmapTileSourceBase(final String aName,
 			final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
 			final String aImageFilenameEnding) {
+		this(aName, aZoomMinLevel, aZoomMaxLevel, aTileSizePixels, aImageFilenameEnding, null);
+	}
+
+	/**
+	 * Constructor
+	 * @param aName a human-friendly name for this tile source. this name is also used on the file system, to keep the characters linux file system friendly
+	 * @param aZoomMinLevel the minimum zoom level this tile source can provide
+	 * @param aZoomMaxLevel the maximum zoom level this tile source can provide
+	 * @param aTileSizePixels the tile size in pixels this tile source provides
+	 * @param aImageFilenameEnding the file name extension used when constructing the filename
+	 */
+	public BitmapTileSourceBase(final String aName,
+								final int aZoomMinLevel, final int aZoomMaxLevel, final int aTileSizePixels,
+								final String aImageFilenameEnding, final String aCopyrightNotice) {
 		mOrdinal = globalOrdinal++;
 		mName = aName;
 		mMinimumZoomLevel = aZoomMinLevel;
 		mMaximumZoomLevel = aZoomMaxLevel;
 		mTileSizePixels = aTileSizePixels;
 		mImageFilenameEnding = aImageFilenameEnding;
+		mCopyright = aCopyrightNotice;
 	}
+
 
 	@Override
 	public int ordinal() {
@@ -169,5 +186,10 @@ public abstract class BitmapTileSourceBase implements ITileSource {
 		public LowMemoryException(final Throwable pThrowable) {
 			super(pThrowable);
 		}
+	}
+
+	@Override
+	public String getCopyrightNotice(){
+		return mCopyright;
 	}
 }
