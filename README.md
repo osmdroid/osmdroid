@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.osmdroid:osmdroid-android:5.6.1'
+    compile 'org.osmdroid:osmdroid-android:5.6.1@aar'
 }
 ```
 
