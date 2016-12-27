@@ -29,11 +29,17 @@ public class SampleAlternateCacheDir extends BaseSampleFragment {
      }
      @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
-        Configuration.getInstance().setOsmdroidTileCache((new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/osmdroid2")));
+         // This is how to manually change the cache dir, this is commented out since the changes
+         // as of 5.6 reworked how the cache is managed at startup. If you change the cache dir
+         // make sure ou do it BEFORE creating the map view, either programmatically or via
+         // an inflater call.
+         
+         // Configuration.getInstance().setOsmdroidTileCache((new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/osmdroid2")));
+         View v = inflater.inflate(org.osmdroid.R.layout.activity_starter_mapview, null);
+
 		mMapView = (MapView) v.findViewById(org.osmdroid.R.id.mapview);
           
 		return v;
 	}
-     
+
 }
