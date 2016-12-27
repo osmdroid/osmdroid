@@ -105,9 +105,15 @@ public class Projection implements IProjection, MapViewConstants {
 	}
 
 	public IGeoPoint fromPixels(int x, int y, GeoPoint reuse) {
+		//reverting https://github.com/osmdroid/osmdroid/issues/459
+		//due to relapse of https://github.com/osmdroid/osmdroid/issues/507
+		//reverted functionality is now on the method fromPixelsRotationSensitive
+		return TileSystem.PixelXYToLatLong(x - mOffsetX, y - mOffsetY, mZoomLevelProjection, reuse);
+	}
+
+	public IGeoPoint fromPixelsRotationSensitive(int x, int y, GeoPoint reuse) {
 		Point point = unrotateAndScalePoint(x, y, null);
 		return TileSystem.PixelXYToLatLong(point.x - mOffsetX, point.y - mOffsetY, mZoomLevelProjection, reuse);
-
 	}
 
 	@Override

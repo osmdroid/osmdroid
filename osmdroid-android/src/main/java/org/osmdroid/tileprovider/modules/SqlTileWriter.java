@@ -176,7 +176,7 @@ public class SqlTileWriter implements IFilesystemCache {
             if (Configuration.getInstance().isDebugMode())
                 Log.d(IMapView.LOGTAG, "tile inserted " + pTileSourceInfo.name() + pTile.toString());
             //this is causing looping conditions
-            if (db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()){
+            if (db_file!=null && db_file.length() > Configuration.getInstance().getTileFileSystemCacheTrimBytes()){
                 runCleanupOperation();
             }
         } catch (SQLiteFullException ex) {
